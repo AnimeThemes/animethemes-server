@@ -2,19 +2,25 @@
 
 use App\Models\Video;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class VideosTableSeeder extends Seeder 
 {
 
     public function run() {
         DB::table('videos')->delete();
-        $json = File::get('database/data/videos.json');
-        $data = json_decode($json);
-        foreach ($data as $obj) {
-            Video::create(array(
-                'alias' => $obj->alias,
-                'path' => $obj->path
-            ));
+
+        $fs = Storage::disk('spaces');
+        $files = $fs->listContents('', true);
+
+        foreach ($files as $file) {
+            $isFile = $file['type'] == 'file';
+            if ($isFile) {
+                Video::create(array(
+                    'alias' => $file['filename'],
+                    'path' => $file['path']
+                ));
+            }
         }
     }
 }
