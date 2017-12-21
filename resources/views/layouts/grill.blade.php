@@ -1,3 +1,3 @@
 <div class="background-img">
-    <img src="{{ asset($grill) }}">
+    <img src="{{ secure_asset($grill) }}">
 </div>
