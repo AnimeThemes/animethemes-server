@@ -8,8 +8,17 @@ use Illuminate\Support\Facades\Storage;
 
 class VideosController extends Controller
 {
+
+    public function index() {
+        $videos = Video::orderByRaw('udf_NaturalSortFormat(alias, 10, ".")')->paginate(50);
+
+        return view('videos', [
+            'videos' => $videos
+        ]);
+    }
+
     // Source: https://stackoverflow.com/q/36778167
-    public function do($alias) {
+    public function show($alias) {
         set_time_limit(0);
 
         $video = Video::where('alias', $alias)->firstOrFail();

@@ -12,4 +12,6 @@
 */
 
 Route::get('/', 'WelcomeController@do')->name('welcome');
-Route::get('/video/{alias}', 'VideosController@do');
+Route::resource('video', 'VideosController', ['only' => [
+    'index', 'show'
+]]);
