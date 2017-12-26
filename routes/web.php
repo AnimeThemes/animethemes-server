@@ -15,3 +15,5 @@ Route::get('/', 'WelcomeController@do')->name('welcome');
 Route::resource('video', 'VideosController', ['only' => [
     'index', 'show'
 ]]);
+Route::get('/sitemap', 'SitemapController@index');
+Route::get('/sitemap/videos', 'SitemapController@videos');
