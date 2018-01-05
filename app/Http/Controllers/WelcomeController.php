@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 class WelcomeController extends Controller
 {
     public function do() {
+        LOG::info('Page Visit - Welcome');
+
         // View Data
         $grill = GrillFactory::getGrill();
         $videoCount = Video::count();

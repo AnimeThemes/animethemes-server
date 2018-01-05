@@ -45,7 +45,26 @@ class SyncVideosCommand extends Command
         LOG::info('sync-videos start');
         $fs = Storage::disk('spaces');
 
-        // Step 1: Create video objects for new files
+        // Step 1: Delete video objects for removed files
+        $videos = Video::all();
+        foreach ($videos as $video) {
+            $flag = false;
+            try {
+                $metaData = $fs->getMetadata($video->path);
+                $flag = !$metaData || $metaData['filename'] !== $video->alias || $metaData['path'] !== $video->path;
+            } catch (FileNotFoundException $fnf) {
+                $flag = true;
+            } catch (RequestException $r) {
+                Log::error('verify video', ['alias' => $video->alias, 'path' => $video->path]);
+            }
+
+            if ($flag) {
+                LOG::info('delete video', ['alias' => $video->alias, 'path' => $video->path]);
+                $video->delete();
+            }
+        }
+
+        // Step 2: Create video objects for new files
         $files = $fs->listContents('', true);
         foreach ($files as $file) {
             $isFile = $file['type'] == 'file';
@@ -58,25 +77,6 @@ class SyncVideosCommand extends Command
                         'path' => $file['path']
                     ));
                 }
-            }
-        }
-
-        // Step 2: Delete video objects for removed files
-        $videos = Video::all();
-        foreach ($videos as $video) {
-            $flag = false;
-            try {
-                $metaData = $fs->getMetadata($video->path);
-                $flag = !$metaData || $metaData['filename'] !== $video->alias || $metaData['path'] !== $video->path;
-            } catch (FileNotFoundException $fnf) {
-                $flag = true;
-            } catch (RequestException $r) {
-                $flag = true;
-            }
-
-            if ($flag) {
-                LOG::info('delete video', ['alias' => $video->alias, 'path' => $video->path]);
-                $video->delete();
             }
         }
 
