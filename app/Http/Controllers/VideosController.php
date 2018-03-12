@@ -22,6 +22,6 @@ class VideosController extends Controller
 
         $video = Video::where('alias', $alias)->firstOrFail();
 
-        return Storage::disk('spaces')->response($video->path);
+        return Storage::disk('spaces')->response($video->path, null, ['Accept-Ranges' => 'bytes']);
     }
 }
