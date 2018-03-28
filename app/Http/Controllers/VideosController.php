@@ -10,7 +10,7 @@ class VideosController extends Controller
 {
 
     public function index() {
-        $videos = Video::orderByRaw('udf_NaturalSortFormat(alias, 10, ".")')->paginate(50);
+        $videos = Video::orderByRaw('udf_NaturalSortFormat(filename, 10, ".")')->paginate(50);
 
         return view('videos', [
             'videos' => $videos
@@ -20,7 +20,7 @@ class VideosController extends Controller
     public function show($alias) {
         set_time_limit(0);
 
-        $video = Video::where('alias', $alias)->firstOrFail();
+        $video = Video::where('basename', $alias)->orWhere('filename', $alias)->firstOrFail();
 
         return Storage::disk('spaces')->response($video->path, null, ['Accept-Ranges' => 'bytes']);
     }

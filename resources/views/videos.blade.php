@@ -12,7 +12,7 @@
     <br>
 
     @foreach ($videos as $video)
-    <p><a href="{{ route('video.show', ['alias' => $video->alias]) }}">{{ $video->alias }}</a></p>
+    <p><a href="{{ route('video.show', ['alias' => $video->basename]) }}">{{ $video->filename }}</a></p>
     @endforeach
 
     <nav>{{ $videos->links() }}</nav>

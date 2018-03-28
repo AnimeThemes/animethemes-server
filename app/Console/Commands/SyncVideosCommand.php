@@ -51,15 +51,15 @@ class SyncVideosCommand extends Command
             $flag = false;
             try {
                 $metaData = $fs->getMetadata($video->path);
-                $flag = !$metaData || $metaData['filename'] !== $video->alias || $metaData['path'] !== $video->path;
+                $flag = !$metaData || $metaData['basename'] !== $video->basename || $metaData['filename'] !== $video->filename || $metaData['path'] !== $video->path;
             } catch (FileNotFoundException $fnf) {
                 $flag = true;
             } catch (RequestException $r) {
-                Log::error('verify video', ['alias' => $video->alias, 'path' => $video->path]);
+                Log::error('verify video', ['basename' => $video->basename, 'filename' => $video->filename, 'path' => $video->path]);
             }
 
             if ($flag) {
-                LOG::info('delete video', ['alias' => $video->alias, 'path' => $video->path]);
+                LOG::info('delete video', ['basename' => $video->basename, 'filename' => $video->filename, 'path' => $video->path]);
                 $video->delete();
             }
         }
@@ -69,11 +69,12 @@ class SyncVideosCommand extends Command
         foreach ($files as $file) {
             $isFile = $file['type'] == 'file';
             if ($isFile) {
-                $video = Video::where('alias', $file['filename'])->where('path', $file['path'])->first();
+                $video = Video::where('basename', $file['basename'])->where('filename', $file['filename'])->where('path', $file['path'])->first();
                 if (!$video) {
-                    LOG::info('create video', ['alias' => $file['filename'], 'path' => $file['path']]);
+                    LOG::info('create video', ['basename' => $file['basename'], 'filename' => $file['filename'], 'path' => $file['path']]);
                     Video::create(array(
-                        'alias' => $file['filename'],
+                        'basename' => $file['basename'],
+                        'filename' => $file['filename'],
                         'path' => $file['path']
                     ));
                 }

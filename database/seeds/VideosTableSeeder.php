@@ -17,7 +17,8 @@ class VideosTableSeeder extends Seeder
             $isFile = $file['type'] == 'file';
             if ($isFile) {
                 Video::create(array(
-                    'alias' => $file['filename'],
+                    'basename' => $file['basename'],
+                    'filename' => $file['filename'],
                     'path' => $file['path']
                 ));
             }
