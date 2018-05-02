@@ -16,9 +16,10 @@ class SitemapController extends Controller
     }
 
     public function videos() {
-        $videos = Video::all();
+        $video = Video::orderBy('updated_at', 'desc')->first();
+
         return response()->view('sitemap.videos', [
-            'videos' => $videos
+            'video' => $video
         ])->header('Content-Type', 'text/xml');
     }
 }
