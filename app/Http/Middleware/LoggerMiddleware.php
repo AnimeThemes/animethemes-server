@@ -20,8 +20,7 @@ class LoggerMiddleware
             'method' => $request->method(),
             'full-url' => $request->fullUrl(),
             'ip' => $request->ip(),
-            'user-agent' => $request->header('user-agent'),
-            'referer' => $request->header('Referer')
+            'headers' => $request->headers->all()
         ]);
 
         return $next($request);
