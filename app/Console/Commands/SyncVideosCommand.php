@@ -3,11 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Models\Video;
-use GuzzleHttp\Exception\RequestException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use League\Flysystem\FileNotFoundException;
 
 class SyncVideosCommand extends Command
 {
@@ -44,17 +42,22 @@ class SyncVideosCommand extends Command
     {
         LOG::info('sync-videos start');
         $fs = Storage::disk('spaces');
+        $files = $fs->listContents('', true);
 
         // Step 1: Delete video objects for removed files
         $videos = Video::all();
         foreach ($videos as $video) {
             $flag = false;
             try {
-                $metaData = $fs->getMetadata($video->path);
-                $flag = !$metaData || $metaData['basename'] !== $video->basename || $metaData['filename'] !== $video->filename || $metaData['path'] !== $video->path;
-            } catch (FileNotFoundException $fnf) {
-                $flag = true;
-            } catch (RequestException $r) {
+                $video_file = array_filter(
+                    $files,
+                    function ($file) use ($video) {
+                        return $file['basename'] == $video->basename && $file['filename'] == $video->filename && $file['path'] == $video->path;
+                    }
+                );
+
+                $flag = count($video_file) != 1;
+            } catch (Exception $e) {
                 Log::error('verify video', ['basename' => $video->basename, 'filename' => $video->filename, 'path' => $video->path]);
             }
 
@@ -65,7 +68,6 @@ class SyncVideosCommand extends Command
         }
 
         // Step 2: Create video objects for new files
-        $files = $fs->listContents('', true);
         foreach ($files as $file) {
             $isFile = $file['type'] == 'file';
             if ($isFile) {
