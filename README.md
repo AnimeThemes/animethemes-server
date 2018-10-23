@@ -5,13 +5,14 @@
 * paranarimasu ([Github](https://github.com/paranarimasu))
 * ProWeebDev ([Github](https://github.com/ProWeebDev))
 * Gaporigo ([Github](https://github.com/Gaporigo))
+* Dutchman97 ([Github](https://github.com/Dutchman97))
 
 # Requirements
 
-AnimeThemes runs on Laravel 5.5 and has the same requirements
+AnimeThemes runs on Laravel 5.7 and has the same requirements
 
 * A web server
-* `PHP >= 7.0.0`
+* `PHP >= 7.1.3`
 * `composer`
 * `npm`
 
