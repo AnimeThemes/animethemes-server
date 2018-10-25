@@ -38,48 +38,64 @@ class DatabaseManager
 
     public static function addTheme($animeId, $song, $theme, $major, $minor, $episodes, $notes) {
         $newTheme = array();
-        $newTheme["anime_id"] = $animeId;
 
-        if ($notes !== null) {
-            // Set if NSFW
-            if ($c=preg_match_all ('/(NSFW)/m', $notes, $n1)) {
-                $newTheme["isNSFW"] = true;
+        $dbTheme = Theme::where('anime_id', $animeId)
+        ->where('theme', $theme)
+        ->where('song', $song)
+        ->where('ver_major', $major)
+        ->where('ver_minor', $minor)->first();
+
+        if ($dbTheme === null) {
+            $newTheme["anime_id"] = $animeId;
+
+            if ($notes !== null) {
+                // Set if NSFW
+                if ($c=preg_match_all ('/(NSFW)/m', $notes, $n1)) {
+                    $newTheme["isNSFW"] = true;
+                } else {
+                    $newTheme["isNSFW"] = false;
+                }
+
+                // Set if Spoiler
+                if ($c=preg_match_all ('/(Spoiler)/m', $notes, $n1)) {
+                    $newTheme["isSpoiler"] = true;
+                } else {
+                    $newTheme["isSpoiler"] = false;
+                }
             } else {
                 $newTheme["isNSFW"] = false;
-            }
-
-            // Set if Spoiler
-            if ($c=preg_match_all ('/(Spoiler)/m', $notes, $n1)) {
-                $newTheme["isSpoiler"] = true;
-            } else {
                 $newTheme["isSpoiler"] = false;
             }
+
+            $newTheme["song_name"] = $song;
+            $newTheme["theme"] = $theme;
+
+            // Set Versions
+            if ($major === '') {
+                $newTheme["ver_major"] = '1';
+            } else {
+                $newTheme["ver_major"] = $major;
+            }
+
+            if ($minor === '') {
+                $newTheme["ver_minor"] = '1';
+            } else {
+                $newTheme["ver_minor"] = $minor;
+            }
+
+            $newTheme["episodes"] = $episodes;
+            $newTheme["notes"] = $notes;
+
+            $dbTheme = Theme::create($newTheme);
         } else {
-            $newTheme["isNSFW"] = false;
-            $newTheme["isSpoiler"] = false;
+            if ($dbTheme->episodes !== $episodes || $dbTheme->notes !== $notes) {
+                $dbTheme->episodes = $episodes
+                $dbTheme->notes = $notes
+                $dbTheme->save();
+            }
         }
 
-        $newTheme["song_name"] = $song;
-        $newTheme["theme"] = $theme;
-
-        // Set Versions
-        if ($major === '') {
-            $newTheme["ver_major"] = '1';
-        } else {
-            $newTheme["ver_major"] = $major;
-        }
-
-        if ($minor === '') {
-            $newTheme["ver_minor"] = '1';
-        } else {
-            $newTheme["ver_minor"] = $minor;
-        }
-
-        $newTheme["episodes"] = $episodes;
-        $newTheme["notes"] = $notes;
-
-        //Log::info('add-theme', $newTheme);
-        return Theme::create($newTheme);
+        return $dbTheme;
     }
 
     public static function addVideo($theme_id, $videoTitle, $videoLink) {
@@ -124,14 +140,7 @@ class DatabaseManager
                 //Log::info('edit-video', $newVideo);
                 $video->save();
             } else {
-                //Auto fill Files in development
-                if (App::environment() !== "production") {
-                    $fs = Storage::disk('spaces');
-                    $fs->put("/{$link[1][0]}.webm", 'empty');
-                    Log::error("no video with name {$link[1][0]}");
-                } else {
-                    Log::error("no video with name {$link[1][0]}");
-                }
+                Log::error("no video with name {$link[1][0]}");
             }
         } else if ($videoLink !== ""){
             $newVideo["url"] = $videoLink;
