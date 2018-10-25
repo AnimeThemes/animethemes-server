@@ -41,7 +41,7 @@ class DatabaseManager
 
         $dbTheme = Theme::where('anime_id', $animeId)
         ->where('theme', $theme)
-        ->where('song', $song)
+        ->where('song_name', $song)
         ->where('ver_major', $major)
         ->where('ver_minor', $minor)->first();
 
@@ -89,8 +89,8 @@ class DatabaseManager
             $dbTheme = Theme::create($newTheme);
         } else {
             if ($dbTheme->episodes !== $episodes || $dbTheme->notes !== $notes) {
-                $dbTheme->episodes = $episodes
-                $dbTheme->notes = $notes
+                $dbTheme->episodes = $episodes;
+                $dbTheme->notes = $notes;
                 $dbTheme->save();
             }
         }
@@ -132,13 +132,15 @@ class DatabaseManager
         if ($c=preg_match_all ('/https:\/\/animethemes\.moe\/video\/(.*).webm/m', $videoLink, $link)) {
             $video = Video::where('filename', $link[1][0])->first();
             if ($video !== null) {
-                $video->theme_id = $theme_id;
-                $video->quality = $newVideo["quality"];
-                $video->isNC = $newVideo["isNC"];
-                $video->isLyrics = $newVideo["isLyrics"];
-                $video->source = $newVideo["source"];
-                //Log::info('edit-video', $newVideo);
-                $video->save();
+                if ($video->theme_id !== $theme_id) {
+                    $video->theme_id = $theme_id;
+                    $video->quality = $newVideo["quality"];
+                    $video->isNC = $newVideo["isNC"];
+                    $video->isLyrics = $newVideo["isLyrics"];
+                    $video->source = $newVideo["source"];
+                    //Log::info('edit-video', $newVideo);
+                    $video->save();
+                }
             } else {
                 Log::error("no video with name {$link[1][0]}");
             }
