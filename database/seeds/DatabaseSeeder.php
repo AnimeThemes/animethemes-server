@@ -4,9 +4,13 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-
     public function run()
     {
-        $this->call(VideosTableSeeder::class);
+        $this->call([
+            VideosTableSeeder::class,
+            RedditSeeder::class,
+            KitsuSeeder::class,
+            AnilistSeeder::class
+        ]);
     }
 }
