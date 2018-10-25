@@ -13,15 +13,18 @@ class VideosTableSeeder extends Seeder
         $fs = Storage::disk('spaces');
         $files = $fs->listContents('', true);
 
+        $toAdd = array();
         foreach ($files as $file) {
             $isFile = $file['type'] == 'file';
             if ($isFile) {
-                Video::create(array(
+                $toAdd[] = array(
                     'basename' => $file['basename'],
                     'filename' => $file['filename'],
                     'path' => $file['path']
-                ));
+                );
             }
         }
+
+        Video::insert($toAdd);
     }
 }
