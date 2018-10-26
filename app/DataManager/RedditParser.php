@@ -4,6 +4,7 @@ namespace App\DataManager;
 
 use App\Models\Anime;
 use App\Models\Theme;
+use App\Models\Serie;
 use App\Models\Video;
 use Illuminate\Support\Facades\Log;
 
@@ -57,6 +58,36 @@ class RedditParser
         }
     }
 
+    public static function getSerie($serieName, $serie) {
+
+        // Download Markdown
+        $serieUrl = "https://www.reddit.com/r/animethemes/wiki/series/$serie.json";
+        $collectionLines = preg_split('/$\R?^/m', json_decode(file_get_contents($serieUrl))->data->content_md);
+        
+        $currentSerie = Serie::where('name', $serieName)->first();
+
+        if ($currentSerie === null) {
+            $currentSerie = Serie::create(array(
+                'name' => $serieName
+            ));
+        }
+
+        // Loop Markdown Lines
+        for ($i = 0; $i < count($collectionLines); $i++) {
+            $line = $collectionLines[$i]; // A Line
+
+            // Anime Line
+            if ($c=preg_match_all ('/###\[(.*)\]\(https:\/\/myanimelist\.net\/anime\/(\d+)\)/m', $line, $matches)) {
+                $dbAnime = Anime::where('mal_id', $matches[2][0])->first();
+
+                if ($dbAnime !== null) {
+                    $dbAnime->serie_id = $currentSerie->id;
+                    $dbAnime->save();
+                }
+            }
+        }
+    }
+
     public static function RegisterCollections() {
         $collections = Utils::getCollectionsIds();
 
@@ -64,6 +95,15 @@ class RedditParser
             $currentCollection = $collections[$i];
             Log::info("get-collection: $currentCollection");
             self::getCollection($currentCollection);
+        }
+    }
+
+    public static function RegisterSeries() {
+        $series = Utils::getSeriesIds();
+
+        foreach($series as $key=>$value) {
+            Log::info("get-serie: $key");
+            self::getSerie($key, $value);
         }
     }
 }

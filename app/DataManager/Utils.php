@@ -24,6 +24,19 @@ class Utils
         return $collections;
     }
 
+    public static function getSeriesIds() {
+        $link_serie = 'https://www.reddit.com/r/animethemes/wiki/series.json';
+        $lines = preg_split('/$\R?^/m', json_decode(file_get_contents($link_serie))->data->content_md); // Get
+        $series = array();
+        for ($i = 0; $i < count($lines); $i++) {
+            $line = $lines[$i];
+            if ($c=preg_match_all ('/\[(.*?)\]\(https:\/\/www\.reddit\.com\/r\/AnimeThemes\/wiki\/series\/(.*?)\)/m', $line, $matches)) {
+                $series[$matches[1][0]] = $matches[2][0];
+            }
+        }
+        return $series;
+    }
+
     /**
      * Define season for anime based on yearseason like 20180 for Winter 2018
      * 

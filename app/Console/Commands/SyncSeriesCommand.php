@@ -10,7 +10,7 @@ use App\DataManager\RedditParser;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class SyncRedditCommand extends Command
+class SyncSeriesCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -22,7 +22,7 @@ class SyncRedditCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'sync-reddit';
+    protected $signature = 'sync-series';
 
     /**
      * The console command description.
@@ -48,22 +48,6 @@ class SyncRedditCommand extends Command
      */
     public function handle()
     {   
-        // Stage 1: Sync Data
-        RedditParser::RegisterCollections();
-
-        // Stage 2: Clear Empty Entries
-        $allAnimes = Anime::withCount('themes')->get();
-        foreach ($allAnimes as $anime) {
-            foreach($anime->themes()->withCount('videos')->get() as $theme) {
-                if ($theme->videos_count === 0) {
-                    Log::info("$theme->videos_count", $theme->toArray());
-                    $theme->delete();
-                }
-            }
-            if ($anime->themes_count === 0) {
-                $anime->names()->delete();
-                $anime->delete();
-            }
-        }
+        RedditParser::RegisterSeries();
     }
 }

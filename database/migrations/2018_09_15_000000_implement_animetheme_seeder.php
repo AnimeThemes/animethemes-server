@@ -76,7 +76,7 @@ class ImplementAnimeThemeSeeder extends Migration
         Schema::dropIfExists('themes');
         Schema::table('videos', function (Blueprint $table) {
             $table->dropForeign('videos_theme_id_foreign');
-            $table->dropColumn('id_theme');
+            $table->dropColumn('theme_id');
             $table->dropColumn('quality');
             $table->dropColumn('isNC');
             $table->dropColumn('isLyrics');

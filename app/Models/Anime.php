@@ -6,7 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Anime extends Model
 {
-    protected $fillable = ['name', 'collection', 'season', 'mal_id', 'anilist_id', 'kitsu_id', 'anidb_id'];
+    protected $fillable = ['name', 'serie_id', 'collection', 'season', 'mal_id', 'anilist_id', 'kitsu_id', 'anidb_id'];
+
+    /**
+    * Get the serie that owns the anime.
+    */
+    public function serie()
+    {
+        return $this->belongsTo('App\Models\Serie');
+    }
 
     /**
      * Get the themes for the anime.
