@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSerieEntries extends Migration
+class CreateArtistEntries extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateSerieEntries extends Migration
      */
     public function up()
     {
-        Schema::create('series', function (Blueprint $table) {
+        Schema::create('artists', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
         });
 
-        Schema::table('animes', function (Blueprint $table) {
-            $table->integer('serie_id')->unsigned()->nullable($value = true);
-            $table->foreign('serie_id')->references('id')->on('series');
+        Schema::table('themes', function (Blueprint $table) {
+            $table->integer('artist_id')->unsigned()->nullable($value = true);
+            $table->foreign('artist_id')->references('id')->on('artists');
         });
     }
 
@@ -33,10 +33,10 @@ class CreateSerieEntries extends Migration
      */
     public function down()
     {
-        Schema::table('animes', function (Blueprint $table) {
-            $table->dropForeign(['serie_id']);
-            $table->dropColumn('serie_id');
+        Schema::table('themes', function (Blueprint $table) {
+            $table->dropForeign(['artist_id']);
+            $table->dropColumn('artist_id');
         });
-        Schema::dropIfExists('series');
+        Schema::dropIfExists('artist');
     }
 }

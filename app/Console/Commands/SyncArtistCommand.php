@@ -2,27 +2,27 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Serie;
+use App\Models\Artist;
 use DB;
 use App\DataManager\RedditParser;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class SyncSeriesCommand extends Command
+class SyncArtistCommand extends Command
 {
     /**
      * The name and signature of the console command.
-     *
+     * 
      * @var string
      */
-    protected $signature = 'sync-series';
+    protected $signature = 'sync-artist';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Sync Series table from Series in /r/AnimeThemes Reddit wiki';
+    protected $description = 'Sync Artists database table from Artist in /r/AnimeThemes Reddit wiki';
 
     /**
      * Create a new command instance.
@@ -41,13 +41,13 @@ class SyncSeriesCommand extends Command
      */
     public function handle()
     {   
-        RedditParser::RegisterSeries();
+        RedditParser::RegisterArtists();
 
         // Cleanup
-        $allSeries = Serie::withCount('animes')->get();
-        foreach ($allSeries as $serie) {
-            if ($serie->animes_count === 0) {
-                $serie->delete();
+        $allArtists = Artist::withCount('themes')->get();
+        foreach ($allArtists as $artist) {
+            if ($artist->themes_count === 0) {
+                $artist->delete();
             }
         }
     }

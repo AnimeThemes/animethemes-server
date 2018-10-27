@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Video;
-use App\Models\Theme;
 use App\Models\Anime;
 use DB;
 use App\DataManager\RedditParser;

@@ -5,6 +5,7 @@ namespace App\DataManager;
 use App\Models\Anime;
 use App\Models\Theme;
 use App\Models\Serie;
+use App\Models\Artist;
 use App\Models\Video;
 use Illuminate\Support\Facades\Log;
 
@@ -77,12 +78,63 @@ class RedditParser
             $line = $collectionLines[$i]; // A Line
 
             // Anime Line
-            if ($c=preg_match_all ('/###\[(.*)\]\(https:\/\/myanimelist\.net\/anime\/(\d+)\)/m', $line, $matches)) {
+            if ($c=preg_match_all('/###\[(.*)\]\(https:\/\/myanimelist\.net\/anime\/(\d+).*?\)/m', $line, $matches)) {
                 $dbAnime = Anime::where('mal_id', $matches[2][0])->first();
 
                 if ($dbAnime !== null) {
                     $dbAnime->serie_id = $currentSerie->id;
                     $dbAnime->save();
+                }
+            }
+        }
+    }
+
+    public static function getArtist($artistName, $artist) {
+
+        // Download Markdown
+        $artistUrl = "https://www.reddit.com/r/animethemes/wiki/artist/$artist.json";
+        $collectionLines = preg_split('/$\R?^/m', json_decode(file_get_contents($artistUrl))->data->content_md);
+        
+        $currentArtist = Artist::where('name', $artistName)->first();
+
+        if ($currentArtist === null) {
+            $currentArtist = Artist::create(array(
+                'name' => $artistName
+            ));
+        }
+        
+        $currentAnime = null;
+
+        // Loop Markdown Lines
+        for ($i = 0; $i < count($collectionLines); $i++) {
+            $line = $collectionLines[$i]; // A Line
+
+            // Anime Line
+            if ($c=preg_match_all('/###\[(.*)\]\(https:\/\/myanimelist\.net\/anime\/(\d+).*?\)/m', $line, $matches)) {
+                $currentAnime = Anime::where('mal_id', $matches[2][0])->first();
+            }
+
+            if ($currentAnime !== null) {
+                // Theme Line
+                if ($c=preg_match_all ('/([A-Z][A-Z])?(\d+)? V?(\d+)?.*?\"(.*?)\".*?/m', $line, $matches)) {
+                    $major = $matches[2][0];
+                    $minor = $matches[3][0];
+                    // Set Versions
+                    if ($major === '') {
+                        $major = '1';
+                    }
+                    if ($minor === '') {
+                        $minor = '1';
+                    }
+                    $currentTheme = Theme::where('anime_id', $currentAnime->id)
+                        ->where('theme', $matches[1][0])
+                        ->where('song_name', $matches[4][0])
+                        ->where('ver_major', $major)
+                        ->where('ver_minor', $minor)->first();
+                    if ($currentTheme !== null) {
+                        $currentTheme->artist_id = $currentArtist->id;
+                        $currentTheme->save();
+                    }
                 }
             }
         }
@@ -104,6 +156,15 @@ class RedditParser
         foreach($series as $key=>$value) {
             Log::info("get-serie: $key");
             self::getSerie($key, $value);
+        }
+    }
+
+    public static function RegisterArtists() {
+        $artists = Utils::getArtistsIds();
+
+        foreach($artists as $key=>$value) {
+            Log::info("get-artist: $key");
+            self::getArtist($key, $value);
         }
     }
 }

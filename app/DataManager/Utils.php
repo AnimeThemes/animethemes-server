@@ -37,6 +37,19 @@ class Utils
         return $series;
     }
 
+    public static function getArtistsIds() {
+        $link_artist = 'https://www.reddit.com/r/animethemes/wiki/artist.json';
+        $lines = preg_split('/$\R?^/m', json_decode(file_get_contents($link_artist))->data->content_md); // Get
+        $artists = array();
+        for ($i = 0; $i < count($lines); $i++) {
+            $line = $lines[$i];
+            if ($c=preg_match_all ('/\[(.*?)\]\(https:\/\/www\.reddit\.com\/r\/AnimeThemes\/wiki\/artist\/(.*?)\)/m', $line, $matches)) {
+                $artists[$matches[1][0]] = $matches[2][0];
+            }
+        }
+        return $artists;
+    }
+
     /**
      * Define season for anime based on yearseason like 20180 for Winter 2018
      * 

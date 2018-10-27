@@ -62,6 +62,10 @@ class ThemeType extends GraphQLType
             'videos' => [
                 'type' => Type::listOf(GraphQL::type('Video')),
                 'description' => 'Theme Videos'
+            ],
+            'artist' => [
+                'type' => GraphQL::type('Artist'),
+                'description' => 'Theme Artist'
             ]
         ];
     }

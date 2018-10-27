@@ -30,6 +30,8 @@ return [
         'default' => [
             'query' => [
                 'Anime' => 'App\GraphQL\Query\AnimeQuery',
+                'Artist' => 'App\GraphQL\Query\ArtistQuery',
+                'Serie' => 'App\GraphQL\Query\SerieQuery',
             ],
             'mutation' => [
 
@@ -49,6 +51,8 @@ return [
         'AnimeName' => 'App\GraphQL\Type\AnimeNameType',
         'Theme' => 'App\GraphQL\Type\ThemeType',
         'Video' => 'App\GraphQL\Type\VideoType',
+        'Artist' => 'App\GraphQL\Type\ArtistType',
+        'Serie' => 'App\GraphQL\Type\SerieType',
     ],
 
     'error_formatter' => [\Folklore\GraphQL\GraphQL::class, 'formatError'],

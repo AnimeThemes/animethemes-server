@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\SyncVideosCommand;
 use App\Console\Commands\SyncRedditCommand;
 use App\Console\Commands\SyncSeriesCommand;
+use App\Console\Commands\SyncArtistommand;
 use App\Console\Commands\SyncKitsuCommand;
 use App\Console\Commands\SyncAnilistCommand;
 use Illuminate\Console\Scheduling\Schedule;
@@ -21,6 +22,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\SyncVideosCommand::class,
         \App\Console\Commands\SyncRedditCommand::class,
         \App\Console\Commands\SyncSeriesCommand::class,
+        \App\Console\Commands\SyncArtistCommand::class,
         \App\Console\Commands\SyncKitsuCommand::class,
         \App\Console\Commands\SyncAnilistCommand::class
     ];
@@ -36,6 +38,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(SyncVideosCommand::class)->daily();
         $schedule->command(SyncRedditCommand::class)->daily();
         $schedule->command(SyncSeriesCommand::class)->daily();
+        $schedule->command(SyncArtistCommand::class)->daily();
         $schedule->command(SyncAnilistCommand::class)->daily();
         $schedule->command(SyncKitsuCommand::class)->daily();
     }
