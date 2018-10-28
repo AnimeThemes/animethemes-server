@@ -11,5 +11,7 @@ class RedditSeeder extends Seeder
 {
     public function run() {
         RedditParser::RegisterCollections();
+        RedditParser::RegisterSeries();
+        RedditParser::RegisterArtists();
     }
 }

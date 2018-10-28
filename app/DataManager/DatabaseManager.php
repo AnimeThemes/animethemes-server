@@ -16,7 +16,7 @@ class DatabaseManager
         $dbAnime = Anime::where('name', $animeName)
         ->where('collection', $animeCollection)
         ->where('season', $animeSeason)->first();
-
+        Log::info("search-anime: N: $animeName ($animeSeason/$animeCollection)");
         if ($dbAnime === null) { // Check if already in database
             $newAnime = array();
             $newAnime["name"] = $animeName;
@@ -29,7 +29,7 @@ class DatabaseManager
                     $newAnime["anidb_id"] = $anidb[1][0];
                 }
             }
-            //Log::info('add-anime', $newAnime);
+            Log::info('add-anime', $newAnime);
             $dbAnime = Anime::create($newAnime);
         }
 
@@ -39,11 +39,21 @@ class DatabaseManager
     public static function addTheme($animeId, $song, $theme, $major, $minor, $episodes, $notes) {
         $newTheme = array();
 
+        // Check if empty
+        if ($major === '') {
+            $major = '1';
+        }
+        if ($minor === '') {
+            $minor = '1';
+        }
+
         $dbTheme = Theme::where('anime_id', $animeId)
         ->where('theme', $theme)
         ->where('song_name', $song)
         ->where('ver_major', $major)
         ->where('ver_minor', $minor)->first();
+
+        Log::info("search-theme: aId: $animeId, T: $theme, S: $song, v: $major.$minor");
 
         if ($dbTheme === null) {
             $newTheme["anime_id"] = $animeId;
@@ -85,7 +95,7 @@ class DatabaseManager
 
             $newTheme["episodes"] = $episodes;
             $newTheme["notes"] = $notes;
-
+            Log::info('add-theme', $newTheme);
             $dbTheme = Theme::create($newTheme);
         } else {
             if ($dbTheme->episodes !== $episodes || $dbTheme->notes !== $notes) {
@@ -132,13 +142,15 @@ class DatabaseManager
         if ($c=preg_match_all ('/https:\/\/animethemes\.moe\/video\/(.*).webm/m', $videoLink, $link)) {
             $video = Video::where('filename', $link[1][0])->first();
             if ($video !== null) {
+                $newVideo['filename'] = $link[1][0];
                 if ($video->theme_id !== $theme_id) {
+                    $newVideo['theme_id'] = $theme_id;
                     $video->theme_id = $theme_id;
                     $video->quality = $newVideo["quality"];
                     $video->isNC = $newVideo["isNC"];
                     $video->isLyrics = $newVideo["isLyrics"];
                     $video->source = $newVideo["source"];
-                    //Log::info('edit-video', $newVideo);
+                    Log::info('edit-video', $newVideo);
                     $video->save();
                 }
             } else {

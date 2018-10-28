@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Anime;
+use App\Models\Theme;
 use DB;
 use App\DataManager\RedditParser;
 use Illuminate\Console\Command;
@@ -49,16 +50,18 @@ class SyncRedditCommand extends Command
         // Stage 1: Sync Data
         RedditParser::RegisterCollections();
 
-        // Stage 2: Clear Empty Entries
-        $allAnimes = Anime::withCount('themes')->get();
-        foreach ($allAnimes as $anime) {
-            foreach($anime->themes()->withCount('videos')->get() as $theme) {
-                if ($theme->videos_count === 0) {
-                    Log::info("$theme->videos_count", $theme->toArray());
-                    $theme->delete();
-                }
+        // Stage 2: Clear empty Themes
+        foreach(Theme::withCount('videos')->get() as $theme) {
+            if ($theme->videos_count === 0) {
+                Log::info("theme-delete", $theme->toArray());
+                $theme->delete();
             }
+        }
+
+        // Stage 3: Clear Empty Animes Generated
+        foreach (Anime::withCount('themes')->get() as $anime) {
             if ($anime->themes_count === 0) {
+                Log::info("anime-delete", $anime->toArray());
                 $anime->names()->delete();
                 $anime->delete();
             }

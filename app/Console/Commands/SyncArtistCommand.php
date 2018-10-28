@@ -47,6 +47,7 @@ class SyncArtistCommand extends Command
         $allArtists = Artist::withCount('themes')->get();
         foreach ($allArtists as $artist) {
             if ($artist->themes_count === 0) {
+                Log::info('delete-artist', $artist->toArray());
                 $artist->delete();
             }
         }

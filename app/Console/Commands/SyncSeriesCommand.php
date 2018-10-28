@@ -47,6 +47,7 @@ class SyncSeriesCommand extends Command
         $allSeries = Serie::withCount('animes')->get();
         foreach ($allSeries as $serie) {
             if ($serie->animes_count === 0) {
+                Log::info('delete-artist', $artist->toArray());
                 $serie->delete();
             }
         }
