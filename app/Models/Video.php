@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
-    protected $fillable = ['basename', 'filename', 'path', 'theme_id', 'quality', 'isNC', 'isLyrics', 'source'];
+    protected $fillable = ['basename', 'filename', 'path', 'theme_id', 'quality', 'isNC', 
+            'isTrans', 'isOver', 'isLyrics', 'isSubbed', 'isUncensored', 'source'];
 
     /**
     * Get the theme that owns the video.

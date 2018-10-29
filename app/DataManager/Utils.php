@@ -16,8 +16,8 @@ class Utils
         $collections = array();
         for ($i = 0; $i < count($lines); $i++) {
             $line = $lines[$i];
-            if ($c=preg_match_all ('/###\[.*?\]\(https:\/\/www\.reddit\.com\/r\/AnimeThemes\/wiki\/(.*?)\)/m', $line, $matches)) {
-                $collections[] = $matches[1][0];
+            if (preg_match('/###\[.*?\]\(https:\/\/www\.reddit\.com\/r\/AnimeThemes\/wiki\/(.*?)\)/m', $line, $matches)) {
+                $collections[] = $matches[1];
             }
         }
         $collections[] = "misc";
@@ -30,8 +30,8 @@ class Utils
         $series = array();
         for ($i = 0; $i < count($lines); $i++) {
             $line = $lines[$i];
-            if ($c=preg_match_all ('/\[(.*?)\]\(https:\/\/www\.reddit\.com\/r\/AnimeThemes\/wiki\/series\/(.*?)\)/m', $line, $matches)) {
-                $series[$matches[1][0]] = $matches[2][0];
+            if (preg_match('/\[(.*?)\]\(https:\/\/www\.reddit\.com\/r\/AnimeThemes\/wiki\/series\/(.*?)\)/m', $line, $matches)) {
+                $series[$matches[1]] = $matches[2];
             }
         }
         return $series;
@@ -43,8 +43,8 @@ class Utils
         $artists = array();
         for ($i = 0; $i < count($lines); $i++) {
             $line = $lines[$i];
-            if ($c=preg_match_all ('/\[(.*?)\]\(https:\/\/www\.reddit\.com\/r\/AnimeThemes\/wiki\/artist\/(.*?)\)/m', $line, $matches)) {
-                $artists[$matches[1][0]] = $matches[2][0];
+            if (preg_match('/\[(.*?)\]\(https:\/\/www\.reddit\.com\/r\/AnimeThemes\/wiki\/artist\/(.*?)\)/m', $line, $matches)) {
+                $artists[$matches[1]] = $matches[2];
             }
         }
         return $artists;
@@ -71,31 +71,5 @@ class Utils
         } else {
             return 4;
         }
-    }
-
-    public static function slugify($text) {
-        // replace non letter or digits by -
-        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-
-        // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-
-        // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
-
-        // trim
-        $text = trim($text, '-');
-
-        // remove duplicate -
-        $text = preg_replace('~-+~', '-', $text);
-
-        // lowercase
-        $text = strtolower($text);
-
-        if (empty($text)) {
-            return 'n-a';
-        }
-
-        return $text;
     }
 }

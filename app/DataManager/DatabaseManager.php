@@ -14,151 +14,85 @@ class DatabaseManager
 {
     public static function addAnime($animeName, $animeCollection, $animeSeason, $link) {
         $dbAnime = Anime::where('name', $animeName)
-        ->where('collection', $animeCollection)
-        ->where('season', $animeSeason)->first();
-        Log::info("search-anime: N: $animeName ($animeSeason/$animeCollection)");
-        if ($dbAnime === null) { // Check if already in database
-            $newAnime = array();
-            $newAnime["name"] = $animeName;
-            $newAnime["collection"] = $animeCollection;
-            $newAnime["season"] = $animeSeason;
-            if ($link !== null) {
-                if ($c=preg_match_all ('/https:\/\/myanimelist\.net\/anime\/(\d+)/m', $link, $mal)) {
-                    $newAnime["mal_id"] = $mal[1][0];
-                } else if ($c=preg_match_all ('/https:\/\/anidb\.net\/perl-bin\/animedb\.pl\?show=anime&aid=(\d+)/m', $link, $anidb)) {
-                    $newAnime["anidb_id"] = $anidb[1][0];
-                }
-            }
-            Log::info('add-anime', $newAnime);
-            $dbAnime = Anime::create($newAnime);
-        }
-
+            ->where('collection', $animeCollection)
+            ->where('season', $animeSeason)->first() 
+        ?? Anime::create(array(
+            'name' => $animeName,
+            'slug' => Utils::slugify("$animeCollection$animeSeason-$animeName"),
+            'collection' => $animeCollection,
+            'season' => $animeSeason,
+            'mal_id' => ($link !== null) ? (preg_match('/https:\/\/myanimelist\.net\/anime\/(\d+)/u', $link, $malRegex) ? $malRegex[1] : null) : null,
+            'anidb_id' => ($link !== null) ? (preg_match('/https:\/\/anidb\.net\/perl-bin\/animedb\.pl\?show=anime&aid=(\d+)/u', $link, $anidbRegex) ? $anidbRegex[1] : null) : null
+        ));
+        Log::info('anime', $dbAnime->toArray());
         return $dbAnime;
     }
 
     public static function addTheme($animeId, $song, $theme, $major, $minor, $episodes, $notes) {
-        $newTheme = array();
-
         // Check if empty
-        if ($major === '') {
-            $major = '1';
-        }
-        if ($minor === '') {
-            $minor = '1';
-        }
+        $major = empty($major) ? '1' : $major;
+        $minor = empty($minor) ? '1' : $minor;
 
         $dbTheme = Theme::where('anime_id', $animeId)
-        ->where('theme', $theme)
-        ->where('song_name', $song)
-        ->where('ver_major', $major)
-        ->where('ver_minor', $minor)->first();
-
-        Log::info("search-theme: aId: $animeId, T: $theme, S: $song, v: $major.$minor");
-
-        if ($dbTheme === null) {
-            $newTheme["anime_id"] = $animeId;
-
-            if ($notes !== null) {
-                // Set if NSFW
-                if ($c=preg_match_all ('/(NSFW)/m', $notes, $n1)) {
-                    $newTheme["isNSFW"] = true;
-                } else {
-                    $newTheme["isNSFW"] = false;
-                }
-
-                // Set if Spoiler
-                if ($c=preg_match_all ('/(Spoiler)/m', $notes, $n1)) {
-                    $newTheme["isSpoiler"] = true;
-                } else {
-                    $newTheme["isSpoiler"] = false;
-                }
-            } else {
-                $newTheme["isNSFW"] = false;
-                $newTheme["isSpoiler"] = false;
-            }
-
-            $newTheme["song_name"] = $song;
-            $newTheme["theme"] = $theme;
-
-            // Set Versions
-            if ($major === '') {
-                $newTheme["ver_major"] = '1';
-            } else {
-                $newTheme["ver_major"] = $major;
-            }
-
-            if ($minor === '') {
-                $newTheme["ver_minor"] = '1';
-            } else {
-                $newTheme["ver_minor"] = $minor;
-            }
-
-            $newTheme["episodes"] = $episodes;
-            $newTheme["notes"] = $notes;
-            Log::info('add-theme', $newTheme);
-            $dbTheme = Theme::create($newTheme);
-        } else {
-            if ($dbTheme->episodes !== $episodes || $dbTheme->notes !== $notes) {
-                $dbTheme->episodes = $episodes;
-                $dbTheme->notes = $notes;
-                $dbTheme->save();
-            }
+            ->where('theme', $theme)
+            ->where('song_name', $song)
+            ->where('ver_major', $major)
+            ->where('ver_minor', $minor)->first() 
+        ?? Theme::create(array(
+            'anime_id' => $animeId,
+            'song_name' => $song,
+            'slug' => Utils::slugify("$animeId-$theme.$major.V$minor-$song"),
+            'theme' => $theme,
+            'ver_major' => $major,
+            'ver_minor' => $minor,
+            'episodes' => $episodes,
+            'notes' => $notes,
+            'isSpoiler' => ($notes !== null) ? preg_match('/(Spoiler)/u', $notes, $n1) : false,
+            'isNSFW' => ($notes !== null) ? preg_match('/(NSFW)/u', $notes, $n2) : false,
+        ));
+        Log::info('theme', $dbTheme->toArray());
+        // Check for mismatches
+        if ($dbTheme->episodes !== $episodes || $dbTheme->notes !== $notes) { 
+            $dbTheme->episodes = $episodes;
+            $dbTheme->notes = $notes;
+            Log::info('theme-edited');
+            $dbTheme->save();
         }
 
         return $dbTheme;
     }
 
     public static function addVideo($theme_id, $videoTitle, $videoLink) {
-        $newVideo = array();
-        // Set quality
-        if ($c=preg_match_all ('/(\d+)/m', $videoTitle, $link)) {
-            $newVideo["quality"] = $link[1][0];
-        } else {
-            $newVideo["quality"] = '720';
-        }
-
-        // Set if NC
-        if ($c=preg_match_all ('/(NC)/m', $videoTitle, $link)) {
-            $newVideo["isNC"] = true;
-        } else {
-            $newVideo["isNC"] = false;
-        }
-
-        // Set if Lyrics
-        if ($c=preg_match_all ('/(Lyrics)/m', $videoTitle, $link)) {
-            $newVideo["isLyrics"] = true;
-        } else {
-            $newVideo["isLyrics"] = false;
-        }
-
-        // Set source
-        if ($c=preg_match_all ('/(BD|DVD|VHS)/m', $videoTitle, $link)) {
-            $newVideo["source"] = $link[1][0];
-        } else {
-            $newVideo["source"] = "TV/UNK";
-        }
-
         // Check if exist and mod table
-        if ($c=preg_match_all ('/https:\/\/animethemes\.moe\/video\/(.*).webm/m', $videoLink, $link)) {
-            $video = Video::where('filename', $link[1][0])->first();
+        if (preg_match('/https:\/\/animethemes\.moe\/video\/(.*).webm/u', $videoLink, $link)) {
+            $video = Video::where('filename', $link[1])->first();
             if ($video !== null) {
-                $newVideo['filename'] = $link[1][0];
                 if ($video->theme_id !== $theme_id) {
-                    $newVideo['theme_id'] = $theme_id;
                     $video->theme_id = $theme_id;
-                    $video->quality = $newVideo["quality"];
-                    $video->isNC = $newVideo["isNC"];
-                    $video->isLyrics = $newVideo["isLyrics"];
-                    $video->source = $newVideo["source"];
-                    Log::info('edit-video', $newVideo);
+                    $video->quality = preg_match('/(\d+)/u', $videoTitle, $qualityRegex) ? $qualityRegex[1] : '720';
+                    $video->isNC = preg_match('/(NC)/u', $videoTitle, $n1);
+                    $video->isLyrics = preg_match('/(Lyrics)/u', $videoTitle, $n2);
+                    $video->isTrans = preg_match('/(Trans)/u', $videoTitle, $n3);
+                    $video->isOver = preg_match('/(Over)/u', $videoTitle, $n4);
+                    $video->isUncensored = preg_match('/(Uncen)/u', $videoTitle, $n5);
+                    $video->isSubbed = preg_match('/(Subbed)/u', $videoTitle, $n6);
+                    $video->source = preg_match('/(BD|DVD|VHS|VN|Game)/u', $videoTitle, $sourceRegex) ? $sourceRegex[1] : "Unknown";
                     $video->save();
+                    Log::info('edit-video', $video->toArray());
                 }
             } else {
-                Log::error("no video with name {$link[1][0]}");
+                Log::error("no-video", array(
+                    'theme_id' => $theme_id,
+                    'videoTitle' => $videoTitle,
+                    'videoLink' => $videoLink
+                ));
             }
         } else if ($videoLink !== ""){
-            $newVideo["url"] = $videoLink;
-            Log::notice('video-upload', $newVideo);
+            Log::notice('video-upload', array(
+                'theme_id' => $theme_id,
+                'videoTitle' => $videoTitle,
+                'videoLink' => $videoLink
+            ));
         }
     }
 }

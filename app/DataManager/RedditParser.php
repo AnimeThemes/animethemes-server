@@ -28,33 +28,51 @@ class RedditParser
             $line = $collectionLines[$i]; // A Line
 
             // Season Line
-            if ($c=preg_match_all ('/##(\d+) (.*?) Season/m', $line, $matches)) {
-                $currentSeason = Utils::getSeasonfromString($matches[2][0]);
+            if (preg_match('/##(\d+) (.*?) Season/u', $line, $seasonRegex)) {
+                $currentSeason = Utils::getSeasonfromString($seasonRegex[2]);
             }
 
             // Anime Line
-            if ($c=preg_match_all ('/###\[(.*)\]\((.*)\)/m', $line, $matches)) {
+            if (preg_match('/###\[(.*)\]\((.*)\)/u', $line, $animeRegex)) {
                 $currentTheme = null;
-                $currentAnime = DatabaseManager::addAnime($matches[1][0], $currentCollection, $currentSeason, $matches[2][0]);
+                $currentAnime = DatabaseManager::addAnime($animeRegex[1], $currentCollection, $currentSeason, $animeRegex[2]);
             // Anime Line Alternative - No Link - some misc entries
-            } else if ($c=preg_match_all ('/###(.*)/m', $line, $matches)) {
+            } else if (preg_match('/###(.*)/u', $line, $animeRegex)) {
                 $currentTheme = null;
-                $currentAnime = DatabaseManager::addAnime($matches[1][0], $currentCollection, $currentSeason, null);
+                $currentAnime = DatabaseManager::addAnime($animeRegex[1], $currentCollection, $currentSeason, null);
             }
 
             // Theme Line
-            if ($c=preg_match_all ('/([A-Z][A-Z])?(\d+)? V?(\d+)?.*?\"(.*?)\".*?\|\[(.*?)\]\((.*?)\)\|(.*?)?\|(.*)?/m', $line, $matches)) {
-                $currentTheme = DatabaseManager::addTheme($currentAnime->id, $matches[4][0], $matches[1][0], $matches[2][0], $matches[3][0], $matches[7][0], $matches[8][0]);
-                DatabaseManager::addVideo($currentTheme->id, $matches[5][0], $matches[6][0]);
+            if (preg_match('/([A-Z][A-Z])?(\d+)? V?(\d+)?.*?\"(.*?)\".*?\|\[(.*?)\]\((.*?)\)\|(.*?)?\|(.*)?/u', $line, $themeRegex)) {
+                $currentTheme = DatabaseManager::addTheme($currentAnime->id, 
+                $themeRegex[4], 
+                $themeRegex[1], 
+                $themeRegex[2], 
+                $themeRegex[3], 
+                $themeRegex[7], 
+                $themeRegex[8]);
+                DatabaseManager::addVideo($currentTheme->id, 
+                $themeRegex[5], 
+                $themeRegex[6]);
             // Theme Line Failsafe - misc entries
-            } else if ($c=preg_match_all ('/([A-Z][A-Z])?(\d+)? V?(\d+)?.*?\"(.*?)\".*?\|\[(.*?)\]\((.*?)\)\|/m', $line, $matches)) {
-                $currentTheme = DatabaseManager::addTheme($currentAnime->id, $matches[4][0], $matches[1][0], $matches[2][0], $matches[3][0], null, null);
-                DatabaseManager::addVideo($currentTheme->id, $matches[5][0], $matches[6][0]);
+            } else if (preg_match('/([A-Z][A-Z])?(\d+)? V?(\d+)?.*?\"(.*?)\".*?\|\[(.*?)\]\((.*?)\)\|/u', $line, $themeRegex)) {
+                $currentTheme = DatabaseManager::addTheme($currentAnime->id, 
+                $themeRegex[4], 
+                $themeRegex[1], 
+                $themeRegex[2], 
+                $themeRegex[3], 
+                null, 
+                null);
+                DatabaseManager::addVideo($currentTheme->id, 
+                $themeRegex[5], 
+                $themeRegex[6]);
             }
 
             // Mirrors
-            if ($c=preg_match_all ('/\|\|\[(.*?)\]\((.*?)\)\|(.*?)?\|(.*)?/m', $line, $matches)) {
-                DatabaseManager::addVideo($currentTheme->id, $matches[1][0], $matches[2][0]);
+            if (preg_match('/\|\|\[(.*?)\]\((.*?)\)\|(.*?)?\|(.*)?/u', $line, $videoRegex)) {
+                DatabaseManager::addVideo($currentTheme->id, 
+                $videoRegex[1], // Video Title eg. Webm (BD, NC, 1080)
+                $videoRegex[2]); // Video Url
             }
         }
     }
@@ -64,23 +82,16 @@ class RedditParser
         // Download Markdown
         $serieUrl = "https://www.reddit.com/r/animethemes/wiki/series/$serie.json";
         $collectionLines = preg_split('/$\R?^/m', json_decode(file_get_contents($serieUrl))->data->content_md);
-        
-        $currentSerie = Serie::where('name', $serieName)->first();
 
-        if ($currentSerie === null) {
-            $currentSerie = Serie::create(array(
-                'name' => $serieName
-            ));
-        }
+        $currentSerie = Serie::where('name', $serieName)->first() ?? Serie::create(array('name' => $serieName));
 
         // Loop Markdown Lines
         for ($i = 0; $i < count($collectionLines); $i++) {
             $line = $collectionLines[$i]; // A Line
 
             // Anime Line
-            if ($c=preg_match_all('/###\[(.*)\]\(https:\/\/myanimelist\.net\/anime\/(\d+).*?\)/m', $line, $matches)) {
-                $dbAnime = Anime::where('mal_id', $matches[2][0])->first();
-
+            if (preg_match('/###\[(.*)\]\(https:\/\/myanimelist\.net\/anime\/(\d+).*?\)/u', $line, $animeRegex)) {
+                $dbAnime = Anime::where('mal_id', $animeRegex[2])->first();
                 if ($dbAnime !== null) {
                     $dbAnime->serie_id = $currentSerie->id;
                     $dbAnime->save();
@@ -94,14 +105,8 @@ class RedditParser
         // Download Markdown
         $artistUrl = "https://www.reddit.com/r/animethemes/wiki/artist/$artist.json";
         $collectionLines = preg_split('/$\R?^/m', json_decode(file_get_contents($artistUrl))->data->content_md);
-        
-        $currentArtist = Artist::where('name', $artistName)->first();
 
-        if ($currentArtist === null) {
-            $currentArtist = Artist::create(array(
-                'name' => $artistName
-            ));
-        }
+        $currentArtist = Artist::where('name', $artistName)->first() ?? Artist::create(array('name' => $artistName));
         
         $currentAnime = null;
 
@@ -110,25 +115,20 @@ class RedditParser
             $line = $collectionLines[$i]; // A Line
 
             // Anime Line
-            if ($c=preg_match_all('/###\[(.*)\]\(https:\/\/myanimelist\.net\/anime\/(\d+).*?\)/m', $line, $matches)) {
-                $currentAnime = Anime::where('mal_id', $matches[2][0])->first();
+            if (preg_match('/###\[(.*)\]\(https:\/\/myanimelist\.net\/anime\/(\d+).*?\)/u', $line, $animeRegex)) {
+                $currentAnime = Anime::where('mal_id', $animeRegex[2])->first();
             }
 
             if ($currentAnime !== null) {
                 // Theme Line
-                if ($c=preg_match_all ('/([A-Z][A-Z])?(\d+)? V?(\d+)?.*?\"(.*?)\".*?/m', $line, $matches)) {
-                    $major = $matches[2][0];
-                    $minor = $matches[3][0];
+                if (preg_match('/([A-Z][A-Z])?(\d+)? V?(\d+)?.*?\"(.*?)\".*?/u', $line, $themeRegex)) {
                     // Set Versions
-                    if ($major === '') {
-                        $major = '1';
-                    }
-                    if ($minor === '') {
-                        $minor = '1';
-                    }
+                    $major = empty($themeRegex[2]) ? '1' : $themeRegex[2];
+                    $minor = empty($themeRegex[3]) ? '1' : $themeRegex[3];
+
                     $currentTheme = Theme::where('anime_id', $currentAnime->id)
-                        ->where('theme', $matches[1][0])
-                        ->where('song_name', $matches[4][0])
+                        ->where('theme', $themeRegex[1])
+                        ->where('song_name', $themeRegex[4])
                         ->where('ver_major', $major)
                         ->where('ver_minor', $minor)->first();
                     if ($currentTheme !== null) {
@@ -145,7 +145,7 @@ class RedditParser
 
         for ($i = 0; $i < count($collections); $i++) {
             $currentCollection = $collections[$i];
-            Log::info("get-collection: $currentCollection");
+            Log::info("get-collection", array('collection' => $currentCollection));
             self::getCollection($currentCollection);
         }
     }
@@ -154,7 +154,7 @@ class RedditParser
         $series = Utils::getSeriesIds();
 
         foreach($series as $key=>$value) {
-            Log::info("get-serie: $key");
+            Log::info("get-serie", array('serieName' => $key, 'serieId' => $value));
             self::getSerie($key, $value);
         }
     }
@@ -163,7 +163,7 @@ class RedditParser
         $artists = Utils::getArtistsIds();
 
         foreach($artists as $key=>$value) {
-            Log::info("get-artist: $key");
+            Log::info("get-artist", array('artistName' => $key, 'artistId' => $value));
             self::getArtist($key, $value);
         }
     }

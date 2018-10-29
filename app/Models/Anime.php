@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Anime extends Model
 {
-    protected $fillable = ['name', 'serie_id', 'collection', 'season', 'mal_id', 'anilist_id', 'kitsu_id', 'anidb_id'];
+    protected $fillable = ['name', 'serie_id', 'collection', 'season', 'mal_id',
+                         'anilist_id', 'kitsu_id', 'anidb_id'];
 
     /**
     * Get the serie that owns the anime.

@@ -59,6 +59,10 @@ class ImplementAnimeThemeSeeder extends Migration
             $table->integer('quality')->nullable($value = true);
             $table->boolean('isNC')->nullable($value = true);
             $table->boolean('isLyrics')->nullable($value = true);
+            $table->boolean('isSubbed')->nullable($value = true);
+            $table->boolean('isUncensored')->nullable($value = true);
+            $table->boolean('isTrans')->nullable($value = true);
+            $table->boolean('isOver')->nullable($value = true);
             $table->string('source')->nullable($value = true);
             $table->foreign('theme_id')->references('id')->on('themes');
         });
@@ -75,7 +79,7 @@ class ImplementAnimeThemeSeeder extends Migration
         Schema::dropIfExists('anime_names');
         Schema::dropIfExists('themes');
         Schema::table('videos', function (Blueprint $table) {
-            $table->dropForeign('videos_theme_id_foreign');
+            $table->dropForeign(['theme_id']);
             $table->dropColumn('theme_id');
             $table->dropColumn('quality');
             $table->dropColumn('isNC');
