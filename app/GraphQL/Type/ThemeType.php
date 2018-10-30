@@ -32,11 +32,11 @@ class ThemeType extends GraphQLType
             ],
             'isNSFW' => [
                 'type' => Type::nonNull(Type::boolean()),
-                'description' => 'If its NSFW'
+                'description' => 'The video contains risqué imagery and is not safe for work'
             ],
             'isSpoiler' => [
                 'type' => Type::nonNull(Type::boolean()),
-                'description' => 'If its Spoiler'
+                'description' => 'The video contains spoilers'
             ],
             'theme' => [
                 'type' => Type::nonNull(Type::string()),
@@ -52,11 +52,11 @@ class ThemeType extends GraphQLType
             ],
             'episodes' => [
                 'type' => Type::string(),
-                'description' => 'If its NSFW'
+                'description' => 'Episodes with this theme'
             ],
             'notes' => [
                 'type' => Type::string(),
-                'description' => 'If its NSFW'
+                'description' => 'Theme Notes'
             ],
 
             'videos' => [

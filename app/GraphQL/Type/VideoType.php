@@ -43,15 +43,31 @@ class VideoType extends GraphQLType
             ],
             'isNC' => [
                 'type' => Type::boolean(),
-                'description' => 'If its not have text'
+                'description' => 'If its not have any credits'
             ],
             'isLyrics' => [
                 'type' => Type::boolean(),
                 'description' => 'If its contains Lyrics'
             ],
+            'isSubbed' => [
+                'type' => Type::boolean(),
+                'description' => 'If its have subtitles'
+            ],
+            'isUncensored' => [
+                'type' => Type::boolean(),
+                'description' => 'If its uncensored'
+            ],
+            'isOver' => [
+                'type' => Type::boolean(),
+                'description' => 'If song plays over the episode'
+            ],
+            'isTrans' => [
+                'type' => Type::boolean(),
+                'description' => 'If the video contains part of the episode which transitions into the OP or ED'
+            ],
             'source' => [
                 'type' => Type::string(),
-                'description' => 'Theme Source DVD/BD/TV'
+                'description' => 'Theme Source DVD/BD/TV/VHS/VN/Game'
             ]
         ];
     }

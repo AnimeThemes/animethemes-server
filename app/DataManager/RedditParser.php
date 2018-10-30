@@ -43,7 +43,7 @@ class RedditParser
             }
 
             // Theme Line
-            if (preg_match('/([A-Z][A-Z])?(\d+)? V?(\d+)?.*?\"(.*?)\".*?\|\[(.*?)\]\((.*?)\)\|(.*?)?\|(.*)?/u', $line, $themeRegex)) {
+            if (preg_match('/([A-Z][A-Z])?(\d+)? V?(\d+)?.*?\"(.*?)\".*?\|\[(.*?)\]\((.*?)\)\|(.*?)?\|([^\s]*)?/u', $line, $themeRegex)) {
                 $currentTheme = DatabaseManager::addTheme($currentAnime->id, 
                 $themeRegex[4], 
                 $themeRegex[1], 

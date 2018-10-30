@@ -18,13 +18,12 @@ class DatabaseManager
             ->where('season', $animeSeason)->first() 
         ?? Anime::create(array(
             'name' => $animeName,
-            'slug' => Utils::slugify("$animeCollection$animeSeason-$animeName"),
             'collection' => $animeCollection,
             'season' => $animeSeason,
             'mal_id' => ($link !== null) ? (preg_match('/https:\/\/myanimelist\.net\/anime\/(\d+)/u', $link, $malRegex) ? $malRegex[1] : null) : null,
             'anidb_id' => ($link !== null) ? (preg_match('/https:\/\/anidb\.net\/perl-bin\/animedb\.pl\?show=anime&aid=(\d+)/u', $link, $anidbRegex) ? $anidbRegex[1] : null) : null
         ));
-        Log::info('anime', $dbAnime->toArray());
+        //Log::info('anime', $dbAnime->toArray());
         return $dbAnime;
     }
 
@@ -41,7 +40,6 @@ class DatabaseManager
         ?? Theme::create(array(
             'anime_id' => $animeId,
             'song_name' => $song,
-            'slug' => Utils::slugify("$animeId-$theme.$major.V$minor-$song"),
             'theme' => $theme,
             'ver_major' => $major,
             'ver_minor' => $minor,
@@ -50,12 +48,12 @@ class DatabaseManager
             'isSpoiler' => ($notes !== null) ? preg_match('/(Spoiler)/u', $notes, $n1) : false,
             'isNSFW' => ($notes !== null) ? preg_match('/(NSFW)/u', $notes, $n2) : false,
         ));
-        Log::info('theme', $dbTheme->toArray());
+        //Log::info('theme', $dbTheme->toArray());
         // Check for mismatches
         if ($dbTheme->episodes !== $episodes || $dbTheme->notes !== $notes) { 
             $dbTheme->episodes = $episodes;
             $dbTheme->notes = $notes;
-            Log::info('theme-edited');
+            //Log::info('theme-edited');
             $dbTheme->save();
         }
 
@@ -69,7 +67,7 @@ class DatabaseManager
             if ($video !== null) {
                 if ($video->theme_id !== $theme_id) {
                     $video->theme_id = $theme_id;
-                    $video->quality = preg_match('/(\d+)/u', $videoTitle, $qualityRegex) ? $qualityRegex[1] : '720';
+                    $video->quality = preg_match('/.*?\(.*?(\d+).*?\)/u', $videoTitle, $qualityRegex) ? $qualityRegex[1] : '720';
                     $video->isNC = preg_match('/(NC)/u', $videoTitle, $n1);
                     $video->isLyrics = preg_match('/(Lyrics)/u', $videoTitle, $n2);
                     $video->isTrans = preg_match('/(Trans)/u', $videoTitle, $n3);
@@ -78,10 +76,10 @@ class DatabaseManager
                     $video->isSubbed = preg_match('/(Subbed)/u', $videoTitle, $n6);
                     $video->source = preg_match('/(BD|DVD|VHS|VN|Game)/u', $videoTitle, $sourceRegex) ? $sourceRegex[1] : "Unknown";
                     $video->save();
-                    Log::info('edit-video', $video->toArray());
+                    //Log::info('edit-video', $video->toArray());
                 }
             } else {
-                Log::error("no-video", array(
+                Log::error("no-video-file", array(
                     'theme_id' => $theme_id,
                     'videoTitle' => $videoTitle,
                     'videoLink' => $videoLink
@@ -92,6 +90,11 @@ class DatabaseManager
                 'theme_id' => $theme_id,
                 'videoTitle' => $videoTitle,
                 'videoLink' => $videoLink
+            ));
+        } else {
+            Log::notice('no-video-link', array(
+                'theme_id' => $theme_id,
+                'videoTitle' => $videoTitle
             ));
         }
     }
