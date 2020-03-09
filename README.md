@@ -8,10 +8,10 @@
 
 # Requirements
 
-AnimeThemes runs on Laravel 5.5 and has the same requirements
+AnimeThemes runs on Laravel 7.0 and has the same requirements
 
 * A web server
-* `PHP >= 7.0.0`
+* `PHP >= 7.2.5`
 * `composer`
 * `npm`
 

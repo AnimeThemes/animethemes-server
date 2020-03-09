@@ -9,13 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class VideosController extends Controller
 {
-
     public function index() {
-        // $videos = Video::orderByRaw('udf_NaturalSortFormat(filename, 10, ".")')->paginate(50);
-
-        // return view('videos', [
-        //     'videos' => $videos
-        // ]);
         return Redirect::away('https://old.reddit.com/r/AnimeThemes/wiki/index');
     }
 
