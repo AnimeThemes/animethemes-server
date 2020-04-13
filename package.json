@@ -19,7 +19,7 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
-        "jquery": "^3.4.1",
-        "modernizr": "^3.9.1"
+        "jquery": "^3.5.0",
+        "modernizr": "^3.10.0"
     }
 }
