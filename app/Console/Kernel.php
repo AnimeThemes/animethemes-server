@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Console\Commands\SyncVideosCommand;
+use App\Console\Commands\VideoReconcileCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\AnnouncementUpdateCommand::class,
         \App\Console\Commands\AnnouncementDeleteCommand::class,
         \App\Console\Commands\AnnouncementListCommand::class,
-        \App\Console\Commands\SyncVideosCommand::class
+        \App\Console\Commands\VideoReconcileCommand::class,
     ];
 
     /**
@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(SyncVideosCommand::class)->daily();
+        $schedule->command(VideoReconcileCommand::class)->hourly();
     }
 
     /**
