@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class VideoReconcileCommand extends Command
 {
+
+    // Result Counts
+    private $created = 0;
+    private $created_failed = 0;
+    private $deleted = 0;
+    private $deleted_failed = 0;
+
     /**
      * The name and signature of the console command.
      *
@@ -60,18 +67,16 @@ class VideoReconcileCommand extends Command
         // Existing videos as array
         $db_videos = Video::all()->all();
 
-        // Flag for displaying no results message (no changes needed for reconciliation)
-        $no_results = true;
-
         // Create videos that exist in storage but not in the database
         $create_videos = array_udiff($fs_videos, $db_videos, [VideoReconcileCommand::class, 'compareVideos']);
         foreach ($create_videos as $create_video) {
             $create_result = $create_video->save();
-            $no_results = false;
             if ($create_result) {
+                $this->created++;
                 Log::info("Video '{$create_video->basename}' created");
                 $this->info("Video '{$create_video->basename}' created");
             } else {
+                $this->created_failed++;
                 Log::error("Video '{$create_video->basename}' was not created");
                 $this->error("Video '{$create_video->basename}' was not created");
             }
@@ -81,18 +86,28 @@ class VideoReconcileCommand extends Command
         $delete_videos = array_udiff($db_videos, $fs_videos, [VideoReconcileCommand::class, 'compareVideos']);
         foreach ($delete_videos as $delete_video) {
             $delete_result = $delete_video->delete();
-            $no_results = false;
             if ($delete_result) {
+                $this->deleted++;
                 Log::info("Video '{$delete_video->basename}' deleted");
                 $this->info("Video '{$delete_video->basename}' deleted");
             } else {
+                $this->deleted_failed++;
                 Log::error("Video '{$delete_video->basename}' was not deleted");
                 $this->error("Video '{$delete_video->basename}' was not deleted");
             }
         }
 
-        // Inform user that no changes were needed for this reconciliation
-        if ($no_results) {
+        // Output reconcilation results
+        if ($this->hasResults()) {
+            if ($this->hasChanges()) {
+                Log::info("{$this->created} Videos created, {$this->deleted} Videos deleted");
+                $this->info("{$this->created} Videos created, {$this->deleted} Videos deleted");
+            }
+            if ($this->hasFailures()) {
+                Log::error("Failed to create {$this->created_failed} Videos, delete {$this->deleted_failed} Videos");
+                $this->error("Failed to create {$this->created_failed} Videos, delete {$this->deleted_failed} Videos");
+            }
+        } else {
             Log::info('No Videos created or deleted');
             $this->info('No Videos created or deleted');
         }
@@ -107,5 +122,19 @@ class VideoReconcileCommand extends Command
     // For reconciliation purposes, other attributes such as ID and timestamps do not apply
     private static function reconciliationString($video) {
         return "basename:{$video->basename},filename:{$video->filename},path:{$video->path}";
+    }
+
+    // Reconciliation Results
+
+    private function hasResults() {
+        return $this->hasChanges() || $this->hasFailures();
+    }
+
+    private function hasChanges() {
+        return $this->created > 0 || $this->deleted > 0;
+    }
+
+    private function hasFailures() {
+        return $this->created_failed > 0 || $this->deleted_failed > 0;
     }
 }
