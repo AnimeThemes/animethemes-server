@@ -20,6 +20,6 @@
     },
     "dependencies": {
         "jquery": "^3.5.0",
-        "modernizr": "^3.10.0"
+        "modernizr": "^3.11.0"
     }
 }
