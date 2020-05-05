@@ -13,7 +13,7 @@ class AddBasenameToVideosTable extends Migration
      */
     public function up()
     {
-        Schema::table('videos', function (Blueprint $table) {
+        Schema::table('video', function (Blueprint $table) {
             $table->string('basename');
             $table->renameColumn('alias', 'filename');
         });
@@ -26,7 +26,7 @@ class AddBasenameToVideosTable extends Migration
      */
     public function down()
     {
-        Schema::table('videos', function (Blueprint $table) {
+        Schema::table('video', function (Blueprint $table) {
             $table->dropColumn('basename');
             $table->renameColumn('filename', 'alias');
         });

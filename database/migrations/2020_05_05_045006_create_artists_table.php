@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateVideosTable extends Migration
+class CreateArtistsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateVideosTable extends Migration
      */
     public function up()
     {
-        Schema::create('video', function (Blueprint $table) {
-            $table->id('video_id');
+        Schema::create('artist', function (Blueprint $table) {
+            $table->id('artist_id');
             $table->timestamps();
             $table->string('alias');
-            $table->string('path');
+            $table->string('name');
         });
     }
 
@@ -28,6 +28,6 @@ class CreateVideosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('video');
+        Schema::dropIfExists('artist');
     }
 }
