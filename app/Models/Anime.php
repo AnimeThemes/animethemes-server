@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Anime extends Model
+class Anime extends Model implements Auditable
 {
+
+    use \OwenIt\Auditing\Auditable;
+
     /**
      * The table associated with the model.
      *

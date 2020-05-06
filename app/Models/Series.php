@@ -3,9 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Series extends Model
+class Series extends Model implements Auditable
 {
+
+    use \OwenIt\Auditing\Auditable;
+
+    protected $fillable = ['alias', 'name'];
+
     /**
      * The table associated with the model.
      *
@@ -19,6 +25,16 @@ class Series extends Model
      * @var string
      */
     protected $primaryKey = 'series_id';
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'alias';
+    }
 
     /**
      * Get the anime included in the series

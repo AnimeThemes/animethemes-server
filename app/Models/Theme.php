@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Theme extends Model
+class Theme extends Model implements Auditable
 {
+
+    use \OwenIt\Auditing\Auditable;
+
     /**
      * The table associated with the model.
      *
