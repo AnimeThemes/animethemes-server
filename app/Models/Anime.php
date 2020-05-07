@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+use App\Enums\Season;
+use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Anime extends Model implements Auditable
 {
 
+    use CastsEnums;
     use \OwenIt\Auditing\Auditable;
+
+    protected $fillable = ['alias', 'name', 'year', 'season'];
 
     /**
      * The table associated with the model.
@@ -23,6 +28,24 @@ class Anime extends Model implements Auditable
      * @var string
      */
     protected $primaryKey = 'anime_id';
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'alias';
+    }
+
+    protected $enumCasts = [
+        'season' => Season::class,
+    ];
+
+    protected $casts = [
+        'season' => 'int',
+    ];
 
     /**
      * Get the synonyms for the anime

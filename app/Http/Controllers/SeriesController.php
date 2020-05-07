@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Series;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SeriesController extends Controller
 {
@@ -37,7 +38,7 @@ class SeriesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'alias' => ['required', 'unique:series', 'max:192'],
+            'alias' => ['required', 'unique:series', 'max:192', 'alpha_dash'],
             'name' => ['required', 'max:192'],
         ]);
 
@@ -78,7 +79,7 @@ class SeriesController extends Controller
     public function update(Request $request, Series $series)
     {
         $request->validate([
-            'alias' => ['required', 'unique:series', 'max:192'],
+            'alias' => ['required', Rule::unique('series')->ignore($series), 'max:192', 'alpha_dash'],
             'name' => ['required', 'max:192'],
         ]);
 
