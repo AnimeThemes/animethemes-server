@@ -10,6 +10,8 @@ class Synonym extends Model implements Auditable
 
     use \OwenIt\Auditing\Auditable;
 
+    protected $fillable = ['text'];
+
     /**
      * The table associated with the model.
      *
@@ -28,6 +30,6 @@ class Synonym extends Model implements Auditable
      * Gets the anime that owns the synonym
      */
     public function anime() {
-        return $this->belongsTo('App\Models\Anime');
+        return $this->belongsTo('App\Models\Anime', 'anime_id', 'anime_id');
     }
 }

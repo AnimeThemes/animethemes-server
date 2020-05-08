@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anime;
 use App\Models\Series;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -26,7 +27,8 @@ class SeriesController extends Controller
      */
     public function create()
     {
-        return view('series.create');
+        $anime = Anime::all();
+        return view('series.create')->withAnime($anime);
     }
 
     /**
@@ -40,9 +42,10 @@ class SeriesController extends Controller
         $request->validate([
             'alias' => ['required', 'unique:series', 'max:192', 'alpha_dash'],
             'name' => ['required', 'max:192'],
+            'anime' => ['exists:anime,anime_id'],
         ]);
 
-        Series::create($request->all());
+        Series::create($request->all())->anime()->sync($request->input('anime'));
 
         return redirect()->route('series.index');
     }
@@ -66,7 +69,8 @@ class SeriesController extends Controller
      */
     public function edit(Series $series)
     {
-        return view('series.edit')->withSeries($series);
+        $anime = Anime::all();
+        return view('series.edit')->withSeries($series)->withAnime($anime);
     }
 
     /**
@@ -81,8 +85,10 @@ class SeriesController extends Controller
         $request->validate([
             'alias' => ['required', Rule::unique('series')->ignore($series), 'max:192', 'alpha_dash'],
             'name' => ['required', 'max:192'],
+            'anime' => ['exists:anime,anime_id'],
         ]);
 
+        $series->anime()->sync($request->input('anime'));
         $series->update($request->all());
 
         return redirect()->route('series.index');

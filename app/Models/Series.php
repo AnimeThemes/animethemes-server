@@ -40,6 +40,6 @@ class Series extends Model implements Auditable
      * Get the anime included in the series
      */
     public function anime() {
-        return $this->belongsToMany('App\Models\Anime');
+        return $this->belongsToMany('App\Models\Anime', 'anime_series', 'series_id', 'anime_id');
     }
 }

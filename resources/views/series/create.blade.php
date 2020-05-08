@@ -23,6 +23,13 @@
         <input type="text" name="name" placeholder="Name">
     </div>
     <div>
+        <select name="anime[]" multiple>
+        @foreach ($anime as $theAnime)
+            <option value="{{ $theAnime->anime_id }}">{{ $theAnime->name }}</option>
+        @endforeach
+        </select>
+    </div>
+    <div>
         <button type="submit">Submit</button>
     </div>
 </form>

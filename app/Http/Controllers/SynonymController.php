@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anime;
 use App\Models\Synonym;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class SynonymController extends Controller
 {
@@ -39,7 +40,17 @@ class SynonymController extends Controller
      */
     public function store($anime_alias, Request $request)
     {
-        //
+        $anime = Anime::where('alias', $anime_alias)->firstOrFail();
+
+        $request->validate([
+            'text' => ['required', 'max:192', Rule::unique('synonym', 'text')->where(function ($query) use ($anime) {
+                return $query->where('anime_id', $anime->anime_id);
+            })],
+        ]);
+
+        $anime->synonyms()->create($request->all());
+
+        return redirect()->route('anime.synonym.index', $anime_alias);
     }
 
     /**
@@ -50,7 +61,7 @@ class SynonymController extends Controller
      */
     public function show($anime_alias, Synonym $synonym)
     {
-        //
+        return view('synonym.show')->withSynonym($synonym);
     }
 
     /**
@@ -61,7 +72,7 @@ class SynonymController extends Controller
      */
     public function edit($anime_alias, Synonym $synonym)
     {
-        //
+        return view('synonym.edit', compact('anime_alias', 'synonym'));
     }
 
     /**
@@ -73,7 +84,17 @@ class SynonymController extends Controller
      */
     public function update($anime_alias, Request $request, Synonym $synonym)
     {
-        //
+        $anime = Anime::where('alias', $anime_alias)->firstOrFail();
+
+        $request->validate([
+            'text' => ['required', 'max:192', Rule::unique('synonym', 'text')->where(function ($query) use ($anime) {
+                return $query->where('anime_id', $anime->anime_id);
+            })->ignore($synonym)],
+        ]);
+
+        $synonym->update($request->all());
+
+        return redirect()->route('anime.synonym.index', $anime_alias);
     }
 
     /**
@@ -84,6 +105,8 @@ class SynonymController extends Controller
      */
     public function destroy($anime_alias, Synonym $synonym)
     {
-        //
+        $synonym->delete();
+
+        return redirect()->route('anime.synonym.index', $anime_alias);
     }
 }

@@ -24,6 +24,13 @@
         <input type="text" name="name" placeholder="Name" value="{{ $series->name }}">
     </div>
     <div>
+        <select name="anime[]" multiple>
+        @foreach ($anime as $theAnime)
+            <option value="{{ $theAnime->anime_id }}" {{ $series->anime->contains($theAnime->anime_id) ? 'selected' : '' }}>{{ $theAnime->name }}</option>
+        @endforeach
+        </select>
+    </div>
+    <div>
         <button type="submit">Submit</button>
     </div>
 </form>

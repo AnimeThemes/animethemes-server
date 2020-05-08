@@ -51,14 +51,14 @@ class Anime extends Model implements Auditable
      * Get the synonyms for the anime
      */
     public function synonyms() {
-        return $this->hasMany('App\Models\Synonym');
+        return $this->hasMany('App\Models\Synonym', 'anime_id', 'anime_id');
     }
 
     /**
      * Get the series the anime is included in
      */
     public function series() {
-        return $this->belongsToMany('App\Models\Series');
+        return $this->belongsToMany('App\Models\Series', 'anime_series', 'anime_id', 'series_id');
     }
 
     /**
