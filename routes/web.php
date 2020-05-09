@@ -22,4 +22,5 @@ Route::get('/sitemap/videos', 'SitemapController@videos')->name('video_sitemap')
 
 Route::resource('anime', 'AnimeController');
 Route::resource('anime.synonym', 'SynonymController');
+Route::resource('resource', 'ResourceController');
 Route::resource('series', 'SeriesController');

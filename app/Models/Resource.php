@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+use App\Enums\ResourceType;
+use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Resource extends Model implements Auditable
 {
 
+    use CastsEnums;
     use \OwenIt\Auditing\Auditable;
+
+    protected $fillable = ['type', 'link', 'label'];
 
     /**
      * The table associated with the model.
@@ -23,6 +28,14 @@ class Resource extends Model implements Auditable
      * @var string
      */
     protected $primaryKey = 'resource_id';
+
+    protected $enumCasts = [
+        'type' => ResourceType::class,
+    ];
+
+    protected $casts = [
+        'type' => 'int',
+    ];
 
     /**
      * Get the anime that reference this resource

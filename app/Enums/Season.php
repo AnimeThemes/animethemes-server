@@ -6,8 +6,8 @@ use BenSampo\Enum\Enum;
 
 final class Season extends Enum
 {
-    const Fall   = 0;
-    const Summer = 1;
-    const Spring = 2;
-    const Winter = 3;
+    const FALL   = 0;
+    const SUMMER = 1;
+    const SPRING = 2;
+    const WINTER = 3;
 }

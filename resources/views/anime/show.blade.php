@@ -13,6 +13,7 @@
 <div>
     <strong>Year:</strong>
     {{ $anime->year }}
+</div>
 <div>
     <strong>Season:</strong>
     {{ $anime->season->description }}
