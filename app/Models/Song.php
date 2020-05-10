@@ -10,6 +10,8 @@ class Song extends Model implements Auditable
 
     use \OwenIt\Auditing\Auditable;
 
+    protected $fillable = ['title', 'by'];
+
     /**
      * The table associated with the model.
      *
@@ -35,6 +37,6 @@ class Song extends Model implements Auditable
      * Get the artists included in the performance
      */
     public function artists() {
-        return $this->belongsToMany('App\Models\Artist');
+        return $this->belongsToMany('App\Models\Artist', 'artist_song', 'song_id', 'artist_id');
     }
 }

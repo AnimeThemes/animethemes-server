@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Season;
 use App\Models\Anime;
+use App\Models\Resource;
 use App\Rules\YearRange;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
@@ -29,7 +30,8 @@ class AnimeController extends Controller
      */
     public function create()
     {
-        return view('anime.create')->withSeasons(Season::toSelectArray());
+        $resources = Resource::all();
+        return view('anime.create')->withSeasons(Season::toSelectArray())->withResources($resources);
     }
 
     /**
@@ -45,9 +47,10 @@ class AnimeController extends Controller
             'name' => ['required', 'max:192'],
             'year' => ['required', 'digits:4', 'integer', new YearRange],
             'season' => ['required', new EnumValue(Season::class, false)],
+            'resources' => ['exists:resource,resource_id'],
         ]);
 
-        Anime::create($request->all());
+        Anime::create($request->all())->resources()->sync($request->input('resources'));
 
         return redirect()->route('anime.index');
     }
@@ -71,7 +74,8 @@ class AnimeController extends Controller
      */
     public function edit(Anime $anime)
     {
-        return view('anime.edit')->withAnime($anime)->withSeasons(Season::toSelectArray());
+        $resources = Resource::all();
+        return view('anime.edit')->withAnime($anime)->withSeasons(Season::toSelectArray())->withResources($resources);
     }
 
     /**
@@ -88,8 +92,10 @@ class AnimeController extends Controller
             'name' => ['required', 'max:192'],
             'year' => ['required', 'digits:4', 'integer', new YearRange],
             'season' => ['required', new EnumValue(Season::class, false)],
+            'resources' => ['exists:resource,resource_id'],
         ]);
 
+        $anime->resources()->sync($request->input('resources'));
         $anime->update($request->all());
 
         return redirect()->route('anime.index');

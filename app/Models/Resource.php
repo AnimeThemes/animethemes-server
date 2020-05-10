@@ -41,13 +41,13 @@ class Resource extends Model implements Auditable
      * Get the anime that reference this resource
      */
     public function anime() {
-        return $this->belongsToMany('App\Models\Anime');
+        return $this->belongsToMany('App\Models\Anime', 'anime_resource', 'resource_id', 'anime_id');
     }
 
     /**
      * Get the artists that reference this resource
      */
     public function artists() {
-        return $this->belongsToMany('App\Models\Artist');
+        return $this->belongsToMany('App\Models\Artist', 'artist_resource', 'resource_id', 'artist_id');
     }
 }

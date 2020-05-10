@@ -12,33 +12,22 @@
     </div>
 @endif
 
-<form action="{{ route('anime.store') }}" method="POST">
+<form action="{{ route('artist.update', $artist->alias) }}" method="POST">
     @csrf
+    @method('PUT')
     <div>
         <strong>Alias:</strong>
-        <input type="text" name="alias" placeholder="Alias">
+        <input type="text" name="alias" placeholder="Alias" value="{{ $artist->alias }}">
     </div>
     <div>
         <strong>Name:</strong>
-        <input type="text" name="name" placeholder="Name">
-    </div>
-    <div>
-        <strong>Year:</strong>
-        <input type="number" name="year">
-    </div>
-    <div>
-        <strong>Season:</strong>
-        <select name="season">
-        @foreach ($seasons as $value => $description)
-            <option value="{{ $value }}">{{ $description }}</option>
-        @endforeach
-        </select>
+        <input type="text" name="name" placeholder="Name" value="{{ $artist->name }}">
     </div>
     <div>
         <strong>Resources:</strong>
         <select name="resources[]" multiple>
         @foreach ($resources as $resource)
-            <option value="{{ $resource->resource_id }}">{{ $resource->link }}</option>
+            <option value="{{ $resource->resource_id }}" {{ $artist->resources->contains($resource->resource_id) ? 'selected' : '' }}>{{ $resource->link }}</option>
         @endforeach
         </select>
     </div>

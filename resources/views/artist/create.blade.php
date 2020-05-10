@@ -12,7 +12,7 @@
     </div>
 @endif
 
-<form action="{{ route('anime.store') }}" method="POST">
+<form action="{{ route('artist.store') }}" method="POST">
     @csrf
     <div>
         <strong>Alias:</strong>
@@ -21,18 +21,6 @@
     <div>
         <strong>Name:</strong>
         <input type="text" name="name" placeholder="Name">
-    </div>
-    <div>
-        <strong>Year:</strong>
-        <input type="number" name="year">
-    </div>
-    <div>
-        <strong>Season:</strong>
-        <select name="season">
-        @foreach ($seasons as $value => $description)
-            <option value="{{ $value }}">{{ $description }}</option>
-        @endforeach
-        </select>
     </div>
     <div>
         <strong>Resources:</strong>

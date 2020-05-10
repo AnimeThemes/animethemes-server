@@ -36,6 +36,14 @@
         </select>
     </div>
     <div>
+        <strong>Resources:</strong>
+        <select name="resources[]" multiple>
+        @foreach ($resources as $resource)
+            <option value="{{ $resource->resource_id }}" {{ $anime->resources->contains($resource->resource_id) ? 'selected' : '' }}>{{ $resource->link }}</option>
+        @endforeach
+        </select>
+    </div>
+    <div>
         <button type="submit">Submit</button>
     </div>
 </form>

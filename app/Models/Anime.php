@@ -65,13 +65,13 @@ class Anime extends Model implements Auditable
      * Get the themes for the anime
      */
     public function themes() {
-        return $this->hasMany('App\Models\Theme');
+        return $this->hasMany('App\Models\Theme', 'anime_id', 'anime_id');
     }
 
     /**
      * Get the resources for the anime
      */
     public function resources() {
-        return $this->belongsToMany('App\Models\Resource');
+        return $this->belongsToMany('App\Models\Resource', 'anime_resource', 'anime_id', 'resource_id');
     }
 }

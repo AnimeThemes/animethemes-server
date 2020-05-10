@@ -19,11 +19,12 @@ class CreateThemesTable extends Migration
             $table->string('group')->nullable();
             $table->integer('type')->nullable();
             $table->integer('sequence')->nullable();
+            $table->string('slug');
 
             $table->unsignedBigInteger('anime_id');
             $table->foreign('anime_id')->references('anime_id')->on('anime');
 
-            $table->unsignedBigInteger('song_id');
+            $table->unsignedBigInteger('song_id')->nullable();
             $table->foreign('song_id')->references('song_id')->on('song');
         });
     }
