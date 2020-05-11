@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Enums\SourceType;
+use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Video extends Model implements Auditable
 {
 
+    use CastsEnums;
     use \OwenIt\Auditing\Auditable;
 
     protected $fillable = ['basename', 'filename', 'path'];
@@ -26,10 +29,28 @@ class Video extends Model implements Auditable
      */
     protected $primaryKey = 'video_id';
 
+        /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'basename';
+    }
+
+    protected $enumCasts = [
+        'source' => SourceType::class,
+    ];
+
+    protected $casts = [
+        'source' => 'int',
+    ];
+
     /**
      * Get the referencing entries
      */
     public function entries() {
-        return $this->belongsToMany('App\Models\Entry');
+        return $this->belongsToMany('App\Models\Entry', 'entry_video', 'video_id', 'entry_id');
     }
 }

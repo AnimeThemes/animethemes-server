@@ -30,7 +30,7 @@ class Song extends Model implements Auditable
      * Get the themes that use this song
      */
     public function themes() {
-        return $this->hasMany('App\Models\Theme');
+        return $this->hasMany('App\Models\Theme', 'song_id', 'song_id');
     }
 
     /**

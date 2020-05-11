@@ -58,6 +58,14 @@ class Theme extends Model implements Auditable
             }
             $activity->slug = $slug;
         });
+
+        static::updating(function($activity) {
+            $slug = $activity->type->key;
+            if (!empty($activity->sequence)) {
+                $slug .= $activity->sequence;
+            }
+            $activity->slug = $slug;
+        });
     }
 
     /**
@@ -78,6 +86,6 @@ class Theme extends Model implements Auditable
      * Get the entries for the theme
      */
     public function entries() {
-        return $this->hasMany('App\Models\Entry');
+        return $this->hasMany('App\Models\Entry', 'theme_id', 'theme_id');
     }
 }

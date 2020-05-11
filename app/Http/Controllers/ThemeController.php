@@ -53,9 +53,11 @@ class ThemeController extends Controller
             'group' => ['nullable', 'max:192'],
         ]);
 
-        $anime->themes()->create($request->all());
-        //TODO: save song
-        //$synonym->song()->save($request->input('song'));
+        $theme = new Theme;
+        $theme->fill($request->all());
+        $theme->anime()->associate($anime);
+        $theme->song()->associate($request->input('song'));
+        $theme->save();
 
         return redirect()->route('anime.theme.index', $anime_alias);
     }
@@ -66,9 +68,9 @@ class ThemeController extends Controller
      * @param  \App\Models\Theme  $theme
      * @return \Illuminate\Http\Response
      */
-    public function show(Theme $theme)
+    public function show($anime_alias, Theme $theme)
     {
-        //
+        return view('theme.show')->withTheme($theme);
     }
 
     /**
@@ -77,9 +79,11 @@ class ThemeController extends Controller
      * @param  \App\Models\Theme  $theme
      * @return \Illuminate\Http\Response
      */
-    public function edit(Theme $theme)
+    public function edit($anime_alias, Theme $theme)
     {
-        //
+        $songs = Song::all();
+        $themeTypes = ThemeType::toSelectArray();
+        return view('theme.edit', compact('anime_alias', 'theme', 'songs', 'themeTypes'));
     }
 
     /**
@@ -89,9 +93,22 @@ class ThemeController extends Controller
      * @param  \App\Models\Theme  $theme
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Theme $theme)
+    public function update($anime_alias, Request $request, Theme $theme)
     {
-        //
+        $anime = Anime::where('alias', $anime_alias)->firstOrFail();
+
+        $request->validate([
+            'type' => ['required', new EnumValue(ThemeType::class, false)],
+            'sequence' => ['nullable', 'integer'],
+            'song' => ['nullable', 'exists:song,song_id'],
+            'group' => ['nullable', 'max:192'],
+        ]);
+
+        $theme->fill($request->all());
+        $theme->song()->associate($request->input('song'));
+        $theme->save();
+
+        return redirect()->route('anime.theme.index', $anime_alias);
     }
 
     /**
@@ -100,8 +117,10 @@ class ThemeController extends Controller
      * @param  \App\Models\Theme  $theme
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Theme $theme)
+    public function destroy($anime_alias, Theme $theme)
     {
-        //
+        $theme->delete();
+
+        return redirect()->route('anime.theme.index', $anime_alias);
     }
 }

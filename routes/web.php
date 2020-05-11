@@ -14,16 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'WelcomeController@do')->name('welcome');
-Route::resource('video', 'VideosController', ['only' => [
-    'index', 'show'
-]]);
 Route::get('/sitemap', 'SitemapController@index');
 Route::get('/sitemap/videos', 'SitemapController@videos')->name('video_sitemap');
 
 Route::resource('anime', 'AnimeController');
 Route::resource('anime.synonym', 'SynonymController');
 Route::resource('anime.theme', 'ThemeController');
+Route::resource('anime.theme.entry', 'EntryController');
 Route::resource('artist', 'ArtistController');
 Route::resource('resource', 'ResourceController');
 Route::resource('series', 'SeriesController');
 Route::resource('song', 'SongController');
+Route::resource('video', 'VideoController')->only(['index', 'show', 'edit', 'update']);

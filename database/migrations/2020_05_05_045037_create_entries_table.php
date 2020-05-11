@@ -21,7 +21,7 @@ class CreateEntriesTable extends Migration
             $table->boolean('nsfw')->default(false);
             $table->boolean('spoiler')->default(false);
             $table->boolean('sfx')->default(false);
-            $table->text('notes')->nullable();
+            $table->string('notes')->nullable();
 
             $table->unsignedBigInteger('theme_id');
             $table->foreign('theme_id')->references('theme_id')->on('theme');            

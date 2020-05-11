@@ -16,5 +16,11 @@
         <p><a href="{{ route('artist.show', $artist->alias) }}">{{ $artist->name }}</a></p>
     @endforeach
 </div>
+<div>
+    <strong>Themes:</strong>
+    @foreach ($song->themes as $theme)
+        <p><a href="{{ route('anime.theme.show', [$theme->anime->alias, $theme->slug]) }}">{{ $theme->slug }}</a></p>
+    @endforeach
+</div>
 
 @endsection
