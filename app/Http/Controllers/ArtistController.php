@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artist;
-use App\Models\Resource;
+use App\Models\ExternalResource;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -27,7 +27,7 @@ class ArtistController extends Controller
      */
     public function create()
     {
-        $resources = Resource::all();
+        $resources = ExternalResource::all();
         return view('artist.create')->withResources($resources);
     }
 
@@ -45,7 +45,7 @@ class ArtistController extends Controller
             'resources' => ['exists:resource,resource_id'],
         ]);
 
-        Artist::create($request->all())->resources()->sync($request->input('resources'));
+        Artist::create($request->all())->externalResources()->sync($request->input('resources'));
 
         return redirect()->route('artist.index');
     }
@@ -69,7 +69,7 @@ class ArtistController extends Controller
      */
     public function edit(Artist $artist)
     {
-        $resources = Resource::all();
+        $resources = ExternalResource::all();
         return view('artist.edit')->withArtist($artist)->withResources($resources);
     }
 
@@ -88,7 +88,7 @@ class ArtistController extends Controller
             'resources' => ['exists:resource,resource_id'],
         ]);
 
-        $artist->resources()->sync($request->input('resources'));
+        $artist->externalResources()->sync($request->input('resources'));
         $artist->update($request->all());
 
         return redirect()->route('artist.index');

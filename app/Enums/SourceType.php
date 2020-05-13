@@ -3,8 +3,9 @@
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
+use BenSampo\Enum\Contracts\LocalizedEnum;
 
-final class SourceType extends Enum
+final class SourceType extends Enum implements LocalizedEnum
 {
     const WEB = 0;
     const RAW = 1;

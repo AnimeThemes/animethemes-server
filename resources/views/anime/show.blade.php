@@ -32,7 +32,7 @@
 </div>
 <div>
     <strong>Resources:</strong>
-    @foreach ($anime->resources as $resource)
+    @foreach ($anime->externalResources as $resource)
         <p><a href="{{ route('resource.show', $resource->resource_id) }}">{{ $resource->link }}</a></p>
     @endforeach
 </div>

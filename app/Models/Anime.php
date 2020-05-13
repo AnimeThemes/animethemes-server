@@ -71,7 +71,7 @@ class Anime extends Model implements Auditable
     /**
      * Get the resources for the anime
      */
-    public function resources() {
-        return $this->belongsToMany('App\Models\Resource', 'anime_resource', 'anime_id', 'resource_id');
+    public function externalResources() {
+        return $this->belongsToMany('App\Models\ExternalResource', 'anime_resource', 'anime_id', 'resource_id');
     }
 }

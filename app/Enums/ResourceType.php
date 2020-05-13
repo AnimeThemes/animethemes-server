@@ -3,8 +3,9 @@
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
+use BenSampo\Enum\Contracts\LocalizedEnum;
 
-final class ResourceType extends Enum
+final class ResourceType extends Enum implements LocalizedEnum
 {
 
     // Official Media

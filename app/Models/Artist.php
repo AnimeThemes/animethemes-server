@@ -46,7 +46,7 @@ class Artist extends Model implements Auditable
     /**
      * Get the resources for the artist
      */
-    public function resources() {
-        return $this->belongsToMany('App\Models\Resource', 'artist_resource', 'artist_id', 'resource_id');
+    public function externalResources() {
+        return $this->belongsToMany('App\Models\ExternalResource', 'artist_resource', 'artist_id', 'resource_id');
     }
 }

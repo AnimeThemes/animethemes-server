@@ -11,6 +11,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class Video extends Resource
@@ -27,7 +28,17 @@ class Video extends Resource
      *
      * @var string
      */
-    public static $title = 'video_id';
+    public static $title = 'filename';
+
+    public static function label()
+    {
+        return __('nova.videos');
+    }
+
+    public static function singularLabel()
+    {
+        return __('nova.video');
+    }
 
     /**
      * The columns that should be searched.
@@ -35,7 +46,7 @@ class Video extends Resource
      * @var array
      */
     public static $search = [
-        'video_id', 'basename', 'filename', 'path', 'resolution'
+        'filename'
     ];
 
     /**
@@ -47,58 +58,68 @@ class Video extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make('video_id')
+            ID::make(__('nova.id'), 'video_id')
                 ->sortable(),
 
-            PlainText::make('basename')
-                ->sortable(),
+            new Panel(__('nova.video_metadata'), $this->videoProperties()),
 
-            PlainText::make('filename')
-                ->sortable(),
-
-            PlainText::make('path')
-                ->sortable(),
-
-            Number::make('resolution')
+            Number::make(__('nova.resolution'), 'resolution')
                 ->sortable()
                 ->min(360)
                 ->max(1080)
-                ->rules('nullable', 'integer'), //TODO: custom rule with range
+                ->rules('nullable', 'integer')
+                ->help(__('nova.video_resolution_help')), //TODO: custom rule with range
 
-            Boolean::make('nc')
+            Boolean::make(__('nova.nc'), 'nc')
                 ->sortable()
-                ->rules('nullable', 'boolean'),
+                ->rules('nullable', 'boolean')
+                ->help(__('nova.video_nc_help')),
 
-            Boolean::make('subbed')
+            Boolean::make(__('nova.subbed'), 'subbed')
                 ->sortable()
-                ->rules('nullable', 'boolean'),
+                ->rules('nullable', 'boolean')
+                ->help(__('nova.video_subbed_help')),
 
-            Boolean::make('lyrics')
+            Boolean::make(__('nova.lyrics'), 'lyrics')
                 ->sortable()
-                ->rules('nullable', 'boolean'),
+                ->rules('nullable', 'boolean')
+                ->help(__('nova.video_lyrics_help')),
 
-            Boolean::make('uncen')
+            Boolean::make(__('nova.uncen'), 'uncen')
                 ->sortable()
-                ->rules('nullable', 'boolean'),
+                ->rules('nullable', 'boolean')
+                ->help(__('nova.video_uncen_help')),
 
-            Boolean::make('trans')
+            Boolean::make(__('nova.trans'), 'trans')
                 ->sortable()
-                ->rules('nullable', 'boolean'),
+                ->rules('nullable', 'boolean')
+                ->help(__('nova.video_trans_help')),
 
-            Boolean::make('over')
+            Boolean::make(__('nova.over'), 'over')
                 ->sortable()
-                ->rules('nullable', 'boolean'),
+                ->rules('nullable', 'boolean')
+                ->help(__('nova.video_over_help')),
 
-            Boolean::make('over')
-                ->sortable()
-                ->rules('nullable', 'boolean'),
-
-            Enum::make('source')
+            Enum::make(__('nova.source'), 'source')
                 ->attachEnum(SourceType::class)
                 ->sortable()
-                ->rules('nullable', new EnumValue(SourceType::class, false)),
+                ->rules('nullable', new EnumValue(SourceType::class, false))
+                ->help(__('nova.video_source_help')),
 
-            BelongsToMany::make('Entries'),
+            BelongsToMany::make(__('nova.entries'), 'Entries'),
+        ];
+    }
+
+    protected function videoProperties() {
+        return [
+            PlainText::make(__('nova.basename'), 'basename')
+                ->sortable(),
+
+            PlainText::make(__('nova.filename'), 'filename')
+                ->sortable(),
+
+            PlainText::make(__('nova.path'), 'path')
+                ->sortable(),
         ];
     }
 

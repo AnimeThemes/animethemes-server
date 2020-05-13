@@ -29,14 +29,31 @@ class Theme extends Resource
      */
     public static $title = 'slug';
 
+    public static function label()
+    {
+        return __('nova.themes');
+    }
+
+    public static function singularLabel()
+    {
+        return __('nova.theme');
+    }
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'theme_id', 'type', 'sequence', 'group'
+
     ];
+
+    /**
+     * Indicates if the resource should be globally searchable.
+     *
+     * @var bool
+     */
+    public static $globallySearchable = false;
 
     /**
      * Indicates if the resource should be displayed in the sidebar.
@@ -54,24 +71,30 @@ class Theme extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make('Anime'),
+            BelongsTo::make(__('nova.anime'), 'Anime')
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
 
-            ID::make('theme_id')->sortable(),
+            ID::make(__('nova.id'), 'theme_id')
+                ->sortable(),
 
-            Enum::make('type')
+            Enum::make(__('nova.type'), 'type')
                 ->attachEnum(ThemeType::class)
                 ->sortable()
-                ->rules('required', new EnumValue(ThemeType::class, false)),
+                ->rules('required', new EnumValue(ThemeType::class, false))
+                ->help(__('nova.theme_type_help')),
 
-            Number::make('sequence')
+            Number::make(__('nova.sequence'), 'sequence')
                 ->sortable()
-                ->rules('nullable', 'integer'),
+                ->rules('nullable', 'integer')
+                ->help(__('nova.theme_sequence_help')),
 
-            Text::make('group')
+            Text::make(__('nova.group'), 'group')
                 ->sortable()
-                ->rules('nullable', 'max:192'),
+                ->rules('nullable', 'max:192')
+                ->help(__('nova.theme_group_help')),
 
-            HasMany::make('Entries'),
+            HasMany::make(__('nova.entries'), 'Entries'),
         ];
     }
 

@@ -3,8 +3,9 @@
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
+use BenSampo\Enum\Contracts\LocalizedEnum;
 
-final class Season extends Enum
+final class Season extends Enum implements LocalizedEnum
 {
     const FALL   = 0;
     const SUMMER = 1;

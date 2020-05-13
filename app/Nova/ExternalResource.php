@@ -12,21 +12,21 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use SimpleSquid\Nova\Fields\Enum\Enum;
 
-class ExternalLink extends Resource
+class ExternalResource extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Resource::class;
+    public static $model = \App\Models\ExternalResource::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'resource_id';
+    public static $title = 'link';
 
     /**
      * The columns that should be searched.
@@ -34,8 +34,18 @@ class ExternalLink extends Resource
      * @var array
      */
     public static $search = [
-        'resource_id', 'link', 'label'
+        'link'
     ];
+
+    public static function label()
+    {
+        return __('nova.external_resources');
+    }
+
+    public static function singularLabel()
+    {
+        return __('nova.external_resource');
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -46,27 +56,30 @@ class ExternalLink extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make('resource_id')
+            ID::make(__('nova.id'), 'resource_id')
                 ->sortable(),
 
-            Enum::make('type')
+            Enum::make(__('nova.type'), 'type')
                 ->attachEnum(ResourceType::class)
                 ->sortable()
-                ->rules('required', new EnumValue(ResourceType::class, false)),
+                ->rules('required', new EnumValue(ResourceType::class, false))
+                ->help(__('nova.resource_type_help')),
 
-            Text::make('link')
+            Text::make(__('nova.link'), 'link')
                 ->sortable()
                 ->rules('required', 'max:192', 'url', new ResourceTypeDomain($request->input('type')))
                 ->creationRules('unique:resource,link')
-                ->updateRules('unique:series,link,{{resourceId}},resource_id'),
+                ->updateRules('unique:series,link,{{resourceId}},resource_id')
+                ->help(__('nova.resource_link_help')),
 
-            Text::make('label')
+            Text::make(__('nova.label'), 'label')
                 ->sortable()
-                ->rules('nullable', 'max:192'),
+                ->rules('nullable', 'max:192')
+                ->help(__('nova.resource_label_help')),
 
-            BelongsToMany::make('Artists'),
+            BelongsToMany::make(__('nova.artists'), 'Artists'),
 
-            BelongsToMany::make('Anime'),
+            BelongsToMany::make(__('nova.anime'), 'Anime'),
         ];
     }
 

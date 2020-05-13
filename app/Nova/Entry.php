@@ -34,14 +34,31 @@ class Entry extends Resource
      */
     public static $displayInNavigation = false;
 
+    public static function label()
+    {
+        return __('nova.entries');
+    }
+
+    public static function singularLabel()
+    {
+        return __('nova.entry');
+    }
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'entry_id',
+
     ];
+
+    /**
+     * Indicates if the resource should be globally searchable.
+     *
+     * @var bool
+     */
+    public static $globallySearchable = false;
 
     /**
      * Get the fields displayed by the resource.
@@ -52,35 +69,44 @@ class Entry extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make('Theme'),
+            BelongsTo::make(__('nova.theme'), 'Theme')
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
 
-            ID::make('entry_id')->sortable(),
+            ID::make(__('nova.id'), 'entry_id')
+                ->sortable(),
 
-            Number::make('version')
+            Number::make(__('nova.version'), 'version')
                 ->sortable()
-                ->rules('nullable', 'integer'),
+                ->rules('nullable', 'integer')
+                ->help(__('nova.entry_version_help')),
 
-            Text::make('episodes')
+            Text::make(__('nova.episodes'), 'episodes')
                 ->sortable()
-                ->rules('nullable', 'max:192'),
+                ->rules('nullable', 'max:192')
+                ->help(__('nova.entry_episodes_help')),
 
-            Boolean::make('nsfw')
+            Boolean::make(__('nova.nsfw'), 'nsfw')
                 ->sortable()
-                ->rules('nullable', 'boolean'),
+                ->rules('nullable', 'boolean')
+                ->help(__('nova.entry_nsfw_help')),
 
-            Boolean::make('spoiler')
+            Boolean::make(__('nova.spoiler'), 'spoiler')
                 ->sortable()
-                ->rules('nullable', 'boolean'),
+                ->rules('nullable', 'boolean')
+                ->help(__('nova.entry_spoiler_help')),
 
-            Boolean::make('sfx')
+            Boolean::make(__('nova.sfx'), 'sfx')
                 ->sortable()
-                ->rules('nullable', 'boolean'),
+                ->rules('nullable', 'boolean')
+                ->help(__('nova.entry_sfx_help')),
 
-            Text::make('notes')
+            Text::make(__('nova.notes'), 'notes')
                 ->sortable()
-                ->rules('nullable', 'max:192'),
+                ->rules('nullable', 'max:192')
+                ->help(__('nova.entry_notes_help')),
 
-            BelongsToMany::make('Videos'),
+            BelongsToMany::make(__('nova.videos'), 'Videos'),
         ];
     }
 

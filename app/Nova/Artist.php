@@ -24,13 +24,23 @@ class Artist extends Resource
      */
     public static $title = 'name';
 
+    public static function label()
+    {
+        return __('nova.artists');
+    }
+
+    public static function singularLabel()
+    {
+        return __('nova.artist');
+    }
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'artist_id', 'alias', 'name',
+        'name',
     ];
 
     /**
@@ -42,22 +52,24 @@ class Artist extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make('artist_id')
+            ID::make(__('nova.id'), 'artist_id')
                 ->sortable(),
 
-            Text::make('alias')
+            Text::make(__('nova.name'), 'name')
+                ->sortable()
+                ->rules('required', 'max:192')
+                ->help(__('nova.artist_name_help')),
+
+            Text::make(__('nova.alias'), 'alias')
                 ->sortable()
                 ->rules('required', 'max:192', 'alpha_dash')
                 ->creationRules('unique:artist,alias')
-                ->updateRules('unique:artist,alias,{{resourceId}},artist_id'),
+                ->updateRules('unique:artist,alias,{{resourceId}},artist_id')
+                ->help(__('nova.artist_alias_help')),
 
-            Text::make('name')
-                ->sortable()
-                ->rules('required', 'max:192'),
+            BelongsToMany::make(__('nova.songs'), 'Songs'),
 
-            BelongsToMany::make('Songs'),
-
-            //BelongsToMany::make('ExternalLink'),
+            BelongsToMany::make(__('nova.external_resources'), 'ExternalResources'),
         ];
     }
 

@@ -31,13 +31,23 @@ class Anime extends Resource
      */
     public static $title = 'name';
 
+    public static function label()
+    {
+        return __('nova.anime');
+    }
+
+    public static function singularLabel()
+    {
+        return __('nova.anime');
+    }
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'anime_id', 'alias', 'name',
+        'name',
     ];
 
     /**
@@ -49,37 +59,41 @@ class Anime extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make('anime_id')
+            ID::make(__('nova.id'), 'anime_id')
                 ->sortable(),
 
-            Text::make('alias')
+            Text::make(__('nova.name'), 'name')
+                ->sortable()
+                ->rules('required', 'max:192')
+                ->help(__('nova.anime_name_help')),
+
+            Text::make(__('nova.alias'), 'alias')
                 ->sortable()
                 ->rules('required', 'max:192', 'alpha_dash')
                 ->creationRules('unique:anime,alias')
-                ->updateRules('unique:anime,alias,{{resourceId}},anime_id'),
+                ->updateRules('unique:anime,alias,{{resourceId}},anime_id')
+                ->help(__('nova.anime_alias_help')),
 
-            Text::make('name')
-                ->sortable()
-                ->rules('required', 'max:192'),
-
-            Number::make('year')
+            Number::make(__('nova.year'), 'year')
                 ->sortable()
                 ->min(YearRange::min())
                 ->max(YearRange::max())
-                ->rules('required', 'digits:4', 'integer', new YearRange),
+                ->rules('required', 'digits:4', 'integer', new YearRange)
+                ->help(__('nova.anime_year_help')),
 
-            Enum::make('season')
+            Enum::make(__('nova.season'), 'season')
                 ->attachEnum(Season::class)
                 ->sortable()
-                ->rules('required', new EnumValue(Season::class, false)),
+                ->rules('required', new EnumValue(Season::class, false))
+                ->help(__('nova.anime_season_help')),
 
-            HasMany::make('Synonyms'),
+            HasMany::make(__('nova.synonyms'), 'Synonyms'),
 
-            HasMany::make('Themes'),
+            HasMany::make(__('nova.themes'), 'Themes'),
 
-            BelongsToMany::make('Series'),
+            BelongsToMany::make(__('nova.series'), 'Series'),
 
-            //BelongsToMany::make('ExternalLinks'),
+            BelongsToMany::make(__('nova.external_resources'), 'ExternalResources'),
         ];
     }
 

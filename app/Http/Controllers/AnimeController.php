@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Season;
 use App\Models\Anime;
-use App\Models\Resource;
+use App\Models\ExternalResource;
 use App\Rules\YearRange;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
@@ -30,7 +30,7 @@ class AnimeController extends Controller
      */
     public function create()
     {
-        $resources = Resource::all();
+        $resources = ExternalResource::all();
         return view('anime.create')->withSeasons(Season::toSelectArray())->withResources($resources);
     }
 
@@ -50,7 +50,7 @@ class AnimeController extends Controller
             'resources' => ['exists:resource,resource_id'],
         ]);
 
-        Anime::create($request->all())->resources()->sync($request->input('resources'));
+        Anime::create($request->all())->externalResources()->sync($request->input('resources'));
 
         return redirect()->route('anime.index');
     }
@@ -74,7 +74,7 @@ class AnimeController extends Controller
      */
     public function edit(Anime $anime)
     {
-        $resources = Resource::all();
+        $resources = ExternalResource::all();
         return view('anime.edit')->withAnime($anime)->withSeasons(Season::toSelectArray())->withResources($resources);
     }
 
@@ -95,7 +95,7 @@ class AnimeController extends Controller
             'resources' => ['exists:resource,resource_id'],
         ]);
 
-        $anime->resources()->sync($request->input('resources'));
+        $anime->externalResources()->sync($request->input('resources'));
         $anime->update($request->all());
 
         return redirect()->route('anime.index');

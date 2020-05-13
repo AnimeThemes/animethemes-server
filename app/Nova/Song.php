@@ -25,13 +25,23 @@ class Song extends Resource
      */
     public static $title = 'title';
 
+    public static function label()
+    {
+        return __('nova.songs');
+    }
+
+    public static function singularLabel()
+    {
+        return __('nova.song');
+    }
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'song_id', 'title', 'by'
+        'title'
     ];
 
     /**
@@ -43,20 +53,22 @@ class Song extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make('song_id')
+            ID::make(__('nova.id'), 'song_id')
                 ->sortable(),
 
-            Text::make('title')
+            Text::make(__('nova.title'), 'title')
                 ->sortable()
-                ->rules('nullable', 'max:192'),
+                ->rules('nullable', 'max:192')
+                ->help(__('nova.song_title_help')),
 
-            Text::make('by')
+            Text::make(__('nova.by'), 'by')
                 ->sortable()
-                ->rules('nullable', 'max:192'),
+                ->rules('nullable', 'max:192')
+                ->help(__('nova.song_by_help')),
 
-            BelongsToMany::make('Artists'),
+            BelongsToMany::make(__('nova.artists'), 'Artists'),
 
-            HasMany::make('Themes'),
+            HasMany::make(__('nova.themes'), 'Themes'),
         ];
     }
 

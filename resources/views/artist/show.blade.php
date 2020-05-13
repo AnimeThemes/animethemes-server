@@ -12,7 +12,7 @@
 </div>
 <div>
     <strong>Resources:</strong>
-    @foreach ($artist->resources as $resource)
+    @foreach ($artist->externalResources as $resource)
         <p><a href="{{ route('resource.show', $resource->resource_id) }}">{{ $resource->link }}</a></p>
     @endforeach
 </div>

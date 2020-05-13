@@ -39,7 +39,7 @@
         <strong>Resources:</strong>
         <select name="resources[]" multiple>
         @foreach ($resources as $resource)
-            <option value="{{ $resource->resource_id }}" {{ $anime->resources->contains($resource->resource_id) ? 'selected' : '' }}>{{ $resource->link }}</option>
+            <option value="{{ $resource->resource_id }}" {{ $anime->externalResources->contains($resource->resource_id) ? 'selected' : '' }}>{{ $resource->link }}</option>
         @endforeach
         </select>
     </div>

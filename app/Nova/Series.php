@@ -24,13 +24,23 @@ class Series extends Resource
      */
     public static $title = 'name';
 
+    public static function label()
+    {
+        return __('nova.series');
+    }
+
+    public static function singularLabel()
+    {
+        return __('nova.series');
+    }
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'series_id', 'alias', 'name',
+        'name',
     ];
 
     /**
@@ -42,20 +52,22 @@ class Series extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make('series_id')
+            ID::make(__('nova.id'), 'series_id')
                 ->sortable(),
 
-            Text::make('alias')
+            Text::make(__('nova.name'), 'name')
+                ->sortable()
+                ->rules('required', 'max:192')
+                ->help(__('nova.series_name_help')),
+
+            Text::make(__('nova.alias'), 'alias')
                 ->sortable()
                 ->rules('required', 'max:192', 'alpha_dash')
                 ->creationRules('unique:series,alias')
-                ->updateRules('unique:series,alias,{{resourceId}},series_id'),
+                ->updateRules('unique:series,alias,{{resourceId}},series_id')
+                ->help(__('nova.series_alias_help')),
 
-            Text::make('name')
-                ->sortable()
-                ->rules('required', 'max:192'),
-
-            BelongsToMany::make('Anime'),
+                BelongsToMany::make(__('nova.anime'), 'Anime'),
         ];
     }
 

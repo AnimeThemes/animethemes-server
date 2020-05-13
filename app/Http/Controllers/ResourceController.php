@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ResourceType;
-use App\Models\Resource;
+use App\Models\ExternalResource;
 use App\Rules\ResourceTypeDomain;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class ResourceController extends Controller
      */
     public function index()
     {
-        $resources = Resource::all();
+        $resources = ExternalResource::all();
         return view('resource.index')->withResources($resources);
     }
 
@@ -45,7 +45,7 @@ class ResourceController extends Controller
             'label' => ['nullable', 'max:192', 'alpha_dash'],
         ]);
 
-        Resource::create($request->all());
+        ExternalResource::create($request->all());
 
         return redirect()->route('resource.index');
     }
@@ -56,7 +56,7 @@ class ResourceController extends Controller
      * @param  \App\Models\Resource  $resource
      * @return \Illuminate\Http\Response
      */
-    public function show(Resource $resource)
+    public function show(ExternalResource $resource)
     {
         return view('resource.show')->withResource($resource);
     }
@@ -67,7 +67,7 @@ class ResourceController extends Controller
      * @param  \App\Models\Resource  $resource
      * @return \Illuminate\Http\Response
      */
-    public function edit(Resource $resource)
+    public function edit(ExternalResource $resource)
     {
         return view('resource.edit')->withResource($resource)->withResourceTypes(ResourceType::toSelectArray());
     }
@@ -79,7 +79,7 @@ class ResourceController extends Controller
      * @param  \App\Models\Resource  $resource
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Resource $resource)
+    public function update(Request $request, ExternalResource $resource)
     {
         $request->validate([
             'type' => ['required', new EnumValue(ResourceType::class, false)],
@@ -98,7 +98,7 @@ class ResourceController extends Controller
      * @param  \App\Models\Resource  $resource
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Resource $resource)
+    public function destroy(ExternalResource $resource)
     {
         $resource->delete();
 

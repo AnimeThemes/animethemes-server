@@ -22,7 +22,7 @@ class Synonym extends Resource
      *
      * @var string
      */
-    public static $title = 'synonym_id';
+    public static $title = 'text';
 
     /**
      * Indicates if the resource should be displayed in the sidebar.
@@ -31,14 +31,31 @@ class Synonym extends Resource
      */
     public static $displayInNavigation = false;
 
+    public static function label()
+    {
+        return __('nova.synonyms');
+    }
+
+    public static function singularLabel()
+    {
+        return __('nova.synonym');
+    }
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'synonym_id', 'text'
+
     ];
+
+    /**
+     * Indicates if the resource should be globally searchable.
+     *
+     * @var bool
+     */
+    public static $globallySearchable = false;
 
     /**
      * Get the fields displayed by the resource.
@@ -49,13 +66,16 @@ class Synonym extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make('Anime'),
+            BelongsTo::make(__('nova.anime'), 'Anime')
+            ->hideWhenCreating()
+            ->hideWhenUpdating(),
 
-            ID::make('synonym_id')->sortable(),
+            ID::make(__('nova.id'), 'synonym_id')->sortable(),
 
-            Text::make('text')
+            Text::make(__('nova.text'), 'text')
                 ->sortable()
-                ->rules('required', 'max:192'),
+                ->rules('required', 'max:192')
+                ->help(__('nova.synonym_text_help')),
         ];
     }
 

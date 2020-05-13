@@ -7,7 +7,7 @@ use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Resource extends Model implements Auditable
+class ExternalResource extends Model implements Auditable
 {
 
     use CastsEnums;
