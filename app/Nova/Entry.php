@@ -69,9 +69,10 @@ class Entry extends Resource
     public function fields(Request $request)
     {
         return [
+            //TODO: If possible, a readonly Anime field would be beneficial
+
             BelongsTo::make(__('nova.theme'), 'Theme')
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
+                ->readonly(),
 
             ID::make(__('nova.id'), 'entry_id')
                 ->sortable(),

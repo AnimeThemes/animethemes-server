@@ -72,8 +72,7 @@ class Theme extends Resource
     {
         return [
             BelongsTo::make(__('nova.anime'), 'Anime')
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
+               ->readonly(),
 
             ID::make(__('nova.id'), 'theme_id')
                 ->sortable(),
@@ -93,6 +92,10 @@ class Theme extends Resource
                 ->sortable()
                 ->rules('nullable', 'max:192')
                 ->help(__('nova.theme_group_help')),
+
+            BelongsTo::make(__('nova.song'), 'Song')
+                ->sortable()
+                ->showCreateRelationButton(),
 
             HasMany::make(__('nova.entries'), 'Entries'),
         ];

@@ -4,12 +4,12 @@ namespace App\Nova;
 
 use App\Enums\SourceType;
 use BenSampo\Enum\Rules\EnumValue;
-use Digitalazgroup\PlainText\PlainText;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use SimpleSquid\Nova\Fields\Enum\Enum;
@@ -29,6 +29,15 @@ class Video extends Resource
      * @var string
      */
     public static $title = 'filename';
+
+    /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static function group() {
+        return __('nova.wiki');
+    }
 
     public static function label()
     {
@@ -106,20 +115,24 @@ class Video extends Resource
                 ->rules('nullable', new EnumValue(SourceType::class, false))
                 ->help(__('nova.video_source_help')),
 
-            BelongsToMany::make(__('nova.entries'), 'Entries'),
+            BelongsToMany::make(__('nova.entries'), 'Entries')
+                ->searchable(),
         ];
     }
 
     protected function videoProperties() {
         return [
-            PlainText::make(__('nova.basename'), 'basename')
-                ->sortable(),
+            Text::make(__('nova.basename'), 'basename')
+                ->sortable()
+                ->readonly(),
 
-            PlainText::make(__('nova.filename'), 'filename')
-                ->sortable(),
+            Text::make(__('nova.filename'), 'filename')
+                ->sortable()
+                ->readonly(),
 
-            PlainText::make(__('nova.path'), 'path')
-                ->sortable(),
+            Text::make(__('nova.path'), 'path')
+                ->sortable()
+                ->readonly(),
         ];
     }
 

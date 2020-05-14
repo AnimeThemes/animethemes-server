@@ -33,13 +33,13 @@
 <div>
     <strong>Resources:</strong>
     @foreach ($anime->externalResources as $resource)
-        <p><a href="{{ route('resource.show', $resource->resource_id) }}">{{ $resource->link }}</a></p>
+        <p>{{ $resource->link }}</p>
     @endforeach
 </div>
 <div>
     <strong>Themes:</strong>
     @foreach ($anime->themes as $theme)
-    <p><a href="{{ route('anime.theme.show', [$anime->alias, $theme->slug]) }}">{{ $theme->slug }}</a></p>
+    <p>{{ $theme->theme_id }}</p>
     @endforeach
 </div>
 

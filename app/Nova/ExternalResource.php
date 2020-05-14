@@ -29,6 +29,15 @@ class ExternalResource extends Resource
     public static $title = 'link';
 
     /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static function group() {
+        return __('nova.wiki');
+    }
+
+    /**
      * The columns that should be searched.
      *
      * @var array

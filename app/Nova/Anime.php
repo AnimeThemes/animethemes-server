@@ -31,6 +31,15 @@ class Anime extends Resource
      */
     public static $title = 'name';
 
+    /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static function group() {
+        return __('nova.wiki');
+    }
+
     public static function label()
     {
         return __('nova.anime');
@@ -91,9 +100,11 @@ class Anime extends Resource
 
             HasMany::make(__('nova.themes'), 'Themes'),
 
-            BelongsToMany::make(__('nova.series'), 'Series'),
+            BelongsToMany::make(__('nova.series'), 'Series')
+                ->searchable(),
 
-            BelongsToMany::make(__('nova.external_resources'), 'ExternalResources'),
+            BelongsToMany::make(__('nova.external_resources'), 'ExternalResources')
+                ->searchable(),
         ];
     }
 

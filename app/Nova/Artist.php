@@ -24,6 +24,15 @@ class Artist extends Resource
      */
     public static $title = 'name';
 
+    /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static function group() {
+        return __('nova.wiki');
+    }
+
     public static function label()
     {
         return __('nova.artists');
@@ -67,9 +76,12 @@ class Artist extends Resource
                 ->updateRules('unique:artist,alias,{{resourceId}},artist_id')
                 ->help(__('nova.artist_alias_help')),
 
-            BelongsToMany::make(__('nova.songs'), 'Songs'),
+            BelongsToMany::make(__('nova.songs'), 'Songs')
+                ->searchable()
+                ->withSubtitles(), //TODO: doesn't work, open issue
 
-            BelongsToMany::make(__('nova.external_resources'), 'ExternalResources'),
+            BelongsToMany::make(__('nova.external_resources'), 'ExternalResources')
+                ->searchable(),
         ];
     }
 

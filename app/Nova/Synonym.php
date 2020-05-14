@@ -67,8 +67,7 @@ class Synonym extends Resource
     {
         return [
             BelongsTo::make(__('nova.anime'), 'Anime')
-            ->hideWhenCreating()
-            ->hideWhenUpdating(),
+                ->readonly(),
 
             ID::make(__('nova.id'), 'synonym_id')->sortable(),
 

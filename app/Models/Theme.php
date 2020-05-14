@@ -29,16 +29,6 @@ class Theme extends Model implements Auditable
      */
     protected $primaryKey = 'theme_id';
 
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-
     protected $enumCasts = [
         'type' => ThemeType::class,
     ];

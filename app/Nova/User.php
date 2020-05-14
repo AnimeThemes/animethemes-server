@@ -29,7 +29,19 @@ class User extends Resource
      *
      * @var string
      */
-    public static $group = 'Admin';
+    public static function group() {
+        return __('nova.admin');
+    }
+
+    public static function label()
+    {
+        return __('nova.users');
+    }
+
+    public static function singularLabel()
+    {
+        return __('nova.user');
+    }
 
     /**
      * The columns that should be searched.
@@ -37,7 +49,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'name',
     ];
 
     /**
@@ -49,21 +61,21 @@ class User extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
+            ID::make(__('nova.id'), 'id')->sortable(),
 
             Gravatar::make()->maxWidth(50),
 
-            Text::make('Name')
+            Text::make(__('nova.name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Text::make('Email')
+            Text::make(__('nova.email'), 'email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
-            Password::make('Password')
+            Password::make(__('nova.password'), 'password')
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),

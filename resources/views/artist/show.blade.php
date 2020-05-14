@@ -13,13 +13,13 @@
 <div>
     <strong>Resources:</strong>
     @foreach ($artist->externalResources as $resource)
-        <p><a href="{{ route('resource.show', $resource->resource_id) }}">{{ $resource->link }}</a></p>
+        <p>{{ $resource->link }}</p>
     @endforeach
 </div>
 <div>
     <strong>Songs:</strong>
     @foreach ($artist->songs as $song)
-        <p><a href="{{ route('song.show', $song->song_id) }}">{{ $song->title }}</a></p>
+        <p>{{ $song->title }}</p>
     @endforeach
 </div>
 

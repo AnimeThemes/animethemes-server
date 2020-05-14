@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Illuminate\Support\Facades\Log;
 
 class Song extends Resource
 {
@@ -24,6 +25,34 @@ class Song extends Resource
      * @var string
      */
     public static $title = 'title';
+
+    /**
+     * Get the search result subtitle for the resource.
+     *
+     * @return string
+     */
+    public function subtitle() {
+        if (!empty($this->by)) {
+            return __('nova.song_by_subtitle', ['by' => $this->by]);
+        }
+        return __('nova.song_by_subtitle', ['by' => $this->artists->implode('name', ', ')]);
+    }
+
+    /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['artists'];
+
+    /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static function group() {
+        return __('nova.wiki');
+    }
 
     public static function label()
     {
@@ -66,7 +95,8 @@ class Song extends Resource
                 ->rules('nullable', 'max:192')
                 ->help(__('nova.song_by_help')),
 
-            BelongsToMany::make(__('nova.artists'), 'Artists'),
+            BelongsToMany::make(__('nova.artists'), 'Artists')
+                ->searchable(),
 
             HasMany::make(__('nova.themes'), 'Themes'),
         ];

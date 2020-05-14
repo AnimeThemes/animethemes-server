@@ -24,6 +24,15 @@ class Series extends Resource
      */
     public static $title = 'name';
 
+    /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static function group() {
+        return __('nova.wiki');
+    }
+
     public static function label()
     {
         return __('nova.series');
@@ -67,7 +76,8 @@ class Series extends Resource
                 ->updateRules('unique:series,alias,{{resourceId}},series_id')
                 ->help(__('nova.series_alias_help')),
 
-                BelongsToMany::make(__('nova.anime'), 'Anime'),
+            BelongsToMany::make(__('nova.anime'), 'Anime')
+                ->searchable(),
         ];
     }
 

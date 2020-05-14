@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'admin' => 'Admin',
     'alias' => 'Alias',
     'anime' => 'Anime',
     'anime_alias_help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "monogatari", "code_geass", "danmachi".',
@@ -13,6 +14,7 @@ return [
     'artists' => 'Artists',
     'basename' => 'Basename',
     'by' => 'By',
+    'email' => 'Email',
     'episodes' => 'Episodes',
     'entries' => 'Entries',
     'entry' => 'Entry',
@@ -35,6 +37,7 @@ return [
     'notes' => 'Notes',
     'nsfw' => 'NSFW',
     'over' => 'Over',
+    'password' => 'Password',
     'path' => 'Path',
     'resolution' => 'Resolution',
     'resource_label_help' => 'Used to distinguish resources that map to the same artist or anime. For example, Aware! Meisaku-kun has one MAL page and many aniDB pages.',
@@ -47,6 +50,7 @@ return [
     'series_name_help' => 'The display title of the Series. Ex: "Monogatari", "Code Geass", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',
     'sfx' => 'SFX',
     'song' => 'Song',
+    'song_by_subtitle' => 'By: :by',
     'song_by_help' => 'A listing of performers. Useful to distinguish sequences with a different set of performers on the same track. For character performances, please use character names. Otherwise, use the artists\' names. By default, leave this blank.',
     'song_title_help' => 'The title of the song',
     'songs' => 'Songs',
@@ -66,6 +70,8 @@ return [
     'trans' => 'Transition',
     'type' => 'Type',
     'uncen' => 'Uncensored',
+    'user' => 'User',
+    'users' => 'Users',
     'version' => 'Version',
     'video' => 'Video',
     'video_lyrics_help' => 'Set if this video has subtitles for song lyrics.',
@@ -78,5 +84,6 @@ return [
     'video_trans_help' => 'Set if this video contains part of the episode which transitions into or out of the sequence.',
     'video_uncen_help' => 'Set if this video is an uncensored version of a censored sequence.',
     'videos' => 'Videos',
+    'wiki' => 'Wiki',
     'year' => 'Year',
 ];

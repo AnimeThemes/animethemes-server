@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Grills\GrillFactory;
 use App\Models\Announcement;
 use App\Models\Video;
-use Illuminate\Http\Request;
 
 class WelcomeController extends Controller
 {
