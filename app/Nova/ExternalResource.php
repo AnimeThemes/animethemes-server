@@ -86,9 +86,11 @@ class ExternalResource extends Resource
                 ->rules('nullable', 'max:192')
                 ->help(__('nova.resource_label_help')),
 
-            BelongsToMany::make(__('nova.artists'), 'Artists'),
+            BelongsToMany::make(__('nova.artists'), 'Artists')
+                ->searchable(),
 
-            BelongsToMany::make(__('nova.anime'), 'Anime'),
+            BelongsToMany::make(__('nova.anime'), 'Anime')
+                ->searchable(),
         ];
     }
 

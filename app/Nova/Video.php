@@ -77,7 +77,7 @@ class Video extends Resource
                 ->min(360)
                 ->max(1080)
                 ->rules('nullable', 'integer')
-                ->help(__('nova.video_resolution_help')), //TODO: custom rule with range
+                ->help(__('nova.video_resolution_help')),
 
             Boolean::make(__('nova.nc'), 'nc')
                 ->sortable()

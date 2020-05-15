@@ -4,6 +4,7 @@ use App\Enums\ResourceType;
 use App\Enums\Season;
 use App\Enums\SourceType;
 use App\Enums\ThemeType;
+use App\Enums\UserType;
 
 return [
     ResourceType::class => [
@@ -33,5 +34,10 @@ return [
     ThemeType::class => [
         ThemeType::OP => 'OP',
         ThemeType::ED => 'ED',
+    ],
+    UserType::class => [
+        UserType::READ_ONLY => 'Read Only',
+        UserType::CONTRIBUTOR => 'Contributor',
+        UserType::ADMIN => 'Admin',
     ],
 ];

@@ -49,7 +49,7 @@ class Artist extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'name'
     ];
 
     /**

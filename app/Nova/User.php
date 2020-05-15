@@ -2,11 +2,14 @@
 
 namespace App\Nova;
 
+use App\Enums\UserType;
+use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
+use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class User extends Resource
 {
@@ -49,7 +52,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'name'
     ];
 
     /**
@@ -74,6 +77,11 @@ class User extends Resource
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
+
+            Enum::make(__('nova.type'), 'type')
+                ->attachEnum(UserType::class)
+                ->sortable()
+                ->rules('required', new EnumValue(UserType::class, false)),
 
             Password::make(__('nova.password'), 'password')
                 ->onlyOnForms()

@@ -47,6 +47,6 @@ class ResourceTypeDomain implements Rule
      */
     public function message()
     {
-        return 'The link does not match the type';
+        return __('validation.resource_link_site_mismatch');
     }
 }

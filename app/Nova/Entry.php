@@ -107,7 +107,8 @@ class Entry extends Resource
                 ->rules('nullable', 'max:192')
                 ->help(__('nova.entry_notes_help')),
 
-            BelongsToMany::make(__('nova.videos'), 'Videos'),
+            BelongsToMany::make(__('nova.videos'), 'Videos')
+                ->searchable(),
         ];
     }
 

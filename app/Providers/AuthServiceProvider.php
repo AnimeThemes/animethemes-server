@@ -13,7 +13,16 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\Anime' => 'App\Policies\AnimePolicy',
+        'App\Models\Artist' => 'App\Policies\ArtistPolicy',
+        'App\Models\Entry' => 'App\Policies\EntryPolicy',
+        'App\Models\ExternalResource' => 'App\Policies\ExternalResourcePolicy',
+        'App\Models\Series' => 'App\Policies\SeriesPolicy',
+        'App\Models\Song' => 'App\Policies\SongPolicy',
+        'App\Models\Synonym' => 'App\Policies\SynonymPolicy',
+        'App\Models\Theme' => 'App\Policies\ThemePolicy',
+        'App\Models\User' => 'App\Policies\UserPolicy',
+        'App\Models\Video' => 'App\Policies\VideoPolicy',
     ];
 
     /**
@@ -25,6 +34,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::before(function ($user, $ability) {
+            if ($user->isAdmin()) {
+                return true;
+            }
+        });
     }
 }

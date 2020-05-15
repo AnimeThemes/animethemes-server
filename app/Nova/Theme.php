@@ -71,11 +71,11 @@ class Theme extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make(__('nova.anime'), 'Anime')
-               ->readonly(),
-
             ID::make(__('nova.id'), 'theme_id')
                 ->sortable(),
+
+            BelongsTo::make(__('nova.anime'), 'Anime')
+               ->readonly(),
 
             Enum::make(__('nova.type'), 'type')
                 ->attachEnum(ThemeType::class)

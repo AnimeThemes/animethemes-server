@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use App\Enums\Season;
-use App\Rules\YearRange;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -56,7 +55,7 @@ class Anime extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'name'
     ];
 
     /**
@@ -85,9 +84,9 @@ class Anime extends Resource
 
             Number::make(__('nova.year'), 'year')
                 ->sortable()
-                ->min(YearRange::min())
-                ->max(YearRange::max())
-                ->rules('required', 'digits:4', 'integer', new YearRange)
+                ->min(1960)
+                ->max(date('Y') + 1)
+                ->rules('required', 'digits:4', 'integer')
                 ->help(__('nova.anime_year_help')),
 
             Enum::make(__('nova.season'), 'season')

@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Enums\UserType;
+use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    use CastsEnums;
     use Notifiable;
 
     /**
@@ -28,6 +31,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $enumCasts = [
+        'type' => UserType::class,
+    ];
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -35,5 +42,18 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'type' => 'int',
     ];
+
+    public function isAdmin() {
+        return $this->type->is(UserType::ADMIN);
+    }
+
+    public function isContributor() {
+        return $this->type->is(UserType::CONTRIBUTOR);
+    }
+
+    public function isReadOnly() {
+        return $this->type->is(UserType::READ_ONLY);
+    }
 }
