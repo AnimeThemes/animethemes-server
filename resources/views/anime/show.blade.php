@@ -21,7 +21,7 @@
 <div>
     <strong>Synonyms:</strong>
     @foreach ($anime->synonyms as $synonym)
-        <p><a href="{{ route('anime.synonym.show', [$anime->alias, $synonym->synonym_id]) }}">{{ $synonym->text }}</a></p>
+        <p>{{ $synonym->text }}</p>
     @endforeach
 </div>
 <div>
@@ -39,7 +39,7 @@
 <div>
     <strong>Themes:</strong>
     @foreach ($anime->themes as $theme)
-    <p>{{ $theme->theme_id }}</p>
+    <p>{{ $theme->slug }}</p>
     @endforeach
 </div>
 
