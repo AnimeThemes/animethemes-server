@@ -45,7 +45,7 @@ class Theme extends Resource
      * @var array
      */
     public static $search = [
-
+        'slug'
     ];
 
     /**
@@ -120,7 +120,9 @@ class Theme extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new Filters\ThemeTypeFilter
+        ];
     }
 
     /**

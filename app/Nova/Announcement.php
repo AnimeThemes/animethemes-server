@@ -2,30 +2,27 @@
 
 namespace App\Nova;
 
-use App\Enums\UserType;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
-use SimpleSquid\Nova\Fields\Enum\Enum;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Announcement extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\User::class;
+    public static $model = \App\Models\Announcement::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'alias';
 
     /**
      * The logical group associated with the resource.
@@ -38,12 +35,12 @@ class User extends Resource
 
     public static function label()
     {
-        return __('nova.users');
+        return __('nova.announcements');
     }
 
     public static function singularLabel()
     {
-        return __('nova.user');
+        return __('nova.announcement');
     }
 
     /**
@@ -52,7 +49,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'name'
+        'alias',
     ];
 
     /**
@@ -66,27 +63,16 @@ class User extends Resource
         return [
             ID::make(__('nova.id'), 'id')->sortable(),
 
-            Gravatar::make()->maxWidth(50),
-
-            Text::make(__('nova.name'), 'name')
+            Text::make(__('nova.alias'), 'alias')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:192', 'alpha_dash')
+                ->creationRules('unique:announcements,alias')
+                ->updateRules('unique:announcements,alias,{{resourceId}},id')
+                ->help(__('nova.announcement_alias_help')),
 
-            Text::make(__('nova.email'), 'email')
+            Code::make(__('nova.content'), 'content')
                 ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Enum::make(__('nova.type'), 'type')
-                ->attachEnum(UserType::class)
-                ->sortable()
-                ->rules('required', new EnumValue(UserType::class, false)),
-
-            Password::make(__('nova.password'), 'password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
+                ->rules('required', 'max:65535'),
         ];
     }
 
@@ -109,9 +95,7 @@ class User extends Resource
      */
     public function filters(Request $request)
     {
-        return [
-            new Filters\UserTypeFilter
-        ];
+        return [];
     }
 
     /**

@@ -50,7 +50,7 @@ class Entry extends Resource
      * @var array
      */
     public static $search = [
-
+        'entry_id'
     ];
 
     /**
@@ -131,7 +131,11 @@ class Entry extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new Filters\EntryNsfwFilter,
+            new Filters\EntrySpoilerFilter,
+            new Filters\EntrySfxFilter
+        ];
     }
 
     /**

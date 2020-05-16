@@ -47,7 +47,7 @@ class Synonym extends Resource
      * @var array
      */
     public static $search = [
-
+        'text'
     ];
 
     /**

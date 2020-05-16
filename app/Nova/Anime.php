@@ -126,7 +126,10 @@ class Anime extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new Filters\AnimeSeasonFilter,
+            new Filters\AnimeYearFilter
+        ];
     }
 
     /**

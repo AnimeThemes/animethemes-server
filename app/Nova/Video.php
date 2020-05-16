@@ -155,7 +155,15 @@ class Video extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new Filters\VideoNcFilter,
+            new Filters\VideoSubbedFilter,
+            new Filters\VideoLyricsFilter,
+            new Filters\VideoUncenFilter,
+            new Filters\VideoTransFilter,
+            new Filters\VideoOverFilter,
+            new Filters\VideoSourceTypeFilter
+        ];
     }
 
     /**
