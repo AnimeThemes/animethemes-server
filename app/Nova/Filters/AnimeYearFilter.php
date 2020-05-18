@@ -35,12 +35,7 @@ class AnimeYearFilter extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        if (is_array($value)) {
-            return $query->whereIn('year', $value);
-        } else {
-            return $query->whereIn('year', [$value]);
-
-        }
+        return $query->where('year', $value);
     }
 
     /**

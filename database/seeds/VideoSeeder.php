@@ -4,7 +4,7 @@ use App\Models\Video;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
-class VideosTableSeeder extends Seeder 
+class VideoSeeder extends Seeder 
 {
 
     public function run() {

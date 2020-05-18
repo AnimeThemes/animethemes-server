@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\ExternalResource;
 use App\Models\Anime;
+use App\Models\ExternalResource;
 use App\Models\Series;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -97,7 +97,7 @@ class AnimePolicy
     /**
      * Determine whether the user can attach any series to the anime.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Anime  $anime
      * @return mixed
      */
@@ -109,7 +109,7 @@ class AnimePolicy
     /**
      * Determine whether the user can attach a series to the anime.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Anime  $anime
      * @param  \App\Models\Series  $series
      * @return mixed
@@ -120,9 +120,9 @@ class AnimePolicy
     }
 
     /**
-     * Determine whether the user can detach a series to the anime.
+     * Determine whether the user can detach a series from the anime.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Anime  $anime
      * @param  \App\Models\Series  $series
      * @return mixed
@@ -135,7 +135,7 @@ class AnimePolicy
     /**
      * Determine whether the user can attach any resource to the anime.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Anime  $anime
      * @return mixed
      */
@@ -147,7 +147,7 @@ class AnimePolicy
     /**
      * Determine whether the user can attach a resource to the anime.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Anime  $anime
      * @param  \App\Models\ExternalResource  $externalResource
      * @return mixed
@@ -158,9 +158,9 @@ class AnimePolicy
     }
 
     /**
-     * Determine whether the user can detach a resource to the anime.
+     * Determine whether the user can detach a resource from the anime.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Anime  $anime
      * @param  \App\Models\ExternalResource  $externalResource
      * @return mixed

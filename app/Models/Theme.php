@@ -40,7 +40,8 @@ class Theme extends Model implements Auditable
     public static function boot() {
         parent::boot();
 
-        // registering a callback to be executed upon the creation of an activity AR
+        // By default, the Theme Slug is the Type "{OP|ED}"
+        // If a sequence number is specified, the Theme Slug is "{OP|ED}{Sequence}"
         static::creating(function($activity) {
             $slug = $activity->type->key;
             if (!empty($activity->sequence)) {

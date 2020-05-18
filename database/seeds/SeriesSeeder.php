@@ -24,37 +24,38 @@ class SeriesSeeder extends Seeder
         $series_wiki_content_md = $series_wiki_json->data->content_md;
 
         // Match Series Entries
-        // Format: "[{Series Name}](/r/AnimeThemes/wiki/series/{Series Alias}/)"
-        preg_match_all('/\[.*\]\(.*series.*\)/m', $series_wiki_content_md, $series_wiki_entries, PREG_PATTERN_ORDER);
+        // Format: "[{Series Name}](/r/AnimeThemes/wiki/series/{Series Alias}/)
+        preg_match_all('/\[(.*)\]\((\/r\/AnimeThemes\/wiki\/series\/(.*))\)/m', $series_wiki_content_md, $series_wiki_entries, PREG_SET_ORDER);
 
-        foreach ($series_wiki_entries[0] as $series_wiki_entry) {
-
-            // Get Series Name, Series Alias, and Series Link from Entry
-            preg_match('/\[(.*)\]/', $series_wiki_entry, $series_wiki_entry_name);
-            preg_match('/\[.*]\(\/r\/AnimeThemes\/wiki\/series\/(.*)\)/', $series_wiki_entry, $series_wiki_entry_alias);
-            preg_match('/\[.*]\((\/r\/AnimeThemes\/wiki\/series\/.*)\)/', $series_wiki_entry, $series_wiki_entry_link);
+        foreach ($series_wiki_entries as $series_wiki_entry) {
+            $series_name = html_entity_decode($series_wiki_entry[1]);
+            $series_link = 'https://old.reddit.com' . $series_wiki_entry[2] . '.json';
+            $series_alias = $series_wiki_entry[3];
 
             // Create Model from subreddit Alias & Name
             $series = Series::create([
-                'name' => $series_wiki_entry_name[1],
-                'alias' => $series_wiki_entry_alias[1]
+                'name' => $series_name,
+                'alias' => $series_alias
             ]);
 
             // Try not to upset Reddit
             sleep(rand(5, 15));
 
-            // Get JSON of Series Entry page content
-            $series_anime_wiki_contents = file_get_contents('https://old.reddit.com' . $series_wiki_entry_link[1] . '.json');
+            // Retrieve JSON of Series Entry page content
+            $series_anime_wiki_contents = file_get_contents($series_link);
             $series_anime_wiki_json = json_decode($series_anime_wiki_contents);
             $series_anime_wiki_content_md = $series_anime_wiki_json->data->content_md;
 
-            // Match headers of Anime that belong to the Series
-            // Format: "###[{Anime Name}]({Resource Link})
-            preg_match_all('/###\[(.*)\]\(.*\)/m', $series_anime_wiki_content_md, $series_anime_wiki_entries, PREG_PATTERN_ORDER);
+            // Match headers of Anime in Series Entry page
+            preg_match_all('/###\[(.*)\]\(https\:\/\/.*\)/m', $series_anime_wiki_content_md, $series_anime_wiki_entries, PREG_PATTERN_ORDER);
+            $series_anime_names = array_map(function ($series_anime_wiki_entry) {
+                return html_entity_decode($series_anime_wiki_entry);
+            }, $series_anime_wiki_entries[1]);
 
             // Attach Anime to Series by Name
-            $series_anime = Anime::whereIn('name', $series_anime_wiki_entries[1])->get();
-            $series->anime()->sync($series_anime);
+            // Note: We are not concerned about Name collision here. It's more likely that collisions are within a series.
+            $anime_series = Anime::whereIn('name', $series_anime_names)->get();
+            $series->anime()->sync($anime_series);
         }
     }
 }

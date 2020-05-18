@@ -97,7 +97,7 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can attach any artist to the resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\ExternalResource  $externalResource
      * @return mixed
      */
@@ -107,9 +107,9 @@ class ExternalResourcePolicy
     }
 
     /**
-     * Determine whether the user can attach a artist to the resource.
+     * Determine whether the user can attach an artist to the resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\ExternalResource  $externalResource
      * @param  \App\Models\Artist  $artist
      * @return mixed
@@ -120,9 +120,9 @@ class ExternalResourcePolicy
     }
 
     /**
-     * Determine whether the user can detach a artist to the resource.
+     * Determine whether the user can detach an artist from the resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\ExternalResource  $externalResource
      * @param  \App\Models\Artist  $artist
      * @return mixed
@@ -135,7 +135,7 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can attach any anime to the resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\ExternalResource  $externalResource
      * @return mixed
      */
@@ -145,9 +145,9 @@ class ExternalResourcePolicy
     }
 
     /**
-     * Determine whether the user can attach a anime to the resource.
+     * Determine whether the user can attach an anime to the resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\ExternalResource  $externalResource
      * @param  \App\Models\Anime  $anime
      * @return mixed
@@ -158,9 +158,9 @@ class ExternalResourcePolicy
     }
 
     /**
-     * Determine whether the user can detach a anime to the resource.
+     * Determine whether the user can detach an anime from the resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\ExternalResource  $externalResource
      * @param  \App\Models\Anime  $anime
      * @return mixed

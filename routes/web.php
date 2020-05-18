@@ -17,6 +17,8 @@ Route::get('/', 'WelcomeController@do')->name('welcome');
 Route::get('/sitemap', 'SitemapController@index');
 Route::get('/sitemap/videos', 'SitemapController@videos')->name('video_sitemap');
 
+// We only want to enable middleware necessary for model-route binding
+// We don't need the default web middleware stack for public-facing pages
 Route::group(['middleware' => ['wiki']], function() {
     Route::resource('anime', 'AnimeController')->only(['index', 'show']);
     Route::resource('artist', 'ArtistController')->only(['index', 'show']);

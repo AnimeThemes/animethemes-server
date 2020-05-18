@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\ExternalResource;
 use App\Models\Artist;
+use App\Models\ExternalResource;
 use App\Models\Song;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -97,7 +97,7 @@ class ArtistPolicy
     /**
      * Determine whether the user can attach any resource to the artist.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Artist  $artist
      * @return mixed
      */
@@ -109,7 +109,7 @@ class ArtistPolicy
     /**
      * Determine whether the user can attach a resource to the artist.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Artist  $artist
      * @param  \App\Models\ExternalResource  $externalResource
      * @return mixed
@@ -120,9 +120,9 @@ class ArtistPolicy
     }
 
     /**
-     * Determine whether the user can detach a resource to the artist.
+     * Determine whether the user can detach a resource from the artist.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Artist  $artist
      * @param  \App\Models\ExternalResource  $externalResource
      * @return mixed
@@ -135,7 +135,7 @@ class ArtistPolicy
     /**
      * Determine whether the user can attach any song to the artist.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Artist  $artist
      * @return mixed
      */
@@ -147,7 +147,7 @@ class ArtistPolicy
     /**
      * Determine whether the user can attach a song to the artist.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Artist  $artist
      * @param  \App\Models\Song  $song
      * @return mixed
@@ -158,9 +158,9 @@ class ArtistPolicy
     }
 
     /**
-     * Determine whether the user can detach a song to the artist.
+     * Determine whether the user can detach a song from the artist.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Artist  $artist
      * @param  \App\Models\Song  $song
      * @return mixed

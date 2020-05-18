@@ -39,6 +39,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
+        // Intended for public-facing pages modeled after the subreddit wiki
         'wiki' => [
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],

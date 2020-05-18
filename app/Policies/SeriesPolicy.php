@@ -96,7 +96,7 @@ class SeriesPolicy
     /**
      * Determine whether the user can attach any anime to the series.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Series  $series
      * @return mixed
      */
@@ -108,7 +108,7 @@ class SeriesPolicy
     /**
      * Determine whether the user can attach an anime to the series.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Series  $series
      * @param  \App\Models\Anime  $anime
      * @return mixed
@@ -119,9 +119,9 @@ class SeriesPolicy
     }
 
     /**
-     * Determine whether the user can detach an anime to the series.
+     * Determine whether the user can detach an anime from the series.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Series  $series
      * @param  \App\Models\Anime  $anime
      * @return mixed

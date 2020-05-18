@@ -96,7 +96,7 @@ class VideoPolicy
     /**
      * Determine whether the user can attach any entry to a video.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Video  $video
      * @return mixed
      */
@@ -108,7 +108,7 @@ class VideoPolicy
     /**
      * Determine whether the user can attach an entry to a video.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Video  $video
      * @param  \App\Models\Entry  $entry
      * @return mixed
@@ -119,10 +119,11 @@ class VideoPolicy
     }
 
     /**
-     * Determine whether the user can detach an entry to a video.
+     * Determine whether the user can detach an entry from a video.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Video  $video
+     * @param  \App\Models\Entry  $entry
      * @return mixed
      */
     public function detachEntry(User $user, Video $video, Entry $entry)

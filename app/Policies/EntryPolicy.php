@@ -96,7 +96,7 @@ class EntryPolicy
     /**
      * Determine whether the user can attach any video to the entry.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Entry  $entry
      * @return mixed
      */
@@ -105,10 +105,10 @@ class EntryPolicy
         return $user->isContributor() || $user->isAdmin();
     }
 
-        /**
+    /**
      * Determine whether the user can attach a video to the entry.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Entry  $entry
      * @param  \App\Models\Video  $video
      * @return mixed
@@ -119,9 +119,9 @@ class EntryPolicy
     }
 
     /**
-     * Determine whether the user can detach a video to the entry.
+     * Determine whether the user can detach a video from the entry.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Entry  $entry
      * @param  \App\Models\Video  $video
      * @return mixed

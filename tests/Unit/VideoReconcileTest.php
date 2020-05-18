@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
+use Mockery;
 use App\Console\Commands\VideoReconcileCommand;
 use App\Models\Video;
 use Illuminate\Support\Str;
-use Mockery;
 use PHPUnit\Framework\TestCase;
 
 class VideoReconcileTest extends TestCase

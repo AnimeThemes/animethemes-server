@@ -45,4 +45,17 @@ final class ResourceType extends Enum implements LocalizedEnum
 
         return NULL;
     }
+
+    public static function valueOf($link) {
+        $parsed_url = parse_url($link);
+        $parsed_host = $parsed_url['host'];
+
+        foreach (ResourceType::getValues() as $value) {
+            if ($parsed_host === ResourceType::getDomain($value)) {
+                return $value;
+            }
+        }
+
+        return NULL;
+    }
 }
