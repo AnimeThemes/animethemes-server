@@ -41,7 +41,7 @@ class SeriesSeeder extends Seeder
             // Try not to upset Reddit
             sleep(rand(5, 15));
 
-            // Retrieve JSON of Series Entry page content
+            // Get JSON of Series Entry page content
             $series_anime_wiki_contents = file_get_contents($series_link);
             $series_anime_wiki_json = json_decode($series_anime_wiki_contents);
             $series_anime_wiki_content_md = $series_anime_wiki_json->data->content_md;

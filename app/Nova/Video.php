@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Enums\OverlapType;
 use App\Enums\SourceType;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
@@ -99,15 +100,11 @@ class Video extends Resource
                 ->rules('nullable', 'boolean')
                 ->help(__('nova.video_uncen_help')),
 
-            Boolean::make(__('nova.trans'), 'trans')
+            Enum::make(__('nova.overlap'), 'overlap')
+                ->attachEnum(OverlapType::class)
                 ->sortable()
-                ->rules('nullable', 'boolean')
-                ->help(__('nova.video_trans_help')),
-
-            Boolean::make(__('nova.over'), 'over')
-                ->sortable()
-                ->rules('nullable', 'boolean')
-                ->help(__('nova.video_over_help')),
+                ->rules('nullable', new EnumValue(OverlapType::class, false))
+                ->help(__('nova.video_overlap_help')),
 
             Enum::make(__('nova.source'), 'source')
                 ->attachEnum(SourceType::class)
@@ -123,6 +120,7 @@ class Video extends Resource
     protected function videoProperties() {
         return [
             Text::make(__('nova.basename'), 'basename')
+                ->hideFromIndex()
                 ->sortable()
                 ->readonly(),
 
@@ -131,6 +129,7 @@ class Video extends Resource
                 ->readonly(),
 
             Text::make(__('nova.path'), 'path')
+                ->hideFromIndex()
                 ->sortable()
                 ->readonly(),
         ];
@@ -160,8 +159,7 @@ class Video extends Resource
             new Filters\VideoSubbedFilter,
             new Filters\VideoLyricsFilter,
             new Filters\VideoUncenFilter,
-            new Filters\VideoTransFilter,
-            new Filters\VideoOverFilter,
+            new Filters\VideoOverlapFilter,
             new Filters\VideoSourceTypeFilter
         ];
     }

@@ -10,7 +10,7 @@ class Entry extends Model implements Auditable
 
     use \OwenIt\Auditing\Auditable;
 
-    protected $fillable = ['version', 'episodes', 'nsfw', 'spoiler', 'sfx', 'notes'];
+    protected $fillable = ['version', 'episodes', 'nsfw', 'spoiler', 'notes'];
 
     /**
      * The table associated with the model.

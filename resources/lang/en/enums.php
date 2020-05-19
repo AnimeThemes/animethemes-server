@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\OverlapType;
 use App\Enums\ResourceType;
 use App\Enums\Season;
 use App\Enums\SourceType;
@@ -7,6 +8,11 @@ use App\Enums\ThemeType;
 use App\Enums\UserType;
 
 return [
+    OverlapType::class => [
+        OverlapType::NONE => 'None',
+        OverlapType::TRANS => 'Transition',
+        OverlapType::OVER => 'Over',
+    ],
     ResourceType::class => [
         ResourceType::OFFICIAL_SITE => 'Official Website',
         ResourceType::TWITTER => 'Twitter',

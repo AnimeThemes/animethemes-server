@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OverlapType;
 use App\Enums\SourceType;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
@@ -40,10 +41,12 @@ class Video extends Model implements Auditable
     }
 
     protected $enumCasts = [
+        'overlap' => OverlapType::class,
         'source' => SourceType::class,
     ];
 
     protected $casts = [
+        'overlap' => 'int',
         'source' => 'int',
     ];
 

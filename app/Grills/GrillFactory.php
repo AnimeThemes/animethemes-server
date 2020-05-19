@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Storage;
 class GrillFactory {
 
     public static function getGrill() {
-        // Retrieve grills through Storage Facade [see config/filesystems.php]
+        // Get grills through Storage Facade [see config/filesystems.php]
         $grill_disk = Storage::disk('grill');
         $grills = $grill_disk->files();
 
-        // Retrieve a random grill with Faker
+        // Get a random grill with Faker
         $faker = Factory::create();
         $grill = $faker->randomElement($grills);
         $grill_path = $grill_disk->url($grill);

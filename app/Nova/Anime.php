@@ -140,7 +140,9 @@ class Anime extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new Lenses\AnimeMalResourceLens
+        ];
     }
 
     /**

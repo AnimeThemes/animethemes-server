@@ -2,10 +2,11 @@
 
 namespace App\Nova\Filters;
 
+use App\Enums\OverlapType;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
-class VideoOverFilter extends Filter
+class VideoOverlapFilter extends Filter
 {
     /**
      * The filter's component.
@@ -13,16 +14,6 @@ class VideoOverFilter extends Filter
      * @var string
      */
     public $component = 'select-filter';
-
-    /**
-     * Get the displayable name of the filter.
-     *
-     * @return string
-     */
-    public function name()
-    {
-        return __('nova.over');
-    }
 
     /**
      * Apply the filter to the given query.
@@ -34,7 +25,7 @@ class VideoOverFilter extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->where('over', $value);
+        return $query->where('overlap', $value);
     }
 
     /**
@@ -45,9 +36,6 @@ class VideoOverFilter extends Filter
      */
     public function options(Request $request)
     {
-        return [
-            __('nova.no') => 0,
-            __('nova.yes') => 1
-        ];
+        return array_flip(OverlapType::toSelectArray());
     }
 }

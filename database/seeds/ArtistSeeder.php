@@ -43,7 +43,7 @@ class ArtistSeeder extends Seeder
             // Try not to upset Reddit
             sleep(rand(5, 15));
 
-            // Retrieve JSON of Artist Entry page content
+            // Get JSON of Artist Entry page content
             $artist_resource_wiki_contents = file_get_contents($artist_link);
             $artist_resource_wiki_json = json_decode($artist_resource_wiki_contents);
             $artist_resource_wiki_content_md = $artist_resource_wiki_json->data->content_md;

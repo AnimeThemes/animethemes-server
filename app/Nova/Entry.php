@@ -97,11 +97,6 @@ class Entry extends Resource
                 ->rules('nullable', 'boolean')
                 ->help(__('nova.entry_spoiler_help')),
 
-            Boolean::make(__('nova.sfx'), 'sfx')
-                ->sortable()
-                ->rules('nullable', 'boolean')
-                ->help(__('nova.entry_sfx_help')),
-
             Text::make(__('nova.notes'), 'notes')
                 ->sortable()
                 ->rules('nullable', 'max:192')
@@ -133,8 +128,7 @@ class Entry extends Resource
     {
         return [
             new Filters\EntryNsfwFilter,
-            new Filters\EntrySpoilerFilter,
-            new Filters\EntrySfxFilter
+            new Filters\EntrySpoilerFilter
         ];
     }
 
