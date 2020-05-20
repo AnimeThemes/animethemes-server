@@ -3,10 +3,7 @@
 namespace App\Nova\Lenses;
 
 use App\Enums\Season;
-use App\Enums\ResourceType;
 use App\Models\Anime;
-use App\Nova\Actions\CreateExternalResourceTypeForAnimeAction;
-use App\Nova\Filters\AnimeSeasonFilter;
 use App\Nova\Filters\AnimeYearFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
@@ -16,7 +13,7 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 use SimpleSquid\Nova\Fields\Enum\Enum;
 
-class AnimeMalResourceLens extends Lens
+class AnimeSeasonYearLens extends Lens
 {
 
     /**
@@ -26,7 +23,7 @@ class AnimeMalResourceLens extends Lens
      */
     public function name()
     {
-        return __('nova.anime_resource_lens', ["type" => ResourceType::getDescription(ResourceType::MAL)]);
+        return __('nova.anime_season_year_lens');
     }
 
     /**
@@ -38,9 +35,7 @@ class AnimeMalResourceLens extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return Anime::whereDoesntHave('externalResources', function ($resource_query) {
-                $resource_query->where('type', ResourceType::MAL);
-            });
+        return Anime::whereIn('year', [1960, 1970, 1980, 1990])->whereNull('season');
     }
 
     /**
@@ -90,8 +85,7 @@ class AnimeMalResourceLens extends Lens
     public function filters(Request $request)
     {
         return [
-            new AnimeSeasonFilter,
-            new AnimeYearFilter
+            new AnimeYearFilter            
         ];
     }
 
@@ -103,11 +97,7 @@ class AnimeMalResourceLens extends Lens
      */
     public function actions(Request $request)
     {
-        return [
-            (new CreateExternalResourceTypeForAnimeAction(ResourceType::MAL))->canSee(function ($request) {
-                return $request->user()->isContributor() || $request->user()->isAdmin();
-            }),
-        ];
+        return parent::actions($request);
     }
 
     /**
@@ -117,6 +107,6 @@ class AnimeMalResourceLens extends Lens
      */
     public function uriKey()
     {
-        return 'anime-mal-resource';
+        return 'anime-season-year-lens';
     }
 }

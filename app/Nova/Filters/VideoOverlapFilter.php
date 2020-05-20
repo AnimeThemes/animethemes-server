@@ -16,6 +16,16 @@ class VideoOverlapFilter extends Filter
     public $component = 'select-filter';
 
     /**
+     * Get the displayable name of the filter.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return __('nova.overlap');
+    }
+
+    /**
      * Apply the filter to the given query.
      *
      * @param  \Illuminate\Http\Request  $request

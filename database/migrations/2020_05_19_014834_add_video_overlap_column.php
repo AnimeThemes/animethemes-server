@@ -17,7 +17,7 @@ class AddVideoOverlapColumn extends Migration
         Schema::table('video', function (Blueprint $table) {
             $table->dropColumn('trans');
             $table->dropColumn('over');
-            $table->integer('overlap')->nullable(OverlapType::NONE);
+            $table->integer('overlap')->default(OverlapType::NONE);
         });
     }
 

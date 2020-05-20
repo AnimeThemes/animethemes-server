@@ -115,7 +115,12 @@ class Artist extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new Lenses\ArtistAniDbResourceLens,
+            new Lenses\ArtistAnilistResourceLens,
+            new Lenses\ArtistAnnResourceLens,
+            new Lenses\ArtistMalResourceLens
+        ];
     }
 
     /**

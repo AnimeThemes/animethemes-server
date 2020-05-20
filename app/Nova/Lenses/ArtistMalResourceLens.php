@@ -2,21 +2,16 @@
 
 namespace App\Nova\Lenses;
 
-use App\Enums\Season;
 use App\Enums\ResourceType;
-use App\Models\Anime;
-use App\Nova\Actions\CreateExternalResourceTypeForAnimeAction;
-use App\Nova\Filters\AnimeSeasonFilter;
-use App\Nova\Filters\AnimeYearFilter;
+use App\Models\Artist;
+use App\Nova\Actions\CreateExternalResourceTypeForArtistAction;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
-use SimpleSquid\Nova\Fields\Enum\Enum;
 
-class AnimeMalResourceLens extends Lens
+class ArtistMalResourceLens extends Lens
 {
 
     /**
@@ -26,7 +21,7 @@ class AnimeMalResourceLens extends Lens
      */
     public function name()
     {
-        return __('nova.anime_resource_lens', ["type" => ResourceType::getDescription(ResourceType::MAL)]);
+        return __('nova.artist_resource_lens', ["type" => ResourceType::getDescription(ResourceType::MAL)]);
     }
 
     /**
@@ -38,9 +33,9 @@ class AnimeMalResourceLens extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return Anime::whereDoesntHave('externalResources', function ($resource_query) {
-                $resource_query->where('type', ResourceType::MAL);
-            });
+        return Artist::whereDoesntHave('externalResources', function ($resource_query) {
+            $resource_query->where('type', ResourceType::MAL);
+        });
     }
 
     /**
@@ -52,20 +47,13 @@ class AnimeMalResourceLens extends Lens
     public function fields(Request $request)
     {
         return [
-            ID::make(__('nova.id'), 'anime_id')
+            ID::make(__('nova.id'), 'artist_id')
                 ->sortable(),
 
             Text::make(__('nova.name'), 'name')
                 ->sortable(),
 
             Text::make(__('nova.alias'), 'alias')
-                ->sortable(),
-
-            Number::make(__('nova.year'), 'year')
-                ->sortable(),
-
-            Enum::make(__('nova.season'), 'season')
-                ->attachEnum(Season::class)
                 ->sortable(),
         ];
     }
@@ -89,10 +77,7 @@ class AnimeMalResourceLens extends Lens
      */
     public function filters(Request $request)
     {
-        return [
-            new AnimeSeasonFilter,
-            new AnimeYearFilter
-        ];
+        return [];
     }
 
     /**
@@ -104,7 +89,7 @@ class AnimeMalResourceLens extends Lens
     public function actions(Request $request)
     {
         return [
-            (new CreateExternalResourceTypeForAnimeAction(ResourceType::MAL))->canSee(function ($request) {
+            (new CreateExternalResourceTypeForArtistAction(ResourceType::MAL))->canSee(function ($request) {
                 return $request->user()->isContributor() || $request->user()->isAdmin();
             }),
         ];
@@ -117,6 +102,6 @@ class AnimeMalResourceLens extends Lens
      */
     public function uriKey()
     {
-        return 'anime-mal-resource';
+        return 'artist-mal-resource-lens';
     }
 }

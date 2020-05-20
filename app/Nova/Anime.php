@@ -141,7 +141,13 @@ class Anime extends Resource
     public function lenses(Request $request)
     {
         return [
-            new Lenses\AnimeMalResourceLens
+            new Lenses\AnimeAniDbResourceLens,
+            new Lenses\AnimeAnilistResourceLens,
+            new Lenses\AnimePlanetResourceLens,
+            new Lenses\AnimeAnnResourceLens,
+            new Lenses\AnimeKitsuResourceLens,
+            new Lenses\AnimeMalResourceLens,
+            new Lenses\AnimeSeasonYearLens
         ];
     }
 

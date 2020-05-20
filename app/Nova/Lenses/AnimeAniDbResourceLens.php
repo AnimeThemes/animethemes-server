@@ -16,7 +16,7 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 use SimpleSquid\Nova\Fields\Enum\Enum;
 
-class AnimeMalResourceLens extends Lens
+class AnimeAniDbResourceLens extends Lens
 {
 
     /**
@@ -26,7 +26,7 @@ class AnimeMalResourceLens extends Lens
      */
     public function name()
     {
-        return __('nova.anime_resource_lens', ["type" => ResourceType::getDescription(ResourceType::MAL)]);
+        return __('nova.anime_resource_lens', ["type" => ResourceType::getDescription(ResourceType::ANIDB)]);
     }
 
     /**
@@ -39,8 +39,8 @@ class AnimeMalResourceLens extends Lens
     public static function query(LensRequest $request, $query)
     {
         return Anime::whereDoesntHave('externalResources', function ($resource_query) {
-                $resource_query->where('type', ResourceType::MAL);
-            });
+            $resource_query->where('type', ResourceType::ANIDB);
+        });
     }
 
     /**
@@ -104,7 +104,7 @@ class AnimeMalResourceLens extends Lens
     public function actions(Request $request)
     {
         return [
-            (new CreateExternalResourceTypeForAnimeAction(ResourceType::MAL))->canSee(function ($request) {
+            (new CreateExternalResourceTypeForAnimeAction(ResourceType::ANIDB))->canSee(function ($request) {
                 return $request->user()->isContributor() || $request->user()->isAdmin();
             }),
         ];
@@ -117,6 +117,6 @@ class AnimeMalResourceLens extends Lens
      */
     public function uriKey()
     {
-        return 'anime-mal-resource';
+        return 'anime-anidb-resource-lens';
     }
 }

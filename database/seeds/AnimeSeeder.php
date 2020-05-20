@@ -46,8 +46,8 @@ class AnimeSeeder extends Seeder
             }
             $slugs[] = $slug;
 
-            // Year expects a number but we group 60s, 70s, and 80s
-            // Fallback: Change group values to 1960, 1970 and 1980 for later inspection
+            // Year expects a number but we group 60s, 70s, 80s & 90s
+            // Fallback: Change group values to 1960, 1970, 1980 & 1990 for later inspection
             if (strpos($anime_year, 's') !== false) {
                 $anime_year = '19' . str_replace('s','', $anime_year);
             }

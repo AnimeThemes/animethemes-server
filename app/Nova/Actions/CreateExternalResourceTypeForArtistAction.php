@@ -13,7 +13,7 @@ use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Text;
 
-class CreateExternalResourceForAnimeAction extends Action
+class CreateExternalResourceTypeForArtistAction extends Action
 {
     use InteractsWithQueue, Queueable;
 
@@ -31,7 +31,7 @@ class CreateExternalResourceForAnimeAction extends Action
      */
     public function name()
     {
-        return __('nova.anime_create_resource_action', ['type' => ResourceType::getDescription($this->type)]);
+        return __('nova.artist_create_resource_action', ['type' => ResourceType::getDescription($this->type)]);
     }
 
     /**
@@ -45,7 +45,7 @@ class CreateExternalResourceForAnimeAction extends Action
     {
         // We want this action applied to singular anime
         if ($models->count() !== 1) {
-            return Action::danger(__('nova.anime_create_resource_action_cardinality_error'));
+            return Action::danger(__('nova.artist_create_resource_action_cardinality_error'));
         }
 
         // Create Resource Model with link and provided type
@@ -60,8 +60,8 @@ class CreateExternalResourceForAnimeAction extends Action
         }
 
         // Attach Resource to Anime and provide success message
-        $resource->anime()->sync($models);
-        return Action::message(__('nova.anime_create_resource_action_success'));
+        $resource->artists()->sync($models);
+        return Action::message(__('nova.artist_create_resource_action_success'));
     }
 
     /**
@@ -73,8 +73,8 @@ class CreateExternalResourceForAnimeAction extends Action
     {
         return [
             Text::make(__('nova.link'), 'link')
-                ->rules('required', 'max:192', 'url', 'unique:resource,link', new ResourceTypeDomain(ResourceType::MAL))
-                ->help(__('nova.resource_link_help')),            
+                ->rules('required', 'max:192', 'url', 'unique:resource,link', new ResourceTypeDomain($this->type))
+                ->help(__('nova.resource_link_help')),
         ];
     }
 }
