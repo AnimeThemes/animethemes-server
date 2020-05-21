@@ -3,7 +3,9 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -64,6 +66,8 @@ class Artist extends Resource
             ID::make(__('nova.id'), 'artist_id')
                 ->sortable(),
 
+            new Panel(__('nova.timestamps'), $this->timestamps()),
+
             Text::make(__('nova.name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:192')
@@ -82,6 +86,20 @@ class Artist extends Resource
 
             BelongsToMany::make(__('nova.external_resources'), 'ExternalResources')
                 ->searchable(),
+        ];
+    }
+
+    protected function timestamps() {
+        return [
+            DateTime::make(__('nova.created_at'), 'created_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            DateTime::make(__('nova.updated_at'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
         ];
     }
 
@@ -104,7 +122,10 @@ class Artist extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new Filters\RecentlyCreatedFilter,
+            new Filters\RecentlyUpdatedFilter
+        ];
     }
 
     /**

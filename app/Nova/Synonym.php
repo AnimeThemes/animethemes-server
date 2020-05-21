@@ -3,7 +3,9 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -71,10 +73,26 @@ class Synonym extends Resource
 
             ID::make(__('nova.id'), 'synonym_id')->sortable(),
 
+            new Panel(__('nova.timestamps'), $this->timestamps()),
+
             Text::make(__('nova.text'), 'text')
                 ->sortable()
                 ->rules('required', 'max:192')
                 ->help(__('nova.synonym_text_help')),
+        ];
+    }
+
+    protected function timestamps() {
+        return [
+            DateTime::make(__('nova.created_at'), 'created_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            DateTime::make(__('nova.updated_at'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
         ];
     }
 

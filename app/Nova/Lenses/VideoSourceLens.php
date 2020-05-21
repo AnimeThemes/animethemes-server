@@ -2,16 +2,19 @@
 
 namespace App\Nova\Lenses;
 
-use App\Models\Anime;
-use App\Nova\Filters\AnimeYearFilter;
+use App\Models\Video;
+use App\Nova\Filters\RecentlyCreatedFilter;
+use App\Nova\Filters\RecentlyUpdatedFilter;
+use App\Nova\Filters\VideoTypeFilter;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 
-class AnimeSeasonYearLens extends Lens
+class VideoSourceLens extends Lens
 {
 
     /**
@@ -21,7 +24,7 @@ class AnimeSeasonYearLens extends Lens
      */
     public function name()
     {
-        return __('nova.anime_season_year_lens');
+        return __('nova.video_unknown_source_lens');
     }
 
     /**
@@ -33,7 +36,7 @@ class AnimeSeasonYearLens extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return Anime::whereIn('year', [1960, 1970, 1980, 1990])->whereNull('season');
+        return Video::whereNull('source');
     }
 
     /**
@@ -45,17 +48,28 @@ class AnimeSeasonYearLens extends Lens
     public function fields(Request $request)
     {
         return [
-            ID::make(__('nova.id'), 'anime_id')
+            ID::make(__('nova.id'), 'video_id')
                 ->sortable(),
 
-            Text::make(__('nova.name'), 'name')
+            Text::make(__('nova.filename'), 'filename')
                 ->sortable(),
 
-            Text::make(__('nova.alias'), 'alias')
+            Number::make(__('nova.resolution'), 'resolution')
                 ->sortable(),
 
-            Number::make(__('nova.year'), 'year')
+            Boolean::make(__('nova.nc'), 'nc')
                 ->sortable(),
+
+            Boolean::make(__('nova.subbed'), 'subbed')
+                ->sortable(),
+
+            Boolean::make(__('nova.lyrics'), 'lyrics')
+                ->sortable(),
+
+            Boolean::make(__('nova.uncen'), 'uncen')
+                ->sortable(),
+
+            //TODO: Exception when Overlap field is included
         ];
     }
 
@@ -79,7 +93,9 @@ class AnimeSeasonYearLens extends Lens
     public function filters(Request $request)
     {
         return [
-            new AnimeYearFilter            
+            new VideoTypeFilter,
+            new RecentlyCreatedFilter,
+            new RecentlyUpdatedFilter
         ];
     }
 
@@ -101,6 +117,6 @@ class AnimeSeasonYearLens extends Lens
      */
     public function uriKey()
     {
-        return 'anime-season-year-lens';
+        return 'video-source-lens';
     }
 }

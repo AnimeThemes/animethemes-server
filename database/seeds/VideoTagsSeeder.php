@@ -12,6 +12,7 @@ class VideoTagsSeeder extends Seeder
     // Hard-coded addresses of year pages
     // I don't really care about making this more elegant
     const YEAR_PAGES = [
+        'https://www.reddit.com/r/AnimeThemes/wiki/misc.json',
         'https://www.reddit.com/r/AnimeThemes/wiki/60s.json',
         'https://www.reddit.com/r/AnimeThemes/wiki/70s.json',
         'https://www.reddit.com/r/AnimeThemes/wiki/80s.json',

@@ -5,7 +5,9 @@ namespace App\Nova;
 use App\Enums\ThemeType;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -76,6 +78,8 @@ class Theme extends Resource
 
             BelongsTo::make(__('nova.anime'), 'Anime')
                ->readonly(),
+            
+            new Panel(__('nova.timestamps'), $this->timestamps()),
 
             Enum::make(__('nova.type'), 'type')
                 ->attachEnum(ThemeType::class)
@@ -99,6 +103,20 @@ class Theme extends Resource
                 ->showCreateRelationButton(),
 
             HasMany::make(__('nova.entries'), 'Entries'),
+        ];
+    }
+
+    protected function timestamps() {
+        return [
+            DateTime::make(__('nova.created_at'), 'created_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            DateTime::make(__('nova.updated_at'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
         ];
     }
 

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -73,6 +74,8 @@ class Video extends Resource
 
             new Panel(__('nova.video_metadata'), $this->videoProperties()),
 
+            new Panel(__('nova.timestamps'), $this->timestamps()),
+
             Number::make(__('nova.resolution'), 'resolution')
                 ->sortable()
                 ->min(360)
@@ -121,7 +124,6 @@ class Video extends Resource
         return [
             Text::make(__('nova.basename'), 'basename')
                 ->hideFromIndex()
-                ->sortable()
                 ->readonly(),
 
             Text::make(__('nova.filename'), 'filename')
@@ -130,7 +132,20 @@ class Video extends Resource
 
             Text::make(__('nova.path'), 'path')
                 ->hideFromIndex()
-                ->sortable()
+                ->readonly(),
+        ];
+    }
+
+    protected function timestamps() {
+        return [
+            DateTime::make(__('nova.created_at'), 'created_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            DateTime::make(__('nova.updated_at'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
                 ->readonly(),
         ];
     }
@@ -160,7 +175,10 @@ class Video extends Resource
             new Filters\VideoLyricsFilter,
             new Filters\VideoUncenFilter,
             new Filters\VideoOverlapFilter,
-            new Filters\VideoSourceTypeFilter
+            new Filters\VideoSourceTypeFilter,
+            new Filters\VideoTypeFilter,
+            new Filters\RecentlyCreatedFilter,
+            new Filters\RecentlyUpdatedFilter
         ];
     }
 
@@ -172,7 +190,9 @@ class Video extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new Lenses\VideoSourceLens
+        ];
     }
 
     /**

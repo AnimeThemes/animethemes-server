@@ -3,9 +3,11 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -77,6 +79,8 @@ class Entry extends Resource
             ID::make(__('nova.id'), 'entry_id')
                 ->sortable(),
 
+            new Panel(__('nova.timestamps'), $this->timestamps()),
+
             Number::make(__('nova.version'), 'version')
                 ->sortable()
                 ->rules('nullable', 'integer')
@@ -104,6 +108,20 @@ class Entry extends Resource
 
             BelongsToMany::make(__('nova.videos'), 'Videos')
                 ->searchable(),
+        ];
+    }
+
+    protected function timestamps() {
+        return [
+            DateTime::make(__('nova.created_at'), 'created_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            DateTime::make(__('nova.updated_at'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
         ];
     }
 

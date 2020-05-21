@@ -2,12 +2,15 @@
 
 namespace App\Nova\Filters;
 
-use App\Enums\SourceType;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
-class VideoSourceTypeFilter extends Filter
+class VideoTypeFilter extends Filter
 {
+
+    const ANIME = 'anime';
+    const MISC  = 'misc';
+
     /**
      * The filter's component.
      *
@@ -22,7 +25,7 @@ class VideoSourceTypeFilter extends Filter
      */
     public function name()
     {
-        return __('nova.source');
+        return __('nova.type');
     }
 
     /**
@@ -35,7 +38,14 @@ class VideoSourceTypeFilter extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->where('type', $value);
+        switch ($value) {
+            case self::ANIME:
+                return $query->where('path', 'not like', 'misc%');
+            case self::MISC:
+                return $query->where('path', 'like', 'misc%');
+            default:
+                return $query;
+        }
     }
 
     /**
@@ -46,6 +56,9 @@ class VideoSourceTypeFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(SourceType::toSelectArray());
+        return [
+            __('nova.anime') => self::ANIME,
+            __('nova.misc') => self::MISC
+        ];
     }
 }

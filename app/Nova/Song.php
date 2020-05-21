@@ -3,7 +3,9 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -85,6 +87,8 @@ class Song extends Resource
             ID::make(__('nova.id'), 'song_id')
                 ->sortable(),
 
+            new Panel(__('nova.timestamps'), $this->timestamps()),
+
             Text::make(__('nova.title'), 'title')
                 ->sortable()
                 ->rules('nullable', 'max:192')
@@ -99,6 +103,20 @@ class Song extends Resource
                 ->searchable(),
 
             HasMany::make(__('nova.themes'), 'Themes'),
+        ];
+    }
+
+    protected function timestamps() {
+        return [
+            DateTime::make(__('nova.created_at'), 'created_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            DateTime::make(__('nova.updated_at'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
         ];
     }
 
@@ -121,7 +139,10 @@ class Song extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new Filters\RecentlyCreatedFilter,
+            new Filters\RecentlyUpdatedFilter
+        ];
     }
 
     /**

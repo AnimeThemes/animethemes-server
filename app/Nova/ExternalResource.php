@@ -6,7 +6,9 @@ use App\Enums\ResourceType;
 use App\Rules\ResourceTypeDomain;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -68,6 +70,8 @@ class ExternalResource extends Resource
             ID::make(__('nova.id'), 'resource_id')
                 ->sortable(),
 
+            new Panel(__('nova.timestamps'), $this->timestamps()),
+
             Enum::make(__('nova.type'), 'type')
                 ->attachEnum(ResourceType::class)
                 ->sortable()
@@ -94,6 +98,20 @@ class ExternalResource extends Resource
         ];
     }
 
+    protected function timestamps() {
+        return [
+            DateTime::make(__('nova.created_at'), 'created_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            DateTime::make(__('nova.updated_at'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+        ];
+    }
+
     /**
      * Get the cards available for the request.
      *
@@ -114,7 +132,9 @@ class ExternalResource extends Resource
     public function filters(Request $request)
     {
         return [
-            new Filters\ExternalResourceTypeFilter
+            new Filters\ExternalResourceTypeFilter,
+            new Filters\RecentlyCreatedFilter,
+            new Filters\RecentlyUpdatedFilter
         ];
     }
 

@@ -6,7 +6,9 @@ use App\Enums\Season;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -70,6 +72,8 @@ class Anime extends Resource
             ID::make(__('nova.id'), 'anime_id')
                 ->sortable(),
 
+            new Panel(__('nova.timestamps'), $this->timestamps()),
+
             Text::make(__('nova.name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:192')
@@ -107,6 +111,20 @@ class Anime extends Resource
         ];
     }
 
+    protected function timestamps() {
+        return [
+            DateTime::make(__('nova.created_at'), 'created_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            DateTime::make(__('nova.updated_at'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+        ];
+    }
+
     /**
      * Get the cards available for the request.
      *
@@ -128,7 +146,9 @@ class Anime extends Resource
     {
         return [
             new Filters\AnimeSeasonFilter,
-            new Filters\AnimeYearFilter
+            new Filters\AnimeYearFilter,
+            new Filters\RecentlyCreatedFilter,
+            new Filters\RecentlyUpdatedFilter
         ];
     }
 

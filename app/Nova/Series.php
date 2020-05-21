@@ -3,7 +3,9 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -64,6 +66,8 @@ class Series extends Resource
             ID::make(__('nova.id'), 'series_id')
                 ->sortable(),
 
+            new Panel(__('nova.timestamps'), $this->timestamps()),
+
             Text::make(__('nova.name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:192')
@@ -78,6 +82,20 @@ class Series extends Resource
 
             BelongsToMany::make(__('nova.anime'), 'Anime')
                 ->searchable(),
+        ];
+    }
+
+    protected function timestamps() {
+        return [
+            DateTime::make(__('nova.created_at'), 'created_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            DateTime::make(__('nova.updated_at'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
         ];
     }
 
@@ -100,7 +118,10 @@ class Series extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new Filters\RecentlyCreatedFilter,
+            new Filters\RecentlyUpdatedFilter
+        ];
     }
 
     /**

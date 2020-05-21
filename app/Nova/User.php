@@ -5,6 +5,8 @@ namespace App\Nova;
 use App\Enums\UserType;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Laravel\Nova\Panel;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
@@ -66,6 +68,8 @@ class User extends Resource
         return [
             ID::make(__('nova.id'), 'id')->sortable(),
 
+            new Panel(__('nova.timestamps'), $this->timestamps()),
+
             Gravatar::make()->maxWidth(50),
 
             Text::make(__('nova.name'), 'name')
@@ -87,6 +91,20 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
+        ];
+    }
+
+    protected function timestamps() {
+        return [
+            DateTime::make(__('nova.created_at'), 'created_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            DateTime::make(__('nova.updated_at'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
         ];
     }
 
