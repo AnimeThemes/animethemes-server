@@ -2,6 +2,7 @@
 
 namespace App\Nova\Lenses;
 
+use App\Enums\Season;
 use App\Models\Anime;
 use App\Nova\Filters\AnimeYearFilter;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
+use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class AnimeSeasonYearLens extends Lens
 {
@@ -33,7 +35,7 @@ class AnimeSeasonYearLens extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return Anime::whereIn('year', [1960, 1970, 1980, 1990])->whereNull('season');
+        return Anime::whereIn('year', [1960, 1970, 1980, 1990])->orWhereNull('season');
     }
 
     /**
@@ -56,6 +58,10 @@ class AnimeSeasonYearLens extends Lens
 
             Number::make(__('nova.year'), 'year')
                 ->sortable(),
+
+            Enum::make(__('nova.season'), 'season')
+                ->attachEnum(Season::class)
+                ->sortable()
         ];
     }
 
