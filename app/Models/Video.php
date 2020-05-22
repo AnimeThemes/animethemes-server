@@ -60,10 +60,11 @@ class Video extends Model implements Auditable
             try {
                 // Match Tags of filename
                 // Format: "{Base Name}-{OP|ED}{Sequence}v{Version}-{Tags}"
-                preg_match('/\A.*\-[O|E][P|D].*\-(.*)/', $activity->filename, $tags);
+                preg_match('/\A.*\-[O|E][P|D].*\-(.*)/', $activity->filename, $tags_match);
 
                 // Check if the filename has tags, which is not guaranteed
-                if (!empty($tags)) {
+                if (!empty($tags_match)) {
+                    $tags = $tags_match[1];
 
                     // Set true/false if tag is included/excluded
                     $activity->nc = Str::contains($tags, 'NC');
@@ -85,7 +86,7 @@ class Video extends Model implements Auditable
                     // Set source type for first matching tag to key
                     foreach (SourceType::getKeys() as $source_key) {
                         if (Str::contains($tags, $source_key)) {
-                            $video->source = SourceType::getValue($source_key);
+                            $activity->source = SourceType::getValue($source_key);
                             break;
                         }
                     }
