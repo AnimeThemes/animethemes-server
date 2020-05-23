@@ -109,4 +109,5 @@ return [
     'wiki' => 'Wiki',
     'year' => 'Year',
     'yes' => 'Yes',
+    'yesterday' => 'Yesterday',
 ];

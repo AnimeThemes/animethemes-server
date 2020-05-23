@@ -9,10 +9,11 @@ use Laravel\Nova\Filters\Filter;
 class RecentlyCreatedFilter extends Filter
 {
 
-    const TODAY = 'today';
-    const WEEK  = 'week';
-    const MONTH = 'month';
-    const YEAR  = 'year';
+    const TODAY     = 'today';
+    const YESTERDAY = 'yesterday';
+    const WEEK      = 'week';
+    const MONTH     = 'month';
+    const YEAR      = 'year';
 
     /**
      * The filter's component.
@@ -44,6 +45,8 @@ class RecentlyCreatedFilter extends Filter
         switch ($value) {
             case self::TODAY:
                 return $query->whereDate('created_at', Carbon::now());
+            case self::YESTERDAY:
+                return $query->whereDate('created_at', '>=', Carbon::now()->yesterday());
             case self::WEEK:
                 return $query->whereDate('created_at', '>=', Carbon::now()->startOfWeek());
             case self::MONTH:
@@ -65,6 +68,7 @@ class RecentlyCreatedFilter extends Filter
     {
         return [
             __('nova.today') => self::TODAY,
+            __('nova.yesterday') => self::YESTERDAY,
             __('nova.this_week') => self::WEEK,
             __('nova.this_month') => self::MONTH,
             __('nova.this_year') => self::YEAR
