@@ -26,7 +26,10 @@ class ConfirmPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    public function redirectPath()
+    {
+        return route('nova.index');
+    }
 
     /**
      * Create a new controller instance.

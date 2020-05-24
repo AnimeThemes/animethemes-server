@@ -25,3 +25,7 @@ Route::group(['middleware' => ['wiki']], function() {
     Route::resource('series', 'SeriesController')->only(['index', 'show']);
     Route::resource('video', 'VideoController')->only(['index', 'show']);
 });
+
+Route::group(['middleware' => ['web']], function() {
+    Auth::routes(['verify' => true, 'register' => false]);
+});

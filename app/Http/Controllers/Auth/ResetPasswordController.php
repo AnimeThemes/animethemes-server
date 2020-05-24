@@ -26,5 +26,8 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    public function redirectPath()
+    {
+        return route('nova.index');
+    }
 }
