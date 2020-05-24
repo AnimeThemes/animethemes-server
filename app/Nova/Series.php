@@ -107,7 +107,10 @@ class Series extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            (new Metrics\NewSeries)->width('1/2'),
+            (new Metrics\SeriesPerDay)->width('1/2'),
+        ];
     }
 
     /**

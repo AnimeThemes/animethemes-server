@@ -68,8 +68,6 @@ class VideoSourceLens extends Lens
 
             Boolean::make(__('nova.uncen'), 'uncen')
                 ->sortable(),
-
-            //TODO: Exception when Overlap field is included
         ];
     }
 

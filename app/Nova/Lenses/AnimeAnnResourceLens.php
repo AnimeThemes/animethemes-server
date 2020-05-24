@@ -2,19 +2,18 @@
 
 namespace App\Nova\Lenses;
 
-use App\Enums\Season;
 use App\Enums\ResourceType;
 use App\Models\Anime;
 use App\Nova\Actions\CreateExternalResourceTypeForAnimeAction;
-use App\Nova\Filters\AnimeSeasonFilter;
 use App\Nova\Filters\AnimeYearFilter;
+use App\Nova\Filters\RecentlyCreatedFilter;
+use App\Nova\Filters\RecentlyUpdatedFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
-use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class AnimeAnnResourceLens extends Lens
 {
@@ -63,10 +62,6 @@ class AnimeAnnResourceLens extends Lens
 
             Number::make(__('nova.year'), 'year')
                 ->sortable(),
-
-            Enum::make(__('nova.season'), 'season')
-                ->attachEnum(Season::class)
-                ->sortable(),
         ];
     }
 
@@ -90,8 +85,9 @@ class AnimeAnnResourceLens extends Lens
     public function filters(Request $request)
     {
         return [
-            new AnimeSeasonFilter,
-            new AnimeYearFilter
+            new AnimeYearFilter,
+            new RecentlyCreatedFilter,
+            new RecentlyUpdatedFilter
         ];
     }
 

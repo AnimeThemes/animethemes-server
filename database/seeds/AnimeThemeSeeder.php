@@ -108,20 +108,18 @@ class AnimeThemeSeeder extends Seeder
                 }
 
                 // If group line, attempt to set current group
-                if (!is_null($anime) && preg_match('/^([\w\s]+)(?:\\r)?$/', $wiki_entry_line, $group_name)) {
-                    $group = Str::of(html_entity_decode($group_name[1]))->trim();
-                    if (empty($group)) {
-                        $group = NULL;
-                    } else {
-                        $theme = NULL;
-                        $entry = NULL;
+                if (!is_null($anime) && preg_match('/^([a-zA-Z0-9 ]+)(?:\\r)?$/', $wiki_entry_line, $group_name)) {
+                    $group_text = Str::of(html_entity_decode($group_name[1]))->trim();
+                    if (!empty($group_text)) {
+                        $group = $group_text;
                     }
+                    $theme = NULL;
+                    $entry = NULL;
                     continue;
                 }
 
                 // If Theme line, attempt to create Theme/Entry
-                // Needs to handle missing video
-                if (!is_null($anime) && preg_match('/^(OP|ED)(\d*)(?:\sV(\d))?.*\"(.*)\"(?:\sby\s(.*))?\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wiki_entry_line, $theme_match)) {
+                if (!is_null($anime) && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\"(?:\sby\s(.*))?\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wiki_entry_line, $theme_match)) {
                     $theme_type = $theme_match[1];
                     $sequence = $theme_match[2];
                     $version = $theme_match[3];
@@ -131,7 +129,7 @@ class AnimeThemeSeeder extends Seeder
                     $episodes = $theme_match[7];
                     $notes = Str::of(html_entity_decode($theme_match[8]))->trim();
 
-                    // Create Theme if No version or V1
+                    // Create Theme if no version or V1
                     if (!is_numeric($version) || intval($version) === 1) {
                         // Create Song
                         $song = Song::create([

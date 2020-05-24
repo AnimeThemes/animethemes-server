@@ -111,7 +111,10 @@ class Artist extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            (new Metrics\NewArtists)->width('1/2'),
+            (new Metrics\ArtistsPerDay)->width('1/2'),
+        ];
     }
 
     /**
@@ -140,7 +143,8 @@ class Artist extends Resource
             new Lenses\ArtistAniDbResourceLens,
             new Lenses\ArtistAnilistResourceLens,
             new Lenses\ArtistAnnResourceLens,
-            new Lenses\ArtistMalResourceLens
+            new Lenses\ArtistMalResourceLens,
+            new Lenses\ArtistSongLens
         ];
     }
 

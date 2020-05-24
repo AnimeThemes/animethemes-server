@@ -4,6 +4,7 @@ namespace App\Nova\Lenses;
 
 use App\Enums\Season;
 use App\Models\Anime;
+use App\Nova\Filters\AnimeSeasonFilter;
 use App\Nova\Filters\AnimeYearFilter;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
@@ -15,7 +16,7 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 use SimpleSquid\Nova\Fields\Enum\Enum;
 
-class AnimeSeasonYearLens extends Lens
+class AnimeThemeLens extends Lens
 {
 
     /**
@@ -25,7 +26,7 @@ class AnimeSeasonYearLens extends Lens
      */
     public function name()
     {
-        return __('nova.anime_season_year_lens');
+        return __('nova.anime_theme_lens');
     }
 
     /**
@@ -37,7 +38,7 @@ class AnimeSeasonYearLens extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return Anime::whereIn('year', [1960, 1970, 1980, 1990])->orWhereNull('season');
+        return Anime::whereDoesntHave('themes');
     }
 
     /**
@@ -63,7 +64,7 @@ class AnimeSeasonYearLens extends Lens
 
             Enum::make(__('nova.season'), 'season')
                 ->attachEnum(Season::class)
-                ->sortable()
+                ->sortable(),
         ];
     }
 
@@ -87,6 +88,7 @@ class AnimeSeasonYearLens extends Lens
     public function filters(Request $request)
     {
         return [
+            new AnimeSeasonFilter,
             new AnimeYearFilter,
             new RecentlyCreatedFilter,
             new RecentlyUpdatedFilter
@@ -111,6 +113,6 @@ class AnimeSeasonYearLens extends Lens
      */
     public function uriKey()
     {
-        return 'anime-season-year-lens';
+        return 'anime-theme-lens';
     }
 }

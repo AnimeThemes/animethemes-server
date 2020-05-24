@@ -5,6 +5,8 @@ namespace App\Nova\Lenses;
 use App\Enums\ResourceType;
 use App\Models\Artist;
 use App\Nova\Actions\CreateExternalResourceTypeForArtistAction;
+use App\Nova\Filters\RecentlyCreatedFilter;
+use App\Nova\Filters\RecentlyUpdatedFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -77,7 +79,10 @@ class ArtistAnilistResourceLens extends Lens
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new RecentlyCreatedFilter,
+            new RecentlyUpdatedFilter
+        ];
     }
 
     /**

@@ -2,20 +2,16 @@
 
 namespace App\Nova\Lenses;
 
-use App\Enums\Season;
-use App\Models\Anime;
-use App\Nova\Filters\AnimeYearFilter;
+use App\Models\Artist;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
-use SimpleSquid\Nova\Fields\Enum\Enum;
 
-class AnimeSeasonYearLens extends Lens
+class ArtistSongLens extends Lens
 {
 
     /**
@@ -25,7 +21,7 @@ class AnimeSeasonYearLens extends Lens
      */
     public function name()
     {
-        return __('nova.anime_season_year_lens');
+        return __('nova.artist_song_lens');
     }
 
     /**
@@ -37,7 +33,7 @@ class AnimeSeasonYearLens extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return Anime::whereIn('year', [1960, 1970, 1980, 1990])->orWhereNull('season');
+        return Artist::whereDoesntHave('songs');
     }
 
     /**
@@ -49,7 +45,7 @@ class AnimeSeasonYearLens extends Lens
     public function fields(Request $request)
     {
         return [
-            ID::make(__('nova.id'), 'anime_id')
+            ID::make(__('nova.id'), 'artist_id')
                 ->sortable(),
 
             Text::make(__('nova.name'), 'name')
@@ -57,13 +53,6 @@ class AnimeSeasonYearLens extends Lens
 
             Text::make(__('nova.alias'), 'alias')
                 ->sortable(),
-
-            Number::make(__('nova.year'), 'year')
-                ->sortable(),
-
-            Enum::make(__('nova.season'), 'season')
-                ->attachEnum(Season::class)
-                ->sortable()
         ];
     }
 
@@ -87,7 +76,6 @@ class AnimeSeasonYearLens extends Lens
     public function filters(Request $request)
     {
         return [
-            new AnimeYearFilter,
             new RecentlyCreatedFilter,
             new RecentlyUpdatedFilter
         ];
@@ -111,6 +99,6 @@ class AnimeSeasonYearLens extends Lens
      */
     public function uriKey()
     {
-        return 'anime-season-year-lens';
+        return 'artist-song-lens';
     }
 }

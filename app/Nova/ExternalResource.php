@@ -146,7 +146,9 @@ class ExternalResource extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new Lenses\ExternalResourceUnlinkedLens
+        ];
     }
 
     /**

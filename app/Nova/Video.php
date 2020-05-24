@@ -158,7 +158,10 @@ class Video extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            (new Metrics\NewVideos)->width('1/2'),
+            (new Metrics\VideosPerDay)->width('1/2'),
+        ];
     }
 
     /**

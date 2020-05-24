@@ -2,8 +2,15 @@
 
 namespace App\Providers;
 
+use App\Nova\Metrics\NewAnime;
+use App\Nova\Metrics\NewArtists;
+use App\Nova\Metrics\NewSeries;
+use App\Nova\Metrics\NewVideos;
+use App\Nova\Metrics\AnimePerDay;
+use App\Nova\Metrics\ArtistsPerDay;
+use App\Nova\Metrics\SeriesPerDay;
+use App\Nova\Metrics\VideosPerDay;
 use Illuminate\Support\Facades\Gate;
-use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
@@ -54,7 +61,15 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            new Help,
+            (new NewVideos)->width('1/4'),
+            (new NewAnime)->width('1/4'),
+            (new NewArtists)->width('1/4'),
+            (new NewSeries)->width('1/4'),
+
+            (new VideosPerDay)->width('1/4'),
+            (new AnimePerDay)->width('1/4'),
+            (new ArtistsPerDay)->width('1/4'),
+            (new SeriesPerDay)->width('1/4'),
         ];
     }
 

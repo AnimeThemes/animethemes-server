@@ -133,7 +133,10 @@ class Anime extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            (new Metrics\NewAnime)->width('1/2'),
+            (new Metrics\AnimePerDay)->width('1/2'),
+        ];
     }
 
     /**
@@ -167,7 +170,8 @@ class Anime extends Resource
             new Lenses\AnimeAnnResourceLens,
             new Lenses\AnimeKitsuResourceLens,
             new Lenses\AnimeMalResourceLens,
-            new Lenses\AnimeSeasonYearLens
+            new Lenses\AnimeSeasonYearLens,
+            new Lenses\AnimeThemeLens
         ];
     }
 
