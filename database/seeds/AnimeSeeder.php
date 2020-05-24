@@ -29,7 +29,7 @@ class AnimeSeeder extends Seeder
         $anime_wiki_content_md = $anime_wiki_json->data->content_md;
 
         // Match Anime Entries
-        // Format: "[{Anime Name} ({Year})](/r/AnimeThemes/wiki/{year}#{anchor link})
+        // Format: "[{Anime Name} ({Year})](/r/AnimeThemes/wiki/{year}#{anchor link})"
         preg_match_all('/\[(.*)\s\((.*)\)\]\(\/r\/AnimeThemes\/wiki\/.*\)/m', $anime_wiki_content_md, $anime_wiki_entries, PREG_SET_ORDER);
 
         $slugs = [];

@@ -26,7 +26,7 @@ class ArtistSeeder extends Seeder
         $artist_wiki_content_md = $artist_wiki_json->data->content_md;
 
         // Match Artist Entries
-        // Format: "[{Artist Name}](/r/AnimeThemes/wiki/artist/{Artist Alias}/)
+        // Format: "[{Artist Name}](/r/AnimeThemes/wiki/artist/{Artist Alias}/)"
         preg_match_all('/\[(.*)\]\((\/r\/AnimeThemes\/wiki\/artist\/(.*))\)/m', $artist_wiki_content_md, $artist_wiki_entries, PREG_SET_ORDER);
 
         foreach ($artist_wiki_entries as $artist_wiki_entry) {
@@ -49,6 +49,7 @@ class ArtistSeeder extends Seeder
             $artist_resource_wiki_content_md = $artist_resource_wiki_json->data->content_md;
 
             // Match headers of Resource in Artist Entry page
+            // Format: "##[{Artist Name}]({Resource Link})"
             preg_match('/##\[.*\]\((https\:\/\/.*)\)/m', $artist_resource_wiki_content_md, $artist_resource_entry);
             $artist_resource_link = html_entity_decode($artist_resource_entry[1]);
 

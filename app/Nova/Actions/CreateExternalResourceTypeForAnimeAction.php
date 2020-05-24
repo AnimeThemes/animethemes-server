@@ -60,7 +60,7 @@ class CreateExternalResourceTypeForAnimeAction extends Action
         }
 
         // Attach Resource to Anime and provide success message
-        $resource->anime()->sync($models);
+        $resource->anime()->attach($models);
         return Action::message(__('nova.anime_create_resource_action_success'));
     }
 

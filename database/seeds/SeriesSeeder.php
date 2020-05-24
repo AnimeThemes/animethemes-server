@@ -47,6 +47,7 @@ class SeriesSeeder extends Seeder
             $series_anime_wiki_content_md = $series_anime_wiki_json->data->content_md;
 
             // Match headers of Anime in Series Entry page
+            // Format: "###[{Anime Name}]({Resource Link})"
             preg_match_all('/###\[(.*)\]\(https\:\/\/.*\)/m', $series_anime_wiki_content_md, $series_anime_wiki_entries, PREG_PATTERN_ORDER);
             $series_anime_names = array_map(function ($series_anime_wiki_entry) {
                 return html_entity_decode($series_anime_wiki_entry);

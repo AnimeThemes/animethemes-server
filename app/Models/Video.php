@@ -60,7 +60,7 @@ class Video extends Model implements Auditable
             try {
                 // Match Tags of filename
                 // Format: "{Base Name}-{OP|ED}{Sequence}v{Version}-{Tags}"
-                preg_match('/^.*\-(?:OP|ED).*\-(.*)/', $activity->filename, $tags_match);
+                preg_match('/^.*\-(?:OP|ED).*\-(.*)$/', $activity->filename, $tags_match);
 
                 // Check if the filename has tags, which is not guaranteed
                 if (!empty($tags_match)) {

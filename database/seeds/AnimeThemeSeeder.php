@@ -73,6 +73,7 @@ class AnimeThemeSeeder extends Seeder
                 $wiki_entry_line = html_entity_decode($anime_theme_wiki_entry[0]);
 
                 // If Anime heading line, attempt to set current Anime
+                // Format: "###[{Anime Name}]({Resource Link})"
                 if (preg_match('/^###\[(.*)\]\(https\:\/\/.*\)(?:\\r)?$/', $wiki_entry_line, $anime_name)) {
                     try {
                         // Set current Anime if we have a definitive match
@@ -97,6 +98,7 @@ class AnimeThemeSeeder extends Seeder
                 }
 
                 // If Synonym heading line, attempt to set Synonyms for Anime
+                // Format: "{Synonym}"
                 if (!is_null($anime) && preg_match('/^\*\*(.*)\*\*(?:\\r)?$/', $wiki_entry_line, $synonyms)) {
                     $synonym_list = explode(', ', html_entity_decode($synonyms[1]));
                     foreach ($synonym_list as $synonym) {
@@ -108,6 +110,7 @@ class AnimeThemeSeeder extends Seeder
                 }
 
                 // If group line, attempt to set current group
+                // Format: "**{Group}**"
                 if (!is_null($anime) && preg_match('/^([a-zA-Z0-9 ]+)(?:\\r)?$/', $wiki_entry_line, $group_name)) {
                     $group_text = Str::of(html_entity_decode($group_name[1]))->trim();
                     if (!empty($group_text)) {
@@ -118,7 +121,8 @@ class AnimeThemeSeeder extends Seeder
                     continue;
                 }
 
-                // If Theme line, attempt to create Theme/Entry
+                // If Theme line, attempt to create Theme/Song/Entry
+                // Format: "{OP|ED}{Sequence} V{Version} "{Song Title}" by {by}|[Webm {Tags}](https://animethemes.moe/video/{Video Basename})|{Episodes}|{Notes}"
                 if (!is_null($anime) && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\"(?:\sby\s(.*))?\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wiki_entry_line, $theme_match)) {
                     $theme_type = $theme_match[1];
                     $sequence = $theme_match[2];
@@ -150,8 +154,10 @@ class AnimeThemeSeeder extends Seeder
                         $theme->song()->associate($song);
                         $theme->save();
 
+                        // Create Entry and associate to Theme
                         $entry = self::create_entry($version, $episodes, $notes, $theme);
 
+                        // Attach Video to Entry
                         self::attach_video_to_entry($video_basename, $entry);
                     }
 
@@ -164,7 +170,8 @@ class AnimeThemeSeeder extends Seeder
                     continue;
                 }
 
-                // If Entry Video line, attempt to create Entry Video
+                // If Entry Video line, attach Video to Entry
+                // Format: "||[Webm {Tags}](https://animethemes.moe/video/{Video Basename})||"
                 if (!is_null($entry) && preg_match('/^\|\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|\|(?:\\r)?$/', $wiki_entry_line, $video_name)) {
                     $video_basename = $video_name[1];
                     self::attach_video_to_entry($video_basename, $entry);
@@ -173,6 +180,11 @@ class AnimeThemeSeeder extends Seeder
         }
     }
 
+    /**
+     * Create Entry and associate to Theme
+     *
+     * @return \App\Models\Entry  $entry
+     */
     private static function create_entry($version, $episodes, $notes, $theme) {
         $entry = new Entry;
 
@@ -194,6 +206,9 @@ class AnimeThemeSeeder extends Seeder
         return $entry;
     }
 
+    /**
+     * Attach Video to Entry
+     */
     private static function attach_video_to_entry($video_basename, $entry): void {
         try {
             $video = Video::where('basename', $video_basename)->firstOrFail();

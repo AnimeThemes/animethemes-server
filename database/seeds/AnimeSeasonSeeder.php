@@ -61,12 +61,14 @@ class AnimeSeasonSeeder extends Seeder
                 $wiki_entry_line = html_entity_decode($anime_season_wiki_entry[0]);
 
                 // If Season heading line, set the current Season
+                // Format: "##{Year} {Season} Season ({Ordinal Numeral} Quarter)"
                 if (preg_match('/##\d{4}\s(.*)\sSeason.*/', $wiki_entry_line, $anime_season)) {
                     $season = Season::getValue(strtoupper($anime_season[1]));
                     continue;
                 }
 
                 // If Anime heading line, attempt to set Anime to current Season
+                // Format: "###[{Anime Name}]({Resource Link})"
                 if (preg_match('/###\[(.*)\]\(https\:\/\/.*\)/', $wiki_entry_line, $anime_name)) {
                     try {
                         // Set season if we have a definitive match

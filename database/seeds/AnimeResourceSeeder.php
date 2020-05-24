@@ -61,7 +61,7 @@ class AnimeResourceSeeder extends Seeder
             $year_wiki_content_md = $year_wiki_json->data->content_md;
 
             // Match headers of Anime and links of Resources
-            // Format: "###[{Anime Name}]({Resource Link})
+            // Format: "###[{Anime Name}]({Resource Link})"
             preg_match_all('/###\[(.*)\]\((https\:\/\/.*)\)/m', $year_wiki_content_md, $anime_resource_wiki_entries, PREG_SET_ORDER);
 
             foreach ($anime_resource_wiki_entries as $anime_resource_wiki_entry) {
@@ -79,7 +79,7 @@ class AnimeResourceSeeder extends Seeder
                     // This is not guaranteed as an Anime Name may be inconsistent between indices
                     $resource_anime = Anime::where('name', $anime_name)->get();
                     if ($resource_anime->count() === 1) {
-                        $resource->anime()->sync($resource_anime);
+                        $resource->anime()->attach($resource_anime);
                     }
                 } catch (Exception $exception) {
                     LOG::error($exception->getMessage());

@@ -60,7 +60,8 @@ class ArtistSongSeeder extends Seeder
             foreach ($artist_song_wiki_entries as $artist_song_wiki_entry) {
                 $wiki_entry_line = html_entity_decode($artist_song_wiki_entry[0]);
 
-                // If Anime heading line, attempt to set current Anime
+                // If Anime heading line, attempt to set current 
+                // Format: "###[{Anime Name}]({Resource Link})"
                 if (preg_match('/^###\[(.*)\]\(https\:\/\/.*\)(?:\\r)?$/', $wiki_entry_line, $anime_name)) {
                     try {
                         // Set current Anime if we have a definitive match
@@ -79,6 +80,7 @@ class ArtistSongSeeder extends Seeder
                 }
 
                 // If Theme line, attempt to load Theme and associate Song to Artist
+                // Format: "{OP|ED}{Sequence} V{Version} "{Song Title}" by {by}|[Webm {Tags}](https://animethemes.moe/video/{Video Basename})|{Episodes}|{Notes}"
                 if (!is_null($anime) && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\"(?:\sby\s(.*))?\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wiki_entry_line, $theme_match)) {
                     LOG::info($theme_match);
                     $theme_type = $theme_match[1];
