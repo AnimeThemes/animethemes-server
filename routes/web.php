@@ -27,5 +27,8 @@ Route::group(['middleware' => ['wiki']], function() {
 });
 
 Route::group(['middleware' => ['web']], function() {
-    Auth::routes(['verify' => true, 'register' => false]);
+    Auth::routes(['verify' => true]);
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

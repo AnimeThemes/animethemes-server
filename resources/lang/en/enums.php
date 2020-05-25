@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\InvitationStatus;
 use App\Enums\OverlapType;
 use App\Enums\ResourceType;
 use App\Enums\Season;
@@ -8,6 +9,10 @@ use App\Enums\ThemeType;
 use App\Enums\UserType;
 
 return [
+    InvitationStatus::class => [
+        InvitationStatus::OPEN => 'Open',
+        InvitationStatus::CLOSED => 'Closed',
+    ],
     OverlapType::class => [
         OverlapType::NONE => 'None',
         OverlapType::TRANS => 'Transition',
