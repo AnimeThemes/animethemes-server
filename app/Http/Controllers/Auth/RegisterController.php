@@ -101,5 +101,8 @@ class RegisterController extends Controller
         $invitation = Invitation::where('token', $request->input('token'))->firstOrFail();
         $invitation->status = InvitationStatus::CLOSED;
         $invitation->save();
+
+        $user->type = $invitation->type;
+        $user->save();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Enums\Season;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -49,6 +50,16 @@ class Anime extends Resource
     public static function singularLabel()
     {
         return __('nova.anime');
+    }
+
+    /**
+     * Get the URI key for the resource.
+     *
+     * @return string
+     */
+    public static function uriKey()
+    {
+        return Str::kebab(class_basename(get_called_class()));
     }
 
     /**
