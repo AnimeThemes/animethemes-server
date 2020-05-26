@@ -98,12 +98,14 @@ class AnimeThemeSeeder extends Seeder
                 }
 
                 // If Synonym heading line, attempt to set Synonyms for Anime
-                // Format: "{Synonym}"
-                if (!is_null($anime) && preg_match('/^\*\*(.*)\*\*(?:\\r)?$/', $wiki_entry_line, $synonyms)) {
-                    $synonym_list = explode(', ', html_entity_decode($synonyms[1]));
+                // Format: "{Synonym 1, Synonym 2, Synonym 3, ...}"
+                // Note: Line may use '"' as qualifier
+                if (!is_null($anime) && preg_match('/^\*\*(.*)\*\*(?:\\r)?$/', $wiki_entry_line, $synonym_line)) {
+                    $synonyms = html_entity_decode($synonym_line[1]);
+                    preg_match_all('/(?|"([^"]+)"|([^,]+))(?:, )?/', $synonyms, $synonym_list, PREG_SET_ORDER);
                     foreach ($synonym_list as $synonym) {
                         $anime->synonyms()->create([
-                            'text' => $synonym
+                            'text' => $synonym[1]
                         ]);
                     }
                     continue;
