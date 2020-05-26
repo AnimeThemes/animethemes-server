@@ -6,6 +6,7 @@ use App\Enums\ResourceType;
 use App\Rules\ResourceTypeDomain;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Inspheric\Fields\Url;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
@@ -78,12 +79,13 @@ class ExternalResource extends Resource
                 ->rules('required', new EnumValue(ResourceType::class, false))
                 ->help(__('nova.resource_type_help')),
 
-            Text::make(__('nova.link'), 'link')
+            Url::make(__('nova.link'), 'link')
                 ->sortable()
                 ->rules('required', 'max:192', 'url', new ResourceTypeDomain($request->input('type')))
                 ->creationRules('unique:resource,link')
-                ->updateRules('unique:series,link,{{resourceId}},resource_id')
-                ->help(__('nova.resource_link_help')),
+                ->updateRules('unique:resource,link,{{resourceId}},resource_id')
+                ->help(__('nova.resource_link_help'))
+                ->alwaysClickable(),
 
             Text::make(__('nova.label'), 'label')
                 ->sortable()
