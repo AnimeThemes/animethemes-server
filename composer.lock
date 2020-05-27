@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1bb7f69fd9b38bc73212703a9ac712c6",
+    "content-hash": "e9e05cc55375e2ddc35f499ff5fd2e9a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3291,62 +3291,6 @@
                 }
             ],
             "time": "2020-03-29T20:13:32+00:00"
-        },
-        {
-            "name": "runlinenl/nova-profile-tool",
-            "version": "1.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/runlinenl/nova-profile-tool.git",
-                "reference": "37ded22a59f546d8661f6f98dd9f3e56fc335e96"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/runlinenl/nova-profile-tool/zipball/37ded22a59f546d8661f6f98dd9f3e56fc335e96",
-                "reference": "37ded22a59f546d8661f6f98dd9f3e56fc335e96",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/nova": "*",
-                "php": ">=7.1.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^3.6",
-                "phpunit/phpunit": "7.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Runline\\ProfileTool\\ToolServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Runline\\ProfileTool\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Patrick Bergman",
-                    "email": "patrick@runline.nl",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A tool for Laravel Nova to allow users to edit their profile data",
-            "homepage": "https://github.com/runlinenl/nova-profile-tool",
-            "keywords": [
-                "laravel",
-                "nova",
-                "profile",
-                "tool"
-            ],
-            "time": "2018-12-04T22:15:15+00:00"
         },
         {
             "name": "simplesquid/nova-enum-field",

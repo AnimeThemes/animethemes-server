@@ -14,6 +14,17 @@
 <dropdown-menu slot="menu" width="200" direction="rtl">
     <ul class="list-reset">
         <li>
+            <router-link :to="{
+                name: 'detail',
+                params: {
+                    resourceName: 'users',
+                    resourceId: '{{ $user->id }}'
+                }
+            }" class="block no-underline text-90 hover:bg-30 p-3">
+                Profile
+            </router-link>
+        </li>
+        <li>
             <a href="{{ route('nova.logout') }}" class="block no-underline text-90 hover:bg-30 p-3">
                 {{ __('Logout') }}
             </a>

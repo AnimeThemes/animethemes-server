@@ -30,6 +30,17 @@ class User extends Resource
     public static $title = 'name';
 
     /**
+     * Determine if this resource is available for navigation.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public static function availableForNavigation(Request $request)
+    {
+        return $request->user()->isAdmin();
+    }
+
+    /**
      * The logical group associated with the resource.
      *
      * @var string
@@ -77,6 +88,9 @@ class User extends Resource
                 ->rules('required', 'max:255'),
 
             Text::make(__('nova.email'), 'email')
+                ->readonly(function ($request) {
+                    return !$request->user()->isAdmin();
+                })
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
@@ -85,6 +99,9 @@ class User extends Resource
             Enum::make(__('nova.type'), 'type')
                 ->attachEnum(UserType::class)
                 ->sortable()
+                ->readonly(function ($request) {
+                    return !$request->user()->isAdmin();
+                })
                 ->rules('required', new EnumValue(UserType::class, false)),
 
             Password::make(__('nova.password'), 'password')
