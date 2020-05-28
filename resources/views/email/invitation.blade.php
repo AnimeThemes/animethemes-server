@@ -1,10 +1,9 @@
 @component('mail::message')
-# Invitation
 
-You have been invited to join AnimeThemes!
+@lang('nova.invitation_message')
 
 @component('mail::button', ['url' => $url])
-Accept Invitation
+@lang('nova.invitation_accept')
 @endcomponent
 
 @endcomponent

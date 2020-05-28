@@ -108,6 +108,26 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
+
+            // Computed fields for 2FA configuration
+
+            Text::make(__('nova.2fa_enabled'), function() {
+                return $this->hasTwoFactorEnabled() ? __('nova.enabled') : __('nova.disabled');
+            })->exceptOnForms()
+                ->canSee(function ($request) {
+                    return $request->user()->isAdmin();
+                }),
+
+            Text::make(__('nova.two_factor_authentication'), function () {
+                if ($this->hasTwoFactorEnabled()) {
+                    return '<a href="' . route('2fa.destroy') . '">' . __('nova.disable') . '</a>';
+                }
+                return '<a href="' . route('2fa.create') . '">' . __('nova.enable') . '</a>';
+            })->asHtml()
+                ->onlyOnDetail()
+                ->canSee(function ($request) {
+                    return $request->user()->is($this);
+                }),
         ];
     }
 
@@ -145,7 +165,10 @@ class User extends Resource
     public function filters(Request $request)
     {
         return [
-            new Filters\UserTypeFilter
+            new Filters\UserTypeFilter,
+            new Filters\TwoFactorAuthenticationEnabledFilter,
+            new Filters\RecentlyCreatedFilter,
+            new Filters\RecentlyUpdatedFilter
         ];
     }
 
@@ -168,6 +191,14 @@ class User extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new Actions\GenerateRecoveryCodesAction)
+                ->confirmText(__('nova.recovery_codes_generate_confirmation'))
+                ->confirmButtonText(__('nova.generate'))
+                ->cancelButtonText(__('nova.cancel'))
+                ->canSee(function ($request) {
+                    return $request->user()->hasTwoFactorEnabled();
+                }),
+        ];
     }
 }

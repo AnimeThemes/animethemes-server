@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\TwoFactorAuthenticationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,7 @@ Route::group(['middleware' => ['wiki']], function() {
 
 Route::group(['middleware' => ['web']], function() {
     Auth::routes(['verify' => true]);
+    Route::get('/2fa', [TwoFactorAuthenticationController::class, 'create'])->name('2fa.create');
+    Route::post('/2fa', [TwoFactorAuthenticationController::class, 'store'])->name('2fa.store');
+    Route::get('/2fa/destroy', [TwoFactorAuthenticationController::class, 'destroy'])->name('2fa.destroy');
 });
-
-Route::get('/home', 'HomeController@index')->name('home');

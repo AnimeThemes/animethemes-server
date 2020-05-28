@@ -108,7 +108,12 @@ class Invitation extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new Filters\UserTypeFilter,
+            new Filters\InvitationStatusFilter,
+            new Filters\RecentlyCreatedFilter,
+            new Filters\RecentlyUpdatedFilter
+        ];
     }
 
     /**
@@ -130,6 +135,11 @@ class Invitation extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new Actions\ResendInvitationAction)
+                ->confirmText(__('nova.resend_invitation_confirm_message'))
+                ->confirmButtonText(__('nova.resend'))
+                ->cancelButtonText(__('nova.cancel')),
+        ];
     }
 }

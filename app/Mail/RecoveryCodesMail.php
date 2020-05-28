@@ -7,20 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class InvitationEmail extends Mailable
+class RecoveryCodesMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $invitation;
+    protected $user;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($invitation)
+    public function __construct($user)
     {
-        $this->invitation = $invitation;
+        $this->user = $user;
     }
 
     /**
@@ -30,8 +30,8 @@ class InvitationEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject(__('nova.invitation_subject'))
-            ->markdown('email.invitation')
-            ->withUrl(route('register', ['token' => $this->invitation->token]));
+        return $this->subject(__('nova.recovery_codes'))
+            ->markdown('email.recovery')
+            ->withRecoveryCodes($this->user->getRecoveryCodes());
     }
 }

@@ -7,6 +7,7 @@ use App\Enums\UserType;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use ParagonIE\ConstantTime\Base32;
 
 class Invitation extends Model
 {
@@ -46,11 +47,15 @@ class Invitation extends Model
         parent::boot();
 
         static::creating(function($activity) {
-            $activity->token = Str::random(rand(20, 100));
+            $activity->token = self::createToken();
         });
     }
 
     public function isOpen() {
         return $this->status->is(InvitationStatus::OPEN);
+    }
+
+    public static function createToken() {
+        return Base32::encodeUpper(random_bytes(rand(20, 100)));
     }
 }
