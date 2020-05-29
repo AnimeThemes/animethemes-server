@@ -36,10 +36,4 @@ class TwoFactorAuthenticationController extends Controller
 
         return redirect()->to(url('nova/resources/users/' . $request->user()->id));
     }
-
-    public function destroy(Request $request)
-    {
-        auth()->user()->disableTwoFactorAuth();
-        return redirect()->to(url('nova/resources/users/' . $request->user()->id));
-    }
 }

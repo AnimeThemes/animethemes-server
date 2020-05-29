@@ -1,6 +1,8 @@
 <?php
 
 return [
+    '2fa_disable_action' => 'Disable Two Factor Authentication',
+    '2fa_disable_confirmation' => 'Are you sure you want to disable Two Factor Authentication? This will invalide your code generator and recovery codes. This will also make it possible for anyone with your password to access your account.',
     '2fa_enabled' => '2FA Enabled',
     '2fa_enable_header' => 'Enable Two Factor Authentication',
     '2fa_invalid_code' => 'The Code is invalid or has expired',

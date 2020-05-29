@@ -119,10 +119,10 @@ class User extends Resource
                 }),
 
             Text::make(__('nova.two_factor_authentication'), function () {
-                if ($this->hasTwoFactorEnabled()) {
-                    return '<a href="' . route('2fa.destroy') . '">' . __('nova.disable') . '</a>';
+                if (!$this->hasTwoFactorEnabled()) {
+                    return '<a href="' . route('2fa.create') . '">' . __('nova.enable') . '</a>';
                 }
-                return '<a href="' . route('2fa.create') . '">' . __('nova.enable') . '</a>';
+                return __('nova.enabled');
             })->asHtml()
                 ->onlyOnDetail()
                 ->canSee(function ($request) {
@@ -197,7 +197,15 @@ class User extends Resource
                 ->confirmButtonText(__('nova.generate'))
                 ->cancelButtonText(__('nova.cancel'))
                 ->canSee(function ($request) {
-                    return $request->user()->hasTwoFactorEnabled();
+                    return $request->user()->hasTwoFactorEnabled() || $request->user()->isAdmin();
+                }),
+            (new Actions\DisableTwoFactorAuthenticationAction)
+                ->onlyOnDetail()
+                ->confirmText(__('nova.2fa_disable_confirmation'))
+                ->confirmButtonText(__('nova.disable'))
+                ->cancelButtonText(__('nova.cancel'))
+                ->canSee(function ($request) {
+                    return $request->user()->hasTwoFactorEnabled() || $request->user()->isAdmin();
                 }),
         ];
     }
