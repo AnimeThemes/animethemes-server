@@ -136,7 +136,7 @@ return [
     */
 
     'qr_code' => [
-        'size' => 400,
+        'size' => 250,
         'margin' => 4
     ],
 ];

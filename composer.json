@@ -21,6 +21,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "league/flysystem-aws-s3-v3": "^1.0",
+        "olssonm/l5-zxcvbn": "^4.2",
         "owen-it/laravel-auditing": "^10.0",
         "simplesquid/nova-enum-field": "^1.2"
     },

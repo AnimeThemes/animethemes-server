@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->loadViewsFrom(base_path('vendor/laravel/nova/resources/views'), 'nova');
     }
 
     /**

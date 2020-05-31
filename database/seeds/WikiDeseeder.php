@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class DropWikiTables extends Seeder
+class WikiDeseeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Nova\Nova;
 
 class RegisterController extends Controller
 {
@@ -34,7 +35,7 @@ class RegisterController extends Controller
      */
     public function redirectPath()
     {
-        return route('nova.index');
+        return Nova::path();
     }
 
     /**
@@ -58,7 +59,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'confirmed', 'zxcvbn_min:3', 'zxcvbn_dictionary:name,email'],
         ]);
     }
 

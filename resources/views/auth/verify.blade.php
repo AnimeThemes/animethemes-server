@@ -1,28 +1,40 @@
-@extends('layouts.auth')
+@extends('nova::auth.layout')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
 
-                <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
-                        </div>
-                    @endif
+@include('nova::auth.partials.header')
 
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
-                    </form>
-                </div>
-            </div>
-        </div>
+<form
+    class="bg-white shadow rounded-lg p-8 max-w-login mx-auto"
+    method="POST"
+    action="{{ route('verification.resend') }}">
+
+    {{ csrf_field() }}
+
+    @component('nova::auth.partials.heading')
+        {{ __('Verify Your Email Address') }}
+    @endcomponent
+
+    @if (session('resent'))
+    <div class="text-success text-center font-semibold my-3">
+        {{ __('A fresh verification link has been sent to your email address.') }}
     </div>
-</div>
+    @endif
+
+    @include('nova::auth.partials.errors')
+
+    <div class="mb-6">
+        <strong>{{ __('Before proceeding, please check your email for a verification link.') }}</strong>
+    </div>
+
+    <div class="mb-6">
+        {{ __('If you did not receive the email, click the Resend Button below.') }}
+    </div>
+
+    <button class="w-full btn btn-default btn-primary hover:bg-primary-dark" type="submit">
+        {{ __('Resend') }}
+    </button>
+
+</form>
+
 @endsection

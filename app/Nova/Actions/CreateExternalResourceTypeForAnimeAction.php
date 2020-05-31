@@ -6,7 +6,6 @@ use App\Enums\ResourceType;
 use App\Models\ExternalResource;
 use App\Rules\ResourceTypeDomain;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
@@ -43,11 +42,6 @@ class CreateExternalResourceTypeForAnimeAction extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        // We want this action applied to singular anime
-        if ($models->count() !== 1) {
-            return Action::danger(__('nova.anime_create_resource_action_cardinality_error'));
-        }
-
         // Create Resource Model with link and provided type
         $resource = ExternalResource::create([
             'type' => $this->type,

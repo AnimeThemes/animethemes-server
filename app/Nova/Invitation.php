@@ -68,7 +68,7 @@ class Invitation extends Resource
 
             Text::make(__('nova.name'), 'name')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255', 'alpha_dash'),
 
             Text::make(__('nova.email'), 'email')
                 ->sortable()

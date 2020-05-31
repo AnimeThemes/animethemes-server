@@ -35,6 +35,8 @@ class ResendInvitationAction extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
+        $resent_invitations = [];
+
         foreach ($models as $model) {
             // Don't send mail for invitation that have been claimed
             if ($model->isOpen()) {
@@ -44,7 +46,14 @@ class ResendInvitationAction extends Action
 
                 // Send replacement email
                 Mail::to($model->email)->queue(new InvitationEmail($model));
+                array_push($resent_invitations, $model->name);
             }
+        }
+
+        if (!empty($resent_invitations)) {
+            return Action::message(__('nova.resent_invitations_for_users', ['users' => implode(', ', $resent_invitations)]));
+        } else {
+            return Action::danger(__('nova.resent_invitations_for_none'));
         }
     }
 

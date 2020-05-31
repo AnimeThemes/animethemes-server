@@ -1,45 +1,42 @@
-@extends('layouts.auth')
+@extends('nova::auth.layout')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Two Factor Authentication Required') }}</div>
-                <div class="card-body">
-                    <form action="{{ $action }}" method="post">
-                        @csrf
-                        @foreach($credentials as $name => $value)
-                            <input type="hidden" name="{{ $name }}" value="{{ $value }}">
-                        @endforeach
-                        @if($remember)
-                            <input type="hidden" name="remember" value="on">
-                        @endif
 
-                        <p class="text-center">
-                            {{ __('To log in, open up your Authenticator app and issue the 6-digit code.') }}
-                        </p>
-                        <div class="form-row justify-content-center py-3">
-                            <div class="col-sm-8 col-8 mb-3">
-                                <input type="text" name="2fa_code" id="2fa_code"
-                                    class="@if($error) is-invalid @endif form-control form-control-lg"
-                                    minlength="6" placeholder="123456" required>
-                                @if($error)
-                                    <div class="invalid-feedback">
-                                        {{ __('The Code is invalid or has expired.') }}
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">{{ __('Log in') }}</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+@include('nova::auth.partials.header')
+
+<form
+    class="bg-white shadow rounded-lg p-8 max-w-login mx-auto"
+    method="POST"
+    action="{{ $action }}">
+
+    @csrf
+    @foreach($credentials as $name => $value)
+        <input type="hidden" name="{{ $name }}" value="{{ $value }}">
+    @endforeach
+
+    @component('nova::auth.partials.heading')
+        {{ __('Two Factor Authentication Required') }}
+    @endcomponent
+
+    <div class="mb-6">
+        <p class="text-center">
+            {{ __('To log in, open up your Authenticator app and issue the 6-digit code.') }}
+        </p>
     </div>
-</div>
+
+    <div class="mb-6">
+        <input class="form-control form-input form-input-bordered w-full" type="text" name="2fa_code" id="2fa_code" required autofocus>
+        @if($error)
+        <div class="text-center font-semibold text-danger my-3">
+            {{ __('The Code is invalid or has expired.') }}
+        </div>
+        @endif    
+    </div>
+
+    <button class="w-full btn btn-default btn-primary hover:bg-primary-dark" type="submit">
+        {{ __('Log in') }}
+    </button>
+
+</form>
+
 @endsection

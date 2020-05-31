@@ -3,7 +3,6 @@
 namespace App\Nova\Actions;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
@@ -32,11 +31,20 @@ class DisableTwoFactorAuthenticationAction extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
+        $disabled_users = [];
+
         foreach ($models as $model) {
             // Only disable 2FA for users that have enabled it
             if ($model->hasTwoFactorEnabled()) {
                 $model->disableTwoFactorAuth();
+                array_push($disabled_users, $model->name);
             }
+        }
+
+        if (!empty($disabled_users)) {
+            return Action::message(__('nova.2fa_disabled_for_users', ['users' => implode(', ', $disabled_users)]));
+        } else {
+            return Action::danger(__('nova.2fa_disabled_for_none'));
         }
     }
 

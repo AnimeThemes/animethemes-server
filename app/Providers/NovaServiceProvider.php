@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\Auth\NovaLoginController;
+use App\Http\Controllers\Auth\NovaResetPasswordController;
 use App\Nova\Metrics\NewAnime;
 use App\Nova\Metrics\NewArtists;
 use App\Nova\Metrics\NewSeries;
@@ -13,6 +15,8 @@ use App\Nova\Metrics\VideosPerDay;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Laravel\Nova\Http\Controllers\LoginController;
+use Laravel\Nova\Http\Controllers\ResetPasswordController;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -102,6 +106,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(LoginController::class, NovaLoginController::class);
+        $this->app->bind(ResetPasswordController::class, NovaResetPasswordController::class);
     }
 }

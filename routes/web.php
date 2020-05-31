@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\TwoFactorAuthenticationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,7 +27,11 @@ Route::group(['middleware' => ['wiki']], function() {
 });
 
 Route::group(['middleware' => ['web']], function() {
-    Auth::routes(['verify' => true]);
-    Route::get('/2fa', [TwoFactorAuthenticationController::class, 'create'])->name('2fa.create');
-    Route::post('/2fa', [TwoFactorAuthenticationController::class, 'store'])->name('2fa.store');
+    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+    Route::post('register', 'Auth\RegisterController@register');
+    Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
+    Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
+    Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+    Route::get('/2fa', 'Auth\TwoFactorAuthenticationController@create')->name('2fa.create');
+    Route::post('/2fa', 'Auth\TwoFactorAuthenticationController@store')->name('2fa.store');
 });

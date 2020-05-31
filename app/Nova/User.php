@@ -9,7 +9,6 @@ use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
 use SimpleSquid\Nova\Fields\Enum\Enum;
 
@@ -85,7 +84,7 @@ class User extends Resource
 
             Text::make(__('nova.name'), 'name')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255', 'alpha_dash'),
 
             Text::make(__('nova.email'), 'email')
                 ->readonly(function ($request) {
@@ -103,11 +102,6 @@ class User extends Resource
                     return !$request->user()->isAdmin();
                 })
                 ->rules('required', new EnumValue(UserType::class, false)),
-
-            Password::make(__('nova.password'), 'password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
 
             // Computed fields for 2FA configuration
 
