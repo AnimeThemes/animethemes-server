@@ -9,6 +9,7 @@ class Entry extends Model implements Auditable
 {
 
     use \OwenIt\Auditing\Auditable;
+    use \Znck\Eloquent\Traits\BelongsToThrough;
 
     protected $fillable = ['version', 'episodes', 'nsfw', 'spoiler', 'notes'];
 
@@ -38,5 +39,9 @@ class Entry extends Model implements Auditable
      */
     public function videos() {
         return $this->belongsToMany('App\Models\Video', 'entry_video', 'entry_id', 'video_id');
+    }
+
+    public function anime() {
+        return $this->belongsToThrough('App\Models\Anime', 'App\Models\Theme', null, '', ['App\Models\Anime' => 'anime_id', 'App\Models\Theme' => 'theme_id']);
     }
 }
