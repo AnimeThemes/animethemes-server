@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -82,6 +83,8 @@ class Series extends Resource
 
             BelongsToMany::make(__('nova.anime'), 'Anime')
                 ->searchable(),
+
+            AuditableLog::make(),
         ];
     }
 

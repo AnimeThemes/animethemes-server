@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsTo;
@@ -109,6 +110,8 @@ class Entry extends Resource
 
             BelongsToMany::make(__('nova.videos'), 'Videos')
                 ->searchable(),
+
+            AuditableLog::make(),
         ];
     }
 

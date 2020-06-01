@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Devpartners\AuditableLog\AuditableLog;
 use App\Enums\ResourceType;
 use App\Rules\ResourceTypeDomain;
 use BenSampo\Enum\Rules\EnumValue;
@@ -97,6 +98,8 @@ class ExternalResource extends Resource
 
             BelongsToMany::make(__('nova.anime'), 'Anime')
                 ->searchable(),
+
+            AuditableLog::make(),
         ];
     }
 

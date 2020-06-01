@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Enums\InvitationStatus;
 use App\Enums\UserType;
 use BenSampo\Enum\Rules\EnumValue;
+use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -86,6 +87,8 @@ class Invitation extends Resource
                 ->attachEnum(InvitationStatus::class)
                 ->sortable()
                 ->rules('required', new EnumValue(InvitationStatus::class, false)),
+
+                AuditableLog::make(),
         ];
     }
 

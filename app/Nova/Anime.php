@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Enums\Season;
 use BenSampo\Enum\Rules\EnumValue;
+use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -119,6 +120,8 @@ class Anime extends Resource
 
             BelongsToMany::make(__('nova.external_resources'), 'ExternalResources')
                 ->searchable(),
+
+            AuditableLog::make(),
         ];
     }
 

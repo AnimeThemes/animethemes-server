@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "afb23967e800096e4f288f58704a77f4",
+    "content-hash": "f43d77e0f398872ec3125bdc5f2879e2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -528,6 +528,50 @@
                 "map"
             ],
             "time": "2017-10-25T22:45:27+00:00"
+        },
+        {
+            "name": "devpartners/auditable-log",
+            "version": "v1.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dev-partners/laravel-nova-auditable-log.git",
+                "reference": "deb27e046f56ca6d9422adb059b0c8c720eb3641"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dev-partners/laravel-nova-auditable-log/zipball/deb27e046f56ca6d9422adb059b0c8c720eb3641",
+                "reference": "deb27e046f56ca6d9422adb059b0c8c720eb3641",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "suggest": {
+                "owen-it/laravel-auditing": "Provides the necessary functionality to audit your Eloquent models"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Devpartners\\AuditableLog\\ToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Devpartners\\AuditableLog\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova resource tool for displaying the Laravel Auditing audit log.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2020-02-21T13:49:04+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

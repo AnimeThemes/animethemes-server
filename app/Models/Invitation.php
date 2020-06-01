@@ -7,12 +7,14 @@ use App\Enums\UserType;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use OwenIt\Auditing\Contracts\Auditable;
 use ParagonIE\ConstantTime\Base32;
 
-class Invitation extends Model
+class Invitation extends Model implements Auditable
 {
 
     use CastsEnums;
+    use \OwenIt\Auditing\Auditable;
 
     /**
      * The table associated with the model.

@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\ID;
@@ -73,6 +74,8 @@ class Announcement extends Resource
             Code::make(__('nova.content'), 'content')
                 ->sortable()
                 ->rules('required', 'max:65535'),
+
+            AuditableLog::make(),
         ];
     }
 

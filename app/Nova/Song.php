@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -103,6 +104,8 @@ class Song extends Resource
                 ->searchable(),
 
             HasMany::make(__('nova.themes'), 'Themes'),
+
+            AuditableLog::make(),
         ];
     }
 

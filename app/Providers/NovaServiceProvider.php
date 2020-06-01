@@ -57,6 +57,14 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             // We will check that the user has a role intended for nova
             return $user->isReadOnly() || $user->isContributor() || $user->isAdmin();
         });
+
+        // Only admins can see audit logs
+        Gate::define('audit', function ($user) {
+            return $user->isAdmin();
+        });
+        Gate::define('audit_restore', function ($user) {
+            return $user->isAdmin();
+        });
     }
 
     /**

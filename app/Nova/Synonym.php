@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsTo;
@@ -79,6 +80,8 @@ class Synonym extends Resource
                 ->sortable()
                 ->rules('required', 'max:192')
                 ->help(__('nova.synonym_text_help')),
+
+            AuditableLog::make(),
         ];
     }
 

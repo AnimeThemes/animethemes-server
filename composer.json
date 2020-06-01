@@ -11,6 +11,7 @@
         "php": "^7.2.5",
         "bensampo/laravel-enum": "^1.37",
         "darkghosthunter/laraguard": "^1.4",
+        "devpartners/auditable-log": "^1.0",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",

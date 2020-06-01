@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Enums\OverlapType;
 use App\Enums\SourceType;
 use BenSampo\Enum\Rules\EnumValue;
+use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -117,6 +118,8 @@ class Video extends Resource
 
             BelongsToMany::make(__('nova.entries'), 'Entries')
                 ->searchable(),
+
+            AuditableLog::make(),
         ];
     }
 

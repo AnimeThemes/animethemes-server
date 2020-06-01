@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -86,6 +87,8 @@ class Artist extends Resource
 
             BelongsToMany::make(__('nova.external_resources'), 'ExternalResources')
                 ->searchable(),
+
+            AuditableLog::make(),
         ];
     }
 

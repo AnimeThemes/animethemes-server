@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Enums\ThemeType;
 use BenSampo\Enum\Rules\EnumValue;
+use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsTo;
@@ -103,6 +104,8 @@ class Theme extends Resource
                 ->showCreateRelationButton(),
 
             HasMany::make(__('nova.entries'), 'Entries'),
+
+            AuditableLog::make(),
         ];
     }
 
