@@ -73,7 +73,8 @@ class Announcement extends Resource
 
             Code::make(__('nova.content'), 'content')
                 ->sortable()
-                ->rules('required', 'max:65535'),
+                ->rules('required', 'max:65535')
+                ->options(['theme' => 'base16-light']),
 
             AuditableLog::make(),
         ];

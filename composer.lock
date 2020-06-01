@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f43d77e0f398872ec3125bdc5f2879e2",
+    "content-hash": "7cb1449b0fa95178bae929e2268972d3",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -528,6 +528,57 @@
                 "map"
             ],
             "time": "2017-10-25T22:45:27+00:00"
+        },
+        {
+            "name": "david-griffiths/nova-dark-theme",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/David-Griffiths/Nova-Dark-Theme.git",
+                "reference": "dfd190f4d3454e5ec066b886ad687c135b680f3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/David-Griffiths/Nova-Dark-Theme/zipball/dfd190f4d3454e5ec066b886ad687c135b680f3b",
+                "reference": "dfd190f4d3454e5ec066b886ad687c135b680f3b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "DavidGriffiths\\NovaDarkTheme\\ThemeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DavidGriffiths\\NovaDarkTheme\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Griffiths",
+                    "homepage": "https://github.com/David-Griffiths",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A dark theme for Laravel Nova",
+            "homepage": "https://github.com/David-Griffiths/Nova-Dark-Theme",
+            "keywords": [
+                "dark",
+                "laravel",
+                "nova",
+                "theme"
+            ],
+            "time": "2019-02-16T22:07:27+00:00"
         },
         {
             "name": "devpartners/auditable-log",
