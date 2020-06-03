@@ -101,6 +101,7 @@ class Theme extends Resource
             BelongsTo::make(__('nova.song'), 'Song')
                 ->sortable()
                 ->searchable()
+                ->nullable()
                 ->showCreateRelationButton(),
 
             HasMany::make(__('nova.entries'), 'Entries'),

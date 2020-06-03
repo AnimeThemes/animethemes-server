@@ -25,6 +25,7 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "olssonm/l5-zxcvbn": "^4.2",
         "owen-it/laravel-auditing": "^10.0",
+        "paranarimasu/nova-nested-form": "dev-master",
         "simplesquid/nova-enum-field": "^1.2",
         "staudenmeir/belongs-to-through": "^2.10"
     },
@@ -77,6 +78,10 @@
         {
             "type": "composer",
             "url": "https://nova.laravel.com"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/paranarimasu/laravel-nova-nested-form"
         }
     ]
 }

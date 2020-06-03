@@ -17,6 +17,7 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use SimpleSquid\Nova\Fields\Enum\Enum;
+use Yassi\NestedForm\NestedForm;
 
 class Anime extends Resource
 {
@@ -110,6 +111,10 @@ class Anime extends Resource
                 ->sortable()
                 ->rules('required', new EnumValue(Season::class, false))
                 ->help(__('nova.anime_season_help')),
+
+            NestedForm::make(__('nova.synonyms'), 'Synonyms', Synonym::class),
+
+            NestedForm::make(__('nova.themes'), 'Themes', Theme::class),
 
             HasMany::make(__('nova.synonyms'), 'Synonyms'),
 
