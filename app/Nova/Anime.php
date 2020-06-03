@@ -116,6 +116,8 @@ class Anime extends Resource
 
             NestedForm::make(__('nova.themes'), 'Themes', Theme::class),
 
+            NestedForm::make(__('nova.external_resources'), 'ExternalResources', ExternalResource::class),
+
             HasMany::make(__('nova.synonyms'), 'Synonyms'),
 
             HasMany::make(__('nova.themes'), 'Themes'),
