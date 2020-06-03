@@ -73,6 +73,9 @@ class Entry extends Resource
     {
         return [
             BelongsTo::make(__('nova.anime'), 'Anime')
+                ->hideFromIndex(function () use ($request) {
+                    return Video::uriKey() !== $request->viaResource;
+                })
                 ->readonly(),
 
             BelongsTo::make(__('nova.theme'), 'Theme')
