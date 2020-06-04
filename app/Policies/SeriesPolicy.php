@@ -115,7 +115,10 @@ class SeriesPolicy
      */
     public function attachAnime(User $user, Series $series, Anime $anime)
     {
-        return $user->isContributor() || $user->isAdmin();
+        if ($series->anime->contains($anime)) {
+            return false;
+        }
+        return $this->attachAnyAnime($user, $series);
     }
 
     /**

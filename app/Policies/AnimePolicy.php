@@ -116,7 +116,10 @@ class AnimePolicy
      */
     public function attachSeries(User $user, Anime $anime, Series $series)
     {
-        return $user->isContributor() || $user->isAdmin();
+        if ($anime->series->contains($series)) {
+            return false;
+        }
+        return $this->attachAnySeries($user, $anime);
     }
 
     /**
@@ -154,7 +157,10 @@ class AnimePolicy
      */
     public function attachExternalResource(User $user, Anime $anime, ExternalResource $externalResource)
     {
-        return $user->isContributor() || $user->isAdmin();
+        if ($anime->externalResources->contains($externalResource)) {
+            return false;
+        }
+        return $this->attachAnyExternalResource($user, $anime);
     }
 
     /**

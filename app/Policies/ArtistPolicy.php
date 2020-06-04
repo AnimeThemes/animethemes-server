@@ -116,7 +116,10 @@ class ArtistPolicy
      */
     public function attachExternalResource(User $user, Artist $artist, ExternalResource $externalResource)
     {
-        return $user->isContributor() || $user->isAdmin();
+        if ($artist->externalResources->contains($externalResource)) {
+            return false;
+        }
+        return $this->attachAnyExternalResource($user, $artist);
     }
 
     /**
@@ -154,7 +157,10 @@ class ArtistPolicy
      */
     public function attachSong(User $user, Artist $artist, Song $song)
     {
-        return $user->isContributor() || $user->isAdmin();
+        if ($artist->songs->contains($song)) {
+            return false;
+        }
+        return $this->attachAnySong($user, $artist);
     }
 
     /**

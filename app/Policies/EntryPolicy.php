@@ -115,7 +115,10 @@ class EntryPolicy
      */
     public function attachVideo(User $user, Entry $entry, Video $video)
     {
-        return $user->isContributor() || $user->isAdmin();
+        if ($entry->videos->contains($video)) {
+            return false;
+        }
+        return $this->attachAnyVideo($user, $entry);
     }
 
     /**

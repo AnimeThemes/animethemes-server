@@ -116,7 +116,10 @@ class ExternalResourcePolicy
      */
     public function attachArtist(User $user, ExternalResource $externalResource, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        if ($externalResource->artists->contains($artist)) {
+            return false;
+        }
+        return $this->attachAnyArtist($user, $externalResource);
     }
 
     /**
@@ -154,7 +157,10 @@ class ExternalResourcePolicy
      */
     public function attachAnime(User $user, ExternalResource $externalResource, Anime $anime)
     {
-        return $user->isContributor() || $user->isAdmin();
+        if ($externalResource->anime->contains($anime)) {
+            return false;
+        }
+        return $this->attachAnyAnime($user, $externalResource);
     }
 
     /**
