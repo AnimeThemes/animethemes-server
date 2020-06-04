@@ -93,7 +93,7 @@ class Video extends Model implements Auditable
 
                     // Note: Our naming convention does not include Overlap type
                 }
-            } catch (Exception $exception) {
+            } catch (\Exception $exception) {
                 Log::error($exception);
             }
         });

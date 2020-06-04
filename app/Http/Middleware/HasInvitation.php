@@ -29,7 +29,7 @@ class HasInvitation
             if (!$invitation->isOpen()) {
                 return redirect(route('welcome'));
             }
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return redirect(route('welcome'));
         }
 

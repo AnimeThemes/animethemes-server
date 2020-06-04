@@ -34,7 +34,7 @@ class VideoLyricsFilter extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->where('lyrics', $video);
+        return $query->where('lyrics', $value);
     }
 
     /**

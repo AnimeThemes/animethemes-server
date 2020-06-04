@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\AppModelsInvitation;
+use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -28,7 +28,7 @@ class InvitationPolicy
      * @param  \App\AppModelsInvitation  $appModelsInvitation
      * @return mixed
      */
-    public function view(User $user, AppModelsInvitation $appModelsInvitation)
+    public function view(User $user, Invitation $invitation)
     {
         return $user->isAdmin();
     }
@@ -51,7 +51,7 @@ class InvitationPolicy
      * @param  \App\AppModelsInvitation  $appModelsInvitation
      * @return mixed
      */
-    public function update(User $user, AppModelsInvitation $appModelsInvitation)
+    public function update(User $user, Invitation $invitation)
     {
         return $user->isAdmin();
     }
@@ -63,7 +63,7 @@ class InvitationPolicy
      * @param  \App\AppModelsInvitation  $appModelsInvitation
      * @return mixed
      */
-    public function delete(User $user, AppModelsInvitation $appModelsInvitation)
+    public function delete(User $user, Invitation $invitation)
     {
         return $user->isAdmin();
     }
@@ -75,7 +75,7 @@ class InvitationPolicy
      * @param  \App\AppModelsInvitation  $appModelsInvitation
      * @return mixed
      */
-    public function restore(User $user, AppModelsInvitation $appModelsInvitation)
+    public function restore(User $user, Invitation $invitation)
     {
         return $user->isAdmin();
     }
@@ -87,7 +87,7 @@ class InvitationPolicy
      * @param  \App\AppModelsInvitation  $appModelsInvitation
      * @return mixed
      */
-    public function forceDelete(User $user, AppModelsInvitation $appModelsInvitation)
+    public function forceDelete(User $user, Invitation $invitation)
     {
         return $user->isAdmin();
     }
