@@ -40,7 +40,7 @@ class Artist extends Model implements Auditable
      * Get the songs the artist has performed in
      */
     public function songs() {
-        return $this->belongsToMany('App\Models\Song', 'artist_song', 'artist_id', 'song_id');
+        return $this->belongsToMany('App\Models\Song', 'artist_song', 'artist_id', 'song_id')->withPivot('as');
     }
 
     /**

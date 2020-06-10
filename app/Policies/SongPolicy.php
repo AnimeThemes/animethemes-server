@@ -127,10 +127,7 @@ class SongPolicy
      */
     public function attachArtist(User $user, Song $song, Artist $artist)
     {
-        if ($song->artists->contains($artist)) {
-            return false;
-        }
-        return $this->attachAnyArtist($user, $song);
+        return $user->isContributor() || $user->isAdmin();
     }
 
     /**

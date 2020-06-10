@@ -124,23 +124,21 @@ class AnimeThemeSeeder extends Seeder
                 }
 
                 // If Theme line, attempt to create Theme/Song/Entry
-                // Format: "{OP|ED}{Sequence} V{Version} "{Song Title}" by {by}|[Webm {Tags}](https://animethemes.moe/video/{Video Basename})|{Episodes}|{Notes}"
-                if (!is_null($anime) && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\"(?:\sby\s(.*))?\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wiki_entry_line, $theme_match)) {
+                // Format: "{OP|ED}{Sequence} V{Version} "{Song Title}"|[Webm {Tags}](https://animethemes.moe/video/{Video Basename})|{Episodes}|{Notes}"
+                if (!is_null($anime) && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\".*\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wiki_entry_line, $theme_match)) {
                     $theme_type = $theme_match[1];
                     $sequence = $theme_match[2];
                     $version = $theme_match[3];
                     $song_title = html_entity_decode($theme_match[4]);
-                    $song_by = html_entity_decode($theme_match[5]);
-                    $video_basename = $theme_match[6];
-                    $episodes = $theme_match[7];
-                    $notes = Str::of(html_entity_decode($theme_match[8]))->trim();
+                    $video_basename = $theme_match[5];
+                    $episodes = $theme_match[6];
+                    $notes = Str::of(html_entity_decode($theme_match[7]))->trim();
 
                     // Create Theme if no version or V1
                     if (!is_numeric($version) || intval($version) === 1) {
                         // Create Song
                         $song = Song::create([
                             'title' => $song_title,
-                            'by' => $song_by
                         ]);
 
                         // Create Theme

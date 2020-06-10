@@ -83,7 +83,14 @@ class Artist extends Resource
 
             BelongsToMany::make(__('nova.songs'), 'Songs')
                 ->searchable()
-                ->withSubtitles(), //TODO: doesn't work, open issue
+                ->withSubtitles() //TODO: doesn't work, open issue
+                ->fields(function () {
+                    return [
+                        Text::make(__('nova.as'), 'as')
+                            ->rules('nullable', 'max:192')
+                            ->help(__('nova.as_help')),
+                    ];
+                }),
 
             BelongsToMany::make(__('nova.external_resources'), 'ExternalResources')
                 ->searchable(),

@@ -95,13 +95,15 @@ class Song extends Resource
                 ->rules('nullable', 'max:192')
                 ->help(__('nova.song_title_help')),
 
-            Text::make(__('nova.by'), 'by')
-                ->sortable()
-                ->rules('nullable', 'max:192')
-                ->help(__('nova.song_by_help')),
-
             BelongsToMany::make(__('nova.artists'), 'Artists')
-                ->searchable(),
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        Text::make(__('nova.as'), 'as')
+                            ->rules('nullable', 'max:192')
+                            ->help(__('nova.as_help')),
+                    ];
+                }),
 
             HasMany::make(__('nova.themes'), 'Themes'),
 
