@@ -9,7 +9,6 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Series extends Resource
 {
@@ -81,7 +80,7 @@ class Series extends Resource
                 ->updateRules('unique:series,alias,{{resourceId}},series_id')
                 ->help(__('nova.series_alias_help')),
 
-            BelongsToMany::make(__('nova.anime'), 'Anime')
+            BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
                 ->searchable(),
 
             AuditableLog::make(),

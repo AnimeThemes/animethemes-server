@@ -12,7 +12,6 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Entry extends Resource
 {
@@ -72,13 +71,13 @@ class Entry extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make(__('nova.anime'), 'Anime')
+            BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
                 ->hideFromIndex(function () use ($request) {
                     return Video::uriKey() !== $request->viaResource;
                 })
                 ->readonly(),
 
-            BelongsTo::make(__('nova.theme'), 'Theme')
+            BelongsTo::make(__('nova.theme'), 'Theme', Theme::class)
                 ->readonly(),
 
             ID::make(__('nova.id'), 'entry_id')
@@ -111,7 +110,7 @@ class Entry extends Resource
                 ->rules('nullable', 'max:192')
                 ->help(__('nova.entry_notes_help')),
 
-            BelongsToMany::make(__('nova.videos'), 'Videos')
+            BelongsToMany::make(__('nova.videos'), 'Videos', Video::class)
                 ->searchable(),
 
             AuditableLog::make(),

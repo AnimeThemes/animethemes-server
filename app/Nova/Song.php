@@ -10,8 +10,6 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Illuminate\Support\Facades\Log;
 
 class Song extends Resource
 {
@@ -35,9 +33,6 @@ class Song extends Resource
      * @return string
      */
     public function subtitle() {
-        if (!empty($this->by)) {
-            return __('nova.song_by_subtitle', ['by' => $this->by]);
-        }
         return __('nova.song_by_subtitle', ['by' => $this->artists->implode('name', ', ')]);
     }
 
@@ -95,7 +90,7 @@ class Song extends Resource
                 ->rules('nullable', 'max:192')
                 ->help(__('nova.song_title_help')),
 
-            BelongsToMany::make(__('nova.artists'), 'Artists')
+            BelongsToMany::make(__('nova.artists'), 'Artists', Artist::class)
                 ->searchable()
                 ->fields(function () {
                     return [
@@ -105,7 +100,7 @@ class Song extends Resource
                     ];
                 }),
 
-            HasMany::make(__('nova.themes'), 'Themes'),
+            HasMany::make(__('nova.themes'), 'Themes', Theme::class),
 
             AuditableLog::make(),
         ];

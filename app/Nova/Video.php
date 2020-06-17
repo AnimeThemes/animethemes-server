@@ -14,7 +14,6 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class Video extends Resource
@@ -116,7 +115,7 @@ class Video extends Resource
                 ->rules('nullable', new EnumValue(SourceType::class, false))
                 ->help(__('nova.video_source_help')),
 
-            BelongsToMany::make(__('nova.entries'), 'Entries')
+            BelongsToMany::make(__('nova.entries'), 'Entries', Entry::class)
                 ->searchable(),
 
             AuditableLog::make(),

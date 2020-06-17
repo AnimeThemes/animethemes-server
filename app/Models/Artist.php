@@ -49,4 +49,18 @@ class Artist extends Model implements Auditable
     public function externalResources() {
         return $this->belongsToMany('App\Models\ExternalResource', 'artist_resource', 'artist_id', 'resource_id');
     }
+
+    /**
+     * Get the songs the artist has performed in
+     */
+    public function members() {
+        return $this->belongsToMany('App\Models\Artist', 'artist_member', 'artist_id', 'member_id')->withPivot('as');
+    }
+
+    /**
+     * Get the songs the artist has performed in
+     */
+    public function groups() {
+        return $this->belongsToMany('App\Models\Artist', 'artist_member', 'member_id', 'artist_id')->withPivot('as');
+    }
 }

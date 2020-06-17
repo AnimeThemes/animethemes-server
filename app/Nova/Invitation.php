@@ -9,7 +9,6 @@ use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class Invitation extends Resource
@@ -88,7 +87,7 @@ class Invitation extends Resource
                 ->sortable()
                 ->rules('required', new EnumValue(InvitationStatus::class, false)),
 
-                AuditableLog::make(),
+            AuditableLog::make(),
         ];
     }
 

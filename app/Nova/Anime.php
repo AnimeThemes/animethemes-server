@@ -7,7 +7,6 @@ use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
@@ -15,7 +14,6 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use SimpleSquid\Nova\Fields\Enum\Enum;
 use Yassi\NestedForm\NestedForm;
 
@@ -118,14 +116,14 @@ class Anime extends Resource
 
             NestedForm::make(__('nova.external_resources'), 'ExternalResources', ExternalResource::class),
 
-            HasMany::make(__('nova.synonyms'), 'Synonyms'),
+            HasMany::make(__('nova.synonyms'), 'Synonyms', Synonym::class),
 
-            HasMany::make(__('nova.themes'), 'Themes'),
+            HasMany::make(__('nova.themes'), 'Themes', Theme::class),
 
-            BelongsToMany::make(__('nova.series'), 'Series')
+            BelongsToMany::make(__('nova.series'), 'Series', Series::class)
                 ->searchable(),
 
-            BelongsToMany::make(__('nova.external_resources'), 'ExternalResources')
+            BelongsToMany::make(__('nova.external_resources'), 'ExternalResources', ExternalResource::class)
                 ->searchable(),
 
             AuditableLog::make(),

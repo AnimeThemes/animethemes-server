@@ -9,7 +9,6 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Artist extends Resource
 {
@@ -81,7 +80,7 @@ class Artist extends Resource
                 ->updateRules('unique:artist,alias,{{resourceId}},artist_id')
                 ->help(__('nova.artist_alias_help')),
 
-            BelongsToMany::make(__('nova.songs'), 'Songs')
+            BelongsToMany::make(__('nova.songs'), 'Songs', Song::class)
                 ->searchable()
                 ->withSubtitles() //TODO: doesn't work, open issue
                 ->fields(function () {
@@ -92,8 +91,28 @@ class Artist extends Resource
                     ];
                 }),
 
-            BelongsToMany::make(__('nova.external_resources'), 'ExternalResources')
+            BelongsToMany::make(__('nova.external_resources'), 'ExternalResources', ExternalResource::class)
                 ->searchable(),
+
+            BelongsToMany::make(__('nova.members'), 'Members', Artist::class)
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        Text::make(__('nova.as'), 'as')
+                            ->rules('nullable', 'max:192')
+                            ->help(__('nova.as_help')),
+                    ];
+                }),
+
+            BelongsToMany::make(__('nova.groups'), 'Groups', Artist::class)
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        Text::make(__('nova.as'), 'as')
+                            ->rules('nullable', 'max:192')
+                            ->help(__('nova.as_help')),
+                    ];
+                }),
 
             AuditableLog::make(),
         ];

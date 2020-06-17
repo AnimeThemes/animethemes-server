@@ -13,7 +13,6 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class Theme extends Resource
@@ -77,9 +76,9 @@ class Theme extends Resource
             ID::make(__('nova.id'), 'theme_id')
                 ->sortable(),
 
-            BelongsTo::make(__('nova.anime'), 'Anime')
+            BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
                ->readonly(),
-            
+
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
             Enum::make(__('nova.type'), 'type')
@@ -98,13 +97,13 @@ class Theme extends Resource
                 ->rules('nullable', 'max:192')
                 ->help(__('nova.theme_group_help')),
 
-            BelongsTo::make(__('nova.song'), 'Song')
+            BelongsTo::make(__('nova.song'), 'Song', Song::class)
                 ->sortable()
                 ->searchable()
                 ->nullable()
                 ->showCreateRelationButton(),
 
-            HasMany::make(__('nova.entries'), 'Entries'),
+            HasMany::make(__('nova.entries'), 'Entries', Entry::class),
 
             AuditableLog::make(),
         ];

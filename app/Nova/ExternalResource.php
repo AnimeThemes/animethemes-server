@@ -13,7 +13,6 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class ExternalResource extends Resource
@@ -93,10 +92,10 @@ class ExternalResource extends Resource
                 ->rules('nullable', 'max:192')
                 ->help(__('nova.resource_label_help')),
 
-            BelongsToMany::make(__('nova.artists'), 'Artists')
+            BelongsToMany::make(__('nova.artists'), 'Artists', Artist::class)
                 ->searchable(),
 
-            BelongsToMany::make(__('nova.anime'), 'Anime')
+            BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
                 ->searchable(),
 
             AuditableLog::make(),

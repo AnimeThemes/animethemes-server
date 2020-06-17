@@ -9,7 +9,6 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Synonym extends Resource
 {
@@ -69,7 +68,7 @@ class Synonym extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make(__('nova.anime'), 'Anime')
+            BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
                 ->readonly(),
 
             ID::make(__('nova.id'), 'synonym_id')->sortable(),
