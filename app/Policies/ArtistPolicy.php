@@ -172,4 +172,42 @@ class ArtistPolicy
     {
         return $user->isContributor() || $user->isAdmin();
     }
+
+    /**
+     * Determine whether the user can attach any group/member to the artist.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Artist  $artist
+     * @return mixed
+     */
+    public function attachAnyArtist(User $user, Artist $artist)
+    {
+        return $user->isContributor() || $user->isAdmin();
+    }
+
+    /**
+     * Determine whether the user can attach a group/member to the artist.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Artist  $artist
+     * @param  \App\Models\Artist  $member
+     * @return mixed
+     */
+    public function attachArtist(User $user, Artist $artist, Artist $member)
+    {
+        return $user->isContributor() || $user->isAdmin();
+    }
+
+    /**
+     * Determine whether the user can detach a group/member from the artist.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Artist  $artist
+     * @param  \App\Models\Artist  $member
+     * @return mixed
+     */
+    public function detachArtist(User $user, Artist $artist, Artist $member)
+    {
+        return $user->isContributor() || $user->isAdmin();
+    }
 }
