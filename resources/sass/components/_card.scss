@@ -1,0 +1,18 @@
+@import "../utils/variables";
+
+.card {
+    padding: 1rem 1.5rem;
+    border-left: 4px solid $secondaryTitle;
+    border-radius: 0 0.5rem 0.5rem 0;
+
+    color: $primaryMediumEmphasis;
+    background-color: elevate($primaryBackground);
+
+    &.--hoverable {
+        cursor: pointer;
+
+        &:hover {
+            background-color: elevate($primaryBackground, 2);
+        }
+    }
+}

@@ -1,0 +1,27 @@
+@import "../utils/variables";
+
+.description-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin: 0;
+
+    &__key {
+        margin: 0 0 0.25rem 0;
+
+        color: $primaryHighEmphasis;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    &__value {
+        margin: 0;
+
+        color: $primaryMediumEmphasis;
+
+        &:not(:last-child) {
+            margin-bottom: 1.5rem;
+        }
+    }
+}

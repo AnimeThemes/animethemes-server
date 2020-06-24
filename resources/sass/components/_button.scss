@@ -1,0 +1,18 @@
+@import "../utils/variables";
+
+.button {
+    cursor: pointer;
+
+    &.--primary {
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+
+        background-color: elevate($primaryBackground, 1);
+        color: $primaryMediumEmphasis;
+
+        &.--active {
+            background-color: elevate($primaryBackground, 2);
+            color: $primaryHighEmphasis;
+        }
+    }
+}
