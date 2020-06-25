@@ -1,32 +1,127 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+(() => {
 
-require('./bootstrap');
+    // Declarations
 
-window.Vue = require('vue');
+    const url = "https://graphql.anilist.co";
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+    function fetchAniList() {
+        const animeId = document.querySelector("#anime__id").value.match(/\d+/)[0];
+        fetchQuery(graphql`
+            query($id: Int) {
+                Media(idMal: $id, sort: ID) {
+                    description
+                    coverImage {
+                        extraLarge
+                    }
+                }
+            }
+        `, {
+            id: animeId
+        })
+            .then(aniListAnime => {
+                const synopsis = aniListAnime.Media.description;
+                const image = aniListAnime.Media.coverImage.extraLarge;
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+                document
+                    .querySelectorAll(".anime__synopsis-text")
+                    .forEach((element) => element.innerHTML = synopsis);
+                document
+                    .querySelectorAll(".anime__cover")
+                    .forEach((element) => element.src = image);
+            });
+    }
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+    function fetchQuery(query, variables) {
+        return (
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    query,
+                    variables
+                })
+            })
+                .then(response => response.json())
+                .then(json => json.data)
+        );
+    }
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+    function graphql(strings) {
+        return strings.raw[0].trim().replace(/\s+/g, " ");
+    }
 
-const app = new Vue({
-    el: '#app',
-});
+    function setupCollapseHandler() {
+        document.querySelectorAll(".anime__synopsis").forEach(synopsis => {
+            let collapsed = synopsis.classList.contains("--collapsed");
+
+            synopsis.addEventListener("click", () => {
+                collapsed = !collapsed;
+
+                if (collapsed) {
+                    synopsis.classList.add("--collapsed");
+                } else {
+                    synopsis.classList.remove("--collapsed");
+                }
+            });
+        });
+    }
+
+    function setupThemeHandler() {
+        let themeDark = false;
+
+        document.querySelectorAll(".theme__switch").forEach(themeSwitch => {
+             themeSwitch.addEventListener("click", () => {
+                 themeDark = !themeDark;
+
+                 if (themeDark) {
+                     document.body.classList.add("--theme-dark");
+                 } else {
+                     document.body.classList.remove("--theme-dark");
+                 }
+             });
+        });
+    }
+
+    function setupThemeGroupHandler() {
+        let activeGroup = document.querySelector(".anime__group-tab.--active").getAttribute("data-group");
+
+        onActiveGroupChange(activeGroup);
+
+        document.querySelectorAll(".anime__group-tab").forEach(groupTab => {
+            groupTab.addEventListener("click", () => {
+                activeGroup = groupTab.getAttribute("data-group");
+
+                // Handle tab active state
+                document
+                    .querySelectorAll(".anime__group-tab.--active")
+                    .forEach(activeGroupTab => activeGroupTab.classList.remove("--active"));
+                groupTab.classList.add("--active");
+
+                onActiveGroupChange(activeGroup);
+            });
+        });
+
+        function onActiveGroupChange(activeGroup) {
+            // Handle theme visibility
+            document
+                .querySelectorAll(".theme-card")
+                .forEach(themeCard => {
+                    if (themeCard.getAttribute("data-group") === activeGroup) {
+                        themeCard.removeAttribute("style");
+                    } else {
+                        themeCard.setAttribute("style", "display: none;");
+                    }
+                });
+        }
+    }
+
+    // Run
+
+    fetchAniList();
+    setupCollapseHandler();
+    setupThemeHandler();
+    setupThemeGroupHandler();
+
+})();

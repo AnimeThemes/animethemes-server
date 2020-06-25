@@ -1,0 +1,33 @@
+@import "../utils/variables";
+
+* {
+    box-sizing: border-box;
+    transition: color, background-color 250ms;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: $primaryBackground;
+    color: $primaryHighEmphasis;
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    outline: none;
+    line-height: inherit;
+    -webkit-appearance: none;
+}

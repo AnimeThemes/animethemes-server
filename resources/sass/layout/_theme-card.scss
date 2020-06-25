@@ -1,0 +1,42 @@
+@import "../utils/variables";
+
+.theme-card {
+    &__sequence {
+        flex-basis: 2.5rem;
+
+        display: flex;
+
+        color: $primaryTitle;
+
+        &.--secondary {
+            color: $primaryMediumEmphasis;
+        }
+    }
+
+    &__title {
+        font-weight: bold;
+        color: $primaryTitle;
+    }
+
+    &__artist {
+        font-weight: bold;
+        color: $secondaryTitle;
+    }
+
+    &__video-list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+
+        margin: -0.25rem; // Hack to have gutters between items without an outer margin
+
+        & > * {
+            margin: 0.25rem;
+        }
+    }
+
+    & i {
+        color: $primaryLowEmphasis;
+    }
+}

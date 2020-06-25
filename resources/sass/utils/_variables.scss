@@ -1,0 +1,31 @@
+// -----------------------------------------------------
+// Colors
+// -----------------------------------------------------
+
+$primaryBackground:     var(--primary-background);
+$primaryTitle:          var(--primary-title);
+$primaryHighEmphasis:   var(--primary-high-emphasis);
+$primaryMediumEmphasis: var(--primary-medium-emphasis);
+$primaryLowEmphasis:    var(--primary-low-emphasis);
+
+$secondaryBackground:   var(--secondary-background);
+$secondaryTitle:        var(--secondary-title);
+
+$warningTitle:          var(--warning-title);
+
+@function elevate($colorName, $elevation: 1) {
+    @return str-insert($colorName, "-" + $elevation, -2);
+}
+
+// -----------------------------------------------------
+// Spacing
+// -----------------------------------------------------
+
+$spacings: (
+    "25": 0.25rem,
+    "50": 0.5rem,
+    "75": 0.75rem,
+    "100": 1rem,
+    "150": 1.5rem,
+    "200": 2rem
+);
