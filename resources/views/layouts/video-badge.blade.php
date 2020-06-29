@@ -1,4 +1,4 @@
-<a class="badge --hoverable gap-h-75" href="https://animethemes.moe/video/{{ $video->basename }}">
+<a class="badge --hoverable gap-h-75" href="{{ route('video.show', $video->basename) }}">
     @if (!empty($video->resolution))
         <div class="row --center">
             <i class="fas fa-arrows-alt-v prefix-25"></i>
