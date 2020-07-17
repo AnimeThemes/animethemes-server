@@ -8,7 +8,7 @@
         const animeId = document.querySelector("#anime__id").value.match(/\d+/)[0];
         fetchQuery(graphql`
             query($id: Int) {
-                Media(idMal: $id, sort: ID) {
+                Media(idMal: $id, type: ANIME) {
                     description
                     coverImage {
                         extraLarge
