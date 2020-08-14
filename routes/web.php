@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'WelcomeController@do')->name('welcome');
-Route::resource('video', 'VideosController', ['only' => [
-    'index', 'show'
-]]);
+Route::resource('video', 'VideosController', ['only' => ['show']]);
 Route::get('/sitemap', 'SitemapController@index');
 Route::get('/sitemap/videos', 'SitemapController@videos')->name('video_sitemap');
