@@ -38,7 +38,7 @@ class AnimeResource extends JsonResource
             'name' => $this->name,
             'alias' => $this->alias,
             'year' => $this->year,
-            'season' => $this->season->description,
+            'season' => optional($this->season)->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'synonyms' => SynonymResource::collection($this->whenLoaded('synonyms')),

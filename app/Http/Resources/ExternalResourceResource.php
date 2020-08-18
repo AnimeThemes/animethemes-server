@@ -35,7 +35,7 @@ class ExternalResourceResource extends JsonResource
             'id' => $this->resource_id,
             'link' => $this->link,
             'label' => $this->label,
-            'type' => $this->type->description,
+            'type' => optional($this->type)->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'artists' => ArtistResource::collection($this->whenLoaded('artists')),

@@ -34,7 +34,7 @@ class ThemeResource extends JsonResource
     {
         return [
             'id' => $this->theme_id,
-            'type' => $this->type->description,
+            'type' => optional($this->type)->description,
             'sequence' => $this->sequence,
             'group' => $this->group,
             'slug' => $this->slug,
