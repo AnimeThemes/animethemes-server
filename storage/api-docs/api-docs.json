@@ -1,0 +1,720 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "AnimeThemes.moe Api Documentation",
+        "description": "AnimeThemes.moe Laravel RESTful API Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/anime/{alias}": {
+            "get": {
+                "tags": [
+                    "Anime"
+                ],
+                "summary": "Get properties of Anime",
+                "description": "Returns properties of Anime",
+                "operationId": "getAnime",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AnimeResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Anime cannot be found"
+                    }
+                }
+            }
+        },
+        "/artist/{alias}": {
+            "get": {
+                "tags": [
+                    "Artist"
+                ],
+                "summary": "Get properties of Artist",
+                "description": "Returns properties of Artist",
+                "operationId": "getArtist",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArtistResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Artist cannot be found"
+                    }
+                }
+            }
+        },
+        "/entry/{id}": {
+            "get": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Get properties of Entry",
+                "description": "Returns properties of Entry",
+                "operationId": "getEntry",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EntryResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Entry cannot be found"
+                    }
+                }
+            }
+        },
+        "/resource/{id}": {
+            "get": {
+                "tags": [
+                    "Resource"
+                ],
+                "summary": "Get properties of Resource",
+                "description": "Returns properties of Resource",
+                "operationId": "getResource",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExternalResourceResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource cannot be found"
+                    }
+                }
+            }
+        },
+        "/series/{alias}": {
+            "get": {
+                "tags": [
+                    "Series"
+                ],
+                "summary": "Get properties of Series",
+                "description": "Returns properties of Series",
+                "operationId": "getSeries",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SeriesResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Series cannot be found"
+                    }
+                }
+            }
+        },
+        "/song/{id}": {
+            "get": {
+                "tags": [
+                    "Song"
+                ],
+                "summary": "Get properties of Song",
+                "description": "Returns properties of Song",
+                "operationId": "getSong",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SongResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Song cannot be found"
+                    }
+                }
+            }
+        },
+        "/synonym/{id}": {
+            "get": {
+                "tags": [
+                    "Synonym"
+                ],
+                "summary": "Get properties of Synonym",
+                "description": "Returns properties of Synonym",
+                "operationId": "getSynonym",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SynonymResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Synonym cannot be found"
+                    }
+                }
+            }
+        },
+        "/theme/{id}": {
+            "get": {
+                "tags": [
+                    "Theme"
+                ],
+                "summary": "Get properties of Theme",
+                "description": "Returns properties of Theme",
+                "operationId": "getTheme",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ThemeResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Theme cannot be found"
+                    }
+                }
+            }
+        },
+        "/video/{basename}": {
+            "get": {
+                "tags": [
+                    "Video"
+                ],
+                "summary": "Get properties of Video",
+                "description": "Returns properties of Video",
+                "operationId": "getVideo",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VideoResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Video cannot be found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AnimeResource": {
+                "title": "Anime",
+                "description": "Anime Resource",
+                "properties": {
+                    "id": {
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "example": 1318
+                    },
+                    "name": {
+                        "description": "The Primary Title of the Anime",
+                        "type": "string",
+                        "example": "Bakemonogatari"
+                    },
+                    "alias": {
+                        "description": "URL Slug & Model Route Key",
+                        "type": "string",
+                        "example": "bakemonogatari"
+                    },
+                    "year": {
+                        "description": "The Year in which the Anime Premiered",
+                        "type": "integer",
+                        "example": 2009
+                    },
+                    "season": {
+                        "description": "The Season in which the Anime Premiered",
+                        "type": "string",
+                        "example": "Summer"
+                    },
+                    "created_at": {
+                        "description": "The Resource Creation Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "The Resource Last Updated Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "synonyms": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/SynonymResource"
+                    },
+                    "themes": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/ThemeResource"
+                    },
+                    "series": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/SeriesResource"
+                    },
+                    "resources": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/ExternalResourceResource"
+                    }
+                },
+                "type": "object"
+            },
+            "ArtistResource": {
+                "title": "Artist",
+                "description": "Artist Resource",
+                "properties": {
+                    "id": {
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "example": 1318
+                    },
+                    "name": {
+                        "description": "The Primary Name of the Artist",
+                        "type": "string",
+                        "example": "Chiwa Saito"
+                    },
+                    "alias": {
+                        "description": "URL Slug & Model Route Key",
+                        "type": "string",
+                        "example": "chiwa_saito"
+                    },
+                    "created_at": {
+                        "description": "The Resource Creation Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "The Resource Last Updated Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "members": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/ArtistResource"
+                    },
+                    "groups": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/ArtistResource"
+                    },
+                    "resources": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/ExternalResourceResource"
+                    }
+                },
+                "type": "object"
+            },
+            "EntryResource": {
+                "title": "Entry",
+                "description": "Entry Resource",
+                "properties": {
+                    "id": {
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "example": 1850
+                    },
+                    "version": {
+                        "description": "The Version number of the Theme",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "episodes": {
+                        "description": "The range(s) of episodes that the theme entry is used",
+                        "type": "string",
+                        "example": "1-2, 12"
+                    },
+                    "nsfw": {
+                        "description": "Does the entry include Not Safe For Work content?",
+                        "type": "bool",
+                        "example": "true"
+                    },
+                    "spoiler": {
+                        "description": "Does the entry include content that spoils the show?",
+                        "type": "bool",
+                        "example": "false"
+                    },
+                    "notes": {
+                        "description": "Any additional information not included in other fields that may be useful",
+                        "type": "string",
+                        "example": "Different character at 1:05"
+                    },
+                    "created_at": {
+                        "description": "The Resource Creation Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "The Resource Last Updated Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "anime": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/AnimeResource"
+                    },
+                    "theme": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/ThemeResource"
+                    },
+                    "videos": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/VideoResource"
+                    }
+                },
+                "type": "object"
+            },
+            "ExternalResourceResource": {
+                "title": "Resource",
+                "description": "External Resource",
+                "properties": {
+                    "id": {
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "example": 1850
+                    },
+                    "label": {
+                        "description": "Used to distinguish resources that map to the same artist or anime",
+                        "type": "string",
+                        "example": "S2"
+                    },
+                    "link": {
+                        "description": "The URL of the resource",
+                        "type": "string",
+                        "example": "https://myanimelist.net/people/8/"
+                    },
+                    "type": {
+                        "description": "The site that we are linking to",
+                        "type": "string",
+                        "example": "MyAnimeList"
+                    },
+                    "created_at": {
+                        "description": "The Resource Creation Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "The Resource Last Updated Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "artists": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/ArtistResource"
+                    },
+                    "anime": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/AnimeResource"
+                    }
+                },
+                "type": "object"
+            },
+            "SeriesResource": {
+                "title": "Series",
+                "description": "Series Resource",
+                "properties": {
+                    "id": {
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "example": 1318
+                    },
+                    "name": {
+                        "description": "The Primary Name of the Series",
+                        "type": "string",
+                        "example": "Monogatari"
+                    },
+                    "alias": {
+                        "description": "URL Slug & Model Route Key",
+                        "type": "string",
+                        "example": "monogatari"
+                    },
+                    "created_at": {
+                        "description": "The Resource Creation Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "The Resource Last Updated Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "anime": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/AnimeResource"
+                    }
+                },
+                "type": "object"
+            },
+            "SongResource": {
+                "title": "Song",
+                "description": "Song Resource",
+                "properties": {
+                    "id": {
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "example": 1850
+                    },
+                    "title": {
+                        "description": "The title of the song",
+                        "type": "string",
+                        "example": "stable staple"
+                    },
+                    "created_at": {
+                        "description": "The Resource Creation Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "The Resource Last Updated Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "themes": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/ThemeResource"
+                    },
+                    "artists": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/ArtistResource"
+                    }
+                },
+                "type": "object"
+            },
+            "SynonymResource": {
+                "title": "Synonym",
+                "description": "Synonym Resource",
+                "properties": {
+                    "id": {
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "example": 1850
+                    },
+                    "text": {
+                        "description": "For alternative titles, licensed titles, common abbreviations and/or shortenings",
+                        "type": "string",
+                        "example": "Monstory"
+                    },
+                    "created_at": {
+                        "description": "The Resource Creation Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "The Resource Last Updated Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "anime": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/AnimeResource"
+                    }
+                },
+                "type": "object"
+            },
+            "ThemeResource": {
+                "title": "Theme",
+                "description": "Theme Resource",
+                "properties": {
+                    "id": {
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "example": 1850
+                    },
+                    "type": {
+                        "description": "Is this an OP or an ED?",
+                        "type": "string",
+                        "example": "OP"
+                    },
+                    "sequence": {
+                        "description": "Numeric ordering of theme",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "group": {
+                        "description": "For separating sequences belonging to dubs, rebroadcasts, remasters, etc",
+                        "type": "string",
+                        "example": "AT-X Broadcast"
+                    },
+                    "slug": {
+                        "description": "URL Slug",
+                        "type": "bool",
+                        "example": "ED1"
+                    },
+                    "created_at": {
+                        "description": "The Resource Creation Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "The Resource Last Updated Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "anime": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/AnimeResource"
+                    },
+                    "song": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/SongResource"
+                    },
+                    "entries": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/EntryResource"
+                    }
+                },
+                "type": "object"
+            },
+            "VideoResource": {
+                "title": "Video",
+                "description": "Video Resource",
+                "properties": {
+                    "id": {
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "example": 1850
+                    },
+                    "basename": {
+                        "description": "The basename of the Video",
+                        "type": "string",
+                        "example": "Bakemonogatari-OP1.webm"
+                    },
+                    "filename": {
+                        "description": "The filename of the Video",
+                        "type": "string",
+                        "example": "Bakemonogatari-OP1"
+                    },
+                    "path": {
+                        "description": "The path of the Video in storage",
+                        "type": "string",
+                        "example": "2009/Summer/Bakemonogatari-OP1.webm"
+                    },
+                    "resolution": {
+                        "description": "Frame height of the video",
+                        "type": "integer",
+                        "example": 1080
+                    },
+                    "nc": {
+                        "description": "Is the video creditless?",
+                        "type": "bool",
+                        "example": "true"
+                    },
+                    "subbed": {
+                        "description": "Does the video include subtitles of dialogue?",
+                        "type": "bool",
+                        "example": "false"
+                    },
+                    "lyrics": {
+                        "description": "Does the video include subtitles for song lyrics?",
+                        "type": "bool",
+                        "example": "true"
+                    },
+                    "uncen": {
+                        "description": "Is the video an uncensored version of a censored sequence?",
+                        "type": "bool",
+                        "example": "true"
+                    },
+                    "source": {
+                        "description": "Where did this video come from?",
+                        "type": "string",
+                        "example": "BD"
+                    },
+                    "overlap": {
+                        "description": "The degree to which the sequence and episode content overlap",
+                        "type": "string",
+                        "example": "Trans"
+                    },
+                    "created_at": {
+                        "description": "The Resource Creation Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "The Resource Last Updated Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "link": {
+                        "description": "The link to the video stream",
+                        "type": "string",
+                        "example": "https://animethemes.moe/video/Bakemonogatari-OP1.webm"
+                    },
+                    "entries": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/EntryResource"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Anime",
+            "description": "API Endpoints of Anime"
+        },
+        {
+            "name": "Artist",
+            "description": "API Endpoints of Artists"
+        },
+        {
+            "name": "Entry",
+            "description": "API Endpoints of Entries"
+        },
+        {
+            "name": "Resource",
+            "description": "API Endpoints of Resources"
+        },
+        {
+            "name": "Series",
+            "description": "API Endpoints of Series"
+        },
+        {
+            "name": "Song",
+            "description": "API Endpoints of Songs"
+        },
+        {
+            "name": "Synonym",
+            "description": "API Endpoints of Synonyms"
+        },
+        {
+            "name": "Theme",
+            "description": "API Endpoints of Themes"
+        },
+        {
+            "name": "Video",
+            "description": "API Endpoints of Videos"
+        }
+    ]
+}

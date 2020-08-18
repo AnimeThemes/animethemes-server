@@ -21,6 +21,23 @@ class SongController extends Controller
     /**
      * Display the specified resource.
      *
+     * @OA\Get(
+     *     path="/song/{id}",
+     *     operationId="getSong",
+     *     tags={"Song"},
+     *     summary="Get properties of Song",
+     *     description="Returns properties of Song",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful",
+     *         @OA\JsonContent(ref="#/components/schemas/SongResource")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Song cannot be found"
+     *     )
+     * )
+     *
      * @param  \App\Models\Song  $song
      * @return \Illuminate\Http\Response
      */

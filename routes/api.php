@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Resources\ExternalResourceJsonResource;
-use App\Models\ExternalResource;
 use Illuminate\Support\Facades\Route;
 
 /*

@@ -21,6 +21,23 @@ class VideoController extends Controller
     /**
      * Display the specified resource.
      *
+     * @OA\Get(
+     *     path="/video/{basename}",
+     *     operationId="getVideo",
+     *     tags={"Video"},
+     *     summary="Get properties of Video",
+     *     description="Returns properties of Video",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful",
+     *         @OA\JsonContent(ref="#/components/schemas/VideoResource")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Video cannot be found"
+     *     )
+     * )
+     *
      * @param  \App\Models\Video  $video
      * @return \Illuminate\Http\Response
      */

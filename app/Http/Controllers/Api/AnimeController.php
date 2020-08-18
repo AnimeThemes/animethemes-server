@@ -21,6 +21,23 @@ class AnimeController extends Controller
     /**
      * Display the specified resource.
      *
+     * @OA\Get(
+     *     path="/anime/{alias}",
+     *     operationId="getAnime",
+     *     tags={"Anime"},
+     *     summary="Get properties of Anime",
+     *     description="Returns properties of Anime",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful",
+     *         @OA\JsonContent(ref="#/components/schemas/AnimeResource")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Anime cannot be found"
+     *     )
+     * )
+     *
      * @param  \App\Models\Anime  $anime
      * @return \Illuminate\Http\Response
      */

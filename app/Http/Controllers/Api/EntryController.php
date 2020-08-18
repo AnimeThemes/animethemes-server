@@ -21,6 +21,23 @@ class EntryController extends Controller
     /**
      * Display the specified resource.
      *
+     * @OA\Get(
+     *     path="/entry/{id}",
+     *     operationId="getEntry",
+     *     tags={"Entry"},
+     *     summary="Get properties of Entry",
+     *     description="Returns properties of Entry",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful",
+     *         @OA\JsonContent(ref="#/components/schemas/EntryResource")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Entry cannot be found"
+     *     )
+     * )
+     *
      * @param  \App\Models\Entry  $entry
      * @return \Illuminate\Http\Response
      */

@@ -21,6 +21,23 @@ class ArtistController extends Controller
     /**
      * Display the specified resource.
      *
+     * @OA\Get(
+     *     path="/artist/{alias}",
+     *     operationId="getArtist",
+     *     tags={"Artist"},
+     *     summary="Get properties of Artist",
+     *     description="Returns properties of Artist",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful",
+     *         @OA\JsonContent(ref="#/components/schemas/ArtistResource")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Artist cannot be found"
+     *     )
+     * )
+     *
      * @param  \App\Models\Artist  $artist
      * @return \Illuminate\Http\Response
      */

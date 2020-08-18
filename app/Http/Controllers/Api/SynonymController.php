@@ -21,6 +21,23 @@ class SynonymController extends Controller
     /**
      * Display the specified resource.
      *
+     * @OA\Get(
+     *     path="/synonym/{id}",
+     *     operationId="getSynonym",
+     *     tags={"Synonym"},
+     *     summary="Get properties of Synonym",
+     *     description="Returns properties of Synonym",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful",
+     *         @OA\JsonContent(ref="#/components/schemas/SynonymResource")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Synonym cannot be found"
+     *     )
+     * )
+     *
      * @param  \App\Models\Synonym  $synonym
      * @return \Illuminate\Http\Response
      */

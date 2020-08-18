@@ -21,6 +21,23 @@ class ThemeController extends Controller
     /**
      * Display the specified resource.
      *
+     * @OA\Get(
+     *     path="/theme/{id}",
+     *     operationId="getTheme",
+     *     tags={"Theme"},
+     *     summary="Get properties of Theme",
+     *     description="Returns properties of Theme",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful",
+     *         @OA\JsonContent(ref="#/components/schemas/ThemeResource")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Theme cannot be found"
+     *     )
+     * )
+     *
      * @param  \App\Models\Theme  $theme
      * @return \Illuminate\Http\Response
      */

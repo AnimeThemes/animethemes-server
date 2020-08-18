@@ -21,6 +21,23 @@ class SeriesController extends Controller
     /**
      * Display the specified resource.
      *
+     * @OA\Get(
+     *     path="/series/{alias}",
+     *     operationId="getSeries",
+     *     tags={"Series"},
+     *     summary="Get properties of Series",
+     *     description="Returns properties of Series",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful",
+     *         @OA\JsonContent(ref="#/components/schemas/SeriesResource")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Series cannot be found"
+     *     )
+     * )
+     *
      * @param  \App\Models\Series  $series
      * @return \Illuminate\Http\Response
      */
