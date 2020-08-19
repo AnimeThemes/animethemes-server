@@ -391,6 +391,11 @@
                                                         "type": "string",
                                                         "example": "chiwa_saito"
                                                     },
+                                                    "as": {
+                                                        "description": "Used in place of the Artist name if the performance is made as a character or group/unit member",
+                                                        "type": "string",
+                                                        "example": "Hitagi Senjougahara"
+                                                    },
                                                     "created_at": {
                                                         "description": "The Resource Creation Timestamp",
                                                         "type": "string",
@@ -677,6 +682,11 @@
                                     "description": "The title of the song",
                                     "type": "string",
                                     "example": "staple stable"
+                                },
+                                "as": {
+                                    "description": "Used in place of the Artist name if the performance is made as a character or group/unit member",
+                                    "type": "string",
+                                    "example": "Hitagi Senjougahara"
                                 },
                                 "created_at": {
                                     "description": "The Resource Creation Timestamp",
@@ -1710,6 +1720,11 @@
                                     "type": "string",
                                     "example": "chiwa_saito"
                                 },
+                                "as": {
+                                    "description": "Used in place of the Artist name if the performance is made as a character or group/unit member",
+                                    "type": "string",
+                                    "example": "Hitagi Senjougahara"
+                                },
                                 "created_at": {
                                     "description": "The Resource Creation Timestamp",
                                     "type": "string",
@@ -1929,6 +1944,11 @@
                                             "description": "URL Slug & Model Route Key",
                                             "type": "string",
                                             "example": "chiwa_saito"
+                                        },
+                                        "as": {
+                                            "description": "Used in place of the Artist name if the performance is made as a character or group/unit member",
+                                            "type": "string",
+                                            "example": "Hitagi Senjougahara"
                                         },
                                         "created_at": {
                                             "description": "The Resource Creation Timestamp",

@@ -34,6 +34,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *             @OA\Property(property="id",type="integer",description="Primary Key",example=53),
  *             @OA\Property(property="name",type="string",description="The Primary Name of the Artist",example="Chiwa Saito"),
  *             @OA\Property(property="alias",type="string",description="URL Slug & Model Route Key",example="chiwa_saito"),
+ *             @OA\Property(property="as",type="string",description="Used in place of the Artist name if the performance is made as a character or group/unit member",example="Hitagi Senjougahara"),
  *             @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:55:55.000000Z"),
  *             @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:55:55.000000Z"),
  *         ))

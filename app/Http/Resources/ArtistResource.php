@@ -17,6 +17,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *     @OA\Property(property="songs",type="array",@OA\Items(
  *         @OA\Property(property="id",type="integer",description="Primary Key",example=3102),
  *         @OA\Property(property="title",type="string",description="The title of the song",example="staple stable"),
+ *         @OA\Property(property="as",type="string",description="Used in place of the Artist name if the performance is made as a character or group/unit member",example="Hitagi Senjougahara"),
  *         @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:43:02.000000Z"),
  *         @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:43:02.000000Z"),
  *         @OA\Property(property="themes",type="array",@OA\Items(
@@ -64,6 +65,11 @@ class ArtistResource extends JsonResource
             'id' => $this->artist_id,
             'name' => $this->name,
             'alias' => $this->alias,
+            'as' => $this->whenPivotLoaded('artist_song', function () {
+                return strval($this->pivot->as);
+            }, $this->whenPivotLoaded('artist_member', function () {
+                return strval($this->pivot->as);
+            })),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'songs' => SongResource::collection($this->whenLoaded('songs')),
