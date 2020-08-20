@@ -21,7 +21,7 @@ class SongController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Successful",
-     *         @OA\JsonContent(@OA\Items(ref="#/components/schemas/SongResource"))
+     *         @OA\JsonContent(@OA\Property(property="songs",type="array", @OA\Items(ref="#/components/schemas/SongResource")))
      *     )
      * )
      *

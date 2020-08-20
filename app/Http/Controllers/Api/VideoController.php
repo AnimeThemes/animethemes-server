@@ -21,7 +21,7 @@ class VideoController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Successful",
-     *         @OA\JsonContent(@OA\Items(ref="#/components/schemas/VideoResource"))
+     *         @OA\JsonContent(@OA\Property(property="videos",type="array", @OA\Items(ref="#/components/schemas/VideoResource")))
      *     )
      * )
      *

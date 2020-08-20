@@ -21,7 +21,7 @@ class AnimeController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Successful",
-     *         @OA\JsonContent(@OA\Items(ref="#/components/schemas/AnimeResource"))
+     *         @OA\JsonContent(@OA\Property(property="anime",type="array", @OA\Items(ref="#/components/schemas/AnimeResource")))
      *     )
      * )
      *

@@ -21,7 +21,7 @@ class SeriesController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Successful",
-     *         @OA\JsonContent(@OA\Items(ref="#/components/schemas/SeriesResource"))
+     *         @OA\JsonContent(@OA\Property(property="series",type="array", @OA\Items(ref="#/components/schemas/SeriesResource")))
      *     )
      * )
      *

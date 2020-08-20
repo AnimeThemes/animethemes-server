@@ -21,7 +21,7 @@ class SynonymController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Successful",
-     *         @OA\JsonContent(@OA\Items(ref="#/components/schemas/SynonymResource"))
+     *         @OA\JsonContent(@OA\Property(property="synonyms",type="array", @OA\Items(ref="#/components/schemas/SynonymResource")))
      *     )
      * )
      *
