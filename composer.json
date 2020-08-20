@@ -28,6 +28,7 @@
         "owen-it/laravel-auditing": "^10.0",
         "paranarimasu/nova-nested-form": "dev-master",
         "simplesquid/nova-enum-field": "^1.2",
+        "spatie/laravel-resource-links": "^1.1",
         "staudenmeir/belongs-to-through": "^2.10"
     },
     "require-dev": {

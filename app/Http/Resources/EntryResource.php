@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\Api\EntryController;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\ResourceLinks\HasLinks;
 
 /**
  * @OA\Schema(
@@ -55,6 +57,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class EntryResource extends JsonResource
 {
+
+    use HasLinks;
+
     /**
      * Transform the resource into an array.
      *
@@ -75,6 +80,7 @@ class EntryResource extends JsonResource
             'anime' => AnimeResource::make($this->whenLoaded('anime')),
             'theme' => ThemeResource::make($this->whenLoaded('theme')),
             'videos' => VideoResource::collection($this->whenLoaded('videos')),
+            'links' => $this->links(EntryController::class)
         ];
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\Api\SynonymController;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\ResourceLinks\HasLinks;
 
 /**
  * @OA\Schema(
@@ -26,6 +28,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class SynonymResource extends JsonResource
 {
+
+    use HasLinks;
+
     /**
      * Transform the resource into an array.
      *
@@ -39,7 +44,8 @@ class SynonymResource extends JsonResource
             'text' => $this->text,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'anime' => AnimeResource::make($this->whenLoaded('anime'))
+            'anime' => AnimeResource::make($this->whenLoaded('anime')),
+            'links' => $this->links(SynonymController::class)
         ];
     }
 }

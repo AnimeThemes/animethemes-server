@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\Api\ArtistController;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\ResourceLinks\HasLinks;
 
 /**
  * @OA\Schema(
@@ -45,7 +47,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *         @OA\Property(property="id",type="integer",description="Primary Key",example=3139),
  *         @OA\Property(property="link",type="string",description="The URL of the resource",example="https://myanimelist.net/people/61/"),
  *         @OA\Property(property="label",type="string",description="Used to distinguish resources that map to the same artist or anime",example=""),
- *     @OA\Property(property="type",type="string",enum={"Official Website","Twitter","aniDB","AniList","Anime-Planet","Anime News Network","Kitsu","MyAnimeList","Wiki"},description="The site that we are linking to",example="MyAnimeList"),
+ *         @OA\Property(property="type",type="string",enum={"Official Website","Twitter","aniDB","AniList","Anime-Planet","Anime News Network","Kitsu","MyAnimeList","Wiki"},description="The site that we are linking to",example="MyAnimeList"),
  *         @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:56:07.000000Z"),
  *         @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:56:07.000000Z"),
  *     ))
@@ -53,6 +55,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class ArtistResource extends JsonResource
 {
+
+    use HasLinks;
+
     /**
      * Transform the resource into an array.
      *
@@ -75,7 +80,8 @@ class ArtistResource extends JsonResource
             'songs' => SongResource::collection($this->whenLoaded('songs')),
             'members' => ArtistResource::collection($this->whenLoaded('members')),
             'groups' => ArtistResource::collection($this->whenLoaded('groups')),
-            'resources' => ExternalResourceResource::collection($this->whenLoaded('externalResources'))
+            'resources' => ExternalResourceResource::collection($this->whenLoaded('externalResources')),
+            'links' => $this->links(ArtistController::class)
         ];
     }
 }

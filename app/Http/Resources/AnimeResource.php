@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\Api\AnimeController;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\ResourceLinks\HasLinks;
 
 /**
  * @OA\Schema(
@@ -82,7 +84,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *         @OA\Property(property="id",type="integer",description="Primary Key",example=1018),
  *         @OA\Property(property="link",type="string",description="The URL of the resource",example="https://myanimelist.net/anime/5081/"),
  *         @OA\Property(property="label",type="string",description="Used to distinguish resources that map to the same artist or anime",example=""),
- *     @OA\Property(property="type",type="string",enum={"Official Website","Twitter","aniDB","AniList","Anime-Planet","Anime News Network","Kitsu","MyAnimeList","Wiki"},description="The site that we are linking to",example="MyAnimeList"),
+ *         @OA\Property(property="type",type="string",enum={"Official Website","Twitter","aniDB","AniList","Anime-Planet","Anime News Network","Kitsu","MyAnimeList","Wiki"},description="The site that we are linking to",example="MyAnimeList"),
  *         @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:30:43.000000Z"),
  *         @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:37:25.000000Z"),
  *     ))
@@ -90,6 +92,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class AnimeResource extends JsonResource
 {
+
+    use HasLinks;
+
     /**
      * Transform the resource into an array.
      *
@@ -109,7 +114,8 @@ class AnimeResource extends JsonResource
             'synonyms' => SynonymResource::collection($this->whenLoaded('synonyms')),
             'themes' => ThemeResource::collection($this->whenLoaded('themes')),
             'series' => SeriesResource::collection($this->whenLoaded('series')),
-            'resources' => ExternalResourceResource::collection($this->whenLoaded('externalResources'))
+            'resources' => ExternalResourceResource::collection($this->whenLoaded('externalResources')),
+            'links' => $this->links(AnimeController::class)
         ];
     }
 }

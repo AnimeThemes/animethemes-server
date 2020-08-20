@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\Api\ExternalResourceController;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\ResourceLinks\HasLinks;
 
 /**
  * @OA\Schema(
@@ -30,6 +32,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class ExternalResourceResource extends JsonResource
 {
 
+    use HasLinks;
+
     /**
      * Transform the resource into an array.
      *
@@ -46,7 +50,8 @@ class ExternalResourceResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'artists' => ArtistResource::collection($this->whenLoaded('artists')),
-            'anime' => AnimeResource::collection($this->whenLoaded('anime'))
+            'anime' => AnimeResource::collection($this->whenLoaded('anime')),
+            'links' => $this->links(ExternalResourceController::class)
         ];
     }
 }

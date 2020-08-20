@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\Api\SongController;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\ResourceLinks\HasLinks;
 
 /**
  * @OA\Schema(
@@ -43,6 +45,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class SongResource extends JsonResource
 {
+
+    use HasLinks;
+
     /**
      * Transform the resource into an array.
      *
@@ -61,6 +66,7 @@ class SongResource extends JsonResource
             'updated_at' => $this->updated_at,
             'themes' => ThemeResource::collection($this->whenLoaded('themes')),
             'artists' => ArtistResource::collection($this->whenLoaded('artists')),
+            'links' => $this->links(SongController::class)
         ];
     }
 }

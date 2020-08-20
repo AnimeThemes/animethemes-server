@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Controllers\Api\VideoController;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\ResourceLinks\HasLinks;
 
 /**
  * @OA\Schema(
@@ -55,6 +57,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class VideoResource extends JsonResource
 {
+
+    use HasLinks;
+
     /**
      * Transform the resource into an array.
      *
@@ -78,7 +83,8 @@ class VideoResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'link' => route('video.show', $this),
-            'entries' => EntryResource::collection($this->whenLoaded('entries'))
+            'entries' => EntryResource::collection($this->whenLoaded('entries')),
+            'links' => $this->links(VideoController::class)
         ];
     }
 }

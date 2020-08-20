@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f525a17ce4a026067cf46e5e52e7adc1",
+    "content-hash": "debcd537382b113cbc94ba68e689a46f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -60,16 +60,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.149.2",
+            "version": "3.150.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "e8a0d608e8379ad8b283812064136229ba2c1d11"
+                "reference": "d59b85d6854e58154e22a796322ba153ef69ade2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e8a0d608e8379ad8b283812064136229ba2c1d11",
-                "reference": "e8a0d608e8379ad8b283812064136229ba2c1d11",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d59b85d6854e58154e22a796322ba153ef69ade2",
+                "reference": "d59b85d6854e58154e22a796322ba153ef69ade2",
                 "shasum": ""
             },
             "require": {
@@ -141,7 +141,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-08-17T18:11:59+00:00"
+            "time": "2020-08-19T18:19:07+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -265,16 +265,16 @@
         },
         {
             "name": "brick/math",
-            "version": "0.8.16",
+            "version": "0.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/math.git",
-                "reference": "edffaf98c06459b11dc1843e499bfea2aaf78754"
+                "reference": "e6f8e7d04346a95be89580f8c2c22d6c3fa65556"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/math/zipball/edffaf98c06459b11dc1843e499bfea2aaf78754",
-                "reference": "edffaf98c06459b11dc1843e499bfea2aaf78754",
+                "url": "https://api.github.com/repos/brick/math/zipball/e6f8e7d04346a95be89580f8c2c22d6c3fa65556",
+                "reference": "e6f8e7d04346a95be89580f8c2c22d6c3fa65556",
                 "shasum": ""
             },
             "require": {
@@ -313,7 +313,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-18T08:59:30+00:00"
+            "time": "2020-08-18T23:41:20+00:00"
         },
         {
             "name": "brick/money",
@@ -2129,17 +2129,17 @@
         },
         {
             "name": "laravel/nova",
-            "version": "v3.8.2",
+            "version": "v3.8.3",
             "source": {
                 "type": "git",
                 "url": "git@github.com:laravel/nova.git",
-                "reference": "b065cac4b5892e3a811318631b4c78551525d8a7"
+                "reference": "b4281b89961ebfa9293c6ff39513cfd142275858"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-b065cac4b5892e3a811318631b4c78551525d8a7-zip-b58d7b.zip",
-                "reference": "b065cac4b5892e3a811318631b4c78551525d8a7",
-                "shasum": "f6a9e1d10336261e037fc9a469f1fbcfaafaf641"
+                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-b4281b89961ebfa9293c6ff39513cfd142275858-zip-22f859.zip",
+                "reference": "b4281b89961ebfa9293c6ff39513cfd142275858",
+                "shasum": "850d41ecb278ecadba957f5f274dcdb2b06e8d49"
             },
             "require": {
                 "brick/money": "^0.4.2",
@@ -2199,7 +2199,7 @@
                 "admin",
                 "laravel"
             ],
-            "time": "2020-07-24T17:56:07+00:00"
+            "time": "2020-08-18T17:35:45+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -2941,16 +2941,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.8.0",
+            "version": "v4.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "8c58eb4cd4f3883f82611abeac2efbc3dbed787e"
+                "reference": "aaee038b912e567780949787d5fe1977be11a778"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/8c58eb4cd4f3883f82611abeac2efbc3dbed787e",
-                "reference": "8c58eb4cd4f3883f82611abeac2efbc3dbed787e",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/aaee038b912e567780949787d5fe1977be11a778",
+                "reference": "aaee038b912e567780949787d5fe1977be11a778",
                 "shasum": ""
             },
             "require": {
@@ -2958,7 +2958,7 @@
                 "php": ">=7.0"
             },
             "require-dev": {
-                "ircmaxell/php-yacc": "^0.0.6",
+                "ircmaxell/php-yacc": "^0.0.7",
                 "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0"
             },
             "bin": [
@@ -2967,7 +2967,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.8-dev"
+                    "dev-master": "4.9-dev"
                 }
             },
             "autoload": {
@@ -2989,7 +2989,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2020-08-09T10:23:20+00:00"
+            "time": "2020-08-18T19:48:01+00:00"
         },
         {
             "name": "olssonm/l5-zxcvbn",
@@ -4146,6 +4146,62 @@
             "time": "2020-03-12T15:34:34+00:00"
         },
         {
+            "name": "spatie/laravel-resource-links",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-resource-links.git",
+                "reference": "ddb0148df791ab31e67d0550d41699ebc870218b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-resource-links/zipball/ddb0148df791ab31e67d0550d41699ebc870218b",
+                "reference": "ddb0148df791ab31e67d0550d41699ebc870218b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~5.8.0|^6.0|^7.0",
+                "illuminate/routing": "~5.8.0|^6.0|^7.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.8.0|^4.0|^5.0",
+                "phpunit/phpunit": "^8.0|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\ResourceLinks\\ResourceLinksServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ResourceLinks\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ruben Van Assche",
+                    "email": "ruben@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add links to Laravel API resources",
+            "homepage": "https://github.com/spatie/laravel-resource-links",
+            "keywords": [
+                "laravel-resource-links",
+                "spatie"
+            ],
+            "time": "2020-03-04T09:33:47+00:00"
+        },
+        {
             "name": "spatie/once",
             "version": "2.2.0",
             "source": {
@@ -4244,16 +4300,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.32.1",
+            "version": "v3.32.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "3e144f5f7d7b7fb3ec5b4c93f1a00ce3a0f97dfc"
+                "reference": "9bde965015987251977e3c28e2ff3660bc47c1a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/3e144f5f7d7b7fb3ec5b4c93f1a00ce3a0f97dfc",
-                "reference": "3e144f5f7d7b7fb3ec5b4c93f1a00ce3a0f97dfc",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/9bde965015987251977e3c28e2ff3660bc47c1a6",
+                "reference": "9bde965015987251977e3c28e2ff3660bc47c1a6",
                 "shasum": ""
             },
             "type": "library",
@@ -4297,7 +4353,7 @@
                 "swagger",
                 "ui"
             ],
-            "time": "2020-08-14T23:16:14+00:00"
+            "time": "2020-08-19T18:51:32+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
