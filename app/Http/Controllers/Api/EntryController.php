@@ -34,7 +34,7 @@ class EntryController extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Entry cannot be found"
+     *         description="Resource Not Found!"
      *     )
      * )
      *

@@ -34,7 +34,7 @@ class ThemeController extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Theme cannot be found"
+     *         description="Resource Not Found!"
      *     )
      * )
      *

@@ -34,7 +34,7 @@ class SongController extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Song cannot be found"
+     *         description="Resource Not Found!"
      *     )
      * )
      *

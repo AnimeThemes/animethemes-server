@@ -34,7 +34,7 @@ class SynonymController extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Synonym cannot be found"
+     *         description="Resource Not Found!"
      *     )
      * )
      *

@@ -34,7 +34,7 @@ class VideoController extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Video cannot be found"
+     *         description="Resource Not Found!"
      *     )
      * )
      *

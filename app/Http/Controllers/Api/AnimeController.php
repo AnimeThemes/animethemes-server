@@ -34,7 +34,7 @@ class AnimeController extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Anime cannot be found"
+     *         description="Resource Not Found!"
      *     )
      * )
      *

@@ -34,7 +34,7 @@ class SeriesController extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Series cannot be found"
+     *         description="Resource Not Found!"
      *     )
      * )
      *

@@ -34,7 +34,7 @@ class ExternalResourceController extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Resource cannot be found"
+     *         description="Resource Not Found!"
      *     )
      * )
      *

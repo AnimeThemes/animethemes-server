@@ -34,7 +34,7 @@ class ArtistController extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Artist cannot be found"
+     *         description="Resource Not Found!"
      *     )
      * )
      *

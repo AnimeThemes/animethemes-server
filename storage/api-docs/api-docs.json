@@ -26,7 +26,7 @@
                         }
                     },
                     "404": {
-                        "description": "Anime cannot be found"
+                        "description": "Resource Not Found!"
                     }
                 }
             }
@@ -51,7 +51,7 @@
                         }
                     },
                     "404": {
-                        "description": "Artist cannot be found"
+                        "description": "Resource Not Found!"
                     }
                 }
             }
@@ -76,7 +76,7 @@
                         }
                     },
                     "404": {
-                        "description": "Entry cannot be found"
+                        "description": "Resource Not Found!"
                     }
                 }
             }
@@ -101,7 +101,7 @@
                         }
                     },
                     "404": {
-                        "description": "Resource cannot be found"
+                        "description": "Resource Not Found!"
                     }
                 }
             }
@@ -126,7 +126,7 @@
                         }
                     },
                     "404": {
-                        "description": "Series cannot be found"
+                        "description": "Resource Not Found!"
                     }
                 }
             }
@@ -151,7 +151,7 @@
                         }
                     },
                     "404": {
-                        "description": "Song cannot be found"
+                        "description": "Resource Not Found!"
                     }
                 }
             }
@@ -176,7 +176,7 @@
                         }
                     },
                     "404": {
-                        "description": "Synonym cannot be found"
+                        "description": "Resource Not Found!"
                     }
                 }
             }
@@ -201,7 +201,7 @@
                         }
                     },
                     "404": {
-                        "description": "Theme cannot be found"
+                        "description": "Resource Not Found!"
                     }
                 }
             }
@@ -226,7 +226,7 @@
                         }
                     },
                     "404": {
-                        "description": "Video cannot be found"
+                        "description": "Resource Not Found!"
                     }
                 }
             }
