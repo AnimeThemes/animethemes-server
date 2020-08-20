@@ -32,7 +32,14 @@ class Video extends Model implements Auditable
      */
     protected $primaryKey = 'video_id';
 
-        /**
+    /**
+     * The number of models to return for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 100;
+
+    /**
      * Get the route key for the model.
      *
      * @return string

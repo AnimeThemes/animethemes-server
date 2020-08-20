@@ -6,6 +6,30 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/anime/": {
+            "get": {
+                "tags": [
+                    "Anime"
+                ],
+                "summary": "Get paginated listing of Anime",
+                "description": "Returns listing of Anime",
+                "operationId": "getAnimes",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/AnimeResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/anime/{alias}": {
             "get": {
                 "tags": [
@@ -27,6 +51,30 @@
                     },
                     "404": {
                         "description": "Resource Not Found!"
+                    }
+                }
+            }
+        },
+        "/artist/": {
+            "get": {
+                "tags": [
+                    "Artist"
+                ],
+                "summary": "Get paginated listing of Artists",
+                "description": "Returns listing of Artists",
+                "operationId": "getArtists",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/ArtistResource"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -56,6 +104,30 @@
                 }
             }
         },
+        "/entry/": {
+            "get": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Get paginated listing of Entries",
+                "description": "Returns listing of Entries",
+                "operationId": "getEntries",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/EntryResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/entry/{id}": {
             "get": {
                 "tags": [
@@ -77,6 +149,30 @@
                     },
                     "404": {
                         "description": "Resource Not Found!"
+                    }
+                }
+            }
+        },
+        "/resource/": {
+            "get": {
+                "tags": [
+                    "Resource"
+                ],
+                "summary": "Get paginated listing of Resources",
+                "description": "Returns listing of Resources",
+                "operationId": "getResources",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/ExternalResourceResource"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -106,6 +202,30 @@
                 }
             }
         },
+        "/series/": {
+            "get": {
+                "tags": [
+                    "Series"
+                ],
+                "summary": "Get paginated listing of Series",
+                "description": "Returns listing of Series",
+                "operationId": "getSerie",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/SeriesResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/series/{alias}": {
             "get": {
                 "tags": [
@@ -127,6 +247,30 @@
                     },
                     "404": {
                         "description": "Resource Not Found!"
+                    }
+                }
+            }
+        },
+        "/song/": {
+            "get": {
+                "tags": [
+                    "Song"
+                ],
+                "summary": "Get paginated listing of Songs",
+                "description": "Returns listing of Songs",
+                "operationId": "getSongs",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/SongResource"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -156,6 +300,30 @@
                 }
             }
         },
+        "/synonym/": {
+            "get": {
+                "tags": [
+                    "Synonym"
+                ],
+                "summary": "Get paginated listing of Synonyms",
+                "description": "Returns listing of Synonyms",
+                "operationId": "getSynonyms",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/SynonymResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/synonym/{id}": {
             "get": {
                 "tags": [
@@ -181,6 +349,30 @@
                 }
             }
         },
+        "/theme/": {
+            "get": {
+                "tags": [
+                    "Theme"
+                ],
+                "summary": "Get paginated listing of Themes",
+                "description": "Returns listing of Themes",
+                "operationId": "getThemes",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/ThemeResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/theme/{id}": {
             "get": {
                 "tags": [
@@ -202,6 +394,30 @@
                     },
                     "404": {
                         "description": "Resource Not Found!"
+                    }
+                }
+            }
+        },
+        "/video/": {
+            "get": {
+                "tags": [
+                    "Video"
+                ],
+                "summary": "Get paginated listing of Videos",
+                "description": "Returns listing of Videos",
+                "operationId": "getVideos",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/VideoResource"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

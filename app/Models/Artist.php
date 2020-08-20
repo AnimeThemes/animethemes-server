@@ -27,6 +27,13 @@ class Artist extends Model implements Auditable
     protected $primaryKey = 'artist_id';
 
     /**
+     * The number of models to return for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 25;
+
+    /**
      * Get the route key for the model.
      *
      * @return string

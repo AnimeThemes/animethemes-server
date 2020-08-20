@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SynonymCollection;
 use App\Http\Resources\SynonymResource;
 use App\Models\Synonym;
 
@@ -11,11 +12,24 @@ class SynonymController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @OA\Get(
+     *     path="/synonym/",
+     *     operationId="getSynonyms",
+     *     tags={"Synonym"},
+     *     summary="Get paginated listing of Synonyms",
+     *     description="Returns listing of Synonyms",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful",
+     *         @OA\JsonContent(@OA\Items(ref="#/components/schemas/SynonymResource"))
+     *     )
+     * )
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        return new SynonymCollection(Synonym::with('anime')->paginate());
     }
 
     /**

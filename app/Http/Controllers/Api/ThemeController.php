@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\ThemeResource;
 use App\Models\Theme;
 
@@ -11,11 +12,24 @@ class ThemeController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @OA\Get(
+     *     path="/theme/",
+     *     operationId="getThemes",
+     *     tags={"Theme"},
+     *     summary="Get paginated listing of Themes",
+     *     description="Returns listing of Themes",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful",
+     *         @OA\JsonContent(@OA\Items(ref="#/components/schemas/ThemeResource"))
+     *     )
+     * )
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        return new ThemeCollection(Theme::with('anime', 'entries', 'entries.videos', 'song', 'song.artists')->paginate());
     }
 
     /**
