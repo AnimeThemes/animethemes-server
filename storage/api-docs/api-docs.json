@@ -14,6 +14,17 @@
                 "summary": "Get paginated listing of Anime",
                 "description": "Returns listing of Anime",
                 "operationId": "getAnimes",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -70,6 +81,17 @@
                 "summary": "Get paginated listing of Artists",
                 "description": "Returns listing of Artists",
                 "operationId": "getArtists",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -126,6 +148,17 @@
                 "summary": "Get paginated listing of Entries",
                 "description": "Returns listing of Entries",
                 "operationId": "getEntries",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -182,6 +215,17 @@
                 "summary": "Get paginated listing of Resources",
                 "description": "Returns listing of Resources",
                 "operationId": "getResources",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -238,6 +282,17 @@
                 "summary": "Get paginated listing of Series",
                 "description": "Returns listing of Series",
                 "operationId": "getSerie",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -294,6 +349,17 @@
                 "summary": "Get paginated listing of Songs",
                 "description": "Returns listing of Songs",
                 "operationId": "getSongs",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -350,6 +416,17 @@
                 "summary": "Get paginated listing of Synonyms",
                 "description": "Returns listing of Synonyms",
                 "operationId": "getSynonyms",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -406,6 +483,17 @@
                 "summary": "Get paginated listing of Themes",
                 "description": "Returns listing of Themes",
                 "operationId": "getThemes",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -462,6 +550,17 @@
                 "summary": "Get paginated listing of Videos",
                 "description": "Returns listing of Videos",
                 "operationId": "getVideos",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",

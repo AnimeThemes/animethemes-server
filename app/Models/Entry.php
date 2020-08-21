@@ -28,13 +28,6 @@ class Entry extends Model implements Auditable
     protected $primaryKey = 'entry_id';
 
     /**
-     * The number of models to return for pagination.
-     *
-     * @var int
-     */
-    protected $perPage = 100;
-
-    /**
      * Gets the theme that owns the entry
      */
     public function theme() {

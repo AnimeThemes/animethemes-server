@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\ExternalResourceCollection;
 use App\Http\Resources\ExternalResourceResource;
 use App\Models\ExternalResource;
 
-class ExternalResourceController extends Controller
+class ExternalResourceController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -18,6 +17,13 @@ class ExternalResourceController extends Controller
      *     tags={"Resource"},
      *     summary="Get paginated listing of Resources",
      *     description="Returns listing of Resources",
+     *     @OA\Parameter(
+     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+     *         name="limit",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful",
@@ -29,7 +35,7 @@ class ExternalResourceController extends Controller
      */
     public function index()
     {
-        return new ExternalResourceCollection(ExternalResource::with('anime', 'artists')->paginate());
+        return new ExternalResourceCollection(ExternalResource::with('anime', 'artists')->paginate($this->getPerPageLimit()));
     }
 
     /**

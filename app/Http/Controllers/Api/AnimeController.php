@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\AnimeCollection;
 use App\Http\Resources\AnimeResource;
 use App\Models\Anime;
 
-class AnimeController extends Controller
+class AnimeController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -18,6 +17,13 @@ class AnimeController extends Controller
      *     tags={"Anime"},
      *     summary="Get paginated listing of Anime",
      *     description="Returns listing of Anime",
+     *     @OA\Parameter(
+     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+     *         name="limit",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful",
@@ -29,7 +35,7 @@ class AnimeController extends Controller
      */
     public function index()
     {
-        return new AnimeCollection(Anime::with('synonyms', 'series', 'themes', 'themes.entries', 'themes.entries.videos', 'themes.song', 'themes.song.artists', 'externalResources')->paginate());
+        return new AnimeCollection(Anime::with('synonyms', 'series', 'themes', 'themes.entries', 'themes.entries.videos', 'themes.song', 'themes.song.artists', 'externalResources')->paginate($this->getPerPageLimit()));
     }
 
     /**

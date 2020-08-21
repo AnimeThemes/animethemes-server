@@ -29,13 +29,6 @@ class Theme extends Model implements Auditable
      */
     protected $primaryKey = 'theme_id';
 
-    /**
-     * The number of models to return for pagination.
-     *
-     * @var int
-     */
-    protected $perPage = 100;
-
     protected $enumCasts = [
         'type' => ThemeType::class,
     ];

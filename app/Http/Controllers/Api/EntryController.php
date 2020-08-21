@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\EntryCollection;
 use App\Http\Resources\EntryResource;
 use App\Models\Entry;
 
-class EntryController extends Controller
+class EntryController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -18,6 +17,13 @@ class EntryController extends Controller
      *     tags={"Entry"},
      *     summary="Get paginated listing of Entries",
      *     description="Returns listing of Entries",
+     *     @OA\Parameter(
+     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+     *         name="limit",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful",
@@ -29,7 +35,7 @@ class EntryController extends Controller
      */
     public function index()
     {
-        return new EntryCollection(Entry::with('anime', 'theme', 'videos')->paginate());
+        return new EntryCollection(Entry::with('anime', 'theme', 'videos')->paginate($this->getPerPageLimit()));
     }
 
     /**

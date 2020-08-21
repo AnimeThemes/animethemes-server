@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\ArtistCollection;
 use App\Http\Resources\ArtistResource;
 use App\Models\Artist;
 
-class ArtistController extends Controller
+class ArtistController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -18,6 +17,13 @@ class ArtistController extends Controller
      *     tags={"Artist"},
      *     summary="Get paginated listing of Artists",
      *     description="Returns listing of Artists",
+     *     @OA\Parameter(
+     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+     *         name="limit",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful",
@@ -29,7 +35,7 @@ class ArtistController extends Controller
      */
     public function index()
     {
-        return new ArtistCollection(Artist::with('songs', 'songs.themes', 'songs.themes.anime', 'members', 'groups', 'externalResources')->paginate());
+        return new ArtistCollection(Artist::with('songs', 'songs.themes', 'songs.themes.anime', 'members', 'groups', 'externalResources')->paginate($this->getPerPageLimit()));
     }
 
     /**

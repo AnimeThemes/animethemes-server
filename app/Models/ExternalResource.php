@@ -29,13 +29,6 @@ class ExternalResource extends Model implements Auditable
      */
     protected $primaryKey = 'resource_id';
 
-    /**
-     * The number of models to return for pagination.
-     *
-     * @var int
-     */
-    protected $perPage = 100;
-
     protected $enumCasts = [
         'type' => ResourceType::class,
     ];

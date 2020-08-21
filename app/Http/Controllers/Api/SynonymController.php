@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\SynonymCollection;
 use App\Http\Resources\SynonymResource;
 use App\Models\Synonym;
 
-class SynonymController extends Controller
+class SynonymController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -18,6 +17,13 @@ class SynonymController extends Controller
      *     tags={"Synonym"},
      *     summary="Get paginated listing of Synonyms",
      *     description="Returns listing of Synonyms",
+     *     @OA\Parameter(
+     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+     *         name="limit",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful",
@@ -29,7 +35,7 @@ class SynonymController extends Controller
      */
     public function index()
     {
-        return new SynonymCollection(Synonym::with('anime')->paginate());
+        return new SynonymCollection(Synonym::with('anime')->paginate($this->getPerPageLimit()));
     }
 
     /**

@@ -85,7 +85,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        $token = $_GET['token'];
+        $token = request('token');
         $invitation = Invitation::where('token', $token)->firstOrFail();
         return view('auth.register')->withInvitation($invitation);
     }

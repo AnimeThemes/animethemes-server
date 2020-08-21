@@ -27,13 +27,6 @@ class Synonym extends Model implements Auditable
     protected $primaryKey = 'synonym_id';
 
     /**
-     * The number of models to return for pagination.
-     *
-     * @var int
-     */
-    protected $perPage = 100;
-
-    /**
      * Gets the anime that owns the synonym
      */
     public function anime() {

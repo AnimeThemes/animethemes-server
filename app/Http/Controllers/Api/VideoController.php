@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\VideoCollection;
 use App\Http\Resources\VideoResource;
 use App\Models\Video;
 
-class VideoController extends Controller
+class VideoController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -18,6 +17,13 @@ class VideoController extends Controller
      *     tags={"Video"},
      *     summary="Get paginated listing of Videos",
      *     description="Returns listing of Videos",
+     *     @OA\Parameter(
+     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+     *         name="limit",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful",
@@ -29,7 +35,7 @@ class VideoController extends Controller
      */
     public function index()
     {
-        return new VideoCollection(Video::with('entries', 'entries.theme', 'entries.theme.anime')->paginate());
+        return new VideoCollection(Video::with('entries', 'entries.theme', 'entries.theme.anime')->paginate($this->getPerPageLimit()));
     }
 
     /**

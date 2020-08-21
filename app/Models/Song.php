@@ -27,13 +27,6 @@ class Song extends Model implements Auditable
     protected $primaryKey = 'song_id';
 
     /**
-     * The number of models to return for pagination.
-     *
-     * @var int
-     */
-    protected $perPage = 100;
-
-    /**
      * Get the themes that use this song
      */
     public function themes() {

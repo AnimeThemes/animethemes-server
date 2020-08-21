@@ -30,13 +30,6 @@ class Anime extends Model implements Auditable
     protected $primaryKey = 'anime_id';
 
     /**
-     * The number of models to return for pagination.
-     *
-     * @var int
-     */
-    protected $perPage = 50;
-
-    /**
      * Get the route key for the model.
      *
      * @return string

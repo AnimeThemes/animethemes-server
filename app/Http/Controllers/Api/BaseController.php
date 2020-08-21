@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-class Controller
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
+
+abstract class BaseController extends Controller
 {
     /**
      * @OA\Info(
@@ -56,4 +59,18 @@ class Controller
      *     description="API Endpoints of Videos"
      * )
      */
+
+     /**
+      * Get the number of resources to return per page.
+      * Acceptable range is [1-100]. Default is 100.
+      *
+      * @return integer
+      */
+    protected function getPerPageLimit() : int {
+        $limit = request('limit', 100);
+        if ($limit <= 0 || $limit > 100) {
+            $limit = 100;
+        }
+        return $limit;
+    }
 }

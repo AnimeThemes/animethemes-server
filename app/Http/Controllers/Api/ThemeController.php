@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\ThemeResource;
 use App\Models\Theme;
 
-class ThemeController extends Controller
+class ThemeController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -18,6 +17,13 @@ class ThemeController extends Controller
      *     tags={"Theme"},
      *     summary="Get paginated listing of Themes",
      *     description="Returns listing of Themes",
+     *     @OA\Parameter(
+     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+     *         name="limit",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful",
@@ -29,7 +35,7 @@ class ThemeController extends Controller
      */
     public function index()
     {
-        return new ThemeCollection(Theme::with('anime', 'entries', 'entries.videos', 'song', 'song.artists')->paginate());
+        return new ThemeCollection(Theme::with('anime', 'entries', 'entries.videos', 'song', 'song.artists')->paginate($this->getPerPageLimit()));
     }
 
     /**
