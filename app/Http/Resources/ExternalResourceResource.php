@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Http\Controllers\Api\ExternalResourceController;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\ResourceLinks\HasLinks;
 
 /**
@@ -29,7 +28,7 @@ use Spatie\ResourceLinks\HasLinks;
  *     ))
  * )
  */
-class ExternalResourceResource extends JsonResource
+class ExternalResourceResource extends BaseResource
 {
 
     use HasLinks;

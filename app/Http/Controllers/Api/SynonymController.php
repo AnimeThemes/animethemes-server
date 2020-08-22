@@ -19,10 +19,19 @@ class SynonymController extends BaseController
      *     description="Returns listing of Synonyms",
      *     @OA\Parameter(
      *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+     *         example=50,
      *         name="limit",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+     *         example="synonyms.\*.text,\*.name",
+     *         name="fields",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -47,6 +56,14 @@ class SynonymController extends BaseController
      *     tags={"Synonym"},
      *     summary="Get properties of Synonym",
      *     description="Returns properties of Synonym",
+     *     @OA\Parameter(
+     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+     *         example="text,\*.name",
+     *         name="fields",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful",

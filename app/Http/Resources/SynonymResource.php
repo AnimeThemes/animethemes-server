@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Http\Controllers\Api\SynonymController;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\ResourceLinks\HasLinks;
 
 /**
@@ -26,7 +25,7 @@ use Spatie\ResourceLinks\HasLinks;
  *     )
  * )
  */
-class SynonymResource extends JsonResource
+class SynonymResource extends BaseResource
 {
 
     use HasLinks;

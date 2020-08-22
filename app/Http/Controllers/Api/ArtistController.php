@@ -19,10 +19,19 @@ class ArtistController extends BaseController
      *     description="Returns listing of Artists",
      *     @OA\Parameter(
      *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+     *         example=50,
      *         name="limit",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+     *         example="artists.\*.name,\*.alias",
+     *         name="fields",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -47,6 +56,14 @@ class ArtistController extends BaseController
      *     tags={"Artist"},
      *     summary="Get properties of Artist",
      *     description="Returns properties of Artist",
+     *     @OA\Parameter(
+     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+     *         example="name,\*.alias",
+     *         name="fields",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful",

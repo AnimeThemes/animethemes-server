@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Http\Controllers\Api\VideoController;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\ResourceLinks\HasLinks;
 
 /**
@@ -55,7 +54,7 @@ use Spatie\ResourceLinks\HasLinks;
  *     ))
  * )
  */
-class VideoResource extends JsonResource
+class VideoResource extends BaseResource
 {
 
     use HasLinks;

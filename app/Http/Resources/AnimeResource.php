@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Http\Controllers\Api\AnimeController;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\ResourceLinks\HasLinks;
 
 /**
@@ -90,7 +89,7 @@ use Spatie\ResourceLinks\HasLinks;
  *     ))
  * )
  */
-class AnimeResource extends JsonResource
+class AnimeResource extends BaseResource
 {
 
     use HasLinks;

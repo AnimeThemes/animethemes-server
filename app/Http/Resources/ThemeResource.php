@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Http\Controllers\Api\ThemeController;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\ResourceLinks\HasLinks;
 
 /**
@@ -70,7 +69,7 @@ use Spatie\ResourceLinks\HasLinks;
  *     ))
  * )
  */
-class ThemeResource extends JsonResource
+class ThemeResource extends BaseResource
 {
 
     use HasLinks;

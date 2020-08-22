@@ -19,10 +19,19 @@ class EntryController extends BaseController
      *     description="Returns listing of Entries",
      *     @OA\Parameter(
      *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+     *         example=50,
      *         name="limit",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+     *         example="entries.\*.version,\*.link",
+     *         name="fields",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -47,6 +56,14 @@ class EntryController extends BaseController
      *     tags={"Entry"},
      *     summary="Get properties of Entry",
      *     description="Returns properties of Entry",
+     *     @OA\Parameter(
+     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+     *         example="version,\*.link",
+     *         name="fields",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful",

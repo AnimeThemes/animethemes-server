@@ -22,7 +22,18 @@
                         "required": false,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime.\\*.name,\\*.link"
                     }
                 ],
                 "responses": {
@@ -56,6 +67,18 @@
                 "summary": "Get properties of Anime",
                 "description": "Returns properties of Anime",
                 "operationId": "getAnime",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "name,\\*.link"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -89,7 +112,18 @@
                         "required": false,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "artists.\\*.name,\\*.alias"
                     }
                 ],
                 "responses": {
@@ -123,6 +157,18 @@
                 "summary": "Get properties of Artist",
                 "description": "Returns properties of Artist",
                 "operationId": "getArtist",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "name,\\*.alias"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -156,7 +202,18 @@
                         "required": false,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "entries.\\*.version,\\*.link"
                     }
                 ],
                 "responses": {
@@ -190,6 +247,18 @@
                 "summary": "Get properties of Entry",
                 "description": "Returns properties of Entry",
                 "operationId": "getEntry",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "version,\\*.link"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -223,7 +292,18 @@
                         "required": false,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "resources.\\*.link,\\*.name"
                     }
                 ],
                 "responses": {
@@ -257,6 +337,18 @@
                 "summary": "Get properties of Resource",
                 "description": "Returns properties of Resource",
                 "operationId": "getResource",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "link,\\*.name"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -290,7 +382,18 @@
                         "required": false,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "series.\\*.name,\\*.alias"
                     }
                 ],
                 "responses": {
@@ -324,6 +427,18 @@
                 "summary": "Get properties of Series",
                 "description": "Returns properties of Series",
                 "operationId": "getSeries",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "name,\\*.alias"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -357,7 +472,18 @@
                         "required": false,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "songs.\\*.title,\\*.name"
                     }
                 ],
                 "responses": {
@@ -391,6 +517,18 @@
                 "summary": "Get properties of Song",
                 "description": "Returns properties of Song",
                 "operationId": "getSong",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "title,\\*.name"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -424,7 +562,18 @@
                         "required": false,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "synonyms.\\*.text,\\*.name"
                     }
                 ],
                 "responses": {
@@ -458,6 +607,18 @@
                 "summary": "Get properties of Synonym",
                 "description": "Returns properties of Synonym",
                 "operationId": "getSynonym",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "text,\\*.name"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -491,7 +652,18 @@
                         "required": false,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "themes.\\*.sequence,\\*.link"
                     }
                 ],
                 "responses": {
@@ -525,6 +697,18 @@
                 "summary": "Get properties of Theme",
                 "description": "Returns properties of Theme",
                 "operationId": "getTheme",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "sequence,\\*.link"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -558,7 +742,18 @@
                         "required": false,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "videos.\\*.link,\\*.alias"
                     }
                 ],
                 "responses": {
@@ -592,6 +787,18 @@
                 "summary": "Get properties of Video",
                 "description": "Returns properties of Video",
                 "operationId": "getVideo",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "link,\\*.alias"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",

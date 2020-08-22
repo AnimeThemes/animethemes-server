@@ -19,10 +19,19 @@ class SongController extends BaseController
      *     description="Returns listing of Songs",
      *     @OA\Parameter(
      *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+     *         example=50,
      *         name="limit",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+     *         example="songs.\*.title,\*.name",
+     *         name="fields",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -48,6 +57,14 @@ class SongController extends BaseController
      *     tags={"Song"},
      *     summary="Get properties of Song",
      *     description="Returns properties of Song",
+     *     @OA\Parameter(
+     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+     *         example="title,\*.name",
+     *         name="fields",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful",

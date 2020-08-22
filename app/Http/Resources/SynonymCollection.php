@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
-
-class SynonymCollection extends ResourceCollection
+class SynonymCollection extends BaseCollection
 {
     /**
      * The resource that this resource collects.

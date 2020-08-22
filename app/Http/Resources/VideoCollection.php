@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
-
-class VideoCollection extends ResourceCollection
+class VideoCollection extends BaseCollection
 {
     /**
      * The resource that this resource collects.

@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Http\Controllers\Api\ArtistController;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\ResourceLinks\HasLinks;
 
 /**
@@ -53,7 +52,7 @@ use Spatie\ResourceLinks\HasLinks;
  *     ))
  * )
  */
-class ArtistResource extends JsonResource
+class ArtistResource extends BaseResource
 {
 
     use HasLinks;

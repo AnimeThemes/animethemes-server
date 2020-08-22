@@ -19,10 +19,19 @@ class VideoController extends BaseController
      *     description="Returns listing of Videos",
      *     @OA\Parameter(
      *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+     *         example=50,
      *         name="limit",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+     *         example="videos.\*.link,\*.alias",
+     *         name="fields",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -47,6 +56,14 @@ class VideoController extends BaseController
      *     tags={"Video"},
      *     summary="Get properties of Video",
      *     description="Returns properties of Video",
+     *     @OA\Parameter(
+     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+     *         example="link,\*.alias",
+     *         name="fields",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful",

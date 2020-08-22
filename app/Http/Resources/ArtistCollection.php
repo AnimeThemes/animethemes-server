@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
-
-class ArtistCollection extends ResourceCollection
+class ArtistCollection extends BaseCollection
 {
     /**
      * The resource that this resource collects.

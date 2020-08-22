@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Http\Controllers\Api\SeriesController;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\ResourceLinks\HasLinks;
 
 /**
@@ -89,10 +88,17 @@ use Spatie\ResourceLinks\HasLinks;
  *     ))
  * )
  */
-class SeriesResource extends JsonResource
+class SeriesResource extends BaseResource
 {
 
     use HasLinks;
+
+    /**
+     * The "data" wrapper that should be applied.
+     *
+     * @var string
+     */
+    public static $wrap = 'series';
 
     /**
      * Transform the resource into an array.
