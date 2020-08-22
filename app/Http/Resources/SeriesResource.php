@@ -94,13 +94,6 @@ class SeriesResource extends BaseResource
     use HasLinks;
 
     /**
-     * The "data" wrapper that should be applied.
-     *
-     * @var string
-     */
-    public static $wrap = 'series';
-
-    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
