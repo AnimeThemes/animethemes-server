@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\ScoutElastic\SeriesIndexConfigurator;
+use App\ScoutElastic\SeriesSearchRule;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use ScoutElastic\Searchable;
 
 class Series extends Model implements Auditable
 {
 
+    use Searchable;
     use \OwenIt\Auditing\Auditable;
 
     protected $fillable = ['alias', 'name'];
@@ -25,6 +29,20 @@ class Series extends Model implements Auditable
      * @var string
      */
     protected $primaryKey = 'series_id';
+
+    protected $indexConfigurator = SeriesIndexConfigurator::class;
+
+    protected $searchRules = [
+        SeriesSearchRule::class
+    ];
+
+    protected $mapping = [
+        'properties' => [
+            'name' => [
+                'type' => 'text'
+            ]
+        ]
+    ];
 
     /**
      * Get the route key for the model.

@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "babenkoivan/scout-elasticsearch-driver": "^4.2",
         "bensampo/laravel-enum": "^1.37",
         "darkaonline/l5-swagger": "^7.0",
         "darkghosthunter/laraguard": "^2.0",

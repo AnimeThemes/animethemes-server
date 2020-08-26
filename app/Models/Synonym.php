@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use App\ScoutElastic\SynonymIndexConfigurator;
+use App\ScoutElastic\SynonymSearchRule;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use ScoutElastic\Searchable;
 
 class Synonym extends Model implements Auditable
 {
 
-    use \OwenIt\Auditing\Auditable;
+    use \OwenIt\Auditing\Auditable, Searchable;
 
     protected $fillable = ['text'];
 
@@ -25,6 +28,20 @@ class Synonym extends Model implements Auditable
      * @var string
      */
     protected $primaryKey = 'synonym_id';
+
+    protected $indexConfigurator = SynonymIndexConfigurator::class;
+
+    protected $searchRules = [
+        SynonymSearchRule::class
+    ];
+
+    protected $mapping = [
+        'properties' => [
+            'text' => [
+                'type' => 'text'
+            ]
+        ]
+    ];
 
     /**
      * Gets the anime that owns the synonym

@@ -67,7 +67,7 @@ abstract class BaseController extends Controller
       * @return integer
       */
     protected function getPerPageLimit() : int {
-        $limit = request('limit', 100);
+        $limit = intval(request('limit', 100));
         if ($limit <= 0 || $limit > 100) {
             $limit = 100;
         }

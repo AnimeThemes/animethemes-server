@@ -176,7 +176,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\NovaServiceProvider::class,
         L5Swagger\L5SwaggerServiceProvider::class,
-
+        Laravel\Scout\ScoutServiceProvider::class,
+        ScoutElastic\ScoutElasticServiceProvider::class,
     ],
 
     /*

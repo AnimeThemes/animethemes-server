@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['as' => 'api.'], function() {
+
+    // Search Routes
+    Route::get('anime/search', 'Api\AnimeController@search');
+    Route::get('synonym/search', 'Api\SynonymController@search');
+    Route::get('series/search', 'Api\SeriesController@search');
+
+    // Resource Routes
     Route::apiResource('anime', 'Api\AnimeController')->only(['index', 'show']);
     Route::apiResource('synonym', 'Api\SynonymController')->only(['index', 'show']);
     Route::apiResource('theme', 'Api\ThemeController')->only(['index', 'show']);

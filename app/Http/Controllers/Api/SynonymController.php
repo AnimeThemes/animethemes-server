@@ -82,4 +82,54 @@ class SynonymController extends BaseController
     {
         return new SynonymResource($synonym->load('anime'));
     }
+
+    /**
+     * Search resources
+     *
+     * @OA\Get(
+     *     path="/synonym/search",
+     *     operationId="searchSynonyms",
+     *     tags={"Synonym"},
+     *     summary="Get paginated listing of Synonyms by search criteria",
+     *     description="Returns listing of Synonyms by search criteria",
+     *     @OA\Parameter(
+     *         description="The search query. Wildcards '*' and '?' are supported.",
+     *         example="Monstory",
+     *         name="q",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+     *         example=50,
+     *         name="limit",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+     *         example="synonyms.\*.text,\*.name",
+     *         name="fields",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful",
+     *         @OA\JsonContent(@OA\Property(property="synonyms",type="array", @OA\Items(ref="#/components/schemas/SynonymResource")))
+     *     )
+     * )
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search()
+    {
+        $synonyms = Synonym::search(strval(request('q')))->query(function ($builder) {
+            $builder->with('anime');
+        })->paginate($this->getPerPageLimit());
+        return new SynonymCollection($synonyms);
+    }
 }

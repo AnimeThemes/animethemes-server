@@ -3,14 +3,17 @@
 namespace App\Models;
 
 use App\Enums\Season;
+use App\ScoutElastic\AnimeIndexConfigurator;
+use App\ScoutElastic\AnimeSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use ScoutElastic\Searchable;
 
 class Anime extends Model implements Auditable
 {
 
-    use CastsEnums;
+    use CastsEnums, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     protected $fillable = ['alias', 'name', 'year', 'season'];
@@ -28,6 +31,41 @@ class Anime extends Model implements Auditable
      * @var string
      */
     protected $primaryKey = 'anime_id';
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        $array['synonyms'] = $this->synonyms->toArray();
+
+        return $array;
+    }
+
+    protected $indexConfigurator = AnimeIndexConfigurator::class;
+
+    protected $searchRules = [
+        AnimeSearchRule::class
+    ];
+
+    protected $mapping = [
+        'properties' => [
+            'name' => [
+                'type' => 'text'
+            ],
+            'synonyms' => [
+                'type' => 'nested',
+                'properties' => [
+                    'text' => [
+                        'type' => 'text'
+                    ]
+                ]
+            ]
+        ]
+    ];
 
     /**
      * Get the route key for the model.
