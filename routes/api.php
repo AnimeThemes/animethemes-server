@@ -18,6 +18,7 @@ Route::group(['as' => 'api.'], function() {
     // Search Routes
     Route::get('anime/search', 'Api\AnimeController@search');
     Route::get('synonym/search', 'Api\SynonymController@search');
+    Route::get('artist/search', 'Api\ArtistController@search');
     Route::get('series/search', 'Api\SeriesController@search');
 
     // Resource Routes

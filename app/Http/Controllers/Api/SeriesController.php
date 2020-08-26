@@ -93,7 +93,7 @@ class SeriesController extends BaseController
      *     summary="Get paginated listing of Series by search criteria",
      *     description="Returns listing of Series by search criteria",
      *     @OA\Parameter(
-     *         description="The search query. Wildcards '*' and '?' are supported.",
+     *         description="The search query. Wildcards '*' and '?' are supported. Mapping is to series.name.",
      *         example="Monogatari",
      *         name="q",
      *         in="query",

@@ -108,7 +108,7 @@
                     {
                         "name": "q",
                         "in": "query",
-                        "description": "The search query. Wildcards '*' and '?' are supported.",
+                        "description": "The search query. Wildcards '*' and '?' are supported. Mapping is to anime.name and anime.synonyms.text.",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -144,7 +144,7 @@
                                 "schema": {
                                     "properties": {
                                         "anime": {
-                                            "description": "Display a listing of the resource.",
+                                            "description": "Search resources",
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/AnimeResource"
@@ -245,6 +245,69 @@
                     },
                     "404": {
                         "description": "Resource Not Found!"
+                    }
+                }
+            }
+        },
+        "/artist/search": {
+            "get": {
+                "tags": [
+                    "Artist"
+                ],
+                "summary": "Get paginated listing of Artists",
+                "description": "Returns listing of Artists",
+                "operationId": "searchArtists",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Wildcards '*' and '?' are supported. Mapping is to artist.name and artist.songs.pivot.as.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Senjougahara"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "artists.\\*.name,\\*.alias"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "artists": {
+                                            "description": "Search resources",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ArtistResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -519,6 +582,69 @@
                 }
             }
         },
+        "/series/search": {
+            "get": {
+                "tags": [
+                    "Series"
+                ],
+                "summary": "Get paginated listing of Series by search criteria",
+                "description": "Returns listing of Series by search criteria",
+                "operationId": "searchSeries",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Wildcards '*' and '?' are supported. Mapping is to series.name.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Monogatari"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "series.\\*.name,\\*.alias"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "series": {
+                                            "description": "Search resources",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SeriesResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/song/": {
             "get": {
                 "tags": [
@@ -711,7 +837,7 @@
                     {
                         "name": "q",
                         "in": "query",
-                        "description": "The search query. Wildcards '*' and '?' are supported.",
+                        "description": "The search query. Wildcards '*' and '?' are supported. Mapping is to synonym.text.",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -747,7 +873,7 @@
                                 "schema": {
                                     "properties": {
                                         "synonyms": {
-                                            "description": "Display a listing of the resource.",
+                                            "description": "Search resources",
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/SynonymResource"

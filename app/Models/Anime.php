@@ -41,7 +41,6 @@ class Anime extends Model implements Auditable
     {
         $array = $this->toArray();
         $array['synonyms'] = $this->synonyms->toArray();
-
         return $array;
     }
 

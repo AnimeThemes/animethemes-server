@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\ScoutElastic\ArtistIndexConfigurator;
+use App\ScoutElastic\ArtistSearchRule;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use ScoutElastic\Searchable;
 
 class Artist extends Model implements Auditable
 {
 
+    use Searchable;
     use \OwenIt\Auditing\Auditable;
 
     protected $fillable = ['alias', 'name'];
@@ -25,6 +29,45 @@ class Artist extends Model implements Auditable
      * @var string
      */
     protected $primaryKey = 'artist_id';
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        $array['songs'] = $this->songs->toArray();
+        return $array;
+    }
+
+    protected $indexConfigurator = ArtistIndexConfigurator::class;
+
+    protected $searchRules = [
+        ArtistSearchRule::class
+    ];
+
+    protected $mapping = [
+        'properties' => [
+            'name' => [
+                'type' => 'text'
+            ],
+            'songs' => [
+                'type' => 'nested',
+                'properties' => [
+                    'pivot'  => [
+                        'type' => 'nested',
+                        'properties' => [
+                            'as' => [
+                                'type' => 'text'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    ];
 
     /**
      * Get the route key for the model.

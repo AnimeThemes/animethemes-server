@@ -93,7 +93,7 @@ class SynonymController extends BaseController
      *     summary="Get paginated listing of Synonyms by search criteria",
      *     description="Returns listing of Synonyms by search criteria",
      *     @OA\Parameter(
-     *         description="The search query. Wildcards '*' and '?' are supported.",
+     *         description="The search query. Wildcards '*' and '?' are supported. Mapping is to synonym.text.",
      *         example="Monstory",
      *         name="q",
      *         in="query",
