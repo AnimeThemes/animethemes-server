@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use App\ScoutElastic\SongIndexConfigurator;
+use App\ScoutElastic\SongSearchRule;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use ScoutElastic\Searchable;
 
 class Song extends Model implements Auditable
 {
 
-    use \OwenIt\Auditing\Auditable;
+    use \OwenIt\Auditing\Auditable, Searchable;
 
     protected $fillable = ['title'];
 
@@ -25,6 +28,20 @@ class Song extends Model implements Auditable
      * @var string
      */
     protected $primaryKey = 'song_id';
+
+    protected $indexConfigurator = SongIndexConfigurator::class;
+
+    protected $searchRules = [
+        SongSearchRule::class
+    ];
+
+    protected $mapping = [
+        'properties' => [
+            'title' => [
+                'type' => 'text'
+            ]
+        ]
+    ];
 
     /**
      * Get the themes that use this song
