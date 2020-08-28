@@ -26,7 +26,8 @@ class SongSearchRule extends SearchRule
                         'title' => [
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
-                            'lenient' => true
+                            'lenient' => true,
+                            'operator' => 'AND'
                         ]
                     ]
                 ],

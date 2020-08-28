@@ -127,9 +127,13 @@ class SeriesController extends BaseController
      */
     public function search()
     {
-        $series = Series::search(strval(request('q')))->query(function ($builder) {
-            $builder->with('anime', 'anime.synonyms', 'anime.themes', 'anime.themes.entries', 'anime.themes.entries.videos', 'anime.themes.song', 'anime.themes.song.artists', 'anime.externalResources');
-        })->paginate($this->getPerPageLimit());
+        $series = [];
+        $search_query = strval(request('q'));
+        if (!empty($search_query)) {
+            $series = Series::search($search_query)->query(function ($builder) {
+                $builder->with('anime', 'anime.synonyms', 'anime.themes', 'anime.themes.entries', 'anime.themes.entries.videos', 'anime.themes.song', 'anime.themes.song.artists', 'anime.externalResources');
+            })->paginate($this->getPerPageLimit());
+        }
         return new SeriesCollection($series);
     }
 }

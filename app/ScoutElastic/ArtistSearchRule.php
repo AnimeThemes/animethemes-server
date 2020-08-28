@@ -26,7 +26,8 @@ class ArtistSearchRule extends SearchRule
                         'name' => [
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
-                            'lenient' => true
+                            'lenient' => true,
+                            'operator' => 'AND'
                         ]
                     ]
                 ],
@@ -51,7 +52,8 @@ class ArtistSearchRule extends SearchRule
                                                     'songs.pivot.as' => [
                                                         'query' => $this->builder->query,
                                                         'fuzziness' => 'AUTO',
-                                                        'lenient' => true
+                                                        'lenient' => true,
+                                                        'operator' => 'AND'
                                                     ]
                                                 ]
                                             ],

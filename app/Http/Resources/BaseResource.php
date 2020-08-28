@@ -17,13 +17,14 @@ abstract class BaseResource extends JsonResource
     public function withResponse($request, $response)
     {
         // Fields Parameter: The comma-separated list of fields to include by dot notation
-        if ($request->has('fields')) {
+        $fields_query = strval(request('fields'));
+        if (!empty($fields_query)) {
             $original_data = $response->getData(true);
             $original_dot_keys = array_keys(Arr::dot($original_data));
 
             $fields_data = [];
 
-            $fields = explode(',', request('fields'));
+            $fields = explode(',', $fields_query);
             foreach ($fields as $field) {
                 $resolved_fields = $this->resolveFields($original_dot_keys, $field);
                 foreach ($resolved_fields as $resolved_field) {
@@ -33,7 +34,10 @@ abstract class BaseResource extends JsonResource
                 }
             }
 
-            $response->setData($fields_data);
+            // If we have at least one valid field selection, update the response data
+            if (!empty($fields_data)) {
+                $response->setData($fields_data);
+            }
         }
     }
 

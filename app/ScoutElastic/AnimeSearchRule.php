@@ -26,7 +26,8 @@ class AnimeSearchRule extends SearchRule
                         'name' => [
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
-                            'lenient' => true
+                            'lenient' => true,
+                            'operator' => 'AND'
                         ]
                     ]
                 ],
@@ -48,7 +49,8 @@ class AnimeSearchRule extends SearchRule
                                             'synonyms.text' => [
                                                 'query' => $this->builder->query,
                                                 'fuzziness' => 'AUTO',
-                                                'lenient' => true
+                                                'lenient' => true,
+                                                'operator' => 'AND'
                                             ]
                                         ]
                                     ],

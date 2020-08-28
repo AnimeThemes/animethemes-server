@@ -26,7 +26,8 @@ class SeriesSearchRule extends SearchRule
                         'name' => [
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
-                            'lenient' => true
+                            'lenient' => true,
+                            'operator' => 'AND'
                         ]
                     ]
                 ],

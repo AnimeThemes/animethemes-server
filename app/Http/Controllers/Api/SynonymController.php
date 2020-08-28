@@ -127,9 +127,13 @@ class SynonymController extends BaseController
      */
     public function search()
     {
-        $synonyms = Synonym::search(strval(request('q')))->query(function ($builder) {
-            $builder->with('anime');
-        })->paginate($this->getPerPageLimit());
+        $synonyms = [];
+        $search_query = strval(request('q'));
+        if (!empty($search_query)) {
+            $synonyms = Synonym::search($search_query)->query(function ($builder) {
+                $builder->with('anime');
+            })->paginate($this->getPerPageLimit());
+        }
         return new SynonymCollection($synonyms);
     }
 }

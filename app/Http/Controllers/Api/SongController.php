@@ -128,9 +128,13 @@ class SongController extends BaseController
      */
     public function search()
     {
-        $songs = Song::search(strval(request('q')))->query(function ($builder) {
-            $builder->with('themes', 'themes.anime', 'artists');
-        })->paginate($this->getPerPageLimit());
+        $songs = [];
+        $search_query = strval(request('q'));
+        if (!empty($search_query)) {
+            $songs = Song::search($search_query)->query(function ($builder) {
+                $builder->with('themes', 'themes.anime', 'artists');
+            })->paginate($this->getPerPageLimit());
+        }
         return new SongCollection($songs);
 
     }
