@@ -43,6 +43,9 @@ abstract class BaseCollection extends ResourceCollection
 
             // If we have at least one valid field selection, update the response data
             if (!empty($fields_data)) {
+                // Preserve pagination response data
+                Arr::set($fields_data, 'links', Arr::get($original_data, 'links'));
+                Arr::set($fields_data, 'meta', Arr::get($original_data, 'meta'));
                 $response->setData($fields_data);
             }
         }
