@@ -1041,6 +1041,69 @@
                 }
             }
         },
+        "/theme/search": {
+            "get": {
+                "tags": [
+                    "Theme"
+                ],
+                "summary": "Get paginated listing of Themes by search criteria",
+                "description": "Returns listing of Themes by search criteria",
+                "operationId": "searchThemes",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Wildcards '*' and '?' are supported. Mapping is to [theme.anime.name + theme.slug] and [theme.anime.synonyms.text + theme.slug].",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "bakemonogatari op1"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "themes.\\*.sequence,\\*.link"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "themes": {
+                                            "description": "Search resources",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ThemeResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/video/": {
             "get": {
                 "tags": [
