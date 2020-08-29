@@ -3,14 +3,17 @@
 namespace App\Models;
 
 use App\Enums\ThemeType;
+use App\ScoutElastic\ThemeIndexConfigurator;
+use App\ScoutElastic\ThemeSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use ScoutElastic\Searchable;
 
 class Theme extends Model implements Auditable
 {
 
-    use CastsEnums;
+    use CastsEnums, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     protected $fillable = ['type', 'sequence', 'group'];
@@ -28,6 +31,57 @@ class Theme extends Model implements Auditable
      * @var string
      */
     protected $primaryKey = 'theme_id';
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        $array['anime'] = $this->anime->toSearchableArray();
+        return $array;
+    }
+
+    protected $indexConfigurator = ThemeIndexConfigurator::class;
+
+    protected $searchRules = [
+        ThemeSearchRule::class
+    ];
+
+    protected $mapping = [
+        'properties' => [
+            'slug' => [
+                'type' => 'text',
+                'copy_to' => ['anime_slug', 'synonym_slug']
+            ],
+            'anime' => [
+                'type' => 'nested',
+                'properties' => [
+                    'name' => [
+                        'type' => 'text',
+                        'copy_to' => ['anime_slug']
+                    ],
+                    'synonyms' => [
+                        'type' => 'nested',
+                        'properties' => [
+                            'text' => [
+                                'type' => 'text',
+                                'copy_to' => ['synonym_slug']
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            'anime_slug' => [
+                'type' => 'text'
+            ],
+            'synonym_slug' => [
+                'type' => 'text'
+            ]
+        ]
+    ];
 
     protected $enumCasts = [
         'type' => ThemeType::class,
