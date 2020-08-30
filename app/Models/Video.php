@@ -50,6 +50,10 @@ class Video extends Model implements Auditable
     protected $casts = [
         'overlap' => 'int',
         'source' => 'int',
+        'nc' => 'boolean',
+        'subbed' => 'boolean',
+        'lyrics' => 'boolean',
+        'uncen' => 'boolean',
     ];
 
     public static function boot() {

@@ -402,6 +402,69 @@
                 }
             }
         },
+        "/entry/search": {
+            "get": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Get paginated listing of Entries by search criteria",
+                "description": "Returns listing of Entries by search criteria",
+                "operationId": "searchEntries",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Wildcards '*' and '?' are supported. Mapping is to [entry.theme.anime.name + entry.theme.slug + entry.version] and [entry.theme.anime.synonyms.text + entry.theme.slug + entry.version].",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "bakemonogatari ED"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "entries.\\*.version,\\*.link"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "entries": {
+                                            "description": "Display a listing of the resource.",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/EntryResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/resource/": {
             "get": {
                 "tags": [

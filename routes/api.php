@@ -21,6 +21,7 @@ Route::group(['as' => 'api.'], function() {
     Route::get('theme/search', 'Api\ThemeController@search');
     Route::get('song/search', 'Api\SongController@search');
     Route::get('artist/search', 'Api\ArtistController@search');
+    Route::get('entry/search', 'Api\EntryController@search');
     Route::get('series/search', 'Api\SeriesController@search');
 
     // Resource Routes
