@@ -22,19 +22,27 @@ class SynonymSearchRule extends SearchRule
         return [
             'should' => [
                 [
+                    'match_phrase' => [
+                        'text' => [
+                            'query' => $this->builder->query
+                        ]
+                    ]
+                ],
+                [
+                    'match' => [
+                        'text' => [
+                            'query' => $this->builder->query,
+                            'operator' => 'AND'
+                        ]
+                    ]
+                ],
+                [
                     'match' => [
                         'text' => [
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
                             'operator' => 'AND'
-                        ]
-                    ]
-                ],
-                [
-                    'wildcard' => [
-                        'text' => [
-                            'value' => $this->builder->query
                         ]
                     ]
                 ]

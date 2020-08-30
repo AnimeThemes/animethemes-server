@@ -93,7 +93,7 @@ class ArtistController extends BaseController
      *     summary="Get paginated listing of Artists",
      *     description="Returns listing of Artists",
      *     @OA\Parameter(
-     *         description="The search query. Wildcards '*' and '?' are supported. Mapping is to artist.name and artist.songs.pivot.as.",
+     *         description="The search query. Mapping is to artist.name and artist.songs.pivot.as.",
      *         example="Senjougahara",
      *         name="q",
      *         in="query",

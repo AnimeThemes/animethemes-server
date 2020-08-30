@@ -94,7 +94,7 @@ class SongController extends BaseController
      *     summary="Get paginated listing of Songs by search criteria",
      *     description="Returns listing of Songs by search criteria",
      *     @OA\Parameter(
-     *         description="The search query. Wildcards '*' and '?' are supported. Mapping is to song.title.",
+     *         description="The search query. Mapping is to song.title.",
      *         example="stable staple",
      *         name="q",
      *         in="query",

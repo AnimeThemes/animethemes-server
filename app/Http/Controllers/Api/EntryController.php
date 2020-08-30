@@ -93,7 +93,7 @@ class EntryController extends BaseController
      *     summary="Get paginated listing of Entries by search criteria",
      *     description="Returns listing of Entries by search criteria",
      *     @OA\Parameter(
-     *         description="The search query. Wildcards '*' and '?' are supported. Mapping is to [entry.theme.anime.name + entry.theme.slug + entry.version] and [entry.theme.anime.synonyms.text + entry.theme.slug + entry.version].",
+     *         description="The search query. Mapping is to [entry.theme.anime.name|entry.theme.anime.synonyms.text + entry.theme.slug + entry.version].",
      *         example="bakemonogatari ED",
      *         name="q",
      *         in="query",

@@ -22,19 +22,27 @@ class SeriesSearchRule extends SearchRule
         return [
             'should' => [
                 [
+                    'match_phrase' => [
+                        'name' => [
+                            'query' => $this->builder->query
+                        ]
+                    ]
+                ],
+                [
+                    'match' => [
+                        'name' => [
+                            'query' => $this->builder->query,
+                            'operator' => 'AND'
+                        ]
+                    ]
+                ],
+                [
                     'match' => [
                         'name' => [
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
                             'operator' => 'AND'
-                        ]
-                    ]
-                ],
-                [
-                    'wildcard' => [
-                        'name' => [
-                            'value' => $this->builder->query
                         ]
                     ]
                 ]

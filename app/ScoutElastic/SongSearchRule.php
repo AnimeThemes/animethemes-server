@@ -22,19 +22,27 @@ class SongSearchRule extends SearchRule
         return [
             'should' => [
                 [
+                    'match_phrase' => [
+                        'title' => [
+                            'query' => $this->builder->query
+                        ]
+                    ]
+                ],
+                [
+                    'match' => [
+                        'title' => [
+                            'query' => $this->builder->query,
+                            'operator' => 'AND'
+                        ]
+                    ]
+                ],
+                [
                     'match' => [
                         'title' => [
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
                             'operator' => 'AND'
-                        ]
-                    ]
-                ],
-                [
-                    'wildcard' => [
-                        'title' => [
-                            'value' => $this->builder->query
                         ]
                     ]
                 ]

@@ -22,6 +22,21 @@ class ArtistSearchRule extends SearchRule
         return [
             'should' => [
                 [
+                    'match_phrase' => [
+                        'name' => [
+                            'query' => $this->builder->query
+                        ]
+                    ]
+                ],
+                [
+                    'match' => [
+                        'name' => [
+                            'query' => $this->builder->query,
+                            'operator' => 'AND'
+                        ]
+                    ]
+                ],
+                [
                     'match' => [
                         'name' => [
                             'query' => $this->builder->query,
@@ -32,9 +47,49 @@ class ArtistSearchRule extends SearchRule
                     ]
                 ],
                 [
-                    'wildcard' => [
-                        'name' => [
-                            'value' => $this->builder->query
+                    'nested' => [
+                        'path' => 'songs',
+                        'query' => [
+                            'nested' => [
+                                'path' => 'songs.pivot',
+                                'query' => [
+                                    'bool' => [
+                                        'should' => [
+                                            [
+                                                'match_phrase' => [
+                                                    'songs.pivot.as' => [
+                                                        'query' => $this->builder->query
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    'nested' => [
+                        'path' => 'songs',
+                        'query' => [
+                            'nested' => [
+                                'path' => 'songs.pivot',
+                                'query' => [
+                                    'bool' => [
+                                        'should' => [
+                                            [
+                                                'match' => [
+                                                    'songs.pivot.as' => [
+                                                        'query' => $this->builder->query,
+                                                        'operator' => 'AND'
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
                         ]
                     ]
                 ],
@@ -56,16 +111,8 @@ class ArtistSearchRule extends SearchRule
                                                         'operator' => 'AND'
                                                     ]
                                                 ]
-                                            ],
-                                            [
-                                                'wildcard' => [
-                                                    'songs.pivot.as' => [
-                                                        'value' => $this->builder->query
-                                                    ]
-                                                ]
                                             ]
-                                        ],
-                                        'minimum_should_match' => 1
+                                        ]
                                     ]
                                 ]
                             ]

@@ -22,6 +22,21 @@ class AnimeSearchRule extends SearchRule
         return [
             'should' => [
                 [
+                    'match_phrase' => [
+                        'name' => [
+                            'query' => $this->builder->query
+                        ]
+                    ]
+                ],
+                [
+                    'match' => [
+                        'name' => [
+                            'query' => $this->builder->query,
+                            'operator' => 'AND'
+                        ]
+                    ]
+                ],
+                [
                     'match' => [
                         'name' => [
                             'query' => $this->builder->query,
@@ -32,9 +47,39 @@ class AnimeSearchRule extends SearchRule
                     ]
                 ],
                 [
-                    'wildcard' => [
-                        'name' => [
-                            'value' => $this->builder->query
+                    'nested' => [
+                        'path' => 'synonyms',
+                        'query' => [
+                            'bool' => [
+                                'should' => [
+                                    [
+                                        'match_phrase' => [
+                                            'synonyms.text' => [
+                                                'query' => $this->builder->query
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    'nested' => [
+                        'path' => 'synonyms',
+                        'query' => [
+                            'bool' => [
+                                'should' => [
+                                    [
+                                        'match' => [
+                                            'synonyms.text' => [
+                                                'query' => $this->builder->query,
+                                                'operator' => 'AND'
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
                         ]
                     ]
                 ],
@@ -53,16 +98,8 @@ class AnimeSearchRule extends SearchRule
                                                 'operator' => 'AND'
                                             ]
                                         ]
-                                    ],
-                                    [
-                                        'wildcard' => [
-                                            'synonyms.text' => [
-                                                'value' => $this->builder->query
-                                            ]
-                                        ]
                                     ]
-                                ],
-                                'minimum_should_match' => 1
+                                ]
                             ]
                         ]
                     ]

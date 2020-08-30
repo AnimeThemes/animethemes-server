@@ -22,6 +22,21 @@ class EntrySearchRule extends SearchRule
         return [
             'should' => [
                 [
+                    'match_phrase' => [
+                        'anime_slug' => [
+                            'query' => $this->builder->query
+                        ]
+                    ]
+                ],
+                [
+                    'match' => [
+                        'anime_slug' => [
+                            'query' => $this->builder->query,
+                            'operator' => 'AND'
+                        ]
+                    ]
+                ],
+                [
                     'match' => [
                         'anime_slug' => [
                             'query' => $this->builder->query,
@@ -32,9 +47,17 @@ class EntrySearchRule extends SearchRule
                     ]
                 ],
                 [
-                    'wildcard' => [
-                        'anime_slug' => [
-                            'value' => $this->builder->query
+                    'match_phrase' => [
+                        'synonym_slug' => [
+                            'query' => $this->builder->query
+                        ]
+                    ]
+                ],
+                [
+                    'match' => [
+                        'synonym_slug' => [
+                            'query' => $this->builder->query,
+                            'operator' => 'AND'
                         ]
                     ]
                 ],
@@ -45,13 +68,6 @@ class EntrySearchRule extends SearchRule
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
                             'operator' => 'AND'
-                        ]
-                    ]
-                ],
-                [
-                    'wildcard' => [
-                        'synonym_slug' => [
-                            'value' => $this->builder->query
                         ]
                     ]
                 ]

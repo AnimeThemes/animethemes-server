@@ -93,7 +93,7 @@ class ThemeController extends BaseController
      *     summary="Get paginated listing of Themes by search criteria",
      *     description="Returns listing of Themes by search criteria",
      *     @OA\Parameter(
-     *         description="The search query. Wildcards '*' and '?' are supported. Mapping is to [theme.anime.name + theme.slug] and [theme.anime.synonyms.text + theme.slug].",
+     *         description="The search query. Mapping is to [theme.anime.name|theme.anime.synonyms.text + theme.slug].",
      *         example="bakemonogatari op1",
      *         name="q",
      *         in="query",
