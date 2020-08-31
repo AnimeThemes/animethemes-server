@@ -1116,7 +1116,7 @@
                     {
                         "name": "q",
                         "in": "query",
-                        "description": "The search query. Mapping is to [theme.anime.name|theme.anime.synonyms.text + theme.slug].",
+                        "description": "The search query. Mapping is to [theme.anime.name|theme.anime.synonyms.text + theme.slug] or theme.song.title.",
                         "required": true,
                         "schema": {
                             "type": "string"

@@ -41,6 +41,7 @@ class Theme extends Model implements Auditable
     {
         $array = $this->toArray();
         $array['anime'] = $this->anime->toSearchableArray();
+        $array['song'] = $this->song->toSearchableArray();
         return $array;
     }
 
@@ -79,6 +80,14 @@ class Theme extends Model implements Auditable
             ],
             'synonym_slug' => [
                 'type' => 'text'
+            ],
+            'song' => [
+                'type' => 'nested',
+                'properties' => [
+                    'title' => [
+                        'type' => 'text'
+                    ]
+                ]
             ]
         ]
     ];

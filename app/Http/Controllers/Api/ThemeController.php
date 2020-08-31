@@ -93,7 +93,7 @@ class ThemeController extends BaseController
      *     summary="Get paginated listing of Themes by search criteria",
      *     description="Returns listing of Themes by search criteria",
      *     @OA\Parameter(
-     *         description="The search query. Mapping is to [theme.anime.name|theme.anime.synonyms.text + theme.slug].",
+     *         description="The search query. Mapping is to [theme.anime.name|theme.anime.synonyms.text + theme.slug] or theme.song.title.",
      *         example="bakemonogatari op1",
      *         name="q",
      *         in="query",
@@ -130,9 +130,9 @@ class ThemeController extends BaseController
         $themes = [];
         $search_query = strval(request('q'));
         if (!empty($search_query)) {
-            $themes = Theme::search($search_query)->query(function ($builder) {
-                $builder->with('anime', 'entries', 'entries.videos', 'song', 'song.artists');
-            })->paginate($this->getPerPageLimit());
+            $themes = Theme::search($search_query)
+                ->with(['anime', 'entries', 'entries.videos', 'song', 'song.artists'])
+                ->paginate($this->getPerPageLimit());
         }
         return new ThemeCollection($themes);
     }

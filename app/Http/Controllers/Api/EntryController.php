@@ -130,9 +130,9 @@ class EntryController extends BaseController
         $entries = [];
         $search_query = strval(request('q'));
         if (!empty($search_query)) {
-            $entries = Entry::search($search_query)->query(function ($builder) {
-                $builder->with('anime', 'theme', 'videos');
-            })->paginate($this->getPerPageLimit());
+            $entries = Entry::search($search_query)
+                ->with(['anime', 'theme', 'videos'])
+                ->paginate($this->getPerPageLimit());
         }
         return new EntryCollection($entries);
     }

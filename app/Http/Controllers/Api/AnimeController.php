@@ -130,9 +130,9 @@ class AnimeController extends BaseController
         $anime = [];
         $search_query = strval(request('q'));
         if (!empty($search_query)) {
-            $anime = Anime::search($search_query)->query(function ($builder) {
-                $builder->with('synonyms', 'series', 'themes', 'themes.entries', 'themes.entries.videos', 'themes.song', 'themes.song.artists', 'externalResources');
-            })->paginate($this->getPerPageLimit());
+            $anime = Anime::search($search_query)
+                ->with(['synonyms', 'series', 'themes', 'themes.entries', 'themes.entries.videos', 'themes.song', 'themes.song.artists', 'externalResources'])
+                ->paginate($this->getPerPageLimit());
         }
         return new AnimeCollection($anime);
     }

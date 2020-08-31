@@ -130,9 +130,9 @@ class ArtistController extends BaseController
         $artists = [];
         $search_query = strval(request('q'));
         if (!empty($search_query)) {
-            $artists = Artist::search($search_query)->query(function ($builder) {
-                $builder->with('songs', 'songs.themes', 'songs.themes.anime', 'members', 'groups', 'externalResources');
-            })->paginate($this->getPerPageLimit());
+            $artists = Artist::search($search_query)
+                ->with(['songs', 'songs.themes', 'songs.themes.anime', 'members', 'groups', 'externalResources'])
+                ->paginate($this->getPerPageLimit());
         }
         return new ArtistCollection($artists);
     }
