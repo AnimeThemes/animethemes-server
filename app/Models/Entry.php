@@ -65,14 +65,14 @@ class Entry extends Model implements Auditable
         'properties' => [
             'version' => [
                 'type' => 'text',
-                'copy_to' => ['anime_slug', 'synonym_slug']
+                'copy_to' => ['version_slug', 'anime_slug', 'synonym_slug']
             ],
             'theme' => [
                 'type' => 'nested',
                 'properties' => [
                     'slug' => [
                         'type' => 'text',
-                        'copy_to' => ['anime_slug', 'synonym_slug']
+                        'copy_to' => ['version_slug', 'anime_slug', 'synonym_slug']
                     ],
                     'anime' => [
                         'type' => 'nested',
@@ -92,7 +92,18 @@ class Entry extends Model implements Auditable
                             ]
                         ]
                     ],
+                    'song' => [
+                        'type' => 'nested',
+                        'properties' => [
+                            'title' => [
+                                'type' => 'text'
+                            ]
+                        ]
+                    ]
                 ]
+            ],
+            'version_slug' => [
+                'type' => 'text'
             ],
             'anime_slug' => [
                 'type' => 'text'
