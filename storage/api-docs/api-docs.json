@@ -450,7 +450,7 @@
                                 "schema": {
                                     "properties": {
                                         "entries": {
-                                            "description": "Display a listing of the resource.",
+                                            "description": "Search resources",
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/EntryResource"
@@ -1253,6 +1253,69 @@
                     },
                     "404": {
                         "description": "Resource Not Found!"
+                    }
+                }
+            }
+        },
+        "/video/search": {
+            "get": {
+                "tags": [
+                    "Video"
+                ],
+                "summary": "Get paginated listing of Videos by search criteria",
+                "description": "Returns listing of Videos by search criteria",
+                "operationId": "searchVideos",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Mapping is to video.filename or video.tags[] or [video.entries.theme.anime.name|video.entries.theme.anime.synonyms.text + video.entries.theme.slug + video.entries.version] or video.entries.theme.song.title.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "bakemonogatari ED NC BD 1080"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "videos.\\*.link,\\*.alias"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "videos": {
+                                            "description": "Search resources",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/VideoResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }

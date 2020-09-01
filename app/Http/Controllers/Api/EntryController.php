@@ -84,7 +84,7 @@ class EntryController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
+     * Search resources
      *
      * @OA\Get(
      *     path="/entry/search",

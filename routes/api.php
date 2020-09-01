@@ -23,6 +23,7 @@ Route::group(['as' => 'api.'], function() {
     Route::get('artist/search', 'Api\ArtistController@search');
     Route::get('entry/search', 'Api\EntryController@search');
     Route::get('series/search', 'Api\SeriesController@search');
+    Route::get('video/search', 'Api\VideoController@search');
 
     // Resource Routes
     Route::apiResource('anime', 'Api\AnimeController')->only(['index', 'show']);
