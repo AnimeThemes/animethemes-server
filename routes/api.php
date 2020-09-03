@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['as' => 'api.'], function() {
 
     // Search Routes
+    Route::get('search', 'Api\BaseController@search');
     Route::get('anime/search', 'Api\AnimeController@search');
     Route::get('synonym/search', 'Api\SynonymController@search');
     Route::get('theme/search', 'Api\ThemeController@search');

@@ -312,6 +312,108 @@
                 }
             }
         },
+        "/search": {
+            "get": {
+                "tags": [
+                    "General"
+                ],
+                "summary": "Get top 5 relevant resources by search criteria",
+                "description": "Returns top 5 relevant resources by search criteria",
+                "operationId": "search",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Mappings are identical to resource searching.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "bakemonogatari"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of resources to include: anime, artists, entries, series, songs, synonyms, themes, videos.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime,artists,videos"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "anime": {
+                                            "description": "Search resources",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AnimeResource"
+                                            }
+                                        },
+                                        "artists": {
+                                            "description": "Search resources",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ArtistResource"
+                                            }
+                                        },
+                                        "entries": {
+                                            "description": "Search resources",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/EntryResource"
+                                            }
+                                        },
+                                        "series": {
+                                            "description": "Search resources",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SeriesResource"
+                                            }
+                                        },
+                                        "songs": {
+                                            "description": "Search resources",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SongResource"
+                                            }
+                                        },
+                                        "synonyms": {
+                                            "description": "Search resources",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SynonymResource"
+                                            }
+                                        },
+                                        "themes": {
+                                            "description": "Search resources",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ThemeResource"
+                                            }
+                                        },
+                                        "videos": {
+                                            "description": "Search resources",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/VideoResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/entry/": {
             "get": {
                 "tags": [
@@ -3427,6 +3529,10 @@
         }
     },
     "tags": [
+        {
+            "name": "General",
+            "description": "API Endpoints not targeted to specific resource"
+        },
         {
             "name": "Anime",
             "description": "API Endpoints of Anime"
