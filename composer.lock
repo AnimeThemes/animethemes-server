@@ -60,16 +60,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.151.5",
+            "version": "3.151.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d38bd349560bbbb25b0991950c858fabff1280b3"
+                "reference": "b34231eb116dd7dada37f6d30d88343a992c9c3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d38bd349560bbbb25b0991950c858fabff1280b3",
-                "reference": "d38bd349560bbbb25b0991950c858fabff1280b3",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b34231eb116dd7dada37f6d30d88343a992c9c3e",
+                "reference": "b34231eb116dd7dada37f6d30d88343a992c9c3e",
                 "shasum": ""
             },
             "require": {
@@ -141,7 +141,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-09-02T18:18:35+00:00"
+            "time": "2020-09-03T18:17:59+00:00"
         },
         {
             "name": "babenkoivan/scout-elasticsearch-driver",
@@ -7338,16 +7338,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "3.0.5",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "7f4b9e09c9e96a4c7dd57b0a4ddd5b45f1e261e1"
+                "reference": "9d172471e56433b5c7061006b9a766f262a3edfd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/7f4b9e09c9e96a4c7dd57b0a4ddd5b45f1e261e1",
-                "reference": "7f4b9e09c9e96a4c7dd57b0a4ddd5b45f1e261e1",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/9d172471e56433b5c7061006b9a766f262a3edfd",
+                "reference": "9d172471e56433b5c7061006b9a766f262a3edfd",
                 "shasum": ""
             },
             "require": {
@@ -7380,13 +7380,17 @@
             "authors": [
                 {
                     "name": "Robert Allen",
-                    "email": "zircote@gmail.com",
-                    "homepage": "http://www.zircote.com"
+                    "email": "zircote@gmail.com"
                 },
                 {
                     "name": "Bob Fanger",
                     "email": "bfanger@gmail.com",
-                    "homepage": "http://bfanger.nl"
+                    "homepage": "https://bfanger.nl"
+                },
+                {
+                    "name": "Martin Rademacher",
+                    "email": "mano@radebatz.net",
+                    "homepage": "https://radebatz.net"
                 }
             ],
             "description": "swagger-php - Generate interactive documentation for your RESTful API using phpdoc annotations",
@@ -7397,7 +7401,7 @@
                 "rest",
                 "service discovery"
             ],
-            "time": "2020-08-24T04:51:22+00:00"
+            "time": "2020-09-03T20:18:43+00:00"
         }
     ],
     "packages-dev": [

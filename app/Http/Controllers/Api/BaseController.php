@@ -98,6 +98,14 @@ class BaseController extends Controller
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
+     *         description="The number of each resource to return. Acceptable range is [1-5]. Default value is 5.",
+     *         example=1,
+     *         name="limit",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
      *         description="The comma-separated list of resources to include: anime, artists, entries, series, songs, synonyms, themes, videos.",
      *         example="anime,artists,videos",
      *         name="fields",
@@ -132,28 +140,28 @@ class BaseController extends Controller
         return [
             AnimeCollection::$wrap => new AnimeCollection(empty($search_query) || (!empty($fields) && !in_array(AnimeCollection::$wrap, $fields)) ? [] : Anime::search($search_query)
                 ->with(['synonyms', 'series', 'themes', 'themes.entries', 'themes.entries.videos', 'themes.song', 'themes.song.artists', 'externalResources'])
-                ->take(5)->get()),
+                ->take($this->getPerPageLimit(5))->get()),
             ArtistCollection::$wrap => new ArtistCollection(empty($search_query) || (!empty($fields) && !in_array(ArtistCollection::$wrap, $fields)) ? [] : Artist::search($search_query)
                 ->with(['songs', 'songs.themes', 'songs.themes.anime', 'members', 'groups', 'externalResources'])
-                ->take(5)->get()),
+                ->take($this->getPerPageLimit(5))->get()),
             EntryCollection::$wrap => new EntryCollection(empty($search_query) || (!empty($fields) && !in_array(EntryCollection::$wrap, $fields)) ? [] : Entry::search($search_query)
                 ->with(['anime', 'theme', 'videos'])
-                ->take(5)->get()),
+                ->take($this->getPerPageLimit(5))->get()),
             SeriesCollection::$wrap => new SeriesCollection(empty($search_query) || (!empty($fields) && !in_array(SeriesCollection::$wrap, $fields)) ? [] : Series::search($search_query)
                 ->with(['anime', 'anime.synonyms', 'anime.themes', 'anime.themes.entries', 'anime.themes.entries.videos', 'anime.themes.song', 'anime.themes.song.artists', 'anime.externalResources'])
-                ->take(5)->get()),
+                ->take($this->getPerPageLimit(5))->get()),
             SongCollection::$wrap => new SongCollection(empty($search_query) || (!empty($fields) && !in_array(SongCollection::$wrap, $fields)) ? [] : Song::search($search_query)
                 ->with(['themes', 'themes.anime', 'artists'])
-                ->take(5)->get()),
+                ->take($this->getPerPageLimit(5))->get()),
             SynonymCollection::$wrap => new SynonymCollection(empty($search_query) || (!empty($fields) && !in_array(SynonymCollection::$wrap, $fields)) ? [] : Synonym::search($search_query)
                 ->with('anime')
-                ->take(5)->get()),
+                ->take($this->getPerPageLimit(5))->get()),
             ThemeCollection::$wrap => new ThemeCollection(empty($search_query) || (!empty($fields) && !in_array(ThemeCollection::$wrap, $fields)) ? [] : Theme::search($search_query)
                 ->with(['anime', 'entries', 'entries.videos', 'song', 'song.artists'])
-                ->take(5)->get()),
+                ->take($this->getPerPageLimit(5))->get()),
             VideoCollection::$wrap => new VideoCollection(empty($search_query) || (!empty($fields) && !in_array(VideoCollection::$wrap, $fields)) ? [] : Video::search($search_query)
                 ->with(['entries', 'entries.theme', 'entries.theme.anime'])
-                ->take(5)->get()),
+                ->take($this->getPerPageLimit(5))->get())
         ];
     }
 
@@ -161,13 +169,14 @@ class BaseController extends Controller
       * Get the number of resources to return per page.
       * Acceptable range is [1-100]. Default is 100.
       *
+      * @param  integer  $limit
       * @return integer
       */
-    protected function getPerPageLimit() : int {
-        $limit = intval(request('limit', 100));
-        if ($limit <= 0 || $limit > 100) {
-            $limit = 100;
+    protected function getPerPageLimit($limit = 100) : int {
+        $limit_query = intval(request('limit', $limit));
+        if ($limit_query <= 0 || $limit_query > $limit) {
+            $limit_query = $limit;
         }
-        return $limit;
+        return $limit_query;
     }
 }

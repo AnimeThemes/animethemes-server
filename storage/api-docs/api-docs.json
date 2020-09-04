@@ -332,6 +332,16 @@
                         "example": "bakemonogatari"
                     },
                     {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of each resource to return. Acceptable range is [1-5]. Default value is 5.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
                         "name": "fields",
                         "in": "query",
                         "description": "The comma-separated list of resources to include: anime, artists, entries, series, songs, synonyms, themes, videos.",
@@ -3531,7 +3541,7 @@
     "tags": [
         {
             "name": "General",
-            "description": "API Endpoints not targeted to specific resource"
+            "description": "API Endpoints not targeted to a specific resource"
         },
         {
             "name": "Anime",
