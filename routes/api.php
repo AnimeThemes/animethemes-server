@@ -36,4 +36,9 @@ Route::group(['as' => 'api.'], function() {
     Route::apiResource('entry', 'Api\EntryController')->only(['index', 'show']);
     Route::apiResource('series', 'Api\SeriesController')->only(['index', 'show']);
     Route::apiResource('video', 'Api\VideoController')->only(['index', 'show']);
+
+    // Year Routes
+    Route::get('year/{year}/all', 'Api\YearController@all');
+    Route::get('year/{year}/search', 'Api\YearController@search');
+    Route::get('year/{year}', 'Api\YearController@show');
 });

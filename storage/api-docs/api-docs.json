@@ -1431,6 +1431,153 @@
                     }
                 }
             }
+        },
+        "/anime/{year}/all": {
+            "get": {
+                "tags": [
+                    "Anime"
+                ],
+                "summary": "Get paginated listing of Anime of year",
+                "description": "Returns listing of Anime of year",
+                "operationId": "getAnimeByYear",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime.\\*.name,\\*.link"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "anime": {
+                                            "description": "Display a listing of the resource.",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AnimeResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/year/{year}": {
+            "get": {
+                "tags": [
+                    "Anime"
+                ],
+                "summary": "Get listing of Anime of year by season",
+                "description": "Returns listing of Anime of year by season",
+                "operationId": "getAnimeOfYearBySeason",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "summer": {
+                                            "description": "Display a listing of anime of year by season.",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AnimeResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/anime/{year}/search": {
+            "get": {
+                "tags": [
+                    "Anime"
+                ],
+                "summary": "Get paginated listing of Anime of year by search criteria",
+                "description": "Returns listing of Anime of year by search criteria",
+                "operationId": "searchAnimeByYear",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Mapping is to anime.name and anime.synonyms.text.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "bakemonogatari"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 50
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime.\\*.name,\\*.link"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "anime": {
+                                            "description": "Search resources",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AnimeResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
