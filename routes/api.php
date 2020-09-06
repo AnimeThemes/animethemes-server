@@ -17,28 +17,18 @@ Route::group(['as' => 'api.'], function() {
 
     // Search Routes
     Route::get('search', 'Api\BaseController@search');
-    Route::get('anime/search', 'Api\AnimeController@search');
-    Route::get('synonym/search', 'Api\SynonymController@search');
-    Route::get('theme/search', 'Api\ThemeController@search');
-    Route::get('song/search', 'Api\SongController@search');
-    Route::get('artist/search', 'Api\ArtistController@search');
-    Route::get('entry/search', 'Api\EntryController@search');
-    Route::get('series/search', 'Api\SeriesController@search');
-    Route::get('video/search', 'Api\VideoController@search');
 
     // Resource Routes
     Route::apiResource('anime', 'Api\AnimeController')->only(['index', 'show']);
+    Route::apiResource('artist', 'Api\ArtistController')->only(['index', 'show']);
+    Route::apiResource('entry', 'Api\EntryController')->only(['index', 'show']);
+    Route::apiResource('resource', 'Api\ExternalResourceController')->only(['index', 'show']);
+    Route::apiResource('series', 'Api\SeriesController')->only(['index', 'show']);
+    Route::apiResource('song', 'Api\SongController')->only(['index', 'show']);
     Route::apiResource('synonym', 'Api\SynonymController')->only(['index', 'show']);
     Route::apiResource('theme', 'Api\ThemeController')->only(['index', 'show']);
-    Route::apiResource('song', 'Api\SongController')->only(['index', 'show']);
-    Route::apiResource('artist', 'Api\ArtistController')->only(['index', 'show']);
-    Route::apiResource('resource', 'Api\ExternalResourceController')->only(['index', 'show']);
-    Route::apiResource('entry', 'Api\EntryController')->only(['index', 'show']);
-    Route::apiResource('series', 'Api\SeriesController')->only(['index', 'show']);
     Route::apiResource('video', 'Api\VideoController')->only(['index', 'show']);
 
     // Year Routes
-    Route::get('year/{year}/all', 'Api\YearController@all');
-    Route::get('year/{year}/search', 'Api\YearController@search');
     Route::get('year/{year}', 'Api\YearController@show');
 });

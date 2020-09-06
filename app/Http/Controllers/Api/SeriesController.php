@@ -18,6 +18,14 @@ class SeriesController extends BaseController
      *     summary="Get paginated listing of Series",
      *     description="Returns listing of Series",
      *     @OA\Parameter(
+     *         description="The search query. Mapping is to series.name.",
+     *         example="Monogatari",
+     *         name="q",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
      *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
      *         example=50,
      *         name="limit",
@@ -44,7 +52,23 @@ class SeriesController extends BaseController
      */
     public function index()
     {
-        return new SeriesCollection(Series::with('anime', 'anime.synonyms', 'anime.themes', 'anime.themes.entries', 'anime.themes.entries.videos', 'anime.themes.song', 'anime.themes.song.artists', 'anime.externalResources')->paginate($this->getPerPageLimit()));
+        $series = [];
+
+        // query parameters
+        $search_query = strval(request('q'));
+
+        // apply search query
+        if (!empty($search_query)) {
+            $series = Series::search($search_query)
+                ->with(['anime', 'anime.synonyms', 'anime.themes', 'anime.themes.entries', 'anime.themes.entries.videos', 'anime.themes.song', 'anime.themes.song.artists', 'anime.externalResources']);
+        } else {
+            $series = Series::with('anime', 'anime.synonyms', 'anime.themes', 'anime.themes.entries', 'anime.themes.entries.videos', 'anime.themes.song', 'anime.themes.song.artists', 'anime.externalResources');
+        }
+
+        // paginate
+        $series = $series->paginate($this->getPerPageLimit());
+
+        return new SeriesCollection($series);
     }
 
     /**
@@ -81,59 +105,5 @@ class SeriesController extends BaseController
     public function show(Series $series)
     {
         return new SeriesResource($series->load('anime', 'anime.synonyms', 'anime.themes', 'anime.themes.entries', 'anime.themes.entries.videos', 'anime.themes.song', 'anime.themes.song.artists', 'anime.externalResources'));
-    }
-
-    /**
-     * Search resources
-     *
-     * @OA\Get(
-     *     path="/series/search",
-     *     operationId="searchSeries",
-     *     tags={"Series"},
-     *     summary="Get paginated listing of Series by search criteria",
-     *     description="Returns listing of Series by search criteria",
-     *     @OA\Parameter(
-     *         description="The search query. Mapping is to series.name.",
-     *         example="Monogatari",
-     *         name="q",
-     *         in="query",
-     *         required=true,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-     *         example=50,
-     *         name="limit",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="series.\*.name,\*.alias",
-     *         name="fields",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful",
-     *         @OA\JsonContent(@OA\Property(property="series",type="array", @OA\Items(ref="#/components/schemas/SeriesResource")))
-     *     )
-     * )
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function search()
-    {
-        $series = [];
-        $search_query = strval(request('q'));
-        if (!empty($search_query)) {
-            $series = Series::search($search_query)
-                ->with(['anime', 'anime.synonyms', 'anime.themes', 'anime.themes.entries', 'anime.themes.entries.videos', 'anime.themes.song', 'anime.themes.song.artists', 'anime.externalResources'])
-                ->paginate($this->getPerPageLimit());
-        }
-        return new SeriesCollection($series);
     }
 }

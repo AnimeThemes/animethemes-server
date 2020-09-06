@@ -18,6 +18,38 @@ class EntryController extends BaseController
      *     summary="Get paginated listing of Entries",
      *     description="Returns listing of Entries",
      *     @OA\Parameter(
+     *         description="The search query. Mapping is to [entry.theme.anime.name|entry.theme.anime.synonyms.text + entry.theme.slug + entry.version] or entry.theme.song.title.",
+     *         example="bakemonogatari ED",
+     *         name="q",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Filter entries by version.",
+     *         example=2,
+     *         name="version",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Filter entries by NSFW. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
+     *         example="false",
+     *         name="nsfw",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Filter entries by Spoiler. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
+     *         example="false",
+     *         name="spoiler",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *     @OA\Parameter(
      *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
      *         example=50,
      *         name="limit",
@@ -44,7 +76,36 @@ class EntryController extends BaseController
      */
     public function index()
     {
-        return new EntryCollection(Entry::with('anime', 'theme', 'videos')->paginate($this->getPerPageLimit()));
+        $entries = [];
+
+        // query parameters
+        $search_query = strval(request('q'));
+        $version_query = strval(request('version'));
+        $nsfw_query = strval(request('nsfw'));
+        $spoiler_query = strval(request('spoiler'));
+
+        if (!empty($search_query)) {
+            $entries = Entry::search($search_query)
+                ->with(['anime', 'theme', 'videos']);
+        } else {
+            $entries = Entry::with('anime', 'theme', 'videos');
+        }
+
+        // apply filters
+        if (!empty($version_query)) {
+            $entries = $entries->where('sequence', intval($version_query));
+        }
+        if (!empty($nsfw_query)) {
+            $entries = $entries->where('nsfw', filter_var($nsfw_query, FILTER_VALIDATE_BOOLEAN));
+        }
+        if (!empty($spoiler_query)) {
+            $entries = $entries->where('spoiler', filter_var($spoiler_query, FILTER_VALIDATE_BOOLEAN));
+        }
+
+        // paginate
+        $entries = $entries->paginate($this->getPerPageLimit());
+
+        return new EntryCollection($entries);
     }
 
     /**
@@ -81,59 +142,5 @@ class EntryController extends BaseController
     public function show(Entry $entry)
     {
         return new EntryResource($entry->load('anime', 'theme', 'videos'));
-    }
-
-    /**
-     * Search resources
-     *
-     * @OA\Get(
-     *     path="/entry/search",
-     *     operationId="searchEntries",
-     *     tags={"Entry"},
-     *     summary="Get paginated listing of Entries by search criteria",
-     *     description="Returns listing of Entries by search criteria",
-     *     @OA\Parameter(
-     *         description="The search query. Mapping is to [entry.theme.anime.name|entry.theme.anime.synonyms.text + entry.theme.slug + entry.version] or entry.theme.song.title.",
-     *         example="bakemonogatari ED",
-     *         name="q",
-     *         in="query",
-     *         required=true,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-     *         example=50,
-     *         name="limit",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="entries.\*.version,\*.link",
-     *         name="fields",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful",
-     *         @OA\JsonContent(@OA\Property(property="entries",type="array", @OA\Items(ref="#/components/schemas/EntryResource")))
-     *     )
-     * )
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function search()
-    {
-        $entries = [];
-        $search_query = strval(request('q'));
-        if (!empty($search_query)) {
-            $entries = Entry::search($search_query)
-                ->with(['anime', 'theme', 'videos'])
-                ->paginate($this->getPerPageLimit());
-        }
-        return new EntryCollection($entries);
     }
 }

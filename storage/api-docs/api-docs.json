@@ -16,6 +16,36 @@
                 "operationId": "getAnimes",
                 "parameters": [
                     {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Mapping is to anime.name and anime.synonyms.text.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "bakemonogatari"
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Filter anime by year",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "2009"
+                    },
+                    {
+                        "name": "season",
+                        "in": "query",
+                        "description": "Filter anime by season. Case-insensitive options are Winter, Spring, Summer & Fall.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Summer"
+                    },
+                    {
                         "name": "limit",
                         "in": "query",
                         "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
@@ -96,69 +126,6 @@
                 }
             }
         },
-        "/anime/search": {
-            "get": {
-                "tags": [
-                    "Anime"
-                ],
-                "summary": "Get paginated listing of Anime by search criteria",
-                "description": "Returns listing of Anime by search criteria",
-                "operationId": "searchAnime",
-                "parameters": [
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to anime.name and anime.synonyms.text.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "bakemonogatari"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 50
-                    },
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "anime.\\*.name,\\*.link"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "anime": {
-                                            "description": "Search resources",
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/AnimeResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/artist/": {
             "get": {
                 "tags": [
@@ -168,6 +135,16 @@
                 "description": "Returns listing of Artists",
                 "operationId": "getArtists",
                 "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Mapping is to artist.name and artist.songs.pivot.as.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Senjougahara"
+                    },
                     {
                         "name": "limit",
                         "in": "query",
@@ -249,76 +226,13 @@
                 }
             }
         },
-        "/artist/search": {
-            "get": {
-                "tags": [
-                    "Artist"
-                ],
-                "summary": "Get paginated listing of Artists",
-                "description": "Returns listing of Artists",
-                "operationId": "searchArtists",
-                "parameters": [
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to artist.name and artist.songs.pivot.as.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Senjougahara"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 50
-                    },
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "artists.\\*.name,\\*.alias"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "artists": {
-                                            "description": "Search resources",
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/ArtistResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/search": {
             "get": {
                 "tags": [
                     "General"
                 ],
-                "summary": "Get top 5 relevant resources by search criteria",
-                "description": "Returns top 5 relevant resources by search criteria",
+                "summary": "Get relevant resources by search criteria",
+                "description": "Returns relevant resources by search criteria",
                 "operationId": "search",
                 "parameters": [
                     {
@@ -434,6 +348,46 @@
                 "operationId": "getEntries",
                 "parameters": [
                     {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Mapping is to [entry.theme.anime.name|entry.theme.anime.synonyms.text + entry.theme.slug + entry.version] or entry.theme.song.title.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "bakemonogatari ED"
+                    },
+                    {
+                        "name": "version",
+                        "in": "query",
+                        "description": "Filter entries by version.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 2
+                    },
+                    {
+                        "name": "nsfw",
+                        "in": "query",
+                        "description": "Filter entries by NSFW. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "spoiler",
+                        "in": "query",
+                        "description": "Filter entries by Spoiler. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
                         "name": "limit",
                         "in": "query",
                         "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
@@ -510,69 +464,6 @@
                     },
                     "404": {
                         "description": "Resource Not Found!"
-                    }
-                }
-            }
-        },
-        "/entry/search": {
-            "get": {
-                "tags": [
-                    "Entry"
-                ],
-                "summary": "Get paginated listing of Entries by search criteria",
-                "description": "Returns listing of Entries by search criteria",
-                "operationId": "searchEntries",
-                "parameters": [
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to [entry.theme.anime.name|entry.theme.anime.synonyms.text + entry.theme.slug + entry.version] or entry.theme.song.title.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "bakemonogatari ED"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 50
-                    },
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "entries.\\*.version,\\*.link"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "entries": {
-                                            "description": "Search resources",
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/EntryResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -677,6 +568,16 @@
                 "operationId": "getSerie",
                 "parameters": [
                     {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Mapping is to series.name.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Monogatari"
+                    },
+                    {
                         "name": "limit",
                         "in": "query",
                         "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
@@ -757,69 +658,6 @@
                 }
             }
         },
-        "/series/search": {
-            "get": {
-                "tags": [
-                    "Series"
-                ],
-                "summary": "Get paginated listing of Series by search criteria",
-                "description": "Returns listing of Series by search criteria",
-                "operationId": "searchSeries",
-                "parameters": [
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to series.name.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Monogatari"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 50
-                    },
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "series.\\*.name,\\*.alias"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "series": {
-                                            "description": "Search resources",
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/SeriesResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/song/": {
             "get": {
                 "tags": [
@@ -829,6 +667,16 @@
                 "description": "Returns listing of Songs",
                 "operationId": "getSongs",
                 "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Mapping is to song.title.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "stable staple"
+                    },
                     {
                         "name": "limit",
                         "in": "query",
@@ -910,69 +758,6 @@
                 }
             }
         },
-        "/song/search": {
-            "get": {
-                "tags": [
-                    "Song"
-                ],
-                "summary": "Get paginated listing of Songs by search criteria",
-                "description": "Returns listing of Songs by search criteria",
-                "operationId": "searchSongs",
-                "parameters": [
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to song.title.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "stable staple"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 50
-                    },
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "songs.\\*.title,\\*.name"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "songs": {
-                                            "description": "Search resources",
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/SongResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/synonym/": {
             "get": {
                 "tags": [
@@ -982,6 +767,16 @@
                 "description": "Returns listing of Synonyms",
                 "operationId": "getSynonyms",
                 "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Mapping is to synonym.text.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Monstory"
+                    },
                     {
                         "name": "limit",
                         "in": "query",
@@ -1063,69 +858,6 @@
                 }
             }
         },
-        "/synonym/search": {
-            "get": {
-                "tags": [
-                    "Synonym"
-                ],
-                "summary": "Get paginated listing of Synonyms by search criteria",
-                "description": "Returns listing of Synonyms by search criteria",
-                "operationId": "searchSynonyms",
-                "parameters": [
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to synonym.text.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Monstory"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 50
-                    },
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "synonyms.\\*.text,\\*.name"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "synonyms": {
-                                            "description": "Search resources",
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/SynonymResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/theme/": {
             "get": {
                 "tags": [
@@ -1135,6 +867,46 @@
                 "description": "Returns listing of Themes",
                 "operationId": "getThemes",
                 "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Mapping is to [theme.anime.name|theme.anime.synonyms.text + theme.slug] or theme.song.title.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "bakemonogatari op1"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Filter themes by type. Case-insensitive options are OP & ED.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "OP"
+                    },
+                    {
+                        "name": "sequence",
+                        "in": "query",
+                        "description": "Filter themes by sequence",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "group",
+                        "in": "query",
+                        "description": "Filter themes by group.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Dubbed Version"
+                    },
                     {
                         "name": "limit",
                         "in": "query",
@@ -1216,69 +988,6 @@
                 }
             }
         },
-        "/theme/search": {
-            "get": {
-                "tags": [
-                    "Theme"
-                ],
-                "summary": "Get paginated listing of Themes by search criteria",
-                "description": "Returns listing of Themes by search criteria",
-                "operationId": "searchThemes",
-                "parameters": [
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to [theme.anime.name|theme.anime.synonyms.text + theme.slug] or theme.song.title.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "bakemonogatari op1"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 50
-                    },
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "themes.\\*.sequence,\\*.link"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "themes": {
-                                            "description": "Search resources",
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/ThemeResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/video/": {
             "get": {
                 "tags": [
@@ -1288,6 +997,86 @@
                 "description": "Returns listing of Videos",
                 "operationId": "getVideos",
                 "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query. Mapping is to video.filename or video.tags[] or [video.entries.theme.anime.name|video.entries.theme.anime.synonyms.text + video.entries.theme.slug + video.entries.version] or video.entries.theme.song.title.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "bakemonogatari ED NC BD 1080"
+                    },
+                    {
+                        "name": "resolution",
+                        "in": "query",
+                        "description": "Filter videos by resolution",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1080
+                    },
+                    {
+                        "name": "nc",
+                        "in": "query",
+                        "description": "Filter videos by NC. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "subbed",
+                        "in": "query",
+                        "description": "Filter videos by subbed. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "lyrics",
+                        "in": "query",
+                        "description": "Filter videos by lyrics. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "uncen",
+                        "in": "query",
+                        "description": "Filter videos by uncen. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "source",
+                        "in": "query",
+                        "description": "Filter videos by source. Case-insensitive options are WEB, RAW, BD, DVD & VHS.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "BD"
+                    },
+                    {
+                        "name": "overlap",
+                        "in": "query",
+                        "description": "Filter videos by overlap. Case-insensitive options are NONE, TRANS & OVER.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "None"
+                    },
                     {
                         "name": "limit",
                         "in": "query",
@@ -1369,122 +1158,6 @@
                 }
             }
         },
-        "/video/search": {
-            "get": {
-                "tags": [
-                    "Video"
-                ],
-                "summary": "Get paginated listing of Videos by search criteria",
-                "description": "Returns listing of Videos by search criteria",
-                "operationId": "searchVideos",
-                "parameters": [
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to video.filename or video.tags[] or [video.entries.theme.anime.name|video.entries.theme.anime.synonyms.text + video.entries.theme.slug + video.entries.version] or video.entries.theme.song.title.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "bakemonogatari ED NC BD 1080"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 50
-                    },
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "videos.\\*.link,\\*.alias"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "videos": {
-                                            "description": "Search resources",
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/VideoResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/anime/{year}/all": {
-            "get": {
-                "tags": [
-                    "Anime"
-                ],
-                "summary": "Get paginated listing of Anime of year",
-                "description": "Returns listing of Anime of year",
-                "operationId": "getAnimeByYear",
-                "parameters": [
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 50
-                    },
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "anime.\\*.name,\\*.link"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "anime": {
-                                            "description": "Display a listing of the resource.",
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/AnimeResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/year/{year}": {
             "get": {
                 "tags": [
@@ -1502,69 +1175,6 @@
                                     "properties": {
                                         "summer": {
                                             "description": "Display a listing of anime of year by season.",
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/AnimeResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/anime/{year}/search": {
-            "get": {
-                "tags": [
-                    "Anime"
-                ],
-                "summary": "Get paginated listing of Anime of year by search criteria",
-                "description": "Returns listing of Anime of year by search criteria",
-                "operationId": "searchAnimeByYear",
-                "parameters": [
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to anime.name and anime.synonyms.text.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "bakemonogatari"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 50
-                    },
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "anime.\\*.name,\\*.link"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "anime": {
-                                            "description": "Search resources",
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/AnimeResource"

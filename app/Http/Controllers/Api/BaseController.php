@@ -87,8 +87,8 @@ class BaseController extends Controller
      *     path="/search",
      *     operationId="search",
      *     tags={"General"},
-     *     summary="Get top 5 relevant resources by search criteria",
-     *     description="Returns top 5 relevant resources by search criteria",
+     *     summary="Get relevant resources by search criteria",
+     *     description="Returns relevant resources by search criteria",
      *     @OA\Parameter(
      *         description="The search query. Mappings are identical to resource searching.",
      *         example="bakemonogatari",
