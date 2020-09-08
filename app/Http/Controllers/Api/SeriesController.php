@@ -9,6 +9,22 @@ use App\Models\Series;
 class SeriesController extends BaseController
 {
     /**
+     * The array of eager relations.
+     *
+     * @var array
+     */
+    protected const EAGER_RELATIONS = [
+        'anime',
+        'anime.synonyms',
+        'anime.themes',
+        'anime.themes.entries',
+        'anime.themes.entries.videos',
+        'anime.themes.song',
+        'anime.themes.song.artists',
+        'anime.externalResources'
+    ];
+
+    /**
      * Display a listing of the resource.
      *
      * @OA\Get(
@@ -21,6 +37,22 @@ class SeriesController extends BaseController
      *         description="The search query. Mapping is to series.name.",
      *         example="Monogatari",
      *         name="q",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Order series by field. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
+     *         example="updated_at",
+     *         name="order",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Direction of series ordering. Case-insensitive options are asc & desc.",
+     *         example="desc",
+     *         name="direction",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -52,18 +84,17 @@ class SeriesController extends BaseController
      */
     public function index()
     {
-        $series = [];
-
         // query parameters
-        $search_query = strval(request('q'));
+        $search_query = strval(request(static::SEARCH_QUERY));
 
-        // apply search query
-        if (!empty($search_query)) {
-            $series = Series::search($search_query)
-                ->with(['anime', 'anime.synonyms', 'anime.themes', 'anime.themes.entries', 'anime.themes.entries.videos', 'anime.themes.song', 'anime.themes.song.artists', 'anime.externalResources']);
-        } else {
-            $series = Series::with('anime', 'anime.synonyms', 'anime.themes', 'anime.themes.entries', 'anime.themes.entries.videos', 'anime.themes.song', 'anime.themes.song.artists', 'anime.externalResources');
-        }
+        // initialize builder
+        $series = empty($search_query) ? Series::query() : Series::search($search_query);
+
+        // eager load relations
+        $series = $series->with(static::EAGER_RELATIONS);
+
+        // order by
+        $series = $this->applyOrdering($series);
 
         // paginate
         $series = $series->paginate($this->getPerPageLimit());
@@ -104,6 +135,6 @@ class SeriesController extends BaseController
      */
     public function show(Series $series)
     {
-        return new SeriesResource($series->load('anime', 'anime.synonyms', 'anime.themes', 'anime.themes.entries', 'anime.themes.entries.videos', 'anime.themes.song', 'anime.themes.song.artists', 'anime.externalResources'));
+        return new SeriesResource($series->load(static::EAGER_RELATIONS));
     }
 }

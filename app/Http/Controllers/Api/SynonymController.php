@@ -9,6 +9,15 @@ use App\Models\Synonym;
 class SynonymController extends BaseController
 {
     /**
+     * The array of eager relations.
+     *
+     * @var array
+     */
+    protected const EAGER_RELATIONS = [
+        'anime',
+    ];
+
+    /**
      * Display a listing of the resource.
      *
      * @OA\Get(
@@ -21,6 +30,22 @@ class SynonymController extends BaseController
      *         description="The search query. Mapping is to synonym.text.",
      *         example="Monstory",
      *         name="q",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Order synonyms by field. Case-insensitive options are synonym_id, created_at, updated_at, text & anime_id.",
+     *         example="updated_at",
+     *         name="order",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Direction of synonym ordering. Case-insensitive options are asc & desc.",
+     *         example="desc",
+     *         name="direction",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -52,18 +77,17 @@ class SynonymController extends BaseController
      */
     public function index()
     {
-        $synonyms = [];
-
         // query parameters
-        $search_query = strval(request('q'));
+        $search_query = strval(request(static::SEARCH_QUERY));
 
-        // apply search query
-        if (!empty($search_query)) {
-            $synonyms = Synonym::search($search_query)
-                ->with(['anime']);
-        } else {
-            $synonyms = Synonym::with('anime');
-        }
+        // initialize builder
+        $synonyms = empty($search_query) ? Synonym::query() : Synonym::search($search_query);
+
+        // eager load relations
+        $synonyms = $synonyms->with(static::EAGER_RELATIONS);
+
+        // order by
+        $synonyms = $this->applyOrdering($synonyms);
 
         // paginate
         $synonyms = $synonyms->paginate($this->getPerPageLimit());
@@ -104,6 +128,6 @@ class SynonymController extends BaseController
      */
     public function show(Synonym $synonym)
     {
-        return new SynonymResource($synonym->load('anime'));
+        return new SynonymResource($synonym->load(static::EAGER_RELATIONS));
     }
 }

@@ -9,6 +9,17 @@ use App\Models\Song;
 class SongController extends BaseController
 {
     /**
+     * The array of eager relations.
+     *
+     * @var array
+     */
+    protected const EAGER_RELATIONS = [
+        'themes',
+        'themes.anime',
+        'artists'
+    ];
+
+    /**
      * Display a listing of the resource.
      *
      * @OA\Get(
@@ -21,6 +32,22 @@ class SongController extends BaseController
      *         description="The search query. Mapping is to song.title.",
      *         example="stable staple",
      *         name="q",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Order songs by field. Case-insensitive options are song_id, created_at, updated_at & title.",
+     *         example="updated_at",
+     *         name="order",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Direction of song ordering. Case-insensitive options are asc & desc.",
+     *         example="desc",
+     *         name="direction",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -52,18 +79,17 @@ class SongController extends BaseController
      */
     public function index()
     {
-        $songs = [];
-
         // query parameters
-        $search_query = strval(request('q'));
+        $search_query = strval(request(static::SEARCH_QUERY));
 
-        // apply search query
-        if (!empty($search_query)) {
-            $songs = Song::search($search_query)
-                ->with(['themes', 'themes.anime', 'artists']);
-        } else {
-            $songs = Song::with('themes', 'themes.anime', 'artists');
-        }
+        // initialize builder
+        $songs = empty($search_query) ? Song::query() : Song::search($search_query);
+
+        // eager load relations
+        $songs = $songs->with(static::EAGER_RELATIONS);
+
+        // order by
+        $songs = $this->applyOrdering($songs);
 
         // paginate
         $songs = $songs->paginate($this->getPerPageLimit());
@@ -104,6 +130,6 @@ class SongController extends BaseController
      */
     public function show(Song $song)
     {
-        return new SongResource($song->load('themes', 'themes.anime', 'artists'));
+        return new SongResource($song->load(static::EAGER_RELATIONS));
     }
 }

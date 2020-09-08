@@ -9,6 +9,24 @@ use App\Models\Theme;
 
 class ThemeController extends BaseController
 {
+    // constants for query parameters
+    protected const TYPE_QUERY = 'type';
+    protected const SEQUENCE_QUERY = 'sequence';
+    protected const GROUP_QUERY = 'group';
+
+    /**
+     * The array of eager relations.
+     *
+     * @var array
+     */
+    protected const EAGER_RELATIONS = [
+        'anime',
+        'entries',
+        'entries.videos',
+        'song',
+        'song.artists'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -51,6 +69,22 @@ class ThemeController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
+     *         description="Order themes by field. Case-insensitive options are theme_id, created_at, updated_at, group, type, sequence, slug, anime_id & song_id.",
+     *         example="updated_at",
+     *         name="order",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Direction of theme ordering. Case-insensitive options are asc & desc.",
+     *         example="desc",
+     *         name="direction",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
      *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
      *         example=50,
      *         name="limit",
@@ -77,32 +111,31 @@ class ThemeController extends BaseController
      */
     public function index()
     {
-        $themes = [];
-
         // query parameters
-        $search_query = strval(request('q'));
-        $type_query = strtoupper(request('type'));
-        $sequence_query = strval(request('sequence'));
-        $group_query = strval(request('group'));
+        $search_query = strval(request(static::SEARCH_QUERY));
+        $type_query = strval(request(static::TYPE_QUERY));
+        $sequence_query = strtoupper(request(static::SEQUENCE_QUERY));
+        $group_query = strval(request(static::GROUP_QUERY));
 
-        // apply search query
-        if (!empty($search_query)) {
-            $themes = Theme::search($search_query)
-                ->with(['anime', 'entries', 'entries.videos', 'song', 'song.artists']);
-        } else {
-            $themes = Theme::where('anime', 'entries', 'entries.videos', 'song', 'song.artists');
-        }
+        // initialize builder
+        $themes = empty($search_query) ? Theme::query() : Theme::search($search_query);
+
+        // eager load relations
+        $themes = $themes->with(static::EAGER_RELATIONS);
 
         // apply filters
-        if (!empty($type_query)) {
-            $themes = $themes->where('type', ThemeType::getValue($type_query));
+        if (!empty($type_query) && ThemeType::hasKey($type_query)) {
+            $themes = $themes->where(static::TYPE_QUERY, ThemeType::getValue($type_query));
         }
         if (!empty($sequence_query)) {
-            $themes = $themes->where('sequence', intval($sequence_query));
+            $themes = $themes->where(static::SEQUENCE_QUERY, intval($sequence_query));
         }
         if (!empty($group_query)) {
-            $themes = $themes->where('group', $group_query);
+            $themes = $themes->where(static::GROUP_QUERY, $group_query);
         }
+
+        // order by
+        $themes = $this->applyOrdering($themes);
 
         // paginate
         $themes = $themes->paginate($this->getPerPageLimit());
@@ -143,6 +176,6 @@ class ThemeController extends BaseController
      */
     public function show(Theme $theme)
     {
-        return new ThemeResource($theme->load('anime', 'entries', 'entries.videos', 'song', 'song.artists'));
+        return new ThemeResource($theme->load(static::EAGER_RELATIONS));
     }
 }

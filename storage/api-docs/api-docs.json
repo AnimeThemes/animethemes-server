@@ -46,6 +46,26 @@
                         "example": "Summer"
                     },
                     {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Order anime by field. Case-insensitive options are anime_id, created_at, updated_at, alias, name, year & season.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "updated_at"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Direction of anime ordering. Case-insensitive options are asc & desc.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "desc"
+                    },
+                    {
                         "name": "limit",
                         "in": "query",
                         "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
@@ -144,6 +164,26 @@
                             "type": "string"
                         },
                         "example": "Senjougahara"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Order artists by field. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "updated_at"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Direction of artist ordering. Case-insensitive options are asc & desc.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "desc"
                     },
                     {
                         "name": "limit",
@@ -388,6 +428,26 @@
                         "example": "false"
                     },
                     {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Order entries by field. Case-insensitive options are entry_id, created_at, updated_at, version, episodes, nsfw, spoiler, notes & theme_id.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "updated_at"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Direction of entry ordering. Case-insensitive options are asc & desc.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "desc"
+                    },
+                    {
                         "name": "limit",
                         "in": "query",
                         "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
@@ -477,6 +537,36 @@
                 "description": "Returns listing of Resources",
                 "operationId": "getResources",
                 "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Filter resources by type. Case-insensitive options are OFFICIAL_SITE, TWITTER, ANIDB, ANILIST, ANIME_PLANET, ANN, KITSU, MAL & WIKI.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "MAL"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Order resources by field. Case-insensitive options are resource_id, created_at, updated_at, type, link & label.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "updated_at"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Direction of resource ordering. Case-insensitive options are asc & desc.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "desc"
+                    },
                     {
                         "name": "limit",
                         "in": "query",
@@ -576,6 +666,26 @@
                             "type": "string"
                         },
                         "example": "Monogatari"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Order series by field. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "updated_at"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Direction of series ordering. Case-insensitive options are asc & desc.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "desc"
                     },
                     {
                         "name": "limit",
@@ -678,6 +788,26 @@
                         "example": "stable staple"
                     },
                     {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Order songs by field. Case-insensitive options are song_id, created_at, updated_at & title.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "updated_at"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Direction of song ordering. Case-insensitive options are asc & desc.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "desc"
+                    },
+                    {
                         "name": "limit",
                         "in": "query",
                         "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
@@ -776,6 +906,26 @@
                             "type": "string"
                         },
                         "example": "Monstory"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Order synonyms by field. Case-insensitive options are synonym_id, created_at, updated_at, text & anime_id.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "updated_at"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Direction of synonym ordering. Case-insensitive options are asc & desc.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "desc"
                     },
                     {
                         "name": "limit",
@@ -906,6 +1056,26 @@
                             "type": "string"
                         },
                         "example": "Dubbed Version"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Order themes by field. Case-insensitive options are theme_id, created_at, updated_at, group, type, sequence, slug, anime_id & song_id.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "updated_at"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Direction of theme ordering. Case-insensitive options are asc & desc.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "desc"
                     },
                     {
                         "name": "limit",
@@ -1076,6 +1246,26 @@
                             "type": "string"
                         },
                         "example": "None"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Order videos by field. Case-insensitive options are video_id, created_at, updated_at, filename, path, basename, resolution, nc, subbed, lyrics, uncen, source & overlap.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "updated_at"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Direction of video ordering. Case-insensitive options are asc & desc.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "desc"
                     },
                     {
                         "name": "limit",

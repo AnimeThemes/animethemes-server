@@ -8,6 +8,22 @@ use App\Models\Entry;
 
 class EntryController extends BaseController
 {
+    // constants for query parameters
+    protected const VERSION_QUERY = 'version';
+    protected const NSFW_QUERY = 'nsfw';
+    protected const SPOILER_QUERY = 'spoiler';
+
+    /**
+     * The array of eager relations.
+     *
+     * @var array
+     */
+    protected const EAGER_RELATIONS = [
+        'anime',
+        'theme',
+        'videos'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -50,6 +66,22 @@ class EntryController extends BaseController
      *         @OA\Schema(type="boolean")
      *     ),
      *     @OA\Parameter(
+     *         description="Order entries by field. Case-insensitive options are entry_id, created_at, updated_at, version, episodes, nsfw, spoiler, notes & theme_id.",
+     *         example="updated_at",
+     *         name="order",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Direction of entry ordering. Case-insensitive options are asc & desc.",
+     *         example="desc",
+     *         name="direction",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
      *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
      *         example=50,
      *         name="limit",
@@ -76,31 +108,31 @@ class EntryController extends BaseController
      */
     public function index()
     {
-        $entries = [];
-
         // query parameters
-        $search_query = strval(request('q'));
-        $version_query = strval(request('version'));
-        $nsfw_query = strval(request('nsfw'));
-        $spoiler_query = strval(request('spoiler'));
+        $search_query = strval(request(static::SEARCH_QUERY));
+        $version_query = strval(request(static::VERSION_QUERY));
+        $nsfw_query = strval(request(static::NSFW_QUERY));
+        $spoiler_query = strval(request(static::SPOILER_QUERY));
 
-        if (!empty($search_query)) {
-            $entries = Entry::search($search_query)
-                ->with(['anime', 'theme', 'videos']);
-        } else {
-            $entries = Entry::with('anime', 'theme', 'videos');
-        }
+        // initialize builder
+        $entries = empty($search_query) ? Entry::query() : Entry::search($search_query);
+
+        // eager load relations
+        $entries = $entries->with(static::EAGER_RELATIONS);
 
         // apply filters
         if (!empty($version_query)) {
-            $entries = $entries->where('sequence', intval($version_query));
+            $entries = $entries->where(static::VERSION_QUERY, intval($version_query));
         }
         if (!empty($nsfw_query)) {
-            $entries = $entries->where('nsfw', filter_var($nsfw_query, FILTER_VALIDATE_BOOLEAN));
+            $entries = $entries->where(static::NSFW_QUERY, filter_var($nsfw_query, FILTER_VALIDATE_BOOLEAN));
         }
         if (!empty($spoiler_query)) {
-            $entries = $entries->where('spoiler', filter_var($spoiler_query, FILTER_VALIDATE_BOOLEAN));
+            $entries = $entries->where(static::SPOILER_QUERY, filter_var($spoiler_query, FILTER_VALIDATE_BOOLEAN));
         }
+
+        // order by
+        $entries = $this->applyOrdering($entries);
 
         // paginate
         $entries = $entries->paginate($this->getPerPageLimit());
@@ -141,6 +173,6 @@ class EntryController extends BaseController
      */
     public function show(Entry $entry)
     {
-        return new EntryResource($entry->load('anime', 'theme', 'videos'));
+        return new EntryResource($entry->load(static::EAGER_RELATIONS));
     }
 }

@@ -9,6 +9,26 @@ use App\Models\Anime;
 
 class AnimeController extends BaseController
 {
+    // constants for query parameters
+    protected const YEAR_QUERY = 'year';
+    protected const SEASON_QUERY = 'season';
+
+    /**
+     * The array of eager relations.
+     *
+     * @var array
+     */
+    protected const EAGER_RELATIONS = [
+        'synonyms',
+        'series',
+        'themes',
+        'themes.entries',
+        'themes.entries.videos',
+        'themes.song',
+        'themes.song.artists',
+        'externalResources'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -43,6 +63,22 @@ class AnimeController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
+     *         description="Order anime by field. Case-insensitive options are anime_id, created_at, updated_at, alias, name, year & season.",
+     *         example="updated_at",
+     *         name="order",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Direction of anime ordering. Case-insensitive options are asc & desc.",
+     *         example="desc",
+     *         name="direction",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
      *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
      *         example=50,
      *         name="limit",
@@ -69,28 +105,27 @@ class AnimeController extends BaseController
      */
     public function index()
     {
-        $anime = [];
-
         // query parameters
-        $search_query = strval(request('q'));
-        $year_query = strval(request('year'));
-        $season_query = strtoupper(request('season'));
+        $search_query = strval(request(static::SEARCH_QUERY));
+        $year_query = strval(request(static::YEAR_QUERY));
+        $season_query = strtoupper(request(static::SEASON_QUERY));
 
-        // apply search query
-        if (!empty($search_query)) {
-            $anime = Anime::search($search_query)
-                ->with(['synonyms', 'series', 'themes', 'themes.entries', 'themes.entries.videos', 'themes.song', 'themes.song.artists', 'externalResources']);
-        } else {
-            $anime = Anime::with('synonyms', 'series', 'themes', 'themes.entries', 'themes.entries.videos', 'themes.song', 'themes.song.artists', 'externalResources');
-        }
+        // initialize builder
+        $anime = empty($search_query) ? Anime::query() : Anime::search($search_query);
+
+        // eager load relations
+        $anime = $anime->with(static::EAGER_RELATIONS);
 
         // apply filters
         if (!empty($year_query)) {
-            $anime = $anime->where('year', $year_query);
+            $anime = $anime->where(static::YEAR_QUERY, $year_query);
         }
-        if (!empty($season_query)) {
-            $anime = $anime->where('season', Season::getValue($season_query));
+        if (!empty($season_query) && Season::hasKey($season_query)) {
+            $anime = $anime->where(static::SEASON_QUERY, Season::getValue($season_query));
         }
+
+        // order by
+        $anime = $this->applyOrdering($anime);
 
         // paginate
         $anime = $anime->paginate($this->getPerPageLimit());
@@ -131,6 +166,6 @@ class AnimeController extends BaseController
      */
     public function show(Anime $anime)
     {
-        return new AnimeResource($anime->load('synonyms', 'series', 'themes', 'themes.entries', 'themes.entries.videos', 'themes.song', 'themes.song.artists', 'externalResources'));
+        return new AnimeResource($anime->load(static::EAGER_RELATIONS));
     }
 }

@@ -9,6 +9,20 @@ use App\Models\Artist;
 class ArtistController extends BaseController
 {
     /**
+     * The array of eager relations.
+     *
+     * @var array
+     */
+    protected const EAGER_RELATIONS = [
+        'songs',
+        'songs.themes',
+        'songs.themes.anime',
+        'members',
+        'groups',
+        'externalResources'
+    ];
+
+    /**
      * Display a listing of the resource.
      *
      * @OA\Get(
@@ -21,6 +35,22 @@ class ArtistController extends BaseController
      *         description="The search query. Mapping is to artist.name and artist.songs.pivot.as.",
      *         example="Senjougahara",
      *         name="q",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Order artists by field. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
+     *         example="updated_at",
+     *         name="order",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Direction of artist ordering. Case-insensitive options are asc & desc.",
+     *         example="desc",
+     *         name="direction",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -52,18 +82,17 @@ class ArtistController extends BaseController
      */
     public function index()
     {
-        $artists = [];
-
         // query parameters
-        $search_query = strval(request('q'));
+        $search_query = strval(request(static::SEARCH_QUERY));
 
-        // apply search query
-        if (!empty($search_query)) {
-            $artists = Artist::search($search_query)
-                ->with(['songs', 'songs.themes', 'songs.themes.anime', 'members', 'groups', 'externalResources']);
-        } else {
-            $artists = Artist::with('songs', 'songs.themes', 'songs.themes.anime', 'members', 'groups', 'externalResources');
-        }
+        // initialize builder
+        $artists = empty($search_query) ? Artist::query() : Artist::search($search_query);
+
+        // eager load relations
+        $artists = $artists->with(static::EAGER_RELATIONS);
+
+        // order by
+        $artists = $this->applyOrdering($artists);
 
         // paginate
         $artists = $artists->paginate($this->getPerPageLimit());
@@ -104,6 +133,6 @@ class ArtistController extends BaseController
      */
     public function show(Artist $artist)
     {
-        return new ArtistResource($artist->load('songs', 'songs.themes', 'songs.themes.anime', 'members', 'groups', 'externalResources'));
+        return new ArtistResource($artist->load(static::EAGER_RELATIONS));
     }
 }

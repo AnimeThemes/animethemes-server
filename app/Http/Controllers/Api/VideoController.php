@@ -10,6 +10,26 @@ use App\Models\Video;
 
 class VideoController extends BaseController
 {
+    // constants for query parameters
+    protected const RESOLUTION_QUERY = 'resolution';
+    protected const NC_QUERY = 'nc';
+    protected const SUBBED_QUERY = 'subbed';
+    protected const LYRICS_QUERY = 'lyrics';
+    protected const UNCEN_QUERY = 'uncen';
+    protected const SOURCE_QUERY = 'source';
+    protected const OVERLAP_QUERY = 'overlap';
+
+    /**
+     * The array of eager relations.
+     *
+     * @var array
+     */
+    protected const EAGER_RELATIONS = [
+        'entries',
+        'entries.theme',
+        'entries.theme.anime'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -84,6 +104,22 @@ class VideoController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
+     *         description="Order videos by field. Case-insensitive options are video_id, created_at, updated_at, filename, path, basename, resolution, nc, subbed, lyrics, uncen, source & overlap.",
+     *         example="updated_at",
+     *         name="order",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Direction of video ordering. Case-insensitive options are asc & desc.",
+     *         example="desc",
+     *         name="direction",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
      *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
      *         example=50,
      *         name="limit",
@@ -110,48 +146,47 @@ class VideoController extends BaseController
      */
     public function index()
     {
-        $videos = [];
-
         // query parameters
-        $search_query = strval(request('q'));
-        $resolution_query = strval(request('resolution'));
-        $nc_query = strval(request('nc'));
-        $subbed_query = strval(request('subbed'));
-        $lyrics_query = strval(request('lyrics'));
-        $uncen_query = strval(request('uncen'));
-        $source_query = strtoupper(request('source'));
-        $overlap_query = strtoupper(request('overlap'));
+        $search_query = strval(request(static::SEARCH_QUERY));
+        $resolution_query = strval(request(static::RESOLUTION_QUERY));
+        $nc_query = strval(request(static::NC_QUERY));
+        $subbed_query = strval(request(static::SUBBED_QUERY));
+        $lyrics_query = strval(request(static::LYRICS_QUERY));
+        $uncen_query = strval(request(static::UNCEN_QUERY));
+        $source_query = strtoupper(request(static::SOURCE_QUERY));
+        $overlap_query = strtoupper(request(static::OVERLAP_QUERY));
 
-        // apply search query
-        if (!empty($search_query)) {
-            $videos = Video::search($search_query)
-                ->with(['entries', 'entries.theme', 'entries.theme.anime']);
-        } else {
-            $videos = Video::with('entries', 'entries.theme', 'entries.theme.anime');
-        }
+        // initialize builder
+        $videos = empty($search_query) ? Video::query() : Video::search($search_query);
+
+        // eager load relations
+        $videos = $videos->with(static::EAGER_RELATIONS);
 
         // apply filters
         if (!empty($resolution_query)) {
-            $videos = $videos->where('resolution', intval($resolution_query));
+            $videos = $videos->where(static::RESOLUTION_QUERY, intval($resolution_query));
         }
         if (!empty($nc_query)) {
-            $videos = $videos->where('nc', filter_var($nc_query, FILTER_VALIDATE_BOOLEAN));
+            $videos = $videos->where(static::NC_QUERY, filter_var($nc_query, FILTER_VALIDATE_BOOLEAN));
         }
         if (!empty($subbed_query)) {
-            $videos = $videos->where('subbed', filter_var($subbed_query, FILTER_VALIDATE_BOOLEAN));
+            $videos = $videos->where(static::SUBBED_QUERY, filter_var($subbed_query, FILTER_VALIDATE_BOOLEAN));
         }
         if (!empty($lyrics_query)) {
-            $videos = $videos->where('lyrics', filter_var($lyrics_query, FILTER_VALIDATE_BOOLEAN));
+            $videos = $videos->where(static::LYRICS_QUERY, filter_var($lyrics_query, FILTER_VALIDATE_BOOLEAN));
         }
         if (!empty($uncen_query)) {
-            $videos = $videos->where('uncen', filter_var($uncen_query, FILTER_VALIDATE_BOOLEAN));
+            $videos = $videos->where(static::UNCEN_QUERY, filter_var($uncen_query, FILTER_VALIDATE_BOOLEAN));
         }
-        if (!empty($source_query)) {
-            $videos = $videos->where('source', SourceType::getValue($source_query));
+        if (!empty($source_query) && SourceType::hasKey($source_query)) {
+            $videos = $videos->where(static::SOURCE_QUERY, SourceType::getValue($source_query));
         }
-        if (!empty($overlap_query)) {
-            $videos = $videos->where('overlap', OverlapType::getValue($overlap_query));
+        if (!empty($overlap_query) && OverlapType::hasKey($overlap_query)) {
+            $videos = $videos->where(static::OVERLAP_QUERY, OverlapType::getValue($overlap_query));
         }
+
+        // order by
+        $videos = $this->applyOrdering($videos);
 
         // paginate
         $videos = $videos->paginate($this->getPerPageLimit());
@@ -192,6 +227,6 @@ class VideoController extends BaseController
      */
     public function show(Video $video)
     {
-        return new VideoResource($video->load('entries', 'entries.theme', 'entries.theme.anime'));
+        return new VideoResource($video->load(static::EAGER_RELATIONS));
     }
 }

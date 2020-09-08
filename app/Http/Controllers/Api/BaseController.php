@@ -19,9 +19,18 @@ use App\Models\Song;
 use App\Models\Synonym;
 use App\Models\Theme;
 use App\Models\Video;
+use Illuminate\Support\Facades\Schema;
 
 class BaseController extends Controller
 {
+
+    // constants for common query parameters
+    protected const SEARCH_QUERY = 'q';
+    protected const ORDER_QUERY = 'order';
+    protected const DIRECTION_QUERY = 'direction';
+    protected const FIELDS_QUERY = 'fields';
+    protected const LIMIT_QUERY = 'limit';
+
     /**
      * @OA\Info(
      *      version="1.0.0",
@@ -133,36 +142,48 @@ class BaseController extends Controller
      */
     public function search()
     {
-        $search_query = strval(request('q'));
-        $fields_query = strval(request('fields'));
+        $search_query = strval(request(static::SEARCH_QUERY));
+        $fields_query = strval(request(static::FIELDS_QUERY));
         $fields = array_filter(explode(',', $fields_query));
 
         return [
-            AnimeCollection::$wrap => new AnimeCollection(empty($search_query) || (!empty($fields) && !in_array(AnimeCollection::$wrap, $fields)) ? [] : Anime::search($search_query)
-                ->with(['synonyms', 'series', 'themes', 'themes.entries', 'themes.entries.videos', 'themes.song', 'themes.song.artists', 'externalResources'])
+            AnimeCollection::$wrap => new AnimeCollection(static::excludeResource($search_query, $fields, ArtistCollection::$wrap) ? [] : Anime::search($search_query)
+                ->with(AnimeController::EAGER_RELATIONS)
                 ->take($this->getPerPageLimit(5))->get()),
-            ArtistCollection::$wrap => new ArtistCollection(empty($search_query) || (!empty($fields) && !in_array(ArtistCollection::$wrap, $fields)) ? [] : Artist::search($search_query)
-                ->with(['songs', 'songs.themes', 'songs.themes.anime', 'members', 'groups', 'externalResources'])
+            ArtistCollection::$wrap => new ArtistCollection(static::excludeResource($search_query, $fields, ArtistCollection::$wrap) ? [] : Artist::search($search_query)
+                ->with(ArtistController::EAGER_RELATIONS)
                 ->take($this->getPerPageLimit(5))->get()),
-            EntryCollection::$wrap => new EntryCollection(empty($search_query) || (!empty($fields) && !in_array(EntryCollection::$wrap, $fields)) ? [] : Entry::search($search_query)
-                ->with(['anime', 'theme', 'videos'])
+            EntryCollection::$wrap => new EntryCollection(static::excludeResource($search_query, $fields, EntryCollection::$wrap) ? [] : Entry::search($search_query)
+                ->with(EntryController::EAGER_RELATIONS)
                 ->take($this->getPerPageLimit(5))->get()),
-            SeriesCollection::$wrap => new SeriesCollection(empty($search_query) || (!empty($fields) && !in_array(SeriesCollection::$wrap, $fields)) ? [] : Series::search($search_query)
-                ->with(['anime', 'anime.synonyms', 'anime.themes', 'anime.themes.entries', 'anime.themes.entries.videos', 'anime.themes.song', 'anime.themes.song.artists', 'anime.externalResources'])
+            SeriesCollection::$wrap => new SeriesCollection(static::excludeResource($search_query, $fields, SeriesCollection::$wrap) ? [] : Series::search($search_query)
+                ->with(SeriesController::EAGER_RELATIONS)
                 ->take($this->getPerPageLimit(5))->get()),
-            SongCollection::$wrap => new SongCollection(empty($search_query) || (!empty($fields) && !in_array(SongCollection::$wrap, $fields)) ? [] : Song::search($search_query)
-                ->with(['themes', 'themes.anime', 'artists'])
+            SongCollection::$wrap => new SongCollection(static::excludeResource($search_query, $fields, SongCollection::$wrap) ? [] : Song::search($search_query)
+                ->with(SongController::EAGER_RELATIONS)
                 ->take($this->getPerPageLimit(5))->get()),
-            SynonymCollection::$wrap => new SynonymCollection(empty($search_query) || (!empty($fields) && !in_array(SynonymCollection::$wrap, $fields)) ? [] : Synonym::search($search_query)
-                ->with('anime')
+            SynonymCollection::$wrap => new SynonymCollection(static::excludeResource($search_query, $fields, SynonymCollection::$wrap) ? [] : Synonym::search($search_query)
+                ->with(SynonymController::EAGER_RELATIONS)
                 ->take($this->getPerPageLimit(5))->get()),
-            ThemeCollection::$wrap => new ThemeCollection(empty($search_query) || (!empty($fields) && !in_array(ThemeCollection::$wrap, $fields)) ? [] : Theme::search($search_query)
-                ->with(['anime', 'entries', 'entries.videos', 'song', 'song.artists'])
+            ThemeCollection::$wrap => new ThemeCollection(static::excludeResource($search_query, $fields, ThemeCollection::$wrap) ? [] : Theme::search($search_query)
+                ->with(ThemeController::EAGER_RELATIONS)
                 ->take($this->getPerPageLimit(5))->get()),
-            VideoCollection::$wrap => new VideoCollection(empty($search_query) || (!empty($fields) && !in_array(VideoCollection::$wrap, $fields)) ? [] : Video::search($search_query)
-                ->with(['entries', 'entries.theme', 'entries.theme.anime'])
+            VideoCollection::$wrap => new VideoCollection(static::excludeResource($search_query, $fields, VideoCollection::$wrap) ? [] : Video::search($search_query)
+                ->with(VideoController::EAGER_RELATIONS)
                 ->take($this->getPerPageLimit(5))->get())
         ];
+    }
+
+    /**
+     * Only perform a search on the resource if there is a search query and the resource type is not excluded in field selection
+     *
+     * @param string $search_query the search query
+     * @param array $fields the list of resources to include
+     * @param string $wrap the resource type identifier
+     * @return boolean false if we have a search query and the resource is not excluded in field selection, otherwise true
+     */
+    private static function excludeResource($search_query, $fields, $wrap) : bool {
+        return empty($search_query) || (!empty($fields) && !in_array($wrap, $fields));
     }
 
      /**
@@ -173,10 +194,31 @@ class BaseController extends Controller
       * @return integer
       */
     protected function getPerPageLimit($limit = 100) : int {
-        $limit_query = intval(request('limit', $limit));
+        $limit_query = intval(request(static::LIMIT_QUERY, $limit));
         if ($limit_query <= 0 || $limit_query > $limit) {
             $limit_query = $limit;
         }
         return $limit_query;
+    }
+
+    /**
+     * Apply ordering to resource query builder
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder modified builder
+     */
+    protected function applyOrdering($query) {
+        $order_query = strtolower(request(static::ORDER_QUERY));
+        $direction_query = strtolower(request(static::DIRECTION_QUERY));
+
+        if (!empty($order_query) && Schema::hasColumn($query->getModel()->getTable(), $order_query)) {
+            if (!empty($direction_query)) {
+                return $query->orderBy($order_query, $direction_query);
+            } else {
+                return $query->orderBy($order_query);
+            }
+        }
+
+        return $query;
     }
 }
