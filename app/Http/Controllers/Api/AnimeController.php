@@ -10,6 +10,7 @@ use App\Models\Anime;
 class AnimeController extends BaseController
 {
     // constants for query parameters
+    protected const NAME_QUERY = 'name';
     protected const YEAR_QUERY = 'year';
     protected const SEASON_QUERY = 'season';
 

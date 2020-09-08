@@ -6,7 +6,7 @@ use App\Enums\Season;
 use App\Http\Resources\AnimeCollection;
 use App\Models\Anime;
 
-class YearController extends BaseController
+class YearController extends AnimeController
 {
     /**
      * Display a listing of anime of year by season.
@@ -26,10 +26,10 @@ class YearController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($year) {
-        return (new AnimeCollection(Anime::where('year', $year)
-            ->with('synonyms', 'series', 'themes', 'themes.entries', 'themes.entries.videos', 'themes.song', 'themes.song.artists', 'externalResources')
-            ->orderBy('name')
+    public function year($year) {
+        return (new AnimeCollection(Anime::where(static::YEAR_QUERY, $year)
+            ->with(static::EAGER_RELATIONS)
+            ->orderBy(static::NAME_QUERY)
             ->get()
         ))->groupBy(function ($item) {
             return Season::getDescription($item->season);
