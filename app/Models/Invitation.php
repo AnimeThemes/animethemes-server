@@ -6,7 +6,6 @@ use App\Enums\InvitationStatus;
 use App\Enums\UserType;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 use ParagonIE\ConstantTime\Base32;
 

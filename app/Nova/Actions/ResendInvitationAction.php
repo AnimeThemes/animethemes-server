@@ -5,7 +5,6 @@ namespace App\Nova\Actions;
 use App\Mail\InvitationEmail;
 use App\Models\Invitation;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;

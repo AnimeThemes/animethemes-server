@@ -72,7 +72,7 @@ class Video extends Model implements Auditable
     public function toSearchableArray()
     {
         $array = $this->toArray();
-        $array['entries'] = $this->entries->map(function($item, $key) {
+        $array['entries'] = $this->entries->map(function($item) {
             return $item->toSearchableArray();
         })->toArray();
         return $array;

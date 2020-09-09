@@ -6,7 +6,6 @@ use App\Enums\InvitationStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Invitation;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
