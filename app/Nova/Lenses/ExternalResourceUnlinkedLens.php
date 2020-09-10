@@ -7,6 +7,7 @@ use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
@@ -51,8 +52,8 @@ class ExternalResourceUnlinkedLens extends Lens
             Text::make(__('nova.link'), 'link')
                 ->sortable(),
 
-            Text::make(__('nova.label'), 'label')
-                ->sortable(),
+            Number::make(__('nova.external_id'), 'external_id')
+                ->sortable()
         ];
     }
 

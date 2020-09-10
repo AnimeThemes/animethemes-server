@@ -40,7 +40,7 @@ class ExternalResourceController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Order resources by field. Case-insensitive options are resource_id, created_at, updated_at, type, link & label.",
+     *         description="Order resources by field. Case-insensitive options are resource_id, created_at, updated_at, type, link & external_id.",
      *         example="updated_at",
      *         name="order",
      *         in="query",

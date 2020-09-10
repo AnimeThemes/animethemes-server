@@ -550,7 +550,7 @@
                     {
                         "name": "order",
                         "in": "query",
-                        "description": "Order resources by field. Case-insensitive options are resource_id, created_at, updated_at, type, link & label.",
+                        "description": "Order resources by field. Case-insensitive options are resource_id, created_at, updated_at, type, link & external_id.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -1750,10 +1750,10 @@
                                     "type": "string",
                                     "example": "https://myanimelist.net/anime/5081/"
                                 },
-                                "label": {
-                                    "description": "Used to distinguish resources that map to the same artist or anime",
-                                    "type": "string",
-                                    "example": ""
+                                "external_id": {
+                                    "description": "The identifier used by the external site",
+                                    "type": "integer",
+                                    "example": "5081"
                                 },
                                 "type": {
                                     "description": "The site that we are linking to",
@@ -1770,6 +1770,11 @@
                                         "Wiki"
                                     ],
                                     "example": "MyAnimeList"
+                                },
+                                "as": {
+                                    "description": "Used to distinguish resources that map to the same artist or anime",
+                                    "type": "string",
+                                    "example": ""
                                 },
                                 "created_at": {
                                     "description": "The Resource Creation Timestamp",
@@ -1965,10 +1970,10 @@
                                     "type": "string",
                                     "example": "https://myanimelist.net/people/61/"
                                 },
-                                "label": {
-                                    "description": "Used to distinguish resources that map to the same artist or anime",
-                                    "type": "string",
-                                    "example": ""
+                                "external_id": {
+                                    "description": "The identifier used by the external site",
+                                    "type": "integer",
+                                    "example": "5081"
                                 },
                                 "type": {
                                     "description": "The site that we are linking to",
@@ -1985,6 +1990,11 @@
                                         "Wiki"
                                     ],
                                     "example": "MyAnimeList"
+                                },
+                                "as": {
+                                    "description": "Used to distinguish resources that map to the same artist or anime",
+                                    "type": "string",
+                                    "example": ""
                                 },
                                 "created_at": {
                                     "description": "The Resource Creation Timestamp",
@@ -2239,10 +2249,10 @@
                         "type": "integer",
                         "example": 1018
                     },
-                    "label": {
-                        "description": "Used to distinguish resources that map to the same artist or anime",
-                        "type": "string",
-                        "example": ""
+                    "external_id": {
+                        "description": "The identifier used by the external site",
+                        "type": "integer",
+                        "example": "5081"
                     },
                     "link": {
                         "description": "The URL of the resource",
@@ -2264,6 +2274,11 @@
                             "Wiki"
                         ],
                         "example": "MyAnimeList"
+                    },
+                    "as": {
+                        "description": "Used to distinguish resources that map to the same artist or anime",
+                        "type": "string",
+                        "example": ""
                     },
                     "created_at": {
                         "description": "The Resource Creation Timestamp",
@@ -2690,10 +2705,10 @@
                                                 "type": "string",
                                                 "example": "https://myanimelist.net/anime/5081/"
                                             },
-                                            "label": {
-                                                "description": "Used to distinguish resources that map to the same artist or anime",
-                                                "type": "string",
-                                                "example": ""
+                                            "external_id": {
+                                                "description": "The identifier used by the external site",
+                                                "type": "integer",
+                                                "example": "5081"
                                             },
                                             "type": {
                                                 "description": "The site that we are linking to",
@@ -2710,6 +2725,11 @@
                                                     "Wiki"
                                                 ],
                                                 "example": "MyAnimeList"
+                                            },
+                                            "as": {
+                                                "description": "Used to distinguish resources that map to the same artist or anime",
+                                                "type": "string",
+                                                "example": ""
                                             },
                                             "created_at": {
                                                 "description": "The Resource Creation Timestamp",

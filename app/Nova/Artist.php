@@ -92,7 +92,14 @@ class Artist extends Resource
                 }),
 
             BelongsToMany::make(__('nova.external_resources'), 'ExternalResources', ExternalResource::class)
-                ->searchable(),
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        Text::make(__('nova.as'), 'as')
+                            ->rules('nullable', 'max:192')
+                            ->help(__('nova.resource_as_help')),
+                    ];
+                }),
 
             BelongsToMany::make(__('nova.members'), 'Members', Artist::class)
                 ->searchable()

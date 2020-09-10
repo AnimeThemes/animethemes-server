@@ -12,6 +12,7 @@ use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use SimpleSquid\Nova\Fields\Enum\Enum;
 
@@ -87,16 +88,30 @@ class ExternalResource extends Resource
                 ->help(__('nova.resource_link_help'))
                 ->alwaysClickable(),
 
-            Text::make(__('nova.label'), 'label')
+            Number::make(__('nova.external_id'), 'external_id')
                 ->sortable()
-                ->rules('nullable', 'max:192')
-                ->help(__('nova.resource_label_help')),
+                ->rules('nullable', 'integer')
+                ->help(__('nova.resource_external_id_help')),
 
             BelongsToMany::make(__('nova.artists'), 'Artists', Artist::class)
-                ->searchable(),
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        Text::make(__('nova.as'), 'as')
+                            ->rules('nullable', 'max:192')
+                            ->help(__('nova.resource_as_help')),
+                    ];
+                }),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
-                ->searchable(),
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        Text::make(__('nova.as'), 'as')
+                            ->rules('nullable', 'max:192')
+                            ->help(__('nova.resource_as_help')),
+                    ];
+                }),
 
             AuditableLog::make(),
         ];

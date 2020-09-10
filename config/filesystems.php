@@ -62,6 +62,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'covers' => [
+            'driver' => 'local',
+            'root' => public_path('img/cover'),
+            'url' => env('APP_URL').'/img/cover',
+            'visibility' => 'public',
+        ],
+
         'spaces' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

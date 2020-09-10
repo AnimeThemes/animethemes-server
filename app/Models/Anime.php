@@ -16,7 +16,7 @@ class Anime extends Model implements Auditable
     use CastsEnums, Searchable;
     use \OwenIt\Auditing\Auditable;
 
-    protected $fillable = ['alias', 'name', 'year', 'season'];
+    protected $fillable = ['alias', 'name', 'year', 'season', 'synopsis', 'cover'];
 
     /**
      * The table associated with the model.
@@ -109,6 +109,6 @@ class Anime extends Model implements Auditable
      * Get the resources for the anime
      */
     public function externalResources() {
-        return $this->belongsToMany('App\Models\ExternalResource', 'anime_resource', 'anime_id', 'resource_id');
+        return $this->belongsToMany('App\Models\ExternalResource', 'anime_resource', 'anime_id', 'resource_id')->withPivot('as');
     }
 }

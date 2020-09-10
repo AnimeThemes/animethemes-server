@@ -12,8 +12,10 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\TextArea;
 use SimpleSquid\Nova\Fields\Enum\Enum;
 use Yassi\NestedForm\NestedForm;
 
@@ -110,6 +112,14 @@ class Anime extends Resource
                 ->rules('required', new EnumValue(Season::class, false))
                 ->help(__('nova.anime_season_help')),
 
+            TextArea::make(__('nova.synopsis'), 'synopsis')
+                ->rules('max:65535')
+                ->help(__('nova.anime_synopsis_help')),
+
+            Image::make(__('nova.cover'), 'cover')
+                ->disk('covers')
+                ->help(__('nova.anime_cover_help')),
+
             NestedForm::make(__('nova.synonyms'), 'Synonyms', Synonym::class),
 
             NestedForm::make(__('nova.themes'), 'Themes', Theme::class),
@@ -124,7 +134,14 @@ class Anime extends Resource
                 ->searchable(),
 
             BelongsToMany::make(__('nova.external_resources'), 'ExternalResources', ExternalResource::class)
-                ->searchable(),
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        Text::make(__('nova.as'), 'as')
+                            ->rules('nullable', 'max:192')
+                            ->help(__('nova.resource_as_help')),
+                    ];
+                }),
 
             AuditableLog::make(),
         ];
