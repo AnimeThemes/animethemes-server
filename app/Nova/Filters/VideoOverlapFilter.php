@@ -46,6 +46,6 @@ class VideoOverlapFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(OverlapType::toSelectArray());
+        return array_flip(OverlapType::asSelectArray());
     }
 }

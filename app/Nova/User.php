@@ -9,8 +9,8 @@ use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class User extends Resource
 {
@@ -95,33 +95,16 @@ class User extends Resource
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
-            Enum::make(__('nova.type'), 'type')
-                ->attachEnum(UserType::class)
-                ->sortable()
-                ->readonly(function ($request) {
-                    return !$request->user()->isAdmin();
+            Select::make(__('nova.type'), 'type')
+                ->options(UserType::asSelectArray())
+                ->resolveUsing(function ($enum) {
+                    return $enum ? $enum->value : null;
                 })
+                ->displayUsing(function ($enum) {
+                    return $enum ? $enum->description : null;
+                })
+                ->sortable()
                 ->rules('required', new EnumValue(UserType::class, false)),
-
-            // Computed fields for 2FA configuration
-
-            Text::make(__('nova.2fa_enabled'), function() {
-                return $this->hasTwoFactorEnabled() ? __('nova.enabled') : __('nova.disabled');
-            })->exceptOnForms()
-                ->canSee(function ($request) {
-                    return $request->user()->isAdmin();
-                }),
-
-            Text::make(__('nova.two_factor_authentication'), function () {
-                if (!$this->hasTwoFactorEnabled()) {
-                    return '<a href="' . route('2fa.create') . '">' . __('nova.enable') . '</a>';
-                }
-                return __('nova.enabled');
-            })->asHtml()
-                ->onlyOnDetail()
-                ->canSee(function ($request) {
-                    return $request->user()->is($this);
-                }),
         ];
     }
 
@@ -160,7 +143,6 @@ class User extends Resource
     {
         return [
             new Filters\UserTypeFilter,
-            new Filters\TwoFactorAuthenticationEnabledFilter,
             new Filters\RecentlyCreatedFilter,
             new Filters\RecentlyUpdatedFilter
         ];
@@ -185,22 +167,6 @@ class User extends Resource
      */
     public function actions(Request $request)
     {
-        return [
-            (new Actions\GenerateRecoveryCodesAction)
-                ->confirmText(__('nova.recovery_codes_generate_confirmation'))
-                ->confirmButtonText(__('nova.generate'))
-                ->cancelButtonText(__('nova.cancel'))
-                ->canSee(function ($request) {
-                    return $request->user()->hasTwoFactorEnabled() || $request->user()->isAdmin();
-                }),
-            (new Actions\DisableTwoFactorAuthenticationAction)
-                ->onlyOnDetail()
-                ->confirmText(__('nova.2fa_disable_confirmation'))
-                ->confirmButtonText(__('nova.disable'))
-                ->cancelButtonText(__('nova.cancel'))
-                ->canSee(function ($request) {
-                    return $request->user()->hasTwoFactorEnabled() || $request->user()->isAdmin();
-                }),
-        ];
+        return [];
     }
 }

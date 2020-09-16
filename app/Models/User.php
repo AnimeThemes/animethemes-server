@@ -4,15 +4,13 @@ namespace App\Models;
 
 use App\Enums\UserType;
 use BenSampo\Enum\Traits\CastsEnums;
-use DarkGhostHunter\Laraguard\TwoFactorAuthentication;
-use DarkGhostHunter\Laraguard\Contracts\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use CastsEnums, Notifiable, TwoFactorAuthentication;
+    use CastsEnums, Notifiable;
 
     /**
      * The attributes that are mass assignable.

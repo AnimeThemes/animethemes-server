@@ -46,6 +46,6 @@ class InvitationStatusFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(InvitationStatus::toSelectArray());
+        return array_flip(InvitationStatus::asSelectArray());
     }
 }

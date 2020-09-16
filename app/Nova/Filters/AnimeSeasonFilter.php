@@ -46,6 +46,6 @@ class AnimeSeasonFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(Season::toSelectArray());
+        return array_flip(Season::asSelectArray());
     }
 }

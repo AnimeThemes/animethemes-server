@@ -13,8 +13,8 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class Video extends Resource
 {
@@ -103,14 +103,26 @@ class Video extends Resource
                 ->rules('nullable', 'boolean')
                 ->help(__('nova.video_uncen_help')),
 
-            Enum::make(__('nova.overlap'), 'overlap')
-                ->attachEnum(OverlapType::class)
+            Select::make(__('nova.overlap'), 'overlap')
+                ->options(OverlapType::asSelectArray())
+                ->resolveUsing(function ($enum) {
+                    return $enum ? $enum->value : null;
+                })
+                ->displayUsing(function ($enum) {
+                    return $enum ? $enum->description : null;
+                })
                 ->sortable()
                 ->rules('nullable', new EnumValue(OverlapType::class, false))
                 ->help(__('nova.video_overlap_help')),
 
-            Enum::make(__('nova.source'), 'source')
-                ->attachEnum(SourceType::class)
+            Select::make(__('nova.source'), 'source')
+                ->options(SourceType::asSelectArray())
+                ->resolveUsing(function ($enum) {
+                    return $enum ? $enum->value : null;
+                })
+                ->displayUsing(function ($enum) {
+                    return $enum ? $enum->description : null;
+                })
                 ->sortable()
                 ->rules('nullable', new EnumValue(SourceType::class, false))
                 ->help(__('nova.video_source_help')),

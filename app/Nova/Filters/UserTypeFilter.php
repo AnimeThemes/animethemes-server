@@ -46,6 +46,6 @@ class UserTypeFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(UserType::toSelectArray());
+        return array_flip(UserType::asSelectArray());
     }
 }

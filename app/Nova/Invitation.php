@@ -8,8 +8,8 @@ use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class Invitation extends Resource
 {
@@ -76,14 +76,26 @@ class Invitation extends Resource
                 ->creationRules('unique:invitation,email')
                 ->updateRules('unique:invitation,email,{{resourceId}}'),
 
-            Enum::make(__('nova.type'), 'type')
-                ->attachEnum(UserType::class)
+            Select::make(__('nova.type'), 'type')
+                ->options(UserType::asSelectArray())
+                ->resolveUsing(function ($enum) {
+                    return $enum ? $enum->value : null;
+                })
+                ->displayUsing(function ($enum) {
+                    return $enum ? $enum->description : null;
+                })
                 ->sortable()
                 ->rules('required', new EnumValue(UserType::class, false)),
 
-            Enum::make(__('nova.status'), 'status')
+            Select::make(__('nova.status'), 'status')
                 ->hideWhenCreating()
-                ->attachEnum(InvitationStatus::class)
+                ->options(InvitationStatus::asSelectArray())
+                ->resolveUsing(function ($enum) {
+                    return $enum ? $enum->value : null;
+                })
+                ->displayUsing(function ($enum) {
+                    return $enum ? $enum->description : null;
+                })
                 ->sortable()
                 ->rules('required', new EnumValue(InvitationStatus::class, false)),
 

@@ -10,10 +10,10 @@ use App\Nova\Filters\RecentlyUpdatedFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
-use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class AnimeSeasonYearLens extends Lens
 {
@@ -61,9 +61,15 @@ class AnimeSeasonYearLens extends Lens
             Number::make(__('nova.year'), 'year')
                 ->sortable(),
 
-            Enum::make(__('nova.season'), 'season')
-                ->attachEnum(Season::class)
-                ->sortable()
+            Select::make(__('nova.season'), 'season')
+                ->options(Season::asSelectArray())
+                ->resolveUsing(function ($enum) {
+                    return $enum ? $enum->value : null;
+                })
+                ->displayUsing(function ($enum) {
+                    return $enum ? $enum->description : null;
+                })
+                ->sortable(),
         ];
     }
 

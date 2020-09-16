@@ -14,9 +14,9 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\TextArea;
-use SimpleSquid\Nova\Fields\Enum\Enum;
 use Yassi\NestedForm\NestedForm;
 
 class Anime extends Resource
@@ -106,8 +106,14 @@ class Anime extends Resource
                 ->rules('required', 'digits:4', 'integer')
                 ->help(__('nova.anime_year_help')),
 
-            Enum::make(__('nova.season'), 'season')
-                ->attachEnum(Season::class)
+            Select::make(__('nova.season'), 'season')
+                ->options(Season::asSelectArray())
+                ->resolveUsing(function ($enum) {
+                    return $enum ? $enum->value : null;
+                })
+                ->displayUsing(function ($enum) {
+                    return $enum ? $enum->description : null;
+                })
                 ->sortable()
                 ->rules('required', new EnumValue(Season::class, false))
                 ->help(__('nova.anime_season_help')),

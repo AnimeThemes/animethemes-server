@@ -46,6 +46,6 @@ class ThemeTypeFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(ThemeType::toSelectArray());
+        return array_flip(ThemeType::asSelectArray());
     }
 }

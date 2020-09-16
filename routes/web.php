@@ -32,6 +32,4 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
     Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
     Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
-    Route::get('/2fa', 'Auth\TwoFactorAuthenticationController@create')->name('2fa.create');
-    Route::post('/2fa', 'Auth\TwoFactorAuthenticationController@store')->name('2fa.store');
 });

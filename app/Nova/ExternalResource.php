@@ -13,8 +13,8 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class ExternalResource extends Resource
 {
@@ -74,8 +74,14 @@ class ExternalResource extends Resource
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
-            Enum::make(__('nova.type'), 'type')
-                ->attachEnum(ResourceType::class)
+            Select::make(__('nova.type'), 'type')
+                ->options(ResourceType::asSelectArray())
+                ->resolveUsing(function ($enum) {
+                    return $enum ? $enum->value : null;
+                })
+                ->displayUsing(function ($enum) {
+                    return $enum ? $enum->description : null;
+                })
                 ->sortable()
                 ->rules('required', new EnumValue(ResourceType::class, false))
                 ->help(__('nova.resource_type_help')),

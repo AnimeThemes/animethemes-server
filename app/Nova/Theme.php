@@ -12,8 +12,8 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use SimpleSquid\Nova\Fields\Enum\Enum;
 
 class Theme extends Resource
 {
@@ -81,8 +81,14 @@ class Theme extends Resource
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
-            Enum::make(__('nova.type'), 'type')
-                ->attachEnum(ThemeType::class)
+            Select::make(__('nova.type'), 'type')
+                ->options(ThemeType::asSelectArray())
+                ->resolveUsing(function ($enum) {
+                    return $enum ? $enum->value : null;
+                })
+                ->displayUsing(function ($enum) {
+                    return $enum ? $enum->description : null;
+                })
                 ->sortable()
                 ->rules('required', new EnumValue(ThemeType::class, false))
                 ->help(__('nova.theme_type_help')),

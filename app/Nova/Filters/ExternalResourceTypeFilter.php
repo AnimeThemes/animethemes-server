@@ -46,6 +46,6 @@ class ExternalResourceTypeFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(ResourceType::toSelectArray());
+        return array_flip(ResourceType::asSelectArray());
     }
 }

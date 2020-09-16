@@ -46,6 +46,6 @@ class VideoSourceTypeFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(SourceType::toSelectArray());
+        return array_flip(SourceType::asSelectArray());
     }
 }
