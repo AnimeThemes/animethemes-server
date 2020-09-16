@@ -16,7 +16,7 @@ use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\TextArea;
+use Laravel\Nova\Fields\Textarea;
 use Yassi\NestedForm\NestedForm;
 
 class Anime extends Resource
@@ -118,7 +118,7 @@ class Anime extends Resource
                 ->rules('required', new EnumValue(Season::class, false))
                 ->help(__('nova.anime_season_help')),
 
-            TextArea::make(__('nova.synopsis'), 'synopsis')
+            Textarea::make(__('nova.synopsis'), 'synopsis')
                 ->rules('max:65535')
                 ->help(__('nova.anime_synopsis_help')),
 
