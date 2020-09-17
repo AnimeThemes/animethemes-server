@@ -3546,5 +3546,8 @@
             "name": "Video",
             "description": "API Endpoints of Videos"
         }
+    ],
+    "security": [
+        []
     ]
 }
