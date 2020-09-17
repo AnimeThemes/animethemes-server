@@ -8,6 +8,7 @@ use App\ScoutElastic\VideoIndexConfigurator;
 use App\ScoutElastic\VideoSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -19,6 +20,9 @@ class Video extends Model implements Auditable
     use CastsEnums, Searchable;
     use \OwenIt\Auditing\Auditable;
 
+    /**
+     * @var array
+     */
     protected $fillable = ['basename', 'filename', 'path'];
 
     /**
@@ -42,7 +46,7 @@ class Video extends Model implements Auditable
      */
     protected $appends = ['tags'];
 
-    public function getTagsAttribute() {
+    public function getTagsAttribute() : array {
         $tags = [];
 
         if ($this->nc) {
@@ -78,12 +82,21 @@ class Video extends Model implements Auditable
         return $array;
     }
 
+    /**
+     * @var string
+     */
     protected $indexConfigurator = VideoIndexConfigurator::class;
 
+    /**
+     * @var array
+     */
     protected $searchRules = [
         VideoSearchRule::class
     ];
 
+    /**
+     * @var array
+     */
     protected $mapping = [
         'properties' => [
             'filename' => [
@@ -162,11 +175,17 @@ class Video extends Model implements Auditable
         return 'basename';
     }
 
+    /**
+     * @var array
+     */
     protected $enumCasts = [
         'overlap' => OverlapType::class,
         'source' => SourceType::class,
     ];
 
+    /**
+     * @var array
+     */
     protected $casts = [
         'overlap' => 'int',
         'source' => 'int',
@@ -176,7 +195,12 @@ class Video extends Model implements Auditable
         'uncen' => 'boolean',
     ];
 
-    public static function boot() {
+    /**
+     * Bootstrap the model and its traits.
+     *
+     * @return void
+     */
+    public static function boot() : void {
         parent::boot();
 
         // Try to infer additional attributes from filename
@@ -224,9 +248,11 @@ class Video extends Model implements Auditable
     }
 
     /**
-     * Get the referencing entries
+     * Get the related entries
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function entries() {
+    public function entries() : BelongsToMany {
         return $this->belongsToMany('App\Models\Entry', 'entry_video', 'video_id', 'entry_id');
     }
 }

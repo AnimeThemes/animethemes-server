@@ -75,7 +75,7 @@ class SongController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -94,7 +94,8 @@ class SongController extends BaseController
         // paginate
         $songs = $songs->paginate($this->getPerPageLimit());
 
-        return new SongCollection($songs);
+        $collection = new SongCollection($songs);
+        return $collection->toResponse(request());
     }
 
     /**
@@ -126,10 +127,11 @@ class SongController extends BaseController
      * )
      *
      * @param  \App\Models\Song  $song
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Song $song)
     {
-        return new SongResource($song->load(static::EAGER_RELATIONS));
+        $resource = new SongResource($song->load(static::EAGER_RELATIONS));
+        return $resource->toResponse(request());
     }
 }

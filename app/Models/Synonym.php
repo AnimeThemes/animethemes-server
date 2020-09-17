@@ -13,6 +13,9 @@ class Synonym extends Model implements Auditable
 
     use \OwenIt\Auditing\Auditable, Searchable;
 
+    /**
+     * @var array
+     */
     protected $fillable = ['text'];
 
     /**
@@ -29,12 +32,21 @@ class Synonym extends Model implements Auditable
      */
     protected $primaryKey = 'synonym_id';
 
+    /**
+     * @var string
+     */
     protected $indexConfigurator = SynonymIndexConfigurator::class;
 
+    /**
+     * @var array
+     */
     protected $searchRules = [
         SynonymSearchRule::class
     ];
 
+    /**
+     * @var array
+     */
     protected $mapping = [
         'properties' => [
             'text' => [
@@ -45,6 +57,8 @@ class Synonym extends Model implements Auditable
 
     /**
      * Gets the anime that owns the synonym
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function anime() {
         return $this->belongsTo('App\Models\Anime', 'anime_id', 'anime_id');

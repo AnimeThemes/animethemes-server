@@ -1,5 +1,17 @@
 <?php
 
+use App\Http\Controllers\Api\AnimeController;
+use App\Http\Controllers\Api\ArtistController;
+use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Api\EntryController;
+use App\Http\Controllers\Api\ExternalResourceController;
+use App\Http\Controllers\Api\SeriesController;
+use App\Http\Controllers\Api\SongController;
+use App\Http\Controllers\Api\SynonymController;
+use App\Http\Controllers\Api\ThemeController;
+use App\Http\Controllers\Api\VideoController;
+use App\Http\Controllers\Api\YearController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,22 +25,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
 Route::group(['as' => 'api.'], function() {
 
     // Search Routes
-    Route::get('search', 'Api\BaseController@search');
+    Route::get('search', [BaseController::class, 'search']);
 
     // Resource Routes
-    Route::apiResource('anime', 'Api\AnimeController')->only(['index', 'show']);
-    Route::apiResource('artist', 'Api\ArtistController')->only(['index', 'show']);
-    Route::apiResource('entry', 'Api\EntryController')->only(['index', 'show']);
-    Route::apiResource('resource', 'Api\ExternalResourceController')->only(['index', 'show']);
-    Route::apiResource('series', 'Api\SeriesController')->only(['index', 'show']);
-    Route::apiResource('song', 'Api\SongController')->only(['index', 'show']);
-    Route::apiResource('synonym', 'Api\SynonymController')->only(['index', 'show']);
-    Route::apiResource('theme', 'Api\ThemeController')->only(['index', 'show']);
-    Route::apiResource('video', 'Api\VideoController')->only(['index', 'show']);
+    Route::apiResource('anime', AnimeController::class)->only(['index', 'show']);
+    Route::apiResource('artist', ArtistController::class)->only(['index', 'show']);
+    Route::apiResource('entry', EntryController::class)->only(['index', 'show']);
+    Route::apiResource('resource', ExternalResourceController::class)->only(['index', 'show']);
+    Route::apiResource('series', SeriesController::class)->only(['index', 'show']);
+    Route::apiResource('song', SongController::class)->only(['index', 'show']);
+    Route::apiResource('synonym', SynonymController::class)->only(['index', 'show']);
+    Route::apiResource('theme', ThemeController::class)->only(['index', 'show']);
+    Route::apiResource('video', VideoController::class)->only(['index', 'show']);
 
     // Year Routes
-    Route::get('year/{year}', 'Api\YearController@year');
+    Route::get('year/{year}', [YearController::class, 'year']);
 });

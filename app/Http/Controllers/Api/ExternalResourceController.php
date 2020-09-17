@@ -78,7 +78,7 @@ class ExternalResourceController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -102,7 +102,8 @@ class ExternalResourceController extends BaseController
         // paginate
         $resources = $resources->paginate($this->getPerPageLimit());
 
-        return new ExternalResourceCollection($resources);
+        $collection = new ExternalResourceCollection($resources);
+        return $collection->toResponse(request());
     }
 
     /**
@@ -133,11 +134,12 @@ class ExternalResourceController extends BaseController
      *     )
      * )
      *
-     * @param  \App\Models\ExternalResource  $externalResource
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\ExternalResource  $resource
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(ExternalResource $resource)
     {
-        return new ExternalResourceResource($resource->load(static::EAGER_RELATIONS));
+        $resource = new ExternalResourceResource($resource->load(static::EAGER_RELATIONS));
+        return $resource->toResponse(request());
     }
 }

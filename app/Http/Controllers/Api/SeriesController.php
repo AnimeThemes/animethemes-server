@@ -80,7 +80,7 @@ class SeriesController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -99,7 +99,8 @@ class SeriesController extends BaseController
         // paginate
         $series = $series->paginate($this->getPerPageLimit());
 
-        return new SeriesCollection($series);
+        $collection = new SeriesCollection($series);
+        return $collection->toResponse(request());
     }
 
     /**
@@ -131,10 +132,11 @@ class SeriesController extends BaseController
      * )
      *
      * @param  \App\Models\Series  $series
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Series $series)
     {
-        return new SeriesResource($series->load(static::EAGER_RELATIONS));
+        $resource = new SeriesResource($series->load(static::EAGER_RELATIONS));
+        return $resource->toResponse(request());
     }
 }

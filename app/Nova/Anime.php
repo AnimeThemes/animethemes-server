@@ -38,17 +38,27 @@ class Anime extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @var string
+     * @return array|string|null
      */
     public static function group() {
         return __('nova.wiki');
     }
 
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function label()
     {
         return __('nova.anime');
     }
 
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function singularLabel()
     {
         return __('nova.anime');
@@ -153,7 +163,7 @@ class Anime extends Resource
         ];
     }
 
-    protected function timestamps() {
+    protected function timestamps() : array {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
                 ->hideFromIndex()

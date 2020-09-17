@@ -14,11 +14,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\AnnouncementCreateCommand::class,
-        \App\Console\Commands\AnnouncementReadCommand::class,
-        \App\Console\Commands\AnnouncementUpdateCommand::class,
-        \App\Console\Commands\AnnouncementDeleteCommand::class,
-        \App\Console\Commands\AnnouncementListCommand::class,
         \App\Console\Commands\VideoReconcileCommand::class,
     ];
 

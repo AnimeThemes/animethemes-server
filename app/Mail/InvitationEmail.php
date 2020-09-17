@@ -10,11 +10,16 @@ class InvitationEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /**
+     *
+     * @var \App\Models\Invitation
+     */
     protected $invitation;
 
     /**
      * Create a new message instance.
      *
+     * @param \App\Models\Invitation  $invitation
      * @return void
      */
     public function __construct($invitation)
@@ -31,6 +36,8 @@ class InvitationEmail extends Mailable
     {
         return $this->subject(__('nova.invitation_subject'))
             ->markdown('email.invitation')
-            ->withUrl(route('register', ['token' => $this->invitation->token]));
+            ->with([
+                'url' => route('register', ['token' => $this->invitation->token])
+            ]);
     }
 }

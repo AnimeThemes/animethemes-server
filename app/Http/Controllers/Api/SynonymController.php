@@ -73,7 +73,7 @@ class SynonymController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -92,7 +92,8 @@ class SynonymController extends BaseController
         // paginate
         $synonyms = $synonyms->paginate($this->getPerPageLimit());
 
-        return new SynonymCollection($synonyms);
+        $collection = new SynonymCollection($synonyms);
+        return $collection->toResponse(request());
     }
 
     /**
@@ -124,10 +125,11 @@ class SynonymController extends BaseController
      * )
      *
      * @param  \App\Models\Synonym  $synonym
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Synonym $synonym)
     {
-        return new SynonymResource($synonym->load(static::EAGER_RELATIONS));
+        $resource = new SynonymResource($synonym->load(static::EAGER_RELATIONS));
+        return $resource->toResponse(request());
     }
 }

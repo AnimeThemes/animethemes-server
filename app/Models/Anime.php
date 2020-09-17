@@ -16,6 +16,9 @@ class Anime extends Model implements Auditable
     use CastsEnums, Searchable;
     use \OwenIt\Auditing\Auditable;
 
+    /**
+     * @var array
+     */
     protected $fillable = ['alias', 'name', 'year', 'season', 'synopsis', 'cover'];
 
     /**
@@ -44,12 +47,21 @@ class Anime extends Model implements Auditable
         return $array;
     }
 
+    /**
+     * @var string
+     */
     protected $indexConfigurator = AnimeIndexConfigurator::class;
 
+    /**
+     * @var array
+     */
     protected $searchRules = [
         AnimeSearchRule::class
     ];
 
+    /**
+     * @var array
+     */
     protected $mapping = [
         'properties' => [
             'name' => [
@@ -76,16 +88,24 @@ class Anime extends Model implements Auditable
         return 'alias';
     }
 
+    /**
+     * @var array
+     */
     protected $enumCasts = [
         'season' => Season::class,
     ];
 
+    /**
+     * @var array
+     */
     protected $casts = [
         'season' => 'int',
     ];
 
     /**
      * Get the synonyms for the anime
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function synonyms() {
         return $this->hasMany('App\Models\Synonym', 'anime_id', 'anime_id');
@@ -93,6 +113,8 @@ class Anime extends Model implements Auditable
 
     /**
      * Get the series the anime is included in
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function series() {
         return $this->belongsToMany('App\Models\Series', 'anime_series', 'anime_id', 'series_id');
@@ -100,6 +122,8 @@ class Anime extends Model implements Auditable
 
     /**
      * Get the themes for the anime
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function themes() {
         return $this->hasMany('App\Models\Theme', 'anime_id', 'anime_id');
@@ -107,6 +131,8 @@ class Anime extends Model implements Auditable
 
     /**
      * Get the resources for the anime
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function externalResources() {
         return $this->belongsToMany('App\Models\ExternalResource', 'anime_resource', 'anime_id', 'resource_id')->withPivot('as');

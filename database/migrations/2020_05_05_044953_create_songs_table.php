@@ -17,7 +17,6 @@ class CreateSongsTable extends Migration
             $table->id('song_id');
             $table->timestamps();
             $table->string('title')->nullable();
-            $table->string('by')->nullable();
         });
     }
 

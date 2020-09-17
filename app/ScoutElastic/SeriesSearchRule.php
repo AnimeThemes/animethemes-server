@@ -11,7 +11,7 @@ class SeriesSearchRule extends SearchRule
      */
     public function buildHighlightPayload()
     {
-        //
+        return null;
     }
 
     /**

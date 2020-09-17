@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\AnimeController;
+use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\VideoController;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,23 +18,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'WelcomeController@do')->name('welcome');
-Route::get('/sitemap', 'SitemapController@index');
-Route::get('/sitemap/videos', 'SitemapController@videos')->name('video_sitemap');
+Route::get('/', [WelcomeController::class, 'do'])->name('welcome');
 
-// We only want to enable middleware necessary for model-route binding
-// We don't need the default web middleware stack for public-facing pages
-Route::group(['middleware' => ['wiki']], function() {
-    Route::resource('anime', 'AnimeController')->only(['index', 'show']);
-    Route::resource('artist', 'ArtistController')->only(['index', 'show']);
-    Route::resource('series', 'SeriesController')->only(['index', 'show']);
-    Route::resource('video', 'VideoController')->only(['index', 'show']);
-});
+Route::get('/sitemap', [SitemapController::class, 'index']);
+Route::get('/sitemap/videos', [SitemapController::class, 'videos'])->name('video_sitemap');
 
-Route::group(['middleware' => ['web']], function() {
-    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-    Route::post('register', 'Auth\RegisterController@register');
-    Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
-    Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
-    Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
-});
+Route::resource('anime', AnimeController::class)->only(['show']);
+Route::resource('video', VideoController::class)->only(['show']);
+
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [RegisterController::class, 'register']);
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');

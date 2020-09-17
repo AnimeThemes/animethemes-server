@@ -107,7 +107,7 @@ class ThemeController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -140,7 +140,8 @@ class ThemeController extends BaseController
         // paginate
         $themes = $themes->paginate($this->getPerPageLimit());
 
-        return new ThemeCollection($themes);
+        $collection = new ThemeCollection($themes);
+        return $collection->toResponse(request());
     }
 
     /**
@@ -172,10 +173,11 @@ class ThemeController extends BaseController
      * )
      *
      * @param  \App\Models\Theme  $theme
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Theme $theme)
     {
-        return new ThemeResource($theme->load(static::EAGER_RELATIONS));
+        $resource = new ThemeResource($theme->load(static::EAGER_RELATIONS));
+        return $resource->toResponse(request());
     }
 }

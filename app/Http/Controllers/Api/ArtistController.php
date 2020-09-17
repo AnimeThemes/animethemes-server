@@ -78,7 +78,7 @@ class ArtistController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -97,7 +97,8 @@ class ArtistController extends BaseController
         // paginate
         $artists = $artists->paginate($this->getPerPageLimit());
 
-        return new ArtistCollection($artists);
+        $collection = new ArtistCollection($artists);
+        return $collection->toResponse(request());
     }
 
     /**
@@ -129,10 +130,11 @@ class ArtistController extends BaseController
      * )
      *
      * @param  \App\Models\Artist  $artist
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Artist $artist)
     {
-        return new ArtistResource($artist->load(static::EAGER_RELATIONS));
+        $resource = new ArtistResource($artist->load(static::EAGER_RELATIONS));
+        return $resource->toResponse(request());
     }
 }

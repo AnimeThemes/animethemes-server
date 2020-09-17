@@ -14,6 +14,9 @@ class Series extends Model implements Auditable
     use Searchable;
     use \OwenIt\Auditing\Auditable;
 
+    /**
+     * @var array
+     */
     protected $fillable = ['alias', 'name'];
 
     /**
@@ -30,12 +33,21 @@ class Series extends Model implements Auditable
      */
     protected $primaryKey = 'series_id';
 
+    /**
+     * @var string
+     */
     protected $indexConfigurator = SeriesIndexConfigurator::class;
 
+    /**
+     * @var array
+     */
     protected $searchRules = [
         SeriesSearchRule::class
     ];
 
+    /**
+     * @var array
+     */
     protected $mapping = [
         'properties' => [
             'name' => [
@@ -56,6 +68,8 @@ class Series extends Model implements Auditable
 
     /**
      * Get the anime included in the series
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function anime() {
         return $this->belongsToMany('App\Models\Anime', 'anime_series', 'series_id', 'anime_id');

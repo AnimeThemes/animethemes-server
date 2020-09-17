@@ -16,6 +16,9 @@ class Entry extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 
+    /**
+     * @var array
+     */
     protected $fillable = ['version', 'episodes', 'nsfw', 'spoiler', 'notes'];
 
     /**
@@ -32,6 +35,9 @@ class Entry extends Model implements Auditable
      */
     protected $primaryKey = 'entry_id';
 
+    /**
+     * @var array
+     */
     protected $casts = [
         'nsfw' => 'boolean',
         'spoiler' => 'boolean'
@@ -45,7 +51,7 @@ class Entry extends Model implements Auditable
     public function toSearchableArray()
     {
         $array = $this->toArray();
-        $array['theme'] = $this->theme->toSearchableArray();
+        $array['theme'] = optional($this->theme)->toSearchableArray();
 
         //Overwrite version with readable format "V{#}"
         if (!empty($this->version)) {
@@ -55,12 +61,21 @@ class Entry extends Model implements Auditable
         return $array;
     }
 
+    /**
+     * @var string
+     */
     protected $indexConfigurator = EntryIndexConfigurator::class;
 
+    /**
+     * @var array
+     */
     protected $searchRules = [
         EntrySearchRule::class
     ];
 
+    /**
+     * @var array
+     */
     protected $mapping = [
         'properties' => [
             'version' => [
@@ -115,7 +130,9 @@ class Entry extends Model implements Auditable
     ];
 
     /**
-     * Gets the theme that owns the entry
+     * Get the theme that owns the entry
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function theme() {
         return $this->belongsTo('App\Models\Theme', 'theme_id', 'theme_id');
@@ -123,11 +140,18 @@ class Entry extends Model implements Auditable
 
     /**
      * Get the videos linked in the theme entry
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function videos() {
         return $this->belongsToMany('App\Models\Video', 'entry_video', 'entry_id', 'video_id');
     }
 
+    /**
+     * Get the anime that owns the entry through the theme
+     *
+     * @return \Znck\Eloquent\Relations\BelongsToThrough
+     */
     public function anime() {
         return $this->belongsToThrough('App\Models\Anime', 'App\Models\Theme', null, '', ['App\Models\Anime' => 'anime_id', 'App\Models\Theme' => 'theme_id']);
     }

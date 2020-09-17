@@ -13,6 +13,9 @@ class Song extends Model implements Auditable
 
     use \OwenIt\Auditing\Auditable, Searchable;
 
+    /**
+     * @var array
+     */
     protected $fillable = ['title'];
 
     /**
@@ -29,12 +32,21 @@ class Song extends Model implements Auditable
      */
     protected $primaryKey = 'song_id';
 
+    /**
+     * @var string
+     */
     protected $indexConfigurator = SongIndexConfigurator::class;
 
+    /**
+     * @var array
+     */
     protected $searchRules = [
         SongSearchRule::class
     ];
 
+    /**
+     * @var array
+     */
     protected $mapping = [
         'properties' => [
             'title' => [
@@ -45,6 +57,8 @@ class Song extends Model implements Auditable
 
     /**
      * Get the themes that use this song
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function themes() {
         return $this->hasMany('App\Models\Theme', 'song_id', 'song_id');
@@ -52,6 +66,8 @@ class Song extends Model implements Auditable
 
     /**
      * Get the artists included in the performance
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function artists() {
         return $this->belongsToMany('App\Models\Artist', 'artist_song', 'song_id', 'artist_id')->withPivot('as');

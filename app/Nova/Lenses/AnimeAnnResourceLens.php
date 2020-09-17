@@ -21,7 +21,7 @@ class AnimeAnnResourceLens extends Lens
     /**
      * Get the displayable name of the lens.
      *
-     * @return string
+     * @return array|string|null
      */
     public function name()
     {

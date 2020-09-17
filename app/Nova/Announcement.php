@@ -27,17 +27,27 @@ class Announcement extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @var string
+     * @return array|string|null
      */
     public static function group() {
         return __('nova.admin');
     }
 
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function label()
     {
         return __('nova.announcements');
     }
 
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function singularLabel()
     {
         return __('nova.announcement');

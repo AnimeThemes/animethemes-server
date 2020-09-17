@@ -5,12 +5,19 @@ namespace App\Models;
 use App\Enums\UserType;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use CastsEnums, Notifiable;
+    use CastsEnums;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +25,9 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -27,9 +36,15 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
     ];
 
+    /**
+     * @var array
+     */
     protected $enumCasts = [
         'type' => UserType::class,
     ];
@@ -44,15 +59,15 @@ class User extends Authenticatable implements MustVerifyEmail
         'type' => 'int',
     ];
 
-    public function isAdmin() {
+    public function isAdmin() : bool {
         return $this->type->is(UserType::ADMIN);
     }
 
-    public function isContributor() {
+    public function isContributor() : bool {
         return $this->type->is(UserType::CONTRIBUTOR);
     }
 
-    public function isReadOnly() {
+    public function isReadOnly() : bool {
         return $this->type->is(UserType::READ_ONLY);
     }
 }

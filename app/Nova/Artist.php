@@ -29,17 +29,27 @@ class Artist extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @var string
+     * @return array|string|null
      */
     public static function group() {
         return __('nova.wiki');
     }
 
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function label()
     {
         return __('nova.artists');
     }
 
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function singularLabel()
     {
         return __('nova.artist');
@@ -82,7 +92,6 @@ class Artist extends Resource
 
             BelongsToMany::make(__('nova.songs'), 'Songs', Song::class)
                 ->searchable()
-                ->withSubtitles() //TODO: doesn't work, open issue
                 ->fields(function () {
                     return [
                         Text::make(__('nova.as'), 'as')
@@ -125,7 +134,7 @@ class Artist extends Resource
         ];
     }
 
-    protected function timestamps() {
+    protected function timestamps() : array {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
                 ->hideFromIndex()

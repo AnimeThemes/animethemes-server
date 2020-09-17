@@ -6,6 +6,9 @@ use App\Models\Video;
 
 class SitemapController extends Controller
 {
+    /**
+     * @return \Illuminate\Http\Response
+     */
     public function index() {
         $video = Video::orderBy('updated_at', 'desc')->first();
 
@@ -14,6 +17,9 @@ class SitemapController extends Controller
         ])->header('Content-Type', 'text/xml');
     }
 
+    /**
+     * @return \Illuminate\Http\Response
+     */
     public function videos() {
         $video = Video::orderBy('updated_at', 'desc')->first();
 

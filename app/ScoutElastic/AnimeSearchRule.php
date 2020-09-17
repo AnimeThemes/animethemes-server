@@ -11,7 +11,7 @@ class AnimeSearchRule extends SearchRule
      */
     public function buildHighlightPayload()
     {
-        //
+        return null;
     }
 
     /**

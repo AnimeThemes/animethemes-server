@@ -12,9 +12,33 @@ class VideoReconcileCommand extends Command
 {
 
     // Result Counts
+
+    /**
+     * The number of videos created
+     *
+     * @var integer
+     */
     public $created = 0;
+
+    /**
+     * The number of videos whose creation failed
+     *
+     * @var integer
+     */
     public $created_failed = 0;
+
+    /**
+     * The number of videos deleted
+     *
+     * @var integer
+     */
     public $deleted = 0;
+
+    /**
+     * The number of videos whose deletion failed
+     *
+     * @var integer
+     */
     public $deleted_failed = 0;
 
     /**
@@ -107,32 +131,43 @@ class VideoReconcileCommand extends Command
         }
     }
 
-    // Callback for video comparison in set operation
-    public static function compareVideos($a, $b) {
+    /**
+     * Callback for video comparison in set operation
+     *
+     * @param \App\Models\Video $a
+     * @param \App\Models\Video $b
+     * @return integer
+     */
+    public static function compareVideos(Video $a, Video $b) : int {
         return strcmp(VideoReconcileCommand::reconciliationString($a), VideoReconcileCommand::reconciliationString($b));
     }
 
-    // Represent video with attributes that correspond to WebM metadata
-    // For reconciliation purposes, other attributes such as ID and timestamps do not apply
-    public static function reconciliationString($video) {
+    /**
+     * Represent video with attributes that correspond to WebM metadata
+     * For reconciliation purposes, other attributes such as ID and timestamps do not apply
+     *
+     * @param \App\Models\Video $video
+     * @return string
+     */
+    public static function reconciliationString(Video $video) : string {
         return "basename:{$video->basename},filename:{$video->filename},path:{$video->path}";
     }
 
     // Reconciliation Results
 
-    public function hasResults() {
+    public function hasResults() : bool {
         return $this->hasChanges() || $this->hasFailures();
     }
 
-    public function hasChanges() {
+    public function hasChanges() : bool {
         return $this->created > 0 || $this->deleted > 0;
     }
 
-    public function hasFailures() {
+    public function hasFailures() : bool {
         return $this->created_failed > 0 || $this->deleted_failed > 0;
     }
 
-    public function printResults() {
+    public function printResults() : void {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
                 Log::info("{$this->created} Videos created, {$this->deleted} Videos deleted");

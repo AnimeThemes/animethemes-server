@@ -14,25 +14,14 @@
 <dropdown-menu slot="menu" width="200" direction="rtl">
     <ul class="list-reset">
         <li>
-            <router-link :to="{
-                name: 'detail',
-                params: {
-                    resourceName: 'users',
-                    resourceId: '{{ $user->id }}'
-                }
-            }" class="block no-underline text-90 hover:bg-30 p-3">
+            <a href="/user/profile" class="block no-underline text-90 hover:bg-30 p-3">
                 {{ __('Profile') }}
-            </router-link>
+            </a>
         </li>
         <li>
             <nova-dark-theme-toggle
                 label="{{ __('Dark Theme') }}"
             ></nova-dark-theme-toggle>
-        </li>
-        <li>
-            <a href="{{ route('nova.logout') }}" class="block no-underline text-90 hover:bg-30 p-3">
-                {{ __('Logout') }}
-            </a>
         </li>
     </ul>
 </dropdown-menu>

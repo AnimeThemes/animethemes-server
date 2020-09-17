@@ -17,7 +17,7 @@ class VideoNcFilter extends Filter
     /**
      * Get the displayable name of the filter.
      *
-     * @return string
+     * @return array|string|null
      */
     public function name()
     {

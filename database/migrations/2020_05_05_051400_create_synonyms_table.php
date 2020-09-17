@@ -19,7 +19,7 @@ class CreateSynonymsTable extends Migration
             $table->string('text')->nullable();
 
             $table->unsignedBigInteger('anime_id');
-            $table->foreign('anime_id')->references('anime_id')->on('anime');
+            $table->foreign('anime_id')->references('anime_id')->on('anime')->onDelete('cascade');
         });
     }
 

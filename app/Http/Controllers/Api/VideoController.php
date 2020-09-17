@@ -142,7 +142,7 @@ class VideoController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -191,7 +191,8 @@ class VideoController extends BaseController
         // paginate
         $videos = $videos->paginate($this->getPerPageLimit());
 
-        return new VideoCollection($videos);
+        $collection = new VideoCollection($videos);
+        return $collection->toResponse(request());
     }
 
     /**
@@ -223,10 +224,11 @@ class VideoController extends BaseController
      * )
      *
      * @param  \App\Models\Video  $video
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Video $video)
     {
-        return new VideoResource($video->load(static::EAGER_RELATIONS));
+        $resource = new VideoResource($video->load(static::EAGER_RELATIONS));
+        return $resource->toResponse(request());
     }
 }

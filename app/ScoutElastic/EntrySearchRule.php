@@ -11,7 +11,7 @@ class EntrySearchRule extends SearchRule
      */
     public function buildHighlightPayload()
     {
-        //
+        return null;
     }
 
     /**

@@ -11,7 +11,7 @@ class SongSearchRule extends SearchRule
      */
     public function buildHighlightPayload()
     {
-        //
+        return null;
     }
 
     /**

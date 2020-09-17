@@ -35,7 +35,7 @@ class ExternalResource extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @var string
+     * @return array|string|null
      */
     public static function group() {
         return __('nova.wiki');
@@ -50,11 +50,21 @@ class ExternalResource extends Resource
         'link'
     ];
 
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function label()
     {
         return __('nova.external_resources');
     }
 
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function singularLabel()
     {
         return __('nova.external_resource');
@@ -123,7 +133,7 @@ class ExternalResource extends Resource
         ];
     }
 
-    protected function timestamps() {
+    protected function timestamps() : array {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
                 ->hideFromIndex()

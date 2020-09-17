@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-pomf')
 
 @section('content')
     <div class="jumbotron">

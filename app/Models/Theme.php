@@ -16,6 +16,9 @@ class Theme extends Model implements Auditable
     use CastsEnums, Searchable;
     use \OwenIt\Auditing\Auditable;
 
+    /**
+     * @var array
+     */
     protected $fillable = ['type', 'sequence', 'group'];
 
     /**
@@ -40,17 +43,26 @@ class Theme extends Model implements Auditable
     public function toSearchableArray()
     {
         $array = $this->toArray();
-        $array['anime'] = $this->anime->toSearchableArray();
-        $array['song'] = $this->song->toSearchableArray();
+        $array['anime'] = optional($this->anime)->toSearchableArray();
+        $array['song'] = optional($this->song)->toSearchableArray();
         return $array;
     }
 
+    /**
+     * @var string
+     */
     protected $indexConfigurator = ThemeIndexConfigurator::class;
 
+    /**
+     * @var array
+     */
     protected $searchRules = [
         ThemeSearchRule::class
     ];
 
+    /**
+     * @var array
+     */
     protected $mapping = [
         'properties' => [
             'slug' => [
@@ -92,15 +104,26 @@ class Theme extends Model implements Auditable
         ]
     ];
 
+    /**
+     * @var array
+     */
     protected $enumCasts = [
         'type' => ThemeType::class,
     ];
 
+    /**
+     * @var array
+     */
     protected $casts = [
         'type' => 'int',
     ];
 
-    public static function boot() {
+    /**
+     * Bootstrap the model and its traits.
+     *
+     * @return void
+     */
+    public static function boot() : void {
         parent::boot();
 
         // By default, the Theme Slug is the Type "{OP|ED}"
@@ -124,6 +147,8 @@ class Theme extends Model implements Auditable
 
     /**
      * Gets the anime that owns the theme
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function anime() {
         return $this->belongsTo('App\Models\Anime', 'anime_id', 'anime_id');
@@ -131,6 +156,8 @@ class Theme extends Model implements Auditable
 
     /**
      * Gets the song that the theme uses
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function song() {
         return $this->belongsTo('App\Models\Song', 'song_id', 'song_id');
@@ -138,6 +165,8 @@ class Theme extends Model implements Auditable
 
     /**
      * Get the entries for the theme
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function entries() {
         return $this->hasMany('App\Models\Entry', 'theme_id', 'theme_id');

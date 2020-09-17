@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class GrillFactory {
 
-    public static function getGrill() {
+    public static function getGrill() : Grill {
         // Get grills through Storage Facade [see config/filesystems.php]
         $grill_disk = Storage::disk('grill');
         $grills = $grill_disk->files();

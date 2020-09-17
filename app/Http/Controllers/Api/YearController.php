@@ -24,6 +24,7 @@ class YearController extends AnimeController
      *     )
      * )
      *
+     * @param string $year
      * @return \Illuminate\Http\Response
      */
     public function year($year) {

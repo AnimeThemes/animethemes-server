@@ -16,8 +16,18 @@ class CreateExternalResourceTypeForAnimeAction extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    /**
+     * The resource type key
+     *
+     * @var integer
+     */
     private $type;
 
+    /**
+     * Undocumented function
+     *
+     * @param integer $type
+     */
     public function __construct($type)
     {
         $this->type = $type;
@@ -26,7 +36,7 @@ class CreateExternalResourceTypeForAnimeAction extends Action
     /**
      * Get the displayable name of the action.
      *
-     * @return string
+     * @return array|string|null
      */
     public function name()
     {
@@ -45,7 +55,7 @@ class CreateExternalResourceTypeForAnimeAction extends Action
         // Create Resource Model with link and provided type
         $resource = ExternalResource::create([
             'type' => $this->type,
-            'link' => $fields->link
+            'link' => $fields->get('link')
         ]);
 
         // Check if resource creation is successful

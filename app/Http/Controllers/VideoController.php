@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App;
 use App\Models\Video;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class VideoController extends Controller
 {
-    public function index()
+    /**
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function show(Video $video) : ?StreamedResponse
     {
-        return view('video.index');
-    }
-
-    public function show(Video $video)
-    {
-        if (App::environment(['local', 'production'])) {
+        if (env('APP_ENV') !== 'staging') {
             set_time_limit(0);
             return Storage::disk('spaces')->response($video->path, null, ['Accept-Ranges' => 'bytes']);
         }
+
+        return null;
     }
 }

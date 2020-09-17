@@ -31,11 +31,21 @@ class Theme extends Resource
      */
     public static $title = 'slug';
 
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function label()
     {
         return __('nova.themes');
     }
 
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function singularLabel()
     {
         return __('nova.theme');
@@ -115,7 +125,7 @@ class Theme extends Resource
         ];
     }
 
-    protected function timestamps() {
+    protected function timestamps() : array {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
                 ->hideFromIndex()

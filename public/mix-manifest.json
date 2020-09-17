@@ -1,5 +1,7 @@
 {
+    "/js/app.js": "/js/app.js",
     "/css/animethemes.css": "/css/animethemes.css",
+    "/css/app.css": "/css/app.css",
     "/js/animethemes.js": "/js/animethemes.js",
     "/js/vendor/jquery.min.js": "/js/vendor/jquery.min.js"
 }

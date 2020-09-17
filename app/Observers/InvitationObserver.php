@@ -11,7 +11,7 @@ class InvitationObserver
     /**
      * Handle the app models invitation "created" event.
      *
-     * @param  \App\AppModelsInvitation  $appModelsInvitation
+     * @param  \App\Models\Invitation  $invitation
      * @return void
      */
     public function created(Invitation $invitation)

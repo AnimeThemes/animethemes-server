@@ -11,7 +11,7 @@ class SynonymSearchRule extends SearchRule
      */
     public function buildHighlightPayload()
     {
-        //
+        return null;
     }
 
     /**

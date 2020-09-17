@@ -30,7 +30,7 @@ class RegisterController extends Controller
     /**
      * Where to redirect users after registration.
      *
-     * @var string
+     * @return string
      */
     public function redirectPath()
     {
@@ -66,7 +66,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
@@ -86,7 +86,9 @@ class RegisterController extends Controller
     {
         $token = request('token');
         $invitation = Invitation::where('token', $token)->firstOrFail();
-        return view('auth.register')->withInvitation($invitation);
+        return view('auth.register', [
+            'invitation' => $invitation
+        ]);
     }
 
     /**

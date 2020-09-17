@@ -14,6 +14,9 @@ class Artist extends Model implements Auditable
     use Searchable;
     use \OwenIt\Auditing\Auditable;
 
+    /**
+     * @var array
+     */
     protected $fillable = ['alias', 'name'];
 
     /**
@@ -42,12 +45,21 @@ class Artist extends Model implements Auditable
         return $array;
     }
 
+    /**
+     * @var string
+     */
     protected $indexConfigurator = ArtistIndexConfigurator::class;
 
+    /**
+     * @var array
+     */
     protected $searchRules = [
         ArtistSearchRule::class
     ];
 
+    /**
+     * @var array
+     */
     protected $mapping = [
         'properties' => [
             'name' => [
@@ -81,6 +93,8 @@ class Artist extends Model implements Auditable
 
     /**
      * Get the songs the artist has performed in
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function songs() {
         return $this->belongsToMany('App\Models\Song', 'artist_song', 'artist_id', 'song_id')->withPivot('as');
@@ -88,6 +102,8 @@ class Artist extends Model implements Auditable
 
     /**
      * Get the resources for the artist
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function externalResources() {
         return $this->belongsToMany('App\Models\ExternalResource', 'artist_resource', 'artist_id', 'resource_id')->withPivot('as');
@@ -95,6 +111,8 @@ class Artist extends Model implements Auditable
 
     /**
      * Get the members that comprise this group
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function members() {
         return $this->belongsToMany('App\Models\Artist', 'artist_member', 'artist_id', 'member_id')->withPivot('as');
@@ -102,6 +120,8 @@ class Artist extends Model implements Auditable
 
     /**
      * Get the groups the artist has performed in
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function groups() {
         return $this->belongsToMany('App\Models\Artist', 'artist_member', 'member_id', 'artist_id')->withPivot('as');

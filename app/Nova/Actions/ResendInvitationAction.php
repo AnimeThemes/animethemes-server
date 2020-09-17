@@ -18,7 +18,7 @@ class ResendInvitationAction extends Action
     /**
      * Get the displayable name of the action.
      *
-     * @return string
+     * @return array|string|null
      */
     public function name()
     {

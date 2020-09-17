@@ -9,11 +9,17 @@ use Illuminate\Support\Facades\Log;
 class ResourceTypeDomain implements Rule
 {
 
+    /**
+     * The resource type key
+     *
+     * @var integer
+     */
     private $type;
 
     /**
      * Create a new rule instance.
      *
+     * @param  integer $type The resource type key
      * @return void
      */
     public function __construct($type)
@@ -33,8 +39,7 @@ class ResourceTypeDomain implements Rule
         $domain = ResourceType::getDomain($this->type);
 
         if (!empty($domain)) {
-            $parsed_url = parse_url($value);
-            return $domain === $parsed_url['host'];
+            return $domain === parse_url($value, PHP_URL_HOST);
         }
 
         return true;
@@ -43,7 +48,7 @@ class ResourceTypeDomain implements Rule
     /**
      * Get the validation error message.
      *
-     * @return string
+     * @return array|string|null
      */
     public function message()
     {

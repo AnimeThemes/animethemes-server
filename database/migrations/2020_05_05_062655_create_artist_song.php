@@ -19,6 +19,7 @@ class CreateArtistSong extends Migration
             $table->unsignedBigInteger('song_id');
             $table->foreign('song_id')->references('song_id')->on('song')->onDelete('cascade');
             $table->primary(['artist_id', 'song_id']);
+            $table->string('as')->nullable();
         });
     }
 

@@ -20,11 +20,10 @@ class CreateEntriesTable extends Migration
             $table->string('episodes')->nullable();
             $table->boolean('nsfw')->default(false);
             $table->boolean('spoiler')->default(false);
-            $table->boolean('sfx')->default(false);
-            $table->string('notes')->nullable();
+            $table->text('notes')->nullable();
 
             $table->unsignedBigInteger('theme_id');
-            $table->foreign('theme_id')->references('theme_id')->on('theme');            
+            $table->foreign('theme_id')->references('theme_id')->on('theme')->onDelete('cascade');
         });
     }
 

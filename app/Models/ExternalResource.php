@@ -13,6 +13,9 @@ class ExternalResource extends Model implements Auditable
     use CastsEnums;
     use \OwenIt\Auditing\Auditable;
 
+    /**
+     * @var array
+     */
     protected $fillable = ['type', 'link', 'external_id'];
 
     /**
@@ -29,16 +32,24 @@ class ExternalResource extends Model implements Auditable
      */
     protected $primaryKey = 'resource_id';
 
+    /**
+     * @var array
+     */
     protected $enumCasts = [
         'type' => ResourceType::class,
     ];
 
+    /**
+     * @var array
+     */
     protected $casts = [
         'type' => 'int',
     ];
 
     /**
      * Get the anime that reference this resource
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function anime() {
         return $this->belongsToMany('App\Models\Anime', 'anime_resource', 'resource_id', 'anime_id')->withPivot('as');
@@ -46,6 +57,8 @@ class ExternalResource extends Model implements Auditable
 
     /**
      * Get the artists that reference this resource
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function artists() {
         return $this->belongsToMany('App\Models\Artist', 'artist_resource', 'resource_id', 'artist_id')->withPivot('as');

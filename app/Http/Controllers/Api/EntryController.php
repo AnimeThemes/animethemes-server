@@ -104,7 +104,7 @@ class EntryController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -137,7 +137,8 @@ class EntryController extends BaseController
         // paginate
         $entries = $entries->paginate($this->getPerPageLimit());
 
-        return new EntryCollection($entries);
+        $collection = new EntryCollection($entries);
+        return $collection->toResponse(request());
     }
 
     /**
@@ -169,10 +170,11 @@ class EntryController extends BaseController
      * )
      *
      * @param  \App\Models\Entry  $entry
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Entry $entry)
     {
-        return new EntryResource($entry->load(static::EAGER_RELATIONS));
+        $resource = new EntryResource($entry->load(static::EAGER_RELATIONS));
+        return $resource->toResponse(request());
     }
 }

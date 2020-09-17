@@ -18,7 +18,7 @@ class AnimeYearFilter extends Filter
     /**
      * Get the displayable name of the filter.
      *
-     * @return string
+     * @return array|string|null
      */
     public function name()
     {
@@ -49,7 +49,7 @@ class AnimeYearFilter extends Filter
         $options = [];
 
         for ($year = 1960; $year <= date('Y') + 1; $year++) {
-            $options = Arr::add($options, $year, $year);
+            $options = Arr::add($options, strval($year), strval($year));
         }
 
         return $options;

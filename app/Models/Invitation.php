@@ -29,6 +29,9 @@ class Invitation extends Model implements Auditable
      */
     protected $primaryKey = 'invitation_id';
 
+    /**
+     * @var array
+     */
     protected $enumCasts = [
         'type' => UserType::class,
         'status' => InvitationStatus::class,
@@ -44,7 +47,12 @@ class Invitation extends Model implements Auditable
         'status' => 'int',
     ];
 
-    public static function boot() {
+    /**
+     * Bootstrap the model and its traits.
+     *
+     * @return void
+     */
+    public static function boot() : void {
         parent::boot();
 
         static::creating(function($activity) {
@@ -52,11 +60,17 @@ class Invitation extends Model implements Auditable
         });
     }
 
-    public function isOpen() {
+    /**
+     * @return boolean
+     */
+    public function isOpen() : bool {
         return $this->status->is(InvitationStatus::OPEN);
     }
 
-    public static function createToken() {
+    /**
+     * @return string
+     */
+    public static function createToken() : string {
         return Base32::encodeUpper(random_bytes(rand(20, 100)));
     }
 }

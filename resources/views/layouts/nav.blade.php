@@ -1,6 +1,7 @@
 <nav>
     <ul>
-        <li><a href="{{ route('welcome') }}">AnimeThemes.moe</a></li>
+        <li><a href="{{ route('l5-swagger.default.api') }}">API</a></li>
+        <li><a href="{{ route('login') }}">Login</a></li>
         <li><a href="https://www.reddit.com/r/AnimeThemes/">Reddit</a></li>
         <li><a href="https://twitter.com/parameterized">Twitter</a></li>
         <li><a href="https://github.com/paranarimasu/AnimeThemes">Github</a></li>

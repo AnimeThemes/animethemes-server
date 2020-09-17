@@ -33,11 +33,21 @@ class Synonym extends Resource
      */
     public static $displayInNavigation = false;
 
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function label()
     {
         return __('nova.synonyms');
     }
 
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function singularLabel()
     {
         return __('nova.synonym');
@@ -84,7 +94,7 @@ class Synonym extends Resource
         ];
     }
 
-    protected function timestamps() {
+    protected function timestamps() : array {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
                 ->hideFromIndex()

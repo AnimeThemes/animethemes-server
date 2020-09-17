@@ -102,7 +102,7 @@ class AnimeController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -131,7 +131,8 @@ class AnimeController extends BaseController
         // paginate
         $anime = $anime->paginate($this->getPerPageLimit());
 
-        return new AnimeCollection($anime);
+        $collection = new AnimeCollection($anime);
+        return $collection->toResponse(request());
     }
 
     /**
@@ -163,10 +164,11 @@ class AnimeController extends BaseController
      * )
      *
      * @param  \App\Models\Anime  $anime
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Anime $anime)
     {
-        return new AnimeResource($anime->load(static::EAGER_RELATIONS));
+        $resource = new AnimeResource($anime->load(static::EAGER_RELATIONS));
+        return $resource->toResponse(request());
     }
 }

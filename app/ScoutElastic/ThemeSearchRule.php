@@ -11,7 +11,7 @@ class ThemeSearchRule extends SearchRule
      */
     public function buildHighlightPayload()
     {
-        //
+        return null;
     }
 
     /**

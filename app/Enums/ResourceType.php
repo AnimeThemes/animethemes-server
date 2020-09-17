@@ -23,7 +23,13 @@ final class ResourceType extends Enum implements LocalizedEnum
     // Compendia
     const WIKI = 8;
 
-    public static function getDomain($value) {
+    /**
+     * Retrieve domain by resource type
+     *
+     * @param int $value the resource type key
+     * @return string|null
+     */
+    public static function getDomain($value) : ?string {
         switch ($value) {
             case self::TWITTER:
                 return 'twitter.com';
@@ -43,12 +49,17 @@ final class ResourceType extends Enum implements LocalizedEnum
                 return 'wikipedia.org';
         }
 
-        return NULL;
+        return null;
     }
 
-    public static function valueOf($link) {
-        $parsed_url = parse_url($link);
-        $parsed_host = $parsed_url['host'];
+    /**
+     * Get resource type by link, matching expected domain
+     *
+     * @param string $link the link to test
+     * @return string|null
+     */
+    public static function valueOf($link) : ?string {
+        $parsed_host = parse_url($link, PHP_URL_HOST);
 
         foreach (ResourceType::getValues() as $value) {
             if ($parsed_host === ResourceType::getDomain($value)) {
@@ -56,6 +67,6 @@ final class ResourceType extends Enum implements LocalizedEnum
             }
         }
 
-        return NULL;
+        return null;
     }
 }

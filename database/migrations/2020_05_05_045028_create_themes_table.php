@@ -22,10 +22,10 @@ class CreateThemesTable extends Migration
             $table->string('slug');
 
             $table->unsignedBigInteger('anime_id');
-            $table->foreign('anime_id')->references('anime_id')->on('anime');
+            $table->foreign('anime_id')->references('anime_id')->on('anime')->onDelete('cascade');
 
             $table->unsignedBigInteger('song_id')->nullable();
-            $table->foreign('song_id')->references('song_id')->on('song');
+            $table->foreign('song_id')->references('song_id')->on('song')->onDelete('set null');
         });
     }
 

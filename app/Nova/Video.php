@@ -35,17 +35,27 @@ class Video extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @var string
+     * @return array|string|null
      */
     public static function group() {
         return __('nova.wiki');
     }
 
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function label()
     {
         return __('nova.videos');
     }
 
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return array|string|null
+     */
     public static function singularLabel()
     {
         return __('nova.video');
@@ -134,7 +144,7 @@ class Video extends Resource
         ];
     }
 
-    protected function videoProperties() {
+    protected function videoProperties() : array {
         return [
             Text::make(__('nova.basename'), 'basename')
                 ->hideFromIndex()
@@ -150,7 +160,7 @@ class Video extends Resource
         ];
     }
 
-    protected function timestamps() {
+    protected function timestamps() : array {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
                 ->hideFromIndex()
