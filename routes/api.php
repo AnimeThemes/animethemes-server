@@ -11,7 +11,6 @@ use App\Http\Controllers\Api\SynonymController;
 use App\Http\Controllers\Api\ThemeController;
 use App\Http\Controllers\Api\VideoController;
 use App\Http\Controllers\Api\YearController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,10 +23,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::group(['as' => 'api.'], function() {
 

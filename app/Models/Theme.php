@@ -119,33 +119,6 @@ class Theme extends Model implements Auditable
     ];
 
     /**
-     * Bootstrap the model and its traits.
-     *
-     * @return void
-     */
-    public static function boot() : void {
-        parent::boot();
-
-        // By default, the Theme Slug is the Type "{OP|ED}"
-        // If a sequence number is specified, the Theme Slug is "{OP|ED}{Sequence}"
-        static::creating(function($activity) {
-            $slug = $activity->type->key;
-            if (!empty($activity->sequence)) {
-                $slug .= $activity->sequence;
-            }
-            $activity->slug = $slug;
-        });
-
-        static::updating(function($activity) {
-            $slug = $activity->type->key;
-            if (!empty($activity->sequence)) {
-                $slug .= $activity->sequence;
-            }
-            $activity->slug = $slug;
-        });
-    }
-
-    /**
      * Gets the anime that owns the theme
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -4,7 +4,6 @@ namespace App\Rules;
 
 use App\Enums\ResourceType;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Log;
 
 class ResourceTypeDomain implements Rule
 {

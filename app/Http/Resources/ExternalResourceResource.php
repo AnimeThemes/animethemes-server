@@ -35,6 +35,13 @@ class ExternalResourceResource extends BaseResource
     use HasLinks;
 
     /**
+     * The "data" wrapper that should be applied.
+     *
+     * @var string
+     */
+    public static $wrap = null;
+
+    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request

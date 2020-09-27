@@ -6,11 +6,12 @@ use App\Enums\InvitationStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Invitation;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Nova\Nova;
 
 class RegisterController extends Controller
 {
@@ -34,7 +35,7 @@ class RegisterController extends Controller
      */
     public function redirectPath()
     {
-        return Nova::path();
+        return route('dashboard');
     }
 
     /**
@@ -45,6 +46,53 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware(['guest', 'has_invitation']);
+    }
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showRegistrationForm()
+    {
+        $token = request('token');
+        $invitation = Invitation::where('token', $token)->firstOrFail();
+        return view('auth.register', [
+            'invitation' => $invitation
+        ]);
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request)
+    {
+        $invitation = Invitation::where('token', $request->input('token'))->firstOrFail();
+        $data = array_merge($request->all(), [
+            'name' => $invitation->name,
+            'email' => $invitation->email,
+            'type' => $invitation->type->value
+        ]);
+
+        $this->validator($data)->validate();
+
+        event(new Registered($user = $this->create($data)));
+
+        $invitation->status = InvitationStatus::CLOSED;
+        $invitation->save();
+
+        $this->guard()->login($user);
+
+        if ($response = $this->registered($request, $user)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+                    ? new JsonResponse([], 201)
+                    : redirect($this->redirectPath());
     }
 
     /**
@@ -74,37 +122,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'type' => $data['type']
         ]);
-    }
-
-    /**
-     * Show the application registration form.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function showRegistrationForm()
-    {
-        $token = request('token');
-        $invitation = Invitation::where('token', $token)->firstOrFail();
-        return view('auth.register', [
-            'invitation' => $invitation
-        ]);
-    }
-
-    /**
-     * The user has been registered.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
-     */
-    protected function registered(Request $request, $user)
-    {
-        $invitation = Invitation::where('token', $request->input('token'))->firstOrFail();
-        $invitation->status = InvitationStatus::CLOSED;
-        $invitation->save();
-
-        $user->type = $invitation->type;
-        $user->save();
     }
 }

@@ -10,8 +10,6 @@
             @csrf
 
             <input type="hidden" name="token" value="{{ $invitation->token }}">
-            <input type="hidden" name="name" value="{{ $invitation->name }}">
-            <input type="hidden" name="email" value="{{ $invitation->email }}">
 
             <div>
                 <x-jet-label value="{{ __('Name') }}" />

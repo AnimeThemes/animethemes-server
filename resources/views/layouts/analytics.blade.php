@@ -1,4 +1,4 @@
-@env('production')
+@if (App::environment('production'))
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ env('GLOBAL_SITE_TAG') }}"></script>
 <script>
@@ -8,4 +8,4 @@
 
   gtag('config', '{{ env("GLOBAL_SITE_TAG") }}');
 </script>
-@endenv
+@endif

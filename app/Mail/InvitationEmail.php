@@ -36,8 +36,6 @@ class InvitationEmail extends Mailable
     {
         return $this->subject(__('nova.invitation_subject'))
             ->markdown('email.invitation')
-            ->with([
-                'url' => route('register', ['token' => $this->invitation->token])
-            ]);
+            ->with('url', route('register', ['token' => $this->invitation->token]));
     }
 }

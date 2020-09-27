@@ -48,7 +48,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Gate::define('viewNova', function ($user) {
             // We are only granting accounts for nova access
             // We will check that the user has a role intended for nova
-            return $user->isContributor() || $user->isAdmin();
+            return $user->isReadOnly() || $user->isContributor() || $user->isAdmin();
         });
 
         // Only admins can see audit logs

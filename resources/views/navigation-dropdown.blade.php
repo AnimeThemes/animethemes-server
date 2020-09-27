@@ -37,7 +37,7 @@
                             {{ __('Profile') }}
                         </x-jet-dropdown-link>
 
-                        @if (Auth::user()->isContributor() || Auth::user()->isAdmin())
+                        @if (Auth::user()->isReadOnly() || Auth::user()->isContributor() || Auth::user()->isAdmin())
                             <x-jet-dropdown-link href="{{ route('nova.index') }}">
                                 {{ __('Admin') }}
                             </x-jet-dropdown-link>
