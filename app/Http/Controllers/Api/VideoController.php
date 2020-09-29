@@ -7,6 +7,7 @@ use App\Enums\SourceType;
 use App\Http\Resources\VideoCollection;
 use App\Http\Resources\VideoResource;
 use App\Models\Video;
+use Illuminate\Support\Str;
 
 class VideoController extends BaseController
 {
@@ -153,8 +154,8 @@ class VideoController extends BaseController
         $subbed_query = strval(request(static::SUBBED_QUERY));
         $lyrics_query = strval(request(static::LYRICS_QUERY));
         $uncen_query = strval(request(static::UNCEN_QUERY));
-        $source_query = strtoupper(request(static::SOURCE_QUERY));
-        $overlap_query = strtoupper(request(static::OVERLAP_QUERY));
+        $source_query = Str::upper(request(static::SOURCE_QUERY));
+        $overlap_query = Str::upper(request(static::OVERLAP_QUERY));
 
         // initialize builder
         $videos = empty($search_query) ? Video::query() : Video::search($search_query);

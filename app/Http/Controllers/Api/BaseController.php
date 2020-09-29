@@ -11,7 +11,6 @@ use App\Http\Resources\SongCollection;
 use App\Http\Resources\SynonymCollection;
 use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\VideoCollection;
-use Illuminate\Http\JsonResponse;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Entry;
@@ -20,6 +19,8 @@ use App\Models\Song;
 use App\Models\Synonym;
 use App\Models\Theme;
 use App\Models\Video;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
 
 class BaseController extends Controller
 {
@@ -208,8 +209,8 @@ class BaseController extends Controller
      * @return \Illuminate\Database\Eloquent\Builder|\Laravel\Scout\Builder modified builder
      */
     protected function applyOrdering($query) {
-        $order_query = strtolower(request(static::ORDER_QUERY));
-        $direction_query = strtolower(request(static::DIRECTION_QUERY));
+        $order_query = Str::lower(request(static::ORDER_QUERY));
+        $direction_query = Str::lower(request(static::DIRECTION_QUERY));
 
         if (!empty($order_query)) {
             if (!empty($direction_query)) {

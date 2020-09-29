@@ -7,6 +7,7 @@ use App\Models\Artist;
 use App\Models\Anime;
 use App\Models\Theme;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -95,7 +96,7 @@ class ArtistSongSeeder extends Seeder
                         // Load Song through Theme
                         $query = Theme::query();
                         $query = $query->where('anime_id', $anime->anime_id)
-                            ->where('type', ThemeType::getValue(strtoupper($theme_type)));
+                            ->where('type', ThemeType::getValue(Str::upper($theme_type)));
                         if (is_numeric($sequence)) {
                             $query = $query->where('sequence', intval($sequence));
                         } else {

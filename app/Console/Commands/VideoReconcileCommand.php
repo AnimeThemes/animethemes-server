@@ -18,28 +18,28 @@ class VideoReconcileCommand extends Command
      *
      * @var integer
      */
-    public $created = 0;
+    private $created = 0;
 
     /**
      * The number of videos whose creation failed
      *
      * @var integer
      */
-    public $created_failed = 0;
+    private $created_failed = 0;
 
     /**
      * The number of videos deleted
      *
      * @var integer
      */
-    public $deleted = 0;
+    private $deleted = 0;
 
     /**
      * The number of videos whose deletion failed
      *
      * @var integer
      */
-    public $deleted_failed = 0;
+    private $deleted_failed = 0;
 
     /**
      * The name and signature of the console command.
@@ -94,7 +94,7 @@ class VideoReconcileCommand extends Command
             $db_videos = Video::all()->all();
 
             // Create videos that exist in storage but not in the database
-            $create_videos = array_udiff($fs_videos, $db_videos, [VideoReconcileCommand::class, 'compareVideos']);
+            $create_videos = array_udiff($fs_videos, $db_videos, [static::class, 'compareVideos']);
             foreach ($create_videos as $create_video) {
                 $create_result = $create_video->save();
                 if ($create_result) {
@@ -109,7 +109,7 @@ class VideoReconcileCommand extends Command
             }
 
             // Delete videos that no longer exist in storage
-            $delete_videos = array_udiff($db_videos, $fs_videos, [VideoReconcileCommand::class, 'compareVideos']);
+            $delete_videos = array_udiff($db_videos, $fs_videos, [static::class, 'compareVideos']);
             foreach ($delete_videos as $delete_video) {
                 $delete_result = $delete_video->delete();
                 if ($delete_result) {
@@ -138,8 +138,8 @@ class VideoReconcileCommand extends Command
      * @param \App\Models\Video $b
      * @return integer
      */
-    public static function compareVideos(Video $a, Video $b) : int {
-        return strcmp(VideoReconcileCommand::reconciliationString($a), VideoReconcileCommand::reconciliationString($b));
+    private static function compareVideos(Video $a, Video $b) : int {
+        return strcmp(static::reconciliationString($a), static::reconciliationString($b));
     }
 
     /**
@@ -149,25 +149,25 @@ class VideoReconcileCommand extends Command
      * @param \App\Models\Video $video
      * @return string
      */
-    public static function reconciliationString(Video $video) : string {
+    private static function reconciliationString(Video $video) : string {
         return "basename:{$video->basename},filename:{$video->filename},path:{$video->path}";
     }
 
     // Reconciliation Results
 
-    public function hasResults() : bool {
+    private function hasResults() : bool {
         return $this->hasChanges() || $this->hasFailures();
     }
 
-    public function hasChanges() : bool {
+    private function hasChanges() : bool {
         return $this->created > 0 || $this->deleted > 0;
     }
 
-    public function hasFailures() : bool {
+    private function hasFailures() : bool {
         return $this->created_failed > 0 || $this->deleted_failed > 0;
     }
 
-    public function printResults() : void {
+    private function printResults() : void {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
                 Log::info("{$this->created} Videos created, {$this->deleted} Videos deleted");

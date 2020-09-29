@@ -41,5 +41,6 @@ Route::group(['as' => 'api.'], function() {
     Route::apiResource('video', VideoController::class)->only(['index', 'show']);
 
     // Year Routes
-    Route::get('year/{year}', [YearController::class, 'year']);
+    Route::get('year', [YearController::class, 'index']);
+    Route::get('year/{year}', [YearController::class, 'show']);
 });

@@ -1348,6 +1348,31 @@
                 }
             }
         },
+        "/year/": {
+            "get": {
+                "tags": [
+                    "Anime"
+                ],
+                "summary": "Get list of unique years of anime",
+                "description": "Returns list of unique years",
+                "operationId": "getYears",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "type": "integer",
+                                        "example": 2009
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/year/{year}": {
             "get": {
                 "tags": [

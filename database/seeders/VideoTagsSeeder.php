@@ -6,6 +6,7 @@ use App\Enums\OverlapType;
 use App\Enums\SourceType;
 use App\Models\Video;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
 class VideoTagsSeeder extends Seeder
@@ -65,7 +66,7 @@ class VideoTagsSeeder extends Seeder
 
             foreach ($video_wiki_entries as $video_wiki_entry) {
                 // Video tags are potentially inconsistent so we make an effort for uniformity
-                $video_tags = explode(',', preg_replace('/\s+/', '', strtoupper($video_wiki_entry[1])));
+                $video_tags = explode(',', preg_replace('/\s+/', '', Str::upper($video_wiki_entry[1])));
                 $video_basename = count($video_wiki_entry) === 3 ? $video_wiki_entry[2] : $video_wiki_entry[3];
 
                 try {

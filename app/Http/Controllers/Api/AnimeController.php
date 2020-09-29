@@ -6,6 +6,7 @@ use App\Enums\Season;
 use App\Http\Resources\AnimeCollection;
 use App\Http\Resources\AnimeResource;
 use App\Models\Anime;
+use Illuminate\Support\Str;
 
 class AnimeController extends BaseController
 {
@@ -109,7 +110,7 @@ class AnimeController extends BaseController
         // query parameters
         $search_query = strval(request(static::SEARCH_QUERY));
         $year_query = strval(request(static::YEAR_QUERY));
-        $season_query = strtoupper(request(static::SEASON_QUERY));
+        $season_query = Str::upper(request(static::SEASON_QUERY));
 
         // initialize builder
         $anime = empty($search_query) ? Anime::query() : Anime::search($search_query);

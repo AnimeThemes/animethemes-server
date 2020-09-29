@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\Season;
 use App\Models\Anime;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
 class AnimeSeasonSeeder extends Seeder
@@ -65,7 +66,7 @@ class AnimeSeasonSeeder extends Seeder
                 // If Season heading line, set the current Season
                 // Format: "##{Year} {Season} Season ({Ordinal Numeral} Quarter)"
                 if (preg_match('/##\d{4}\s(.*)\sSeason.*/', $wiki_entry_line, $anime_season)) {
-                    $season = Season::getValue(strtoupper($anime_season[1]));
+                    $season = Season::getValue(Str::upper($anime_season[1]));
                     continue;
                 }
 

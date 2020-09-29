@@ -6,6 +6,7 @@ use App\Enums\ResourceType;
 use App\Http\Resources\ExternalResourceCollection;
 use App\Http\Resources\ExternalResourceResource;
 use App\Models\ExternalResource;
+use Illuminate\Support\Str;
 
 class ExternalResourceController extends BaseController
 {
@@ -83,7 +84,7 @@ class ExternalResourceController extends BaseController
     public function index()
     {
         // query parameters
-        $type_query = strtoupper(request(static::TYPE_QUERY));
+        $type_query = Str::upper(request(static::TYPE_QUERY));
 
         // initialize builder
         $resources = ExternalResource::query();

@@ -8,6 +8,7 @@ use App\ScoutElastic\VideoIndexConfigurator;
 use App\ScoutElastic\VideoSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use OwenIt\Auditing\Contracts\Auditable;
 use ScoutElastic\Searchable;
@@ -15,7 +16,7 @@ use ScoutElastic\Searchable;
 class Video extends Model implements Auditable
 {
 
-    use CastsEnums, Searchable;
+    use CastsEnums, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**

@@ -146,7 +146,7 @@ class AnimeThemeSeeder extends Seeder
                         // Create Theme
                         $theme = new Theme;
                         $theme->group = $group;
-                        $theme->type = ThemeType::getValue(strtoupper($theme_type));
+                        $theme->type = ThemeType::getValue(Str::upper($theme_type));
                         if (is_numeric($sequence)) {
                             $theme->sequence = intval($sequence);
                         }
@@ -194,10 +194,10 @@ class AnimeThemeSeeder extends Seeder
             $entry->version = intval($version);
         }
         $entry->episodes = $episodes;
-        if (Str::contains(strtoupper($notes), 'NSFW')) {
+        if (Str::contains(Str::upper($notes), 'NSFW')) {
             $entry->nsfw = True;
         }
-        if (Str::contains(strtoupper($notes), 'SPOILER')) {
+        if (Str::contains(Str::upper($notes), 'SPOILER')) {
             $entry->spoiler = True;
         }
         $entry->notes = preg_replace('/^(?:NSFW)?(?:,\s)?(?:Spoiler)?$/', '', $notes);

@@ -6,7 +6,6 @@ use App\Enums\InvitationStatus;
 use App\Enums\UserType;
 use App\Models\Invitation;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use ParagonIE\ConstantTime\Base32;
 
 class InvitationFactory extends Factory
 {
@@ -25,7 +24,7 @@ class InvitationFactory extends Factory
     public function definition()
     {
         return [
-            'token' => Base32::encodeUpper(random_bytes(rand(20, 100))),
+            'token' => Invitation::createToken(),
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'type' => UserType::READ_ONLY,

@@ -6,6 +6,7 @@ use App\Enums\ThemeType;
 use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\ThemeResource;
 use App\Models\Theme;
+use Illuminate\Support\Str;
 
 class ThemeController extends BaseController
 {
@@ -114,7 +115,7 @@ class ThemeController extends BaseController
         // query parameters
         $search_query = strval(request(static::SEARCH_QUERY));
         $type_query = strval(request(static::TYPE_QUERY));
-        $sequence_query = strtoupper(request(static::SEQUENCE_QUERY));
+        $sequence_query = Str::upper(request(static::SEQUENCE_QUERY));
         $group_query = strval(request(static::GROUP_QUERY));
 
         // initialize builder
