@@ -1,6 +1,7 @@
 import {useMemo, useState} from "react";
-import cn from "classnames";
 import ThemeCard from "./themeCard";
+import {StyledGroupTabs, StyledThemeTable} from "./themeTable.styled";
+import {StyledButton} from "./layout/button.styled";
 
 export default function ThemeTable({ themes }) {
     if (!themes.length) {
@@ -23,24 +24,23 @@ export default function ThemeTable({ themes }) {
     const [activeGroup, setActiveGroup] = useState(groups[0]);
 
     return (
-        <div className="anime__theme-container">
+        <StyledThemeTable>
             {groups.length > 1 && (
-                <div className="anime__group-tab-container">
-                    {groups.map((group, index) => (
-                        <button
-                            className={cn("button --primary anime__group-tab", {
-                                "--active": activeGroup === group,
-                            })}
+                <StyledGroupTabs>
+                    {groups.map((group) => (
+                        <StyledButton
+                            key={group.name}
+                            active={activeGroup === group}
                             onClick={() => setActiveGroup(group)}
                         >
                             {group.name}
-                        </button>
+                        </StyledButton>
                     ))}
-                </div>
+                </StyledGroupTabs>
             )}
             {activeGroup.themes.map((theme, index) => (
                 <ThemeCard key={index} theme={theme} />
             ))}
-        </div>
+        </StyledThemeTable>
     );
 }

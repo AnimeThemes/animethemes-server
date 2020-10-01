@@ -1,17 +1,21 @@
 import React from 'react';
+import {StyledDescriptionList, StyledKey, StyledValue} from "./descriptionList.styled";
+import {StyledTitleSection} from "./layout/text.styled";
 
 function DescriptionList({ children }) {
     return (
-        <dl className="description-list">
+        <StyledDescriptionList>
             {Object.entries(children).map(([ title, description ]) => (
                 !!description && (
                     <>
-                        <dt className="description-list__key">{title}</dt>
-                        <dd className="description-list__value">{description}</dd>
+                        <StyledKey>
+                            <StyledTitleSection>{title}</StyledTitleSection>
+                        </StyledKey>
+                        <StyledValue>{description}</StyledValue>
                     </>
                 )
             ))}
-        </dl>
+        </StyledDescriptionList>
     );
 }
 

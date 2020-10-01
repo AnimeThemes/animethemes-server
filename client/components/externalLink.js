@@ -1,12 +1,13 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronCircleRight} from "@fortawesome/free-solid-svg-icons";
+import {StyledExternalLink} from "./externalLink.styled";
 
 function ExternalLink({ children, href }) {
     return (
-        <a href={href} target="_blank" className="external-link">
+        <StyledExternalLink as="a" link href={href} target="_blank">
             <span>{children}</span>
-            <FontAwesomeIcon icon={faChevronCircleRight} className="external-link__icon"/>
-        </a>
+            <FontAwesomeIcon icon={faChevronCircleRight}/>
+        </StyledExternalLink>
     );
 }
 

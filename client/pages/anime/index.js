@@ -7,7 +7,9 @@ export default function AnimeIndexPage({ animeSlugs }) {
         <>
             <h1>Listing all anime</h1>
             {animeSlugs.map((slug) => (
-                <Link key={slug} href="/anime/[slug]" as={`/anime/${slug}`}>{slug}</Link>
+                <Link key={slug} href="/anime/[slug]" as={`/anime/${slug}`}>
+                    <p>{slug}</p>
+                </Link>
             ))}
         </>
     );

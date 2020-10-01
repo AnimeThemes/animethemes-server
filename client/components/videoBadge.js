@@ -1,63 +1,52 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faClosedCaptioning,
     faComment,
     faCompactDisc,
     faEye,
     faNotEqual,
-    faPlay, faStream
+    faStream
 } from "@fortawesome/free-solid-svg-icons";
+import ButtonPlay from "./buttonPlay";
+import IconText from "./iconText";
+import {StyledTagList} from "./layout/tagList.styled";
+import {StyledText} from "./layout/text.styled";
 
 export default function VideoBadge({ video }) {
     return (
-        <a className="video-badge --hoverable" href={video.link}>
-            <div className="video-badge__play-badge --secondary --icon">
-                <FontAwesomeIcon icon={faPlay} fixedWidth />
-            </div>
+        <ButtonPlay href={video.link}>
+            <StyledTagList>
+                <IconText title="Resolution">
+                    <StyledText small>{ video.resolution }p</StyledText>
+                </IconText>
 
-            <div className="video-badge__tag-list">
-                <span className="icon-text" title="Resolution">
-                    <small>{ video.resolution }p</small>
-                </span>
+                {!!video.nc && (
+                    <IconText icon={faNotEqual} title="No Credits"/>
+                )}
 
-                { !!video.nc && (
-                    <span className="icon-text" title="No Credits">
-                        <FontAwesomeIcon icon={faNotEqual} fixedWidth className="icon-text__icon"/>
-                    </span>
-                ) }
+                {!!video.subbed && (
+                    <IconText icon={faClosedCaptioning} title="With Subtitles"/>
+                )}
 
-                { !!video.subbed && (
-                    <span className="icon-text" title="With Subtitles">
-                        <FontAwesomeIcon icon={faClosedCaptioning} fixedWidth className="icon-text__icon"/>
-                    </span>
-                ) }
+                {!!video.lyrics && (
+                    <IconText icon={faComment} title="With Lyrics"/>
+                )}
 
-                { !!video.lyrics && (
-                    <span className="icon-text" title="With Lyrics">
-                        <FontAwesomeIcon icon={faComment} fixedWidth className="icon-text__icon"/>
-                    </span>
-                ) }
+                {!!video.uncen && (
+                    <IconText icon={faEye} title="Uncensored"/>
+                )}
 
-                { !!video.uncen && (
-                    <span className="icon-text" title="Uncensored">
-                        <FontAwesomeIcon icon={faEye} fixedWidth className="icon-text__icon"/>
-                    </span>
-                ) }
-
-                { !!video.source && (
-                    <span className="icon-text" title="Source">
-                        <FontAwesomeIcon icon={faCompactDisc} fixedWidth className="icon-text__icon"/>
-                        <small>{ video.source.toUpperCase() }</small>
-                    </span>
-                ) }
+                {!!video.source && (
+                    <IconText icon={faCompactDisc} title="Source">
+                        <StyledText small>{video.source.toUpperCase()}</StyledText>
+                    </IconText>
+                )}
 
                 { video.overlap !== "None" && (
-                    <span className="icon-text" title="Overlap">
-                        <FontAwesomeIcon icon={faStream} fixedWidth className="icon-text__icon"/>
-                        <small>{ video.overlap.toUpperCase() }</small>
-                    </span>
+                    <IconText icon={faStream} title="Overlap">
+                        <StyledText small>{video.overlap.toUpperCase()}</StyledText>
+                    </IconText>
                 ) }
-            </div>
-        </a>
+            </StyledTagList>
+        </ButtonPlay>
     );
 }

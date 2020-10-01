@@ -1,46 +1,48 @@
 import {useContext, useState} from "react";
-import cn from "classnames";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBars, faLightbulb, faMoon, faSearch, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {ThemeContext} from "../context/themeContext";
+import {faBars, faLightbulb, faMoon, faTimes} from "@fortawesome/free-solid-svg-icons";
+import {ThemeContext} from "styled-components";
+import SearchInput from "./searchInput";
+import {
+    StyledLinks,
+    StyledLogo,
+    StyledLogoContainer,
+    StyledMobileToggle,
+    StyledNavigation,
+    StyledNavigationContainer
+} from "./navigation.styled";
+import Elevator from "./elevator";
+import asset from "../utils/asset";
+import {StyledButton} from "./layout/button.styled";
 
-export default function Navigation() {
+export default function Navigation({ toggleTheme }) {
     const [ show, setShow ] = useState(false);
-    const { darkTheme, setDarkTheme } = useContext(ThemeContext);
+    const theme = useContext(ThemeContext);
 
     return (
         <>
-            <nav className={cn("navigation", { "--show": show })} onClick={() => setShow(false)}>
-                <div className="container navigation__container" onClick={(event) => event.stopPropagation()}>
-                    <a className="navigation__logo" href="#">
-                        <img className="navigation__logo-image" src="/img/logo.svg" alt="Logo" />
-                    </a>
-                    <span className="navigation__tab">
-                        <div className="navigation__search">
-                            <FontAwesomeIcon icon={faSearch} fixedWidth />
-                            <input type="text" placeholder="Search" />
-                        </div>
-                    </span>
-                    <span className="navigation__links">
-                        <a className="navigation__tab --link" href="#">
-                            Topic 1
-                        </a>
-                        <a className="navigation__tab --link" href="#">
-                            Topic 2
-                        </a>
-                        <a className="navigation__tab --link" href="#">
-                            Login
-                        </a>
-                    </span>
-                    <button className="button theme__switch" onClick={() => setDarkTheme(!darkTheme)}>
-                        <FontAwesomeIcon icon={darkTheme ? faLightbulb : faMoon} fixedWidth />
-                    </button>
-                </div>
-            </nav>
+            <StyledNavigation show={show} onClick={() => setShow(false)}>
+                <StyledNavigationContainer onClick={(event) => event.stopPropagation()}>
+                    <Elevator>
+                        <StyledLogoContainer as="a" link href="#">
+                            <StyledLogo className="navigation__logo-image" src={asset("/img/logo.svg")} alt="Logo" />
+                        </StyledLogoContainer>
+                        <SearchInput/>
+                        <StyledLinks>
+                            <StyledButton silent>Topic 1</StyledButton>
+                            <StyledButton silent>Topic 2</StyledButton>
+                            <StyledButton silent>Login</StyledButton>
+                        </StyledLinks>
+                        <StyledButton silent icon onClick={toggleTheme}>
+                            <FontAwesomeIcon icon={theme.isDark ? faLightbulb : faMoon} fixedWidth />
+                        </StyledButton>
+                    </Elevator>
+                </StyledNavigationContainer>
+            </StyledNavigation>
 
-            <button className={cn("navigation__toggle-mobile", { "--active": show })} onClick={() => setShow(!show)}>
+            <StyledMobileToggle active={show} onClick={() => setShow(!show)}>
                 <FontAwesomeIcon icon={show ? faTimes : faBars} fixedWidth />
-            </button>
+            </StyledMobileToggle>
         </>
     );
 }

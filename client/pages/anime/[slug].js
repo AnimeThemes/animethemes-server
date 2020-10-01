@@ -1,50 +1,59 @@
-import {useEffect, useState} from "react";
-import {fetchAnime, fetchAnimeSlugs} from "../../lib/animeApi";
+import {fetchAnime} from "../../lib/animeApi";
 import ThemeTable from "../../components/themeTable";
 import AnimeSynopsis from "../../components/animeSynopsis";
 import ExternalLink from "../../components/externalLink";
 import {useRouter} from "next/router";
 import DescriptionList from "../../components/descriptionList";
-import {fetchAniListResources} from "../../lib/aniListApi";
+import SidebarView from "../../components/sidebarView";
+import {fullWidth} from "../../styles/utils/helper";
+import styled from "styled-components";
+import {gapsColumn} from "../../styles/utils/gaps";
+import useAniList from "../../hooks/useAniList";
+import {StyledText, StyledTitlePage, StyledTitleSection} from "../../components/layout/text.styled";
+
+const StyledAnimePage = styled.div`
+    ${gapsColumn("1.5rem")}
+`;
+const StyledCover = styled.img(fullWidth);
+const StyledList = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    ${gapsColumn("0.5rem")}
+
+    text-align: center;
+`;
 
 export default function AnimeDetailPage({ anime }) {
     const router = useRouter();
 
     if (router.isFallback) {
-        return <p>Loading...</p>;
+        return <StyledText>Loading...</StyledText>;
     }
 
-    const myAnimeListId = anime.resources[0].link.match(/\d+/)[0];
-
-    const [synopsis, setSynopsis] = useState("Loading...");
-    const [image, setImage] = useState(null);
-
-    useEffect(() => {
-        fetchAniListResources(myAnimeListId)
-            .then(aniListAnime => {
-                setSynopsis(aniListAnime.synopsis);
-                setImage(aniListAnime.image);
-            });
-    }, []);
+    const { synopsis, image } = useAniList(anime);
 
     return (
-        <>
-            <h1>{anime.name}</h1>
-            <div className="anime">
-                <div className="anime__sidebar">
-                    <img className="anime__cover" src={image} alt="Cover" />
+        <StyledAnimePage>
+            <StyledTitlePage>{anime.name}</StyledTitlePage>
+            <SidebarView sidebar={
+                <>
+                    <StyledCover src={image} alt="Cover"/>
                     <DescriptionList>
                         {{
                             "Alternative Titles": (
-                                anime.synonyms.map((synonym) => (
-                                    <div key={synonym.text} className="anime__synonym">{synonym.text}</div>
-                                ))
+                                anime.synonyms.length && (
+                                    <StyledList>
+                                        {anime.synonyms.map((synonym) => (
+                                            <StyledText key={synonym.text}>{synonym.text}</StyledText>
+                                        ))}
+                                    </StyledList>
+                                )
                             ),
                             "Premiere": (
-                                <>
-                                    {!!anime.season && <span>{anime.season + " "}</span>}
-                                    <span>{anime.year}</span>
-                                </>
+                                <StyledText>
+                                    {(anime.season ? anime.season + " " : "") + anime.year}
+                                </StyledText>
                             ),
                             "Links": (
                                 anime.resources.map((resource) => (
@@ -55,28 +64,28 @@ export default function AnimeDetailPage({ anime }) {
                             )
                         }}
                     </DescriptionList>
-                </div>
-                <main className="anime__main">
-                    <h2>Synopsis</h2>
-                    <AnimeSynopsis synopsis={synopsis}/>
-                    <h2>Themes</h2>
-                    <ThemeTable themes={anime.themes} />
-                </main>
-            </div>
-        </>
+                </>
+            }>
+                <StyledTitleSection>Synopsis</StyledTitleSection>
+                <AnimeSynopsis synopsis={synopsis}/>
+                <StyledTitleSection>Themes</StyledTitleSection>
+                <ThemeTable themes={anime.themes} />
+            </SidebarView>
+        </StyledAnimePage>
     );
 }
 
 export async function getStaticPaths() {
-    const paths = (await fetchAnimeSlugs()).map((slug) => ({
-        params: {
-            slug: `${slug}`,
-        },
-    }));
+    // const paths = (await fetchAnimeSlugs()).map((slug) => ({
+    //     params: {
+    //         slug: `${slug}`,
+    //     },
+    // }));
+    const paths = [];
 
     return {
         paths,
-        fallback: true,
+        fallback: false,
     };
 }
 
