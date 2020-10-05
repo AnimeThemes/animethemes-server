@@ -13,9 +13,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          composer config "http-basic.nova.laravel.com" "${{ secrets.NOVA_USERNAME }}" "${{ secrets.NOVA_PASSWORD }}"
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: PHPStan
-        uses: docker://oskarstark/phpstan-ga
-        env:
-          REQUIRE_DEV: true
-        with:
-          args: analyse -c phpstan.neon
+        uses: chindit/actions-phpstan@master
