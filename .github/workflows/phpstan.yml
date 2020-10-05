@@ -15,7 +15,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: PHPStan
         uses: docker://oskarstark/phpstan-ga
+        run: |
+          composer config "http-basic.nova.laravel.com" "${{ secrets.NOVA_USERNAME }}" "${{ secrets.NOVA_PASSWORD }}"
         env:
           REQUIRE_DEV: true
         with:
-          args: analyze -c phpstan.neon
+          args: analyse -c phpstan.neon
