@@ -1,0 +1,17 @@
+name: PHPStan
+
+on:
+  push:
+    branches: [ wiki ]
+  pull_request:
+    branches: [ wiki ]
+
+jobs:
+  phpstan:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: PHPStan
+        uses: docker://oskarstark/phpstan-ga
