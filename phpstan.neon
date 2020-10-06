@@ -3,6 +3,9 @@ includes:
 
 parameters:
 
+    bootstrapFiles:
+        - vendor/nunomaduro/larastan/bootstrap.php
+
     paths:
         - app
         - config
