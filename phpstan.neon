@@ -3,8 +3,7 @@ includes:
 
 parameters:
 
-    bootstrapFiles:
-        - vendor/nunomaduro/larastan/bootstrap.php
+    bootstrap: %currentWorkingDirectory%/vendor/nunomaduro/larastan/bootstrap.php
 
     paths:
         - app
