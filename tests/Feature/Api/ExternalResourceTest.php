@@ -13,6 +13,31 @@ class ExternalResourceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    /**
+     * The Resource Index Endpoint shall display the Resource attributes
+     *
+     * @return void
+     */
+    public function testResourceIndexAttributes()
+    {
+        $resources = ExternalResource::factory()
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $response = $this->get(route('api.resource.index'));
+
+        $response->assertJson([
+            'resources' => $resources->map(function($resource) {
+                return static::getData($resource);
+            })->toArray()
+        ]);
+    }
+
+    /**
+     * The Show Resource Endpoint shall display the Resource attributes
+     *
+     * @return void
+     */
     public function testShowResourceAttributes()
     {
         $resource = ExternalResource::factory()->create();
@@ -22,6 +47,11 @@ class ExternalResourceTest extends TestCase
         $response->assertJson(static::getData($resource));
     }
 
+    /**
+     * The Show Resource Endpoint shall display the anime relation in an 'anime' attribute
+     *
+     * @return void
+     */
     public function testShowResourceAnimeAttributes()
     {
         $resource = ExternalResource::factory()
@@ -37,6 +67,11 @@ class ExternalResourceTest extends TestCase
         ]);
     }
 
+    /**
+     * The Show Resource Endpoint shall display the artists relation in an 'artists' attribute
+     *
+     * @return void
+     */
     public function testShowResourceArtistsAttributes()
     {
         $resource = ExternalResource::factory()
@@ -52,6 +87,12 @@ class ExternalResourceTest extends TestCase
         ]);
     }
 
+    /**
+     * Get attributes for Resource resource
+     *
+     * @param ExternalResource $resource
+     * @return array
+     */
     public static function getData(ExternalResource $resource) {
         return [
             'id' => $resource->resource_id,

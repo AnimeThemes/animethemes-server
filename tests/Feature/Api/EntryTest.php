@@ -15,7 +15,28 @@ class EntryTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
+     * The Entry Index Endpoint shall display the Entry attributes
      *
+     * @return void
+     */
+    public function testEntryIndexAttributes()
+    {
+        $entries = Entry::factory()
+            ->for(Theme::factory()->for(Anime::factory()))
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $response = $this->get(route('api.entry.index'));
+
+        $response->assertJson([
+            'entries' => $entries->map(function($entry) {
+                return static::getData($entry);
+            })->toArray()
+        ]);
+    }
+
+    /**
+     * The Show Entry Endpoint shall display the Entry attributes
      *
      * @return void
      */
@@ -30,6 +51,11 @@ class EntryTest extends TestCase
         $response->assertJson(static::getData($entry));
     }
 
+    /**
+     * The Show Entry Endpoint shall display the anime relation in an 'anime' attribute
+     *
+     * @return void
+     */
     public function testShowEntryAnimeAttributes()
     {
         $entry = Entry::factory()
@@ -43,6 +69,11 @@ class EntryTest extends TestCase
         ]);
     }
 
+    /**
+     * The Show Entry Endpoint shall display the theme relation in a 'theme' attribute
+     *
+     * @return void
+     */
     public function testShowEntryThemeAttributes()
     {
         $entry = Entry::factory()
@@ -56,6 +87,11 @@ class EntryTest extends TestCase
         ]);
     }
 
+    /**
+     * The Show Entry Endpoint shall display the videos relation in a 'videos' attribute
+     *
+     * @return void
+     */
     public function testShowEntryVideosAttribute()
     {
         $entry = Entry::factory()
@@ -72,7 +108,14 @@ class EntryTest extends TestCase
         ]);
     }
 
-    public static function getData(Entry $entry) {
+    /**
+     * Get attributes for Entry resource
+     *
+     * @param Entry $entry
+     * @return array
+     */
+    public static function getData(Entry $entry)
+    {
         return [
             'id' => $entry->entry_id,
             'version' => is_null($entry->version) ? '' : $entry->version,

@@ -24,7 +24,7 @@ final class ResourceType extends Enum implements LocalizedEnum
     const WIKI = 8;
 
     /**
-     * Retrieve domain by resource type
+     * Get domain by resource type
      *
      * @param int $value the resource type key
      * @return string|null

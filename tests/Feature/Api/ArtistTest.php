@@ -14,7 +14,27 @@ class ArtistTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
+     * The Artist Index Endpoint shall display the Artist attributes
      *
+     * @return void
+     */
+    public function testAnimeIndexAttributes()
+    {
+        $artists = Artist::factory()
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $response = $this->get(route('api.artist.index'));
+
+        $response->assertJson([
+            'artists' => $artists->map(function($artist) {
+                return static::getData($artist);
+            })->toArray()
+        ]);
+    }
+
+    /**
+     * The Show Artist Endpoint shall display the Artist attributes
      *
      * @return void
      */
@@ -27,6 +47,11 @@ class ArtistTest extends TestCase
         $response->assertJson(static::getData($artist));
     }
 
+    /**
+     * The Show Artist Endpoint shall display the songs relation in a 'songs' attribute
+     *
+     * @return void
+     */
     public function testShowArtistSongsAttributes()
     {
         $artist = Artist::factory()
@@ -42,6 +67,11 @@ class ArtistTest extends TestCase
         ]);
     }
 
+    /**
+     * The Show Artist Endpoint shall display the members relation in a 'members' attribute
+     *
+     * @return void
+     */
     public function testShowArtistMembersAttributes()
     {
         $artist = Artist::factory()
@@ -57,6 +87,11 @@ class ArtistTest extends TestCase
         ]);
     }
 
+    /**
+     * The Show Artist Endpoint shall display the groups relation in a 'groups' attribute
+     *
+     * @return void
+     */
     public function testShowArtistGroupsAttributes()
     {
         $artist = Artist::factory()
@@ -72,7 +107,13 @@ class ArtistTest extends TestCase
         ]);
     }
 
-    public function testShowArtistResourcesAttributes() {
+    /**
+     * The Show Artist Endpoint shall display the resources relation in a 'resources' attribute
+     *
+     * @return void
+     */
+    public function testShowArtistResourcesAttributes()
+    {
         $artist = Artist::factory()
             ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull))
             ->create();
@@ -86,7 +127,14 @@ class ArtistTest extends TestCase
         ]);
     }
 
-    public static function getData(Artist $artist) {
+    /**
+     * Get attributes for Artist resource
+     *
+     * @param Artist $artist
+     * @return array
+     */
+    public static function getData(Artist $artist)
+    {
         return [
             'id' => $artist->artist_id,
             'name' => $artist->name,

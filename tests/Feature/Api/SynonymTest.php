@@ -13,7 +13,28 @@ class SynonymTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
+     * The Synonym Index Endpoint shall display the Synonym attributes
      *
+     * @return void
+     */
+    public function testSynonymIndexAttributes()
+    {
+        $synonyms = Synonym::factory()
+            ->for(Anime::factory())
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $response = $this->get(route('api.synonym.index'));
+
+        $response->assertJson([
+            'synonyms' => $synonyms->map(function($synonym) {
+                return static::getData($synonym);
+            })->toArray()
+        ]);
+    }
+
+    /**
+     * The Show Synonym Endpoint shall display the Synonym attributes
      *
      * @return void
      */
@@ -29,7 +50,7 @@ class SynonymTest extends TestCase
     }
 
     /**
-     *
+     * The Show Synonym Endpoint shall display the anime relation in an 'anime' attribute
      *
      * @return void
      */
@@ -47,7 +68,7 @@ class SynonymTest extends TestCase
     }
 
     /**
-     *
+     * Get attributes for Synonym resource
      *
      * @param Synonym $synonym
      * @return array

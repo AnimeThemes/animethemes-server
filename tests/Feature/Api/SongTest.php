@@ -14,6 +14,31 @@ class SongTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    /**
+     * The Song Index Endpoint shall display the Song attributes
+     *
+     * @return void
+     */
+    public function testSongIndexAttributes()
+    {
+        $songs = Song::factory()
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $response = $this->get(route('api.song.index'));
+
+        $response->assertJson([
+            'songs' => $songs->map(function($song) {
+                return static::getData($song);
+            })->toArray()
+        ]);
+    }
+
+    /**
+     * The Show Song Endpoint shall display the Song attributes
+     *
+     * @return void
+     */
     public function testShowSongAttributes()
     {
         $song = Song::factory()->create();
@@ -23,7 +48,13 @@ class SongTest extends TestCase
         $response->assertJson(static::getData($song));
     }
 
-    public function testShowSongThemesAttributes() {
+    /**
+     * The Show Song Endpoint shall display the themes relation in an 'themes' attribute
+     *
+     * @return void
+     */
+    public function testShowSongThemesAttributes()
+    {
         $song = Song::factory()
             ->has(Theme::factory()->for(Anime::factory())->count($this->faker->randomDigitNotNull))
             ->create();
@@ -37,6 +68,11 @@ class SongTest extends TestCase
         ]);
     }
 
+    /**
+     * The Show Song Endpoint shall display the artists relation in an 'artists' attribute
+     *
+     * @return void
+     */
     public function testShowSongArtistsAttributes()
     {
         $song = Song::factory()
@@ -52,6 +88,12 @@ class SongTest extends TestCase
         ]);
     }
 
+    /**
+     * Get attributes for Song resource
+     *
+     * @param Song $song
+     * @return array
+     */
     public static function getData(Song $song) {
         return [
             'id' => $song->song_id,

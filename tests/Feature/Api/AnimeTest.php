@@ -16,7 +16,27 @@ class AnimeTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
+     * The Anime Index Endpoint shall display the Anime attributes
      *
+     * @return void
+     */
+    public function testAnimeIndexAttributes()
+    {
+        $animes = Anime::factory()
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $response = $this->get(route('api.anime.index'));
+
+        $response->assertJson([
+            'anime' => $animes->map(function($anime) {
+                return static::getData($anime);
+            })->toArray()
+        ]);
+    }
+
+    /**
+     * The Show Anime Endpoint shall display the Anime attributes
      *
      * @return void
      */
@@ -30,11 +50,12 @@ class AnimeTest extends TestCase
     }
 
     /**
-     *
+     * The Show Anime Endpoint shall display the synonyms relation in a 'synonyms' attribute
      *
      * @return void
      */
-    public function testShowAnimeSynonymsAttributes() {
+    public function testShowAnimeSynonymsAttributes()
+    {
         $anime = Anime::factory()
             ->has(Synonym::factory()->count($this->faker->randomDigitNotNull))
             ->create();
@@ -49,11 +70,12 @@ class AnimeTest extends TestCase
     }
 
     /**
-     *
+     * The Show Anime Endpoint shall display the themes relation in a 'themes' attribute
      *
      * @return void
      */
-    public function testShowAnimeThemesAttributes() {
+    public function testShowAnimeThemesAttributes()
+    {
         $anime = Anime::factory()
             ->has(Theme::factory()->count($this->faker->randomDigitNotNull))
             ->create();
@@ -68,6 +90,7 @@ class AnimeTest extends TestCase
     }
 
     /**
+     * The Show Anime Endpoint shall display the series relation in a 'series' attribute
      *
      * @return void
      */
@@ -86,11 +109,12 @@ class AnimeTest extends TestCase
     }
 
     /**
-     *
+     * The Show Anime Endpoint shall display the resources relation in a 'resources' attribute
      *
      * @return void
      */
-    public function testShowAnimeResourcesAttributes() {
+    public function testShowAnimeResourcesAttributes()
+    {
         $anime = Anime::factory()
             ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull))
             ->create();
@@ -105,12 +129,13 @@ class AnimeTest extends TestCase
     }
 
     /**
-     *
+     * Get attributes for Anime resource
      *
      * @param Anime $anime
      * @return array
      */
-    public static function getData(Anime $anime) {
+    public static function getData(Anime $anime)
+    {
         return [
             'id' => $anime->anime_id,
             'name' => $anime->name,

@@ -14,6 +14,32 @@ class ThemeTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    /**
+     * The Theme Index Endpoint shall display the Theme attributes
+     *
+     * @return void
+     */
+    public function testThemeIndexAttributes()
+    {
+        $themes = Theme::factory()
+            ->for(Anime::factory())
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $response = $this->get(route('api.theme.index'));
+
+        $response->assertJson([
+            'themes' => $themes->map(function($theme) {
+                return static::getData($theme);
+            })->toArray()
+        ]);
+    }
+
+    /**
+     * The Show Theme Endpoint shall display the Theme attributes
+     *
+     * @return void
+     */
     public function testShowThemeAttributes()
     {
         $theme = Theme::factory()
@@ -25,6 +51,11 @@ class ThemeTest extends TestCase
         $response->assertJson(static::getData($theme));
     }
 
+    /**
+     * The Show Theme Endpoint shall display the anime relation in an 'anime' attribute
+     *
+     * @return void
+     */
     public function testShowThemeAnimeAttributes()
     {
         $theme = Theme::factory()
@@ -38,6 +69,11 @@ class ThemeTest extends TestCase
         ]);
     }
 
+    /**
+     * The Show Theme Endpoint shall display the song relation in an 'song' attribute
+     *
+     * @return void
+     */
     public function testShowThemeSongAttributes()
     {
         $theme = Theme::factory()
@@ -52,6 +88,11 @@ class ThemeTest extends TestCase
         ]);
     }
 
+    /**
+     * The Show Theme Endpoint shall display the entries relation in an 'entries' attribute
+     *
+     * @return void
+     */
     public function testShowThemeEntriesAttributes()
     {
         $theme = Theme::factory()
@@ -68,7 +109,14 @@ class ThemeTest extends TestCase
         ]);
     }
 
-    public static function getData(Theme $theme) {
+    /**
+     * Get attributes for Theme resource
+     *
+     * @param Theme $theme
+     * @return array
+     */
+    public static function getData(Theme $theme)
+    {
         return [
             'id' => $theme->theme_id,
             'type' => strval(optional($theme->type)->description),
