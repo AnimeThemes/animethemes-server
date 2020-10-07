@@ -5,13 +5,14 @@ namespace App\Models;
 use App\ScoutElastic\ArtistIndexConfigurator;
 use App\ScoutElastic\ArtistSearchRule;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use ScoutElastic\Searchable;
 
 class Artist extends Model implements Auditable
 {
 
-    use Searchable;
+    use HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**

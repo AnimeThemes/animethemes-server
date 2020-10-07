@@ -18,6 +18,7 @@ class CreateResourcesTable extends Migration
             $table->timestamps();
             $table->integer('type')->nullable();
             $table->string('link')->nullable();
+            $table->integer('external_id')->nullable();
         });
     }
 

@@ -5,13 +5,15 @@ namespace App\Models;
 use App\ScoutElastic\SynonymIndexConfigurator;
 use App\ScoutElastic\SynonymSearchRule;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use ScoutElastic\Searchable;
 
 class Synonym extends Model implements Auditable
 {
 
-    use \OwenIt\Auditing\Auditable, Searchable;
+    use HasFactory, Searchable;
+    use \OwenIt\Auditing\Auditable;
 
     /**
      * @var array

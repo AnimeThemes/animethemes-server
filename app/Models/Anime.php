@@ -7,13 +7,14 @@ use App\ScoutElastic\AnimeIndexConfigurator;
 use App\ScoutElastic\AnimeSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use ScoutElastic\Searchable;
 
 class Anime extends Model implements Auditable
 {
 
-    use CastsEnums, Searchable;
+    use CastsEnums, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**

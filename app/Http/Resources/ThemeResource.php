@@ -92,7 +92,7 @@ class ThemeResource extends BaseResource
         return [
             'id' => $this->theme_id,
             'type' => strval(optional($this->type)->description),
-            'sequence' => is_null($this->sequence) ? "" : $this->sequence,
+            'sequence' => is_null($this->sequence) ? '' : $this->sequence,
             'group' => strval($this->group),
             'slug' => strval($this->slug),
             'created_at' => $this->created_at,

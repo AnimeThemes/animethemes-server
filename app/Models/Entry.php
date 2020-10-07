@@ -5,6 +5,7 @@ namespace App\Models;
 use App\ScoutElastic\EntryIndexConfigurator;
 use App\ScoutElastic\EntrySearchRule;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 use ScoutElastic\Searchable;
@@ -12,7 +13,7 @@ use ScoutElastic\Searchable;
 class Entry extends Model implements Auditable
 {
 
-    use Searchable;
+    use HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 

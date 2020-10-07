@@ -5,12 +5,13 @@ namespace App\Models;
 use App\Enums\ResourceType;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class ExternalResource extends Model implements Auditable
 {
 
-    use CastsEnums;
+    use CastsEnums, HasFactory;
     use \OwenIt\Auditing\Auditable;
 
     /**

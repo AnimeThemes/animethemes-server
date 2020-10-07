@@ -76,7 +76,7 @@ class EntryResource extends BaseResource
     {
         return [
             'id' => $this->entry_id,
-            'version' => is_null($this->version) ? "" : $this->version,
+            'version' => is_null($this->version) ? '' : $this->version,
             'episodes' => strval($this->episodes),
             'nsfw' => $this->nsfw,
             'spoiler' => $this->spoiler,

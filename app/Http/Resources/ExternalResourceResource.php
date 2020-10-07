@@ -52,7 +52,7 @@ class ExternalResourceResource extends BaseResource
         return [
             'id' => $this->resource_id,
             'link' => $this->link,
-            'external_id' => is_null($this->external_id) ? "" : $this->external_id,
+            'external_id' => is_null($this->external_id) ? '' : $this->external_id,
             'type' => strval(optional($this->type)->description),
             'as' => $this->whenPivotLoaded('anime_resource', function () {
                 return strval($this->pivot->as);
