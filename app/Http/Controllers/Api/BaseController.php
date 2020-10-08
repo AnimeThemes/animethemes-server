@@ -21,16 +21,28 @@ use App\Models\Theme;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
+use Neomerx\JsonApi\Http\Query\BaseQueryParser;
 
 class BaseController extends Controller
 {
-
     // constants for common query parameters
     protected const SEARCH_QUERY = 'q';
     protected const ORDER_QUERY = 'order';
     protected const DIRECTION_QUERY = 'direction';
     protected const FIELDS_QUERY = 'fields';
     protected const LIMIT_QUERY = 'limit';
+
+    /**
+     * Resolves include paths and field sets
+     *
+     * @var \Neomerx\JsonApi\Http\Query\BaseQueryParser
+     */
+    protected $parser;
+
+    public function __construct()
+    {
+        $this->parser = new BaseQueryParser(request()->all());
+    }
 
     /**
      * @OA\Info(
@@ -149,28 +161,28 @@ class BaseController extends Controller
 
         return new JsonResponse([
             AnimeCollection::$wrap => new AnimeCollection(static::excludeResource($search_query, $fields, ArtistCollection::$wrap) ? [] : Anime::search($search_query)
-                ->with(AnimeController::EAGER_RELATIONS)
+                ->with(AnimeController::getAllowedIncludePaths())
                 ->take($this->getPerPageLimit(5))->get()),
             ArtistCollection::$wrap => new ArtistCollection(static::excludeResource($search_query, $fields, ArtistCollection::$wrap) ? [] : Artist::search($search_query)
-                ->with(ArtistController::EAGER_RELATIONS)
+                ->with(ArtistController::getAllowedIncludePaths())
                 ->take($this->getPerPageLimit(5))->get()),
             EntryCollection::$wrap => new EntryCollection(static::excludeResource($search_query, $fields, EntryCollection::$wrap) ? [] : Entry::search($search_query)
-                ->with(EntryController::EAGER_RELATIONS)
+                ->with(EntryController::getAllowedIncludePaths())
                 ->take($this->getPerPageLimit(5))->get()),
             SeriesCollection::$wrap => new SeriesCollection(static::excludeResource($search_query, $fields, SeriesCollection::$wrap) ? [] : Series::search($search_query)
-                ->with(SeriesController::EAGER_RELATIONS)
+                ->with(SeriesController::getAllowedIncludePaths())
                 ->take($this->getPerPageLimit(5))->get()),
             SongCollection::$wrap => new SongCollection(static::excludeResource($search_query, $fields, SongCollection::$wrap) ? [] : Song::search($search_query)
-                ->with(SongController::EAGER_RELATIONS)
+                ->with(SongController::getAllowedIncludePaths())
                 ->take($this->getPerPageLimit(5))->get()),
             SynonymCollection::$wrap => new SynonymCollection(static::excludeResource($search_query, $fields, SynonymCollection::$wrap) ? [] : Synonym::search($search_query)
-                ->with(SynonymController::EAGER_RELATIONS)
+                ->with(SynonymController::getAllowedIncludePaths())
                 ->take($this->getPerPageLimit(5))->get()),
             ThemeCollection::$wrap => new ThemeCollection(static::excludeResource($search_query, $fields, ThemeCollection::$wrap) ? [] : Theme::search($search_query)
-                ->with(ThemeController::EAGER_RELATIONS)
+                ->with(ThemeController::getAllowedIncludePaths())
                 ->take($this->getPerPageLimit(5))->get()),
             VideoCollection::$wrap => new VideoCollection(static::excludeResource($search_query, $fields, VideoCollection::$wrap) ? [] : Video::search($search_query)
-                ->with(VideoController::EAGER_RELATIONS)
+                ->with(VideoController::getAllowedIncludePaths())
                 ->take($this->getPerPageLimit(5))->get())
         ]);
     }
@@ -183,7 +195,8 @@ class BaseController extends Controller
      * @param string $wrap the resource type identifier
      * @return boolean false if we have a search query and the resource is not excluded in field selection, otherwise true
      */
-    private static function excludeResource($search_query, $fields, $wrap) : bool {
+    private static function excludeResource($search_query, $fields, $wrap)
+    {
         return empty($search_query) || (!empty($fields) && !in_array($wrap, $fields));
     }
 
@@ -194,7 +207,8 @@ class BaseController extends Controller
       * @param  integer  $limit
       * @return integer
       */
-    protected function getPerPageLimit($limit = 100) : int {
+    protected function getPerPageLimit($limit = 100)
+    {
         $limit_query = intval(request(static::LIMIT_QUERY, $limit));
         if ($limit_query <= 0 || $limit_query > $limit) {
             $limit_query = $limit;
@@ -208,7 +222,8 @@ class BaseController extends Controller
      * @param \Illuminate\Database\Eloquent\Builder|\Laravel\Scout\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder|\Laravel\Scout\Builder modified builder
      */
-    protected function applyOrdering($query) {
+    protected function applyOrdering($query)
+    {
         $order_query = Str::lower(request(static::ORDER_QUERY));
         $direction_query = Str::lower(request(static::DIRECTION_QUERY));
 
@@ -221,5 +236,41 @@ class BaseController extends Controller
         }
 
         return $query;
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedIncludePaths()
+    {
+        return [];
+    }
+
+    /**
+     * The validated include paths used to eager load relations
+     *
+     * @return array
+     */
+    protected function getIncludePaths()
+    {
+        $includePaths = array_keys(iterator_to_array($this->parser->getIncludes()));
+        $allowedIncludePaths = static::getAllowedIncludePaths();
+
+        // If include paths are not specified, return full list of allowed include paths
+        if (empty($includePaths)) {
+            return $allowedIncludePaths;
+        }
+
+        // If no include paths are contained in the list of allowed include paths,
+        // return the full list of allowed include paths
+        $validIncludePaths = array_intersect($includePaths, $allowedIncludePaths);
+        if (empty($validIncludePaths)) {
+            return $allowedIncludePaths;
+        }
+
+        // Return list of include paths that are contained in the list of allowed include paths
+        return $validIncludePaths;
     }
 }

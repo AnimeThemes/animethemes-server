@@ -26,6 +26,16 @@
                         "example": "bakemonogatari"
                     },
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists & externalResources.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "synonyms,series"
+                    },
+                    {
                         "name": "year",
                         "in": "query",
                         "description": "Filter anime by year",
@@ -119,6 +129,16 @@
                 "operationId": "getAnime",
                 "parameters": [
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists & externalResources.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "synonyms,series"
+                    },
+                    {
                         "name": "fields",
                         "in": "query",
                         "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
@@ -164,6 +184,16 @@
                             "type": "string"
                         },
                         "example": "Senjougahara"
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups & externalResources.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "songs,members"
                     },
                     {
                         "name": "order",
@@ -238,6 +268,16 @@
                 "description": "Returns properties of Artist",
                 "operationId": "getArtist",
                 "parameters": [
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups & externalResources.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "songs,members"
+                    },
                     {
                         "name": "fields",
                         "in": "query",
@@ -398,6 +438,16 @@
                         "example": "bakemonogatari ED"
                     },
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime, themes & videos.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime,videos"
+                    },
+                    {
                         "name": "version",
                         "in": "query",
                         "description": "Filter entries by version.",
@@ -501,6 +551,16 @@
                 "operationId": "getEntry",
                 "parameters": [
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime, themes & videos.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime,videos"
+                    },
+                    {
                         "name": "fields",
                         "in": "query",
                         "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
@@ -537,6 +597,16 @@
                 "description": "Returns listing of Resources",
                 "operationId": "getResources",
                 "parameters": [
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime & artists.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime"
+                    },
                     {
                         "name": "type",
                         "in": "query",
@@ -621,6 +691,16 @@
                 "operationId": "getResource",
                 "parameters": [
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime & artists.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime"
+                    },
+                    {
                         "name": "fields",
                         "in": "query",
                         "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
@@ -666,6 +746,16 @@
                             "type": "string"
                         },
                         "example": "Monogatari"
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists & anime.externalResources.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime.synonyms,anime.themes"
                     },
                     {
                         "name": "order",
@@ -741,6 +831,16 @@
                 "operationId": "getSeries",
                 "parameters": [
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists & anime.externalResources.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime.synonyms,anime.themes"
+                    },
+                    {
                         "name": "fields",
                         "in": "query",
                         "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
@@ -786,6 +886,16 @@
                             "type": "string"
                         },
                         "example": "stable staple"
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is themes, themes.anime & artists.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "themes,artists"
                     },
                     {
                         "name": "order",
@@ -861,6 +971,16 @@
                 "operationId": "getSong",
                 "parameters": [
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is themes, themes.anime & artists.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "themes,artists"
+                    },
+                    {
                         "name": "fields",
                         "in": "query",
                         "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
@@ -906,6 +1026,16 @@
                             "type": "string"
                         },
                         "example": "Monstory"
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime"
                     },
                     {
                         "name": "order",
@@ -981,6 +1111,16 @@
                 "operationId": "getSynonym",
                 "parameters": [
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime"
+                    },
+                    {
                         "name": "fields",
                         "in": "query",
                         "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
@@ -1026,6 +1166,16 @@
                             "type": "string"
                         },
                         "example": "bakemonogatari op1"
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime, entries, entries.videos, song & song.artists.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime,song"
                     },
                     {
                         "name": "type",
@@ -1131,6 +1281,16 @@
                 "operationId": "getTheme",
                 "parameters": [
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime, entries, entries.videos, song & song.artists.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "anime,song"
+                    },
+                    {
                         "name": "fields",
                         "in": "query",
                         "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
@@ -1176,6 +1336,16 @@
                             "type": "string"
                         },
                         "example": "bakemonogatari ED NC BD 1080"
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is entries, entries.theme & entries.theme.anime.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "entries"
                     },
                     {
                         "name": "resolution",
@@ -1321,6 +1491,16 @@
                 "operationId": "getVideo",
                 "parameters": [
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is entries, entries.theme & entries.theme.anime.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "entries"
+                    },
+                    {
                         "name": "fields",
                         "in": "query",
                         "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
@@ -1381,6 +1561,18 @@
                 "summary": "Get listing of Anime of year by season",
                 "description": "Returns listing of Anime of year by season",
                 "operationId": "getAnimeOfYearBySeason",
+                "parameters": [
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists & externalResources.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "synonyms,series"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful",

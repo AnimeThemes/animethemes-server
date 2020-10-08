@@ -9,20 +9,6 @@ use App\Models\Artist;
 class ArtistController extends BaseController
 {
     /**
-     * The array of eager relations.
-     *
-     * @var array
-     */
-    protected const EAGER_RELATIONS = [
-        'songs',
-        'songs.themes',
-        'songs.themes.anime',
-        'members',
-        'groups',
-        'externalResources'
-    ];
-
-    /**
      * Display a listing of the resource.
      *
      * @OA\Get(
@@ -35,6 +21,14 @@ class ArtistController extends BaseController
      *         description="The search query. Mapping is to artist.name and artist.songs.pivot.as.",
      *         example="Senjougahara",
      *         name="q",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups & externalResources.",
+     *         example="songs,members",
+     *         name="include",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -89,7 +83,7 @@ class ArtistController extends BaseController
         $artists = empty($search_query) ? Artist::query() : Artist::search($search_query);
 
         // eager load relations
-        $artists = $artists->with(static::EAGER_RELATIONS);
+        $artists = $artists->with($this->getIncludePaths());
 
         // order by
         $artists = $this->applyOrdering($artists);
@@ -110,6 +104,14 @@ class ArtistController extends BaseController
      *     tags={"Artist"},
      *     summary="Get properties of Artist",
      *     description="Returns properties of Artist",
+     *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups & externalResources.",
+     *         example="songs,members",
+     *         name="include",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Parameter(
      *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
      *         example="name,\*.alias",
@@ -134,7 +136,24 @@ class ArtistController extends BaseController
      */
     public function show(Artist $artist)
     {
-        $resource = new ArtistResource($artist->load(static::EAGER_RELATIONS));
+        $resource = new ArtistResource($artist->load($this->getIncludePaths()));
         return $resource->toResponse(request());
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedIncludePaths()
+    {
+        return [
+            'songs',
+            'songs.themes',
+            'songs.themes.anime',
+            'members',
+            'groups',
+            'externalResources'
+        ];
     }
 }

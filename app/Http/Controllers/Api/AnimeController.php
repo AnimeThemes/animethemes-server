@@ -16,22 +16,6 @@ class AnimeController extends BaseController
     protected const SEASON_QUERY = 'season';
 
     /**
-     * The array of eager relations.
-     *
-     * @var array
-     */
-    protected const EAGER_RELATIONS = [
-        'synonyms',
-        'series',
-        'themes',
-        'themes.entries',
-        'themes.entries.videos',
-        'themes.song',
-        'themes.song.artists',
-        'externalResources'
-    ];
-
-    /**
      * Display a listing of the resource.
      *
      * @OA\Get(
@@ -44,6 +28,14 @@ class AnimeController extends BaseController
      *         description="The search query. Mapping is to anime.name and anime.synonyms.text.",
      *         example="bakemonogatari",
      *         name="q",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists & externalResources.",
+     *         example="synonyms,series",
+     *         name="include",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -116,7 +108,7 @@ class AnimeController extends BaseController
         $anime = empty($search_query) ? Anime::query() : Anime::search($search_query);
 
         // eager load relations
-        $anime = $anime->with(static::EAGER_RELATIONS);
+        $anime = $anime->with($this->getIncludePaths());
 
         // apply filters
         if (!empty($year_query)) {
@@ -146,6 +138,14 @@ class AnimeController extends BaseController
      *     summary="Get properties of Anime",
      *     description="Returns properties of Anime",
      *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists & externalResources.",
+     *         example="synonyms,series",
+     *         name="include",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
      *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
      *         example="name,\*.link",
      *         name="fields",
@@ -169,7 +169,26 @@ class AnimeController extends BaseController
      */
     public function show(Anime $anime)
     {
-        $resource = new AnimeResource($anime->load(static::EAGER_RELATIONS));
+        $resource = new AnimeResource($anime->load($this->getIncludePaths()));
         return $resource->toResponse(request());
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedIncludePaths()
+    {
+        return [
+            'synonyms',
+            'series',
+            'themes',
+            'themes.entries',
+            'themes.entries.videos',
+            'themes.song',
+            'themes.song.artists',
+            'externalResources'
+        ];
     }
 }

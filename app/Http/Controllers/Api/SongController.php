@@ -9,17 +9,6 @@ use App\Models\Song;
 class SongController extends BaseController
 {
     /**
-     * The array of eager relations.
-     *
-     * @var array
-     */
-    protected const EAGER_RELATIONS = [
-        'themes',
-        'themes.anime',
-        'artists'
-    ];
-
-    /**
      * Display a listing of the resource.
      *
      * @OA\Get(
@@ -32,6 +21,14 @@ class SongController extends BaseController
      *         description="The search query. Mapping is to song.title.",
      *         example="stable staple",
      *         name="q",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is themes, themes.anime & artists.",
+     *         example="themes,artists",
+     *         name="include",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -86,7 +83,7 @@ class SongController extends BaseController
         $songs = empty($search_query) ? Song::query() : Song::search($search_query);
 
         // eager load relations
-        $songs = $songs->with(static::EAGER_RELATIONS);
+        $songs = $songs->with($this->getIncludePaths());
 
         // order by
         $songs = $this->applyOrdering($songs);
@@ -107,6 +104,14 @@ class SongController extends BaseController
      *     tags={"Song"},
      *     summary="Get properties of Song",
      *     description="Returns properties of Song",
+     *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is themes, themes.anime & artists.",
+     *         example="themes,artists",
+     *         name="include",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Parameter(
      *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
      *         example="title,\*.name",
@@ -131,7 +136,21 @@ class SongController extends BaseController
      */
     public function show(Song $song)
     {
-        $resource = new SongResource($song->load(static::EAGER_RELATIONS));
+        $resource = new SongResource($song->load($this->getIncludePaths()));
         return $resource->toResponse(request());
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedIncludePaths()
+    {
+        return [
+            'themes',
+            'themes.anime',
+            'artists'
+        ];
     }
 }

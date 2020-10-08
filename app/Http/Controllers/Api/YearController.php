@@ -15,22 +15,6 @@ class YearController extends BaseController
     protected const YEAR_QUERY = 'year';
 
     /**
-     * The array of eager relations.
-     *
-     * @var array
-     */
-    protected const EAGER_RELATIONS = [
-        'synonyms',
-        'series',
-        'themes',
-        'themes.entries',
-        'themes.entries.videos',
-        'themes.song',
-        'themes.song.artists',
-        'externalResources'
-    ];
-
-    /**
      * Display a listing of unique years of anime
      *
      * @OA\Get(
@@ -62,6 +46,14 @@ class YearController extends BaseController
      *     tags={"Anime"},
      *     summary="Get listing of Anime of year by season",
      *     description="Returns listing of Anime of year by season",
+     *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists & externalResources.",
+     *         example="synonyms,series",
+     *         name="include",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful",
@@ -74,11 +66,30 @@ class YearController extends BaseController
      */
     public function show($year) {
         return new JsonResponse((new AnimeCollection(Anime::where(static::YEAR_QUERY, $year)
-            ->with(static::EAGER_RELATIONS)
+            ->with($this->getIncludePaths())
             ->orderBy(static::NAME_QUERY)
             ->get()
         ))->groupBy(function ($item) {
             return Str::lower(Season::getDescription($item->season));
         }));
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedIncludePaths()
+    {
+        return [
+            'synonyms',
+            'series',
+            'themes',
+            'themes.entries',
+            'themes.entries.videos',
+            'themes.song',
+            'themes.song.artists',
+            'externalResources'
+        ];
     }
 }

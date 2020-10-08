@@ -9,15 +9,6 @@ use App\Models\Synonym;
 class SynonymController extends BaseController
 {
     /**
-     * The array of eager relations.
-     *
-     * @var array
-     */
-    protected const EAGER_RELATIONS = [
-        'anime',
-    ];
-
-    /**
      * Display a listing of the resource.
      *
      * @OA\Get(
@@ -30,6 +21,14 @@ class SynonymController extends BaseController
      *         description="The search query. Mapping is to synonym.text.",
      *         example="Monstory",
      *         name="q",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is anime.",
+     *         example="anime",
+     *         name="include",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -84,7 +83,7 @@ class SynonymController extends BaseController
         $synonyms = empty($search_query) ? Synonym::query() : Synonym::search($search_query);
 
         // eager load relations
-        $synonyms = $synonyms->with(static::EAGER_RELATIONS);
+        $synonyms = $synonyms->with($this->getIncludePaths());
 
         // order by
         $synonyms = $this->applyOrdering($synonyms);
@@ -105,6 +104,14 @@ class SynonymController extends BaseController
      *     tags={"Synonym"},
      *     summary="Get properties of Synonym",
      *     description="Returns properties of Synonym",
+     *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is anime.",
+     *         example="anime",
+     *         name="include",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Parameter(
      *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
      *         example="text,\*.name",
@@ -129,7 +136,19 @@ class SynonymController extends BaseController
      */
     public function show(Synonym $synonym)
     {
-        $resource = new SynonymResource($synonym->load(static::EAGER_RELATIONS));
+        $resource = new SynonymResource($synonym->load($this->getIncludePaths()));
         return $resource->toResponse(request());
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedIncludePaths()
+    {
+        return [
+            'anime'
+        ];
     }
 }

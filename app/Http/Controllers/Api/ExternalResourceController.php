@@ -14,16 +14,6 @@ class ExternalResourceController extends BaseController
     protected const TYPE_QUERY = 'type';
 
     /**
-     * The array of eager relations.
-     *
-     * @var array
-     */
-    protected const EAGER_RELATIONS = [
-        'anime',
-        'artists'
-    ];
-
-    /**
      * Display a listing of the resource.
      *
      * @OA\Get(
@@ -32,6 +22,14 @@ class ExternalResourceController extends BaseController
      *     tags={"Resource"},
      *     summary="Get paginated listing of Resources",
      *     description="Returns listing of Resources",
+     *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is anime & artists.",
+     *         example="anime",
+     *         name="include",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Parameter(
      *         description="Filter resources by type. Case-insensitive options are OFFICIAL_SITE, TWITTER, ANIDB, ANILIST, ANIME_PLANET, ANN, KITSU, MAL & WIKI.",
      *         example="MAL",
@@ -90,7 +88,7 @@ class ExternalResourceController extends BaseController
         $resources = ExternalResource::query();
 
         // eager load relations
-        $resources = $resources->with(static::EAGER_RELATIONS);
+        $resources = $resources->with($this->getIncludePaths());
 
         // apply filters
         if (!empty($type_query) && ResourceType::hasKey($type_query)) {
@@ -117,6 +115,14 @@ class ExternalResourceController extends BaseController
      *     summary="Get properties of Resource",
      *     description="Returns properties of Resource",
      *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is anime & artists.",
+     *         example="anime",
+     *         name="include",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
      *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
      *         example="link,\*.name",
      *         name="fields",
@@ -140,7 +146,20 @@ class ExternalResourceController extends BaseController
      */
     public function show(ExternalResource $resource)
     {
-        $resource = new ExternalResourceResource($resource->load(static::EAGER_RELATIONS));
+        $resource = new ExternalResourceResource($resource->load($this->getIncludePaths()));
         return $resource->toResponse(request());
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedIncludePaths()
+    {
+        return [
+            'anime',
+            'artists'
+        ];
     }
 }

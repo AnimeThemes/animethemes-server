@@ -9,22 +9,6 @@ use App\Models\Series;
 class SeriesController extends BaseController
 {
     /**
-     * The array of eager relations.
-     *
-     * @var array
-     */
-    protected const EAGER_RELATIONS = [
-        'anime',
-        'anime.synonyms',
-        'anime.themes',
-        'anime.themes.entries',
-        'anime.themes.entries.videos',
-        'anime.themes.song',
-        'anime.themes.song.artists',
-        'anime.externalResources'
-    ];
-
-    /**
      * Display a listing of the resource.
      *
      * @OA\Get(
@@ -37,6 +21,14 @@ class SeriesController extends BaseController
      *         description="The search query. Mapping is to series.name.",
      *         example="Monogatari",
      *         name="q",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists & anime.externalResources.",
+     *         example="anime.synonyms,anime.themes",
+     *         name="include",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -91,7 +83,7 @@ class SeriesController extends BaseController
         $series = empty($search_query) ? Series::query() : Series::search($search_query);
 
         // eager load relations
-        $series = $series->with(static::EAGER_RELATIONS);
+        $series = $series->with($this->getIncludePaths());
 
         // order by
         $series = $this->applyOrdering($series);
@@ -112,6 +104,14 @@ class SeriesController extends BaseController
      *     tags={"Series"},
      *     summary="Get properties of Series",
      *     description="Returns properties of Series",
+     *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists & anime.externalResources.",
+     *         example="anime.synonyms,anime.themes",
+     *         name="include",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Parameter(
      *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
      *         example="name,\*.alias",
@@ -136,7 +136,26 @@ class SeriesController extends BaseController
      */
     public function show(Series $series)
     {
-        $resource = new SeriesResource($series->load(static::EAGER_RELATIONS));
+        $resource = new SeriesResource($series->load($this->getIncludePaths()));
         return $resource->toResponse(request());
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedIncludePaths()
+    {
+        return [
+            'anime',
+            'anime.synonyms',
+            'anime.themes',
+            'anime.themes.entries',
+            'anime.themes.entries.videos',
+            'anime.themes.song',
+            'anime.themes.song.artists',
+            'anime.externalResources'
+        ];
     }
 }

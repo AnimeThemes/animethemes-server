@@ -14,17 +14,6 @@ class EntryController extends BaseController
     protected const SPOILER_QUERY = 'spoiler';
 
     /**
-     * The array of eager relations.
-     *
-     * @var array
-     */
-    protected const EAGER_RELATIONS = [
-        'anime',
-        'theme',
-        'videos'
-    ];
-
-    /**
      * Display a listing of the resource.
      *
      * @OA\Get(
@@ -37,6 +26,14 @@ class EntryController extends BaseController
      *         description="The search query. Mapping is to [entry.theme.anime.name|entry.theme.anime.synonyms.text + entry.theme.slug + entry.version] or entry.theme.song.title.",
      *         example="bakemonogatari ED",
      *         name="q",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is anime, themes & videos.",
+     *         example="anime,videos",
+     *         name="include",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -118,7 +115,7 @@ class EntryController extends BaseController
         $entries = empty($search_query) ? Entry::query() : Entry::search($search_query);
 
         // eager load relations
-        $entries = $entries->with(static::EAGER_RELATIONS);
+        $entries = $entries->with($this->getIncludePaths());
 
         // apply filters
         if (!empty($version_query)) {
@@ -151,6 +148,14 @@ class EntryController extends BaseController
      *     summary="Get properties of Entry",
      *     description="Returns properties of Entry",
      *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is anime, themes & videos.",
+     *         example="anime,videos",
+     *         name="include",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
      *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
      *         example="version,\*.link",
      *         name="fields",
@@ -174,7 +179,21 @@ class EntryController extends BaseController
      */
     public function show(Entry $entry)
     {
-        $resource = new EntryResource($entry->load(static::EAGER_RELATIONS));
+        $resource = new EntryResource($entry->load($this->getIncludePaths()));
         return $resource->toResponse(request());
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedIncludePaths()
+    {
+        return [
+            'anime',
+            'theme',
+            'videos'
+        ];
     }
 }

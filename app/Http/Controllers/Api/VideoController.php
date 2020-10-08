@@ -21,17 +21,6 @@ class VideoController extends BaseController
     protected const OVERLAP_QUERY = 'overlap';
 
     /**
-     * The array of eager relations.
-     *
-     * @var array
-     */
-    protected const EAGER_RELATIONS = [
-        'entries',
-        'entries.theme',
-        'entries.theme.anime'
-    ];
-
-    /**
      * Display a listing of the resource.
      *
      * @OA\Get(
@@ -44,6 +33,14 @@ class VideoController extends BaseController
      *         description="The search query. Mapping is to video.filename or video.tags[] or [video.entries.theme.anime.name|video.entries.theme.anime.synonyms.text + video.entries.theme.slug + video.entries.version] or video.entries.theme.song.title.",
      *         example="bakemonogatari ED NC BD 1080",
      *         name="q",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is entries, entries.theme & entries.theme.anime.",
+     *         example="entries",
+     *         name="include",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -161,7 +158,7 @@ class VideoController extends BaseController
         $videos = empty($search_query) ? Video::query() : Video::search($search_query);
 
         // eager load relations
-        $videos = $videos->with(static::EAGER_RELATIONS);
+        $videos = $videos->with($this->getIncludePaths());
 
         // apply filters
         if (!empty($resolution_query)) {
@@ -206,6 +203,14 @@ class VideoController extends BaseController
      *     summary="Get properties of Video",
      *     description="Returns properties of Video",
      *     @OA\Parameter(
+     *         description="Comma-separated list of included related resources. Allowed list is entries, entries.theme & entries.theme.anime.",
+     *         example="entries",
+     *         name="include",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
      *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
      *         example="link,\*.alias",
      *         name="fields",
@@ -229,7 +234,21 @@ class VideoController extends BaseController
      */
     public function show(Video $video)
     {
-        $resource = new VideoResource($video->load(static::EAGER_RELATIONS));
+        $resource = new VideoResource($video->load($this->getIncludePaths()));
         return $resource->toResponse(request());
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedIncludePaths()
+    {
+        return [
+            'entries',
+            'entries.theme',
+            'entries.theme.anime'
+        ];
     }
 }
