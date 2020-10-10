@@ -88,12 +88,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "anime.\\*.name,\\*.link"
+                        "example": "fields[anime]=name,alias"
                     }
                 ],
                 "responses": {
@@ -141,12 +141,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "name,\\*.link"
+                        "example": "fields[anime]=name,alias"
                     }
                 ],
                 "responses": {
@@ -228,12 +228,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "artists.\\*.name,\\*.alias"
+                        "example": "fields[artist]=name,alias"
                     }
                 ],
                 "responses": {
@@ -281,12 +281,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "name,\\*.alias"
+                        "example": "fields[artist]=name,alias"
                     }
                 ],
                 "responses": {
@@ -510,12 +510,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "entries.\\*.version,\\*.link"
+                        "example": "fields[entry]=version"
                     }
                 ],
                 "responses": {
@@ -563,12 +563,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "version,\\*.link"
+                        "example": "fields[entry]=version"
                     }
                 ],
                 "responses": {
@@ -650,12 +650,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "resources.\\*.link,\\*.name"
+                        "example": "fields[entry]=link,external_id"
                     }
                 ],
                 "responses": {
@@ -703,12 +703,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "link,\\*.name"
+                        "example": "fields[entry]=link,external_id"
                     }
                 ],
                 "responses": {
@@ -790,12 +790,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "series.\\*.name,\\*.alias"
+                        "example": "fields[series]=name,alias"
                     }
                 ],
                 "responses": {
@@ -843,12 +843,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "name,\\*.alias"
+                        "example": "fields[series]=name,alias"
                     }
                 ],
                 "responses": {
@@ -930,12 +930,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "songs.\\*.title,\\*.name"
+                        "example": "fields[song]=title"
                     }
                 ],
                 "responses": {
@@ -983,12 +983,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "title,\\*.name"
+                        "example": "fields[song]=title"
                     }
                 ],
                 "responses": {
@@ -1070,12 +1070,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "synonyms.\\*.text,\\*.name"
+                        "example": "fields[synonym]=text"
                     }
                 ],
                 "responses": {
@@ -1123,12 +1123,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "text,\\*.name"
+                        "example": "fields[synonym]=text"
                     }
                 ],
                 "responses": {
@@ -1240,12 +1240,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "themes.\\*.sequence,\\*.link"
+                        "example": "fields[theme]=slug"
                     }
                 ],
                 "responses": {
@@ -1293,12 +1293,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "sequence,\\*.link"
+                        "example": "fields[theme]=slug"
                     }
                 ],
                 "responses": {
@@ -1450,12 +1450,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "videos.\\*.link,\\*.alias"
+                        "example": "fields[video]=basename,link"
                     }
                 ],
                 "responses": {
@@ -1503,12 +1503,12 @@
                     {
                         "name": "fields",
                         "in": "query",
-                        "description": "The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
+                        "description": "The comma-separated list of fields by resource type",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "link,\\*.alias"
+                        "example": "fields[video]=basename,link"
                     }
                 ],
                 "responses": {

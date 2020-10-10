@@ -58,8 +58,8 @@ class SongController extends BaseController
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="songs.\*.title,\*.name",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[song]=title",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -91,7 +91,7 @@ class SongController extends BaseController
         // paginate
         $songs = $songs->paginate($this->getPerPageLimit());
 
-        $collection = new SongCollection($songs);
+        $collection = new SongCollection($songs, $this->getFieldSets());
         return $collection->toResponse(request());
     }
 
@@ -113,8 +113,8 @@ class SongController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="title,\*.name",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[song]=title",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -136,7 +136,7 @@ class SongController extends BaseController
      */
     public function show(Song $song)
     {
-        $resource = new SongResource($song->load($this->getIncludePaths()));
+        $resource = new SongResource($song->load($this->getIncludePaths()), $this->getFieldSets());
         return $resource->toResponse(request());
     }
 

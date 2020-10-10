@@ -58,8 +58,8 @@ class SynonymController extends BaseController
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="synonyms.\*.text,\*.name",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[synonym]=text",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -91,7 +91,7 @@ class SynonymController extends BaseController
         // paginate
         $synonyms = $synonyms->paginate($this->getPerPageLimit());
 
-        $collection = new SynonymCollection($synonyms);
+        $collection = new SynonymCollection($synonyms, $this->getFieldSets());
         return $collection->toResponse(request());
     }
 
@@ -113,8 +113,8 @@ class SynonymController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="text,\*.name",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[synonym]=text",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -136,7 +136,7 @@ class SynonymController extends BaseController
      */
     public function show(Synonym $synonym)
     {
-        $resource = new SynonymResource($synonym->load($this->getIncludePaths()));
+        $resource = new SynonymResource($synonym->load($this->getIncludePaths()), $this->getFieldSets());
         return $resource->toResponse(request());
     }
 

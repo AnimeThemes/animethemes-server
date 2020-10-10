@@ -126,8 +126,8 @@ class VideoController extends BaseController
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="videos.\*.link,\*.alias",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[video]=basename,link",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -189,7 +189,7 @@ class VideoController extends BaseController
         // paginate
         $videos = $videos->paginate($this->getPerPageLimit());
 
-        $collection = new VideoCollection($videos);
+        $collection = new VideoCollection($videos, $this->getFieldSets());
         return $collection->toResponse(request());
     }
 
@@ -211,8 +211,8 @@ class VideoController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="link,\*.alias",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[video]=basename,link",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -234,7 +234,7 @@ class VideoController extends BaseController
      */
     public function show(Video $video)
     {
-        $resource = new VideoResource($video->load($this->getIncludePaths()));
+        $resource = new VideoResource($video->load($this->getIncludePaths()), $this->getFieldSets());
         return $resource->toResponse(request());
     }
 

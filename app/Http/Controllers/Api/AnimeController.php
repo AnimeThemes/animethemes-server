@@ -81,8 +81,8 @@ class AnimeController extends BaseController
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="anime.\*.name,\*.link",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[anime]=name,alias",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -124,7 +124,7 @@ class AnimeController extends BaseController
         // paginate
         $anime = $anime->paginate($this->getPerPageLimit());
 
-        $collection = new AnimeCollection($anime);
+        $collection = new AnimeCollection($anime, $this->getFieldSets());
         return $collection->toResponse(request());
     }
 
@@ -146,8 +146,8 @@ class AnimeController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="name,\*.link",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[anime]=name,alias",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -169,7 +169,7 @@ class AnimeController extends BaseController
      */
     public function show(Anime $anime)
     {
-        $resource = new AnimeResource($anime->load($this->getIncludePaths()));
+        $resource = new AnimeResource($anime->load($this->getIncludePaths()), $this->getFieldSets());
         return $resource->toResponse(request());
     }
 

@@ -31,7 +31,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class ExternalResourceResource extends BaseResource
 {
-
     use HasLinks;
 
     /**
@@ -42,6 +41,13 @@ class ExternalResourceResource extends BaseResource
     public static $wrap = null;
 
     /**
+     * The name of the resource in the field set mapping
+     *
+     * @var string
+     */
+    protected static $resourceType = 'resource';
+
+    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -50,20 +56,20 @@ class ExternalResourceResource extends BaseResource
     public function toArray($request)
     {
         return [
-            'id' => $this->resource_id,
-            'link' => $this->link,
-            'external_id' => is_null($this->external_id) ? '' : $this->external_id,
-            'type' => strval(optional($this->type)->description),
-            'as' => $this->whenPivotLoaded('anime_resource', function () {
+            'id' => $this->when($this->isAllowedField('id'), $this->resource_id),
+            'link' => $this->when($this->isAllowedField('link'), $this->link),
+            'external_id' => $this->when($this->isAllowedField('external_id'), is_null($this->external_id) ? '' : $this->external_id),
+            'type' => $this->when($this->isAllowedField('type'), strval(optional($this->type)->description)),
+            'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('anime_resource', function () {
                 return strval($this->pivot->as);
             }, $this->whenPivotLoaded('artist_resource', function () {
                 return strval($this->pivot->as);
-            })),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'artists' => ArtistResource::collection($this->whenLoaded('artists')),
-            'anime' => AnimeResource::collection($this->whenLoaded('anime')),
-            'links' => $this->links(ExternalResourceController::class)
+            }))),
+            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
+            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
+            'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->fieldSets),
+            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->fieldSets),
+            'links' => $this->when($this->isAllowedField('links'), $this->links(ExternalResourceController::class))
         ];
     }
 }

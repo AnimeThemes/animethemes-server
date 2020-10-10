@@ -58,8 +58,8 @@ class ArtistController extends BaseController
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="artists.\*.name,\*.alias",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[artist]=name,alias",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -91,7 +91,7 @@ class ArtistController extends BaseController
         // paginate
         $artists = $artists->paginate($this->getPerPageLimit());
 
-        $collection = new ArtistCollection($artists);
+        $collection = new ArtistCollection($artists, $this->getFieldSets());
         return $collection->toResponse(request());
     }
 
@@ -113,8 +113,8 @@ class ArtistController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="name,\*.alias",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[artist]=name,alias",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -136,7 +136,7 @@ class ArtistController extends BaseController
      */
     public function show(Artist $artist)
     {
-        $resource = new ArtistResource($artist->load($this->getIncludePaths()));
+        $resource = new ArtistResource($artist->load($this->getIncludePaths()), $this->getFieldSets());
         return $resource->toResponse(request());
     }
 

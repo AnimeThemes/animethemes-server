@@ -44,7 +44,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class SongResource extends BaseResource
 {
-
     use HasLinks;
 
     /**
@@ -55,6 +54,13 @@ class SongResource extends BaseResource
     public static $wrap = null;
 
     /**
+     * The name of the resource in the field set mapping
+     *
+     * @var string
+     */
+    protected static $resourceType = 'song';
+
+    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -63,16 +69,16 @@ class SongResource extends BaseResource
     public function toArray($request)
     {
         return [
-            'id' => $this->song_id,
-            'title' => strval($this->title),
-            'as' => $this->whenPivotLoaded('artist_song', function () {
+            'id' => $this->when($this->isAllowedField('id'), $this->song_id),
+            'title' => $this->when($this->isAllowedField('title'), strval($this->title)),
+            'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('artist_song', function () {
                 return strval($this->pivot->as);
-            }),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'themes' => ThemeResource::collection($this->whenLoaded('themes')),
-            'artists' => ArtistResource::collection($this->whenLoaded('artists')),
-            'links' => $this->links(SongController::class)
+            })),
+            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
+            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
+            'themes' => ThemeCollection::make($this->whenLoaded('themes'), $this->fieldSets),
+            'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->fieldSets),
+            'links' => $this->when($this->isAllowedField('links'), $this->links(SongController::class))
         ];
     }
 }

@@ -89,8 +89,8 @@ class ThemeController extends BaseController
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="themes.\*.sequence,\*.link",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[theme]=slug",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -136,7 +136,7 @@ class ThemeController extends BaseController
         // paginate
         $themes = $themes->paginate($this->getPerPageLimit());
 
-        $collection = new ThemeCollection($themes);
+        $collection = new ThemeCollection($themes, $this->getFieldSets());
         return $collection->toResponse(request());
     }
 
@@ -158,8 +158,8 @@ class ThemeController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="sequence,\*.link",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[theme]=slug",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -181,7 +181,7 @@ class ThemeController extends BaseController
      */
     public function show(Theme $theme)
     {
-        $resource = new ThemeResource($theme->load($this->getIncludePaths()));
+        $resource = new ThemeResource($theme->load($this->getIncludePaths()), $this->getFieldSets());
         return $resource->toResponse(request());
     }
 

@@ -71,7 +71,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class ThemeResource extends BaseResource
 {
-
     use HasLinks;
 
     /**
@@ -82,6 +81,13 @@ class ThemeResource extends BaseResource
     public static $wrap = null;
 
     /**
+     * The name of the resource in the field set mapping
+     *
+     * @var string
+     */
+    protected static $resourceType = 'theme';
+
+    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -90,17 +96,17 @@ class ThemeResource extends BaseResource
     public function toArray($request)
     {
         return [
-            'id' => $this->theme_id,
-            'type' => strval(optional($this->type)->description),
-            'sequence' => is_null($this->sequence) ? '' : $this->sequence,
-            'group' => strval($this->group),
-            'slug' => strval($this->slug),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'anime' => AnimeResource::make($this->whenLoaded('anime')),
-            'song' => SongResource::make($this->whenLoaded('song')),
-            'entries' => EntryResource::collection($this->whenLoaded('entries')),
-            'links' => $this->links(ThemeController::class)
+            'id' => $this->when($this->isAllowedField('id'), $this->theme_id),
+            'type' => $this->when($this->isAllowedField('type'), strval(optional($this->type)->description)),
+            'sequence' => $this->when($this->isAllowedField('sequence'), is_null($this->sequence) ? '' : $this->sequence),
+            'group' => $this->when($this->isAllowedField('group'), strval($this->group)),
+            'slug' => $this->when($this->isAllowedField('slug'), strval($this->slug)),
+            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
+            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
+            'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->fieldSets),
+            'song' => SongResource::make($this->whenLoaded('song'), $this->fieldSets),
+            'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->fieldSets),
+            'links' => $this->when($this->isAllowedField('links'), $this->links(ThemeController::class))
         ];
     }
 }

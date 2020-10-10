@@ -91,7 +91,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class SeriesResource extends BaseResource
 {
-
     use HasLinks;
 
     /**
@@ -102,6 +101,13 @@ class SeriesResource extends BaseResource
     public static $wrap = null;
 
     /**
+     * The name of the resource in the field set mapping
+     *
+     * @var string
+     */
+    protected static $resourceType = 'series';
+
+    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -110,13 +116,13 @@ class SeriesResource extends BaseResource
     public function toArray($request)
     {
         return [
-            'id' => $this->series_id,
-            'name' => $this->name,
-            'alias' => $this->alias,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'anime' => AnimeResource::collection($this->whenLoaded('anime')),
-            'links' => $this->links(SeriesController::class)
+            'id' => $this->when($this->isAllowedField('id'), $this->series_id),
+            'name' => $this->when($this->isAllowedField('name'), $this->name),
+            'alias' => $this->when($this->isAllowedField('alias'), $this->alias),
+            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
+            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
+            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->fieldSets),
+            'links' => $this->when($this->isAllowedField('links'), $this->links(SeriesController::class))
         ];
     }
 }

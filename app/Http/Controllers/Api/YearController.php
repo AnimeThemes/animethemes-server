@@ -66,12 +66,15 @@ class YearController extends BaseController
      */
     public function show($year) {
         return new JsonResponse((new AnimeCollection(Anime::where(static::YEAR_QUERY, $year)
-            ->with($this->getIncludePaths())
-            ->orderBy(static::NAME_QUERY)
-            ->get()
-        ))->groupBy(function ($item) {
-            return Str::lower(Season::getDescription($item->season));
-        }));
+                ->with($this->getIncludePaths())
+                ->orderBy(static::NAME_QUERY)
+                ->get(),
+                $this->getFieldSets()
+                )
+            )->groupBy(function ($item) {
+                return Str::lower(Season::getDescription($item->season));
+            })
+        );
     }
 
     /**

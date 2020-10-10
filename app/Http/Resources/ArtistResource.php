@@ -55,7 +55,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class ArtistResource extends BaseResource
 {
-
     use HasLinks;
 
     /**
@@ -66,6 +65,13 @@ class ArtistResource extends BaseResource
     public static $wrap = null;
 
     /**
+     * The name of the resource in the field set mapping
+     *
+     * @var string
+     */
+    protected static $resourceType = 'artist';
+
+    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -74,23 +80,23 @@ class ArtistResource extends BaseResource
     public function toArray($request)
     {
         return [
-            'id' => $this->artist_id,
-            'name' => $this->name,
-            'alias' => $this->alias,
-            'as' => $this->whenPivotLoaded('artist_song', function () {
+            'id' => $this->when($this->isAllowedField('id'), $this->artist_id),
+            'name' => $this->when($this->isAllowedField('name'), $this->name),
+            'alias' => $this->when($this->isAllowedField('alias'), $this->alias),
+            'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('artist_song', function () {
                 return strval($this->pivot->as);
             }, $this->whenPivotLoaded('artist_member', function () {
                 return strval($this->pivot->as);
             }, $this->whenPivotLoaded('artist_resource', function () {
                 return strval($this->pivot->as);
-            }))),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'songs' => SongResource::collection($this->whenLoaded('songs')),
-            'members' => ArtistResource::collection($this->whenLoaded('members')),
-            'groups' => ArtistResource::collection($this->whenLoaded('groups')),
-            'resources' => ExternalResourceResource::collection($this->whenLoaded('externalResources')),
-            'links' => $this->links(ArtistController::class)
+            })))),
+            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
+            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
+            'songs' => SongCollection::make($this->whenLoaded('songs'), $this->fieldSets),
+            'members' => ArtistCollection::make($this->whenLoaded('members'), $this->fieldSets),
+            'groups' => ArtistCollection::make($this->whenLoaded('groups'), $this->fieldSets),
+            'resources' => ExternalResourceCollection::make($this->whenLoaded('externalResources'), $this->fieldSets),
+            'links' => $this->when($this->isAllowedField('links'), $this->links(ArtistController::class))
         ];
     }
 }

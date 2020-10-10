@@ -87,8 +87,8 @@ class EntryController extends BaseController
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="entries.\*.version,\*.link",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[entry]=version",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -134,7 +134,7 @@ class EntryController extends BaseController
         // paginate
         $entries = $entries->paginate($this->getPerPageLimit());
 
-        $collection = new EntryCollection($entries);
+        $collection = new EntryCollection($entries, $this->getFieldSets());
         return $collection->toResponse(request());
     }
 
@@ -156,8 +156,8 @@ class EntryController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="version,\*.link",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[entry]=version",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -179,7 +179,7 @@ class EntryController extends BaseController
      */
     public function show(Entry $entry)
     {
-        $resource = new EntryResource($entry->load($this->getIncludePaths()));
+        $resource = new EntryResource($entry->load($this->getIncludePaths()), $this->getFieldSets());
         return $resource->toResponse(request());
     }
 

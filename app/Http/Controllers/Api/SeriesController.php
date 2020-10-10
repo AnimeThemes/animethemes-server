@@ -58,8 +58,8 @@ class SeriesController extends BaseController
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="series.\*.name,\*.alias",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[series]=name,alias",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -91,7 +91,7 @@ class SeriesController extends BaseController
         // paginate
         $series = $series->paginate($this->getPerPageLimit());
 
-        $collection = new SeriesCollection($series);
+        $collection = new SeriesCollection($series, $this->getFieldSets());
         return $collection->toResponse(request());
     }
 
@@ -113,8 +113,8 @@ class SeriesController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="name,\*.alias",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[series]=name,alias",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -136,7 +136,7 @@ class SeriesController extends BaseController
      */
     public function show(Series $series)
     {
-        $resource = new SeriesResource($series->load($this->getIncludePaths()));
+        $resource = new SeriesResource($series->load($this->getIncludePaths()), $this->getFieldSets());
         return $resource->toResponse(request());
     }
 

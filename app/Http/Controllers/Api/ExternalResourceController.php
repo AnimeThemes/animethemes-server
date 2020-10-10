@@ -63,8 +63,8 @@ class ExternalResourceController extends BaseController
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="resources.\*.link,\*.name",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[entry]=link,external_id",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -101,7 +101,7 @@ class ExternalResourceController extends BaseController
         // paginate
         $resources = $resources->paginate($this->getPerPageLimit());
 
-        $collection = new ExternalResourceCollection($resources);
+        $collection = new ExternalResourceCollection($resources, $this->getFieldSets());
         return $collection->toResponse(request());
     }
 
@@ -123,8 +123,8 @@ class ExternalResourceController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The comma-separated list of fields to include by dot notation. Wildcards are supported. If unset, all fields are included.",
-     *         example="link,\*.name",
+     *         description="The comma-separated list of fields by resource type",
+     *         example="fields[entry]=link,external_id",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -146,7 +146,7 @@ class ExternalResourceController extends BaseController
      */
     public function show(ExternalResource $resource)
     {
-        $resource = new ExternalResourceResource($resource->load($this->getIncludePaths()));
+        $resource = new ExternalResourceResource($resource->load($this->getIncludePaths()), $this->getFieldSets());
         return $resource->toResponse(request());
     }
 

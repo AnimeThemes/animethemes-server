@@ -11,6 +11,7 @@ use App\Http\Resources\SongCollection;
 use App\Http\Resources\SynonymCollection;
 use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\VideoCollection;
+use App\JsonApi\FieldSetFilter;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Entry;
@@ -162,28 +163,36 @@ class BaseController extends Controller
         return new JsonResponse([
             AnimeCollection::$wrap => new AnimeCollection(static::excludeResource($search_query, $fields, ArtistCollection::$wrap) ? [] : Anime::search($search_query)
                 ->with(AnimeController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get()),
+                ->take($this->getPerPageLimit(5))->get(),
+                $this->getFieldSets()),
             ArtistCollection::$wrap => new ArtistCollection(static::excludeResource($search_query, $fields, ArtistCollection::$wrap) ? [] : Artist::search($search_query)
                 ->with(ArtistController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get()),
+                ->take($this->getPerPageLimit(5))->get(),
+                $this->getFieldSets()),
             EntryCollection::$wrap => new EntryCollection(static::excludeResource($search_query, $fields, EntryCollection::$wrap) ? [] : Entry::search($search_query)
                 ->with(EntryController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get()),
+                ->take($this->getPerPageLimit(5))->get(),
+                $this->getFieldSets()),
             SeriesCollection::$wrap => new SeriesCollection(static::excludeResource($search_query, $fields, SeriesCollection::$wrap) ? [] : Series::search($search_query)
                 ->with(SeriesController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get()),
+                ->take($this->getPerPageLimit(5))->get(),
+                $this->getFieldSets()),
             SongCollection::$wrap => new SongCollection(static::excludeResource($search_query, $fields, SongCollection::$wrap) ? [] : Song::search($search_query)
                 ->with(SongController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get()),
+                ->take($this->getPerPageLimit(5))->get(),
+                $this->getFieldSets()),
             SynonymCollection::$wrap => new SynonymCollection(static::excludeResource($search_query, $fields, SynonymCollection::$wrap) ? [] : Synonym::search($search_query)
                 ->with(SynonymController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get()),
+                ->take($this->getPerPageLimit(5))->get(),
+                $this->getFieldSets()),
             ThemeCollection::$wrap => new ThemeCollection(static::excludeResource($search_query, $fields, ThemeCollection::$wrap) ? [] : Theme::search($search_query)
                 ->with(ThemeController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get()),
+                ->take($this->getPerPageLimit(5))->get(),
+                $this->getFieldSets()),
             VideoCollection::$wrap => new VideoCollection(static::excludeResource($search_query, $fields, VideoCollection::$wrap) ? [] : Video::search($search_query)
                 ->with(VideoController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get())
+                ->take($this->getPerPageLimit(5))->get(),
+                $this->getFieldSets())
         ]);
     }
 
@@ -272,5 +281,15 @@ class BaseController extends Controller
 
         // Return list of include paths that are contained in the list of allowed include paths
         return $validIncludePaths;
+    }
+
+    /**
+     * Get sparse field set filter that will be used by resources for this request
+     *
+     * @return \App\JsonApi\FieldSetFilter
+     */
+    protected function getFieldSets()
+    {
+        return new FieldSetFilter(iterator_to_array($this->parser->getFields()));
     }
 }

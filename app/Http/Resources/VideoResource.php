@@ -56,7 +56,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class VideoResource extends BaseResource
 {
-
     use HasLinks;
 
     /**
@@ -67,6 +66,13 @@ class VideoResource extends BaseResource
     public static $wrap = null;
 
     /**
+     * The name of the resource in the field set mapping
+     *
+     * @var string
+     */
+    protected static $resourceType = 'video';
+
+    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -75,22 +81,22 @@ class VideoResource extends BaseResource
     public function toArray($request)
     {
         return [
-            'id' => $this->video_id,
-            'basename' => $this->basename,
-            'filename' => $this->filename,
-            'path' => $this->path,
-            'resolution' => $this->resolution,
-            'nc' => $this->nc,
-            'subbed' => $this->subbed,
-            'lyrics' => $this->lyrics,
-            'uncen' => $this->uncen,
-            'source' => strval(optional($this->source)->description),
-            'overlap' => strval(optional($this->overlap)->description),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'link' => route('video.show', $this),
-            'entries' => EntryResource::collection($this->whenLoaded('entries')),
-            'links' => $this->links(VideoController::class)
+            'id' => $this->when($this->isAllowedField('id'), $this->video_id),
+            'basename' => $this->when($this->isAllowedField('basename'), $this->basename),
+            'filename' => $this->when($this->isAllowedField('filename'), $this->filename),
+            'path' => $this->when($this->isAllowedField('path'), $this->path),
+            'resolution' => $this->when($this->isAllowedField('resolution'), $this->resolution),
+            'nc' => $this->when($this->isAllowedField('nc'), $this->nc),
+            'subbed' => $this->when($this->isAllowedField('subbed'), $this->subbed),
+            'lyrics' => $this->when($this->isAllowedField('lyrics'), $this->lyrics),
+            'uncen' => $this->when($this->isAllowedField('uncen'), $this->uncen),
+            'source' => $this->when($this->isAllowedField('source'), strval(optional($this->source)->description)),
+            'overlap' => $this->when($this->isAllowedField('overlap'), strval(optional($this->overlap)->description)),
+            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
+            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
+            'link' => $this->when($this->isAllowedField('link'), route('video.show', $this)),
+            'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->fieldSets),
+            'links' => $this->when($this->isAllowedField('links'), $this->links(VideoController::class))
         ];
     }
 }

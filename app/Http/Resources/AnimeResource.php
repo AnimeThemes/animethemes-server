@@ -92,7 +92,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class AnimeResource extends BaseResource
 {
-
     use HasLinks;
 
     /**
@@ -103,6 +102,13 @@ class AnimeResource extends BaseResource
     public static $wrap = null;
 
     /**
+     * The name of the resource in the field set mapping
+     *
+     * @var string
+     */
+    protected static $resourceType = 'anime';
+
+    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -111,21 +117,21 @@ class AnimeResource extends BaseResource
     public function toArray($request)
     {
         return [
-            'id' => $this->anime_id,
-            'name' => $this->name,
-            'alias' => $this->alias,
-            'year' => $this->year,
-            'season' => strval(optional($this->season)->description),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'synonyms' => SynonymResource::collection($this->whenLoaded('synonyms')),
-            'themes' => ThemeResource::collection($this->whenLoaded('themes')),
-            'series' => SeriesResource::collection($this->whenLoaded('series')),
-            'resources' => ExternalResourceResource::collection($this->whenLoaded('externalResources')),
-            'as' => $this->whenPivotLoaded('anime_resource', function () {
+            'id' => $this->when($this->isAllowedField('id'), $this->anime_id),
+            'name' => $this->when($this->isAllowedField('name'), $this->name),
+            'alias' => $this->when($this->isAllowedField('alias'), $this->alias),
+            'year' => $this->when($this->isAllowedField('year'), $this->year),
+            'season' => $this->when($this->isAllowedField('season'), strval(optional($this->season)->description)),
+            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
+            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
+            'synonyms' => SynonymCollection::make($this->whenLoaded('synonyms'), $this->fieldSets),
+            'themes' => ThemeCollection::make($this->whenLoaded('themes'), $this->fieldSets),
+            'series' => SeriesCollection::make($this->whenLoaded('series'), $this->fieldSets),
+            'resources' => ExternalResourceCollection::make($this->whenLoaded('externalResources'), $this->fieldSets),
+            'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('anime_resource', function () {
                 return strval($this->pivot->as);
-            }),
-            'links' => $this->links(AnimeController::class)
+            })),
+            'links' => $this->when($this->isAllowedField('links'), $this->links(AnimeController::class))
         ];
     }
 }

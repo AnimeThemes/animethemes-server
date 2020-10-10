@@ -56,7 +56,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class EntryResource extends BaseResource
 {
-
     use HasLinks;
 
     /**
@@ -67,6 +66,13 @@ class EntryResource extends BaseResource
     public static $wrap = null;
 
     /**
+     * The name of the resource in the field set mapping
+     *
+     * @var string
+     */
+    protected static $resourceType = 'entry';
+
+    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -75,18 +81,18 @@ class EntryResource extends BaseResource
     public function toArray($request)
     {
         return [
-            'id' => $this->entry_id,
-            'version' => is_null($this->version) ? '' : $this->version,
-            'episodes' => strval($this->episodes),
-            'nsfw' => $this->nsfw,
-            'spoiler' => $this->spoiler,
-            'notes' => strval($this->notes),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'anime' => AnimeResource::make($this->whenLoaded('anime')),
-            'theme' => ThemeResource::make($this->whenLoaded('theme')),
-            'videos' => VideoResource::collection($this->whenLoaded('videos')),
-            'links' => $this->links(EntryController::class)
+            'id' => $this->when($this->isAllowedField('id'), $this->entry_id),
+            'version' => $this->when($this->isAllowedField('version'), is_null($this->version) ? '' : $this->version),
+            'episodes' => $this->when($this->isAllowedField('episodes'), $this->episodes),
+            'nsfw' => $this->when($this->isAllowedField('nsfw'), $this->nsfw),
+            'spoiler' => $this->when($this->isAllowedField('spoiler'), $this->spoiler),
+            'notes' => $this->when($this->isAllowedField('notes'), $this->notes),
+            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
+            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
+            'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->fieldSets),
+            'theme' => ThemeResource::make($this->whenLoaded('theme'), $this->fieldSets),
+            'videos' => VideoCollection::make($this->whenLoaded('videos'), $this->fieldSets),
+            'links' => $this->when($this->isAllowedField('links'), $this->links(EntryController::class))
         ];
     }
 }
