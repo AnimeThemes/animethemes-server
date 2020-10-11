@@ -2,6 +2,9 @@
 <a href="https://github.com/paranarimasu/AnimeThemes/actions"><img src="https://github.com/paranarimasu/AnimeThemes/workflows/tests/badge.svg?branch=wiki" alt="tests"></a>
 <a href="https://github.styleci.io/repos/111264405?branch=wiki"><img src="https://github.styleci.io/repos/111264405/shield?branch=wiki" alt="StyleCI"></a>
 <a href="https://discordapp.com/invite/m9zbVyQ"><img src="https://img.shields.io/discord/354388306580078594.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2"></a>
+<a href="#"><img src="https://img.shields.io/github/languages/code-size/paranarimasu/AnimeThemes"></a>
+<a href="https://github.com/paranarimasu/AnimeThemes/blob/wiki/LICENSE"><img src="https://img.shields.io/github/license/paranarimasu/AnimeThemes"></a>
+<a href="https://reddit.com/r/AnimeThemes"><img src="https://img.shields.io/reddit/subreddit-subscribers/AnimeThemes?style=social"></a>
 </p>
 
 [**AnimeThemes.moe**](https://animethemes.moe/) is a hosting solution for [**/r/AnimeThemes**](https://www.reddit.com/r/AnimeThemes/), a simple and consistent repository of anime opening and ending themes.
