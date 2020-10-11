@@ -50,7 +50,7 @@ class Invitation extends Model implements Auditable
     /**
      * @return bool
      */
-    public function isOpen() : bool
+    public function isOpen()
     {
         return $this->status->is(InvitationStatus::OPEN);
     }
@@ -58,7 +58,7 @@ class Invitation extends Model implements Auditable
     /**
      * @return string
      */
-    public static function createToken() : string
+    public static function createToken()
     {
         return Base32::encodeUpper(random_bytes(rand(20, 100)));
     }

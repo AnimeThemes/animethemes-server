@@ -7,7 +7,12 @@ use Illuminate\Support\Facades\Storage;
 
 class GrillFactory
 {
-    public static function getGrill() : Grill
+    /**
+     * Get random grill from storage
+     *
+     * @return Grill
+     */
+    public static function getGrill()
     {
         // Get grills through Storage Facade [see config/filesystems.php]
         $grill_disk = Storage::disk('grill');

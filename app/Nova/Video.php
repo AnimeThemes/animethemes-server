@@ -145,7 +145,10 @@ class Video extends Resource
         ];
     }
 
-    protected function videoProperties() : array
+    /**
+     * @return array
+     */
+    protected function videoProperties()
     {
         return [
             Text::make(__('nova.basename'), 'basename')
@@ -162,7 +165,10 @@ class Video extends Resource
         ];
     }
 
-    protected function timestamps() : array
+    /**
+     * @return array
+     */
+    protected function timestamps()
     {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')

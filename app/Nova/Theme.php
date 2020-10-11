@@ -125,7 +125,10 @@ class Theme extends Resource
         ];
     }
 
-    protected function timestamps() : array
+    /**
+     * @return array
+     */
+    protected function timestamps()
     {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')

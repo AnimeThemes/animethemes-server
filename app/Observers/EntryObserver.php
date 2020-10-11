@@ -45,7 +45,7 @@ class EntryObserver
      * @param  \App\Models\Entry  $entry
      * @return void
      */
-    private function updateRelatedScoutIndices(Entry $entry) : void
+    private function updateRelatedScoutIndices(Entry $entry)
     {
         $entry->videos->searchable();
     }

@@ -138,7 +138,7 @@ class VideoReconcileCommand extends Command
      * @param \App\Models\Video $b
      * @return int
      */
-    private static function compareVideos(Video $a, Video $b) : int
+    private static function compareVideos(Video $a, Video $b)
     {
         return strcmp(static::reconciliationString($a), static::reconciliationString($b));
     }
@@ -150,29 +150,49 @@ class VideoReconcileCommand extends Command
      * @param \App\Models\Video $video
      * @return string
      */
-    private static function reconciliationString(Video $video) : string
+    private static function reconciliationString(Video $video)
     {
         return "basename:{$video->basename},filename:{$video->filename},path:{$video->path}";
     }
 
     // Reconciliation Results
 
-    private function hasResults() : bool
+    /**
+     * Determines if any changes, successful or not, were made during reconciliation.
+     *
+     * @return bool
+     */
+    private function hasResults()
     {
         return $this->hasChanges() || $this->hasFailures();
     }
 
-    private function hasChanges() : bool
+    /**
+     * Determines if any successful changes were made during reconciliation.
+     *
+     * @return bool
+     */
+    private function hasChanges()
     {
         return $this->created > 0 || $this->deleted > 0;
     }
 
-    private function hasFailures() : bool
+    /**
+     * Determines if any unsuccessful changes were made during reconciliation.
+     *
+     * @return bool
+     */
+    private function hasFailures()
     {
         return $this->created_failed > 0 || $this->deleted_failed > 0;
     }
 
-    private function printResults() : void
+    /**
+     * Print the result to console and log the results to the app log.
+     *
+     * @return void
+     */
+    private function printResults()
     {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {

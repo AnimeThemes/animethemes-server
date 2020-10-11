@@ -45,7 +45,7 @@ class SongObserver
      * @param  \App\Models\Song  $song
      * @return void
      */
-    private function updateRelatedScoutIndices(Song $song) : void
+    private function updateRelatedScoutIndices(Song $song)
     {
         $song->artists()->searchable();
         $song->themes->each(function ($theme) {

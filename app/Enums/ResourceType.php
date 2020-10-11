@@ -28,7 +28,7 @@ final class ResourceType extends Enum implements LocalizedEnum
      * @param int $value the resource type key
      * @return string|null
      */
-    public static function getDomain($value) : ?string
+    public static function getDomain($value)
     {
         switch ($value) {
             case self::TWITTER:
@@ -58,7 +58,7 @@ final class ResourceType extends Enum implements LocalizedEnum
      * @param string $link the link to test
      * @return string|null
      */
-    public static function valueOf($link) : ?string
+    public static function valueOf($link)
     {
         $parsed_host = parse_url($link, PHP_URL_HOST);
 

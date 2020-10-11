@@ -75,7 +75,7 @@ class ThemeObserver
      * @param  \App\Models\Theme  $theme
      * @return void
      */
-    private function updateRelatedScoutIndices(Theme $theme) : void
+    private function updateRelatedScoutIndices(Theme $theme)
     {
         $theme->entries->each(function ($entry) {
             $entry->searchable();

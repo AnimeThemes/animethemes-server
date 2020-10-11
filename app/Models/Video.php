@@ -44,7 +44,10 @@ class Video extends Model implements Auditable
      */
     protected $appends = ['tags'];
 
-    public function getTagsAttribute() : array
+    /**
+     * @return array
+     */
+    public function getTagsAttribute()
     {
         $tags = [];
 
@@ -200,7 +203,7 @@ class Video extends Model implements Auditable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function entries() : BelongsToMany
+    public function entries()
     {
         return $this->belongsToMany('App\Models\Entry', 'entry_video', 'video_id', 'entry_id');
     }

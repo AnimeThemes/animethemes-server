@@ -17,7 +17,12 @@ class Grill
         $this->path = $path;
     }
 
-    public function getPath() : string
+    /**
+     * Get grill path
+     *
+     * @return string
+     */
+    public function getPath()
     {
         return $this->path;
     }
