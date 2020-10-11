@@ -1,4 +1,8 @@
-[AnimeThemes.moe](https://animethemes.moe/) is a hosting solution for [/r/AnimeThemes](https://www.reddit.com/r/AnimeThemes/), a simple and consistent repository of anime opening and ending themes.
+<p align="center">
+<a href="https://github.styleci.io/repos/111264405?branch=wiki"><img src="https://github.styleci.io/repos/111264405/shield?branch=wiki" alt="StyleCI"></a>
+</p>
+
+[**AnimeThemes.moe**](https://animethemes.moe/) is a hosting solution for [**/r/AnimeThemes**](https://www.reddit.com/r/AnimeThemes/), a simple and consistent repository of anime opening and ending themes.
 
 # Staff
 
