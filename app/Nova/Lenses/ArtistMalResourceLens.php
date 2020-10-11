@@ -15,7 +15,6 @@ use Laravel\Nova\Lenses\Lens;
 
 class ArtistMalResourceLens extends Lens
 {
-
     /**
      * Get the displayable name of the lens.
      *
@@ -23,7 +22,7 @@ class ArtistMalResourceLens extends Lens
      */
     public function name()
     {
-        return __('nova.artist_resource_lens', ["type" => ResourceType::getDescription(ResourceType::MAL)]);
+        return __('nova.artist_resource_lens', ['type' => ResourceType::getDescription(ResourceType::MAL)]);
     }
 
     /**
@@ -81,7 +80,7 @@ class ArtistMalResourceLens extends Lens
     {
         return [
             new RecentlyCreatedFilter,
-            new RecentlyUpdatedFilter
+            new RecentlyUpdatedFilter,
         ];
     }
 

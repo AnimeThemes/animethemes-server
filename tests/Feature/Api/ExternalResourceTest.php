@@ -14,7 +14,7 @@ class ExternalResourceTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * The Resource Index Endpoint shall display the Resource attributes
+     * The Resource Index Endpoint shall display the Resource attributes.
      *
      * @return void
      */
@@ -27,14 +27,14 @@ class ExternalResourceTest extends TestCase
         $response = $this->get(route('api.resource.index'));
 
         $response->assertJson([
-            'resources' => $resources->map(function($resource) {
+            'resources' => $resources->map(function ($resource) {
                 return static::getData($resource);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Resource Endpoint shall display the Resource attributes
+     * The Show Resource Endpoint shall display the Resource attributes.
      *
      * @return void
      */
@@ -48,7 +48,7 @@ class ExternalResourceTest extends TestCase
     }
 
     /**
-     * The Show Resource Endpoint shall display the anime relation in an 'anime' attribute
+     * The Show Resource Endpoint shall display the anime relation in an 'anime' attribute.
      *
      * @return void
      */
@@ -61,14 +61,14 @@ class ExternalResourceTest extends TestCase
         $response = $this->get(route('api.resource.show', ['resource' => $resource]));
 
         $response->assertJson([
-            'anime' => $resource->anime->map(function($anime) {
+            'anime' => $resource->anime->map(function ($anime) {
                 return AnimeTest::getData($anime);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Resource Endpoint shall display the artists relation in an 'artists' attribute
+     * The Show Resource Endpoint shall display the artists relation in an 'artists' attribute.
      *
      * @return void
      */
@@ -81,19 +81,20 @@ class ExternalResourceTest extends TestCase
         $response = $this->get(route('api.resource.show', ['resource' => $resource]));
 
         $response->assertJson([
-            'artists' => $resource->artists->map(function($artist) {
+            'artists' => $resource->artists->map(function ($artist) {
                 return ArtistTest::getData($artist);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * Get attributes for Resource resource
+     * Get attributes for Resource resource.
      *
      * @param ExternalResource $resource
      * @return array
      */
-    public static function getData(ExternalResource $resource) {
+    public static function getData(ExternalResource $resource)
+    {
         return [
             'id' => $resource->resource_id,
             'link' => $resource->link,

@@ -120,13 +120,13 @@ class ThemeController extends BaseController
         $themes = $themes->with($this->getIncludePaths());
 
         // apply filters
-        if (!empty($type_query) && ThemeType::hasKey($type_query)) {
+        if (! empty($type_query) && ThemeType::hasKey($type_query)) {
             $themes = $themes->where(static::TYPE_QUERY, ThemeType::getValue($type_query));
         }
-        if (!empty($sequence_query)) {
+        if (! empty($sequence_query)) {
             $themes = $themes->where(static::SEQUENCE_QUERY, intval($sequence_query));
         }
-        if (!empty($group_query)) {
+        if (! empty($group_query)) {
             $themes = $themes->where(static::GROUP_QUERY, $group_query);
         }
 
@@ -137,6 +137,7 @@ class ThemeController extends BaseController
         $themes = $themes->paginate($this->getPerPageLimit());
 
         $collection = new ThemeCollection($themes, $this->getFieldSets());
+
         return $collection->toResponse(request());
     }
 
@@ -182,6 +183,7 @@ class ThemeController extends BaseController
     public function show(Theme $theme)
     {
         $resource = new ThemeResource($theme->load($this->getIncludePaths()), $this->getFieldSets());
+
         return $resource->toResponse(request());
     }
 
@@ -197,7 +199,7 @@ class ThemeController extends BaseController
             'entries',
             'entries.videos',
             'song',
-            'song.artists'
+            'song.artists',
         ];
     }
 }

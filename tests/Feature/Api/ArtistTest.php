@@ -14,7 +14,7 @@ class ArtistTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * The Artist Index Endpoint shall display the Artist attributes
+     * The Artist Index Endpoint shall display the Artist attributes.
      *
      * @return void
      */
@@ -27,14 +27,14 @@ class ArtistTest extends TestCase
         $response = $this->get(route('api.artist.index'));
 
         $response->assertJson([
-            'artists' => $artists->map(function($artist) {
+            'artists' => $artists->map(function ($artist) {
                 return static::getData($artist);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Artist Endpoint shall display the Artist attributes
+     * The Show Artist Endpoint shall display the Artist attributes.
      *
      * @return void
      */
@@ -48,7 +48,7 @@ class ArtistTest extends TestCase
     }
 
     /**
-     * The Show Artist Endpoint shall display the songs relation in a 'songs' attribute
+     * The Show Artist Endpoint shall display the songs relation in a 'songs' attribute.
      *
      * @return void
      */
@@ -61,14 +61,14 @@ class ArtistTest extends TestCase
         $response = $this->get(route('api.artist.show', ['artist' => $artist]));
 
         $response->assertJson([
-            'songs' => $artist->songs->map(function($song) {
+            'songs' => $artist->songs->map(function ($song) {
                 return SongTest::getData($song);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Artist Endpoint shall display the members relation in a 'members' attribute
+     * The Show Artist Endpoint shall display the members relation in a 'members' attribute.
      *
      * @return void
      */
@@ -81,14 +81,14 @@ class ArtistTest extends TestCase
         $response = $this->get(route('api.artist.show', ['artist' => $artist]));
 
         $response->assertJson([
-            'members' => $artist->members->map(function($member) {
+            'members' => $artist->members->map(function ($member) {
                 return static::getData($member);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Artist Endpoint shall display the groups relation in a 'groups' attribute
+     * The Show Artist Endpoint shall display the groups relation in a 'groups' attribute.
      *
      * @return void
      */
@@ -101,14 +101,14 @@ class ArtistTest extends TestCase
         $response = $this->get(route('api.artist.show', ['artist' => $artist]));
 
         $response->assertJson([
-            'groups' => $artist->groups->map(function($group) {
+            'groups' => $artist->groups->map(function ($group) {
                 return static::getData($group);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Artist Endpoint shall display the resources relation in a 'resources' attribute
+     * The Show Artist Endpoint shall display the resources relation in a 'resources' attribute.
      *
      * @return void
      */
@@ -121,14 +121,14 @@ class ArtistTest extends TestCase
         $response = $this->get(route('api.artist.show', ['artist' => $artist]));
 
         $response->assertJson([
-            'resources' => $artist->externalResources->map(function($resource) {
+            'resources' => $artist->externalResources->map(function ($resource) {
                 return ExternalResourceTest::getData($resource);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * Get attributes for Artist resource
+     * Get attributes for Artist resource.
      *
      * @param Artist $artist
      * @return array
@@ -140,7 +140,7 @@ class ArtistTest extends TestCase
             'name' => $artist->name,
             'alias' => $artist->alias,
             'created_at' => $artist->created_at->toJSON(),
-            'updated_at' => $artist->updated_at->toJSON()
+            'updated_at' => $artist->updated_at->toJSON(),
         ];
     }
 }

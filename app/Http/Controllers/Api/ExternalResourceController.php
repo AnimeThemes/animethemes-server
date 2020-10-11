@@ -91,7 +91,7 @@ class ExternalResourceController extends BaseController
         $resources = $resources->with($this->getIncludePaths());
 
         // apply filters
-        if (!empty($type_query) && ResourceType::hasKey($type_query)) {
+        if (! empty($type_query) && ResourceType::hasKey($type_query)) {
             $resources = $resources->where(static::TYPE_QUERY, ResourceType::getValue($type_query));
         }
 
@@ -102,6 +102,7 @@ class ExternalResourceController extends BaseController
         $resources = $resources->paginate($this->getPerPageLimit());
 
         $collection = new ExternalResourceCollection($resources, $this->getFieldSets());
+
         return $collection->toResponse(request());
     }
 
@@ -147,6 +148,7 @@ class ExternalResourceController extends BaseController
     public function show(ExternalResource $resource)
     {
         $resource = new ExternalResourceResource($resource->load($this->getIncludePaths()), $this->getFieldSets());
+
         return $resource->toResponse(request());
     }
 
@@ -159,7 +161,7 @@ class ExternalResourceController extends BaseController
     {
         return [
             'anime',
-            'artists'
+            'artists',
         ];
     }
 }

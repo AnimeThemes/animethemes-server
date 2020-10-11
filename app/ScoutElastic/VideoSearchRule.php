@@ -7,15 +7,7 @@ use ScoutElastic\SearchRule;
 class VideoSearchRule extends SearchRule
 {
     /**
-     * @inheritdoc
-     */
-    public function buildHighlightPayload()
-    {
-        return null;
-    }
-
-    /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function buildQueryPayload()
     {
@@ -24,17 +16,17 @@ class VideoSearchRule extends SearchRule
                 [
                     'match_phrase' => [
                         'filename' => [
-                            'query' => $this->builder->query
-                        ]
-                    ]
+                            'query' => $this->builder->query,
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'filename' => [
                             'query' => $this->builder->query,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
@@ -42,49 +34,49 @@ class VideoSearchRule extends SearchRule
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match_phrase' => [
                         'tags' => [
-                            'query' => $this->builder->query
-                        ]
-                    ]
-                ],
-                [
-                    'match' => [
-                        'tags' => [
                             'query' => $this->builder->query,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'tags' => [
                             'query' => $this->builder->query,
+                            'operator' => 'AND',
+                        ],
+                    ],
+                ],
+                [
+                    'match' => [
+                        'tags' => [
+                            'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match_phrase' => [
                         'tags_slug' => [
-                            'query' => $this->builder->query
-                        ]
-                    ]
+                            'query' => $this->builder->query,
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'tags_slug' => [
                             'query' => $this->builder->query,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
@@ -92,24 +84,24 @@ class VideoSearchRule extends SearchRule
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match_phrase' => [
                         'version_slug' => [
-                            'query' => $this->builder->query
-                        ]
-                    ]
+                            'query' => $this->builder->query,
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'version_slug' => [
                             'query' => $this->builder->query,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
@@ -117,24 +109,24 @@ class VideoSearchRule extends SearchRule
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match_phrase' => [
                         'anime_slug' => [
-                            'query' => $this->builder->query
-                        ]
-                    ]
+                            'query' => $this->builder->query,
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'anime_slug' => [
                             'query' => $this->builder->query,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
@@ -142,24 +134,24 @@ class VideoSearchRule extends SearchRule
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match_phrase' => [
                         'synonym_slug' => [
-                            'query' => $this->builder->query
-                        ]
-                    ]
+                            'query' => $this->builder->query,
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'synonym_slug' => [
                             'query' => $this->builder->query,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
@@ -167,9 +159,9 @@ class VideoSearchRule extends SearchRule
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -186,18 +178,18 @@ class VideoSearchRule extends SearchRule
                                                     [
                                                         'match_phrase' => [
                                                             'entries.theme.anime.name' => [
-                                                                'query' => $this->builder->query
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                                'query' => $this->builder->query,
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -215,18 +207,18 @@ class VideoSearchRule extends SearchRule
                                                         'match' => [
                                                             'entries.theme.anime.name' => [
                                                                 'query' => $this->builder->query,
-                                                                'operator' => 'AND'
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                                'operator' => 'AND',
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -246,18 +238,18 @@ class VideoSearchRule extends SearchRule
                                                                 'query' => $this->builder->query,
                                                                 'fuzziness' => 'AUTO',
                                                                 'lenient' => true,
-                                                                'operator' => 'AND'
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                                'operator' => 'AND',
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -277,20 +269,20 @@ class VideoSearchRule extends SearchRule
                                                             [
                                                                 'match_phrase' => [
                                                                     'entries.theme.anime.synonyms.text' => [
-                                                                        'query' => $this->builder->query
-                                                                    ]
-                                                                ]
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                                        'query' => $this->builder->query,
+                                                                    ],
+                                                                ],
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -311,20 +303,20 @@ class VideoSearchRule extends SearchRule
                                                                 'match' => [
                                                                     'entries.theme.anime.synonyms.text' => [
                                                                         'query' => $this->builder->query,
-                                                                        'operator' => 'AND'
-                                                                    ]
-                                                                ]
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                                        'operator' => 'AND',
+                                                                    ],
+                                                                ],
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -347,20 +339,20 @@ class VideoSearchRule extends SearchRule
                                                                         'query' => $this->builder->query,
                                                                         'fuzziness' => 'AUTO',
                                                                         'lenient' => true,
-                                                                        'operator' => 'AND'
-                                                                    ]
-                                                                ]
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                                        'operator' => 'AND',
+                                                                    ],
+                                                                ],
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -377,18 +369,18 @@ class VideoSearchRule extends SearchRule
                                                     [
                                                         'match_phrase' => [
                                                             'entries.theme.song.title' => [
-                                                                'query' => $this->builder->query
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                                'query' => $this->builder->query,
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -406,18 +398,18 @@ class VideoSearchRule extends SearchRule
                                                         'match' => [
                                                             'entries.theme.song.title' => [
                                                                 'query' => $this->builder->query,
-                                                                'operator' => 'AND'
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                                'operator' => 'AND',
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -437,21 +429,21 @@ class VideoSearchRule extends SearchRule
                                                                 'query' => $this->builder->query,
                                                                 'fuzziness' => 'AUTO',
                                                                 'lenient' => true,
-                                                                'operator' => 'AND'
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                                'operator' => 'AND',
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
-            'minimum_should_match' => 1
+            'minimum_should_match' => 1,
         ];
     }
 }

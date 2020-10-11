@@ -2,8 +2,8 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
 use BenSampo\Enum\Contracts\LocalizedEnum;
+use BenSampo\Enum\Enum;
 
 final class ThemeType extends Enum implements LocalizedEnum
 {

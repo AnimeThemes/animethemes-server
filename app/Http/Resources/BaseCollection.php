@@ -14,7 +14,7 @@ abstract class BaseCollection extends ResourceCollection
     protected $preserveAllQueryParameters = true;
 
     /**
-     * Sparse field set specified by the client
+     * Sparse field set specified by the client.
      *
      * @var \App\JsonApi\FieldSetFilter
      */

@@ -29,7 +29,8 @@ class Announcement extends Resource
      *
      * @return array|string|null
      */
-    public static function group() {
+    public static function group()
+    {
         return __('nova.admin');
     }
 

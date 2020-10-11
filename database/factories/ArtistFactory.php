@@ -24,7 +24,7 @@ class ArtistFactory extends Factory
     {
         return [
             'alias' => Str::slug($this->faker->words(3, true), '_'),
-            'name' => $this->faker->words(3, true)
+            'name' => $this->faker->words(3, true),
         ];
     }
 }

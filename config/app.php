@@ -181,6 +181,7 @@ return [
         L5Swagger\L5SwaggerServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         ScoutElastic\ScoutElasticServiceProvider::class,
+        MattAllan\LaravelCodeStyle\ServiceProvider::class,
     ],
 
     /*

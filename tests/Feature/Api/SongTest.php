@@ -15,7 +15,7 @@ class SongTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * The Song Index Endpoint shall display the Song attributes
+     * The Song Index Endpoint shall display the Song attributes.
      *
      * @return void
      */
@@ -28,14 +28,14 @@ class SongTest extends TestCase
         $response = $this->get(route('api.song.index'));
 
         $response->assertJson([
-            'songs' => $songs->map(function($song) {
+            'songs' => $songs->map(function ($song) {
                 return static::getData($song);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Song Endpoint shall display the Song attributes
+     * The Show Song Endpoint shall display the Song attributes.
      *
      * @return void
      */
@@ -49,7 +49,7 @@ class SongTest extends TestCase
     }
 
     /**
-     * The Show Song Endpoint shall display the themes relation in an 'themes' attribute
+     * The Show Song Endpoint shall display the themes relation in an 'themes' attribute.
      *
      * @return void
      */
@@ -62,14 +62,14 @@ class SongTest extends TestCase
         $response = $this->get(route('api.song.show', ['song' => $song]));
 
         $response->assertJson([
-            'themes' => $song->themes->map(function($theme) {
+            'themes' => $song->themes->map(function ($theme) {
                 return ThemeTest::getData($theme);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Song Endpoint shall display the artists relation in an 'artists' attribute
+     * The Show Song Endpoint shall display the artists relation in an 'artists' attribute.
      *
      * @return void
      */
@@ -82,24 +82,25 @@ class SongTest extends TestCase
         $response = $this->get(route('api.song.show', ['song' => $song]));
 
         $response->assertJson([
-            'artists' => $song->artists->map(function($artist) {
+            'artists' => $song->artists->map(function ($artist) {
                 return ArtistTest::getData($artist);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * Get attributes for Song resource
+     * Get attributes for Song resource.
      *
      * @param Song $song
      * @return array
      */
-    public static function getData(Song $song) {
+    public static function getData(Song $song)
+    {
         return [
             'id' => $song->song_id,
             'title' => strval($song->title),
             'created_at' => $song->created_at->toJSON(),
-            'updated_at' => $song->updated_at->toJSON()
+            'updated_at' => $song->updated_at->toJSON(),
         ];
     }
 }

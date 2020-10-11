@@ -5,14 +5,13 @@ namespace App\Models;
 use App\Enums\InvitationStatus;
 use App\Enums\UserType;
 use BenSampo\Enum\Traits\CastsEnums;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use ParagonIE\ConstantTime\Base32;
 
 class Invitation extends Model implements Auditable
 {
-
     use CastsEnums, HasFactory;
     use \OwenIt\Auditing\Auditable;
 
@@ -49,16 +48,18 @@ class Invitation extends Model implements Auditable
     ];
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isOpen() : bool {
+    public function isOpen() : bool
+    {
         return $this->status->is(InvitationStatus::OPEN);
     }
 
     /**
      * @return string
      */
-    public static function createToken() : string {
+    public static function createToken() : string
+    {
         return Base32::encodeUpper(random_bytes(rand(20, 100)));
     }
 }

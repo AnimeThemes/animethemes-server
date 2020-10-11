@@ -17,7 +17,6 @@ use Laravel\Nova\Lenses\Lens;
 
 class AnimeMalResourceLens extends Lens
 {
-
     /**
      * Get the displayable name of the lens.
      *
@@ -25,7 +24,7 @@ class AnimeMalResourceLens extends Lens
      */
     public function name()
     {
-        return __('nova.anime_resource_lens', ["type" => ResourceType::getDescription(ResourceType::MAL)]);
+        return __('nova.anime_resource_lens', ['type' => ResourceType::getDescription(ResourceType::MAL)]);
     }
 
     /**
@@ -38,8 +37,8 @@ class AnimeMalResourceLens extends Lens
     public static function query(LensRequest $request, $query)
     {
         return Anime::whereDoesntHave('externalResources', function ($resource_query) {
-                $resource_query->where('type', ResourceType::MAL);
-            });
+            $resource_query->where('type', ResourceType::MAL);
+        });
     }
 
     /**
@@ -87,7 +86,7 @@ class AnimeMalResourceLens extends Lens
         return [
             new AnimeYearFilter,
             new RecentlyCreatedFilter,
-            new RecentlyUpdatedFilter
+            new RecentlyUpdatedFilter,
         ];
     }
 

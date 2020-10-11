@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Models\Invitation;
+use Closure;
 
 class HasInvitation
 {
@@ -18,7 +18,7 @@ class HasInvitation
     {
 
         // Token is required
-        if (!$request->has('token')) {
+        if (! $request->has('token')) {
             return redirect(route('welcome'));
         }
 
@@ -26,7 +26,7 @@ class HasInvitation
 
         try {
             $invitation = Invitation::where('token', $token)->firstOrFail();
-            if (!$invitation->isOpen()) {
+            if (! $invitation->isOpen()) {
                 return redirect(route('welcome'));
             }
         } catch (\Exception $exception) {

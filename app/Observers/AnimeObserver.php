@@ -40,12 +40,13 @@ class AnimeObserver
     }
 
     /**
-     * Handle updating of related index documents
+     * Handle updating of related index documents.
      *
      * @param  \App\Models\Anime  $anime
      * @return void
      */
-    private function updateRelatedScoutIndices(Anime $anime) {
+    private function updateRelatedScoutIndices(Anime $anime)
+    {
         $anime->themes->each(function ($theme) {
             $theme->searchable();
             $theme->entries->each(function ($entry) {

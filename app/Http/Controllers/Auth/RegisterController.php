@@ -57,8 +57,9 @@ class RegisterController extends Controller
     {
         $token = request('token');
         $invitation = Invitation::where('token', $token)->firstOrFail();
+
         return view('auth.register', [
-            'invitation' => $invitation
+            'invitation' => $invitation,
         ]);
     }
 
@@ -74,7 +75,7 @@ class RegisterController extends Controller
         $data = array_merge($request->all(), [
             'name' => $invitation->name,
             'email' => $invitation->email,
-            'type' => $invitation->type->value
+            'type' => $invitation->type->value,
         ]);
 
         $this->validator($data)->validate();
@@ -122,7 +123,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'type' => $data['type']
+            'type' => $data['type'],
         ]);
     }
 }

@@ -7,15 +7,7 @@ use ScoutElastic\SearchRule;
 class ThemeSearchRule extends SearchRule
 {
     /**
-     * @inheritdoc
-     */
-    public function buildHighlightPayload()
-    {
-        return null;
-    }
-
-    /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function buildQueryPayload()
     {
@@ -24,17 +16,17 @@ class ThemeSearchRule extends SearchRule
                 [
                     'match_phrase' => [
                         'slug' => [
-                            'query' => $this->builder->query
-                        ]
-                    ]
+                            'query' => $this->builder->query,
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'slug' => [
                             'query' => $this->builder->query,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
@@ -42,24 +34,24 @@ class ThemeSearchRule extends SearchRule
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match_phrase' => [
                         'anime_slug' => [
-                            'query' => $this->builder->query
-                        ]
-                    ]
+                            'query' => $this->builder->query,
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'anime_slug' => [
                             'query' => $this->builder->query,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
@@ -67,24 +59,24 @@ class ThemeSearchRule extends SearchRule
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match_phrase' => [
                         'synonym_slug' => [
-                            'query' => $this->builder->query
-                        ]
-                    ]
+                            'query' => $this->builder->query,
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'synonym_slug' => [
                             'query' => $this->builder->query,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
@@ -92,9 +84,9 @@ class ThemeSearchRule extends SearchRule
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -105,14 +97,14 @@ class ThemeSearchRule extends SearchRule
                                     [
                                         'match_phrase' => [
                                             'anime.name' => [
-                                                'query' => $this->builder->query
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                'query' => $this->builder->query,
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -124,14 +116,14 @@ class ThemeSearchRule extends SearchRule
                                         'match' => [
                                             'anime.name' => [
                                                 'query' => $this->builder->query,
-                                                'operator' => 'AND'
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                'operator' => 'AND',
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -145,14 +137,14 @@ class ThemeSearchRule extends SearchRule
                                                 'query' => $this->builder->query,
                                                 'fuzziness' => 'AUTO',
                                                 'lenient' => true,
-                                                'operator' => 'AND'
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                'operator' => 'AND',
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -166,16 +158,16 @@ class ThemeSearchRule extends SearchRule
                                             [
                                                 'match_phrase' => [
                                                     'anime.synonyms.text' => [
-                                                        'query' => $this->builder->query
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                        'query' => $this->builder->query,
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -190,16 +182,16 @@ class ThemeSearchRule extends SearchRule
                                                 'match' => [
                                                     'anime.synonyms.text' => [
                                                         'query' => $this->builder->query,
-                                                        'operator' => 'AND'
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                        'operator' => 'AND',
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -216,16 +208,16 @@ class ThemeSearchRule extends SearchRule
                                                         'query' => $this->builder->query,
                                                         'fuzziness' => 'AUTO',
                                                         'lenient' => true,
-                                                        'operator' => 'AND'
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                        'operator' => 'AND',
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -236,14 +228,14 @@ class ThemeSearchRule extends SearchRule
                                     [
                                         'match_phrase' => [
                                             'song.title' => [
-                                                'query' => $this->builder->query
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                'query' => $this->builder->query,
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -255,14 +247,14 @@ class ThemeSearchRule extends SearchRule
                                         'match' => [
                                             'song.title' => [
                                                 'query' => $this->builder->query,
-                                                'operator' => 'AND'
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                'operator' => 'AND',
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -276,17 +268,17 @@ class ThemeSearchRule extends SearchRule
                                                 'query' => $this->builder->query,
                                                 'fuzziness' => 'AUTO',
                                                 'lenient' => true,
-                                                'operator' => 'AND'
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                                'operator' => 'AND',
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ],
-            'minimum_should_match' => 1
+            'minimum_should_match' => 1,
         ];
     }
 }

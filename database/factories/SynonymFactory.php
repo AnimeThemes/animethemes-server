@@ -22,7 +22,7 @@ class SynonymFactory extends Factory
     public function definition()
     {
         return [
-            'text' => $this->faker->words(3, true)
+            'text' => $this->faker->words(3, true),
         ];
     }
 }

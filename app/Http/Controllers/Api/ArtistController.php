@@ -92,6 +92,7 @@ class ArtistController extends BaseController
         $artists = $artists->paginate($this->getPerPageLimit());
 
         $collection = new ArtistCollection($artists, $this->getFieldSets());
+
         return $collection->toResponse(request());
     }
 
@@ -137,6 +138,7 @@ class ArtistController extends BaseController
     public function show(Artist $artist)
     {
         $resource = new ArtistResource($artist->load($this->getIncludePaths()), $this->getFieldSets());
+
         return $resource->toResponse(request());
     }
 
@@ -153,7 +155,7 @@ class ArtistController extends BaseController
             'songs.themes.anime',
             'members',
             'groups',
-            'externalResources'
+            'externalResources',
         ];
     }
 }

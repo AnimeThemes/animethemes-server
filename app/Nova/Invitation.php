@@ -32,7 +32,8 @@ class Invitation extends Resource
      *
      * @return array|string|null
      */
-    public static function group() {
+    public static function group()
+    {
         return __('nova.admin');
     }
 
@@ -136,7 +137,7 @@ class Invitation extends Resource
             new Filters\UserTypeFilter,
             new Filters\InvitationStatusFilter,
             new Filters\RecentlyCreatedFilter,
-            new Filters\RecentlyUpdatedFilter
+            new Filters\RecentlyUpdatedFilter,
         ];
     }
 

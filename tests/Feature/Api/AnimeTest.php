@@ -16,7 +16,7 @@ class AnimeTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * The Anime Index Endpoint shall display the Anime attributes
+     * The Anime Index Endpoint shall display the Anime attributes.
      *
      * @return void
      */
@@ -29,14 +29,14 @@ class AnimeTest extends TestCase
         $response = $this->get(route('api.anime.index'));
 
         $response->assertJson([
-            'anime' => $animes->map(function($anime) {
+            'anime' => $animes->map(function ($anime) {
                 return static::getData($anime);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Anime Endpoint shall display the Anime attributes
+     * The Show Anime Endpoint shall display the Anime attributes.
      *
      * @return void
      */
@@ -50,7 +50,7 @@ class AnimeTest extends TestCase
     }
 
     /**
-     * The Show Anime Endpoint shall display the synonyms relation in a 'synonyms' attribute
+     * The Show Anime Endpoint shall display the synonyms relation in a 'synonyms' attribute.
      *
      * @return void
      */
@@ -63,14 +63,14 @@ class AnimeTest extends TestCase
         $response = $this->get(route('api.anime.show', ['anime' => $anime]));
 
         $response->assertJson([
-            'synonyms' => $anime->synonyms->map(function($synonym) {
+            'synonyms' => $anime->synonyms->map(function ($synonym) {
                 return SynonymTest::getData($synonym);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Anime Endpoint shall display the themes relation in a 'themes' attribute
+     * The Show Anime Endpoint shall display the themes relation in a 'themes' attribute.
      *
      * @return void
      */
@@ -83,18 +83,19 @@ class AnimeTest extends TestCase
         $response = $this->get(route('api.anime.show', ['anime' => $anime]));
 
         $response->assertJson([
-            'themes' => $anime->themes->map(function($theme) {
+            'themes' => $anime->themes->map(function ($theme) {
                 return ThemeTest::getData($theme);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Anime Endpoint shall display the series relation in a 'series' attribute
+     * The Show Anime Endpoint shall display the series relation in a 'series' attribute.
      *
      * @return void
      */
-    public function testShowAnimeSeriesAttributes() {
+    public function testShowAnimeSeriesAttributes()
+    {
         $anime = Anime::factory()
             ->has(Series::factory()->count($this->faker->randomDigitNotNull))
             ->create();
@@ -102,14 +103,14 @@ class AnimeTest extends TestCase
         $response = $this->get(route('api.anime.show', ['anime' => $anime]));
 
         $response->assertJson([
-            'series' => $anime->series->map(function($series) {
+            'series' => $anime->series->map(function ($series) {
                 return SeriesTest::getData($series);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Anime Endpoint shall display the resources relation in a 'resources' attribute
+     * The Show Anime Endpoint shall display the resources relation in a 'resources' attribute.
      *
      * @return void
      */
@@ -122,14 +123,14 @@ class AnimeTest extends TestCase
         $response = $this->get(route('api.anime.show', ['anime' => $anime]));
 
         $response->assertJson([
-            'resources' => $anime->externalResources->map(function($resource) {
+            'resources' => $anime->externalResources->map(function ($resource) {
                 return ExternalResourceTest::getData($resource);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * Get attributes for Anime resource
+     * Get attributes for Anime resource.
      *
      * @param Anime $anime
      * @return array
@@ -143,7 +144,7 @@ class AnimeTest extends TestCase
             'year' => $anime->year,
             'season' => strval(optional($anime->season)->description),
             'created_at' => $anime->created_at->toJSON(),
-            'updated_at' => $anime->updated_at->toJSON()
+            'updated_at' => $anime->updated_at->toJSON(),
         ];
     }
 }

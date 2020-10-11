@@ -37,7 +37,7 @@ class SynonymResource extends BaseResource
     public static $wrap = null;
 
     /**
-     * The name of the resource in the field set mapping
+     * The name of the resource in the field set mapping.
      *
      * @var string
      */
@@ -57,7 +57,7 @@ class SynonymResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->fieldSets),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(SynonymController::class))
+            'links' => $this->when($this->isAllowedField('links'), $this->links(SynonymController::class)),
         ];
     }
 }

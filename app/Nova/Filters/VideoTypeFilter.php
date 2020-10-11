@@ -7,9 +7,8 @@ use Laravel\Nova\Filters\Filter;
 
 class VideoTypeFilter extends Filter
 {
-
     const ANIME = 'anime';
-    const MISC  = 'misc';
+    const MISC = 'misc';
 
     /**
      * The filter's component.
@@ -58,7 +57,7 @@ class VideoTypeFilter extends Filter
     {
         return [
             __('nova.anime') => self::ANIME,
-            __('nova.misc') => self::MISC
+            __('nova.misc') => self::MISC,
         ];
     }
 }

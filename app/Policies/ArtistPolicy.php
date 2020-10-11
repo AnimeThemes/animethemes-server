@@ -119,6 +119,7 @@ class ArtistPolicy
         if ($artist->externalResources->contains($externalResource)) {
             return false;
         }
+
         return $this->attachAnyExternalResource($user, $artist);
     }
 

@@ -11,7 +11,6 @@ class InvitationEmail extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     *
      * @var \App\Models\Invitation
      */
     protected $invitation;

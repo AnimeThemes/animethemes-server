@@ -13,7 +13,7 @@ class SeriesTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * The Series Index Endpoint shall display the Series attributes
+     * The Series Index Endpoint shall display the Series attributes.
      *
      * @return void
      */
@@ -26,14 +26,14 @@ class SeriesTest extends TestCase
         $response = $this->get(route('api.series.index'));
 
         $response->assertJson([
-            'series' => $serie->map(function($series) {
+            'series' => $serie->map(function ($series) {
                 return static::getData($series);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Series Endpoint shall display the Series attributes
+     * The Show Series Endpoint shall display the Series attributes.
      *
      * @return void
      */
@@ -47,7 +47,7 @@ class SeriesTest extends TestCase
     }
 
     /**
-     * The Show Series Endpoint shall display the anime relation in an 'anime' attribute
+     * The Show Series Endpoint shall display the anime relation in an 'anime' attribute.
      *
      * @return void
      */
@@ -60,25 +60,26 @@ class SeriesTest extends TestCase
         $response = $this->get(route('api.series.show', ['series' => $series]));
 
         $response->assertJson([
-            'anime' => $series->anime->map(function($anime) {
+            'anime' => $series->anime->map(function ($anime) {
                 return AnimeTest::getData($anime);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * Get attributes for Series resource
+     * Get attributes for Series resource.
      *
      * @param Series $series
      * @return array
      */
-    public static function getData(Series $series) {
+    public static function getData(Series $series)
+    {
         return [
             'id' => $series->series_id,
             'name' => $series->name,
             'alias' => $series->alias,
             'created_at' => $series->created_at->toJSON(),
-            'updated_at' => $series->updated_at->toJSON()
+            'updated_at' => $series->updated_at->toJSON(),
         ];
     }
 }

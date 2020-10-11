@@ -4,15 +4,14 @@ namespace App\Models;
 
 use App\ScoutElastic\EntryIndexConfigurator;
 use App\ScoutElastic\EntrySearchRule;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 use ScoutElastic\Searchable;
 
 class Entry extends Model implements Auditable
 {
-
     use HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
     use \Znck\Eloquent\Traits\BelongsToThrough;
@@ -41,7 +40,7 @@ class Entry extends Model implements Auditable
      */
     protected $casts = [
         'nsfw' => 'boolean',
-        'spoiler' => 'boolean'
+        'spoiler' => 'boolean',
     ];
 
     /**
@@ -55,7 +54,7 @@ class Entry extends Model implements Auditable
         $array['theme'] = optional($this->theme)->toSearchableArray();
 
         //Overwrite version with readable format "V{#}"
-        if (!empty($this->version)) {
+        if (! empty($this->version)) {
             $array['version'] = Str::of($this->version)->trim()->prepend('V')->__toString();
         }
 
@@ -71,7 +70,7 @@ class Entry extends Model implements Auditable
      * @var array
      */
     protected $searchRules = [
-        EntrySearchRule::class
+        EntrySearchRule::class,
     ];
 
     /**
@@ -81,79 +80,82 @@ class Entry extends Model implements Auditable
         'properties' => [
             'version' => [
                 'type' => 'text',
-                'copy_to' => ['version_slug', 'anime_slug', 'synonym_slug']
+                'copy_to' => ['version_slug', 'anime_slug', 'synonym_slug'],
             ],
             'theme' => [
                 'type' => 'nested',
                 'properties' => [
                     'slug' => [
                         'type' => 'text',
-                        'copy_to' => ['version_slug', 'anime_slug', 'synonym_slug']
+                        'copy_to' => ['version_slug', 'anime_slug', 'synonym_slug'],
                     ],
                     'anime' => [
                         'type' => 'nested',
                         'properties' => [
                             'name' => [
                                 'type' => 'text',
-                                'copy_to' => ['anime_slug']
+                                'copy_to' => ['anime_slug'],
                             ],
                             'synonyms' => [
                                 'type' => 'nested',
                                 'properties' => [
                                     'text' => [
                                         'type' => 'text',
-                                        'copy_to' => ['synonym_slug']
-                                    ]
-                                ]
-                            ]
-                        ]
+                                        'copy_to' => ['synonym_slug'],
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
                     'song' => [
                         'type' => 'nested',
                         'properties' => [
                             'title' => [
-                                'type' => 'text'
-                            ]
-                        ]
-                    ]
-                ]
+                                'type' => 'text',
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'version_slug' => [
-                'type' => 'text'
+                'type' => 'text',
             ],
             'anime_slug' => [
-                'type' => 'text'
+                'type' => 'text',
             ],
             'synonym_slug' => [
-                'type' => 'text'
-            ]
-        ]
+                'type' => 'text',
+            ],
+        ],
     ];
 
     /**
-     * Get the theme that owns the entry
+     * Get the theme that owns the entry.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function theme() {
+    public function theme()
+    {
         return $this->belongsTo('App\Models\Theme', 'theme_id', 'theme_id');
     }
 
     /**
-     * Get the videos linked in the theme entry
+     * Get the videos linked in the theme entry.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function videos() {
+    public function videos()
+    {
         return $this->belongsToMany('App\Models\Video', 'entry_video', 'entry_id', 'video_id');
     }
 
     /**
-     * Get the anime that owns the entry through the theme
+     * Get the anime that owns the entry through the theme.
      *
      * @return \Znck\Eloquent\Relations\BelongsToThrough
      */
-    public function anime() {
+    public function anime()
+    {
         return $this->belongsToThrough('App\Models\Anime', 'App\Models\Theme', null, '', ['App\Models\Anime' => 'anime_id', 'App\Models\Theme' => 'theme_id']);
     }
 }

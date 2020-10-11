@@ -2,8 +2,8 @@
 
 namespace App\Grills;
 
-class Grill {
-
+class Grill
+{
     /**
      * @var string
      */
@@ -12,11 +12,13 @@ class Grill {
     /**
      * @param string $path
      */
-    public function __construct($path) {
+    public function __construct($path)
+    {
         $this->path = $path;
     }
 
-    public function getPath() : string {
+    public function getPath() : string
+    {
         return $this->path;
     }
 }

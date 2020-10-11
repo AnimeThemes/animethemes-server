@@ -81,7 +81,7 @@ class ThemeResource extends BaseResource
     public static $wrap = null;
 
     /**
-     * The name of the resource in the field set mapping
+     * The name of the resource in the field set mapping.
      *
      * @var string
      */
@@ -106,7 +106,7 @@ class ThemeResource extends BaseResource
             'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->fieldSets),
             'song' => SongResource::make($this->whenLoaded('song'), $this->fieldSets),
             'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->fieldSets),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(ThemeController::class))
+            'links' => $this->when($this->isAllowedField('links'), $this->links(ThemeController::class)),
         ];
     }
 }

@@ -8,7 +8,7 @@ use Neomerx\JsonApi\Representation\FieldSetFilter as BaseFieldSetFilter;
 class FieldSetFilter extends BaseFieldSetFilter
 {
     /**
-     * Determine if field should be included in the response for this type
+     * Determine if field should be included in the response for this type.
      *
      * @param string $type
      * @param string $field
@@ -18,7 +18,7 @@ class FieldSetFilter extends BaseFieldSetFilter
     public function isAllowedField($type, $field)
     {
         // If we aren't filtering this type, include all fields
-        if (!$this->hasFilter($type)) {
+        if (! $this->hasFilter($type)) {
             return true;
         }
 

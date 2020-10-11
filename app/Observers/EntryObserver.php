@@ -40,12 +40,13 @@ class EntryObserver
     }
 
     /**
-     * Handle updating of related index documents
+     * Handle updating of related index documents.
      *
      * @param  \App\Models\Entry  $entry
      * @return void
      */
-    private function updateRelatedScoutIndices(Entry $entry) : void {
+    private function updateRelatedScoutIndices(Entry $entry) : void
+    {
         $entry->videos->searchable();
     }
 }

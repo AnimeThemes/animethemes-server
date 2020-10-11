@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\AnimeController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*

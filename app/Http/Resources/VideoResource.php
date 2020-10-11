@@ -66,7 +66,7 @@ class VideoResource extends BaseResource
     public static $wrap = null;
 
     /**
-     * The name of the resource in the field set mapping
+     * The name of the resource in the field set mapping.
      *
      * @var string
      */
@@ -96,7 +96,7 @@ class VideoResource extends BaseResource
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'link' => $this->when($this->isAllowedField('link'), route('video.show', $this)),
             'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->fieldSets),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(VideoController::class))
+            'links' => $this->when($this->isAllowedField('links'), $this->links(VideoController::class)),
         ];
     }
 }

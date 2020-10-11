@@ -17,7 +17,6 @@ use Laravel\Nova\Lenses\Lens;
 
 class AnimeAnilistResourceLens extends Lens
 {
-
     /**
      * Get the displayable name of the lens.
      *
@@ -25,7 +24,7 @@ class AnimeAnilistResourceLens extends Lens
      */
     public function name()
     {
-        return __('nova.anime_resource_lens', ["type" => ResourceType::getDescription(ResourceType::ANILIST)]);
+        return __('nova.anime_resource_lens', ['type' => ResourceType::getDescription(ResourceType::ANILIST)]);
     }
 
     /**
@@ -87,7 +86,7 @@ class AnimeAnilistResourceLens extends Lens
         return [
             new AnimeYearFilter,
             new RecentlyCreatedFilter,
-            new RecentlyUpdatedFilter
+            new RecentlyUpdatedFilter,
         ];
     }
 

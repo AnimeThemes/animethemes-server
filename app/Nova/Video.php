@@ -7,7 +7,6 @@ use App\Enums\SourceType;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
-use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
@@ -15,6 +14,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
 
 class Video extends Resource
 {
@@ -37,7 +37,8 @@ class Video extends Resource
      *
      * @return array|string|null
      */
-    public static function group() {
+    public static function group()
+    {
         return __('nova.wiki');
     }
 
@@ -67,7 +68,7 @@ class Video extends Resource
      * @var array
      */
     public static $search = [
-        'filename'
+        'filename',
     ];
 
     /**
@@ -144,7 +145,8 @@ class Video extends Resource
         ];
     }
 
-    protected function videoProperties() : array {
+    protected function videoProperties() : array
+    {
         return [
             Text::make(__('nova.basename'), 'basename')
                 ->hideFromIndex()
@@ -160,7 +162,8 @@ class Video extends Resource
         ];
     }
 
-    protected function timestamps() : array {
+    protected function timestamps() : array
+    {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
                 ->hideFromIndex()
@@ -205,7 +208,7 @@ class Video extends Resource
             new Filters\VideoSourceTypeFilter,
             new Filters\VideoTypeFilter,
             new Filters\RecentlyCreatedFilter,
-            new Filters\RecentlyUpdatedFilter
+            new Filters\RecentlyUpdatedFilter,
         ];
     }
 
@@ -218,7 +221,7 @@ class Video extends Resource
     public function lenses(Request $request)
     {
         return [
-            new Lenses\VideoSourceLens
+            new Lenses\VideoSourceLens,
         ];
     }
 

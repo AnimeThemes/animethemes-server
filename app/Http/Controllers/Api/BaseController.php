@@ -34,7 +34,7 @@ class BaseController extends Controller
     protected const LIMIT_QUERY = 'limit';
 
     /**
-     * Resolves include paths and field sets
+     * Resolves include paths and field sets.
      *
      * @var \Neomerx\JsonApi\Http\Query\BaseQueryParser
      */
@@ -104,7 +104,7 @@ class BaseController extends Controller
      */
 
     /**
-     * Search resources
+     * Search resources.
      *
      * @OA\Get(
      *     path="/search",
@@ -192,41 +192,42 @@ class BaseController extends Controller
             VideoCollection::$wrap => new VideoCollection(static::excludeResource($search_query, $fields, VideoCollection::$wrap) ? [] : Video::search($search_query)
                 ->with(VideoController::getAllowedIncludePaths())
                 ->take($this->getPerPageLimit(5))->get(),
-                $this->getFieldSets())
+                $this->getFieldSets()),
         ]);
     }
 
     /**
-     * Only perform a search on the resource if there is a search query and the resource type is not excluded in field selection
+     * Only perform a search on the resource if there is a search query and the resource type is not excluded in field selection.
      *
      * @param string $search_query the search query
      * @param array $fields the list of resources to include
      * @param string $wrap the resource type identifier
-     * @return boolean false if we have a search query and the resource is not excluded in field selection, otherwise true
+     * @return bool false if we have a search query and the resource is not excluded in field selection, otherwise true
      */
     private static function excludeResource($search_query, $fields, $wrap)
     {
-        return empty($search_query) || (!empty($fields) && !in_array($wrap, $fields));
+        return empty($search_query) || (! empty($fields) && ! in_array($wrap, $fields));
     }
 
-     /**
-      * Get the number of resources to return per page.
-      * Acceptable range is [1-100]. Default is 100.
-      *
-      * @param  integer  $limit
-      * @return integer
-      */
+    /**
+     * Get the number of resources to return per page.
+     * Acceptable range is [1-100]. Default is 100.
+     *
+     * @param  int  $limit
+     * @return int
+     */
     protected function getPerPageLimit($limit = 100)
     {
         $limit_query = intval(request(static::LIMIT_QUERY, $limit));
         if ($limit_query <= 0 || $limit_query > $limit) {
             $limit_query = $limit;
         }
+
         return $limit_query;
     }
 
     /**
-     * Apply ordering to resource query builder
+     * Apply ordering to resource query builder.
      *
      * @param \Illuminate\Database\Eloquent\Builder|\Laravel\Scout\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder|\Laravel\Scout\Builder modified builder
@@ -236,8 +237,8 @@ class BaseController extends Controller
         $order_query = Str::lower(request(static::ORDER_QUERY));
         $direction_query = Str::lower(request(static::DIRECTION_QUERY));
 
-        if (!empty($order_query)) {
-            if (!empty($direction_query)) {
+        if (! empty($order_query)) {
+            if (! empty($direction_query)) {
                 return $query->orderBy($order_query, $direction_query);
             } else {
                 return $query->orderBy($order_query);
@@ -258,7 +259,7 @@ class BaseController extends Controller
     }
 
     /**
-     * The validated include paths used to eager load relations
+     * The validated include paths used to eager load relations.
      *
      * @return array
      */
@@ -284,7 +285,7 @@ class BaseController extends Controller
     }
 
     /**
-     * Get sparse field set filter that will be used by resources for this request
+     * Get sparse field set filter that will be used by resources for this request.
      *
      * @return \App\JsonApi\FieldSetFilter
      */

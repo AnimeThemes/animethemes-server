@@ -6,7 +6,6 @@ use App\Enums\ThemeType;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
-use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
@@ -14,6 +13,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
 
 class Theme extends Resource
 {
@@ -57,7 +57,7 @@ class Theme extends Resource
      * @var array
      */
     public static $search = [
-        'slug'
+        'slug',
     ];
 
     /**
@@ -125,7 +125,8 @@ class Theme extends Resource
         ];
     }
 
-    protected function timestamps() : array {
+    protected function timestamps() : array
+    {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
                 ->hideFromIndex()
@@ -159,7 +160,7 @@ class Theme extends Resource
     public function filters(Request $request)
     {
         return [
-            new Filters\ThemeTypeFilter
+            new Filters\ThemeTypeFilter,
         ];
     }
 

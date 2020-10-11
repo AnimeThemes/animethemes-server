@@ -15,7 +15,7 @@ class ThemeObserver
     public function creating(Theme $theme)
     {
         $slug = $theme->type->key;
-        if (!empty($theme->sequence)) {
+        if (! empty($theme->sequence)) {
             $slug .= $theme->sequence;
         }
         $theme->slug = $slug;
@@ -41,7 +41,7 @@ class ThemeObserver
     public function updating(Theme $theme)
     {
         $slug = $theme->type->key;
-        if (!empty($theme->sequence)) {
+        if (! empty($theme->sequence)) {
             $slug .= $theme->sequence;
         }
         $theme->slug = $slug;
@@ -70,12 +70,13 @@ class ThemeObserver
     }
 
     /**
-     * Handle updating of related index documents
+     * Handle updating of related index documents.
      *
      * @param  \App\Models\Theme  $theme
      * @return void
      */
-    private function updateRelatedScoutIndices(Theme $theme) : void {
+    private function updateRelatedScoutIndices(Theme $theme) : void
+    {
         $theme->entries->each(function ($entry) {
             $entry->searchable();
             $entry->videos->searchable();

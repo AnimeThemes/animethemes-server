@@ -118,13 +118,13 @@ class EntryController extends BaseController
         $entries = $entries->with($this->getIncludePaths());
 
         // apply filters
-        if (!empty($version_query)) {
+        if (! empty($version_query)) {
             $entries = $entries->where(static::VERSION_QUERY, intval($version_query));
         }
-        if (!empty($nsfw_query)) {
+        if (! empty($nsfw_query)) {
             $entries = $entries->where(static::NSFW_QUERY, filter_var($nsfw_query, FILTER_VALIDATE_BOOLEAN));
         }
-        if (!empty($spoiler_query)) {
+        if (! empty($spoiler_query)) {
             $entries = $entries->where(static::SPOILER_QUERY, filter_var($spoiler_query, FILTER_VALIDATE_BOOLEAN));
         }
 
@@ -135,6 +135,7 @@ class EntryController extends BaseController
         $entries = $entries->paginate($this->getPerPageLimit());
 
         $collection = new EntryCollection($entries, $this->getFieldSets());
+
         return $collection->toResponse(request());
     }
 
@@ -180,6 +181,7 @@ class EntryController extends BaseController
     public function show(Entry $entry)
     {
         $resource = new EntryResource($entry->load($this->getIncludePaths()), $this->getFieldSets());
+
         return $resource->toResponse(request());
     }
 
@@ -193,7 +195,7 @@ class EntryController extends BaseController
         return [
             'anime',
             'theme',
-            'videos'
+            'videos',
         ];
     }
 }

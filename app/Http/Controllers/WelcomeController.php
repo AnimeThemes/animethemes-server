@@ -8,7 +8,8 @@ use App\Models\Video;
 
 class WelcomeController extends Controller
 {
-    public function do() {
+    public function do()
+    {
         // View Data
         $grill = GrillFactory::getGrill();
         $videoCount = Video::count();
@@ -17,7 +18,7 @@ class WelcomeController extends Controller
         return view('welcome', [
             'announcements' => $announcements,
             'grill' => $grill->getPath(),
-            'videoCount' => $videoCount
+            'videoCount' => $videoCount,
         ]);
     }
 }

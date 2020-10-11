@@ -7,7 +7,6 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Announcement extends Model implements Auditable
 {
-
     use \OwenIt\Auditing\Auditable;
 
     public $timestamps = false;

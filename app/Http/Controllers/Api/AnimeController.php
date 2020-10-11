@@ -111,10 +111,10 @@ class AnimeController extends BaseController
         $anime = $anime->with($this->getIncludePaths());
 
         // apply filters
-        if (!empty($year_query)) {
+        if (! empty($year_query)) {
             $anime = $anime->where(static::YEAR_QUERY, $year_query);
         }
-        if (!empty($season_query) && Season::hasKey($season_query)) {
+        if (! empty($season_query) && Season::hasKey($season_query)) {
             $anime = $anime->where(static::SEASON_QUERY, Season::getValue($season_query));
         }
 
@@ -125,6 +125,7 @@ class AnimeController extends BaseController
         $anime = $anime->paginate($this->getPerPageLimit());
 
         $collection = new AnimeCollection($anime, $this->getFieldSets());
+
         return $collection->toResponse(request());
     }
 
@@ -170,6 +171,7 @@ class AnimeController extends BaseController
     public function show(Anime $anime)
     {
         $resource = new AnimeResource($anime->load($this->getIncludePaths()), $this->getFieldSets());
+
         return $resource->toResponse(request());
     }
 
@@ -188,7 +190,7 @@ class AnimeController extends BaseController
             'themes.entries.videos',
             'themes.song',
             'themes.song.artists',
-            'externalResources'
+            'externalResources',
         ];
     }
 }

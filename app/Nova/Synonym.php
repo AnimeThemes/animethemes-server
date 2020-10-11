@@ -4,11 +4,11 @@ namespace App\Nova;
 
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
-use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
 
 class Synonym extends Resource
 {
@@ -59,7 +59,7 @@ class Synonym extends Resource
      * @var array
      */
     public static $search = [
-        'text'
+        'text',
     ];
 
     /**
@@ -94,7 +94,8 @@ class Synonym extends Resource
         ];
     }
 
-    protected function timestamps() : array {
+    protected function timestamps() : array
+    {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
                 ->hideFromIndex()

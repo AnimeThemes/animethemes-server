@@ -40,12 +40,13 @@ class SynonymObserver
     }
 
     /**
-     * Handle updating of related index documents
+     * Handle updating of related index documents.
      *
      * @param  \App\Models\Synonym  $synonym
      * @return void
      */
-    private function updateRelatedScoutIndices(Synonym $synonym) : void {
+    private function updateRelatedScoutIndices(Synonym $synonym) : void
+    {
         $synonym->anime->searchable();
         $synonym->anime->themes->each(function ($theme) {
             $theme->searchable();

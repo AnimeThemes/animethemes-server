@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
+use App\Nova\Metrics\AnimePerDay;
+use App\Nova\Metrics\ArtistsPerDay;
 use App\Nova\Metrics\NewAnime;
 use App\Nova\Metrics\NewArtists;
 use App\Nova\Metrics\NewSeries;
 use App\Nova\Metrics\NewVideos;
-use App\Nova\Metrics\AnimePerDay;
-use App\Nova\Metrics\ArtistsPerDay;
 use App\Nova\Metrics\SeriesPerDay;
 use App\Nova\Metrics\VideosPerDay;
 use Illuminate\Support\Facades\Gate;

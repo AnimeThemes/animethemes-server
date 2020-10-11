@@ -7,15 +7,14 @@ use App\Enums\SourceType;
 use App\ScoutElastic\VideoIndexConfigurator;
 use App\ScoutElastic\VideoSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use OwenIt\Auditing\Contracts\Auditable;
 use ScoutElastic\Searchable;
 
 class Video extends Model implements Auditable
 {
-
     use CastsEnums, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
@@ -45,22 +44,23 @@ class Video extends Model implements Auditable
      */
     protected $appends = ['tags'];
 
-    public function getTagsAttribute() : array {
+    public function getTagsAttribute() : array
+    {
         $tags = [];
 
         if ($this->nc) {
             array_push($tags, 'NC');
         }
-        if (!empty($this->source) && ($this->source->is(SourceType::BD) || $this->source->is(SourceType::DVD))) {
+        if (! empty($this->source) && ($this->source->is(SourceType::BD) || $this->source->is(SourceType::DVD))) {
             array_push($tags, $this->source->description);
         }
-        if (!empty($this->resolution)) {
+        if (! empty($this->resolution)) {
             array_push($tags, strval($this->resolution));
         }
 
         if ($this->subbed) {
             array_push($tags, 'Subbed');
-        } else if ($this->lyrics) {
+        } elseif ($this->lyrics) {
             array_push($tags, 'Lyrics');
         }
 
@@ -75,9 +75,10 @@ class Video extends Model implements Auditable
     public function toSearchableArray()
     {
         $array = $this->toArray();
-        $array['entries'] = $this->entries->map(function($item) {
+        $array['entries'] = $this->entries->map(function ($item) {
             return $item->toSearchableArray();
         })->toArray();
+
         return $array;
     }
 
@@ -90,7 +91,7 @@ class Video extends Model implements Auditable
      * @var array
      */
     protected $searchRules = [
-        VideoSearchRule::class
+        VideoSearchRule::class,
     ];
 
     /**
@@ -99,69 +100,69 @@ class Video extends Model implements Auditable
     protected $mapping = [
         'properties' => [
             'filename' => [
-                'type' => 'text'
+                'type' => 'text',
             ],
             'tags' => [
                 'type' => 'text',
-                'copy_to' => ['tags_slug', 'anime_slug', 'synonym_slug']
+                'copy_to' => ['tags_slug', 'anime_slug', 'synonym_slug'],
             ],
             'entries' => [
                 'type' => 'nested',
                 'properties' => [
                     'version' => [
                         'type' => 'text',
-                        'copy_to' => ['tags_slug', 'version_slug', 'anime_slug', 'synonym_slug']
+                        'copy_to' => ['tags_slug', 'version_slug', 'anime_slug', 'synonym_slug'],
                     ],
                     'theme' => [
                         'type' => 'nested',
                         'properties' => [
                             'slug' => [
                                 'type' => 'text',
-                                'copy_to' => ['tags_slug', 'version_slug', 'anime_slug', 'synonym_slug']
+                                'copy_to' => ['tags_slug', 'version_slug', 'anime_slug', 'synonym_slug'],
                             ],
                             'anime' => [
                                 'type' => 'nested',
                                 'properties' => [
                                     'name' => [
                                         'type' => 'text',
-                                        'copy_to' => ['anime_slug']
+                                        'copy_to' => ['anime_slug'],
                                     ],
                                     'synonyms' => [
                                         'type' => 'nested',
                                         'properties' => [
                                             'text' => [
                                                 'type' => 'text',
-                                                'copy_to' => ['synonym_slug']
-                                            ]
-                                        ]
-                                    ]
-                                ]
+                                                'copy_to' => ['synonym_slug'],
+                                            ],
+                                        ],
+                                    ],
+                                ],
                             ],
                             'song' => [
                                 'type' => 'nested',
                                 'properties' => [
                                     'title' => [
-                                        'type' => 'text'
-                                    ]
-                                ]
-                            ]
-                        ]
+                                        'type' => 'text',
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
-                ]
+                ],
             ],
             'tags_slug' => [
-                'type' => 'text'
+                'type' => 'text',
             ],
             'version_slug' => [
-                'type' => 'text'
+                'type' => 'text',
             ],
             'anime_slug' => [
-                'type' => 'text'
+                'type' => 'text',
             ],
             'synonym_slug' => [
-                'type' => 'text'
-            ]
-        ]
+                'type' => 'text',
+            ],
+        ],
     ];
 
     /**
@@ -195,11 +196,12 @@ class Video extends Model implements Auditable
     ];
 
     /**
-     * Get the related entries
+     * Get the related entries.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function entries() : BelongsToMany {
+    public function entries() : BelongsToMany
+    {
         return $this->belongsToMany('App\Models\Entry', 'entry_video', 'video_id', 'entry_id');
     }
 }

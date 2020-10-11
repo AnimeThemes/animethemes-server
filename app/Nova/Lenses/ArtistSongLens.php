@@ -13,7 +13,6 @@ use Laravel\Nova\Lenses\Lens;
 
 class ArtistSongLens extends Lens
 {
-
     /**
      * Get the displayable name of the lens.
      *
@@ -77,7 +76,7 @@ class ArtistSongLens extends Lens
     {
         return [
             new RecentlyCreatedFilter,
-            new RecentlyUpdatedFilter
+            new RecentlyUpdatedFilter,
         ];
     }
 

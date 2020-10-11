@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\Entry;
-use App\Models\Video;
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class EntryPolicy
@@ -118,6 +118,7 @@ class EntryPolicy
         if ($entry->videos->contains($video)) {
             return false;
         }
+
         return $this->attachAnyVideo($user, $entry);
     }
 

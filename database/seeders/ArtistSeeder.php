@@ -34,13 +34,13 @@ class ArtistSeeder extends Seeder
 
         foreach ($artist_wiki_entries as $artist_wiki_entry) {
             $artist_name = html_entity_decode($artist_wiki_entry[1]);
-            $artist_link = 'https://old.reddit.com' . $artist_wiki_entry[2] . '.json';
+            $artist_link = 'https://old.reddit.com'.$artist_wiki_entry[2].'.json';
             $artist_alias = html_entity_decode($artist_wiki_entry[3]);
 
             // Create Model from subreddit Alias & Name
             $artist = Artist::create([
                 'name' => $artist_name,
-                'alias' => $artist_alias
+                'alias' => $artist_alias,
             ]);
 
             // Try not to upset Reddit
@@ -59,7 +59,7 @@ class ArtistSeeder extends Seeder
             // Create Resource Model with link and derived type
             $resource = ExternalResource::create([
                 'type' => ResourceType::valueOf($artist_resource_link),
-                'link' => $artist_resource_link
+                'link' => $artist_resource_link,
             ]);
 
             // Attach Artist to Resource

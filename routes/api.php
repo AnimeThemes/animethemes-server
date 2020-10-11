@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['as' => 'api.'], function() {
+Route::group(['as' => 'api.'], function () {
 
     // Search Routes
     Route::get('search', [BaseController::class, 'search']);

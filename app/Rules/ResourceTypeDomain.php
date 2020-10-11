@@ -7,18 +7,17 @@ use Illuminate\Contracts\Validation\Rule;
 
 class ResourceTypeDomain implements Rule
 {
-
     /**
-     * The resource type key
+     * The resource type key.
      *
-     * @var integer
+     * @var int
      */
     private $type;
 
     /**
      * Create a new rule instance.
      *
-     * @param  integer $type The resource type key
+     * @param  int $type The resource type key
      * @return void
      */
     public function __construct($type)
@@ -37,7 +36,7 @@ class ResourceTypeDomain implements Rule
     {
         $domain = ResourceType::getDomain($this->type);
 
-        if (!empty($domain)) {
+        if (! empty($domain)) {
             return $domain === parse_url($value, PHP_URL_HOST);
         }
 

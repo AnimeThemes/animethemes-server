@@ -14,7 +14,6 @@ use Laravel\Nova\Lenses\Lens;
 
 class ExternalResourceUnlinkedLens extends Lens
 {
-
     /**
      * Get the displayable name of the lens.
      *
@@ -53,7 +52,7 @@ class ExternalResourceUnlinkedLens extends Lens
                 ->sortable(),
 
             Number::make(__('nova.external_id'), 'external_id')
-                ->sortable()
+                ->sortable(),
         ];
     }
 
@@ -78,7 +77,7 @@ class ExternalResourceUnlinkedLens extends Lens
     {
         return [
             new RecentlyCreatedFilter,
-            new RecentlyUpdatedFilter
+            new RecentlyUpdatedFilter,
         ];
     }
 

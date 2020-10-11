@@ -50,7 +50,7 @@ class RegistrationTest extends TestCase
     public function testHasClosedInvitationForRegistrationForm()
     {
         $invitation = Invitation::factory()->create([
-            'status' => InvitationStatus::CLOSED
+            'status' => InvitationStatus::CLOSED,
         ]);
 
         $response = $this->get(route('register', ['token' => $invitation->token]));
@@ -110,7 +110,7 @@ class RegistrationTest extends TestCase
     public function testHasClosedInvitationForRegistration()
     {
         $invitation = Invitation::factory()->create([
-            'status' => InvitationStatus::CLOSED
+            'status' => InvitationStatus::CLOSED,
         ]);
 
         $response = $this->post(route('register'), ['token' => $invitation->token]);
@@ -134,7 +134,7 @@ class RegistrationTest extends TestCase
     }
 
     /**
-     * The password field shall be required for the registration request
+     * The password field shall be required for the registration request.
      *
      * @return void
      */
@@ -148,7 +148,7 @@ class RegistrationTest extends TestCase
     }
 
     /**
-     * The password field shall be a string for the registration request
+     * The password field shall be a string for the registration request.
      *
      * @return void
      */
@@ -162,7 +162,7 @@ class RegistrationTest extends TestCase
     }
 
     /**
-     * The password field shall be at least 8 characters in length for the registration request
+     * The password field shall be at least 8 characters in length for the registration request.
      *
      * @return void
      */
@@ -176,7 +176,7 @@ class RegistrationTest extends TestCase
     }
 
     /**
-     * The password field shall be confirmed for the registration request
+     * The password field shall be confirmed for the registration request.
      *
      * @return void
      */
@@ -186,14 +186,14 @@ class RegistrationTest extends TestCase
 
         $response = $this->post(route('register'), ['token' => $invitation->token,
             'password' => $this->faker->password(6, 7),
-            'password_confirmation' => $this->faker->password(8, 9)
+            'password_confirmation' => $this->faker->password(8, 9),
         ]);
 
         $response->assertSessionHasErrors(['password' => 'The password confirmation does not match.']);
     }
 
     /**
-     * The password field shall be scored at least a 3 by ZXCVBN for the registration request
+     * The password field shall be scored at least a 3 by ZXCVBN for the registration request.
      *
      * @return void
      */
@@ -204,14 +204,14 @@ class RegistrationTest extends TestCase
         $weak_password = $this->faker->password(8, 8);
         $response = $this->post(route('register'), ['token' => $invitation->token,
             'password' => $weak_password,
-            'password_confirmation' => $weak_password
+            'password_confirmation' => $weak_password,
         ]);
 
         $response->assertSessionHasErrors(['password' => 'Your password is not secure enough.']);
     }
 
     /**
-     * When the registration request is valid, the user shall be directed to the dashboard
+     * When the registration request is valid, the user shall be directed to the dashboard.
      *
      * @return void
      */
@@ -222,14 +222,14 @@ class RegistrationTest extends TestCase
         $strong_password = $this->faker->password(64, 128);
         $response = $this->post(route('register'), ['token' => $invitation->token,
             'password' => $strong_password,
-            'password_confirmation' => $strong_password
+            'password_confirmation' => $strong_password,
         ]);
 
         $response->assertRedirect(route('dashboard'));
     }
 
     /**
-     * When the registration request is valid, the user shall be created
+     * When the registration request is valid, the user shall be created.
      *
      * @return void
      */
@@ -240,7 +240,7 @@ class RegistrationTest extends TestCase
         $strong_password = $this->faker->password(64, 128);
         $this->post(route('register'), ['token' => $invitation->token,
             'password' => $strong_password,
-            'password_confirmation' => $strong_password
+            'password_confirmation' => $strong_password,
         ]);
 
         $user = User::where('name', $invitation->name)->where('email', $invitation->email)->where('type', $invitation->type)->first();
@@ -249,7 +249,7 @@ class RegistrationTest extends TestCase
     }
 
     /**
-     * When the registration request is valid, the guest shall be authenticated as the newly created user
+     * When the registration request is valid, the guest shall be authenticated as the newly created user.
      *
      * @return void
      */
@@ -260,7 +260,7 @@ class RegistrationTest extends TestCase
         $strong_password = $this->faker->password(64, 128);
         $this->post(route('register'), ['token' => $invitation->token,
             'password' => $strong_password,
-            'password_confirmation' => $strong_password
+            'password_confirmation' => $strong_password,
         ]);
 
         $user = User::where('name', $invitation->name)->where('email', $invitation->email)->where('type', $invitation->type)->first();

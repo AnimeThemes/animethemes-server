@@ -17,7 +17,6 @@ use Laravel\Nova\Lenses\Lens;
 
 class AnimeKitsuResourceLens extends Lens
 {
-
     /**
      * Get the displayable name of the lens.
      *
@@ -25,7 +24,7 @@ class AnimeKitsuResourceLens extends Lens
      */
     public function name()
     {
-        return __('nova.anime_resource_lens', ["type" => ResourceType::getDescription(ResourceType::KITSU)]);
+        return __('nova.anime_resource_lens', ['type' => ResourceType::getDescription(ResourceType::KITSU)]);
     }
 
     /**
@@ -87,7 +86,7 @@ class AnimeKitsuResourceLens extends Lens
         return [
             new AnimeYearFilter,
             new RecentlyCreatedFilter,
-            new RecentlyUpdatedFilter
+            new RecentlyUpdatedFilter,
         ];
     }
 

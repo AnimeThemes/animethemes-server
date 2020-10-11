@@ -26,7 +26,7 @@ class EntryFactory extends Factory
             'episodes' => $this->faker->word,
             'nsfw' => $this->faker->boolean,
             'spoiler' => $this->faker->boolean,
-            'notes' => $this->faker->word
+            'notes' => $this->faker->word,
         ];
     }
 }

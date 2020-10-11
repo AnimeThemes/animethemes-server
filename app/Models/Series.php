@@ -4,14 +4,13 @@ namespace App\Models;
 
 use App\ScoutElastic\SeriesIndexConfigurator;
 use App\ScoutElastic\SeriesSearchRule;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use ScoutElastic\Searchable;
 
 class Series extends Model implements Auditable
 {
-
     use HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
@@ -43,7 +42,7 @@ class Series extends Model implements Auditable
      * @var array
      */
     protected $searchRules = [
-        SeriesSearchRule::class
+        SeriesSearchRule::class,
     ];
 
     /**
@@ -52,9 +51,9 @@ class Series extends Model implements Auditable
     protected $mapping = [
         'properties' => [
             'name' => [
-                'type' => 'text'
-            ]
-        ]
+                'type' => 'text',
+            ],
+        ],
     ];
 
     /**
@@ -68,11 +67,12 @@ class Series extends Model implements Auditable
     }
 
     /**
-     * Get the anime included in the series
+     * Get the anime included in the series.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function anime() {
+    public function anime()
+    {
         return $this->belongsToMany('App\Models\Anime', 'anime_series', 'series_id', 'anime_id');
     }
 }

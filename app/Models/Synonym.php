@@ -4,14 +4,13 @@ namespace App\Models;
 
 use App\ScoutElastic\SynonymIndexConfigurator;
 use App\ScoutElastic\SynonymSearchRule;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use ScoutElastic\Searchable;
 
 class Synonym extends Model implements Auditable
 {
-
     use HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
@@ -43,7 +42,7 @@ class Synonym extends Model implements Auditable
      * @var array
      */
     protected $searchRules = [
-        SynonymSearchRule::class
+        SynonymSearchRule::class,
     ];
 
     /**
@@ -52,17 +51,18 @@ class Synonym extends Model implements Auditable
     protected $mapping = [
         'properties' => [
             'text' => [
-                'type' => 'text'
-            ]
-        ]
+                'type' => 'text',
+            ],
+        ],
     ];
 
     /**
-     * Gets the anime that owns the synonym
+     * Gets the anime that owns the synonym.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function anime() {
+    public function anime()
+    {
         return $this->belongsTo('App\Models\Anime', 'anime_id', 'anime_id');
     }
 }

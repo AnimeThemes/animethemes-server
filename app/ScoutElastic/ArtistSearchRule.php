@@ -7,15 +7,7 @@ use ScoutElastic\SearchRule;
 class ArtistSearchRule extends SearchRule
 {
     /**
-     * @inheritdoc
-     */
-    public function buildHighlightPayload()
-    {
-        return null;
-    }
-
-    /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function buildQueryPayload()
     {
@@ -24,17 +16,17 @@ class ArtistSearchRule extends SearchRule
                 [
                     'match_phrase' => [
                         'name' => [
-                            'query' => $this->builder->query
-                        ]
-                    ]
+                            'query' => $this->builder->query,
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'name' => [
                             'query' => $this->builder->query,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
@@ -42,9 +34,9 @@ class ArtistSearchRule extends SearchRule
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -58,16 +50,16 @@ class ArtistSearchRule extends SearchRule
                                             [
                                                 'match_phrase' => [
                                                     'songs.pivot.as' => [
-                                                        'query' => $this->builder->query
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                        'query' => $this->builder->query,
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -82,16 +74,16 @@ class ArtistSearchRule extends SearchRule
                                                 'match' => [
                                                     'songs.pivot.as' => [
                                                         'query' => $this->builder->query,
-                                                        'operator' => 'AND'
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                        'operator' => 'AND',
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'nested' => [
@@ -108,19 +100,19 @@ class ArtistSearchRule extends SearchRule
                                                         'query' => $this->builder->query,
                                                         'fuzziness' => 'AUTO',
                                                         'lenient' => true,
-                                                        'operator' => 'AND'
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                                        'operator' => 'AND',
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ],
-            'minimum_should_match' => 1
+            'minimum_should_match' => 1,
         ];
     }
 }

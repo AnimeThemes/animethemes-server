@@ -6,12 +6,11 @@ use App\Enums\OverlapType;
 use App\Enums\SourceType;
 use App\Models\Video;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class VideoTagsSeeder extends Seeder
 {
-
     // Hard-coded addresses of year pages
     // I don't really care about making this more elegant
     const YEAR_PAGES = [
@@ -99,10 +98,10 @@ class VideoTagsSeeder extends Seeder
                     $has_trans_tag = in_array(OverlapType::getKey(OverlapType::TRANS), $video_tags);
                     $has_over_tag = in_array(OverlapType::getKey(OverlapType::OVER), $video_tags);
                     $video->overlap = OverlapType::NONE;
-                    if ($has_trans_tag && !$has_over_tag) {
+                    if ($has_trans_tag && ! $has_over_tag) {
                         $video->overlap = OverlapType::TRANS;
                     }
-                    if (!$has_trans_tag && $has_over_tag) {
+                    if (! $has_trans_tag && $has_over_tag) {
                         $video->overlap = OverlapType::OVER;
                     }
 

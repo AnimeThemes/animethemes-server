@@ -40,12 +40,13 @@ class SongObserver
     }
 
     /**
-     * Handle updating of related index documents
+     * Handle updating of related index documents.
      *
      * @param  \App\Models\Song  $song
      * @return void
      */
-    private function updateRelatedScoutIndices(Song $song) : void {
+    private function updateRelatedScoutIndices(Song $song) : void
+    {
         $song->artists()->searchable();
         $song->themes->each(function ($theme) {
             $theme->searchable();

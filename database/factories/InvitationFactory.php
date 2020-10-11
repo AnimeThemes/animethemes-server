@@ -28,7 +28,7 @@ class InvitationFactory extends Factory
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'type' => UserType::READ_ONLY,
-            'status' => InvitationStatus::OPEN
+            'status' => InvitationStatus::OPEN,
         ];
     }
 }

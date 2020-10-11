@@ -66,7 +66,7 @@ class EntryResource extends BaseResource
     public static $wrap = null;
 
     /**
-     * The name of the resource in the field set mapping
+     * The name of the resource in the field set mapping.
      *
      * @var string
      */
@@ -92,7 +92,7 @@ class EntryResource extends BaseResource
             'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->fieldSets),
             'theme' => ThemeResource::make($this->whenLoaded('theme'), $this->fieldSets),
             'videos' => VideoCollection::make($this->whenLoaded('videos'), $this->fieldSets),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(EntryController::class))
+            'links' => $this->when($this->isAllowedField('links'), $this->links(EntryController::class)),
         ];
     }
 }

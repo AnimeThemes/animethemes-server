@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Anime;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class AnimeSeeder extends Seeder
 {
@@ -45,21 +45,21 @@ class AnimeSeeder extends Seeder
             // Fallback: append year if first attempt exists
             $slug = Str::slug($anime_name, '_');
             if (in_array($slug, $slugs)) {
-                $slug = Str::slug($anime_name . ' ' . $anime_year, '_');
+                $slug = Str::slug($anime_name.' '.$anime_year, '_');
             }
             $slugs[] = $slug;
 
             // Year expects a number but we group 60s, 70s, 80s & 90s
             // Fallback: Change group values to 1960, 1970, 1980 & 1990 for later inspection
             if (strpos($anime_year, 's') !== false) {
-                $anime_year = '19' . str_replace('s','', $anime_year);
+                $anime_year = '19'.str_replace('s', '', $anime_year);
             }
 
             // Create Model from subreddit Name and Year and generated slug
             Anime::create([
                 'name' => $anime_name,
                 'alias' => $slug,
-                'year' => $anime_year
+                'year' => $anime_year,
             ]);
         }
     }

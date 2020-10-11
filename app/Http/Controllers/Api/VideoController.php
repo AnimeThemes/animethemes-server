@@ -161,25 +161,25 @@ class VideoController extends BaseController
         $videos = $videos->with($this->getIncludePaths());
 
         // apply filters
-        if (!empty($resolution_query)) {
+        if (! empty($resolution_query)) {
             $videos = $videos->where(static::RESOLUTION_QUERY, intval($resolution_query));
         }
-        if (!empty($nc_query)) {
+        if (! empty($nc_query)) {
             $videos = $videos->where(static::NC_QUERY, filter_var($nc_query, FILTER_VALIDATE_BOOLEAN));
         }
-        if (!empty($subbed_query)) {
+        if (! empty($subbed_query)) {
             $videos = $videos->where(static::SUBBED_QUERY, filter_var($subbed_query, FILTER_VALIDATE_BOOLEAN));
         }
-        if (!empty($lyrics_query)) {
+        if (! empty($lyrics_query)) {
             $videos = $videos->where(static::LYRICS_QUERY, filter_var($lyrics_query, FILTER_VALIDATE_BOOLEAN));
         }
-        if (!empty($uncen_query)) {
+        if (! empty($uncen_query)) {
             $videos = $videos->where(static::UNCEN_QUERY, filter_var($uncen_query, FILTER_VALIDATE_BOOLEAN));
         }
-        if (!empty($source_query) && SourceType::hasKey($source_query)) {
+        if (! empty($source_query) && SourceType::hasKey($source_query)) {
             $videos = $videos->where(static::SOURCE_QUERY, SourceType::getValue($source_query));
         }
-        if (!empty($overlap_query) && OverlapType::hasKey($overlap_query)) {
+        if (! empty($overlap_query) && OverlapType::hasKey($overlap_query)) {
             $videos = $videos->where(static::OVERLAP_QUERY, OverlapType::getValue($overlap_query));
         }
 
@@ -190,6 +190,7 @@ class VideoController extends BaseController
         $videos = $videos->paginate($this->getPerPageLimit());
 
         $collection = new VideoCollection($videos, $this->getFieldSets());
+
         return $collection->toResponse(request());
     }
 
@@ -235,6 +236,7 @@ class VideoController extends BaseController
     public function show(Video $video)
     {
         $resource = new VideoResource($video->load($this->getIncludePaths()), $this->getFieldSets());
+
         return $resource->toResponse(request());
     }
 
@@ -248,7 +250,7 @@ class VideoController extends BaseController
         return [
             'entries',
             'entries.theme',
-            'entries.theme.anime'
+            'entries.theme.anime',
         ];
     }
 }

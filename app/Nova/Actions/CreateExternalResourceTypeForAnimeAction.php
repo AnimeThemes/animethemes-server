@@ -17,16 +17,16 @@ class CreateExternalResourceTypeForAnimeAction extends Action
     use InteractsWithQueue, Queueable;
 
     /**
-     * The resource type key
+     * The resource type key.
      *
-     * @var integer
+     * @var int
      */
     private $type;
 
     /**
-     * Undocumented function
+     * Undocumented function.
      *
-     * @param integer $type
+     * @param int $type
      */
     public function __construct($type)
     {
@@ -55,16 +55,17 @@ class CreateExternalResourceTypeForAnimeAction extends Action
         // Create Resource Model with link and provided type
         $resource = ExternalResource::create([
             'type' => $this->type,
-            'link' => $fields->get('link')
+            'link' => $fields->get('link'),
         ]);
 
         // Check if resource creation is successful
-        if (!$resource->exists()) {
+        if (! $resource->exists()) {
             return Action::danger(__('nova.error_resource_creation'));
         }
 
         // Attach Resource to Anime and provide success message
         $resource->anime()->attach($models);
+
         return Action::message(__('nova.anime_create_resource_action_success'));
     }
 

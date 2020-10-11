@@ -54,7 +54,7 @@ class SongResource extends BaseResource
     public static $wrap = null;
 
     /**
-     * The name of the resource in the field set mapping
+     * The name of the resource in the field set mapping.
      *
      * @var string
      */
@@ -78,7 +78,7 @@ class SongResource extends BaseResource
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'themes' => ThemeCollection::make($this->whenLoaded('themes'), $this->fieldSets),
             'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->fieldSets),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(SongController::class))
+            'links' => $this->when($this->isAllowedField('links'), $this->links(SongController::class)),
         ];
     }
 }

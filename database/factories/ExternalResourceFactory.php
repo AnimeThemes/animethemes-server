@@ -25,7 +25,7 @@ class ExternalResourceFactory extends Factory
         return [
             'type' => ResourceType::getRandomValue(),
             'link' => $this->faker->url,
-            'external_id' => $this->faker->randomNumber()
+            'external_id' => $this->faker->randomNumber(),
         ];
     }
 }

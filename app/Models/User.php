@@ -28,7 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'type'
+        'type',
     ];
 
     /**
@@ -60,15 +60,18 @@ class User extends Authenticatable implements MustVerifyEmail
         'type' => 'int',
     ];
 
-    public function isAdmin() : bool {
+    public function isAdmin() : bool
+    {
         return $this->type->is(UserType::ADMIN);
     }
 
-    public function isContributor() : bool {
+    public function isContributor() : bool
+    {
         return $this->type->is(UserType::CONTRIBUTOR);
     }
 
-    public function isReadOnly() : bool {
+    public function isReadOnly() : bool
+    {
         return $this->type->is(UserType::READ_ONLY);
     }
 }

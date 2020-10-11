@@ -101,7 +101,7 @@ class SeriesResource extends BaseResource
     public static $wrap = null;
 
     /**
-     * The name of the resource in the field set mapping
+     * The name of the resource in the field set mapping.
      *
      * @var string
      */
@@ -122,7 +122,7 @@ class SeriesResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->fieldSets),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(SeriesController::class))
+            'links' => $this->when($this->isAllowedField('links'), $this->links(SeriesController::class)),
         ];
     }
 }

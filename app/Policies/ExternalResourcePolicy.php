@@ -119,6 +119,7 @@ class ExternalResourcePolicy
         if ($externalResource->artists->contains($artist)) {
             return false;
         }
+
         return $this->attachAnyArtist($user, $externalResource);
     }
 
@@ -160,6 +161,7 @@ class ExternalResourcePolicy
         if ($externalResource->anime->contains($anime)) {
             return false;
         }
+
         return $this->attachAnyAnime($user, $externalResource);
     }
 

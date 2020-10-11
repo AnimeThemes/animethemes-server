@@ -16,7 +16,6 @@ use Laravel\Nova\Lenses\Lens;
 
 class VideoSourceLens extends Lens
 {
-
     /**
      * Get the displayable name of the lens.
      *
@@ -93,7 +92,7 @@ class VideoSourceLens extends Lens
         return [
             new VideoTypeFilter,
             new RecentlyCreatedFilter,
-            new RecentlyUpdatedFilter
+            new RecentlyUpdatedFilter,
         ];
     }
 

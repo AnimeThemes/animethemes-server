@@ -7,15 +7,7 @@ use ScoutElastic\SearchRule;
 class SynonymSearchRule extends SearchRule
 {
     /**
-     * @inheritdoc
-     */
-    public function buildHighlightPayload()
-    {
-        return null;
-    }
-
-    /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function buildQueryPayload()
     {
@@ -24,17 +16,17 @@ class SynonymSearchRule extends SearchRule
                 [
                     'match_phrase' => [
                         'text' => [
-                            'query' => $this->builder->query
-                        ]
-                    ]
+                            'query' => $this->builder->query,
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'text' => [
                             'query' => $this->builder->query,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
@@ -42,12 +34,12 @@ class SynonymSearchRule extends SearchRule
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
-                            'operator' => 'AND'
-                        ]
-                    ]
-                ]
+                            'operator' => 'AND',
+                        ],
+                    ],
+                ],
             ],
-            'minimum_should_match' => 1
+            'minimum_should_match' => 1,
         ];
     }
 }

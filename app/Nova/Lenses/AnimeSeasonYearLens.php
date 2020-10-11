@@ -17,7 +17,6 @@ use Laravel\Nova\Lenses\Lens;
 
 class AnimeSeasonYearLens extends Lens
 {
-
     /**
      * Get the displayable name of the lens.
      *
@@ -95,7 +94,7 @@ class AnimeSeasonYearLens extends Lens
         return [
             new AnimeYearFilter,
             new RecentlyCreatedFilter,
-            new RecentlyUpdatedFilter
+            new RecentlyUpdatedFilter,
         ];
     }
 

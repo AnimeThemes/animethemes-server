@@ -15,7 +15,7 @@ class VideoTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * The Video Index Endpoint shall display the Video attributes
+     * The Video Index Endpoint shall display the Video attributes.
      *
      * @return void
      */
@@ -28,14 +28,14 @@ class VideoTest extends TestCase
         $response = $this->get(route('api.video.index'));
 
         $response->assertJson([
-            'videos' => $videos->map(function($video) {
+            'videos' => $videos->map(function ($video) {
                 return static::getData($video);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Video Endpoint shall display the Video attributes
+     * The Show Video Endpoint shall display the Video attributes.
      *
      * @return void
      */
@@ -49,7 +49,7 @@ class VideoTest extends TestCase
     }
 
     /**
-     * The Show Video Endpoint shall display the entries relation in an 'entries' attribute
+     * The Show Video Endpoint shall display the entries relation in an 'entries' attribute.
      *
      * @return void
      */
@@ -62,19 +62,20 @@ class VideoTest extends TestCase
         $response = $this->get(route('api.video.show', ['video' => $video]));
 
         $response->assertJson([
-            'entries' => $video->entries->map(function($entry) {
+            'entries' => $video->entries->map(function ($entry) {
                 return EntryTest::getData($entry);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * Get attributes for Video resource
+     * Get attributes for Video resource.
      *
      * @param Video $video
      * @return array
      */
-    public static function getData(Video $video) {
+    public static function getData(Video $video)
+    {
         return [
             'id' => $video->video_id,
             'basename' => $video->basename,

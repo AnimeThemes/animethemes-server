@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 
 class AnimeResourceSeeder extends Seeder
 {
-
     // Hard-coded addresses of year pages
     // I don't really care about making this more elegant
     const YEAR_PAGES = [
@@ -74,7 +73,7 @@ class AnimeResourceSeeder extends Seeder
                 // Create Resource Model with link and derived type
                 $resource = ExternalResource::create([
                     'type' => ResourceType::valueOf($resource_link),
-                    'link' => $resource_link
+                    'link' => $resource_link,
                 ]);
 
                 try {

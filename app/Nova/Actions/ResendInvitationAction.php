@@ -49,7 +49,7 @@ class ResendInvitationAction extends Action
             }
         }
 
-        if (!empty($resent_invitations)) {
+        if (! empty($resent_invitations)) {
             return Action::message(__('nova.resent_invitations_for_users', ['users' => implode(', ', $resent_invitations)]));
         } else {
             return Action::danger(__('nova.resent_invitations_for_none'));

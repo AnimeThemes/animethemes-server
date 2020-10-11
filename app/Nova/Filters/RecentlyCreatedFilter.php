@@ -9,11 +9,11 @@ use Laravel\Nova\Filters\Filter;
 class RecentlyCreatedFilter extends Filter
 {
 
-    const TODAY     = 'today';
+    const TODAY = 'today';
     const YESTERDAY = 'yesterday';
-    const WEEK      = 'week';
-    const MONTH     = 'month';
-    const YEAR      = 'year';
+    const WEEK = 'week';
+    const MONTH = 'month';
+    const YEAR = 'year';
 
     /**
      * The filter's component.
@@ -71,7 +71,7 @@ class RecentlyCreatedFilter extends Filter
             __('nova.yesterday') => self::YESTERDAY,
             __('nova.this_week') => self::WEEK,
             __('nova.this_month') => self::MONTH,
-            __('nova.this_year') => self::YEAR
+            __('nova.this_year') => self::YEAR,
         ];
     }
 }

@@ -18,7 +18,6 @@ use Laravel\Nova\Lenses\Lens;
 
 class AnimeThemeLens extends Lens
 {
-
     /**
      * Get the displayable name of the lens.
      *
@@ -97,7 +96,7 @@ class AnimeThemeLens extends Lens
             new AnimeSeasonFilter,
             new AnimeYearFilter,
             new RecentlyCreatedFilter,
-            new RecentlyUpdatedFilter
+            new RecentlyUpdatedFilter,
         ];
     }
 

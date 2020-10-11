@@ -4,14 +4,13 @@ namespace App\Models;
 
 use App\ScoutElastic\ArtistIndexConfigurator;
 use App\ScoutElastic\ArtistSearchRule;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use ScoutElastic\Searchable;
 
 class Artist extends Model implements Auditable
 {
-
     use HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
@@ -43,6 +42,7 @@ class Artist extends Model implements Auditable
     {
         $array = $this->toArray();
         $array['songs'] = $this->songs->toArray();
+
         return $array;
     }
 
@@ -55,7 +55,7 @@ class Artist extends Model implements Auditable
      * @var array
      */
     protected $searchRules = [
-        ArtistSearchRule::class
+        ArtistSearchRule::class,
     ];
 
     /**
@@ -64,7 +64,7 @@ class Artist extends Model implements Auditable
     protected $mapping = [
         'properties' => [
             'name' => [
-                'type' => 'text'
+                'type' => 'text',
             ],
             'songs' => [
                 'type' => 'nested',
@@ -73,13 +73,13 @@ class Artist extends Model implements Auditable
                         'type' => 'nested',
                         'properties' => [
                             'as' => [
-                                'type' => 'text'
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ]
+                                'type' => 'text',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
     ];
 
     /**
@@ -93,38 +93,42 @@ class Artist extends Model implements Auditable
     }
 
     /**
-     * Get the songs the artist has performed in
+     * Get the songs the artist has performed in.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function songs() {
+    public function songs()
+    {
         return $this->belongsToMany('App\Models\Song', 'artist_song', 'artist_id', 'song_id')->withPivot('as');
     }
 
     /**
-     * Get the resources for the artist
+     * Get the resources for the artist.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function externalResources() {
+    public function externalResources()
+    {
         return $this->belongsToMany('App\Models\ExternalResource', 'artist_resource', 'artist_id', 'resource_id')->withPivot('as');
     }
 
     /**
-     * Get the members that comprise this group
+     * Get the members that comprise this group.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function members() {
+    public function members()
+    {
         return $this->belongsToMany('App\Models\Artist', 'artist_member', 'artist_id', 'member_id')->withPivot('as');
     }
 
     /**
-     * Get the groups the artist has performed in
+     * Get the groups the artist has performed in.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function groups() {
+    public function groups()
+    {
         return $this->belongsToMany('App\Models\Artist', 'artist_member', 'member_id', 'artist_id')->withPivot('as');
     }
 }

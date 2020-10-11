@@ -92,6 +92,7 @@ class SynonymController extends BaseController
         $synonyms = $synonyms->paginate($this->getPerPageLimit());
 
         $collection = new SynonymCollection($synonyms, $this->getFieldSets());
+
         return $collection->toResponse(request());
     }
 
@@ -137,6 +138,7 @@ class SynonymController extends BaseController
     public function show(Synonym $synonym)
     {
         $resource = new SynonymResource($synonym->load($this->getIncludePaths()), $this->getFieldSets());
+
         return $resource->toResponse(request());
     }
 
@@ -148,7 +150,7 @@ class SynonymController extends BaseController
     public static function getAllowedIncludePaths()
     {
         return [
-            'anime'
+            'anime',
         ];
     }
 }

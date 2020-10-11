@@ -4,11 +4,11 @@ namespace App\Nova;
 
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
-use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
 
 class Series extends Resource
 {
@@ -31,7 +31,8 @@ class Series extends Resource
      *
      * @return array|string|null
      */
-    public static function group() {
+    public static function group()
+    {
         return __('nova.wiki');
     }
 
@@ -61,7 +62,7 @@ class Series extends Resource
      * @var array
      */
     public static $search = [
-        'name'
+        'name',
     ];
 
     /**
@@ -97,7 +98,8 @@ class Series extends Resource
         ];
     }
 
-    protected function timestamps() : array {
+    protected function timestamps() : array
+    {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
                 ->hideFromIndex()
@@ -135,7 +137,7 @@ class Series extends Resource
     {
         return [
             new Filters\RecentlyCreatedFilter,
-            new Filters\RecentlyUpdatedFilter
+            new Filters\RecentlyUpdatedFilter,
         ];
     }
 

@@ -16,6 +16,7 @@ class VideoController extends Controller
     {
         if (App::environment(['local', 'production'])) {
             set_time_limit(0);
+
             return Storage::disk('spaces')->response($video->path, null, ['Accept-Ranges' => 'bytes']);
         }
 

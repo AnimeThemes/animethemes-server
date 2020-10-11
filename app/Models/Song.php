@@ -4,14 +4,13 @@ namespace App\Models;
 
 use App\ScoutElastic\SongIndexConfigurator;
 use App\ScoutElastic\SongSearchRule;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use ScoutElastic\Searchable;
 
 class Song extends Model implements Auditable
 {
-
     use HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
@@ -43,7 +42,7 @@ class Song extends Model implements Auditable
      * @var array
      */
     protected $searchRules = [
-        SongSearchRule::class
+        SongSearchRule::class,
     ];
 
     /**
@@ -52,26 +51,28 @@ class Song extends Model implements Auditable
     protected $mapping = [
         'properties' => [
             'title' => [
-                'type' => 'text'
-            ]
-        ]
+                'type' => 'text',
+            ],
+        ],
     ];
 
     /**
-     * Get the themes that use this song
+     * Get the themes that use this song.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function themes() {
+    public function themes()
+    {
         return $this->hasMany('App\Models\Theme', 'song_id', 'song_id');
     }
 
     /**
-     * Get the artists included in the performance
+     * Get the artists included in the performance.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function artists() {
+    public function artists()
+    {
         return $this->belongsToMany('App\Models\Artist', 'artist_song', 'song_id', 'artist_id')->withPivot('as');
     }
 }

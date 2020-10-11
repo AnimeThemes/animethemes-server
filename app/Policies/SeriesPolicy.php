@@ -118,6 +118,7 @@ class SeriesPolicy
         if ($series->anime->contains($anime)) {
             return false;
         }
+
         return $this->attachAnyAnime($user, $series);
     }
 

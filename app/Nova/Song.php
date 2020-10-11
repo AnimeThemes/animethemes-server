@@ -4,12 +4,12 @@ namespace App\Nova;
 
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
-use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
 
 class Song extends Resource
 {
@@ -39,7 +39,8 @@ class Song extends Resource
      *
      * @return array|string|null
      */
-    public static function group() {
+    public static function group()
+    {
         return __('nova.wiki');
     }
 
@@ -69,7 +70,7 @@ class Song extends Resource
      * @var array
      */
     public static $search = [
-        'title'
+        'title',
     ];
 
     /**
@@ -107,7 +108,8 @@ class Song extends Resource
         ];
     }
 
-    protected function timestamps() : array {
+    protected function timestamps() : array
+    {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
                 ->hideFromIndex()
@@ -142,7 +144,7 @@ class Song extends Resource
     {
         return [
             new Filters\RecentlyCreatedFilter,
-            new Filters\RecentlyUpdatedFilter
+            new Filters\RecentlyUpdatedFilter,
         ];
     }
 
@@ -155,7 +157,7 @@ class Song extends Resource
     public function lenses(Request $request)
     {
         return [
-            new Lenses\SongArtistLens
+            new Lenses\SongArtistLens,
         ];
     }
 

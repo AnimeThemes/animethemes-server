@@ -4,13 +4,12 @@ namespace App\Models;
 
 use App\Enums\ResourceType;
 use BenSampo\Enum\Traits\CastsEnums;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class ExternalResource extends Model implements Auditable
 {
-
     use CastsEnums, HasFactory;
     use \OwenIt\Auditing\Auditable;
 
@@ -48,20 +47,22 @@ class ExternalResource extends Model implements Auditable
     ];
 
     /**
-     * Get the anime that reference this resource
+     * Get the anime that reference this resource.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function anime() {
+    public function anime()
+    {
         return $this->belongsToMany('App\Models\Anime', 'anime_resource', 'resource_id', 'anime_id')->withPivot('as');
     }
 
     /**
-     * Get the artists that reference this resource
+     * Get the artists that reference this resource.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function artists() {
+    public function artists()
+    {
         return $this->belongsToMany('App\Models\Artist', 'artist_resource', 'resource_id', 'artist_id')->withPivot('as');
     }
 }

@@ -65,7 +65,7 @@ class ArtistResource extends BaseResource
     public static $wrap = null;
 
     /**
-     * The name of the resource in the field set mapping
+     * The name of the resource in the field set mapping.
      *
      * @var string
      */
@@ -96,7 +96,7 @@ class ArtistResource extends BaseResource
             'members' => ArtistCollection::make($this->whenLoaded('members'), $this->fieldSets),
             'groups' => ArtistCollection::make($this->whenLoaded('groups'), $this->fieldSets),
             'resources' => ExternalResourceCollection::make($this->whenLoaded('externalResources'), $this->fieldSets),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(ArtistController::class))
+            'links' => $this->when($this->isAllowedField('links'), $this->links(ArtistController::class)),
         ];
     }
 }

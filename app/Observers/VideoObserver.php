@@ -4,8 +4,8 @@ namespace App\Observers;
 
 use App\Enums\SourceType;
 use App\Models\Video;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class VideoObserver
 {
@@ -23,7 +23,7 @@ class VideoObserver
             preg_match('/^.*\-(?:OP|ED).*\-(.*)$/', $video->filename, $tags_match);
 
             // Check if the filename has tags, which is not guaranteed
-            if (!empty($tags_match)) {
+            if (! empty($tags_match)) {
                 $tags = $tags_match[1];
 
                 // Set true/false if tag is included/excluded
@@ -34,7 +34,7 @@ class VideoObserver
 
                 // Set resolution to numeric tag if included
                 preg_match('/\d+/', $tags, $resolution);
-                if (!empty($resolution)) {
+                if (! empty($resolution)) {
                     $video->resolution = intval($resolution[0]);
                 }
 

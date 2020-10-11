@@ -7,15 +7,7 @@ use ScoutElastic\SearchRule;
 class SongSearchRule extends SearchRule
 {
     /**
-     * @inheritdoc
-     */
-    public function buildHighlightPayload()
-    {
-        return null;
-    }
-
-    /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function buildQueryPayload()
     {
@@ -24,17 +16,17 @@ class SongSearchRule extends SearchRule
                 [
                     'match_phrase' => [
                         'title' => [
-                            'query' => $this->builder->query
-                        ]
-                    ]
+                            'query' => $this->builder->query,
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'title' => [
                             'query' => $this->builder->query,
-                            'operator' => 'AND'
-                        ]
-                    ]
+                            'operator' => 'AND',
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
@@ -42,12 +34,12 @@ class SongSearchRule extends SearchRule
                             'query' => $this->builder->query,
                             'fuzziness' => 'AUTO',
                             'lenient' => true,
-                            'operator' => 'AND'
-                        ]
-                    ]
-                ]
+                            'operator' => 'AND',
+                        ],
+                    ],
+                ],
             ],
-            'minimum_should_match' => 1
+            'minimum_should_match' => 1,
         ];
     }
 }

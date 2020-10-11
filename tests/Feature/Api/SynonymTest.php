@@ -13,7 +13,7 @@ class SynonymTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * The Synonym Index Endpoint shall display the Synonym attributes
+     * The Synonym Index Endpoint shall display the Synonym attributes.
      *
      * @return void
      */
@@ -27,14 +27,14 @@ class SynonymTest extends TestCase
         $response = $this->get(route('api.synonym.index'));
 
         $response->assertJson([
-            'synonyms' => $synonyms->map(function($synonym) {
+            'synonyms' => $synonyms->map(function ($synonym) {
                 return static::getData($synonym);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Synonym Endpoint shall display the Synonym attributes
+     * The Show Synonym Endpoint shall display the Synonym attributes.
      *
      * @return void
      */
@@ -50,7 +50,7 @@ class SynonymTest extends TestCase
     }
 
     /**
-     * The Show Synonym Endpoint shall display the anime relation in an 'anime' attribute
+     * The Show Synonym Endpoint shall display the anime relation in an 'anime' attribute.
      *
      * @return void
      */
@@ -63,22 +63,23 @@ class SynonymTest extends TestCase
         $response = $this->get(route('api.synonym.show', ['synonym' => $synonym]));
 
         $response->assertJson([
-            'anime' => AnimeTest::getData($synonym->anime)
+            'anime' => AnimeTest::getData($synonym->anime),
         ]);
     }
 
     /**
-     * Get attributes for Synonym resource
+     * Get attributes for Synonym resource.
      *
      * @param Synonym $synonym
      * @return array
      */
-    public static function getData(Synonym $synonym) {
+    public static function getData(Synonym $synonym)
+    {
         return [
             'id' => $synonym->synonym_id,
             'text' => $synonym->text,
             'created_at' => $synonym->created_at->toJSON(),
-            'updated_at' => $synonym->updated_at->toJSON()
+            'updated_at' => $synonym->updated_at->toJSON(),
         ];
     }
 }

@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
-use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
@@ -12,6 +11,7 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
 
 class Entry extends Resource
 {
@@ -62,7 +62,7 @@ class Entry extends Resource
      * @var array
      */
     public static $search = [
-        'entry_id'
+        'entry_id',
     ];
 
     /**
@@ -127,7 +127,8 @@ class Entry extends Resource
         ];
     }
 
-    protected function timestamps() : array {
+    protected function timestamps() : array
+    {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
                 ->hideFromIndex()
@@ -162,7 +163,7 @@ class Entry extends Resource
     {
         return [
             new Filters\EntryNsfwFilter,
-            new Filters\EntrySpoilerFilter
+            new Filters\EntrySpoilerFilter,
         ];
     }
 

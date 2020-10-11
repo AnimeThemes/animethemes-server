@@ -32,13 +32,13 @@ class SeriesSeeder extends Seeder
 
         foreach ($series_wiki_entries as $series_wiki_entry) {
             $series_name = html_entity_decode($series_wiki_entry[1]);
-            $series_link = 'https://old.reddit.com' . $series_wiki_entry[2] . '.json';
+            $series_link = 'https://old.reddit.com'.$series_wiki_entry[2].'.json';
             $series_alias = $series_wiki_entry[3];
 
             // Create Model from subreddit Alias & Name
             $series = Series::create([
                 'name' => $series_name,
-                'alias' => $series_alias
+                'alias' => $series_alias,
             ]);
 
             // Try not to upset Reddit

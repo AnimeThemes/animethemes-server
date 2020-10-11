@@ -15,7 +15,7 @@ class VideoReconcileTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * If no changes are needed, the Reconcile Video Command shall output 'No Videos created or deleted'
+     * If no changes are needed, the Reconcile Video Command shall output 'No Videos created or deleted'.
      *
      * @return void
      */
@@ -28,7 +28,7 @@ class VideoReconcileTest extends TestCase
 
     /**
      * The Reconcile Video Command shall filter objects for WebM metadata
-     * Note: Here we are asserting that our file type filter is in place
+     * Note: Here we are asserting that our file type filter is in place.
      *
      * @return void
      */
@@ -43,7 +43,7 @@ class VideoReconcileTest extends TestCase
 
     /**
      * The Reconcile Video Command shall filter objects for WebM metadata
-     * Note: Here we are asserting that our file extension filter is in place
+     * Note: Here we are asserting that our file extension filter is in place.
      *
      * @return void
      */
@@ -58,7 +58,7 @@ class VideoReconcileTest extends TestCase
     }
 
     /**
-     * If videos are created, the Reconcile Video Command shall output '{Created Count} Videos created, 0 Videos deleted'
+     * If videos are created, the Reconcile Video Command shall output '{Created Count} Videos created, 0 Videos deleted'.
      *
      * @return void
      */
@@ -67,9 +67,9 @@ class VideoReconcileTest extends TestCase
         $fs = Storage::fake('spaces');
 
         $created_video_count = $this->faker->randomDigitNotNull;
-        Collection::times($created_video_count)->each(function() use ($fs) {
+        Collection::times($created_video_count)->each(function () use ($fs) {
             $file_name = $this->faker->unique()->word();
-            $file = File::fake()->create($file_name . '.webm');
+            $file = File::fake()->create($file_name.'.webm');
             $fs->put('', $file);
         });
 
@@ -77,7 +77,7 @@ class VideoReconcileTest extends TestCase
     }
 
     /**
-     * If videos are created, the Reconcile Video Command shall output '0 Videos created, {Deleted Count} Videos deleted'
+     * If videos are created, the Reconcile Video Command shall output '0 Videos created, {Deleted Count} Videos deleted'.
      *
      * @return void
      */

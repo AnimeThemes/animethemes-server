@@ -29,7 +29,7 @@ class AnimeFactory extends Factory
             'year' => $this->faker->year,
             'season' => Season::getRandomValue(),
             'synopsis' => $this->faker->text,
-            'cover' => Str::random(40) . '.png'
+            'cover' => Str::random(40).'.png',
         ];
     }
 }

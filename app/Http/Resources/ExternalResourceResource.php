@@ -41,7 +41,7 @@ class ExternalResourceResource extends BaseResource
     public static $wrap = null;
 
     /**
-     * The name of the resource in the field set mapping
+     * The name of the resource in the field set mapping.
      *
      * @var string
      */
@@ -69,7 +69,7 @@ class ExternalResourceResource extends BaseResource
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->fieldSets),
             'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->fieldSets),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(ExternalResourceController::class))
+            'links' => $this->when($this->isAllowedField('links'), $this->links(ExternalResourceController::class)),
         ];
     }
 }

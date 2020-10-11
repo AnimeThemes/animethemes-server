@@ -47,7 +47,7 @@ class EntrySpoilerFilter extends Filter
     {
         return [
             __('nova.no') => 0,
-            __('nova.yes') => 1
+            __('nova.yes') => 1,
         ];
     }
 }

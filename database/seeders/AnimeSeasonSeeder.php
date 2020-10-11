@@ -5,12 +5,11 @@ namespace Database\Seeders;
 use App\Enums\Season;
 use App\Models\Anime;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AnimeSeasonSeeder extends Seeder
 {
-
     // Hard-coded addresses of year pages
     // I don't really care about making this more elegant
     const YEAR_PAGES = [
@@ -58,7 +57,7 @@ class AnimeSeasonSeeder extends Seeder
             preg_match_all('/^(.*)$/m', $year_wiki_content_md, $anime_season_wiki_entries, PREG_SET_ORDER);
 
             // The current season
-            $season = NULL;
+            $season = null;
 
             foreach ($anime_season_wiki_entries as $anime_season_wiki_entry) {
                 $wiki_entry_line = html_entity_decode($anime_season_wiki_entry[0]);
@@ -77,7 +76,7 @@ class AnimeSeasonSeeder extends Seeder
                         // Set season if we have a definitive match
                         // This is not guaranteed as an Anime Name may be inconsistent between indices
                         $matching_anime = Anime::where('name', html_entity_decode($anime_name[1]));
-                        if ($matching_anime->count() === 1 && !is_null($season)) {
+                        if ($matching_anime->count() === 1 && ! is_null($season)) {
                             $anime = $matching_anime->first();
                             $anime->season = $season;
                             if ($anime->isDirty()) {

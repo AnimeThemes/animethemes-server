@@ -27,7 +27,7 @@ class VideoFactory extends Factory
     {
         $fs = Storage::fake('local');
         $file_name = $this->faker->unique()->word();
-        $file = File::fake()->create($file_name . '.webm');
+        $file = File::fake()->create($file_name.'.webm');
         $fs_file = $fs->put('', $file);
         $fs_pathinfo = pathinfo(strval($fs_file));
 
@@ -41,7 +41,7 @@ class VideoFactory extends Factory
             'lyrics' => $this->faker->boolean,
             'uncen' => $this->faker->boolean,
             'source' => SourceType::getRandomValue(),
-            'overlap' => OverlapType::getRandomValue()
+            'overlap' => OverlapType::getRandomValue(),
         ];
     }
 }

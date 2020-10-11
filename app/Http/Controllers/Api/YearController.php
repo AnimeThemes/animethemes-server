@@ -15,7 +15,7 @@ class YearController extends BaseController
     protected const YEAR_QUERY = 'year';
 
     /**
-     * Display a listing of unique years of anime
+     * Display a listing of unique years of anime.
      *
      * @OA\Get(
      *     path="/year/",
@@ -64,7 +64,8 @@ class YearController extends BaseController
      * @param string $year
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($year) {
+    public function show($year)
+    {
         return new JsonResponse((new AnimeCollection(Anime::where(static::YEAR_QUERY, $year)
                 ->with($this->getIncludePaths())
                 ->orderBy(static::NAME_QUERY)
@@ -92,7 +93,7 @@ class YearController extends BaseController
             'themes.entries.videos',
             'themes.song',
             'themes.song.artists',
-            'externalResources'
+            'externalResources',
         ];
     }
 }

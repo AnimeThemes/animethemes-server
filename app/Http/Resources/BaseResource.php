@@ -7,14 +7,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
 abstract class BaseResource extends JsonResource
 {
     /**
-     * Sparse field set specified by the client
+     * Sparse field set specified by the client.
      *
      * @var \App\JsonApi\FieldSetFilter
      */
     protected $fieldSets;
 
     /**
-     * The name of the resource in the field set mapping
+     * The name of the resource in the field set mapping.
      *
      * @var string
      */
@@ -34,10 +34,10 @@ abstract class BaseResource extends JsonResource
     }
 
     /**
-     * Determine if field should be included in the response for this resource type
+     * Determine if field should be included in the response for this resource type.
      *
      * @param string $field
-     * @return boolean
+     * @return bool
      */
     protected function isAllowedField($field)
     {

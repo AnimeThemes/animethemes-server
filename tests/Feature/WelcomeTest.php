@@ -10,7 +10,7 @@ class WelcomeTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * The welcome route shall display the home screen
+     * The welcome route shall display the home screen.
      *
      * @return void
      */

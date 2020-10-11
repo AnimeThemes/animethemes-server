@@ -5,12 +5,12 @@ namespace App\Nova;
 use App\Enums\UserType;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
-use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
 
 class User extends Resource
 {
@@ -44,7 +44,8 @@ class User extends Resource
      *
      * @return array|string|null
      */
-    public static function group() {
+    public static function group()
+    {
         return __('nova.admin');
     }
 
@@ -74,7 +75,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'name'
+        'name',
     ];
 
     /**
@@ -98,7 +99,7 @@ class User extends Resource
 
             Text::make(__('nova.email'), 'email')
                 ->readonly(function ($request) {
-                    return !$request->user()->isAdmin();
+                    return ! $request->user()->isAdmin();
                 })
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
@@ -118,7 +119,8 @@ class User extends Resource
         ];
     }
 
-    protected function timestamps() : array {
+    protected function timestamps() : array
+    {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
                 ->hideFromIndex()
@@ -154,7 +156,7 @@ class User extends Resource
         return [
             new Filters\UserTypeFilter,
             new Filters\RecentlyCreatedFilter,
-            new Filters\RecentlyUpdatedFilter
+            new Filters\RecentlyUpdatedFilter,
         ];
     }
 

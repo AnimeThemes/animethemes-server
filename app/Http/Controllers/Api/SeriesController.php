@@ -92,6 +92,7 @@ class SeriesController extends BaseController
         $series = $series->paginate($this->getPerPageLimit());
 
         $collection = new SeriesCollection($series, $this->getFieldSets());
+
         return $collection->toResponse(request());
     }
 
@@ -137,6 +138,7 @@ class SeriesController extends BaseController
     public function show(Series $series)
     {
         $resource = new SeriesResource($series->load($this->getIncludePaths()), $this->getFieldSets());
+
         return $resource->toResponse(request());
     }
 
@@ -155,7 +157,7 @@ class SeriesController extends BaseController
             'anime.themes.entries.videos',
             'anime.themes.song',
             'anime.themes.song.artists',
-            'anime.externalResources'
+            'anime.externalResources',
         ];
     }
 }

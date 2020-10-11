@@ -102,7 +102,7 @@ class AnimeResource extends BaseResource
     public static $wrap = null;
 
     /**
-     * The name of the resource in the field set mapping
+     * The name of the resource in the field set mapping.
      *
      * @var string
      */
@@ -131,7 +131,7 @@ class AnimeResource extends BaseResource
             'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('anime_resource', function () {
                 return strval($this->pivot->as);
             })),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(AnimeController::class))
+            'links' => $this->when($this->isAllowedField('links'), $this->links(AnimeController::class)),
         ];
     }
 }

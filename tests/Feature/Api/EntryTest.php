@@ -15,7 +15,7 @@ class EntryTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * The Entry Index Endpoint shall display the Entry attributes
+     * The Entry Index Endpoint shall display the Entry attributes.
      *
      * @return void
      */
@@ -29,14 +29,14 @@ class EntryTest extends TestCase
         $response = $this->get(route('api.entry.index'));
 
         $response->assertJson([
-            'entries' => $entries->map(function($entry) {
+            'entries' => $entries->map(function ($entry) {
                 return static::getData($entry);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Entry Endpoint shall display the Entry attributes
+     * The Show Entry Endpoint shall display the Entry attributes.
      *
      * @return void
      */
@@ -52,7 +52,7 @@ class EntryTest extends TestCase
     }
 
     /**
-     * The Show Entry Endpoint shall display the anime relation in an 'anime' attribute
+     * The Show Entry Endpoint shall display the anime relation in an 'anime' attribute.
      *
      * @return void
      */
@@ -65,12 +65,12 @@ class EntryTest extends TestCase
         $response = $this->get(route('api.entry.show', ['entry' => $entry]));
 
         $response->assertJson([
-            'anime' => AnimeTest::getData($entry->anime)
+            'anime' => AnimeTest::getData($entry->anime),
         ]);
     }
 
     /**
-     * The Show Entry Endpoint shall display the theme relation in a 'theme' attribute
+     * The Show Entry Endpoint shall display the theme relation in a 'theme' attribute.
      *
      * @return void
      */
@@ -83,12 +83,12 @@ class EntryTest extends TestCase
         $response = $this->get(route('api.entry.show', ['entry' => $entry]));
 
         $response->assertJson([
-            'theme' => ThemeTest::getData($entry->theme)
+            'theme' => ThemeTest::getData($entry->theme),
         ]);
     }
 
     /**
-     * The Show Entry Endpoint shall display the videos relation in a 'videos' attribute
+     * The Show Entry Endpoint shall display the videos relation in a 'videos' attribute.
      *
      * @return void
      */
@@ -102,14 +102,14 @@ class EntryTest extends TestCase
         $response = $this->get(route('api.entry.show', ['entry' => $entry]));
 
         $response->assertJson([
-            'videos' => $entry->videos->map(function($video) {
+            'videos' => $entry->videos->map(function ($video) {
                 return VideoTest::getData($video);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * Get attributes for Entry resource
+     * Get attributes for Entry resource.
      *
      * @param Entry $entry
      * @return array
@@ -124,7 +124,7 @@ class EntryTest extends TestCase
             'spoiler' => $entry->spoiler,
             'notes' => strval($entry->notes),
             'created_at' => $entry->created_at->toJSON(),
-            'updated_at' => $entry->updated_at->toJSON()
+            'updated_at' => $entry->updated_at->toJSON(),
         ];
     }
 }

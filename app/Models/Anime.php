@@ -6,14 +6,13 @@ use App\Enums\Season;
 use App\ScoutElastic\AnimeIndexConfigurator;
 use App\ScoutElastic\AnimeSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use ScoutElastic\Searchable;
 
 class Anime extends Model implements Auditable
 {
-
     use CastsEnums, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
@@ -45,6 +44,7 @@ class Anime extends Model implements Auditable
     {
         $array = $this->toArray();
         $array['synonyms'] = $this->synonyms->toArray();
+
         return $array;
     }
 
@@ -57,7 +57,7 @@ class Anime extends Model implements Auditable
      * @var array
      */
     protected $searchRules = [
-        AnimeSearchRule::class
+        AnimeSearchRule::class,
     ];
 
     /**
@@ -66,17 +66,17 @@ class Anime extends Model implements Auditable
     protected $mapping = [
         'properties' => [
             'name' => [
-                'type' => 'text'
+                'type' => 'text',
             ],
             'synonyms' => [
                 'type' => 'nested',
                 'properties' => [
                     'text' => [
-                        'type' => 'text'
-                    ]
-                ]
-            ]
-        ]
+                        'type' => 'text',
+                    ],
+                ],
+            ],
+        ],
     ];
 
     /**
@@ -104,38 +104,42 @@ class Anime extends Model implements Auditable
     ];
 
     /**
-     * Get the synonyms for the anime
+     * Get the synonyms for the anime.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function synonyms() {
+    public function synonyms()
+    {
         return $this->hasMany('App\Models\Synonym', 'anime_id', 'anime_id');
     }
 
     /**
-     * Get the series the anime is included in
+     * Get the series the anime is included in.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function series() {
+    public function series()
+    {
         return $this->belongsToMany('App\Models\Series', 'anime_series', 'anime_id', 'series_id');
     }
 
     /**
-     * Get the themes for the anime
+     * Get the themes for the anime.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function themes() {
+    public function themes()
+    {
         return $this->hasMany('App\Models\Theme', 'anime_id', 'anime_id');
     }
 
     /**
-     * Get the resources for the anime
+     * Get the resources for the anime.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function externalResources() {
+    public function externalResources()
+    {
         return $this->belongsToMany('App\Models\ExternalResource', 'anime_resource', 'anime_id', 'resource_id')->withPivot('as');
     }
 }

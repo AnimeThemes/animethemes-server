@@ -10,34 +10,33 @@ use Illuminate\Support\Facades\Storage;
 
 class VideoReconcileCommand extends Command
 {
-
     // Result Counts
 
     /**
-     * The number of videos created
+     * The number of videos created.
      *
-     * @var integer
+     * @var int
      */
     private $created = 0;
 
     /**
-     * The number of videos whose creation failed
+     * The number of videos whose creation failed.
      *
-     * @var integer
+     * @var int
      */
     private $created_failed = 0;
 
     /**
-     * The number of videos deleted
+     * The number of videos deleted.
      *
-     * @var integer
+     * @var int
      */
     private $deleted = 0;
 
     /**
-     * The number of videos whose deletion failed
+     * The number of videos whose deletion failed.
      *
-     * @var integer
+     * @var int
      */
     private $deleted_failed = 0;
 
@@ -87,6 +86,7 @@ class VideoReconcileCommand extends Command
             $fs_videos = array_map(function ($file) {
                 $fs_video = new Video;
                 $fs_video->fill($file);
+
                 return $fs_video;
             }, $files);
 
@@ -132,42 +132,48 @@ class VideoReconcileCommand extends Command
     }
 
     /**
-     * Callback for video comparison in set operation
+     * Callback for video comparison in set operation.
      *
      * @param \App\Models\Video $a
      * @param \App\Models\Video $b
-     * @return integer
+     * @return int
      */
-    private static function compareVideos(Video $a, Video $b) : int {
+    private static function compareVideos(Video $a, Video $b) : int
+    {
         return strcmp(static::reconciliationString($a), static::reconciliationString($b));
     }
 
     /**
      * Represent video with attributes that correspond to WebM metadata
-     * For reconciliation purposes, other attributes such as ID and timestamps do not apply
+     * For reconciliation purposes, other attributes such as ID and timestamps do not apply.
      *
      * @param \App\Models\Video $video
      * @return string
      */
-    private static function reconciliationString(Video $video) : string {
+    private static function reconciliationString(Video $video) : string
+    {
         return "basename:{$video->basename},filename:{$video->filename},path:{$video->path}";
     }
 
     // Reconciliation Results
 
-    private function hasResults() : bool {
+    private function hasResults() : bool
+    {
         return $this->hasChanges() || $this->hasFailures();
     }
 
-    private function hasChanges() : bool {
+    private function hasChanges() : bool
+    {
         return $this->created > 0 || $this->deleted > 0;
     }
 
-    private function hasFailures() : bool {
+    private function hasFailures() : bool
+    {
         return $this->created_failed > 0 || $this->deleted_failed > 0;
     }
 
-    private function printResults() : void {
+    private function printResults() : void
+    {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
                 Log::info("{$this->created} Videos created, {$this->deleted} Videos deleted");

@@ -3,13 +3,13 @@
 namespace Database\Seeders;
 
 use App\Enums\ThemeType;
-use App\Models\Artist;
 use App\Models\Anime;
+use App\Models\Artist;
 use App\Models\Theme;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ArtistSongSeeder extends Seeder
 {
@@ -35,10 +35,10 @@ class ArtistSongSeeder extends Seeder
 
         foreach ($artist_wiki_entries as $artist_wiki_entry) {
             $artist_name = html_entity_decode($artist_wiki_entry[1]);
-            $artist_link = 'https://old.reddit.com' . $artist_wiki_entry[2] . '.json';
+            $artist_link = 'https://old.reddit.com'.$artist_wiki_entry[2].'.json';
             $artist_alias = html_entity_decode($artist_wiki_entry[3]);
 
-            $artist = NULL;
+            $artist = null;
 
             try {
                 $artist = Artist::where('name', $artist_name)->firstOrFail();
@@ -59,7 +59,7 @@ class ArtistSongSeeder extends Seeder
             preg_match_all('/^(.*)$/m', $artist_song_wiki_content_md, $artist_song_wiki_entries, PREG_SET_ORDER);
 
             // The current Anime
-            $anime = NULL;
+            $anime = null;
 
             foreach ($artist_song_wiki_entries as $artist_song_wiki_entry) {
                 $wiki_entry_line = html_entity_decode($artist_song_wiki_entry[0]);
@@ -79,19 +79,19 @@ class ArtistSongSeeder extends Seeder
                         LOG::error($exception);
                     }
 
-                    $anime = NULL;
+                    $anime = null;
                     continue;
                 }
 
                 // If Theme line, attempt to load Theme and associate Song to Artist
                 // Format: "{OP|ED}{Sequence} V{Version} "{Song Title}" by {by}|[Webm {Tags}](https://animethemes.moe/video/{Video Basename})|{Episodes}|{Notes}"
-                if (!is_null($anime) && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\"(?:\sby\s(.*))?\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wiki_entry_line, $theme_match)) {
+                if (! is_null($anime) && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\"(?:\sby\s(.*))?\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wiki_entry_line, $theme_match)) {
                     $theme_type = $theme_match[1];
                     $sequence = $theme_match[2];
                     $version = $theme_match[3];
 
                     // Create Theme if no version or V1
-                    if (!is_numeric($version) || intval($version) === 1) {
+                    if (! is_numeric($version) || intval($version) === 1) {
 
                         // Load Song through Theme
                         $query = Theme::query();

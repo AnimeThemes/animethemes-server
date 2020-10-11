@@ -119,6 +119,7 @@ class AnimePolicy
         if ($anime->series->contains($series)) {
             return false;
         }
+
         return $this->attachAnySeries($user, $anime);
     }
 
@@ -160,6 +161,7 @@ class AnimePolicy
         if ($anime->externalResources->contains($externalResource)) {
             return false;
         }
+
         return $this->attachAnyExternalResource($user, $anime);
     }
 

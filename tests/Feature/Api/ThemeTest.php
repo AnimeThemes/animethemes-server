@@ -15,7 +15,7 @@ class ThemeTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * The Theme Index Endpoint shall display the Theme attributes
+     * The Theme Index Endpoint shall display the Theme attributes.
      *
      * @return void
      */
@@ -29,14 +29,14 @@ class ThemeTest extends TestCase
         $response = $this->get(route('api.theme.index'));
 
         $response->assertJson([
-            'themes' => $themes->map(function($theme) {
+            'themes' => $themes->map(function ($theme) {
                 return static::getData($theme);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * The Show Theme Endpoint shall display the Theme attributes
+     * The Show Theme Endpoint shall display the Theme attributes.
      *
      * @return void
      */
@@ -52,7 +52,7 @@ class ThemeTest extends TestCase
     }
 
     /**
-     * The Show Theme Endpoint shall display the anime relation in an 'anime' attribute
+     * The Show Theme Endpoint shall display the anime relation in an 'anime' attribute.
      *
      * @return void
      */
@@ -65,12 +65,12 @@ class ThemeTest extends TestCase
         $response = $this->get(route('api.theme.show', ['theme' => $theme]));
 
         $response->assertJson([
-            'anime' => AnimeTest::getData($theme->anime)
+            'anime' => AnimeTest::getData($theme->anime),
         ]);
     }
 
     /**
-     * The Show Theme Endpoint shall display the song relation in an 'song' attribute
+     * The Show Theme Endpoint shall display the song relation in an 'song' attribute.
      *
      * @return void
      */
@@ -84,12 +84,12 @@ class ThemeTest extends TestCase
         $response = $this->get(route('api.theme.show', ['theme' => $theme]));
 
         $response->assertJson([
-            'song' => SongTest::getData($theme->song)
+            'song' => SongTest::getData($theme->song),
         ]);
     }
 
     /**
-     * The Show Theme Endpoint shall display the entries relation in an 'entries' attribute
+     * The Show Theme Endpoint shall display the entries relation in an 'entries' attribute.
      *
      * @return void
      */
@@ -103,14 +103,14 @@ class ThemeTest extends TestCase
         $response = $this->get(route('api.theme.show', ['theme' => $theme]));
 
         $response->assertJson([
-            'entries' => $theme->entries->map(function($entry) {
+            'entries' => $theme->entries->map(function ($entry) {
                 return EntryTest::getData($entry);
-            })->toArray()
+            })->toArray(),
         ]);
     }
 
     /**
-     * Get attributes for Theme resource
+     * Get attributes for Theme resource.
      *
      * @param Theme $theme
      * @return array
@@ -124,7 +124,7 @@ class ThemeTest extends TestCase
             'group' => strval($theme->group),
             'slug' => strval($theme->slug),
             'created_at' => $theme->created_at->toJSON(),
-            'updated_at' => $theme->updated_at->toJSON()
+            'updated_at' => $theme->updated_at->toJSON(),
         ];
     }
 }
