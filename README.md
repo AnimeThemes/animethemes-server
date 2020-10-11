@@ -1,4 +1,5 @@
 <p align="center">
+<a href="https://github.com/paranarimasu/AnimeThemes/actions"><img src="https://github.com/paranarimasu/AnimeThemes/workflows/tests/badge.svg?branch=wiki" alt="tests"></a>
 <a href="https://github.styleci.io/repos/111264405?branch=wiki"><img src="https://github.styleci.io/repos/111264405/shield?branch=wiki" alt="StyleCI"></a>
 </p>
 
