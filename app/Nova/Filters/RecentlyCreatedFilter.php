@@ -8,7 +8,6 @@ use Laravel\Nova\Filters\Filter;
 
 class RecentlyCreatedFilter extends Filter
 {
-
     const TODAY = 'today';
     const YESTERDAY = 'yesterday';
     const WEEK = 'week';

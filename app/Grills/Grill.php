@@ -18,7 +18,7 @@ class Grill
     }
 
     /**
-     * Get grill path
+     * Get grill path.
      *
      * @return string
      */

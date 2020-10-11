@@ -61,7 +61,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isAdmin()
     {
@@ -69,7 +69,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isContributor()
     {
@@ -77,7 +77,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isReadOnly()
     {

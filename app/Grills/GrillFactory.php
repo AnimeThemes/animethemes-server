@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class GrillFactory
 {
     /**
-     * Get random grill from storage
+     * Get random grill from storage.
      *
      * @return Grill
      */
