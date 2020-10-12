@@ -34,17 +34,9 @@ class SeriesController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Order series by field. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
+     *         description="Sort series resource collection by fields. Case-insensitive options are series_id, created_at, updated_at, alias & name.",
      *         example="updated_at",
-     *         name="order",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         description="Direction of series ordering. Case-insensitive options are asc & desc.",
-     *         example="desc",
-     *         name="direction",
+     *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -85,8 +77,8 @@ class SeriesController extends BaseController
         // eager load relations
         $series = $series->with($this->getIncludePaths());
 
-        // order by
-        $series = $this->applyOrdering($series);
+        // sort
+        $series = $this->applySorting($series);
 
         // paginate
         $series = $series->paginate($this->getPerPageLimit());
@@ -158,6 +150,22 @@ class SeriesController extends BaseController
             'anime.themes.song',
             'anime.themes.song.artists',
             'anime.externalResources',
+        ];
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedSortFields()
+    {
+        return [
+            'series_id',
+            'created_at',
+            'updated_at',
+            'alias',
+            'name',
         ];
     }
 }

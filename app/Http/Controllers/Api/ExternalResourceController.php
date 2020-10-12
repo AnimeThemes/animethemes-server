@@ -39,17 +39,9 @@ class ExternalResourceController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Order resources by field. Case-insensitive options are resource_id, created_at, updated_at, type, link & external_id.",
-     *         example="updated_at",
-     *         name="order",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         description="Direction of resource ordering. Case-insensitive options are asc & desc.",
-     *         example="desc",
-     *         name="direction",
+     *         description="Sort external resource collection by fields. Case-insensitive options are resource_id, created_at, updated_at, type, link & external_id.",
+     *         example="-updated_at,resource_id",
+     *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -95,8 +87,8 @@ class ExternalResourceController extends BaseController
             $resources = $resources->where(static::TYPE_QUERY, ResourceType::getValue($type_query));
         }
 
-        // order by
-        $resources = $this->applyOrdering($resources);
+        // sort
+        $resources = $this->applySorting($resources);
 
         // paginate
         $resources = $resources->paginate($this->getPerPageLimit());
@@ -162,6 +154,23 @@ class ExternalResourceController extends BaseController
         return [
             'anime',
             'artists',
+        ];
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedSortFields()
+    {
+        return [
+            'resource_id',
+            'created_at',
+            'updated_at',
+            'type',
+            'link',
+            'external_id',
         ];
     }
 }

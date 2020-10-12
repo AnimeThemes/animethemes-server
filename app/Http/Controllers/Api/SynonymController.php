@@ -34,17 +34,9 @@ class SynonymController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Order synonyms by field. Case-insensitive options are synonym_id, created_at, updated_at, text & anime_id.",
-     *         example="updated_at",
-     *         name="order",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         description="Direction of synonym ordering. Case-insensitive options are asc & desc.",
-     *         example="desc",
-     *         name="direction",
+     *         description="Sort synonym resource collection by fields. Case-insensitive options are synonym_id, created_at, updated_at, text & anime_id.",
+     *         example="text,-updated_at",
+     *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -85,8 +77,8 @@ class SynonymController extends BaseController
         // eager load relations
         $synonyms = $synonyms->with($this->getIncludePaths());
 
-        // order by
-        $synonyms = $this->applyOrdering($synonyms);
+        // sort
+        $synonyms = $this->applySorting($synonyms);
 
         // paginate
         $synonyms = $synonyms->paginate($this->getPerPageLimit());
@@ -151,6 +143,22 @@ class SynonymController extends BaseController
     {
         return [
             'anime',
+        ];
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedSortFields()
+    {
+        return [
+            'synonym_id',
+            'created_at',
+            'updated_at',
+            'text',
+            'anime_id',
         ];
     }
 }

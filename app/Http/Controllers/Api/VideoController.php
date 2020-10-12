@@ -102,17 +102,9 @@ class VideoController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Order videos by field. Case-insensitive options are video_id, created_at, updated_at, filename, path, basename, resolution, nc, subbed, lyrics, uncen, source & overlap.",
-     *         example="updated_at",
-     *         name="order",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         description="Direction of video ordering. Case-insensitive options are asc & desc.",
-     *         example="desc",
-     *         name="direction",
+     *         description="Sort video resource collection by fields. Case-insensitive options are video_id, created_at, updated_at, filename, path, basename, resolution, nc, subbed, lyrics, uncen, source & overlap.",
+     *         example="filename,-updated_at",
+     *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -183,8 +175,8 @@ class VideoController extends BaseController
             $videos = $videos->where(static::OVERLAP_QUERY, OverlapType::getValue($overlap_query));
         }
 
-        // order by
-        $videos = $this->applyOrdering($videos);
+        // sort
+        $videos = $this->applySorting($videos);
 
         // paginate
         $videos = $videos->paginate($this->getPerPageLimit());
@@ -251,6 +243,30 @@ class VideoController extends BaseController
             'entries',
             'entries.theme',
             'entries.theme.anime',
+        ];
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedSortFields()
+    {
+        return [
+            'video_id',
+            'created_at',
+            'updated_at',
+            'filename',
+            'path',
+            'basename',
+            'resolution',
+            'nc',
+            'subbed',
+            'lyrics',
+            'uncen',
+            'source',
+            'overlap',
         ];
     }
 }

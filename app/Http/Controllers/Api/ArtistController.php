@@ -34,17 +34,9 @@ class ArtistController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Order artists by field. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
-     *         example="updated_at",
-     *         name="order",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         description="Direction of artist ordering. Case-insensitive options are asc & desc.",
-     *         example="desc",
-     *         name="direction",
+     *         description="Sort artist resource collection by fields. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
+     *         example="name,-updated_at",
+     *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -85,8 +77,8 @@ class ArtistController extends BaseController
         // eager load relations
         $artists = $artists->with($this->getIncludePaths());
 
-        // order by
-        $artists = $this->applyOrdering($artists);
+        // sort
+        $artists = $this->applySorting($artists);
 
         // paginate
         $artists = $artists->paginate($this->getPerPageLimit());
@@ -156,6 +148,22 @@ class ArtistController extends BaseController
             'members',
             'groups',
             'externalResources',
+        ];
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedSortFields()
+    {
+        return [
+            'artist_id',
+            'created_at',
+            'updated_at',
+            'alias',
+            'name',
         ];
     }
 }

@@ -65,17 +65,9 @@ class ThemeController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Order themes by field. Case-insensitive options are theme_id, created_at, updated_at, group, type, sequence, slug, anime_id & song_id.",
-     *         example="updated_at",
-     *         name="order",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         description="Direction of theme ordering. Case-insensitive options are asc & desc.",
-     *         example="desc",
-     *         name="direction",
+     *         description="Sort theme resource collection by fields. Case-insensitive options are theme_id, created_at, updated_at, group, type, sequence, slug, anime_id & song_id.",
+     *         example="sequence,-updated_at",
+     *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -130,8 +122,8 @@ class ThemeController extends BaseController
             $themes = $themes->where(static::GROUP_QUERY, $group_query);
         }
 
-        // order by
-        $themes = $this->applyOrdering($themes);
+        // sort
+        $themes = $this->applySorting($themes);
 
         // paginate
         $themes = $themes->paginate($this->getPerPageLimit());
@@ -200,6 +192,26 @@ class ThemeController extends BaseController
             'entries.videos',
             'song',
             'song.artists',
+        ];
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedSortFields()
+    {
+        return [
+            'theme_id',
+            'created_at',
+            'updated_at',
+            'group',
+            'type',
+            'sequence',
+            'slug',
+            'anime_id',
+            'song_id',
         ];
     }
 }

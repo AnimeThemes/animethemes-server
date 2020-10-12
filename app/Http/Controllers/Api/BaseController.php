@@ -21,6 +21,7 @@ use App\Models\Synonym;
 use App\Models\Theme;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Neomerx\JsonApi\Http\Query\BaseQueryParser;
 
@@ -28,8 +29,6 @@ class BaseController extends Controller
 {
     // constants for common query parameters
     protected const SEARCH_QUERY = 'q';
-    protected const ORDER_QUERY = 'order';
-    protected const DIRECTION_QUERY = 'direction';
     protected const FIELDS_QUERY = 'fields';
     protected const LIMIT_QUERY = 'limit';
 
@@ -227,21 +226,18 @@ class BaseController extends Controller
     }
 
     /**
-     * Apply ordering to resource query builder.
+     * Apply sorts to resource collections according to one or more sort fields.
      *
      * @param \Illuminate\Database\Eloquent\Builder|\Laravel\Scout\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder|\Laravel\Scout\Builder modified builder
      */
-    protected function applyOrdering($query)
+    protected function applySorting($query)
     {
-        $order_query = Str::lower(request(static::ORDER_QUERY));
-        $direction_query = Str::lower(request(static::DIRECTION_QUERY));
+        $sorts = iterator_to_array($this->parser->getSorts());
 
-        if (! empty($order_query)) {
-            if (! empty($direction_query)) {
-                return $query->orderBy($order_query, $direction_query);
-            } else {
-                return $query->orderBy($order_query);
+        foreach ($sorts as $field => $isAsc) {
+            if (in_array(Str::lower($field), static::getAllowedSortFields())) {
+                $query = $query->orderBy($field, $isAsc ? 'asc' : 'desc');
             }
         }
 
@@ -254,6 +250,16 @@ class BaseController extends Controller
      * @return array
      */
     public static function getAllowedIncludePaths()
+    {
+        return [];
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedSortFields()
     {
         return [];
     }

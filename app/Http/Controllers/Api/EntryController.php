@@ -63,17 +63,9 @@ class EntryController extends BaseController
      *         @OA\Schema(type="boolean")
      *     ),
      *     @OA\Parameter(
-     *         description="Order entries by field. Case-insensitive options are entry_id, created_at, updated_at, version, episodes, nsfw, spoiler, notes & theme_id.",
-     *         example="updated_at",
-     *         name="order",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         description="Direction of entry ordering. Case-insensitive options are asc & desc.",
-     *         example="desc",
-     *         name="direction",
+     *         description="Sort entry resource collection by fields. Case-insensitive options are entry_id, created_at, updated_at, version, nsfw, spoiler & theme_id.",
+     *         example="version,-updated_at",
+     *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -128,8 +120,8 @@ class EntryController extends BaseController
             $entries = $entries->where(static::SPOILER_QUERY, filter_var($spoiler_query, FILTER_VALIDATE_BOOLEAN));
         }
 
-        // order by
-        $entries = $this->applyOrdering($entries);
+        // sort
+        $entries = $this->applySorting($entries);
 
         // paginate
         $entries = $entries->paginate($this->getPerPageLimit());
@@ -196,6 +188,24 @@ class EntryController extends BaseController
             'anime',
             'theme',
             'videos',
+        ];
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedSortFields()
+    {
+        return [
+            'entry_id',
+            'created_at',
+            'updated_at',
+            'version',
+            'nsfw',
+            'spoiler',
+            'theme_id',
         ];
     }
 }

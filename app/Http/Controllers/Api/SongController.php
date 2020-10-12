@@ -34,17 +34,9 @@ class SongController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Order songs by field. Case-insensitive options are song_id, created_at, updated_at & title.",
-     *         example="updated_at",
-     *         name="order",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         description="Direction of song ordering. Case-insensitive options are asc & desc.",
-     *         example="desc",
-     *         name="direction",
+     *         description="Sort song resource collection by fields. Case-insensitive options are song_id, created_at, updated_at & title.",
+     *         example="title,-updated_at",
+     *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -85,8 +77,8 @@ class SongController extends BaseController
         // eager load relations
         $songs = $songs->with($this->getIncludePaths());
 
-        // order by
-        $songs = $this->applyOrdering($songs);
+        // sort
+        $songs = $this->applySorting($songs);
 
         // paginate
         $songs = $songs->paginate($this->getPerPageLimit());
@@ -153,6 +145,21 @@ class SongController extends BaseController
             'themes',
             'themes.anime',
             'artists',
+        ];
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedSortFields()
+    {
+        return [
+            'song_id',
+            'created_at',
+            'updated_at',
+            'title',
         ];
     }
 }

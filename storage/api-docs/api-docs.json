@@ -56,24 +56,14 @@
                         "example": "Summer"
                     },
                     {
-                        "name": "order",
+                        "name": "sort",
                         "in": "query",
-                        "description": "Order anime by field. Case-insensitive options are anime_id, created_at, updated_at, alias, name, year & season.",
+                        "description": "Sort anime resource collection by fields. Case-insensitive options are anime_id, created_at, updated_at, alias, name, year & season.",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "updated_at"
-                    },
-                    {
-                        "name": "direction",
-                        "in": "query",
-                        "description": "Direction of anime ordering. Case-insensitive options are asc & desc.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "desc"
+                        "example": "-year,name"
                     },
                     {
                         "name": "limit",
@@ -196,24 +186,14 @@
                         "example": "songs,members"
                     },
                     {
-                        "name": "order",
+                        "name": "sort",
                         "in": "query",
-                        "description": "Order artists by field. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
+                        "description": "Sort artist resource collection by fields. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "updated_at"
-                    },
-                    {
-                        "name": "direction",
-                        "in": "query",
-                        "description": "Direction of artist ordering. Case-insensitive options are asc & desc.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "desc"
+                        "example": "name,-updated_at"
                     },
                     {
                         "name": "limit",
@@ -354,56 +334,56 @@
                                 "schema": {
                                     "properties": {
                                         "anime": {
-                                            "description": "Search resources",
+                                            "description": "Search resources.",
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/AnimeResource"
                                             }
                                         },
                                         "artists": {
-                                            "description": "Search resources",
+                                            "description": "Search resources.",
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/ArtistResource"
                                             }
                                         },
                                         "entries": {
-                                            "description": "Search resources",
+                                            "description": "Search resources.",
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/EntryResource"
                                             }
                                         },
                                         "series": {
-                                            "description": "Search resources",
+                                            "description": "Search resources.",
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/SeriesResource"
                                             }
                                         },
                                         "songs": {
-                                            "description": "Search resources",
+                                            "description": "Search resources.",
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/SongResource"
                                             }
                                         },
                                         "synonyms": {
-                                            "description": "Search resources",
+                                            "description": "Search resources.",
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/SynonymResource"
                                             }
                                         },
                                         "themes": {
-                                            "description": "Search resources",
+                                            "description": "Search resources.",
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/ThemeResource"
                                             }
                                         },
                                         "videos": {
-                                            "description": "Search resources",
+                                            "description": "Search resources.",
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/VideoResource"
@@ -478,24 +458,14 @@
                         "example": "false"
                     },
                     {
-                        "name": "order",
+                        "name": "sort",
                         "in": "query",
-                        "description": "Order entries by field. Case-insensitive options are entry_id, created_at, updated_at, version, episodes, nsfw, spoiler, notes & theme_id.",
+                        "description": "Sort entry resource collection by fields. Case-insensitive options are entry_id, created_at, updated_at, version, episodes, nsfw, spoiler, notes & theme_id.",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "updated_at"
-                    },
-                    {
-                        "name": "direction",
-                        "in": "query",
-                        "description": "Direction of entry ordering. Case-insensitive options are asc & desc.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "desc"
+                        "example": "version,-updated_at"
                     },
                     {
                         "name": "limit",
@@ -618,24 +588,14 @@
                         "example": "MAL"
                     },
                     {
-                        "name": "order",
+                        "name": "sort",
                         "in": "query",
-                        "description": "Order resources by field. Case-insensitive options are resource_id, created_at, updated_at, type, link & external_id.",
+                        "description": "Sort external resource collection by fields. Case-insensitive options are resource_id, created_at, updated_at, type, link & external_id.",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "updated_at"
-                    },
-                    {
-                        "name": "direction",
-                        "in": "query",
-                        "description": "Direction of resource ordering. Case-insensitive options are asc & desc.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "desc"
+                        "example": "-updated_at,resource_id"
                     },
                     {
                         "name": "limit",
@@ -758,24 +718,14 @@
                         "example": "anime.synonyms,anime.themes"
                     },
                     {
-                        "name": "order",
+                        "name": "sort",
                         "in": "query",
-                        "description": "Order series by field. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
+                        "description": "Sort series resource collection by fields. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
                         "example": "updated_at"
-                    },
-                    {
-                        "name": "direction",
-                        "in": "query",
-                        "description": "Direction of series ordering. Case-insensitive options are asc & desc.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "desc"
                     },
                     {
                         "name": "limit",
@@ -898,24 +848,14 @@
                         "example": "themes,artists"
                     },
                     {
-                        "name": "order",
+                        "name": "sort",
                         "in": "query",
-                        "description": "Order songs by field. Case-insensitive options are song_id, created_at, updated_at & title.",
+                        "description": "Sort song resource collection by fields. Case-insensitive options are song_id, created_at, updated_at & title.",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "updated_at"
-                    },
-                    {
-                        "name": "direction",
-                        "in": "query",
-                        "description": "Direction of song ordering. Case-insensitive options are asc & desc.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "desc"
+                        "example": "title,-updated_at"
                     },
                     {
                         "name": "limit",
@@ -1038,24 +978,14 @@
                         "example": "anime"
                     },
                     {
-                        "name": "order",
+                        "name": "sort",
                         "in": "query",
-                        "description": "Order synonyms by field. Case-insensitive options are synonym_id, created_at, updated_at, text & anime_id.",
+                        "description": "Sort synonym resource collection by fields. Case-insensitive options are synonym_id, created_at, updated_at, text & anime_id.",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "updated_at"
-                    },
-                    {
-                        "name": "direction",
-                        "in": "query",
-                        "description": "Direction of synonym ordering. Case-insensitive options are asc & desc.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "desc"
+                        "example": "text,-updated_at"
                     },
                     {
                         "name": "limit",
@@ -1208,24 +1138,14 @@
                         "example": "Dubbed Version"
                     },
                     {
-                        "name": "order",
+                        "name": "sort",
                         "in": "query",
-                        "description": "Order themes by field. Case-insensitive options are theme_id, created_at, updated_at, group, type, sequence, slug, anime_id & song_id.",
+                        "description": "Sort theme resource collection by fields. Case-insensitive options are theme_id, created_at, updated_at, group, type, sequence, slug, anime_id & song_id.",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "updated_at"
-                    },
-                    {
-                        "name": "direction",
-                        "in": "query",
-                        "description": "Direction of theme ordering. Case-insensitive options are asc & desc.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "desc"
+                        "example": "sequence,-updated_at"
                     },
                     {
                         "name": "limit",
@@ -1418,24 +1338,14 @@
                         "example": "None"
                     },
                     {
-                        "name": "order",
+                        "name": "sort",
                         "in": "query",
-                        "description": "Order videos by field. Case-insensitive options are video_id, created_at, updated_at, filename, path, basename, resolution, nc, subbed, lyrics, uncen, source & overlap.",
+                        "description": "Sort video resource collection by fields. Case-insensitive options are video_id, created_at, updated_at, filename, path, basename, resolution, nc, subbed, lyrics, uncen, source & overlap.",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "updated_at"
-                    },
-                    {
-                        "name": "direction",
-                        "in": "query",
-                        "description": "Direction of video ordering. Case-insensitive options are asc & desc.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "desc"
+                        "example": "filename,-updated_at"
                     },
                     {
                         "name": "limit",

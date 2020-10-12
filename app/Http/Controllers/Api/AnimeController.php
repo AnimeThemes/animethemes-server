@@ -57,17 +57,9 @@ class AnimeController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Order anime by field. Case-insensitive options are anime_id, created_at, updated_at, alias, name, year & season.",
-     *         example="updated_at",
-     *         name="order",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         description="Direction of anime ordering. Case-insensitive options are asc & desc.",
-     *         example="desc",
-     *         name="direction",
+     *         description="Sort anime resource collection by fields. Case-insensitive options are anime_id, created_at, updated_at, alias, name, year & season.",
+     *         example="-year,name",
+     *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
@@ -118,8 +110,8 @@ class AnimeController extends BaseController
             $anime = $anime->where(static::SEASON_QUERY, Season::getValue($season_query));
         }
 
-        // order by
-        $anime = $this->applyOrdering($anime);
+        // apply sorts
+        $anime = $this->applySorting($anime);
 
         // paginate
         $anime = $anime->paginate($this->getPerPageLimit());
@@ -191,6 +183,24 @@ class AnimeController extends BaseController
             'themes.song',
             'themes.song.artists',
             'externalResources',
+        ];
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @return array
+     */
+    public static function getAllowedSortFields()
+    {
+        return [
+            'anime_id',
+            'created_at',
+            'updated_at',
+            'alias',
+            'name',
+            'year',
+            'season',
         ];
     }
 }
