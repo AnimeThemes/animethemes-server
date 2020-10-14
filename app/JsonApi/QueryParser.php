@@ -317,6 +317,7 @@ class QueryParser
             if ($enumClass::hasKey(Str::upper($enumKey))) {
                 return $enumClass::getValue(Str::upper($enumKey));
             }
+
             return -1;
         }, $this->getFilter($field));
     }
