@@ -92,10 +92,10 @@ class ArtistResource extends BaseResource
             })))),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'songs' => SongCollection::make($this->whenLoaded('songs'), $this->fieldSets),
-            'members' => ArtistCollection::make($this->whenLoaded('members'), $this->fieldSets),
-            'groups' => ArtistCollection::make($this->whenLoaded('groups'), $this->fieldSets),
-            'resources' => ExternalResourceCollection::make($this->whenLoaded('externalResources'), $this->fieldSets),
+            'songs' => SongCollection::make($this->whenLoaded('songs'), $this->parser),
+            'members' => ArtistCollection::make($this->whenLoaded('members'), $this->parser),
+            'groups' => ArtistCollection::make($this->whenLoaded('groups'), $this->parser),
+            'resources' => ExternalResourceCollection::make($this->whenLoaded('externalResources'), $this->parser),
             'links' => $this->when($this->isAllowedField('links'), $this->links(ArtistController::class)),
         ];
     }

@@ -20,7 +20,7 @@ class SongCollection extends BaseCollection
     public function toArray($request)
     {
         return $this->collection->map(function ($song) {
-            return SongResource::make($song, $this->fieldSets);
+            return SongResource::make($song, $this->parser);
         })->all();
     }
 }

@@ -11,7 +11,7 @@ use App\Http\Resources\SongCollection;
 use App\Http\Resources\SynonymCollection;
 use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\VideoCollection;
-use App\JsonApi\FieldSetFilter;
+use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Entry;
@@ -21,27 +21,20 @@ use App\Models\Synonym;
 use App\Models\Theme;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Neomerx\JsonApi\Http\Query\BaseQueryParser;
 
 class BaseController extends Controller
 {
-    // constants for common query parameters
-    protected const SEARCH_QUERY = 'q';
-    protected const FIELDS_QUERY = 'fields';
-    protected const LIMIT_QUERY = 'limit';
-
     /**
      * Resolves include paths and field sets.
      *
-     * @var \Neomerx\JsonApi\Http\Query\BaseQueryParser
+     * @var \App\JsonApi\QueryParser
      */
     protected $parser;
 
     public function __construct()
     {
-        $this->parser = new BaseQueryParser(request()->all());
+        $this->parser = new QueryParser(request()->all());
     }
 
     /**
@@ -155,43 +148,42 @@ class BaseController extends Controller
      */
     public function search()
     {
-        $search_query = strval(request(static::SEARCH_QUERY));
-        $fields_query = strval(request(static::FIELDS_QUERY));
-        $fields = array_filter(explode(',', $fields_query));
+        $search_query = $this->parser->getSearch();
+        $includes = $this->parser->getIncludes();
 
         return new JsonResponse([
-            AnimeCollection::$wrap => new AnimeCollection(static::excludeResource($search_query, $fields, ArtistCollection::$wrap) ? [] : Anime::search($search_query)
+            AnimeCollection::$wrap => new AnimeCollection(static::excludeResource($search_query, $includes, ArtistCollection::$wrap) ? [] : Anime::search($search_query)
                 ->with(AnimeController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get(),
-                $this->getFieldSets()),
-            ArtistCollection::$wrap => new ArtistCollection(static::excludeResource($search_query, $fields, ArtistCollection::$wrap) ? [] : Artist::search($search_query)
+                ->take($this->parser->getPerPageLimit(5))->get(),
+                $this->parser),
+            ArtistCollection::$wrap => new ArtistCollection(static::excludeResource($search_query, $includes, ArtistCollection::$wrap) ? [] : Artist::search($search_query)
                 ->with(ArtistController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get(),
-                $this->getFieldSets()),
-            EntryCollection::$wrap => new EntryCollection(static::excludeResource($search_query, $fields, EntryCollection::$wrap) ? [] : Entry::search($search_query)
+                ->take($this->parser->getPerPageLimit(5))->get(),
+                $this->parser),
+            EntryCollection::$wrap => new EntryCollection(static::excludeResource($search_query, $includes, EntryCollection::$wrap) ? [] : Entry::search($search_query)
                 ->with(EntryController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get(),
-                $this->getFieldSets()),
-            SeriesCollection::$wrap => new SeriesCollection(static::excludeResource($search_query, $fields, SeriesCollection::$wrap) ? [] : Series::search($search_query)
+                ->take($this->parser->getPerPageLimit(5))->get(),
+                $this->parser),
+            SeriesCollection::$wrap => new SeriesCollection(static::excludeResource($search_query, $includes, SeriesCollection::$wrap) ? [] : Series::search($search_query)
                 ->with(SeriesController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get(),
-                $this->getFieldSets()),
-            SongCollection::$wrap => new SongCollection(static::excludeResource($search_query, $fields, SongCollection::$wrap) ? [] : Song::search($search_query)
+                ->take($this->parser->getPerPageLimit(5))->get(),
+                $this->parser),
+            SongCollection::$wrap => new SongCollection(static::excludeResource($search_query, $includes, SongCollection::$wrap) ? [] : Song::search($search_query)
                 ->with(SongController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get(),
-                $this->getFieldSets()),
-            SynonymCollection::$wrap => new SynonymCollection(static::excludeResource($search_query, $fields, SynonymCollection::$wrap) ? [] : Synonym::search($search_query)
+                ->take($this->parser->getPerPageLimit(5))->get(),
+                $this->parser),
+            SynonymCollection::$wrap => new SynonymCollection(static::excludeResource($search_query, $includes, SynonymCollection::$wrap) ? [] : Synonym::search($search_query)
                 ->with(SynonymController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get(),
-                $this->getFieldSets()),
-            ThemeCollection::$wrap => new ThemeCollection(static::excludeResource($search_query, $fields, ThemeCollection::$wrap) ? [] : Theme::search($search_query)
+                ->take($this->parser->getPerPageLimit(5))->get(),
+                $this->parser),
+            ThemeCollection::$wrap => new ThemeCollection(static::excludeResource($search_query, $includes, ThemeCollection::$wrap) ? [] : Theme::search($search_query)
                 ->with(ThemeController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get(),
-                $this->getFieldSets()),
-            VideoCollection::$wrap => new VideoCollection(static::excludeResource($search_query, $fields, VideoCollection::$wrap) ? [] : Video::search($search_query)
+                ->take($this->parser->getPerPageLimit(5))->get(),
+                $this->parser),
+            VideoCollection::$wrap => new VideoCollection(static::excludeResource($search_query, $includes, VideoCollection::$wrap) ? [] : Video::search($search_query)
                 ->with(VideoController::getAllowedIncludePaths())
-                ->take($this->getPerPageLimit(5))->get(),
-                $this->getFieldSets()),
+                ->take($this->parser->getPerPageLimit(5))->get(),
+                $this->parser),
         ]);
     }
 
@@ -209,23 +201,6 @@ class BaseController extends Controller
     }
 
     /**
-     * Get the number of resources to return per page.
-     * Acceptable range is [1-100]. Default is 100.
-     *
-     * @param  int  $limit
-     * @return int
-     */
-    protected function getPerPageLimit($limit = 100)
-    {
-        $limit_query = intval(request(static::LIMIT_QUERY, $limit));
-        if ($limit_query <= 0 || $limit_query > $limit) {
-            $limit_query = $limit;
-        }
-
-        return $limit_query;
-    }
-
-    /**
      * Apply sorts to resource collections according to one or more sort fields.
      *
      * @param \Illuminate\Database\Eloquent\Builder|\Laravel\Scout\Builder $query
@@ -233,7 +208,7 @@ class BaseController extends Controller
      */
     protected function applySorting($query)
     {
-        $sorts = iterator_to_array($this->parser->getSorts());
+        $sorts = $this->parser->getSorts();
 
         foreach ($sorts as $field => $isAsc) {
             if (in_array(Str::lower($field), static::getAllowedSortFields())) {
@@ -271,7 +246,7 @@ class BaseController extends Controller
      */
     protected function getIncludePaths()
     {
-        $includePaths = array_keys(iterator_to_array($this->parser->getIncludes()));
+        $includePaths = $this->parser->getIncludes();
         $allowedIncludePaths = static::getAllowedIncludePaths();
 
         // If include paths are not specified, return full list of allowed include paths
@@ -288,15 +263,5 @@ class BaseController extends Controller
 
         // Return list of include paths that are contained in the list of allowed include paths
         return $validIncludePaths;
-    }
-
-    /**
-     * Get sparse field set filter that will be used by resources for this request.
-     *
-     * @return \App\JsonApi\FieldSetFilter
-     */
-    protected function getFieldSets()
-    {
-        return new FieldSetFilter(iterator_to_array($this->parser->getFields()));
     }
 }

@@ -20,7 +20,7 @@ class SeriesCollection extends BaseCollection
     public function toArray($request)
     {
         return $this->collection->map(function ($series) {
-            return SeriesResource::make($series, $this->fieldSets);
+            return SeriesResource::make($series, $this->parser);
         })->all();
     }
 }

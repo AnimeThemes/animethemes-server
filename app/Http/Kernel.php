@@ -44,6 +44,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\JsonMiddleware::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\LoggerMiddleware::class,
         ],
     ];
 

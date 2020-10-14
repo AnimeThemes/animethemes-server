@@ -121,7 +121,7 @@ class SeriesResource extends BaseResource
             'alias' => $this->when($this->isAllowedField('alias'), $this->alias),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->fieldSets),
+            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->parser),
             'links' => $this->when($this->isAllowedField('links'), $this->links(SeriesController::class)),
         ];
     }

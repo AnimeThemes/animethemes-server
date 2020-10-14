@@ -68,11 +68,8 @@ class SynonymController extends BaseController
      */
     public function index()
     {
-        // query parameters
-        $search_query = strval(request(static::SEARCH_QUERY));
-
         // initialize builder
-        $synonyms = empty($search_query) ? Synonym::query() : Synonym::search($search_query);
+        $synonyms = $this->parser->hasSearch() ? Synonym::search($this->parser->getSearch()) : Synonym::query();
 
         // eager load relations
         $synonyms = $synonyms->with($this->getIncludePaths());
@@ -81,9 +78,9 @@ class SynonymController extends BaseController
         $synonyms = $this->applySorting($synonyms);
 
         // paginate
-        $synonyms = $synonyms->paginate($this->getPerPageLimit());
+        $synonyms = $synonyms->paginate($this->parser->getPerPageLimit());
 
-        $collection = new SynonymCollection($synonyms, $this->getFieldSets());
+        $collection = new SynonymCollection($synonyms, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -129,7 +126,7 @@ class SynonymController extends BaseController
      */
     public function show(Synonym $synonym)
     {
-        $resource = new SynonymResource($synonym->load($this->getIncludePaths()), $this->getFieldSets());
+        $resource = new SynonymResource($synonym->load($this->getIncludePaths()), $this->parser);
 
         return $resource->toResponse(request());
     }

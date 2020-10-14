@@ -20,7 +20,7 @@ class ThemeCollection extends BaseCollection
     public function toArray($request)
     {
         return $this->collection->map(function ($theme) {
-            return ThemeResource::make($theme, $this->fieldSets);
+            return ThemeResource::make($theme, $this->parser);
         })->all();
     }
 }

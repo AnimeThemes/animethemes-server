@@ -20,7 +20,7 @@ class EntryCollection extends BaseCollection
     public function toArray($request)
     {
         return $this->collection->map(function ($entry) {
-            return EntryResource::make($entry, $this->fieldSets);
+            return EntryResource::make($entry, $this->parser);
         })->all();
     }
 }

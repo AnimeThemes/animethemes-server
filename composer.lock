@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e4a29d01fc53533141fda04d334d1a7",
+    "content-hash": "00a6860b155d3aa3e8947b523285ee84",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1259,27 +1259,27 @@
         },
         {
             "name": "dragonmantank/cron-expression",
-            "version": "3.0.1",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dragonmantank/cron-expression.git",
-                "reference": "fa4e95ff5a7f1d62c3fbc05c32729b7f3ca14b52"
+                "reference": "48212cdc0a79051d50d7fc2f0645c5a321caf926"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dragonmantank/cron-expression/zipball/fa4e95ff5a7f1d62c3fbc05c32729b7f3ca14b52",
-                "reference": "fa4e95ff5a7f1d62c3fbc05c32729b7f3ca14b52",
+                "url": "https://api.github.com/repos/dragonmantank/cron-expression/zipball/48212cdc0a79051d50d7fc2f0645c5a321caf926",
+                "reference": "48212cdc0a79051d50d7fc2f0645c5a321caf926",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": "^7.1|^8.0"
             },
             "replace": {
                 "mtdowling/cron-expression": "^1.0"
             },
             "require-dev": {
-                "phpstan/phpstan": "^0.11",
-                "phpunit/phpunit": "^6.4|^7.0"
+                "phpstan/phpstan": "^0.11|^0.12",
+                "phpunit/phpunit": "^7.0|^8.0|^9.0"
             },
             "type": "library",
             "autoload": {
@@ -1309,7 +1309,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-08-21T02:30:13+00:00"
+            "time": "2020-10-13T01:26:01+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -2404,16 +2404,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.9.0",
+            "version": "v8.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "8a6bf870bcfa1597e514a9c7ee6df44db98abb54"
+                "reference": "0c80950806cd1bc6d9a7068585a12c2bfa23bdf3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/8a6bf870bcfa1597e514a9c7ee6df44db98abb54",
-                "reference": "8a6bf870bcfa1597e514a9c7ee6df44db98abb54",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0c80950806cd1bc6d9a7068585a12c2bfa23bdf3",
+                "reference": "0c80950806cd1bc6d9a7068585a12c2bfa23bdf3",
                 "shasum": ""
             },
             "require": {
@@ -2563,20 +2563,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-10-06T14:22:36+00:00"
+            "time": "2020-10-13T14:20:53+00:00"
         },
         {
             "name": "laravel/jetstream",
-            "version": "v1.4.0",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/jetstream.git",
-                "reference": "05946aedd2be361281c73e29f3ab2e63ae47c33b"
+                "reference": "afc89ad834d179dd39a0b86815b48dac8f039f69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/jetstream/zipball/05946aedd2be361281c73e29f3ab2e63ae47c33b",
-                "reference": "05946aedd2be361281c73e29f3ab2e63ae47c33b",
+                "url": "https://api.github.com/repos/laravel/jetstream/zipball/afc89ad834d179dd39a0b86815b48dac8f039f69",
+                "reference": "afc89ad834d179dd39a0b86815b48dac8f039f69",
                 "shasum": ""
             },
             "require": {
@@ -2625,7 +2625,7 @@
                 "laravel",
                 "tailwind"
             ],
-            "time": "2020-10-06T15:53:06+00:00"
+            "time": "2020-10-13T13:48:35+00:00"
         },
         {
             "name": "laravel/nova",
@@ -3594,73 +3594,17 @@
             "time": "2020-07-31T21:01:56+00:00"
         },
         {
-            "name": "neomerx/json-api",
-            "version": "v4.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/neomerx/json-api.git",
-                "reference": "0e45254a4574a3118e0ed663312b43aca23b89c7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/neomerx/json-api/zipball/0e45254a4574a3118e0ed663312b43aca23b89c7",
-                "reference": "0e45254a4574a3118e0ed663312b43aca23b89c7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.14",
-                "mockery/mockery": "^1.0",
-                "phpmd/phpmd": "^2.6",
-                "phpunit/phpunit": "^7.0",
-                "scrutinizer/ocular": "^1.4",
-                "squizlabs/php_codesniffer": "^2.9"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Neomerx\\JsonApi\\": "src/"
-                },
-                "files": [
-                    "src/I18n/format.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "neomerx",
-                    "email": "info@neomerx.com"
-                }
-            ],
-            "description": "Framework agnostic JSON API (jsonapi.org) implementation",
-            "homepage": "https://github.com/neomerx/json-api",
-            "keywords": [
-                "JSON-API",
-                "api",
-                "json",
-                "jsonapi",
-                "jsonapi.org",
-                "neomerx"
-            ],
-            "time": "2020-03-03T05:56:54+00:00"
-        },
-        {
             "name": "nesbot/carbon",
-            "version": "2.41.2",
+            "version": "2.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "35959c93ada06469107a05df6b15b65074a960cf"
+                "reference": "e148788eeae9b9b7b87996520358b86faad37b52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/35959c93ada06469107a05df6b15b65074a960cf",
-                "reference": "35959c93ada06469107a05df6b15b65074a960cf",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/e148788eeae9b9b7b87996520358b86faad37b52",
+                "reference": "e148788eeae9b9b7b87996520358b86faad37b52",
                 "shasum": ""
             },
             "require": {
@@ -3736,7 +3680,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-10T23:35:06+00:00"
+            "time": "2020-10-12T20:36:09+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -5838,16 +5782,16 @@
         },
         {
             "name": "symfony/http-client-contracts",
-            "version": "v2.2.0",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client-contracts.git",
-                "reference": "3a5d0fe7908daaa23e3dbf4cee3ba4bfbb19fdd3"
+                "reference": "41db680a15018f9c1d4b23516059633ce280ca33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/3a5d0fe7908daaa23e3dbf4cee3ba4bfbb19fdd3",
-                "reference": "3a5d0fe7908daaa23e3dbf4cee3ba4bfbb19fdd3",
+                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/41db680a15018f9c1d4b23516059633ce280ca33",
+                "reference": "41db680a15018f9c1d4b23516059633ce280ca33",
                 "shasum": ""
             },
             "require": {
@@ -5858,8 +5802,9 @@
             },
             "type": "library",
             "extra": {
+                "branch-version": "2.3",
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-main": "2.3-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -5909,7 +5854,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-07T11:33:47+00:00"
+            "time": "2020-10-14T17:08:19+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -8110,16 +8055,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "1.10.13",
+            "version": "1.10.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "47c841ba3b2d3fc0b4b13282cf029ea18b66d78b"
+                "reference": "547c9ee73fe26c77af09a0ea16419176b1cdbd12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/47c841ba3b2d3fc0b4b13282cf029ea18b66d78b",
-                "reference": "47c841ba3b2d3fc0b4b13282cf029ea18b66d78b",
+                "url": "https://api.github.com/repos/composer/composer/zipball/547c9ee73fe26c77af09a0ea16419176b1cdbd12",
+                "reference": "547c9ee73fe26c77af09a0ea16419176b1cdbd12",
                 "shasum": ""
             },
             "require": {
@@ -8200,7 +8145,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-09T09:46:34+00:00"
+            "time": "2020-10-13T13:59:09+00:00"
         },
         {
             "name": "composer/semver",
@@ -8542,16 +8487,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.3.8",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "e8fed9c382cd1d02b5606688576a35619afdf82c"
+                "reference": "9fc6c3d3de5271a1b94cff19dce2c9295abf0ffa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/e8fed9c382cd1d02b5606688576a35619afdf82c",
-                "reference": "e8fed9c382cd1d02b5606688576a35619afdf82c",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/9fc6c3d3de5271a1b94cff19dce2c9295abf0ffa",
+                "reference": "9fc6c3d3de5271a1b94cff19dce2c9295abf0ffa",
                 "shasum": ""
             },
             "require": {
@@ -8610,7 +8555,7 @@
                 "laravel",
                 "page"
             ],
-            "time": "2020-10-01T23:01:14+00:00"
+            "time": "2020-10-14T08:59:59+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -9446,23 +9391,23 @@
         },
         {
             "name": "php-cs-fixer/diff",
-            "version": "v1.3.0",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/diff.git",
-                "reference": "78bb099e9c16361126c86ce82ec4405ebab8e756"
+                "reference": "dbd31aeb251639ac0b9e7e29405c1441907f5759"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/diff/zipball/78bb099e9c16361126c86ce82ec4405ebab8e756",
-                "reference": "78bb099e9c16361126c86ce82ec4405ebab8e756",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/diff/zipball/dbd31aeb251639ac0b9e7e29405c1441907f5759",
+                "reference": "dbd31aeb251639ac0b9e7e29405c1441907f5759",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6 || ^7.0"
+                "php": "^5.6 || ^7.0 || ^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7.23 || ^6.4.3",
+                "phpunit/phpunit": "^5.7.23 || ^6.4.3 || ^7.0",
                 "symfony/process": "^3.3"
             },
             "type": "library",
@@ -9477,12 +9422,12 @@
             ],
             "authors": [
                 {
-                    "name": "Kore Nordmann",
-                    "email": "mail@kore-nordmann.de"
-                },
-                {
                     "name": "Sebastian Bergmann",
                     "email": "sebastian@phpunit.de"
+                },
+                {
+                    "name": "Kore Nordmann",
+                    "email": "mail@kore-nordmann.de"
                 },
                 {
                     "name": "SpacePossum"
@@ -9493,7 +9438,7 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2018-02-15T16:58:55+00:00"
+            "time": "2020-10-14T08:39:05+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",

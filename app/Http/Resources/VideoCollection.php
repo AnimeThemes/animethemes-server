@@ -20,7 +20,7 @@ class VideoCollection extends BaseCollection
     public function toArray($request)
     {
         return $this->collection->map(function ($video) {
-            return VideoResource::make($video, $this->fieldSets);
+            return VideoResource::make($video, $this->parser);
         })->all();
     }
 }

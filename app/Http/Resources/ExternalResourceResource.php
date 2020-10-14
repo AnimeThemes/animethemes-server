@@ -67,8 +67,8 @@ class ExternalResourceResource extends BaseResource
             }))),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->fieldSets),
-            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->fieldSets),
+            'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->parser),
+            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->parser),
             'links' => $this->when($this->isAllowedField('links'), $this->links(ExternalResourceController::class)),
         ];
     }

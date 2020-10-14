@@ -40,7 +40,7 @@ class EntryController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter entries by version.",
-     *         example=2,
+     *         example="filter[version]=2",
      *         name="version",
      *         in="query",
      *         required=false,
@@ -48,7 +48,7 @@ class EntryController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter entries by NSFW. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
-     *         example="false",
+     *         example="filter[nsfw]=false",
      *         name="nsfw",
      *         in="query",
      *         required=false,
@@ -56,7 +56,7 @@ class EntryController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter entries by Spoiler. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
-     *         example="false",
+     *         example="filter[spoiler]=false",
      *         name="spoiler",
      *         in="query",
      *         required=false,
@@ -97,36 +97,30 @@ class EntryController extends BaseController
      */
     public function index()
     {
-        // query parameters
-        $search_query = strval(request(static::SEARCH_QUERY));
-        $version_query = strval(request(static::VERSION_QUERY));
-        $nsfw_query = strval(request(static::NSFW_QUERY));
-        $spoiler_query = strval(request(static::SPOILER_QUERY));
-
         // initialize builder
-        $entries = empty($search_query) ? Entry::query() : Entry::search($search_query);
+        $entries = $this->parser->hasSearch() ? Entry::search($this->parser->getSearch()) : Entry::query();
 
         // eager load relations
         $entries = $entries->with($this->getIncludePaths());
 
         // apply filters
-        if (! empty($version_query)) {
-            $entries = $entries->where(static::VERSION_QUERY, intval($version_query));
+        if ($this->parser->hasFilter(static::VERSION_QUERY)) {
+            $entries = $entries->whereIn(static::VERSION_QUERY, $this->parser->getFilter(static::VERSION_QUERY));
         }
-        if (! empty($nsfw_query)) {
-            $entries = $entries->where(static::NSFW_QUERY, filter_var($nsfw_query, FILTER_VALIDATE_BOOLEAN));
+        if ($this->parser->hasFilter(static::NSFW_QUERY)) {
+            $entries = $entries->whereIn(static::NSFW_QUERY, $this->parser->getBooleanFilter(static::NSFW_QUERY));
         }
-        if (! empty($spoiler_query)) {
-            $entries = $entries->where(static::SPOILER_QUERY, filter_var($spoiler_query, FILTER_VALIDATE_BOOLEAN));
+        if ($this->parser->hasFilter(static::SPOILER_QUERY)) {
+            $entries = $entries->whereIn(static::SPOILER_QUERY, $this->parser->getBooleanFilter(static::SPOILER_QUERY));
         }
 
         // sort
         $entries = $this->applySorting($entries);
 
         // paginate
-        $entries = $entries->paginate($this->getPerPageLimit());
+        $entries = $entries->paginate($this->parser->getPerPageLimit());
 
-        $collection = new EntryCollection($entries, $this->getFieldSets());
+        $collection = new EntryCollection($entries, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -172,7 +166,7 @@ class EntryController extends BaseController
      */
     public function show(Entry $entry)
     {
-        $resource = new EntryResource($entry->load($this->getIncludePaths()), $this->getFieldSets());
+        $resource = new EntryResource($entry->load($this->getIncludePaths()), $this->parser);
 
         return $resource->toResponse(request());
     }

@@ -68,11 +68,8 @@ class SongController extends BaseController
      */
     public function index()
     {
-        // query parameters
-        $search_query = strval(request(static::SEARCH_QUERY));
-
         // initialize builder
-        $songs = empty($search_query) ? Song::query() : Song::search($search_query);
+        $songs = $this->parser->hasSearch() ? Song::search($this->parser->getSearch()) : Song::query();
 
         // eager load relations
         $songs = $songs->with($this->getIncludePaths());
@@ -81,9 +78,9 @@ class SongController extends BaseController
         $songs = $this->applySorting($songs);
 
         // paginate
-        $songs = $songs->paginate($this->getPerPageLimit());
+        $songs = $songs->paginate($this->parser->getPerPageLimit());
 
-        $collection = new SongCollection($songs, $this->getFieldSets());
+        $collection = new SongCollection($songs, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -129,7 +126,7 @@ class SongController extends BaseController
      */
     public function show(Song $song)
     {
-        $resource = new SongResource($song->load($this->getIncludePaths()), $this->getFieldSets());
+        $resource = new SongResource($song->load($this->getIncludePaths()), $this->parser);
 
         return $resource->toResponse(request());
     }

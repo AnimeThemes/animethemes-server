@@ -68,11 +68,8 @@ class ArtistController extends BaseController
      */
     public function index()
     {
-        // query parameters
-        $search_query = strval(request(static::SEARCH_QUERY));
-
         // initialize builder
-        $artists = empty($search_query) ? Artist::query() : Artist::search($search_query);
+        $artists = $this->parser->hasSearch() ? Artist::search($this->parser->getSearch()) : Artist::query();
 
         // eager load relations
         $artists = $artists->with($this->getIncludePaths());
@@ -81,9 +78,9 @@ class ArtistController extends BaseController
         $artists = $this->applySorting($artists);
 
         // paginate
-        $artists = $artists->paginate($this->getPerPageLimit());
+        $artists = $artists->paginate($this->parser->getPerPageLimit());
 
-        $collection = new ArtistCollection($artists, $this->getFieldSets());
+        $collection = new ArtistCollection($artists, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -129,7 +126,7 @@ class ArtistController extends BaseController
      */
     public function show(Artist $artist)
     {
-        $resource = new ArtistResource($artist->load($this->getIncludePaths()), $this->getFieldSets());
+        $resource = new ArtistResource($artist->load($this->getIncludePaths()), $this->parser);
 
         return $resource->toResponse(request());
     }

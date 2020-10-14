@@ -43,7 +43,7 @@
                         "schema": {
                             "type": "integer"
                         },
-                        "example": "2009"
+                        "example": "filter[year]=2009"
                     },
                     {
                         "name": "season",
@@ -53,7 +53,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Summer"
+                        "example": "filter[season]=Summer"
                     },
                     {
                         "name": "sort",
@@ -435,7 +435,7 @@
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 2
+                        "example": "filter[version]=2"
                     },
                     {
                         "name": "nsfw",
@@ -445,7 +445,7 @@
                         "schema": {
                             "type": "boolean"
                         },
-                        "example": "false"
+                        "example": "filter[nsfw]=false"
                     },
                     {
                         "name": "spoiler",
@@ -455,12 +455,12 @@
                         "schema": {
                             "type": "boolean"
                         },
-                        "example": "false"
+                        "example": "filter[spoiler]=false"
                     },
                     {
                         "name": "sort",
                         "in": "query",
-                        "description": "Sort entry resource collection by fields. Case-insensitive options are entry_id, created_at, updated_at, version, episodes, nsfw, spoiler, notes & theme_id.",
+                        "description": "Sort entry resource collection by fields. Case-insensitive options are entry_id, created_at, updated_at, version, nsfw, spoiler & theme_id.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -720,7 +720,7 @@
                     {
                         "name": "sort",
                         "in": "query",
-                        "description": "Sort series resource collection by fields. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
+                        "description": "Sort series resource collection by fields. Case-insensitive options are series_id, created_at, updated_at, alias & name.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -1115,7 +1115,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "OP"
+                        "example": "filter[type]=OP"
                     },
                     {
                         "name": "sequence",
@@ -1125,7 +1125,7 @@
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 1
+                        "example": "filter[sequence]=1"
                     },
                     {
                         "name": "group",
@@ -1135,7 +1135,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Dubbed Version"
+                        "example": "filter[group]=Dubbed+Version"
                     },
                     {
                         "name": "sort",
@@ -1275,7 +1275,7 @@
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 1080
+                        "example": "filter[resolution]=1080"
                     },
                     {
                         "name": "nc",
@@ -1285,7 +1285,7 @@
                         "schema": {
                             "type": "boolean"
                         },
-                        "example": "false"
+                        "example": "filter[nc]=false"
                     },
                     {
                         "name": "subbed",
@@ -1295,7 +1295,7 @@
                         "schema": {
                             "type": "boolean"
                         },
-                        "example": "false"
+                        "example": "filter[subbed]=false"
                     },
                     {
                         "name": "lyrics",
@@ -1305,7 +1305,7 @@
                         "schema": {
                             "type": "boolean"
                         },
-                        "example": "false"
+                        "example": "filter[lyrics]=false"
                     },
                     {
                         "name": "uncen",
@@ -1315,7 +1315,7 @@
                         "schema": {
                             "type": "boolean"
                         },
-                        "example": "false"
+                        "example": "filter[uncen]=false"
                     },
                     {
                         "name": "source",
@@ -1325,7 +1325,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "BD"
+                        "example": "filter[source]=BD"
                     },
                     {
                         "name": "overlap",
@@ -1335,7 +1335,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "None"
+                        "example": "filter[overlap]=None"
                     },
                     {
                         "name": "sort",

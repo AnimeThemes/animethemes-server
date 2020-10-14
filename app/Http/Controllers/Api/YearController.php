@@ -70,7 +70,7 @@ class YearController extends BaseController
                 ->with($this->getIncludePaths())
                 ->orderBy(static::NAME_QUERY)
                 ->get(),
-                $this->getFieldSets()
+                $this->parser
                 )
             )->groupBy(function ($item) {
                 return Str::lower(Season::getDescription($item->season));

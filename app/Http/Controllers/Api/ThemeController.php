@@ -6,7 +6,6 @@ use App\Enums\ThemeType;
 use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\ThemeResource;
 use App\Models\Theme;
-use Illuminate\Support\Str;
 
 class ThemeController extends BaseController
 {
@@ -42,7 +41,7 @@ class ThemeController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter themes by type. Case-insensitive options are OP & ED.",
-     *         example="OP",
+     *         example="filter[type]=OP",
      *         name="type",
      *         in="query",
      *         required=false,
@@ -50,7 +49,7 @@ class ThemeController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter themes by sequence",
-     *         example=1,
+     *         example="filter[sequence]=1",
      *         name="sequence",
      *         in="query",
      *         required=false,
@@ -58,7 +57,7 @@ class ThemeController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter themes by group.",
-     *         example="Dubbed Version",
+     *         example="filter[group]=Dubbed+Version",
      *         name="group",
      *         in="query",
      *         required=false,
@@ -99,36 +98,30 @@ class ThemeController extends BaseController
      */
     public function index()
     {
-        // query parameters
-        $search_query = strval(request(static::SEARCH_QUERY));
-        $type_query = strval(request(static::TYPE_QUERY));
-        $sequence_query = Str::upper(request(static::SEQUENCE_QUERY));
-        $group_query = strval(request(static::GROUP_QUERY));
-
         // initialize builder
-        $themes = empty($search_query) ? Theme::query() : Theme::search($search_query);
+        $themes = $this->parser->hasSearch() ? Theme::search($this->parser->getSearch()) : Theme::query();
 
         // eager load relations
         $themes = $themes->with($this->getIncludePaths());
 
         // apply filters
-        if (! empty($type_query) && ThemeType::hasKey($type_query)) {
-            $themes = $themes->where(static::TYPE_QUERY, ThemeType::getValue($type_query));
+        if ($this->parser->hasFilter(static::TYPE_QUERY)) {
+            $themes = $themes->whereIn(static::TYPE_QUERY, $this->parser->getEnumFilter(static::TYPE_QUERY, ThemeType::class));
         }
-        if (! empty($sequence_query)) {
-            $themes = $themes->where(static::SEQUENCE_QUERY, intval($sequence_query));
+        if ($this->parser->hasFilter(static::SEQUENCE_QUERY)) {
+            $themes = $themes->whereIn(static::SEQUENCE_QUERY, $this->parser->getFilter(static::SEQUENCE_QUERY));
         }
-        if (! empty($group_query)) {
-            $themes = $themes->where(static::GROUP_QUERY, $group_query);
+        if ($this->parser->hasFilter(static::GROUP_QUERY)) {
+            $themes = $themes->whereIn(static::GROUP_QUERY, $this->parser->getFilter(static::GROUP_QUERY));
         }
 
         // sort
         $themes = $this->applySorting($themes);
 
         // paginate
-        $themes = $themes->paginate($this->getPerPageLimit());
+        $themes = $themes->paginate($this->parser->getPerPageLimit());
 
-        $collection = new ThemeCollection($themes, $this->getFieldSets());
+        $collection = new ThemeCollection($themes, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -174,7 +167,7 @@ class ThemeController extends BaseController
      */
     public function show(Theme $theme)
     {
-        $resource = new ThemeResource($theme->load($this->getIncludePaths()), $this->getFieldSets());
+        $resource = new ThemeResource($theme->load($this->getIncludePaths()), $this->parser);
 
         return $resource->toResponse(request());
     }

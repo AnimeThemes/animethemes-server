@@ -47,7 +47,7 @@ class VideoController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter videos by resolution",
-     *         example=1080,
+     *         example="filter[resolution]=1080",
      *         name="resolution",
      *         in="query",
      *         required=false,
@@ -55,7 +55,7 @@ class VideoController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter videos by NC. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
-     *         example="false",
+     *         example="filter[nc]=false",
      *         name="nc",
      *         in="query",
      *         required=false,
@@ -63,7 +63,7 @@ class VideoController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter videos by subbed. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
-     *         example="false",
+     *         example="filter[subbed]=false",
      *         name="subbed",
      *         in="query",
      *         required=false,
@@ -71,7 +71,7 @@ class VideoController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter videos by lyrics. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
-     *         example="false",
+     *         example="filter[lyrics]=false",
      *         name="lyrics",
      *         in="query",
      *         required=false,
@@ -79,7 +79,7 @@ class VideoController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter videos by uncen. Case-insensitive options for true are 1, true, on & yes. Case-insensitive options for false are 0, false, off & no.",
-     *         example="false",
+     *         example="filter[uncen]=false",
      *         name="uncen",
      *         in="query",
      *         required=false,
@@ -87,7 +87,7 @@ class VideoController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter videos by source. Case-insensitive options are WEB, RAW, BD, DVD & VHS.",
-     *         example="BD",
+     *         example="filter[source]=BD",
      *         name="source",
      *         in="query",
      *         required=false,
@@ -95,7 +95,7 @@ class VideoController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter videos by overlap. Case-insensitive options are NONE, TRANS & OVER.",
-     *         example="None",
+     *         example="filter[overlap]=None",
      *         name="overlap",
      *         in="query",
      *         required=false,
@@ -136,52 +136,42 @@ class VideoController extends BaseController
      */
     public function index()
     {
-        // query parameters
-        $search_query = strval(request(static::SEARCH_QUERY));
-        $resolution_query = strval(request(static::RESOLUTION_QUERY));
-        $nc_query = strval(request(static::NC_QUERY));
-        $subbed_query = strval(request(static::SUBBED_QUERY));
-        $lyrics_query = strval(request(static::LYRICS_QUERY));
-        $uncen_query = strval(request(static::UNCEN_QUERY));
-        $source_query = Str::upper(request(static::SOURCE_QUERY));
-        $overlap_query = Str::upper(request(static::OVERLAP_QUERY));
-
         // initialize builder
-        $videos = empty($search_query) ? Video::query() : Video::search($search_query);
+        $videos = $this->parser->hasSearch() ? Video::search($this->parser->getSearch()) : Video::query();
 
         // eager load relations
         $videos = $videos->with($this->getIncludePaths());
 
         // apply filters
-        if (! empty($resolution_query)) {
-            $videos = $videos->where(static::RESOLUTION_QUERY, intval($resolution_query));
+        if ($this->parser->hasFilter(static::RESOLUTION_QUERY)) {
+            $videos = $videos->whereIn(static::RESOLUTION_QUERY, $this->parser->getFilter(static::RESOLUTION_QUERY));
         }
-        if (! empty($nc_query)) {
-            $videos = $videos->where(static::NC_QUERY, filter_var($nc_query, FILTER_VALIDATE_BOOLEAN));
+        if ($this->parser->hasFilter(static::NC_QUERY)) {
+            $videos = $videos->whereIn(static::NC_QUERY, $this->parser->getBooleanFilter(static::NC_QUERY));
         }
-        if (! empty($subbed_query)) {
-            $videos = $videos->where(static::SUBBED_QUERY, filter_var($subbed_query, FILTER_VALIDATE_BOOLEAN));
+        if ($this->parser->hasFilter(static::SUBBED_QUERY)) {
+            $videos = $videos->whereIn(static::SUBBED_QUERY, $this->parser->getBooleanFilter(static::SUBBED_QUERY));
         }
-        if (! empty($lyrics_query)) {
-            $videos = $videos->where(static::LYRICS_QUERY, filter_var($lyrics_query, FILTER_VALIDATE_BOOLEAN));
+        if ($this->parser->hasFilter(static::LYRICS_QUERY)) {
+            $videos = $videos->whereIn(static::LYRICS_QUERY, $this->parser->getBooleanFilter(static::LYRICS_QUERY));
         }
-        if (! empty($uncen_query)) {
-            $videos = $videos->where(static::UNCEN_QUERY, filter_var($uncen_query, FILTER_VALIDATE_BOOLEAN));
+        if ($this->parser->hasFilter(static::UNCEN_QUERY)) {
+            $videos = $videos->whereIn(static::UNCEN_QUERY, $this->parser->getBooleanFilter(static::UNCEN_QUERY));
         }
-        if (! empty($source_query) && SourceType::hasKey($source_query)) {
-            $videos = $videos->where(static::SOURCE_QUERY, SourceType::getValue($source_query));
+        if ($this->parser->hasFilter(static::SOURCE_QUERY)) {
+            $videos = $videos->whereIn(static::SOURCE_QUERY, $this->parser->getEnumFilter(static::SOURCE_QUERY, SourceType::class));
         }
-        if (! empty($overlap_query) && OverlapType::hasKey($overlap_query)) {
-            $videos = $videos->where(static::OVERLAP_QUERY, OverlapType::getValue($overlap_query));
+        if ($this->parser->hasFilter(static::OVERLAP_QUERY)) {
+            $videos = $videos->whereIn(static::OVERLAP_QUERY, $this->parser->getEnumFilter(static::OVERLAP_QUERY, OverlapType::class));
         }
 
         // sort
         $videos = $this->applySorting($videos);
 
         // paginate
-        $videos = $videos->paginate($this->getPerPageLimit());
+        $videos = $videos->paginate($this->parser->getPerPageLimit());
 
-        $collection = new VideoCollection($videos, $this->getFieldSets());
+        $collection = new VideoCollection($videos, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -227,7 +217,7 @@ class VideoController extends BaseController
      */
     public function show(Video $video)
     {
-        $resource = new VideoResource($video->load($this->getIncludePaths()), $this->getFieldSets());
+        $resource = new VideoResource($video->load($this->getIncludePaths()), $this->parser);
 
         return $resource->toResponse(request());
     }

@@ -68,11 +68,8 @@ class SeriesController extends BaseController
      */
     public function index()
     {
-        // query parameters
-        $search_query = strval(request(static::SEARCH_QUERY));
-
         // initialize builder
-        $series = empty($search_query) ? Series::query() : Series::search($search_query);
+        $series = $this->parser->hasSearch() ? Series::search($this->parser->getSearch()) : Series::query();
 
         // eager load relations
         $series = $series->with($this->getIncludePaths());
@@ -81,9 +78,9 @@ class SeriesController extends BaseController
         $series = $this->applySorting($series);
 
         // paginate
-        $series = $series->paginate($this->getPerPageLimit());
+        $series = $series->paginate($this->parser->getPerPageLimit());
 
-        $collection = new SeriesCollection($series, $this->getFieldSets());
+        $collection = new SeriesCollection($series, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -129,7 +126,7 @@ class SeriesController extends BaseController
      */
     public function show(Series $series)
     {
-        $resource = new SeriesResource($series->load($this->getIncludePaths()), $this->getFieldSets());
+        $resource = new SeriesResource($series->load($this->getIncludePaths()), $this->parser);
 
         return $resource->toResponse(request());
     }

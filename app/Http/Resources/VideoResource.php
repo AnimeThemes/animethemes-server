@@ -95,7 +95,7 @@ class VideoResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'link' => $this->when($this->isAllowedField('link'), route('video.show', $this)),
-            'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->fieldSets),
+            'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->parser),
             'links' => $this->when($this->isAllowedField('links'), $this->links(VideoController::class)),
         ];
     }

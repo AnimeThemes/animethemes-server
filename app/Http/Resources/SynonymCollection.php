@@ -20,7 +20,7 @@ class SynonymCollection extends BaseCollection
     public function toArray($request)
     {
         return $this->collection->map(function ($synonym) {
-            return SynonymResource::make($synonym, $this->fieldSets);
+            return SynonymResource::make($synonym, $this->parser);
         })->all();
     }
 }

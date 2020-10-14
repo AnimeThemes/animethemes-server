@@ -103,9 +103,9 @@ class ThemeResource extends BaseResource
             'slug' => $this->when($this->isAllowedField('slug'), strval($this->slug)),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->fieldSets),
-            'song' => SongResource::make($this->whenLoaded('song'), $this->fieldSets),
-            'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->fieldSets),
+            'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->parser),
+            'song' => SongResource::make($this->whenLoaded('song'), $this->parser),
+            'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->parser),
             'links' => $this->when($this->isAllowedField('links'), $this->links(ThemeController::class)),
         ];
     }

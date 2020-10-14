@@ -76,8 +76,8 @@ class SongResource extends BaseResource
             })),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'themes' => ThemeCollection::make($this->whenLoaded('themes'), $this->fieldSets),
-            'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->fieldSets),
+            'themes' => ThemeCollection::make($this->whenLoaded('themes'), $this->parser),
+            'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->parser),
             'links' => $this->when($this->isAllowedField('links'), $this->links(SongController::class)),
         ];
     }

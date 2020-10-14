@@ -9,9 +9,9 @@ abstract class BaseResource extends JsonResource
     /**
      * Sparse field set specified by the client.
      *
-     * @var \App\JsonApi\FieldSetFilter
+     * @var \App\JsonApi\QueryParser
      */
-    protected $fieldSets;
+    protected $parser;
 
     /**
      * The name of the resource in the field set mapping.
@@ -26,11 +26,11 @@ abstract class BaseResource extends JsonResource
      * @param  mixed  $resource
      * @return void
      */
-    public function __construct($resource, $fieldSets)
+    public function __construct($resource, $parser)
     {
         parent::__construct($resource);
 
-        $this->fieldSets = $fieldSets;
+        $this->parser = $parser;
     }
 
     /**
@@ -41,6 +41,6 @@ abstract class BaseResource extends JsonResource
      */
     protected function isAllowedField($field)
     {
-        return $this->fieldSets->isAllowedField(static::$resourceType, $field);
+        return $this->parser->isAllowedField(static::$resourceType, $field);
     }
 }

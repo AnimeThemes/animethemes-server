@@ -6,12 +6,10 @@ use App\Enums\Season;
 use App\Http\Resources\AnimeCollection;
 use App\Http\Resources\AnimeResource;
 use App\Models\Anime;
-use Illuminate\Support\Str;
 
 class AnimeController extends BaseController
 {
     // constants for query parameters
-    protected const NAME_QUERY = 'name';
     protected const YEAR_QUERY = 'year';
     protected const SEASON_QUERY = 'season';
 
@@ -42,7 +40,7 @@ class AnimeController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter anime by year",
-     *         example="2009",
+     *         example="filter[year]=2009",
      *         name="year",
      *         in="query",
      *         required=false,
@@ -50,7 +48,7 @@ class AnimeController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter anime by season. Case-insensitive options are Winter, Spring, Summer & Fall.",
-     *         example="Summer",
+     *         example="filter[season]=Summer",
      *         name="season",
      *         in="query",
      *         required=false,
@@ -91,32 +89,27 @@ class AnimeController extends BaseController
      */
     public function index()
     {
-        // query parameters
-        $search_query = strval(request(static::SEARCH_QUERY));
-        $year_query = strval(request(static::YEAR_QUERY));
-        $season_query = Str::upper(request(static::SEASON_QUERY));
-
         // initialize builder
-        $anime = empty($search_query) ? Anime::query() : Anime::search($search_query);
+        $anime = $this->parser->hasSearch() ? Anime::search($this->parser->getSearch()) : Anime::query();
 
         // eager load relations
         $anime = $anime->with($this->getIncludePaths());
 
         // apply filters
-        if (! empty($year_query)) {
-            $anime = $anime->where(static::YEAR_QUERY, $year_query);
+        if ($this->parser->hasFilter(static::YEAR_QUERY)) {
+            $anime = $anime->whereIn(static::YEAR_QUERY, $this->parser->getFilter(static::YEAR_QUERY));
         }
-        if (! empty($season_query) && Season::hasKey($season_query)) {
-            $anime = $anime->where(static::SEASON_QUERY, Season::getValue($season_query));
+        if ($this->parser->hasFilter(static::SEASON_QUERY)) {
+            $anime = $anime->whereIn(static::SEASON_QUERY, $this->parser->getEnumFilter(static::SEASON_QUERY, Season::class));
         }
 
         // apply sorts
         $anime = $this->applySorting($anime);
 
         // paginate
-        $anime = $anime->paginate($this->getPerPageLimit());
+        $anime = $anime->paginate($this->parser->getPerPageLimit());
 
-        $collection = new AnimeCollection($anime, $this->getFieldSets());
+        $collection = new AnimeCollection($anime, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -162,7 +155,7 @@ class AnimeController extends BaseController
      */
     public function show(Anime $anime)
     {
-        $resource = new AnimeResource($anime->load($this->getIncludePaths()), $this->getFieldSets());
+        $resource = new AnimeResource($anime->load($this->getIncludePaths()), $this->parser);
 
         return $resource->toResponse(request());
     }

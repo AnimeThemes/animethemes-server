@@ -20,7 +20,7 @@ class AnimeCollection extends BaseCollection
     public function toArray($request)
     {
         return $this->collection->map(function ($anime) {
-            return AnimeResource::make($anime, $this->fieldSets);
+            return AnimeResource::make($anime, $this->parser);
         })->all();
     }
 }

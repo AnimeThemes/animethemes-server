@@ -16,9 +16,9 @@ abstract class BaseCollection extends ResourceCollection
     /**
      * Sparse field set specified by the client.
      *
-     * @var \App\JsonApi\FieldSetFilter
+     * @var \App\JsonApi\QueryParser
      */
-    protected $fieldSets;
+    protected $parser;
 
     /**
      * Create a new resource instance.
@@ -26,10 +26,10 @@ abstract class BaseCollection extends ResourceCollection
      * @param  mixed  $resource
      * @return void
      */
-    public function __construct($resource, $fieldSets)
+    public function __construct($resource, $parser)
     {
         parent::__construct($resource);
 
-        $this->fieldSets = $fieldSets;
+        $this->parser = $parser;
     }
 }

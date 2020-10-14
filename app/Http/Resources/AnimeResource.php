@@ -124,10 +124,10 @@ class AnimeResource extends BaseResource
             'season' => $this->when($this->isAllowedField('season'), strval(optional($this->season)->description)),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'synonyms' => SynonymCollection::make($this->whenLoaded('synonyms'), $this->fieldSets),
-            'themes' => ThemeCollection::make($this->whenLoaded('themes'), $this->fieldSets),
-            'series' => SeriesCollection::make($this->whenLoaded('series'), $this->fieldSets),
-            'resources' => ExternalResourceCollection::make($this->whenLoaded('externalResources'), $this->fieldSets),
+            'synonyms' => SynonymCollection::make($this->whenLoaded('synonyms'), $this->parser),
+            'themes' => ThemeCollection::make($this->whenLoaded('themes'), $this->parser),
+            'series' => SeriesCollection::make($this->whenLoaded('series'), $this->parser),
+            'resources' => ExternalResourceCollection::make($this->whenLoaded('externalResources'), $this->parser),
             'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('anime_resource', function () {
                 return strval($this->pivot->as);
             })),

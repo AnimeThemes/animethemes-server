@@ -56,7 +56,7 @@ class SynonymResource extends BaseResource
             'text' => $this->when($this->isAllowedField('text'), $this->text),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->fieldSets),
+            'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->parser),
             'links' => $this->when($this->isAllowedField('links'), $this->links(SynonymController::class)),
         ];
     }

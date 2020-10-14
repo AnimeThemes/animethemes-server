@@ -6,7 +6,6 @@ use App\Enums\ResourceType;
 use App\Http\Resources\ExternalResourceCollection;
 use App\Http\Resources\ExternalResourceResource;
 use App\Models\ExternalResource;
-use Illuminate\Support\Str;
 
 class ExternalResourceController extends BaseController
 {
@@ -73,9 +72,6 @@ class ExternalResourceController extends BaseController
      */
     public function index()
     {
-        // query parameters
-        $type_query = Str::upper(request(static::TYPE_QUERY));
-
         // initialize builder
         $resources = ExternalResource::query();
 
@@ -83,17 +79,17 @@ class ExternalResourceController extends BaseController
         $resources = $resources->with($this->getIncludePaths());
 
         // apply filters
-        if (! empty($type_query) && ResourceType::hasKey($type_query)) {
-            $resources = $resources->where(static::TYPE_QUERY, ResourceType::getValue($type_query));
+        if ($this->parser->hasFilter(static::TYPE_QUERY)) {
+            $resources = $resources->whereIn(static::TYPE_QUERY, $this->parser->getEnumFilter(static::TYPE_QUERY, ResourceType::class));
         }
 
         // sort
         $resources = $this->applySorting($resources);
 
         // paginate
-        $resources = $resources->paginate($this->getPerPageLimit());
+        $resources = $resources->paginate($this->parser->getPerPageLimit());
 
-        $collection = new ExternalResourceCollection($resources, $this->getFieldSets());
+        $collection = new ExternalResourceCollection($resources, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -139,7 +135,7 @@ class ExternalResourceController extends BaseController
      */
     public function show(ExternalResource $resource)
     {
-        $resource = new ExternalResourceResource($resource->load($this->getIncludePaths()), $this->getFieldSets());
+        $resource = new ExternalResourceResource($resource->load($this->getIncludePaths()), $this->parser);
 
         return $resource->toResponse(request());
     }
