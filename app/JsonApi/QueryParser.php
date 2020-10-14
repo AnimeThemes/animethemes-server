@@ -207,11 +207,11 @@ class QueryParser
     /**
      * Check if search term is provided in request.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasSearch()
     {
-        return !empty($this->search);
+        return ! empty($this->search);
     }
 
     /**
@@ -327,7 +327,8 @@ class QueryParser
      * @param string $field
      * @return array
      */
-    public function getBooleanFilter($field) {
+    public function getBooleanFilter($field)
+    {
         return array_map(function ($filterValue) {
             return filter_var($filterValue, FILTER_VALIDATE_BOOLEAN);
         }, $this->getFilter($field));
