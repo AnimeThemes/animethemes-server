@@ -157,7 +157,6 @@ class QueryParser
                     Arr::set($sorts, $field, $isAsc);
                 }
             }
-
         }
 
         return $sorts;
