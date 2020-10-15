@@ -4,7 +4,6 @@ namespace App\JsonApi;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
 
 class QueryParser
 {
