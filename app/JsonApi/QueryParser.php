@@ -4,6 +4,7 @@ namespace App\JsonApi;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class QueryParser
 {
@@ -74,8 +75,10 @@ class QueryParser
 
         if (Arr::exists($parameters, self::PARAM_FIELDS)) {
             $fieldsParam = $parameters[self::PARAM_FIELDS];
-            foreach ($fieldsParam as $type => $fieldList) {
-                Arr::set($fields, $type, array_map('trim', explode(',', $fieldList)));
+            if (Arr::accessible($fieldsParam) && Arr::isAssoc($fieldsParam)) {
+                foreach ($fieldsParam as $type => $fieldList) {
+                    Arr::set($fields, $type, array_map('trim', explode(',', $fieldList)));
+                }
             }
         }
 
@@ -104,7 +107,9 @@ class QueryParser
 
         if (Arr::exists($parameters, self::PARAM_INCLUDE)) {
             $includeParam = $parameters[self::PARAM_INCLUDE];
-            $includes = array_map('trim', explode(',', $includeParam));
+            if (! Arr::accessible($includeParam)) {
+                $includes = array_map('trim', explode(',', $includeParam));
+            }
         }
 
         return $includes;
@@ -132,26 +137,28 @@ class QueryParser
 
         if (Arr::exists($parameters, self::PARAM_SORT)) {
             $sortParam = $parameters[self::PARAM_SORT];
-            $sortValues = array_map('trim', explode(',', $sortParam));
+            if (! Arr::accessible($sortParam)) {
+                $sortValues = array_map('trim', explode(',', $sortParam));
+                foreach ($sortValues as $orderAndField) {
+                    switch ($orderAndField[0]) {
+                        case '-':
+                            $isAsc = false;
+                            $field = substr($orderAndField, 1);
+                            break;
+                        case '+':
+                            $isAsc = true;
+                            $field = substr($orderAndField, 1);
+                            break;
+                        default:
+                            $isAsc = true;
+                            $field = $orderAndField;
+                            break;
+                    }
 
-            foreach ($sortValues as $orderAndField) {
-                switch ($orderAndField[0]) {
-                    case '-':
-                        $isAsc = false;
-                        $field = substr($orderAndField, 1);
-                        break;
-                    case '+':
-                        $isAsc = true;
-                        $field = substr($orderAndField, 1);
-                        break;
-                    default:
-                        $isAsc = true;
-                        $field = $orderAndField;
-                        break;
+                    Arr::set($sorts, $field, $isAsc);
                 }
-
-                Arr::set($sorts, $field, $isAsc);
             }
+
         }
 
         return $sorts;
@@ -179,8 +186,10 @@ class QueryParser
 
         if (Arr::exists($parameters, self::PARAM_FILTER)) {
             $filterParam = $parameters[self::PARAM_FILTER];
-            foreach ($filterParam as $field => $filterList) {
-                Arr::set($filters, $field, array_map('trim', explode(',', $filterList)));
+            if (Arr::accessible($filterParam) && Arr::isAssoc($filterParam)) {
+                foreach ($filterParam as $field => $filterList) {
+                    Arr::set($filters, $field, array_map('trim', explode(',', $filterList)));
+                }
             }
         }
 
@@ -198,7 +207,10 @@ class QueryParser
         $search = '';
 
         if (Arr::exists($parameters, self::PARAM_SEARCH)) {
-            $search = trim($parameters[self::PARAM_SEARCH]);
+            $searchParam = $parameters[self::PARAM_SEARCH];
+            if (! Arr::accessible($searchParam)) {
+                $search = trim($searchParam);
+            }
         }
 
         return $search;
@@ -235,7 +247,10 @@ class QueryParser
         $limit = 0;
 
         if (Arr::exists($parameters, self::PARAM_LIMIT)) {
-            $limit = intval($parameters[self::PARAM_LIMIT]);
+            $limitParam = $parameters[self::PARAM_LIMIT];
+            if (! Arr::accessible($limitParam)) {
+                $limit = intval($limitParam);
+            }
         }
 
         return $limit;
