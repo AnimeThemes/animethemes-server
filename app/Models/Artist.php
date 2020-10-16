@@ -93,6 +93,33 @@ class Artist extends Model implements Auditable
     }
 
     /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedIncludePaths = [
+        'songs',
+        'songs.themes',
+        'songs.themes.anime',
+        'members',
+        'groups',
+        'externalResources',
+    ];
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedSortFields = [
+        'artist_id',
+        'created_at',
+        'updated_at',
+        'alias',
+        'name',
+    ];
+
+    /**
      * Get the songs the artist has performed in.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

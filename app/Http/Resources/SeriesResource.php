@@ -105,7 +105,7 @@ class SeriesResource extends BaseResource
      *
      * @var string
      */
-    protected static $resourceType = 'series';
+    public static $resourceType = 'series';
 
     /**
      * Transform the resource into an array.

@@ -45,7 +45,7 @@ class ExternalResourceResource extends BaseResource
      *
      * @var string
      */
-    protected static $resourceType = 'resource';
+    public static $resourceType = 'resource';
 
     /**
      * Transform the resource into an array.

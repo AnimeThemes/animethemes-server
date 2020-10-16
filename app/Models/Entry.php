@@ -130,6 +130,32 @@ class Entry extends Model implements Auditable
     ];
 
     /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedIncludePaths = [
+        'anime',
+        'theme',
+        'videos',
+    ];
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedSortFields = [
+        'entry_id',
+        'created_at',
+        'updated_at',
+        'version',
+        'nsfw',
+        'spoiler',
+        'theme_id',
+    ];
+
+    /**
      * Get the theme that owns the entry.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

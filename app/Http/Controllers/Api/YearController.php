@@ -66,34 +66,20 @@ class YearController extends BaseController
      */
     public function show($year)
     {
-        return new JsonResponse((new AnimeCollection(Anime::where(static::YEAR_QUERY, $year)
-                ->with($this->getIncludePaths())
+        $anime = AnimeCollection::make(
+            Anime::where(static::YEAR_QUERY, $year)
+                ->with($this->parser->getIncludePaths(Anime::$allowedIncludePaths))
                 ->orderBy(static::NAME_QUERY)
                 ->get(),
-                $this->parser
-                )
-            )->groupBy(function ($item) {
-                return Str::lower(Season::getDescription($item->season));
-            })
+            $this->parser
         );
-    }
 
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedIncludePaths()
-    {
-        return [
-            'synonyms',
-            'series',
-            'themes',
-            'themes.entries',
-            'themes.entries.videos',
-            'themes.song',
-            'themes.song.artists',
-            'externalResources',
-        ];
+        $anime = collect($anime->toArray(request()));
+
+        $anime = $anime->groupBy(function ($item) {
+            return Str::lower(Season::getDescription($item->season));
+        })->sortKeys();
+
+        return new JsonResponse($anime);
     }
 }

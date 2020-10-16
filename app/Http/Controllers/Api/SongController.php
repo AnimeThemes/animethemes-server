@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\SongCollection;
 use App\Http\Resources\SongResource;
 use App\Models\Song;
+use Illuminate\Support\Str;
 
 class SongController extends BaseController
 {
@@ -72,15 +73,19 @@ class SongController extends BaseController
         $songs = $this->parser->hasSearch() ? Song::search($this->parser->getSearch()) : Song::query();
 
         // eager load relations
-        $songs = $songs->with($this->getIncludePaths());
+        $songs = $songs->with($this->parser->getIncludePaths(Song::$allowedIncludePaths));
 
-        // sort
-        $songs = $this->applySorting($songs);
+        // apply sorts
+        foreach ($this->parser->getSorts() as $field => $isAsc) {
+            if (in_array(Str::lower($field), Song::$allowedSortFields)) {
+                $songs = $songs->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+            }
+        }
 
         // paginate
         $songs = $songs->paginate($this->parser->getPerPageLimit());
 
-        $collection = new SongCollection($songs, $this->parser);
+        $collection = SongCollection::make($songs, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -126,37 +131,8 @@ class SongController extends BaseController
      */
     public function show(Song $song)
     {
-        $resource = new SongResource($song->load($this->getIncludePaths()), $this->parser);
+        $resource = SongResource::make($song->load($this->parser->getIncludePaths(Song::$allowedIncludePaths)), $this->parser);
 
         return $resource->toResponse(request());
-    }
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedIncludePaths()
-    {
-        return [
-            'themes',
-            'themes.anime',
-            'artists',
-        ];
-    }
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedSortFields()
-    {
-        return [
-            'song_id',
-            'created_at',
-            'updated_at',
-            'title',
-        ];
     }
 }

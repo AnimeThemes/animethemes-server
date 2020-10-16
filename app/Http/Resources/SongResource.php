@@ -58,7 +58,7 @@ class SongResource extends BaseResource
      *
      * @var string
      */
-    protected static $resourceType = 'song';
+    public static $resourceType = 'song';
 
     /**
      * Transform the resource into an array.

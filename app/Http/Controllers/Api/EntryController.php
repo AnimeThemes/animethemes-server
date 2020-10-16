@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\EntryCollection;
 use App\Http\Resources\EntryResource;
 use App\Models\Entry;
+use Illuminate\Support\Str;
 
 class EntryController extends BaseController
 {
@@ -101,7 +102,7 @@ class EntryController extends BaseController
         $entries = $this->parser->hasSearch() ? Entry::search($this->parser->getSearch()) : Entry::query();
 
         // eager load relations
-        $entries = $entries->with($this->getIncludePaths());
+        $entries = $entries->with($this->parser->getIncludePaths(Entry::$allowedIncludePaths));
 
         // apply filters
         if ($this->parser->hasFilter(static::VERSION_QUERY)) {
@@ -114,13 +115,17 @@ class EntryController extends BaseController
             $entries = $entries->whereIn(static::SPOILER_QUERY, $this->parser->getBooleanFilter(static::SPOILER_QUERY));
         }
 
-        // sort
-        $entries = $this->applySorting($entries);
+        // apply sorts
+        foreach ($this->parser->getSorts() as $field => $isAsc) {
+            if (in_array(Str::lower($field), Entry::$allowedSortFields)) {
+                $entries = $entries->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+            }
+        }
 
         // paginate
         $entries = $entries->paginate($this->parser->getPerPageLimit());
 
-        $collection = new EntryCollection($entries, $this->parser);
+        $collection = EntryCollection::make($entries, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -166,40 +171,8 @@ class EntryController extends BaseController
      */
     public function show(Entry $entry)
     {
-        $resource = new EntryResource($entry->load($this->getIncludePaths()), $this->parser);
+        $resource = EntryResource::make($entry->load($this->parser->getIncludePaths(Entry::$allowedIncludePaths)), $this->parser);
 
         return $resource->toResponse(request());
-    }
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedIncludePaths()
-    {
-        return [
-            'anime',
-            'theme',
-            'videos',
-        ];
-    }
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedSortFields()
-    {
-        return [
-            'entry_id',
-            'created_at',
-            'updated_at',
-            'version',
-            'nsfw',
-            'spoiler',
-            'theme_id',
-        ];
     }
 }

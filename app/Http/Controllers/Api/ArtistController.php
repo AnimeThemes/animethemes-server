@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\ArtistCollection;
 use App\Http\Resources\ArtistResource;
 use App\Models\Artist;
+use Illuminate\Support\Str;
 
 class ArtistController extends BaseController
 {
@@ -72,15 +73,19 @@ class ArtistController extends BaseController
         $artists = $this->parser->hasSearch() ? Artist::search($this->parser->getSearch()) : Artist::query();
 
         // eager load relations
-        $artists = $artists->with($this->getIncludePaths());
+        $artists = $artists->with($this->parser->getIncludePaths(Artist::$allowedIncludePaths));
 
-        // sort
-        $artists = $this->applySorting($artists);
+        // apply sorts
+        foreach ($this->parser->getSorts() as $field => $isAsc) {
+            if (in_array(Str::lower($field), Artist::$allowedSortFields)) {
+                $artists = $artists->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+            }
+        }
 
         // paginate
         $artists = $artists->paginate($this->parser->getPerPageLimit());
 
-        $collection = new ArtistCollection($artists, $this->parser);
+        $collection = ArtistCollection::make($artists, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -126,41 +131,8 @@ class ArtistController extends BaseController
      */
     public function show(Artist $artist)
     {
-        $resource = new ArtistResource($artist->load($this->getIncludePaths()), $this->parser);
+        $resource = ArtistResource::make($artist->load($this->parser->getIncludePaths(Artist::$allowedIncludePaths)), $this->parser);
 
         return $resource->toResponse(request());
-    }
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedIncludePaths()
-    {
-        return [
-            'songs',
-            'songs.themes',
-            'songs.themes.anime',
-            'members',
-            'groups',
-            'externalResources',
-        ];
-    }
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedSortFields()
-    {
-        return [
-            'artist_id',
-            'created_at',
-            'updated_at',
-            'alias',
-            'name',
-        ];
     }
 }

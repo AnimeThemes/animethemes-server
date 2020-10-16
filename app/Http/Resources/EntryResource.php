@@ -70,7 +70,7 @@ class EntryResource extends BaseResource
      *
      * @var string
      */
-    protected static $resourceType = 'entry';
+    public static $resourceType = 'entry';
 
     /**
      * Transform the resource into an array.

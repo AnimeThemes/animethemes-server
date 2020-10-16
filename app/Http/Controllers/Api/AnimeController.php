@@ -6,6 +6,7 @@ use App\Enums\Season;
 use App\Http\Resources\AnimeCollection;
 use App\Http\Resources\AnimeResource;
 use App\Models\Anime;
+use Illuminate\Support\Str;
 
 class AnimeController extends BaseController
 {
@@ -93,7 +94,7 @@ class AnimeController extends BaseController
         $anime = $this->parser->hasSearch() ? Anime::search($this->parser->getSearch()) : Anime::query();
 
         // eager load relations
-        $anime = $anime->with($this->getIncludePaths());
+        $anime = $anime->with($this->parser->getIncludePaths(Anime::$allowedIncludePaths));
 
         // apply filters
         if ($this->parser->hasFilter(static::YEAR_QUERY)) {
@@ -104,12 +105,16 @@ class AnimeController extends BaseController
         }
 
         // apply sorts
-        $anime = $this->applySorting($anime);
+        foreach ($this->parser->getSorts() as $field => $isAsc) {
+            if (in_array(Str::lower($field), Anime::$allowedSortFields)) {
+                $anime = $anime->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+            }
+        }
 
         // paginate
         $anime = $anime->paginate($this->parser->getPerPageLimit());
 
-        $collection = new AnimeCollection($anime, $this->parser);
+        $collection = AnimeCollection::make($anime, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -155,45 +160,8 @@ class AnimeController extends BaseController
      */
     public function show(Anime $anime)
     {
-        $resource = new AnimeResource($anime->load($this->getIncludePaths()), $this->parser);
+        $resource = AnimeResource::make($anime->load($this->parser->getIncludePaths(Anime::$allowedIncludePaths)), $this->parser);
 
         return $resource->toResponse(request());
-    }
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedIncludePaths()
-    {
-        return [
-            'synonyms',
-            'series',
-            'themes',
-            'themes.entries',
-            'themes.entries.videos',
-            'themes.song',
-            'themes.song.artists',
-            'externalResources',
-        ];
-    }
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedSortFields()
-    {
-        return [
-            'anime_id',
-            'created_at',
-            'updated_at',
-            'alias',
-            'name',
-            'year',
-            'season',
-        ];
     }
 }

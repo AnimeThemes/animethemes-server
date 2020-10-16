@@ -6,6 +6,7 @@ use App\Enums\ThemeType;
 use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\ThemeResource;
 use App\Models\Theme;
+use Illuminate\Support\Str;
 
 class ThemeController extends BaseController
 {
@@ -102,7 +103,7 @@ class ThemeController extends BaseController
         $themes = $this->parser->hasSearch() ? Theme::search($this->parser->getSearch()) : Theme::query();
 
         // eager load relations
-        $themes = $themes->with($this->getIncludePaths());
+        $themes = $themes->with($this->parser->getIncludePaths(Theme::$allowedIncludePaths));
 
         // apply filters
         if ($this->parser->hasFilter(static::TYPE_QUERY)) {
@@ -115,13 +116,17 @@ class ThemeController extends BaseController
             $themes = $themes->whereIn(static::GROUP_QUERY, $this->parser->getFilter(static::GROUP_QUERY));
         }
 
-        // sort
-        $themes = $this->applySorting($themes);
+        // apply sorts
+        foreach ($this->parser->getSorts() as $field => $isAsc) {
+            if (in_array(Str::lower($field), Theme::$allowedSortFields)) {
+                $themes = $themes->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+            }
+        }
 
         // paginate
         $themes = $themes->paginate($this->parser->getPerPageLimit());
 
-        $collection = new ThemeCollection($themes, $this->parser);
+        $collection = ThemeCollection::make($themes, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -167,44 +172,8 @@ class ThemeController extends BaseController
      */
     public function show(Theme $theme)
     {
-        $resource = new ThemeResource($theme->load($this->getIncludePaths()), $this->parser);
+        $resource = ThemeResource::make($theme->load($this->parser->getIncludePaths(Theme::$allowedIncludePaths)), $this->parser);
 
         return $resource->toResponse(request());
-    }
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedIncludePaths()
-    {
-        return [
-            'anime',
-            'entries',
-            'entries.videos',
-            'song',
-            'song.artists',
-        ];
-    }
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedSortFields()
-    {
-        return [
-            'theme_id',
-            'created_at',
-            'updated_at',
-            'group',
-            'type',
-            'sequence',
-            'slug',
-            'anime_id',
-            'song_id',
-        ];
     }
 }

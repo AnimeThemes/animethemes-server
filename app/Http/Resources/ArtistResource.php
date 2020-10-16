@@ -69,7 +69,7 @@ class ArtistResource extends BaseResource
      *
      * @var string
      */
-    protected static $resourceType = 'artist';
+    public static $resourceType = 'artist';
 
     /**
      * Transform the resource into an array.

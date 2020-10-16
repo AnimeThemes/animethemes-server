@@ -85,7 +85,7 @@ class ThemeResource extends BaseResource
      *
      * @var string
      */
-    protected static $resourceType = 'theme';
+    public static $resourceType = 'theme';
 
     /**
      * Transform the resource into an array.

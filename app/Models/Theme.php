@@ -120,6 +120,36 @@ class Theme extends Model implements Auditable
     ];
 
     /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedIncludePaths = [
+        'anime',
+        'entries',
+        'entries.videos',
+        'song',
+        'song.artists',
+    ];
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedSortFields = [
+        'theme_id',
+        'created_at',
+        'updated_at',
+        'group',
+        'type',
+        'sequence',
+        'slug',
+        'anime_id',
+        'song_id',
+    ];
+
+    /**
      * Gets the anime that owns the theme.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

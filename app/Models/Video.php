@@ -9,7 +9,6 @@ use App\ScoutElastic\VideoSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use OwenIt\Auditing\Contracts\Auditable;
 use ScoutElastic\Searchable;
 
@@ -196,6 +195,38 @@ class Video extends Model implements Auditable
         'subbed' => 'boolean',
         'lyrics' => 'boolean',
         'uncen' => 'boolean',
+    ];
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedIncludePaths = [
+        'entries',
+        'entries.theme',
+        'entries.theme.anime',
+    ];
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedSortFields = [
+        'video_id',
+        'created_at',
+        'updated_at',
+        'filename',
+        'path',
+        'basename',
+        'resolution',
+        'nc',
+        'subbed',
+        'lyrics',
+        'uncen',
+        'source',
+        'overlap',
     ];
 
     /**

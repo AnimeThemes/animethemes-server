@@ -57,6 +57,29 @@ class Song extends Model implements Auditable
     ];
 
     /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedIncludePaths = [
+        'themes',
+        'themes.anime',
+        'artists',
+    ];
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedSortFields = [
+        'song_id',
+        'created_at',
+        'updated_at',
+        'title',
+    ];
+
+    /**
      * Get the themes that use this song.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -104,6 +104,37 @@ class Anime extends Model implements Auditable
     ];
 
     /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedIncludePaths = [
+        'synonyms',
+        'series',
+        'themes',
+        'themes.entries',
+        'themes.entries.videos',
+        'themes.song',
+        'themes.song.artists',
+        'externalResources',
+    ];
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedSortFields = [
+        'anime_id',
+        'created_at',
+        'updated_at',
+        'alias',
+        'name',
+        'year',
+        'season',
+    ];
+
+    /**
      * Get the synonyms for the anime.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

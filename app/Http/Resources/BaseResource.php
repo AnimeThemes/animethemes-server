@@ -18,7 +18,7 @@ abstract class BaseResource extends JsonResource
      *
      * @var string
      */
-    protected static $resourceType;
+    public static $resourceType;
 
     /**
      * Create a new resource instance.

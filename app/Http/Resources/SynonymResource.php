@@ -41,7 +41,7 @@ class SynonymResource extends BaseResource
      *
      * @var string
      */
-    protected static $resourceType = 'synonym';
+    public static $resourceType = 'synonym';
 
     /**
      * Transform the resource into an array.

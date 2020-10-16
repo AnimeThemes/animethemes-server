@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\SeriesCollection;
 use App\Http\Resources\SeriesResource;
 use App\Models\Series;
+use Illuminate\Support\Str;
 
 class SeriesController extends BaseController
 {
@@ -72,10 +73,14 @@ class SeriesController extends BaseController
         $series = $this->parser->hasSearch() ? Series::search($this->parser->getSearch()) : Series::query();
 
         // eager load relations
-        $series = $series->with($this->getIncludePaths());
+        $series = $series->with($this->parser->getIncludePaths(Series::$allowedIncludePaths));
 
-        // sort
-        $series = $this->applySorting($series);
+        // apply sorts
+        foreach ($this->parser->getSorts() as $field => $isAsc) {
+            if (in_array(Str::lower($field), Series::$allowedSortFields)) {
+                $series = $series->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+            }
+        }
 
         // paginate
         $series = $series->paginate($this->parser->getPerPageLimit());
@@ -126,43 +131,8 @@ class SeriesController extends BaseController
      */
     public function show(Series $series)
     {
-        $resource = new SeriesResource($series->load($this->getIncludePaths()), $this->parser);
+        $resource = SeriesResource::make($series->load($this->parser->getIncludePaths(Series::$allowedIncludePaths)), $this->parser);
 
         return $resource->toResponse(request());
-    }
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedIncludePaths()
-    {
-        return [
-            'anime',
-            'anime.synonyms',
-            'anime.themes',
-            'anime.themes.entries',
-            'anime.themes.entries.videos',
-            'anime.themes.song',
-            'anime.themes.song.artists',
-            'anime.externalResources',
-        ];
-    }
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedSortFields()
-    {
-        return [
-            'series_id',
-            'created_at',
-            'updated_at',
-            'alias',
-            'name',
-        ];
     }
 }

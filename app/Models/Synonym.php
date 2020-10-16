@@ -57,6 +57,28 @@ class Synonym extends Model implements Auditable
     ];
 
     /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedIncludePaths = [
+        'anime',
+    ];
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedSortFields = [
+        'synonym_id',
+        'created_at',
+        'updated_at',
+        'text',
+        'anime_id',
+    ];
+
+    /**
      * Gets the anime that owns the synonym.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

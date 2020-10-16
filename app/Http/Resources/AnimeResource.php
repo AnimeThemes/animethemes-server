@@ -106,7 +106,7 @@ class AnimeResource extends BaseResource
      *
      * @var string
      */
-    protected static $resourceType = 'anime';
+    public static $resourceType = 'anime';
 
     /**
      * Transform the resource into an array.

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\SynonymCollection;
 use App\Http\Resources\SynonymResource;
 use App\Models\Synonym;
+use Illuminate\Support\Str;
 
 class SynonymController extends BaseController
 {
@@ -72,15 +73,19 @@ class SynonymController extends BaseController
         $synonyms = $this->parser->hasSearch() ? Synonym::search($this->parser->getSearch()) : Synonym::query();
 
         // eager load relations
-        $synonyms = $synonyms->with($this->getIncludePaths());
+        $synonyms = $synonyms->with($this->parser->getIncludePaths(Synonym::$allowedIncludePaths));
 
-        // sort
-        $synonyms = $this->applySorting($synonyms);
+        // apply sorts
+        foreach ($this->parser->getSorts() as $field => $isAsc) {
+            if (in_array(Str::lower($field), Synonym::$allowedSortFields)) {
+                $synonyms = $synonyms->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+            }
+        }
 
         // paginate
         $synonyms = $synonyms->paginate($this->parser->getPerPageLimit());
 
-        $collection = new SynonymCollection($synonyms, $this->parser);
+        $collection = SynonymCollection::make($synonyms, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -126,36 +131,8 @@ class SynonymController extends BaseController
      */
     public function show(Synonym $synonym)
     {
-        $resource = new SynonymResource($synonym->load($this->getIncludePaths()), $this->parser);
+        $resource = SynonymResource::make($synonym->load($this->parser->getIncludePaths(Synonym::$allowedIncludePaths)), $this->parser);
 
         return $resource->toResponse(request());
-    }
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedIncludePaths()
-    {
-        return [
-            'anime',
-        ];
-    }
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedSortFields()
-    {
-        return [
-            'synonym_id',
-            'created_at',
-            'updated_at',
-            'text',
-            'anime_id',
-        ];
     }
 }

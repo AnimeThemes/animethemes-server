@@ -6,6 +6,7 @@ use App\Enums\ResourceType;
 use App\Http\Resources\ExternalResourceCollection;
 use App\Http\Resources\ExternalResourceResource;
 use App\Models\ExternalResource;
+use Illuminate\Support\Str;
 
 class ExternalResourceController extends BaseController
 {
@@ -76,15 +77,19 @@ class ExternalResourceController extends BaseController
         $resources = ExternalResource::query();
 
         // eager load relations
-        $resources = $resources->with($this->getIncludePaths());
+        $resources = $resources->with($this->parser->getIncludePaths(ExternalResource::$allowedIncludePaths));
 
         // apply filters
         if ($this->parser->hasFilter(static::TYPE_QUERY)) {
             $resources = $resources->whereIn(static::TYPE_QUERY, $this->parser->getEnumFilter(static::TYPE_QUERY, ResourceType::class));
         }
 
-        // sort
-        $resources = $this->applySorting($resources);
+        // apply sorts
+        foreach ($this->parser->getSorts() as $field => $isAsc) {
+            if (in_array(Str::lower($field), ExternalResource::$allowedSortFields)) {
+                $resources = $resources->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+            }
+        }
 
         // paginate
         $resources = $resources->paginate($this->parser->getPerPageLimit());
@@ -135,38 +140,8 @@ class ExternalResourceController extends BaseController
      */
     public function show(ExternalResource $resource)
     {
-        $resource = new ExternalResourceResource($resource->load($this->getIncludePaths()), $this->parser);
+        $resource = ExternalResourceResource::make($resource->load($this->parser->getIncludePaths(ExternalResource::$allowedIncludePaths)), $this->parser);
 
         return $resource->toResponse(request());
-    }
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedIncludePaths()
-    {
-        return [
-            'anime',
-            'artists',
-        ];
-    }
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedSortFields()
-    {
-        return [
-            'resource_id',
-            'created_at',
-            'updated_at',
-            'type',
-            'link',
-            'external_id',
-        ];
     }
 }

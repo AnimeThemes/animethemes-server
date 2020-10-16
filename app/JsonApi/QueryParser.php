@@ -32,6 +32,11 @@ class QueryParser
     /**
      * @var array
      */
+    private $resourceIncludes;
+
+    /**
+     * @var array
+     */
     private $sorts;
 
     /**
@@ -56,6 +61,7 @@ class QueryParser
     {
         $this->fields = $this->parseFields($parameters);
         $this->includes = $this->parseIncludes($parameters);
+        $this->resourceIncludes = $this->parseResourceIncludes($parameters);
         $this->sorts = $this->parseSorts($parameters);
         $this->filters = $this->parseFilters($parameters);
         $this->search = $this->parseSearch($parameters);
@@ -122,6 +128,28 @@ class QueryParser
     public function getIncludes()
     {
         return $this->includes;
+    }
+
+    /**
+     * Parse includes by resource from parameters.
+     *
+     * @param array $parameters
+     * @return array
+     */
+    private function parseResourceIncludes($parameters)
+    {
+        $includes = [];
+
+        if (Arr::exists($parameters, self::PARAM_INCLUDE)) {
+            $includeParam = $parameters[self::PARAM_INCLUDE];
+            if (Arr::accessible($includeParam) && Arr::isAssoc($includeParam)) {
+                foreach ($includeParam as $type => $includeList) {
+                    Arr::set($includes, $type, array_map('trim', explode(',', $includeList)));
+                }
+            }
+        }
+
+        return $includes;
     }
 
     /**
@@ -346,5 +374,59 @@ class QueryParser
         return array_map(function ($filterValue) {
             return filter_var($filterValue, FILTER_VALIDATE_BOOLEAN);
         }, $this->getFilter($field));
+    }
+
+    /**
+     * The validated include paths used to eager load relations.
+     *
+     * @return array
+     */
+    public function getIncludePaths($allowedIncludePaths)
+    {
+        // If include paths are not specified, return full list of allowed include paths
+        if (empty($this->includes)) {
+            return $allowedIncludePaths;
+        }
+
+        // If no include paths are contained in the list of allowed include paths,
+        // return the full list of allowed include paths
+        $validIncludePaths = array_intersect($this->includes, $allowedIncludePaths);
+        if (empty($validIncludePaths)) {
+            return $allowedIncludePaths;
+        }
+
+        // Return list of include paths that are contained in the list of allowed include paths
+        return $validIncludePaths;
+    }
+
+    /**
+     * The validated include paths used to eager load relations for the specified type
+     *
+     * @param array $allowedResourceIncludePaths
+     * @param string $type
+     * @return array
+     */
+    public function getResourceIncludePaths($allowedResourceIncludePaths, $type)
+    {
+        // If we are not specifying include paths for this type, include all default relations
+        if (! Arr::exists($this->resourceIncludes, $type)) {
+            return $allowedResourceIncludePaths;
+        }
+
+        // If there are no include paths for this type, include all default relations
+        $resourceTypeIncludes = Arr::get($this->resourceIncludes, $type);
+        if (empty($resourceTypeIncludes)) {
+            return $allowedResourceIncludePaths;
+        }
+
+        // If no include paths are contained in the list of allowed include paths for this type,
+        // return the full list of allowed include paths
+        $validResourceIncludePaths = array_intersect($resourceTypeIncludes, $allowedResourceIncludePaths);
+        if (empty($validResourceIncludePaths)) {
+            return $allowedResourceIncludePaths;
+        }
+
+        // Return list of include paths that are contained in the list of allowed include paths for this type
+        return $validResourceIncludePaths;
     }
 }

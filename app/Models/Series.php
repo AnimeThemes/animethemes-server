@@ -67,6 +67,35 @@ class Series extends Model implements Auditable
     }
 
     /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedIncludePaths = [
+        'anime',
+        'anime.synonyms',
+        'anime.themes',
+        'anime.themes.entries',
+        'anime.themes.entries.videos',
+        'anime.themes.song',
+        'anime.themes.song.artists',
+        'anime.externalResources',
+    ];
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @var array
+     */
+    public static $allowedSortFields = [
+        'series_id',
+        'created_at',
+        'updated_at',
+        'alias',
+        'name',
+    ];
+
+    /**
      * Get the anime included in the series.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

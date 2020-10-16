@@ -70,7 +70,7 @@ class VideoResource extends BaseResource
      *
      * @var string
      */
-    protected static $resourceType = 'video';
+    public static $resourceType = 'video';
 
     /**
      * Transform the resource into an array.

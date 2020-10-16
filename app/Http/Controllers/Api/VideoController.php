@@ -140,7 +140,7 @@ class VideoController extends BaseController
         $videos = $this->parser->hasSearch() ? Video::search($this->parser->getSearch()) : Video::query();
 
         // eager load relations
-        $videos = $videos->with($this->getIncludePaths());
+        $videos = $videos->with($this->parser->getIncludePaths(Video::$allowedIncludePaths));
 
         // apply filters
         if ($this->parser->hasFilter(static::RESOLUTION_QUERY)) {
@@ -166,12 +166,16 @@ class VideoController extends BaseController
         }
 
         // sort
-        $videos = $this->applySorting($videos);
+        foreach ($this->parser->getSorts() as $field => $isAsc) {
+            if (in_array(Str::lower($field), Video::$allowedSortFields)) {
+                $videos = $videos->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+            }
+        }
 
         // paginate
         $videos = $videos->paginate($this->parser->getPerPageLimit());
 
-        $collection = new VideoCollection($videos, $this->parser);
+        $collection = VideoCollection::make($videos, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -217,46 +221,8 @@ class VideoController extends BaseController
      */
     public function show(Video $video)
     {
-        $resource = new VideoResource($video->load($this->getIncludePaths()), $this->parser);
+        $resource = VideoResource::make($video->load($this->parser->getIncludePaths(Video::$allowedIncludePaths)), $this->parser);
 
         return $resource->toResponse(request());
-    }
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedIncludePaths()
-    {
-        return [
-            'entries',
-            'entries.theme',
-            'entries.theme.anime',
-        ];
-    }
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @return array
-     */
-    public static function getAllowedSortFields()
-    {
-        return [
-            'video_id',
-            'created_at',
-            'updated_at',
-            'filename',
-            'path',
-            'basename',
-            'resolution',
-            'nc',
-            'subbed',
-            'lyrics',
-            'uncen',
-            'source',
-            'overlap',
-        ];
     }
 }
