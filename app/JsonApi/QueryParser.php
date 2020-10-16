@@ -400,7 +400,7 @@ class QueryParser
     }
 
     /**
-     * The validated include paths used to eager load relations for the specified type
+     * The validated include paths used to eager load relations for the specified type.
      *
      * @param array $allowedResourceIncludePaths
      * @param string $type
