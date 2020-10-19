@@ -19,16 +19,8 @@ class SynonymController extends BaseController
      *     summary="Get paginated listing of Synonyms",
      *     description="Returns listing of Synonyms",
      *     @OA\Parameter(
-     *         description="The search query. Mapping is to synonym.text.",
-     *         example="Monstory",
-     *         name="q",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is anime.",
-     *         example="anime",
+     *         example="include=anime",
      *         name="include",
      *         in="query",
      *         required=false,
@@ -36,16 +28,24 @@ class SynonymController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Sort synonym resource collection by fields. Case-insensitive options are synonym_id, created_at, updated_at, text & anime_id.",
-     *         example="text,-updated_at",
+     *         example="sort=text,-updated_at",
      *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-     *         example=50,
-     *         name="limit",
+     *         description="The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
+     *         example="page[size]=25",
+     *         name="page[size]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The page of resources to return.",
+     *         example="page[number]=2",
+     *         name="page[number]",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
@@ -69,11 +69,8 @@ class SynonymController extends BaseController
      */
     public function index()
     {
-        // initialize builder
-        $synonyms = $this->parser->hasSearch() ? Synonym::search($this->parser->getSearch()) : Synonym::query();
-
-        // eager load relations
-        $synonyms = $synonyms->with($this->parser->getIncludePaths(Synonym::$allowedIncludePaths));
+        // initialize builder with eager loaded relations
+        $synonyms = Synonym::with($this->parser->getIncludePaths(Synonym::$allowedIncludePaths));
 
         // apply sorts
         foreach ($this->parser->getSorts() as $field => $isAsc) {
@@ -83,7 +80,7 @@ class SynonymController extends BaseController
         }
 
         // paginate
-        $synonyms = $synonyms->paginate($this->parser->getPerPageLimit());
+        $synonyms = $synonyms->jsonPaginate();
 
         $collection = SynonymCollection::make($synonyms, $this->parser);
 
@@ -101,7 +98,7 @@ class SynonymController extends BaseController
      *     description="Returns properties of Synonym",
      *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is anime.",
-     *         example="anime",
+     *         example="include=anime",
      *         name="include",
      *         in="query",
      *         required=false,

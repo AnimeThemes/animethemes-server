@@ -24,16 +24,8 @@ class AnimeController extends BaseController
      *     summary="Get paginated listing of Anime",
      *     description="Returns listing of Anime",
      *     @OA\Parameter(
-     *         description="The search query. Mapping is to anime.name and anime.synonyms.text.",
-     *         example="bakemonogatari",
-     *         name="q",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists & externalResources.",
-     *         example="synonyms,series",
+     *         example="include=synonyms,series",
      *         name="include",
      *         in="query",
      *         required=false,
@@ -57,16 +49,24 @@ class AnimeController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Sort anime resource collection by fields. Case-insensitive options are anime_id, created_at, updated_at, alias, name, year & season.",
-     *         example="-year,name",
+     *         example="sort=-year,name",
      *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-     *         example=50,
-     *         name="limit",
+     *         description="The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
+     *         example="page[size]=25",
+     *         name="page[size]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The page of resources to return.",
+     *         example="page[number]=2",
+     *         name="page[number]",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
@@ -90,11 +90,8 @@ class AnimeController extends BaseController
      */
     public function index()
     {
-        // initialize builder
-        $anime = $this->parser->hasSearch() ? Anime::search($this->parser->getSearch()) : Anime::query();
-
-        // eager load relations
-        $anime = $anime->with($this->parser->getIncludePaths(Anime::$allowedIncludePaths));
+        // initialize builder with eager loaded relations
+        $anime = Anime::with($this->parser->getIncludePaths(Anime::$allowedIncludePaths));
 
         // apply filters
         if ($this->parser->hasFilter(static::YEAR_QUERY)) {
@@ -112,7 +109,7 @@ class AnimeController extends BaseController
         }
 
         // paginate
-        $anime = $anime->paginate($this->parser->getPerPageLimit());
+        $anime = $anime->jsonPaginate();
 
         $collection = AnimeCollection::make($anime, $this->parser);
 
@@ -130,7 +127,7 @@ class AnimeController extends BaseController
      *     description="Returns properties of Anime",
      *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists & externalResources.",
-     *         example="synonyms,series",
+     *         example="include=synonyms,series",
      *         name="include",
      *         in="query",
      *         required=false,

@@ -25,16 +25,8 @@ class ThemeController extends BaseController
      *     summary="Get paginated listing of Themes",
      *     description="Returns listing of Themes",
      *     @OA\Parameter(
-     *         description="The search query. Mapping is to [theme.anime.name|theme.anime.synonyms.text + theme.slug] or theme.song.title.",
-     *         example="bakemonogatari op1",
-     *         name="q",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is anime, entries, entries.videos, song & song.artists.",
-     *         example="anime,song",
+     *         example="include=anime,song",
      *         name="include",
      *         in="query",
      *         required=false,
@@ -66,16 +58,24 @@ class ThemeController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Sort theme resource collection by fields. Case-insensitive options are theme_id, created_at, updated_at, group, type, sequence, slug, anime_id & song_id.",
-     *         example="sequence,-updated_at",
+     *         example="sort=sequence,-updated_at",
      *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-     *         example=50,
-     *         name="limit",
+     *         description="The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
+     *         example="page[size]=25",
+     *         name="page[size]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The page of resources to return.",
+     *         example="page[number]=2",
+     *         name="page[number]",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
@@ -99,11 +99,8 @@ class ThemeController extends BaseController
      */
     public function index()
     {
-        // initialize builder
-        $themes = $this->parser->hasSearch() ? Theme::search($this->parser->getSearch()) : Theme::query();
-
-        // eager load relations
-        $themes = $themes->with($this->parser->getIncludePaths(Theme::$allowedIncludePaths));
+        // initialize builder with eager loaded relations
+        $themes = Theme::with($this->parser->getIncludePaths(Theme::$allowedIncludePaths));
 
         // apply filters
         if ($this->parser->hasFilter(static::TYPE_QUERY)) {
@@ -124,7 +121,7 @@ class ThemeController extends BaseController
         }
 
         // paginate
-        $themes = $themes->paginate($this->parser->getPerPageLimit());
+        $themes = $themes->jsonPaginate();
 
         $collection = ThemeCollection::make($themes, $this->parser);
 
@@ -142,7 +139,7 @@ class ThemeController extends BaseController
      *     description="Returns properties of Theme",
      *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is anime, entries, entries.videos, song & song.artists.",
-     *         example="anime,song",
+     *         example="include=anime,song",
      *         name="include",
      *         in="query",
      *         required=false,

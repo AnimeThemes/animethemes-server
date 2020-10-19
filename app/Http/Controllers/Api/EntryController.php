@@ -24,16 +24,8 @@ class EntryController extends BaseController
      *     summary="Get paginated listing of Entries",
      *     description="Returns listing of Entries",
      *     @OA\Parameter(
-     *         description="The search query. Mapping is to [entry.theme.anime.name|entry.theme.anime.synonyms.text + entry.theme.slug + entry.version] or entry.theme.song.title.",
-     *         example="bakemonogatari ED",
-     *         name="q",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is anime, themes & videos.",
-     *         example="anime,videos",
+     *         example="include=anime,videos",
      *         name="include",
      *         in="query",
      *         required=false,
@@ -65,16 +57,24 @@ class EntryController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Sort entry resource collection by fields. Case-insensitive options are entry_id, created_at, updated_at, version, nsfw, spoiler & theme_id.",
-     *         example="version,-updated_at",
+     *         example="sort=version,-updated_at",
      *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-     *         example=50,
-     *         name="limit",
+     *         description="The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
+     *         example="page[size]=25",
+     *         name="page[size]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The page of resources to return.",
+     *         example="page[number]=2",
+     *         name="page[number]",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
@@ -98,11 +98,8 @@ class EntryController extends BaseController
      */
     public function index()
     {
-        // initialize builder
-        $entries = $this->parser->hasSearch() ? Entry::search($this->parser->getSearch()) : Entry::query();
-
-        // eager load relations
-        $entries = $entries->with($this->parser->getIncludePaths(Entry::$allowedIncludePaths));
+        // initialize builder with eager loaded relations
+        $entries = Entry::with($this->parser->getIncludePaths(Entry::$allowedIncludePaths));
 
         // apply filters
         if ($this->parser->hasFilter(static::VERSION_QUERY)) {
@@ -123,7 +120,7 @@ class EntryController extends BaseController
         }
 
         // paginate
-        $entries = $entries->paginate($this->parser->getPerPageLimit());
+        $entries = $entries->jsonPaginate();
 
         $collection = EntryCollection::make($entries, $this->parser);
 
@@ -141,7 +138,7 @@ class EntryController extends BaseController
      *     description="Returns properties of Entry",
      *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is anime, themes & videos.",
-     *         example="anime,videos",
+     *         example="include=anime,videos",
      *         name="include",
      *         in="query",
      *         required=false,

@@ -16,16 +16,6 @@
                 "operationId": "getAnimes",
                 "parameters": [
                     {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to anime.name and anime.synonyms.text.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "bakemonogatari"
-                    },
-                    {
                         "name": "include",
                         "in": "query",
                         "description": "Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists & externalResources.",
@@ -33,7 +23,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "synonyms,series"
+                        "example": "include=synonyms,series"
                     },
                     {
                         "name": "year",
@@ -63,17 +53,27 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "-year,name"
+                        "example": "sort=-year,name"
                     },
                     {
-                        "name": "limit",
+                        "name": "page[size]",
                         "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "description": "The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
                         "required": false,
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 50
+                        "example": "page[size]=25"
+                    },
+                    {
+                        "name": "page[number]",
+                        "in": "query",
+                        "description": "The page of resources to return.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "page[number]=2"
                     },
                     {
                         "name": "fields",
@@ -126,7 +126,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "synonyms,series"
+                        "example": "include=synonyms,series"
                     },
                     {
                         "name": "fields",
@@ -166,16 +166,6 @@
                 "operationId": "getArtists",
                 "parameters": [
                     {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to artist.name and artist.songs.pivot.as.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Senjougahara"
-                    },
-                    {
                         "name": "include",
                         "in": "query",
                         "description": "Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups & externalResources.",
@@ -183,7 +173,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "songs,members"
+                        "example": "include=songs,members"
                     },
                     {
                         "name": "sort",
@@ -193,17 +183,27 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "name,-updated_at"
+                        "example": "sort=name,-updated_at"
                     },
                     {
-                        "name": "limit",
+                        "name": "page[size]",
                         "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "description": "The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
                         "required": false,
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 50
+                        "example": "page[size]=25"
+                    },
+                    {
+                        "name": "page[number]",
+                        "in": "query",
+                        "description": "The page of resources to return.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "page[number]=2"
                     },
                     {
                         "name": "fields",
@@ -256,7 +256,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "songs,members"
+                        "example": "include=songs,members"
                     },
                     {
                         "name": "fields",
@@ -408,16 +408,6 @@
                 "operationId": "getEntries",
                 "parameters": [
                     {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to [entry.theme.anime.name|entry.theme.anime.synonyms.text + entry.theme.slug + entry.version] or entry.theme.song.title.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "bakemonogatari ED"
-                    },
-                    {
                         "name": "include",
                         "in": "query",
                         "description": "Comma-separated list of included related resources. Allowed list is anime, themes & videos.",
@@ -425,7 +415,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "anime,videos"
+                        "example": "include=anime,videos"
                     },
                     {
                         "name": "version",
@@ -465,17 +455,27 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "version,-updated_at"
+                        "example": "sort=version,-updated_at"
                     },
                     {
-                        "name": "limit",
+                        "name": "page[size]",
                         "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "description": "The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
                         "required": false,
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 50
+                        "example": "page[size]=25"
+                    },
+                    {
+                        "name": "page[number]",
+                        "in": "query",
+                        "description": "The page of resources to return.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "page[number]=2"
                     },
                     {
                         "name": "fields",
@@ -528,7 +528,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "anime,videos"
+                        "example": "include=anime,videos"
                     },
                     {
                         "name": "fields",
@@ -575,7 +575,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "anime"
+                        "example": "include=anime"
                     },
                     {
                         "name": "type",
@@ -585,7 +585,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "MAL"
+                        "example": "filter[type]=MAL"
                     },
                     {
                         "name": "sort",
@@ -595,17 +595,27 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "-updated_at,resource_id"
+                        "example": "sort=-updated_at,resource_id"
                     },
                     {
-                        "name": "limit",
+                        "name": "page[size]",
                         "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "description": "The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
                         "required": false,
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 50
+                        "example": "page[size]=25"
+                    },
+                    {
+                        "name": "page[number]",
+                        "in": "query",
+                        "description": "The page of resources to return.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "page[number]=2"
                     },
                     {
                         "name": "fields",
@@ -658,7 +668,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "anime"
+                        "example": "include=anime"
                     },
                     {
                         "name": "fields",
@@ -698,16 +708,6 @@
                 "operationId": "getSerie",
                 "parameters": [
                     {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to series.name.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Monogatari"
-                    },
-                    {
                         "name": "include",
                         "in": "query",
                         "description": "Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists & anime.externalResources.",
@@ -715,7 +715,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "anime.synonyms,anime.themes"
+                        "example": "include=anime.synonyms,anime.themes"
                     },
                     {
                         "name": "sort",
@@ -725,17 +725,27 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "updated_at"
+                        "example": "sort=updated_at"
                     },
                     {
-                        "name": "limit",
+                        "name": "page[size]",
                         "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "description": "The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
                         "required": false,
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 50
+                        "example": "page[size]=25"
+                    },
+                    {
+                        "name": "page[number]",
+                        "in": "query",
+                        "description": "The page of resources to return.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "page[number]=2"
                     },
                     {
                         "name": "fields",
@@ -788,7 +798,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "anime.synonyms,anime.themes"
+                        "example": "include=anime.synonyms,anime.themes"
                     },
                     {
                         "name": "fields",
@@ -828,16 +838,6 @@
                 "operationId": "getSongs",
                 "parameters": [
                     {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to song.title.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "stable staple"
-                    },
-                    {
                         "name": "include",
                         "in": "query",
                         "description": "Comma-separated list of included related resources. Allowed list is themes, themes.anime & artists.",
@@ -845,7 +845,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "themes,artists"
+                        "example": "include=themes,artists"
                     },
                     {
                         "name": "sort",
@@ -855,17 +855,27 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "title,-updated_at"
+                        "example": "sort=title,-updated_at"
                     },
                     {
-                        "name": "limit",
+                        "name": "page[size]",
                         "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "description": "The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
                         "required": false,
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 50
+                        "example": "page[size]=25"
+                    },
+                    {
+                        "name": "page[number]",
+                        "in": "query",
+                        "description": "The page of resources to return.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "page[number]=2"
                     },
                     {
                         "name": "fields",
@@ -918,7 +928,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "themes,artists"
+                        "example": "include=themes,artists"
                     },
                     {
                         "name": "fields",
@@ -958,16 +968,6 @@
                 "operationId": "getSynonyms",
                 "parameters": [
                     {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to synonym.text.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Monstory"
-                    },
-                    {
                         "name": "include",
                         "in": "query",
                         "description": "Comma-separated list of included related resources. Allowed list is anime.",
@@ -975,7 +975,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "anime"
+                        "example": "include=anime"
                     },
                     {
                         "name": "sort",
@@ -985,17 +985,27 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "text,-updated_at"
+                        "example": "sort=text,-updated_at"
                     },
                     {
-                        "name": "limit",
+                        "name": "page[size]",
                         "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "description": "The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
                         "required": false,
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 50
+                        "example": "page[size]=25"
+                    },
+                    {
+                        "name": "page[number]",
+                        "in": "query",
+                        "description": "The page of resources to return.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "page[number]=2"
                     },
                     {
                         "name": "fields",
@@ -1048,7 +1058,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "anime"
+                        "example": "include=anime"
                     },
                     {
                         "name": "fields",
@@ -1088,16 +1098,6 @@
                 "operationId": "getThemes",
                 "parameters": [
                     {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to [theme.anime.name|theme.anime.synonyms.text + theme.slug] or theme.song.title.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "bakemonogatari op1"
-                    },
-                    {
                         "name": "include",
                         "in": "query",
                         "description": "Comma-separated list of included related resources. Allowed list is anime, entries, entries.videos, song & song.artists.",
@@ -1105,7 +1105,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "anime,song"
+                        "example": "include=anime,song"
                     },
                     {
                         "name": "type",
@@ -1145,17 +1145,27 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "sequence,-updated_at"
+                        "example": "sort=sequence,-updated_at"
                     },
                     {
-                        "name": "limit",
+                        "name": "page[size]",
                         "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "description": "The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
                         "required": false,
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 50
+                        "example": "page[size]=25"
+                    },
+                    {
+                        "name": "page[number]",
+                        "in": "query",
+                        "description": "The page of resources to return.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "page[number]=2"
                     },
                     {
                         "name": "fields",
@@ -1208,7 +1218,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "anime,song"
+                        "example": "include=anime,song"
                     },
                     {
                         "name": "fields",
@@ -1248,16 +1258,6 @@
                 "operationId": "getVideos",
                 "parameters": [
                     {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query. Mapping is to video.filename or video.tags[] or [video.entries.theme.anime.name|video.entries.theme.anime.synonyms.text + video.entries.theme.slug + video.entries.version] or video.entries.theme.song.title.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "bakemonogatari ED NC BD 1080"
-                    },
-                    {
                         "name": "include",
                         "in": "query",
                         "description": "Comma-separated list of included related resources. Allowed list is entries, entries.theme & entries.theme.anime.",
@@ -1265,7 +1265,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "entries"
+                        "example": "include=entries"
                     },
                     {
                         "name": "resolution",
@@ -1345,17 +1345,27 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "filename,-updated_at"
+                        "example": "sort=filename,-updated_at"
                     },
                     {
-                        "name": "limit",
+                        "name": "page[size]",
                         "in": "query",
-                        "description": "The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
+                        "description": "The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
                         "required": false,
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 50
+                        "example": "page[size]=25"
+                    },
+                    {
+                        "name": "page[number]",
+                        "in": "query",
+                        "description": "The page of resources to return.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "page[number]=2"
                     },
                     {
                         "name": "fields",
@@ -1408,7 +1418,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "entries"
+                        "example": "include=entries"
                     },
                     {
                         "name": "fields",
@@ -1480,7 +1490,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "synonyms,series"
+                        "example": "include=synonyms,series"
                     }
                 ],
                 "responses": {

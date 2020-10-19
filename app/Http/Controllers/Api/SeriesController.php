@@ -19,16 +19,8 @@ class SeriesController extends BaseController
      *     summary="Get paginated listing of Series",
      *     description="Returns listing of Series",
      *     @OA\Parameter(
-     *         description="The search query. Mapping is to series.name.",
-     *         example="Monogatari",
-     *         name="q",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists & anime.externalResources.",
-     *         example="anime.synonyms,anime.themes",
+     *         example="include=anime.synonyms,anime.themes",
      *         name="include",
      *         in="query",
      *         required=false,
@@ -36,16 +28,24 @@ class SeriesController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Sort series resource collection by fields. Case-insensitive options are series_id, created_at, updated_at, alias & name.",
-     *         example="updated_at",
+     *         example="sort=updated_at",
      *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-     *         example=50,
-     *         name="limit",
+     *         description="The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
+     *         example="page[size]=25",
+     *         name="page[size]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The page of resources to return.",
+     *         example="page[number]=2",
+     *         name="page[number]",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
@@ -69,11 +69,8 @@ class SeriesController extends BaseController
      */
     public function index()
     {
-        // initialize builder
-        $series = $this->parser->hasSearch() ? Series::search($this->parser->getSearch()) : Series::query();
-
-        // eager load relations
-        $series = $series->with($this->parser->getIncludePaths(Series::$allowedIncludePaths));
+        // initialize builder with eager loaded relations
+        $series = Series::with($this->parser->getIncludePaths(Series::$allowedIncludePaths));
 
         // apply sorts
         foreach ($this->parser->getSorts() as $field => $isAsc) {
@@ -83,7 +80,7 @@ class SeriesController extends BaseController
         }
 
         // paginate
-        $series = $series->paginate($this->parser->getPerPageLimit());
+        $series = $series->jsonPaginate();
 
         $collection = new SeriesCollection($series, $this->parser);
 
@@ -101,7 +98,7 @@ class SeriesController extends BaseController
      *     description="Returns properties of Series",
      *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists & anime.externalResources.",
-     *         example="anime.synonyms,anime.themes",
+     *         example="include=anime.synonyms,anime.themes",
      *         name="include",
      *         in="query",
      *         required=false,

@@ -48,7 +48,7 @@ class YearController extends BaseController
      *     description="Returns listing of Anime of year by season",
      *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists & externalResources.",
-     *         example="synonyms,series",
+     *         example="include=synonyms,series",
      *         name="include",
      *         in="query",
      *         required=false,

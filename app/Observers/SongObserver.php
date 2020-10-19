@@ -47,7 +47,7 @@ class SongObserver
      */
     private function updateRelatedScoutIndices(Song $song)
     {
-        $song->artists()->searchable();
+        $song->artists->searchable();
         $song->themes->each(function ($theme) {
             $theme->searchable();
             $theme->entries->each(function ($entry) {

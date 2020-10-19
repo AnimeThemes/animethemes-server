@@ -30,16 +30,8 @@ class VideoController extends BaseController
      *     summary="Get paginated listing of Videos",
      *     description="Returns listing of Videos",
      *     @OA\Parameter(
-     *         description="The search query. Mapping is to video.filename or video.tags[] or [video.entries.theme.anime.name|video.entries.theme.anime.synonyms.text + video.entries.theme.slug + video.entries.version] or video.entries.theme.song.title.",
-     *         example="bakemonogatari ED NC BD 1080",
-     *         name="q",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is entries, entries.theme & entries.theme.anime.",
-     *         example="entries",
+     *         example="include=entries",
      *         name="include",
      *         in="query",
      *         required=false,
@@ -103,16 +95,24 @@ class VideoController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Sort video resource collection by fields. Case-insensitive options are video_id, created_at, updated_at, filename, path, basename, resolution, nc, subbed, lyrics, uncen, source & overlap.",
-     *         example="filename,-updated_at",
+     *         example="sort=filename,-updated_at",
      *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-     *         example=50,
-     *         name="limit",
+     *         description="The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
+     *         example="page[size]=25",
+     *         name="page[size]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The page of resources to return.",
+     *         example="page[number]=2",
+     *         name="page[number]",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
@@ -136,11 +136,8 @@ class VideoController extends BaseController
      */
     public function index()
     {
-        // initialize builder
-        $videos = $this->parser->hasSearch() ? Video::search($this->parser->getSearch()) : Video::query();
-
-        // eager load relations
-        $videos = $videos->with($this->parser->getIncludePaths(Video::$allowedIncludePaths));
+        // initialize builder with eager loaded relations
+        $videos = Video::with($this->parser->getIncludePaths(Video::$allowedIncludePaths));
 
         // apply filters
         if ($this->parser->hasFilter(static::RESOLUTION_QUERY)) {
@@ -173,7 +170,7 @@ class VideoController extends BaseController
         }
 
         // paginate
-        $videos = $videos->paginate($this->parser->getPerPageLimit());
+        $videos = $videos->jsonPaginate();
 
         $collection = VideoCollection::make($videos, $this->parser);
 
@@ -191,7 +188,7 @@ class VideoController extends BaseController
      *     description="Returns properties of Video",
      *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is entries, entries.theme & entries.theme.anime.",
-     *         example="entries",
+     *         example="include=entries",
      *         name="include",
      *         in="query",
      *         required=false,

@@ -19,16 +19,8 @@ class ArtistController extends BaseController
      *     summary="Get paginated listing of Artists",
      *     description="Returns listing of Artists",
      *     @OA\Parameter(
-     *         description="The search query. Mapping is to artist.name and artist.songs.pivot.as.",
-     *         example="Senjougahara",
-     *         name="q",
-     *         in="query",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups & externalResources.",
-     *         example="songs,members",
+     *         example="include=songs,members",
      *         name="include",
      *         in="query",
      *         required=false,
@@ -36,16 +28,24 @@ class ArtistController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Sort artist resource collection by fields. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
-     *         example="name,-updated_at",
+     *         example="sort=name,-updated_at",
      *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-     *         example=50,
-     *         name="limit",
+     *         description="The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
+     *         example="page[size]=25",
+     *         name="page[size]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The page of resources to return.",
+     *         example="page[number]=2",
+     *         name="page[number]",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
@@ -69,11 +69,8 @@ class ArtistController extends BaseController
      */
     public function index()
     {
-        // initialize builder
-        $artists = $this->parser->hasSearch() ? Artist::search($this->parser->getSearch()) : Artist::query();
-
-        // eager load relations
-        $artists = $artists->with($this->parser->getIncludePaths(Artist::$allowedIncludePaths));
+        // initialize builder with eager loaded relations
+        $artists = Artist::with($this->parser->getIncludePaths(Artist::$allowedIncludePaths));
 
         // apply sorts
         foreach ($this->parser->getSorts() as $field => $isAsc) {
@@ -83,7 +80,7 @@ class ArtistController extends BaseController
         }
 
         // paginate
-        $artists = $artists->paginate($this->parser->getPerPageLimit());
+        $artists = $artists->jsonPaginate();
 
         $collection = ArtistCollection::make($artists, $this->parser);
 
@@ -101,7 +98,7 @@ class ArtistController extends BaseController
      *     description="Returns properties of Artist",
      *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups & externalResources.",
-     *         example="songs,members",
+     *         example="include=songs,members",
      *         name="include",
      *         in="query",
      *         required=false,

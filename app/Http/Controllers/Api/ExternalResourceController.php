@@ -24,7 +24,7 @@ class ExternalResourceController extends BaseController
      *     description="Returns listing of Resources",
      *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is anime & artists.",
-     *         example="anime",
+     *         example="include=anime",
      *         name="include",
      *         in="query",
      *         required=false,
@@ -32,7 +32,7 @@ class ExternalResourceController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Filter resources by type. Case-insensitive options are OFFICIAL_SITE, TWITTER, ANIDB, ANILIST, ANIME_PLANET, ANN, KITSU, MAL & WIKI.",
-     *         example="MAL",
+     *         example="filter[type]=MAL",
      *         name="type",
      *         in="query",
      *         required=false,
@@ -40,16 +40,24 @@ class ExternalResourceController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="Sort external resource collection by fields. Case-insensitive options are resource_id, created_at, updated_at, type, link & external_id.",
-     *         example="-updated_at,resource_id",
+     *         example="sort=-updated_at,resource_id",
      *         name="sort",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="The number of resources to return per page. Acceptable range is [1-100]. Default value is 100.",
-     *         example=50,
-     *         name="limit",
+     *         description="The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
+     *         example="page[size]=25",
+     *         name="page[size]",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         description="The page of resources to return.",
+     *         example="page[number]=2",
+     *         name="page[number]",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="integer")
@@ -73,11 +81,8 @@ class ExternalResourceController extends BaseController
      */
     public function index()
     {
-        // initialize builder
-        $resources = ExternalResource::query();
-
-        // eager load relations
-        $resources = $resources->with($this->parser->getIncludePaths(ExternalResource::$allowedIncludePaths));
+        // initialize builder with eager loaded relations
+        $resources = ExternalResource::with($this->parser->getIncludePaths(ExternalResource::$allowedIncludePaths));
 
         // apply filters
         if ($this->parser->hasFilter(static::TYPE_QUERY)) {
@@ -92,7 +97,7 @@ class ExternalResourceController extends BaseController
         }
 
         // paginate
-        $resources = $resources->paginate($this->parser->getPerPageLimit());
+        $resources = $resources->jsonPaginate();
 
         $collection = new ExternalResourceCollection($resources, $this->parser);
 
@@ -110,7 +115,7 @@ class ExternalResourceController extends BaseController
      *     description="Returns properties of Resource",
      *     @OA\Parameter(
      *         description="Comma-separated list of included related resources. Allowed list is anime & artists.",
-     *         example="anime",
+     *         example="include=anime",
      *         name="include",
      *         in="query",
      *         required=false,
