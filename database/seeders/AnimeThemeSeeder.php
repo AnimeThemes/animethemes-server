@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Season;
 use App\Enums\ThemeType;
 use App\Models\Anime;
 use App\Models\Entry;
@@ -65,6 +66,8 @@ class AnimeThemeSeeder extends Seeder
             preg_match_all('/^(.*)$/m', $year_wiki_content_md, $anime_theme_wiki_entries, PREG_SET_ORDER);
 
             // The current Anime & Group
+            $year = null;
+            $season = null;
             $anime = null;
             $group = null;
             $theme = null;
@@ -73,13 +76,28 @@ class AnimeThemeSeeder extends Seeder
             foreach ($anime_theme_wiki_entries as $anime_theme_wiki_entry) {
                 $wiki_entry_line = html_entity_decode($anime_theme_wiki_entry[0]);
 
+                // If Season heading line, set year and season
+                // Format: "##{Year} {Season} Season (Quarter)"
+                if (preg_match('/^##(\d+).*(Fall|Summer|Spring|Winter).*(?:\\r)?$/', $wiki_entry_line, $anime_season)) {
+                    $year = intval($anime_season[1]);
+                    $season = Season::getValue(Str::upper($anime_season[2]));
+                    continue;
+                }
+
                 // If Anime heading line, attempt to set current Anime
+                // Set Year and Season if unset
                 // Format: "###[{Anime Name}]({Resource Link})"
                 if (preg_match('/^###\[(.*)\]\(https\:\/\/.*\)(?:\\r)?$/', $wiki_entry_line, $anime_name)) {
                     try {
                         // Set current Anime if we have a definitive match
                         // This is not guaranteed as an Anime Name may be inconsistent between indices
                         $matching_anime = Anime::where('name', html_entity_decode($anime_name[1]));
+                        if (is_int($year)) {
+                            $matching_anime = $matching_anime->where('year', $year);
+                        }
+                        if (is_int($season)) {
+                            $matching_anime = $matching_anime->where('season', $season);
+                        }
                         if ($matching_anime->count() === 1) {
                             $anime = $matching_anime->first();
                             $group = null;

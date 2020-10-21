@@ -56,16 +56,18 @@ class AnimeSeasonSeeder extends Seeder
             // We want to proceed line by line
             preg_match_all('/^(.*)$/m', $year_wiki_content_md, $anime_season_wiki_entries, PREG_SET_ORDER);
 
-            // The current season
+            // The current year and season
+            $year = null;
             $season = null;
 
             foreach ($anime_season_wiki_entries as $anime_season_wiki_entry) {
                 $wiki_entry_line = html_entity_decode($anime_season_wiki_entry[0]);
 
                 // If Season heading line, set the current Season
-                // Format: "##{Year} {Season} Season ({Ordinal Numeral} Quarter)"
-                if (preg_match('/##\d{4}\s(.*)\sSeason.*/', $wiki_entry_line, $anime_season)) {
-                    $season = Season::getValue(Str::upper($anime_season[1]));
+                // Format: "##{Year} {Season} Season (Quarter)"
+                if (preg_match('/^##(\d+).*(Fall|Summer|Spring|Winter).*(?:\\r)?$/', $wiki_entry_line, $anime_season)) {
+                    $year = intval($anime_season[1]);
+                    $season = Season::getValue(Str::upper($anime_season[2]));
                     continue;
                 }
 
@@ -75,7 +77,7 @@ class AnimeSeasonSeeder extends Seeder
                     try {
                         // Set season if we have a definitive match
                         // This is not guaranteed as an Anime Name may be inconsistent between indices
-                        $matching_anime = Anime::where('name', html_entity_decode($anime_name[1]));
+                        $matching_anime = Anime::where('name', html_entity_decode($anime_name[1]))->where('year', $year);
                         if ($matching_anime->count() === 1 && ! is_null($season)) {
                             $anime = $matching_anime->first();
                             $anime->season = $season;
