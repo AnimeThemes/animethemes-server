@@ -1,6 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 
+// Load environment configuration
+require("dotenv").config({
+    path: `.env.${process.env.NODE_ENV}`,
+});
+
 // Map every path in "src" to its directory name so we can import files like this:
 //
 // import Button from "components/button";
@@ -29,6 +34,7 @@ module.exports = {
         {
             resolve: "gatsby-plugin-create-client-paths",
             options: { prefixes: [ "/search/*" ] },
-        }
+        },
+        "gatsby-plugin-fontawesome-css"
     ]
 };

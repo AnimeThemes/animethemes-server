@@ -1,8 +1,8 @@
 const {fetchAnimeList} = require("./src/api/animeThemes/anime");
 const seasonOrder = [ "winter", "spring", "summer", "fall" ];
 
-exports.createPages = async ({ actions: { createPage } }) => {
-    const animeList = await fetchAnimeList();
+exports.createPages = async ({ actions: { createPage }, reporter }) => {
+    const animeList = await fetchAnimeList({ reporter });
     const animeByYear = {};
 
     for (const anime of animeList) {
@@ -32,6 +32,15 @@ exports.createPages = async ({ actions: { createPage } }) => {
             component: require.resolve("./src/templates/anime.js"),
             context: { anime },
         });
+
+        // Video pages
+        anime.themes.forEach((theme) => theme.entries.forEach((entry) => entry.videos.forEach((video) => {
+            createPage({
+                path: `/video/${video.filename}`,
+                component: require.resolve("./src/templates/video.js"),
+                context: { video, anime, entry, theme }
+            });
+        })));
     });
 
     // Year pages

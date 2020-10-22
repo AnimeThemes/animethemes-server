@@ -7,7 +7,7 @@ const fields = createFieldParams({
     song:     [ "title" ],
     artist:   [ "name", "as" ],
     entry:    [ "version", "episodes", "nsfw", "spoiler" ],
-    video:    [ "link", "resolution", "nc", "subbed", "lyrics", "uncen", "source", "overlap" ],
+    video:    [ "filename", "link", "resolution", "nc", "subbed", "lyrics", "uncen", "source", "overlap" ],
     series:   [ "name" ],
     resource: [ "link", "type" ]
 });
@@ -16,23 +16,30 @@ function fetchAnime(slug) {
     return fetchJsonCached(`${baseUrl}/api/anime/${slug}`);
 }
 
-async function fetchAnimeList() {
+async function fetchAnimeList({ reporter }) {
+    const activity = reporter.activityTimer("Fetching anime list");
+    activity.start();
+
     const animeList = [];
 
-    let nextUrl = `${baseUrl}/api/anime?limit=100&${fields}`;
+    let nextUrl = `${baseUrl}/api/anime?page[size]=100&${fields}`;
     while (nextUrl) {
         const page = await fetchJsonCached(nextUrl);
 
         animeList.push(...page.anime);
 
         nextUrl = page.links.next;
+
+        activity.setStatus(`${animeList.length} anime fetched`);
     }
+
+    activity.end();
 
     return animeList;
 }
 
 function fetchAnimeSearch(query = "", limit = 5) {
-    return fetchJsonCached(`${baseUrl}/api/anime?limit=${limit}&${fields}&q=${query}`)
+    return fetchJsonCached(`${baseUrl}/api/anime?page[size]=${limit}&${fields}&q=${query}`)
         .then((json) => json.anime);
 }
 

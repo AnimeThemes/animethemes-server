@@ -4,22 +4,11 @@ import theme, {createColorDefinition} from "theme";
 export default createGlobalStyle`
     * {
         box-sizing: border-box;
+        transition: color, background-color 250ms;
     }
 
     html {
         overflow-y: scroll;
-
-        &[theme="light"] {
-            ${createColorDefinition(theme, "light")}
-
-            * {
-                transition: color, background-color 250ms;
-            }
-        }
-
-        &[theme="dark"] {
-            ${createColorDefinition(theme, "dark")}
-        }
     }
 
     body {
@@ -31,6 +20,14 @@ export default createGlobalStyle`
         font-family: "Roboto", sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+
+        &[theme="light"] {
+            ${createColorDefinition(theme, "light")}
+        }
+
+        &[theme="dark"] {
+            ${createColorDefinition(theme, "dark")}
+        }
     }
 
     a {

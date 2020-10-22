@@ -2,12 +2,14 @@ const ThemeInjection = () => {
     // language=JavaScript
     const injectTheme = `
         (function() {
-            const root = document.documentElement;
-            const theme = window.localStorage.getItem("theme") || "light";
+            const body = document.body;
+            const theme = window.localStorage.getItem("theme");
 
-            root.setAttribute("theme", theme);
+            if (theme) {
+                body.setAttribute("theme", theme);
+            }
         })();
-  `;
+    `;
 
     return (
         <script
@@ -15,6 +17,8 @@ const ThemeInjection = () => {
         />
     );
 };
-export const onRenderBody = ({ setPreBodyComponents }) => {
+
+export const onRenderBody = ({ setBodyAttributes, setPreBodyComponents }) => {
+    setBodyAttributes({ theme: "light" });
     setPreBodyComponents(<ThemeInjection />);
 };

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {withPrefix} from "gatsby";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faLightbulb, faMoon, faSpinner, faTimes} from "@fortawesome/free-solid-svg-icons";
-import SearchInput from "components/input/search";
 import {
     StyledLinks,
     StyledLogo,
@@ -20,9 +19,9 @@ export default function Navigation() {
     const [ theme, setTheme ] = useState(null);
 
     useEffect(() => {
-        const root = document.documentElement;
+        const body = document.body;
 
-        setTheme(root.getAttribute("theme"));
+        setTheme(body.getAttribute("theme"));
     }, []);
 
     function toggleTheme() {
@@ -30,8 +29,8 @@ export default function Navigation() {
 
         setTheme(newTheme);
 
-        const root = document.documentElement;
-        root.setAttribute("theme", newTheme);
+        const body = document.body;
+        body.setAttribute("theme", newTheme);
 
         window.localStorage.setItem("theme", newTheme);
     }

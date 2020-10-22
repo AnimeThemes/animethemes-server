@@ -39,7 +39,7 @@ export default {
             dark: "rgb(128, 203, 196)"
         }),
         secondaryTitle: createColor("--secondary-title", {
-            light: "rgb(0, 137, 123)",
+            light: "rgb(0,137,123)",
             dark: "rgb(128, 203, 196)"
         }),
         warningTitle: createColor("--warning-title", {

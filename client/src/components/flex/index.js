@@ -21,8 +21,9 @@ const StyledFlex = styled.div`
     `}
 `;
 const StyledFlexItem = styled.div`
-    flex: ${(props) => props.flex || "auto"};
+    flex: ${(props) => props.flex || "0 0 auto"};
     align-self: ${(props) => props.alignSelf || "auto"};
+    justify-self: ${(props) => props.justifySelf || "auto"};
 `;
 
 export default function Flex({ children, ...props }) {
