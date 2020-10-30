@@ -23,7 +23,7 @@ class QueryParser
     private $fields;
 
     /**
-     * @var array
+     * @var array|null
      */
     private $includes;
 
@@ -96,11 +96,11 @@ class QueryParser
      * Parse includes from parameters.
      *
      * @param array $parameters
-     * @return array
+     * @return array|null
      */
     private function parseIncludes($parameters)
     {
-        $includes = [];
+        $includes = null;
 
         if (Arr::exists($parameters, self::PARAM_INCLUDE)) {
             $includeParam = $parameters[self::PARAM_INCLUDE];
@@ -113,16 +113,6 @@ class QueryParser
     }
 
     /**
-     * Get includes.
-     *
-     * @return array
-     */
-    public function getIncludes()
-    {
-        return $this->includes;
-    }
-
-    /**
      * Parse includes by resource from parameters.
      *
      * @param array $parameters
@@ -130,18 +120,18 @@ class QueryParser
      */
     private function parseResourceIncludes($parameters)
     {
-        $includes = [];
+        $resourceIncludes = [];
 
         if (Arr::exists($parameters, self::PARAM_INCLUDE)) {
             $includeParam = $parameters[self::PARAM_INCLUDE];
             if (Arr::accessible($includeParam) && Arr::isAssoc($includeParam)) {
                 foreach ($includeParam as $type => $includeList) {
-                    Arr::set($includes, $type, array_map('trim', explode(',', $includeList)));
+                    Arr::set($resourceIncludes, $type, array_map('trim', explode(',', $includeList)));
                 }
             }
         }
 
-        return $includes;
+        return $resourceIncludes;
     }
 
     /**
@@ -340,19 +330,12 @@ class QueryParser
     public function getIncludePaths($allowedIncludePaths)
     {
         // If include paths are not specified, return full list of allowed include paths
-        if (empty($this->includes)) {
-            return $allowedIncludePaths;
-        }
-
-        // If no include paths are contained in the list of allowed include paths,
-        // return the full list of allowed include paths
-        $validIncludePaths = array_intersect($this->includes, $allowedIncludePaths);
-        if (empty($validIncludePaths)) {
+        if (is_null($this->includes)) {
             return $allowedIncludePaths;
         }
 
         // Return list of include paths that are contained in the list of allowed include paths
-        return $validIncludePaths;
+        return array_intersect($this->includes, $allowedIncludePaths);
     }
 
     /**
@@ -369,20 +352,8 @@ class QueryParser
             return $allowedResourceIncludePaths;
         }
 
-        // If there are no include paths for this type, include all default relations
-        $resourceTypeIncludes = Arr::get($this->resourceIncludes, $type);
-        if (empty($resourceTypeIncludes)) {
-            return $allowedResourceIncludePaths;
-        }
-
-        // If no include paths are contained in the list of allowed include paths for this type,
-        // return the full list of allowed include paths
-        $validResourceIncludePaths = array_intersect($resourceTypeIncludes, $allowedResourceIncludePaths);
-        if (empty($validResourceIncludePaths)) {
-            return $allowedResourceIncludePaths;
-        }
-
         // Return list of include paths that are contained in the list of allowed include paths for this type
-        return $validResourceIncludePaths;
+        $resourceTypeIncludes = Arr::get($this->resourceIncludes, $type);
+        return array_intersect($resourceTypeIncludes, $allowedResourceIncludePaths);
     }
 }
