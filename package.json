@@ -23,7 +23,6 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.1",
         "jquery": "^3.5.1",
         "modernizr": "^3.11.3"
     }
