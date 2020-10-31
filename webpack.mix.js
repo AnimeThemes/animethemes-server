@@ -12,8 +12,6 @@ const mix = require('laravel-mix');
  */
 
 mix
-    .sass('resources/sass/main.scss', 'public/css/animethemes.css')
-    .copy('resources/js/animethemes.js', 'public/js/animethemes.js')
     .copy('node_modules/jquery/dist/jquery.min.js', 'public/js/vendor/jquery.min.js')
     .js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
