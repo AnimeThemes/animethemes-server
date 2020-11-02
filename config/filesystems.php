@@ -69,6 +69,7 @@ return [
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_BUCKET'),
             'endpoint' => env('AWS_ENDPOINT'),
+            'stream_reads' => env('AWS_STREAM_READS'),
         ],
 
     ],
