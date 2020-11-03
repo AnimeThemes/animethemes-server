@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Controllers\Api\AnimeController;
+use Illuminate\Support\Facades\Storage;
 use Spatie\ResourceLinks\HasLinks;
 
 /**
@@ -15,6 +16,8 @@ use Spatie\ResourceLinks\HasLinks;
  *     @OA\Property(property="alias",type="string",description="URL Slug & Model Route Key",example="bakemonogatari"),
  *     @OA\Property(property="year",type="integer",description="The Year in which the Anime Premiered",example=2009),
  *     @OA\Property(property="season",type="string",enum={"Winter","Spring","Summer","Fall"},description="The Season in which the Anime Premiered",example="Summer"),
+ *     @OA\Property(property="synopsis",type="string",description="The brief description of the Anime",example="Koyomi Araragi, a third-year high school student, manages to survive a vampire attack..."),
+ *     @OA\Property(property="cover",type="string",description="The cover image used as the key visual for the Anime",example="http://animethemes.moe/img/cover/NcFImDjYUKvatyQxbmPU2ly6GHwM0xwkLijKX01x.jpeg"),
  *     @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:30:43.000000Z"),
  *     @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:37:25.000000Z"),
  *     @OA\Property(property="synonyms",type="array",@OA\Items(
@@ -122,6 +125,8 @@ class AnimeResource extends BaseResource
             'alias' => $this->when($this->isAllowedField('alias'), $this->alias),
             'year' => $this->when($this->isAllowedField('year'), $this->year),
             'season' => $this->when($this->isAllowedField('season'), strval(optional($this->season)->description)),
+            'synopsis' => $this->when($this->isAllowedField('synopsis'), strval($this->synopsis)),
+            'cover' => $this->when($this->isAllowedField('cover'), $this->cover ? Storage::disk('covers')->url($this->cover) : ''),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'synonyms' => SynonymCollection::make($this->whenLoaded('synonyms'), $this->parser),

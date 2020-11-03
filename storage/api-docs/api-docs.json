@@ -1554,6 +1554,16 @@
                         ],
                         "example": "Summer"
                     },
+                    "synopsis": {
+                        "description": "The brief description of the Anime",
+                        "type": "string",
+                        "example": "Koyomi Araragi, a third-year high school student, manages to survive a vampire attack..."
+                    },
+                    "cover": {
+                        "description": "The cover image used as the key visual for the Anime",
+                        "type": "string",
+                        "example": "http://animethemes.moe/img/cover/NcFImDjYUKvatyQxbmPU2ly6GHwM0xwkLijKX01x.jpeg"
+                    },
                     "created_at": {
                         "description": "The Resource Creation Timestamp",
                         "type": "string",
