@@ -354,6 +354,7 @@ class QueryParser
 
         // Return list of include paths that are contained in the list of allowed include paths for this type
         $resourceTypeIncludes = Arr::get($this->resourceIncludes, $type);
+
         return array_intersect($resourceTypeIncludes, $allowedResourceIncludePaths);
     }
 }
