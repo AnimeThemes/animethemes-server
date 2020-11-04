@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e1e7a90c96a876d1c4f32d977f227ac",
+    "content-hash": "5ec3a3cdd13dee7cc563d0b8c0980e5c",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -60,16 +60,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.158.19",
+            "version": "3.158.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "b1c3c763e227e518768f0416cbd2b29c11f79561"
+                "reference": "25e4fe20837601adbf69921da2ef7d13ecf8932c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b1c3c763e227e518768f0416cbd2b29c11f79561",
-                "reference": "b1c3c763e227e518768f0416cbd2b29c11f79561",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/25e4fe20837601adbf69921da2ef7d13ecf8932c",
+                "reference": "25e4fe20837601adbf69921da2ef7d13ecf8932c",
                 "shasum": ""
             },
             "require": {
@@ -141,7 +141,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-11-02T19:49:21+00:00"
+            "time": "2020-11-04T20:11:29+00:00"
         },
         {
             "name": "babenkoivan/scout-elasticsearch-driver",
@@ -2044,24 +2044,23 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.2.101",
+            "version": "v1.2.102",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "bffc10d3090bc99231c17f9960506ab51e9d25f5"
+                "reference": "346cfd72d11bb41f15e82654e532dc55360612ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/bffc10d3090bc99231c17f9960506ab51e9d25f5",
-                "reference": "bffc10d3090bc99231c17f9960506ab51e9d25f5",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/346cfd72d11bb41f15e82654e532dc55360612ac",
+                "reference": "346cfd72d11bb41f15e82654e532dc55360612ac",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8|^5.5|^6.5",
-                "satooshi/php-coveralls": "1.*"
+                "phpunit/phpunit": "^4.8|^5.5|^6.5"
             },
             "type": "library",
             "autoload": {
@@ -2089,7 +2088,7 @@
                 "crawlerdetect",
                 "php crawler detect"
             ],
-            "time": "2020-10-24T09:23:11+00:00"
+            "time": "2020-11-04T19:23:01+00:00"
         },
         {
             "name": "jenssegers/agent",
@@ -4953,6 +4952,61 @@
                 "promises"
             ],
             "time": "2020-05-12T15:16:56+00:00"
+        },
+        {
+            "name": "sfelix-martins/json-exception-handler",
+            "version": "v2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sfelix-martins/json-exception-handler.git",
+                "reference": "182914bd1e28e88bb5329e2b1b8bc52c4a506f76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sfelix-martins/json-exception-handler/zipball/182914bd1e28e88bb5329e2b1b8bc52c4a506f76",
+                "reference": "182914bd1e28e88bb5329e2b1b8bc52c4a506f76",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "^7.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "SMartins\\Exceptions\\JsonHandlerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SMartins\\Exceptions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Samuel Martins",
+                    "email": "sfelix_martins@hotmail.com"
+                }
+            ],
+            "description": "Adds more power to Laravel Exceptions Handler to treat json responses",
+            "keywords": [
+                "api",
+                "exceptions",
+                "handler",
+                "json",
+                "jsonapi",
+                "laravel"
+            ],
+            "time": "2020-07-14T23:46:44+00:00"
         },
         {
             "name": "spatie/laravel-json-api-paginate",

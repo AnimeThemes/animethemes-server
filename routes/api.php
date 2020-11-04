@@ -44,3 +44,7 @@ Route::group(['as' => 'api.'], function () {
     Route::get('year', [YearController::class, 'index']);
     Route::get('year/{year}', [YearController::class, 'show']);
 });
+
+Route::fallback(function () {
+    abort(404);
+});
