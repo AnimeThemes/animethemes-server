@@ -183,6 +183,7 @@ return [
         ScoutElastic\ScoutElasticServiceProvider::class,
         MattAllan\LaravelCodeStyle\ServiceProvider::class,
         Spatie\JsonApiPaginate\JsonApiPaginateServiceProvider::class,
+        SMartins\Exceptions\JsonHandlerServiceProvider::class,
     ],
 
     /*
