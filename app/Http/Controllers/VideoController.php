@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Video;
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
@@ -13,9 +13,8 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-        if (App::environment(['local', 'production'])) {
+        if (Config::get('app.allow_video_streams', false)) {
             set_time_limit(0);
-
             return Storage::disk('spaces')->response($video->path, null, ['Accept-Ranges' => 'bytes']);
         }
     }
