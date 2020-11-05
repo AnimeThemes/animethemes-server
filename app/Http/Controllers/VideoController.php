@@ -15,6 +15,7 @@ class VideoController extends Controller
     {
         if (Config::get('app.allow_video_streams', false)) {
             set_time_limit(0);
+
             return Storage::disk('spaces')->response($video->path, null, ['Accept-Ranges' => 'bytes']);
         }
     }

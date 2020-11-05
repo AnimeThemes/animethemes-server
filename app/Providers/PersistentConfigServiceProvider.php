@@ -8,7 +8,6 @@ use Illuminatech\Config\StorageDb;
 
 class PersistentConfigServiceProvider extends AbstractPersistentConfigServiceProvider
 {
-
     /**
      * Defines the storage for the persistent config.
      *
@@ -16,7 +15,7 @@ class PersistentConfigServiceProvider extends AbstractPersistentConfigServicePro
      */
     protected function storage(): StorageContract
     {
-        return (new StorageDb($this->app->make('db.connection')));
+        return new StorageDb($this->app->make('db.connection'));
     }
 
     /**
