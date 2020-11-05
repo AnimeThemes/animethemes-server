@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ec3a3cdd13dee7cc563d0b8c0980e5c",
+    "content-hash": "72f680b1199a5ca1f95509e0ccc9d508",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -60,16 +60,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.158.20",
+            "version": "3.158.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "25e4fe20837601adbf69921da2ef7d13ecf8932c"
+                "reference": "a2aba95a428f9e478d08b3f8dc1a70837b46785a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/25e4fe20837601adbf69921da2ef7d13ecf8932c",
-                "reference": "25e4fe20837601adbf69921da2ef7d13ecf8932c",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a2aba95a428f9e478d08b3f8dc1a70837b46785a",
+                "reference": "a2aba95a428f9e478d08b3f8dc1a70837b46785a",
                 "shasum": ""
             },
             "require": {
@@ -141,7 +141,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-11-04T20:11:29+00:00"
+            "time": "2020-11-05T19:24:22+00:00"
         },
         {
             "name": "babenkoivan/scout-elasticsearch-driver",
@@ -1991,6 +1991,136 @@
                 "minimizer"
             ],
             "time": "2020-03-05T20:41:28+00:00"
+        },
+        {
+            "name": "illuminatech/config",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminatech/config.git",
+                "reference": "fff9b138c2ac95597c0a954b0f127faf3805720c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminatech/config/zipball/fff9b138c2ac95597c0a954b0f127faf3805720c",
+                "reference": "fff9b138c2ac95597c0a954b0f127faf3805720c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^7.26.0 || ^8.0"
+            },
+            "require-dev": {
+                "illuminate/cache": "*",
+                "illuminate/config": "*",
+                "illuminate/database": "*",
+                "illuminate/encryption": "*",
+                "illuminate/validation": "*",
+                "phpunit/phpunit": "^8.0 || ^9.3",
+                "psr/log": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminatech\\Config\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Klimov",
+                    "email": "klimov.paul@gmail.com"
+                }
+            ],
+            "description": "Provides support for Laravel application runtime configuration managed in persistent storage",
+            "keywords": [
+                "config",
+                "configuration",
+                "database",
+                "laravel",
+                "persistent",
+                "repository",
+                "runtime"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/klimov-paul",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/klimov_paul",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2020-09-09T13:27:46+00:00"
+        },
+        {
+            "name": "illuminatech/nova-config",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminatech/nova-config.git",
+                "reference": "83cd08b463b17cb0d6a0b8e90f8b7c6584b4fde2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminatech/nova-config/zipball/83cd08b463b17cb0d6a0b8e90f8b7c6584b4fde2",
+                "reference": "83cd08b463b17cb0d6a0b8e90f8b7c6584b4fde2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminatech/config": "^1.2.0",
+                "laravel/nova": ">=2.0.0",
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Illuminatech\\NovaConfig\\NovaConfigServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminatech\\NovaConfig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Klimov",
+                    "email": "klimov.paul@gmail.com"
+                }
+            ],
+            "description": "A Laravel Nova tool for application configuration management.",
+            "keywords": [
+                "Settings",
+                "config",
+                "laravel",
+                "nova"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/klimov-paul",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/klimov_paul",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2020-10-09T12:32:07+00:00"
         },
         {
             "name": "inspheric/nova-url-field",
@@ -9597,16 +9727,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.53",
+            "version": "0.12.54",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "dbbdb0d7c2434ecd5289f6114d16473e694caa67"
+                "reference": "45c7b999a4b7dd9ac5558bdaaf23dcebbef88223"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/dbbdb0d7c2434ecd5289f6114d16473e694caa67",
-                "reference": "dbbdb0d7c2434ecd5289f6114d16473e694caa67",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/45c7b999a4b7dd9ac5558bdaaf23dcebbef88223",
+                "reference": "45c7b999a4b7dd9ac5558bdaaf23dcebbef88223",
                 "shasum": ""
             },
             "require": {
@@ -9649,7 +9779,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-01T14:51:50+00:00"
+            "time": "2020-11-05T13:36:26+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

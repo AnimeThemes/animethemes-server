@@ -148,6 +148,14 @@ CREATE TABLE `audits` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `configs` (
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `entry` (
   `entry_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -245,6 +253,7 @@ CREATE TABLE `resource` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `type` int(11) DEFAULT NULL,
   `link` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `external_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`resource_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -386,3 +395,4 @@ INSERT INTO `migrations` VALUES (49,'2020_05_06_024632_create_audits_table',1);
 INSERT INTO `migrations` VALUES (50,'2020_05_24_220046_create_invitations_table',1);
 INSERT INTO `migrations` VALUES (51,'2020_06_10_050701_create_artist_member',1);
 INSERT INTO `migrations` VALUES (52,'2020_09_16_183751_create_sessions_table',1);
+INSERT INTO `migrations` VALUES (53,'2020_11_05_190719_create_configs_table',2);

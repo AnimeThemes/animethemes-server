@@ -97,7 +97,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [
+            (new \Illuminatech\NovaConfig\NovaConfig())
+                ->canSee(function ($request) {
+                    return $request->user()->isAdmin();
+                }),
+        ];
     }
 
     /**

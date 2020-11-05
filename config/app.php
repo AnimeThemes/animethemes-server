@@ -125,6 +125,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Allow Video Streams
+    |--------------------------------------------------------------------------
+    |
+    | When video streams are allowed, requests to the video.show route will
+    | stream video. If disabled, requests to the video.show route will
+    | return an empty response.
+    |
+    */
+
+    'allow_video_streams' => (bool) env('ALLOW_VIDEO_STREAMS', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
@@ -184,6 +197,7 @@ return [
         MattAllan\LaravelCodeStyle\ServiceProvider::class,
         Spatie\JsonApiPaginate\JsonApiPaginateServiceProvider::class,
         SMartins\Exceptions\JsonHandlerServiceProvider::class,
+        App\Providers\PersistentConfigServiceProvider::class,
     ],
 
     /*
