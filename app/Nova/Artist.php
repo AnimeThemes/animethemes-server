@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use Benjaminhirsch\NovaSlugField\Slug;
+use Benjaminhirsch\NovaSlugField\TextWithSlug;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -79,12 +81,16 @@ class Artist extends Resource
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
-            Text::make(__('nova.name'), 'name')
+            TextWithSlug::make(__('nova.name'), 'name')
+                ->slug('alias')
                 ->sortable()
                 ->rules('required', 'max:192')
                 ->help(__('nova.artist_name_help')),
 
-            Text::make(__('nova.alias'), 'alias')
+            Slug::make(__('nova.alias'), 'alias')
+                ->slugifyOptions([
+                    'separator' => '_',
+                ])
                 ->sortable()
                 ->rules('required', 'max:192', 'alpha_dash')
                 ->creationRules('unique:artist,alias')
