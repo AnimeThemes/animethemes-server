@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "72f680b1199a5ca1f95509e0ccc9d508",
+    "content-hash": "d4d3574fa3184d4660be2c3cf698b49f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -252,6 +252,55 @@
             "description": "BaconQrCode is a QR code generator for PHP.",
             "homepage": "https://github.com/Bacon/BaconQrCode",
             "time": "2020-10-30T02:02:47+00:00"
+        },
+        {
+            "name": "benjaminhirsch/nova-slug-field",
+            "version": "1.2.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tomhatzer/nova-slug-field.git",
+                "reference": "d602e3033ed9c0ba2928a8ce1a7e8c7a9188c048"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tomhatzer/nova-slug-field/zipball/d602e3033ed9c0ba2928a8ce1a7e8c7a9188c048",
+                "reference": "d602e3033ed9c0ba2928a8ce1a7e8c7a9188c048",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Benjaminhirsch\\NovaSlugField\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Benjaminhirsch\\NovaSlugField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Hirsch",
+                    "email": "mail@benjaminhirsch.net",
+                    "homepage": "https://www.benjaminhirsch.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel Nova field to generate a slugs.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2020-09-23T17:10:16+00:00"
         },
         {
             "name": "bensampo/laravel-enum",

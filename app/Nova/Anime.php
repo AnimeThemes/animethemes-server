@@ -3,6 +3,8 @@
 namespace App\Nova;
 
 use App\Enums\Season;
+use Benjaminhirsch\NovaSlugField\Slug;
+use Benjaminhirsch\NovaSlugField\TextWithSlug;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
@@ -98,12 +100,16 @@ class Anime extends Resource
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
-            Text::make(__('nova.name'), 'name')
+            TextWithSlug::make(__('nova.name'), 'name')
+                ->slug('alias')
                 ->sortable()
                 ->rules('required', 'max:192')
                 ->help(__('nova.anime_name_help')),
 
-            Text::make(__('nova.alias'), 'alias')
+            Slug::make(__('nova.alias'), 'alias')
+                ->slugifyOptions([
+                    'separator' => '_',
+                ])
                 ->sortable()
                 ->rules('required', 'max:192', 'alpha_dash')
                 ->creationRules('unique:anime,alias')
