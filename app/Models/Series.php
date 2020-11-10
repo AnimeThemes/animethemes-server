@@ -17,7 +17,7 @@ class Series extends Model implements Auditable
     /**
      * @var array
      */
-    protected $fillable = ['alias', 'name'];
+    protected $fillable = ['slug', 'name'];
 
     /**
      * The table associated with the model.
@@ -63,7 +63,7 @@ class Series extends Model implements Auditable
      */
     public function getRouteKeyName()
     {
-        return 'alias';
+        return 'slug';
     }
 
     /**
@@ -91,7 +91,7 @@ class Series extends Model implements Auditable
         'series_id',
         'created_at',
         'updated_at',
-        'alias',
+        'slug',
         'name',
     ];
 

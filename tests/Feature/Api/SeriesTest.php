@@ -77,7 +77,7 @@ class SeriesTest extends TestCase
         return [
             'id' => $series->series_id,
             'name' => $series->name,
-            'alias' => $series->alias,
+            'slug' => $series->slug,
             'created_at' => $series->created_at->toJSON(),
             'updated_at' => $series->updated_at->toJSON(),
         ];

@@ -81,20 +81,20 @@ class Series extends Resource
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
             TextWithSlug::make(__('nova.name'), 'name')
-                ->slug('alias')
+                ->slug('slug')
                 ->sortable()
                 ->rules('required', 'max:192')
                 ->help(__('nova.series_name_help')),
 
-            Slug::make(__('nova.alias'), 'alias')
+            Slug::make(__('nova.slug'), 'slug')
                 ->slugifyOptions([
                     'separator' => '_',
                 ])
                 ->sortable()
                 ->rules('required', 'max:192', 'alpha_dash')
-                ->creationRules('unique:series,alias')
-                ->updateRules('unique:series,alias,{{resourceId}},series_id')
-                ->help(__('nova.series_alias_help')),
+                ->creationRules('unique:series,slug')
+                ->updateRules('unique:series,slug,{{resourceId}},series_id')
+                ->help(__('nova.series_slug_help')),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
                 ->searchable(),

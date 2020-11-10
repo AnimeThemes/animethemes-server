@@ -12,7 +12,7 @@ use Spatie\ResourceLinks\HasLinks;
  *     type="object",
  *     @OA\Property(property="id",type="integer",description="Primary Key",example=53),
  *     @OA\Property(property="name",type="string",description="The Primary Name of the Artist",example="Chiwa Saito"),
- *     @OA\Property(property="alias",type="string",description="URL Slug & Model Route Key",example="chiwa_saito"),
+ *     @OA\Property(property="slug",type="string",description="URL Slug & Model Route Key",example="chiwa_saito"),
  *     @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:55:55.000000Z"),
  *     @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:55:55.000000Z"),
  *     @OA\Property(property="songs",type="array",@OA\Items(
@@ -32,7 +32,7 @@ use Spatie\ResourceLinks\HasLinks;
  *             @OA\Property(property="anime",type="object",
  *                 @OA\Property(property="id",type="integer",description="Primary Key",example=197),
  *                 @OA\Property(property="name",type="string",description="The Primary Title of the Anime",example="Bakemonogatari"),
- *                 @OA\Property(property="alias",type="string",description="URL Slug & Model Route Key",example="bakemonogatari"),
+ *                 @OA\Property(property="slug",type="string",description="URL Slug & Model Route Key",example="bakemonogatari"),
  *                 @OA\Property(property="year",type="integer",description="The Year in which the Anime Premiered",example=2009),
  *                 @OA\Property(property="season",type="string",enum={"Winter","Spring","Summer","Fall"},description="The Season in which the Anime Premiered",example="Summer"),
  *                 @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:30:43.000000Z"),
@@ -82,7 +82,7 @@ class ArtistResource extends BaseResource
         return [
             'id' => $this->when($this->isAllowedField('id'), $this->artist_id),
             'name' => $this->when($this->isAllowedField('name'), $this->name),
-            'alias' => $this->when($this->isAllowedField('alias'), $this->alias),
+            'slug' => $this->when($this->isAllowedField('slug'), $this->slug),
             'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('artist_song', function () {
                 return strval($this->pivot->as);
             }, $this->whenPivotLoaded('artist_member', function () {

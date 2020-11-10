@@ -10,5 +10,5 @@ class Announcement extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
 
     public $timestamps = false;
-    protected $fillable = ['alias', 'content'];
+    protected $fillable = ['content'];
 }

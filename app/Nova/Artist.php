@@ -82,20 +82,20 @@ class Artist extends Resource
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
             TextWithSlug::make(__('nova.name'), 'name')
-                ->slug('alias')
+                ->slug('slug')
                 ->sortable()
                 ->rules('required', 'max:192')
                 ->help(__('nova.artist_name_help')),
 
-            Slug::make(__('nova.alias'), 'alias')
+            Slug::make(__('nova.slug'), 'slug')
                 ->slugifyOptions([
                     'separator' => '_',
                 ])
                 ->sortable()
                 ->rules('required', 'max:192', 'alpha_dash')
-                ->creationRules('unique:artist,alias')
-                ->updateRules('unique:artist,alias,{{resourceId}},artist_id')
-                ->help(__('nova.artist_alias_help')),
+                ->creationRules('unique:artist,slug')
+                ->updateRules('unique:artist,slug,{{resourceId}},artist_id')
+                ->help(__('nova.artist_slug_help')),
 
             BelongsToMany::make(__('nova.songs'), 'Songs', Song::class)
                 ->searchable()

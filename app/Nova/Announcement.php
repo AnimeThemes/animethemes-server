@@ -22,7 +22,7 @@ class Announcement extends Resource
      *
      * @var string
      */
-    public static $title = 'alias';
+    public static $title = 'id';
 
     /**
      * The logical group associated with the resource.
@@ -60,8 +60,15 @@ class Announcement extends Resource
      * @var array
      */
     public static $search = [
-        'alias',
+        'id',
     ];
+
+    /**
+     * Indicates if the resource should be globally searchable.
+     *
+     * @var bool
+     */
+    public static $globallySearchable = false;
 
     /**
      * Get the fields displayed by the resource.
@@ -73,13 +80,6 @@ class Announcement extends Resource
     {
         return [
             ID::make(__('nova.id'), 'id')->sortable(),
-
-            Text::make(__('nova.alias'), 'alias')
-                ->sortable()
-                ->rules('required', 'max:192', 'alpha_dash')
-                ->creationRules('unique:announcements,alias')
-                ->updateRules('unique:announcements,alias,{{resourceId}},id')
-                ->help(__('nova.announcement_alias_help')),
 
             Code::make(__('nova.content'), 'content')
                 ->sortable()

@@ -27,7 +27,7 @@ class ArtistController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Sort artist resource collection by fields. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
+     *         description="Sort artist resource collection by fields. Case-insensitive options are artist_id, created_at, updated_at, slug & name.",
      *         example="sort=name,-updated_at",
      *         name="sort",
      *         in="query",
@@ -52,7 +52,7 @@ class ArtistController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="The comma-separated list of fields by resource type",
-     *         example="fields[artist]=name,alias",
+     *         example="fields[artist]=name,slug",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -91,7 +91,7 @@ class ArtistController extends BaseController
      * Display the specified resource.
      *
      * @OA\Get(
-     *     path="/artist/{alias}",
+     *     path="/artist/{slug}",
      *     operationId="getArtist",
      *     tags={"Artist"},
      *     summary="Get properties of Artist",
@@ -106,7 +106,7 @@ class ArtistController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="The comma-separated list of fields by resource type",
-     *         example="fields[artist]=name,alias",
+     *         example="fields[artist]=name,slug",
      *         name="fields",
      *         in="query",
      *         required=false,

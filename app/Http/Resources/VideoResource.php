@@ -44,7 +44,7 @@ use Spatie\ResourceLinks\HasLinks;
  *             @OA\Property(property="anime",type="object",
  *                 @OA\Property(property="id",type="integer",description="Primary Key",example=197),
  *                 @OA\Property(property="name",type="string",description="The Primary Title of the Anime",example="Bakemonogatari"),
- *                 @OA\Property(property="alias",type="string",description="URL Slug & Model Route Key",example="bakemonogatari"),
+ *                 @OA\Property(property="slug",type="string",description="URL Slug & Model Route Key",example="bakemonogatari"),
  *                 @OA\Property(property="year",type="integer",description="The Year in which the Anime Premiered",example=2009),
  *                 @OA\Property(property="season",type="string",enum={"Winter","Spring","Summer","Fall"},description="The Season in which the Anime Premiered",example="Summer"),
  *                 @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:30:43.000000Z"),

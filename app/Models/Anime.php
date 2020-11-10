@@ -19,7 +19,7 @@ class Anime extends Model implements Auditable
     /**
      * @var array
      */
-    protected $fillable = ['alias', 'name', 'year', 'season', 'synopsis', 'cover'];
+    protected $fillable = ['slug', 'name', 'year', 'season', 'synopsis', 'cover'];
 
     /**
      * The table associated with the model.
@@ -86,7 +86,7 @@ class Anime extends Model implements Auditable
      */
     public function getRouteKeyName()
     {
-        return 'alias';
+        return 'slug';
     }
 
     /**
@@ -128,7 +128,7 @@ class Anime extends Model implements Auditable
         'anime_id',
         'created_at',
         'updated_at',
-        'alias',
+        'slug',
         'name',
         'year',
         'season',

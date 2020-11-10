@@ -140,7 +140,7 @@ class AnimeTest extends TestCase
         return [
             'id' => $anime->anime_id,
             'name' => $anime->name,
-            'alias' => $anime->alias,
+            'slug' => $anime->slug,
             'year' => $anime->year,
             'season' => strval(optional($anime->season)->description),
             'created_at' => $anime->created_at->toJSON(),

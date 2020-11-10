@@ -27,18 +27,18 @@ class SeriesSeeder extends Seeder
         $series_wiki_content_md = $series_wiki_json->data->content_md;
 
         // Match Series Entries
-        // Format: "[{Series Name}](/r/AnimeThemes/wiki/series/{Series Alias}/)
+        // Format: "[{Series Name}](/r/AnimeThemes/wiki/series/{Series Slug}/)
         preg_match_all('/\[(.*)\]\((\/r\/AnimeThemes\/wiki\/series\/(.*))\)/m', $series_wiki_content_md, $series_wiki_entries, PREG_SET_ORDER);
 
         foreach ($series_wiki_entries as $series_wiki_entry) {
             $series_name = html_entity_decode($series_wiki_entry[1]);
             $series_link = 'https://old.reddit.com'.$series_wiki_entry[2].'.json';
-            $series_alias = $series_wiki_entry[3];
+            $series_slug = $series_wiki_entry[3];
 
-            // Create Model from subreddit Alias & Name
+            // Create Model from subreddit Slug & Name
             $series = Series::create([
                 'name' => $series_name,
-                'alias' => $series_alias,
+                'slug' => $series_slug,
             ]);
 
             // Try not to upset Reddit

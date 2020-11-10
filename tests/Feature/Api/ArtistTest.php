@@ -138,7 +138,7 @@ class ArtistTest extends TestCase
         return [
             'id' => $artist->artist_id,
             'name' => $artist->name,
-            'alias' => $artist->alias,
+            'slug' => $artist->slug,
             'created_at' => $artist->created_at->toJSON(),
             'updated_at' => $artist->updated_at->toJSON(),
         ];

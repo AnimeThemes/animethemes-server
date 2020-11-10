@@ -48,7 +48,7 @@
                     {
                         "name": "sort",
                         "in": "query",
-                        "description": "Sort anime resource collection by fields. Case-insensitive options are anime_id, created_at, updated_at, alias, name, year & season.",
+                        "description": "Sort anime resource collection by fields. Case-insensitive options are anime_id, created_at, updated_at, slug, name, year & season.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -83,7 +83,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "fields[anime]=name,alias"
+                        "example": "fields[anime]=name,slug"
                     }
                 ],
                 "responses": {
@@ -109,7 +109,7 @@
                 }
             }
         },
-        "/anime/{alias}": {
+        "/anime/{slug}": {
             "get": {
                 "tags": [
                     "Anime"
@@ -136,7 +136,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "fields[anime]=name,alias"
+                        "example": "fields[anime]=name,slug"
                     }
                 ],
                 "responses": {
@@ -178,7 +178,7 @@
                     {
                         "name": "sort",
                         "in": "query",
-                        "description": "Sort artist resource collection by fields. Case-insensitive options are artist_id, created_at, updated_at, alias & name.",
+                        "description": "Sort artist resource collection by fields. Case-insensitive options are artist_id, created_at, updated_at, slug & name.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -213,7 +213,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "fields[artist]=name,alias"
+                        "example": "fields[artist]=name,slug"
                     }
                 ],
                 "responses": {
@@ -239,7 +239,7 @@
                 }
             }
         },
-        "/artist/{alias}": {
+        "/artist/{slug}": {
             "get": {
                 "tags": [
                     "Artist"
@@ -266,7 +266,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "fields[artist]=name,alias"
+                        "example": "fields[artist]=name,slug"
                     }
                 ],
                 "responses": {
@@ -720,7 +720,7 @@
                     {
                         "name": "sort",
                         "in": "query",
-                        "description": "Sort series resource collection by fields. Case-insensitive options are series_id, created_at, updated_at, alias & name.",
+                        "description": "Sort series resource collection by fields. Case-insensitive options are series_id, created_at, updated_at, slug & name.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -755,7 +755,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "fields[series]=name,alias"
+                        "example": "fields[series]=name,slug"
                     }
                 ],
                 "responses": {
@@ -781,7 +781,7 @@
                 }
             }
         },
-        "/series/{alias}": {
+        "/series/{slug}": {
             "get": {
                 "tags": [
                     "Series"
@@ -808,7 +808,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "fields[series]=name,alias"
+                        "example": "fields[series]=name,slug"
                     }
                 ],
                 "responses": {
@@ -1533,7 +1533,7 @@
                         "type": "string",
                         "example": "Bakemonogatari"
                     },
-                    "alias": {
+                    "slug": {
                         "description": "URL Slug & Model Route Key",
                         "type": "string",
                         "example": "bakemonogatari"
@@ -1681,7 +1681,7 @@
                                                         "type": "string",
                                                         "example": "Chiwa Saito"
                                                     },
-                                                    "alias": {
+                                                    "slug": {
                                                         "description": "URL Slug & Model Route Key",
                                                         "type": "string",
                                                         "example": "chiwa_saito"
@@ -1864,7 +1864,7 @@
                                     "type": "string",
                                     "example": "Monogatari"
                                 },
-                                "alias": {
+                                "slug": {
                                     "description": "URL Slug & Model Route Key",
                                     "type": "string",
                                     "example": "monogatari"
@@ -1954,7 +1954,7 @@
                         "type": "string",
                         "example": "Chiwa Saito"
                     },
-                    "alias": {
+                    "slug": {
                         "description": "URL Slug & Model Route Key",
                         "type": "string",
                         "example": "chiwa_saito"
@@ -2053,7 +2053,7 @@
                                                         "type": "string",
                                                         "example": "Bakemonogatari"
                                                     },
-                                                    "alias": {
+                                                    "slug": {
                                                         "description": "URL Slug & Model Route Key",
                                                         "type": "string",
                                                         "example": "bakemonogatari"
@@ -2216,7 +2216,7 @@
                                 "type": "string",
                                 "example": "Bakemonogatari"
                             },
-                            "alias": {
+                            "slug": {
                                 "description": "URL Slug & Model Route Key",
                                 "type": "string",
                                 "example": "bakemonogatari"
@@ -2455,7 +2455,7 @@
                                     "type": "string",
                                     "example": "Bakemonogatari"
                                 },
-                                "alias": {
+                                "slug": {
                                     "description": "URL Slug & Model Route Key",
                                     "type": "string",
                                     "example": "bakemonogatari"
@@ -2507,7 +2507,7 @@
                         "type": "string",
                         "example": "Monogatari"
                     },
-                    "alias": {
+                    "slug": {
                         "description": "URL Slug & Model Route Key",
                         "type": "string",
                         "example": "monogatari"
@@ -2536,7 +2536,7 @@
                                     "type": "string",
                                     "example": "Bakemonogatari"
                                 },
-                                "alias": {
+                                "slug": {
                                     "description": "URL Slug & Model Route Key",
                                     "type": "string",
                                     "example": "bakemonogatari"
@@ -2674,7 +2674,7 @@
                                                                     "type": "string",
                                                                     "example": "Chiwa Saito"
                                                                 },
-                                                                "alias": {
+                                                                "slug": {
                                                                     "description": "URL Slug & Model Route Key",
                                                                     "type": "string",
                                                                     "example": "chiwa_saito"
@@ -2978,7 +2978,7 @@
                                             "type": "string",
                                             "example": "Bakemonogatari"
                                         },
-                                        "alias": {
+                                        "slug": {
                                             "description": "URL Slug & Model Route Key",
                                             "type": "string",
                                             "example": "bakemonogatari"
@@ -3030,7 +3030,7 @@
                                     "type": "string",
                                     "example": "Chiwa Saito"
                                 },
-                                "alias": {
+                                "slug": {
                                     "description": "URL Slug & Model Route Key",
                                     "type": "string",
                                     "example": "chiwa_saito"
@@ -3093,7 +3093,7 @@
                                 "type": "string",
                                 "example": "Bakemonogatari"
                             },
-                            "alias": {
+                            "slug": {
                                 "description": "URL Slug & Model Route Key",
                                 "type": "string",
                                 "example": "bakemonogatari"
@@ -3185,7 +3185,7 @@
                                 "type": "string",
                                 "example": "Bakemonogatari"
                             },
-                            "alias": {
+                            "slug": {
                                 "description": "URL Slug & Model Route Key",
                                 "type": "string",
                                 "example": "bakemonogatari"
@@ -3255,7 +3255,7 @@
                                             "type": "string",
                                             "example": "Chiwa Saito"
                                         },
-                                        "alias": {
+                                        "slug": {
                                             "description": "URL Slug & Model Route Key",
                                             "type": "string",
                                             "example": "chiwa_saito"
@@ -3606,7 +3606,7 @@
                                                     "type": "string",
                                                     "example": "Bakemonogatari"
                                                 },
-                                                "alias": {
+                                                "slug": {
                                                     "description": "URL Slug & Model Route Key",
                                                     "type": "string",
                                                     "example": "bakemonogatari"
