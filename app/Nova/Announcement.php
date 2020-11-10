@@ -9,7 +9,6 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Panel;
 
-
 class Announcement extends Resource
 {
     /**
