@@ -156,6 +156,116 @@
                 }
             }
         },
+        "/announcement/": {
+            "get": {
+                "tags": [
+                    "Announcement"
+                ],
+                "summary": "Get paginated listing of Announcements",
+                "description": "Returns listing of Announcements",
+                "operationId": "getAnnouncements",
+                "parameters": [
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort announcement resource collection by fields. Case-insensitive options are announcement_id, created_at & updated_at.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "sort=-updated_at"
+                    },
+                    {
+                        "name": "page[size]",
+                        "in": "query",
+                        "description": "The number of resources to return per page. Acceptable range is [1-30]. Default value is 30.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "page[size]=25"
+                    },
+                    {
+                        "name": "page[number]",
+                        "in": "query",
+                        "description": "The page of resources to return.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "page[number]=2"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields by resource type",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fields[announcement]=content"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "announcements": {
+                                            "description": "Display a listing of the resource.",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AnnouncementResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/announcement/{id}": {
+            "get": {
+                "tags": [
+                    "Announcement"
+                ],
+                "summary": "Get properties of Announcement",
+                "description": "Returns properties of Announcement",
+                "operationId": "getAnnouncement",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields by resource type",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fields[announcement]=content"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AnnouncementResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found!"
+                    }
+                }
+            }
+        },
         "/artist/": {
             "get": {
                 "tags": [
@@ -1940,6 +2050,33 @@
                 },
                 "type": "object"
             },
+            "AnnouncementResource": {
+                "title": "Announcement",
+                "description": "Announcement Resource",
+                "properties": {
+                    "id": {
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "content": {
+                        "description": "The Announcement Text",
+                        "type": "string",
+                        "example": "There will be a period of scheduled downtime..."
+                    },
+                    "created_at": {
+                        "description": "The Resource Creation Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:43:02.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "The Resource Last Updated Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:43:02.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "ArtistResource": {
                 "title": "Artist",
                 "description": "Artist Resource",
@@ -3660,6 +3797,10 @@
         {
             "name": "Anime",
             "description": "API Endpoints of Anime"
+        },
+        {
+            "name": "Announcement",
+            "description": "API Endpoints of Announcements"
         },
         {
             "name": "Artist",

@@ -38,6 +38,11 @@ class BaseController extends Controller
      * )
      *
      * @OA\Tag(
+     *     name="Announcement",
+     *     description="API Endpoints of Announcements"
+     * )
+     *
+     * @OA\Tag(
      *     name="Artist",
      *     description="API Endpoints of Artists"
      * )

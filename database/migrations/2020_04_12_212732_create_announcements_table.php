@@ -13,8 +13,9 @@ class CreateAnnouncementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('announcements', function (Blueprint $table) {
-            $table->id();
+        Schema::create('announcement', function (Blueprint $table) {
+            $table->id('announcement_id');
+            $table->timestamps();
             $table->text('content');
         });
     }
@@ -26,6 +27,6 @@ class CreateAnnouncementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('announcements');
+        Schema::dropIfExists('announcement');
     }
 }

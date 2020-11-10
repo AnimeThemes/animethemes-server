@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AnimeController;
+use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\ArtistController;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Api\EntryController;
@@ -31,6 +32,7 @@ Route::group(['as' => 'api.'], function () {
 
     // Resource Routes
     Route::apiResource('anime', AnimeController::class)->only(['index', 'show']);
+    Route::apiResource('announcement', AnnouncementController::class)->only(['index', 'show']);
     Route::apiResource('artist', ArtistController::class)->only(['index', 'show']);
     Route::apiResource('entry', EntryController::class)->only(['index', 'show']);
     Route::apiResource('resource', ExternalResourceController::class)->only(['index', 'show']);
