@@ -55,7 +55,7 @@ class AnimeThemeLens extends Lens
             Text::make(__('nova.name'), 'name')
                 ->sortable(),
 
-            Text::make(__('nova.alias'), 'alias')
+            Text::make(__('nova.slug'), 'slug')
                 ->sortable(),
 
             Number::make(__('nova.year'), 'year')

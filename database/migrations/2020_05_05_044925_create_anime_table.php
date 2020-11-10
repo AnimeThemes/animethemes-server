@@ -16,7 +16,7 @@ class CreateAnimeTable extends Migration
         Schema::create('anime', function (Blueprint $table) {
             $table->id('anime_id');
             $table->timestamps();
-            $table->string('alias');
+            $table->string('slug');
             $table->string('name');
             $table->integer('year')->nullable();
             $table->integer('season')->nullable();

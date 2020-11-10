@@ -17,7 +17,7 @@ class Artist extends Model implements Auditable
     /**
      * @var array
      */
-    protected $fillable = ['alias', 'name'];
+    protected $fillable = ['slug', 'name'];
 
     /**
      * The table associated with the model.
@@ -89,7 +89,7 @@ class Artist extends Model implements Auditable
      */
     public function getRouteKeyName()
     {
-        return 'alias';
+        return 'slug';
     }
 
     /**
@@ -115,7 +115,7 @@ class Artist extends Model implements Auditable
         'artist_id',
         'created_at',
         'updated_at',
-        'alias',
+        'slug',
         'name',
     ];
 

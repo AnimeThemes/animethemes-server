@@ -27,7 +27,7 @@ class SeriesController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Sort series resource collection by fields. Case-insensitive options are series_id, created_at, updated_at, alias & name.",
+     *         description="Sort series resource collection by fields. Case-insensitive options are series_id, created_at, updated_at, slug & name.",
      *         example="sort=updated_at",
      *         name="sort",
      *         in="query",
@@ -52,7 +52,7 @@ class SeriesController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="The comma-separated list of fields by resource type",
-     *         example="fields[series]=name,alias",
+     *         example="fields[series]=name,slug",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -91,7 +91,7 @@ class SeriesController extends BaseController
      * Display the specified resource.
      *
      * @OA\Get(
-     *     path="/series/{alias}",
+     *     path="/series/{slug}",
      *     operationId="getSeries",
      *     tags={"Series"},
      *     summary="Get properties of Series",
@@ -106,7 +106,7 @@ class SeriesController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="The comma-separated list of fields by resource type",
-     *         example="fields[series]=name,alias",
+     *         example="fields[series]=name,slug",
      *         name="fields",
      *         in="query",
      *         required=false,

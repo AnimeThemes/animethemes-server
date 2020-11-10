@@ -12,13 +12,13 @@ use Spatie\ResourceLinks\HasLinks;
  *     type="object",
  *     @OA\Property(property="id",type="integer",description="Primary Key",example=114),
  *     @OA\Property(property="name",type="string",description="The Primary Name of the Series",example="Monogatari"),
- *     @OA\Property(property="alias",type="string",description="URL Slug & Model Route Key",example="monogatari"),
+ *     @OA\Property(property="slug",type="string",description="URL Slug & Model Route Key",example="monogatari"),
  *     @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T06:53:20.000000Z"),
  *     @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T06:53:20.000000Z"),
  *     @OA\Property(property="anime",type="array",@OA\Items(
  *         @OA\Property(property="id",type="integer",description="Primary Key",example=197),
  *         @OA\Property(property="name",type="string",description="The Primary Title of the Anime",example="Bakemonogatari"),
- *         @OA\Property(property="alias",type="string",description="URL Slug & Model Route Key",example="bakemonogatari"),
+ *         @OA\Property(property="slug",type="string",description="URL Slug & Model Route Key",example="bakemonogatari"),
  *         @OA\Property(property="year",type="integer",description="The Year in which the Anime Premiered",example=2009),
  *         @OA\Property(property="season",type="string",enum={"Winter","Spring","Summer","Fall"},description="The Season in which the Anime Premiered",example="Summer"),
  *         @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:30:43.000000Z"),
@@ -45,7 +45,7 @@ use Spatie\ResourceLinks\HasLinks;
  *                 @OA\Property(property="artists",type="array",@OA\Items(
  *                     @OA\Property(property="id",type="integer",description="Primary Key",example=53),
  *                     @OA\Property(property="name",type="string",description="The Primary Name of the Artist",example="Chiwa Saito"),
- *                     @OA\Property(property="alias",type="string",description="URL Slug & Model Route Key",example="chiwa_saito"),
+ *                     @OA\Property(property="slug",type="string",description="URL Slug & Model Route Key",example="chiwa_saito"),
  *                     @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:55:55.000000Z"),
  *                     @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:55:55.000000Z"),
  *                 ))
@@ -118,7 +118,7 @@ class SeriesResource extends BaseResource
         return [
             'id' => $this->when($this->isAllowedField('id'), $this->series_id),
             'name' => $this->when($this->isAllowedField('name'), $this->name),
-            'alias' => $this->when($this->isAllowedField('alias'), $this->alias),
+            'slug' => $this->when($this->isAllowedField('slug'), $this->slug),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->parser),

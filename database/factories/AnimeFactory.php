@@ -24,7 +24,7 @@ class AnimeFactory extends Factory
     public function definition()
     {
         return [
-            'alias' => Str::slug($this->faker->words(3, true), '_'),
+            'slug' => Str::slug($this->faker->words(3, true), '_'),
             'name' => $this->faker->words(3, true),
             'year' => $this->faker->year,
             'season' => Season::getRandomValue(),

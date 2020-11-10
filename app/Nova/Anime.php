@@ -101,20 +101,20 @@ class Anime extends Resource
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
             TextWithSlug::make(__('nova.name'), 'name')
-                ->slug('alias')
+                ->slug('slug')
                 ->sortable()
                 ->rules('required', 'max:192')
                 ->help(__('nova.anime_name_help')),
 
-            Slug::make(__('nova.alias'), 'alias')
+            Slug::make(__('nova.slug'), 'slug')
                 ->slugifyOptions([
                     'separator' => '_',
                 ])
                 ->sortable()
                 ->rules('required', 'max:192', 'alpha_dash')
-                ->creationRules('unique:anime,alias')
-                ->updateRules('unique:anime,alias,{{resourceId}},anime_id')
-                ->help(__('nova.anime_alias_help')),
+                ->creationRules('unique:anime,slug')
+                ->updateRules('unique:anime,slug,{{resourceId}},anime_id')
+                ->help(__('nova.anime_slug_help')),
 
             Number::make(__('nova.year'), 'year')
                 ->sortable()

@@ -48,7 +48,7 @@ class AnimeController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Sort anime resource collection by fields. Case-insensitive options are anime_id, created_at, updated_at, alias, name, year & season.",
+     *         description="Sort anime resource collection by fields. Case-insensitive options are anime_id, created_at, updated_at, slug, name, year & season.",
      *         example="sort=-year,name",
      *         name="sort",
      *         in="query",
@@ -73,7 +73,7 @@ class AnimeController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="The comma-separated list of fields by resource type",
-     *         example="fields[anime]=name,alias",
+     *         example="fields[anime]=name,slug",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -120,7 +120,7 @@ class AnimeController extends BaseController
      * Display the specified resource.
      *
      * @OA\Get(
-     *     path="/anime/{alias}",
+     *     path="/anime/{slug}",
      *     operationId="getAnime",
      *     tags={"Anime"},
      *     summary="Get properties of Anime",
@@ -135,7 +135,7 @@ class AnimeController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="The comma-separated list of fields by resource type",
-     *         example="fields[anime]=name,alias",
+     *         example="fields[anime]=name,slug",
      *         name="fields",
      *         in="query",
      *         required=false,

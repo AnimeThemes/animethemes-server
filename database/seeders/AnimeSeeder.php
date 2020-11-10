@@ -58,7 +58,7 @@ class AnimeSeeder extends Seeder
             // Create Model from subreddit Name and Year and generated slug
             Anime::create([
                 'name' => $anime_name,
-                'alias' => $slug,
+                'slug' => $slug,
                 'year' => $anime_year,
             ]);
         }
