@@ -5,8 +5,10 @@ namespace App\Nova;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Code;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
+
 
 class Announcement extends Resource
 {
@@ -22,7 +24,7 @@ class Announcement extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'announcement_id';
 
     /**
      * The logical group associated with the resource.
@@ -60,7 +62,7 @@ class Announcement extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'announcement_id',
     ];
 
     /**
@@ -79,7 +81,9 @@ class Announcement extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('nova.id'), 'id')->sortable(),
+            ID::make(__('nova.id'), 'announcement_id')->sortable(),
+
+            new Panel(__('nova.timestamps'), $this->timestamps()),
 
             Code::make(__('nova.content'), 'content')
                 ->sortable()
@@ -87,6 +91,24 @@ class Announcement extends Resource
                 ->options(['theme' => 'base16-light']),
 
             AuditableLog::make(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function timestamps()
+    {
+        return [
+            DateTime::make(__('nova.created_at'), 'created_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            DateTime::make(__('nova.updated_at'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
         ];
     }
 
