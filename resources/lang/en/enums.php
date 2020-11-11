@@ -1,22 +1,23 @@
 <?php
 
-use App\Enums\InvitationStatus;
-use App\Enums\VideoOverlap;
-use App\Enums\ResourceSite;
 use App\Enums\AnimeSeason;
-use App\Enums\VideoSource;
+use App\Enums\InvitationStatus;
+use App\Enums\ResourceSite;
 use App\Enums\ThemeType;
 use App\Enums\UserRole;
+use App\Enums\VideoOverlap;
+use App\Enums\VideoSource;
 
 return [
+    AnimeSeason::class => [
+        AnimeSeason::FALL => 'Fall',
+        AnimeSeason::SUMMER => 'Summer',
+        AnimeSeason::SPRING => 'Spring',
+        AnimeSeason::WINTER => 'Winter',
+    ],
     InvitationStatus::class => [
         InvitationStatus::OPEN => 'Open',
         InvitationStatus::CLOSED => 'Closed',
-    ],
-    VideoOverlap::class => [
-        VideoOverlap::NONE => 'None',
-        VideoOverlap::TRANS => 'Transition',
-        VideoOverlap::OVER => 'Over',
     ],
     ResourceSite::class => [
         ResourceSite::OFFICIAL_SITE => 'Official Website',
@@ -29,19 +30,6 @@ return [
         ResourceSite::MAL => 'MyAnimeList',
         ResourceSite::WIKI => 'Wiki',
     ],
-    AnimeSeason::class => [
-        AnimeSeason::FALL => 'Fall',
-        AnimeSeason::SUMMER => 'Summer',
-        AnimeSeason::SPRING => 'Spring',
-        AnimeSeason::WINTER => 'Winter',
-    ],
-    VideoSource::class => [
-        VideoSource::WEB => 'WEB',
-        VideoSource::RAW => 'RAW',
-        VideoSource::BD => 'BD',
-        VideoSource::DVD => 'DVD',
-        VideoSource::VHS => 'VHS',
-    ],
     ThemeType::class => [
         ThemeType::OP => 'OP',
         ThemeType::ED => 'ED',
@@ -50,5 +38,17 @@ return [
         UserRole::READ_ONLY => 'Read Only',
         UserRole::CONTRIBUTOR => 'Contributor',
         UserRole::ADMIN => 'Admin',
+    ],
+    VideoOverlap::class => [
+        VideoOverlap::NONE => 'None',
+        VideoOverlap::TRANS => 'Transition',
+        VideoOverlap::OVER => 'Over',
+    ],
+    VideoSource::class => [
+        VideoSource::WEB => 'WEB',
+        VideoSource::RAW => 'RAW',
+        VideoSource::BD => 'BD',
+        VideoSource::DVD => 'DVD',
+        VideoSource::VHS => 'VHS',
     ],
 ];

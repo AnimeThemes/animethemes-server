@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['as' => 'api.'], function () {
 
     // Search Routes
-    Route::get('search', [BaseController::class, 'search']);
+    Route::get('search', [BaseController::class, 'search'])->name('search');
 
     // Resource Routes
     Route::apiResource('anime', AnimeController::class)->only(['index', 'show']);
@@ -43,8 +43,8 @@ Route::group(['as' => 'api.'], function () {
     Route::apiResource('video', VideoController::class)->only(['index', 'show']);
 
     // Year Routes
-    Route::get('year', [YearController::class, 'index']);
-    Route::get('year/{year}', [YearController::class, 'show']);
+    Route::get('year', [YearController::class, 'index'])->name('year.index');
+    Route::get('year/{year}', [YearController::class, 'show'])->name('year.show');
 });
 
 Route::fallback(function () {
