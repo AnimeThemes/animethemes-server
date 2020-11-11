@@ -59,7 +59,7 @@ class ExternalResourceResource extends BaseResource
             'id' => $this->when($this->isAllowedField('id'), $this->resource_id),
             'link' => $this->when($this->isAllowedField('link'), $this->link),
             'external_id' => $this->when($this->isAllowedField('external_id'), is_null($this->external_id) ? '' : $this->external_id),
-            'type' => $this->when($this->isAllowedField('type'), strval(optional($this->type)->description)),
+            'site' => $this->when($this->isAllowedField('site'), strval(optional($this->site)->description)),
             'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('anime_resource', function () {
                 return strval($this->pivot->as);
             }, $this->whenPivotLoaded('artist_resource', function () {

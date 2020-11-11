@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Enums\OverlapType;
-use App\Enums\SourceType;
+use App\Enums\VideoOverlap;
+use App\Enums\VideoSource;
 use App\Models\Video;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
@@ -87,22 +87,22 @@ class VideoTagsSeeder extends Seeder
                     }
 
                     // Set source type for first matching tag to key
-                    foreach (SourceType::getKeys() as $source_key) {
+                    foreach (VideoSource::getKeys() as $source_key) {
                         if (in_array($source_key, $video_tags)) {
-                            $video->source = SourceType::getValue($source_key);
+                            $video->source = VideoSource::getValue($source_key);
                             break;
                         }
                     }
 
                     // Set overlap type if we have a definitive match or default to 'None'
-                    $has_trans_tag = in_array(OverlapType::getKey(OverlapType::TRANS), $video_tags);
-                    $has_over_tag = in_array(OverlapType::getKey(OverlapType::OVER), $video_tags);
-                    $video->overlap = OverlapType::NONE;
+                    $has_trans_tag = in_array(VideoOverlap::getKey(VideoOverlap::TRANS), $video_tags);
+                    $has_over_tag = in_array(VideoOverlap::getKey(VideoOverlap::OVER), $video_tags);
+                    $video->overlap = VideoOverlap::NONE;
                     if ($has_trans_tag && ! $has_over_tag) {
-                        $video->overlap = OverlapType::TRANS;
+                        $video->overlap = VideoOverlap::TRANS;
                     }
                     if (! $has_trans_tag && $has_over_tag) {
-                        $video->overlap = OverlapType::OVER;
+                        $video->overlap = VideoOverlap::OVER;
                     }
 
                     // Save changes if any to Video

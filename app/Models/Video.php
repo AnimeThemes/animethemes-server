@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Enums\OverlapType;
-use App\Enums\SourceType;
+use App\Enums\VideoOverlap;
+use App\Enums\VideoSource;
 use App\ScoutElastic\VideoIndexConfigurator;
 use App\ScoutElastic\VideoSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
@@ -53,7 +53,7 @@ class Video extends Model implements Auditable
         if ($this->nc) {
             array_push($tags, 'NC');
         }
-        if (! empty($this->source) && ($this->source->is(SourceType::BD) || $this->source->is(SourceType::DVD))) {
+        if (! empty($this->source) && ($this->source->is(VideoSource::BD) || $this->source->is(VideoSource::DVD))) {
             array_push($tags, $this->source->description);
         }
         if (! empty($this->resolution)) {
@@ -181,8 +181,8 @@ class Video extends Model implements Auditable
      * @var array
      */
     protected $enumCasts = [
-        'overlap' => OverlapType::class,
-        'source' => SourceType::class,
+        'overlap' => VideoOverlap::class,
+        'source' => VideoSource::class,
     ];
 
     /**

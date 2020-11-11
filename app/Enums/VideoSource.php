@@ -5,7 +5,7 @@ namespace App\Enums;
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
-final class SourceType extends Enum implements LocalizedEnum
+final class VideoSource extends Enum implements LocalizedEnum
 {
     const WEB = 0;
     const RAW = 1;

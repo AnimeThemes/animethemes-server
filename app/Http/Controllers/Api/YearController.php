@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\Season;
+use App\Enums\AnimeSeason;
 use App\Http\Resources\AnimeCollection;
 use App\Models\Anime;
 use Illuminate\Http\JsonResponse;
@@ -77,7 +77,7 @@ class YearController extends BaseController
         $anime = collect($anime->toArray(request()));
 
         $anime = $anime->groupBy(function ($item) {
-            return Str::lower(Season::getDescription($item->season));
+            return Str::lower(AnimeSeason::getDescription($item->season));
         })->sortKeys();
 
         return new JsonResponse($anime);

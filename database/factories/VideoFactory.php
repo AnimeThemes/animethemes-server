@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\OverlapType;
-use App\Enums\SourceType;
+use App\Enums\VideoOverlap;
+use App\Enums\VideoSource;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\Testing\File;
@@ -40,8 +40,8 @@ class VideoFactory extends Factory
             'subbed' => $this->faker->boolean,
             'lyrics' => $this->faker->boolean,
             'uncen' => $this->faker->boolean,
-            'source' => SourceType::getRandomValue(),
-            'overlap' => OverlapType::getRandomValue(),
+            'source' => VideoSource::getRandomValue(),
+            'overlap' => VideoOverlap::getRandomValue(),
         ];
     }
 }

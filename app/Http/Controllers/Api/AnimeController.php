@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\Season;
+use App\Enums\AnimeSeason;
 use App\Http\Resources\AnimeCollection;
 use App\Http\Resources\AnimeResource;
 use App\Models\Anime;
@@ -98,7 +98,7 @@ class AnimeController extends BaseController
             $anime = $anime->whereIn(static::YEAR_QUERY, $this->parser->getFilter(static::YEAR_QUERY));
         }
         if ($this->parser->hasFilter(static::SEASON_QUERY)) {
-            $anime = $anime->whereIn(static::SEASON_QUERY, $this->parser->getEnumFilter(static::SEASON_QUERY, Season::class));
+            $anime = $anime->whereIn(static::SEASON_QUERY, $this->parser->getEnumFilter(static::SEASON_QUERY, AnimeSeason::class));
         }
 
         // apply sorts

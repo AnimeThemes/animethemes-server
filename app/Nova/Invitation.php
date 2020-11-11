@@ -3,7 +3,7 @@
 namespace App\Nova;
 
 use App\Enums\InvitationStatus;
-use App\Enums\UserType;
+use App\Enums\UserRole;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
@@ -87,8 +87,8 @@ class Invitation extends Resource
                 ->creationRules('unique:invitation,email')
                 ->updateRules('unique:invitation,email,{{resourceId}}'),
 
-            Select::make(__('nova.type'), 'type')
-                ->options(UserType::asSelectArray())
+            Select::make(__('nova.site'), 'site')
+                ->options(UserRole::asSelectArray())
                 ->resolveUsing(function ($enum) {
                     return $enum ? $enum->value : null;
                 })
@@ -96,7 +96,7 @@ class Invitation extends Resource
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', new EnumValue(UserType::class, false)),
+                ->rules('required', new EnumValue(UserRole::class, false)),
 
             Select::make(__('nova.status'), 'status')
                 ->hideWhenCreating()
@@ -134,7 +134,7 @@ class Invitation extends Resource
     public function filters(Request $request)
     {
         return [
-            new Filters\UserTypeFilter,
+            new Filters\UserRoleFilter,
             new Filters\InvitationStatusFilter,
             new Filters\RecentlyCreatedFilter,
             new Filters\RecentlyUpdatedFilter,

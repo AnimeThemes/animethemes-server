@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\ResourceType;
+use App\Enums\ResourceSite;
 use App\Models\Artist;
 use App\Models\ExternalResource;
 use Illuminate\Database\Seeder;
@@ -56,9 +56,9 @@ class ArtistSeeder extends Seeder
             preg_match('/##\[.*\]\((https\:\/\/.*)\)/m', $artist_resource_wiki_content_md, $artist_resource_entry);
             $artist_resource_link = html_entity_decode($artist_resource_entry[1]);
 
-            // Create Resource Model with link and derived type
+            // Create Resource Model with link and derived site
             $resource = ExternalResource::create([
-                'type' => ResourceType::valueOf($artist_resource_link),
+                'site' => ResourceSite::valueOf($artist_resource_link),
                 'link' => $artist_resource_link,
             ]);
 

@@ -2,9 +2,9 @@
 
 namespace App\Nova\Lenses;
 
-use App\Enums\ResourceType;
+use App\Enums\ResourceSite;
 use App\Models\Anime;
-use App\Nova\Actions\CreateExternalResourceTypeForAnimeAction;
+use App\Nova\Actions\CreateExternalResourceSiteForAnimeAction;
 use App\Nova\Filters\AnimeYearFilter;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
@@ -24,7 +24,7 @@ class AnimeAnnResourceLens extends Lens
      */
     public function name()
     {
-        return __('nova.anime_resource_lens', ['type' => ResourceType::getDescription(ResourceType::ANN)]);
+        return __('nova.anime_resource_lens', ['site' => ResourceSite::getDescription(ResourceSite::ANN)]);
     }
 
     /**
@@ -37,7 +37,7 @@ class AnimeAnnResourceLens extends Lens
     public static function query(LensRequest $request, $query)
     {
         return Anime::whereDoesntHave('externalResources', function ($resource_query) {
-            $resource_query->where('type', ResourceType::ANN);
+            $resource_query->where('site', ResourceSite::ANN);
         });
     }
 
@@ -99,7 +99,7 @@ class AnimeAnnResourceLens extends Lens
     public function actions(Request $request)
     {
         return [
-            (new CreateExternalResourceTypeForAnimeAction(ResourceType::ANN))->canSee(function ($request) {
+            (new CreateExternalResourceSiteForAnimeAction(ResourceSite::ANN))->canSee(function ($request) {
                 return $request->user()->isContributor() || $request->user()->isAdmin();
             }),
         ];

@@ -5,7 +5,7 @@ namespace App\Enums;
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
-final class ResourceType extends Enum implements LocalizedEnum
+final class ResourceSite extends Enum implements LocalizedEnum
 {
     // Official Media
     const OFFICIAL_SITE = 0;
@@ -23,9 +23,9 @@ final class ResourceType extends Enum implements LocalizedEnum
     const WIKI = 8;
 
     /**
-     * Get domain by resource type.
+     * Get domain by resource site.
      *
-     * @param int $value the resource type key
+     * @param int $value the resource site key
      * @return string|null
      */
     public static function getDomain($value)
@@ -53,7 +53,7 @@ final class ResourceType extends Enum implements LocalizedEnum
     }
 
     /**
-     * Get resource type by link, matching expected domain.
+     * Get resource site by link, matching expected domain.
      *
      * @param string $link the link to test
      * @return string|null
@@ -62,8 +62,8 @@ final class ResourceType extends Enum implements LocalizedEnum
     {
         $parsed_host = parse_url($link, PHP_URL_HOST);
 
-        foreach (ResourceType::getValues() as $value) {
-            if ($parsed_host === ResourceType::getDomain($value)) {
+        foreach (ResourceSite::getValues() as $value) {
+            if ($parsed_host === ResourceSite::getDomain($value)) {
                 return $value;
             }
         }

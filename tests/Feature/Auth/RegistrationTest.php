@@ -243,7 +243,7 @@ class RegistrationTest extends TestCase
             'password_confirmation' => $strong_password,
         ]);
 
-        $user = User::where('name', $invitation->name)->where('email', $invitation->email)->where('type', $invitation->type)->first();
+        $user = User::where('name', $invitation->name)->where('email', $invitation->email)->where('role', $invitation->role)->first();
 
         $this->assertNotNull($user);
     }
@@ -263,7 +263,7 @@ class RegistrationTest extends TestCase
             'password_confirmation' => $strong_password,
         ]);
 
-        $user = User::where('name', $invitation->name)->where('email', $invitation->email)->where('type', $invitation->type)->first();
+        $user = User::where('name', $invitation->name)->where('email', $invitation->email)->where('role', $invitation->role)->first();
 
         $this->assertAuthenticatedAs($user);
     }

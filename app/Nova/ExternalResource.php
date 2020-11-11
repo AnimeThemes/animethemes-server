@@ -2,8 +2,8 @@
 
 namespace App\Nova;
 
-use App\Enums\ResourceType;
-use App\Rules\ResourceTypeDomain;
+use App\Enums\ResourceSite;
+use App\Rules\ResourceSiteDomain;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
@@ -85,8 +85,8 @@ class ExternalResource extends Resource
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
-            Select::make(__('nova.type'), 'type')
-                ->options(ResourceType::asSelectArray())
+            Select::make(__('nova.site'), 'site')
+                ->options(ResourceSite::asSelectArray())
                 ->resolveUsing(function ($enum) {
                     return $enum ? $enum->value : null;
                 })
@@ -94,12 +94,12 @@ class ExternalResource extends Resource
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', new EnumValue(ResourceType::class, false))
-                ->help(__('nova.resource_type_help')),
+                ->rules('required', new EnumValue(ResourceSite::class, false))
+                ->help(__('nova.resource_site_help')),
 
             Url::make(__('nova.link'), 'link')
                 ->sortable()
-                ->rules('required', 'max:192', 'url', new ResourceTypeDomain($request->input('type')))
+                ->rules('required', 'max:192', 'url', new ResourceSiteDomain($request->input('site')))
                 ->creationRules('unique:resource,link')
                 ->updateRules('unique:resource,link,{{resourceId}},resource_id')
                 ->help(__('nova.resource_link_help'))
@@ -172,7 +172,7 @@ class ExternalResource extends Resource
     public function filters(Request $request)
     {
         return [
-            new Filters\ExternalResourceTypeFilter,
+            new Filters\ExternalResourceSiteFilter,
             new Filters\RecentlyCreatedFilter,
             new Filters\RecentlyUpdatedFilter,
         ];

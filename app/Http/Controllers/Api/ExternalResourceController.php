@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\ResourceType;
+use App\Enums\ResourceSite;
 use App\Http\Resources\ExternalResourceCollection;
 use App\Http\Resources\ExternalResourceResource;
 use App\Models\ExternalResource;
@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 class ExternalResourceController extends BaseController
 {
     // constants for query parameters
-    protected const TYPE_QUERY = 'type';
+    protected const SITE_QUERY = 'site';
 
     /**
      * Display a listing of the resource.
@@ -31,15 +31,15 @@ class ExternalResourceController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Filter resources by type. Case-insensitive options are OFFICIAL_SITE, TWITTER, ANIDB, ANILIST, ANIME_PLANET, ANN, KITSU, MAL & WIKI.",
-     *         example="filter[type]=MAL",
-     *         name="type",
+     *         description="Filter resources by site. Case-insensitive options are OFFICIAL_SITE, TWITTER, ANIDB, ANILIST, ANIME_PLANET, ANN, KITSU, MAL & WIKI.",
+     *         example="filter[site]=MAL",
+     *         name="site",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Sort external resource collection by fields. Case-insensitive options are resource_id, created_at, updated_at, type, link & external_id.",
+     *         description="Sort external resource collection by fields. Case-insensitive options are resource_id, created_at, updated_at, site, link & external_id.",
      *         example="sort=-updated_at,resource_id",
      *         name="sort",
      *         in="query",
@@ -64,7 +64,7 @@ class ExternalResourceController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="The comma-separated list of fields by resource type",
-     *         example="fields[entry]=link,external_id",
+     *         example="fields[resource]=link,external_id",
      *         name="fields",
      *         in="query",
      *         required=false,
@@ -85,8 +85,8 @@ class ExternalResourceController extends BaseController
         $resources = ExternalResource::with($this->parser->getIncludePaths(ExternalResource::$allowedIncludePaths));
 
         // apply filters
-        if ($this->parser->hasFilter(static::TYPE_QUERY)) {
-            $resources = $resources->whereIn(static::TYPE_QUERY, $this->parser->getEnumFilter(static::TYPE_QUERY, ResourceType::class));
+        if ($this->parser->hasFilter(static::SITE_QUERY)) {
+            $resources = $resources->whereIn(static::SITE_QUERY, $this->parser->getEnumFilter(static::SITE_QUERY, ResourceSite::class));
         }
 
         // apply sorts

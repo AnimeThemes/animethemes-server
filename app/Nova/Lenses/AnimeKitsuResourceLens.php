@@ -2,9 +2,9 @@
 
 namespace App\Nova\Lenses;
 
-use App\Enums\ResourceType;
+use App\Enums\ResourceSite;
 use App\Models\Anime;
-use App\Nova\Actions\CreateExternalResourceTypeForAnimeAction;
+use App\Nova\Actions\CreateExternalResourceSiteForAnimeAction;
 use App\Nova\Filters\AnimeYearFilter;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
@@ -24,7 +24,7 @@ class AnimeKitsuResourceLens extends Lens
      */
     public function name()
     {
-        return __('nova.anime_resource_lens', ['type' => ResourceType::getDescription(ResourceType::KITSU)]);
+        return __('nova.anime_resource_lens', ['site' => ResourceSite::getDescription(ResourceSite::KITSU)]);
     }
 
     /**
@@ -37,7 +37,7 @@ class AnimeKitsuResourceLens extends Lens
     public static function query(LensRequest $request, $query)
     {
         return Anime::whereDoesntHave('externalResources', function ($resource_query) {
-            $resource_query->where('type', ResourceType::KITSU);
+            $resource_query->where('site', ResourceSite::KITSU);
         });
     }
 
@@ -99,7 +99,7 @@ class AnimeKitsuResourceLens extends Lens
     public function actions(Request $request)
     {
         return [
-            (new CreateExternalResourceTypeForAnimeAction(ResourceType::KITSU))->canSee(function ($request) {
+            (new CreateExternalResourceSiteForAnimeAction(ResourceSite::KITSU))->canSee(function ($request) {
                 return $request->user()->isContributor() || $request->user()->isAdmin();
             }),
         ];

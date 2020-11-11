@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Enums\SourceType;
+use App\Enums\VideoSource;
 use App\Models\Video;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -44,9 +44,9 @@ class VideoObserver
                 }
 
                 // Set source type for first matching tag to key
-                foreach (SourceType::getKeys() as $source_key) {
+                foreach (VideoSource::getKeys() as $source_key) {
                     if (Str::contains($tags, $source_key)) {
-                        $video->source = SourceType::getValue($source_key);
+                        $video->source = VideoSource::getValue($source_key);
                         break;
                     }
                 }

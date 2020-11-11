@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Enums\UserType;
+use App\Enums\UserRole;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
@@ -106,8 +106,8 @@ class User extends Resource
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
-            Select::make(__('nova.type'), 'type')
-                ->options(UserType::asSelectArray())
+            Select::make(__('nova.role'), 'role')
+                ->options(UserRole::asSelectArray())
                 ->resolveUsing(function ($enum) {
                     return $enum ? $enum->value : null;
                 })
@@ -115,7 +115,7 @@ class User extends Resource
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', new EnumValue(UserType::class, false)),
+                ->rules('required', new EnumValue(UserRole::class, false)),
         ];
     }
 
@@ -157,7 +157,7 @@ class User extends Resource
     public function filters(Request $request)
     {
         return [
-            new Filters\UserTypeFilter,
+            new Filters\UserRoleFilter,
             new Filters\RecentlyCreatedFilter,
             new Filters\RecentlyUpdatedFilter,
         ];

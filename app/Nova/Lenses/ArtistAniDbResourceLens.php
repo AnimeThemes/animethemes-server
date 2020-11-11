@@ -2,9 +2,9 @@
 
 namespace App\Nova\Lenses;
 
-use App\Enums\ResourceType;
+use App\Enums\ResourceSite;
 use App\Models\Artist;
-use App\Nova\Actions\CreateExternalResourceTypeForArtistAction;
+use App\Nova\Actions\CreateExternalResourceSiteForArtistAction;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
 use Illuminate\Http\Request;
@@ -22,7 +22,7 @@ class ArtistAniDbResourceLens extends Lens
      */
     public function name()
     {
-        return __('nova.artist_resource_lens', ['type' => ResourceType::getDescription(ResourceType::ANIDB)]);
+        return __('nova.artist_resource_lens', ['site' => ResourceSite::getDescription(ResourceSite::ANIDB)]);
     }
 
     /**
@@ -35,7 +35,7 @@ class ArtistAniDbResourceLens extends Lens
     public static function query(LensRequest $request, $query)
     {
         return Artist::whereDoesntHave('externalResources', function ($resource_query) {
-            $resource_query->where('type', ResourceType::ANIDB);
+            $resource_query->where('site', ResourceSite::ANIDB);
         });
     }
 
@@ -93,7 +93,7 @@ class ArtistAniDbResourceLens extends Lens
     public function actions(Request $request)
     {
         return [
-            (new CreateExternalResourceTypeForArtistAction(ResourceType::ANIDB))->canSee(function ($request) {
+            (new CreateExternalResourceSiteForArtistAction(ResourceSite::ANIDB))->canSee(function ($request) {
                 return $request->user()->isContributor() || $request->user()->isAdmin();
             }),
         ];

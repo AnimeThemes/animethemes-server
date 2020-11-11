@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\InvitationStatus;
-use App\Enums\UserType;
+use App\Enums\UserRole;
 use App\Models\Invitation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -27,7 +27,7 @@ class InvitationFactory extends Factory
             'token' => Invitation::createToken(),
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
-            'type' => UserType::READ_ONLY,
+            'role' => UserRole::READ_ONLY,
             'status' => InvitationStatus::OPEN,
         ];
     }

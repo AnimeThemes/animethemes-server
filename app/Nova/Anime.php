@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Enums\Season;
+use App\Enums\AnimeSeason;
 use Benjaminhirsch\NovaSlugField\Slug;
 use Benjaminhirsch\NovaSlugField\TextWithSlug;
 use BenSampo\Enum\Rules\EnumValue;
@@ -124,7 +124,7 @@ class Anime extends Resource
                 ->help(__('nova.anime_year_help')),
 
             Select::make(__('nova.season'), 'season')
-                ->options(Season::asSelectArray())
+                ->options(AnimeSeason::asSelectArray())
                 ->resolveUsing(function ($enum) {
                     return $enum ? $enum->value : null;
                 })
@@ -132,7 +132,7 @@ class Anime extends Resource
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', new EnumValue(Season::class, false))
+                ->rules('required', new EnumValue(AnimeSeason::class, false))
                 ->help(__('nova.anime_season_help')),
 
             Textarea::make(__('nova.synopsis'), 'synopsis')

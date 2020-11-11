@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\UserType;
+use App\Enums\UserRole;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,7 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'type',
+        'role',
     ];
 
     /**
@@ -47,7 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $enumCasts = [
-        'type' => UserType::class,
+        'role' => UserRole::class,
     ];
 
     /**
@@ -57,7 +57,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'type' => 'int',
+        'role' => 'int',
     ];
 
     /**
@@ -65,7 +65,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isAdmin()
     {
-        return $this->type->is(UserType::ADMIN);
+        return $this->role->is(UserRole::ADMIN);
     }
 
     /**
@@ -73,7 +73,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isContributor()
     {
-        return $this->type->is(UserType::CONTRIBUTOR);
+        return $this->role->is(UserRole::CONTRIBUTOR);
     }
 
     /**
@@ -81,6 +81,6 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isReadOnly()
     {
-        return $this->type->is(UserType::READ_ONLY);
+        return $this->role->is(UserRole::READ_ONLY);
     }
 }
