@@ -99,7 +99,7 @@ class ExternalResourceTest extends TestCase
             'id' => $resource->resource_id,
             'link' => $resource->link,
             'external_id' => is_null($resource->external_id) ? '' : $resource->external_id,
-            'type' => strval(optional($resource->type)->description),
+            'site' => strval(optional($resource->site)->description),
         ];
     }
 }

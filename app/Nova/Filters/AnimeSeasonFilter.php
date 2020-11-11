@@ -2,7 +2,7 @@
 
 namespace App\Nova\Filters;
 
-use App\Enums\Season;
+use App\Enums\AnimeSeason;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
@@ -46,6 +46,6 @@ class AnimeSeasonFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(Season::asSelectArray());
+        return array_flip(AnimeSeason::asSelectArray());
     }
 }

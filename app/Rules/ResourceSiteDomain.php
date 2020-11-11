@@ -2,27 +2,27 @@
 
 namespace App\Rules;
 
-use App\Enums\ResourceType;
+use App\Enums\ResourceSite;
 use Illuminate\Contracts\Validation\Rule;
 
-class ResourceTypeDomain implements Rule
+class ResourceSiteDomain implements Rule
 {
     /**
-     * The resource type key.
+     * The resource site key.
      *
      * @var int
      */
-    private $type;
+    private $site;
 
     /**
      * Create a new rule instance.
      *
-     * @param  int $type The resource type key
+     * @param  int $site The resource site key
      * @return void
      */
-    public function __construct($type)
+    public function __construct($site)
     {
-        $this->type = $type;
+        $this->site = $site;
     }
 
     /**
@@ -34,7 +34,7 @@ class ResourceTypeDomain implements Rule
      */
     public function passes($attribute, $value)
     {
-        $domain = ResourceType::getDomain($this->type);
+        $domain = ResourceSite::getDomain($this->site);
 
         if (! empty($domain)) {
             return $domain === parse_url($value, PHP_URL_HOST);

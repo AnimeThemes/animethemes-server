@@ -16,7 +16,7 @@ class CreateResourcesTable extends Migration
         Schema::create('resource', function (Blueprint $table) {
             $table->id('resource_id');
             $table->timestamps();
-            $table->integer('type')->nullable();
+            $table->integer('site')->nullable();
             $table->string('link')->nullable();
             $table->integer('external_id')->nullable();
         });

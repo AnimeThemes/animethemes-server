@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\OverlapType;
+use App\Enums\VideoOverlap;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -25,7 +25,7 @@ class CreateVideosTable extends Migration
             $table->boolean('subbed')->default(false);
             $table->boolean('lyrics')->default(false);
             $table->boolean('uncen')->default(false);
-            $table->integer('overlap')->default(OverlapType::NONE);
+            $table->integer('overlap')->default(VideoOverlap::NONE);
             $table->integer('source')->nullable();
         });
     }

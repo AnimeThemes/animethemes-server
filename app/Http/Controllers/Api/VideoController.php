@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\OverlapType;
-use App\Enums\SourceType;
+use App\Enums\VideoOverlap;
+use App\Enums\VideoSource;
 use App\Http\Resources\VideoCollection;
 use App\Http\Resources\VideoResource;
 use App\Models\Video;
@@ -156,10 +156,10 @@ class VideoController extends BaseController
             $videos = $videos->whereIn(static::UNCEN_QUERY, $this->parser->getBooleanFilter(static::UNCEN_QUERY));
         }
         if ($this->parser->hasFilter(static::SOURCE_QUERY)) {
-            $videos = $videos->whereIn(static::SOURCE_QUERY, $this->parser->getEnumFilter(static::SOURCE_QUERY, SourceType::class));
+            $videos = $videos->whereIn(static::SOURCE_QUERY, $this->parser->getEnumFilter(static::SOURCE_QUERY, VideoSource::class));
         }
         if ($this->parser->hasFilter(static::OVERLAP_QUERY)) {
-            $videos = $videos->whereIn(static::OVERLAP_QUERY, $this->parser->getEnumFilter(static::OVERLAP_QUERY, OverlapType::class));
+            $videos = $videos->whereIn(static::OVERLAP_QUERY, $this->parser->getEnumFilter(static::OVERLAP_QUERY, VideoOverlap::class));
         }
 
         // sort

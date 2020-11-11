@@ -2,7 +2,7 @@
 
 namespace App\Nova\Filters;
 
-use App\Enums\OverlapType;
+use App\Enums\VideoOverlap;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
@@ -46,6 +46,6 @@ class VideoOverlapFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(OverlapType::asSelectArray());
+        return array_flip(VideoOverlap::asSelectArray());
     }
 }

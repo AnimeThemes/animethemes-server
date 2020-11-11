@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\InvitationStatus;
-use App\Enums\UserType;
+use App\Enums\UserRole;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,7 +33,7 @@ class Invitation extends Model implements Auditable
      * @var array
      */
     protected $enumCasts = [
-        'type' => UserType::class,
+        'role' => UserRole::class,
         'status' => InvitationStatus::class,
     ];
 
@@ -43,7 +43,7 @@ class Invitation extends Model implements Auditable
      * @var array
      */
     protected $casts = [
-        'type' => 'int',
+        'role' => 'int',
         'status' => 'int',
     ];
 

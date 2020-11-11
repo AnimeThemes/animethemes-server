@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\ResourceType;
+use App\Enums\ResourceSite;
 use App\Models\ExternalResource;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +23,7 @@ class ExternalResourceFactory extends Factory
     public function definition()
     {
         return [
-            'type' => ResourceType::getRandomValue(),
+            'site' => ResourceSite::getRandomValue(),
             'link' => $this->faker->url,
             'external_id' => $this->faker->randomNumber(),
         ];

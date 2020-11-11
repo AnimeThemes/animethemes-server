@@ -2,9 +2,9 @@
 
 namespace App\Nova\Actions;
 
-use App\Enums\ResourceType;
+use App\Enums\ResourceSite;
 use App\Models\ExternalResource;
-use App\Rules\ResourceTypeDomain;
+use App\Rules\ResourceSiteDomain;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -12,25 +12,23 @@ use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Text;
 
-class CreateExternalResourceTypeForArtistAction extends Action
+class CreateExternalResourceSiteForArtistAction extends Action
 {
     use InteractsWithQueue, Queueable;
 
     /**
-     * The resource type key.
+     * The resource site key.
      *
      * @var int
      */
-    private $type;
+    private $site;
 
     /**
-     * Undocumented function.
-     *
-     * @param int $type
+     * @param int $site
      */
-    public function __construct($type)
+    public function __construct($site)
     {
-        $this->type = $type;
+        $this->site = $site;
     }
 
     /**
@@ -40,7 +38,7 @@ class CreateExternalResourceTypeForArtistAction extends Action
      */
     public function name()
     {
-        return __('nova.artist_create_resource_action', ['type' => ResourceType::getDescription($this->type)]);
+        return __('nova.artist_create_resource_action', ['site' => ResourceSite::getDescription($this->site)]);
     }
 
     /**
@@ -52,9 +50,9 @@ class CreateExternalResourceTypeForArtistAction extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        // Create Resource Model with link and provided type
+        // Create Resource Model with link and provided site
         $resource = ExternalResource::create([
-            'type' => $this->type,
+            'site' => $this->site,
             'link' => $fields->get('link'),
         ]);
 
@@ -78,7 +76,7 @@ class CreateExternalResourceTypeForArtistAction extends Action
     {
         return [
             Text::make(__('nova.link'), 'link')
-                ->rules('required', 'max:192', 'url', 'unique:resource,link', new ResourceTypeDomain($this->type))
+                ->rules('required', 'max:192', 'url', 'unique:resource,link', new ResourceSiteDomain($this->site))
                 ->help(__('nova.resource_link_help')),
         ];
     }

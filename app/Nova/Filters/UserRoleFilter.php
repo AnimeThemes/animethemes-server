@@ -2,11 +2,11 @@
 
 namespace App\Nova\Filters;
 
-use App\Enums\UserType;
+use App\Enums\UserRole;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
-class UserTypeFilter extends Filter
+class UserRoleFilter extends Filter
 {
     /**
      * The filter's component.
@@ -22,7 +22,7 @@ class UserTypeFilter extends Filter
      */
     public function name()
     {
-        return __('nova.type');
+        return __('nova.role');
     }
 
     /**
@@ -35,7 +35,7 @@ class UserTypeFilter extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->where('type', $value);
+        return $query->where('role', $value);
     }
 
     /**
@@ -46,6 +46,6 @@ class UserTypeFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(UserType::asSelectArray());
+        return array_flip(UserRole::asSelectArray());
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\ResourceType;
+use App\Enums\ResourceSite;
 use App\Models\Anime;
 use App\Models\ExternalResource;
 use Illuminate\Database\Seeder;
@@ -70,9 +70,9 @@ class AnimeResourceSeeder extends Seeder
                 $anime_name = html_entity_decode($anime_resource_wiki_entry[1]);
                 $resource_link = html_entity_decode($anime_resource_wiki_entry[2]);
 
-                // Create Resource Model with link and derived type
+                // Create Resource Model with link and derived site
                 $resource = ExternalResource::create([
-                    'type' => ResourceType::valueOf($resource_link),
+                    'site' => ResourceSite::valueOf($resource_link),
                     'link' => $resource_link,
                 ]);
 

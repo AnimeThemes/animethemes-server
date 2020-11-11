@@ -75,7 +75,7 @@ class RegisterController extends Controller
         $data = array_merge($request->all(), [
             'name' => $invitation->name,
             'email' => $invitation->email,
-            'type' => $invitation->type->value,
+            'role' => $invitation->role->value,
         ]);
 
         $this->validator($data)->validate();
@@ -123,7 +123,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'type' => $data['type'],
+            'role' => $data['role'],
         ]);
     }
 }

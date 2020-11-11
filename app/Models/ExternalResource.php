@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\ResourceType;
+use App\Enums\ResourceSite;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +16,7 @@ class ExternalResource extends Model implements Auditable
     /**
      * @var array
      */
-    protected $fillable = ['type', 'link', 'external_id'];
+    protected $fillable = ['site', 'link', 'external_id'];
 
     /**
      * The table associated with the model.
@@ -36,14 +36,14 @@ class ExternalResource extends Model implements Auditable
      * @var array
      */
     protected $enumCasts = [
-        'type' => ResourceType::class,
+        'site' => ResourceSite::class,
     ];
 
     /**
      * @var array
      */
     protected $casts = [
-        'type' => 'int',
+        'site' => 'int',
     ];
 
     /**
@@ -65,7 +65,7 @@ class ExternalResource extends Model implements Auditable
         'resource_id',
         'created_at',
         'updated_at',
-        'type',
+        'site',
         'link',
         'external_id',
     ];

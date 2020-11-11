@@ -2,11 +2,11 @@
 
 namespace App\Nova\Filters;
 
-use App\Enums\ResourceType;
+use App\Enums\VideoSource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
-class ExternalResourceTypeFilter extends Filter
+class VideoSourceFilter extends Filter
 {
     /**
      * The filter's component.
@@ -22,7 +22,7 @@ class ExternalResourceTypeFilter extends Filter
      */
     public function name()
     {
-        return __('nova.type');
+        return __('nova.source');
     }
 
     /**
@@ -35,7 +35,7 @@ class ExternalResourceTypeFilter extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->where('type', $value);
+        return $query->where('source', $value);
     }
 
     /**
@@ -46,6 +46,6 @@ class ExternalResourceTypeFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(ResourceType::asSelectArray());
+        return array_flip(VideoSource::asSelectArray());
     }
 }

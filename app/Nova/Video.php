@@ -2,8 +2,8 @@
 
 namespace App\Nova;
 
-use App\Enums\OverlapType;
-use App\Enums\SourceType;
+use App\Enums\VideoOverlap;
+use App\Enums\VideoSource;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
@@ -115,7 +115,7 @@ class Video extends Resource
                 ->help(__('nova.video_uncen_help')),
 
             Select::make(__('nova.overlap'), 'overlap')
-                ->options(OverlapType::asSelectArray())
+                ->options(VideoOverlap::asSelectArray())
                 ->resolveUsing(function ($enum) {
                     return $enum ? $enum->value : null;
                 })
@@ -123,11 +123,11 @@ class Video extends Resource
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('nullable', new EnumValue(OverlapType::class, false))
+                ->rules('nullable', new EnumValue(VideoOverlap::class, false))
                 ->help(__('nova.video_overlap_help')),
 
             Select::make(__('nova.source'), 'source')
-                ->options(SourceType::asSelectArray())
+                ->options(VideoSource::asSelectArray())
                 ->resolveUsing(function ($enum) {
                     return $enum ? $enum->value : null;
                 })
@@ -135,7 +135,7 @@ class Video extends Resource
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('nullable', new EnumValue(SourceType::class, false))
+                ->rules('nullable', new EnumValue(VideoSource::class, false))
                 ->help(__('nova.video_source_help')),
 
             BelongsToMany::make(__('nova.entries'), 'Entries', Entry::class)
@@ -211,7 +211,7 @@ class Video extends Resource
             new Filters\VideoLyricsFilter,
             new Filters\VideoUncenFilter,
             new Filters\VideoOverlapFilter,
-            new Filters\VideoSourceTypeFilter,
+            new Filters\VideoSourceFilter,
             new Filters\VideoTypeFilter,
             new Filters\RecentlyCreatedFilter,
             new Filters\RecentlyUpdatedFilter,

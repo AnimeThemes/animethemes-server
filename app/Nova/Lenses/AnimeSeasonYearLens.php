@@ -2,7 +2,7 @@
 
 namespace App\Nova\Lenses;
 
-use App\Enums\Season;
+use App\Enums\AnimeSeason;
 use App\Models\Anime;
 use App\Nova\Filters\AnimeYearFilter;
 use App\Nova\Filters\RecentlyCreatedFilter;
@@ -61,7 +61,7 @@ class AnimeSeasonYearLens extends Lens
                 ->sortable(),
 
             Select::make(__('nova.season'), 'season')
-                ->options(Season::asSelectArray())
+                ->options(AnimeSeason::asSelectArray())
                 ->resolveUsing(function ($enum) {
                     return $enum ? $enum->value : null;
                 })

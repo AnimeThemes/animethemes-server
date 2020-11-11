@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\Season;
+use App\Enums\AnimeSeason;
 use App\Models\Anime;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -27,7 +27,7 @@ class AnimeFactory extends Factory
             'slug' => Str::slug($this->faker->words(3, true), '_'),
             'name' => $this->faker->words(3, true),
             'year' => $this->faker->year,
-            'season' => Season::getRandomValue(),
+            'season' => AnimeSeason::getRandomValue(),
             'synopsis' => $this->faker->text,
             'cover' => Str::random(40).'.png',
         ];

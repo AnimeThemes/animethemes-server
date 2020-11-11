@@ -85,6 +85,7 @@ class Announcement extends Resource
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
             Code::make(__('nova.content'), 'content')
+                ->showOnIndex()
                 ->sortable()
                 ->rules('required', 'max:65535')
                 ->options(['theme' => 'base16-light']),

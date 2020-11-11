@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\Season;
+use App\Enums\AnimeSeason;
 use App\ScoutElastic\AnimeIndexConfigurator;
 use App\ScoutElastic\AnimeSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
@@ -93,7 +93,7 @@ class Anime extends Model implements Auditable
      * @var array
      */
     protected $enumCasts = [
-        'season' => Season::class,
+        'season' => AnimeSeason::class,
     ];
 
     /**
