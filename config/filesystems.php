@@ -70,6 +70,7 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'endpoint' => env('AWS_ENDPOINT'),
             'stream_reads' => env('AWS_STREAM_READS'),
+            'disable_asserts' => true,
         ],
 
     ],
