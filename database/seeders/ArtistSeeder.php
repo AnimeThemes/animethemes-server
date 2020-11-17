@@ -55,11 +55,13 @@ class ArtistSeeder extends Seeder
             // Format: "##[{Artist Name}]({Resource Link})"
             preg_match('/##\[.*\]\((https\:\/\/.*)\)/m', $artist_resource_wiki_content_md, $artist_resource_entry);
             $artist_resource_link = html_entity_decode($artist_resource_entry[1]);
+            preg_match('/([0-9]+)/', $artist_resource_link, $external_id);
 
             // Create Resource Model with link and derived site
             $resource = ExternalResource::create([
                 'site' => ResourceSite::valueOf($artist_resource_link),
                 'link' => $artist_resource_link,
+                'external_id' => intval($external_id[1]),
             ]);
 
             // Attach Artist to Resource

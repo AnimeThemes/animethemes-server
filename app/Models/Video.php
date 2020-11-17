@@ -20,7 +20,7 @@ class Video extends Model implements Auditable
     /**
      * @var array
      */
-    protected $fillable = ['basename', 'filename', 'path'];
+    protected $fillable = ['basename', 'filename', 'path', 'size'];
 
     /**
      * The table associated with the model.
@@ -219,6 +219,7 @@ class Video extends Model implements Auditable
         'updated_at',
         'filename',
         'path',
+        'size',
         'basename',
         'resolution',
         'nc',

@@ -379,6 +379,7 @@ CREATE TABLE `video` (
   `basename` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `filename` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `path` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `size` int(11) DEFAULT NULL,
   `resolution` int(11) DEFAULT NULL,
   `nc` tinyint(1) NOT NULL DEFAULT 0,
   `subbed` tinyint(1) NOT NULL DEFAULT 0,

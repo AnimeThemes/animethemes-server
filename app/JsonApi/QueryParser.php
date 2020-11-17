@@ -325,6 +325,7 @@ class QueryParser
     /**
      * The validated include paths used to eager load relations.
      *
+     * @param array $allowedIncludePaths
      * @return array
      */
     public function getIncludePaths($allowedIncludePaths)

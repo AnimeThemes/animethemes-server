@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AnimeSeeder::class);
         $this->call(AnimeResourceSeeder::class);
         $this->call(AnimeSeasonSeeder::class);
+        $this->call(MalSeasonYearSeeder::class);
         $this->call(AnimeThemeSeeder::class);
         $this->call(ArtistSeeder::class);
         $this->call(SeriesSeeder::class);

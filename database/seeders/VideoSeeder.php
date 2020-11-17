@@ -27,6 +27,7 @@ class VideoSeeder extends Seeder
                     'basename' => $file['basename'],
                     'filename' => $file['filename'],
                     'path' => $file['path'],
+                    'size' => $file['size'],
                 ]);
             }
         }

@@ -138,6 +138,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | MAL Bearer Token
+    |--------------------------------------------------------------------------
+    |
+    | Bearer HTTP authentication scheme token used for MAL API calls.
+    | Needed for seeding purposes.
+    |
+    */
+
+    'mal_bearer_token' => env('MAL_BEARER_TOKEN', null),
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |

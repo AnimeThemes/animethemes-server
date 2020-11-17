@@ -8,6 +8,11 @@ use App\Models\Video;
 
 class WelcomeController extends Controller
 {
+    /**
+     * Displays home page.
+     *
+     * @return  \Illuminate\View\View
+     */
     public function do()
     {
         // View Data

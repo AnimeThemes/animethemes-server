@@ -688,19 +688,19 @@
                         "example": "include=anime"
                     },
                     {
-                        "name": "type",
+                        "name": "site",
                         "in": "query",
-                        "description": "Filter resources by type. Case-insensitive options are OFFICIAL_SITE, TWITTER, ANIDB, ANILIST, ANIME_PLANET, ANN, KITSU, MAL & WIKI.",
+                        "description": "Filter resources by site. Case-insensitive options are OFFICIAL_SITE, TWITTER, ANIDB, ANILIST, ANIME_PLANET, ANN, KITSU, MAL & WIKI.",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "filter[type]=MAL"
+                        "example": "filter[site]=MAL"
                     },
                     {
                         "name": "sort",
                         "in": "query",
-                        "description": "Sort external resource collection by fields. Case-insensitive options are resource_id, created_at, updated_at, type, link & external_id.",
+                        "description": "Sort external resource collection by fields. Case-insensitive options are resource_id, created_at, updated_at, site, link & external_id.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -735,7 +735,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "fields[entry]=link,external_id"
+                        "example": "fields[resource]=link,external_id"
                     }
                 ],
                 "responses": {
@@ -1450,7 +1450,7 @@
                     {
                         "name": "sort",
                         "in": "query",
-                        "description": "Sort video resource collection by fields. Case-insensitive options are video_id, created_at, updated_at, filename, path, basename, resolution, nc, subbed, lyrics, uncen, source & overlap.",
+                        "description": "Sort video resource collection by fields. Case-insensitive options are video_id, created_at, updated_at, filename, path, size, basename, resolution, nc, subbed, lyrics, uncen, source & overlap.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -3583,6 +3583,11 @@
                         "description": "The path of the Video in storage",
                         "type": "string",
                         "example": "2009/Summer/Bakemonogatari-OP1.webm"
+                    },
+                    "size": {
+                        "description": "The size of the Video in storage",
+                        "type": "integer",
+                        "example": 3196511
                     },
                     "resolution": {
                         "description": "Frame height of the video",
