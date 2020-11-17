@@ -24,6 +24,7 @@ abstract class BaseResource extends JsonResource
      * Create a new resource instance.
      *
      * @param  mixed  $resource
+     * @param \App\JsonApi\QueryParser $parser
      * @return void
      */
     public function __construct($resource, $parser)

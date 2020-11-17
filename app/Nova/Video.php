@@ -162,6 +162,10 @@ class Video extends Resource
             Text::make(__('nova.path'), 'path')
                 ->hideFromIndex()
                 ->readonly(),
+
+            Number::make(__('nova.size'), 'size')
+                ->hideFromIndex()
+                ->readonly(),
         ];
     }
 

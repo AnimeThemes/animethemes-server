@@ -94,7 +94,7 @@ class VideoController extends BaseController
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         description="Sort video resource collection by fields. Case-insensitive options are video_id, created_at, updated_at, filename, path, basename, resolution, nc, subbed, lyrics, uncen, source & overlap.",
+     *         description="Sort video resource collection by fields. Case-insensitive options are video_id, created_at, updated_at, filename, path, size, basename, resolution, nc, subbed, lyrics, uncen, source & overlap.",
      *         example="sort=filename,-updated_at",
      *         name="sort",
      *         in="query",

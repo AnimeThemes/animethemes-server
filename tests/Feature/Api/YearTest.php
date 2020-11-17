@@ -14,7 +14,7 @@ class YearTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * The Year Index Endpoint shall display a list of unique years of anime
+     * The Year Index Endpoint shall display a list of unique years of anime.
      *
      * @return void
      */
@@ -32,7 +32,7 @@ class YearTest extends TestCase
     }
 
     /**
-     * The Year Index Endpoint shall display a listing of anime of year by season
+     * The Year Index Endpoint shall display a listing of anime of year by season.
      *
      * @return void
      */
@@ -71,22 +71,18 @@ class YearTest extends TestCase
         $response = $this->get(route('api.year.show', ['year' => $year]));
 
         $response->assertJson([
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::FALL)) =>
-                $fall_anime->sortBy('name')->values()->map(function ($anime) {
-                    return AnimeTest::getData($anime);
-                })->toArray(),
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::SPRING)) =>
-                $spring_anime->sortBy('name')->values()->map(function ($anime) {
-                    return AnimeTest::getData($anime);
-                })->toArray(),
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::SUMMER)) =>
-                $summer_anime->sortBy('name')->values()->map(function ($anime) {
-                    return AnimeTest::getData($anime);
-                })->toArray(),
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::WINTER)) =>
-                $winter_anime->sortBy('name')->values()->map(function ($anime) {
-                    return AnimeTest::getData($anime);
-                })->toArray(),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::FALL)) => $fall_anime->sortBy('name')->values()->map(function ($anime) {
+                return AnimeTest::getData($anime);
+            })->toArray(),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::SPRING)) => $spring_anime->sortBy('name')->values()->map(function ($anime) {
+                return AnimeTest::getData($anime);
+            })->toArray(),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::SUMMER)) => $summer_anime->sortBy('name')->values()->map(function ($anime) {
+                return AnimeTest::getData($anime);
+            })->toArray(),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::WINTER)) => $winter_anime->sortBy('name')->values()->map(function ($anime) {
+                return AnimeTest::getData($anime);
+            })->toArray(),
         ]);
     }
 }

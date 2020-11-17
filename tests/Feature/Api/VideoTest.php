@@ -81,6 +81,7 @@ class VideoTest extends TestCase
             'basename' => $video->basename,
             'filename' => $video->filename,
             'path' => $video->path,
+            'size' => $video->size,
             'resolution' => $video->resolution,
             'nc' => $video->nc,
             'subbed' => $video->subbed,

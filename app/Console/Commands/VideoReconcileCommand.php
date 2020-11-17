@@ -41,6 +41,20 @@ class VideoReconcileCommand extends Command
     private $deleted_failed = 0;
 
     /**
+     * The number of videos updated.
+     *
+     * @var int
+     */
+    private $updated = 0;
+
+    /**
+     * The number of videos whose update failed.
+     *
+     * @var int
+     */
+    private $updated_failed = 0;
+
+    /**
      * The name and signature of the console command.
      *
      * @var string
@@ -74,27 +88,29 @@ class VideoReconcileCommand extends Command
         try {
             // Get metadata for all objects in storage
             $fs = Storage::disk('spaces');
-            $files = $fs->listContents('', true);
+            $fs_videos = collect($fs->listContents('', true));
 
             // Filter all objects for WebM metadata
             // We don't want to filter on the remote filesystem for performance concerns
-            $files = array_filter($files, function ($fs_file) {
+            $fs_videos = $fs_videos->filter(function ($fs_file) {
                 return $fs_file['type'] === 'file' && $fs_file['extension'] === 'webm';
             });
 
             // Create videos from metadata that we can later save if needed
-            $fs_videos = array_map(function ($file) {
+            $fs_videos = $fs_videos->map(function ($fs_file) {
                 $fs_video = new Video;
-                $fs_video->fill($file);
+                $fs_video->fill($fs_file);
 
                 return $fs_video;
-            }, $files);
+            });
 
-            // Existing videos as array
-            $db_videos = Video::all()->all();
+            // Existing videos
+            $db_videos = Video::all();
 
             // Create videos that exist in storage but not in the database
-            $create_videos = array_udiff($fs_videos, $db_videos, [static::class, 'compareVideos']);
+            $create_videos = $fs_videos->diffUsing($db_videos, function ($a, $b) {
+                return static::compareVideos($a, $b);
+            });
             foreach ($create_videos as $create_video) {
                 $create_result = $create_video->save();
                 if ($create_result) {
@@ -109,7 +125,9 @@ class VideoReconcileCommand extends Command
             }
 
             // Delete videos that no longer exist in storage
-            $delete_videos = array_udiff($db_videos, $fs_videos, [static::class, 'compareVideos']);
+            $delete_videos = $db_videos->diffUsing($fs_videos, function ($a, $b) {
+                return static::compareVideos($a, $b);
+            });
             foreach ($delete_videos as $delete_video) {
                 $delete_result = $delete_video->delete();
                 if ($delete_result) {
@@ -120,6 +138,29 @@ class VideoReconcileCommand extends Command
                     $this->deleted_failed++;
                     Log::error("Video '{$delete_video->basename}' was not deleted");
                     $this->error("Video '{$delete_video->basename}' was not deleted");
+                }
+            }
+
+            // Existing videos (again)
+            $db_videos = Video::all();
+
+            // Update videos that have been changed
+            $updated_videos = $db_videos->diffUsing($fs_videos, function ($a, $b) {
+                return static::compareUpdatedVideos($a, $b);
+            });
+            foreach ($updated_videos as $updated_video) {
+                $fs_video = $fs_videos->firstWhere('basename', $updated_video->basename);
+                if (! is_null($fs_video)) {
+                    $update_result = $updated_video->update($fs_video->toArray());
+                    if ($update_result) {
+                        $this->updated++;
+                        Log::info("Video '{$updated_video->basename}' updated");
+                        $this->info("Video '{$updated_video->basename}' updated");
+                    } else {
+                        $this->updated_failed++;
+                        Log::error("Video '{$updated_video->basename}' was not updated");
+                        $this->error("Video '{$updated_video->basename}' was not updated");
+                    }
                 }
             }
         } catch (S3Exception $exception) {
@@ -152,7 +193,30 @@ class VideoReconcileCommand extends Command
      */
     private static function reconciliationString(Video $video)
     {
-        return "basename:{$video->basename},filename:{$video->filename},path:{$video->path}";
+        return "basename:{$video->basename},filename:{$video->filename}";
+    }
+
+    /**
+     * Callback for video update comparison in set operation.
+     *
+     * @param \App\Models\Video $a
+     * @param \App\Models\Video $b
+     * @return int
+     */
+    private static function compareUpdatedVideos(Video $a, Video $b)
+    {
+        return strcmp(static::updateString($a), static::updateString($b));
+    }
+
+    /**
+     * Represent video with attributes that correspond to WebM metadata that pertain to "updates"
+     *
+     * @param \App\Models\Video $video
+     * @return string
+     */
+    private static function updateString(Video $video)
+    {
+        return "basename:{$video->basename},filename:{$video->filename},path:{$video->path},size:{$video->size}";
     }
 
     // Reconciliation Results
@@ -174,7 +238,7 @@ class VideoReconcileCommand extends Command
      */
     private function hasChanges()
     {
-        return $this->created > 0 || $this->deleted > 0;
+        return $this->created > 0 || $this->deleted > 0 || $this->updated > 0;
     }
 
     /**
@@ -184,7 +248,7 @@ class VideoReconcileCommand extends Command
      */
     private function hasFailures()
     {
-        return $this->created_failed > 0 || $this->deleted_failed > 0;
+        return $this->created_failed > 0 || $this->deleted_failed > 0 || $this->updated_failed;
     }
 
     /**
@@ -196,16 +260,16 @@ class VideoReconcileCommand extends Command
     {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
-                Log::info("{$this->created} Videos created, {$this->deleted} Videos deleted");
-                $this->info("{$this->created} Videos created, {$this->deleted} Videos deleted");
+                Log::info("{$this->created} Videos created, {$this->deleted} Videos deleted, {$this->updated} Videos updated");
+                $this->info("{$this->created} Videos created, {$this->deleted} Videos deleted, {$this->updated} Videos updated");
             }
             if ($this->hasFailures()) {
-                Log::error("Failed to create {$this->created_failed} Videos, delete {$this->deleted_failed} Videos");
-                $this->error("Failed to create {$this->created_failed} Videos, delete {$this->deleted_failed} Videos");
+                Log::error("Failed to create {$this->created_failed} Videos, delete {$this->deleted_failed} Videos, update {$this->updated_failed} Videos");
+                $this->error("Failed to create {$this->created_failed} Videos, delete {$this->deleted_failed} Videos, update {$this->updated_failed} Videos");
             }
         } else {
-            Log::info('No Videos created or deleted');
-            $this->info('No Videos created or deleted');
+            Log::info('No Videos created or deleted or updated');
+            $this->info('No Videos created or deleted or updated');
         }
     }
 }

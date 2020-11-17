@@ -23,7 +23,7 @@ class VideoReconcileTest extends TestCase
     {
         Storage::fake('spaces');
 
-        $this->artisan('reconcile:video')->expectsOutput('No Videos created or deleted');
+        $this->artisan('reconcile:video')->expectsOutput('No Videos created or deleted or updated');
     }
 
     /**
@@ -38,7 +38,7 @@ class VideoReconcileTest extends TestCase
 
         $fs->makeDirectory($this->faker->word());
 
-        $this->artisan('reconcile:video')->expectsOutput('No Videos created or deleted');
+        $this->artisan('reconcile:video')->expectsOutput('No Videos created or deleted or updated');
     }
 
     /**
@@ -54,7 +54,7 @@ class VideoReconcileTest extends TestCase
         $file = File::fake()->image($this->faker->word());
         $fs->put('', $file);
 
-        $this->artisan('reconcile:video')->expectsOutput('No Videos created or deleted');
+        $this->artisan('reconcile:video')->expectsOutput('No Videos created or deleted or updated');
     }
 
     /**
@@ -73,7 +73,7 @@ class VideoReconcileTest extends TestCase
             $fs->put('', $file);
         });
 
-        $this->artisan('reconcile:video')->expectsOutput("{$created_video_count} Videos created, 0 Videos deleted");
+        $this->artisan('reconcile:video')->expectsOutput("{$created_video_count} Videos created, 0 Videos deleted, 0 Videos updated");
     }
 
     /**
@@ -88,6 +88,6 @@ class VideoReconcileTest extends TestCase
 
         Storage::fake('spaces');
 
-        $this->artisan('reconcile:video')->expectsOutput("0 Videos created, {$created_video_count} Videos deleted");
+        $this->artisan('reconcile:video')->expectsOutput("0 Videos created, {$created_video_count} Videos deleted, 0 Videos updated");
     }
 }

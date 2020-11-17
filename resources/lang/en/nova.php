@@ -94,6 +94,7 @@ return [
     'series_slug_help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "monogatari", "code_geass", "danmachi".',
     'series' => 'Series',
     'site' => 'Site',
+    'size' => 'Size',
     'slug' => 'Slug',
     'song_artist_lens' => 'Songs Without Artists',
     'song_by_subtitle' => 'By: :by',
