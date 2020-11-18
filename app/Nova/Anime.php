@@ -233,8 +233,6 @@ class Anime extends Resource
             new Lenses\AnimeAnnResourceLens,
             new Lenses\AnimeKitsuResourceLens,
             new Lenses\AnimeMalResourceLens,
-            new Lenses\AnimeSeasonYearLens,
-            new Lenses\AnimeThemeLens,
         ];
     }
 

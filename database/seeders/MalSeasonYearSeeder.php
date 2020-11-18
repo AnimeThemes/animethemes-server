@@ -35,7 +35,7 @@ class MalSeasonYearSeeder extends Seeder
                 $client = new Client;
                 $response = $client->get("https://api.myanimelist.net/v2/anime/{$mal_resource->external_id}?fields=start_season", [
                     'headers' => [
-                        'Authorization' => 'Bearer ' . Config::get('app.mal_bearer_token'),
+                        'Authorization' => 'Bearer '.Config::get('app.mal_bearer_token'),
                     ],
                 ]);
                 $mal_resource_json = json_decode($response->getBody()->getContents());

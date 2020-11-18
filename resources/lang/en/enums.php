@@ -10,10 +10,10 @@ use App\Enums\VideoSource;
 
 return [
     AnimeSeason::class => [
-        AnimeSeason::FALL => 'Fall',
-        AnimeSeason::SUMMER => 'Summer',
-        AnimeSeason::SPRING => 'Spring',
         AnimeSeason::WINTER => 'Winter',
+        AnimeSeason::SPRING => 'Spring',
+        AnimeSeason::SUMMER => 'Summer',
+        AnimeSeason::FALL => 'Fall',
     ],
     InvitationStatus::class => [
         InvitationStatus::OPEN => 'Open',

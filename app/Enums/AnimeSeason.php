@@ -7,8 +7,8 @@ use BenSampo\Enum\Enum;
 
 final class AnimeSeason extends Enum implements LocalizedEnum
 {
-    const FALL = 0;
-    const SUMMER = 1;
-    const SPRING = 2;
-    const WINTER = 3;
+    const WINTER = 0;
+    const SPRING = 1;
+    const SUMMER = 2;
+    const FALL = 3;
 }

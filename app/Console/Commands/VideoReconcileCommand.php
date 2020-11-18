@@ -209,7 +209,7 @@ class VideoReconcileCommand extends Command
     }
 
     /**
-     * Represent video with attributes that correspond to WebM metadata that pertain to "updates"
+     * Represent video with attributes that correspond to WebM metadata that pertain to "updates".
      *
      * @param \App\Models\Video $video
      * @return string

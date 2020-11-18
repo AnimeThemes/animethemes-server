@@ -8,7 +8,6 @@ return [
     'anime_name_help' => 'The display title of the Anime. By default, we will use the same title as MAL. Ex: "Bakemonogatari", "Code Geass: Hangyaku no Lelouch", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',
     'anime_resource_lens' => 'Anime Without :site Resource',
     'anime_season_help' => 'The Season in which the Anime premiered. By default, we will use the Premiered Field on the MAL page.',
-    'anime_season_year_lens' => 'Anime With Unresolved Year & Season',
     'anime_slug_help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "monogatari", "code_geass", "danmachi".',
     'anime_synopsis_help' => 'The brief description of the Anime',
     'anime_theme_lens' => 'Anime Without Themes',

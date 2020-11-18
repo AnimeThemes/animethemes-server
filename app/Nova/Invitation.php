@@ -7,9 +7,11 @@ use App\Enums\UserRole;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
 
 class Invitation extends Resource
 {
@@ -77,6 +79,8 @@ class Invitation extends Resource
         return [
             ID::make(__('nova.id'), 'invitation_id')->sortable(),
 
+            new Panel(__('nova.timestamps'), $this->timestamps()),
+
             Text::make(__('nova.name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:255', 'alpha_dash'),
@@ -85,9 +89,9 @@ class Invitation extends Resource
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:invitation,email')
-                ->updateRules('unique:invitation,email,{{resourceId}}'),
+                ->updateRules('unique:invitation,email,{{resourceId}},invitation_id'),
 
-            Select::make(__('nova.site'), 'site')
+            Select::make(__('nova.role'), 'role')
                 ->options(UserRole::asSelectArray())
                 ->resolveUsing(function ($enum) {
                     return $enum ? $enum->value : null;
@@ -111,6 +115,24 @@ class Invitation extends Resource
                 ->rules('required', new EnumValue(InvitationStatus::class, false)),
 
             AuditableLog::make(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function timestamps()
+    {
+        return [
+            DateTime::make(__('nova.created_at'), 'created_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            DateTime::make(__('nova.updated_at'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
         ];
     }
 
