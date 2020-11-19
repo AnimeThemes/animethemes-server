@@ -78,7 +78,11 @@ class YearController extends BaseController
 
         $anime = $anime->groupBy(function ($item) {
             return Str::lower(AnimeSeason::getDescription($item->season));
-        })->sortKeys();
+        });
+
+        $anime = $anime->sortBy(function ($season_anime, $season_key) {
+            return AnimeSeason::getValue(Str::upper($season_key));
+        });
 
         return new JsonResponse($anime);
     }
