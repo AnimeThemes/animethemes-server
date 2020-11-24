@@ -2,9 +2,9 @@ name: tests
 
 on:
   push:
-    branches: [ wiki ]
+    branches: [ '**' ]
   pull_request:
-    branches: [ wiki ]
+    branches: [ '**' ]
 
 jobs:
   laravel-tests:

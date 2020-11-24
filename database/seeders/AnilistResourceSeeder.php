@@ -1,0 +1,89 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Enums\ResourceSite;
+use App\Models\Anime;
+use App\Models\ExternalResource;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Log;
+
+class AnilistResourceSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        // Get anime that have MAL resource but do not have Anilist resource
+        $animes = Anime::whereHas('externalResources', function ($resource_query) {
+            $resource_query->where('site', ResourceSite::MAL);
+        })->whereDoesntHave('externalResources', function ($resource_query) {
+            $resource_query->where('site', ResourceSite::ANILIST);
+        })
+        ->get();
+
+        foreach ($animes as $anime) {
+            $mal_resource = $anime->externalResources->firstWhere('site', strval(ResourceSite::MAL));
+            if (! is_null(optional($mal_resource)->external_id)) {
+
+                // Try not to upset Anilist
+                sleep(rand(5, 15));
+
+                // Anilist graphql query
+                $query = '
+                query ($id: Int) {
+                    Media (idMal: $id, type: ANIME) {
+                        id
+                    }
+                }
+                ';
+
+                // Anilist graphql variables
+                $variables = [
+                    'id' => $mal_resource->external_id,
+                ];
+
+                // Anilist graphql api call
+                try {
+                    $client = new Client;
+                    $response = $client->post('https://graphql.anilist.co', [
+                        'json' => [
+                            'query' => $query,
+                            'variables' => $variables,
+                        ],
+                    ]);
+                    $anilist_resource_json = json_decode($response->getBody()->getContents());
+                    $anilist_id = $anilist_resource_json->data->Media->id;
+
+                    // Check if Anilist resource already exists
+                    $anilist_resource = ExternalResource::where('site', ResourceSite::ANILIST)->where('external_id', $anilist_id)->first();
+
+                    // Create Anilist resource if it doesn't already exist
+                    if (is_null($anilist_resource)) {
+                        $anilist_resource = ExternalResource::create([
+                            'site' => ResourceSite::ANILIST,
+                            'link' => "https://anilist.co/anime/{$anilist_id}/",
+                            'external_id' => $anilist_id,
+                        ]);
+                    }
+
+                    // Attach Anilist resource to anime
+                    $anilist_resource->anime()->syncWithoutDetaching($anime);
+                } catch (ClientException $e) {
+                    // We may not have a match for this MAL resource
+                    Log::info($e->getMessage());
+                } catch (ServerException $e) {
+                    // We may have upset Anilist
+                    Log::info($e->getMessage());
+                    abort(500);
+                }
+            }
+        }
+    }
+}
