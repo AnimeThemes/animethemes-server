@@ -9,6 +9,7 @@ use App\Models\Synonym;
 use App\Models\Theme;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class AnimeTest extends TestCase
@@ -143,6 +144,8 @@ class AnimeTest extends TestCase
             'slug' => $anime->slug,
             'year' => $anime->year,
             'season' => strval(optional($anime->season)->description),
+            'synopsis' => $anime->synopsis,
+            'cover' => Storage::disk('covers')->url($anime->cover),
             'created_at' => $anime->created_at->toJSON(),
             'updated_at' => $anime->updated_at->toJSON(),
         ];

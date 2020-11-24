@@ -35,6 +35,7 @@ class VideoFactory extends Factory
             'basename' => $fs_pathinfo['basename'],
             'filename' => $fs_pathinfo['filename'],
             'path' => $fs_file,
+            'size' => $this->faker->randomNumber(),
             'resolution' => $this->faker->randomNumber(),
             'nc' => $this->faker->boolean,
             'subbed' => $this->faker->boolean,
