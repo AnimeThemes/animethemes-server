@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Controllers\Api\ExternalResourceController;
-use Spatie\ResourceLinks\HasLinks;
-
 /**
  * @OA\Schema(
  *     title="Resource",
@@ -31,8 +28,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class ExternalResourceResource extends BaseResource
 {
-    use HasLinks;
-
     /**
      * The "data" wrapper that should be applied.
      *
@@ -69,7 +64,6 @@ class ExternalResourceResource extends BaseResource
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->parser),
             'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->parser),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(ExternalResourceController::class)),
         ];
     }
 }

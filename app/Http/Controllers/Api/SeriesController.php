@@ -19,7 +19,7 @@ class SeriesController extends BaseController
      *     summary="Get paginated listing of Series",
      *     description="Returns listing of Series",
      *     @OA\Parameter(
-     *         description="Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists & anime.externalResources.",
+     *         description="Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists, anime.externalResources & anime.images.",
      *         example="include=anime.synonyms,anime.themes",
      *         name="include",
      *         in="query",
@@ -97,7 +97,7 @@ class SeriesController extends BaseController
      *     summary="Get properties of Series",
      *     description="Returns properties of Series",
      *     @OA\Parameter(
-     *         description="Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists & anime.externalResources.",
+     *         description="Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists, anime.externalResources & anime.images.",
      *         example="include=anime.synonyms,anime.themes",
      *         name="include",
      *         in="query",

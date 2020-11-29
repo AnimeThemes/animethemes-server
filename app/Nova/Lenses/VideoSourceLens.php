@@ -2,7 +2,6 @@
 
 namespace App\Nova\Lenses;
 
-use App\Models\Video;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
 use App\Nova\Filters\VideoTypeFilter;
@@ -35,7 +34,9 @@ class VideoSourceLens extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return Video::whereNull('source');
+        return $request->withOrdering($request->withFilters(
+            $query->whereNull('source')
+        ));
     }
 
     /**

@@ -19,7 +19,7 @@ class Anime extends Model implements Auditable
     /**
      * @var array
      */
-    protected $fillable = ['slug', 'name', 'year', 'season', 'synopsis', 'cover'];
+    protected $fillable = ['slug', 'name', 'year', 'season', 'synopsis'];
 
     /**
      * The table associated with the model.
@@ -117,6 +117,7 @@ class Anime extends Model implements Auditable
         'themes.song',
         'themes.song.artists',
         'externalResources',
+        'images',
     ];
 
     /**
@@ -172,5 +173,15 @@ class Anime extends Model implements Auditable
     public function externalResources()
     {
         return $this->belongsToMany('App\Models\ExternalResource', 'anime_resource', 'anime_id', 'resource_id')->withPivot('as');
+    }
+
+    /**
+     * Get the images for the anime.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function images()
+    {
+        return $this->belongsToMany('App\Models\Image', 'anime_image', 'anime_id', 'image_id');
     }
 }

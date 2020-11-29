@@ -2,7 +2,6 @@
 
 namespace App\Nova\Lenses;
 
-use App\Models\Artist;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
 use Illuminate\Http\Request;
@@ -32,7 +31,9 @@ class ArtistSongLens extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return Artist::whereDoesntHave('songs');
+        return $request->withOrdering($request->withFilters(
+            $query->whereDoesntHave('songs')
+        ));
     }
 
     /**

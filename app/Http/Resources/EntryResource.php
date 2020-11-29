@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Controllers\Api\EntryController;
-use Spatie\ResourceLinks\HasLinks;
-
 /**
  * @OA\Schema(
  *     title="Entry",
@@ -56,8 +53,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class EntryResource extends BaseResource
 {
-    use HasLinks;
-
     /**
      * The "data" wrapper that should be applied.
      *
@@ -92,7 +87,6 @@ class EntryResource extends BaseResource
             'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->parser),
             'theme' => ThemeResource::make($this->whenLoaded('theme'), $this->parser),
             'videos' => VideoCollection::make($this->whenLoaded('videos'), $this->parser),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(EntryController::class)),
         ];
     }
 }

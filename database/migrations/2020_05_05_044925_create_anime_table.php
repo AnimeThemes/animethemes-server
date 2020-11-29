@@ -21,7 +21,6 @@ class CreateAnimeTable extends Migration
             $table->integer('year')->nullable();
             $table->integer('season')->nullable();
             $table->text('synopsis')->nullable();
-            $table->string('cover')->nullable();
         });
     }
 

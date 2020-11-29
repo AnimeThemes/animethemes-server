@@ -19,7 +19,7 @@ class ArtistController extends BaseController
      *     summary="Get paginated listing of Artists",
      *     description="Returns listing of Artists",
      *     @OA\Parameter(
-     *         description="Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups & externalResources.",
+     *         description="Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups, externalResources & images.",
      *         example="include=songs,members",
      *         name="include",
      *         in="query",
@@ -97,7 +97,7 @@ class ArtistController extends BaseController
      *     summary="Get properties of Artist",
      *     description="Returns properties of Artist",
      *     @OA\Parameter(
-     *         description="Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups & externalResources.",
+     *         description="Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups, externalResources & images.",
      *         example="include=songs,members",
      *         name="include",
      *         in="query",

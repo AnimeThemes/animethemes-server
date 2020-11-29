@@ -108,9 +108,6 @@ class User extends Resource
 
             Select::make(__('nova.role'), 'role')
                 ->options(UserRole::asSelectArray())
-                ->resolveUsing(function ($enum) {
-                    return $enum ? $enum->value : null;
-                })
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })

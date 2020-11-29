@@ -13,7 +13,6 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -125,9 +124,6 @@ class Anime extends Resource
 
             Select::make(__('nova.season'), 'season')
                 ->options(AnimeSeason::asSelectArray())
-                ->resolveUsing(function ($enum) {
-                    return $enum ? $enum->value : null;
-                })
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })
@@ -139,15 +135,13 @@ class Anime extends Resource
                 ->rules('max:65535')
                 ->help(__('nova.anime_synopsis_help')),
 
-            Image::make(__('nova.cover'), 'cover')
-                ->disk('covers')
-                ->help(__('nova.anime_cover_help')),
-
             NestedForm::make(__('nova.synonyms'), 'Synonyms', Synonym::class),
 
             NestedForm::make(__('nova.themes'), 'Themes', Theme::class),
 
             NestedForm::make(__('nova.external_resources'), 'ExternalResources', ExternalResource::class),
+
+            NestedForm::make(__('nova.images'), 'Images', Image::class),
 
             HasMany::make(__('nova.synonyms'), 'Synonyms', Synonym::class),
 
@@ -165,6 +159,9 @@ class Anime extends Resource
                             ->help(__('nova.resource_as_help')),
                     ];
                 }),
+
+            BelongsToMany::make(__('nova.images'), 'Images', Image::class)
+                ->searchable(),
 
             AuditableLog::make(),
         ];
@@ -229,6 +226,8 @@ class Anime extends Resource
         return [
             new Lenses\AnimeAniDbResourceLens,
             new Lenses\AnimeAnilistResourceLens,
+            new Lenses\AnimeCoverLargeLens,
+            new Lenses\AnimeCoverSmallLens,
             new Lenses\AnimePlanetResourceLens,
             new Lenses\AnimeAnnResourceLens,
             new Lenses\AnimeKitsuResourceLens,

@@ -33,7 +33,6 @@
         "paranarimasu/nova-nested-form": "dev-master",
         "sfelix-martins/json-exception-handler": "^2.3",
         "spatie/laravel-json-api-paginate": "^1.9",
-        "spatie/laravel-resource-links": "^1.1",
         "staudenmeir/belongs-to-through": "^2.11"
     },
     "require-dev": {

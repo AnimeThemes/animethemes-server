@@ -87,9 +87,6 @@ class ExternalResource extends Resource
 
             Select::make(__('nova.site'), 'site')
                 ->options(ResourceSite::asSelectArray())
-                ->resolveUsing(function ($enum) {
-                    return $enum ? $enum->value : null;
-                })
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })

@@ -3,7 +3,6 @@
 namespace App\Nova\Lenses;
 
 use App\Enums\ResourceSite;
-use App\Models\Artist;
 use App\Nova\Actions\CreateExternalResourceSiteForArtistAction;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
@@ -34,9 +33,11 @@ class ArtistAnilistResourceLens extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return Artist::whereDoesntHave('externalResources', function ($resource_query) {
-            $resource_query->where('site', ResourceSite::ANILIST);
-        });
+        return $request->withOrdering($request->withFilters(
+            $query->whereDoesntHave('externalResources', function ($resource_query) {
+                $resource_query->where('site', ResourceSite::ANILIST);
+            })
+        ));
     }
 
     /**

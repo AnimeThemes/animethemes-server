@@ -93,9 +93,6 @@ class Theme extends Resource
 
             Select::make(__('nova.type'), 'type')
                 ->options(ThemeType::asSelectArray())
-                ->resolveUsing(function ($enum) {
-                    return $enum ? $enum->value : null;
-                })
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })

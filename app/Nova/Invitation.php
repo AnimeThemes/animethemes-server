@@ -93,9 +93,6 @@ class Invitation extends Resource
 
             Select::make(__('nova.role'), 'role')
                 ->options(UserRole::asSelectArray())
-                ->resolveUsing(function ($enum) {
-                    return $enum ? $enum->value : null;
-                })
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })
@@ -105,9 +102,6 @@ class Invitation extends Resource
             Select::make(__('nova.status'), 'status')
                 ->hideWhenCreating()
                 ->options(InvitationStatus::asSelectArray())
-                ->resolveUsing(function ($enum) {
-                    return $enum ? $enum->value : null;
-                })
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })

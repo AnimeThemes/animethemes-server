@@ -109,7 +109,7 @@ class VideoReconcileCommand extends Command
 
             // Create videos that exist in storage but not in the database
             $create_videos = $fs_videos->diffUsing($db_videos, function ($a, $b) {
-                return static::compareVideos($a, $b);
+                return strcmp($a->basename, $b->basename);
             });
             foreach ($create_videos as $create_video) {
                 $create_result = $create_video->save();
@@ -126,7 +126,7 @@ class VideoReconcileCommand extends Command
 
             // Delete videos that no longer exist in storage
             $delete_videos = $db_videos->diffUsing($fs_videos, function ($a, $b) {
-                return static::compareVideos($a, $b);
+                return strcmp($a->basename, $b->basename);
             });
             foreach ($delete_videos as $delete_video) {
                 $delete_result = $delete_video->delete();
@@ -146,7 +146,7 @@ class VideoReconcileCommand extends Command
 
             // Update videos that have been changed
             $updated_videos = $db_videos->diffUsing($fs_videos, function ($a, $b) {
-                return static::compareUpdatedVideos($a, $b);
+                return strcmp($a->basename, $b->basename) && strcmp($a->path, $b->path) && $a->size === $b->size;
             });
             foreach ($updated_videos as $updated_video) {
                 $fs_video = $fs_videos->firstWhere('basename', $updated_video->basename);
@@ -170,53 +170,6 @@ class VideoReconcileCommand extends Command
             // Output reconcilation results
             $this->printResults();
         }
-    }
-
-    /**
-     * Callback for video comparison in set operation.
-     *
-     * @param \App\Models\Video $a
-     * @param \App\Models\Video $b
-     * @return int
-     */
-    private static function compareVideos(Video $a, Video $b)
-    {
-        return strcmp(static::reconciliationString($a), static::reconciliationString($b));
-    }
-
-    /**
-     * Represent video with attributes that correspond to WebM metadata
-     * For reconciliation purposes, other attributes such as ID and timestamps do not apply.
-     *
-     * @param \App\Models\Video $video
-     * @return string
-     */
-    private static function reconciliationString(Video $video)
-    {
-        return "basename:{$video->basename},filename:{$video->filename}";
-    }
-
-    /**
-     * Callback for video update comparison in set operation.
-     *
-     * @param \App\Models\Video $a
-     * @param \App\Models\Video $b
-     * @return int
-     */
-    private static function compareUpdatedVideos(Video $a, Video $b)
-    {
-        return strcmp(static::updateString($a), static::updateString($b));
-    }
-
-    /**
-     * Represent video with attributes that correspond to WebM metadata that pertain to "updates".
-     *
-     * @param \App\Models\Video $video
-     * @return string
-     */
-    private static function updateString(Video $video)
-    {
-        return "basename:{$video->basename},filename:{$video->filename},path:{$video->path},size:{$video->size}";
     }
 
     // Reconciliation Results
