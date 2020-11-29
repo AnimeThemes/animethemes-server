@@ -43,8 +43,19 @@ CREATE TABLE `anime` (
   `year` int(11) DEFAULT NULL,
   `season` int(11) DEFAULT NULL,
   `synopsis` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cover` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`anime_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `anime_image`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `anime_image` (
+  `anime_id` bigint(20) unsigned NOT NULL,
+  `image_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`anime_id`,`image_id`),
+  KEY `anime_image_image_id_foreign` (`image_id`),
+  CONSTRAINT `anime_image_anime_id_foreign` FOREIGN KEY (`anime_id`) REFERENCES `anime` (`anime_id`) ON DELETE CASCADE,
+  CONSTRAINT `anime_image_image_id_foreign` FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `anime_resource`;
@@ -93,6 +104,18 @@ CREATE TABLE `artist` (
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`artist_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `artist_image`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `artist_image` (
+  `artist_id` bigint(20) unsigned NOT NULL,
+  `image_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`artist_id`,`image_id`),
+  KEY `artist_image_image_id_foreign` (`image_id`),
+  CONSTRAINT `artist_image_artist_id_foreign` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`artist_id`) ON DELETE CASCADE,
+  CONSTRAINT `artist_image_image_id_foreign` FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `artist_member`;
@@ -209,6 +232,18 @@ CREATE TABLE `failed_jobs` (
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `image`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `image` (
+  `image_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `facet` int(11) DEFAULT NULL,
+  PRIMARY KEY (`image_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `invitation`;
@@ -424,3 +459,6 @@ INSERT INTO `migrations` VALUES (51,'2020_06_10_050701_create_artist_member',1);
 INSERT INTO `migrations` VALUES (52,'2020_09_16_183751_create_sessions_table',1);
 INSERT INTO `migrations` VALUES (54,'2020_04_12_212732_create_announcements_table',2);
 INSERT INTO `migrations` VALUES (55,'2020_11_05_220613_create_configs_table',3);
+INSERT INTO `migrations` VALUES (58,'2020_11_24_231534_create_image_table',4);
+INSERT INTO `migrations` VALUES (59,'2020_11_24_232439_create_anime_image',4);
+INSERT INTO `migrations` VALUES (60,'2020_11_24_232525_create_artist_image',4);

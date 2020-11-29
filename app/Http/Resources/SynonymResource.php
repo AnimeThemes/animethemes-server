@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Controllers\Api\SynonymController;
-use Spatie\ResourceLinks\HasLinks;
-
 /**
  * @OA\Schema(
  *     title="Synonym",
@@ -27,8 +24,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class SynonymResource extends BaseResource
 {
-    use HasLinks;
-
     /**
      * The "data" wrapper that should be applied.
      *
@@ -57,7 +52,6 @@ class SynonymResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->parser),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(SynonymController::class)),
         ];
     }
 }

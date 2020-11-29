@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Announcement' => 'App\Policies\AnnouncementPolicy',
         'App\Models\Artist' => 'App\Policies\ArtistPolicy',
         'App\Models\Entry' => 'App\Policies\EntryPolicy',
+        'App\Models\Image' => 'App\Policies\ImagePolicy',
         'App\Models\ExternalResource' => 'App\Policies\ExternalResourcePolicy',
         'App\Models\Invitation' => 'App\Policies\InvitationPolicy',
         'App\Models\Series' => 'App\Policies\SeriesPolicy',

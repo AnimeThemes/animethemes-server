@@ -80,6 +80,7 @@ class Series extends Model implements Auditable
         'anime.themes.song',
         'anime.themes.song.artists',
         'anime.externalResources',
+        'anime.images',
     ];
 
     /**

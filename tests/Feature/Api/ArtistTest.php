@@ -4,6 +4,7 @@ namespace Tests\Feature\Api;
 
 use App\Models\Artist;
 use App\Models\ExternalResource;
+use App\Models\Image;
 use App\Models\Song;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -123,6 +124,26 @@ class ArtistTest extends TestCase
         $response->assertJson([
             'resources' => $artist->externalResources->map(function ($resource) {
                 return ExternalResourceTest::getData($resource);
+            })->toArray(),
+        ]);
+    }
+
+    /**
+     * The Show Artist Endpoint shall display the images relation in an 'images' attribute.
+     *
+     * @return void
+     */
+    public function testShowArtistImagesAttributes()
+    {
+        $artist = Artist::factory()
+            ->has(Image::factory()->count($this->faker->randomDigitNotNull))
+            ->create();
+
+        $response = $this->get(route('api.artist.show', ['artist' => $artist]));
+
+        $response->assertJson([
+            'images' => $artist->images->map(function ($image) {
+                return ImageTest::getData($image);
             })->toArray(),
         ]);
     }

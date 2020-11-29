@@ -25,6 +25,6 @@
     },
     "dependencies": {
         "jquery": "^3.5.1",
-        "modernizr": "^3.11.3"
+        "modernizr": "^3.11.4"
     }
 }

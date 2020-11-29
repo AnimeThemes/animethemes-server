@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Artist;
 use App\Models\ExternalResource;
+use App\Models\Image;
 use App\Models\Song;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -208,6 +209,48 @@ class ArtistPolicy
      * @return mixed
      */
     public function detachArtist(User $user, Artist $artist, Artist $member)
+    {
+        return $user->isContributor() || $user->isAdmin();
+    }
+
+    /**
+     * Determine whether the user can attach any image to the artist.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Artist  $artist
+     * @return mixed
+     */
+    public function attachAnyImage(User $user, Artist $artist)
+    {
+        return $user->isContributor() || $user->isAdmin();
+    }
+
+    /**
+     * Determine whether the user can attach an image to the artist.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Artist  $artist
+     * @param  \App\Models\Image  $image
+     * @return mixed
+     */
+    public function attachImage(User $user, Artist $artist, Image $image)
+    {
+        if ($artist->images->contains($image)) {
+            return false;
+        }
+
+        return $user->isContributor() || $user->isAdmin();
+    }
+
+    /**
+     * Determine whether the user can detach an image from the artist.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Artist  $artist
+     * @param  \App\Models\Image  $image
+     * @return mixed
+     */
+    public function detachImage(User $user, Artist $artist, Image $image)
     {
         return $user->isContributor() || $user->isAdmin();
     }

@@ -53,6 +53,11 @@ class BaseController extends Controller
      * )
      *
      * @OA\Tag(
+     *     name="Image",
+     *     description="API Endpoints of Images"
+     * )
+     *
+     * @OA\Tag(
      *     name="Resource",
      *     description="API Endpoints of Resources"
      * )

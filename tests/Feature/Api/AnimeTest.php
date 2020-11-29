@@ -4,6 +4,7 @@ namespace Tests\Feature\Api;
 
 use App\Models\Anime;
 use App\Models\ExternalResource;
+use App\Models\Image;
 use App\Models\Series;
 use App\Models\Synonym;
 use App\Models\Theme;
@@ -131,6 +132,26 @@ class AnimeTest extends TestCase
     }
 
     /**
+     * The Show Anime Endpoint shall display the images relation in an 'images' attribute.
+     *
+     * @return void
+     */
+    public function testShowAnimeImagesAttributes()
+    {
+        $anime = Anime::factory()
+            ->has(Image::factory()->count($this->faker->randomDigitNotNull))
+            ->create();
+
+        $response = $this->get(route('api.anime.show', ['anime' => $anime]));
+
+        $response->assertJson([
+            'images' => $anime->images->map(function ($image) {
+                return ImageTest::getData($image);
+            })->toArray(),
+        ]);
+    }
+
+    /**
      * Get attributes for Anime resource.
      *
      * @param Anime $anime
@@ -145,7 +166,6 @@ class AnimeTest extends TestCase
             'year' => $anime->year,
             'season' => strval(optional($anime->season)->description),
             'synopsis' => $anime->synopsis,
-            'cover' => Storage::disk('covers')->url($anime->cover),
             'created_at' => $anime->created_at->toJSON(),
             'updated_at' => $anime->updated_at->toJSON(),
         ];

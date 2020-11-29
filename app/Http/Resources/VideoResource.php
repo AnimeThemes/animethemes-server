@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Controllers\Api\VideoController;
-use Spatie\ResourceLinks\HasLinks;
-
 /**
  * @OA\Schema(
  *     title="Video",
@@ -57,8 +54,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class VideoResource extends BaseResource
 {
-    use HasLinks;
-
     /**
      * The "data" wrapper that should be applied.
      *
@@ -98,7 +93,6 @@ class VideoResource extends BaseResource
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'link' => $this->when($this->isAllowedField('link'), route('video.show', $this)),
             'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->parser),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(VideoController::class)),
         ];
     }
 }

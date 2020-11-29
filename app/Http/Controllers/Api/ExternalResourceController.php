@@ -99,7 +99,7 @@ class ExternalResourceController extends BaseController
         // paginate
         $resources = $resources->jsonPaginate();
 
-        $collection = new ExternalResourceCollection($resources, $this->parser);
+        $collection = ExternalResourceCollection::make($resources, $this->parser);
 
         return $collection->toResponse(request());
     }
@@ -123,7 +123,7 @@ class ExternalResourceController extends BaseController
      *     ),
      *     @OA\Parameter(
      *         description="The comma-separated list of fields by resource type",
-     *         example="fields[entry]=link,external_id",
+     *         example="fields[resource]=link,external_id",
      *         name="fields",
      *         in="query",
      *         required=false,

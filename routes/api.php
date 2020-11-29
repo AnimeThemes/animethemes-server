@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ArtistController;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Api\EntryController;
 use App\Http\Controllers\Api\ExternalResourceController;
+use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\SeriesController;
 use App\Http\Controllers\Api\SongController;
 use App\Http\Controllers\Api\SynonymController;
@@ -35,6 +36,7 @@ Route::group(['as' => 'api.'], function () {
     Route::apiResource('announcement', AnnouncementController::class)->only(['index', 'show']);
     Route::apiResource('artist', ArtistController::class)->only(['index', 'show']);
     Route::apiResource('entry', EntryController::class)->only(['index', 'show']);
+    Route::apiResource('image', ImageController::class)->only(['index', 'show']);
     Route::apiResource('resource', ExternalResourceController::class)->only(['index', 'show']);
     Route::apiResource('series', SeriesController::class)->only(['index', 'show']);
     Route::apiResource('song', SongController::class)->only(['index', 'show']);

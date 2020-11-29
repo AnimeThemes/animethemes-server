@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Anime;
 use App\Models\ExternalResource;
+use App\Models\Image;
 use App\Models\Series;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -174,6 +175,48 @@ class AnimePolicy
      * @return mixed
      */
     public function detachExternalResource(User $user, Anime $anime, ExternalResource $externalResource)
+    {
+        return $user->isContributor() || $user->isAdmin();
+    }
+
+    /**
+     * Determine whether the user can attach any image to the anime.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Anime  $anime
+     * @return mixed
+     */
+    public function attachAnyImage(User $user, Anime $anime)
+    {
+        return $user->isContributor() || $user->isAdmin();
+    }
+
+    /**
+     * Determine whether the user can attach an image to the anime.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Anime  $anime
+     * @param  \App\Models\Image  $image
+     * @return mixed
+     */
+    public function attachImage(User $user, Anime $anime, Image $image)
+    {
+        if ($anime->images->contains($image)) {
+            return false;
+        }
+
+        return $this->attachAnyImage($user, $anime);
+    }
+
+    /**
+     * Determine whether the user can detach an image from the anime.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Anime  $anime
+     * @param  \App\Models\Image  $image
+     * @return mixed
+     */
+    public function detachImage(User $user, Anime $anime, Image $image)
     {
         return $user->isContributor() || $user->isAdmin();
     }

@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Controllers\Api\SeriesController;
-use Spatie\ResourceLinks\HasLinks;
-
 /**
  * @OA\Schema(
  *     title="Series",
@@ -85,14 +82,19 @@ use Spatie\ResourceLinks\HasLinks;
  *             @OA\Property(property="as",type="string",description="Used to distinguish resources that map to the same artist or anime",example=""),
  *             @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:30:43.000000Z"),
  *             @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:37:25.000000Z"),
+ *         )),
+ *         @OA\Property(property="images",type="array",@OA\Items(
+ *             @OA\Property(property="id",type="integer",description="Primary Key",example=1018),
+ *             @OA\Property(property="path",type="string",description="The path of the Image in storage",example="anime/bakemonogatari.png"),
+ *             @OA\Property(property="facet",type="string",enum={"Small Cover","Large Cover"},description="THe component of the page the image is intended for",example="Small Cover"),
+ *             @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:30:43.000000Z"),
+ *             @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:37:25.000000Z"),
  *         ))
  *     ))
  * )
  */
 class SeriesResource extends BaseResource
 {
-    use HasLinks;
-
     /**
      * The "data" wrapper that should be applied.
      *
@@ -122,7 +124,6 @@ class SeriesResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->parser),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(SeriesController::class)),
         ];
     }
 }

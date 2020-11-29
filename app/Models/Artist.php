@@ -104,6 +104,7 @@ class Artist extends Model implements Auditable
         'members',
         'groups',
         'externalResources',
+        'images',
     ];
 
     /**
@@ -157,5 +158,15 @@ class Artist extends Model implements Auditable
     public function groups()
     {
         return $this->belongsToMany('App\Models\Artist', 'artist_member', 'member_id', 'artist_id')->withPivot('as');
+    }
+
+    /**
+     * Get the images for the artist.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function images()
+    {
+        return $this->belongsToMany('App\Models\Image', 'artist_image', 'artist_id', 'image_id');
     }
 }

@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Controllers\Api\SongController;
-use Spatie\ResourceLinks\HasLinks;
-
 /**
  * @OA\Schema(
  *     title="Song",
@@ -44,8 +41,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class SongResource extends BaseResource
 {
-    use HasLinks;
-
     /**
      * The "data" wrapper that should be applied.
      *
@@ -78,7 +73,6 @@ class SongResource extends BaseResource
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'themes' => ThemeCollection::make($this->whenLoaded('themes'), $this->parser),
             'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->parser),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(SongController::class)),
         ];
     }
 }

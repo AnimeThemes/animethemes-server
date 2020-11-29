@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\AnimeSeason;
+use App\Enums\ImageFacet;
 use App\Enums\InvitationStatus;
 use App\Enums\ResourceSite;
 use App\Enums\ThemeType;
@@ -14,6 +15,10 @@ return [
         AnimeSeason::SPRING => 'Spring',
         AnimeSeason::SUMMER => 'Summer',
         AnimeSeason::FALL => 'Fall',
+    ],
+    ImageFacet::class => [
+        ImageFacet::COVER_SMALL => 'Small Cover',
+        ImageFacet::COVER_LARGE => 'Large Cover',
     ],
     InvitationStatus::class => [
         InvitationStatus::OPEN => 'Open',

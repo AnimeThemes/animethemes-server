@@ -116,9 +116,6 @@ class Video extends Resource
 
             Select::make(__('nova.overlap'), 'overlap')
                 ->options(VideoOverlap::asSelectArray())
-                ->resolveUsing(function ($enum) {
-                    return $enum ? $enum->value : null;
-                })
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })
@@ -128,9 +125,6 @@ class Video extends Resource
 
             Select::make(__('nova.source'), 'source')
                 ->options(VideoSource::asSelectArray())
-                ->resolveUsing(function ($enum) {
-                    return $enum ? $enum->value : null;
-                })
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })

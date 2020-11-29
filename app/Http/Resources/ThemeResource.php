@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Controllers\Api\ThemeController;
-use Spatie\ResourceLinks\HasLinks;
-
 /**
  * @OA\Schema(
  *     title="Theme",
@@ -71,8 +68,6 @@ use Spatie\ResourceLinks\HasLinks;
  */
 class ThemeResource extends BaseResource
 {
-    use HasLinks;
-
     /**
      * The "data" wrapper that should be applied.
      *
@@ -106,7 +101,6 @@ class ThemeResource extends BaseResource
             'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->parser),
             'song' => SongResource::make($this->whenLoaded('song'), $this->parser),
             'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->parser),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(ThemeController::class)),
         ];
     }
 }

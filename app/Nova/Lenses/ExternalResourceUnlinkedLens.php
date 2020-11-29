@@ -2,7 +2,6 @@
 
 namespace App\Nova\Lenses;
 
-use App\Models\ExternalResource;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
 use Illuminate\Http\Request;
@@ -33,7 +32,9 @@ class ExternalResourceUnlinkedLens extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
-        return ExternalResource::whereDoesntHave('anime')->whereDoesntHave('artists');
+        return $request->withOrdering($request->withFilters(
+            $query->whereDoesntHave('anime')->whereDoesntHave('artists')
+        ));
     }
 
     /**

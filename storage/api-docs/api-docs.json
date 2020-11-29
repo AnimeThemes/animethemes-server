@@ -18,7 +18,7 @@
                     {
                         "name": "include",
                         "in": "query",
-                        "description": "Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists & externalResources.",
+                        "description": "Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists, externalResources & images.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -121,7 +121,7 @@
                     {
                         "name": "include",
                         "in": "query",
-                        "description": "Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists & externalResources.",
+                        "description": "Comma-separated list of included related resources. Allowed list is synonyms, series, themes, themes.entries, themes.entries.videos, themes.song, themes.song.artists, externalResources & images.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -278,7 +278,7 @@
                     {
                         "name": "include",
                         "in": "query",
-                        "description": "Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups & externalResources.",
+                        "description": "Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups, externalResources & images.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -361,7 +361,7 @@
                     {
                         "name": "include",
                         "in": "query",
-                        "description": "Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups & externalResources.",
+                        "description": "Comma-separated list of included related resources. Allowed list is songs, songs.themes, songs.themes.anime, members, groups, externalResources & images.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -788,7 +788,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "fields[entry]=link,external_id"
+                        "example": "fields[resource]=link,external_id"
                     }
                 ],
                 "responses": {
@@ -798,6 +798,146 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ExternalResourceResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found!"
+                    }
+                }
+            }
+        },
+        "/image/": {
+            "get": {
+                "tags": [
+                    "Image"
+                ],
+                "summary": "Get paginated listing of Images",
+                "description": "Returns listing of Images",
+                "operationId": "getImages",
+                "parameters": [
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime & artists.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "include=anime"
+                    },
+                    {
+                        "name": "facet",
+                        "in": "query",
+                        "description": "Filter images by facet. Case-insensitive options are COVER_SMALL & COVER_LARGE.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "filter[facet]=COVER_SMALL"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort image collection by fields. Case-insensitive options are image_id, created_at, updated_at, path & facet.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "sort=-updated_at,image_id"
+                    },
+                    {
+                        "name": "page[size]",
+                        "in": "query",
+                        "description": "The number of images to return per page. Acceptable range is [1-30]. Default value is 30.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "page[size]=25"
+                    },
+                    {
+                        "name": "page[number]",
+                        "in": "query",
+                        "description": "The page of images to return.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "page[number]=2"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields by resource type",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fields[image]=image_id,link"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "images": {
+                                            "description": "Display a listing of the resource.",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ImageResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/image/{id}": {
+            "get": {
+                "tags": [
+                    "Image"
+                ],
+                "summary": "Get properties of Image",
+                "description": "Returns properties of Image",
+                "operationId": "getImage",
+                "parameters": [
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime & artists.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "include=anime"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "The comma-separated list of fields by resource type",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fields[image]=image_id,link"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ImageResource"
                                 }
                             }
                         }
@@ -820,7 +960,7 @@
                     {
                         "name": "include",
                         "in": "query",
-                        "description": "Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists & anime.externalResources.",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists, anime.externalResources & anime.images.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -903,7 +1043,7 @@
                     {
                         "name": "include",
                         "in": "query",
-                        "description": "Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists & anime.externalResources.",
+                        "description": "Comma-separated list of included related resources. Allowed list is anime.synonyms, anime.themes, anime.themes.entries, anime.themes.entries.videos, anime.themes.song, anime.themes.song.artists, anime.externalResources & anime.images.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -1669,11 +1809,6 @@
                         "type": "string",
                         "example": "Koyomi Araragi, a third-year high school student, manages to survive a vampire attack..."
                     },
-                    "cover": {
-                        "description": "The cover image used as the key visual for the Anime",
-                        "type": "string",
-                        "example": "http://animethemes.moe/img/cover/NcFImDjYUKvatyQxbmPU2ly6GHwM0xwkLijKX01x.jpeg"
-                    },
                     "created_at": {
                         "description": "The Resource Creation Timestamp",
                         "type": "string",
@@ -2046,6 +2181,43 @@
                             },
                             "type": "object"
                         }
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "Primary Key",
+                                    "type": "integer",
+                                    "example": 1018
+                                },
+                                "path": {
+                                    "description": "The path of the Image in storage",
+                                    "type": "string",
+                                    "example": "anime/bakemonogatari.png"
+                                },
+                                "facet": {
+                                    "description": "THe component of the page the image is intended for",
+                                    "type": "string",
+                                    "enum": [
+                                        "Small Cover",
+                                        "Large Cover"
+                                    ],
+                                    "example": "Small Cover"
+                                },
+                                "created_at": {
+                                    "description": "The Resource Creation Timestamp",
+                                    "type": "string",
+                                    "example": "2020-08-15T05:30:43.000000Z"
+                                },
+                                "updated_at": {
+                                    "description": "The Resource Last Updated Timestamp",
+                                    "type": "string",
+                                    "example": "2020-08-15T05:37:25.000000Z"
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 },
                 "type": "object"
@@ -2289,6 +2461,43 @@
                                     "description": "The Resource Last Updated Timestamp",
                                     "type": "string",
                                     "example": "2020-08-15T05:56:07.000000Z"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "Primary Key",
+                                    "type": "integer",
+                                    "example": 1018
+                                },
+                                "path": {
+                                    "description": "The path of the Image in storage",
+                                    "type": "string",
+                                    "example": "anime/bakemonogatari.png"
+                                },
+                                "facet": {
+                                    "description": "THe component of the page the image is intended for",
+                                    "type": "string",
+                                    "enum": [
+                                        "Small Cover",
+                                        "Large Cover"
+                                    ],
+                                    "example": "Small Cover"
+                                },
+                                "created_at": {
+                                    "description": "The Resource Creation Timestamp",
+                                    "type": "string",
+                                    "example": "2020-08-15T05:30:43.000000Z"
+                                },
+                                "updated_at": {
+                                    "description": "The Resource Last Updated Timestamp",
+                                    "type": "string",
+                                    "example": "2020-08-15T05:37:25.000000Z"
                                 }
                             },
                             "type": "object"
@@ -2563,6 +2772,95 @@
                         "description": "Used to distinguish resources that map to the same artist or anime",
                         "type": "string",
                         "example": ""
+                    },
+                    "created_at": {
+                        "description": "The Resource Creation Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:30:43.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "The Resource Last Updated Timestamp",
+                        "type": "string",
+                        "example": "2020-08-15T05:37:25.000000Z"
+                    },
+                    "artists": {
+                        "type": "array",
+                        "items": {}
+                    },
+                    "anime": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "Primary Key",
+                                    "type": "integer",
+                                    "example": 197
+                                },
+                                "name": {
+                                    "description": "The Primary Title of the Anime",
+                                    "type": "string",
+                                    "example": "Bakemonogatari"
+                                },
+                                "slug": {
+                                    "description": "URL Slug & Model Route Key",
+                                    "type": "string",
+                                    "example": "bakemonogatari"
+                                },
+                                "year": {
+                                    "description": "The Year in which the Anime Premiered",
+                                    "type": "integer",
+                                    "example": 2009
+                                },
+                                "season": {
+                                    "description": "The Season in which the Anime Premiered",
+                                    "type": "string",
+                                    "enum": [
+                                        "Winter",
+                                        "Spring",
+                                        "Summer",
+                                        "Fall"
+                                    ],
+                                    "example": "Summer"
+                                },
+                                "created_at": {
+                                    "description": "The Resource Creation Timestamp",
+                                    "type": "string",
+                                    "example": "2020-08-15T05:30:43.000000Z"
+                                },
+                                "updated_at": {
+                                    "description": "The Resource Last Updated Timestamp",
+                                    "type": "string",
+                                    "example": "2020-08-15T05:37:25.000000Z"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ImageResource": {
+                "title": "Image",
+                "description": "Image",
+                "properties": {
+                    "id": {
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "example": 1018
+                    },
+                    "path": {
+                        "description": "The path of the Image in storage",
+                        "type": "string",
+                        "example": "anime/bakemonogatari.png"
+                    },
+                    "facet": {
+                        "description": "THe component of the page the image is intended for",
+                        "type": "string",
+                        "enum": [
+                            "Small Cover",
+                            "Large Cover"
+                        ],
+                        "example": "Small Cover"
                     },
                     "created_at": {
                         "description": "The Resource Creation Timestamp",
@@ -3014,6 +3312,43 @@
                                                 "description": "Used to distinguish resources that map to the same artist or anime",
                                                 "type": "string",
                                                 "example": ""
+                                            },
+                                            "created_at": {
+                                                "description": "The Resource Creation Timestamp",
+                                                "type": "string",
+                                                "example": "2020-08-15T05:30:43.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "description": "The Resource Last Updated Timestamp",
+                                                "type": "string",
+                                                "example": "2020-08-15T05:37:25.000000Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "images": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "Primary Key",
+                                                "type": "integer",
+                                                "example": 1018
+                                            },
+                                            "path": {
+                                                "description": "The path of the Image in storage",
+                                                "type": "string",
+                                                "example": "anime/bakemonogatari.png"
+                                            },
+                                            "facet": {
+                                                "description": "THe component of the page the image is intended for",
+                                                "type": "string",
+                                                "enum": [
+                                                    "Small Cover",
+                                                    "Large Cover"
+                                                ],
+                                                "example": "Small Cover"
                                             },
                                             "created_at": {
                                                 "description": "The Resource Creation Timestamp",
@@ -3814,6 +4149,10 @@
         {
             "name": "Entry",
             "description": "API Endpoints of Entries"
+        },
+        {
+            "name": "Image",
+            "description": "API Endpoints of Images"
         },
         {
             "name": "Resource",

@@ -2,10 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Controllers\Api\AnimeController;
-use Illuminate\Support\Facades\Storage;
-use Spatie\ResourceLinks\HasLinks;
-
 /**
  * @OA\Schema(
  *     title="Anime",
@@ -17,7 +13,6 @@ use Spatie\ResourceLinks\HasLinks;
  *     @OA\Property(property="year",type="integer",description="The Year in which the Anime Premiered",example=2009),
  *     @OA\Property(property="season",type="string",enum={"Winter","Spring","Summer","Fall"},description="The Season in which the Anime Premiered",example="Summer"),
  *     @OA\Property(property="synopsis",type="string",description="The brief description of the Anime",example="Koyomi Araragi, a third-year high school student, manages to survive a vampire attack..."),
- *     @OA\Property(property="cover",type="string",description="The cover image used as the key visual for the Anime",example="http://animethemes.moe/img/cover/NcFImDjYUKvatyQxbmPU2ly6GHwM0xwkLijKX01x.jpeg"),
  *     @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:30:43.000000Z"),
  *     @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:37:25.000000Z"),
  *     @OA\Property(property="synonyms",type="array",@OA\Items(
@@ -90,13 +85,18 @@ use Spatie\ResourceLinks\HasLinks;
  *         @OA\Property(property="as",type="string",description="Used to distinguish resources that map to the same artist or anime",example=""),
  *         @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:30:43.000000Z"),
  *         @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:37:25.000000Z"),
+ *     )),
+ *     @OA\Property(property="images",type="array",@OA\Items(
+ *         @OA\Property(property="id",type="integer",description="Primary Key",example=1018),
+ *         @OA\Property(property="path",type="string",description="The path of the Image in storage",example="anime/bakemonogatari.png"),
+ *         @OA\Property(property="facet",type="string",enum={"Small Cover","Large Cover"},description="THe component of the page the image is intended for",example="Small Cover"),
+ *         @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:30:43.000000Z"),
+ *         @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:37:25.000000Z"),
  *     ))
  * )
  */
 class AnimeResource extends BaseResource
 {
-    use HasLinks;
-
     /**
      * The "data" wrapper that should be applied.
      *
@@ -126,7 +126,6 @@ class AnimeResource extends BaseResource
             'year' => $this->when($this->isAllowedField('year'), $this->year),
             'season' => $this->when($this->isAllowedField('season'), strval(optional($this->season)->description)),
             'synopsis' => $this->when($this->isAllowedField('synopsis'), strval($this->synopsis)),
-            'cover' => $this->when($this->isAllowedField('cover'), $this->cover ? Storage::disk('covers')->url($this->cover) : ''),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'synonyms' => SynonymCollection::make($this->whenLoaded('synonyms'), $this->parser),
@@ -136,7 +135,7 @@ class AnimeResource extends BaseResource
             'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('anime_resource', function () {
                 return strval($this->pivot->as);
             })),
-            'links' => $this->when($this->isAllowedField('links'), $this->links(AnimeController::class)),
+            'images' => ImageCollection::make($this->whenLoaded('images'), $this->parser),
         ];
     }
 }

@@ -137,6 +137,9 @@ class Artist extends Resource
                     ];
                 }),
 
+            BelongsToMany::make(__('nova.images'), 'Images', Image::class)
+                ->searchable(),
+
             AuditableLog::make(),
         ];
     }
@@ -199,6 +202,8 @@ class Artist extends Resource
             new Lenses\ArtistAniDbResourceLens,
             new Lenses\ArtistAnilistResourceLens,
             new Lenses\ArtistAnnResourceLens,
+            new Lenses\ArtistCoverLargeLens,
+            new Lenses\ArtistCoverSmallLens,
             new Lenses\ArtistMalResourceLens,
             new Lenses\ArtistSongLens,
         ];
