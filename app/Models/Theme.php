@@ -126,6 +126,7 @@ class Theme extends Model implements Auditable
      */
     public static $allowedIncludePaths = [
         'anime',
+        'anime.images',
         'entries',
         'entries.videos',
         'song',
