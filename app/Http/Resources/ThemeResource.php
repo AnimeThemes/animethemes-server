@@ -22,6 +22,13 @@ namespace App\Http\Resources;
  *         @OA\Property(property="season",type="string",enum={"Winter","Spring","Summer","Fall"},description="The Season in which the Anime Premiered",example="Summer"),
  *         @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:30:43.000000Z"),
  *         @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:37:25.000000Z"),
+ *         @OA\Property(property="images",type="array",@OA\Items(
+ *             @OA\Property(property="id",type="integer",description="Primary Key",example=1018),
+ *             @OA\Property(property="path",type="string",description="The path of the Image in storage",example="anime/bakemonogatari.png"),
+ *             @OA\Property(property="facet",type="string",enum={"Small Cover","Large Cover"},description="THe component of the page the image is intended for",example="Small Cover"),
+ *             @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:30:43.000000Z"),
+ *             @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:37:25.000000Z"),
+ *         ))
  *     ),
  *     @OA\Property(property="song",type="object",
  *         @OA\Property(property="id",type="integer",description="Primary Key",example=3102),

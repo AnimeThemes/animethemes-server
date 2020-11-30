@@ -25,7 +25,7 @@ class ThemeController extends BaseController
      *     summary="Get paginated listing of Themes",
      *     description="Returns listing of Themes",
      *     @OA\Parameter(
-     *         description="Comma-separated list of included related resources. Allowed list is anime, entries, entries.videos, song & song.artists.",
+     *         description="Comma-separated list of included related resources. Allowed list is anime, anime.images, entries, entries.videos, song & song.artists.",
      *         example="include=anime,song",
      *         name="include",
      *         in="query",
@@ -138,7 +138,7 @@ class ThemeController extends BaseController
      *     summary="Get properties of Theme",
      *     description="Returns properties of Theme",
      *     @OA\Parameter(
-     *         description="Comma-separated list of included related resources. Allowed list is anime, entries, entries.videos, song & song.artists.",
+     *         description="Comma-separated list of included related resources. Allowed list is anime, anime.images, entries, entries.videos, song & song.artists.",
      *         example="include=anime,song",
      *         name="include",
      *         in="query",
