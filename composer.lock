@@ -60,16 +60,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.164.0",
+            "version": "3.165.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "39ecf57d828eb50ab23fd70255a68b8996392ac9"
+                "reference": "ddc727e18c670ab07c453ceeb5f310bb6b2f1508"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/39ecf57d828eb50ab23fd70255a68b8996392ac9",
-                "reference": "39ecf57d828eb50ab23fd70255a68b8996392ac9",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ddc727e18c670ab07c453ceeb5f310bb6b2f1508",
+                "reference": "ddc727e18c670ab07c453ceeb5f310bb6b2f1508",
                 "shasum": ""
             },
             "require": {
@@ -141,7 +141,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-11-24T19:18:22+00:00"
+            "time": "2020-12-01T19:14:48+00:00"
         },
         {
             "name": "babenkoivan/scout-elasticsearch-driver",
@@ -2359,16 +2359,16 @@
         },
         {
             "name": "laminas/laminas-code",
-            "version": "3.5.0",
+            "version": "3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-code.git",
-                "reference": "cb90ef428da9260c2deaa827b037c20695f968ae"
+                "reference": "b549b70c0bb6e935d497f84f750c82653326ac77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/cb90ef428da9260c2deaa827b037c20695f968ae",
-                "reference": "cb90ef428da9260c2deaa827b037c20695f968ae",
+                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/b549b70c0bb6e935d497f84f750c82653326ac77",
+                "reference": "b549b70c0bb6e935d497f84f750c82653326ac77",
                 "shasum": ""
             },
             "require": {
@@ -2415,7 +2415,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2020-11-11T22:11:27+00:00"
+            "time": "2020-11-30T20:16:31+00:00"
         },
         {
             "name": "laminas/laminas-eventmanager",
@@ -2596,16 +2596,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.16.1",
+            "version": "v8.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "f7dfc22e6c42e9ed4dda14c05814349af6943206"
+                "reference": "09bd79531d3f958f02fa34f1f14197b1716ef29b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/f7dfc22e6c42e9ed4dda14c05814349af6943206",
-                "reference": "f7dfc22e6c42e9ed4dda14c05814349af6943206",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/09bd79531d3f958f02fa34f1f14197b1716ef29b",
+                "reference": "09bd79531d3f958f02fa34f1f14197b1716ef29b",
                 "shasum": ""
             },
             "require": {
@@ -2755,20 +2755,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-11-25T15:01:02+00:00"
+            "time": "2020-12-01T15:01:58+00:00"
         },
         {
             "name": "laravel/jetstream",
-            "version": "v1.6.2",
+            "version": "v1.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/jetstream.git",
-                "reference": "a563ab284ccf356a2bccec82d0d70ae504dc97ae"
+                "reference": "c32ee30f80db9eeaa07a71cc37e5ddba61e87e8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/jetstream/zipball/a563ab284ccf356a2bccec82d0d70ae504dc97ae",
-                "reference": "a563ab284ccf356a2bccec82d0d70ae504dc97ae",
+                "url": "https://api.github.com/repos/laravel/jetstream/zipball/c32ee30f80db9eeaa07a71cc37e5ddba61e87e8a",
+                "reference": "c32ee30f80db9eeaa07a71cc37e5ddba61e87e8a",
                 "shasum": ""
             },
             "require": {
@@ -2817,7 +2817,7 @@
                 "laravel",
                 "tailwind"
             ],
-            "time": "2020-11-24T17:14:06+00:00"
+            "time": "2020-12-01T15:17:12+00:00"
         },
         {
             "name": "laravel/nova",
@@ -3439,23 +3439,23 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v2.3.2",
+            "version": "v2.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "8aa271bc3af74d8fea8480b372ecaa0d5ae3f6d2"
+                "reference": "7a23ca7b83542175471b0bc388a8f34341cbcee4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/8aa271bc3af74d8fea8480b372ecaa0d5ae3f6d2",
-                "reference": "8aa271bc3af74d8fea8480b372ecaa0d5ae3f6d2",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/7a23ca7b83542175471b0bc388a8f34341cbcee4",
+                "reference": "7a23ca7b83542175471b0bc388a8f34341cbcee4",
                 "shasum": ""
             },
             "require": {
                 "illuminate/database": "^7.0|^8.0",
                 "illuminate/support": "^7.0|^8.0",
                 "illuminate/validation": "^7.0|^8.0",
-                "php": "^7.2.5",
+                "php": "^7.2.5|^8.0",
                 "symfony/http-kernel": "^5.0"
             },
             "require-dev": {
@@ -3503,7 +3503,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-11-17T14:58:56+00:00"
+            "time": "2020-12-01T15:39:07+00:00"
         },
         {
             "name": "mkopinsky/zxcvbn-php",
@@ -10133,16 +10133,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.4.3",
+            "version": "9.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9fa359ff5ddaa5eb2be2bedb08a6a5787a5807ab"
+                "reference": "6535e637961f0829832621dc1b7308c2d24a799e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9fa359ff5ddaa5eb2be2bedb08a6a5787a5807ab",
-                "reference": "9fa359ff5ddaa5eb2be2bedb08a6a5787a5807ab",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6535e637961f0829832621dc1b7308c2d24a799e",
+                "reference": "6535e637961f0829832621dc1b7308c2d24a799e",
                 "shasum": ""
             },
             "require": {
@@ -10228,7 +10228,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-11-10T12:53:30+00:00"
+            "time": "2020-12-01T04:58:47+00:00"
         },
         {
             "name": "sebastian/cli-parser",
