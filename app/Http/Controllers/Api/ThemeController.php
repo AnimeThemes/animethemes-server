@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\ThemeType;
 use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\ThemeResource;
 use App\Models\Theme;
@@ -11,9 +10,9 @@ use Illuminate\Support\Str;
 class ThemeController extends BaseController
 {
     // constants for query parameters
-    protected const TYPE_QUERY = 'type';
-    protected const SEQUENCE_QUERY = 'sequence';
-    protected const GROUP_QUERY = 'group';
+    public const TYPE_QUERY = 'type';
+    public const SEQUENCE_QUERY = 'sequence';
+    public const GROUP_QUERY = 'group';
 
     /**
      * Display a listing of the resource.
@@ -103,15 +102,7 @@ class ThemeController extends BaseController
         $themes = Theme::with($this->parser->getIncludePaths(Theme::$allowedIncludePaths));
 
         // apply filters
-        if ($this->parser->hasFilter(static::TYPE_QUERY)) {
-            $themes = $themes->whereIn(static::TYPE_QUERY, $this->parser->getEnumFilter(static::TYPE_QUERY, ThemeType::class));
-        }
-        if ($this->parser->hasFilter(static::SEQUENCE_QUERY)) {
-            $themes = $themes->whereIn(static::SEQUENCE_QUERY, $this->parser->getFilter(static::SEQUENCE_QUERY));
-        }
-        if ($this->parser->hasFilter(static::GROUP_QUERY)) {
-            $themes = $themes->whereIn(static::GROUP_QUERY, $this->parser->getFilter(static::GROUP_QUERY));
-        }
+        $themes = Theme::applyFilters($themes, $this->parser);
 
         // apply sorts
         foreach ($this->parser->getSorts() as $field => $isAsc) {

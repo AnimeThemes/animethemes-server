@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\Api\EntryController;
 use App\ScoutElastic\EntryIndexConfigurator;
 use App\ScoutElastic\EntrySearchRule;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -183,5 +184,20 @@ class Entry extends Model implements Auditable
     public function anime()
     {
         return $this->belongsToThrough('App\Models\Anime', 'App\Models\Theme', null, '', ['App\Models\Anime' => 'anime_id', 'App\Models\Theme' => 'theme_id']);
+    }
+
+    public static function applyFilters($entries, $parser)
+    {
+        if ($parser->hasFilter(EntryController::VERSION_QUERY)) {
+            $entries = $entries->whereIn(EntryController::VERSION_QUERY, $parser->getFilter(EntryController::VERSION_QUERY));
+        }
+        if ($parser->hasFilter(EntryController::NSFW_QUERY)) {
+            $entries = $entries->whereIn(EntryController::NSFW_QUERY, $parser->getBooleanFilter(EntryController::NSFW_QUERY));
+        }
+        if ($parser->hasFilter(EntryController::SPOILER_QUERY)) {
+            $entries = $entries->whereIn(EntryController::SPOILER_QUERY, $parser->getBooleanFilter(EntryController::SPOILER_QUERY));
+        }
+
+        return $entries;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ThemeType;
+use App\Http\Controllers\Api\ThemeController;
 use App\ScoutElastic\ThemeIndexConfigurator;
 use App\ScoutElastic\ThemeSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
@@ -178,5 +179,20 @@ class Theme extends Model implements Auditable
     public function entries()
     {
         return $this->hasMany('App\Models\Entry', 'theme_id', 'theme_id');
+    }
+
+    public static function applyFilters($themes, $parser)
+    {
+        if ($parser->hasFilter(ThemeController::TYPE_QUERY)) {
+            $themes = $themes->whereIn(ThemeController::TYPE_QUERY, $parser->getEnumFilter(ThemeController::TYPE_QUERY, ThemeType::class));
+        }
+        if ($parser->hasFilter(ThemeController::SEQUENCE_QUERY)) {
+            $themes = $themes->whereIn(ThemeController::SEQUENCE_QUERY, $parser->getFilter(ThemeController::SEQUENCE_QUERY));
+        }
+        if ($parser->hasFilter(ThemeController::GROUP_QUERY)) {
+            $themes = $themes->whereIn(ThemeController::GROUP_QUERY, $parser->getFilter(ThemeController::GROUP_QUERY));
+        }
+        
+        return $themes;
     }
 }

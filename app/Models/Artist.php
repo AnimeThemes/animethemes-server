@@ -169,4 +169,9 @@ class Artist extends Model implements Auditable
     {
         return $this->belongsToMany('App\Models\Image', 'artist_image', 'artist_id', 'image_id');
     }
+
+    public static function applyFilters($artists, $parser)
+    {
+        return $artists;
+    }
 }

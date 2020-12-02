@@ -98,4 +98,9 @@ class Song extends Model implements Auditable
     {
         return $this->belongsToMany('App\Models\Artist', 'artist_song', 'song_id', 'artist_id')->withPivot('as');
     }
+
+    public static function applyFilters($songs, $parser)
+    {
+        return $songs;
+    }
 }

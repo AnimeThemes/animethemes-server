@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AnimeSeason;
+use App\Http\Controllers\Api\AnimeController;
 use App\ScoutElastic\AnimeIndexConfigurator;
 use App\ScoutElastic\AnimeSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
@@ -183,5 +184,18 @@ class Anime extends Model implements Auditable
     public function images()
     {
         return $this->belongsToMany('App\Models\Image', 'anime_image', 'anime_id', 'image_id');
+    }
+
+    public static function applyFilters($anime, $parser)
+    {
+        // apply filters
+        if ($parser->hasFilter(AnimeController::YEAR_QUERY)) {
+            $anime = $anime->whereIn(AnimeController::YEAR_QUERY, $parser->getFilter(AnimeController::YEAR_QUERY));
+        }
+        if ($parser->hasFilter(AnimeController::SEASON_QUERY)) {
+            $anime = $anime->whereIn(AnimeController::SEASON_QUERY, $parser->getEnumFilter(AnimeController::SEASON_QUERY, AnimeSeason::class));
+        }
+
+        return $anime;
     }
 }

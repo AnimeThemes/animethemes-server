@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\AnimeSeason;
 use App\Http\Resources\AnimeCollection;
 use App\Http\Resources\AnimeResource;
 use App\Models\Anime;
@@ -11,8 +10,8 @@ use Illuminate\Support\Str;
 class AnimeController extends BaseController
 {
     // constants for query parameters
-    protected const YEAR_QUERY = 'year';
-    protected const SEASON_QUERY = 'season';
+    public const YEAR_QUERY = 'year';
+    public const SEASON_QUERY = 'season';
 
     /**
      * Display a listing of the resource.
@@ -94,12 +93,7 @@ class AnimeController extends BaseController
         $anime = Anime::with($this->parser->getIncludePaths(Anime::$allowedIncludePaths));
 
         // apply filters
-        if ($this->parser->hasFilter(static::YEAR_QUERY)) {
-            $anime = $anime->whereIn(static::YEAR_QUERY, $this->parser->getFilter(static::YEAR_QUERY));
-        }
-        if ($this->parser->hasFilter(static::SEASON_QUERY)) {
-            $anime = $anime->whereIn(static::SEASON_QUERY, $this->parser->getEnumFilter(static::SEASON_QUERY, AnimeSeason::class));
-        }
+        $anime = Anime::applyFilters($anime, $this->parser);
 
         // apply sorts
         foreach ($this->parser->getSorts() as $field => $isAsc) {

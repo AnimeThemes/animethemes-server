@@ -10,9 +10,9 @@ use Illuminate\Support\Str;
 class EntryController extends BaseController
 {
     // constants for query parameters
-    protected const VERSION_QUERY = 'version';
-    protected const NSFW_QUERY = 'nsfw';
-    protected const SPOILER_QUERY = 'spoiler';
+    public const VERSION_QUERY = 'version';
+    public const NSFW_QUERY = 'nsfw';
+    public const SPOILER_QUERY = 'spoiler';
 
     /**
      * Display a listing of the resource.
@@ -102,15 +102,7 @@ class EntryController extends BaseController
         $entries = Entry::with($this->parser->getIncludePaths(Entry::$allowedIncludePaths));
 
         // apply filters
-        if ($this->parser->hasFilter(static::VERSION_QUERY)) {
-            $entries = $entries->whereIn(static::VERSION_QUERY, $this->parser->getFilter(static::VERSION_QUERY));
-        }
-        if ($this->parser->hasFilter(static::NSFW_QUERY)) {
-            $entries = $entries->whereIn(static::NSFW_QUERY, $this->parser->getBooleanFilter(static::NSFW_QUERY));
-        }
-        if ($this->parser->hasFilter(static::SPOILER_QUERY)) {
-            $entries = $entries->whereIn(static::SPOILER_QUERY, $this->parser->getBooleanFilter(static::SPOILER_QUERY));
-        }
+        $entries = Entry::applyFilters($entries, $this->parser);
 
         // apply sorts
         foreach ($this->parser->getSorts() as $field => $isAsc) {

@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 
 class QueryParser
 {
+
     public const PARAM_INCLUDE = 'include';
 
     public const PARAM_FIELDS = 'fields';
@@ -16,6 +17,10 @@ class QueryParser
     public const PARAM_FILTER = 'filter';
 
     public const PARAM_SEARCH = 'q';
+
+    public const PARAM_AMOUNT = 'amount';
+
+    private const AMOUNT_MAX = 30;
 
     /**
      * @var array
@@ -48,6 +53,11 @@ class QueryParser
     private $search;
 
     /**
+     * @var int
+     */
+    private $amount;
+
+    /**
      * @param array $parameters
      */
     public function __construct($parameters)
@@ -58,6 +68,7 @@ class QueryParser
         $this->sorts = $this->parseSorts($parameters);
         $this->filters = $this->parseFilters($parameters);
         $this->search = $this->parseSearch($parameters);
+        $this->amount = $this->parseAmount($parameters);
     }
 
     /**
@@ -242,6 +253,40 @@ class QueryParser
     public function getSearch()
     {
         return $this->search;
+    }
+
+    /**
+     * Parse amount number from parameters.
+     *
+     * @param array $parameters
+     * @return int
+     */
+    public function parseAmount($parameters)
+    {
+        $amount = 1;
+
+        if (Arr::exists($parameters, self::PARAM_AMOUNT)) {
+            $amountParam = $parameters[self::PARAM_AMOUNT];
+            if (! Arr::accessible($amountParam)) {
+                $amountStr = trim($amountParam);
+                if (is_numeric($amountStr) && intval($amountStr) > 0) {
+                    // limit to maximum specified in AMOUNT_MAX
+                    $amount = intval($amountStr) > self::AMOUNT_MAX ? self::AMOUNT_MAX : intval($amountStr);
+                };
+            }
+        }
+
+        return $amount;
+    }
+
+    /**
+     * Get amount number from parameters.
+     *
+     * @return int
+     */
+    public function getAmount()
+    {
+        return $this->amount;
     }
 
     /**

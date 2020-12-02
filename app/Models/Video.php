@@ -4,6 +4,14 @@ namespace App\Models;
 
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
+use App\Enums\AnimeSeason;
+use App\Enums\ThemeType;
+use App\Http\Controllers\Api\AnimeController;
+use App\Http\Controllers\Api\VideoController;
+use App\Http\Controllers\Api\EntryController;
+use App\Http\Controllers\Api\ThemeController;
+use App\Http\Resources\AnimeCollection;
+use App\Http\Resources\EntryCollection;
 use App\ScoutElastic\VideoIndexConfigurator;
 use App\ScoutElastic\VideoSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
@@ -238,5 +246,106 @@ class Video extends Model implements Auditable
     public function entries()
     {
         return $this->belongsToMany('App\Models\Entry', 'entry_video', 'video_id', 'entry_id');
+    }
+
+    /**
+     * Apply filters to Video resource from parser
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $anime
+     * @param \App\JsonApi\QueryParser $parser
+     * @return mixed
+     */
+    public static function applyFilters($videos, $parser)
+    {
+        // apply filters
+        if ($parser->hasFilter(VideoController::RESOLUTION_QUERY)) {
+            $videos = $videos->whereIn(VideoController::RESOLUTION_QUERY, $parser->getFilter(VideoController::RESOLUTION_QUERY));
+        }
+        if ($parser->hasFilter(VideoController::NC_QUERY)) {
+            $videos = $videos->whereIn(VideoController::NC_QUERY, $parser->getBooleanFilter(VideoController::NC_QUERY));
+        }
+        if ($parser->hasFilter(VideoController::SUBBED_QUERY)) {
+            $videos = $videos->whereIn(VideoController::SUBBED_QUERY, $parser->getBooleanFilter(VideoController::SUBBED_QUERY));
+        }
+        if ($parser->hasFilter(VideoController::LYRICS_QUERY)) {
+            $videos = $videos->whereIn(VideoController::LYRICS_QUERY, $parser->getBooleanFilter(VideoController::LYRICS_QUERY));
+        }
+        if ($parser->hasFilter(VideoController::UNCEN_QUERY)) {
+            $videos = $videos->whereIn(VideoController::UNCEN_QUERY, $parser->getBooleanFilter(VideoController::UNCEN_QUERY));
+        }
+        if ($parser->hasFilter(VideoController::SOURCE_QUERY)) {
+            $videos = $videos->whereIn(VideoController::SOURCE_QUERY, $parser->getEnumFilter(VideoController::SOURCE_QUERY, VideoSource::class));
+        }
+        if ($parser->hasFilter(VideoController::OVERLAP_QUERY)) {
+            $videos = $videos->whereIn(VideoController::OVERLAP_QUERY, $parser->getEnumFilter(VideoController::OVERLAP_QUERY, VideoOverlap::class));
+        }
+        
+        // apply relational entry filters
+        if ($parser->hasFilter(EntryController::VERSION_QUERY)) {
+            $videos = $videos->whereHas(EntryCollection::$wrap, function($query) use($parser) {
+                $query->whereIn(EntryController::VERSION_QUERY, $parser->getFilter(EntryController::VERSION_QUERY));
+            });
+        }
+        if ($parser->hasFilter(EntryController::NSFW_QUERY)) {
+            $videos = $videos->whereHas(EntryCollection::$wrap, function($query) use($parser) {
+                $query->whereIn(EntryController::NSFW_QUERY, $parser->getBooleanFilter(EntryController::NSFW_QUERY));
+            });
+        }
+        if ($parser->hasFilter(EntryController::SPOILER_QUERY)) {
+            $videos = $videos->whereHas(EntryCollection::$wrap, function($query) use($parser) {
+                $query->whereIn(EntryController::SPOILER_QUERY, $parser->getBooleanFilter(EntryController::SPOILER_QUERY));
+            });
+        }
+        
+        if ($parser->hasFilter(EntryController::NSFW_QUERY)) {
+            $videos = $videos->whereHas(EntryCollection::$wrap, function($query) use($parser) {
+                $query->whereIn(EntryController::NSFW_QUERY, $parser->getBooleanFilter(EntryController::NSFW_QUERY));
+            });
+        }
+        
+        // apply relational theme filters
+        if ($parser->hasFilter(ThemeController::TYPE_QUERY)) {
+            $videos = $videos->whereHas(EntryCollection::$wrap, function($query) use($parser) {
+                $query->whereHas('theme', function($query) use($parser) {
+                    $query->whereIn(ThemeController::TYPE_QUERY, $parser->getEnumFilter(ThemeController::TYPE_QUERY, ThemeType::class));
+                });
+            });
+        }
+        if ($parser->hasFilter(ThemeController::SEQUENCE_QUERY)) {
+            $videos = $videos->whereHas(EntryCollection::$wrap, function($query) use($parser) {
+                $query->whereHas('theme', function($query) use($parser) {
+                    $query->whereIn(ThemeController::SEQUENCE_QUERY, $parser->getFilter(ThemeController::SEQUENCE_QUERY));
+                });
+            });
+        }
+        if ($parser->hasFilter(ThemeController::GROUP_QUERY)) {
+            $videos = $videos->whereHas(EntryCollection::$wrap, function($query) use($parser) {
+                $query->whereHas('theme', function($query) use($parser) {
+                    $query->whereIn(ThemeController::GROUP_QUERY, $parser->getFilter(ThemeController::GROUP_QUERY));
+                });
+            });
+        }
+        
+        // apply relational anime filters
+        if ($parser->hasFilter(AnimeController::YEAR_QUERY)) {
+            $videos = $videos->whereHas(EntryCollection::$wrap, function($query) use($parser) {
+                $query->whereHas('theme', function($query) use($parser) {
+                    $query->whereHas(AnimeCollection::$wrap, function($query) use($parser) {
+                        $query->whereIn(AnimeController::YEAR_QUERY, $parser->getFilter(AnimeController::YEAR_QUERY));
+                    });
+                });
+            });
+        }
+        if ($parser->hasFilter(AnimeController::SEASON_QUERY)) {
+            $videos = $videos->whereHas(EntryCollection::$wrap, function($query) use($parser) {
+                $query->whereHas('theme', function($query) use($parser) {
+                    $query->whereHas(AnimeCollection::$wrap, function($query) use($parser) {
+                        $query->whereIn(AnimeController::SEASON_QUERY, $parser->getEnumFilter(AnimeController::SEASON_QUERY, AnimeSeason::class));
+                    });
+                });
+            });
+        }
+
+        return $videos;
     }
 }

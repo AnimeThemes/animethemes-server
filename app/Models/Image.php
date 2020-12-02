@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ImageFacet;
+use App\Http\Controllers\Api\ImageController;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -87,5 +88,13 @@ class Image extends Model implements Auditable
     public function artists()
     {
         return $this->belongsToMany('App\Models\Artist', 'artist_image', 'image_id', 'artist_id');
+    }
+
+    public static function applyFilters($images, $parser)
+    {
+        if ($parser->hasFilter(ImageController::FACET_QUERY)) {
+            $images = $images->whereIn(ImageController::FACET_QUERY, $parser->getEnumFilter(ImageController::FACET_QUERY, ImageFacet::class));
+        }
+        return $images;
     }
 }

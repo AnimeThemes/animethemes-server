@@ -87,4 +87,9 @@ class Synonym extends Model implements Auditable
     {
         return $this->belongsTo('App\Models\Anime', 'anime_id', 'anime_id');
     }
+
+    public static function applyFilters($synonyms, $parser)
+    {
+        return $synonyms;
+    }
 }

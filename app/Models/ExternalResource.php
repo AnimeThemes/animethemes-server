@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ResourceSite;
+use App\Http\Controllers\Api\ExternalResourceController;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -88,5 +89,14 @@ class ExternalResource extends Model implements Auditable
     public function artists()
     {
         return $this->belongsToMany('App\Models\Artist', 'artist_resource', 'resource_id', 'artist_id')->withPivot('as');
+    }
+
+    public static function applyFilters($resources, $parser)
+    {
+        if ($parser->hasFilter(ExternalResourceController::SITE_QUERY)) {
+            $resources = $resources->whereIn(ExternalResourceController::SITE_QUERY, $parser->getEnumFilter(ExternalResourceController::SITE_QUERY, ResourceSite::class));
+        }
+
+        return $resources;
     }
 }

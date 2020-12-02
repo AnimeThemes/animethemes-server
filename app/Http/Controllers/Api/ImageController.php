@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\ImageFacet;
 use App\Http\Resources\ImageCollection;
 use App\Http\Resources\ImageResource;
 use App\Models\Image;
@@ -11,7 +10,7 @@ use Illuminate\Support\Str;
 class ImageController extends BaseController
 {
     // constants for query parameters
-    protected const FACET_QUERY = 'facet';
+    public const FACET_QUERY = 'facet';
 
     /**
      * Display a listing of the resource.
@@ -85,9 +84,7 @@ class ImageController extends BaseController
         $images = Image::with($this->parser->getIncludePaths(Image::$allowedIncludePaths));
 
         // apply filters
-        if ($this->parser->hasFilter(static::FACET_QUERY)) {
-            $images = $images->whereIn(static::FACET_QUERY, $this->parser->getEnumFilter(static::FACET_QUERY, ImageFacet::class));
-        }
+        $images = Image::applyFilters($images, $this->parser);
 
         // apply sorts
         foreach ($this->parser->getSorts() as $field => $isAsc) {

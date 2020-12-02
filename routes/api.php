@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\SynonymController;
 use App\Http\Controllers\Api\ThemeController;
 use App\Http\Controllers\Api\VideoController;
 use App\Http\Controllers\Api\YearController;
+use App\Http\Controllers\Api\RandomController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,8 @@ Route::group(['as' => 'api.'], function () {
     // Year Routes
     Route::get('year', [YearController::class, 'index'])->name('year.index');
     Route::get('year/{year}', [YearController::class, 'show'])->name('year.show');
+    
+    Route::get('random/{resource}', [RandomController::class, 'show'])->name('random.show');
 });
 
 Route::fallback(function () {

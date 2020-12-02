@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\ResourceSite;
 use App\Http\Resources\ExternalResourceCollection;
 use App\Http\Resources\ExternalResourceResource;
 use App\Models\ExternalResource;
@@ -11,7 +10,7 @@ use Illuminate\Support\Str;
 class ExternalResourceController extends BaseController
 {
     // constants for query parameters
-    protected const SITE_QUERY = 'site';
+    public const SITE_QUERY = 'site';
 
     /**
      * Display a listing of the resource.
@@ -85,9 +84,7 @@ class ExternalResourceController extends BaseController
         $resources = ExternalResource::with($this->parser->getIncludePaths(ExternalResource::$allowedIncludePaths));
 
         // apply filters
-        if ($this->parser->hasFilter(static::SITE_QUERY)) {
-            $resources = $resources->whereIn(static::SITE_QUERY, $this->parser->getEnumFilter(static::SITE_QUERY, ResourceSite::class));
-        }
+        $resources = ExternalResource::applyFilters($resources, $this->parser);
 
         // apply sorts
         foreach ($this->parser->getSorts() as $field => $isAsc) {

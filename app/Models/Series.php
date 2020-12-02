@@ -105,4 +105,9 @@ class Series extends Model implements Auditable
     {
         return $this->belongsToMany('App\Models\Anime', 'anime_series', 'series_id', 'anime_id');
     }
+
+    public static function applyFilters($series, $parser)
+    {
+        return $series;
+    }
 }

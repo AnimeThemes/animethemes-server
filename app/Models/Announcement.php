@@ -46,4 +46,9 @@ class Announcement extends Model implements Auditable
         'created_at',
         'updated_at',
     ];
+
+    public static function applyFilters($announcements, $parser)
+    {
+        return $announcements;
+    }
 }
