@@ -77,8 +77,7 @@ class DatabaseDumpCommand extends Command
             // Specify the PDO connection type so that the correct utility is run
             $dbConnection = DB::connection();
             $connectionName = $dbConnection->getName();
-            switch ($connectionName)
-            {
+            switch ($connectionName) {
                 case 'sqlite':
                     Sqlite::create()
                         ->setDbName($dbConnection->getDatabaseName())
