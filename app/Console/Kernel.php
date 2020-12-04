@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\DatabaseDumpCommand;
 use App\Console\Commands\VideoReconcileCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -14,6 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        \App\Console\Commands\DatabaseDumpCommand::class,
         \App\Console\Commands\VideoReconcileCommand::class,
     ];
 
@@ -25,6 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command(DatabaseDumpCommand::class)->daily();
         $schedule->command(VideoReconcileCommand::class)->hourly();
     }
 
