@@ -32,6 +32,7 @@
         "owen-it/laravel-auditing": "^11.0",
         "paranarimasu/nova-nested-form": "dev-master",
         "sfelix-martins/json-exception-handler": "^2.3",
+        "spatie/db-dumper": "^2.18",
         "spatie/laravel-json-api-paginate": "^1.9",
         "staudenmeir/belongs-to-through": "^2.11"
     },
