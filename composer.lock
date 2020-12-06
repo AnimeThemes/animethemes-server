@@ -60,16 +60,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.166.1",
+            "version": "3.166.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "36788095cfab7850400e337a3128572cfc1537e6"
+                "reference": "fe0ec9235d07b0f51ec4396dce0dd639020ae1a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/36788095cfab7850400e337a3128572cfc1537e6",
-                "reference": "36788095cfab7850400e337a3128572cfc1537e6",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/fe0ec9235d07b0f51ec4396dce0dd639020ae1a7",
+                "reference": "fe0ec9235d07b0f51ec4396dce0dd639020ae1a7",
                 "shasum": ""
             },
             "require": {
@@ -141,7 +141,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-12-03T19:25:02+00:00"
+            "time": "2020-12-04T19:12:30+00:00"
         },
         {
             "name": "babenkoivan/scout-elasticsearch-driver",
@@ -2821,17 +2821,17 @@
         },
         {
             "name": "laravel/nova",
-            "version": "3.16.2",
+            "version": "3.16.3",
             "source": {
                 "type": "git",
                 "url": "git@github.com:laravel/nova.git",
-                "reference": "acc0c449eab85471c5497c2bda910d9d719c24e8"
+                "reference": "6740802ca38de643a851a1ac5ff62e939860b73f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-acc0c449eab85471c5497c2bda910d9d719c24e8-zip-f08be5.zip",
-                "reference": "acc0c449eab85471c5497c2bda910d9d719c24e8",
-                "shasum": "f4d4c8f815704fff16e8f940e77dd48d3631c01d"
+                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-6740802ca38de643a851a1ac5ff62e939860b73f-zip-d298aa.zip",
+                "reference": "6740802ca38de643a851a1ac5ff62e939860b73f",
+                "shasum": "987f2c2ab5cd98721dc134af8c700e4c8dad93ea"
             },
             "require": {
                 "brick/money": "^0.5.0",
@@ -2908,7 +2908,7 @@
                 "admin",
                 "laravel"
             ],
-            "time": "2020-12-03T10:24:40+00:00"
+            "time": "2020-12-04T09:37:10+00:00"
         },
         {
             "name": "laravel/sanctum",
