@@ -109,7 +109,7 @@ class VideoReconcileCommand extends Command
 
             // Create videos that exist in storage but not in the database
             $create_videos = $fs_videos->diffUsing($db_videos, function ($a, $b) {
-                return strcmp($a->basename, $b->basename);
+                return $a->basename <=> $b->basename;
             });
             foreach ($create_videos as $create_video) {
                 $create_result = $create_video->save();
@@ -126,7 +126,7 @@ class VideoReconcileCommand extends Command
 
             // Delete videos that no longer exist in storage
             $delete_videos = $db_videos->diffUsing($fs_videos, function ($a, $b) {
-                return strcmp($a->basename, $b->basename);
+                return $a->basename <=> $b->basename;
             });
             foreach ($delete_videos as $delete_video) {
                 $delete_result = $delete_video->delete();
@@ -146,7 +146,7 @@ class VideoReconcileCommand extends Command
 
             // Update videos that have been changed
             $updated_videos = $db_videos->diffUsing($fs_videos, function ($a, $b) {
-                return strcmp($a->basename, $b->basename) && strcmp($a->path, $b->path) && $a->size === $b->size;
+                return [$a->basename, $a->path, $a->size] <=> [$b->basename, $b->path, $b->size];
             });
             foreach ($updated_videos as $updated_video) {
                 $fs_video = $fs_videos->firstWhere('basename', $updated_video->basename);
