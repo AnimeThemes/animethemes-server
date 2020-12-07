@@ -10,7 +10,6 @@
     "require": {
         "php": "^7.3",
         "babenkoivan/scout-elasticsearch-driver": "^4.2",
-        "benjaminhirsch/nova-slug-field": "^1.2",
         "bensampo/laravel-enum": "^3.0",
         "darkaonline/l5-swagger": "^8.0",
         "david-griffiths/nova-dark-theme": "^1.0",

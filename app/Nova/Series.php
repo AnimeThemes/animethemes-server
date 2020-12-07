@@ -2,13 +2,13 @@
 
 namespace App\Nova;
 
-use Benjaminhirsch\NovaSlugField\Slug;
-use Benjaminhirsch\NovaSlugField\TextWithSlug;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Slug;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
 class Series extends Resource
@@ -80,16 +80,14 @@ class Series extends Resource
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
-            TextWithSlug::make(__('nova.name'), 'name')
-                ->slug('slug')
+            Text::make(__('nova.name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:192')
                 ->help(__('nova.series_name_help')),
 
             Slug::make(__('nova.slug'), 'slug')
-                ->slugifyOptions([
-                    'separator' => '_',
-                ])
+                ->from('name')
+                ->separator('_')
                 ->sortable()
                 ->rules('required', 'max:192', 'alpha_dash')
                 ->creationRules('unique:series,slug')
