@@ -16,7 +16,6 @@ class HasInvitation
      */
     public function handle($request, Closure $next)
     {
-
         // Token is required
         if (! $request->has('token')) {
             return redirect(route('welcome'));
