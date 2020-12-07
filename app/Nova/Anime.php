@@ -104,7 +104,7 @@ class Anime extends Resource
                 ->help(__('nova.anime_name_help')),
 
             Slug::make(__('nova.slug'), 'slug')
-                ->from('Name')
+                ->from('name')
                 ->separator('_')
                 ->sortable()
                 ->rules('required', 'max:192', 'alpha_dash')

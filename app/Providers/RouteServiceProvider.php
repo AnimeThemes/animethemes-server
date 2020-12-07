@@ -40,7 +40,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routes(function () {
             Route::domain(Config::get('app.video_url'))
-                ->middleware('web')
+                ->middleware(['web', 'is_video_streaming_allowed'])
                 ->group(base_path('routes/video.php'));
 
             Route::middleware('web')
