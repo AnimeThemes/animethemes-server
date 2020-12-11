@@ -65,7 +65,7 @@ class AnnouncementReadCommand extends Command
             [
                 'alias' => $announcement->alias,
                 'content' => $announcement->content,
-            ]
+            ],
         ];
 
         $this->table($headers, $data);

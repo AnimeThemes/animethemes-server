@@ -46,6 +46,7 @@ class AnnouncementCreateCommand extends Command
         if (empty($alias)) {
             LOG::error('alias is required');
             $this->error('alias is required');
+
             return;
         }
 
@@ -54,6 +55,7 @@ class AnnouncementCreateCommand extends Command
         if (empty($content)) {
             LOG::error('content is required');
             $this->error('content is required');
+
             return;
         }
 
@@ -62,6 +64,7 @@ class AnnouncementCreateCommand extends Command
         if ($announcement) {
             LOG::error("Announcement '{$alias}' already exists");
             $this->error("Announcement '{$alias}' already exists");
+
             return;
         }
 
