@@ -11,6 +11,7 @@
         "php": "^7.3",
         "babenkoivan/scout-elasticsearch-driver": "^4.2",
         "bensampo/laravel-enum": "^3.0",
+        "cyrildewit/eloquent-viewable": "^5.2",
         "darkaonline/l5-swagger": "^8.0",
         "david-griffiths/nova-dark-theme": "^1.0",
         "devpartners/auditable-log": "^1.0",

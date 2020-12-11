@@ -9,11 +9,15 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class VideoController extends Controller
 {
     /**
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse|void
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function show(Video $video)
     {
         set_time_limit(0);
+
+        views($video)
+            ->cooldown(now()->addMinutes(5))
+            ->record();
 
         $response = new StreamedResponse;
 

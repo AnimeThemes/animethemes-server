@@ -63,7 +63,7 @@ return [
         ],
 
         'images' => [
-            'driver' => env('IMAGE_DRIVER'),
+            'driver' => 's3',
             'key' => env('IMAGE_ACCESS_KEY_ID'),
             'secret' => env('IMAGE_SECRET_ACCESS_KEY'),
             'region' => env('IMAGE_DEFAULT_REGION'),
@@ -75,7 +75,7 @@ return [
         ],
 
         'spaces' => [
-            'driver' => env('VIDEO_DRIVER'),
+            'driver' => 's3',
             'key' => env('VIDEO_ACCESS_KEY_ID'),
             'secret' => env('VIDEO_SECRET_ACCESS_KEY'),
             'region' => env('VIDEO_DEFAULT_REGION'),
