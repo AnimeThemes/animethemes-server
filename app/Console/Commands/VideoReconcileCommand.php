@@ -62,6 +62,7 @@ class VideoReconcileCommand extends Command
             $fs_videos = array_map(function ($file) {
                 $fs_video = new Video;
                 $fs_video->fill($file);
+
                 return $fs_video;
             }, $files);
 
