@@ -45,14 +45,16 @@ class AnnouncementReadCommand extends Command
         if (empty($alias)) {
             LOG::error('alias is required');
             $this->error('alias is required');
+
             return;
         }
 
         // Announcement must exist to be read
         $announcement = Announcement::where('alias', $alias)->first();
-        if (!$announcement) {
+        if (! $announcement) {
             LOG::error("Announcement '{$alias}' does not exist");
             $this->error("Announcement '{$alias}' does not exist");
+
             return;
         }
 
@@ -63,7 +65,7 @@ class AnnouncementReadCommand extends Command
             [
                 'alias' => $announcement->alias,
                 'content' => $announcement->content,
-            ]
+            ],
         ];
 
         $this->table($headers, $data);

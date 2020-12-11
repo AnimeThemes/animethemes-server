@@ -13,7 +13,7 @@ class AnnouncementCreateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'create:announcement 
+    protected $signature = 'create:announcement
                             {--alias= : An internal identifier with which an announcement can be referred}
                             {--content= : The Announcement Text}';
 
@@ -46,6 +46,7 @@ class AnnouncementCreateCommand extends Command
         if (empty($alias)) {
             LOG::error('alias is required');
             $this->error('alias is required');
+
             return;
         }
 
@@ -54,6 +55,7 @@ class AnnouncementCreateCommand extends Command
         if (empty($content)) {
             LOG::error('content is required');
             $this->error('content is required');
+
             return;
         }
 
@@ -62,14 +64,15 @@ class AnnouncementCreateCommand extends Command
         if ($announcement) {
             LOG::error("Announcement '{$alias}' already exists");
             $this->error("Announcement '{$alias}' already exists");
+
             return;
         }
 
         // Create the Announcement
-        $result = Announcement::create(array(
+        $result = Announcement::create([
             'alias' => $alias,
-            'content' => $content
-        ));
+            'content' => $content,
+        ]);
 
         // Confirm if Announcement was created
         if ($result->exists()) {

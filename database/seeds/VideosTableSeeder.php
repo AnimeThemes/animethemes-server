@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Storage;
 
 class VideosTableSeeder extends Seeder
 {
-    public function run() {
+    public function run()
+    {
         // Remove any existing rows in Videos table
         // We want this table to match storage, avoiding the need for reconciliation
         DB::table('videos')->delete();

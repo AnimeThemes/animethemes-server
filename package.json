@@ -11,15 +11,15 @@
     },
     "devDependencies": {
         "axios": "^0.20",
-        "cross-env": "^7.0.2",
+        "cross-env": "^7.0.3",
         "laravel-mix": "^5.0.9",
         "lodash": "^4.17.20",
         "resolve-url-loader": "^3.1.2",
-        "sass": "^1.29.0",
+        "sass": "^1.30.0",
         "sass-loader": "^10.1.0"
     },
     "dependencies": {
         "jquery": "^3.5.1",
-        "modernizr": "^3.11.3"
+        "modernizr": "^3.11.4"
     }
 }

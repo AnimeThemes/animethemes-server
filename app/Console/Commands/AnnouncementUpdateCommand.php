@@ -46,6 +46,7 @@ class AnnouncementUpdateCommand extends Command
         if (empty($alias)) {
             LOG::error('alias is required');
             $this->error('alias is required');
+
             return;
         }
 
@@ -54,14 +55,15 @@ class AnnouncementUpdateCommand extends Command
 
         // Announcement must exist to be updated
         $announcement = Announcement::where('alias', $alias)->first();
-        if (!$announcement) {
+        if (! $announcement) {
             LOG::error("Announcement '{$alias}' does not exist");
             $this->error("Announcement '{$alias}' does not exist");
+
             return;
         }
 
         // Update Content if set
-        if (!empty($content)) {
+        if (! empty($content)) {
             $announcement->content = $content;
         }
 
