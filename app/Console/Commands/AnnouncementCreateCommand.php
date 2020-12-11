@@ -13,7 +13,7 @@ class AnnouncementCreateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'create:announcement 
+    protected $signature = 'create:announcement
                             {--alias= : An internal identifier with which an announcement can be referred}
                             {--content= : The Announcement Text}';
 
@@ -66,10 +66,10 @@ class AnnouncementCreateCommand extends Command
         }
 
         // Create the Announcement
-        $result = Announcement::create(array(
+        $result = Announcement::create([
             'alias' => $alias,
             'content' => $content
-        ));
+        ]);
 
         // Confirm if Announcement was created
         if ($result->exists()) {

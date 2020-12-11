@@ -8,7 +8,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class VideosController extends Controller
 {
-    public function show($alias) {
+    public function show($alias)
+    {
         set_time_limit(0);
 
         $video = Video::where('basename', $alias)->orWhere('filename', $alias)->first();

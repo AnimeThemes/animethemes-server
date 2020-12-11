@@ -50,7 +50,7 @@ class AnnouncementReadCommand extends Command
 
         // Announcement must exist to be read
         $announcement = Announcement::where('alias', $alias)->first();
-        if (!$announcement) {
+        if (! $announcement) {
             LOG::error("Announcement '{$alias}' does not exist");
             $this->error("Announcement '{$alias}' does not exist");
             return;

@@ -6,9 +6,11 @@ use App\Grills\Grill;
 use Faker\Factory;
 use Illuminate\Support\Facades\Storage;
 
-class GrillFactory {
+class GrillFactory
+{
 
-    public static function getGrill() {
+    public static function getGrill()
+    {
         // Retrieve grills through Storage Facade [see config/filesystems.php]
         $grill_disk = Storage::disk('grill');
         $grills = $grill_disk->files();
@@ -20,5 +22,5 @@ class GrillFactory {
 
         // Return Grill
         return new Grill($grill_path);
-   }
+    }
 }

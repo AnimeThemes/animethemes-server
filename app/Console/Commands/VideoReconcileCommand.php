@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class VideoReconcileCommand extends Command
 {
-
     // Result Counts
     public $created = 0;
     public $created_failed = 0;
@@ -108,7 +107,8 @@ class VideoReconcileCommand extends Command
     }
 
     // Callback for video comparison in set operation
-    public static function compareVideos($a, $b) {
+    public static function compareVideos($a, $b)
+    {
         return strcmp(VideoReconcileCommand::reconciliationString($a), VideoReconcileCommand::reconciliationString($b));
     }
 
@@ -120,19 +120,23 @@ class VideoReconcileCommand extends Command
 
     // Reconciliation Results
 
-    public function hasResults() {
+    public function hasResults()
+    {
         return $this->hasChanges() || $this->hasFailures();
     }
 
-    public function hasChanges() {
+    public function hasChanges()
+    {
         return $this->created > 0 || $this->deleted > 0;
     }
 
-    public function hasFailures() {
+    public function hasFailures()
+    {
         return $this->created_failed > 0 || $this->deleted_failed > 0;
     }
 
-    public function printResults() {
+    public function printResults()
+    {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
                 Log::info("{$this->created} Videos created, {$this->deleted} Videos deleted");

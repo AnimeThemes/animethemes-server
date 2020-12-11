@@ -2,15 +2,17 @@
 
 namespace App\Grills;
 
-class Grill {
-
+class Grill
+{
     private $path;
 
-    public function __construct($path) {
+    public function __construct($path)
+    {
         $this->path = $path;
     }
 
-    public function getPath() {
+    public function getPath()
+    {
         return $this->path;
     }
 }
