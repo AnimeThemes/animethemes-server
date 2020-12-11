@@ -114,7 +114,8 @@ class VideoReconcileCommand extends Command
 
     // Represent video with attributes that correspond to WebM metadata
     // For reconciliation purposes, other attributes such as ID and timestamps do not apply
-    public static function reconciliationString($video) {
+    public static function reconciliationString($video)
+    {
         return "basename:{$video->basename},filename:{$video->filename},path:{$video->path},size:{$video->size}";
     }
 

@@ -45,6 +45,7 @@ class AnnouncementDeleteCommand extends Command
         if (empty($alias)) {
             LOG::error('alias is required');
             $this->error('alias is required');
+
             return;
         }
 
@@ -53,6 +54,7 @@ class AnnouncementDeleteCommand extends Command
         if (! $announcement) {
             LOG::error("Announcement '{$alias}' does not exist");
             $this->error("Announcement '{$alias}' does not exist");
+
             return;
         }
 

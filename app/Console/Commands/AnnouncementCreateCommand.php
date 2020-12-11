@@ -68,7 +68,7 @@ class AnnouncementCreateCommand extends Command
         // Create the Announcement
         $result = Announcement::create([
             'alias' => $alias,
-            'content' => $content
+            'content' => $content,
         ]);
 
         // Confirm if Announcement was created

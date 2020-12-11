@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Storage;
 
 class GrillFactory
 {
-
     public static function getGrill()
     {
         // Retrieve grills through Storage Facade [see config/filesystems.php]

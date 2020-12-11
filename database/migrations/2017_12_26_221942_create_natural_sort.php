@@ -100,7 +100,7 @@ class CreateNaturalSort extends Migration
      */
     public function down()
     {
-        DB::unprepared("DROP FUNCTION IF EXISTS `udf_FirstNumberPos`");
-        DB::unprepared("DROP FUNCTION IF EXISTS `udf_NaturalSortFormat`");
+        DB::unprepared('DROP FUNCTION IF EXISTS `udf_FirstNumberPos`');
+        DB::unprepared('DROP FUNCTION IF EXISTS `udf_NaturalSortFormat`');
     }
 }
