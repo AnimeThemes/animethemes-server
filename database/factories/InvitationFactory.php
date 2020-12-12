@@ -24,7 +24,6 @@ class InvitationFactory extends Factory
     public function definition()
     {
         return [
-            'token' => Invitation::createToken(),
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'role' => UserRole::READ_ONLY,

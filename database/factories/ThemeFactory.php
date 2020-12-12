@@ -26,7 +26,6 @@ class ThemeFactory extends Factory
             'group' => $this->faker->words(3, true),
             'type' => ThemeType::getRandomValue(),
             'sequence' => $this->faker->randomDigitNotNull,
-            'slug' => ThemeType::getRandomKey().strval($this->faker->randomDigitNotNull),
         ];
     }
 }
