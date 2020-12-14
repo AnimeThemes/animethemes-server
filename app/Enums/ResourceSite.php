@@ -24,6 +24,7 @@ final class ResourceSite extends Enum implements LocalizedEnum
 
     /**
      * Get domain by resource site.
+     * TODO: Domain should be an attribute of the type.
      *
      * @param int $value the resource site key
      * @return string|null
@@ -54,6 +55,7 @@ final class ResourceSite extends Enum implements LocalizedEnum
 
     /**
      * Get resource site by link, matching expected domain.
+     * TODO: Domain should be an attribute of the type.
      *
      * @param string $link the link to test
      * @return string|null

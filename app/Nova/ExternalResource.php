@@ -3,7 +3,7 @@
 namespace App\Nova;
 
 use App\Enums\ResourceSite;
-use App\Rules\ResourceSiteDomain;
+use App\Rules\ResourceSiteDomainRule;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
@@ -96,7 +96,7 @@ class ExternalResource extends Resource
 
             Url::make(__('nova.link'), 'link')
                 ->sortable()
-                ->rules('required', 'max:192', 'url', new ResourceSiteDomain($request->input('site')))
+                ->rules('required', 'max:192', 'url', new ResourceSiteDomainRule($request->input('site')))
                 ->creationRules('unique:resource,link')
                 ->updateRules('unique:resource,link,{{resourceId}},resource_id')
                 ->help(__('nova.resource_link_help'))

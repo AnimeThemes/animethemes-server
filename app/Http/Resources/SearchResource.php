@@ -22,6 +22,13 @@ class SearchResource extends BaseResource
     public static $wrap = null;
 
     /**
+     * The name of the resource in the field set mapping.
+     *
+     * @var string
+     */
+    public static $resourceType = 'search';
+
+    /**
      * Create a new resource instance.
      *
      * @param mixed  $parser
@@ -40,23 +47,9 @@ class SearchResource extends BaseResource
      */
     public function toArray($request)
     {
-        $includes = $this->parser->getResourceIncludePaths(
-            [
-                AnimeCollection::$wrap,
-                ArtistCollection::$wrap,
-                EntryCollection::$wrap,
-                SeriesCollection::$wrap,
-                SongCollection::$wrap,
-                SynonymCollection::$wrap,
-                ThemeCollection::$wrap,
-                VideoCollection::$wrap,
-            ],
-            'type'
-        );
-
         return [
             AnimeCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && in_array(AnimeCollection::$wrap, $includes),
+                $this->parser->hasSearch() && $this->isAllowedField(AnimeCollection::$wrap),
                 AnimeCollection::make(
                     Anime::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Anime::$allowedIncludePaths, AnimeResource::$resourceType))
@@ -65,7 +58,7 @@ class SearchResource extends BaseResource
                 )
             ),
             ArtistCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && in_array(ArtistCollection::$wrap, $includes),
+                $this->parser->hasSearch() && $this->isAllowedField(ArtistCollection::$wrap),
                 ArtistCollection::make(
                     Artist::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Artist::$allowedIncludePaths, ArtistResource::$resourceType))
@@ -74,7 +67,7 @@ class SearchResource extends BaseResource
                 )
             ),
             EntryCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && in_array(EntryCollection::$wrap, $includes),
+                $this->parser->hasSearch() && $this->isAllowedField(EntryCollection::$wrap),
                 EntryCollection::make(
                     Entry::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Entry::$allowedIncludePaths, EntryResource::$resourceType))
@@ -83,7 +76,7 @@ class SearchResource extends BaseResource
                 )
             ),
             SeriesCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && in_array(SeriesCollection::$wrap, $includes),
+                $this->parser->hasSearch() && $this->isAllowedField(SeriesCollection::$wrap),
                 SeriesCollection::make(
                     Series::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Series::$allowedIncludePaths, SeriesResource::$resourceType))
@@ -92,7 +85,7 @@ class SearchResource extends BaseResource
                 )
             ),
             SongCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && in_array(SongCollection::$wrap, $includes),
+                $this->parser->hasSearch() && $this->isAllowedField(SongCollection::$wrap),
                 SongCollection::make(
                     Song::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Song::$allowedIncludePaths, SongResource::$resourceType))
@@ -101,7 +94,7 @@ class SearchResource extends BaseResource
                 )
             ),
             SynonymCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && in_array(SynonymCollection::$wrap, $includes),
+                $this->parser->hasSearch() && $this->isAllowedField(SynonymCollection::$wrap),
                 SynonymCollection::make(
                     Synonym::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Synonym::$allowedIncludePaths, SynonymResource::$resourceType))
@@ -110,7 +103,7 @@ class SearchResource extends BaseResource
                 )
             ),
             ThemeCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && in_array(ThemeCollection::$wrap, $includes),
+                $this->parser->hasSearch() && $this->isAllowedField(ThemeCollection::$wrap),
                 ThemeCollection::make(
                     Theme::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Theme::$allowedIncludePaths, ThemeResource::$resourceType))
@@ -119,7 +112,7 @@ class SearchResource extends BaseResource
                 )
             ),
             VideoCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && in_array(VideoCollection::$wrap, $includes),
+                $this->parser->hasSearch() && $this->isAllowedField(VideoCollection::$wrap),
                 VideoCollection::make(
                     Video::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Video::$allowedIncludePaths, VideoResource::$resourceType))

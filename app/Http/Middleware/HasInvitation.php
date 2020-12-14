@@ -16,19 +16,11 @@ class HasInvitation
      */
     public function handle($request, Closure $next)
     {
-        // Token is required
-        if (! $request->has('token')) {
-            return redirect(route('welcome'));
-        }
-
         $token = $request->get('token');
 
-        try {
-            $invitation = Invitation::where('token', $token)->firstOrFail();
-            if (! $invitation->isOpen()) {
-                return redirect(route('welcome'));
-            }
-        } catch (\Exception $exception) {
+        $invitation = Invitation::where('token', $token)->first();
+
+        if ($invitation == null || ! $invitation->isOpen()) {
             return redirect(route('welcome'));
         }
 
