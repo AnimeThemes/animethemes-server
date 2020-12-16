@@ -29,7 +29,7 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "livewire/livewire": "^2.0",
         "olssonm/l5-zxcvbn": "^4.3",
-        "owen-it/laravel-auditing": "^11.0",
+        "owen-it/laravel-auditing": "^12.0",
         "paranarimasu/nova-nested-form": "dev-master",
         "sfelix-martins/json-exception-handler": "^2.3",
         "spatie/db-dumper": "^2.18",
