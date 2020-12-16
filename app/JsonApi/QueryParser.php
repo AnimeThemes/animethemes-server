@@ -261,6 +261,7 @@ class QueryParser
 
         // Is field included for this type
         $allowedFields = Arr::get($this->fields, $type);
+
         return in_array($field, $allowedFields);
     }
 

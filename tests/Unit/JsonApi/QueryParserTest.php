@@ -84,7 +84,7 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     * By default, all include paths are allowed if selected include paths are not specified.
+     * By default, all include paths are allowed if include paths are not specified.
      *
      * @return void
      */
@@ -118,7 +118,7 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     * If include paths are specified, allowed include paths within this list are allowed.
+     * If include paths are specified, those within the allowed include list are kept.
      *
      * @return void
      */
@@ -176,7 +176,7 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     * If resource include paths are specified, allowed include paths within this resource list are allowed.
+     * If resource include paths are specified, those within the allowed include list for the resource are kept.
      *
      * @return void
      */
@@ -199,7 +199,7 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     * Sorts shall be parsed with JSON:API syntax.
+     * Sorts that are not prefixed with '+' and '-' are parsed as ascending.
      *
      * @return void
      */
@@ -220,7 +220,7 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     *
+     * Sorts that are not prefixed with '-' are parsed as descending.
      *
      * @return void
      */
@@ -244,7 +244,7 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     *
+     * Sorts that are not prefixed with '+' are parsed as ascending.
      *
      * @return void
      */
@@ -268,7 +268,7 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     * If a field has a filter specified, the parser shall indicate as such.
+     * The parser shall indicate if a field has a filter provided.
      *
      * @return void
      */
@@ -296,7 +296,7 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     * If a field has a filter specified, the parser shall return the collection of filter values.
+     * The parser shall collect filter values for a field.
      *
      * @return void
      */
@@ -366,7 +366,7 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     * The parser will indicate that our request doesn't have a search value.
+     * The parser will indicate that our request doesn't have a search value if not specified.
      *
      * @return void
      */
@@ -382,7 +382,7 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     * Undocumented function
+     * The parser will indicate that our request has a search value if specified.
      *
      * @return void
      */
@@ -395,5 +395,23 @@ class QueryParserTest extends TestCase
         $parser = new QueryParser($parameters);
 
         $this->assertTrue($parser->hasSearch());
+    }
+
+    /**
+     * The parser shall collect the search query.
+     *
+     * @return void
+     */
+    public function testGetSearch()
+    {
+        $q = $this->faker->word();
+
+        $parameters = [
+            'q' => $q,
+        ];
+
+        $parser = new QueryParser($parameters);
+
+        $this->assertEquals($q, $parser->getSearch());
     }
 }

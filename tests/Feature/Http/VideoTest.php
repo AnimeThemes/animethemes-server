@@ -28,11 +28,4 @@ class VideoTest extends TestCase
 
         $response->assertRedirect(Config::get('app.url'));
     }
-
-    public function testVideoStream()
-    {
-        Config::set('app.allow_video_streams', true);
-
-
-    }
 }
