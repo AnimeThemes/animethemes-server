@@ -15,11 +15,25 @@ class GrillsTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
+     * If there are no grills, return null.
+     *
+     * @return void
+     */
+    public function testNoGrills()
+    {
+        Storage::fake('grill');
+
+        $grill = Grill::random();
+
+        $this->assertNull($grill);
+    }
+
+    /**
      * We shall retrieve a random grill in the grill disk.
      *
      * @return void
      */
-    public function testGrillFactoryProducesGrill()
+    public function testRandomGrill()
     {
         $fs = Storage::fake('grill');
 

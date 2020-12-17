@@ -29,12 +29,16 @@ class Grill
     /**
      * Get random grill from storage.
      *
-     * @return Grill
+     * @return Grill|null
      */
     public static function random()
     {
         $grill_disk = Storage::disk('grill');
         $grills = $grill_disk->files();
+
+        if (empty($grills)) {
+            return null;
+        }
 
         $grill_path = collect($grills)->random();
         $grill_url = $grill_disk->url($grill_path);
