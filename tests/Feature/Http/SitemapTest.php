@@ -14,6 +14,18 @@ class SitemapTest extends TestCase
      *
      * @return void
      */
+    public function testSitemapIndex()
+    {
+        $response = $this->get(route('sitemap.index'));
+
+        $response->assertViewIs('sitemap.index');
+    }
+
+    /**
+     * The sitemap shall display the Welcome route.
+     *
+     * @return void
+     */
     public function testSitemapIndexWelcome()
     {
         $response = $this->get(route('sitemap.index'));
