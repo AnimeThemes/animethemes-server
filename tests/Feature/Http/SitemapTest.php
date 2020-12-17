@@ -17,9 +17,9 @@ class SitemapTest extends TestCase
      */
     public function testSitemapIndex()
     {
-        $response = $this->get(route('sitemap'));
+        $response = $this->get(route('sitemap.index'));
 
-        $response->assertViewIs('sitemap');
+        $response->assertViewIs('sitemap.index');
     }
 
     /**
@@ -29,7 +29,7 @@ class SitemapTest extends TestCase
      */
     public function testSitemapIndexWelcome()
     {
-        $response = $this->get(route('sitemap'));
+        $response = $this->get(route('sitemap.index'));
 
         $response->assertSee(route('welcome'));
     }
@@ -41,7 +41,7 @@ class SitemapTest extends TestCase
      */
     public function testSitemapIndexApi()
     {
-        $response = $this->get(route('sitemap'));
+        $response = $this->get(route('sitemap.index'));
 
         $response->assertSee(route('l5-swagger.default.api'));
     }
