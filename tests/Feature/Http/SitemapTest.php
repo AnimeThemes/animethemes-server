@@ -10,14 +10,26 @@ class SitemapTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * The sitemap index route shall display the index sitemap.
+     * The sitemap shall display the Welcome route.
      *
      * @return void
      */
-    public function testSitemapIndex()
+    public function testSitemapIndexWelcome()
     {
         $response = $this->get(route('sitemap.index'));
 
-        $response->assertViewIs('sitemap.index');
+        $response->assertSee(route('welcome'));
+    }
+
+    /**
+     * The sitemap shall display the API Docs route.
+     *
+     * @return void
+     */
+    public function testSitemapIndexApi()
+    {
+        $response = $this->get(route('sitemap.index'));
+
+        $response->assertSee(route('l5-swagger.default.api'));
     }
 }
