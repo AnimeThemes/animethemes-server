@@ -3,11 +3,12 @@
 namespace Tests\Feature\Http;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class SitemapTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /**
      * The sitemap shall display the Welcome route.
@@ -16,9 +17,9 @@ class SitemapTest extends TestCase
      */
     public function testSitemapIndex()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
-        $response->assertViewIs('sitemap.index');
+        $response->assertViewIs('sitemap');
     }
 
     /**
@@ -28,7 +29,7 @@ class SitemapTest extends TestCase
      */
     public function testSitemapIndexWelcome()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertSee(route('welcome'));
     }
@@ -40,7 +41,7 @@ class SitemapTest extends TestCase
      */
     public function testSitemapIndexApi()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertSee(route('l5-swagger.default.api'));
     }

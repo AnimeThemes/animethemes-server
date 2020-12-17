@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'do'])->name('welcome');
 
-Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap.index');
+Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [RegisterController::class, 'register']);
