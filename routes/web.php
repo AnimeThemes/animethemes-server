@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -18,11 +19,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'do'])->name('welcome');
 
-Route::get('/sitemap', [SitemapController::class, 'index']);
-Route::get('/sitemap/videos', [SitemapController::class, 'videos'])->name('video_sitemap');
+Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap.index');
 
 Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [RegisterController::class, 'register']);
+
+Route::resource('image', ImageController::class)->only('show');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

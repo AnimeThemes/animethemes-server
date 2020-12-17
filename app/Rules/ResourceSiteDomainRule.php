@@ -5,7 +5,7 @@ namespace App\Rules;
 use App\Enums\ResourceSite;
 use Illuminate\Contracts\Validation\Rule;
 
-class ResourceSiteDomain implements Rule
+class ResourceSiteDomainRule implements Rule
 {
     /**
      * The resource site key.

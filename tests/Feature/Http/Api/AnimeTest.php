@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Feature\Http\Api;
 
 use App\Models\Anime;
 use App\Models\ExternalResource;
@@ -10,7 +10,6 @@ use App\Models\Synonym;
 use App\Models\Theme;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class AnimeTest extends TestCase

@@ -1,13 +1,12 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Feature\Http\Api;
 
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ImageTest extends TestCase
@@ -102,7 +101,7 @@ class ImageTest extends TestCase
             'facet' => strval(optional($image->facet)->description),
             'created_at' => $image->created_at->toJSON(),
             'updated_at' => $image->updated_at->toJSON(),
-            'link' => Storage::disk('images')->url($image->path),
+            'link' => route('image.show', $image),
         ];
     }
 }

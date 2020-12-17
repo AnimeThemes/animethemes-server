@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Tests\Feature\Http\Auth;
 
 use App\Enums\InvitationStatus;
 use App\Models\Invitation;

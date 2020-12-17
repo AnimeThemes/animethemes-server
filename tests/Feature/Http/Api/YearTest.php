@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Feature\Http\Api;
 
 use App\Enums\AnimeSeason;
 use App\Models\Anime;

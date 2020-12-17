@@ -12,6 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        tools: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, phpunit
     - uses: actions/checkout@v2
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -21,6 +25,12 @@ jobs:
         composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Generate key
       run: php artisan key:generate
+    - name: Make Grill Directory
+      run: mkdir public/img/grill
+    - name: Install NPM dependencies
+      run: npm install
+    - name: Compile assets
+      run: npm run production
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Create Database
@@ -63,4 +73,6 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: vendor/bin/phpunit
+      run: |
+        php artisan optimize:clear
+        php artisan test

@@ -4,7 +4,7 @@ namespace App\Nova\Actions;
 
 use App\Enums\ResourceSite;
 use App\Models\ExternalResource;
-use App\Rules\ResourceSiteDomain;
+use App\Rules\ResourceSiteDomainRule;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -76,7 +76,7 @@ class CreateExternalResourceSiteForAnimeAction extends Action
     {
         return [
             Text::make(__('nova.link'), 'link')
-                ->rules('required', 'max:192', 'url', 'unique:resource,link', new ResourceSiteDomain($this->site))
+                ->rules('required', 'max:192', 'url', 'unique:resource,link', new ResourceSiteDomainRule($this->site))
                 ->help(__('nova.resource_link_help')),
         ];
     }

@@ -259,13 +259,9 @@ class QueryParser
             return true;
         }
 
-        // If there are no allowed fields for this type, include all fields
-        $allowedFields = Arr::get($this->fields, $type);
-        if (empty($allowedFields)) {
-            return true;
-        }
-
         // Is field included for this type
+        $allowedFields = Arr::get($this->fields, $type);
+
         return in_array($field, $allowedFields);
     }
 
@@ -336,7 +332,7 @@ class QueryParser
         }
 
         // Return list of include paths that are contained in the list of allowed include paths
-        return array_intersect($this->includes, $allowedIncludePaths);
+        return array_values(array_intersect($this->includes, $allowedIncludePaths));
     }
 
     /**
@@ -356,6 +352,6 @@ class QueryParser
         // Return list of include paths that are contained in the list of allowed include paths for this type
         $resourceTypeIncludes = Arr::get($this->resourceIncludes, $type);
 
-        return array_intersect($resourceTypeIncludes, $allowedResourceIncludePaths);
+        return array_values(array_intersect($resourceTypeIncludes, $allowedResourceIncludePaths));
     }
 }
