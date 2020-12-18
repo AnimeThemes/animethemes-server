@@ -53,6 +53,7 @@ class SearchResource extends BaseResource
                 AnimeCollection::make(
                     Anime::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Anime::$allowedIncludePaths, AnimeResource::$resourceType))
+                        ->take($this->parser->getLimit())
                         ->get(),
                     $this->parser
                 )
@@ -62,6 +63,7 @@ class SearchResource extends BaseResource
                 ArtistCollection::make(
                     Artist::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Artist::$allowedIncludePaths, ArtistResource::$resourceType))
+                        ->take($this->parser->getLimit())
                         ->get(),
                     $this->parser
                 )
@@ -71,6 +73,7 @@ class SearchResource extends BaseResource
                 EntryCollection::make(
                     Entry::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Entry::$allowedIncludePaths, EntryResource::$resourceType))
+                        ->take($this->parser->getLimit())
                         ->get(),
                     $this->parser
                 )
@@ -80,6 +83,7 @@ class SearchResource extends BaseResource
                 SeriesCollection::make(
                     Series::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Series::$allowedIncludePaths, SeriesResource::$resourceType))
+                        ->take($this->parser->getLimit())
                         ->get(),
                     $this->parser
                 )
@@ -89,6 +93,7 @@ class SearchResource extends BaseResource
                 SongCollection::make(
                     Song::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Song::$allowedIncludePaths, SongResource::$resourceType))
+                        ->take($this->parser->getLimit())
                         ->get(),
                     $this->parser
                 )
@@ -98,6 +103,7 @@ class SearchResource extends BaseResource
                 SynonymCollection::make(
                     Synonym::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Synonym::$allowedIncludePaths, SynonymResource::$resourceType))
+                        ->take($this->parser->getLimit())
                         ->get(),
                     $this->parser
                 )
@@ -107,6 +113,7 @@ class SearchResource extends BaseResource
                 ThemeCollection::make(
                     Theme::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Theme::$allowedIncludePaths, ThemeResource::$resourceType))
+                        ->take($this->parser->getLimit())
                         ->get(),
                     $this->parser
                 )
@@ -116,6 +123,7 @@ class SearchResource extends BaseResource
                 VideoCollection::make(
                     Video::search($this->parser->getSearch())
                         ->with($this->parser->getResourceIncludePaths(Video::$allowedIncludePaths, VideoResource::$resourceType))
+                        ->take($this->parser->getLimit())
                         ->get(),
                     $this->parser
                 )

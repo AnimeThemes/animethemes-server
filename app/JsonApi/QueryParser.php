@@ -17,6 +17,10 @@ class QueryParser
 
     public const PARAM_SEARCH = 'q';
 
+    public const PARAM_LIMIT = 'limit';
+
+    public const DEFAULT_LIMIT = 15;
+
     /**
      * @var array
      */
@@ -48,6 +52,11 @@ class QueryParser
     private $search;
 
     /**
+     * @var int
+     */
+    private $limit;
+
+    /**
      * @param array $parameters
      */
     public function __construct($parameters)
@@ -58,6 +67,7 @@ class QueryParser
         $this->sorts = $this->parseSorts($parameters);
         $this->filters = $this->parseFilters($parameters);
         $this->search = $this->parseSearch($parameters);
+        $this->limit = $this->parseLimit($parameters);
     }
 
     /**
@@ -242,6 +252,39 @@ class QueryParser
     public function getSearch()
     {
         return $this->search;
+    }
+
+    /**
+     * Parse page limit from parameters.
+     *
+     * @param array $parameters
+     * @return int
+     */
+    private function parseLimit($parameters)
+    {
+        $limit = 0;
+
+        if (Arr::exists($parameters, self::PARAM_LIMIT)) {
+            $limit = intval($parameters[self::PARAM_LIMIT]);
+        }
+
+        return $limit;
+    }
+
+    /**
+     * Get the number of resources to return per page.
+     * Acceptable range is [1-15]. Default is 15.
+     *
+     * @param  int  $limit
+     * @return int
+     */
+    public function getLimit($limit = self::DEFAULT_LIMIT)
+    {
+        if ($this->limit <= 0 || $this->limit > $limit) {
+            return $limit;
+        }
+
+        return $this->limit;
     }
 
     /**
