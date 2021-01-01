@@ -47,29 +47,6 @@ class Image extends Model implements Auditable
     ];
 
     /**
-     * The include paths a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedIncludePaths = [
-        'anime',
-        'artists',
-    ];
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedSortFields = [
-        'image_id',
-        'created_at',
-        'updated_at',
-        'path',
-        'facet',
-    ];
-
-    /**
      * Get the anime that use this image.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

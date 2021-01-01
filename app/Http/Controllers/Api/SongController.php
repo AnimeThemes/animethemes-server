@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\SongCollection;
 use App\Http\Resources\SongResource;
 use App\Models\Song;
-use Illuminate\Support\Str;
 
 class SongController extends BaseController
 {
@@ -69,22 +68,9 @@ class SongController extends BaseController
      */
     public function index()
     {
-        // initialize builder with eager loaded relations
-        $songs = Song::with($this->parser->getIncludePaths(Song::$allowedIncludePaths));
+        $songs = SongCollection::performQuery($this->parser);
 
-        // apply sorts
-        foreach ($this->parser->getSorts() as $field => $isAsc) {
-            if (in_array(Str::lower($field), Song::$allowedSortFields)) {
-                $songs = $songs->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
-            }
-        }
-
-        // paginate
-        $songs = $songs->jsonPaginate();
-
-        $collection = SongCollection::make($songs, $this->parser);
-
-        return $collection->toResponse(request());
+        return $songs->toResponse(request());
     }
 
     /**
@@ -128,7 +114,7 @@ class SongController extends BaseController
      */
     public function show(Song $song)
     {
-        $resource = SongResource::make($song->load($this->parser->getIncludePaths(Song::$allowedIncludePaths)), $this->parser);
+        $resource = SongResource::performQuery($song, $this->parser);
 
         return $resource->toResponse(request());
     }

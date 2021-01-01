@@ -2,8 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\JsonApi\Filter\Image\ImageFacetFilter;
+
 class ImageCollection extends BaseCollection
 {
+    use PerformsResourceCollectionQuery;
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -22,5 +26,46 @@ class ImageCollection extends BaseCollection
         return $this->collection->map(function ($image) {
             return ImageResource::make($image, $this->parser);
         })->all();
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedIncludePaths()
+    {
+        return [
+            'anime',
+            'artists',
+        ];
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedSortFields()
+    {
+        return [
+            'image_id',
+            'created_at',
+            'updated_at',
+            'path',
+            'facet',
+        ];
+    }
+
+    /**
+     * The filters that can be applied by the client for this resource.
+     *
+     * @var array
+     */
+    public static function filters()
+    {
+        return [
+            ImageFacetFilter::class,
+        ];
     }
 }

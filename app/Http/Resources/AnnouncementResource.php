@@ -15,6 +15,8 @@ namespace App\Http\Resources;
  */
 class AnnouncementResource extends BaseResource
 {
+    use PerformsResourceQuery;
+
     /**
      * The "data" wrapper that should be applied.
      *

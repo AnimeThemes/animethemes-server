@@ -324,48 +324,6 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     * The parser shall convert enum filters from keys to values.
-     *
-     * @return void
-     */
-    public function testEnumFilter()
-    {
-        $enum = AnimeSeason::getRandomInstance();
-        $filter_field = $this->faker->word();
-
-        $parameters = [
-            QueryParser::PARAM_FILTER => [
-                $filter_field => $enum->key,
-            ],
-        ];
-
-        $parser = new QueryParser($parameters);
-
-        $this->assertEmpty(array_diff([$enum->value], $parser->getEnumFilter($filter_field, AnimeSeason::class)));
-    }
-
-    /**
-     * The parser shall convert boolean filters from strings to boolean values.
-     *
-     * @return void
-     */
-    public function testBooleanFilter()
-    {
-        $bool = $this->faker->boolean();
-        $filter_field = $this->faker->word();
-
-        $parameters = [
-            QueryParser::PARAM_FILTER => [
-                $filter_field => json_encode($bool),
-            ],
-        ];
-
-        $parser = new QueryParser($parameters);
-
-        $this->assertEmpty(array_diff([$bool], $parser->getBooleanFilter($filter_field)));
-    }
-
-    /**
      * The parser will indicate that our request doesn't have a search value if not specified.
      *
      * @return void

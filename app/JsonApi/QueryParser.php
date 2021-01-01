@@ -3,7 +3,6 @@
 namespace App\JsonApi;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class QueryParser
 {
@@ -328,37 +327,6 @@ class QueryParser
     public function getFilter($field)
     {
         return Arr::get($this->filters, $field);
-    }
-
-    /**
-     * Get filter values for enum field, converting keys from query string to int values.
-     *
-     * @param string $field
-     * @param  string $enumClass
-     * @return array
-     */
-    public function getEnumFilter($field, $enumClass)
-    {
-        return array_map(function ($enumKey) use ($enumClass) {
-            if ($enumClass::hasKey(Str::upper($enumKey))) {
-                return $enumClass::getValue(Str::upper($enumKey));
-            }
-
-            return -1;
-        }, $this->getFilter($field));
-    }
-
-    /**
-     * Get filter values for boolean field.
-     *
-     * @param string $field
-     * @return array
-     */
-    public function getBooleanFilter($field)
-    {
-        return array_map(function ($filterValue) {
-            return filter_var($filterValue, FILTER_VALIDATE_BOOLEAN);
-        }, $this->getFilter($field));
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 class AnnouncementCollection extends BaseCollection
 {
+    use PerformsResourceCollectionQuery;
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -22,5 +24,19 @@ class AnnouncementCollection extends BaseCollection
         return $this->collection->map(function ($announcement) {
             return AnnouncementResource::make($announcement, $this->parser);
         })->all();
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedSortFields()
+    {
+        return [
+            'announcement_id',
+            'created_at',
+            'updated_at',
+        ];
     }
 }

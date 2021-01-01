@@ -10,10 +10,6 @@ use Illuminate\Support\Str;
 
 class YearController extends BaseController
 {
-    // constants for query parameters
-    protected const NAME_QUERY = 'name';
-    protected const YEAR_QUERY = 'year';
-
     /**
      * Display a listing of unique years of anime.
      *
@@ -34,7 +30,7 @@ class YearController extends BaseController
      */
     public function index()
     {
-        return new JsonResponse(Anime::distinct(static::YEAR_QUERY)->orderBy(static::YEAR_QUERY)->pluck(static::YEAR_QUERY));
+        return new JsonResponse(Anime::distinct('year')->orderBy('year')->pluck('year'));
     }
 
     /**
@@ -67,9 +63,9 @@ class YearController extends BaseController
     public function show($year)
     {
         $anime = AnimeCollection::make(
-            Anime::where(static::YEAR_QUERY, $year)
-                ->with($this->parser->getIncludePaths(Anime::$allowedIncludePaths))
-                ->orderBy(static::NAME_QUERY)
+            Anime::where('year', $year)
+                ->with($this->parser->getIncludePaths(AnimeCollection::allowedIncludePaths()))
+                ->orderBy('name')
                 ->get(),
             $this->parser
         );

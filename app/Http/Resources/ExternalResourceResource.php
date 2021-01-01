@@ -28,6 +28,8 @@ namespace App\Http\Resources;
  */
 class ExternalResourceResource extends BaseResource
 {
+    use PerformsResourceQuery;
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -64,6 +66,19 @@ class ExternalResourceResource extends BaseResource
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->parser),
             'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->parser),
+        ];
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedIncludePaths()
+    {
+        return [
+            'anime',
+            'artists',
         ];
     }
 }

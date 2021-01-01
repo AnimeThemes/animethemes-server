@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\SeriesCollection;
 use App\Http\Resources\SeriesResource;
 use App\Models\Series;
-use Illuminate\Support\Str;
 
 class SeriesController extends BaseController
 {
@@ -69,22 +68,9 @@ class SeriesController extends BaseController
      */
     public function index()
     {
-        // initialize builder with eager loaded relations
-        $series = Series::with($this->parser->getIncludePaths(Series::$allowedIncludePaths));
+        $series = SeriesCollection::performQuery($this->parser);
 
-        // apply sorts
-        foreach ($this->parser->getSorts() as $field => $isAsc) {
-            if (in_array(Str::lower($field), Series::$allowedSortFields)) {
-                $series = $series->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
-            }
-        }
-
-        // paginate
-        $series = $series->jsonPaginate();
-
-        $collection = new SeriesCollection($series, $this->parser);
-
-        return $collection->toResponse(request());
+        return $series->toResponse(request());
     }
 
     /**
@@ -128,7 +114,7 @@ class SeriesController extends BaseController
      */
     public function show(Series $series)
     {
-        $resource = SeriesResource::make($series->load($this->parser->getIncludePaths(Series::$allowedIncludePaths)), $this->parser);
+        $resource = SeriesResource::performQuery($series, $this->parser);
 
         return $resource->toResponse(request());
     }

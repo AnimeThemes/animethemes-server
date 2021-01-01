@@ -2,24 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\VideoOverlap;
-use App\Enums\VideoSource;
 use App\Http\Resources\VideoCollection;
 use App\Http\Resources\VideoResource;
 use App\Models\Video;
-use Illuminate\Support\Str;
 
 class VideoController extends BaseController
 {
-    // constants for query parameters
-    protected const RESOLUTION_QUERY = 'resolution';
-    protected const NC_QUERY = 'nc';
-    protected const SUBBED_QUERY = 'subbed';
-    protected const LYRICS_QUERY = 'lyrics';
-    protected const UNCEN_QUERY = 'uncen';
-    protected const SOURCE_QUERY = 'source';
-    protected const OVERLAP_QUERY = 'overlap';
-
     /**
      * Display a listing of the resource.
      *
@@ -136,45 +124,9 @@ class VideoController extends BaseController
      */
     public function index()
     {
-        // initialize builder with eager loaded relations
-        $videos = Video::with($this->parser->getIncludePaths(Video::$allowedIncludePaths));
+        $videos = VideoCollection::performQuery($this->parser);
 
-        // apply filters
-        if ($this->parser->hasFilter(static::RESOLUTION_QUERY)) {
-            $videos = $videos->whereIn(static::RESOLUTION_QUERY, $this->parser->getFilter(static::RESOLUTION_QUERY));
-        }
-        if ($this->parser->hasFilter(static::NC_QUERY)) {
-            $videos = $videos->whereIn(static::NC_QUERY, $this->parser->getBooleanFilter(static::NC_QUERY));
-        }
-        if ($this->parser->hasFilter(static::SUBBED_QUERY)) {
-            $videos = $videos->whereIn(static::SUBBED_QUERY, $this->parser->getBooleanFilter(static::SUBBED_QUERY));
-        }
-        if ($this->parser->hasFilter(static::LYRICS_QUERY)) {
-            $videos = $videos->whereIn(static::LYRICS_QUERY, $this->parser->getBooleanFilter(static::LYRICS_QUERY));
-        }
-        if ($this->parser->hasFilter(static::UNCEN_QUERY)) {
-            $videos = $videos->whereIn(static::UNCEN_QUERY, $this->parser->getBooleanFilter(static::UNCEN_QUERY));
-        }
-        if ($this->parser->hasFilter(static::SOURCE_QUERY)) {
-            $videos = $videos->whereIn(static::SOURCE_QUERY, $this->parser->getEnumFilter(static::SOURCE_QUERY, VideoSource::class));
-        }
-        if ($this->parser->hasFilter(static::OVERLAP_QUERY)) {
-            $videos = $videos->whereIn(static::OVERLAP_QUERY, $this->parser->getEnumFilter(static::OVERLAP_QUERY, VideoOverlap::class));
-        }
-
-        // sort
-        foreach ($this->parser->getSorts() as $field => $isAsc) {
-            if (in_array(Str::lower($field), Video::$allowedSortFields)) {
-                $videos = $videos->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
-            }
-        }
-
-        // paginate
-        $videos = $videos->jsonPaginate();
-
-        $collection = VideoCollection::make($videos, $this->parser);
-
-        return $collection->toResponse(request());
+        return $videos->toResponse(request());
     }
 
     /**
@@ -218,7 +170,7 @@ class VideoController extends BaseController
      */
     public function show(Video $video)
     {
-        $resource = VideoResource::make($video->load($this->parser->getIncludePaths(Video::$allowedIncludePaths)), $this->parser);
+        $resource = VideoResource::performQuery($video, $this->parser);
 
         return $resource->toResponse(request());
     }

@@ -97,6 +97,8 @@ namespace App\Http\Resources;
  */
 class AnimeResource extends BaseResource
 {
+    use PerformsResourceQuery;
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -136,6 +138,26 @@ class AnimeResource extends BaseResource
                 return strval($this->pivot->as);
             })),
             'images' => ImageCollection::make($this->whenLoaded('images'), $this->parser),
+        ];
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedIncludePaths()
+    {
+        return [
+            'synonyms',
+            'series',
+            'themes',
+            'themes.entries',
+            'themes.entries.videos',
+            'themes.song',
+            'themes.song.artists',
+            'externalResources',
+            'images',
         ];
     }
 }

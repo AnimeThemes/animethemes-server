@@ -41,6 +41,8 @@ namespace App\Http\Resources;
  */
 class SongResource extends BaseResource
 {
+    use PerformsResourceQuery;
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -73,6 +75,20 @@ class SongResource extends BaseResource
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'themes' => ThemeCollection::make($this->whenLoaded('themes'), $this->parser),
             'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->parser),
+        ];
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedIncludePaths()
+    {
+        return [
+            'themes',
+            'themes.anime',
+            'artists',
         ];
     }
 }

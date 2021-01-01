@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\ScoutElastic\ArtistIndexConfigurator;
-use App\ScoutElastic\ArtistSearchRule;
+use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
-use ScoutElastic\Searchable;
+use Laravel\Scout\Searchable;
 
 class Artist extends Model implements Auditable
 {
-    use HasFactory, Searchable;
+    use CustomSearch, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**
@@ -47,42 +46,6 @@ class Artist extends Model implements Auditable
     }
 
     /**
-     * @var string
-     */
-    protected $indexConfigurator = ArtistIndexConfigurator::class;
-
-    /**
-     * @var array
-     */
-    protected $searchRules = [
-        ArtistSearchRule::class,
-    ];
-
-    /**
-     * @var array
-     */
-    protected $mapping = [
-        'properties' => [
-            'name' => [
-                'type' => 'text',
-            ],
-            'songs' => [
-                'type' => 'nested',
-                'properties' => [
-                    'pivot'  => [
-                        'type' => 'nested',
-                        'properties' => [
-                            'as' => [
-                                'type' => 'text',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ],
-    ];
-
-    /**
      * Get the route key for the model.
      *
      * @return string
@@ -91,34 +54,6 @@ class Artist extends Model implements Auditable
     {
         return 'slug';
     }
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedIncludePaths = [
-        'songs',
-        'songs.themes',
-        'songs.themes.anime',
-        'members',
-        'groups',
-        'externalResources',
-        'images',
-    ];
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedSortFields = [
-        'artist_id',
-        'created_at',
-        'updated_at',
-        'slug',
-        'name',
-    ];
 
     /**
      * Get the songs the artist has performed in.

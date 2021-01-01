@@ -59,6 +59,8 @@ namespace App\Http\Resources;
  */
 class ArtistResource extends BaseResource
 {
+    use PerformsResourceQuery;
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -99,6 +101,24 @@ class ArtistResource extends BaseResource
             'groups' => ArtistCollection::make($this->whenLoaded('groups'), $this->parser),
             'resources' => ExternalResourceCollection::make($this->whenLoaded('externalResources'), $this->parser),
             'images' => ImageCollection::make($this->whenLoaded('images'), $this->parser),
+        ];
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedIncludePaths()
+    {
+        return [
+            'songs',
+            'songs.themes',
+            'songs.themes.anime',
+            'members',
+            'groups',
+            'externalResources',
+            'images',
         ];
     }
 }

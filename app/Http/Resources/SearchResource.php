@@ -2,14 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Anime;
-use App\Models\Artist;
-use App\Models\Entry;
-use App\Models\Series;
-use App\Models\Song;
-use App\Models\Synonym;
-use App\Models\Theme;
-use App\Models\Video;
 use Illuminate\Http\Resources\MissingValue;
 
 class SearchResource extends BaseResource
@@ -50,83 +42,35 @@ class SearchResource extends BaseResource
         return [
             AnimeCollection::$wrap => $this->when(
                 $this->parser->hasSearch() && $this->isAllowedField(AnimeCollection::$wrap),
-                AnimeCollection::make(
-                    Anime::search($this->parser->getSearch())
-                        ->with($this->parser->getResourceIncludePaths(Anime::$allowedIncludePaths, AnimeResource::$resourceType))
-                        ->take($this->parser->getLimit())
-                        ->get(),
-                    $this->parser
-                )
+                AnimeCollection::performSearch($this->parser)
             ),
             ArtistCollection::$wrap => $this->when(
                 $this->parser->hasSearch() && $this->isAllowedField(ArtistCollection::$wrap),
-                ArtistCollection::make(
-                    Artist::search($this->parser->getSearch())
-                        ->with($this->parser->getResourceIncludePaths(Artist::$allowedIncludePaths, ArtistResource::$resourceType))
-                        ->take($this->parser->getLimit())
-                        ->get(),
-                    $this->parser
-                )
+                ArtistCollection::performSearch($this->parser)
             ),
             EntryCollection::$wrap => $this->when(
                 $this->parser->hasSearch() && $this->isAllowedField(EntryCollection::$wrap),
-                EntryCollection::make(
-                    Entry::search($this->parser->getSearch())
-                        ->with($this->parser->getResourceIncludePaths(Entry::$allowedIncludePaths, EntryResource::$resourceType))
-                        ->take($this->parser->getLimit())
-                        ->get(),
-                    $this->parser
-                )
+                EntryCollection::performSearch($this->parser)
             ),
             SeriesCollection::$wrap => $this->when(
                 $this->parser->hasSearch() && $this->isAllowedField(SeriesCollection::$wrap),
-                SeriesCollection::make(
-                    Series::search($this->parser->getSearch())
-                        ->with($this->parser->getResourceIncludePaths(Series::$allowedIncludePaths, SeriesResource::$resourceType))
-                        ->take($this->parser->getLimit())
-                        ->get(),
-                    $this->parser
-                )
+                SeriesCollection::performSearch($this->parser)
             ),
             SongCollection::$wrap => $this->when(
                 $this->parser->hasSearch() && $this->isAllowedField(SongCollection::$wrap),
-                SongCollection::make(
-                    Song::search($this->parser->getSearch())
-                        ->with($this->parser->getResourceIncludePaths(Song::$allowedIncludePaths, SongResource::$resourceType))
-                        ->take($this->parser->getLimit())
-                        ->get(),
-                    $this->parser
-                )
+                SongCollection::performSearch($this->parser)
             ),
             SynonymCollection::$wrap => $this->when(
                 $this->parser->hasSearch() && $this->isAllowedField(SynonymCollection::$wrap),
-                SynonymCollection::make(
-                    Synonym::search($this->parser->getSearch())
-                        ->with($this->parser->getResourceIncludePaths(Synonym::$allowedIncludePaths, SynonymResource::$resourceType))
-                        ->take($this->parser->getLimit())
-                        ->get(),
-                    $this->parser
-                )
+                SynonymCollection::performSearch($this->parser)
             ),
             ThemeCollection::$wrap => $this->when(
                 $this->parser->hasSearch() && $this->isAllowedField(ThemeCollection::$wrap),
-                ThemeCollection::make(
-                    Theme::search($this->parser->getSearch())
-                        ->with($this->parser->getResourceIncludePaths(Theme::$allowedIncludePaths, ThemeResource::$resourceType))
-                        ->take($this->parser->getLimit())
-                        ->get(),
-                    $this->parser
-                )
+                ThemeCollection::performSearch($this->parser)
             ),
             VideoCollection::$wrap => $this->when(
                 $this->parser->hasSearch() && $this->isAllowedField(VideoCollection::$wrap),
-                VideoCollection::make(
-                    Video::search($this->parser->getSearch())
-                        ->with($this->parser->getResourceIncludePaths(Video::$allowedIncludePaths, VideoResource::$resourceType))
-                        ->take($this->parser->getLimit())
-                        ->get(),
-                    $this->parser
-                )
+                VideoCollection::performSearch($this->parser)
             ),
         ];
     }

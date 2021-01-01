@@ -2,17 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\ResourceSite;
 use App\Http\Resources\ExternalResourceCollection;
 use App\Http\Resources\ExternalResourceResource;
 use App\Models\ExternalResource;
-use Illuminate\Support\Str;
 
 class ExternalResourceController extends BaseController
 {
-    // constants for query parameters
-    protected const SITE_QUERY = 'site';
-
     /**
      * Display a listing of the resource.
      *
@@ -81,27 +76,9 @@ class ExternalResourceController extends BaseController
      */
     public function index()
     {
-        // initialize builder with eager loaded relations
-        $resources = ExternalResource::with($this->parser->getIncludePaths(ExternalResource::$allowedIncludePaths));
+        $resources = ExternalResourceCollection::performQuery($this->parser);
 
-        // apply filters
-        if ($this->parser->hasFilter(static::SITE_QUERY)) {
-            $resources = $resources->whereIn(static::SITE_QUERY, $this->parser->getEnumFilter(static::SITE_QUERY, ResourceSite::class));
-        }
-
-        // apply sorts
-        foreach ($this->parser->getSorts() as $field => $isAsc) {
-            if (in_array(Str::lower($field), ExternalResource::$allowedSortFields)) {
-                $resources = $resources->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
-            }
-        }
-
-        // paginate
-        $resources = $resources->jsonPaginate();
-
-        $collection = ExternalResourceCollection::make($resources, $this->parser);
-
-        return $collection->toResponse(request());
+        return $resources->toResponse(request());
     }
 
     /**
@@ -145,7 +122,7 @@ class ExternalResourceController extends BaseController
      */
     public function show(ExternalResource $resource)
     {
-        $resource = ExternalResourceResource::make($resource->load($this->parser->getIncludePaths(ExternalResource::$allowedIncludePaths)), $this->parser);
+        $resource = ExternalResourceResource::performQuery($resource, $this->parser);
 
         return $resource->toResponse(request());
     }

@@ -3,17 +3,16 @@
 namespace App\Models;
 
 use App\Enums\AnimeSeason;
-use App\ScoutElastic\AnimeIndexConfigurator;
-use App\ScoutElastic\AnimeSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
+use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
-use ScoutElastic\Searchable;
+use Laravel\Scout\Searchable;
 
 class Anime extends Model implements Auditable
 {
-    use CastsEnums, HasFactory, Searchable;
+    use CastsEnums, CustomSearch, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**
@@ -49,37 +48,6 @@ class Anime extends Model implements Auditable
     }
 
     /**
-     * @var string
-     */
-    protected $indexConfigurator = AnimeIndexConfigurator::class;
-
-    /**
-     * @var array
-     */
-    protected $searchRules = [
-        AnimeSearchRule::class,
-    ];
-
-    /**
-     * @var array
-     */
-    protected $mapping = [
-        'properties' => [
-            'name' => [
-                'type' => 'text',
-            ],
-            'synonyms' => [
-                'type' => 'nested',
-                'properties' => [
-                    'text' => [
-                        'type' => 'text',
-                    ],
-                ],
-            ],
-        ],
-    ];
-
-    /**
      * Get the route key for the model.
      *
      * @return string
@@ -101,38 +69,6 @@ class Anime extends Model implements Auditable
      */
     protected $casts = [
         'season' => 'int',
-    ];
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedIncludePaths = [
-        'synonyms',
-        'series',
-        'themes',
-        'themes.entries',
-        'themes.entries.videos',
-        'themes.song',
-        'themes.song.artists',
-        'externalResources',
-        'images',
-    ];
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedSortFields = [
-        'anime_id',
-        'created_at',
-        'updated_at',
-        'slug',
-        'name',
-        'year',
-        'season',
     ];
 
     /**

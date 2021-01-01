@@ -47,30 +47,6 @@ class ExternalResource extends Model implements Auditable
     ];
 
     /**
-     * The include paths a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedIncludePaths = [
-        'anime',
-        'artists',
-    ];
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedSortFields = [
-        'resource_id',
-        'created_at',
-        'updated_at',
-        'site',
-        'link',
-        'external_id',
-    ];
-
-    /**
      * Get the anime that reference this resource.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

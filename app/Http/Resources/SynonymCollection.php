@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 class SynonymCollection extends BaseCollection
 {
+    use PerformsResourceCollectionQuery, PerformsResourceCollectionSearch;
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -22,5 +24,33 @@ class SynonymCollection extends BaseCollection
         return $this->collection->map(function ($synonym) {
             return SynonymResource::make($synonym, $this->parser);
         })->all();
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedIncludePaths()
+    {
+        return [
+            'anime',
+        ];
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedSortFields()
+    {
+        return [
+            'synonym_id',
+            'created_at',
+            'updated_at',
+            'text',
+            'anime_id',
+        ];
     }
 }

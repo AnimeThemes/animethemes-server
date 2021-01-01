@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\SynonymCollection;
 use App\Http\Resources\SynonymResource;
 use App\Models\Synonym;
-use Illuminate\Support\Str;
 
 class SynonymController extends BaseController
 {
@@ -69,22 +68,9 @@ class SynonymController extends BaseController
      */
     public function index()
     {
-        // initialize builder with eager loaded relations
-        $synonyms = Synonym::with($this->parser->getIncludePaths(Synonym::$allowedIncludePaths));
+        $synonyms = SynonymCollection::performQuery($this->parser);
 
-        // apply sorts
-        foreach ($this->parser->getSorts() as $field => $isAsc) {
-            if (in_array(Str::lower($field), Synonym::$allowedSortFields)) {
-                $synonyms = $synonyms->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
-            }
-        }
-
-        // paginate
-        $synonyms = $synonyms->jsonPaginate();
-
-        $collection = SynonymCollection::make($synonyms, $this->parser);
-
-        return $collection->toResponse(request());
+        return $synonyms->toResponse(request());
     }
 
     /**
@@ -128,7 +114,7 @@ class SynonymController extends BaseController
      */
     public function show(Synonym $synonym)
     {
-        $resource = SynonymResource::make($synonym->load($this->parser->getIncludePaths(Synonym::$allowedIncludePaths)), $this->parser);
+        $resource = SynonymResource::performQuery($synonym, $this->parser);
 
         return $resource->toResponse(request());
     }
