@@ -2,8 +2,8 @@
 
 namespace App\JsonApi\Filter\Entry;
 
-use App\JsonApi\QueryParser;
 use App\JsonApi\Filter\BooleanFilter;
+use App\JsonApi\QueryParser;
 
 class EntrySpoilerFilter extends BooleanFilter
 {

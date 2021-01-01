@@ -2,8 +2,8 @@
 
 namespace App\JsonApi\Filter\Anime;
 
-use App\JsonApi\QueryParser;
 use App\JsonApi\Filter\Filter;
+use App\JsonApi\QueryParser;
 
 class AnimeYearFilter extends Filter
 {

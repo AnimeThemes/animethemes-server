@@ -51,7 +51,7 @@ abstract class Filter
     /**
      * Determine if this filter should be applied.
      *
-     * @return boolean
+     * @return bool
      */
     public function shouldApplyFilter()
     {
@@ -73,7 +73,7 @@ abstract class Filter
     /**
      * Determines if the filter has been set by the client.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasFilter()
     {
@@ -97,7 +97,7 @@ abstract class Filter
     }
 
     /**
-     * Get unique filter values
+     * Get unique filter values.
      *
      * @param array $filterValues
      * @return array
@@ -134,7 +134,7 @@ abstract class Filter
      * By default, this is false as we assume an unrestricted amount of valid values.
      *
      * @param array $filterValues
-     * @return boolean
+     * @return bool
      */
     protected function isAllFilterValues($filterValues)
     {

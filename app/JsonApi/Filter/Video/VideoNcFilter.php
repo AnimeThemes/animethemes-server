@@ -2,8 +2,8 @@
 
 namespace App\JsonApi\Filter\Video;
 
-use App\JsonApi\QueryParser;
 use App\JsonApi\Filter\BooleanFilter;
+use App\JsonApi\QueryParser;
 
 class VideoNcFilter extends BooleanFilter
 {

@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 abstract class EnumFilter extends Filter
 {
     /**
-     * The Enum class string
+     * The Enum class string.
      *
      * @var string
      */
@@ -65,7 +65,7 @@ abstract class EnumFilter extends Filter
      * Determine if all enum options have been specified.
      *
      * @param array $filterValues
-     * @return boolean
+     * @return bool
      */
     protected function isAllFilterValues($filterValues)
     {

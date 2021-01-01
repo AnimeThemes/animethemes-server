@@ -44,7 +44,7 @@ abstract class BooleanFilter extends Filter
      * Determine if both true and false have been specified.
      *
      * @param array $filterValues
-     * @return boolean
+     * @return bool
      */
     protected function isAllFilterValues($filterValues)
     {

@@ -18,7 +18,7 @@ abstract class ElasticQueryPayload
      *
      * @param \App\JsonApi\QueryParser $parser
      */
-    public final function __construct(QueryParser $parser)
+    final public function __construct(QueryParser $parser)
     {
         $this->parser = $parser;
     }
@@ -39,5 +39,5 @@ abstract class ElasticQueryPayload
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public abstract function performSearch();
+    abstract public function performSearch();
 }
