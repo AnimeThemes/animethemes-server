@@ -3,7 +3,6 @@
 namespace App\JsonApi;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class QueryParser
 {
@@ -16,6 +15,10 @@ class QueryParser
     public const PARAM_FILTER = 'filter';
 
     public const PARAM_SEARCH = 'q';
+
+    public const PARAM_LIMIT = 'limit';
+
+    public const DEFAULT_LIMIT = 15;
 
     /**
      * @var array
@@ -48,6 +51,11 @@ class QueryParser
     private $search;
 
     /**
+     * @var int
+     */
+    private $limit;
+
+    /**
      * @param array $parameters
      */
     public function __construct($parameters)
@@ -58,6 +66,7 @@ class QueryParser
         $this->sorts = $this->parseSorts($parameters);
         $this->filters = $this->parseFilters($parameters);
         $this->search = $this->parseSearch($parameters);
+        $this->limit = $this->parseLimit($parameters);
     }
 
     /**
@@ -245,6 +254,39 @@ class QueryParser
     }
 
     /**
+     * Parse page limit from parameters.
+     *
+     * @param array $parameters
+     * @return int
+     */
+    private function parseLimit($parameters)
+    {
+        $limit = 0;
+
+        if (Arr::exists($parameters, self::PARAM_LIMIT)) {
+            $limit = intval($parameters[self::PARAM_LIMIT]);
+        }
+
+        return $limit;
+    }
+
+    /**
+     * Get the number of resources to return per page.
+     * Acceptable range is [1-15]. Default is 15.
+     *
+     * @param  int  $limit
+     * @return int
+     */
+    public function getLimit($limit = self::DEFAULT_LIMIT)
+    {
+        if ($this->limit <= 0 || $this->limit > $limit) {
+            return $limit;
+        }
+
+        return $this->limit;
+    }
+
+    /**
      * Determine if field should be included in the response for this type.
      *
      * @param string $type
@@ -285,37 +327,6 @@ class QueryParser
     public function getFilter($field)
     {
         return Arr::get($this->filters, $field);
-    }
-
-    /**
-     * Get filter values for enum field, converting keys from query string to int values.
-     *
-     * @param string $field
-     * @param  string $enumClass
-     * @return array
-     */
-    public function getEnumFilter($field, $enumClass)
-    {
-        return array_map(function ($enumKey) use ($enumClass) {
-            if ($enumClass::hasKey(Str::upper($enumKey))) {
-                return $enumClass::getValue(Str::upper($enumKey));
-            }
-
-            return -1;
-        }, $this->getFilter($field));
-    }
-
-    /**
-     * Get filter values for boolean field.
-     *
-     * @param string $field
-     * @return array
-     */
-    public function getBooleanFilter($field)
-    {
-        return array_map(function ($filterValue) {
-            return filter_var($filterValue, FILTER_VALIDATE_BOOLEAN);
-        }, $this->getFilter($field));
     }
 
     /**

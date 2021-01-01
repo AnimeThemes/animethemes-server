@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\AnnouncementCollection;
 use App\Http\Resources\AnnouncementResource;
 use App\Models\Announcement;
-use Illuminate\Support\Str;
 
 class AnnouncementController extends BaseController
 {
@@ -61,21 +60,9 @@ class AnnouncementController extends BaseController
      */
     public function index()
     {
-        $announcements = Announcement::with($this->parser->getIncludePaths(Announcement::$allowedIncludePaths));
+        $announcements = AnnouncementCollection::performQuery($this->parser);
 
-        // apply sorts
-        foreach ($this->parser->getSorts() as $field => $isAsc) {
-            if (in_array(Str::lower($field), Announcement::$allowedSortFields)) {
-                $announcements = $announcements->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
-            }
-        }
-
-        // paginate
-        $announcements = $announcements->jsonPaginate();
-
-        $collection = AnnouncementCollection::make($announcements, $this->parser);
-
-        return $collection->toResponse(request());
+        return $announcements->toResponse(request());
     }
 
     /**
@@ -111,7 +98,7 @@ class AnnouncementController extends BaseController
      */
     public function show(Announcement $announcement)
     {
-        $resource = AnnouncementResource::make($announcement->load($this->parser->getIncludePaths(Announcement::$allowedIncludePaths)), $this->parser);
+        $resource = AnnouncementResource::performQuery($announcement, $this->parser);
 
         return $resource->toResponse(request());
     }

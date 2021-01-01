@@ -75,6 +75,8 @@ namespace App\Http\Resources;
  */
 class ThemeResource extends BaseResource
 {
+    use PerformsResourceQuery;
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -108,6 +110,23 @@ class ThemeResource extends BaseResource
             'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->parser),
             'song' => SongResource::make($this->whenLoaded('song'), $this->parser),
             'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->parser),
+        ];
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedIncludePaths()
+    {
+        return [
+            'anime',
+            'anime.images',
+            'entries',
+            'entries.videos',
+            'song',
+            'song.artists',
         ];
     }
 }

@@ -28,6 +28,8 @@ use Illuminate\Support\Facades\Storage;
  */
 class ImageResource extends BaseResource
 {
+    use PerformsResourceQuery;
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -59,6 +61,19 @@ class ImageResource extends BaseResource
             'link' =>  $this->when($this->isAllowedField('link'), route('image.show', $this)),
             'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->parser),
             'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->parser),
+        ];
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedIncludePaths()
+    {
+        return [
+            'anime',
+            'artists',
         ];
     }
 }

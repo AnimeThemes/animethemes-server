@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 class SongCollection extends BaseCollection
 {
+    use PerformsResourceCollectionQuery, PerformsResourceCollectionSearch;
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -22,5 +24,34 @@ class SongCollection extends BaseCollection
         return $this->collection->map(function ($song) {
             return SongResource::make($song, $this->parser);
         })->all();
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedIncludePaths()
+    {
+        return [
+            'themes',
+            'themes.anime',
+            'artists',
+        ];
+    }
+
+    /**
+     * The sort field names a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedSortFields()
+    {
+        return [
+            'song_id',
+            'created_at',
+            'updated_at',
+            'title',
+        ];
     }
 }

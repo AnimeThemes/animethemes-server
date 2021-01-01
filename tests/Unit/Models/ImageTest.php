@@ -30,6 +30,6 @@ class ImageTest extends TestCase
 
         $image->delete();
 
-        $this->assertFalse($fs->exists($path));
+        $this->assertFalse($fs->exists($image->path));
     }
 }

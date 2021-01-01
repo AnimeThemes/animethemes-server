@@ -5,15 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\EntryCollection;
 use App\Http\Resources\EntryResource;
 use App\Models\Entry;
-use Illuminate\Support\Str;
 
 class EntryController extends BaseController
 {
-    // constants for query parameters
-    protected const VERSION_QUERY = 'version';
-    protected const NSFW_QUERY = 'nsfw';
-    protected const SPOILER_QUERY = 'spoiler';
-
     /**
      * Display a listing of the resource.
      *
@@ -98,33 +92,9 @@ class EntryController extends BaseController
      */
     public function index()
     {
-        // initialize builder with eager loaded relations
-        $entries = Entry::with($this->parser->getIncludePaths(Entry::$allowedIncludePaths));
+        $entries = EntryCollection::performQuery($this->parser);
 
-        // apply filters
-        if ($this->parser->hasFilter(static::VERSION_QUERY)) {
-            $entries = $entries->whereIn(static::VERSION_QUERY, $this->parser->getFilter(static::VERSION_QUERY));
-        }
-        if ($this->parser->hasFilter(static::NSFW_QUERY)) {
-            $entries = $entries->whereIn(static::NSFW_QUERY, $this->parser->getBooleanFilter(static::NSFW_QUERY));
-        }
-        if ($this->parser->hasFilter(static::SPOILER_QUERY)) {
-            $entries = $entries->whereIn(static::SPOILER_QUERY, $this->parser->getBooleanFilter(static::SPOILER_QUERY));
-        }
-
-        // apply sorts
-        foreach ($this->parser->getSorts() as $field => $isAsc) {
-            if (in_array(Str::lower($field), Entry::$allowedSortFields)) {
-                $entries = $entries->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
-            }
-        }
-
-        // paginate
-        $entries = $entries->jsonPaginate();
-
-        $collection = EntryCollection::make($entries, $this->parser);
-
-        return $collection->toResponse(request());
+        return $entries->toResponse(request());
     }
 
     /**
@@ -168,7 +138,7 @@ class EntryController extends BaseController
      */
     public function show(Entry $entry)
     {
-        $resource = EntryResource::make($entry->load($this->parser->getIncludePaths(Entry::$allowedIncludePaths)), $this->parser);
+        $resource = EntryResource::performQuery($entry, $this->parser);
 
         return $resource->toResponse(request());
     }

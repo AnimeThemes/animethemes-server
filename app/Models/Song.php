@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\ScoutElastic\SongIndexConfigurator;
-use App\ScoutElastic\SongSearchRule;
+use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
-use ScoutElastic\Searchable;
 
 class Song extends Model implements Auditable
 {
-    use HasFactory, Searchable;
+    use CustomSearch, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**
@@ -32,52 +31,6 @@ class Song extends Model implements Auditable
      * @var string
      */
     protected $primaryKey = 'song_id';
-
-    /**
-     * @var string
-     */
-    protected $indexConfigurator = SongIndexConfigurator::class;
-
-    /**
-     * @var array
-     */
-    protected $searchRules = [
-        SongSearchRule::class,
-    ];
-
-    /**
-     * @var array
-     */
-    protected $mapping = [
-        'properties' => [
-            'title' => [
-                'type' => 'text',
-            ],
-        ],
-    ];
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedIncludePaths = [
-        'themes',
-        'themes.anime',
-        'artists',
-    ];
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedSortFields = [
-        'song_id',
-        'created_at',
-        'updated_at',
-        'title',
-    ];
 
     /**
      * Get the themes that use this song.

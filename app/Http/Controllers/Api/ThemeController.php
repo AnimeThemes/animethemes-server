@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\ThemeType;
 use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\ThemeResource;
 use App\Models\Theme;
-use Illuminate\Support\Str;
 
 class ThemeController extends BaseController
 {
-    // constants for query parameters
-    protected const TYPE_QUERY = 'type';
-    protected const SEQUENCE_QUERY = 'sequence';
-    protected const GROUP_QUERY = 'group';
-
     /**
      * Display a listing of the resource.
      *
@@ -99,33 +92,9 @@ class ThemeController extends BaseController
      */
     public function index()
     {
-        // initialize builder with eager loaded relations
-        $themes = Theme::with($this->parser->getIncludePaths(Theme::$allowedIncludePaths));
+        $themes = ThemeCollection::performQuery($this->parser);
 
-        // apply filters
-        if ($this->parser->hasFilter(static::TYPE_QUERY)) {
-            $themes = $themes->whereIn(static::TYPE_QUERY, $this->parser->getEnumFilter(static::TYPE_QUERY, ThemeType::class));
-        }
-        if ($this->parser->hasFilter(static::SEQUENCE_QUERY)) {
-            $themes = $themes->whereIn(static::SEQUENCE_QUERY, $this->parser->getFilter(static::SEQUENCE_QUERY));
-        }
-        if ($this->parser->hasFilter(static::GROUP_QUERY)) {
-            $themes = $themes->whereIn(static::GROUP_QUERY, $this->parser->getFilter(static::GROUP_QUERY));
-        }
-
-        // apply sorts
-        foreach ($this->parser->getSorts() as $field => $isAsc) {
-            if (in_array(Str::lower($field), Theme::$allowedSortFields)) {
-                $themes = $themes->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
-            }
-        }
-
-        // paginate
-        $themes = $themes->jsonPaginate();
-
-        $collection = ThemeCollection::make($themes, $this->parser);
-
-        return $collection->toResponse(request());
+        return $themes->toResponse(request());
     }
 
     /**
@@ -169,7 +138,7 @@ class ThemeController extends BaseController
      */
     public function show(Theme $theme)
     {
-        $resource = ThemeResource::make($theme->load($this->parser->getIncludePaths(Theme::$allowedIncludePaths)), $this->parser);
+        $resource = ThemeResource::performQuery($theme, $this->parser);
 
         return $resource->toResponse(request());
     }

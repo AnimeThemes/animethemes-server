@@ -3,17 +3,16 @@
 namespace App\Models;
 
 use App\Enums\ThemeType;
-use App\ScoutElastic\ThemeIndexConfigurator;
-use App\ScoutElastic\ThemeSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
+use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
-use ScoutElastic\Searchable;
 
 class Theme extends Model implements Auditable
 {
-    use CastsEnums, HasFactory, Searchable;
+    use CastsEnums, CustomSearch, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**
@@ -50,62 +49,6 @@ class Theme extends Model implements Auditable
     }
 
     /**
-     * @var string
-     */
-    protected $indexConfigurator = ThemeIndexConfigurator::class;
-
-    /**
-     * @var array
-     */
-    protected $searchRules = [
-        ThemeSearchRule::class,
-    ];
-
-    /**
-     * @var array
-     */
-    protected $mapping = [
-        'properties' => [
-            'slug' => [
-                'type' => 'text',
-                'copy_to' => ['anime_slug', 'synonym_slug'],
-            ],
-            'anime' => [
-                'type' => 'nested',
-                'properties' => [
-                    'name' => [
-                        'type' => 'text',
-                        'copy_to' => ['anime_slug'],
-                    ],
-                    'synonyms' => [
-                        'type' => 'nested',
-                        'properties' => [
-                            'text' => [
-                                'type' => 'text',
-                                'copy_to' => ['synonym_slug'],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'anime_slug' => [
-                'type' => 'text',
-            ],
-            'synonym_slug' => [
-                'type' => 'text',
-            ],
-            'song' => [
-                'type' => 'nested',
-                'properties' => [
-                    'title' => [
-                        'type' => 'text',
-                    ],
-                ],
-            ],
-        ],
-    ];
-
-    /**
      * @var array
      */
     protected $enumCasts = [
@@ -117,37 +60,6 @@ class Theme extends Model implements Auditable
      */
     protected $casts = [
         'type' => 'int',
-    ];
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedIncludePaths = [
-        'anime',
-        'anime.images',
-        'entries',
-        'entries.videos',
-        'song',
-        'song.artists',
-    ];
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedSortFields = [
-        'theme_id',
-        'created_at',
-        'updated_at',
-        'group',
-        'type',
-        'sequence',
-        'slug',
-        'anime_id',
-        'song_id',
     ];
 
     /**

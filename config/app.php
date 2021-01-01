@@ -207,11 +207,14 @@ return [
         App\Providers\ObserverServiceProvider::class,
         L5Swagger\L5SwaggerServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
-        ScoutElastic\ScoutElasticServiceProvider::class,
         MattAllan\LaravelCodeStyle\ServiceProvider::class,
         Spatie\JsonApiPaginate\JsonApiPaginateServiceProvider::class,
         SMartins\Exceptions\JsonHandlerServiceProvider::class,
         App\Providers\PersistentConfigServiceProvider::class,
+        ElasticClient\ServiceProvider::class,
+        ElasticMigrations\ServiceProvider::class,
+        ElasticScoutDriver\ServiceProvider::class,
+        ElasticScoutDriverPlus\ServiceProvider::class,
     ],
 
     /*

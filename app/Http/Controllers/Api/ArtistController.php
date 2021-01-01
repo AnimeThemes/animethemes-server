@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\ArtistCollection;
 use App\Http\Resources\ArtistResource;
 use App\Models\Artist;
-use Illuminate\Support\Str;
 
 class ArtistController extends BaseController
 {
@@ -69,22 +68,9 @@ class ArtistController extends BaseController
      */
     public function index()
     {
-        // initialize builder with eager loaded relations
-        $artists = Artist::with($this->parser->getIncludePaths(Artist::$allowedIncludePaths));
+        $artists = ArtistCollection::performQuery($this->parser);
 
-        // apply sorts
-        foreach ($this->parser->getSorts() as $field => $isAsc) {
-            if (in_array(Str::lower($field), Artist::$allowedSortFields)) {
-                $artists = $artists->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
-            }
-        }
-
-        // paginate
-        $artists = $artists->jsonPaginate();
-
-        $collection = ArtistCollection::make($artists, $this->parser);
-
-        return $collection->toResponse(request());
+        return $artists->toResponse(request());
     }
 
     /**
@@ -128,7 +114,7 @@ class ArtistController extends BaseController
      */
     public function show(Artist $artist)
     {
-        $resource = ArtistResource::make($artist->load($this->parser->getIncludePaths(Artist::$allowedIncludePaths)), $this->parser);
+        $resource = ArtistResource::performQuery($artist, $this->parser);
 
         return $resource->toResponse(request());
     }

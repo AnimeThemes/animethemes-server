@@ -54,6 +54,8 @@ namespace App\Http\Resources;
  */
 class VideoResource extends BaseResource
 {
+    use PerformsResourceQuery;
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -93,6 +95,20 @@ class VideoResource extends BaseResource
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'link' => $this->when($this->isAllowedField('link'), route('video.show', $this)),
             'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->parser),
+        ];
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedIncludePaths()
+    {
+        return [
+            'entries',
+            'entries.theme',
+            'entries.theme.anime',
         ];
     }
 }

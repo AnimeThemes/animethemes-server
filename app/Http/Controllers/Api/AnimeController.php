@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\AnimeSeason;
 use App\Http\Resources\AnimeCollection;
 use App\Http\Resources\AnimeResource;
 use App\Models\Anime;
-use Illuminate\Support\Str;
 
 class AnimeController extends BaseController
 {
-    // constants for query parameters
-    protected const YEAR_QUERY = 'year';
-    protected const SEASON_QUERY = 'season';
-
     /**
      * Display a listing of the resource.
      *
@@ -90,30 +84,9 @@ class AnimeController extends BaseController
      */
     public function index()
     {
-        // initialize builder with eager loaded relations
-        $anime = Anime::with($this->parser->getIncludePaths(Anime::$allowedIncludePaths));
+        $anime = AnimeCollection::performQuery($this->parser);
 
-        // apply filters
-        if ($this->parser->hasFilter(static::YEAR_QUERY)) {
-            $anime = $anime->whereIn(static::YEAR_QUERY, $this->parser->getFilter(static::YEAR_QUERY));
-        }
-        if ($this->parser->hasFilter(static::SEASON_QUERY)) {
-            $anime = $anime->whereIn(static::SEASON_QUERY, $this->parser->getEnumFilter(static::SEASON_QUERY, AnimeSeason::class));
-        }
-
-        // apply sorts
-        foreach ($this->parser->getSorts() as $field => $isAsc) {
-            if (in_array(Str::lower($field), Anime::$allowedSortFields)) {
-                $anime = $anime->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
-            }
-        }
-
-        // paginate
-        $anime = $anime->jsonPaginate();
-
-        $collection = AnimeCollection::make($anime, $this->parser);
-
-        return $collection->toResponse(request());
+        return $anime->toResponse(request());
     }
 
     /**
@@ -157,7 +130,7 @@ class AnimeController extends BaseController
      */
     public function show(Anime $anime)
     {
-        $resource = AnimeResource::make($anime->load($this->parser->getIncludePaths(Anime::$allowedIncludePaths)), $this->parser);
+        $resource = AnimeResource::performQuery($anime, $this->parser);
 
         return $resource->toResponse(request());
     }

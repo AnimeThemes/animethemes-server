@@ -2,17 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\ImageFacet;
 use App\Http\Resources\ImageCollection;
 use App\Http\Resources\ImageResource;
 use App\Models\Image;
-use Illuminate\Support\Str;
 
 class ImageController extends BaseController
 {
-    // constants for query parameters
-    protected const FACET_QUERY = 'facet';
-
     /**
      * Display a listing of the resource.
      *
@@ -81,27 +76,9 @@ class ImageController extends BaseController
      */
     public function index()
     {
-        // initialize builder with eager loaded relations
-        $images = Image::with($this->parser->getIncludePaths(Image::$allowedIncludePaths));
+        $images = ImageCollection::performQuery($this->parser);
 
-        // apply filters
-        if ($this->parser->hasFilter(static::FACET_QUERY)) {
-            $images = $images->whereIn(static::FACET_QUERY, $this->parser->getEnumFilter(static::FACET_QUERY, ImageFacet::class));
-        }
-
-        // apply sorts
-        foreach ($this->parser->getSorts() as $field => $isAsc) {
-            if (in_array(Str::lower($field), Image::$allowedSortFields)) {
-                $images = $images->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
-            }
-        }
-
-        // paginate
-        $images = $images->jsonPaginate();
-
-        $collection = ImageCollection::make($images, $this->parser);
-
-        return $collection->toResponse(request());
+        return $images->toResponse(request());
     }
 
     /**
@@ -145,7 +122,7 @@ class ImageController extends BaseController
      */
     public function show(Image $image)
     {
-        $resource = ImageResource::make($image->load($this->parser->getIncludePaths(Image::$allowedIncludePaths)), $this->parser);
+        $resource = ImageResource::performQuery($image, $this->parser);
 
         return $resource->toResponse(request());
     }

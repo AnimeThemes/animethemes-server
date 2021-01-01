@@ -95,6 +95,8 @@ namespace App\Http\Resources;
  */
 class SeriesResource extends BaseResource
 {
+    use PerformsResourceQuery;
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -124,6 +126,26 @@ class SeriesResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->parser),
+        ];
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @var array
+     */
+    public static function allowedIncludePaths()
+    {
+        return [
+            'anime',
+            'anime.synonyms',
+            'anime.themes',
+            'anime.themes.entries',
+            'anime.themes.entries.videos',
+            'anime.themes.song',
+            'anime.themes.song.artists',
+            'anime.externalResources',
+            'anime.images',
         ];
     }
 }

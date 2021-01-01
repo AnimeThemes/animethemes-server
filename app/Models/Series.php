@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\ScoutElastic\SeriesIndexConfigurator;
-use App\ScoutElastic\SeriesSearchRule;
+use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
-use ScoutElastic\Searchable;
 
 class Series extends Model implements Auditable
 {
-    use HasFactory, Searchable;
+    use CustomSearch, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**
@@ -34,29 +33,6 @@ class Series extends Model implements Auditable
     protected $primaryKey = 'series_id';
 
     /**
-     * @var string
-     */
-    protected $indexConfigurator = SeriesIndexConfigurator::class;
-
-    /**
-     * @var array
-     */
-    protected $searchRules = [
-        SeriesSearchRule::class,
-    ];
-
-    /**
-     * @var array
-     */
-    protected $mapping = [
-        'properties' => [
-            'name' => [
-                'type' => 'text',
-            ],
-        ],
-    ];
-
-    /**
      * Get the route key for the model.
      *
      * @return string
@@ -65,36 +41,6 @@ class Series extends Model implements Auditable
     {
         return 'slug';
     }
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedIncludePaths = [
-        'anime',
-        'anime.synonyms',
-        'anime.themes',
-        'anime.themes.entries',
-        'anime.themes.entries.videos',
-        'anime.themes.song',
-        'anime.themes.song.artists',
-        'anime.externalResources',
-        'anime.images',
-    ];
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedSortFields = [
-        'series_id',
-        'created_at',
-        'updated_at',
-        'slug',
-        'name',
-    ];
 
     /**
      * Get the anime included in the series.

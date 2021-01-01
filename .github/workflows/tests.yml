@@ -37,38 +37,6 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
-    - name: Configure sysctl limits
-      run: |
-        sudo swapoff -a
-        sudo sysctl -w vm.swappiness=1
-        sudo sysctl -w fs.file-max=262144
-        sudo sysctl -w vm.max_map_count=262144
-    - uses: getong/elasticsearch-action@v1.2
-      with:
-        elasticsearch version: '7.6.1'
-        host port: 9200
-        container port: 9200
-        host node port: 9300
-        node port: 9300
-        discovery type: 'single-node'
-    - name: Configure Elasticsearch indices
-      run: |
-        php artisan elastic:create-index "App\ScoutElastic\AnimeIndexConfigurator"
-        php artisan elastic:create-index "App\ScoutElastic\ArtistIndexConfigurator"
-        php artisan elastic:create-index "App\ScoutElastic\EntryIndexConfigurator"
-        php artisan elastic:create-index "App\ScoutElastic\SeriesIndexConfigurator"
-        php artisan elastic:create-index "App\ScoutElastic\SongIndexConfigurator"
-        php artisan elastic:create-index "App\ScoutElastic\SynonymIndexConfigurator"
-        php artisan elastic:create-index "App\ScoutElastic\ThemeIndexConfigurator"
-        php artisan elastic:create-index "App\ScoutElastic\VideoIndexConfigurator"
-        php artisan elastic:update-mapping "App\Models\Anime"
-        php artisan elastic:update-mapping "App\Models\Artist"
-        php artisan elastic:update-mapping "App\Models\Entry"
-        php artisan elastic:update-mapping "App\Models\Series"
-        php artisan elastic:update-mapping "App\Models\Song"
-        php artisan elastic:update-mapping "App\Models\Synonym"
-        php artisan elastic:update-mapping "App\Models\Theme"
-        php artisan elastic:update-mapping "App\Models\Video"
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite

@@ -4,19 +4,18 @@ namespace App\Models;
 
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
-use App\ScoutElastic\VideoIndexConfigurator;
-use App\ScoutElastic\VideoSearchRule;
 use BenSampo\Enum\Traits\CastsEnums;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
+use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
-use ScoutElastic\Searchable;
 
 class Video extends Model implements Auditable, Viewable
 {
-    use CastsEnums, HasFactory, InteractsWithViews, Searchable;
+    use CastsEnums, CustomSearch, HasFactory, InteractsWithViews, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**
@@ -87,89 +86,6 @@ class Video extends Model implements Auditable, Viewable
     }
 
     /**
-     * @var string
-     */
-    protected $indexConfigurator = VideoIndexConfigurator::class;
-
-    /**
-     * @var array
-     */
-    protected $searchRules = [
-        VideoSearchRule::class,
-    ];
-
-    /**
-     * @var array
-     */
-    protected $mapping = [
-        'properties' => [
-            'filename' => [
-                'type' => 'text',
-            ],
-            'tags' => [
-                'type' => 'text',
-                'copy_to' => ['tags_slug', 'anime_slug', 'synonym_slug'],
-            ],
-            'entries' => [
-                'type' => 'nested',
-                'properties' => [
-                    'version' => [
-                        'type' => 'text',
-                        'copy_to' => ['tags_slug', 'version_slug', 'anime_slug', 'synonym_slug'],
-                    ],
-                    'theme' => [
-                        'type' => 'nested',
-                        'properties' => [
-                            'slug' => [
-                                'type' => 'text',
-                                'copy_to' => ['tags_slug', 'version_slug', 'anime_slug', 'synonym_slug'],
-                            ],
-                            'anime' => [
-                                'type' => 'nested',
-                                'properties' => [
-                                    'name' => [
-                                        'type' => 'text',
-                                        'copy_to' => ['anime_slug'],
-                                    ],
-                                    'synonyms' => [
-                                        'type' => 'nested',
-                                        'properties' => [
-                                            'text' => [
-                                                'type' => 'text',
-                                                'copy_to' => ['synonym_slug'],
-                                            ],
-                                        ],
-                                    ],
-                                ],
-                            ],
-                            'song' => [
-                                'type' => 'nested',
-                                'properties' => [
-                                    'title' => [
-                                        'type' => 'text',
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'tags_slug' => [
-                'type' => 'text',
-            ],
-            'version_slug' => [
-                'type' => 'text',
-            ],
-            'anime_slug' => [
-                'type' => 'text',
-            ],
-            'synonym_slug' => [
-                'type' => 'text',
-            ],
-        ],
-    ];
-
-    /**
      * Get the route key for the model.
      *
      * @return string
@@ -197,39 +113,6 @@ class Video extends Model implements Auditable, Viewable
         'subbed' => 'boolean',
         'lyrics' => 'boolean',
         'uncen' => 'boolean',
-    ];
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedIncludePaths = [
-        'entries',
-        'entries.theme',
-        'entries.theme.anime',
-    ];
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedSortFields = [
-        'video_id',
-        'created_at',
-        'updated_at',
-        'filename',
-        'path',
-        'size',
-        'basename',
-        'resolution',
-        'nc',
-        'subbed',
-        'lyrics',
-        'uncen',
-        'source',
-        'overlap',
     ];
 
     /**

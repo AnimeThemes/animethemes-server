@@ -43,7 +43,7 @@ class QueryParserTest extends TestCase
         $fields = $this->faker->words($this->faker->randomDigitNotNull);
 
         $parameters = [
-            'fields' => [
+            QueryParser::PARAM_FIELDS => [
                 $type => '',
             ],
         ];
@@ -67,7 +67,7 @@ class QueryParserTest extends TestCase
         $allowed_field = Arr::random($fields);
 
         $parameters = [
-            'fields' => [
+            QueryParser::PARAM_FIELDS => [
                 $type => $allowed_field,
             ],
         ];
@@ -109,7 +109,7 @@ class QueryParserTest extends TestCase
         $includes = $this->faker->words($this->faker->randomDigitNotNull);
 
         $parameters = [
-            'include' => '',
+            QueryParser::PARAM_INCLUDE => '',
         ];
 
         $parser = new QueryParser($parameters);
@@ -129,7 +129,7 @@ class QueryParserTest extends TestCase
         $allowed_includes = Arr::random($includes, $include_count);
 
         $parameters = [
-            'include' => implode(',', $includes),
+            QueryParser::PARAM_INCLUDE => implode(',', $includes),
         ];
 
         $parser = new QueryParser($parameters);
@@ -165,7 +165,7 @@ class QueryParserTest extends TestCase
         $includes = $this->faker->words($this->faker->randomDigitNotNull);
 
         $parameters = [
-            'include' => [
+            QueryParser::PARAM_INCLUDE => [
                 $type => '',
             ],
         ];
@@ -188,7 +188,7 @@ class QueryParserTest extends TestCase
         $allowed_includes = Arr::random($includes, $include_count);
 
         $parameters = [
-            'include' => [
+            QueryParser::PARAM_INCLUDE => [
                 $type => implode(',', $includes),
             ],
         ];
@@ -208,7 +208,7 @@ class QueryParserTest extends TestCase
         $sorts = $this->faker->unique()->words($this->faker->randomDigitNotNull);
 
         $parameters = [
-            'sort' => implode(',', $sorts),
+            QueryParser::PARAM_SORT => implode(',', $sorts),
         ];
 
         $parser = new QueryParser($parameters);
@@ -232,7 +232,7 @@ class QueryParserTest extends TestCase
         }, $sorts_desc);
 
         $parameters = [
-            'sort' => implode(',', $sorts_desc_symbol),
+            QueryParser::PARAM_SORT => implode(',', $sorts_desc_symbol),
         ];
 
         $parser = new QueryParser($parameters);
@@ -256,7 +256,7 @@ class QueryParserTest extends TestCase
         }, $sorts_asc);
 
         $parameters = [
-            'sort' => implode(',', $sorts_asc_symbol),
+            QueryParser::PARAM_SORT => implode(',', $sorts_asc_symbol),
         ];
 
         $parser = new QueryParser($parameters);
@@ -279,7 +279,7 @@ class QueryParserTest extends TestCase
         $filter = $this->faker->word();
 
         $parameters = [
-            'filter' => [
+            QueryParser::PARAM_FILTER => [
                 $filter_field => $filter,
             ],
         ];
@@ -307,7 +307,7 @@ class QueryParserTest extends TestCase
         $filter = $this->faker->word();
 
         $parameters = [
-            'filter' => [
+            QueryParser::PARAM_FILTER => [
                 $filter_field => $filter,
             ],
         ];
@@ -324,48 +324,6 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     * The parser shall convert enum filters from keys to values.
-     *
-     * @return void
-     */
-    public function testEnumFilter()
-    {
-        $enum = AnimeSeason::getRandomInstance();
-        $filter_field = $this->faker->word();
-
-        $parameters = [
-            'filter' => [
-                $filter_field => $enum->key,
-            ],
-        ];
-
-        $parser = new QueryParser($parameters);
-
-        $this->assertEmpty(array_diff([$enum->value], $parser->getEnumFilter($filter_field, AnimeSeason::class)));
-    }
-
-    /**
-     * The parser shall convert boolean filters from strings to boolean values.
-     *
-     * @return void
-     */
-    public function testBooleanFilter()
-    {
-        $bool = $this->faker->boolean();
-        $filter_field = $this->faker->word();
-
-        $parameters = [
-            'filter' => [
-                $filter_field => json_encode($bool),
-            ],
-        ];
-
-        $parser = new QueryParser($parameters);
-
-        $this->assertEmpty(array_diff([$bool], $parser->getBooleanFilter($filter_field)));
-    }
-
-    /**
      * The parser will indicate that our request doesn't have a search value if not specified.
      *
      * @return void
@@ -373,7 +331,7 @@ class QueryParserTest extends TestCase
     public function testDoesNotHaveSearch()
     {
         $parameters = [
-            'q' => '',
+            QueryParser::PARAM_SEARCH => '',
         ];
 
         $parser = new QueryParser($parameters);
@@ -389,7 +347,7 @@ class QueryParserTest extends TestCase
     public function testHasSearch()
     {
         $parameters = [
-            'q' => $this->faker->word(),
+            QueryParser::PARAM_SEARCH => $this->faker->word(),
         ];
 
         $parser = new QueryParser($parameters);
@@ -407,11 +365,152 @@ class QueryParserTest extends TestCase
         $q = $this->faker->word();
 
         $parameters = [
-            'q' => $q,
+            QueryParser::PARAM_SEARCH => $q,
         ];
 
         $parser = new QueryParser($parameters);
 
         $this->assertEquals($q, $parser->getSearch());
+    }
+
+    /**
+     * By default, the limit shall return the default value.
+     *
+     * @return void
+     */
+    public function testDefaultLimit()
+    {
+        $parameters = [];
+
+        $parser = new QueryParser($parameters);
+
+        $this->assertEquals(QueryParser::DEFAULT_LIMIT, $parser->getLimit());
+    }
+
+    /**
+     * If the limit is less than the default, the parser shall return the limit.
+     *
+     * @return void
+     */
+    public function testValidLimit()
+    {
+        $limit = $this->faker->numberBetween(0, QueryParser::DEFAULT_LIMIT);
+
+        $parameters = [
+            QueryParser::PARAM_LIMIT => $limit,
+        ];
+
+        $parser = new QueryParser($parameters);
+
+        $this->assertEquals($limit, $parser->getLimit());
+    }
+
+    /**
+     * If the limit is greater than the default, the parser shall return the default.
+     *
+     * @return void
+     */
+    public function testInvalidLimit()
+    {
+        $limit = QueryParser::DEFAULT_LIMIT + $this->faker->randomDigitNotNull;
+
+        $parameters = [
+            QueryParser::PARAM_LIMIT => $limit,
+        ];
+
+        $parser = new QueryParser($parameters);
+
+        $this->assertEquals(QueryParser::DEFAULT_LIMIT, $parser->getLimit());
+    }
+
+    /**
+     * If the limit is lte to 0, the parser shall return the default limit.
+     *
+     * @return void
+     */
+    public function testPositiveBoundDefaultLimit()
+    {
+        $limit = $this->faker->randomDigit * -1;
+
+        $parameters = [
+            QueryParser::PARAM_LIMIT => $limit,
+        ];
+
+        $parser = new QueryParser($parameters);
+
+        $this->assertEquals(QueryParser::DEFAULT_LIMIT, $parser->getLimit());
+    }
+
+    /**
+     * If the default limit is overriden, the parser shall return the overriden value by default.
+     *
+     * @return void
+     */
+    public function testOverridenDefaultLimit()
+    {
+        $default_limit = $this->faker->randomDigitNotNull;
+
+        $parameters = [];
+
+        $parser = new QueryParser($parameters);
+
+        $this->assertEquals($default_limit, $parser->getLimit($default_limit));
+    }
+
+    /**
+     * If the default limit is overriden and the limit is valid, the parser shall return the limit.
+     *
+     * @return void
+     */
+    public function testValidOverridenDefaultLimit()
+    {
+        $limit = $this->faker->randomDigitNotNull;
+        $default_limit = $limit + $this->faker->randomDigitNotNull;
+
+        $parameters = [
+            QueryParser::PARAM_LIMIT => $limit,
+        ];
+
+        $parser = new QueryParser($parameters);
+
+        $this->assertEquals($limit, $parser->getLimit($default_limit));
+    }
+
+    /**
+     * If the default limit is overriden and the limit is invalid, the parser shall return the default limit.
+     *
+     * @return void
+     */
+    public function testInvalidOverridenDefaultLimit()
+    {
+        $default_limit = $this->faker->randomDigitNotNull;
+        $limit = $default_limit + $this->faker->randomDigitNotNull;
+
+        $parameters = [
+            QueryParser::PARAM_LIMIT => $limit,
+        ];
+
+        $parser = new QueryParser($parameters);
+
+        $this->assertEquals($default_limit, $parser->getLimit($default_limit));
+    }
+
+    /**
+     * If the default limit is overriden and the limit is lte to 0, the parser shall return the default limit.
+     *
+     * @return void
+     */
+    public function testPositiveBoundOverridenDefaultLimit()
+    {
+        $default_limit = $this->faker->randomDigitNotNull;
+        $limit = $this->faker->randomDigit * -1;
+
+        $parameters = [
+            QueryParser::PARAM_LIMIT => $limit,
+        ];
+
+        $parser = new QueryParser($parameters);
+
+        $this->assertEquals($default_limit, $parser->getLimit($default_limit));
     }
 }

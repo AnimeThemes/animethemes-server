@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
-use App\ScoutElastic\EntryIndexConfigurator;
-use App\ScoutElastic\EntrySearchRule;
+use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
-use ScoutElastic\Searchable;
 
 class Entry extends Model implements Auditable
 {
-    use HasFactory, Searchable;
+    use CustomSearch, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -60,100 +59,6 @@ class Entry extends Model implements Auditable
 
         return $array;
     }
-
-    /**
-     * @var string
-     */
-    protected $indexConfigurator = EntryIndexConfigurator::class;
-
-    /**
-     * @var array
-     */
-    protected $searchRules = [
-        EntrySearchRule::class,
-    ];
-
-    /**
-     * @var array
-     */
-    protected $mapping = [
-        'properties' => [
-            'version' => [
-                'type' => 'text',
-                'copy_to' => ['version_slug', 'anime_slug', 'synonym_slug'],
-            ],
-            'theme' => [
-                'type' => 'nested',
-                'properties' => [
-                    'slug' => [
-                        'type' => 'text',
-                        'copy_to' => ['version_slug', 'anime_slug', 'synonym_slug'],
-                    ],
-                    'anime' => [
-                        'type' => 'nested',
-                        'properties' => [
-                            'name' => [
-                                'type' => 'text',
-                                'copy_to' => ['anime_slug'],
-                            ],
-                            'synonyms' => [
-                                'type' => 'nested',
-                                'properties' => [
-                                    'text' => [
-                                        'type' => 'text',
-                                        'copy_to' => ['synonym_slug'],
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                    'song' => [
-                        'type' => 'nested',
-                        'properties' => [
-                            'title' => [
-                                'type' => 'text',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'version_slug' => [
-                'type' => 'text',
-            ],
-            'anime_slug' => [
-                'type' => 'text',
-            ],
-            'synonym_slug' => [
-                'type' => 'text',
-            ],
-        ],
-    ];
-
-    /**
-     * The include paths a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedIncludePaths = [
-        'anime',
-        'theme',
-        'videos',
-    ];
-
-    /**
-     * The sort field names a client is allowed to request.
-     *
-     * @var array
-     */
-    public static $allowedSortFields = [
-        'entry_id',
-        'created_at',
-        'updated_at',
-        'version',
-        'nsfw',
-        'spoiler',
-        'theme_id',
-    ];
 
     /**
      * Get the theme that owns the entry.
