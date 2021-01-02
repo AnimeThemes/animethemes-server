@@ -189,6 +189,14 @@ CREATE TABLE `configs` (
   PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `elastic_migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `elastic_migrations` (
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `entry`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -477,3 +485,4 @@ INSERT INTO `migrations` VALUES (89,'2020_11_24_231534_create_image_table',1);
 INSERT INTO `migrations` VALUES (90,'2020_11_24_232439_create_anime_image',1);
 INSERT INTO `migrations` VALUES (91,'2020_11_24_232525_create_artist_image',1);
 INSERT INTO `migrations` VALUES (92,'2020_12_08_034959_create_views_table',1);
+INSERT INTO `migrations` VALUES (93,'2019_15_12_112000_create_elastic_migrations_table',2);

@@ -40,6 +40,7 @@ class VideoTagsSeeder extends Seeder
         'https://www.reddit.com/r/AnimeThemes/wiki/2018.json',
         'https://www.reddit.com/r/AnimeThemes/wiki/2019.json',
         'https://www.reddit.com/r/AnimeThemes/wiki/2020.json',
+        'https://www.reddit.com/r/AnimeThemes/wiki/2021.json',
     ];
 
     /**
