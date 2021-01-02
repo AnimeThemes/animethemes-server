@@ -39,6 +39,7 @@ class AnimeResourceSeeder extends Seeder
         2018 => 'https://www.reddit.com/r/AnimeThemes/wiki/2018.json',
         2019 => 'https://www.reddit.com/r/AnimeThemes/wiki/2019.json',
         2020 => 'https://www.reddit.com/r/AnimeThemes/wiki/2020.json',
+        2021 => 'https://www.reddit.com/r/AnimeThemes/wiki/2021.json',
     ];
 
     /**
