@@ -42,7 +42,7 @@ trait PerformsConstrainedEagerLoading
      */
     protected static function relation($allowedIncludePath)
     {
-        $relatedModel = Str::singular(Str::of($allowedIncludePath)->explode('.')->last());
+        $relatedModel = Str::ucfirst(Str::singular(Str::of($allowedIncludePath)->explode('.')->last()));
 
         return "\\App\\Http\\Resources\\{$relatedModel}Collection";
     }
