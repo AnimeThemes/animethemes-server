@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\JsonApi\Traits\PerformsResourceCollectionQuery;
+use App\JsonApi\Traits\PerformsResourceCollectionSearch;
+
 class SeriesCollection extends BaseCollection
 {
     use PerformsResourceCollectionQuery, PerformsResourceCollectionSearch;

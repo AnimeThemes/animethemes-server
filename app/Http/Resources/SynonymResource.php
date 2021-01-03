@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\JsonApi\Traits\PerformsResourceQuery;
+
 /**
  * @OA\Schema(
  *     title="Synonym",

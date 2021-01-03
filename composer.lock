@@ -822,16 +822,16 @@
         },
         {
             "name": "cyrildewit/eloquent-viewable",
-            "version": "v6.0.0",
+            "version": "v6.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cyrildewit/eloquent-viewable.git",
-                "reference": "fd5fc3dc869a9a3769d7dd9b7b9ba13097ceba1c"
+                "reference": "699294489e397c18a59ff9fafadde8154be85c02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cyrildewit/eloquent-viewable/zipball/fd5fc3dc869a9a3769d7dd9b7b9ba13097ceba1c",
-                "reference": "fd5fc3dc869a9a3769d7dd9b7b9ba13097ceba1c",
+                "url": "https://api.github.com/repos/cyrildewit/eloquent-viewable/zipball/699294489e397c18a59ff9fafadde8154be85c02",
+                "reference": "699294489e397c18a59ff9fafadde8154be85c02",
                 "shasum": ""
             },
             "require": {
@@ -893,9 +893,9 @@
             ],
             "support": {
                 "issues": "https://github.com/cyrildewit/eloquent-viewable/issues",
-                "source": "https://github.com/cyrildewit/eloquent-viewable/tree/v6.0.0"
+                "source": "https://github.com/cyrildewit/eloquent-viewable/tree/v6.0.2"
             },
-            "time": "2020-12-30T12:26:25+00:00"
+            "time": "2021-01-02T15:47:17+00:00"
         },
         {
             "name": "darkaonline/l5-swagger",

@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Support\Facades\Storage;
+use App\JsonApi\Traits\PerformsResourceQuery;
 
 /**
  * @OA\Schema(
