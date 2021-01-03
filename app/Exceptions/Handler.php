@@ -2,9 +2,9 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use SMartins\Exceptions\JsonHandler;
-use Exception;
 use Throwable;
 
 class Handler extends ExceptionHandler
