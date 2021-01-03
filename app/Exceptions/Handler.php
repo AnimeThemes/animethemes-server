@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use SMartins\Exceptions\JsonHandler;
+use Exception;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -50,7 +51,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $e)
     {
-        if ($request->expectsJson()) {
+        if ($request->expectsJson() && is_a($e, Exception::class)) {
             return $this->jsonResponse($e);
         }
 
