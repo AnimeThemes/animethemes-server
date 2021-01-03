@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\JsonApi\Traits\PerformsResourceQuery;
+use Illuminate\Support\Str;
+
 /**
  * @OA\Schema(
  *     title="Artist",
@@ -120,5 +123,24 @@ class ArtistResource extends BaseResource
             'externalResources',
             'images',
         ];
+    }
+
+    /**
+     * Resolve the related collection resource from the relation name.
+     * We are assuming a convention of "{Relation}Collection".
+     *
+     * @param string $allowedIncludePath
+     * @return string
+     */
+    protected static function relation($allowedIncludePath)
+    {
+        $relatedModel = Str::singular(Str::of($allowedIncludePath)->explode('.')->last());
+
+        // Member and Group attributes do not follow convention
+        if ($relatedModel === 'member' || $relatedModel === 'group') {
+            $relatedModel = 'artist';
+        }
+
+        return "\\App\\Http\\Resources\\{$relatedModel}Collection";
     }
 }

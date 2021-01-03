@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\JsonApi\Traits;
 
 use App\JsonApi\QueryParser;
 use Illuminate\Support\Str;
 
 trait PerformsResourceCollectionQuery
 {
+    use PerformsConstrainedEagerLoading;
+
     /**
      * The include paths a client is allowed to request.
      *
@@ -63,16 +65,13 @@ trait PerformsResourceCollectionQuery
         // initialize builder
         $builder = static::queryBuilder();
 
-        // eager load relations
-        // TODO: constrain eager loads for deep filtering
-        $builder = $builder->with($parser->getIncludePaths(static::allowedIncludePaths()));
+        // eager load relations with constraints
+        $builder = $builder->with(static::performConstrainedEagerLoads($parser));
 
         // apply filters
         foreach (static::filters() as $filterClass) {
             $filter = new $filterClass($parser);
-            if ($filter->hasFilter()) {
-                $builder = $filter->applyFilter($builder);
-            }
+            $builder = $filter->applyBuilderFilter($builder);
         }
 
         // apply sorts

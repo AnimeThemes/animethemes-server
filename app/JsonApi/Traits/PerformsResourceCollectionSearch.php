@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\JsonApi\Traits;
 
 use App\JsonApi\QueryParser;
 use Illuminate\Support\Facades\Config;

@@ -394,7 +394,7 @@ class QueryParserTest extends TestCase
      */
     public function testValidLimit()
     {
-        $limit = $this->faker->numberBetween(0, QueryParser::DEFAULT_LIMIT);
+        $limit = $this->faker->numberBetween(1, QueryParser::DEFAULT_LIMIT);
 
         $parameters = [
             QueryParser::PARAM_LIMIT => $limit,

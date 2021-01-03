@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use App\JsonApi\Filter\Anime\AnimeSeasonFilter;
 use App\JsonApi\Filter\Anime\AnimeYearFilter;
+use App\JsonApi\Traits\PerformsResourceCollectionQuery;
+use App\JsonApi\Traits\PerformsResourceCollectionSearch;
 
 class AnimeCollection extends BaseCollection
 {

@@ -2,6 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\JsonApi\Traits\PerformsResourceCollectionQuery;
+use App\JsonApi\Traits\PerformsResourceCollectionSearch;
+use Illuminate\Support\Str;
+
 class ArtistCollection extends BaseCollection
 {
     use PerformsResourceCollectionQuery, PerformsResourceCollectionSearch;
@@ -58,5 +62,24 @@ class ArtistCollection extends BaseCollection
             'slug',
             'name',
         ];
+    }
+
+    /**
+     * Resolve the related collection resource from the relation name.
+     * We are assuming a convention of "{Relation}Collection".
+     *
+     * @param string $allowedIncludePath
+     * @return string
+     */
+    protected static function relation($allowedIncludePath)
+    {
+        $relatedModel = Str::singular(Str::of($allowedIncludePath)->explode('.')->last());
+
+        // Member and Group attributes do not follow convention
+        if ($relatedModel === 'member' || $relatedModel === 'group') {
+            $relatedModel = 'artist';
+        }
+
+        return "\\App\\Http\\Resources\\{$relatedModel}Collection";
     }
 }
