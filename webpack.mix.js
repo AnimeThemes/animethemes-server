@@ -4,6 +4,8 @@ mix.copy('node_modules/jquery/dist/jquery.min.js', 'public/js/vendor/jquery.min.
 
 var modernizr = require("modernizr");
 
+fs = require('fs');
+
 modernizr.build({
     "options": [
         "setClasses"
@@ -12,7 +14,9 @@ modernizr.build({
         "video"
     ]
 }, function (result) {
-    var modernizrJS = new File('public/js/vendor/modernizr.min.js');
-    modernizrJS.write(result);
-    modernizrJS.minify();
+    fs.writeFile('public/js/vendor/modernizr.min.js', result, function (err, data) {
+        if (err) {
+            return console.log(err);
+        }
+    });
 });
