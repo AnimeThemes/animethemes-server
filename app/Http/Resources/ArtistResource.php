@@ -134,11 +134,11 @@ class ArtistResource extends BaseResource
      */
     protected static function relation($allowedIncludePath)
     {
-        $relatedModel = Str::singular(Str::of($allowedIncludePath)->explode('.')->last());
+        $relatedModel = Str::ucfirst(Str::singular(Str::of($allowedIncludePath)->explode('.')->last()));
 
         // Member and Group attributes do not follow convention
-        if ($relatedModel === 'member' || $relatedModel === 'group') {
-            $relatedModel = 'artist';
+        if ($relatedModel === 'Member' || $relatedModel === 'Group') {
+            $relatedModel = 'Artist';
         }
 
         return "\\App\\Http\\Resources\\{$relatedModel}Collection";
