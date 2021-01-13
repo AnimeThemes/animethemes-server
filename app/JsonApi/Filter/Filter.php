@@ -91,7 +91,7 @@ abstract class Filter
      *
      * @return bool
      */
-    public function hasFilter()
+    protected function hasFilter()
     {
         return $this->parser->hasFilter($this->key);
     }
@@ -101,7 +101,7 @@ abstract class Filter
      *
      * @return array
      */
-    public function getFilterValues()
+    protected function getFilterValues()
     {
         return $this->getUniqueFilterValues(
             $this->convertFilterValues(
