@@ -24,7 +24,7 @@ jobs:
         nova_username: ${{ secrets.NOVA_USERNAME }}
         nova_password: ${{ secrets.NOVA_PASSWORD }}
       run: |
-        composer config "http-basic.nova.laravel.com" "$env:nova_username" "$env:nova_password"
+        composer config "http-basic.nova.laravel.com" "%nova_username%" "%nova_password%"
         composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Generate key
       run: php artisan key:generate
