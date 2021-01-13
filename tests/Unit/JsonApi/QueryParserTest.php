@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\JsonApi;
 
-use App\Enums\AnimeSeason;
 use App\JsonApi\QueryParser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

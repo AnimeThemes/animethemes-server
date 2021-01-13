@@ -20,6 +20,9 @@ jobs:
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
+      with:
+        nova_username: ${{ secrets.NOVA_USERNAME }}
+        nova_password: ${{ secrets.NOVA_PASSWORD }}
       run: |
         composer config "http-basic.nova.laravel.com" "${{ secrets.NOVA_USERNAME }}" "${{ secrets.NOVA_PASSWORD }}"
         composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
