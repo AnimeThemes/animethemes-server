@@ -39,7 +39,7 @@ class KitsuResourceSeeder extends Seeder
                 // Kitsu api call
                 try {
                     $client = new Client;
-                    $response = $client->get('https://kitsu.io/api/edge/mappings?filter[externalSite]=myanimelist/anime&include=item&filter[externalId]=' . $mal_resource->external_id, [
+                    $response = $client->get('https://kitsu.io/api/edge/mappings?filter[externalSite]=myanimelist/anime&include=item&filter[externalId]='.$mal_resource->external_id, [
                         'headers' => [
                             'Accept' => 'application/vnd.api+json',
                             'Content-Type' => 'application/vnd.api+json',
