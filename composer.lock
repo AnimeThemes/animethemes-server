@@ -64,16 +64,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.171.16",
+            "version": "3.171.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "216ff33ce238c30cf793973262ea727f2ce41224"
+                "reference": "e786e4a8b2ec85b258833d0570ff6b61348cbdb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/216ff33ce238c30cf793973262ea727f2ce41224",
-                "reference": "216ff33ce238c30cf793973262ea727f2ce41224",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e786e4a8b2ec85b258833d0570ff6b61348cbdb6",
+                "reference": "e786e4a8b2ec85b258833d0570ff6b61348cbdb6",
                 "shasum": ""
             },
             "require": {
@@ -148,9 +148,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.171.16"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.171.19"
             },
-            "time": "2021-01-12T19:12:49+00:00"
+            "time": "2021-01-15T19:26:11+00:00"
         },
         {
             "name": "babenkoivan/elastic-adapter",
@@ -5982,16 +5982,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.39.0",
+            "version": "v3.40.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "aab0511e07cbb059e1f430aae02ed1f226366829"
+                "reference": "8264f72af350eff0a564a3ca6f6292c8818f8466"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/aab0511e07cbb059e1f430aae02ed1f226366829",
-                "reference": "aab0511e07cbb059e1f430aae02ed1f226366829",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/8264f72af350eff0a564a3ca6f6292c8818f8466",
+                "reference": "8264f72af350eff0a564a3ca6f6292c8818f8466",
                 "shasum": ""
             },
             "type": "library",
@@ -6037,9 +6037,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.39.0"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.40.0"
             },
-            "time": "2021-01-07T21:16:03+00:00"
+            "time": "2021-01-14T20:20:17+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -8797,16 +8797,16 @@
         },
         {
             "name": "yassi/nova-nested-form",
-            "version": "v3.0.9",
+            "version": "v3.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yassipad/laravel-nova-nested-form.git",
-                "reference": "0dd4d11c958645d94140486a06847c67fe4eab4d"
+                "reference": "a7bbe885c48935663c926f77c2bcef229b568dad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yassipad/laravel-nova-nested-form/zipball/0dd4d11c958645d94140486a06847c67fe4eab4d",
-                "reference": "0dd4d11c958645d94140486a06847c67fe4eab4d",
+                "url": "https://api.github.com/repos/yassipad/laravel-nova-nested-form/zipball/a7bbe885c48935663c926f77c2bcef229b568dad",
+                "reference": "a7bbe885c48935663c926f77c2bcef229b568dad",
                 "shasum": ""
             },
             "require": {
@@ -8842,9 +8842,9 @@
             ],
             "support": {
                 "issues": "https://github.com/yassipad/laravel-nova-nested-form/issues",
-                "source": "https://github.com/yassipad/laravel-nova-nested-form/tree/v3.0.9"
+                "source": "https://github.com/yassipad/laravel-nova-nested-form/tree/v3.0.10"
             },
-            "time": "2020-12-11T00:53:04+00:00"
+            "time": "2021-01-15T17:46:08+00:00"
         },
         {
             "name": "zircote/swagger-php",
@@ -10765,16 +10765,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.66",
+            "version": "0.12.67",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "4110a2425c6bd53acbdfcda07885e87b66e9ba3e"
+                "reference": "ced7a5d9c5dba908c1c00cea3f1d4ad74da71b86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4110a2425c6bd53acbdfcda07885e87b66e9ba3e",
-                "reference": "4110a2425c6bd53acbdfcda07885e87b66e9ba3e",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ced7a5d9c5dba908c1c00cea3f1d4ad74da71b86",
+                "reference": "ced7a5d9c5dba908c1c00cea3f1d4ad74da71b86",
                 "shasum": ""
             },
             "require": {
@@ -10805,7 +10805,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.66"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.67"
             },
             "funding": [
                 {
@@ -10821,7 +10821,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-11T16:43:15+00:00"
+            "time": "2021-01-14T14:16:19+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
