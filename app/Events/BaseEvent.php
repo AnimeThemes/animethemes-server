@@ -14,5 +14,5 @@ abstract class BaseEvent
      *
      * @return \NotificationChannels\Discord\DiscordMessage
      */
-    public abstract function getDiscordMessage();
+    abstract public function getDiscordMessage();
 }

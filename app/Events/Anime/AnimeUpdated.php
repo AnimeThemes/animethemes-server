@@ -3,7 +3,6 @@
 namespace App\Events\Anime;
 
 use App\Models\Anime;
-
 use NotificationChannels\Discord\DiscordMessage;
 
 class AnimeUpdated extends AnimeEvent
