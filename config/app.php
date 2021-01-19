@@ -215,6 +215,7 @@ return [
         ElasticMigrations\ServiceProvider::class,
         ElasticScoutDriver\ServiceProvider::class,
         ElasticScoutDriverPlus\ServiceProvider::class,
+        NotificationChannels\Discord\DiscordServiceProvider::class,
     ],
 
     /*

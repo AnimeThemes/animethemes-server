@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\Image;
 use App\Models\Invitation;
@@ -10,7 +9,6 @@ use App\Models\Song;
 use App\Models\Synonym;
 use App\Models\Theme;
 use App\Models\Video;
-use App\Observers\AnimeObserver;
 use App\Observers\EntryObserver;
 use App\Observers\ImageObserver;
 use App\Observers\InvitationObserver;
@@ -39,7 +37,6 @@ class ObserverServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Anime::observe(AnimeObserver::class);
         Entry::observe(EntryObserver::class);
         Image::observe(ImageObserver::class);
         Invitation::observe(InvitationObserver::class);

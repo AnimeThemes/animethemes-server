@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\Enums\AnimeSeason;
+use App\Events\Anime\AnimeCreated;
+use App\Events\Anime\AnimeDeleted;
+use App\Events\Anime\AnimeUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +22,19 @@ class Anime extends Model implements Auditable
      * @var array
      */
     protected $fillable = ['slug', 'name', 'year', 'season', 'synopsis'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => AnimeCreated::class,
+        'updated' => AnimeUpdated::class,
+        'deleted' => AnimeDeleted::class,
+    ];
 
     /**
      * The table associated with the model.

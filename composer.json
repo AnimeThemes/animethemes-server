@@ -23,6 +23,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "illuminatech/nova-config": "^1.0",
         "inspheric/nova-url-field": "^1.4",
+        "laravel-notification-channels/discord": "^1.3",
         "laravel/framework": "^8.0",
         "laravel/jetstream": "^1.6",
         "laravel/nova": "~3.0",
