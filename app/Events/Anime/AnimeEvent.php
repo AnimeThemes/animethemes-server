@@ -2,10 +2,9 @@
 
 namespace App\Events\Anime;
 
-use App\Events\BaseEvent;
 use App\Models\Anime;
 
-abstract class AnimeEvent extends BaseEvent
+abstract class AnimeEvent
 {
     /**
      * The anime that has dispatched this event.

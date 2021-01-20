@@ -2,11 +2,14 @@
 
 namespace App\Events\Anime;
 
+use App\Events\DiscordMessageEvent;
+use Illuminate\Foundation\Events\Dispatchable;
 use NotificationChannels\Discord\DiscordMessage;
 
-// TODO: Events aren't firing because serialized model is ded when we handle the notification.
-class AnimeDeleted extends AnimeEvent
+class AnimeDeleted extends AnimeEvent implements DiscordMessageEvent
 {
+    use Dispatchable;
+
     /**
      * Get Discord message payload.
      *

@@ -2,10 +2,15 @@
 
 namespace App\Events\Anime;
 
+use App\Events\DiscordMessageEvent;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 use NotificationChannels\Discord\DiscordMessage;
 
-class AnimeCreated extends AnimeEvent
+class AnimeCreated extends AnimeEvent implements DiscordMessageEvent
 {
+    use Dispatchable, SerializesModels;
+
     /**
      * Get Discord message payload.
      *
@@ -15,7 +20,7 @@ class AnimeCreated extends AnimeEvent
     {
         $anime = $this->getAnime();
 
-        // localize messages
+        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Anime Created', [
             'description' => "Anime '{$anime->name}' has been created.",
         ]);

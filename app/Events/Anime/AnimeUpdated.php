@@ -3,16 +3,21 @@
 namespace App\Events\Anime;
 
 use App\Models\Anime;
+use App\Events\DiscordMessageEvent;
+use App\Events\HasDiscordEmbedFields;
+use Illuminate\Foundation\Events\Dispatchable;
 use NotificationChannels\Discord\DiscordMessage;
 
-class AnimeUpdated extends AnimeEvent
+class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent
 {
+    use Dispatchable, HasDiscordEmbedFields;
+
     /**
-     * The array of changes.
+     * The array of embed fields.
      *
      * @var array
      */
-    protected $changes;
+    protected $embedFields;
 
     /**
      * Create a new event instance.
@@ -23,8 +28,7 @@ class AnimeUpdated extends AnimeEvent
     public function __construct(Anime $anime)
     {
         parent::__construct($anime);
-        //TODO: Clean this abomination up
-        $this->changes = collect($anime->getOriginal())->only(collect($anime->getChanges())->forget('updated_at')->keys())->all();
+        $this->embedFields = static::initializeEmbedFields($anime);
     }
 
     /**
@@ -39,44 +43,7 @@ class AnimeUpdated extends AnimeEvent
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Anime Updated', [
             'description' => "Anime '{$anime->name}' has been updated.",
-            'fields' => $this->getEmbedFields(),
+            'fields' => $this->embedFields,
         ]);
-    }
-
-    /**
-     * Get Discord Embed Fields from changed attributes.
-     * TODO: Bleh.
-     *
-     * @return array
-     */
-    private function getEmbedFields()
-    {
-        $anime = $this->getAnime();
-        $embedFields = [];
-
-        foreach ($this->changes as $name => $value) {
-            $attributeField = [
-                'name' => 'Attribute',
-                'value' => $name,
-                'inline' => true,
-            ];
-            $embedFields[] = $attributeField;
-
-            $oldField = [
-                'name' => 'Old',
-                'value' => $value,
-                'inline' => true,
-            ];
-            $embedFields[] = $oldField;
-
-            $newField = [
-                'name' => 'New',
-                'value' => $anime->{$name},
-                'inline' => true,
-            ];
-            $embedFields[] = $newField;
-        }
-
-        return $embedFields;
     }
 }
