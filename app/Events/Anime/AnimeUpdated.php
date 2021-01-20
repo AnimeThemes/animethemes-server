@@ -2,9 +2,9 @@
 
 namespace App\Events\Anime;
 
-use App\Models\Anime;
 use App\Events\DiscordMessageEvent;
 use App\Events\HasDiscordEmbedFields;
+use App\Models\Anime;
 use Illuminate\Foundation\Events\Dispatchable;
 use NotificationChannels\Discord\DiscordMessage;
 

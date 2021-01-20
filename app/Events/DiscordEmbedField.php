@@ -24,7 +24,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     /**
      * Whether or not this field should display inline.
      *
-     * @var boolean
+     * @var bool
      */
     private $inline;
 
