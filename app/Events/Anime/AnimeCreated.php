@@ -2,7 +2,7 @@
 
 namespace App\Events\Anime;
 
-use App\Events\DiscordMessageEvent;
+use App\Discord\Events\DiscordMessageEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use NotificationChannels\Discord\DiscordMessage;

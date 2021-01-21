@@ -2,22 +2,15 @@
 
 namespace App\Events\Anime;
 
-use App\Events\DiscordMessageEvent;
-use App\Events\HasDiscordEmbedFields;
+use App\Discord\Events\DiscordMessageEvent;
+use App\Discord\Traits\HasAttributeUpdateEmbedFields;
 use App\Models\Anime;
 use Illuminate\Foundation\Events\Dispatchable;
 use NotificationChannels\Discord\DiscordMessage;
 
 class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent
 {
-    use Dispatchable, HasDiscordEmbedFields;
-
-    /**
-     * The array of embed fields.
-     *
-     * @var array
-     */
-    protected $embedFields;
+    use Dispatchable, HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
@@ -28,7 +21,7 @@ class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent
     public function __construct(Anime $anime)
     {
         parent::__construct($anime);
-        $this->embedFields = static::initializeEmbedFields($anime);
+        $this->initializeEmbedFields($anime);
     }
 
     /**
@@ -43,7 +36,7 @@ class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Anime Updated', [
             'description' => "Anime '{$anime->name}' has been updated.",
-            'fields' => $this->embedFields,
+            'fields' => $this->getEmbedFields(),
         ]);
     }
 }

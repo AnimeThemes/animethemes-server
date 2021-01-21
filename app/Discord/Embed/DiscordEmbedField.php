@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace App\Discord\Embed;
 
 use Illuminate\Contracts\Support\Arrayable;
 use JsonSerializable;
@@ -35,7 +35,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      * @param string $value
      * @param bool $inline
      */
-    public function __construct(string $name, string $value, bool $inline = false)
+    final public function __construct(string $name, string $value, bool $inline = false)
     {
         $this->name = $name;
         $this->value = $value;

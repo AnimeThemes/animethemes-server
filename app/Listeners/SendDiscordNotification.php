@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\DiscordMessageEvent;
+use App\Discord\Events\DiscordMessageEvent;
 use App\Notifications\DiscordNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -16,7 +16,7 @@ class SendDiscordNotification implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  \App\Events\DiscordMessageEvent  $event
+     * @param  \App\Discord\Events\DiscordMessageEvent  $event
      * @return void
      */
     public function handle(DiscordMessageEvent $event)
