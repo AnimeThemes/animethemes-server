@@ -3,10 +3,13 @@
 namespace App\Discord\Embed;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Str;
 use JsonSerializable;
 
 class DiscordEmbedField implements Arrayable, JsonSerializable
 {
+    const DEFAULT_FIELD_VALUE = '-';
+
     /**
      * The name of the field.
      *
@@ -32,13 +35,13 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      * Create a new field instance.
      *
      * @param string $name
-     * @param string $value
+     * @param mixed $value
      * @param bool $inline
      */
-    final public function __construct(string $name, string $value, bool $inline = false)
+    final public function __construct(string $name, $value, bool $inline = false)
     {
         $this->name = $name;
-        $this->value = $value;
+        $this->value = $this->formatEmbedFieldValue($value);
         $this->inline = $inline;
     }
 
@@ -75,5 +78,20 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     public function jsonSerialize()
     {
         return $this->toArray();
+    }
+
+    /**
+     * Format embed value to circumvent exceptions caused by empty or null values.
+     *
+     * @param mixed $value
+     * @return string
+     */
+    protected function formatEmbedFieldValue($value)
+    {
+        if (is_scalar($value) && Str::length($value) > 0) {
+            return strval($value);
+        }
+
+        return self::DEFAULT_FIELD_VALUE;
     }
 }
