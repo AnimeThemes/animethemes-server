@@ -7,7 +7,7 @@ use App\Models\Anime;
 abstract class AnimeEvent
 {
     /**
-     * The anime that has dispatched this event.
+     * The anime that has fired this event.
      *
      * @var \App\Models\Anime
      */
@@ -25,7 +25,7 @@ abstract class AnimeEvent
     }
 
     /**
-     * Get the anime that has dispatched this event.
+     * Get the anime that has fired this event.
      *
      * @return \App\Models\Anime
      */

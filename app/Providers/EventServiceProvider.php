@@ -6,6 +6,9 @@ use App\Events\Anime\AnimeCreated;
 use App\Events\Anime\AnimeDeleted;
 use App\Events\Anime\AnimeDeleting;
 use App\Events\Anime\AnimeUpdated;
+use App\Events\Artist\ArtistCreated;
+use App\Events\Artist\ArtistDeleted;
+use App\Events\Artist\ArtistUpdated;
 use App\Listeners\CascadesDeletes;
 use App\Listeners\SendDiscordNotification;
 use App\Listeners\UpdateRelatedIndices;
@@ -21,22 +24,31 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
-        ],
         AnimeCreated::class => [
             UpdateRelatedIndices::class,
             SendDiscordNotification::class,
         ],
-        AnimeUpdated::class => [
-            UpdateRelatedIndices::class,
+        AnimeDeleted::class => [
             SendDiscordNotification::class,
         ],
         AnimeDeleting::class => [
             CascadesDeletes::class,
         ],
-        AnimeDeleted::class => [
+        AnimeUpdated::class => [
+            UpdateRelatedIndices::class,
             SendDiscordNotification::class,
+        ],
+        ArtistCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        ArtistDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        ArtistUpdated::class => [
+            SendDiscordNotification::class,
+        ],
+        Registered::class => [
+            SendEmailVerificationNotification::class,
         ],
     ];
 

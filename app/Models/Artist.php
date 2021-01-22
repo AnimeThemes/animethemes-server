@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Events\Artist\ArtistCreated;
+use App\Events\Artist\ArtistDeleted;
+use App\Events\Artist\ArtistUpdated;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +20,19 @@ class Artist extends Model implements Auditable
      * @var array
      */
     protected $fillable = ['slug', 'name'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => ArtistCreated::class,
+        'deleted' => ArtistDeleted::class,
+        'updated' => ArtistUpdated::class,
+    ];
 
     /**
      * The table associated with the model.

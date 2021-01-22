@@ -33,9 +33,9 @@ class Anime extends Model implements Auditable
      */
     protected $dispatchesEvents = [
         'created' => AnimeCreated::class,
-        'updated' => AnimeUpdated::class,
-        'deleting' => AnimeDeleting::class,
         'deleted' => AnimeDeleted::class,
+        'deleting' => AnimeDeleting::class,
+        'updated' => AnimeUpdated::class,
     ];
 
     /**
