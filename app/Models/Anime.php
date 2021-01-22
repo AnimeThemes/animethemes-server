@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\AnimeSeason;
 use App\Events\Anime\AnimeCreated;
 use App\Events\Anime\AnimeDeleted;
+use App\Events\Anime\AnimeDeleting;
 use App\Events\Anime\AnimeUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
 use ElasticScoutDriverPlus\CustomSearch;
@@ -33,6 +34,7 @@ class Anime extends Model implements Auditable
     protected $dispatchesEvents = [
         'created' => AnimeCreated::class,
         'updated' => AnimeUpdated::class,
+        'deleting' => AnimeDeleting::class,
         'deleted' => AnimeDeleted::class,
     ];
 

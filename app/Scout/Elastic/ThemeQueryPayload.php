@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ScoutElastic;
+namespace App\Scout\Elastic;
 
 use App\Http\Resources\ThemeCollection;
 use App\Models\Theme;

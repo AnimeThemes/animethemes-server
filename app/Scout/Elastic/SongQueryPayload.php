@@ -1,13 +1,13 @@
 <?php
 
-namespace App\ScoutElastic;
+namespace App\Scout\Elastic;
 
-use App\Http\Resources\SynonymCollection;
-use App\Models\Synonym;
+use App\Http\Resources\SongCollection;
+use App\Models\Song;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 
-class SynonymQueryPayload extends ElasticQueryPayload
+class SongQueryPayload extends ElasticQueryPayload
 {
     /**
      * Build and execute Elasticsearch query.
@@ -16,18 +16,18 @@ class SynonymQueryPayload extends ElasticQueryPayload
      */
     public function performSearch()
     {
-        return Synonym::boolSearch()
+        return Song::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
-                ->field('text')
+                ->field('title')
                 ->query($this->parser->getSearch())
             )
             ->should((new MatchQueryBuilder())
-                ->field('text')
+                ->field('title')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
             )
             ->should((new MatchQueryBuilder())
-                ->field('text')
+                ->field('title')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
                 ->lenient(true)
@@ -35,7 +35,7 @@ class SynonymQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(SynonymCollection::allowedIncludePaths(), SynonymCollection::resourceType()))
+            ->load($this->parser->getResourceIncludePaths(SongCollection::allowedIncludePaths(), SongCollection::resourceType()))
             ->execute()
             ->models();
     }

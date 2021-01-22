@@ -1,13 +1,13 @@
 <?php
 
-namespace App\ScoutElastic;
+namespace App\Scout\Elastic;
 
-use App\Http\Resources\SongCollection;
-use App\Models\Song;
+use App\Http\Resources\SeriesCollection;
+use App\Models\Series;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 
-class SongQueryPayload extends ElasticQueryPayload
+class SeriesQueryPayload extends ElasticQueryPayload
 {
     /**
      * Build and execute Elasticsearch query.
@@ -16,18 +16,18 @@ class SongQueryPayload extends ElasticQueryPayload
      */
     public function performSearch()
     {
-        return Song::boolSearch()
+        return Series::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
-                ->field('title')
+                ->field('name')
                 ->query($this->parser->getSearch())
             )
             ->should((new MatchQueryBuilder())
-                ->field('title')
+                ->field('name')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
             )
             ->should((new MatchQueryBuilder())
-                ->field('title')
+                ->field('name')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
                 ->lenient(true)
@@ -35,7 +35,7 @@ class SongQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(SongCollection::allowedIncludePaths(), SongCollection::resourceType()))
+            ->load($this->parser->getResourceIncludePaths(SeriesCollection::allowedIncludePaths(), SeriesCollection::resourceType()))
             ->execute()
             ->models();
     }

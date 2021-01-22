@@ -44,13 +44,13 @@ trait PerformsResourceCollectionSearch
      * We are assuming a convention of "{Model}Collection" to "{Model}QueryPayload".
      *
      * @param \App\JsonApi\QueryParser $parser
-     * @return \App\ScoutElastic\ElasticQueryPayload
+     * @return \App\Scout\Elastic\ElasticQueryPayload
      */
     protected static function elasticQueryPayload(QueryParser $parser)
     {
         $model = Str::replaceLast('Collection', '', class_basename(static::class));
 
-        $elasticQueryPayload = "\\App\\ScoutElastic\\{$model}QueryPayload";
+        $elasticQueryPayload = "\\App\\Scout\\Elastic\\{$model}QueryPayload";
 
         return $elasticQueryPayload::make($parser);
     }

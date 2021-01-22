@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ScoutElastic;
+namespace App\Scout\Elastic;
 
 use App\Http\Resources\EntryCollection;
 use App\Models\Entry;

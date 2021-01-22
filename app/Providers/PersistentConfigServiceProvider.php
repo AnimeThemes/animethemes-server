@@ -31,6 +31,11 @@ class PersistentConfigServiceProvider extends AbstractPersistentConfigServicePro
                 'rules' => ['sometimes', 'required', 'boolean'],
                 'cast' => 'boolean',
             ],
+            'app.allow_discord_notifications' => [
+                'label' => __('Allow Discord Notifications'),
+                'rules' => ['sometimes', 'required', 'boolean'],
+                'cast' => 'boolean',
+            ],
         ];
     }
 }

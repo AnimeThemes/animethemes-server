@@ -1,13 +1,13 @@
 <?php
 
-namespace App\ScoutElastic;
+namespace App\Scout\Elastic;
 
-use App\Http\Resources\SeriesCollection;
-use App\Models\Series;
+use App\Http\Resources\SynonymCollection;
+use App\Models\Synonym;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 
-class SeriesQueryPayload extends ElasticQueryPayload
+class SynonymQueryPayload extends ElasticQueryPayload
 {
     /**
      * Build and execute Elasticsearch query.
@@ -16,18 +16,18 @@ class SeriesQueryPayload extends ElasticQueryPayload
      */
     public function performSearch()
     {
-        return Series::boolSearch()
+        return Synonym::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
-                ->field('name')
+                ->field('text')
                 ->query($this->parser->getSearch())
             )
             ->should((new MatchQueryBuilder())
-                ->field('name')
+                ->field('text')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
             )
             ->should((new MatchQueryBuilder())
-                ->field('name')
+                ->field('text')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
                 ->lenient(true)
@@ -35,7 +35,7 @@ class SeriesQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(SeriesCollection::allowedIncludePaths(), SeriesCollection::resourceType()))
+            ->load($this->parser->getResourceIncludePaths(SynonymCollection::allowedIncludePaths(), SynonymCollection::resourceType()))
             ->execute()
             ->models();
     }

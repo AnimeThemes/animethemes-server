@@ -21,7 +21,9 @@ class SendDiscordNotification implements ShouldQueue
      */
     public function handle(DiscordMessageEvent $event)
     {
-        Notification::route('discord', Config::get('services.discord.channel_id'))
-            ->notify(new DiscordNotification($event->getDiscordMessage()));
+        if (Config::get('app.allow_discord_notifications', false)) {
+            Notification::route('discord', Config::get('services.discord.channel_id'))
+                ->notify(new DiscordNotification($event->getDiscordMessage()));
+        }
     }
 }
