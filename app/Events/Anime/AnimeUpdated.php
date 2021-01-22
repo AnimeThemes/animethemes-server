@@ -4,8 +4,8 @@ namespace App\Events\Anime;
 
 use App\Discord\Events\DiscordMessageEvent;
 use App\Discord\Traits\HasAttributeUpdateEmbedFields;
-use App\Scout\Events\UpdateRelatedIndicesEvent;
 use App\Models\Anime;
+use App\Scout\Events\UpdateRelatedIndicesEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use NotificationChannels\Discord\DiscordMessage;
 
