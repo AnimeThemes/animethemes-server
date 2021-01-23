@@ -17,16 +17,17 @@ trait HasAttributeUpdateEmbedFields
      */
     protected function initializeEmbedFields(Model $model)
     {
-        $originalModel = collect($model->getOriginal());
+        $original = $model->newInstance($model->getOriginal());
 
         $changedAttributes = collect($model->getChanges())
             ->forget($model->getCreatedAtColumn())
-            ->forget($model->getUpdatedAtColumn());
+            ->forget($model->getUpdatedAtColumn())
+            ->keys();
 
-        foreach ($changedAttributes as $attribute => $value) {
+        foreach ($changedAttributes as $attribute) {
             $this->addEmbedField(DiscordEmbedField::make('Attribute', $attribute, true));
-            $this->addEmbedField(DiscordEmbedField::make('Old', $originalModel->get($attribute), true));
-            $this->addEmbedField(DiscordEmbedField::make('New', $value, true));
+            $this->addEmbedField(DiscordEmbedField::make('Old', $original->getAttribute($attribute), true));
+            $this->addEmbedField(DiscordEmbedField::make('New', $model->getAttribute($attribute), true));
         }
     }
 }

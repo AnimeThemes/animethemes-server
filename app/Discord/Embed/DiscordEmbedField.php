@@ -2,6 +2,7 @@
 
 namespace App\Discord\Embed;
 
+use BenSampo\Enum\Enum;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 use JsonSerializable;
@@ -88,6 +89,17 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      */
     protected function formatEmbedFieldValue($value)
     {
+        // Use description for enums
+        if ($value instanceof Enum) {
+            return $value->description;
+        }
+
+        // Pretty print booleans
+        if (is_bool($value)) {
+            return $value ? 'true' : 'false';
+        }
+
+        // Encode to json for all other non-empty scalar values
         if (is_scalar($value) && Str::length($value) > 0) {
             return strval($value);
         }
