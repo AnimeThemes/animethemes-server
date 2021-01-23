@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\Entry\EntryCreated;
 use App\Events\Entry\EntryDeleted;
+use App\Events\Entry\EntryDeleting;
 use App\Events\Entry\EntryUpdated;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,6 +34,7 @@ class Entry extends Model implements Auditable
     protected $dispatchesEvents = [
         'created' => EntryCreated::class,
         'deleted' => EntryDeleted::class,
+        'deleting' => EntryDeleting::class,
         'updated' => EntryUpdated::class,
     ];
 

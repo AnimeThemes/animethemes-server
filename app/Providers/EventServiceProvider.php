@@ -11,6 +11,7 @@ use App\Events\Artist\ArtistDeleted;
 use App\Events\Artist\ArtistUpdated;
 use App\Events\Entry\EntryCreated;
 use App\Events\Entry\EntryDeleted;
+use App\Events\Entry\EntryDeleting;
 use App\Events\Entry\EntryUpdated;
 use App\Listeners\CascadesDeletes;
 use App\Listeners\SendDiscordNotification;
@@ -56,6 +57,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         EntryDeleted::class => [
             SendDiscordNotification::class,
+        ],
+        EntryDeleting::class => [
+            CascadesDeletes::class,
         ],
         EntryUpdated::class => [
             SendDiscordNotification::class,
