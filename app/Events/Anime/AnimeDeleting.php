@@ -3,6 +3,7 @@
 namespace App\Events\Anime;
 
 use App\Events\CascadesDeletesEvent;
+use App\Models\Entry;
 
 class AnimeDeleting extends AnimeEvent implements CascadesDeletesEvent
 {
@@ -20,8 +21,11 @@ class AnimeDeleting extends AnimeEvent implements CascadesDeletesEvent
         });
 
         $anime->themes->each(function ($theme) {
-            $theme->entries->each(function ($entry) {
-                $entry->delete();
+            $theme->entries->each(function (Entry $entry) {
+                Entry::withoutEvents(function () use ($entry) {
+                    $entry->unsearchable();
+                    $entry->delete();
+                });
             });
             $theme->delete();
         });

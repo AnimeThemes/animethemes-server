@@ -9,6 +9,9 @@ use App\Events\Anime\AnimeUpdated;
 use App\Events\Artist\ArtistCreated;
 use App\Events\Artist\ArtistDeleted;
 use App\Events\Artist\ArtistUpdated;
+use App\Events\Entry\EntryCreated;
+use App\Events\Entry\EntryDeleted;
+use App\Events\Entry\EntryUpdated;
 use App\Listeners\CascadesDeletes;
 use App\Listeners\SendDiscordNotification;
 use App\Listeners\UpdateRelatedIndices;
@@ -46,6 +49,17 @@ class EventServiceProvider extends ServiceProvider
         ],
         ArtistUpdated::class => [
             SendDiscordNotification::class,
+        ],
+        EntryCreated::class => [
+            SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
+        ],
+        EntryDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        EntryUpdated::class => [
+            SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         Registered::class => [
             SendEmailVerificationNotification::class,

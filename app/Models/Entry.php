@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Events\Entry\EntryCreated;
+use App\Events\Entry\EntryDeleted;
+use App\Events\Entry\EntryUpdated;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +22,19 @@ class Entry extends Model implements Auditable
      * @var array
      */
     protected $fillable = ['version', 'episodes', 'nsfw', 'spoiler', 'notes'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => EntryCreated::class,
+        'deleted' => EntryDeleted::class,
+        'updated' => EntryUpdated::class,
+    ];
 
     /**
      * The table associated with the model.
