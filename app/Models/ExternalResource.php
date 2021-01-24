@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\Enums\ResourceSite;
+use App\Events\ExternalResource\ExternalResourceCreated;
+use App\Events\ExternalResource\ExternalResourceDeleted;
+use App\Events\ExternalResource\ExternalResourceUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +20,19 @@ class ExternalResource extends Model implements Auditable
      * @var array
      */
     protected $fillable = ['site', 'link', 'external_id'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => ExternalResourceCreated::class,
+        'deleted' => ExternalResourceDeleted::class,
+        'updated' => ExternalResourceUpdated::class,
+    ];
 
     /**
      * The table associated with the model.

@@ -13,6 +13,9 @@ use App\Events\Entry\EntryCreated;
 use App\Events\Entry\EntryDeleted;
 use App\Events\Entry\EntryDeleting;
 use App\Events\Entry\EntryUpdated;
+use App\Events\ExternalResource\ExternalResourceCreated;
+use App\Events\ExternalResource\ExternalResourceDeleted;
+use App\Events\ExternalResource\ExternalResourceUpdated;
 use App\Listeners\CascadesDeletes;
 use App\Listeners\SendDiscordNotification;
 use App\Listeners\UpdateRelatedIndices;
@@ -64,6 +67,15 @@ class EventServiceProvider extends ServiceProvider
         EntryUpdated::class => [
             SendDiscordNotification::class,
             UpdateRelatedIndices::class,
+        ],
+        ExternalResourceCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        ExternalResourceDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        ExternalResourceUpdated::class => [
+            SendDiscordNotification::class,
         ],
         Registered::class => [
             SendEmailVerificationNotification::class,
