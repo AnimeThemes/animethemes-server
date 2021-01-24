@@ -21,6 +21,9 @@ use App\Events\Image\ImageDeleted;
 use App\Events\Image\ImageUpdated;
 use App\Events\Invitation\InvitationCreated;
 use App\Events\Invitation\InvitationCreating;
+use App\Events\Series\SeriesCreated;
+use App\Events\Series\SeriesDeleted;
+use App\Events\Series\SeriesUpdated;
 use App\Listeners\CascadesDeletes;
 use App\Listeners\Image\RemoveImageFromStorage;
 use App\Listeners\Invitation\CreateInvitationToken;
@@ -103,6 +106,15 @@ class EventServiceProvider extends ServiceProvider
         ],
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        SeriesCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        SeriesDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        SeriesUpdated::class => [
+            SendDiscordNotification::class,
         ],
     ];
 
