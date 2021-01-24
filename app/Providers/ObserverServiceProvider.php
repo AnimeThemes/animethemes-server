@@ -2,13 +2,11 @@
 
 namespace App\Providers;
 
-use App\Models\Image;
 use App\Models\Invitation;
 use App\Models\Song;
 use App\Models\Synonym;
 use App\Models\Theme;
 use App\Models\Video;
-use App\Observers\ImageObserver;
 use App\Observers\InvitationObserver;
 use App\Observers\SongObserver;
 use App\Observers\SynonymObserver;
@@ -35,7 +33,6 @@ class ObserverServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Image::observe(ImageObserver::class);
         Invitation::observe(InvitationObserver::class);
         Song::observe(SongObserver::class);
         Synonym::observe(SynonymObserver::class);

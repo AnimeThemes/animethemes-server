@@ -16,7 +16,11 @@ use App\Events\Entry\EntryUpdated;
 use App\Events\ExternalResource\ExternalResourceCreated;
 use App\Events\ExternalResource\ExternalResourceDeleted;
 use App\Events\ExternalResource\ExternalResourceUpdated;
+use App\Events\Image\ImageCreated;
+use App\Events\Image\ImageDeleted;
+use App\Events\Image\ImageUpdated;
 use App\Listeners\CascadesDeletes;
+use App\Listeners\Image\RemoveImageFromStorage;
 use App\Listeners\SendDiscordNotification;
 use App\Listeners\UpdateRelatedIndices;
 use Illuminate\Auth\Events\Registered;
@@ -75,6 +79,16 @@ class EventServiceProvider extends ServiceProvider
             SendDiscordNotification::class,
         ],
         ExternalResourceUpdated::class => [
+            SendDiscordNotification::class,
+        ],
+        ImageCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        ImageDeleted::class => [
+            SendDiscordNotification::class,
+            RemoveImageFromStorage::class,
+        ],
+        ImageUpdated::class => [
             SendDiscordNotification::class,
         ],
         Registered::class => [
