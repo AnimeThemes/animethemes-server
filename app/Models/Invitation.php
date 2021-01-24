@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Enums\InvitationStatus;
 use App\Enums\UserRole;
+use App\Events\Invitation\InvitationCreated;
+use App\Events\Invitation\InvitationCreating;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +16,18 @@ class Invitation extends Model implements Auditable
 {
     use CastsEnums, HasFactory;
     use \OwenIt\Auditing\Auditable;
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => InvitationCreated::class,
+        'creating' => InvitationCreating::class,
+    ];
 
     /**
      * The table associated with the model.

@@ -35,7 +35,7 @@ class ImageUpdated extends ImageEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Image Updated', [
-            'description' => "Image '{$image->name}' has been updated.",
+            'description' => "Image '{$image->path}' has been updated.",
             'fields' => $this->getEmbedFields(),
         ]);
     }

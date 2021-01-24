@@ -19,8 +19,12 @@ use App\Events\ExternalResource\ExternalResourceUpdated;
 use App\Events\Image\ImageCreated;
 use App\Events\Image\ImageDeleted;
 use App\Events\Image\ImageUpdated;
+use App\Events\Invitation\InvitationCreated;
+use App\Events\Invitation\InvitationCreating;
 use App\Listeners\CascadesDeletes;
 use App\Listeners\Image\RemoveImageFromStorage;
+use App\Listeners\Invitation\CreateInvitationToken;
+use App\Listeners\Invitation\SendInvitationMail;
 use App\Listeners\SendDiscordNotification;
 use App\Listeners\UpdateRelatedIndices;
 use Illuminate\Auth\Events\Registered;
@@ -90,6 +94,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         ImageUpdated::class => [
             SendDiscordNotification::class,
+        ],
+        InvitationCreated::class => [
+            SendInvitationMail::class,
+        ],
+        InvitationCreating::class => [
+            CreateInvitationToken::class,
         ],
         Registered::class => [
             SendEmailVerificationNotification::class,
