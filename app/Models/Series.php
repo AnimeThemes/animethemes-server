@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Events\Series\SeriesCreated;
+use App\Events\Series\SeriesDeleted;
+use App\Events\Series\SeriesUpdated;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +20,19 @@ class Series extends Model implements Auditable
      * @var array
      */
     protected $fillable = ['slug', 'name'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => SeriesCreated::class,
+        'deleted' => SeriesDeleted::class,
+        'updated' => SeriesUpdated::class,
+    ];
 
     /**
      * The table associated with the model.
