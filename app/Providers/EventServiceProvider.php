@@ -24,6 +24,10 @@ use App\Events\Invitation\InvitationCreating;
 use App\Events\Series\SeriesCreated;
 use App\Events\Series\SeriesDeleted;
 use App\Events\Series\SeriesUpdated;
+use App\Events\Song\SongCreated;
+use App\Events\Song\SongDeleted;
+use App\Events\Song\SongDeleting;
+use App\Events\Song\SongUpdated;
 use App\Listeners\CascadesDeletes;
 use App\Listeners\Image\RemoveImageFromStorage;
 use App\Listeners\Invitation\CreateInvitationToken;
@@ -114,6 +118,20 @@ class EventServiceProvider extends ServiceProvider
             SendDiscordNotification::class,
         ],
         SeriesUpdated::class => [
+            SendDiscordNotification::class,
+        ],
+        SongCreated::class => [
+            UpdateRelatedIndices::class,
+            SendDiscordNotification::class,
+        ],
+        SongDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        SongDeleting::class => [
+            CascadesDeletes::class,
+        ],
+        SongUpdated::class => [
+            UpdateRelatedIndices::class,
             SendDiscordNotification::class,
         ],
     ];

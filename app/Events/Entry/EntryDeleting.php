@@ -15,10 +15,9 @@ class EntryDeleting extends EntryEvent implements CascadesDeletesEvent
     {
         $entry = $this->getEntry();
 
+        // refresh video documents by detaching entry
         $videos = $entry->videos;
-
         $entry->videos()->detach();
-
         $videos->searchable();
     }
 }

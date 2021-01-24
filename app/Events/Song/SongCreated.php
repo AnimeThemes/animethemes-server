@@ -1,31 +1,18 @@
 <?php
 
-namespace App\Events\Anime;
+namespace App\Events\Song;
 
 use App\Discord\Events\DiscordMessageEvent;
-use App\Discord\Traits\HasAttributeUpdateEmbedFields;
-use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\Theme;
 use App\Scout\Events\UpdateRelatedIndicesEvent;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 use NotificationChannels\Discord\DiscordMessage;
 
-class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
+class SongCreated extends SongEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
-
-    /**
-     * Create a new event instance.
-     *
-     * @param \App\Models\Anime $anime
-     * @return void
-     */
-    public function __construct(Anime $anime)
-    {
-        parent::__construct($anime);
-        $this->initializeEmbedFields($anime);
-    }
+    use Dispatchable, SerializesModels;
 
     /**
      * Get Discord message payload.
@@ -34,12 +21,11 @@ class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
      */
     public function getDiscordMessage()
     {
-        $anime = $this->getAnime();
+        $song = $this->getSong();
 
         // TODO: messages shouldn't be hard-coded
-        return DiscordMessage::create('Anime Updated', [
-            'description' => "Anime '{$anime->name}' has been updated.",
-            'fields' => $this->getEmbedFields(),
+        return DiscordMessage::create('Song Created', [
+            'description' => "Song '{$song->title}' has been created.",
         ]);
     }
 
@@ -50,9 +36,10 @@ class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
      */
     public function updateRelatedIndices()
     {
-        $anime = $this->getAnime();
+        $song = $this->getSong();
 
-        $anime->themes->each(function (Theme $theme) {
+        $song->artists->searchable();
+        $song->themes->each(function (Theme $theme) {
             $theme->searchable();
             $theme->entries->each(function (Entry $entry) {
                 $entry->searchable();

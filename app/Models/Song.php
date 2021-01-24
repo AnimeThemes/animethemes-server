@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Events\Song\SongCreated;
+use App\Events\Song\SongDeleted;
+use App\Events\Song\SongDeleting;
+use App\Events\Song\SongUpdated;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +21,20 @@ class Song extends Model implements Auditable
      * @var array
      */
     protected $fillable = ['title'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => SongCreated::class,
+        'deleted' => SongDeleted::class,
+        'deleting' => SongDeleting::class,
+        'updated' => SongUpdated::class,
+    ];
 
     /**
      * The table associated with the model.

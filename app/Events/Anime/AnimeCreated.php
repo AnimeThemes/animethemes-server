@@ -3,6 +3,8 @@
 namespace App\Events\Anime;
 
 use App\Discord\Events\DiscordMessageEvent;
+use App\Models\Entry;
+use App\Models\Theme;
 use App\Scout\Events\UpdateRelatedIndicesEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -36,9 +38,9 @@ class AnimeCreated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
     {
         $anime = $this->getAnime();
 
-        $anime->themes->each(function ($theme) {
+        $anime->themes->each(function (Theme $theme) {
             $theme->searchable();
-            $theme->entries->each(function ($entry) {
+            $theme->entries->each(function (Entry $entry) {
                 $entry->searchable();
                 $entry->videos->searchable();
             });
