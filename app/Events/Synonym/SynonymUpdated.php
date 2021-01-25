@@ -4,8 +4,8 @@ namespace App\Events\Synonym;
 
 use App\Discord\Events\DiscordMessageEvent;
 use App\Discord\Traits\HasAttributeUpdateEmbedFields;
-use App\Models\Synonym;
 use App\Models\Entry;
+use App\Models\Synonym;
 use App\Models\Theme;
 use App\Scout\Events\UpdateRelatedIndicesEvent;
 use Illuminate\Foundation\Events\Dispatchable;

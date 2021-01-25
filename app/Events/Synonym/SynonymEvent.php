@@ -43,7 +43,7 @@ abstract class SynonymEvent
     }
 
     /**
-     * Get the anime that the synonym belongs to
+     * Get the anime that the synonym belongs to.
      *
      * @return \App\Models\Anime
      */
