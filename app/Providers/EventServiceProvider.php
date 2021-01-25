@@ -28,6 +28,9 @@ use App\Events\Song\SongCreated;
 use App\Events\Song\SongDeleted;
 use App\Events\Song\SongDeleting;
 use App\Events\Song\SongUpdated;
+use App\Events\Synonym\SynonymCreated;
+use App\Events\Synonym\SynonymDeleted;
+use App\Events\Synonym\SynonymUpdated;
 use App\Listeners\CascadesDeletes;
 use App\Listeners\Image\RemoveImageFromStorage;
 use App\Listeners\Invitation\CreateInvitationToken;
@@ -131,6 +134,18 @@ class EventServiceProvider extends ServiceProvider
             CascadesDeletes::class,
         ],
         SongUpdated::class => [
+            UpdateRelatedIndices::class,
+            SendDiscordNotification::class,
+        ],
+        SynonymCreated::class => [
+            UpdateRelatedIndices::class,
+            SendDiscordNotification::class,
+        ],
+        SynonymDeleted::class => [
+            UpdateRelatedIndices::class,
+            SendDiscordNotification::class,
+        ],
+        SynonymUpdated::class => [
             UpdateRelatedIndices::class,
             SendDiscordNotification::class,
         ],

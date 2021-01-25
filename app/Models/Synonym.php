@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Events\Synonym\SynonymCreated;
+use App\Events\Synonym\SynonymDeleted;
+use App\Events\Synonym\SynonymUpdated;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +20,19 @@ class Synonym extends Model implements Auditable
      * @var array
      */
     protected $fillable = ['text'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => SynonymCreated::class,
+        'deleted' => SynonymDeleted::class,
+        'updated' => SynonymUpdated::class,
+    ];
 
     /**
      * The table associated with the model.
