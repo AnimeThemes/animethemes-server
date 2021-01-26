@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\Series\SeriesCreated;
 use App\Events\Series\SeriesDeleted;
 use App\Events\Series\SeriesUpdated;
+use App\Pivots\AnimeSeries;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -65,6 +66,6 @@ class Series extends Model implements Auditable
      */
     public function anime()
     {
-        return $this->belongsToMany('App\Models\Anime', 'anime_series', 'series_id', 'anime_id');
+        return $this->belongsToMany('App\Models\Anime', 'anime_series', 'series_id', 'anime_id')->using(AnimeSeries::class);
     }
 }

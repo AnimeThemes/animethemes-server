@@ -7,6 +7,7 @@ use App\Events\Anime\AnimeCreated;
 use App\Events\Anime\AnimeDeleted;
 use App\Events\Anime\AnimeDeleting;
 use App\Events\Anime\AnimeUpdated;
+use App\Pivots\AnimeSeries;
 use BenSampo\Enum\Traits\CastsEnums;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -106,7 +107,7 @@ class Anime extends Model implements Auditable
      */
     public function series()
     {
-        return $this->belongsToMany('App\Models\Series', 'anime_series', 'anime_id', 'series_id');
+        return $this->belongsToMany('App\Models\Series', 'anime_series', 'anime_id', 'series_id')->using(AnimeSeries::class);
     }
 
     /**
