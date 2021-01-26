@@ -36,6 +36,10 @@ use App\Events\Theme\ThemeCreating;
 use App\Events\Theme\ThemeDeleted;
 use App\Events\Theme\ThemeDeleting;
 use App\Events\Theme\ThemeUpdated;
+use App\Events\Video\VideoCreated;
+use App\Events\Video\VideoCreating;
+use App\Events\Video\VideoDeleted;
+use App\Events\Video\VideoUpdated;
 use App\Listeners\CascadesDeletes;
 use App\Listeners\Image\RemoveImageFromStorage;
 use App\Listeners\Invitation\CreateInvitationToken;
@@ -43,6 +47,7 @@ use App\Listeners\Invitation\SendInvitationMail;
 use App\Listeners\SendDiscordNotification;
 use App\Listeners\Theme\CreateThemeSlug;
 use App\Listeners\UpdateRelatedIndices;
+use App\Listeners\Video\InitializeVideoTags;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -170,6 +175,18 @@ class EventServiceProvider extends ServiceProvider
         ],
         ThemeUpdated::class => [
             UpdateRelatedIndices::class,
+            SendDiscordNotification::class,
+        ],
+        VideoCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        VideoCreating::class => [
+            InitializeVideoTags::class,
+        ],
+        VideoDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        VideoUpdated::class => [
             SendDiscordNotification::class,
         ],
     ];

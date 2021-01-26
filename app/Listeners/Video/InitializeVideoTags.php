@@ -1,22 +1,24 @@
 <?php
 
-namespace App\Observers;
+namespace App\Listeners\Video;
 
 use App\Enums\VideoSource;
-use App\Models\Video;
+use App\Events\Video\VideoEvent;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-class VideoObserver
+class InitializeVideoTags
 {
     /**
-     * Handle the video "creating" event.
+     * Handle the event.
      *
-     * @param  \App\Models\Video  $video
+     * @param  \App\Events\Video\VideoEvent  $event
      * @return void
      */
-    public function creating(Video $video)
+    public function handle(VideoEvent $event)
     {
+        $video = $event->getVideo();
+
         try {
             // Match Tags of filename
             // Format: "{Base Name}-{OP|ED}{Sequence}v{Version}-{Tags}"

@@ -4,6 +4,10 @@ namespace App\Models;
 
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
+use App\Events\Video\VideoCreated;
+use App\Events\Video\VideoCreating;
+use App\Events\Video\VideoDeleted;
+use App\Events\Video\VideoUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
@@ -22,6 +26,20 @@ class Video extends Model implements Auditable, Viewable
      * @var array
      */
     protected $fillable = ['basename', 'filename', 'path', 'size'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => VideoCreated::class,
+        'creating' => VideoCreating::class,
+        'deleted' => VideoDeleted::class,
+        'updated' => VideoUpdated::class,
+    ];
 
     /**
      * The table associated with the model.

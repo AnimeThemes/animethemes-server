@@ -218,7 +218,6 @@ return [
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
         App\Providers\NovaServiceProvider::class,
-        App\Providers\ObserverServiceProvider::class,
         L5Swagger\L5SwaggerServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         MattAllan\LaravelCodeStyle\ServiceProvider::class,
