@@ -17,9 +17,11 @@ class EntryDeleted extends EntryEvent implements DiscordMessageEvent
      */
     public function getDiscordMessage()
     {
+        $entry = $this->getEntry();
+
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Entry Deleted', [
-            'description' => "Entry '{$this->getName()}' has been deleted.",
+            'description' => "Entry '{$entry->getName()}' has been deleted.",
         ]);
     }
 }

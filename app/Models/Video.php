@@ -8,6 +8,7 @@ use App\Events\Video\VideoCreated;
 use App\Events\Video\VideoCreating;
 use App\Events\Video\VideoDeleted;
 use App\Events\Video\VideoUpdated;
+use App\Pivots\VideoEntry;
 use BenSampo\Enum\Traits\CastsEnums;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
@@ -140,6 +141,6 @@ class Video extends Model implements Auditable, Viewable
      */
     public function entries()
     {
-        return $this->belongsToMany('App\Models\Entry', 'entry_video', 'video_id', 'entry_id');
+        return $this->belongsToMany('App\Models\Entry', 'entry_video', 'video_id', 'entry_id')->using(VideoEntry::class);
     }
 }

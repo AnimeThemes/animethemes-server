@@ -3,7 +3,6 @@
 namespace App\Events\Entry;
 
 use App\Models\Entry;
-use Illuminate\Support\Str;
 
 abstract class EntryEvent
 {
@@ -33,21 +32,5 @@ abstract class EntryEvent
     public function getEntry()
     {
         return $this->entry;
-    }
-
-    /**
-     * Get readable name for entry.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        $entry = $this->getEntry();
-
-        return Str::of($entry->anime->name)
-            ->append(' ')
-            ->append($entry->theme->slug)
-            ->append(empty($entry->version) ? '' : " V{$entry->version}")
-            ->__toString();
     }
 }

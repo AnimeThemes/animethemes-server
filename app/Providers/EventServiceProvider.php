@@ -21,6 +21,8 @@ use App\Events\Image\ImageDeleted;
 use App\Events\Image\ImageUpdated;
 use App\Events\Invitation\InvitationCreated;
 use App\Events\Invitation\InvitationCreating;
+use App\Events\Pivot\VideoEntry\VideoEntryCreated;
+use App\Events\Pivot\VideoEntry\VideoEntryDeleted;
 use App\Events\Series\SeriesCreated;
 use App\Events\Series\SeriesDeleted;
 use App\Events\Series\SeriesUpdated;
@@ -184,6 +186,14 @@ class EventServiceProvider extends ServiceProvider
             InitializeVideoTags::class,
         ],
         VideoDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        VideoEntryCreated::class => [
+            UpdateRelatedIndices::class,
+            SendDiscordNotification::class,
+        ],
+        VideoEntryDeleted::class => [
+            UpdateRelatedIndices::class,
             SendDiscordNotification::class,
         ],
         VideoUpdated::class => [

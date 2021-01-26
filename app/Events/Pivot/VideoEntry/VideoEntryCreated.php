@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Entry;
+namespace App\Events\Pivot\VideoEntry;
 
 use App\Discord\Events\DiscordMessageEvent;
 use App\Scout\Events\UpdateRelatedIndicesEvent;
@@ -8,7 +8,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use NotificationChannels\Discord\DiscordMessage;
 
-class EntryCreated extends EntryEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
+class VideoEntryCreated extends VideoEntryEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {
     use Dispatchable, SerializesModels;
 
@@ -19,11 +19,12 @@ class EntryCreated extends EntryEvent implements DiscordMessageEvent, UpdateRela
      */
     public function getDiscordMessage()
     {
+        $video = $this->getVideo();
         $entry = $this->getEntry();
 
         // TODO: messages shouldn't be hard-coded
-        return DiscordMessage::create('Entry Created', [
-            'description' => "Entry '{$entry->getName()}' has been created.",
+        return DiscordMessage::create('Video Attached', [
+            'description' => "Video '{$video->filename}' has been attached to '{$entry->getName()}'.",
         ]);
     }
 
@@ -34,8 +35,8 @@ class EntryCreated extends EntryEvent implements DiscordMessageEvent, UpdateRela
      */
     public function updateRelatedIndices()
     {
-        $entry = $this->getEntry();
-
-        $entry->videos->searchable();
+        // refresh video document
+        $video = $this->getVideo();
+        $video->searchable();
     }
 }

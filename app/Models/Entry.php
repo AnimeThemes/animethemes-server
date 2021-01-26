@@ -6,6 +6,7 @@ use App\Events\Entry\EntryCreated;
 use App\Events\Entry\EntryDeleted;
 use App\Events\Entry\EntryDeleting;
 use App\Events\Entry\EntryUpdated;
+use App\Pivots\VideoEntry;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -79,6 +80,20 @@ class Entry extends Model implements Auditable
     }
 
     /**
+     * Get readable name for entry.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return Str::of($this->anime->name)
+            ->append(' ')
+            ->append($this->theme->slug)
+            ->append(empty($this->version) ? '' : " V{$this->version}")
+            ->__toString();
+    }
+
+    /**
      * Get the theme that owns the entry.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -95,7 +110,7 @@ class Entry extends Model implements Auditable
      */
     public function videos()
     {
-        return $this->belongsToMany('App\Models\Video', 'entry_video', 'entry_id', 'video_id');
+        return $this->belongsToMany('App\Models\Video', 'entry_video', 'entry_id', 'video_id')->using(VideoEntry::class);
     }
 
     /**
