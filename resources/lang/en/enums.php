@@ -55,5 +55,6 @@ return [
         VideoSource::BD => 'BD',
         VideoSource::DVD => 'DVD',
         VideoSource::VHS => 'VHS',
+        VideoSource::LD => 'LD',
     ],
 ];
