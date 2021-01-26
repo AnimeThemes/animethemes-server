@@ -14,7 +14,7 @@ abstract class VideoEntryEvent
     protected $video;
 
     /**
-     * The entry that has fired this event.
+     * The entry that this video entry belongs to.
      *
      * @var \App\Models\Entry
      */
@@ -43,7 +43,7 @@ abstract class VideoEntryEvent
     }
 
     /**
-     * Get the video that this video entry belongs to.
+     * Get the entry that this video entry belongs to.
      *
      * @return \App\Models\Entry
      */

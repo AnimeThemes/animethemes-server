@@ -14,7 +14,7 @@ abstract class AnimeSeriesEvent
     protected $anime;
 
     /**
-     * The series that has fired this event.
+     * The series that this anime series belongs to.
      *
      * @var \App\Models\Series
      */
@@ -43,7 +43,7 @@ abstract class AnimeSeriesEvent
     }
 
     /**
-     * Get the anime that this anime series belongs to.
+     * Get the series that this anime series belongs to.
      *
      * @return \App\Models\Series
      */

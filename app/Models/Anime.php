@@ -7,6 +7,7 @@ use App\Events\Anime\AnimeCreated;
 use App\Events\Anime\AnimeDeleted;
 use App\Events\Anime\AnimeDeleting;
 use App\Events\Anime\AnimeUpdated;
+use App\Pivots\AnimeResource;
 use App\Pivots\AnimeSeries;
 use BenSampo\Enum\Traits\CastsEnums;
 use ElasticScoutDriverPlus\CustomSearch;
@@ -127,7 +128,7 @@ class Anime extends Model implements Auditable
      */
     public function externalResources()
     {
-        return $this->belongsToMany('App\Models\ExternalResource', 'anime_resource', 'anime_id', 'resource_id')->withPivot('as');
+        return $this->belongsToMany('App\Models\ExternalResource', 'anime_resource', 'anime_id', 'resource_id')->using(AnimeResource::class)->withPivot('as');
     }
 
     /**

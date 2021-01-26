@@ -6,6 +6,7 @@ use App\Enums\ResourceSite;
 use App\Events\ExternalResource\ExternalResourceCreated;
 use App\Events\ExternalResource\ExternalResourceDeleted;
 use App\Events\ExternalResource\ExternalResourceUpdated;
+use App\Pivots\AnimeResource;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -69,7 +70,7 @@ class ExternalResource extends Model implements Auditable
      */
     public function anime()
     {
-        return $this->belongsToMany('App\Models\Anime', 'anime_resource', 'resource_id', 'anime_id')->withPivot('as');
+        return $this->belongsToMany('App\Models\Anime', 'anime_resource', 'resource_id', 'anime_id')->using(AnimeResource::class)->withPivot('as');
     }
 
     /**
