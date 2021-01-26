@@ -3,8 +3,7 @@
 namespace App\Events\Anime;
 
 use App\Events\CascadesDeletesEvent;
-use App\Events\Entry\EntryDeleting;
-use App\Models\Entry;
+use App\Events\Theme\ThemeDeleting;
 use App\Models\Synonym;
 use App\Models\Theme;
 use Illuminate\Support\Facades\Event;
@@ -21,18 +20,18 @@ class AnimeDeleting extends AnimeEvent implements CascadesDeletesEvent
         $anime = $this->getAnime();
 
         $anime->synonyms->each(function (Synonym $synonym) {
-            $synonym->delete();
+            Synonym::withoutEvents(function () use ($synonym) {
+                $synonym->unsearchable();
+                $synonym->delete();
+            });
         });
 
         $anime->themes->each(function (Theme $theme) {
-            $theme->entries->each(function (Entry $entry) {
-                Entry::withoutEvents(function () use ($entry) {
-                    Event::until(new EntryDeleting($entry));
-                    $entry->unsearchable();
-                    $entry->delete();
-                });
+            Theme::withoutEvents(function () use ($theme) {
+                Event::until(new ThemeDeleting($theme));
+                $theme->unsearchable();
+                $theme->delete();
             });
-            $theme->delete();
         });
     }
 }

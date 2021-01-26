@@ -3,6 +3,11 @@
 namespace App\Models;
 
 use App\Enums\ThemeType;
+use App\Events\Theme\ThemeCreated;
+use App\Events\Theme\ThemeCreating;
+use App\Events\Theme\ThemeDeleted;
+use App\Events\Theme\ThemeDeleting;
+use App\Events\Theme\ThemeUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +24,21 @@ class Theme extends Model implements Auditable
      * @var array
      */
     protected $fillable = ['type', 'sequence', 'group'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => ThemeCreated::class,
+        'creating' => ThemeCreating::class,
+        'deleted' => ThemeDeleted::class,
+        'deleting' => ThemeDeleting::class,
+        'updated' => ThemeUpdated::class,
+    ];
 
     /**
      * The table associated with the model.

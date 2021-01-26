@@ -31,11 +31,17 @@ use App\Events\Song\SongUpdated;
 use App\Events\Synonym\SynonymCreated;
 use App\Events\Synonym\SynonymDeleted;
 use App\Events\Synonym\SynonymUpdated;
+use App\Events\Theme\ThemeCreated;
+use App\Events\Theme\ThemeCreating;
+use App\Events\Theme\ThemeDeleted;
+use App\Events\Theme\ThemeDeleting;
+use App\Events\Theme\ThemeUpdated;
 use App\Listeners\CascadesDeletes;
 use App\Listeners\Image\RemoveImageFromStorage;
 use App\Listeners\Invitation\CreateInvitationToken;
 use App\Listeners\Invitation\SendInvitationMail;
 use App\Listeners\SendDiscordNotification;
+use App\Listeners\Theme\CreateThemeSlug;
 use App\Listeners\UpdateRelatedIndices;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -146,6 +152,23 @@ class EventServiceProvider extends ServiceProvider
             SendDiscordNotification::class,
         ],
         SynonymUpdated::class => [
+            UpdateRelatedIndices::class,
+            SendDiscordNotification::class,
+        ],
+        ThemeCreated::class => [
+            UpdateRelatedIndices::class,
+            SendDiscordNotification::class,
+        ],
+        ThemeCreating::class => [
+            CreateThemeSlug::class,
+        ],
+        ThemeDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        ThemeDeleting::class => [
+            CascadesDeletes::class,
+        ],
+        ThemeUpdated::class => [
             UpdateRelatedIndices::class,
             SendDiscordNotification::class,
         ],
