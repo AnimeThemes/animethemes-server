@@ -23,7 +23,7 @@ abstract class AnimeResourceEvent
     /**
      * Create a new event instance.
      *
-     * @param @var \App\Pivots\AnimeResource $animeResource
+     * @param \App\Pivots\AnimeResource $animeResource
      * @return void
      */
     public function __construct(AnimeResource $animeResource)

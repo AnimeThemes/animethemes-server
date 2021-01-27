@@ -6,6 +6,7 @@ use App\Events\Song\SongCreated;
 use App\Events\Song\SongDeleted;
 use App\Events\Song\SongDeleting;
 use App\Events\Song\SongUpdated;
+use App\Pivots\ArtistSong;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -67,6 +68,6 @@ class Song extends Model implements Auditable
      */
     public function artists()
     {
-        return $this->belongsToMany('App\Models\Artist', 'artist_song', 'song_id', 'artist_id')->withPivot('as');
+        return $this->belongsToMany('App\Models\Artist', 'artist_song', 'song_id', 'artist_id')->using(ArtistSong::class)->withPivot('as');
     }
 }

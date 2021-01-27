@@ -23,7 +23,7 @@ abstract class AnimeSeriesEvent
     /**
      * Create a new event instance.
      *
-     * @param @var \App\Pivots\AnimeSeries $animeSeries
+     * @param \App\Pivots\AnimeSeries $animeSeries
      * @return void
      */
     public function __construct(AnimeSeries $animeSeries)

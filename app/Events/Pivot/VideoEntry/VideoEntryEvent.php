@@ -23,7 +23,7 @@ abstract class VideoEntryEvent
     /**
      * Create a new event instance.
      *
-     * @param @var \App\Pivots\VideoEntry $videoEntry
+     * @param \App\Pivots\VideoEntry $videoEntry
      * @return void
      */
     public function __construct(VideoEntry $videoEntry)

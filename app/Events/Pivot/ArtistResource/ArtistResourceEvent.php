@@ -23,7 +23,7 @@ abstract class ArtistResourceEvent
     /**
      * Create a new event instance.
      *
-     * @param @var \App\Pivots\ArtistResource $artistResource
+     * @param \App\Pivots\ArtistResource $artistResource
      * @return void
      */
     public function __construct(ArtistResource $artistResource)

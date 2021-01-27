@@ -36,6 +36,9 @@ use App\Events\Pivot\ArtistMember\ArtistMemberUpdated;
 use App\Events\Pivot\ArtistResource\ArtistResourceCreated;
 use App\Events\Pivot\ArtistResource\ArtistResourceDeleted;
 use App\Events\Pivot\ArtistResource\ArtistResourceUpdated;
+use App\Events\Pivot\ArtistSong\ArtistSongCreated;
+use App\Events\Pivot\ArtistSong\ArtistSongDeleted;
+use App\Events\Pivot\ArtistSong\ArtistSongUpdated;
 use App\Events\Pivot\VideoEntry\VideoEntryCreated;
 use App\Events\Pivot\VideoEntry\VideoEntryDeleted;
 use App\Events\Series\SeriesCreated;
@@ -140,6 +143,18 @@ class EventServiceProvider extends ServiceProvider
             SendDiscordNotification::class,
         ],
         ArtistResourceUpdated::class => [
+            SendDiscordNotification::class,
+        ],
+        ArtistSongCreated::class => [
+            UpdateRelatedIndices::class,
+            SendDiscordNotification::class,
+        ],
+        ArtistSongDeleted::class => [
+            UpdateRelatedIndices::class,
+            SendDiscordNotification::class,
+        ],
+        ArtistSongUpdated::class => [
+            UpdateRelatedIndices::class,
             SendDiscordNotification::class,
         ],
         ArtistUpdated::class => [

@@ -23,7 +23,7 @@ abstract class ArtistMemberEvent
     /**
      * Create a new event instance.
      *
-     * @param @var \App\Pivots\ArtistMember $artistMember
+     * @param \App\Pivots\ArtistMember $artistMember
      * @return void
      */
     public function __construct(ArtistMember $artistMember)

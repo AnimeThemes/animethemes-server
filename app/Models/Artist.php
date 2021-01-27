@@ -8,6 +8,7 @@ use App\Events\Artist\ArtistUpdated;
 use App\Pivots\ArtistImage;
 use App\Pivots\ArtistMember;
 use App\Pivots\ArtistResource;
+use App\Pivots\ArtistSong;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -81,7 +82,7 @@ class Artist extends Model implements Auditable
      */
     public function songs()
     {
-        return $this->belongsToMany('App\Models\Song', 'artist_song', 'artist_id', 'song_id')->withPivot('as');
+        return $this->belongsToMany('App\Models\Song', 'artist_song', 'artist_id', 'song_id')->using(ArtistSong::class)->withPivot('as');
     }
 
     /**

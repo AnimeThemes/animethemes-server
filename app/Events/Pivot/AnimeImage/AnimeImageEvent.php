@@ -23,7 +23,7 @@ abstract class AnimeImageEvent
     /**
      * Create a new event instance.
      *
-     * @param @var \App\Pivots\AnimeImage $animeImage
+     * @param \App\Pivots\AnimeImage $animeImage
      * @return void
      */
     public function __construct(AnimeImage $animeImage)
