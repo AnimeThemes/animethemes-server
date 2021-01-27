@@ -21,6 +21,8 @@ use App\Events\Image\ImageDeleted;
 use App\Events\Image\ImageUpdated;
 use App\Events\Invitation\InvitationCreated;
 use App\Events\Invitation\InvitationCreating;
+use App\Events\Pivot\AnimeImage\AnimeImageCreated;
+use App\Events\Pivot\AnimeImage\AnimeImageDeleted;
 use App\Events\Pivot\AnimeResource\AnimeResourceCreated;
 use App\Events\Pivot\AnimeResource\AnimeResourceDeleted;
 use App\Events\Pivot\AnimeResource\AnimeResourceUpdated;
@@ -76,6 +78,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         AnimeDeleting::class => [
             CascadesDeletes::class,
+        ],
+        AnimeImageCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        AnimeImageDeleted::class => [
+            SendDiscordNotification::class,
         ],
         AnimeResourceCreated::class => [
             SendDiscordNotification::class,

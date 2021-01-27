@@ -6,6 +6,7 @@ use App\Enums\ImageFacet;
 use App\Events\Image\ImageCreated;
 use App\Events\Image\ImageDeleted;
 use App\Events\Image\ImageUpdated;
+use App\Pivots\AnimeImage;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -69,7 +70,7 @@ class Image extends Model implements Auditable
      */
     public function anime()
     {
-        return $this->belongsToMany('App\Models\Anime', 'anime_image', 'image_id', 'anime_id');
+        return $this->belongsToMany('App\Models\Anime', 'anime_image', 'image_id', 'anime_id')->using(AnimeImage::class);
     }
 
     /**

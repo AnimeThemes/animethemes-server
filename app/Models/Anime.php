@@ -7,6 +7,7 @@ use App\Events\Anime\AnimeCreated;
 use App\Events\Anime\AnimeDeleted;
 use App\Events\Anime\AnimeDeleting;
 use App\Events\Anime\AnimeUpdated;
+use App\Pivots\AnimeImage;
 use App\Pivots\AnimeResource;
 use App\Pivots\AnimeSeries;
 use BenSampo\Enum\Traits\CastsEnums;
@@ -138,6 +139,6 @@ class Anime extends Model implements Auditable
      */
     public function images()
     {
-        return $this->belongsToMany('App\Models\Image', 'anime_image', 'anime_id', 'image_id');
+        return $this->belongsToMany('App\Models\Image', 'anime_image', 'anime_id', 'image_id')->using(AnimeImage::class);
     }
 }
