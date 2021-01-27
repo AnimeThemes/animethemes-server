@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\Artist\ArtistCreated;
 use App\Events\Artist\ArtistDeleted;
 use App\Events\Artist\ArtistUpdated;
+use App\Pivots\ArtistImage;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -118,6 +119,6 @@ class Artist extends Model implements Auditable
      */
     public function images()
     {
-        return $this->belongsToMany('App\Models\Image', 'artist_image', 'artist_id', 'image_id');
+        return $this->belongsToMany('App\Models\Image', 'artist_image', 'artist_id', 'image_id')->using(ArtistImage::class);
     }
 }

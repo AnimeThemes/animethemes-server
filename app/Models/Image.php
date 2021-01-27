@@ -7,6 +7,7 @@ use App\Events\Image\ImageCreated;
 use App\Events\Image\ImageDeleted;
 use App\Events\Image\ImageUpdated;
 use App\Pivots\AnimeImage;
+use App\Pivots\ArtistImage;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -80,6 +81,6 @@ class Image extends Model implements Auditable
      */
     public function artists()
     {
-        return $this->belongsToMany('App\Models\Artist', 'artist_image', 'image_id', 'artist_id');
+        return $this->belongsToMany('App\Models\Artist', 'artist_image', 'image_id', 'artist_id')->using(ArtistImage::class);
     }
 }
