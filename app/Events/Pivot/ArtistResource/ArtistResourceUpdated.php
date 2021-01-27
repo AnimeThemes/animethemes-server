@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Events\Pivot\AnimeResource;
+namespace App\Events\Pivot\ArtistResource;
 
 use App\Discord\Events\DiscordMessageEvent;
 use App\Discord\Traits\HasAttributeUpdateEmbedFields;
-use App\Pivots\AnimeResource;
+use App\Pivots\ArtistResource;
 use Illuminate\Foundation\Events\Dispatchable;
 use NotificationChannels\Discord\DiscordMessage;
 
-class AnimeResourceUpdated extends AnimeResourceEvent implements DiscordMessageEvent
+class ArtistResourceUpdated extends ArtistResourceEvent implements DiscordMessageEvent
 {
     use Dispatchable, HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Pivots\AnimeResource $animeResource
+     * @param \App\Pivots\ArtistResource $artistResource
      * @return void
      */
-    public function __construct(AnimeResource $animeResource)
+    public function __construct(ArtistResource $artistResource)
     {
-        parent::__construct($animeResource);
-        $this->initializeEmbedFields($animeResource);
+        parent::__construct($artistResource);
+        $this->initializeEmbedFields($artistResource);
     }
 
     /**
@@ -31,12 +31,12 @@ class AnimeResourceUpdated extends AnimeResourceEvent implements DiscordMessageE
      */
     public function getDiscordMessage()
     {
-        $anime = $this->getAnime();
+        $artist = $this->getArtist();
         $resource = $this->getResource();
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Resource Updated', [
-            'description' => "Resource '{$resource->link}' for Anime '{$anime->name}' has been updated.",
+            'description' => "Resource '{$resource->link}' for Artist '{$artist->name}' has been updated.",
             'fields' => $this->getEmbedFields(),
         ]);
     }

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Events\Pivot\AnimeResource;
+namespace App\Events\Pivot\ArtistResource;
 
 use App\Discord\Events\DiscordMessageEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use NotificationChannels\Discord\DiscordMessage;
 
-class AnimeResourceDeleted extends AnimeResourceEvent implements DiscordMessageEvent
+class ArtistResourceDeleted extends ArtistResourceEvent implements DiscordMessageEvent
 {
     use Dispatchable, SerializesModels;
 
@@ -18,12 +18,12 @@ class AnimeResourceDeleted extends AnimeResourceEvent implements DiscordMessageE
      */
     public function getDiscordMessage()
     {
-        $anime = $this->getAnime();
+        $artist = $this->getArtist();
         $resource = $this->getResource();
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Resource Detached', [
-            'description' => "Resource '{$resource->link}' has been detached from Anime '{$anime->name}'.",
+            'description' => "Resource '{$resource->link}' has been detached from Artist '{$artist->name}'.",
         ]);
     }
 }

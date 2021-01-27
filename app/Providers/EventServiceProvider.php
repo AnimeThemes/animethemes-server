@@ -30,6 +30,9 @@ use App\Events\Pivot\AnimeSeries\AnimeSeriesCreated;
 use App\Events\Pivot\AnimeSeries\AnimeSeriesDeleted;
 use App\Events\Pivot\ArtistImage\ArtistImageCreated;
 use App\Events\Pivot\ArtistImage\ArtistImageDeleted;
+use App\Events\Pivot\ArtistResource\ArtistResourceCreated;
+use App\Events\Pivot\ArtistResource\ArtistResourceDeleted;
+use App\Events\Pivot\ArtistResource\ArtistResourceUpdated;
 use App\Events\Pivot\VideoEntry\VideoEntryCreated;
 use App\Events\Pivot\VideoEntry\VideoEntryDeleted;
 use App\Events\Series\SeriesCreated;
@@ -116,6 +119,15 @@ class EventServiceProvider extends ServiceProvider
             SendDiscordNotification::class,
         ],
         ArtistImageDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        ArtistResourceCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        ArtistResourceDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        ArtistResourceUpdated::class => [
             SendDiscordNotification::class,
         ],
         ArtistUpdated::class => [

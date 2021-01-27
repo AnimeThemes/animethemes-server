@@ -6,6 +6,7 @@ use App\Events\Artist\ArtistCreated;
 use App\Events\Artist\ArtistDeleted;
 use App\Events\Artist\ArtistUpdated;
 use App\Pivots\ArtistImage;
+use App\Pivots\ArtistResource;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -89,7 +90,7 @@ class Artist extends Model implements Auditable
      */
     public function externalResources()
     {
-        return $this->belongsToMany('App\Models\ExternalResource', 'artist_resource', 'artist_id', 'resource_id')->withPivot('as');
+        return $this->belongsToMany('App\Models\ExternalResource', 'artist_resource', 'artist_id', 'resource_id')->using(ArtistResource::class)->withPivot('as');
     }
 
     /**

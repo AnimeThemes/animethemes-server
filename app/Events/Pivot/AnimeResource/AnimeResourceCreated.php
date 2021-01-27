@@ -22,7 +22,7 @@ class AnimeResourceCreated extends AnimeResourceEvent implements DiscordMessageE
         $resource = $this->getResource();
 
         // TODO: messages shouldn't be hard-coded
-        return DiscordMessage::create('Anime Resource Attached', [
+        return DiscordMessage::create('Resource Attached', [
             'description' => "Resource '{$resource->link}' has been attached to Anime '{$anime->name}'.",
         ]);
     }

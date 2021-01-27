@@ -7,6 +7,7 @@ use App\Events\ExternalResource\ExternalResourceCreated;
 use App\Events\ExternalResource\ExternalResourceDeleted;
 use App\Events\ExternalResource\ExternalResourceUpdated;
 use App\Pivots\AnimeResource;
+use App\Pivots\ArtistResource;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -80,6 +81,6 @@ class ExternalResource extends Model implements Auditable
      */
     public function artists()
     {
-        return $this->belongsToMany('App\Models\Artist', 'artist_resource', 'resource_id', 'artist_id')->withPivot('as');
+        return $this->belongsToMany('App\Models\Artist', 'artist_resource', 'resource_id', 'artist_id')->using(ArtistResource::class)->withPivot('as');
     }
 }
