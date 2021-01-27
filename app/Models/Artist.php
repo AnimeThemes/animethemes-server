@@ -6,6 +6,7 @@ use App\Events\Artist\ArtistCreated;
 use App\Events\Artist\ArtistDeleted;
 use App\Events\Artist\ArtistUpdated;
 use App\Pivots\ArtistImage;
+use App\Pivots\ArtistMember;
 use App\Pivots\ArtistResource;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -100,7 +101,7 @@ class Artist extends Model implements Auditable
      */
     public function members()
     {
-        return $this->belongsToMany('App\Models\Artist', 'artist_member', 'artist_id', 'member_id')->withPivot('as');
+        return $this->belongsToMany('App\Models\Artist', 'artist_member', 'artist_id', 'member_id')->using(ArtistMember::class)->withPivot('as');
     }
 
     /**
@@ -110,7 +111,7 @@ class Artist extends Model implements Auditable
      */
     public function groups()
     {
-        return $this->belongsToMany('App\Models\Artist', 'artist_member', 'member_id', 'artist_id')->withPivot('as');
+        return $this->belongsToMany('App\Models\Artist', 'artist_member', 'member_id', 'artist_id')->using(ArtistMember::class)->withPivot('as');
     }
 
     /**
