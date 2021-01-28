@@ -2,8 +2,9 @@
 
 namespace App\Events\Image;
 
-use App\Discord\Events\DiscordMessageEvent;
+use App\Contracts\Events\DiscordMessageEvent;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 class ImageDeleted extends ImageEvent implements DiscordMessageEvent
@@ -23,5 +24,15 @@ class ImageDeleted extends ImageEvent implements DiscordMessageEvent
         return DiscordMessage::create('Image Deleted', [
             'description' => "Image '{$image->getName()}' has been deleted.",
         ]);
+    }
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel()
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
     }
 }

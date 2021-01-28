@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Discord\Events;
+namespace App\Contracts\Events;
 
 interface DiscordMessageEvent
 {
@@ -10,4 +10,11 @@ interface DiscordMessageEvent
      * @return \NotificationChannels\Discord\DiscordMessage
      */
     public function getDiscordMessage();
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel();
 }

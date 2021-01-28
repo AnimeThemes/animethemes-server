@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Discord\Traits;
+namespace App\Concerns\Discord;
 
-use App\Discord\Embed\DiscordEmbedField;
+use App\Discord\DiscordEmbedField;
 use Illuminate\Database\Eloquent\Model;
 
 trait HasAttributeUpdateEmbedFields

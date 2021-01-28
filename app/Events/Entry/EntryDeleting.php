@@ -2,7 +2,8 @@
 
 namespace App\Events\Entry;
 
-use App\Events\CascadesDeletesEvent;
+use App\Contracts\Events\CascadesDeletesEvent;
+use App\Models\Video;
 
 class EntryDeleting extends EntryEvent implements CascadesDeletesEvent
 {
@@ -18,6 +19,8 @@ class EntryDeleting extends EntryEvent implements CascadesDeletesEvent
         // refresh video documents by detaching entry
         $videos = $entry->videos;
         $entry->videos()->detach();
-        $videos->searchable();
+        $videos->each(function (Video $video) {
+            $video->searchable();
+        });
     }
 }

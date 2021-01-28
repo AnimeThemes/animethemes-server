@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use App\JsonApi\Filter\ExternalResource\ExternalResourceSiteFilter;
-use App\JsonApi\Traits\PerformsResourceCollectionQuery;
+use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 
 class ExternalResourceCollection extends BaseCollection
 {

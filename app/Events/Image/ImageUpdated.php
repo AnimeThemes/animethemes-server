@@ -2,10 +2,11 @@
 
 namespace App\Events\Image;
 
-use App\Discord\Events\DiscordMessageEvent;
-use App\Discord\Traits\HasAttributeUpdateEmbedFields;
+use App\Contracts\Events\DiscordMessageEvent;
+use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Models\Image;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 class ImageUpdated extends ImageEvent implements DiscordMessageEvent
@@ -38,5 +39,15 @@ class ImageUpdated extends ImageEvent implements DiscordMessageEvent
             'description' => "Image '{$image->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),
         ]);
+    }
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel()
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
     }
 }

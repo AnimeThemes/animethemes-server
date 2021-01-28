@@ -5,8 +5,8 @@ namespace App\Http\Resources;
 use App\JsonApi\Filter\Entry\EntryNsfwFilter;
 use App\JsonApi\Filter\Entry\EntrySpoilerFilter;
 use App\JsonApi\Filter\Entry\EntryVersionFilter;
-use App\JsonApi\Traits\PerformsResourceCollectionQuery;
-use App\JsonApi\Traits\PerformsResourceCollectionSearch;
+use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
+use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
 
 class EntryCollection extends BaseCollection
 {

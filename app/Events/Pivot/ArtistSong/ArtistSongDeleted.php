@@ -2,10 +2,11 @@
 
 namespace App\Events\Pivot\ArtistSong;
 
-use App\Discord\Events\DiscordMessageEvent;
-use App\Scout\Events\UpdateRelatedIndicesEvent;
+use App\Contracts\Events\DiscordMessageEvent;
+use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 class ArtistSongDeleted extends ArtistSongEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
@@ -26,6 +27,16 @@ class ArtistSongDeleted extends ArtistSongEvent implements DiscordMessageEvent, 
         return DiscordMessage::create('Song Detached', [
             'description' => "Song '{$song->getName()}' has been detached from Artist '{$artist->getName()}'.",
         ]);
+    }
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel()
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
     }
 
     /**

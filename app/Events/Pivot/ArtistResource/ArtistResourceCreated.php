@@ -2,9 +2,10 @@
 
 namespace App\Events\Pivot\ArtistResource;
 
-use App\Discord\Events\DiscordMessageEvent;
+use App\Contracts\Events\DiscordMessageEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 class ArtistResourceCreated extends ArtistResourceEvent implements DiscordMessageEvent
@@ -25,5 +26,15 @@ class ArtistResourceCreated extends ArtistResourceEvent implements DiscordMessag
         return DiscordMessage::create('Resource Attached', [
             'description' => "Resource '{$resource->getName()}' has been attached to Artist '{$artist->getName()}'.",
         ]);
+    }
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel()
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
     }
 }

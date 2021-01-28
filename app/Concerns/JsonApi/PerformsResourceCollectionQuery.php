@@ -1,6 +1,6 @@
 <?php
 
-namespace App\JsonApi\Traits;
+namespace App\Concerns\JsonApi;
 
 use App\JsonApi\QueryParser;
 use Illuminate\Support\Str;
@@ -71,7 +71,7 @@ trait PerformsResourceCollectionQuery
         // apply filters
         foreach (static::filters() as $filterClass) {
             $filter = new $filterClass($parser);
-            $builder = $filter->applyBuilderFilter($builder);
+            $builder = $filter->applyFilter($builder);
         }
 
         // apply sorts

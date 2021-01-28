@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Scout\Events;
+namespace App\Contracts\Events;
 
 interface UpdateRelatedIndicesEvent
 {

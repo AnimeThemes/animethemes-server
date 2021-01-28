@@ -2,7 +2,7 @@
 
 namespace App\Events\Anime;
 
-use App\Events\CascadesDeletesEvent;
+use App\Contracts\Events\CascadesDeletesEvent;
 use App\Events\Theme\ThemeDeleting;
 use App\Models\Synonym;
 use App\Models\Theme;

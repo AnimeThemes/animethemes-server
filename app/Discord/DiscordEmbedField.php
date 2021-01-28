@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Discord\Embed;
+namespace App\Discord;
 
 use BenSampo\Enum\Enum;
 use Illuminate\Contracts\Support\Arrayable;

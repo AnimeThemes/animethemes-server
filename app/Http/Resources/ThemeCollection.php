@@ -5,8 +5,8 @@ namespace App\Http\Resources;
 use App\JsonApi\Filter\Theme\ThemeGroupFilter;
 use App\JsonApi\Filter\Theme\ThemeSequenceFilter;
 use App\JsonApi\Filter\Theme\ThemeTypeFilter;
-use App\JsonApi\Traits\PerformsResourceCollectionQuery;
-use App\JsonApi\Traits\PerformsResourceCollectionSearch;
+use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
+use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
 
 class ThemeCollection extends BaseCollection
 {

@@ -2,7 +2,7 @@
 
 namespace App\Events\Theme;
 
-use App\Events\CascadesDeletesEvent;
+use App\Contracts\Events\CascadesDeletesEvent;
 use App\Events\Entry\EntryDeleting;
 use App\Models\Entry;
 use Illuminate\Support\Facades\Event;

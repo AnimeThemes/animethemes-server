@@ -2,9 +2,10 @@
 
 namespace App\Events\Pivot\ArtistMember;
 
-use App\Discord\Events\DiscordMessageEvent;
+use App\Contracts\Events\DiscordMessageEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 class ArtistMemberDeleted extends ArtistMemberEvent implements DiscordMessageEvent
@@ -25,5 +26,15 @@ class ArtistMemberDeleted extends ArtistMemberEvent implements DiscordMessageEve
         return DiscordMessage::create('Member Detached', [
             'description' => "Member '{$member->getName()}' has been detached from Artist '{$artist->getName()}'.",
         ]);
+    }
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel()
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
     }
 }

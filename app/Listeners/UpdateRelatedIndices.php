@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Scout\Events\UpdateRelatedIndicesEvent;
+use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -13,7 +13,7 @@ class UpdateRelatedIndices implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  \App\Scout\Events\UpdateRelatedIndicesEvent  $event
+     * @param  \App\Contracts\Events\UpdateRelatedIndicesEvent  $event
      * @return void
      */
     public function handle(UpdateRelatedIndicesEvent $event)

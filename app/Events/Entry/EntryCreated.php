@@ -2,10 +2,12 @@
 
 namespace App\Events\Entry;
 
-use App\Discord\Events\DiscordMessageEvent;
-use App\Scout\Events\UpdateRelatedIndicesEvent;
+use App\Contracts\Events\DiscordMessageEvent;
+use App\Models\Video;
+use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 class EntryCreated extends EntryEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
@@ -28,6 +30,16 @@ class EntryCreated extends EntryEvent implements DiscordMessageEvent, UpdateRela
     }
 
     /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel()
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
+    }
+
+    /**
      * Perform updates on related indices.
      *
      * @return void
@@ -36,6 +48,8 @@ class EntryCreated extends EntryEvent implements DiscordMessageEvent, UpdateRela
     {
         $entry = $this->getEntry();
 
-        $entry->videos->searchable();
+        $entry->videos->each(function (Video $video) {
+            $video->searchable();
+        });
     }
 }

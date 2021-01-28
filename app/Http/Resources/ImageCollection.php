@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use App\JsonApi\Filter\Image\ImageFacetFilter;
-use App\JsonApi\Traits\PerformsResourceCollectionQuery;
+use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 
 class ImageCollection extends BaseCollection
 {

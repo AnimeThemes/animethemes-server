@@ -2,9 +2,10 @@
 
 namespace App\Events\Pivot\AnimeSeries;
 
-use App\Discord\Events\DiscordMessageEvent;
+use App\Contracts\Events\DiscordMessageEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 class AnimeSeriesCreated extends AnimeSeriesEvent implements DiscordMessageEvent
@@ -25,5 +26,15 @@ class AnimeSeriesCreated extends AnimeSeriesEvent implements DiscordMessageEvent
         return DiscordMessage::create('Anime Attached', [
             'description' => "Anime '{$anime->getName()}' has been attached to Series '{$series->getName()}'.",
         ]);
+    }
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel()
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
     }
 }

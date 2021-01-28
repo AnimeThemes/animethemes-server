@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\JsonApi\Traits\PerformsResourceCollectionQuery;
+use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 
 class AnnouncementCollection extends BaseCollection
 {

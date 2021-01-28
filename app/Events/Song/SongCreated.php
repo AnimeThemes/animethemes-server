@@ -2,12 +2,15 @@
 
 namespace App\Events\Song;
 
-use App\Discord\Events\DiscordMessageEvent;
+use App\Contracts\Events\DiscordMessageEvent;
+use App\Models\Artist;
 use App\Models\Entry;
 use App\Models\Theme;
-use App\Scout\Events\UpdateRelatedIndicesEvent;
+use App\Models\Video;
+use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 class SongCreated extends SongEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
@@ -30,6 +33,16 @@ class SongCreated extends SongEvent implements DiscordMessageEvent, UpdateRelate
     }
 
     /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel()
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
+    }
+
+    /**
      * Perform updates on related indices.
      *
      * @return void
@@ -38,12 +51,17 @@ class SongCreated extends SongEvent implements DiscordMessageEvent, UpdateRelate
     {
         $song = $this->getSong();
 
-        $song->artists->searchable();
+        $song->artists->each(function (Artist $artist) {
+            $artist->searchable();
+        });
+
         $song->themes->each(function (Theme $theme) {
             $theme->searchable();
             $theme->entries->each(function (Entry $entry) {
                 $entry->searchable();
-                $entry->videos->searchable();
+                $entry->videos->each(function (Video $video) {
+                    $video->searchable();
+                });
             });
         });
     }

@@ -2,10 +2,11 @@
 
 namespace App\Events\Series;
 
-use App\Discord\Events\DiscordMessageEvent;
-use App\Discord\Traits\HasAttributeUpdateEmbedFields;
+use App\Contracts\Events\DiscordMessageEvent;
+use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Models\Series;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 class SeriesUpdated extends SeriesEvent implements DiscordMessageEvent
@@ -38,5 +39,15 @@ class SeriesUpdated extends SeriesEvent implements DiscordMessageEvent
             'description' => "Series '{$series->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),
         ]);
+    }
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel()
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
     }
 }

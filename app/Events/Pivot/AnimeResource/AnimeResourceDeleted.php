@@ -2,9 +2,10 @@
 
 namespace App\Events\Pivot\AnimeResource;
 
-use App\Discord\Events\DiscordMessageEvent;
+use App\Contracts\Events\DiscordMessageEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 class AnimeResourceDeleted extends AnimeResourceEvent implements DiscordMessageEvent
@@ -25,5 +26,15 @@ class AnimeResourceDeleted extends AnimeResourceEvent implements DiscordMessageE
         return DiscordMessage::create('Resource Detached', [
             'description' => "Resource '{$resource->getName()}' has been detached from Anime '{$anime->getName()}'.",
         ]);
+    }
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel()
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
     }
 }

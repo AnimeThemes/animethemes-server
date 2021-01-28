@@ -2,11 +2,13 @@
 
 namespace App\Events\Synonym;
 
-use App\Discord\Events\DiscordMessageEvent;
+use App\Contracts\Events\DiscordMessageEvent;
 use App\Models\Entry;
 use App\Models\Theme;
-use App\Scout\Events\UpdateRelatedIndicesEvent;
+use App\Models\Video;
+use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 class SynonymDeleted extends SynonymEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
@@ -30,6 +32,16 @@ class SynonymDeleted extends SynonymEvent implements DiscordMessageEvent, Update
     }
 
     /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel()
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
+    }
+
+    /**
      * Perform updates on related indices.
      *
      * @return void
@@ -43,7 +55,9 @@ class SynonymDeleted extends SynonymEvent implements DiscordMessageEvent, Update
             $theme->searchable();
             $theme->entries->each(function (Entry $entry) {
                 $entry->searchable();
-                $entry->videos->searchable();
+                $entry->videos->each(function (Video $video) {
+                    $video->searchable();
+                });
             });
         });
     }

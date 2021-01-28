@@ -2,11 +2,12 @@
 
 namespace App\Events\Pivot\ArtistSong;
 
-use App\Discord\Events\DiscordMessageEvent;
-use App\Discord\Traits\HasAttributeUpdateEmbedFields;
+use App\Contracts\Events\DiscordMessageEvent;
+use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Pivots\ArtistSong;
-use App\Scout\Events\UpdateRelatedIndicesEvent;
+use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 class ArtistSongUpdated extends ArtistSongEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
@@ -40,6 +41,16 @@ class ArtistSongUpdated extends ArtistSongEvent implements DiscordMessageEvent, 
             'description' => "Song '{$song->getName()}' for Artist '{$artist->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),
         ]);
+    }
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel()
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
     }
 
     /**

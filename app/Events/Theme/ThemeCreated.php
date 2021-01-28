@@ -2,11 +2,13 @@
 
 namespace App\Events\Theme;
 
-use App\Discord\Events\DiscordMessageEvent;
+use App\Contracts\Events\DiscordMessageEvent;
 use App\Models\Entry;
-use App\Scout\Events\UpdateRelatedIndicesEvent;
+use App\Models\Video;
+use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 class ThemeCreated extends ThemeEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
@@ -30,6 +32,16 @@ class ThemeCreated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
     }
 
     /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel()
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
+    }
+
+    /**
      * Perform updates on related indices.
      *
      * @return void
@@ -40,7 +52,9 @@ class ThemeCreated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
 
         $theme->entries->each(function (Entry $entry) {
             $entry->searchable();
-            $entry->videos->searchable();
+            $entry->videos->each(function (Video $video) {
+                $video->searchable();
+            });
         });
     }
 }

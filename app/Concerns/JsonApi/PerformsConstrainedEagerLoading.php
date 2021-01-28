@@ -1,8 +1,9 @@
 <?php
 
-namespace App\JsonApi\Traits;
+namespace App\Concerns\JsonApi;
 
 use App\JsonApi\QueryParser;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 
 trait PerformsConstrainedEagerLoading
@@ -22,10 +23,10 @@ trait PerformsConstrainedEagerLoading
         foreach ($allowedIncludePaths as $allowedIncludePath) {
             $relation = static::relation($allowedIncludePath);
 
-            $constrainedEagerLoads[$allowedIncludePath] = function ($query) use ($parser, $relation) {
+            $constrainedEagerLoads[$allowedIncludePath] = function (Relation $query) use ($parser, $relation) {
                 foreach ($relation::filters() as $filterClass) {
                     $filter = new $filterClass($parser);
-                    $filter->applyRelationFilter($query);
+                    $filter->applyFilter($query->getQuery());
                 }
             };
         }

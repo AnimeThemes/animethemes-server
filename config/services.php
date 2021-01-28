@@ -32,6 +32,7 @@ return [
 
     'discord' => [
         'token' => env('DISCORD_BOT_API_TOKEN'),
-        'channel_id' => env('DISCORD_CHANNEL_ID'),
+        'db_updates_discord_channel' => env('DB_UPDATES_DISCORD_CHANNEL'),
+        'admin_discord_channel' => env('ADMIN_DISCORD_CHANNEL'),
     ],
 ];

@@ -4,7 +4,6 @@ namespace App\JsonApi\Filter;
 
 use App\JsonApi\QueryParser;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 abstract class Filter
 {
@@ -40,28 +39,13 @@ abstract class Filter
      * @param \Illuminate\Database\Eloquent\Builder $builder
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function applyBuilderFilter(Builder $builder)
+    public function applyFilter(Builder $builder)
     {
         if ($this->shouldApplyFilter()) {
             return $builder->whereIn($this->key, $this->getFilterValues());
         }
 
         return $builder;
-    }
-
-    /**
-     * Modify underlying query builder instance with filter criteria.
-     *
-     * @param \Illuminate\Database\Eloquent\Relations\Relation $relation
-     * @return \Illuminate\Database\Eloquent\Relations\Relation
-     */
-    public function applyRelationFilter(Relation $relation)
-    {
-        if ($this->shouldApplyFilter()) {
-            return $relation->whereIn($this->key, $this->getFilterValues());
-        }
-
-        return $relation;
     }
 
     /**

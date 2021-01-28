@@ -9,8 +9,8 @@ use App\JsonApi\Filter\Video\VideoResolutionFilter;
 use App\JsonApi\Filter\Video\VideoSourceFilter;
 use App\JsonApi\Filter\Video\VideoSubbedFilter;
 use App\JsonApi\Filter\Video\VideoUncenFilter;
-use App\JsonApi\Traits\PerformsResourceCollectionQuery;
-use App\JsonApi\Traits\PerformsResourceCollectionSearch;
+use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
+use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
 
 class VideoCollection extends BaseCollection
 {
