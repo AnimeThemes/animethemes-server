@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\JsonApi\Filter\Anime\AnimeSeasonFilter;
-use App\JsonApi\Filter\Anime\AnimeYearFilter;
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
+use App\JsonApi\Filter\Anime\AnimeSeasonFilter;
+use App\JsonApi\Filter\Anime\AnimeYearFilter;
 
 class AnimeCollection extends BaseCollection
 {

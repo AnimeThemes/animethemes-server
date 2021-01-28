@@ -2,8 +2,8 @@
 
 namespace App\Events\ExternalResource;
 
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
+use App\Contracts\Events\DiscordMessageEvent;
 use App\Models\ExternalResource;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;

@@ -2,8 +2,8 @@
 
 namespace App\Events\Image;
 
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
+use App\Contracts\Events\DiscordMessageEvent;
 use App\Models\Image;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;

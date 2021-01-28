@@ -3,8 +3,8 @@
 namespace App\Events\Entry;
 
 use App\Contracts\Events\DiscordMessageEvent;
-use App\Models\Video;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Models\Video;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;

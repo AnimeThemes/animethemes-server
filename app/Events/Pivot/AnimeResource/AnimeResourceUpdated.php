@@ -2,8 +2,8 @@
 
 namespace App\Events\Pivot\AnimeResource;
 
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
+use App\Contracts\Events\DiscordMessageEvent;
 use App\Pivots\AnimeResource;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;

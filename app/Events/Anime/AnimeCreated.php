@@ -3,10 +3,10 @@
 namespace App\Events\Anime;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Models\Entry;
 use App\Models\Theme;
 use App\Models\Video;
-use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;

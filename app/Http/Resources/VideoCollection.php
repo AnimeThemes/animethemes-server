@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
+use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
 use App\JsonApi\Filter\Video\VideoLyricsFilter;
 use App\JsonApi\Filter\Video\VideoNcFilter;
 use App\JsonApi\Filter\Video\VideoOverlapFilter;
@@ -9,8 +11,6 @@ use App\JsonApi\Filter\Video\VideoResolutionFilter;
 use App\JsonApi\Filter\Video\VideoSourceFilter;
 use App\JsonApi\Filter\Video\VideoSubbedFilter;
 use App\JsonApi\Filter\Video\VideoUncenFilter;
-use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
-use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
 
 class VideoCollection extends BaseCollection
 {

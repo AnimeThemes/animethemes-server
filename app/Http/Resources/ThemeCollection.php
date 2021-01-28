@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
+use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
 use App\JsonApi\Filter\Theme\ThemeGroupFilter;
 use App\JsonApi\Filter\Theme\ThemeSequenceFilter;
 use App\JsonApi\Filter\Theme\ThemeTypeFilter;
-use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
-use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
 
 class ThemeCollection extends BaseCollection
 {

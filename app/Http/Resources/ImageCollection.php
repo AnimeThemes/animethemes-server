@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
-use App\JsonApi\Filter\Image\ImageFacetFilter;
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
+use App\JsonApi\Filter\Image\ImageFacetFilter;
 
 class ImageCollection extends BaseCollection
 {

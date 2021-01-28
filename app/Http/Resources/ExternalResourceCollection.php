@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
-use App\JsonApi\Filter\ExternalResource\ExternalResourceSiteFilter;
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
+use App\JsonApi\Filter\ExternalResource\ExternalResourceSiteFilter;
 
 class ExternalResourceCollection extends BaseCollection
 {

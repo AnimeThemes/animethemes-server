@@ -2,13 +2,13 @@
 
 namespace App\Events\Synonym;
 
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
+use App\Contracts\Events\DiscordMessageEvent;
+use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Models\Entry;
 use App\Models\Synonym;
 use App\Models\Theme;
 use App\Models\Video;
-use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
