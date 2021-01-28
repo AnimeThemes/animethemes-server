@@ -23,7 +23,7 @@ class ArtistMemberCreated extends ArtistMemberEvent implements DiscordMessageEve
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Member Attached', [
-            'description' => "Member '{$member->name}' has been attached to Artist '{$artist->name}'.",
+            'description' => "Member '{$member->getName()}' has been attached to Artist '{$artist->getName()}'.",
         ]);
     }
 }

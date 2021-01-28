@@ -23,7 +23,7 @@ class ArtistResourceCreated extends ArtistResourceEvent implements DiscordMessag
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Resource Attached', [
-            'description' => "Resource '{$resource->link}' has been attached to Artist '{$artist->name}'.",
+            'description' => "Resource '{$resource->getName()}' has been attached to Artist '{$artist->getName()}'.",
         ]);
     }
 }

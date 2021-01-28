@@ -9,11 +9,12 @@ use App\Events\Image\ImageUpdated;
 use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
 use BenSampo\Enum\Traits\CastsEnums;
+use App\Contracts\Nameable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Image extends Model implements Auditable
+class Image extends Model implements Auditable, Nameable
 {
     use CastsEnums, HasFactory;
     use \OwenIt\Auditing\Auditable;
@@ -63,6 +64,16 @@ class Image extends Model implements Auditable
     protected $casts = [
         'facet' => 'int',
     ];
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->path;
+    }
 
     /**
      * Get the anime that use this image.

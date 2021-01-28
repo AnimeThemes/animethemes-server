@@ -22,7 +22,7 @@ class ThemeDeleted extends ThemeEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Theme Deleted', [
-            'description' => "Theme '{$theme->slug}' has been deleted for Anime '{$anime->name}'.",
+            'description' => "Theme '{$theme->getName()}' has been deleted for Anime '{$anime->getName()}'.",
         ]);
     }
 }

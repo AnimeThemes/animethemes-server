@@ -22,7 +22,7 @@ class SeriesCreated extends SeriesEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Series Created', [
-            'description' => "Series '{$series->name}' has been created.",
+            'description' => "Series '{$series->getName()}' has been created.",
         ]);
     }
 }

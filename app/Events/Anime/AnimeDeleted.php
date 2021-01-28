@@ -21,7 +21,7 @@ class AnimeDeleted extends AnimeEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Anime Deleted', [
-            'description' => "Anime '{$anime->name}' has been deleted.",
+            'description' => "Anime '{$anime->getName()}' has been deleted.",
         ]);
     }
 }

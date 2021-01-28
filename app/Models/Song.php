@@ -7,13 +7,14 @@ use App\Events\Song\SongDeleted;
 use App\Events\Song\SongDeleting;
 use App\Events\Song\SongUpdated;
 use App\Pivots\ArtistSong;
+use App\Contracts\Nameable;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Song extends Model implements Auditable
+class Song extends Model implements Auditable, Nameable
 {
     use CustomSearch, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
@@ -50,6 +51,20 @@ class Song extends Model implements Auditable
      * @var string
      */
     protected $primaryKey = 'song_id';
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        if (empty($this->title)) {
+            return $this->song_id;
+        }
+
+        return $this->title;
+    }
 
     /**
      * Get the themes that use this song.

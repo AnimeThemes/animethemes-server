@@ -23,7 +23,7 @@ class AnimeImageDeleted extends AnimeImageEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Image Detached', [
-            'description' => "Image '{$image->path}' has been detached from Anime '{$anime->name}'.",
+            'description' => "Image '{$image->getName()}' has been detached from Anime '{$anime->getName()}'.",
         ]);
     }
 }

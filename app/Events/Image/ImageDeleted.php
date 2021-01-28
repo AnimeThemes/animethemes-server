@@ -21,7 +21,7 @@ class ImageDeleted extends ImageEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Image Deleted', [
-            'description' => "Image '{$image->path}' has been deleted.",
+            'description' => "Image '{$image->getName()}' has been deleted.",
         ]);
     }
 }

@@ -22,7 +22,7 @@ class VideoCreated extends VideoEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Video Created', [
-            'description' => "Video '{$video->filename}' has been created.",
+            'description' => "Video '{$video->getName()}' has been created.",
         ]);
     }
 }

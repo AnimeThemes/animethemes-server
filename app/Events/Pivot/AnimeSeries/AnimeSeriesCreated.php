@@ -23,7 +23,7 @@ class AnimeSeriesCreated extends AnimeSeriesEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Anime Attached', [
-            'description' => "Anime '{$anime->name}' has been attached to Series '{$series->name}'.",
+            'description' => "Anime '{$anime->getName()}' has been attached to Series '{$series->getName()}'.",
         ]);
     }
 }

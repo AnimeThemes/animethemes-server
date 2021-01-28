@@ -22,7 +22,7 @@ class ImageCreated extends ImageEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Image Created', [
-            'description' => "Image '{$image->path}' has been created.",
+            'description' => "Image '{$image->getName()}' has been created.",
         ]);
     }
 }

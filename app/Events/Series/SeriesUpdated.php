@@ -35,7 +35,7 @@ class SeriesUpdated extends SeriesEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Series Updated', [
-            'description' => "Series '{$series->name}' has been updated.",
+            'description' => "Series '{$series->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),
         ]);
     }

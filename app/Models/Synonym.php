@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\Nameable;
 use App\Events\Synonym\SynonymCreated;
 use App\Events\Synonym\SynonymDeleted;
 use App\Events\Synonym\SynonymUpdated;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Synonym extends Model implements Auditable
+class Synonym extends Model implements Auditable, Nameable
 {
     use CustomSearch, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
@@ -47,6 +48,16 @@ class Synonym extends Model implements Auditable
      * @var string
      */
     protected $primaryKey = 'synonym_id';
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->text;
+    }
 
     /**
      * Gets the anime that owns the synonym.

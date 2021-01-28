@@ -23,7 +23,7 @@ class AnimeResourceDeleted extends AnimeResourceEvent implements DiscordMessageE
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Resource Detached', [
-            'description' => "Resource '{$resource->link}' has been detached from Anime '{$anime->name}'.",
+            'description' => "Resource '{$resource->getName()}' has been detached from Anime '{$anime->getName()}'.",
         ]);
     }
 }

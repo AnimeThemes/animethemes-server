@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\Nameable;
 use App\Enums\ThemeType;
 use App\Events\Theme\ThemeCreated;
 use App\Events\Theme\ThemeCreating;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Theme extends Model implements Auditable
+class Theme extends Model implements Auditable, Nameable
 {
     use CastsEnums, CustomSearch, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
@@ -81,6 +82,16 @@ class Theme extends Model implements Auditable
     protected $casts = [
         'type' => 'int',
     ];
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->slug;
+    }
 
     /**
      * Gets the anime that owns the theme.

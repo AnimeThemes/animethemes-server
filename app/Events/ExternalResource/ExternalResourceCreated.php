@@ -22,7 +22,7 @@ class ExternalResourceCreated extends ExternalResourceEvent implements DiscordMe
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Resource Created', [
-            'description' => "Resource '{$resource->link}' has been created.",
+            'description' => "Resource '{$resource->getName()}' has been created.",
         ]);
     }
 }

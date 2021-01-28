@@ -7,6 +7,7 @@ use App\Events\Entry\EntryDeleted;
 use App\Events\Entry\EntryDeleting;
 use App\Events\Entry\EntryUpdated;
 use App\Pivots\VideoEntry;
+use App\Contracts\Nameable;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Entry extends Model implements Auditable
+class Entry extends Model implements Auditable, Nameable
 {
     use CustomSearch, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
@@ -80,7 +81,7 @@ class Entry extends Model implements Auditable
     }
 
     /**
-     * Get readable name for entry.
+     * Get name.
      *
      * @return string
      */

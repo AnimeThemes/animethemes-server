@@ -9,11 +9,12 @@ use App\Events\ExternalResource\ExternalResourceUpdated;
 use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
 use BenSampo\Enum\Traits\CastsEnums;
+use App\Contracts\Nameable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class ExternalResource extends Model implements Auditable
+class ExternalResource extends Model implements Auditable, Nameable
 {
     use CastsEnums, HasFactory;
     use \OwenIt\Auditing\Auditable;
@@ -63,6 +64,16 @@ class ExternalResource extends Model implements Auditable
     protected $casts = [
         'site' => 'int',
     ];
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->link;
+    }
 
     /**
      * Get the anime that reference this resource.

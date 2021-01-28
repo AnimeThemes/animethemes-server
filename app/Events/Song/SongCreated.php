@@ -25,7 +25,7 @@ class SongCreated extends SongEvent implements DiscordMessageEvent, UpdateRelate
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Song Created', [
-            'description' => "Song '{$song->title}' has been created.",
+            'description' => "Song '{$song->getName()}' has been created.",
         ]);
     }
 

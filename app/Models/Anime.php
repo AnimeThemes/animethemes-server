@@ -11,13 +11,14 @@ use App\Pivots\AnimeImage;
 use App\Pivots\AnimeResource;
 use App\Pivots\AnimeSeries;
 use BenSampo\Enum\Traits\CastsEnums;
+use App\Contracts\Nameable;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Anime extends Model implements Auditable
+class Anime extends Model implements Auditable, Nameable
 {
     use CastsEnums, CustomSearch, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
@@ -91,6 +92,16 @@ class Anime extends Model implements Auditable
     protected $casts = [
         'season' => 'int',
     ];
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
     /**
      * Get the synonyms for the anime.

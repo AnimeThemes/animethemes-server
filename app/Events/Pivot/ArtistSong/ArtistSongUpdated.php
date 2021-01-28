@@ -37,7 +37,7 @@ class ArtistSongUpdated extends ArtistSongEvent implements DiscordMessageEvent, 
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Song Updated', [
-            'description' => "Song '{$song->title}' for Artist '{$artist->name}' has been updated.",
+            'description' => "Song '{$song->getName()}' for Artist '{$artist->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),
         ]);
     }

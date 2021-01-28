@@ -36,7 +36,7 @@ class ArtistResourceUpdated extends ArtistResourceEvent implements DiscordMessag
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Resource Updated', [
-            'description' => "Resource '{$resource->link}' for Artist '{$artist->name}' has been updated.",
+            'description' => "Resource '{$resource->getName()}' for Artist '{$artist->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),
         ]);
     }

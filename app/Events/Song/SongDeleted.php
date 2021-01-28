@@ -21,7 +21,7 @@ class SongDeleted extends SongEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Song Deleted', [
-            'description' => "Song '{$song->title}' has been deleted.",
+            'description' => "Song '{$song->getName()}' has been deleted.",
         ]);
     }
 }

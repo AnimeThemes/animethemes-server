@@ -22,7 +22,7 @@ class ArtistCreated extends ArtistEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Artist Created', [
-            'description' => "Artist '{$artist->name}' has been created.",
+            'description' => "Artist '{$artist->getName()}' has been created.",
         ]);
     }
 }

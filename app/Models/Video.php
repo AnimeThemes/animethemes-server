@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\Nameable;
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
 use App\Events\Video\VideoCreated;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Video extends Model implements Auditable, Viewable
+class Video extends Model implements Auditable, Nameable,Viewable
 {
     use CastsEnums, CustomSearch, HasFactory, InteractsWithViews, Searchable;
     use \OwenIt\Auditing\Auditable;
@@ -133,6 +134,16 @@ class Video extends Model implements Auditable, Viewable
         'lyrics' => 'boolean',
         'uncen' => 'boolean',
     ];
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->filename;
+    }
 
     /**
      * Get the related entries.

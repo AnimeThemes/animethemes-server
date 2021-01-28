@@ -26,7 +26,7 @@ class SynonymCreated extends SynonymEvent implements DiscordMessageEvent, Update
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Synonym Created', [
-            'description' => "Synonym '{$synonym->text}' has been created for Anime '{$anime->name}'.",
+            'description' => "Synonym '{$synonym->getName()}' has been created for Anime '{$anime->getName()}'.",
         ]);
     }
 

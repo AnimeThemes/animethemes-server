@@ -21,7 +21,7 @@ class SeriesDeleted extends SeriesEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Series Deleted', [
-            'description' => "Series '{$series->name}' has been deleted.",
+            'description' => "Series '{$series->getName()}' has been deleted.",
         ]);
     }
 }

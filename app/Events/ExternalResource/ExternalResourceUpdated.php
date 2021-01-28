@@ -35,7 +35,7 @@ class ExternalResourceUpdated extends ExternalResourceEvent implements DiscordMe
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Resource Updated', [
-            'description' => "Resource '{$resource->link}' has been updated.",
+            'description' => "Resource '{$resource->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),
         ]);
     }

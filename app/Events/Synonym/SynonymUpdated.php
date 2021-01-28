@@ -39,7 +39,7 @@ class SynonymUpdated extends SynonymEvent implements DiscordMessageEvent, Update
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Synonym Updated', [
-            'description' => "Synonym '{$synonym->text}' has been updated for Anime '{$anime->name}'.",
+            'description' => "Synonym '{$synonym->getName()}' has been updated for Anime '{$anime->getName()}'.",
             'fields' => $this->getEmbedFields(),
         ]);
     }

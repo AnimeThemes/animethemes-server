@@ -25,7 +25,7 @@ class SynonymDeleted extends SynonymEvent implements DiscordMessageEvent, Update
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Synonym Deleted', [
-            'description' => "Synonym '{$synonym->text}' has been deleted for Anime '{$anime->name}'.",
+            'description' => "Synonym '{$synonym->getName()}' has been deleted for Anime '{$anime->getName()}'.",
         ]);
     }
 

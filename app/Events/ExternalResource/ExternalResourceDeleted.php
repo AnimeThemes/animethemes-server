@@ -21,7 +21,7 @@ class ExternalResourceDeleted extends ExternalResourceEvent implements DiscordMe
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Resource Deleted', [
-            'description' => "Resource '{$resource->link}' has been deleted.",
+            'description' => "Resource '{$resource->getName()}' has been deleted.",
         ]);
     }
 }

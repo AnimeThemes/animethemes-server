@@ -21,7 +21,7 @@ class ArtistDeleted extends ArtistEvent implements DiscordMessageEvent
 
         // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Artist Deleted', [
-            'description' => "Artist '{$artist->name}' has been deleted.",
+            'description' => "Artist '{$artist->getName()}' has been deleted.",
         ]);
     }
 }
