@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use App\Contracts\Nameable;
 use App\Events\Entry\EntryCreated;
 use App\Events\Entry\EntryDeleted;
 use App\Events\Entry\EntryDeleting;
 use App\Events\Entry\EntryUpdated;
 use App\Pivots\VideoEntry;
-use App\Contracts\Nameable;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\Nameable;
 use App\Enums\ResourceSite;
 use App\Events\ExternalResource\ExternalResourceCreated;
 use App\Events\ExternalResource\ExternalResourceDeleted;
@@ -9,7 +10,6 @@ use App\Events\ExternalResource\ExternalResourceUpdated;
 use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
 use BenSampo\Enum\Traits\CastsEnums;
-use App\Contracts\Nameable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;

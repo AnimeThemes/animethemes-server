@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\Nameable;
 use App\Enums\ImageFacet;
 use App\Events\Image\ImageCreated;
 use App\Events\Image\ImageDeleted;
@@ -9,7 +10,6 @@ use App\Events\Image\ImageUpdated;
 use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
 use BenSampo\Enum\Traits\CastsEnums;
-use App\Contracts\Nameable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;

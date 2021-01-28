@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use App\Contracts\Nameable;
 use App\Events\Series\SeriesCreated;
 use App\Events\Series\SeriesDeleted;
 use App\Events\Series\SeriesUpdated;
 use App\Pivots\AnimeSeries;
-use App\Contracts\Nameable;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
