@@ -90,7 +90,6 @@ class Series extends Resource
                 ->separator('_')
                 ->sortable()
                 ->rules('required', 'max:192', 'alpha_dash')
-                ->creationRules('unique:series,slug')
                 ->updateRules('unique:series,slug,{{resourceId}},series_id')
                 ->help(__('nova.series_slug_help')),
 
