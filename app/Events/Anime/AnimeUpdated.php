@@ -2,8 +2,8 @@
 
 namespace App\Events\Anime;
 
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
+use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Models\Anime;
 use App\Models\Entry;

@@ -4,8 +4,8 @@ namespace App\Events\Pivot\ArtistSong;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
-use App\Pivots\ArtistSong;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Pivots\ArtistSong;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
