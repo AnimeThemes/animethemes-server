@@ -33,6 +33,7 @@
         "livewire/livewire": "^2.3.3",
         "olssonm/l5-zxcvbn": "^4.4",
         "owen-it/laravel-auditing": "^12.0",
+        "predis/predis": "^1.1",
         "sfelix-martins/json-exception-handler": "^2.3",
         "spatie/db-dumper": "^2.18",
         "spatie/laravel-json-api-paginate": "^1.10",

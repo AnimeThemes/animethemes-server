@@ -3,11 +3,10 @@
 namespace App\Listeners;
 
 use App\Contracts\Events\DiscordMessageEvent;
-use App\Notifications\DiscordNotification;
+use App\Jobs\SendDiscordNotification as SendDiscordNotificationJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Notification;
 
 class SendDiscordNotification implements ShouldQueue
 {
@@ -22,8 +21,7 @@ class SendDiscordNotification implements ShouldQueue
     public function handle(DiscordMessageEvent $event)
     {
         if (Config::get('app.allow_discord_notifications', false)) {
-            Notification::route('discord', $event->getDiscordChannel())
-                ->notify(new DiscordNotification($event->getDiscordMessage()));
+            SendDiscordNotificationJob::dispatch($event);
         }
     }
 }
