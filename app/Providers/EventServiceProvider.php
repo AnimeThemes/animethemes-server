@@ -6,6 +6,9 @@ use App\Events\Anime\AnimeCreated;
 use App\Events\Anime\AnimeDeleted;
 use App\Events\Anime\AnimeDeleting;
 use App\Events\Anime\AnimeUpdated;
+use App\Events\Announcement\AnnouncementCreated;
+use App\Events\Announcement\AnnouncementDeleted;
+use App\Events\Announcement\AnnouncementUpdated;
 use App\Events\Artist\ArtistCreated;
 use App\Events\Artist\ArtistDeleted;
 use App\Events\Artist\ArtistUpdated;
@@ -113,6 +116,15 @@ class EventServiceProvider extends ServiceProvider
         ],
         AnimeUpdated::class => [
             UpdateRelatedIndices::class,
+            SendDiscordNotification::class,
+        ],
+        AnnouncementCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        AnnouncementDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        AnnouncementUpdated::class => [
             SendDiscordNotification::class,
         ],
         ArtistCreated::class => [
