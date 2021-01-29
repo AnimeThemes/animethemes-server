@@ -61,6 +61,9 @@ use App\Events\Theme\ThemeCreating;
 use App\Events\Theme\ThemeDeleted;
 use App\Events\Theme\ThemeDeleting;
 use App\Events\Theme\ThemeUpdated;
+use App\Events\User\UserCreated;
+use App\Events\User\UserDeleted;
+use App\Events\User\UserUpdated;
 use App\Events\Video\VideoCreated;
 use App\Events\Video\VideoCreating;
 use App\Events\Video\VideoDeleted;
@@ -273,6 +276,15 @@ class EventServiceProvider extends ServiceProvider
         ],
         ThemeUpdated::class => [
             UpdateRelatedIndices::class,
+            SendDiscordNotification::class,
+        ],
+        UserCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        UserDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        UserUpdated::class => [
             SendDiscordNotification::class,
         ],
         VideoCreated::class => [

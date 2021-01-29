@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
+use App\Contracts\Nameable;
 use App\Enums\UserRole;
+use App\Events\User\UserCreated;
+use App\Events\User\UserDeleted;
+use App\Events\User\UserUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, Nameable
 {
     use CastsEnums;
     use HasApiTokens;
@@ -29,6 +33,19 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'role',
+    ];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => UserCreated::class,
+        'deleted' => UserDeleted::class,
+        'updated' => UserUpdated::class,
     ];
 
     /**
@@ -59,6 +76,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'role' => 'int',
     ];
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
     /**
      * @return bool
