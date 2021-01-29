@@ -2,15 +2,28 @@
 
 namespace App\Events\Invitation;
 
+use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Models\Invitation;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
-class InvitationCreated extends InvitationEvent implements DiscordMessageEvent
+class InvitationUpdated extends InvitationEvent implements DiscordMessageEvent
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable, HasAttributeUpdateEmbedFields;
+
+    /**
+     * Create a new event instance.
+     *
+     * @param \App\Models\Invitation $invitation
+     * @return void
+     */
+    public function __construct(Invitation $invitation)
+    {
+        parent::__construct($invitation);
+        $this->initializeEmbedFields($invitation);
+    }
 
     /**
      * Get Discord message payload.
@@ -22,8 +35,9 @@ class InvitationCreated extends InvitationEvent implements DiscordMessageEvent
         $invitation = $this->getInvitation();
 
         // TODO: messages shouldn't be hard-coded
-        return DiscordMessage::create('Invitation Created', [
-            'description' => "Invitation '{$invitation->getName()}' has been created.",
+        return DiscordMessage::create('Invitation Updated', [
+            'description' => "Invitation '{$invitation->getName()}' has been updated.",
+            'fields' => $this->getEmbedFields(),
         ]);
     }
 

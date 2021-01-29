@@ -24,6 +24,8 @@ use App\Events\Image\ImageDeleted;
 use App\Events\Image\ImageUpdated;
 use App\Events\Invitation\InvitationCreated;
 use App\Events\Invitation\InvitationCreating;
+use App\Events\Invitation\InvitationDeleted;
+use App\Events\Invitation\InvitationUpdated;
 use App\Events\Pivot\AnimeImage\AnimeImageCreated;
 use App\Events\Pivot\AnimeImage\AnimeImageDeleted;
 use App\Events\Pivot\AnimeResource\AnimeResourceCreated;
@@ -207,9 +209,16 @@ class EventServiceProvider extends ServiceProvider
         ],
         InvitationCreated::class => [
             SendInvitationMail::class,
+            SendDiscordNotification::class,
         ],
         InvitationCreating::class => [
             CreateInvitationToken::class,
+        ],
+        InvitationDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        InvitationUpdated::class => [
+            SendDiscordNotification::class,
         ],
         Registered::class => [
             SendEmailVerificationNotification::class,

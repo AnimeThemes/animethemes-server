@@ -2,20 +2,25 @@
 
 namespace App\Models;
 
+use App\Contracts\Nameable;
 use App\Enums\InvitationStatus;
 use App\Enums\UserRole;
 use App\Events\Invitation\InvitationCreated;
 use App\Events\Invitation\InvitationCreating;
+use App\Events\Invitation\InvitationDeleted;
+use App\Events\Invitation\InvitationUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use ParagonIE\ConstantTime\Base32;
 
-class Invitation extends Model implements Auditable
+class Invitation extends Model implements Auditable, Nameable
 {
     use CastsEnums, HasFactory;
     use \OwenIt\Auditing\Auditable;
+
+    protected $fillable = ['name', 'email', 'role', 'status'];
 
     /**
      * The event map for the model.
@@ -27,6 +32,8 @@ class Invitation extends Model implements Auditable
     protected $dispatchesEvents = [
         'created' => InvitationCreated::class,
         'creating' => InvitationCreating::class,
+        'deleted' => InvitationDeleted::class,
+        'updated' => InvitationUpdated::class,
     ];
 
     /**
@@ -60,6 +67,16 @@ class Invitation extends Model implements Auditable
         'role' => 'int',
         'status' => 'int',
     ];
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
     /**
      * @return bool

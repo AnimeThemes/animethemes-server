@@ -4,13 +4,12 @@ namespace App\Events\Invitation;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
-class InvitationCreated extends InvitationEvent implements DiscordMessageEvent
+class InvitationDeleted extends InvitationEvent implements DiscordMessageEvent
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
 
     /**
      * Get Discord message payload.
@@ -22,8 +21,8 @@ class InvitationCreated extends InvitationEvent implements DiscordMessageEvent
         $invitation = $this->getInvitation();
 
         // TODO: messages shouldn't be hard-coded
-        return DiscordMessage::create('Invitation Created', [
-            'description' => "Invitation '{$invitation->getName()}' has been created.",
+        return DiscordMessage::create('Invitation Deleted', [
+            'description' => "Invitation '{$invitation->getName()}' has been deleted.",
         ]);
     }
 
