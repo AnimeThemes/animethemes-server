@@ -94,7 +94,8 @@ class Image extends Resource
             NovaImage::make(__('nova.image'), 'path')
                 ->disk('images')
                 ->acceptedTypes('image/*')
-                ->rules('required', 'image'),
+                ->creationRules('required', 'image')
+                ->updateRules('image'),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
                 ->searchable(),

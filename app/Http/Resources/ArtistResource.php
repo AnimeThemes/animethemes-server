@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\JsonApi\Traits\PerformsResourceQuery;
+use App\Concerns\JsonApi\PerformsResourceQuery;
 use Illuminate\Support\Str;
 
 /**

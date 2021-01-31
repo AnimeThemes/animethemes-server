@@ -30,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'discord' => [
+        'token' => env('DISCORD_BOT_API_TOKEN'),
+        'db_updates_discord_channel' => env('DB_UPDATES_DISCORD_CHANNEL'),
+        'admin_discord_channel' => env('ADMIN_DISCORD_CHANNEL'),
+    ],
 ];

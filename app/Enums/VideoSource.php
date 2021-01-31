@@ -12,4 +12,5 @@ final class VideoSource extends Enum implements LocalizedEnum
     const BD = 2;
     const DVD = 3;
     const VHS = 4;
+    const LD = 5;
 }

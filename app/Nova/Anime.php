@@ -108,7 +108,6 @@ class Anime extends Resource
                 ->separator('_')
                 ->sortable()
                 ->rules('required', 'max:192', 'alpha_dash')
-                ->creationRules('unique:anime,slug')
                 ->updateRules('unique:anime,slug,{{resourceId}},anime_id')
                 ->help(__('nova.anime_slug_help')),
 

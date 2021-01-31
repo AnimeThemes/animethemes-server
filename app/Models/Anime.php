@@ -2,7 +2,15 @@
 
 namespace App\Models;
 
+use App\Contracts\Nameable;
 use App\Enums\AnimeSeason;
+use App\Events\Anime\AnimeCreated;
+use App\Events\Anime\AnimeDeleted;
+use App\Events\Anime\AnimeDeleting;
+use App\Events\Anime\AnimeUpdated;
+use App\Pivots\AnimeImage;
+use App\Pivots\AnimeResource;
+use App\Pivots\AnimeSeries;
 use BenSampo\Enum\Traits\CastsEnums;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Anime extends Model implements Auditable
+class Anime extends Model implements Auditable, Nameable
 {
     use CastsEnums, CustomSearch, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
@@ -19,6 +27,20 @@ class Anime extends Model implements Auditable
      * @var array
      */
     protected $fillable = ['slug', 'name', 'year', 'season', 'synopsis'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => AnimeCreated::class,
+        'deleted' => AnimeDeleted::class,
+        'deleting' => AnimeDeleting::class,
+        'updated' => AnimeUpdated::class,
+    ];
 
     /**
      * The table associated with the model.
@@ -72,6 +94,16 @@ class Anime extends Model implements Auditable
     ];
 
     /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
      * Get the synonyms for the anime.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -88,7 +120,7 @@ class Anime extends Model implements Auditable
      */
     public function series()
     {
-        return $this->belongsToMany('App\Models\Series', 'anime_series', 'anime_id', 'series_id');
+        return $this->belongsToMany('App\Models\Series', 'anime_series', 'anime_id', 'series_id')->using(AnimeSeries::class);
     }
 
     /**
@@ -108,7 +140,7 @@ class Anime extends Model implements Auditable
      */
     public function externalResources()
     {
-        return $this->belongsToMany('App\Models\ExternalResource', 'anime_resource', 'anime_id', 'resource_id')->withPivot('as');
+        return $this->belongsToMany('App\Models\ExternalResource', 'anime_resource', 'anime_id', 'resource_id')->using(AnimeResource::class)->withPivot('as');
     }
 
     /**
@@ -118,6 +150,6 @@ class Anime extends Model implements Auditable
      */
     public function images()
     {
-        return $this->belongsToMany('App\Models\Image', 'anime_image', 'anime_id', 'image_id');
+        return $this->belongsToMany('App\Models\Image', 'anime_image', 'anime_id', 'image_id')->using(AnimeImage::class);
     }
 }

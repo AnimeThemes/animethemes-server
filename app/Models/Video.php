@@ -2,8 +2,14 @@
 
 namespace App\Models;
 
+use App\Contracts\Nameable;
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
+use App\Events\Video\VideoCreated;
+use App\Events\Video\VideoCreating;
+use App\Events\Video\VideoDeleted;
+use App\Events\Video\VideoUpdated;
+use App\Pivots\VideoEntry;
 use BenSampo\Enum\Traits\CastsEnums;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
@@ -13,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Video extends Model implements Auditable, Viewable
+class Video extends Model implements Auditable, Nameable, Viewable
 {
     use CastsEnums, CustomSearch, HasFactory, InteractsWithViews, Searchable;
     use \OwenIt\Auditing\Auditable;
@@ -22,6 +28,20 @@ class Video extends Model implements Auditable, Viewable
      * @var array
      */
     protected $fillable = ['basename', 'filename', 'path', 'size'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => VideoCreated::class,
+        'creating' => VideoCreating::class,
+        'deleted' => VideoDeleted::class,
+        'updated' => VideoUpdated::class,
+    ];
 
     /**
      * The table associated with the model.
@@ -116,12 +136,22 @@ class Video extends Model implements Auditable, Viewable
     ];
 
     /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->filename;
+    }
+
+    /**
      * Get the related entries.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function entries()
     {
-        return $this->belongsToMany('App\Models\Entry', 'entry_video', 'video_id', 'entry_id');
+        return $this->belongsToMany('App\Models\Entry', 'entry_video', 'video_id', 'entry_id')->using(VideoEntry::class);
     }
 }

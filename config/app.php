@@ -140,6 +140,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Allow Discord Notifications
+    |--------------------------------------------------------------------------
+    |
+    | When discord notifications are allowed, event listeners shall send discord
+    | notifications to the configured discord channel through the configured bot.
+    | If discord notifications are not allowed, event listeners shall not send
+    | discord notifications.
+    |
+    */
+
+    'allow_discord_notifications' => (bool) env('ALLOW_DISCORD_NOTIFICATIONS', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | MAL Bearer Token
     |--------------------------------------------------------------------------
     |
@@ -204,7 +218,6 @@ return [
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
         App\Providers\NovaServiceProvider::class,
-        App\Providers\ObserverServiceProvider::class,
         L5Swagger\L5SwaggerServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         MattAllan\LaravelCodeStyle\ServiceProvider::class,
@@ -215,6 +228,7 @@ return [
         ElasticMigrations\ServiceProvider::class,
         ElasticScoutDriver\ServiceProvider::class,
         ElasticScoutDriverPlus\ServiceProvider::class,
+        NotificationChannels\Discord\DiscordServiceProvider::class,
     ],
 
     /*

@@ -2,6 +2,12 @@
 
 namespace App\Models;
 
+use App\Contracts\Nameable;
+use App\Events\Entry\EntryCreated;
+use App\Events\Entry\EntryDeleted;
+use App\Events\Entry\EntryDeleting;
+use App\Events\Entry\EntryUpdated;
+use App\Pivots\VideoEntry;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +15,7 @@ use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Entry extends Model implements Auditable
+class Entry extends Model implements Auditable, Nameable
 {
     use CustomSearch, HasFactory, Searchable;
     use \OwenIt\Auditing\Auditable;
@@ -19,6 +25,20 @@ class Entry extends Model implements Auditable
      * @var array
      */
     protected $fillable = ['version', 'episodes', 'nsfw', 'spoiler', 'notes'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => EntryCreated::class,
+        'deleted' => EntryDeleted::class,
+        'deleting' => EntryDeleting::class,
+        'updated' => EntryUpdated::class,
+    ];
 
     /**
      * The table associated with the model.
@@ -61,6 +81,20 @@ class Entry extends Model implements Auditable
     }
 
     /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return Str::of($this->anime->name)
+            ->append(' ')
+            ->append($this->theme->slug)
+            ->append(empty($this->version) ? '' : " V{$this->version}")
+            ->__toString();
+    }
+
+    /**
      * Get the theme that owns the entry.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -77,7 +111,7 @@ class Entry extends Model implements Auditable
      */
     public function videos()
     {
-        return $this->belongsToMany('App\Models\Video', 'entry_video', 'entry_id', 'video_id');
+        return $this->belongsToMany('App\Models\Video', 'entry_video', 'entry_id', 'video_id')->using(VideoEntry::class);
     }
 
     /**
