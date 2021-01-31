@@ -22,7 +22,6 @@ class ArtistImageDeleted extends ArtistImageEvent implements DiscordMessageEvent
         $artist = $this->getArtist();
         $image = $this->getImage();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Image Detached', [
             'description' => "Image '{$image->getName()}' has been detached from Artist '{$artist->getName()}'.",
         ]);

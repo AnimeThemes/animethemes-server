@@ -20,7 +20,6 @@ class AnnouncementDeleted extends AnnouncementEvent implements DiscordMessageEve
     {
         $announcement = $this->getAnnouncement();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Announcement Deleted', [
             'description' => "Announcement '{$announcement->getName()}' has been deleted.",
         ]);

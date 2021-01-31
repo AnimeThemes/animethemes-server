@@ -36,7 +36,6 @@ class EntryUpdated extends EntryEvent implements DiscordMessageEvent, UpdateRela
     {
         $entry = $this->getEntry();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Entry Updated', [
             'description' => "Entry '{$entry->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),

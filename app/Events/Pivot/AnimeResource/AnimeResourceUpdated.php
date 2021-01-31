@@ -35,7 +35,6 @@ class AnimeResourceUpdated extends AnimeResourceEvent implements DiscordMessageE
         $anime = $this->getAnime();
         $resource = $this->getResource();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Resource Updated', [
             'description' => "Resource '{$resource->getName()}' for Anime '{$anime->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),

@@ -34,7 +34,6 @@ class AnnouncementUpdated extends AnnouncementEvent implements DiscordMessageEve
     {
         $announcement = $this->getAnnouncement();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Announcement Updated', [
             'description' => "Announcement '{$announcement->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),

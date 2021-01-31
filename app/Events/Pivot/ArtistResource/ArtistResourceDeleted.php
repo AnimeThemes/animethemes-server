@@ -22,7 +22,6 @@ class ArtistResourceDeleted extends ArtistResourceEvent implements DiscordMessag
         $artist = $this->getArtist();
         $resource = $this->getResource();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Resource Detached', [
             'description' => "Resource '{$resource->getName()}' has been detached from Artist '{$artist->getName()}'.",
         ]);

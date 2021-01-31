@@ -23,7 +23,6 @@ class EntryCreated extends EntryEvent implements DiscordMessageEvent, UpdateRela
     {
         $entry = $this->getEntry();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Entry Created', [
             'description' => "Entry '{$entry->getName()}' has been created.",
         ]);

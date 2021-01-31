@@ -25,7 +25,6 @@ class AnimeCreated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
     {
         $anime = $this->getAnime();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Anime Created', [
             'description' => "Anime '{$anime->getName()}' has been created.",
         ]);

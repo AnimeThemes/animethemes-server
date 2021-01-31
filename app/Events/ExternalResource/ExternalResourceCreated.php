@@ -21,7 +21,6 @@ class ExternalResourceCreated extends ExternalResourceEvent implements DiscordMe
     {
         $resource = $this->getResource();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Resource Created', [
             'description' => "Resource '{$resource->getName()}' has been created.",
         ]);

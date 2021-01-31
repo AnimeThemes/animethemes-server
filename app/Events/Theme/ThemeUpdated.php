@@ -38,7 +38,6 @@ class ThemeUpdated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
         $theme = $this->getTheme();
         $anime = $this->getAnime();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Theme Updated', [
             'description' => "Theme '{$theme->getName()}' has been updated for Anime '{$anime->getName()}'.",
             'fields' => $this->getEmbedFields(),

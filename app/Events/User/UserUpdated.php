@@ -37,7 +37,6 @@ class UserUpdated extends UserEvent implements DiscordMessageEvent
     {
         $user = $this->getUser();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('User Updated', [
             'description' => "User '{$user->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),

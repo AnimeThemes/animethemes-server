@@ -35,7 +35,6 @@ class ArtistMemberUpdated extends ArtistMemberEvent implements DiscordMessageEve
         $artist = $this->getArtist();
         $member = $this->getMember();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Member Updated', [
             'description' => "Member '{$member->getName()}' for Artist '{$artist->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),

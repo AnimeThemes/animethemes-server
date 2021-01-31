@@ -21,7 +21,6 @@ class ImageCreated extends ImageEvent implements DiscordMessageEvent
     {
         $image = $this->getImage();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Image Created', [
             'description' => "Image '{$image->getName()}' has been created.",
         ]);

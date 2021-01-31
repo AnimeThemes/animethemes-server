@@ -23,7 +23,6 @@ class VideoEntryCreated extends VideoEntryEvent implements DiscordMessageEvent, 
         $video = $this->getVideo();
         $entry = $this->getEntry();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Video Attached', [
             'description' => "Video '{$video->getName()}' has been attached to Entry '{$entry->getName()}'.",
         ]);

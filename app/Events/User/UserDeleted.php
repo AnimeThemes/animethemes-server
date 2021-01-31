@@ -20,7 +20,6 @@ class UserDeleted extends UserEvent implements DiscordMessageEvent
     {
         $user = $this->getUser();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('User Deleted', [
             'description' => "User '{$user->getName()}' has been deleted.",
         ]);

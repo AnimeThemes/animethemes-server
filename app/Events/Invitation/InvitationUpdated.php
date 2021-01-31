@@ -34,7 +34,6 @@ class InvitationUpdated extends InvitationEvent implements DiscordMessageEvent
     {
         $invitation = $this->getInvitation();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Invitation Updated', [
             'description' => "Invitation '{$invitation->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),

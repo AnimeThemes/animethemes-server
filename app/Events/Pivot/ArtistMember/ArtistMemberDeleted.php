@@ -22,7 +22,6 @@ class ArtistMemberDeleted extends ArtistMemberEvent implements DiscordMessageEve
         $artist = $this->getArtist();
         $member = $this->getMember();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Member Detached', [
             'description' => "Member '{$member->getName()}' has been detached from Artist '{$artist->getName()}'.",
         ]);

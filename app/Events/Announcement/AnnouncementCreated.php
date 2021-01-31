@@ -21,7 +21,6 @@ class AnnouncementCreated extends AnnouncementEvent implements DiscordMessageEve
     {
         $announcement = $this->getAnnouncement();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Announcement Created', [
             'description' => "Announcement '{$announcement->getName()}' has been created.",
         ]);

@@ -21,7 +21,6 @@ class InvitationCreated extends InvitationEvent implements DiscordMessageEvent
     {
         $invitation = $this->getInvitation();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Invitation Created', [
             'description' => "Invitation '{$invitation->getName()}' has been created.",
         ]);

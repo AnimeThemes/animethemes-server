@@ -34,7 +34,6 @@ class VideoUpdated extends VideoEvent implements DiscordMessageEvent
     {
         $video = $this->getVideo();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Video Updated', [
             'description' => "Video '{$video->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),

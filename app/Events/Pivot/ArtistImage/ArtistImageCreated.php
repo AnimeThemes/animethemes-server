@@ -22,7 +22,6 @@ class ArtistImageCreated extends ArtistImageEvent implements DiscordMessageEvent
         $artist = $this->getArtist();
         $image = $this->getImage();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Image Attached', [
             'description' => "Image '{$image->getName()}' has been attached to Artist '{$artist->getName()}'.",
         ]);

@@ -22,7 +22,6 @@ class AnimeImageCreated extends AnimeImageEvent implements DiscordMessageEvent
         $anime = $this->getAnime();
         $image = $this->getImage();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Image Attached', [
             'description' => "Image '{$image->getName()}' has been attached to Anime '{$anime->getName()}'.",
         ]);

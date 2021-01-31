@@ -20,7 +20,6 @@ class VideoDeleted extends VideoEvent implements DiscordMessageEvent
     {
         $video = $this->getVideo();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Video Deleted', [
             'description' => "Video '{$video->getName()}' has been deleted.",
         ]);

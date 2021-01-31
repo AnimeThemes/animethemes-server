@@ -22,7 +22,6 @@ class AnimeSeriesDeleted extends AnimeSeriesEvent implements DiscordMessageEvent
         $anime = $this->getAnime();
         $series = $this->getSeries();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Anime Detached', [
             'description' => "Anime '{$anime->getName()}' has been detached from Series '{$series->getName()}'.",
         ]);

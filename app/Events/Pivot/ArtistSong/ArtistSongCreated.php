@@ -23,7 +23,6 @@ class ArtistSongCreated extends ArtistSongEvent implements DiscordMessageEvent, 
         $artist = $this->getArtist();
         $song = $this->getSong();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Song Attached', [
             'description' => "Song '{$song->getName()}' has been attached to Artist '{$artist->getName()}'.",
         ]);

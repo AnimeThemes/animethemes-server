@@ -22,7 +22,6 @@ class ArtistResourceCreated extends ArtistResourceEvent implements DiscordMessag
         $artist = $this->getArtist();
         $resource = $this->getResource();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Resource Attached', [
             'description' => "Resource '{$resource->getName()}' has been attached to Artist '{$artist->getName()}'.",
         ]);

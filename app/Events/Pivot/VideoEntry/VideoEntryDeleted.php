@@ -23,7 +23,6 @@ class VideoEntryDeleted extends VideoEntryEvent implements DiscordMessageEvent, 
         $video = $this->getVideo();
         $entry = $this->getEntry();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Video Detached', [
             'description' => "Video '{$video->getName()}' has been detached from Entry '{$entry->getName()}'.",
         ]);

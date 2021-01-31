@@ -23,7 +23,6 @@ class ArtistSongDeleted extends ArtistSongEvent implements DiscordMessageEvent, 
         $artist = $this->getArtist();
         $song = $this->getSong();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Song Detached', [
             'description' => "Song '{$song->getName()}' has been detached from Artist '{$artist->getName()}'.",
         ]);

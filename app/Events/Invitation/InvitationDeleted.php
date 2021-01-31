@@ -20,7 +20,6 @@ class InvitationDeleted extends InvitationEvent implements DiscordMessageEvent
     {
         $invitation = $this->getInvitation();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Invitation Deleted', [
             'description' => "Invitation '{$invitation->getName()}' has been deleted.",
         ]);

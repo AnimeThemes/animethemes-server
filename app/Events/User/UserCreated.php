@@ -21,7 +21,6 @@ class UserCreated extends UserEvent implements DiscordMessageEvent
     {
         $user = $this->getUser();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('User Created', [
             'description' => "User '{$user->getName()}' has been created.",
         ]);

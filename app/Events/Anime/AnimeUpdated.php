@@ -38,7 +38,6 @@ class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
     {
         $anime = $this->getAnime();
 
-        // TODO: messages shouldn't be hard-coded
         return DiscordMessage::create('Anime Updated', [
             'description' => "Anime '{$anime->getName()}' has been updated.",
             'fields' => $this->getEmbedFields(),
