@@ -69,7 +69,7 @@ class WikiPages
     ];
 
     /**
-     * Get list of years that correspond to Anime Index Year Notation
+     * Get list of years that correspond to Anime Index Year Notation.
      *
      * @param string $year
      * @return array
