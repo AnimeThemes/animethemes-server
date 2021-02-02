@@ -8,6 +8,7 @@ use App\Models\Anime;
 use GuzzleHttp\Client;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class MalSeasonYearSeeder extends Seeder
@@ -43,9 +44,12 @@ class MalSeasonYearSeeder extends Seeder
                 if (! is_null(optional($mal_resource_json)->start_season)) {
                     if (is_int($mal_resource_json->start_season->year)) {
                         $anime->year = $mal_resource_json->start_season->year;
+                        Log::info("Setting year '{$mal_resource_json->start_season->year}' for anime '{$anime->name}'");
                     }
                     if (AnimeSeason::hasKey(Str::upper($mal_resource_json->start_season->season))) {
-                        $anime->season = AnimeSeason::getValue(Str::upper($mal_resource_json->start_season->season));
+                        $season = AnimeSeason::getValue(Str::upper($mal_resource_json->start_season->season));
+                        $anime->season = $season;
+                        Log::info("Setting season '{$season}' for anime '{$anime->name}'");
                     }
                     if ($anime->isDirty()) {
                         $anime->save();
