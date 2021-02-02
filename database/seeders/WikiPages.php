@@ -14,31 +14,6 @@ class WikiPages
 
     const MISC_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/misc.json';
 
-    const YEAR_PAGES = [
-        'https://www.reddit.com/r/AnimeThemes/wiki/2000.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2001.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2002.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2003.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2004.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2005.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2006.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2007.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2008.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2009.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2010.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2011.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2012.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2013.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2014.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2015.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2016.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2017.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2018.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2019.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2020.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2021.json',
-    ];
-
     const YEAR_MAP = [
         'https://www.reddit.com/r/AnimeThemes/wiki/60s.json' => [1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969],
         'https://www.reddit.com/r/AnimeThemes/wiki/70s.json' => [1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979],

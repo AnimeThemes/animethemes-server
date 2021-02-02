@@ -10,33 +10,6 @@ use Illuminate\Support\Str;
 
 class AnimeSeasonSeeder extends Seeder
 {
-    // Hard-coded addresses of year pages
-    // I don't really care about making this more elegant
-    const YEAR_PAGES = [
-        'https://www.reddit.com/r/AnimeThemes/wiki/2000.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2001.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2002.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2003.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2004.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2005.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2006.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2007.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2008.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2009.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2010.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2011.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2012.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2013.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2014.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2015.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2016.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2017.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2018.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2019.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2020.json',
-        'https://www.reddit.com/r/AnimeThemes/wiki/2021.json',
-    ];
-
     /**
      * Run the database seeds.
      *
@@ -44,7 +17,7 @@ class AnimeSeasonSeeder extends Seeder
      */
     public function run()
     {
-        foreach (AnimeSeasonSeeder::YEAR_PAGES as $year_page) {
+        foreach (WikiPages::YEAR_MAP as $year_page => $years) {
 
             // Try not to upset Reddit
             sleep(rand(5, 15));
@@ -58,7 +31,7 @@ class AnimeSeasonSeeder extends Seeder
             preg_match_all('/^(.*)$/m', $year_wiki_content_md, $anime_season_wiki_entries, PREG_SET_ORDER);
 
             // The current year and season
-            $year = null;
+            $year = $years[0];
             $season = null;
 
             foreach ($anime_season_wiki_entries as $anime_season_wiki_entry) {
@@ -67,27 +40,27 @@ class AnimeSeasonSeeder extends Seeder
                 // If Season heading line, set the current Season
                 // Format: "##{Year} {Season} Season (Quarter)"
                 if (preg_match('/^##(\d+).*(Fall|Summer|Spring|Winter).*(?:\\r)?$/', $wiki_entry_line, $anime_season)) {
-                    $year = intval($anime_season[1]);
                     $season = AnimeSeason::getValue(Str::upper($anime_season[2]));
                     continue;
                 }
 
                 // If Anime heading line, attempt to set Anime to current Season
                 // Format: "###[{Anime Name}]({Resource Link})"
-                if (preg_match('/###\[(.*)\]\(https\:\/\/.*\)/', $wiki_entry_line, $anime_name)) {
+                if ($year !== null && $season !== null && preg_match('/###\[(.*)\]\(https\:\/\/.*\)/', $wiki_entry_line, $anime_name)) {
                     try {
                         // Set season if we have a definitive match
                         // This is not guaranteed as an Anime Name may be inconsistent between indices
                         $matching_anime = Anime::where('name', html_entity_decode($anime_name[1]))->where('year', $year);
-                        if ($matching_anime->count() === 1 && ! is_null($season)) {
+                        if ($matching_anime->count() === 1) {
                             $anime = $matching_anime->first();
                             $anime->season = $season;
                             if ($anime->isDirty()) {
+                                Log::info("Setting season '{$season}' for anime '{$anime->name}'");
                                 $anime->save();
                             }
                         }
                     } catch (\Exception $exception) {
-                        LOG::error($exception);
+                        Log::error($exception);
                     }
 
                     continue;

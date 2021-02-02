@@ -23,7 +23,7 @@ class ResourceSiteDomainRuleTest extends TestCase
 
         $url = null;
         $domain = ResourceSite::getDomain($site->value);
-        if ($domain != null) {
+        if ($domain !== null) {
             $url = 'https://'.$domain;
         }
 
@@ -55,7 +55,7 @@ class ResourceSiteDomainRuleTest extends TestCase
     {
         $site = null;
 
-        while ($site == null) {
+        while ($site === null) {
             $site_candidate = ResourceSite::getRandomInstance();
             if (! $site_candidate->is(ResourceSite::OFFICIAL_SITE)) {
                 $site = $site_candidate;
