@@ -41,10 +41,10 @@ class AniDbResourceSeeder extends Seeder
                     $response = $client->get('https://relations.yuna.moe/api/ids?source=myanimelist&id='.$mal_resource->external_id);
 
                     $anidb_resource_json = json_decode($response->getBody()->getContents());
-                    $anidb_id = $anidb_resource_json != null && property_exists($anidb_resource_json, 'anidb') ? $anidb_resource_json->anidb : null;
+                    $anidb_id = $anidb_resource_json !== null && property_exists($anidb_resource_json, 'anidb') ? $anidb_resource_json->anidb : null;
 
                     // Only proceed if we have a match
-                    if ($anidb_id != null) {
+                    if ($anidb_id !== null) {
 
                         // Check if AniDB resource already exists
                         $anidb_resource = ExternalResource::where('site', ResourceSite::ANIDB)->where('external_id', $anidb_id)->first();

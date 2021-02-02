@@ -20,7 +20,7 @@ class HasInvitation
 
         $invitation = Invitation::where('token', $token)->first();
 
-        if ($invitation == null || ! $invitation->isOpen()) {
+        if ($invitation === null || ! $invitation->isOpen()) {
             return redirect(route('welcome'));
         }
 

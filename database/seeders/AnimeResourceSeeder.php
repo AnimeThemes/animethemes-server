@@ -38,7 +38,7 @@ class AnimeResourceSeeder extends Seeder
 
                 // Create Resource Model with link and derived site if it doesn't already exist
                 $resource = ExternalResource::where('site', ResourceSite::valueOf($resource_link))->where('link', $resource_link)->first();
-                if ($resource == null) {
+                if ($resource === null) {
                     Log::info("Creating resource '{$resource_link}'");
                     $resource = ExternalResource::create(
                         [
