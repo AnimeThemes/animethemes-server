@@ -111,7 +111,7 @@ class AnimeThemeSeeder extends Seeder
 
                 // If group line, attempt to set current group
                 // Format: "{Group}"
-                if (! is_null($anime) && preg_match('/^([a-zA-Z0-9- ]+)(?:\\r)?$/', $wiki_entry_line, $group_name)) {
+                if (! is_null($anime) && preg_match('/^([a-zA-Z0-9- \+]+)(?:\\r)?$/', $wiki_entry_line, $group_name)) {
                     $group_text = Str::of(html_entity_decode($group_name[1]))->trim();
                     if (! empty($group_text)) {
                         $group = $group_text;
