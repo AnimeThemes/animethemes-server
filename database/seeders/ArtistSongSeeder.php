@@ -7,7 +7,6 @@ use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Theme;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -20,29 +19,21 @@ class ArtistSongSeeder extends Seeder
      */
     public function run()
     {
-        // Remove any existing rows in Artist-Song pivot table
-        // We want this table to match the subreddit wiki
-        DB::table('artist_song')->delete();
-
         // Get JSON of Artist Index page content
-        $artist_wiki_contents = file_get_contents('https://old.reddit.com/r/AnimeThemes/wiki/artist.json');
+        $artist_wiki_contents = file_get_contents(WikiPages::ARTIST_INDEX);
         $artist_wiki_json = json_decode($artist_wiki_contents);
         $artist_wiki_content_md = $artist_wiki_json->data->content_md;
 
         // Match Artist Entries
-        // Format: "[{Artist Name}](/r/AnimeThemes/wiki/artist/{Artist Slug}/)
-        preg_match_all('/\[(.*)\]\((\/r\/AnimeThemes\/wiki\/artist\/(.*))\)/m', $artist_wiki_content_md, $artist_wiki_entries, PREG_SET_ORDER);
+        // Format: "[{Artist Name}](/r/AnimeThemes/wiki/artist/{Artist Slug}/)"
+        preg_match_all('/\[(.*)\]\(\/r\/AnimeThemes\/wiki\/artist\/(.*)\)/m', $artist_wiki_content_md, $artist_wiki_entries, PREG_SET_ORDER);
 
         foreach ($artist_wiki_entries as $artist_wiki_entry) {
             $artist_name = html_entity_decode($artist_wiki_entry[1]);
-            $artist_link = 'https://old.reddit.com'.$artist_wiki_entry[2].'.json';
+            $artist_slug = html_entity_decode($artist_wiki_entry[2]);
 
-            $artist = null;
-
-            try {
-                $artist = Artist::where('name', $artist_name)->firstOrFail();
-            } catch (\Exception $exception) {
-                LOG::error($exception);
+            $artist = Artist::where('name', $artist_name)->where('slug', $artist_slug)->first();
+            if ($artist === null) {
                 continue;
             }
 
@@ -50,6 +41,7 @@ class ArtistSongSeeder extends Seeder
             sleep(rand(5, 15));
 
             // Get JSON of Artist Entry page content
+            $artist_link = WikiPages::getArtistPage($artist_slug);
             $artist_song_wiki_contents = file_get_contents($artist_link);
             $artist_song_wiki_json = json_decode($artist_song_wiki_contents);
             $artist_song_wiki_content_md = $artist_song_wiki_json->data->content_md;
@@ -75,7 +67,7 @@ class ArtistSongSeeder extends Seeder
                             continue;
                         }
                     } catch (\Exception $exception) {
-                        LOG::error($exception);
+                        Log::error($exception);
                     }
 
                     $anime = null;
@@ -84,35 +76,32 @@ class ArtistSongSeeder extends Seeder
 
                 // If Theme line, attempt to load Theme and associate Song to Artist
                 // Format: "{OP|ED}{Sequence} V{Version} "{Song Title}" by {by}|[Webm {Tags}](https://animethemes.moe/video/{Video Basename})|{Episodes}|{Notes}"
-                if (! is_null($anime) && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\"(?:\sby\s(.*))?\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wiki_entry_line, $theme_match)) {
-                    $theme_type = $theme_match[1];
-                    $sequence = $theme_match[2];
-                    $version = $theme_match[3];
+                if (! is_null($anime) && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\".*\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wiki_entry_line, $theme_match)) {
+                    $theme_type = ThemeType::getValue(Str::upper($theme_match[1]));
+                    $sequence = is_numeric($theme_match[2]) ? intval($theme_match[2]) : null;
+                    $version = is_numeric($theme_match[3]) ? intval($theme_match[3]) : null;
 
-                    // Create Theme if no version or V1
-                    if (! is_numeric($version) || intval($version) === 1) {
+                    if ($version === null || intval($version) === 1) {
+                        $matching_themes = Theme::where('anime_id', $anime->anime_id)
+                            ->where('type', $theme_type)
+                            ->where(function ($query) use ($sequence) {
+                                if (intval($sequence) === 1) {
+                                    // Edge Case: "OP|ED" has become "OP1|ED1"
+                                    $query->where('sequence', $sequence)->orWhereNull('sequence');
+                                } else {
+                                    $query->where('sequence', $sequence);
+                                }
+                            })
+                            ->get();
 
-                        // Load Song through Theme
-                        $query = Theme::query();
-                        $query = $query->where('anime_id', $anime->anime_id)
-                            ->where('type', ThemeType::getValue(Str::upper($theme_type)));
-                        if (is_numeric($sequence)) {
-                            $query = $query->where('sequence', intval($sequence));
-                        } else {
-                            $query = $query->whereNull('sequence');
-                        }
+                        if ($matching_themes->count() === 1) {
+                            $theme = $matching_themes->first();
+                            $song = $theme->song;
 
-                        try {
-                            $matching_themes = $query->get();
-                            if ($matching_themes->count() === 1) {
-                                $theme = $matching_themes->first();
-
-                                $song = $theme->song;
-
+                            if ($song !== null && ! $artist->songs->contains($song)) {
+                                Log::info("Attaching song '{$song->title}' to artist '{$artist->name}'");
                                 $artist->songs()->attach($song);
                             }
-                        } catch (\Exception $exception) {
-                            LOG::error($exception);
                         }
                     }
                 }

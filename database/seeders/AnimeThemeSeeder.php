@@ -268,14 +268,10 @@ class AnimeThemeSeeder extends Seeder
      */
     private static function attach_video_to_entry($video_basename, $entry): void
     {
-        try {
-            $video = Video::where('basename', $video_basename)->firstOrFail();
-            if (! $entry->videos->contains($video)) {
-                Log::info("Attaching video '{$video->basename}' to entry '{$entry->getName()}'");
-                $entry->videos()->attach($video);
-            }
-        } catch (\Exception $exception) {
-            Log::error($exception);
+        $video = Video::where('basename', $video_basename)->first();
+        if ($video !== null && ! $entry->videos->contains($video)) {
+            Log::info("Attaching video '{$video->basename}' to entry '{$entry->getName()}'");
+            $entry->videos()->attach($video);
         }
     }
 }
