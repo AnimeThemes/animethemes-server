@@ -50,11 +50,11 @@ class AnimeThemeSeeder extends Seeder
                 // Format: "##{Year} {Season} Season (Quarter)"
                 if (preg_match('/^##(\d+).*(Fall|Summer|Spring|Winter).*(?:\\r)?$/', $wiki_entry_line, $anime_season)) {
                     $season = AnimeSeason::getValue(Str::upper($anime_season[2]));
-                    continue;
                     $anime = null;
                     $group = null;
                     $theme = null;
                     $entry = null;
+                    continue;
                 }
 
                 // If Anime heading line, attempt to set current Anime

@@ -3997,16 +3997,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v2.3.13",
+            "version": "v2.3.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "80a734ed3a2688a1f3558e12b3f679e1407ba455"
+                "reference": "1d76638b54a0f952f4f0334a33dfcfefc456ea4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/80a734ed3a2688a1f3558e12b3f679e1407ba455",
-                "reference": "80a734ed3a2688a1f3558e12b3f679e1407ba455",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/1d76638b54a0f952f4f0334a33dfcfefc456ea4a",
+                "reference": "1d76638b54a0f952f4f0334a33dfcfefc456ea4a",
                 "shasum": ""
             },
             "require": {
@@ -4057,7 +4057,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v2.3.13"
+                "source": "https://github.com/livewire/livewire/tree/v2.3.15"
             },
             "funding": [
                 {
@@ -4065,7 +4065,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-03T14:33:58+00:00"
+            "time": "2021-02-04T16:39:14+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -6143,16 +6143,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.41.1",
+            "version": "v3.42.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "4be20654c612b09863e7952ad9a572583e55d0b7"
+                "reference": "2a3afb84402e108f7c426fc7a6873b9e063e05c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/4be20654c612b09863e7952ad9a572583e55d0b7",
-                "reference": "4be20654c612b09863e7952ad9a572583e55d0b7",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/2a3afb84402e108f7c426fc7a6873b9e063e05c6",
+                "reference": "2a3afb84402e108f7c426fc7a6873b9e063e05c6",
                 "shasum": ""
             },
             "type": "library",
@@ -6198,9 +6198,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.41.1"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.42.0"
             },
-            "time": "2021-01-28T19:56:37+00:00"
+            "time": "2021-02-04T18:21:00+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
