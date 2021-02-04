@@ -59,4 +59,32 @@ class WikiPages
 
         return [];
     }
+
+    /**
+     * Get address of artist page.
+     *
+     * @param string $slug
+     * @return string
+     */
+    public static function getArtistPage(string $slug)
+    {
+        return Str::of('https://www.reddit.com/r/AnimeThemes/wiki/artist/')
+            ->append($slug)
+            ->append('.json')
+            ->__toString();
+    }
+
+    /**
+     * Get address of series page.
+     *
+     * @param string $slug
+     * @return string
+     */
+    public static function getSeriesPage(string $slug)
+    {
+        return Str::of('https://www.reddit.com/r/AnimeThemes/wiki/series/')
+            ->append($slug)
+            ->append('.json')
+            ->__toString();
+    }
 }

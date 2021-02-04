@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Anime;
 use App\Models\Series;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SeriesSeeder extends Seeder
 {
@@ -16,35 +16,34 @@ class SeriesSeeder extends Seeder
      */
     public function run()
     {
-        // Remove any existing rows in Series-related tables
-        // We want these tables to match the subreddit wiki
-        DB::table('anime_series')->delete();
-        DB::table('series')->delete();
-
         // Get JSON of Series Index page content
-        $series_wiki_contents = file_get_contents('https://old.reddit.com/r/AnimeThemes/wiki/series.json');
+        $series_wiki_contents = file_get_contents(WikiPages::SERIES_INDEX);
         $series_wiki_json = json_decode($series_wiki_contents);
         $series_wiki_content_md = $series_wiki_json->data->content_md;
 
         // Match Series Entries
         // Format: "[{Series Name}](/r/AnimeThemes/wiki/series/{Series Slug}/)
-        preg_match_all('/\[(.*)\]\((\/r\/AnimeThemes\/wiki\/series\/(.*))\)/m', $series_wiki_content_md, $series_wiki_entries, PREG_SET_ORDER);
+        preg_match_all('/\[(.*)\]\(\/r\/AnimeThemes\/wiki\/series\/(.*)\)/m', $series_wiki_content_md, $series_wiki_entries, PREG_SET_ORDER);
 
         foreach ($series_wiki_entries as $series_wiki_entry) {
             $series_name = html_entity_decode($series_wiki_entry[1]);
-            $series_link = 'https://old.reddit.com'.$series_wiki_entry[2].'.json';
-            $series_slug = $series_wiki_entry[3];
+            $series_slug = $series_wiki_entry[2];
 
-            // Create Model from subreddit Slug & Name
-            $series = Series::create([
-                'name' => $series_name,
-                'slug' => $series_slug,
-            ]);
+            // Create series if it doesn't already exist
+            $series = Series::where('name', $series_name)->where('slug', $series_slug)->first();
+            if ($series === null) {
+                Log::info("Creating series with name '{$series_name}' and slug '{$series_slug}'");
+                $series = Series::create([
+                    'name' => $series_name,
+                    'slug' => $series_slug,
+                ]);
+            }
 
             // Try not to upset Reddit
             sleep(rand(5, 15));
 
             // Get JSON of Series Entry page content
+            $series_link = WikiPages::getSeriesPage($series_slug);
             $series_anime_wiki_contents = file_get_contents($series_link);
             $series_anime_wiki_json = json_decode($series_anime_wiki_contents);
             $series_anime_wiki_content_md = $series_anime_wiki_json->data->content_md;
@@ -58,8 +57,13 @@ class SeriesSeeder extends Seeder
 
             // Attach Anime to Series by Name
             // Note: We are not concerned about Name collision here. It's more likely that collisions are within a series.
-            $anime_series = Anime::whereIn('name', $series_anime_names)->get();
-            $series->anime()->sync($anime_series);
+            $animes = Anime::whereIn('name', $series_anime_names)->get();
+            foreach ($animes as $anime) {
+                if (! $series->anime->contains($anime)) {
+                    Log::info("Attaching anime '{$anime->name}' to series '{$series->name}'");
+                    $series->anime()->attach($anime);
+                }
+            }
         }
     }
 }
