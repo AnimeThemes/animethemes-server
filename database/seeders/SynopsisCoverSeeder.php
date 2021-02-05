@@ -77,6 +77,7 @@ class SynopsisCoverSeeder extends Seeder
 
                     // Set Anime synopsis
                     if (! is_null($anilist_synopsis) && is_null($anime->synopsis)) {
+                        Log::info("Setting synopsis for anime '{$anime->name}'");
                         $anime->synopsis = $anilist_synopsis;
                         $anime->save();
                     }
@@ -93,7 +94,8 @@ class SynopsisCoverSeeder extends Seeder
                         ]);
 
                         // Attach large cover to anime
-                        $cover_large_image->anime()->syncWithoutDetaching($anime);
+                        Log::info("Attaching image '{$cover_large_image->path}' to anime '{$anime->name}'");
+                        $cover_large_image->anime()->attach($anime);
                     }
 
                     // Create small cover image
@@ -108,7 +110,8 @@ class SynopsisCoverSeeder extends Seeder
                         ]);
 
                         // Attach large cover to anime
-                        $cover_small_image->anime()->syncWithoutDetaching($anime);
+                        Log::info("Attaching image '{$cover_small_image->path}' to anime '{$anime->name}'");
+                        $cover_small_image->anime()->attach($anime);
                     }
                 } catch (ClientException $e) {
                     // We may not have a match for this MAL resource
