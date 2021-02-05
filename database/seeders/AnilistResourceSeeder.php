@@ -66,6 +66,7 @@ class AnilistResourceSeeder extends Seeder
 
                     // Create Anilist resource if it doesn't already exist
                     if (is_null($anilist_resource)) {
+                        Log::info("Creating anilist resource '{$anilist_id}' for anime '{$anime->name}'");
                         $anilist_resource = ExternalResource::create([
                             'site' => ResourceSite::ANILIST,
                             'link' => "https://anilist.co/anime/{$anilist_id}/",
@@ -74,7 +75,10 @@ class AnilistResourceSeeder extends Seeder
                     }
 
                     // Attach Anilist resource to anime
-                    $anilist_resource->anime()->syncWithoutDetaching($anime);
+                    if (! $anilist_resource->anime->contains($anime)) {
+                        Log::info("Attaching resource '{$anilist_resource->link}' to anime '{$anime->name}'");
+                        $anilist_resource->anime()->attach($anime);
+                    }
                 } catch (ClientException $e) {
                     // We may not have a match for this MAL resource
                     Log::info($e->getMessage());

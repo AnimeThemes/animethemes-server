@@ -23,5 +23,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ArtistSeeder::class);
         $this->call(SeriesSeeder::class);
         $this->call(ArtistSongSeeder::class);
+        $this->call(AnilistResourceSeeder::class);
+        $this->call(SynopsisCoverSeeder::class);
+        $this->call(AniDbResourceSeeder::class);
+        $this->call(KitsuResourceSeeder::class);
     }
 }

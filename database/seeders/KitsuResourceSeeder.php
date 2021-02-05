@@ -60,6 +60,7 @@ class KitsuResourceSeeder extends Seeder
 
                         // Create Kitsu resource if it doesn't already exist
                         if (is_null($kitsu_resource)) {
+                            Log::info("Creating kitsu resource '{$kitsu_id}' for anime '{$anime->name}'");
                             $kitsu_resource = ExternalResource::create([
                                 'site' => ResourceSite::KITSU,
                                 'link' => "https://kitsu.io/anime/{$kitsu_slug}",
@@ -68,7 +69,10 @@ class KitsuResourceSeeder extends Seeder
                         }
 
                         // Attach Kitsu resource to anime
-                        $kitsu_resource->anime()->syncWithoutDetaching($anime);
+                        if (! $kitsu_resource->anime->contains($anime)) {
+                            Log::info("Attaching resource '{$kitsu_resource->link}' to anime '{$anime->name}'");
+                            $kitsu_resource->anime()->attach($anime);
+                        }
                     }
                 } catch (HttpException $e) {
                     // There was some issue with the request

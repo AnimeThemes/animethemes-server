@@ -51,6 +51,7 @@ class AniDbResourceSeeder extends Seeder
 
                         // Create AniDB resource if it doesn't already exist
                         if (is_null($anidb_resource)) {
+                            Log::info("Creating anidb resource '{$anidb_id}' for anime '{$anime->name}'");
                             $anidb_resource = ExternalResource::create([
                                 'site' => ResourceSite::ANIDB,
                                 'link' => "https://anidb.net/anime/{$anidb_id}",
@@ -59,7 +60,10 @@ class AniDbResourceSeeder extends Seeder
                         }
 
                         // Attach AniDB resource to anime
-                        $anidb_resource->anime()->syncWithoutDetaching($anime);
+                        if (! $anidb_resource->anime->contains($anime)) {
+                            Log::info("Attaching resource '{$anidb_resource->link}' to anime '{$anime->name}'");
+                            $anidb_resource->anime()->attach($anime);
+                        }
                     }
                 } catch (ClientException $e) {
                     // We may not have a match for this MAL resource
