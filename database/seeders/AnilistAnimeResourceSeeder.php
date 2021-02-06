@@ -11,7 +11,7 @@ use GuzzleHttp\Exception\ServerException;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
-class AnilistResourceSeeder extends Seeder
+class AnilistAnimeResourceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
