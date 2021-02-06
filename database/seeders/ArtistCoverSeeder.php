@@ -6,7 +6,6 @@ use App\Enums\ImageFacet;
 use App\Enums\ResourceSite;
 use App\Models\Artist;
 use App\Models\Image;
-use App\Models\ExternalResource;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
