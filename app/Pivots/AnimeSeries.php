@@ -16,6 +16,13 @@ class AnimeSeries extends Pivot
     protected $table = 'anime_series';
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.
