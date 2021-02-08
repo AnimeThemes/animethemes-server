@@ -5,10 +5,13 @@ namespace App\Pivots;
 use App\Events\Pivot\ArtistResource\ArtistResourceCreated;
 use App\Events\Pivot\ArtistResource\ArtistResourceDeleted;
 use App\Events\Pivot\ArtistResource\ArtistResourceUpdated;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ArtistResource extends Pivot
 {
+    use HasFactory;
+
     /**
      * @var array
      */
@@ -20,6 +23,13 @@ class ArtistResource extends Pivot
      * @var string
      */
     protected $table = 'artist_resource';
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * The event map for the model.

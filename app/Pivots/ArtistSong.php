@@ -5,10 +5,13 @@ namespace App\Pivots;
 use App\Events\Pivot\ArtistSong\ArtistSongCreated;
 use App\Events\Pivot\ArtistSong\ArtistSongDeleted;
 use App\Events\Pivot\ArtistSong\ArtistSongUpdated;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ArtistSong extends Pivot
 {
+    use HasFactory;
+
     /**
      * @var array
      */
@@ -20,6 +23,13 @@ class ArtistSong extends Pivot
      * @var string
      */
     protected $table = 'artist_song';
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * The event map for the model.

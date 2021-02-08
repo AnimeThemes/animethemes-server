@@ -5,10 +5,13 @@ namespace App\Pivots;
 use App\Events\Pivot\AnimeResource\AnimeResourceCreated;
 use App\Events\Pivot\AnimeResource\AnimeResourceDeleted;
 use App\Events\Pivot\AnimeResource\AnimeResourceUpdated;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class AnimeResource extends Pivot
 {
+    use HasFactory;
+
     /**
      * @var array
      */
@@ -20,6 +23,13 @@ class AnimeResource extends Pivot
      * @var string
      */
     protected $table = 'anime_resource';
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * The event map for the model.

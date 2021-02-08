@@ -16,6 +16,13 @@ class ArtistImage extends Pivot
     protected $table = 'artist_image';
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.

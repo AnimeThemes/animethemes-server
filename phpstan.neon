@@ -15,6 +15,7 @@ parameters:
     level: 5
 
     ignoreErrors:
+        - '#Call to an undefined method ElasticScoutDriverPlus\\Builders\\SearchRequestBuilder::\w+\(\)#'
 
     excludes_analyse:
 
