@@ -110,7 +110,7 @@ class ArtistResource extends BaseResource
     /**
      * The include paths a client is allowed to request.
      *
-     * @var array
+     * @return array
      */
     public static function allowedIncludePaths()
     {

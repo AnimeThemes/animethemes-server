@@ -34,7 +34,7 @@ class AnimeCollection extends BaseCollection
     /**
      * The include paths a client is allowed to request.
      *
-     * @var array
+     * @return array
      */
     public static function allowedIncludePaths()
     {
@@ -54,7 +54,7 @@ class AnimeCollection extends BaseCollection
     /**
      * The sort field names a client is allowed to request.
      *
-     * @var array
+     * @return array
      */
     public static function allowedSortFields()
     {
@@ -72,7 +72,7 @@ class AnimeCollection extends BaseCollection
     /**
      * The filters that can be applied by the client for this resource.
      *
-     * @var array
+     * @return array
      */
     public static function filters()
     {

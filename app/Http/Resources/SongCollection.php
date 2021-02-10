@@ -32,7 +32,7 @@ class SongCollection extends BaseCollection
     /**
      * The include paths a client is allowed to request.
      *
-     * @var array
+     * @return array
      */
     public static function allowedIncludePaths()
     {
@@ -46,7 +46,7 @@ class SongCollection extends BaseCollection
     /**
      * The sort field names a client is allowed to request.
      *
-     * @var array
+     * @return array
      */
     public static function allowedSortFields()
     {

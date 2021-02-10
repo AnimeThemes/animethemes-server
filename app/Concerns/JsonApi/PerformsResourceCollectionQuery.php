@@ -12,7 +12,7 @@ trait PerformsResourceCollectionQuery
     /**
      * The include paths a client is allowed to request.
      *
-     * @var array
+     * @return array
      */
     public static function allowedIncludePaths()
     {
@@ -22,7 +22,7 @@ trait PerformsResourceCollectionQuery
     /**
      * The sort field names a client is allowed to request.
      *
-     * @var array
+     * @return array
      */
     public static function allowedSortFields()
     {
@@ -32,7 +32,7 @@ trait PerformsResourceCollectionQuery
     /**
      * The filters that can be applied by the client for this resource.
      *
-     * @var array
+     * @return array
      */
     public static function filters()
     {

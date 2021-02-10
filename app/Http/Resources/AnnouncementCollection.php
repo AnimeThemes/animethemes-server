@@ -31,7 +31,7 @@ class AnnouncementCollection extends BaseCollection
     /**
      * The sort field names a client is allowed to request.
      *
-     * @var array
+     * @return array
      */
     public static function allowedSortFields()
     {
