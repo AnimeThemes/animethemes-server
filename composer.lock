@@ -64,16 +64,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.173.4",
+            "version": "3.173.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "1400b2d08ded25bd9c6876edb0490b8cb9aeaa60"
+                "reference": "439a161e46895cd1f7b93b4c0295f95d6a17385e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1400b2d08ded25bd9c6876edb0490b8cb9aeaa60",
-                "reference": "1400b2d08ded25bd9c6876edb0490b8cb9aeaa60",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/439a161e46895cd1f7b93b4c0295f95d6a17385e",
+                "reference": "439a161e46895cd1f7b93b4c0295f95d6a17385e",
                 "shasum": ""
             },
             "require": {
@@ -148,9 +148,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.173.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.173.6"
             },
-            "time": "2021-02-05T19:19:35+00:00"
+            "time": "2021-02-09T19:14:22+00:00"
         },
         {
             "name": "babenkoivan/elastic-adapter",
@@ -278,16 +278,16 @@
         },
         {
             "name": "babenkoivan/elastic-migrations",
-            "version": "v1.3.1",
+            "version": "v1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/babenkoivan/elastic-migrations.git",
-                "reference": "e36c148ac2877c6e1de683211873612d22df2fd1"
+                "reference": "1dd1b102e533f5063a14a1c43ad264425c52427e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/babenkoivan/elastic-migrations/zipball/e36c148ac2877c6e1de683211873612d22df2fd1",
-                "reference": "e36c148ac2877c6e1de683211873612d22df2fd1",
+                "url": "https://api.github.com/repos/babenkoivan/elastic-migrations/zipball/1dd1b102e533f5063a14a1c43ad264425c52427e",
+                "reference": "1dd1b102e533f5063a14a1c43ad264425c52427e",
                 "shasum": ""
             },
             "require": {
@@ -337,9 +337,19 @@
             ],
             "support": {
                 "issues": "https://github.com/babenkoivan/elastic-migrations/issues",
-                "source": "https://github.com/babenkoivan/elastic-migrations/tree/v1.3.1"
+                "source": "https://github.com/babenkoivan/elastic-migrations/tree/v1.3.2"
             },
-            "time": "2020-12-07T08:36:32+00:00"
+            "funding": [
+                {
+                    "url": "https://www.buymeacoffee.com/ivanbabenko",
+                    "type": "buymeacoffee"
+                },
+                {
+                    "url": "https://paypal.me/babenkoi",
+                    "type": "paypal"
+                }
+            ],
+            "time": "2021-02-09T19:27:20+00:00"
         },
         {
             "name": "babenkoivan/elastic-scout-driver",
@@ -408,16 +418,16 @@
         },
         {
             "name": "babenkoivan/elastic-scout-driver-plus",
-            "version": "v1.16.0",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/babenkoivan/elastic-scout-driver-plus.git",
-                "reference": "639e81160c6ed09b16ba706abd4b11667e1f1f29"
+                "reference": "9217d025bca263ee806d87b23b263ba51f69c9c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/babenkoivan/elastic-scout-driver-plus/zipball/639e81160c6ed09b16ba706abd4b11667e1f1f29",
-                "reference": "639e81160c6ed09b16ba706abd4b11667e1f1f29",
+                "url": "https://api.github.com/repos/babenkoivan/elastic-scout-driver-plus/zipball/9217d025bca263ee806d87b23b263ba51f69c9c4",
+                "reference": "9217d025bca263ee806d87b23b263ba51f69c9c4",
                 "shasum": ""
             },
             "require": {
@@ -467,9 +477,19 @@
             ],
             "support": {
                 "issues": "https://github.com/babenkoivan/elastic-scout-driver-plus/issues",
-                "source": "https://github.com/babenkoivan/elastic-scout-driver-plus/tree/v1.16.0"
+                "source": "https://github.com/babenkoivan/elastic-scout-driver-plus/tree/v1.17.0"
             },
-            "time": "2021-01-25T11:45:00+00:00"
+            "funding": [
+                {
+                    "url": "https://www.buymeacoffee.com/ivanbabenko",
+                    "type": "buymeacoffee"
+                },
+                {
+                    "url": "https://paypal.me/babenkoi",
+                    "type": "paypal"
+                }
+            ],
+            "time": "2021-02-07T12:26:39+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -3176,16 +3196,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.26.1",
+            "version": "v8.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "275c78c97e007e4a9d771d4d1caa1c77ebfdcf94"
+                "reference": "a6680d98f9dadaa363aa7d5218517a08706cee64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/275c78c97e007e4a9d771d4d1caa1c77ebfdcf94",
-                "reference": "275c78c97e007e4a9d771d4d1caa1c77ebfdcf94",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/a6680d98f9dadaa363aa7d5218517a08706cee64",
+                "reference": "a6680d98f9dadaa363aa7d5218517a08706cee64",
                 "shasum": ""
             },
             "require": {
@@ -3340,7 +3360,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-02-02T14:07:24+00:00"
+            "time": "2021-02-09T15:14:54+00:00"
         },
         {
             "name": "laravel/jetstream",
@@ -3997,16 +4017,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v2.3.16",
+            "version": "v2.3.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "8f027e9bc5ad1f08f0c900244e6fdb9966f7a287"
+                "reference": "1a1d43ff365301ae99ed7f0ccf02c553d4eeba03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/8f027e9bc5ad1f08f0c900244e6fdb9966f7a287",
-                "reference": "8f027e9bc5ad1f08f0c900244e6fdb9966f7a287",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/1a1d43ff365301ae99ed7f0ccf02c553d4eeba03",
+                "reference": "1a1d43ff365301ae99ed7f0ccf02c553d4eeba03",
                 "shasum": ""
             },
             "require": {
@@ -4057,7 +4077,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v2.3.16"
+                "source": "https://github.com/livewire/livewire/tree/v2.3.17"
             },
             "funding": [
                 {
@@ -4065,7 +4085,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-05T15:05:19+00:00"
+            "time": "2021-02-09T15:15:49+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -4337,16 +4357,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.44.0",
+            "version": "2.45.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "e6ef33cb1f67a4bed831ed6d0f7e156739a5d8cd"
+                "reference": "e2ba3174ce869da1713c38340dbb36572dfacd5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/e6ef33cb1f67a4bed831ed6d0f7e156739a5d8cd",
-                "reference": "e6ef33cb1f67a4bed831ed6d0f7e156739a5d8cd",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/e2ba3174ce869da1713c38340dbb36572dfacd5a",
+                "reference": "e2ba3174ce869da1713c38340dbb36572dfacd5a",
                 "shasum": ""
             },
             "require": {
@@ -4426,7 +4446,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-26T20:46:41+00:00"
+            "time": "2021-02-07T21:35:59+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -8700,16 +8720,16 @@
         },
         {
             "name": "textalk/websocket",
-            "version": "1.5.0",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Textalk/websocket-php.git",
-                "reference": "ded6832b99f378ea7869c978fdc731c261c37a2e"
+                "reference": "aada79791f013d821c8265e9e2ae565aa9bdca2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Textalk/websocket-php/zipball/ded6832b99f378ea7869c978fdc731c261c37a2e",
-                "reference": "ded6832b99f378ea7869c978fdc731c261c37a2e",
+                "url": "https://api.github.com/repos/Textalk/websocket-php/zipball/aada79791f013d821c8265e9e2ae565aa9bdca2f",
+                "reference": "aada79791f013d821c8265e9e2ae565aa9bdca2f",
                 "shasum": ""
             },
             "require": {
@@ -8743,9 +8763,9 @@
             "description": "WebSocket client and server",
             "support": {
                 "issues": "https://github.com/Textalk/websocket-php/issues",
-                "source": "https://github.com/Textalk/websocket-php/tree/1.5.0"
+                "source": "https://github.com/Textalk/websocket-php/tree/1.5.1"
             },
-            "time": "2020-12-13T12:20:28+00:00"
+            "time": "2021-02-07T19:10:14+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -10982,16 +11002,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.71",
+            "version": "0.12.74",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "d508fa3b0ecc5fc91ac70c6c7ac2862f968ba2b5"
+                "reference": "bc5f9483c8f461c86653dcbd040cf0d2778c91a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d508fa3b0ecc5fc91ac70c6c7ac2862f968ba2b5",
-                "reference": "d508fa3b0ecc5fc91ac70c6c7ac2862f968ba2b5",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/bc5f9483c8f461c86653dcbd040cf0d2778c91a2",
+                "reference": "bc5f9483c8f461c86653dcbd040cf0d2778c91a2",
                 "shasum": ""
             },
             "require": {
@@ -11022,7 +11042,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.71"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.74"
             },
             "funding": [
                 {
@@ -11038,7 +11058,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-01T18:24:00+00:00"
+            "time": "2021-02-08T15:00:25+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -12538,16 +12558,16 @@
         },
         {
             "name": "sti3bas/laravel-scout-array-driver",
-            "version": "v2.2",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sti3bas/laravel-scout-array-driver.git",
-                "reference": "710637617f731b02aa288a9cd90d4271c82e7817"
+                "reference": "f6c5addeb512ae32ae53faf5b8e8b55423e567ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sti3bas/laravel-scout-array-driver/zipball/710637617f731b02aa288a9cd90d4271c82e7817",
-                "reference": "710637617f731b02aa288a9cd90d4271c82e7817",
+                "url": "https://api.github.com/repos/Sti3bas/laravel-scout-array-driver/zipball/f6c5addeb512ae32ae53faf5b8e8b55423e567ed",
+                "reference": "f6c5addeb512ae32ae53faf5b8e8b55423e567ed",
                 "shasum": ""
             },
             "require": {
@@ -12593,9 +12613,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Sti3bas/laravel-scout-array-driver/issues",
-                "source": "https://github.com/Sti3bas/laravel-scout-array-driver/tree/v2.2"
+                "source": "https://github.com/Sti3bas/laravel-scout-array-driver/tree/v2.2.1"
             },
-            "time": "2020-12-10T18:10:52+00:00"
+            "time": "2021-02-08T18:31:17+00:00"
         },
         {
             "name": "symfony/filesystem",
