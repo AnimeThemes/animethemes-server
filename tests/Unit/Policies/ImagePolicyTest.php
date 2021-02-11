@@ -3,9 +3,9 @@
 namespace Tests\Unit\Policies;
 
 use App\Enums\UserRole;
-use App\Models\Image;
 use App\Models\Anime;
 use App\Models\Artist;
+use App\Models\Image;
 use App\Models\User;
 use App\Policies\ImagePolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
