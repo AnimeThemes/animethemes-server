@@ -119,7 +119,7 @@ class SeriesPolicy
             return false;
         }
 
-        return $this->attachAnyAnime($user, $series);
+        return $user->isContributor() || $user->isAdmin();
     }
 
     /**

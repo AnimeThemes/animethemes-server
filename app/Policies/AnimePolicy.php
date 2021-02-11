@@ -121,7 +121,7 @@ class AnimePolicy
             return false;
         }
 
-        return $this->attachAnySeries($user, $anime);
+        return $user->isContributor() || $user->isAdmin();
     }
 
     /**
@@ -159,11 +159,7 @@ class AnimePolicy
      */
     public function attachExternalResource(User $user, Anime $anime, ExternalResource $externalResource)
     {
-        if ($anime->externalResources->contains($externalResource)) {
-            return false;
-        }
-
-        return $this->attachAnyExternalResource($user, $anime);
+        return $user->isContributor() || $user->isAdmin();
     }
 
     /**
@@ -205,7 +201,7 @@ class AnimePolicy
             return false;
         }
 
-        return $this->attachAnyImage($user, $anime);
+        return $user->isContributor() || $user->isAdmin();
     }
 
     /**
