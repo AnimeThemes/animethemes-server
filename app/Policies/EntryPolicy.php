@@ -119,7 +119,7 @@ class EntryPolicy
             return false;
         }
 
-        return $this->attachAnyVideo($user, $entry);
+        return $user->isContributor() || $user->isAdmin();
     }
 
     /**

@@ -120,7 +120,7 @@ class ImagePolicy
             return false;
         }
 
-        return $this->attachAnyArtist($user, $image);
+        return $user->isContributor() || $user->isAdmin();
     }
 
     /**
@@ -162,7 +162,7 @@ class ImagePolicy
             return false;
         }
 
-        return $this->attachAnyAnime($user, $image);
+        return $user->isContributor() || $user->isAdmin();
     }
 
     /**

@@ -117,11 +117,7 @@ class ArtistPolicy
      */
     public function attachExternalResource(User $user, Artist $artist, ExternalResource $externalResource)
     {
-        if ($artist->externalResources->contains($externalResource)) {
-            return false;
-        }
-
-        return $this->attachAnyExternalResource($user, $artist);
+        return $user->isContributor() || $user->isAdmin();
     }
 
     /**
