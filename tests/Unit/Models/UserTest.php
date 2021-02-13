@@ -4,13 +4,75 @@ namespace Tests\Unit\Models;
 
 use App\Enums\UserRole;
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
+use Laravel\Sanctum\PersonalAccessToken;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
+
+    /**
+     * The role attribute of a user shall be cast to a UserRole enum instance.
+     *
+     * @return void
+     */
+    public function testCastsRoleToEnum()
+    {
+        $user = User::factory()->create();
+
+        $role = $user->role;
+
+        $this->assertInstanceOf(UserRole::class, $role);
+    }
+
+    /**
+     * Users shall have a one-to-many polymorphic relationship to PersonalAccessToken.
+     *
+     * @return void
+     */
+    public function testTokens()
+    {
+        $user = User::factory()->create();
+
+        $user->createToken($this->faker->word());
+
+        $this->assertInstanceOf(MorphMany::class, $user->tokens());
+        $this->assertEquals(1, $user->tokens()->count());
+        $this->assertInstanceOf(PersonalAccessToken::class, $user->tokens()->first());
+    }
+
+    /**
+     * Users shall verify email.
+     *
+     * @return void
+     */
+    public function testVerificationEmailNotification()
+    {
+        Notification::fake();
+
+        $user = User::factory()->create();
+
+        $user->sendEmailVerificationNotification();
+
+        Notification::assertSentTo($user, VerifyEmail::class);
+    }
+
+    /**
+     * Users shall be nameable.
+     *
+     * @return void
+     */
+    public function testNameable()
+    {
+        $user = User::factory()->create();
+
+        $this->assertIsString($user->getName());
+    }
 
     /**
      * An Admin user shall have the Admin role.
