@@ -257,7 +257,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    function testEntries()
+    public function testEntries()
     {
         $entry_count = $this->faker->randomDigitNotNull;
 
