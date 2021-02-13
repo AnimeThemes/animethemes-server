@@ -51,6 +51,6 @@ class Announcement extends Model implements Auditable, Nameable
      */
     public function getName()
     {
-        return $this->getKey();
+        return strval($this->getKey());
     }
 }

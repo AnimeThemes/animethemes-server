@@ -21,7 +21,7 @@ class EntryTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeCreatedSendsDiscordNotification()
+    public function testEntryCreatedSendsDiscordNotification()
     {
         $theme = Theme::factory()
             ->for(Anime::factory())
@@ -40,7 +40,7 @@ class EntryTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeDeletedSendsDiscordNotification()
+    public function testEntryDeletedSendsDiscordNotification()
     {
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
@@ -59,7 +59,7 @@ class EntryTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeUpdatedSendsDiscordNotification()
+    public function testEntryUpdatedSendsDiscordNotification()
     {
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
