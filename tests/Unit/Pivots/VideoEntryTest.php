@@ -3,9 +3,9 @@
 namespace Tests\Unit\Pivots;
 
 use App\Models\Anime;
-use App\Models\Video;
 use App\Models\Entry;
 use App\Models\Theme;
+use App\Models\Video;
 use App\Pivots\VideoEntry;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
