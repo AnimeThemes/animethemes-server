@@ -4,10 +4,13 @@ namespace App\Pivots;
 
 use App\Events\Pivot\ArtistImage\ArtistImageCreated;
 use App\Events\Pivot\ArtistImage\ArtistImageDeleted;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ArtistImage extends Pivot
 {
+    use HasFactory;
+
     /**
      * The table associated with the model.
      *

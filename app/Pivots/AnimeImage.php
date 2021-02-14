@@ -4,10 +4,13 @@ namespace App\Pivots;
 
 use App\Events\Pivot\AnimeImage\AnimeImageCreated;
 use App\Events\Pivot\AnimeImage\AnimeImageDeleted;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class AnimeImage extends Pivot
 {
+    use HasFactory;
+
     /**
      * The table associated with the model.
      *

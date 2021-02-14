@@ -4,10 +4,13 @@ namespace App\Pivots;
 
 use App\Events\Pivot\VideoEntry\VideoEntryCreated;
 use App\Events\Pivot\VideoEntry\VideoEntryDeleted;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class VideoEntry extends Pivot
 {
+    use HasFactory;
+
     /**
      * The table associated with the model.
      *
