@@ -2,11 +2,15 @@
 
 namespace Tests\Unit\Providers;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class PersistentConfigTest extends TestCase
 {
+    use RefreshDatabase, WithFaker;
+
     /**
      * Allow Video Streams shall be persisted to the database.
      *
