@@ -91,6 +91,7 @@ class Anime extends Model implements Auditable, Nameable
      */
     protected $casts = [
         'season' => 'int',
+        'year' => 'int',
     ];
 
     /**

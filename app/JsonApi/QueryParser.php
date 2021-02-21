@@ -56,9 +56,11 @@ class QueryParser
     private $limit;
 
     /**
+     * Create a new query parser instance.
+     *
      * @param array $parameters
      */
-    public function __construct($parameters)
+    public function __construct($parameters = [])
     {
         $this->fields = $this->parseFields($parameters);
         $this->includes = $this->parseIncludes($parameters);
@@ -67,6 +69,17 @@ class QueryParser
         $this->filters = $this->parseFilters($parameters);
         $this->search = $this->parseSearch($parameters);
         $this->limit = $this->parseLimit($parameters);
+    }
+
+    /**
+     * Create a new query parser instance.
+     *
+     * @param  mixed  ...$parameters
+     * @return static
+     */
+    public static function make(...$parameters)
+    {
+        return new static(...$parameters);
     }
 
     /**

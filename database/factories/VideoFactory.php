@@ -26,7 +26,7 @@ class VideoFactory extends Factory
     public function definition()
     {
         $fs = Storage::fake('spaces');
-        $file_name = $this->faker->unique()->word();
+        $file_name = $this->faker->word();
         $file = File::fake()->create($file_name.'.webm');
         $fs_file = $fs->put('', $file);
         $fs_pathinfo = pathinfo(strval($fs_file));
