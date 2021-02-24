@@ -126,14 +126,14 @@ class SeriesIndexTest extends TestCase
         ];
 
         Series::factory()->count($this->faker->randomDigitNotNull)->create();
-        $anime = Series::with(SeriesCollection::allowedIncludePaths())->get();
+        $series = Series::with(SeriesCollection::allowedIncludePaths())->get();
 
         $response = $this->get(route('api.series.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesCollection::make($anime, QueryParser::make($parameters))
+                    SeriesCollection::make($series, QueryParser::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -263,7 +263,6 @@ class SeriesIndexTest extends TestCase
             },
         ])
         ->get();
-
 
         $response = $this->get(route('api.series.index', $parameters));
 

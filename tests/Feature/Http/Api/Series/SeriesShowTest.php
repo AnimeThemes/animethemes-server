@@ -195,7 +195,6 @@ class SeriesShowTest extends TestCase
         ])
         ->first();
 
-
         $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
 
         $response->assertJson(
