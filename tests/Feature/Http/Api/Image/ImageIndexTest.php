@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Api\Image;
 
 use App\Enums\AnimeSeason;
+use App\Enums\ImageFacet;
 use App\Enums\ResourceSite;
 use App\Http\Resources\ImageCollection;
 use App\Http\Resources\ImageResource;
@@ -113,7 +114,7 @@ class ImageIndexTest extends TestCase
             'id',
             'link',
             'external_id',
-            'site',
+            'facet',
             'as',
             'created_at',
             'updated_at',
@@ -196,17 +197,17 @@ class ImageIndexTest extends TestCase
     }
 
     /**
-     * The Image Index Endpoint shall support filtering by site.
+     * The Image Index Endpoint shall support filtering by facet.
      *
      * @return void
      */
-    public function testSiteFilter()
+    public function testFacetFilter()
     {
-        $site_filter = ResourceSite::getRandomInstance();
+        $facet_filter = ImageFacet::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'site' => $site_filter->key,
+                'facet' => $facet_filter->key,
             ],
         ];
 
@@ -216,7 +217,7 @@ class ImageIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $images = Image::where('site', $site_filter->value)->get();
+        $images = Image::where('facet', $facet_filter->value)->get();
 
         $response = $this->get(route('api.image.index', $parameters));
 
@@ -280,7 +281,7 @@ class ImageIndexTest extends TestCase
      */
     public function testAnimeByYear()
     {
-        $year_filter = $this->faker->year();
+        $year_filter = intval($this->faker->year());
         $excluded_year = $year_filter + 1;
 
         $parameters = [

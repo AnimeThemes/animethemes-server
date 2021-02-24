@@ -38,7 +38,7 @@ class YearTest extends TestCase
      */
     public function testShowYearAttributes()
     {
-        $year = $this->faker->year();
+        $year = intval($this->faker->year());
 
         $winter_anime = Anime::factory()
             ->count($this->faker->randomDigitNotNull)

@@ -60,7 +60,7 @@ class QueryParser
      *
      * @param array $parameters
      */
-    public function __construct($parameters = [])
+    final public function __construct($parameters = [])
     {
         $this->fields = $this->parseFields($parameters);
         $this->includes = $this->parseIncludes($parameters);

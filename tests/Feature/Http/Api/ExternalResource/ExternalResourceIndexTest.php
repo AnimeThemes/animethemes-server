@@ -280,7 +280,7 @@ class ExternalResourceIndexTest extends TestCase
      */
     public function testAnimeByYear()
     {
-        $year_filter = $this->faker->year();
+        $year_filter = intval($this->faker->year());
         $excluded_year = $year_filter + 1;
 
         $parameters = [

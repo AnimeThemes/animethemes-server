@@ -36,7 +36,7 @@ class ArtistFactory extends Factory
     /**
      * Define the model's default Eloquent API Resource state.
      *
-     * @return void
+     * @return static
      */
     public function jsonApiResource()
     {
