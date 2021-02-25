@@ -16,7 +16,7 @@ class SynonymShowTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * By default, the Synonym Show Endpoint shall return an Entry Resource with all allowed include paths.
+     * By default, the Synonym Show Endpoint shall return a Synonym Resource with all allowed include paths.
      *
      * @return void
      */
