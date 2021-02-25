@@ -64,16 +64,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.173.14",
+            "version": "3.173.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "ff2b3623adc6781da48ee017e7042a363cd65955"
+                "reference": "e401bcb34e4ae88586a1f63bec6c0ddd12591e7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ff2b3623adc6781da48ee017e7042a363cd65955",
-                "reference": "ff2b3623adc6781da48ee017e7042a363cd65955",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e401bcb34e4ae88586a1f63bec6c0ddd12591e7a",
+                "reference": "e401bcb34e4ae88586a1f63bec6c0ddd12591e7a",
                 "shasum": ""
             },
             "require": {
@@ -148,32 +148,32 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.173.14"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.173.16"
             },
-            "time": "2021-02-22T19:22:33+00:00"
+            "time": "2021-02-24T19:43:19+00:00"
         },
         {
             "name": "babenkoivan/elastic-adapter",
-            "version": "v1.12.0",
+            "version": "v1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/babenkoivan/elastic-adapter.git",
-                "reference": "e89e5dbda88de881f531add3ceed2658c6455eea"
+                "reference": "68e006c893e3fba4594e9788c6cccbe507bd8508"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/babenkoivan/elastic-adapter/zipball/e89e5dbda88de881f531add3ceed2658c6455eea",
-                "reference": "e89e5dbda88de881f531add3ceed2658c6455eea",
+                "url": "https://api.github.com/repos/babenkoivan/elastic-adapter/zipball/68e006c893e3fba4594e9788c6cccbe507bd8508",
+                "reference": "68e006c893e3fba4594e9788c6cccbe507bd8508",
                 "shasum": ""
             },
             "require": {
                 "elasticsearch/elasticsearch": "^7.3",
-                "php": "^7.2"
+                "php": "^7.2 || ^8.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.16",
                 "phpstan/phpstan": "^0.12.32",
-                "phpunit/phpunit": "^8.4"
+                "phpunit/phpunit": "^9.5"
             },
             "type": "library",
             "autoload": {
@@ -201,7 +201,7 @@
             ],
             "support": {
                 "issues": "https://github.com/babenkoivan/elastic-adapter/issues",
-                "source": "https://github.com/babenkoivan/elastic-adapter/tree/v1.12.0"
+                "source": "https://github.com/babenkoivan/elastic-adapter/tree/v1.13.0"
             },
             "funding": [
                 {
@@ -213,31 +213,31 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2021-02-01T12:44:21+00:00"
+            "time": "2021-02-16T07:25:59+00:00"
         },
         {
             "name": "babenkoivan/elastic-client",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/babenkoivan/elastic-client.git",
-                "reference": "ab5de56bb179a4ef5505058f69c9db95c8bdf1d5"
+                "reference": "a1e818b444c5e64afd33a578aa4a009c54aff065"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/babenkoivan/elastic-client/zipball/ab5de56bb179a4ef5505058f69c9db95c8bdf1d5",
-                "reference": "ab5de56bb179a4ef5505058f69c9db95c8bdf1d5",
+                "url": "https://api.github.com/repos/babenkoivan/elastic-client/zipball/a1e818b444c5e64afd33a578aa4a009c54aff065",
+                "reference": "a1e818b444c5e64afd33a578aa4a009c54aff065",
                 "shasum": ""
             },
             "require": {
                 "elasticsearch/elasticsearch": "^7.3",
-                "php": "^7.2"
+                "php": "^7.2 || ^8.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.16",
-                "orchestra/testbench": "^4.3",
+                "orchestra/testbench": "^6.12",
                 "phpstan/phpstan": "^0.12.32",
-                "phpunit/phpunit": "^8.4"
+                "phpunit/phpunit": "^9.5"
             },
             "type": "library",
             "extra": {
@@ -272,9 +272,19 @@
             ],
             "support": {
                 "issues": "https://github.com/babenkoivan/elastic-client/issues",
-                "source": "https://github.com/babenkoivan/elastic-client/tree/ci-improvements"
+                "source": "https://github.com/babenkoivan/elastic-client/tree/v1.2.0"
             },
-            "time": "2020-07-09T10:19:44+00:00"
+            "funding": [
+                {
+                    "url": "https://www.buymeacoffee.com/ivanbabenko",
+                    "type": "buymeacoffee"
+                },
+                {
+                    "url": "https://paypal.me/babenkoi",
+                    "type": "paypal"
+                }
+            ],
+            "time": "2021-02-16T07:28:08+00:00"
         },
         {
             "name": "babenkoivan/elastic-migrations",
@@ -3129,16 +3139,16 @@
         },
         {
             "name": "laravel/fortify",
-            "version": "v1.7.6",
+            "version": "v1.7.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/fortify.git",
-                "reference": "9a5ec8d52145d5b59bc3f130b814f5f285bc71d4"
+                "reference": "e657d583f9b01ed794fc9b810f28a9a8632dcc13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/fortify/zipball/9a5ec8d52145d5b59bc3f130b814f5f285bc71d4",
-                "reference": "9a5ec8d52145d5b59bc3f130b814f5f285bc71d4",
+                "url": "https://api.github.com/repos/laravel/fortify/zipball/e657d583f9b01ed794fc9b810f28a9a8632dcc13",
+                "reference": "e657d583f9b01ed794fc9b810f28a9a8632dcc13",
                 "shasum": ""
             },
             "require": {
@@ -3188,20 +3198,20 @@
                 "issues": "https://github.com/laravel/fortify/issues",
                 "source": "https://github.com/laravel/fortify"
             },
-            "time": "2021-02-16T15:20:27+00:00"
+            "time": "2021-02-23T20:32:10+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v8.28.1",
+            "version": "v8.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "73dd43d92fcde6c6abc00658ae33391397ca119d"
+                "reference": "d2eba352b3b3a3c515b18c5726b373fe5026733e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/73dd43d92fcde6c6abc00658ae33391397ca119d",
-                "reference": "73dd43d92fcde6c6abc00658ae33391397ca119d",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d2eba352b3b3a3c515b18c5726b373fe5026733e",
+                "reference": "d2eba352b3b3a3c515b18c5726b373fe5026733e",
                 "shasum": ""
             },
             "require": {
@@ -3309,7 +3319,7 @@
                 "phpunit/phpunit": "Required to use assertions and run tests (^8.5.8|^9.3.3).",
                 "predis/predis": "Required to use the predis connector (^1.1.2).",
                 "psr/http-message": "Required to allow Storage::put to accept a StreamInterface (^1.0).",
-                "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^4.0).",
+                "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^4.0|^5.0).",
                 "symfony/cache": "Required to PSR-6 cache bridge (^5.1.4).",
                 "symfony/filesystem": "Required to enable support for relative symbolic links (^5.1.4).",
                 "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^2.0).",
@@ -3356,7 +3366,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-02-16T18:07:44+00:00"
+            "time": "2021-02-23T14:27:41+00:00"
         },
         {
             "name": "laravel/jetstream",
@@ -4013,16 +4023,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v2.3.18",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "c0c78f430e4151fb6902bbb88c75e782d2549e1a"
+                "reference": "8055af7730938cd607616fde122825ed960a9b71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/c0c78f430e4151fb6902bbb88c75e782d2549e1a",
-                "reference": "c0c78f430e4151fb6902bbb88c75e782d2549e1a",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/8055af7730938cd607616fde122825ed960a9b71",
+                "reference": "8055af7730938cd607616fde122825ed960a9b71",
                 "shasum": ""
             },
             "require": {
@@ -4073,7 +4083,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v2.3.18"
+                "source": "https://github.com/livewire/livewire/tree/v2.4.0"
             },
             "funding": [
                 {
@@ -4081,7 +4091,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-16T20:34:52+00:00"
+            "time": "2021-02-23T17:44:50+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -5924,16 +5934,16 @@
         },
         {
             "name": "spatie/db-dumper",
-            "version": "2.21.0",
+            "version": "2.21.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/db-dumper.git",
-                "reference": "54150d138dfe5b8043c2a7c6c27a8b41a9e8f418"
+                "reference": "05e5955fb882008a8947c5a45146d86cfafa10d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/54150d138dfe5b8043c2a7c6c27a8b41a9e8f418",
-                "reference": "54150d138dfe5b8043c2a7c6c27a8b41a9e8f418",
+                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/05e5955fb882008a8947c5a45146d86cfafa10d1",
+                "reference": "05e5955fb882008a8947c5a45146d86cfafa10d1",
                 "shasum": ""
             },
             "require": {
@@ -5972,7 +5982,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/db-dumper/issues",
-                "source": "https://github.com/spatie/db-dumper/tree/2.21.0"
+                "source": "https://github.com/spatie/db-dumper/tree/2.21.1"
             },
             "funding": [
                 {
@@ -5980,7 +5990,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-01-27T09:26:50+00:00"
+            "time": "2021-02-24T14:56:42+00:00"
         },
         {
             "name": "spatie/laravel-json-api-paginate",
@@ -6165,16 +6175,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.43.0",
+            "version": "v3.44.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "973e4614f83e2b2b6a48202cc3e1bd0661d31c8f"
+                "reference": "d525cc820d3d8a2092bdce270bf2dd08e6e6b5b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/973e4614f83e2b2b6a48202cc3e1bd0661d31c8f",
-                "reference": "973e4614f83e2b2b6a48202cc3e1bd0661d31c8f",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/d525cc820d3d8a2092bdce270bf2dd08e6e6b5b7",
+                "reference": "d525cc820d3d8a2092bdce270bf2dd08e6e6b5b7",
                 "shasum": ""
             },
             "type": "library",
@@ -6220,9 +6230,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.43.0"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.44.0"
             },
-            "time": "2021-02-11T18:53:24+00:00"
+            "time": "2021-02-25T00:28:50+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -9231,16 +9241,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.0.9",
+            "version": "2.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "591c2c155cac0d2d7f34af41d3b1e29bcbfc685e"
+                "reference": "a5a5632da0b1c2d6fa9a3b65f1f4e90d1f04abb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/591c2c155cac0d2d7f34af41d3b1e29bcbfc685e",
-                "reference": "591c2c155cac0d2d7f34af41d3b1e29bcbfc685e",
+                "url": "https://api.github.com/repos/composer/composer/zipball/a5a5632da0b1c2d6fa9a3b65f1f4e90d1f04abb9",
+                "reference": "a5a5632da0b1c2d6fa9a3b65f1f4e90d1f04abb9",
                 "shasum": ""
             },
             "require": {
@@ -9308,7 +9318,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.0.9"
+                "source": "https://github.com/composer/composer/tree/2.0.11"
             },
             "funding": [
                 {
@@ -9324,7 +9334,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-27T15:09:27+00:00"
+            "time": "2021-02-24T13:57:23+00:00"
         },
         {
             "name": "composer/semver",
@@ -10298,16 +10308,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "20cab678faed06fac225193be281ea0fddb43b93"
+                "reference": "d1339f64479af1bee0e82a0413813fe5345a54ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/20cab678faed06fac225193be281ea0fddb43b93",
-                "reference": "20cab678faed06fac225193be281ea0fddb43b93",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/d1339f64479af1bee0e82a0413813fe5345a54ea",
+                "reference": "d1339f64479af1bee0e82a0413813fe5345a54ea",
                 "shasum": ""
             },
             "require": {
@@ -10364,9 +10374,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mockery/mockery/issues",
-                "source": "https://github.com/mockery/mockery/tree/master"
+                "source": "https://github.com/mockery/mockery/tree/1.4.3"
             },
-            "time": "2020-08-11T18:10:13+00:00"
+            "time": "2021-02-24T09:51:49+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -10673,16 +10683,16 @@
         },
         {
             "name": "phar-io/version",
-            "version": "3.0.4",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phar-io/version.git",
-                "reference": "e4782611070e50613683d2b9a57730e9a3ba5451"
+                "reference": "bae7c545bef187884426f042434e561ab1ddb182"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phar-io/version/zipball/e4782611070e50613683d2b9a57730e9a3ba5451",
-                "reference": "e4782611070e50613683d2b9a57730e9a3ba5451",
+                "url": "https://api.github.com/repos/phar-io/version/zipball/bae7c545bef187884426f042434e561ab1ddb182",
+                "reference": "bae7c545bef187884426f042434e561ab1ddb182",
                 "shasum": ""
             },
             "require": {
@@ -10718,9 +10728,9 @@
             "description": "Library for handling version information and constraints",
             "support": {
                 "issues": "https://github.com/phar-io/version/issues",
-                "source": "https://github.com/phar-io/version/tree/3.0.4"
+                "source": "https://github.com/phar-io/version/tree/3.1.0"
             },
-            "time": "2020-12-13T23:18:30+00:00"
+            "time": "2021-02-23T14:00:09+00:00"
         },
         {
             "name": "php-cs-fixer/diff",
