@@ -60,6 +60,7 @@ class Entry extends Model implements Auditable, Nameable
     protected $casts = [
         'nsfw' => 'boolean',
         'spoiler' => 'boolean',
+        'version' => 'int',
     ];
 
     /**

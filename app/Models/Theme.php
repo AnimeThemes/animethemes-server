@@ -81,6 +81,7 @@ class Theme extends Model implements Auditable, Nameable
      */
     protected $casts = [
         'type' => 'int',
+        'sequence' => 'int',
     ];
 
     /**
