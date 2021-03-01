@@ -201,7 +201,7 @@ class VideoReconcileCommand extends Command
      */
     private function hasFailures()
     {
-        return $this->created_failed > 0 || $this->deleted_failed > 0 || $this->updated_failed;
+        return $this->created_failed > 0 || $this->deleted_failed > 0 || $this->updated_failed > 0;
     }
 
     /**

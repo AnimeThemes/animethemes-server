@@ -77,17 +77,20 @@ class Invitation extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('nova.id'), 'invitation_id')->sortable(),
+            ID::make(__('nova.id'), 'invitation_id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->sortable(),
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
             Text::make(__('nova.name'), 'name')
                 ->sortable()
-                ->rules('required', 'max:255', 'alpha_dash'),
+                ->rules('required', 'max:192', 'alpha_dash'),
 
             Text::make(__('nova.email'), 'email')
                 ->sortable()
-                ->rules('required', 'email', 'max:254')
+                ->rules('required', 'email', 'max:192')
                 ->creationRules('unique:invitation,email')
                 ->updateRules('unique:invitation,email,{{resourceId}},invitation_id'),
 
@@ -97,7 +100,7 @@ class Invitation extends Resource
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', new EnumValue(UserRole::class, false)),
+                ->rules('required', (new EnumValue(UserRole::class, false))->__toString()),
 
             Select::make(__('nova.status'), 'status')
                 ->hideWhenCreating()
@@ -106,7 +109,7 @@ class Invitation extends Resource
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', new EnumValue(InvitationStatus::class, false)),
+                ->rules('required', (new EnumValue(InvitationStatus::class, false))->__toString()),
 
             AuditableLog::make(),
         ];

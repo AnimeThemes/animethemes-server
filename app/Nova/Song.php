@@ -83,12 +83,15 @@ class Song extends Resource
     {
         return [
             ID::make(__('nova.id'), 'song_id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->sortable(),
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
             Text::make(__('nova.title'), 'title')
                 ->sortable()
+                ->nullable()
                 ->rules('nullable', 'max:192')
                 ->help(__('nova.song_title_help')),
 

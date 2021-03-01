@@ -37,12 +37,12 @@
         "sfelix-martins/json-exception-handler": "^2.3",
         "spatie/db-dumper": "^2.18",
         "spatie/laravel-json-api-paginate": "^1.10",
-        "staudenmeir/belongs-to-through": "^2.11.1",
-        "yassi/nova-nested-form": "^3.0"
+        "staudenmeir/belongs-to-through": "^2.11.1"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
         "fzaninotto/faker": "^1.9.1",
+        "joshgaber/novaunit": "^2.2",
         "matt-allan/laravel-code-style": "^0.6.0",
         "mockery/mockery": "^1.3.1",
         "nunomaduro/collision": "^5.0",

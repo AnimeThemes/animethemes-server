@@ -84,6 +84,8 @@ class Theme extends Resource
     {
         return [
             ID::make(__('nova.id'), 'theme_id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->sortable(),
 
             BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
@@ -97,18 +99,26 @@ class Theme extends Resource
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', new EnumValue(ThemeType::class, false))
+                ->rules('required', (new EnumValue(ThemeType::class, false))->__toString())
                 ->help(__('nova.theme_type_help')),
 
             Number::make(__('nova.sequence'), 'sequence')
                 ->sortable()
+                ->nullable()
                 ->rules('nullable', 'integer')
                 ->help(__('nova.theme_sequence_help')),
 
             Text::make(__('nova.group'), 'group')
                 ->sortable()
+                ->nullable()
                 ->rules('nullable', 'max:192')
                 ->help(__('nova.theme_group_help')),
+
+            Text::make(__('nova.slug'), 'slug')
+                ->hideWhenCreating()
+                ->sortable()
+                ->rules('required', 'max:192', 'alpha_dash')
+                ->help(__('nova.theme_slug_help')),
 
             BelongsTo::make(__('nova.song'), 'Song', Song::class)
                 ->sortable()
@@ -161,6 +171,8 @@ class Theme extends Resource
     {
         return [
             new Filters\ThemeTypeFilter,
+            new Filters\RecentlyCreatedFilter,
+            new Filters\RecentlyUpdatedFilter,
         ];
     }
 

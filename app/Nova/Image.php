@@ -78,6 +78,8 @@ class Image extends Resource
     {
         return [
             ID::make(__('nova.id'), 'image_id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->sortable(),
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
@@ -88,7 +90,7 @@ class Image extends Resource
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', new EnumValue(ImageFacet::class, false))
+                ->rules('required', (new EnumValue(ImageFacet::class, false))->__toString())
                 ->help(__('nova.image_facet_help')),
 
             NovaImage::make(__('nova.image'), 'path')

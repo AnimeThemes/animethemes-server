@@ -76,6 +76,8 @@ class Series extends Resource
     {
         return [
             ID::make(__('nova.id'), 'series_id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->sortable(),
 
             new Panel(__('nova.timestamps'), $this->timestamps()),

@@ -91,32 +91,39 @@ class Entry extends Resource
                 ->readonly(),
 
             ID::make(__('nova.id'), 'entry_id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->sortable(),
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
             Number::make(__('nova.version'), 'version')
                 ->sortable()
+                ->nullable()
                 ->rules('nullable', 'integer')
                 ->help(__('nova.entry_version_help')),
 
             Text::make(__('nova.episodes'), 'episodes')
                 ->sortable()
+                ->nullable()
                 ->rules('nullable', 'max:192')
                 ->help(__('nova.entry_episodes_help')),
 
             Boolean::make(__('nova.nsfw'), 'nsfw')
                 ->sortable()
+                ->nullable()
                 ->rules('nullable', 'boolean')
                 ->help(__('nova.entry_nsfw_help')),
 
             Boolean::make(__('nova.spoiler'), 'spoiler')
                 ->sortable()
+                ->nullable()
                 ->rules('nullable', 'boolean')
                 ->help(__('nova.entry_spoiler_help')),
 
             Text::make(__('nova.notes'), 'notes')
                 ->sortable()
+                ->nullable()
                 ->rules('nullable', 'max:192')
                 ->help(__('nova.entry_notes_help')),
 
@@ -167,6 +174,8 @@ class Entry extends Resource
         return [
             new Filters\EntryNsfwFilter,
             new Filters\EntrySpoilerFilter,
+            new Filters\RecentlyCreatedFilter,
+            new Filters\RecentlyUpdatedFilter,
         ];
     }
 

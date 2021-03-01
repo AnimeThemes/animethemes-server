@@ -80,7 +80,10 @@ class Announcement extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('nova.id'), 'announcement_id')->sortable(),
+            ID::make(__('nova.id'), 'announcement_id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->sortable(),
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
@@ -131,7 +134,10 @@ class Announcement extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new Filters\RecentlyCreatedFilter,
+            new Filters\RecentlyUpdatedFilter,
+        ];
     }
 
     /**
