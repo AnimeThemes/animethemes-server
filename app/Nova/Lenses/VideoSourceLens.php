@@ -105,7 +105,7 @@ class VideoSourceLens extends Lens
      */
     public function actions(Request $request)
     {
-        return parent::actions($request);
+        return [];
     }
 
     /**

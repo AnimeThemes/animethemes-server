@@ -81,6 +81,8 @@ class Video extends Resource
     {
         return [
             ID::make(__('nova.id'), 'video_id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->sortable(),
 
             new Panel(__('nova.video_metadata'), $this->videoProperties()),
@@ -91,26 +93,31 @@ class Video extends Resource
                 ->sortable()
                 ->min(360)
                 ->max(1080)
+                ->nullable()
                 ->rules('nullable', 'integer')
                 ->help(__('nova.video_resolution_help')),
 
             Boolean::make(__('nova.nc'), 'nc')
                 ->sortable()
+                ->nullable()
                 ->rules('nullable', 'boolean')
                 ->help(__('nova.video_nc_help')),
 
             Boolean::make(__('nova.subbed'), 'subbed')
                 ->sortable()
+                ->nullable()
                 ->rules('nullable', 'boolean')
                 ->help(__('nova.video_subbed_help')),
 
             Boolean::make(__('nova.lyrics'), 'lyrics')
                 ->sortable()
+                ->nullable()
                 ->rules('nullable', 'boolean')
                 ->help(__('nova.video_lyrics_help')),
 
             Boolean::make(__('nova.uncen'), 'uncen')
                 ->sortable()
+                ->nullable()
                 ->rules('nullable', 'boolean')
                 ->help(__('nova.video_uncen_help')),
 
@@ -119,8 +126,9 @@ class Video extends Resource
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })
+                ->nullable()
                 ->sortable()
-                ->rules('nullable', new EnumValue(VideoOverlap::class, false))
+                ->rules('nullable', (new EnumValue(VideoOverlap::class, false))->__toString())
                 ->help(__('nova.video_overlap_help')),
 
             Select::make(__('nova.source'), 'source')
@@ -128,8 +136,9 @@ class Video extends Resource
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })
+                ->nullable()
                 ->sortable()
-                ->rules('nullable', new EnumValue(VideoSource::class, false))
+                ->rules('nullable', (new EnumValue(VideoSource::class, false))->__toString())
                 ->help(__('nova.video_source_help')),
 
             BelongsToMany::make(__('nova.entries'), 'Entries', Entry::class)
@@ -147,18 +156,22 @@ class Video extends Resource
         return [
             Text::make(__('nova.basename'), 'basename')
                 ->hideFromIndex()
+                ->hideWhenCreating()
                 ->readonly(),
 
             Text::make(__('nova.filename'), 'filename')
                 ->sortable()
+                ->hideWhenCreating()
                 ->readonly(),
 
             Text::make(__('nova.path'), 'path')
                 ->hideFromIndex()
+                ->hideWhenCreating()
                 ->readonly(),
 
             Number::make(__('nova.size'), 'size')
                 ->hideFromIndex()
+                ->hideWhenCreating()
                 ->readonly(),
         ];
     }

@@ -11,6 +11,7 @@ use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\Theme;
 use App\Models\Video;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
@@ -197,6 +198,119 @@ class EntryIndexTest extends TestCase
             json_decode(
                 json_encode(
                     EntryCollection::make($builder->get(), QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Entry Index Endpoint shall support filtering by nsfw.
+     *
+     * @return void
+     */
+    public function testEntriesByNsfw()
+    {
+        $nsfw_filter = $this->faker->boolean();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'nsfw' => $nsfw_filter,
+            ],
+        ];
+
+        Entry::factory()
+            ->for(Theme::factory()->for(Anime::factory()))
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $entries = Entry::where('nsfw', $nsfw_filter)->get();
+
+        $response = $this->get(route('api.entry.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    EntryCollection::make($entries, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Entry Index Endpoint shall support filtering by spoiler.
+     *
+     * @return void
+     */
+    public function testEntriesBySpoiler()
+    {
+        $spoiler_filter = $this->faker->boolean();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'spoiler' => $spoiler_filter,
+            ],
+        ];
+
+        Entry::factory()
+            ->for(Theme::factory()->for(Anime::factory()))
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $entries = Entry::where('spoiler', $spoiler_filter)->get();
+
+        $response = $this->get(route('api.entry.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    EntryCollection::make($entries, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Entry Index Endpoint shall support filtering by version.
+     *
+     * @return void
+     */
+    public function testEntriesByVersion()
+    {
+        $version_filter = $this->faker->randomDigitNotNull;
+        $excluded_version = $version_filter + 1;
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'version' => $version_filter,
+            ],
+        ];
+
+        Entry::factory()
+            ->for(Theme::factory()->for(Anime::factory()))
+            ->count($this->faker->randomDigitNotNull)
+            ->state(new Sequence(
+                ['version' => $version_filter],
+                ['version' => $excluded_version],
+            ))
+            ->create();
+
+        $entries = Entry::where('version', $version_filter)->get();
+
+        $response = $this->get(route('api.entry.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    EntryCollection::make($entries, QueryParser::make($parameters))
                         ->response()
                         ->getData()
                 ),

@@ -76,6 +76,8 @@ class Artist extends Resource
     {
         return [
             ID::make(__('nova.id'), 'artist_id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->sortable(),
 
             new Panel(__('nova.timestamps'), $this->timestamps()),

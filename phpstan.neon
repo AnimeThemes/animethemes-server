@@ -16,6 +16,7 @@ parameters:
 
     ignoreErrors:
         - '#Call to an undefined method ElasticScoutDriverPlus\\Builders\\SearchRequestBuilder::\w+\(\)#'
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::jsonApiResource\(\).#'
 
     excludes_analyse:
 

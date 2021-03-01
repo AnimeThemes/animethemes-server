@@ -15,7 +15,7 @@ class VideoReconcileTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * If no changes are needed, the Reconcile Video Command shall output 'No Videos created or deleted'.
+     * If no changes are needed, the Reconcile Video Command shall output 'No Videos created or deleted or updated'.
      *
      * @return void
      */
@@ -27,7 +27,7 @@ class VideoReconcileTest extends TestCase
     }
 
     /**
-     * The Reconcile Video Command shall filter objects for WebM metadata
+     * The Reconcile Video Command shall filter objects for WebM metadata.
      * Note: Here we are asserting that our file type filter is in place.
      *
      * @return void
@@ -42,7 +42,7 @@ class VideoReconcileTest extends TestCase
     }
 
     /**
-     * The Reconcile Video Command shall filter objects for WebM metadata
+     * The Reconcile Video Command shall filter objects for WebM metadata.
      * Note: Here we are asserting that our file extension filter is in place.
      *
      * @return void
@@ -58,7 +58,7 @@ class VideoReconcileTest extends TestCase
     }
 
     /**
-     * If videos are created, the Reconcile Video Command shall output '{Created Count} Videos created, 0 Videos deleted'.
+     * If videos are created, the Reconcile Video Command shall output '{Created Count} Videos created, 0 Videos deleted, 0 Videos updated'.
      *
      * @return void
      */
@@ -77,17 +77,44 @@ class VideoReconcileTest extends TestCase
     }
 
     /**
-     * If videos are created, the Reconcile Video Command shall output '0 Videos created, {Deleted Count} Videos deleted'.
+     * If videos are deleted, the Reconcile Video Command shall output '0 Videos created, {Deleted Count} Videos deleted, 0 Videos updated'.
      *
      * @return void
      */
     public function testDeletedForReconcileVideoCommand()
     {
-        $created_video_count = $this->faker->randomDigitNotNull;
-        Video::factory()->count($created_video_count)->create();
+        $deleted_video_count = $this->faker->randomDigitNotNull;
+        Video::factory()->count($deleted_video_count)->create();
 
         Storage::fake('spaces');
 
-        $this->artisan('reconcile:video')->expectsOutput("0 Videos created, {$created_video_count} Videos deleted, 0 Videos updated");
+        $this->artisan('reconcile:video')->expectsOutput("0 Videos created, {$deleted_video_count} Videos deleted, 0 Videos updated");
+    }
+
+    /**
+     * If videos are updated, the Reconcile Video Command shall output '0 Videos created, 0 Videos deleted, {Updated Count} Videos updated'.
+     *
+     * @return void
+     */
+    public function testUpdatedForReconcileVideoCommand()
+    {
+        $fs = Storage::fake('spaces');
+
+        $updated_video_count = $this->faker->randomDigitNotNull;
+
+        Collection::times($updated_video_count)->each(function () use ($fs) {
+            $file_name = $this->faker->word();
+            $file = File::fake()->create($file_name.'.webm');
+            $fs_file = $fs->put('', $file);
+            $fs_pathinfo = pathinfo(strval($fs_file));
+
+            Video::create([
+                'basename' => $fs_pathinfo['basename'],
+                'filename' => $fs_pathinfo['filename'],
+                'path' => $this->faker->word(),
+            ]);
+        });
+
+        $this->artisan('reconcile:video')->expectsOutput("0 Videos created, 0 Videos deleted, {$updated_video_count} Videos updated");
     }
 }

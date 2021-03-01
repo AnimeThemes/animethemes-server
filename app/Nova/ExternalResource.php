@@ -81,6 +81,8 @@ class ExternalResource extends Resource
     {
         return [
             ID::make(__('nova.id'), 'resource_id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->sortable(),
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
@@ -91,7 +93,7 @@ class ExternalResource extends Resource
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', new EnumValue(ResourceSite::class, false))
+                ->rules('required', (new EnumValue(ResourceSite::class, false))->__toString())
                 ->help(__('nova.resource_site_help')),
 
             Url::make(__('nova.link'), 'link')
@@ -103,6 +105,7 @@ class ExternalResource extends Resource
                 ->alwaysClickable(),
 
             Number::make(__('nova.external_id'), 'external_id')
+                ->nullable()
                 ->sortable()
                 ->rules('nullable', 'integer')
                 ->help(__('nova.resource_external_id_help')),

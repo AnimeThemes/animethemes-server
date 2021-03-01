@@ -81,7 +81,10 @@ class Synonym extends Resource
             BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
                 ->readonly(),
 
-            ID::make(__('nova.id'), 'synonym_id')->sortable(),
+            ID::make(__('nova.id'), 'synonym_id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->sortable(),
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
@@ -131,7 +134,10 @@ class Synonym extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new Filters\RecentlyCreatedFilter,
+            new Filters\RecentlyUpdatedFilter,
+        ];
     }
 
     /**

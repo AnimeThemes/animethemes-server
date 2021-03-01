@@ -56,11 +56,6 @@ class CreateExternalResourceSiteForArtistAction extends Action
             'link' => $fields->get('link'),
         ]);
 
-        // Check if resource creation is successful
-        if (! $resource->exists()) {
-            return Action::danger(__('nova.error_resource_creation'));
-        }
-
         // Attach Resource to Anime and provide success message
         $resource->artists()->attach($models);
 
@@ -76,7 +71,7 @@ class CreateExternalResourceSiteForArtistAction extends Action
     {
         return [
             Text::make(__('nova.link'), 'link')
-                ->rules('required', 'max:192', 'url', 'unique:resource,link', new ResourceSiteDomainRule($this->site))
+                ->rules('required', 'max:192', 'url', 'unique:resource,link', (new ResourceSiteDomainRule($this->site))->__toString())
                 ->help(__('nova.resource_link_help')),
         ];
     }

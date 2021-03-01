@@ -87,7 +87,10 @@ class User extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('nova.id'), 'id')->sortable(),
+            ID::make(__('nova.id'), 'id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->sortable(),
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
@@ -95,14 +98,14 @@ class User extends Resource
 
             Text::make(__('nova.name'), 'name')
                 ->sortable()
-                ->rules('required', 'max:255', 'alpha_dash'),
+                ->rules('required', 'max:192', 'alpha_dash'),
 
             Text::make(__('nova.email'), 'email')
                 ->readonly(function ($request) {
                     return ! $request->user()->isAdmin();
                 })
                 ->sortable()
-                ->rules('required', 'email', 'max:254')
+                ->rules('required', 'email', 'max:192')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
@@ -112,7 +115,7 @@ class User extends Resource
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', new EnumValue(UserRole::class, false)),
+                ->rules('required', (new EnumValue(UserRole::class, false))->__toString()),
         ];
     }
 

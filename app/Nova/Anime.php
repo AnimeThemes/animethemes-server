@@ -17,7 +17,6 @@ use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
-use Yassi\NestedForm\NestedForm;
 
 class Anime extends Resource
 {
@@ -94,6 +93,8 @@ class Anime extends Resource
     {
         return [
             ID::make(__('nova.id'), 'anime_id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->sortable(),
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
@@ -124,20 +125,13 @@ class Anime extends Resource
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', new EnumValue(AnimeSeason::class, false))
+                ->rules('required', (new EnumValue(AnimeSeason::class, false))->__toString())
                 ->help(__('nova.anime_season_help')),
 
             Textarea::make(__('nova.synopsis'), 'synopsis')
                 ->rules('max:65535')
+                ->nullable()
                 ->help(__('nova.anime_synopsis_help')),
-
-            NestedForm::make(__('nova.synonyms'), 'Synonyms', Synonym::class),
-
-            NestedForm::make(__('nova.themes'), 'Themes', Theme::class),
-
-            NestedForm::make(__('nova.external_resources'), 'ExternalResources', ExternalResource::class),
-
-            NestedForm::make(__('nova.images'), 'Images', Image::class),
 
             HasMany::make(__('nova.synonyms'), 'Synonyms', Synonym::class),
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "93e90e48e48daa5aa656ab475201c475",
+    "content-hash": "56e9ba553c73ad4b5d428fc1ea99f94b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -64,16 +64,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.173.17",
+            "version": "3.173.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d3657af3d93285f4cb0f59dd94d065f59cf89cf5"
+                "reference": "0ac9f1d2778034a2ef0a2bb8e098818d7b1a76e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d3657af3d93285f4cb0f59dd94d065f59cf89cf5",
-                "reference": "d3657af3d93285f4cb0f59dd94d065f59cf89cf5",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0ac9f1d2778034a2ef0a2bb8e098818d7b1a76e8",
+                "reference": "0ac9f1d2778034a2ef0a2bb8e098818d7b1a76e8",
                 "shasum": ""
             },
             "require": {
@@ -148,9 +148,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.173.17"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.173.18"
             },
-            "time": "2021-02-25T19:13:34+00:00"
+            "time": "2021-02-26T19:12:35+00:00"
         },
         {
             "name": "babenkoivan/elastic-adapter",
@@ -3022,24 +3022,26 @@
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
-            "version": "1.1.1",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-                "reference": "6ede70583e101030bcace4dcddd648f760ddf642"
+                "reference": "6cccbddfcfc742eb02158d6137ca5687d92cee32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/6ede70583e101030bcace4dcddd648f760ddf642",
-                "reference": "6ede70583e101030bcace4dcddd648f760ddf642",
+                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/6cccbddfcfc742eb02158d6137ca5687d92cee32",
+                "reference": "6cccbddfcfc742eb02158d6137ca5687d92cee32",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6 || ^7.0 || ^8.0"
+                "php": "^7.3 || ^8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^8.1 || ^9.3",
-                "squizlabs/php_codesniffer": "^3.5"
+                "psalm/plugin-phpunit": "^0.15.1",
+                "squizlabs/php_codesniffer": "^3.5",
+                "vimeo/psalm": "^4.6"
             },
             "type": "library",
             "extra": {
@@ -3078,7 +3080,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2020-09-14T14:23:00+00:00"
+            "time": "2021-02-25T21:54:58+00:00"
         },
         {
             "name": "laravel-notification-channels/discord",
@@ -9051,57 +9053,6 @@
             "time": "2020-07-08T17:02:28+00:00"
         },
         {
-            "name": "yassi/nova-nested-form",
-            "version": "v3.0.11",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yassipad/laravel-nova-nested-form.git",
-                "reference": "1f3084a3848c2d8a0ef641e8467bd060512035ca"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yassipad/laravel-nova-nested-form/zipball/1f3084a3848c2d8a0ef641e8467bd060512035ca",
-                "reference": "1f3084a3848c2d8a0ef641e8467bd060512035ca",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.0"
-            },
-            "require-dev": {
-                "laravel/nova": "^3.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Yassi\\NestedForm\\FieldServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Yassi\\NestedForm\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A Laravel Nova package that allows you to create/update/delete nested related fields from a parent form.",
-            "keywords": [
-                "form",
-                "laravel",
-                "nested",
-                "nova",
-                "relationship"
-            ],
-            "support": {
-                "issues": "https://github.com/yassipad/laravel-nova-nested-form/issues",
-                "source": "https://github.com/yassipad/laravel-nova-nested-form/tree/v3.0.11"
-            },
-            "time": "2021-02-22T10:07:02+00:00"
-        },
-        {
             "name": "zircote/swagger-php",
             "version": "3.1.0",
             "source": {
@@ -10115,6 +10066,74 @@
             "time": "2020-07-09T08:09:16+00:00"
         },
         {
+            "name": "joshgaber/novaunit",
+            "version": "2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joshgaber/NovaUnit.git",
+                "reference": "6da88f75d80ab492f9041fb6516da42fb48a0d7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joshgaber/NovaUnit/zipball/6da88f75d80ab492f9041fb6516da42fb48a0d7e",
+                "reference": "6da88f75d80ab492f9041fb6516da42fb48a0d7e",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/chronos": ">=1.2.3",
+                "ext-mbstring": "*",
+                "illuminate/support": "^8.0",
+                "laravel/nova": "^3.0",
+                "php": "^7.3 || ^8.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "orchestra/testbench": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JoshGaber\\NovaUnit\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Gaber",
+                    "email": "joshgaber@gmail.com",
+                    "homepage": "https://joshgaber.ca",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Unit testing suite for Laravel Nova, built to extend PHPUnit",
+            "homepage": "https://github.com/joshgaber/novaunit",
+            "keywords": [
+                "joshgaber",
+                "laravel",
+                "nova",
+                "novaunit"
+            ],
+            "support": {
+                "issues": "https://github.com/joshgaber/NovaUnit/issues",
+                "source": "https://github.com/joshgaber/NovaUnit/tree/2.2"
+            },
+            "funding": [
+                {
+                    "url": "https://ko-fi.com/JoshGaber",
+                    "type": "ko_fi"
+                },
+                {
+                    "url": "https://www.patreon.com/joshgaber",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2021-01-12T22:02:15+00:00"
+        },
+        {
             "name": "justinrainbow/json-schema",
             "version": "5.2.10",
             "source": {
@@ -11025,16 +11044,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.79",
+            "version": "0.12.80",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "dd7769915648b704b9bd12925994457f1c2c8442"
+                "reference": "c6a1b17f22ecf708d434d6bee05092647ec7e686"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/dd7769915648b704b9bd12925994457f1c2c8442",
-                "reference": "dd7769915648b704b9bd12925994457f1c2c8442",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c6a1b17f22ecf708d434d6bee05092647ec7e686",
+                "reference": "c6a1b17f22ecf708d434d6bee05092647ec7e686",
                 "shasum": ""
             },
             "require": {
@@ -11065,7 +11084,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.79"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.80"
             },
             "funding": [
                 {
@@ -11081,7 +11100,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-25T16:44:57+00:00"
+            "time": "2021-02-28T20:22:43+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
