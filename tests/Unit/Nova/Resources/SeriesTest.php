@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Nova\Resources;
 
-use App\Nova\Series;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
+use App\Nova\Series;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
