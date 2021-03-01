@@ -8,7 +8,7 @@ use App\Events\Entry\EntryDeleted;
 use App\Events\Entry\EntryDeleting;
 use App\Events\Entry\EntryUpdated;
 use App\Pivots\VideoEntry;
-use ElasticScoutDriverPlus\CustomSearch;
+use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -17,7 +17,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Entry extends Model implements Auditable, Nameable
 {
-    use CustomSearch, HasFactory, Searchable;
+    use HasFactory, QueryDsl, Searchable;
     use \OwenIt\Auditing\Auditable;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 

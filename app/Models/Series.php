@@ -7,7 +7,7 @@ use App\Events\Series\SeriesCreated;
 use App\Events\Series\SeriesDeleted;
 use App\Events\Series\SeriesUpdated;
 use App\Pivots\AnimeSeries;
-use ElasticScoutDriverPlus\CustomSearch;
+use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -15,7 +15,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Series extends Model implements Auditable, Nameable
 {
-    use CustomSearch, HasFactory, Searchable;
+    use HasFactory, QueryDsl, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**
