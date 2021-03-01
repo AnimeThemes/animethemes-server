@@ -10,7 +10,7 @@ use App\Pivots\ArtistImage;
 use App\Pivots\ArtistMember;
 use App\Pivots\ArtistResource;
 use App\Pivots\ArtistSong;
-use ElasticScoutDriverPlus\CustomSearch;
+use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -18,7 +18,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Artist extends Model implements Auditable, Nameable
 {
-    use CustomSearch, HasFactory, Searchable;
+    use HasFactory, QueryDsl, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**

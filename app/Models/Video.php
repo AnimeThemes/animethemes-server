@@ -13,7 +13,7 @@ use App\Pivots\VideoEntry;
 use BenSampo\Enum\Traits\CastsEnums;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
-use ElasticScoutDriverPlus\CustomSearch;
+use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -21,7 +21,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Video extends Model implements Auditable, Nameable, Viewable
 {
-    use CastsEnums, CustomSearch, HasFactory, InteractsWithViews, Searchable;
+    use CastsEnums, HasFactory, InteractsWithViews, QueryDsl, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**

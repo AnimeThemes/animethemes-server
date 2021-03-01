@@ -8,7 +8,7 @@ use App\Events\Song\SongDeleted;
 use App\Events\Song\SongDeleting;
 use App\Events\Song\SongUpdated;
 use App\Pivots\ArtistSong;
-use ElasticScoutDriverPlus\CustomSearch;
+use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -16,7 +16,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Song extends Model implements Auditable, Nameable
 {
-    use CustomSearch, HasFactory, Searchable;
+    use HasFactory, QueryDsl, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**

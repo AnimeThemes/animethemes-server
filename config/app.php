@@ -220,7 +220,6 @@ return [
         App\Providers\NovaServiceProvider::class,
         L5Swagger\L5SwaggerServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
-        MattAllan\LaravelCodeStyle\ServiceProvider::class,
         Spatie\JsonApiPaginate\JsonApiPaginateServiceProvider::class,
         SMartins\Exceptions\JsonHandlerServiceProvider::class,
         App\Providers\PersistentConfigServiceProvider::class,

@@ -10,7 +10,7 @@ use App\Events\Theme\ThemeDeleted;
 use App\Events\Theme\ThemeDeleting;
 use App\Events\Theme\ThemeUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
-use ElasticScoutDriverPlus\CustomSearch;
+use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -18,7 +18,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Theme extends Model implements Auditable, Nameable
 {
-    use CastsEnums, CustomSearch, HasFactory, Searchable;
+    use CastsEnums, HasFactory, QueryDsl, Searchable;
     use \OwenIt\Auditing\Auditable;
 
     /**
