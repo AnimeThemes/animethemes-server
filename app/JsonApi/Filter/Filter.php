@@ -34,7 +34,7 @@ abstract class Filter
     }
 
     /**
-     * Undocumented function
+     * Get filter key value.
      *
      * @return string
      */
