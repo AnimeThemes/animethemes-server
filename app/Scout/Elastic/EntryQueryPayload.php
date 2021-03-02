@@ -17,7 +17,7 @@ class EntryQueryPayload extends ElasticQueryPayload
      */
     public function performSearch()
     {
-        return Entry::boolSearch()
+        $builder = Entry::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('version')
                 ->query($this->parser->getSearch())
@@ -195,8 +195,15 @@ class EntryQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(EntryCollection::allowedIncludePaths(), EntryCollection::resourceType()))
-            ->execute()
-            ->models();
+            ->load($this->parser->getResourceIncludePaths(EntryCollection::allowedIncludePaths(), EntryCollection::resourceType()));
+
+        foreach (EntryCollection::filters() as $filterClass) {
+            $filter = new $filterClass($this->parser);
+            if ($filter->shouldApplyFilter()) {
+                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
+            }
+        }
+
+        return $builder->execute()->models();
     }
 }

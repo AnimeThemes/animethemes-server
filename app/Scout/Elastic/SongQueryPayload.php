@@ -16,7 +16,7 @@ class SongQueryPayload extends ElasticQueryPayload
      */
     public function performSearch()
     {
-        return Song::boolSearch()
+        $builder = Song::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('title')
                 ->query($this->parser->getSearch())
@@ -35,8 +35,15 @@ class SongQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(SongCollection::allowedIncludePaths(), SongCollection::resourceType()))
-            ->execute()
-            ->models();
+            ->load($this->parser->getResourceIncludePaths(SongCollection::allowedIncludePaths(), SongCollection::resourceType()));
+
+        foreach (SongCollection::filters() as $filterClass) {
+            $filter = new $filterClass($this->parser);
+            if ($filter->shouldApplyFilter()) {
+                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
+            }
+        }
+
+        return $builder->execute()->models();
     }
 }

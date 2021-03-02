@@ -16,7 +16,7 @@ class SeriesQueryPayload extends ElasticQueryPayload
      */
     public function performSearch()
     {
-        return Series::boolSearch()
+        $builder = Series::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
@@ -35,8 +35,15 @@ class SeriesQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(SeriesCollection::allowedIncludePaths(), SeriesCollection::resourceType()))
-            ->execute()
-            ->models();
+            ->load($this->parser->getResourceIncludePaths(SeriesCollection::allowedIncludePaths(), SeriesCollection::resourceType()));
+
+        foreach (SeriesCollection::filters() as $filterClass) {
+            $filter = new $filterClass($this->parser);
+            if ($filter->shouldApplyFilter()) {
+                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
+            }
+        }
+
+        return $builder->execute()->models();
     }
 }

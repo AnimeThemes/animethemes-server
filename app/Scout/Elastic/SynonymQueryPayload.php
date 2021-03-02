@@ -16,7 +16,7 @@ class SynonymQueryPayload extends ElasticQueryPayload
      */
     public function performSearch()
     {
-        return Synonym::boolSearch()
+        $builder = Synonym::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('text')
                 ->query($this->parser->getSearch())
@@ -35,8 +35,15 @@ class SynonymQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(SynonymCollection::allowedIncludePaths(), SynonymCollection::resourceType()))
-            ->execute()
-            ->models();
+            ->load($this->parser->getResourceIncludePaths(SynonymCollection::allowedIncludePaths(), SynonymCollection::resourceType()));
+
+        foreach (SynonymCollection::filters() as $filterClass) {
+            $filter = new $filterClass($this->parser);
+            if ($filter->shouldApplyFilter()) {
+                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
+            }
+        }
+
+        return $builder->execute()->models();
     }
 }

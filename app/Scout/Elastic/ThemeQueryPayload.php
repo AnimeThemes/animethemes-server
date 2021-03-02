@@ -17,7 +17,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
      */
     public function performSearch()
     {
-        return Theme::boolSearch()
+        $builder = Theme::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('slug')
                 ->query($this->parser->getSearch())
@@ -152,8 +152,15 @@ class ThemeQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(ThemeCollection::allowedIncludePaths(), ThemeCollection::resourceType()))
-            ->execute()
-            ->models();
+            ->load($this->parser->getResourceIncludePaths(ThemeCollection::allowedIncludePaths(), ThemeCollection::resourceType()));
+
+        foreach (ThemeCollection::filters() as $filterClass) {
+            $filter = new $filterClass($this->parser);
+            if ($filter->shouldApplyFilter()) {
+                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
+            }
+        }
+
+        return $builder->execute()->models();
     }
 }

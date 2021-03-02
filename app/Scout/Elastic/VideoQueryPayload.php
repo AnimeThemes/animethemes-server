@@ -17,7 +17,7 @@ class VideoQueryPayload extends ElasticQueryPayload
      */
     public function performSearch()
     {
-        return Video::boolSearch()
+        $builder = Video::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('filename')
                 ->query($this->parser->getSearch())
@@ -254,8 +254,15 @@ class VideoQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(VideoCollection::allowedIncludePaths(), VideoCollection::resourceType()))
-            ->execute()
-            ->models();
+            ->load($this->parser->getResourceIncludePaths(VideoCollection::allowedIncludePaths(), VideoCollection::resourceType()));
+
+        foreach (VideoCollection::filters() as $filterClass) {
+            $filter = new $filterClass($this->parser);
+            if ($filter->shouldApplyFilter()) {
+                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
+            }
+        }
+
+        return $builder->execute()->models();
     }
 }

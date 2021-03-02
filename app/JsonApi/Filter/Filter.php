@@ -34,6 +34,16 @@ abstract class Filter
     }
 
     /**
+     * Get filter key value.
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
      * Modify query builder with filter criteria.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
@@ -42,7 +52,7 @@ abstract class Filter
     public function applyFilter(Builder $builder)
     {
         if ($this->shouldApplyFilter()) {
-            return $builder->whereIn($this->key, $this->getFilterValues());
+            return $builder->whereIn($this->getKey(), $this->getFilterValues());
         }
 
         return $builder;
@@ -77,7 +87,7 @@ abstract class Filter
      */
     protected function hasFilter()
     {
-        return $this->parser->hasFilter($this->key);
+        return $this->parser->hasFilter($this->getKey());
     }
 
     /**
@@ -85,12 +95,12 @@ abstract class Filter
      *
      * @return array
      */
-    protected function getFilterValues()
+    public function getFilterValues()
     {
         return $this->getUniqueFilterValues(
             $this->convertFilterValues(
                 $this->getValidFilterValues(
-                    $this->parser->getFilter($this->key)
+                    $this->parser->getFilter($this->getKey())
                 )
             )
         );
