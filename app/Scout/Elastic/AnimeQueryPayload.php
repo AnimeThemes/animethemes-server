@@ -17,7 +17,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
      */
     public function performSearch()
     {
-        return Anime::boolSearch()
+        $builder = Anime::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
@@ -61,8 +61,15 @@ class AnimeQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(AnimeCollection::allowedIncludePaths(), AnimeCollection::resourceType()))
-            ->execute()
-            ->models();
+            ->load($this->parser->getResourceIncludePaths(AnimeCollection::allowedIncludePaths(), AnimeCollection::resourceType()));
+
+        foreach (AnimeCollection::filters() as $filterClass) {
+            $filter = new $filterClass($this->parser);
+            if ($filter->shouldApplyFilter()) {
+                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
+            }
+        }
+
+        return $builder->execute()->models();
     }
 }

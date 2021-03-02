@@ -17,7 +17,7 @@ class ArtistQueryPayload extends ElasticQueryPayload
      */
     public function performSearch()
     {
-        return Artist::boolSearch()
+        $builder = Artist::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
@@ -70,8 +70,15 @@ class ArtistQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(ArtistCollection::allowedIncludePaths(), ArtistCollection::resourceType()))
-            ->execute()
-            ->models();
+            ->load($this->parser->getResourceIncludePaths(ArtistCollection::allowedIncludePaths(), ArtistCollection::resourceType()));
+
+        foreach (ArtistCollection::filters() as $filterClass) {
+            $filter = new $filterClass($this->parser);
+            if ($filter->shouldApplyFilter()) {
+                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
+            }
+        }
+
+        return $builder->execute()->models();
     }
 }
