@@ -27,8 +27,8 @@ class ThemeCollection extends BaseCollection
      */
     public function toArray($request)
     {
-        return $this->collection->map(function ($theme) {
-            return ThemeResource::make($theme, $this->parser);
+        return $this->collection->map(function (ThemeResource $resource) {
+            return $resource->parser($this->parser);
         })->all();
     }
 

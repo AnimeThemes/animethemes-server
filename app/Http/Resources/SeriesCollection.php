@@ -24,8 +24,8 @@ class SeriesCollection extends BaseCollection
      */
     public function toArray($request)
     {
-        return $this->collection->map(function ($series) {
-            return SeriesResource::make($series, $this->parser);
+        return $this->collection->map(function (SeriesResource $resource) {
+            return $resource->parser($this->parser);
         })->all();
     }
 
