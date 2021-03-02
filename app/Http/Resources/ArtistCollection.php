@@ -25,8 +25,8 @@ class ArtistCollection extends BaseCollection
      */
     public function toArray($request)
     {
-        return $this->collection->map(function ($artist) {
-            return ArtistResource::make($artist, $this->parser);
+        return $this->collection->map(function (ArtistResource $resource) {
+            return $resource->parser($this->parser);
         })->all();
     }
 

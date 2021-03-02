@@ -31,8 +31,8 @@ class VideoCollection extends BaseCollection
      */
     public function toArray($request)
     {
-        return $this->collection->map(function ($video) {
-            return VideoResource::make($video, $this->parser);
+        return $this->collection->map(function (VideoResource $resource) {
+            return $resource->parser($this->parser);
         })->all();
     }
 

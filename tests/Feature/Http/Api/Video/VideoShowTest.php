@@ -110,6 +110,8 @@ class VideoShowTest extends TestCase
             'overlap',
             'created_at',
             'updated_at',
+            'link',
+            'views',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));

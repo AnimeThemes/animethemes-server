@@ -35,6 +35,19 @@ abstract class BaseResource extends JsonResource
     }
 
     /**
+     * Set the parser.
+     *
+     * @param \App\JsonApi\QueryParser $parser
+     * @return static
+     */
+    public function parser($parser)
+    {
+        $this->parser = $parser;
+
+        return $this;
+    }
+
+    /**
      * Determine if field should be included in the response for this resource type.
      *
      * @param string $field

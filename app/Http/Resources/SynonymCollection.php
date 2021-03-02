@@ -24,8 +24,8 @@ class SynonymCollection extends BaseCollection
      */
     public function toArray($request)
     {
-        return $this->collection->map(function ($synonym) {
-            return SynonymResource::make($synonym, $this->parser);
+        return $this->collection->map(function (SynonymResource $resource) {
+            return $resource->parser($this->parser);
         })->all();
     }
 
