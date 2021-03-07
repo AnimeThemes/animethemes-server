@@ -96,7 +96,7 @@ abstract class Filter
      * Determine if the scope of this condition matches the intended scope.
      *
      * @param \App\JsonApi\Condition\Condition $condition
-     * @return boolean
+     * @return bool
      */
     protected function isMatchingScope(Condition $condition)
     {

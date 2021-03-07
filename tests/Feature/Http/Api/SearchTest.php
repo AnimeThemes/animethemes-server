@@ -58,7 +58,7 @@ class SearchTest extends TestCase
                 SynonymCollection::$wrap => [],
                 ThemeCollection::$wrap => [],
                 VideoCollection::$wrap => [],
-            ]
+            ],
         ]);
     }
 
