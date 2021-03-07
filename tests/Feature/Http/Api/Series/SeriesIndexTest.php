@@ -121,7 +121,7 @@ class SeriesIndexTest extends TestCase
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                SeriesResource::$resourceType => $included_fields->join(','),
+                SeriesResource::$wrap => $included_fields->join(','),
             ],
         ];
 

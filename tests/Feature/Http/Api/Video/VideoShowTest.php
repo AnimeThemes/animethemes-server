@@ -118,7 +118,7 @@ class VideoShowTest extends TestCase
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                VideoResource::$resourceType => $included_fields->join(','),
+                VideoResource::$wrap => $included_fields->join(','),
             ],
         ];
 

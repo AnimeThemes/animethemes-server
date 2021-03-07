@@ -2,13 +2,14 @@
 
 namespace App\JsonApi\Filter;
 
+use App\JsonApi\Condition\Condition;
 use App\JsonApi\QueryParser;
 use Illuminate\Database\Eloquent\Builder;
 
 abstract class Filter
 {
     /**
-     * Filter set specified by the client.
+     * Filters specified by the client.
      *
      * @var \App\JsonApi\QueryParser
      */
@@ -22,15 +23,23 @@ abstract class Filter
     protected $key;
 
     /**
+     * Filter scope.
+     *
+     * @var string
+     */
+    protected $scope;
+
+    /**
      * Create a new filter instance.
      *
      * @param \App\JsonApi\QueryParser $parser
      * @param string $key
      */
-    public function __construct(QueryParser $parser, string $key)
+    public function __construct(QueryParser $parser, string $key, string $scope = '')
     {
         $this->parser = $parser;
         $this->key = $key;
+        $this->scope = $scope;
     }
 
     /**
@@ -51,8 +60,10 @@ abstract class Filter
      */
     public function applyFilter(Builder $builder)
     {
-        if ($this->shouldApplyFilter()) {
-            return $builder->whereIn($this->getKey(), $this->getFilterValues());
+        foreach ($this->getConditions() as $condition) {
+            if ($this->shouldApplyFilter($condition)) {
+                $builder = $condition->apply($builder, $this);
+            }
         }
 
         return $builder;
@@ -61,16 +72,17 @@ abstract class Filter
     /**
      * Determine if this filter should be applied.
      *
+     * @param \App\JsonApi\Condition\Condition $condition
      * @return bool
      */
-    public function shouldApplyFilter()
+    public function shouldApplyFilter(Condition $condition)
     {
-        // Don't apply filter if not specified by the client
-        if (! $this->hasFilter()) {
+        // Don't apply filter if scope does not match
+        if (! $this->isMatchingScope($condition)) {
             return false;
         }
 
-        $filterValues = $this->getFilterValues();
+        $filterValues = $this->getFilterValues($condition);
 
         // Don't apply filter if there is not a subset of valid values specified
         if (empty($filterValues) || $this->isAllFilterValues($filterValues)) {
@@ -81,26 +93,38 @@ abstract class Filter
     }
 
     /**
-     * Determines if the filter has been set by the client.
+     * Determine if the scope of this condition matches the intended scope.
      *
+     * @param \App\JsonApi\Condition\Condition $condition
      * @return bool
      */
-    protected function hasFilter()
+    protected function isMatchingScope(Condition $condition)
     {
-        return $this->parser->hasFilter($this->getKey());
+        return empty($condition->getScope()) || strcasecmp($condition->getScope(), $this->getScope()) === 0;
+    }
+
+    /**
+     * Get the underlying query conditions.
+     *
+     * @return \App\JsonApi\Condition\Condition[]
+     */
+    public function getConditions()
+    {
+        return $this->parser->getConditions($this->getKey());
     }
 
     /**
      * Get sanitized filter values.
      *
+     * @param \App\JsonApi\Condition\Condition $condition
      * @return array
      */
-    public function getFilterValues()
+    public function getFilterValues(Condition $condition)
     {
         return $this->getUniqueFilterValues(
             $this->convertFilterValues(
                 $this->getValidFilterValues(
-                    $this->parser->getFilter($this->getKey())
+                    $condition->getFilterValues()
                 )
             )
         );
@@ -112,7 +136,7 @@ abstract class Filter
      * @param array $filterValues
      * @return array
      */
-    protected function getUniqueFilterValues($filterValues)
+    protected function getUniqueFilterValues(array $filterValues)
     {
         return array_values(array_unique($filterValues));
     }
@@ -123,7 +147,7 @@ abstract class Filter
      * @param array $filterValues
      * @return array
      */
-    protected function convertFilterValues($filterValues)
+    protected function convertFilterValues(array $filterValues)
     {
         return $filterValues;
     }
@@ -134,7 +158,7 @@ abstract class Filter
      * @param array $filterValues
      * @return array
      */
-    protected function getValidFilterValues($filterValues)
+    protected function getValidFilterValues(array $filterValues)
     {
         return $filterValues;
     }
@@ -146,8 +170,31 @@ abstract class Filter
      * @param array $filterValues
      * @return bool
      */
-    protected function isAllFilterValues($filterValues)
+    protected function isAllFilterValues(array $filterValues)
     {
         return false;
+    }
+
+    /**
+     * Set intended scope of query.
+     *
+     * @param string $scope
+     * @return $this
+     */
+    public function scope(string $scope)
+    {
+        $this->scope = $scope;
+
+        return $this;
+    }
+
+    /**
+     * Get intended scope of query.
+     *
+     * @return string
+     */
+    protected function getScope()
+    {
+        return $this->scope;
     }
 }

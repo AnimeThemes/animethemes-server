@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
+use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\Image\ImageFacetFilter;
 
 class ImageCollection extends BaseCollection
@@ -67,6 +69,8 @@ class ImageCollection extends BaseCollection
     {
         return [
             ImageFacetFilter::class,
+            CreatedAtFilter::class,
+            UpdatedAtFilter::class,
         ];
     }
 }

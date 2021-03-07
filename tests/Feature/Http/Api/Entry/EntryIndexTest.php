@@ -130,7 +130,7 @@ class EntryIndexTest extends TestCase
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                EntryResource::$resourceType => $included_fields->join(','),
+                EntryResource::$wrap => $included_fields->join(','),
             ],
         ];
 

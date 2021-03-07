@@ -94,7 +94,7 @@ class SynonymShowTest extends TestCase
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                SynonymResource::$resourceType => $included_fields->join(','),
+                SynonymResource::$wrap => $included_fields->join(','),
             ],
         ];
 

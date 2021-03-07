@@ -9,18 +9,6 @@ use Illuminate\Support\Str;
 trait PerformsResourceCollectionSearch
 {
     /**
-     * The key used to resolve resource include paths on search.
-     *
-     * @return string
-     */
-    public static function resourceType()
-    {
-        $model = Str::replaceLast('Collection', '', class_basename(static::class));
-
-        return Str::lower($model);
-    }
-
-    /**
      * Perform query to prepare models for resource collection.
      *
      * @param \App\JsonApi\QueryParser $parser
@@ -98,7 +86,7 @@ trait PerformsResourceCollectionSearch
 
         $collection = $builder->take($parser->getLimit())
             ->get()
-            ->load($parser->getResourceIncludePaths(static::allowedIncludePaths(), static::resourceType()));
+            ->load($parser->getResourceIncludePaths(static::allowedIncludePaths(), Str::singular(static::$wrap)));
 
         return static::make($collection, $parser);
     }

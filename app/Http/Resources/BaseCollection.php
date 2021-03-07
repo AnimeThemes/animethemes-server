@@ -14,6 +14,13 @@ abstract class BaseCollection extends ResourceCollection
     protected $parser;
 
     /**
+     * Indicates if all existing request query parameters should be added to pagination links.
+     *
+     * @var bool
+     */
+    protected $preserveAllQueryParameters = true;
+
+    /**
      * Create a new resource instance.
      *
      * @param  mixed  $resource

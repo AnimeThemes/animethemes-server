@@ -6,6 +6,7 @@ use App\Http\Resources\SongCollection;
 use App\Models\Song;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
+use Illuminate\Support\Str;
 
 class SongQueryPayload extends ElasticQueryPayload
 {
@@ -35,14 +36,7 @@ class SongQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(SongCollection::allowedIncludePaths(), SongCollection::resourceType()));
-
-        foreach (SongCollection::filters() as $filterClass) {
-            $filter = new $filterClass($this->parser);
-            if ($filter->shouldApplyFilter()) {
-                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
-            }
-        }
+            ->load($this->parser->getResourceIncludePaths(SongCollection::allowedIncludePaths(), Str::lower(SongCollection::$wrap)));
 
         return $builder->execute()->models();
     }

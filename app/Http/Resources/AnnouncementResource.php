@@ -24,14 +24,7 @@ class AnnouncementResource extends BaseResource
      *
      * @var string
      */
-    public static $wrap = null;
-
-    /**
-     * The name of the resource in the field set mapping.
-     *
-     * @var string
-     */
-    public static $resourceType = 'announcement';
+    public static $wrap = 'announcement';
 
     /**
      * Transform the resource into an array.

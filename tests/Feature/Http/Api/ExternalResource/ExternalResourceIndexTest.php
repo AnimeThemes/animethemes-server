@@ -123,7 +123,7 @@ class ExternalResourceIndexTest extends TestCase
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                ExternalResourceResource::$resourceType => $included_fields->join(','),
+                ExternalResourceResource::$wrap => $included_fields->join(','),
             ],
         ];
 

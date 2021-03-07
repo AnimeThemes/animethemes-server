@@ -7,6 +7,7 @@ use App\Models\Theme;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
+use Illuminate\Support\Str;
 
 class ThemeQueryPayload extends ElasticQueryPayload
 {
@@ -152,14 +153,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(ThemeCollection::allowedIncludePaths(), ThemeCollection::resourceType()));
-
-        foreach (ThemeCollection::filters() as $filterClass) {
-            $filter = new $filterClass($this->parser);
-            if ($filter->shouldApplyFilter()) {
-                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
-            }
-        }
+            ->load($this->parser->getResourceIncludePaths(ThemeCollection::allowedIncludePaths(), Str::lower(ThemeCollection::$wrap)));
 
         return $builder->execute()->models();
     }

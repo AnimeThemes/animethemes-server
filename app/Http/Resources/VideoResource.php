@@ -63,14 +63,7 @@ class VideoResource extends BaseResource
      *
      * @var string
      */
-    public static $wrap = null;
-
-    /**
-     * The name of the resource in the field set mapping.
-     *
-     * @var string
-     */
-    public static $resourceType = 'video';
+    public static $wrap = 'video';
 
     /**
      * Transform the resource into an array.

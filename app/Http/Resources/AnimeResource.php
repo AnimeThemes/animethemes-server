@@ -106,14 +106,7 @@ class AnimeResource extends BaseResource
      *
      * @var string
      */
-    public static $wrap = null;
-
-    /**
-     * The name of the resource in the field set mapping.
-     *
-     * @var string
-     */
-    public static $resourceType = 'anime';
+    public static $wrap = 'anime';
 
     /**
      * Transform the resource into an array.

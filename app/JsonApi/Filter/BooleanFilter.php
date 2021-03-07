@@ -10,7 +10,7 @@ abstract class BooleanFilter extends Filter
      * @param array $filterValues
      * @return array
      */
-    protected function convertFilterValues($filterValues)
+    protected function convertFilterValues(array $filterValues)
     {
         return array_map(
             function ($filterValue) {
@@ -28,7 +28,7 @@ abstract class BooleanFilter extends Filter
      * @param array $filterValues
      * @return array
      */
-    protected function getValidFilterValues($filterValues)
+    protected function getValidFilterValues(array $filterValues)
     {
         return array_values(
             array_filter(
@@ -46,7 +46,7 @@ abstract class BooleanFilter extends Filter
      * @param array $filterValues
      * @return bool
      */
-    protected function isAllFilterValues($filterValues)
+    protected function isAllFilterValues(array $filterValues)
     {
         return in_array(true, $filterValues) && in_array(false, $filterValues);
     }

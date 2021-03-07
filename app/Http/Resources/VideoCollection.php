@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
+use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\Video\VideoLyricsFilter;
 use App\JsonApi\Filter\Video\VideoNcFilter;
 use App\JsonApi\Filter\Video\VideoOverlapFilter;
@@ -90,6 +92,8 @@ class VideoCollection extends BaseCollection
             VideoSourceFilter::class,
             VideoSubbedFilter::class,
             VideoUncenFilter::class,
+            CreatedAtFilter::class,
+            UpdatedAtFilter::class,
         ];
     }
 }

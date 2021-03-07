@@ -26,7 +26,7 @@ trait PerformsConstrainedEagerLoading
             $constrainedEagerLoads[$allowedIncludePath] = function (Relation $query) use ($parser, $relation) {
                 foreach ($relation::filters() as $filterClass) {
                     $filter = new $filterClass($parser);
-                    $filter->applyFilter($query->getQuery());
+                    $filter->scope(Str::singular($relation::$wrap))->applyFilter($query->getQuery());
                 }
             };
         }

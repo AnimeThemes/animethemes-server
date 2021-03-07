@@ -2,6 +2,7 @@
 
 namespace App\JsonApi;
 
+use App\JsonApi\Condition\Condition;
 use Illuminate\Support\Arr;
 
 class QueryParser
@@ -23,37 +24,37 @@ class QueryParser
     /**
      * @var array
      */
-    private $fields;
+    protected $fields;
 
     /**
      * @var array|null
      */
-    private $includes;
+    protected $includes;
 
     /**
      * @var array
      */
-    private $resourceIncludes;
+    protected $resourceIncludes;
 
     /**
      * @var array
      */
-    private $sorts;
+    protected $sorts;
 
     /**
-     * @var array
+     * @var \App\JsonApi\Condition\Condition[]
      */
-    private $filters;
+    protected $conditions;
 
     /**
      * @var string
      */
-    private $search;
+    protected $search;
 
     /**
      * @var int
      */
-    private $limit;
+    protected $limit;
 
     /**
      * Create a new query parser instance.
@@ -66,7 +67,7 @@ class QueryParser
         $this->includes = $this->parseIncludes($parameters);
         $this->resourceIncludes = $this->parseResourceIncludes($parameters);
         $this->sorts = $this->parseSorts($parameters);
-        $this->filters = $this->parseFilters($parameters);
+        $this->conditions = $this->parseConditions($parameters);
         $this->search = $this->parseSearch($parameters);
         $this->limit = $this->parseLimit($parameters);
     }
@@ -205,25 +206,25 @@ class QueryParser
     }
 
     /**
-     * Parse filters from parameters.
+     * Parse filter conditions from parameters.
      *
      * @param array $parameters
-     * @return array
+     * @return \App\JsonApi\Condition\Condition[]
      */
-    private function parseFilters($parameters)
+    private function parseConditions($parameters)
     {
-        $filters = [];
+        $conditions = [];
 
         if (Arr::exists($parameters, self::PARAM_FILTER)) {
             $filterParam = $parameters[self::PARAM_FILTER];
             if (Arr::accessible($filterParam) && Arr::isAssoc($filterParam)) {
-                foreach ($filterParam as $field => $filterList) {
-                    Arr::set($filters, $field, array_map('trim', explode(',', $filterList)));
+                foreach (Arr::dot($filterParam) as $filterCondition => $filterValues) {
+                    $conditions[] = Condition::make($filterCondition, $filterValues);
                 }
             }
         }
 
-        return $filters;
+        return $conditions;
     }
 
     /**
@@ -321,25 +322,27 @@ class QueryParser
     }
 
     /**
-     * Check if filter exists for field.
+     * Check if conditions exist for field.
      *
      * @param string $field
      * @return bool
      */
-    public function hasFilter($field)
+    public function hasCondition($field)
     {
-        return Arr::exists($this->filters, $field);
+        return ! empty($this->getConditions($field));
     }
 
     /**
-     * Get filter values for field.
+     * Get conditions for field.
      *
      * @param string $field
-     * @return array
+     * @return \App\JsonApi\Condition\Condition[]
      */
-    public function getFilter($field)
+    public function getConditions($field)
     {
-        return Arr::get($this->filters, $field);
+        return array_filter($this->conditions, function (Condition $condition) use ($field) {
+            return $field === $condition->getField();
+        });
     }
 
     /**

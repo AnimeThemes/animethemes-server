@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
+use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\Theme\ThemeGroupFilter;
 use App\JsonApi\Filter\Theme\ThemeSequenceFilter;
 use App\JsonApi\Filter\Theme\ThemeTypeFilter;
@@ -80,6 +82,8 @@ class ThemeCollection extends BaseCollection
             ThemeGroupFilter::class,
             ThemeSequenceFilter::class,
             ThemeTypeFilter::class,
+            CreatedAtFilter::class,
+            UpdatedAtFilter::class,
         ];
     }
 }

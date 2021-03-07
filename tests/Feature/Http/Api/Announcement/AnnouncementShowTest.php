@@ -86,7 +86,7 @@ class AnnouncementShowTest extends TestCase
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                AnnouncementResource::$resourceType => $included_fields->join(','),
+                AnnouncementResource::$wrap => $included_fields->join(','),
             ],
         ];
 

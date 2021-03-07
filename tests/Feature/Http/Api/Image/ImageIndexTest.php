@@ -124,7 +124,7 @@ class ImageIndexTest extends TestCase
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                ImageResource::$resourceType => $included_fields->join(','),
+                ImageResource::$wrap => $included_fields->join(','),
             ],
         ];
 

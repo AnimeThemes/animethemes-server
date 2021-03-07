@@ -42,7 +42,7 @@ class EnumFilterTest extends TestCase
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter());
+        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filter_field)[0]));
     }
 
     /**
@@ -76,6 +76,6 @@ class EnumFilterTest extends TestCase
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter());
+        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filter_field)[0]));
     }
 }

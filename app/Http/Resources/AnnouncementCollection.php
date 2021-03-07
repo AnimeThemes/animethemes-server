@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
+use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\UpdatedAtFilter;
 
 class AnnouncementCollection extends BaseCollection
 {
@@ -39,6 +41,19 @@ class AnnouncementCollection extends BaseCollection
             'announcement_id',
             'created_at',
             'updated_at',
+        ];
+    }
+
+    /**
+     * The filters that can be applied by the client for this resource.
+     *
+     * @return array
+     */
+    public static function filters()
+    {
+        return [
+            CreatedAtFilter::class,
+            UpdatedAtFilter::class,
         ];
     }
 }

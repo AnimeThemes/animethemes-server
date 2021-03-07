@@ -118,7 +118,7 @@ class ArtistIndexTest extends TestCase
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                ArtistResource::$resourceType => $included_fields->join(','),
+                ArtistResource::$wrap => $included_fields->join(','),
             ],
         ];
 

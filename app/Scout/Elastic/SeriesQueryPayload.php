@@ -6,6 +6,7 @@ use App\Http\Resources\SeriesCollection;
 use App\Models\Series;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
+use Illuminate\Support\Str;
 
 class SeriesQueryPayload extends ElasticQueryPayload
 {
@@ -35,14 +36,7 @@ class SeriesQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(SeriesCollection::allowedIncludePaths(), SeriesCollection::resourceType()));
-
-        foreach (SeriesCollection::filters() as $filterClass) {
-            $filter = new $filterClass($this->parser);
-            if ($filter->shouldApplyFilter()) {
-                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
-            }
-        }
+            ->load($this->parser->getResourceIncludePaths(SeriesCollection::allowedIncludePaths(), Str::lower(SeriesCollection::$wrap)));
 
         return $builder->execute()->models();
     }

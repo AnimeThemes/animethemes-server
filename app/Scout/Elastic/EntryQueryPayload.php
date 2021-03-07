@@ -7,6 +7,7 @@ use App\Models\Entry;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
+use Illuminate\Support\Str;
 
 class EntryQueryPayload extends ElasticQueryPayload
 {
@@ -195,14 +196,7 @@ class EntryQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(EntryCollection::allowedIncludePaths(), EntryCollection::resourceType()));
-
-        foreach (EntryCollection::filters() as $filterClass) {
-            $filter = new $filterClass($this->parser);
-            if ($filter->shouldApplyFilter()) {
-                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
-            }
-        }
+            ->load($this->parser->getResourceIncludePaths(EntryCollection::allowedIncludePaths(), Str::lower(EntryCollection::$wrap)));
 
         return $builder->execute()->models();
     }

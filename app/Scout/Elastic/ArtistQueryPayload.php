@@ -7,6 +7,7 @@ use App\Models\Artist;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
+use Illuminate\Support\Str;
 
 class ArtistQueryPayload extends ElasticQueryPayload
 {
@@ -70,14 +71,7 @@ class ArtistQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(ArtistCollection::allowedIncludePaths(), ArtistCollection::resourceType()));
-
-        foreach (ArtistCollection::filters() as $filterClass) {
-            $filter = new $filterClass($this->parser);
-            if ($filter->shouldApplyFilter()) {
-                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
-            }
-        }
+            ->load($this->parser->getResourceIncludePaths(ArtistCollection::allowedIncludePaths(), Str::singular(ArtistCollection::$wrap)));
 
         return $builder->execute()->models();
     }
