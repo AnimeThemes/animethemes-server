@@ -13,11 +13,31 @@ class FilterTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * The filter key shall be accessible.
+     * The filter values shall be accessible.
      *
      * @return void
      */
     public function testGetKey()
+    {
+        $filter_field = $this->faker->word();
+
+        $parameters = [];
+
+        $parser = new QueryParser($parameters);
+
+        $filter = new class($parser, $filter_field) extends Filter {
+            // We don't need to do any customization
+        };
+
+        $this->assertEquals($filter_field, $filter->getKey());
+    }
+
+    /**
+     * The filter key shall be accessible.
+     *
+     * @return void
+     */
+    public function testGetValues()
     {
         $filter_field = $this->faker->word();
 
@@ -35,45 +55,9 @@ class FilterTest extends TestCase
             // We don't need to do any customization
         };
 
-        $this->assertEquals($filter_values, $filter->getFilterValues());
-    }
+        $conditions = collect($filter->getConditions());
 
-    /**
-     * The filter values shall be accessible.
-     *
-     * @return void
-     */
-    public function testGetValues()
-    {
-        $filter_field = $this->faker->word();
-
-        $parameters = [];
-
-        $parser = new QueryParser($parameters);
-
-        $filter = new class($parser, $filter_field) extends Filter {
-            // We don't need to do any customization
-        };
-
-        $this->assertEquals($filter_field, $filter->getKey());
-    }
-
-    /**
-     * If we don't have a filter, we should not apply a filter.
-     *
-     * @return void
-     */
-    public function testShouldNotApplyIfDoesNotHaveFilter()
-    {
-        $parameters = [];
-
-        $parser = new QueryParser($parameters);
-
-        $filter = new class($parser, $this->faker->word()) extends Filter {
-            // We don't need to do any customization
-        };
-
-        $this->assertFalse($filter->shouldApplyFilter());
+        $this->assertEquals($filter_values, $filter->getFilterValues($conditions->first()));
     }
 
     /**
@@ -97,6 +81,6 @@ class FilterTest extends TestCase
             // We don't need to do any customization
         };
 
-        $this->assertTrue($filter->shouldApplyFilter());
+        $this->assertTrue($filter->shouldApplyFilter($parser->getConditions($filter_field)[0]));
     }
 }

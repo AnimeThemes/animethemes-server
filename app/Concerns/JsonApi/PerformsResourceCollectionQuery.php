@@ -71,7 +71,7 @@ trait PerformsResourceCollectionQuery
         // apply filters
         foreach (static::filters() as $filterClass) {
             $filter = new $filterClass($parser);
-            $builder = $filter->applyFilter($builder);
+            $builder = $filter->scope(Str::singular(static::$wrap))->applyFilter($builder);
         }
 
         // apply sorts

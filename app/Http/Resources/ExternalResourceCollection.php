@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
+use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\ExternalResource\ExternalResourceSiteFilter;
 
 class ExternalResourceCollection extends BaseCollection
@@ -68,6 +70,8 @@ class ExternalResourceCollection extends BaseCollection
     {
         return [
             ExternalResourceSiteFilter::class,
+            CreatedAtFilter::class,
+            UpdatedAtFilter::class,
         ];
     }
 }

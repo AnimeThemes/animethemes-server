@@ -287,9 +287,9 @@ class QueryParserTest extends TestCase
 
         foreach ($fields as $field) {
             if ($field == $filter_field) {
-                $this->assertTrue($parser->hasFilter($field));
+                $this->assertTrue($parser->hasCondition($field));
             } else {
-                $this->assertFalse($parser->hasFilter($field));
+                $this->assertFalse($parser->hasCondition($field));
             }
         }
     }
@@ -299,7 +299,7 @@ class QueryParserTest extends TestCase
      *
      * @return void
      */
-    public function testGetFilter()
+    public function testGetFilters()
     {
         $fields = $this->faker->words($this->faker->randomDigitNotNull);
         $filter_field = Arr::random($fields);
@@ -315,9 +315,9 @@ class QueryParserTest extends TestCase
 
         foreach ($fields as $field) {
             if ($field == $filter_field) {
-                $this->assertEmpty(array_diff([$filter], $parser->getFilter($field)));
+                $this->assertNotEmpty($parser->getConditions($field));
             } else {
-                $this->assertEmpty($parser->getFilter($field));
+                $this->assertEmpty($parser->getConditions($field));
             }
         }
     }

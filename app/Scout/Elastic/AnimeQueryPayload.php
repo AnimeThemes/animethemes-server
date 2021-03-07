@@ -7,6 +7,7 @@ use App\Models\Anime;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
+use Illuminate\Support\Str;
 
 class AnimeQueryPayload extends ElasticQueryPayload
 {
@@ -61,14 +62,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(AnimeCollection::allowedIncludePaths(), AnimeCollection::resourceType()));
-
-        foreach (AnimeCollection::filters() as $filterClass) {
-            $filter = new $filterClass($this->parser);
-            if ($filter->shouldApplyFilter()) {
-                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
-            }
-        }
+            ->load($this->parser->getResourceIncludePaths(AnimeCollection::allowedIncludePaths(), Str::singular(AnimeCollection::$wrap)));
 
         return $builder->execute()->models();
     }

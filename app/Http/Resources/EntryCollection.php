@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
+use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\Entry\EntryNsfwFilter;
 use App\JsonApi\Filter\Entry\EntrySpoilerFilter;
 use App\JsonApi\Filter\Entry\EntryVersionFilter;
@@ -75,6 +77,8 @@ class EntryCollection extends BaseCollection
             EntryNsfwFilter::class,
             EntrySpoilerFilter::class,
             EntryVersionFilter::class,
+            CreatedAtFilter::class,
+            UpdatedAtFilter::class,
         ];
     }
 }

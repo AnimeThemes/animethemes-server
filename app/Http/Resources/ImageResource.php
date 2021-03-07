@@ -35,14 +35,7 @@ class ImageResource extends BaseResource
      *
      * @var string
      */
-    public static $wrap = null;
-
-    /**
-     * The name of the resource in the field set mapping.
-     *
-     * @var string
-     */
-    public static $resourceType = 'image';
+    public static $wrap = 'image';
 
     /**
      * Transform the resource into an array.

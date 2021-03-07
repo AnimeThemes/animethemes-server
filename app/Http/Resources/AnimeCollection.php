@@ -6,6 +6,8 @@ use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
 use App\JsonApi\Filter\Anime\AnimeSeasonFilter;
 use App\JsonApi\Filter\Anime\AnimeYearFilter;
+use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\UpdatedAtFilter;
 
 class AnimeCollection extends BaseCollection
 {
@@ -79,6 +81,8 @@ class AnimeCollection extends BaseCollection
         return [
             AnimeSeasonFilter::class,
             AnimeYearFilter::class,
+            CreatedAtFilter::class,
+            UpdatedAtFilter::class,
         ];
     }
 }

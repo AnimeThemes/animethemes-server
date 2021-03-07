@@ -28,7 +28,7 @@ class SearchTest extends TestCase
      */
     public function testNoSearchTerm()
     {
-        $response = $this->get(route('api.search'));
+        $response = $this->get(route('api.search.index'));
 
         $response->assertJson([]);
     }
@@ -46,17 +46,19 @@ class SearchTest extends TestCase
             QueryParser::PARAM_SEARCH => $q,
         ];
 
-        $response = $this->get(route('api.search', $parameters));
+        $response = $this->get(route('api.search.index', $parameters));
 
         $response->assertJson([
-            AnimeCollection::$wrap => [],
-            ArtistCollection::$wrap => [],
-            EntryCollection::$wrap => [],
-            SeriesCollection::$wrap => [],
-            SongCollection::$wrap => [],
-            SynonymCollection::$wrap => [],
-            ThemeCollection::$wrap => [],
-            VideoCollection::$wrap => [],
+            SearchResource::$wrap => [
+                AnimeCollection::$wrap => [],
+                ArtistCollection::$wrap => [],
+                EntryCollection::$wrap => [],
+                SeriesCollection::$wrap => [],
+                SongCollection::$wrap => [],
+                SynonymCollection::$wrap => [],
+                ThemeCollection::$wrap => [],
+                VideoCollection::$wrap => [],
+            ]
         ]);
     }
 
@@ -79,20 +81,20 @@ class SearchTest extends TestCase
         ];
 
         $included_fields = Arr::random($fields, $this->faker->numberBetween(1, count($fields)));
-        $excluded_fields = array_diff($fields, $included_fields);
 
         $q = $this->faker->word();
 
         $parameters = [
             QueryParser::PARAM_SEARCH => $q,
             QueryParser::PARAM_FIELDS => [
-                SearchResource::$resourceType => implode(',', $included_fields),
+                SearchResource::$wrap => implode(',', $included_fields),
             ],
         ];
 
-        $response = $this->get(route('api.search', $parameters));
+        $response = $this->get(route('api.search.index', $parameters));
 
-        $response->assertJson(array_fill_keys($included_fields, []));
-        $response->assertJsonMissing(array_fill_keys($excluded_fields, []));
+        $response->assertJsonStructure([
+            SearchResource::$wrap => $included_fields,
+        ]);
     }
 }

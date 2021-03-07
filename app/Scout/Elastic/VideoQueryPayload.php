@@ -7,6 +7,7 @@ use App\Models\Video;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
+use Illuminate\Support\Str;
 
 class VideoQueryPayload extends ElasticQueryPayload
 {
@@ -254,14 +255,7 @@ class VideoQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1)
             ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(VideoCollection::allowedIncludePaths(), VideoCollection::resourceType()));
-
-        foreach (VideoCollection::filters() as $filterClass) {
-            $filter = new $filterClass($this->parser);
-            if ($filter->shouldApplyFilter()) {
-                $builder = $builder->filter(['terms' => [$filter->getKey() => $filter->getFilterValues()]]);
-            }
-        }
+            ->load($this->parser->getResourceIncludePaths(VideoCollection::allowedIncludePaths(), Str::lower(VideoCollection::$wrap)));
 
         return $builder->execute()->models();
     }

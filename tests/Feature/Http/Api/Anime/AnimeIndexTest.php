@@ -122,7 +122,7 @@ class AnimeIndexTest extends TestCase
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                AnimeResource::$resourceType => $included_fields->join(','),
+                AnimeResource::$wrap => $included_fields->join(','),
             ],
         ];
 

@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
+use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\UpdatedAtFilter;
 
 class SynonymCollection extends BaseCollection
 {
@@ -54,6 +56,19 @@ class SynonymCollection extends BaseCollection
             'updated_at',
             'text',
             'anime_id',
+        ];
+    }
+
+    /**
+     * The filters that can be applied by the client for this resource.
+     *
+     * @return array
+     */
+    public static function filters()
+    {
+        return [
+            CreatedAtFilter::class,
+            UpdatedAtFilter::class,
         ];
     }
 }

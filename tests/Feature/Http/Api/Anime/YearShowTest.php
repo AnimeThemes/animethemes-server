@@ -35,7 +35,6 @@ class YearShowTest extends TestCase
 
         $winter_anime = Anime::where('season', AnimeSeason::WINTER)->with(AnimeCollection::allowedIncludePaths())->get();
         $winter_resources = AnimeCollection::make($winter_anime->sortBy('name')->values(), QueryParser::make());
-        $winter_resources->withoutWrapping();
 
         Anime::factory()
             ->count($this->faker->randomDigitNotNull)
@@ -47,7 +46,6 @@ class YearShowTest extends TestCase
 
         $spring_anime = Anime::where('season', AnimeSeason::SPRING)->with(AnimeCollection::allowedIncludePaths())->get();
         $spring_resources = AnimeCollection::make($spring_anime->sortBy('name')->values(), QueryParser::make());
-        $spring_resources->withoutWrapping();
 
         Anime::factory()
             ->count($this->faker->randomDigitNotNull)
@@ -59,7 +57,6 @@ class YearShowTest extends TestCase
 
         $summer_anime = Anime::where('season', AnimeSeason::SUMMER)->with(AnimeCollection::allowedIncludePaths())->get();
         $summer_resources = AnimeCollection::make($summer_anime->sortBy('name')->values(), QueryParser::make());
-        $summer_resources->withoutWrapping();
 
         Anime::factory()
             ->count($this->faker->randomDigitNotNull)
@@ -71,15 +68,14 @@ class YearShowTest extends TestCase
 
         $fall_anime = Anime::where('season', AnimeSeason::FALL)->with(AnimeCollection::allowedIncludePaths())->get();
         $fall_resources = AnimeCollection::make($fall_anime->sortBy('name')->values(), QueryParser::make());
-        $fall_resources->withoutWrapping();
 
         $response = $this->get(route('api.year.show', ['year' => $year]));
 
         $response->assertJson([
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::WINTER)) => json_decode(json_encode($winter_resources->response()->getData()), true),
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::SPRING)) => json_decode(json_encode($spring_resources->response()->getData()), true),
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::SUMMER)) => json_decode(json_encode($summer_resources->response()->getData()), true),
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::FALL)) => json_decode(json_encode($fall_resources->response()->getData()), true),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::WINTER)) => json_decode(json_encode($winter_resources->response()->getData()->anime), true),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::SPRING)) => json_decode(json_encode($spring_resources->response()->getData()->anime), true),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::SUMMER)) => json_decode(json_encode($summer_resources->response()->getData()->anime), true),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::FALL)) => json_decode(json_encode($fall_resources->response()->getData()->anime), true),
         ]);
     }
 
@@ -109,7 +105,6 @@ class YearShowTest extends TestCase
 
         $winter_anime = Anime::where('season', AnimeSeason::WINTER)->with($included_paths->all())->get();
         $winter_resources = AnimeCollection::make($winter_anime->sortBy('name')->values(), QueryParser::make($parameters));
-        $winter_resources->withoutWrapping();
 
         Anime::factory()
             ->count($this->faker->randomDigitNotNull)
@@ -121,7 +116,6 @@ class YearShowTest extends TestCase
 
         $spring_anime = Anime::where('season', AnimeSeason::SPRING)->with($included_paths->all())->get();
         $spring_resources = AnimeCollection::make($spring_anime->sortBy('name')->values(), QueryParser::make($parameters));
-        $spring_resources->withoutWrapping();
 
         Anime::factory()
             ->count($this->faker->randomDigitNotNull)
@@ -133,7 +127,6 @@ class YearShowTest extends TestCase
 
         $summer_anime = Anime::where('season', AnimeSeason::SUMMER)->with($included_paths->all())->get();
         $summer_resources = AnimeCollection::make($summer_anime->sortBy('name')->values(), QueryParser::make($parameters));
-        $summer_resources->withoutWrapping();
 
         Anime::factory()
             ->count($this->faker->randomDigitNotNull)
@@ -145,15 +138,14 @@ class YearShowTest extends TestCase
 
         $fall_anime = Anime::where('season', AnimeSeason::FALL)->with($included_paths->all())->get();
         $fall_resources = AnimeCollection::make($fall_anime->sortBy('name')->values(), QueryParser::make($parameters));
-        $fall_resources->withoutWrapping();
 
         $response = $this->get(route('api.year.show', ['year' => $year] + $parameters));
 
         $response->assertJson([
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::WINTER)) => json_decode(json_encode($winter_resources->response()->getData()), true),
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::SPRING)) => json_decode(json_encode($spring_resources->response()->getData()), true),
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::SUMMER)) => json_decode(json_encode($summer_resources->response()->getData()), true),
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::FALL)) => json_decode(json_encode($fall_resources->response()->getData()), true),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::WINTER)) => json_decode(json_encode($winter_resources->response()->getData()->anime), true),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::SPRING)) => json_decode(json_encode($spring_resources->response()->getData()->anime), true),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::SUMMER)) => json_decode(json_encode($summer_resources->response()->getData()->anime), true),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::FALL)) => json_decode(json_encode($fall_resources->response()->getData()->anime), true),
         ]);
     }
 
@@ -181,7 +173,7 @@ class YearShowTest extends TestCase
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                AnimeResource::$resourceType => $included_fields->join(','),
+                AnimeResource::$wrap => $included_fields->join(','),
             ],
         ];
 
@@ -195,7 +187,6 @@ class YearShowTest extends TestCase
 
         $winter_anime = Anime::where('season', AnimeSeason::WINTER)->with(AnimeCollection::allowedIncludePaths())->get();
         $winter_resources = AnimeCollection::make($winter_anime->sortBy('name')->values(), QueryParser::make($parameters));
-        $winter_resources->withoutWrapping();
 
         Anime::factory()
             ->count($this->faker->randomDigitNotNull)
@@ -207,7 +198,6 @@ class YearShowTest extends TestCase
 
         $spring_anime = Anime::where('season', AnimeSeason::SPRING)->with(AnimeCollection::allowedIncludePaths())->get();
         $spring_resources = AnimeCollection::make($spring_anime->sortBy('name')->values(), QueryParser::make($parameters));
-        $spring_resources->withoutWrapping();
 
         Anime::factory()
             ->count($this->faker->randomDigitNotNull)
@@ -219,7 +209,6 @@ class YearShowTest extends TestCase
 
         $summer_anime = Anime::where('season', AnimeSeason::SUMMER)->with(AnimeCollection::allowedIncludePaths())->get();
         $summer_resources = AnimeCollection::make($summer_anime->sortBy('name')->values(), QueryParser::make($parameters));
-        $summer_resources->withoutWrapping();
 
         Anime::factory()
             ->count($this->faker->randomDigitNotNull)
@@ -231,15 +220,14 @@ class YearShowTest extends TestCase
 
         $fall_anime = Anime::where('season', AnimeSeason::FALL)->with(AnimeCollection::allowedIncludePaths())->get();
         $fall_resources = AnimeCollection::make($fall_anime->sortBy('name')->values(), QueryParser::make($parameters));
-        $fall_resources->withoutWrapping();
 
         $response = $this->get(route('api.year.show', ['year' => $year]));
 
         $response->assertJson([
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::WINTER)) => json_decode(json_encode($winter_resources->response()->getData()), true),
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::SPRING)) => json_decode(json_encode($spring_resources->response()->getData()), true),
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::SUMMER)) => json_decode(json_encode($summer_resources->response()->getData()), true),
-            Str::lower(AnimeSeason::getDescription(AnimeSeason::FALL)) => json_decode(json_encode($fall_resources->response()->getData()), true),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::WINTER)) => json_decode(json_encode($winter_resources->response()->getData()->anime), true),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::SPRING)) => json_decode(json_encode($spring_resources->response()->getData()->anime), true),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::SUMMER)) => json_decode(json_encode($summer_resources->response()->getData()->anime), true),
+            Str::lower(AnimeSeason::getDescription(AnimeSeason::FALL)) => json_decode(json_encode($fall_resources->response()->getData()->anime), true),
         ]);
     }
 }

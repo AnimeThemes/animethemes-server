@@ -101,7 +101,7 @@ class SongShowTest extends TestCase
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                SongResource::$resourceType => $included_fields->join(','),
+                SongResource::$wrap => $included_fields->join(','),
             ],
         ];
 

@@ -3,10 +3,10 @@
 use App\Http\Controllers\Api\AnimeController;
 use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\ArtistController;
-use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Api\EntryController;
 use App\Http\Controllers\Api\ExternalResourceController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SeriesController;
 use App\Http\Controllers\Api\SongController;
 use App\Http\Controllers\Api\SynonymController;
@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['as' => 'api.'], function () {
 
     // Search Routes
-    Route::get('search', [BaseController::class, 'search'])->name('search');
+    Route::get('search', [SearchController::class, 'index'])->name('search.index');
 
     // Resource Routes
     Route::apiResource('anime', AnimeController::class)->only(['index', 'show']);

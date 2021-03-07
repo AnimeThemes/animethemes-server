@@ -50,14 +50,7 @@ class SongResource extends BaseResource
      *
      * @var string
      */
-    public static $wrap = null;
-
-    /**
-     * The name of the resource in the field set mapping.
-     *
-     * @var string
-     */
-    public static $resourceType = 'song';
+    public static $wrap = 'song';
 
     /**
      * Transform the resource into an array.

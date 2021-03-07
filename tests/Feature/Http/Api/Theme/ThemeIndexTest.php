@@ -143,7 +143,7 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                ThemeResource::$resourceType => $included_fields->join(','),
+                ThemeResource::$wrap => $included_fields->join(','),
             ],
         ];
 
