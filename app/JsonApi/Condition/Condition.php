@@ -7,9 +7,7 @@ use App\Enums\Filter\ComparisonOperator;
 use App\JsonApi\Filter\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 abstract class Condition
 {
@@ -134,16 +132,6 @@ abstract class Condition
             return WhereInCondition::make($filterParam, $filterValues);
         }
 
-        try {
-            Validator::make(
-                ['filterValue' => $filterValues],
-                ['filterValue' => 'date']
-            )
-            ->validate();
-
-            return WhereDateCondition::make($filterParam, $filterValues);
-        } catch (ValidationException $e) {
-            return WhereCondition::make($filterParam, $filterValues);
-        }
+        return WhereCondition::make($filterParam, $filterValues);
     }
 }

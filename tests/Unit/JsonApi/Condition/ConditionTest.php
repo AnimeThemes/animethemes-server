@@ -5,7 +5,6 @@ namespace Tests\Unit\JsonApi\Condition;
 use App\Enums\Filter\ComparisonOperator;
 use App\JsonApi\Condition\Condition;
 use App\JsonApi\Condition\WhereCondition;
-use App\JsonApi\Condition\WhereDateCondition;
 use App\JsonApi\Condition\WhereInCondition;
 use App\JsonApi\QueryParser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -103,22 +102,6 @@ class ConditionTest extends TestCase
         $condition = Condition::make($field, $values);
 
         $this->assertInstanceOf(WhereInCondition::class, $condition);
-    }
-
-    /**
-     * A Where Date Condition shall be created for date filters.
-     *
-     * @return void
-     */
-    public function testMakeWhereDateCondition()
-    {
-        $field = $this->faker->word();
-
-        $value = $this->faker->date();
-
-        $condition = Condition::make($field, $value);
-
-        $this->assertInstanceOf(WhereDateCondition::class, $condition);
     }
 
     /**
