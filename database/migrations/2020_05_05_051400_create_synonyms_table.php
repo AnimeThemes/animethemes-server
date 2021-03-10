@@ -15,7 +15,7 @@ class CreateSynonymsTable extends Migration
     {
         Schema::create('synonym', function (Blueprint $table) {
             $table->id('synonym_id');
-            $table->timestamps();
+            $table->timestamps(6);
             $table->string('text')->nullable();
 
             $table->unsignedBigInteger('anime_id');

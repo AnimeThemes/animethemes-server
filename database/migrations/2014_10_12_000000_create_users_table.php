@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('current_team_id')->nullable();
-            $table->timestamps();
+            $table->timestamps(6);
             $table->integer('role')->default(UserRole::READ_ONLY);
         });
     }

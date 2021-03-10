@@ -15,7 +15,7 @@ class CreateEntriesTable extends Migration
     {
         Schema::create('entry', function (Blueprint $table) {
             $table->id('entry_id');
-            $table->timestamps();
+            $table->timestamps(6);
             $table->integer('version')->nullable();
             $table->string('episodes')->nullable();
             $table->boolean('nsfw')->default(false);
