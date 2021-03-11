@@ -84,7 +84,7 @@ class Video extends Model implements Auditable, Nameable, Viewable
         if (! empty($this->source) && ($this->source->is(VideoSource::BD) || $this->source->is(VideoSource::DVD))) {
             array_push($tags, $this->source->description);
         }
-        if (! empty($this->resolution)) {
+        if (! empty($this->resolution) && $this->resolution !== 720) {
             array_push($tags, strval($this->resolution));
         }
 
