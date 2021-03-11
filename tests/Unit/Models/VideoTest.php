@@ -222,6 +222,20 @@ class VideoTest extends TestCase
     }
 
     /**
+     * The Tags attribute shall exclude 720 resolution from tags.
+     *
+     * @return void
+     */
+    public function testNo720ResolutionTag()
+    {
+        $video = Video::factory()->create([
+            'resolution' => 720,
+        ]);
+
+        $this->assertNotContains(strval($video->resolution), $video->tags);
+    }
+
+    /**
      * The Tags attribute shall contain 'Subbed' if the subbed attribute is true.
      *
      * @return void
