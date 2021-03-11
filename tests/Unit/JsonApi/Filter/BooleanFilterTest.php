@@ -63,4 +63,32 @@ class BooleanFilterTest extends TestCase
 
         $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filter_field)[0]));
     }
+
+    /**
+     * The boolean filter shall convert validated boolean options to boolean values.
+     *
+     * @return void
+     */
+    public function testConvertsValidatedBoolean()
+    {
+        $filter_field = $this->faker->word();
+
+        $boolean_value = $this->faker->boolean();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                $filter_field => $boolean_value ? 'true' : 'false',
+            ],
+        ];
+
+        $parser = new QueryParser($parameters);
+
+        $filter = new class($parser, $filter_field) extends BooleanFilter {
+            // We don't need to do any customization
+        };
+
+        $filter_values = $filter->getFilterValues($parser->getConditions($filter_field)[0]);
+
+        $this->assertEquals($boolean_value, $filter_values[0]);
+    }
 }

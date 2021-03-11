@@ -58,6 +58,13 @@ class Video extends Model implements Auditable, Nameable, Viewable
     protected $primaryKey = 'video_id';
 
     /**
+     * The storage format of the model's date columns.
+     *
+     * @var string
+     */
+    protected $dateFormat = 'Y-m-d\TH:i:s.u';
+
+    /**
      * The accessors to append to the model's array form.
      *
      * @var array
