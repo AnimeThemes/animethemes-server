@@ -193,7 +193,7 @@ abstract class Filter
      *
      * @return string
      */
-    protected function getScope()
+    public function getScope()
     {
         return $this->scope;
     }

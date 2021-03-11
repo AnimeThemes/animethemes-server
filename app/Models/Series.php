@@ -51,6 +51,13 @@ class Series extends Model implements Auditable, Nameable
     protected $primaryKey = 'series_id';
 
     /**
+     * The storage format of the model's date columns.
+     *
+     * @var string
+     */
+    protected $dateFormat = 'Y-m-d\TH:i:s.u';
+
+    /**
      * Get the route key for the model.
      *
      * @return string
