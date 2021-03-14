@@ -8,12 +8,11 @@ use App\Models\Series;
 use App\Models\User;
 use App\Policies\SeriesPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class SeriesPolicyTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * Any user regardless of role can view any series.

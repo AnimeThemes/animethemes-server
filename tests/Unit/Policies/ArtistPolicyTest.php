@@ -10,12 +10,11 @@ use App\Models\Song;
 use App\Models\User;
 use App\Policies\ArtistPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ArtistPolicyTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * Any user regardless of role can view any artist.

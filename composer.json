@@ -18,6 +18,7 @@
         "david-griffiths/nova-dark-theme": "^1.0",
         "devpartners/auditable-log": "^1.0",
         "doctrine/dbal": "^2.12.1",
+        "enlightn/enlightn": "^1.18",
         "fakerphp/faker": "^1.13",
         "fideloper/proxy": "^4.3",
         "fruitcake/laravel-cors": "^2.0.2",

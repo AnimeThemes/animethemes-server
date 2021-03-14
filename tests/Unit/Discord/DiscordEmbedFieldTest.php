@@ -4,14 +4,13 @@ namespace Tests\Unit\Discord;
 
 use App\Discord\DiscordEmbedField;
 use BenSampo\Enum\Enum;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 class DiscordEmbedFieldTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     /**
      * Discord Embed Fields shall format an Enum value by its description.

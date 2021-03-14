@@ -4,13 +4,12 @@ namespace Tests\Unit\JsonApi\Filter;
 
 use App\JsonApi\Filter\BooleanFilter;
 use App\JsonApi\QueryParser;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class BooleanFilterTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     /**
      * If values that are not mappable to booleans are specified for the key, don't apply the filter.

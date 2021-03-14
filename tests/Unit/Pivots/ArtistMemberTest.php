@@ -6,12 +6,11 @@ use App\Models\Artist;
 use App\Pivots\ArtistMember;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ArtistMemberTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * An ArtistMember shall belong to an Artist.

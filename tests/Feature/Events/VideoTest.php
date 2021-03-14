@@ -8,13 +8,12 @@ use App\Events\Video\VideoRestored;
 use App\Events\Video\VideoUpdated;
 use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class VideoTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When a Video is created, a VideoCreated event shall be dispatched.

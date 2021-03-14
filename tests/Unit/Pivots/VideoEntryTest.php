@@ -9,12 +9,11 @@ use App\Models\Video;
 use App\Pivots\VideoEntry;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class VideoEntryTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * A VideoEntry shall belong to a Video.

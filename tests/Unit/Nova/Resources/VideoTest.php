@@ -15,14 +15,12 @@ use App\Nova\Filters\VideoTypeFilter;
 use App\Nova\Filters\VideoUncenFilter;
 use App\Nova\Video;
 use BenSampo\Enum\Rules\EnumValue;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 class VideoTest extends TestCase
 {
-    use NovaResourceTest, RefreshDatabase, WithFaker;
+    use NovaResourceTest;
 
     /**
      * The Video Resource shall contain Video Fields.

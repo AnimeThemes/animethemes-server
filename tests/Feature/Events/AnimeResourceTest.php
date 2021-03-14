@@ -9,13 +9,12 @@ use App\Models\Anime;
 use App\Models\ExternalResource;
 use App\Pivots\AnimeResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class AnimeResourceTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Anime is attached to a Resource or vice versa, an AnimeResourceCreated event shall be dispatched.

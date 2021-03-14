@@ -9,13 +9,12 @@ use App\Events\Theme\ThemeUpdated;
 use App\Models\Anime;
 use App\Models\Theme;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class ThemeTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When a Theme is created, a ThemeCreated event shall be dispatched.

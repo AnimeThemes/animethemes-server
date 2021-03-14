@@ -8,13 +8,12 @@ use App\Events\Image\ImageRestored;
 use App\Events\Image\ImageUpdated;
 use App\Models\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class ImageTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Image is created, an ImageCreated event shall be dispatched.

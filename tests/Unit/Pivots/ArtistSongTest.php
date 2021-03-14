@@ -7,12 +7,11 @@ use App\Models\Song;
 use App\Pivots\ArtistSong;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ArtistSongTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * An ArtistSong shall belong to an Artist.

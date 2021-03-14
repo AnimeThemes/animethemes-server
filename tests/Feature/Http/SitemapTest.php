@@ -2,14 +2,10 @@
 
 namespace Tests\Feature\Http;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class SitemapTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
-
     /**
      * The sitemap shall display the Welcome route.
      *

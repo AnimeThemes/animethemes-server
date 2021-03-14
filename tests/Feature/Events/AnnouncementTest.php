@@ -8,13 +8,12 @@ use App\Events\Announcement\AnnouncementRestored;
 use App\Events\Announcement\AnnouncementUpdated;
 use App\Models\Announcement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class AnnouncementTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Announcement is created, an AnnouncementCreated event shall be dispatched.

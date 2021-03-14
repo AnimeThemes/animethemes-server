@@ -7,12 +7,11 @@ use App\Models\Invitation;
 use App\Models\User;
 use App\Policies\InvitationPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class InvitationPolicyTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * Any user regardless of role can view any invitation.

@@ -8,13 +8,12 @@ use App\Events\User\UserRestored;
 use App\Events\User\UserUpdated;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When a User is created, a UserCreated event shall be dispatched.

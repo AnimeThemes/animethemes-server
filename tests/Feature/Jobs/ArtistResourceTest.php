@@ -7,14 +7,13 @@ use App\Models\Artist;
 use App\Models\ExternalResource;
 use App\Pivots\ArtistResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class ArtistResourceTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Artist is attached to a Resource or vice versa, a SendDiscordNotification job shall be dispatched.

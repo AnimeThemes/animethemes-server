@@ -7,14 +7,13 @@ use App\Models\Anime;
 use App\Models\ExternalResource;
 use App\Pivots\AnimeResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class AnimeResourceTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Anime is attached to a Resource or vice versa, a SendDiscordNotification job shall be dispatched.

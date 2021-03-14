@@ -7,14 +7,12 @@ use App\Nova\Filters\EntryNsfwFilter;
 use App\Nova\Filters\EntrySpoilerFilter;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 class EntryTest extends TestCase
 {
-    use NovaResourceTest, RefreshDatabase, WithFaker;
+    use NovaResourceTest;
 
     /**
      * The Entry Resource shall contain Entry Fields.

@@ -8,14 +8,12 @@ use App\Nova\Filters\RecentlyUpdatedFilter;
 use App\Nova\Filters\ThemeTypeFilter;
 use App\Nova\Theme;
 use BenSampo\Enum\Rules\EnumValue;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 class ThemeTest extends TestCase
 {
-    use NovaResourceTest, RefreshDatabase, WithFaker;
+    use NovaResourceTest;
 
     /**
      * The Theme Resource shall contain Theme Fields.

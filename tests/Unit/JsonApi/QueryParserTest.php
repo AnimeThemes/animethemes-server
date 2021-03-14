@@ -3,14 +3,13 @@
 namespace Tests\Unit\JsonApi;
 
 use App\JsonApi\QueryParser;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 class QueryParserTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     /**
      * By default, all fields are allowed for every type if sparse fieldsets are not specified.

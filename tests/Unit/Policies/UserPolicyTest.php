@@ -6,12 +6,11 @@ use App\Enums\UserRole;
 use App\Models\User;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserPolicyTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * Any user regardless of role can view any user.

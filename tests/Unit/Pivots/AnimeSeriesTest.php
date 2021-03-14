@@ -7,12 +7,11 @@ use App\Models\Series;
 use App\Pivots\AnimeSeries;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AnimeSeriesTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * An AnimeSeries shall belong to an Anime.

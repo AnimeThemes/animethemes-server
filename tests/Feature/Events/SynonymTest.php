@@ -9,13 +9,12 @@ use App\Events\Synonym\SynonymUpdated;
 use App\Models\Anime;
 use App\Models\Synonym;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class SynonymTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When a Synonym is created, a SynonymCreated event shall be dispatched.

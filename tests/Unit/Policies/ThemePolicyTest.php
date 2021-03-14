@@ -8,12 +8,11 @@ use App\Models\Theme;
 use App\Models\User;
 use App\Policies\ThemePolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ThemePolicyTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * Any user regardless of role can view any theme.

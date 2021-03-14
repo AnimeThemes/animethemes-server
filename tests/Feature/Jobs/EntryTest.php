@@ -7,14 +7,13 @@ use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\Theme;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class EntryTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an entry is created, a SendDiscordNotification job shall be dispatched.

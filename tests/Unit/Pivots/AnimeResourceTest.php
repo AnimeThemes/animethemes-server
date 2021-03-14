@@ -7,12 +7,11 @@ use App\Models\ExternalResource;
 use App\Pivots\AnimeResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AnimeResourceTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * An AnimeResource shall belong to an Anime.

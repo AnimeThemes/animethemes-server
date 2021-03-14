@@ -7,13 +7,12 @@ use App\Events\Pivot\ArtistImage\ArtistImageDeleted;
 use App\Models\Artist;
 use App\Models\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class ArtistImageTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Artist is attached to an Image or vice versa, an ArtistImageCreated event shall be dispatched.

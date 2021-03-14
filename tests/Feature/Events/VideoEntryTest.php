@@ -9,13 +9,12 @@ use App\Models\Entry;
 use App\Models\Theme;
 use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class VideoEntryTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When a Video is attached to an Entry or vice versa, a VideoEntryCreated event shall be dispatched.

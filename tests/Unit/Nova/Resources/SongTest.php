@@ -5,14 +5,12 @@ namespace Tests\Unit\Nova\Resources;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
 use App\Nova\Song;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 class SongTest extends TestCase
 {
-    use NovaResourceTest, RefreshDatabase, WithFaker;
+    use NovaResourceTest;
 
     /**
      * The Song Resource shall contain Song Fields.

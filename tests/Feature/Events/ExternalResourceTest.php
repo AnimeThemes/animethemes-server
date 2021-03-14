@@ -8,13 +8,12 @@ use App\Events\ExternalResource\ExternalResourceRestored;
 use App\Events\ExternalResource\ExternalResourceUpdated;
 use App\Models\ExternalResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class ExternalResourceTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When a Resource is created, an ExternalResourceCreated event shall be dispatched.

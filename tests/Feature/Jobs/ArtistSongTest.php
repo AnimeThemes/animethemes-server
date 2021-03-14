@@ -7,14 +7,13 @@ use App\Models\Artist;
 use App\Models\Song;
 use App\Pivots\ArtistSong;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class ArtistSongTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Artist is attached to a Song or vice versa, a SendDiscordNotification job shall be dispatched.

@@ -8,13 +8,12 @@ use App\Events\Pivot\ArtistMember\ArtistMemberUpdated;
 use App\Models\Artist;
 use App\Pivots\ArtistMember;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class ArtistMemberTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Artist is attached to a Member or vice versa, an ArtistMemberCreated event shall be dispatched.
