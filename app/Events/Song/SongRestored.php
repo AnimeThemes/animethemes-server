@@ -4,11 +4,11 @@ namespace App\Events\Song;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use Illuminate\Foundation\Events\Dispatchable;
 use App\Models\Artist;
 use App\Models\Entry;
 use App\Models\Theme;
 use App\Models\Video;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
