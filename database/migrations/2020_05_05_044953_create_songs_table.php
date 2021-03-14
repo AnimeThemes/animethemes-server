@@ -16,6 +16,7 @@ class CreateSongsTable extends Migration
         Schema::create('song', function (Blueprint $table) {
             $table->id('song_id');
             $table->timestamps(6);
+            $table->softDeletes('deleted_at', 6);
             $table->string('title')->nullable();
         });
     }

@@ -47,6 +47,23 @@ class VideoTest extends TestCase
     }
 
     /**
+     * When a video is restored, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testVideoRestoredSendsDiscordNotification()
+    {
+        $video = Video::factory()->create();
+
+        Config::set('app.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotification::class);
+
+        $video->restore();
+
+        Bus::assertDispatched(SendDiscordNotification::class);
+    }
+
+    /**
      * When a video is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void

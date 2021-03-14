@@ -208,7 +208,7 @@ class SynonymPolicyTest extends TestCase
         $policy = new SynonymPolicy();
 
         $this->assertFalse($policy->forceDelete($read_only, $synonym));
-        $this->assertTrue($policy->forceDelete($contributor, $synonym));
+        $this->assertFalse($policy->forceDelete($contributor, $synonym));
         $this->assertTrue($policy->forceDelete($admin, $synonym));
     }
 }

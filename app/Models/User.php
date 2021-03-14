@@ -6,22 +6,22 @@ use App\Contracts\Nameable;
 use App\Enums\UserRole;
 use App\Events\User\UserCreated;
 use App\Events\User\UserDeleted;
+use App\Events\User\UserRestored;
 use App\Events\User\UserUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable implements MustVerifyEmail, Nameable
+class User extends Authenticatable implements Auditable, MustVerifyEmail, Nameable
 {
-    use CastsEnums;
-    use HasApiTokens;
-    use HasFactory;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
+    use CastsEnums, HasApiTokens, HasFactory, Notifiable, SoftDeletes, TwoFactorAuthenticatable;
+    use \OwenIt\Auditing\Auditable;
 
     /**
      * The attributes that are mass assignable.
@@ -45,6 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     protected $dispatchesEvents = [
         'created' => UserCreated::class,
         'deleted' => UserDeleted::class,
+        'restored' => UserRestored::class,
         'updated' => UserUpdated::class,
     ];
 

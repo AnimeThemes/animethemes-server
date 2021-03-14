@@ -4,6 +4,7 @@ namespace Tests\Feature\Events;
 
 use App\Events\Artist\ArtistCreated;
 use App\Events\Artist\ArtistDeleted;
+use App\Events\Artist\ArtistRestored;
 use App\Events\Artist\ArtistUpdated;
 use App\Models\Artist;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,6 +44,22 @@ class ArtistTest extends TestCase
         $artist->delete();
 
         Event::assertDispatched(ArtistDeleted::class);
+    }
+
+    /**
+     * When an Artist is restored, an ArtistRestored event shall be dispatched.
+     *
+     * @return void
+     */
+    public function testArtistRestoredEventDispatched()
+    {
+        Event::fake();
+
+        $artist = Artist::factory()->create();
+
+        $artist->restore();
+
+        Event::assertDispatched(ArtistRestored::class);
     }
 
     /**

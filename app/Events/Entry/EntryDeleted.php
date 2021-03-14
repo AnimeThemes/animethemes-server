@@ -3,11 +3,13 @@
 namespace App\Events\Entry;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Models\Video;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
-class EntryDeleted extends EntryEvent implements DiscordMessageEvent
+class EntryDeleted extends EntryEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {
     use Dispatchable;
 
@@ -33,5 +35,20 @@ class EntryDeleted extends EntryEvent implements DiscordMessageEvent
     public function getDiscordChannel()
     {
         return Config::get('services.discord.db_updates_discord_channel');
+    }
+
+    /**
+     * Perform updates on related indices.
+     *
+     * @return void
+     */
+    public function updateRelatedIndices()
+    {
+        $entry = $this->getEntry();
+
+        $videos = $entry->videos;
+        $videos->each(function (Video $video) {
+            $video->searchable();
+        });
     }
 }

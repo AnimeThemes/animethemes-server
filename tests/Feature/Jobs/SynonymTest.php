@@ -52,6 +52,25 @@ class SynonymTest extends TestCase
     }
 
     /**
+     * When a synonym is restored, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testSynonymRestoredSendsDiscordNotification()
+    {
+        $synonym = Synonym::factory()
+            ->for(Anime::factory())
+            ->create();
+
+        Config::set('app.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotification::class);
+
+        $synonym->restore();
+
+        Bus::assertDispatched(SendDiscordNotification::class);
+    }
+
+    /**
      * When a synonym is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void

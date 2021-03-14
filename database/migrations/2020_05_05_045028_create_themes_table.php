@@ -16,6 +16,7 @@ class CreateThemesTable extends Migration
         Schema::create('theme', function (Blueprint $table) {
             $table->id('theme_id');
             $table->timestamps(6);
+            $table->softDeletes('deleted_at', 6);
             $table->string('group')->nullable();
             $table->integer('type')->nullable();
             $table->integer('sequence')->nullable();

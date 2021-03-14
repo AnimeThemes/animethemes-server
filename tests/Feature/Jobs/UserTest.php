@@ -47,6 +47,23 @@ class UserTest extends TestCase
     }
 
     /**
+     * When a user is restored, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testUserRestoredSendsDiscordNotification()
+    {
+        $user = User::factory()->create();
+
+        Config::set('app.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotification::class);
+
+        $user->restore();
+
+        Bus::assertDispatched(SendDiscordNotification::class);
+    }
+
+    /**
      * When a user is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void

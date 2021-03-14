@@ -5,26 +5,34 @@ namespace App\Providers;
 use App\Events\Anime\AnimeCreated;
 use App\Events\Anime\AnimeDeleted;
 use App\Events\Anime\AnimeDeleting;
+use App\Events\Anime\AnimeRestored;
 use App\Events\Anime\AnimeUpdated;
 use App\Events\Announcement\AnnouncementCreated;
 use App\Events\Announcement\AnnouncementDeleted;
+use App\Events\Announcement\AnnouncementRestored;
 use App\Events\Announcement\AnnouncementUpdated;
 use App\Events\Artist\ArtistCreated;
 use App\Events\Artist\ArtistDeleted;
+use App\Events\Artist\ArtistRestored;
 use App\Events\Artist\ArtistUpdated;
 use App\Events\Entry\EntryCreated;
 use App\Events\Entry\EntryDeleted;
 use App\Events\Entry\EntryDeleting;
+use App\Events\Entry\EntryRestored;
 use App\Events\Entry\EntryUpdated;
 use App\Events\ExternalResource\ExternalResourceCreated;
 use App\Events\ExternalResource\ExternalResourceDeleted;
+use App\Events\ExternalResource\ExternalResourceRestored;
 use App\Events\ExternalResource\ExternalResourceUpdated;
 use App\Events\Image\ImageCreated;
 use App\Events\Image\ImageDeleted;
+use App\Events\Image\ImageDeleting;
+use App\Events\Image\ImageRestored;
 use App\Events\Image\ImageUpdated;
 use App\Events\Invitation\InvitationCreated;
 use App\Events\Invitation\InvitationCreating;
 use App\Events\Invitation\InvitationDeleted;
+use App\Events\Invitation\InvitationRestored;
 use App\Events\Invitation\InvitationUpdated;
 use App\Events\Pivot\AnimeImage\AnimeImageCreated;
 use App\Events\Pivot\AnimeImage\AnimeImageDeleted;
@@ -48,27 +56,34 @@ use App\Events\Pivot\VideoEntry\VideoEntryCreated;
 use App\Events\Pivot\VideoEntry\VideoEntryDeleted;
 use App\Events\Series\SeriesCreated;
 use App\Events\Series\SeriesDeleted;
+use App\Events\Series\SeriesRestored;
 use App\Events\Series\SeriesUpdated;
 use App\Events\Song\SongCreated;
 use App\Events\Song\SongDeleted;
 use App\Events\Song\SongDeleting;
+use App\Events\Song\SongRestored;
 use App\Events\Song\SongUpdated;
 use App\Events\Synonym\SynonymCreated;
 use App\Events\Synonym\SynonymDeleted;
+use App\Events\Synonym\SynonymRestored;
 use App\Events\Synonym\SynonymUpdated;
 use App\Events\Theme\ThemeCreated;
 use App\Events\Theme\ThemeCreating;
 use App\Events\Theme\ThemeDeleted;
 use App\Events\Theme\ThemeDeleting;
+use App\Events\Theme\ThemeRestored;
 use App\Events\Theme\ThemeUpdated;
 use App\Events\User\UserCreated;
 use App\Events\User\UserDeleted;
+use App\Events\User\UserRestored;
 use App\Events\User\UserUpdated;
 use App\Events\Video\VideoCreated;
 use App\Events\Video\VideoCreating;
 use App\Events\Video\VideoDeleted;
+use App\Events\Video\VideoRestored;
 use App\Events\Video\VideoUpdated;
 use App\Listeners\CascadesDeletes;
+use App\Listeners\CascadesRestores;
 use App\Listeners\Image\RemoveImageFromStorage;
 use App\Listeners\Invitation\CreateInvitationToken;
 use App\Listeners\Invitation\SendInvitationMail;
@@ -89,8 +104,8 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         AnimeCreated::class => [
-            UpdateRelatedIndices::class,
             SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         AnimeDeleted::class => [
             SendDiscordNotification::class,
@@ -113,6 +128,10 @@ class EventServiceProvider extends ServiceProvider
         AnimeResourceUpdated::class => [
             SendDiscordNotification::class,
         ],
+        AnimeRestored::class => [
+            CascadesRestores::class,
+            SendDiscordNotification::class,
+        ],
         AnimeSeriesCreated::class => [
             SendDiscordNotification::class,
         ],
@@ -120,13 +139,16 @@ class EventServiceProvider extends ServiceProvider
             SendDiscordNotification::class,
         ],
         AnimeUpdated::class => [
-            UpdateRelatedIndices::class,
             SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         AnnouncementCreated::class => [
             SendDiscordNotification::class,
         ],
         AnnouncementDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        AnnouncementRestored::class => [
             SendDiscordNotification::class,
         ],
         AnnouncementUpdated::class => [
@@ -162,17 +184,20 @@ class EventServiceProvider extends ServiceProvider
         ArtistResourceUpdated::class => [
             SendDiscordNotification::class,
         ],
-        ArtistSongCreated::class => [
-            UpdateRelatedIndices::class,
+        ArtistRestored::class => [
             SendDiscordNotification::class,
+        ],
+        ArtistSongCreated::class => [
+            SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         ArtistSongDeleted::class => [
             UpdateRelatedIndices::class,
             SendDiscordNotification::class,
         ],
         ArtistSongUpdated::class => [
-            UpdateRelatedIndices::class,
             SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         ArtistUpdated::class => [
             SendDiscordNotification::class,
@@ -183,9 +208,14 @@ class EventServiceProvider extends ServiceProvider
         ],
         EntryDeleted::class => [
             SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         EntryDeleting::class => [
-            CascadesDeletes::class,
+            UpdateRelatedIndices::class,
+        ],
+        EntryRestored::class => [
+            SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         EntryUpdated::class => [
             SendDiscordNotification::class,
@@ -197,6 +227,9 @@ class EventServiceProvider extends ServiceProvider
         ExternalResourceDeleted::class => [
             SendDiscordNotification::class,
         ],
+        ExternalResourceRestored::class => [
+            SendDiscordNotification::class,
+        ],
         ExternalResourceUpdated::class => [
             SendDiscordNotification::class,
         ],
@@ -205,19 +238,27 @@ class EventServiceProvider extends ServiceProvider
         ],
         ImageDeleted::class => [
             SendDiscordNotification::class,
+        ],
+        ImageDeleting::class => [
             RemoveImageFromStorage::class,
+        ],
+        ImageRestored::class => [
+            SendDiscordNotification::class,
         ],
         ImageUpdated::class => [
             SendDiscordNotification::class,
         ],
         InvitationCreated::class => [
-            SendInvitationMail::class,
             SendDiscordNotification::class,
+            SendInvitationMail::class,
         ],
         InvitationCreating::class => [
             CreateInvitationToken::class,
         ],
         InvitationDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        InvitationRestored::class => [
             SendDiscordNotification::class,
         ],
         InvitationUpdated::class => [
@@ -232,38 +273,50 @@ class EventServiceProvider extends ServiceProvider
         SeriesDeleted::class => [
             SendDiscordNotification::class,
         ],
+        SeriesRestored::class => [
+            SendDiscordNotification::class,
+        ],
         SeriesUpdated::class => [
             SendDiscordNotification::class,
         ],
         SongCreated::class => [
-            UpdateRelatedIndices::class,
             SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         SongDeleted::class => [
             SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         SongDeleting::class => [
-            CascadesDeletes::class,
+            UpdateRelatedIndices::class,
+        ],
+        SongRestored::class => [
+            SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         SongUpdated::class => [
-            UpdateRelatedIndices::class,
             SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         SynonymCreated::class => [
             UpdateRelatedIndices::class,
             SendDiscordNotification::class,
         ],
         SynonymDeleted::class => [
-            UpdateRelatedIndices::class,
             SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
+        ],
+        SynonymRestored::class => [
+            SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         SynonymUpdated::class => [
-            UpdateRelatedIndices::class,
             SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         ThemeCreated::class => [
-            UpdateRelatedIndices::class,
             SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         ThemeCreating::class => [
             CreateThemeSlug::class,
@@ -274,14 +327,21 @@ class EventServiceProvider extends ServiceProvider
         ThemeDeleting::class => [
             CascadesDeletes::class,
         ],
-        ThemeUpdated::class => [
-            UpdateRelatedIndices::class,
+        ThemeRestored::class => [
+            CascadesRestores::class,
             SendDiscordNotification::class,
+        ],
+        ThemeUpdated::class => [
+            SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         UserCreated::class => [
             SendDiscordNotification::class,
         ],
         UserDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        UserRestored::class => [
             SendDiscordNotification::class,
         ],
         UserUpdated::class => [
@@ -297,11 +357,14 @@ class EventServiceProvider extends ServiceProvider
             SendDiscordNotification::class,
         ],
         VideoEntryCreated::class => [
-            UpdateRelatedIndices::class,
             SendDiscordNotification::class,
+            UpdateRelatedIndices::class,
         ],
         VideoEntryDeleted::class => [
+            SendDiscordNotification::class,
             UpdateRelatedIndices::class,
+        ],
+        VideoRestored::class => [
             SendDiscordNotification::class,
         ],
         VideoUpdated::class => [

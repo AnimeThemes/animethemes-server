@@ -4,6 +4,7 @@ namespace Tests\Feature\Events;
 
 use App\Events\Series\SeriesCreated;
 use App\Events\Series\SeriesDeleted;
+use App\Events\Series\SeriesRestored;
 use App\Events\Series\SeriesUpdated;
 use App\Models\Series;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,6 +44,22 @@ class SeriesTest extends TestCase
         $series->delete();
 
         Event::assertDispatched(SeriesDeleted::class);
+    }
+
+    /**
+     * When a Series is restored, a SeriesRestored event shall be dispatched.
+     *
+     * @return void
+     */
+    public function testSeriesRestoredEventDispatched()
+    {
+        Event::fake();
+
+        $series = Series::factory()->create();
+
+        $series->restore();
+
+        Event::assertDispatched(SeriesRestored::class);
     }
 
     /**

@@ -61,7 +61,7 @@ class WhereCondition extends Condition
                 continue;
             }
 
-            // Set type
+            // Set scope
             if (empty($scope) && ! empty($field)) {
                 $scope = Str::lower($filterPart);
                 continue;

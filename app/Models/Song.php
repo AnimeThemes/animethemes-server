@@ -2,22 +2,18 @@
 
 namespace App\Models;
 
-use App\Contracts\Nameable;
 use App\Events\Song\SongCreated;
 use App\Events\Song\SongDeleted;
 use App\Events\Song\SongDeleting;
+use App\Events\Song\SongRestored;
 use App\Events\Song\SongUpdated;
 use App\Pivots\ArtistSong;
 use ElasticScoutDriverPlus\QueryDsl;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class Song extends Model implements Auditable, Nameable
+class Song extends BaseModel
 {
-    use HasFactory, QueryDsl, Searchable;
-    use \OwenIt\Auditing\Auditable;
+    use QueryDsl, Searchable;
 
     /**
      * @var array
@@ -35,6 +31,7 @@ class Song extends Model implements Auditable, Nameable
         'created' => SongCreated::class,
         'deleted' => SongDeleted::class,
         'deleting' => SongDeleting::class,
+        'restored' => SongRestored::class,
         'updated' => SongUpdated::class,
     ];
 
@@ -51,13 +48,6 @@ class Song extends Model implements Auditable, Nameable
      * @var string
      */
     protected $primaryKey = 'song_id';
-
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
      * Get name.

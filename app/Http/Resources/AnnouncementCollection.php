@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\DeletedAtFilter;
+use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
 
 class AnnouncementCollection extends BaseCollection
@@ -41,6 +43,7 @@ class AnnouncementCollection extends BaseCollection
             'announcement_id',
             'created_at',
             'updated_at',
+            'deleted_at',
         ];
     }
 
@@ -54,6 +57,8 @@ class AnnouncementCollection extends BaseCollection
         return [
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
+            DeletedAtFilter::class,
+            TrashedFilter::class,
         ];
     }
 }

@@ -198,7 +198,7 @@ class SongPolicyTest extends TestCase
         $policy = new SongPolicy();
 
         $this->assertFalse($policy->forceDelete($read_only, $song));
-        $this->assertTrue($policy->forceDelete($contributor, $song));
+        $this->assertFalse($policy->forceDelete($contributor, $song));
         $this->assertTrue($policy->forceDelete($admin, $song));
     }
 

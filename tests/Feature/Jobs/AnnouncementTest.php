@@ -47,6 +47,23 @@ class AnnouncementTest extends TestCase
     }
 
     /**
+     * When an announcement is restored, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testAnnouncementRestoredSendsDiscordNotification()
+    {
+        $announcement = Announcement::factory()->create();
+
+        Config::set('app.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotification::class);
+
+        $announcement->restore();
+
+        Bus::assertDispatched(SendDiscordNotification::class);
+    }
+
+    /**
      * When an announcement is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void

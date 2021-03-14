@@ -16,6 +16,7 @@ class CreateResourcesTable extends Migration
         Schema::create('resource', function (Blueprint $table) {
             $table->id('resource_id');
             $table->timestamps(6);
+            $table->softDeletes('deleted_at', 6);
             $table->integer('site')->nullable();
             $table->string('link')->nullable();
             $table->integer('external_id')->nullable();

@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Api\Artist;
 
 use App\Enums\AnimeSeason;
+use App\Enums\Filter\TrashedStatus;
 use App\Enums\ImageFacet;
 use App\Enums\ResourceSite;
 use App\Enums\ThemeType;
@@ -15,6 +16,7 @@ use App\Models\ExternalResource;
 use App\Models\Image;
 use App\Models\Song;
 use App\Models\Theme;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -112,6 +114,7 @@ class ArtistIndexTest extends TestCase
             'as',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
@@ -177,6 +180,241 @@ class ArtistIndexTest extends TestCase
             json_decode(
                 json_encode(
                     ArtistCollection::make($builder->get(), QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Artist Index Endpoint shall support filtering by created_at.
+     *
+     * @return void
+     */
+    public function testCreatedAtFilter()
+    {
+        $created_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'created_at' => $created_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+            Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        $artist = Artist::where('created_at', $created_filter)->get();
+
+        $response = $this->get(route('api.artist.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ArtistCollection::make($artist, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Artist Index Endpoint shall support filtering by updated_at.
+     *
+     * @return void
+     */
+    public function testUpdatedAtFilter()
+    {
+        $updated_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'updated_at' => $updated_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+            Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        $artist = Artist::where('updated_at', $updated_filter)->get();
+
+        $response = $this->get(route('api.artist.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ArtistCollection::make($artist, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Artist Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithoutTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITHOUT,
+            ],
+        ];
+
+        Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_artist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_artist->each(function ($artist) {
+            $artist->delete();
+        });
+
+        $artist = Artist::withoutTrashed()->get();
+
+        $response = $this->get(route('api.artist.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ArtistCollection::make($artist, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Artist Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_artist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_artist->each(function ($artist) {
+            $artist->delete();
+        });
+
+        $artist = Artist::withTrashed()->get();
+
+        $response = $this->get(route('api.artist.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ArtistCollection::make($artist, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Artist Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testOnlyTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::ONLY,
+            ],
+        ];
+
+        Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_artist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_artist->each(function ($artist) {
+            $artist->delete();
+        });
+
+        $artist = Artist::onlyTrashed()->get();
+
+        $response = $this->get(route('api.artist.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ArtistCollection::make($artist, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Artist Index Endpoint shall support filtering by deleted_at.
+     *
+     * @return void
+     */
+    public function testDeletedAtFilter()
+    {
+        $deleted_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'deleted_at' => $deleted_filter,
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+            $artist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+            $artist->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            $artist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+            $artist->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        $artist = Artist::withTrashed()->where('deleted_at', $deleted_filter)->get();
+
+        $response = $this->get(route('api.artist.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ArtistCollection::make($artist, QueryParser::make($parameters))
                         ->response()
                         ->getData()
                 ),

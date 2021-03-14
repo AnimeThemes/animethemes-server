@@ -43,6 +43,35 @@ class SynonymShowTest extends TestCase
     }
 
     /**
+     * The Synonym Show Endpoint shall return an Synonym Synonym for soft deleted synonyms.
+     *
+     * @return void
+     */
+    public function testSoftDelete()
+    {
+        $synonym = Synonym::factory()
+            ->for(Anime::factory())
+            ->createOne();
+
+        $synonym->delete();
+
+        $synonym = Synonym::withTrashed()->with(SynonymResource::allowedIncludePaths())->first();
+
+        $response = $this->get(route('api.synonym.show', ['synonym' => $synonym]));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SynonymResource::make($synonym, QueryParser::make())
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Synonym Show Endpoint shall allow inclusion of related resources.
      *
      * @return void
@@ -88,6 +117,7 @@ class SynonymShowTest extends TestCase
             'text',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));

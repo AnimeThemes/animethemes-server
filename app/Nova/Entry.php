@@ -149,6 +149,11 @@ class Entry extends Resource
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->readonly(),
+
+            DateTime::make(__('nova.deleted_at'), 'deleted_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
         ];
     }
 

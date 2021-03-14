@@ -2,27 +2,23 @@
 
 namespace App\Models;
 
-use App\Contracts\Nameable;
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
 use App\Events\Video\VideoCreated;
 use App\Events\Video\VideoCreating;
 use App\Events\Video\VideoDeleted;
+use App\Events\Video\VideoRestored;
 use App\Events\Video\VideoUpdated;
 use App\Pivots\VideoEntry;
 use BenSampo\Enum\Traits\CastsEnums;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
 use ElasticScoutDriverPlus\QueryDsl;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class Video extends Model implements Auditable, Nameable, Viewable
+class Video extends BaseModel implements Viewable
 {
-    use CastsEnums, HasFactory, InteractsWithViews, QueryDsl, Searchable;
-    use \OwenIt\Auditing\Auditable;
+    use CastsEnums, InteractsWithViews, QueryDsl, Searchable;
 
     /**
      * @var array
@@ -40,6 +36,7 @@ class Video extends Model implements Auditable, Nameable, Viewable
         'created' => VideoCreated::class,
         'creating' => VideoCreating::class,
         'deleted' => VideoDeleted::class,
+        'restored' => VideoRestored::class,
         'updated' => VideoUpdated::class,
     ];
 
@@ -56,13 +53,6 @@ class Video extends Model implements Auditable, Nameable, Viewable
      * @var string
      */
     protected $primaryKey = 'video_id';
-
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
      * The accessors to append to the model's array form.

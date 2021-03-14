@@ -47,6 +47,23 @@ class ArtistTest extends TestCase
     }
 
     /**
+     * When an artist is restored, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testArtistRestoredSendsDiscordNotification()
+    {
+        $artist = Artist::factory()->create();
+
+        Config::set('app.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotification::class);
+
+        $artist->restore();
+
+        Bus::assertDispatched(SendDiscordNotification::class);
+    }
+
+    /**
      * When an artist is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void

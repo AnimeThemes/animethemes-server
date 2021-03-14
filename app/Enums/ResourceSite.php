@@ -32,22 +32,22 @@ final class ResourceSite extends Enum implements LocalizedEnum
     public static function getDomain($value)
     {
         switch ($value) {
-            case self::TWITTER:
-                return 'twitter.com';
-            case self::ANIDB:
-                return 'anidb.net';
-            case self::ANILIST:
-                return 'anilist.co';
-            case self::ANIME_PLANET:
-                return 'anime-planet.com';
-            case self::ANN:
-                return 'animenewsnetwork.com';
-            case self::KITSU:
-                return 'kitsu.io';
-            case self::MAL:
-                return 'myanimelist.net';
-            case self::WIKI:
-                return 'wikipedia.org';
+        case self::TWITTER:
+            return 'twitter.com';
+        case self::ANIDB:
+            return 'anidb.net';
+        case self::ANILIST:
+            return 'anilist.co';
+        case self::ANIME_PLANET:
+            return 'anime-planet.com';
+        case self::ANN:
+            return 'animenewsnetwork.com';
+        case self::KITSU:
+            return 'kitsu.io';
+        case self::MAL:
+            return 'myanimelist.net';
+        case self::WIKI:
+            return 'wikipedia.org';
         }
 
         return null;

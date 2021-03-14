@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
 use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\DeletedAtFilter;
+use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
 
 class SongCollection extends BaseCollection
@@ -56,6 +58,7 @@ class SongCollection extends BaseCollection
             'song_id',
             'created_at',
             'updated_at',
+            'deleted_at',
             'title',
         ];
     }
@@ -70,6 +73,8 @@ class SongCollection extends BaseCollection
         return [
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
+            DeletedAtFilter::class,
+            TrashedFilter::class,
         ];
     }
 }

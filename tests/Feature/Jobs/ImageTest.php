@@ -47,6 +47,23 @@ class ImageTest extends TestCase
     }
 
     /**
+     * When an image is restored, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testImageRestoredSendsDiscordNotification()
+    {
+        $image = Image::factory()->create();
+
+        Config::set('app.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotification::class);
+
+        $image->restore();
+
+        Bus::assertDispatched(SendDiscordNotification::class);
+    }
+
+    /**
      * When an image is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void

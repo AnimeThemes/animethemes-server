@@ -25,8 +25,7 @@ class ImageFactory extends Factory
     public function definition()
     {
         $fs = Storage::fake('images');
-        $file_name = $this->faker->word();
-        $file = File::fake()->create($file_name.'.webm');
+        $file = File::fake()->image($this->faker->word());
         $fs_file = $fs->put('', $file);
 
         return [

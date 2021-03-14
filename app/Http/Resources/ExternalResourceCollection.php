@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\DeletedAtFilter;
+use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\ExternalResource\ExternalResourceSiteFilter;
 
@@ -55,6 +57,7 @@ class ExternalResourceCollection extends BaseCollection
             'resource_id',
             'created_at',
             'updated_at',
+            'deleted_at',
             'site',
             'link',
             'external_id',
@@ -72,6 +75,8 @@ class ExternalResourceCollection extends BaseCollection
             ExternalResourceSiteFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
+            DeletedAtFilter::class,
+            TrashedFilter::class,
         ];
     }
 }

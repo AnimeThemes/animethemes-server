@@ -4,6 +4,7 @@ namespace Tests\Feature\Events;
 
 use App\Events\Song\SongCreated;
 use App\Events\Song\SongDeleted;
+use App\Events\Song\SongRestored;
 use App\Events\Song\SongUpdated;
 use App\Models\Song;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,6 +44,22 @@ class SongTest extends TestCase
         $song->delete();
 
         Event::assertDispatched(SongDeleted::class);
+    }
+
+    /**
+     * When a Song is restored, a SongRestored event shall be dispatched.
+     *
+     * @return void
+     */
+    public function testSongRestoredEventDispatched()
+    {
+        Event::fake();
+
+        $song = Song::factory()->create();
+
+        $song->restore();
+
+        Event::assertDispatched(SongRestored::class);
     }
 
     /**

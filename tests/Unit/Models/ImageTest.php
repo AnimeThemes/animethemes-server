@@ -99,7 +99,7 @@ class ImageTest extends TestCase
     }
 
     /**
-     * The image shall be deleted from storage when the Image is deleted.
+     * The image shall not be deleted from storage when the Image is deleted.
      *
      * @return void
      */
@@ -107,13 +107,35 @@ class ImageTest extends TestCase
     {
         $fs = Storage::fake('images');
         $file = File::fake()->image($this->faker->word());
-        $path = $fs->put('', $file);
+        $fs_file = $fs->put('', $file);
 
-        $image = Image::factory()->create([
-            'path' => $path,
+        $image = Image::create([
+            'path' => $fs_file,
+            'facet' => ImageFacet::getRandomValue(),
         ]);
 
         $image->delete();
+
+        $this->assertTrue($fs->exists($image->path));
+    }
+
+    /**
+     * The image shall be deleted from storage when the Image is force deleted.
+     *
+     * @return void
+     */
+    public function testImageStorageForceDeletion()
+    {
+        $fs = Storage::fake('images');
+        $file = File::fake()->image($this->faker->word());
+        $fs_file = $fs->put('', $file);
+
+        $image = Image::create([
+            'path' => $fs_file,
+            'facet' => ImageFacet::getRandomValue(),
+        ]);
+
+        $image->forceDelete();
 
         $this->assertFalse($fs->exists($image->path));
     }

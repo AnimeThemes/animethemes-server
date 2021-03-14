@@ -36,6 +36,7 @@ class VideoTest extends TestCase
         $resource->assertHasField(__('nova.id'));
         $resource->assertHasField(__('nova.created_at'));
         $resource->assertHasField(__('nova.updated_at'));
+        $resource->assertHasField(__('nova.deleted_at'));
         $resource->assertHasField(__('nova.basename'));
         $resource->assertHasField(__('nova.filename'));
         $resource->assertHasField(__('nova.path'));
@@ -97,6 +98,25 @@ class VideoTest extends TestCase
         $resource = $this->novaResource(Video::class);
 
         $field = $resource->field(__('nova.updated_at'));
+
+        $field->assertHiddenFromIndex();
+        $field->assertShownOnDetail();
+        $field->assertHiddenWhenCreating();
+        $field->assertShownWhenUpdating();
+        $field->assertNotNullable();
+        $field->assertNotSortable();
+    }
+
+    /**
+     * The Video Resource shall contain a Deleted At field.
+     *
+     * @return void
+     */
+    public function testDeletedAtField()
+    {
+        $resource = $this->novaResource(Video::class);
+
+        $field = $resource->field(__('nova.deleted_at'));
 
         $field->assertHiddenFromIndex();
         $field->assertShownOnDetail();

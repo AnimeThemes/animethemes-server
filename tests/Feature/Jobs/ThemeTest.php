@@ -52,6 +52,25 @@ class ThemeTest extends TestCase
     }
 
     /**
+     * When a theme is restored, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testThemeRestoredSendsDiscordNotification()
+    {
+        $theme = Theme::factory()
+            ->for(Anime::factory())
+            ->create();
+
+        Config::set('app.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotification::class);
+
+        $theme->restore();
+
+        Bus::assertDispatched(SendDiscordNotification::class);
+    }
+
+    /**
      * When a theme is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void

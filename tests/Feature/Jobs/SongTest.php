@@ -47,6 +47,23 @@ class SongTest extends TestCase
     }
 
     /**
+     * When a song is restored, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testSongRestoredSendsDiscordNotification()
+    {
+        $song = Song::factory()->create();
+
+        Config::set('app.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotification::class);
+
+        $song->restore();
+
+        Bus::assertDispatched(SendDiscordNotification::class);
+    }
+
+    /**
      * When a song is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void

@@ -199,7 +199,7 @@ class ExternalResourcePolicyTest extends TestCase
         $policy = new ExternalResourcePolicy();
 
         $this->assertFalse($policy->forceDelete($read_only, $resource));
-        $this->assertTrue($policy->forceDelete($contributor, $resource));
+        $this->assertFalse($policy->forceDelete($contributor, $resource));
         $this->assertTrue($policy->forceDelete($admin, $resource));
     }
 

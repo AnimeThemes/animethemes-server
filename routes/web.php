@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [WelcomeController::class, 'do'])->name('welcome');
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
 
 Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap.index');
 

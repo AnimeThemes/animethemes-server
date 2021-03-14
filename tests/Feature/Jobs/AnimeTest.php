@@ -47,6 +47,23 @@ class AnimeTest extends TestCase
     }
 
     /**
+     * When an anime is restored, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testAnimeRestoredSendsDiscordNotification()
+    {
+        $anime = Anime::factory()->create();
+
+        Config::set('app.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotification::class);
+
+        $anime->restore();
+
+        Bus::assertDispatched(SendDiscordNotification::class);
+    }
+
+    /**
      * When an anime is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void

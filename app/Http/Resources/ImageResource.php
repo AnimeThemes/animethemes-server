@@ -51,6 +51,7 @@ class ImageResource extends BaseResource
             'facet' => $this->when($this->isAllowedField('facet'), strval(optional($this->facet)->description)),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
+            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
             'link' =>  $this->when($this->isAllowedField('link'), route('image.show', $this)),
             'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->parser),
             'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->parser),

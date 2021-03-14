@@ -3,11 +3,13 @@
 namespace Tests\Feature\Http\Api\Synonym;
 
 use App\Enums\AnimeSeason;
+use App\Enums\Filter\TrashedStatus;
 use App\Http\Resources\SynonymCollection;
 use App\Http\Resources\SynonymResource;
 use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Synonym;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
@@ -113,6 +115,7 @@ class SynonymIndexTest extends TestCase
             'text',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
@@ -185,6 +188,274 @@ class SynonymIndexTest extends TestCase
             json_decode(
                 json_encode(
                     SynonymCollection::make($builder->get(), QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Synonym Index Endpoint shall support filtering by created_at.
+     *
+     * @return void
+     */
+    public function testCreatedAtFilter()
+    {
+        $created_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'created_at' => $created_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+            Synonym::factory()
+                ->for(Anime::factory())
+                ->count($this->faker->randomDigitNotNull)
+                ->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Synonym::factory()
+                ->for(Anime::factory())
+                ->count($this->faker->randomDigitNotNull)
+                ->create();
+        });
+
+        $synonym = Synonym::where('created_at', $created_filter)->get();
+
+        $response = $this->get(route('api.synonym.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SynonymCollection::make($synonym, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Synonym Index Endpoint shall support filtering by updated_at.
+     *
+     * @return void
+     */
+    public function testUpdatedAtFilter()
+    {
+        $updated_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'updated_at' => $updated_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+            Synonym::factory()
+                ->for(Anime::factory())
+                ->count($this->faker->randomDigitNotNull)
+                ->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Synonym::factory()
+                ->for(Anime::factory())
+                ->count($this->faker->randomDigitNotNull)
+                ->create();
+        });
+
+        $synonym = Synonym::where('updated_at', $updated_filter)->get();
+
+        $response = $this->get(route('api.synonym.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SynonymCollection::make($synonym, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Synonym Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithoutTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITHOUT,
+            ],
+        ];
+
+        Synonym::factory()
+            ->for(Anime::factory())
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $delete_synonym = Synonym::factory()
+            ->for(Anime::factory())
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $delete_synonym->each(function ($synonym) {
+            $synonym->delete();
+        });
+
+        $synonym = Synonym::withoutTrashed()->get();
+
+        $response = $this->get(route('api.synonym.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SynonymCollection::make($synonym, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Synonym Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Synonym::factory()
+            ->for(Anime::factory())
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $delete_synonym = Synonym::factory()
+            ->for(Anime::factory())
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $delete_synonym->each(function ($synonym) {
+            $synonym->delete();
+        });
+
+        $synonym = Synonym::withTrashed()->get();
+
+        $response = $this->get(route('api.synonym.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SynonymCollection::make($synonym, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Synonym Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testOnlyTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::ONLY,
+            ],
+        ];
+
+        Synonym::factory()
+            ->for(Anime::factory())
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $delete_synonym = Synonym::factory()
+            ->for(Anime::factory())
+            ->count($this->faker->randomDigitNotNull)
+            ->create();
+
+        $delete_synonym->each(function ($synonym) {
+            $synonym->delete();
+        });
+
+        $synonym = Synonym::onlyTrashed()->get();
+
+        $response = $this->get(route('api.synonym.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SynonymCollection::make($synonym, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Synonym Index Endpoint shall support filtering by deleted_at.
+     *
+     * @return void
+     */
+    public function testDeletedAtFilter()
+    {
+        $deleted_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'deleted_at' => $deleted_filter,
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+            Synonym::factory()
+                ->for(Anime::factory())
+                ->count($this->faker->randomDigitNotNull)
+                ->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Synonym::factory()
+                ->for(Anime::factory())
+                ->count($this->faker->randomDigitNotNull)
+                ->create();
+        });
+
+        $synonym = Synonym::withTrashed()->where('deleted_at', $deleted_filter)->get();
+
+        $response = $this->get(route('api.synonym.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SynonymCollection::make($synonym, QueryParser::make($parameters))
                         ->response()
                         ->getData()
                 ),

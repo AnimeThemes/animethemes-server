@@ -89,6 +89,6 @@ class SynonymPolicy
      */
     public function forceDelete(User $user, Synonym $synonym)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->isAdmin();
     }
 }

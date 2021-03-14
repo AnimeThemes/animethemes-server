@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->string('current_team_id')->nullable();
             $table->timestamps(6);
+            $table->softDeletes('deleted_at', 6);
             $table->integer('role')->default(UserRole::READ_ONLY);
         });
     }

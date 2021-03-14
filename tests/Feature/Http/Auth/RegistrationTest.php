@@ -23,7 +23,7 @@ class RegistrationTest extends TestCase
     {
         $response = $this->get(route('register'));
 
-        $response->assertRedirect(route('welcome'));
+        $response->assertRedirect(route('welcome.index'));
     }
 
     /**
@@ -38,7 +38,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->get(route('register', ['token' => $invitation->token]));
 
-        $response->assertRedirect(route('welcome'));
+        $response->assertRedirect(route('welcome.index'));
     }
 
     /**
@@ -55,7 +55,24 @@ class RegistrationTest extends TestCase
 
         $response = $this->get(route('register', ['token' => $invitation->token]));
 
-        $response->assertRedirect(route('welcome'));
+        $response->assertRedirect(route('welcome.index'));
+    }
+
+    /**
+     * If the show registration form request uses a soft deleted invitation token,
+     * the application shall redirect the user to the welcome screen.
+     *
+     * @return void
+     */
+    public function testHasSoftDeletedInvitationForRegistrationForm()
+    {
+        $invitation = Invitation::factory()->create();
+
+        $invitation->delete();
+
+        $response = $this->get(route('register', ['token' => $invitation->token]));
+
+        $response->assertRedirect(route('welcome.index'));
     }
 
     /**
@@ -83,7 +100,7 @@ class RegistrationTest extends TestCase
     {
         $response = $this->post(route('register'));
 
-        $response->assertRedirect(route('welcome'));
+        $response->assertRedirect(route('welcome.index'));
     }
 
     /**
@@ -98,7 +115,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->post(route('register'), ['token' => $invitation->token]);
 
-        $response->assertRedirect(route('welcome'));
+        $response->assertRedirect(route('welcome.index'));
     }
 
     /**
@@ -115,7 +132,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->post(route('register'), ['token' => $invitation->token]);
 
-        $response->assertRedirect(route('welcome'));
+        $response->assertRedirect(route('welcome.index'));
     }
 
     /**

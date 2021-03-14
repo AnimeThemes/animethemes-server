@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\DeletedAtFilter;
+use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\Image\ImageFacetFilter;
 
@@ -55,6 +57,7 @@ class ImageCollection extends BaseCollection
             'image_id',
             'created_at',
             'updated_at',
+            'deleted_at',
             'path',
             'facet',
         ];
@@ -71,6 +74,8 @@ class ImageCollection extends BaseCollection
             ImageFacetFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
+            DeletedAtFilter::class,
+            TrashedFilter::class,
         ];
     }
 }

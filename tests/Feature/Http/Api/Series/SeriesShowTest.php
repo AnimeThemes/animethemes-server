@@ -51,6 +51,33 @@ class SeriesShowTest extends TestCase
     }
 
     /**
+     * The Series Show Endpoint shall return an Series Series for soft deleted seriess.
+     *
+     * @return void
+     */
+    public function testSoftDelete()
+    {
+        $series = Series::factory()->createOne();
+
+        $series->delete();
+
+        $series = Series::withTrashed()->with(SeriesResource::allowedIncludePaths())->first();
+
+        $response = $this->get(route('api.series.show', ['series' => $series]));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SeriesResource::make($series, QueryParser::make())
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Series Show Endpoint shall allow inclusion of related resources.
      *
      * @return void
@@ -94,6 +121,7 @@ class SeriesShowTest extends TestCase
             'slug',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));

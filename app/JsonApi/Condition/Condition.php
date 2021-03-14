@@ -128,6 +128,10 @@ abstract class Condition
      */
     public static function make(string $filterParam, string $filterValues)
     {
+        if (Str::of($filterParam)->explode('.')->contains('trashed')) {
+            return TrashedCondition::make($filterParam, $filterValues);
+        }
+
         if (Str::contains($filterValues, ',')) {
             return WhereInCondition::make($filterParam, $filterValues);
         }

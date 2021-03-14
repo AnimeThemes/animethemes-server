@@ -30,6 +30,7 @@ class AnimeTest extends TestCase
         $resource->assertHasField(__('nova.id'));
         $resource->assertHasField(__('nova.created_at'));
         $resource->assertHasField(__('nova.updated_at'));
+        $resource->assertHasField(__('nova.deleted_at'));
         $resource->assertHasField(__('nova.name'));
         $resource->assertHasField(__('nova.slug'));
         $resource->assertHasField(__('nova.year'));
@@ -84,6 +85,25 @@ class AnimeTest extends TestCase
         $resource = $this->novaResource(Anime::class);
 
         $field = $resource->field(__('nova.updated_at'));
+
+        $field->assertHiddenFromIndex();
+        $field->assertShownOnDetail();
+        $field->assertHiddenWhenCreating();
+        $field->assertShownWhenUpdating();
+        $field->assertNotNullable();
+        $field->assertNotSortable();
+    }
+
+    /**
+     * The Anime Resource shall contain a Deleted At field.
+     *
+     * @return void
+     */
+    public function testDeletedAtField()
+    {
+        $resource = $this->novaResource(Anime::class);
+
+        $field = $resource->field(__('nova.deleted_at'));
 
         $field->assertHiddenFromIndex();
         $field->assertShownOnDetail();

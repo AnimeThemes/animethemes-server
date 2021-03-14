@@ -57,6 +57,35 @@ class ThemeShowTest extends TestCase
     }
 
     /**
+     * The Theme Show Endpoint shall return an Theme Theme for soft deleted themes.
+     *
+     * @return void
+     */
+    public function testSoftDelete()
+    {
+        $theme = Theme::factory()
+            ->for(Anime::factory())
+            ->createOne();
+
+        $theme->delete();
+
+        $theme = Theme::withTrashed()->with(ThemeResource::allowedIncludePaths())->first();
+
+        $response = $this->get(route('api.theme.show', ['theme' => $theme]));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ThemeResource::make($theme, QueryParser::make())
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Theme Show Endpoint shall allow inclusion of related resources.
      *
      * @return void
@@ -111,6 +140,7 @@ class ThemeShowTest extends TestCase
             'slug',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));

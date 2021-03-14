@@ -33,6 +33,7 @@ return [
     'content' => 'Content',
     'created_at' => 'Created At',
     'current_password' => 'Current Password',
+    'deleted_at' => 'Deleted At',
     'disabled' => 'Disabled',
     'disable' => 'Disable',
     'email' => 'Email',

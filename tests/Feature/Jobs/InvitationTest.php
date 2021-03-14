@@ -47,6 +47,23 @@ class InvitationTest extends TestCase
     }
 
     /**
+     * When an invitation is restored, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testInvitationRestoredSendsDiscordNotification()
+    {
+        $invitation = Invitation::factory()->create();
+
+        Config::set('app.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotification::class);
+
+        $invitation->restore();
+
+        Bus::assertDispatched(SendDiscordNotification::class);
+    }
+
+    /**
      * When an invitation is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void

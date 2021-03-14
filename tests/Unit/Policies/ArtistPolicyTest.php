@@ -200,7 +200,7 @@ class ArtistPolicyTest extends TestCase
         $policy = new ArtistPolicy();
 
         $this->assertFalse($policy->forceDelete($read_only, $artist));
-        $this->assertTrue($policy->forceDelete($contributor, $artist));
+        $this->assertFalse($policy->forceDelete($contributor, $artist));
         $this->assertTrue($policy->forceDelete($admin, $artist));
     }
 

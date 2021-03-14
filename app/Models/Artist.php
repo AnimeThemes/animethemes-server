@@ -2,24 +2,20 @@
 
 namespace App\Models;
 
-use App\Contracts\Nameable;
 use App\Events\Artist\ArtistCreated;
 use App\Events\Artist\ArtistDeleted;
+use App\Events\Artist\ArtistRestored;
 use App\Events\Artist\ArtistUpdated;
 use App\Pivots\ArtistImage;
 use App\Pivots\ArtistMember;
 use App\Pivots\ArtistResource;
 use App\Pivots\ArtistSong;
 use ElasticScoutDriverPlus\QueryDsl;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class Artist extends Model implements Auditable, Nameable
+class Artist extends BaseModel
 {
-    use HasFactory, QueryDsl, Searchable;
-    use \OwenIt\Auditing\Auditable;
+    use QueryDsl, Searchable;
 
     /**
      * @var array
@@ -36,6 +32,7 @@ class Artist extends Model implements Auditable, Nameable
     protected $dispatchesEvents = [
         'created' => ArtistCreated::class,
         'deleted' => ArtistDeleted::class,
+        'restored' => ArtistRestored::class,
         'updated' => ArtistUpdated::class,
     ];
 
@@ -52,13 +49,6 @@ class Artist extends Model implements Auditable, Nameable
      * @var string
      */
     protected $primaryKey = 'artist_id';
-
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
      * Get the indexable data array for the model.

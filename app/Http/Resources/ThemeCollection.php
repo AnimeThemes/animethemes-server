@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
 use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\DeletedAtFilter;
+use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\Theme\ThemeGroupFilter;
 use App\JsonApi\Filter\Theme\ThemeSequenceFilter;
@@ -62,6 +64,7 @@ class ThemeCollection extends BaseCollection
             'theme_id',
             'created_at',
             'updated_at',
+            'deleted_at',
             'group',
             'type',
             'sequence',
@@ -84,6 +87,8 @@ class ThemeCollection extends BaseCollection
             ThemeTypeFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
+            DeletedAtFilter::class,
+            TrashedFilter::class,
         ];
     }
 }

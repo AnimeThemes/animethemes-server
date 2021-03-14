@@ -167,6 +167,7 @@ class YearShowTest extends TestCase
             'synopsis',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));

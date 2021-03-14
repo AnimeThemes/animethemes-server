@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Api\Anime;
 
 use App\Enums\AnimeSeason;
+use App\Enums\Filter\TrashedStatus;
 use App\Enums\ImageFacet;
 use App\Enums\ResourceSite;
 use App\Enums\ThemeType;
@@ -17,6 +18,7 @@ use App\Models\ExternalResource;
 use App\Models\Image;
 use App\Models\Theme;
 use App\Models\Video;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -116,6 +118,7 @@ class AnimeIndexTest extends TestCase
             'synopsis',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
@@ -246,6 +249,241 @@ class AnimeIndexTest extends TestCase
             ->create();
 
         $anime = Anime::where('year', $year_filter)->get();
+
+        $response = $this->get(route('api.anime.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Anime Index Endpoint shall support filtering by created_at.
+     *
+     * @return void
+     */
+    public function testCreatedAtFilter()
+    {
+        $created_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'created_at' => $created_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+            Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        $anime = Anime::where('created_at', $created_filter)->get();
+
+        $response = $this->get(route('api.anime.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Anime Index Endpoint shall support filtering by updated_at.
+     *
+     * @return void
+     */
+    public function testUpdatedAtFilter()
+    {
+        $updated_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'updated_at' => $updated_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+            Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        $anime = Anime::where('updated_at', $updated_filter)->get();
+
+        $response = $this->get(route('api.anime.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Anime Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithoutTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITHOUT,
+            ],
+        ];
+
+        Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_anime->each(function ($anime) {
+            $anime->delete();
+        });
+
+        $anime = Anime::withoutTrashed()->get();
+
+        $response = $this->get(route('api.anime.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Anime Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_anime->each(function ($anime) {
+            $anime->delete();
+        });
+
+        $anime = Anime::withTrashed()->get();
+
+        $response = $this->get(route('api.anime.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Anime Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testOnlyTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::ONLY,
+            ],
+        ];
+
+        Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_anime->each(function ($anime) {
+            $anime->delete();
+        });
+
+        $anime = Anime::onlyTrashed()->get();
+
+        $response = $this->get(route('api.anime.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Anime Index Endpoint shall support filtering by deleted_at.
+     *
+     * @return void
+     */
+    public function testDeletedAtFilter()
+    {
+        $deleted_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'deleted_at' => $deleted_filter,
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+            $anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+            $anime->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            $anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+            $anime->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        $anime = Anime::withTrashed()->where('deleted_at', $deleted_filter)->get();
 
         $response = $this->get(route('api.anime.index', $parameters));
 

@@ -4,6 +4,7 @@ namespace Tests\Feature\Events;
 
 use App\Events\Announcement\AnnouncementCreated;
 use App\Events\Announcement\AnnouncementDeleted;
+use App\Events\Announcement\AnnouncementRestored;
 use App\Events\Announcement\AnnouncementUpdated;
 use App\Models\Announcement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,6 +44,22 @@ class AnnouncementTest extends TestCase
         $announcement->delete();
 
         Event::assertDispatched(AnnouncementDeleted::class);
+    }
+
+    /**
+     * When an Announcement is restored, an AnnouncementRestored event shall be dispatched.
+     *
+     * @return void
+     */
+    public function testAnnouncementRestoredEventDispatched()
+    {
+        Event::fake();
+
+        $announcement = Announcement::factory()->create();
+
+        $announcement->restore();
+
+        Event::assertDispatched(AnnouncementRestored::class);
     }
 
     /**

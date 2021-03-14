@@ -91,7 +91,7 @@ class ExternalResourcePolicy
      */
     public function forceDelete(User $user, ExternalResource $externalResource)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**

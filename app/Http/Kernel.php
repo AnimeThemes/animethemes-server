@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'has_invitation' => \App\Http\Middleware\HasInvitation::class,
         'is_video_streaming_allowed' => \App\Http\Middleware\IsVideoStreamingAllowed::class,
+        'without_trashed' => \App\Http\Middleware\WithoutTrashed::class,
     ];
 }

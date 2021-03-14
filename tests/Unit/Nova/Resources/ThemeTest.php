@@ -29,6 +29,7 @@ class ThemeTest extends TestCase
         $resource->assertHasField(__('nova.id'));
         $resource->assertHasField(__('nova.created_at'));
         $resource->assertHasField(__('nova.updated_at'));
+        $resource->assertHasField(__('nova.deleted_at'));
         $resource->assertHasField(__('nova.type'));
         $resource->assertHasField(__('nova.sequence'));
         $resource->assertHasField(__('nova.group'));
@@ -83,6 +84,25 @@ class ThemeTest extends TestCase
         $resource = $this->novaResource(Theme::class);
 
         $field = $resource->field(__('nova.updated_at'));
+
+        $field->assertHiddenFromIndex();
+        $field->assertShownOnDetail();
+        $field->assertHiddenWhenCreating();
+        $field->assertShownWhenUpdating();
+        $field->assertNotNullable();
+        $field->assertNotSortable();
+    }
+
+    /**
+     * The Theme Resource shall contain a Deleted At field.
+     *
+     * @return void
+     */
+    public function testDeletedAtField()
+    {
+        $resource = $this->novaResource(Theme::class);
+
+        $field = $resource->field(__('nova.deleted_at'));
 
         $field->assertHiddenFromIndex();
         $field->assertShownOnDetail();

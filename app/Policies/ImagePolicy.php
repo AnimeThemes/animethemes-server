@@ -91,7 +91,7 @@ class ImagePolicy
      */
     public function forceDelete(User $user, Image $image)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**

@@ -9,6 +9,16 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class VideoController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('without_trashed:video');
+    }
+
+    /**
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function show(Video $video)

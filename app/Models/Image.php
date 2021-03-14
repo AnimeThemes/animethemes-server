@@ -2,22 +2,19 @@
 
 namespace App\Models;
 
-use App\Contracts\Nameable;
 use App\Enums\ImageFacet;
 use App\Events\Image\ImageCreated;
 use App\Events\Image\ImageDeleted;
+use App\Events\Image\ImageDeleting;
+use App\Events\Image\ImageRestored;
 use App\Events\Image\ImageUpdated;
 use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
 use BenSampo\Enum\Traits\CastsEnums;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class Image extends Model implements Auditable, Nameable
+class Image extends BaseModel
 {
-    use CastsEnums, HasFactory;
-    use \OwenIt\Auditing\Auditable;
+    use CastsEnums;
 
     /**
      * @var array
@@ -34,6 +31,8 @@ class Image extends Model implements Auditable, Nameable
     protected $dispatchesEvents = [
         'created' => ImageCreated::class,
         'deleted' => ImageDeleted::class,
+        'deleting' => ImageDeleting::class,
+        'restored' => ImageRestored::class,
         'updated' => ImageUpdated::class,
     ];
 
@@ -50,13 +49,6 @@ class Image extends Model implements Auditable, Nameable
      * @var string
      */
     protected $primaryKey = 'image_id';
-
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
      * @var array
