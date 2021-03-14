@@ -90,7 +90,7 @@ class EntryPolicy
      */
     public function forceDelete(User $user, Entry $entry)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**

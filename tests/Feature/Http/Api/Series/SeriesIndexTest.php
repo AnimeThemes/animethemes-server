@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Api\Series;
 
 use App\Enums\AnimeSeason;
+use App\Enums\Filter\TrashedStatus;
 use App\Enums\ImageFacet;
 use App\Enums\ResourceSite;
 use App\Enums\ThemeType;
@@ -18,6 +19,7 @@ use App\Models\Image;
 use App\Models\Series;
 use App\Models\Theme;
 use App\Models\Video;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -115,6 +117,7 @@ class SeriesIndexTest extends TestCase
             'as',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
@@ -180,6 +183,241 @@ class SeriesIndexTest extends TestCase
             json_decode(
                 json_encode(
                     SeriesCollection::make($builder->get(), QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Series Index Endpoint shall support filtering by created_at.
+     *
+     * @return void
+     */
+    public function testCreatedAtFilter()
+    {
+        $created_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'created_at' => $created_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+            Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        $series = Series::where('created_at', $created_filter)->get();
+
+        $response = $this->get(route('api.series.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SeriesCollection::make($series, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Series Index Endpoint shall support filtering by updated_at.
+     *
+     * @return void
+     */
+    public function testUpdatedAtFilter()
+    {
+        $updated_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'updated_at' => $updated_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+            Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        $series = Series::where('updated_at', $updated_filter)->get();
+
+        $response = $this->get(route('api.series.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SeriesCollection::make($series, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Series Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithoutTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITHOUT,
+            ],
+        ];
+
+        Series::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_series->each(function ($series) {
+            $series->delete();
+        });
+
+        $series = Series::withoutTrashed()->get();
+
+        $response = $this->get(route('api.series.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SeriesCollection::make($series, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Series Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Series::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_series->each(function ($series) {
+            $series->delete();
+        });
+
+        $series = Series::withTrashed()->get();
+
+        $response = $this->get(route('api.series.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SeriesCollection::make($series, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Series Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testOnlyTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::ONLY,
+            ],
+        ];
+
+        Series::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_series->each(function ($series) {
+            $series->delete();
+        });
+
+        $series = Series::onlyTrashed()->get();
+
+        $response = $this->get(route('api.series.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SeriesCollection::make($series, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Series Index Endpoint shall support filtering by deleted_at.
+     *
+     * @return void
+     */
+    public function testDeletedAtFilter()
+    {
+        $deleted_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'deleted_at' => $deleted_filter,
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+            $series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+            $series->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            $series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+            $series->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        $series = Series::withTrashed()->where('deleted_at', $deleted_filter)->get();
+
+        $response = $this->get(route('api.series.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SeriesCollection::make($series, QueryParser::make($parameters))
                         ->response()
                         ->getData()
                 ),

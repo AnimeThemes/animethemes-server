@@ -125,6 +125,7 @@ class AnimeResource extends BaseResource
             'synopsis' => $this->when($this->isAllowedField('synopsis'), strval($this->synopsis)),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
+            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
             'synonyms' => SynonymCollection::make($this->whenLoaded('synonyms'), $this->parser),
             'themes' => ThemeCollection::make($this->whenLoaded('themes'), $this->parser),
             'series' => SeriesCollection::make($this->whenLoaded('series'), $this->parser),

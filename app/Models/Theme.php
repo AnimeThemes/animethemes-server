@@ -2,24 +2,20 @@
 
 namespace App\Models;
 
-use App\Contracts\Nameable;
 use App\Enums\ThemeType;
 use App\Events\Theme\ThemeCreated;
 use App\Events\Theme\ThemeCreating;
 use App\Events\Theme\ThemeDeleted;
 use App\Events\Theme\ThemeDeleting;
+use App\Events\Theme\ThemeRestored;
 use App\Events\Theme\ThemeUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
 use ElasticScoutDriverPlus\QueryDsl;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class Theme extends Model implements Auditable, Nameable
+class Theme extends BaseModel
 {
-    use CastsEnums, HasFactory, QueryDsl, Searchable;
-    use \OwenIt\Auditing\Auditable;
+    use CastsEnums, QueryDsl, Searchable;
 
     /**
      * @var array
@@ -38,6 +34,7 @@ class Theme extends Model implements Auditable, Nameable
         'creating' => ThemeCreating::class,
         'deleted' => ThemeDeleted::class,
         'deleting' => ThemeDeleting::class,
+        'restored' => ThemeRestored::class,
         'updated' => ThemeUpdated::class,
     ];
 
@@ -54,13 +51,6 @@ class Theme extends Model implements Auditable, Nameable
      * @var string
      */
     protected $primaryKey = 'theme_id';
-
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
      * Get the indexable data array for the model.

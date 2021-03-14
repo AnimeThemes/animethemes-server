@@ -4,6 +4,7 @@ namespace Tests\Unit\JsonApi\Condition;
 
 use App\Enums\Filter\ComparisonOperator;
 use App\JsonApi\Condition\Condition;
+use App\JsonApi\Condition\TrashedCondition;
 use App\JsonApi\Condition\WhereCondition;
 use App\JsonApi\Condition\WhereInCondition;
 use App\JsonApi\QueryParser;
@@ -118,5 +119,19 @@ class ConditionTest extends TestCase
         $condition = Condition::make($field, $value);
 
         $this->assertInstanceOf(WhereCondition::class, $condition);
+    }
+
+    /**
+     * A Trashed Condition shall be created for the trashed filter key.
+     *
+     * @return void
+     */
+    public function testMakeTrashedCondition()
+    {
+        $value = $this->faker->word();
+
+        $condition = Condition::make('trashed', $value);
+
+        $this->assertInstanceOf(TrashedCondition::class, $condition);
     }
 }

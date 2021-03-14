@@ -89,6 +89,6 @@ class ThemePolicy
      */
     public function forceDelete(User $user, Theme $theme)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->isAdmin();
     }
 }

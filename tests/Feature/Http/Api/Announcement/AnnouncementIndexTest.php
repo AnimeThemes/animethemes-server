@@ -2,10 +2,12 @@
 
 namespace Tests\Feature\Http\Api\Announcement;
 
+use App\Enums\Filter\TrashedStatus;
 use App\Http\Resources\AnnouncementCollection;
 use App\Http\Resources\AnnouncementResource;
 use App\JsonApi\QueryParser;
 use App\Models\Announcement;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
@@ -100,6 +102,7 @@ class AnnouncementIndexTest extends TestCase
             'content',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
@@ -165,6 +168,241 @@ class AnnouncementIndexTest extends TestCase
             json_decode(
                 json_encode(
                     AnnouncementCollection::make($builder->get(), QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Announcement Index Endpoint shall support filtering by created_at.
+     *
+     * @return void
+     */
+    public function testCreatedAtFilter()
+    {
+        $created_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'created_at' => $created_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+            Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        $announcement = Announcement::where('created_at', $created_filter)->get();
+
+        $response = $this->get(route('api.announcement.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnnouncementCollection::make($announcement, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Announcement Index Endpoint shall support filtering by updated_at.
+     *
+     * @return void
+     */
+    public function testUpdatedAtFilter()
+    {
+        $updated_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'updated_at' => $updated_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+            Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        $announcement = Announcement::where('updated_at', $updated_filter)->get();
+
+        $response = $this->get(route('api.announcement.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnnouncementCollection::make($announcement, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Announcement Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithoutTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITHOUT,
+            ],
+        ];
+
+        Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_announcement = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_announcement->each(function ($announcement) {
+            $announcement->delete();
+        });
+
+        $announcement = Announcement::withoutTrashed()->get();
+
+        $response = $this->get(route('api.announcement.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnnouncementCollection::make($announcement, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Announcement Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_announcement = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_announcement->each(function ($announcement) {
+            $announcement->delete();
+        });
+
+        $announcement = Announcement::withTrashed()->get();
+
+        $response = $this->get(route('api.announcement.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnnouncementCollection::make($announcement, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Announcement Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testOnlyTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::ONLY,
+            ],
+        ];
+
+        Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_announcement = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_announcement->each(function ($announcement) {
+            $announcement->delete();
+        });
+
+        $announcement = Announcement::onlyTrashed()->get();
+
+        $response = $this->get(route('api.announcement.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnnouncementCollection::make($announcement, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Announcement Index Endpoint shall support filtering by deleted_at.
+     *
+     * @return void
+     */
+    public function testDeletedAtFilter()
+    {
+        $deleted_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'deleted_at' => $deleted_filter,
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+            $announcement = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+            $announcement->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            $announcement = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+            $announcement->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        $announcement = Announcement::withTrashed()->where('deleted_at', $deleted_filter)->get();
+
+        $response = $this->get(route('api.announcement.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnnouncementCollection::make($announcement, QueryParser::make($parameters))
                         ->response()
                         ->getData()
                 ),

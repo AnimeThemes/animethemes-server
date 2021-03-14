@@ -47,6 +47,23 @@ class SeriesTest extends TestCase
     }
 
     /**
+     * When a series is restored, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testSeriesRestoredSendsDiscordNotification()
+    {
+        $series = Series::factory()->create();
+
+        Config::set('app.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotification::class);
+
+        $series->restore();
+
+        Bus::assertDispatched(SendDiscordNotification::class);
+    }
+
+    /**
      * When a series is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void

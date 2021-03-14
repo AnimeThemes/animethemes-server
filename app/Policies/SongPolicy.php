@@ -90,7 +90,7 @@ class SongPolicy
      */
     public function forceDelete(User $user, Song $song)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**

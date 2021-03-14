@@ -200,7 +200,7 @@ class AnimePolicyTest extends TestCase
         $policy = new AnimePolicy();
 
         $this->assertFalse($policy->forceDelete($read_only, $anime));
-        $this->assertTrue($policy->forceDelete($contributor, $anime));
+        $this->assertFalse($policy->forceDelete($contributor, $anime));
         $this->assertTrue($policy->forceDelete($admin, $anime));
     }
 

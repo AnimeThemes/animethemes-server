@@ -32,6 +32,7 @@ class InvitationTest extends TestCase
         $resource->assertHasField(__('nova.id'));
         $resource->assertHasField(__('nova.created_at'));
         $resource->assertHasField(__('nova.updated_at'));
+        $resource->assertHasField(__('nova.deleted_at'));
         $resource->assertHasField(__('nova.name'));
         $resource->assertHasField(__('nova.email'));
         $resource->assertHasField(__('nova.role'));
@@ -86,6 +87,25 @@ class InvitationTest extends TestCase
         $resource = $this->novaResource(Invitation::class);
 
         $field = $resource->field(__('nova.updated_at'));
+
+        $field->assertHiddenFromIndex();
+        $field->assertShownOnDetail();
+        $field->assertHiddenWhenCreating();
+        $field->assertShownWhenUpdating();
+        $field->assertNotNullable();
+        $field->assertNotSortable();
+    }
+
+    /**
+     * The Invitation Resource shall contain a Deleted At field.
+     *
+     * @return void
+     */
+    public function testDeletedAtField()
+    {
+        $resource = $this->novaResource(Invitation::class);
+
+        $field = $resource->field(__('nova.deleted_at'));
 
         $field->assertHiddenFromIndex();
         $field->assertShownOnDetail();

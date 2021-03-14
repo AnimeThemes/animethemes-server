@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Api\Image;
 
 use App\Enums\AnimeSeason;
+use App\Enums\Filter\TrashedStatus;
 use App\Enums\ImageFacet;
 use App\Enums\ResourceSite;
 use App\Http\Resources\ImageCollection;
@@ -11,6 +12,7 @@ use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Image;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
@@ -118,6 +120,7 @@ class ImageIndexTest extends TestCase
             'as',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
@@ -188,6 +191,241 @@ class ImageIndexTest extends TestCase
             json_decode(
                 json_encode(
                     ImageCollection::make($builder->get(), QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Image Index Endpoint shall support filtering by created_at.
+     *
+     * @return void
+     */
+    public function testCreatedAtFilter()
+    {
+        $created_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'created_at' => $created_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+            Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        $image = Image::where('created_at', $created_filter)->get();
+
+        $response = $this->get(route('api.image.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ImageCollection::make($image, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Image Index Endpoint shall support filtering by updated_at.
+     *
+     * @return void
+     */
+    public function testUpdatedAtFilter()
+    {
+        $updated_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'updated_at' => $updated_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+            Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        $image = Image::where('updated_at', $updated_filter)->get();
+
+        $response = $this->get(route('api.image.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ImageCollection::make($image, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Image Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithoutTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITHOUT,
+            ],
+        ];
+
+        Image::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_image = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_image->each(function ($image) {
+            $image->delete();
+        });
+
+        $image = Image::withoutTrashed()->get();
+
+        $response = $this->get(route('api.image.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ImageCollection::make($image, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Image Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Image::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_image = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_image->each(function ($image) {
+            $image->delete();
+        });
+
+        $image = Image::withTrashed()->get();
+
+        $response = $this->get(route('api.image.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ImageCollection::make($image, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Image Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testOnlyTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::ONLY,
+            ],
+        ];
+
+        Image::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_image = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_image->each(function ($image) {
+            $image->delete();
+        });
+
+        $image = Image::onlyTrashed()->get();
+
+        $response = $this->get(route('api.image.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ImageCollection::make($image, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Image Index Endpoint shall support filtering by deleted_at.
+     *
+     * @return void
+     */
+    public function testDeletedAtFilter()
+    {
+        $deleted_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'deleted_at' => $deleted_filter,
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+            $image = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+            $image->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            $image = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+            $image->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        $image = Image::withTrashed()->where('deleted_at', $deleted_filter)->get();
+
+        $response = $this->get(route('api.image.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ImageCollection::make($image, QueryParser::make($parameters))
                         ->response()
                         ->getData()
                 ),

@@ -4,6 +4,7 @@ namespace Tests\Feature\Events;
 
 use App\Events\Synonym\SynonymCreated;
 use App\Events\Synonym\SynonymDeleted;
+use App\Events\Synonym\SynonymRestored;
 use App\Events\Synonym\SynonymUpdated;
 use App\Models\Anime;
 use App\Models\Synonym;
@@ -48,6 +49,24 @@ class SynonymTest extends TestCase
         $synonym->delete();
 
         Event::assertDispatched(SynonymDeleted::class);
+    }
+
+    /**
+     * When a Synonym is restored, a SynonymRestored event shall be dispatched.
+     *
+     * @return void
+     */
+    public function testSynonymRestoredEventDispatched()
+    {
+        Event::fake();
+
+        $synonym = Synonym::factory()
+            ->for(Anime::factory())
+            ->create();
+
+        $synonym->restore();
+
+        Event::assertDispatched(SynonymRestored::class);
     }
 
     /**

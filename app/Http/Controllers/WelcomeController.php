@@ -13,7 +13,7 @@ class WelcomeController extends Controller
      *
      * @return  \Illuminate\View\View
      */
-    public function do()
+    public function index()
     {
         // View Data
         $grill = Grill::random();

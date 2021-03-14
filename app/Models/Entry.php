@@ -2,23 +2,19 @@
 
 namespace App\Models;
 
-use App\Contracts\Nameable;
 use App\Events\Entry\EntryCreated;
 use App\Events\Entry\EntryDeleted;
 use App\Events\Entry\EntryDeleting;
+use App\Events\Entry\EntryRestored;
 use App\Events\Entry\EntryUpdated;
 use App\Pivots\VideoEntry;
 use ElasticScoutDriverPlus\QueryDsl;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class Entry extends Model implements Auditable, Nameable
+class Entry extends BaseModel
 {
-    use HasFactory, QueryDsl, Searchable;
-    use \OwenIt\Auditing\Auditable;
+    use QueryDsl, Searchable;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 
     /**
@@ -37,6 +33,7 @@ class Entry extends Model implements Auditable, Nameable
         'created' => EntryCreated::class,
         'deleted' => EntryDeleted::class,
         'deleting' => EntryDeleting::class,
+        'restored' => EntryRestored::class,
         'updated' => EntryUpdated::class,
     ];
 
@@ -53,13 +50,6 @@ class Entry extends Model implements Auditable, Nameable
      * @var string
      */
     protected $primaryKey = 'entry_id';
-
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
      * @var array

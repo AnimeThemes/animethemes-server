@@ -81,7 +81,7 @@ class EntryResource extends BaseResource
             'notes' => $this->when($this->isAllowedField('notes'), $this->notes),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->parser),
+            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
             'theme' => ThemeResource::make($this->whenLoaded('theme'), $this->parser),
             'videos' => VideoCollection::make($this->whenLoaded('videos'), $this->parser),
         ];
@@ -95,8 +95,8 @@ class EntryResource extends BaseResource
     public static function allowedIncludePaths()
     {
         return [
-            'anime',
             'theme',
+            'theme.anime',
             'videos',
         ];
     }

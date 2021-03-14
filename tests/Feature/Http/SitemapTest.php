@@ -31,7 +31,7 @@ class SitemapTest extends TestCase
     {
         $response = $this->get(route('sitemap.index'));
 
-        $response->assertSee(route('welcome'));
+        $response->assertSee(route('welcome.index'));
     }
 
     /**

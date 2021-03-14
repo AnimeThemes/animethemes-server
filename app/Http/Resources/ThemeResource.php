@@ -102,6 +102,7 @@ class ThemeResource extends BaseResource
             'slug' => $this->when($this->isAllowedField('slug'), strval($this->slug)),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
+            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
             'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->parser),
             'song' => SongResource::make($this->whenLoaded('song'), $this->parser),
             'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->parser),

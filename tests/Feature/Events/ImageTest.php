@@ -4,6 +4,7 @@ namespace Tests\Feature\Events;
 
 use App\Events\Image\ImageCreated;
 use App\Events\Image\ImageDeleted;
+use App\Events\Image\ImageRestored;
 use App\Events\Image\ImageUpdated;
 use App\Models\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,6 +44,22 @@ class ImageTest extends TestCase
         $image->delete();
 
         Event::assertDispatched(ImageDeleted::class);
+    }
+
+    /**
+     * When an Image is restored, an ImageRestored event shall be dispatched.
+     *
+     * @return void
+     */
+    public function testImageRestoredEventDispatched()
+    {
+        Event::fake();
+
+        $image = Image::factory()->create();
+
+        $image->restore();
+
+        Event::assertDispatched(ImageRestored::class);
     }
 
     /**

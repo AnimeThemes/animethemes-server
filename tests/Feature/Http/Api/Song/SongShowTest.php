@@ -48,6 +48,33 @@ class SongShowTest extends TestCase
     }
 
     /**
+     * The Song Show Endpoint shall return an Song Song for soft deleted songs.
+     *
+     * @return void
+     */
+    public function testSoftDelete()
+    {
+        $song = Song::factory()->createOne();
+
+        $song->delete();
+
+        $song = Song::withTrashed()->with(SongResource::allowedIncludePaths())->first();
+
+        $response = $this->get(route('api.song.show', ['song' => $song]));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SongResource::make($song, QueryParser::make())
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Song Show Endpoint shall allow inclusion of related resources.
      *
      * @return void
@@ -95,6 +122,7 @@ class SongShowTest extends TestCase
             'as',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));

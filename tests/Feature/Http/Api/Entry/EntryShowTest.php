@@ -47,6 +47,35 @@ class EntryShowTest extends TestCase
     }
 
     /**
+     * The Entry Show Endpoint shall return an Entry Resource for soft deleted images.
+     *
+     * @return void
+     */
+    public function testSoftDelete()
+    {
+        $entry = Entry::factory()
+            ->for(Theme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        $entry->delete();
+
+        $entry = Entry::withTrashed()->with(EntryResource::allowedIncludePaths())->first();
+
+        $response = $this->get(route('api.entry.show', ['entry' => $entry]));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    EntryResource::make($entry, QueryParser::make())
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Entry Show Endpoint shall allow inclusion of related resources.
      *
      * @return void
@@ -97,6 +126,7 @@ class EntryShowTest extends TestCase
             'notes',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));

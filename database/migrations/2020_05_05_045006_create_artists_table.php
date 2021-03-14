@@ -16,6 +16,7 @@ class CreateArtistsTable extends Migration
         Schema::create('artist', function (Blueprint $table) {
             $table->id('artist_id');
             $table->timestamps(6);
+            $table->softDeletes('deleted_at', 6);
             $table->string('slug');
             $table->string('name');
         });

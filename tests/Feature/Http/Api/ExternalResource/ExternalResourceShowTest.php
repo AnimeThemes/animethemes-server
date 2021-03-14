@@ -45,6 +45,33 @@ class ExternalResourceShowTest extends TestCase
     }
 
     /**
+     * The Resource Show Endpoint shall return an Resource Resource for soft deleted images.
+     *
+     * @return void
+     */
+    public function testSoftDelete()
+    {
+        $resource = ExternalResource::factory()->createOne();
+
+        $resource->delete();
+
+        $resource = ExternalResource::withTrashed()->with(ExternalResourceResource::allowedIncludePaths())->first();
+
+        $response = $this->get(route('api.resource.show', ['resource' => $resource]));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ExternalResourceResource::make($resource, QueryParser::make())
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Resource Show Endpoint shall allow inclusion of related resources.
      *
      * @return void
@@ -94,6 +121,7 @@ class ExternalResourceShowTest extends TestCase
             'as',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));

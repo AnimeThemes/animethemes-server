@@ -47,6 +47,23 @@ class ExternalResourceTest extends TestCase
     }
 
     /**
+     * When a resource is restored, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testResourceRestoredSendsDiscordNotification()
+    {
+        $resource = ExternalResource::factory()->create();
+
+        Config::set('app.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotification::class);
+
+        $resource->restore();
+
+        Bus::assertDispatched(SendDiscordNotification::class);
+    }
+
+    /**
      * When a resource is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void

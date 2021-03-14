@@ -38,6 +38,33 @@ class AnnouncementShowTest extends TestCase
     }
 
     /**
+     * The Announcement Show Endpoint shall return an Announcement Resource for soft deleted images.
+     *
+     * @return void
+     */
+    public function testSoftDelete()
+    {
+        $announcement = Announcement::factory()->createOne();
+
+        $announcement->delete();
+
+        $announcement = Announcement::withTrashed()->with(AnnouncementResource::allowedIncludePaths())->first();
+
+        $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnnouncementResource::make($announcement, QueryParser::make())
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Announcement Show Endpoint shall allow inclusion of related resources.
      *
      * @return void
@@ -80,6 +107,7 @@ class AnnouncementShowTest extends TestCase
             'content',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));

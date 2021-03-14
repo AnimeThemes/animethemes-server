@@ -4,6 +4,7 @@ namespace Tests\Feature\Events;
 
 use App\Events\Video\VideoCreated;
 use App\Events\Video\VideoDeleted;
+use App\Events\Video\VideoRestored;
 use App\Events\Video\VideoUpdated;
 use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,6 +44,22 @@ class VideoTest extends TestCase
         $video->delete();
 
         Event::assertDispatched(VideoDeleted::class);
+    }
+
+    /**
+     * When a Video is restored, a VideoRestored event shall be dispatched.
+     *
+     * @return void
+     */
+    public function testVideoRestoredEventDispatched()
+    {
+        Event::fake();
+
+        $video = Video::factory()->create();
+
+        $video->restore();
+
+        Event::assertDispatched(VideoRestored::class);
     }
 
     /**

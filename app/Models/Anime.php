@@ -2,26 +2,22 @@
 
 namespace App\Models;
 
-use App\Contracts\Nameable;
 use App\Enums\AnimeSeason;
 use App\Events\Anime\AnimeCreated;
 use App\Events\Anime\AnimeDeleted;
 use App\Events\Anime\AnimeDeleting;
+use App\Events\Anime\AnimeRestored;
 use App\Events\Anime\AnimeUpdated;
 use App\Pivots\AnimeImage;
 use App\Pivots\AnimeResource;
 use App\Pivots\AnimeSeries;
 use BenSampo\Enum\Traits\CastsEnums;
 use ElasticScoutDriverPlus\QueryDsl;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class Anime extends Model implements Auditable, Nameable
+class Anime extends BaseModel
 {
-    use CastsEnums, HasFactory, QueryDsl, Searchable;
-    use \OwenIt\Auditing\Auditable;
+    use CastsEnums, QueryDsl, Searchable;
 
     /**
      * @var array
@@ -39,6 +35,7 @@ class Anime extends Model implements Auditable, Nameable
         'created' => AnimeCreated::class,
         'deleted' => AnimeDeleted::class,
         'deleting' => AnimeDeleting::class,
+        'restored' => AnimeRestored::class,
         'updated' => AnimeUpdated::class,
     ];
 
@@ -55,13 +52,6 @@ class Anime extends Model implements Auditable, Nameable
      * @var string
      */
     protected $primaryKey = 'anime_id';
-
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
      * Get the indexable data array for the model.

@@ -198,7 +198,7 @@ class SeriesPolicyTest extends TestCase
         $policy = new SeriesPolicy();
 
         $this->assertFalse($policy->forceDelete($read_only, $series));
-        $this->assertTrue($policy->forceDelete($contributor, $series));
+        $this->assertFalse($policy->forceDelete($contributor, $series));
         $this->assertTrue($policy->forceDelete($admin, $series));
     }
 

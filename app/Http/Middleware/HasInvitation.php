@@ -21,7 +21,7 @@ class HasInvitation
         $invitation = Invitation::where('token', $token)->first();
 
         if ($invitation === null || ! $invitation->isOpen()) {
-            return redirect(route('welcome'));
+            return redirect(route('welcome.index'));
         }
 
         return $next($request);

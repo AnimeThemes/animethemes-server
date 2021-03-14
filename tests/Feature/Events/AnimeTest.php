@@ -4,6 +4,7 @@ namespace Tests\Feature\Events;
 
 use App\Events\Anime\AnimeCreated;
 use App\Events\Anime\AnimeDeleted;
+use App\Events\Anime\AnimeRestored;
 use App\Events\Anime\AnimeUpdated;
 use App\Models\Anime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,6 +44,22 @@ class AnimeTest extends TestCase
         $anime->delete();
 
         Event::assertDispatched(AnimeDeleted::class);
+    }
+
+    /**
+     * When an Anime is restored, an AnimeRestored event shall be dispatched.
+     *
+     * @return void
+     */
+    public function testAnimeRestoredEventDispatched()
+    {
+        Event::fake();
+
+        $anime = Anime::factory()->create();
+
+        $anime->restore();
+
+        Event::assertDispatched(AnimeRestored::class);
     }
 
     /**

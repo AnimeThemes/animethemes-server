@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
 use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\DeletedAtFilter;
+use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\Entry\EntryNsfwFilter;
 use App\JsonApi\Filter\Entry\EntrySpoilerFilter;
@@ -42,8 +44,8 @@ class EntryCollection extends BaseCollection
     public static function allowedIncludePaths()
     {
         return [
-            'anime',
             'theme',
+            'theme.anime',
             'videos',
         ];
     }
@@ -59,6 +61,7 @@ class EntryCollection extends BaseCollection
             'entry_id',
             'created_at',
             'updated_at',
+            'deleted_at',
             'version',
             'nsfw',
             'spoiler',
@@ -79,6 +82,8 @@ class EntryCollection extends BaseCollection
             EntryVersionFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
+            DeletedAtFilter::class,
+            TrashedFilter::class,
         ];
     }
 }

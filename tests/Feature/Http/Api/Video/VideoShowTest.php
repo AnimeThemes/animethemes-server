@@ -51,6 +51,33 @@ class VideoShowTest extends TestCase
     }
 
     /**
+     * The Video Show Endpoint shall return an Video Video for soft deleted videos.
+     *
+     * @return void
+     */
+    public function testSoftDelete()
+    {
+        $video = Video::factory()->createOne();
+
+        $video->delete();
+
+        $video = Video::withTrashed()->with(VideoResource::allowedIncludePaths())->first();
+
+        $response = $this->get(route('api.video.show', ['video' => $video]));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    VideoResource::make($video, QueryParser::make())
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Video Show Endpoint shall allow inclusion of related resources.
      *
      * @return void
@@ -110,6 +137,7 @@ class VideoShowTest extends TestCase
             'overlap',
             'created_at',
             'updated_at',
+            'deleted_at',
             'tags',
             'link',
             'views',

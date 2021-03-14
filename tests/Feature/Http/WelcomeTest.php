@@ -19,7 +19,7 @@ class WelcomeTest extends TestCase
      */
     public function testWelcome()
     {
-        $response = $this->get(route('welcome'));
+        $response = $this->get(route('welcome.index'));
 
         $response->assertViewIs('welcome');
     }
@@ -35,7 +35,7 @@ class WelcomeTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $response = $this->get(route('welcome'));
+        $response = $this->get(route('welcome.index'));
 
         foreach ($announcements as $announcement) {
             $response->assertSee($announcement->content);
@@ -55,7 +55,7 @@ class WelcomeTest extends TestCase
             ->count($created_video_count)
             ->create();
 
-        $response = $this->get(route('welcome'));
+        $response = $this->get(route('welcome.index'));
 
         $response->assertSee("Currently serving {$created_video_count} files");
     }

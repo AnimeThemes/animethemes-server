@@ -4,6 +4,7 @@ namespace Tests\Feature\Events;
 
 use App\Events\Invitation\InvitationCreated;
 use App\Events\Invitation\InvitationDeleted;
+use App\Events\Invitation\InvitationRestored;
 use App\Events\Invitation\InvitationUpdated;
 use App\Models\Invitation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,6 +44,22 @@ class InvitationTest extends TestCase
         $invitation->delete();
 
         Event::assertDispatched(InvitationDeleted::class);
+    }
+
+    /**
+     * When an Invitation is restored, an InvitationRestored event shall be dispatched.
+     *
+     * @return void
+     */
+    public function testInvitationRestoredEventDispatched()
+    {
+        Event::fake(InvitationRestored::class);
+
+        $invitation = Invitation::factory()->create();
+
+        $invitation->restore();
+
+        Event::assertDispatched(InvitationRestored::class);
     }
 
     /**

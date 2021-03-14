@@ -2,23 +2,19 @@
 
 namespace App\Models;
 
-use App\Contracts\Nameable;
 use App\Enums\InvitationStatus;
 use App\Enums\UserRole;
 use App\Events\Invitation\InvitationCreated;
 use App\Events\Invitation\InvitationCreating;
 use App\Events\Invitation\InvitationDeleted;
+use App\Events\Invitation\InvitationRestored;
 use App\Events\Invitation\InvitationUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 use ParagonIE\ConstantTime\Base32;
 
-class Invitation extends Model implements Auditable, Nameable
+class Invitation extends BaseModel
 {
-    use CastsEnums, HasFactory;
-    use \OwenIt\Auditing\Auditable;
+    use CastsEnums;
 
     protected $fillable = ['name', 'email', 'role', 'status'];
 
@@ -33,6 +29,7 @@ class Invitation extends Model implements Auditable, Nameable
         'created' => InvitationCreated::class,
         'creating' => InvitationCreating::class,
         'deleted' => InvitationDeleted::class,
+        'restored' => InvitationRestored::class,
         'updated' => InvitationUpdated::class,
     ];
 
@@ -49,13 +46,6 @@ class Invitation extends Model implements Auditable, Nameable
      * @var string
      */
     protected $primaryKey = 'invitation_id';
-
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
      * @var array

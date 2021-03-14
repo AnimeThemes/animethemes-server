@@ -48,6 +48,33 @@ class ArtistShowTest extends TestCase
     }
 
     /**
+     * The Artist Show Endpoint shall return an Artist Resource for soft deleted images.
+     *
+     * @return void
+     */
+    public function testSoftDelete()
+    {
+        $artist = Artist::factory()->createOne();
+
+        $artist->delete();
+
+        $artist = Artist::withTrashed()->with(ArtistResource::allowedIncludePaths())->first();
+
+        $response = $this->get(route('api.artist.show', ['artist' => $artist]));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ArtistResource::make($artist, QueryParser::make())
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Artist Show Endpoint shall allow inclusion of related resources.
      *
      * @return void
@@ -92,6 +119,7 @@ class ArtistShowTest extends TestCase
             'as',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));

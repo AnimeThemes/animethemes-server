@@ -208,7 +208,7 @@ class ThemePolicyTest extends TestCase
         $policy = new ThemePolicy();
 
         $this->assertFalse($policy->forceDelete($read_only, $theme));
-        $this->assertTrue($policy->forceDelete($contributor, $theme));
+        $this->assertFalse($policy->forceDelete($contributor, $theme));
         $this->assertTrue($policy->forceDelete($admin, $theme));
     }
 }

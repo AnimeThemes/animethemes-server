@@ -49,6 +49,33 @@ class AnimeShowTest extends TestCase
     }
 
     /**
+     * The Image Show Endpoint shall return an Anime Resource for soft deleted anime.
+     *
+     * @return void
+     */
+    public function testSoftDelete()
+    {
+        $anime = Anime::factory()->createOne();
+
+        $anime->delete();
+
+        $anime = Anime::withTrashed()->with(AnimeResource::allowedIncludePaths())->first();
+
+        $response = $this->get(route('api.anime.show', ['anime' => $anime]));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    AnimeResource::make($anime, QueryParser::make())
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Anime Show Endpoint shall allow inclusion of related resources.
      *
      * @return void
@@ -95,6 +122,7 @@ class AnimeShowTest extends TestCase
             'synopsis',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));

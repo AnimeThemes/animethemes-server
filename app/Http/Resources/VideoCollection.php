@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
 use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\DeletedAtFilter;
+use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\Video\VideoLyricsFilter;
 use App\JsonApi\Filter\Video\VideoNcFilter;
@@ -63,6 +65,7 @@ class VideoCollection extends BaseCollection
             'video_id',
             'created_at',
             'updated_at',
+            'deleted_at',
             'filename',
             'path',
             'size',
@@ -94,6 +97,8 @@ class VideoCollection extends BaseCollection
             VideoUncenFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
+            DeletedAtFilter::class,
+            TrashedFilter::class,
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Api\Entry;
 
 use App\Enums\AnimeSeason;
+use App\Enums\Filter\TrashedStatus;
 use App\Enums\ThemeType;
 use App\Http\Resources\EntryCollection;
 use App\Http\Resources\EntryResource;
@@ -11,6 +12,7 @@ use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\Theme;
 use App\Models\Video;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -124,6 +126,7 @@ class EntryIndexTest extends TestCase
             'notes',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
@@ -198,6 +201,294 @@ class EntryIndexTest extends TestCase
             json_decode(
                 json_encode(
                     EntryCollection::make($builder->get(), QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Entry Index Endpoint shall support filtering by created_at.
+     *
+     * @return void
+     */
+    public function testCreatedAtFilter()
+    {
+        $created_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'created_at' => $created_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+            Entry::factory()
+                ->for(Theme::factory()->for(Anime::factory()))
+                ->count($this->faker->randomDigitNotNull)
+                ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                ->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Entry::factory()
+                ->for(Theme::factory()->for(Anime::factory()))
+                ->count($this->faker->randomDigitNotNull)
+                ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                ->create();
+        });
+
+        $entry = Entry::where('entry.created_at', $created_filter)->get();
+
+        $response = $this->get(route('api.entry.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    EntryCollection::make($entry, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Entry Index Endpoint shall support filtering by updated_at.
+     *
+     * @return void
+     */
+    public function testUpdatedAtFilter()
+    {
+        $updated_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'updated_at' => $updated_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+            Entry::factory()
+                ->for(Theme::factory()->for(Anime::factory()))
+                ->count($this->faker->randomDigitNotNull)
+                ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                ->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Entry::factory()
+                ->for(Theme::factory()->for(Anime::factory()))
+                ->count($this->faker->randomDigitNotNull)
+                ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                ->create();
+        });
+
+        $entry = Entry::where('updated_at', $updated_filter)->get();
+
+        $response = $this->get(route('api.entry.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    EntryCollection::make($entry, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Entry Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithoutTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITHOUT,
+            ],
+        ];
+
+        Entry::factory()
+            ->for(Theme::factory()->for(Anime::factory()))
+            ->count($this->faker->randomDigitNotNull)
+            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+            ->create();
+
+        $delete_entry = Entry::factory()
+            ->for(Theme::factory()->for(Anime::factory()))
+            ->count($this->faker->randomDigitNotNull)
+            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+            ->create();
+
+        $delete_entry->each(function ($entry) {
+            $entry->delete();
+        });
+
+        $entry = Entry::withoutTrashed()->get();
+
+        $response = $this->get(route('api.entry.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    EntryCollection::make($entry, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Entry Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Entry::factory()
+            ->for(Theme::factory()->for(Anime::factory()))
+            ->count($this->faker->randomDigitNotNull)
+            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+            ->create();
+
+        $delete_entry = Entry::factory()
+            ->for(Theme::factory()->for(Anime::factory()))
+            ->count($this->faker->randomDigitNotNull)
+            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+            ->create();
+
+        $delete_entry->each(function ($entry) {
+            $entry->delete();
+        });
+
+        $entry = Entry::withTrashed()->get();
+
+        $response = $this->get(route('api.entry.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    EntryCollection::make($entry, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Entry Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testOnlyTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::ONLY,
+            ],
+        ];
+
+        Entry::factory()
+            ->for(Theme::factory()->for(Anime::factory()))
+            ->count($this->faker->randomDigitNotNull)
+            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+            ->create();
+
+        $delete_entry = Entry::factory()
+            ->for(Theme::factory()->for(Anime::factory()))
+            ->count($this->faker->randomDigitNotNull)
+            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+            ->create();
+
+        $delete_entry->each(function ($entry) {
+            $entry->delete();
+        });
+
+        $entry = Entry::onlyTrashed()->get();
+
+        $response = $this->get(route('api.entry.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    EntryCollection::make($entry, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Entry Index Endpoint shall support filtering by deleted_at.
+     *
+     * @return void
+     */
+    public function testDeletedAtFilter()
+    {
+        $deleted_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'deleted_at' => $deleted_filter,
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+            $entry = Entry::factory()
+                ->for(Theme::factory()->for(Anime::factory()))
+                ->count($this->faker->randomDigitNotNull)
+                ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                ->create();
+
+            $entry->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            $entry = Entry::factory()
+                ->for(Theme::factory()->for(Anime::factory()))
+                ->count($this->faker->randomDigitNotNull)
+                ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                ->create();
+
+            $entry->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        $entry = Entry::withTrashed()->where('deleted_at', $deleted_filter)->get();
+
+        $response = $this->get(route('api.entry.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    EntryCollection::make($entry, QueryParser::make($parameters))
                         ->response()
                         ->getData()
                 ),

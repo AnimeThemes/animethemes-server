@@ -92,7 +92,7 @@ class ArtistPolicy
      */
     public function forceDelete(User $user, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**

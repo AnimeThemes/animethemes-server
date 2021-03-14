@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Api\Song;
 
 use App\Enums\AnimeSeason;
+use App\Enums\Filter\TrashedStatus;
 use App\Enums\ThemeType;
 use App\Http\Resources\SongCollection;
 use App\Http\Resources\SongResource;
@@ -11,6 +12,7 @@ use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Song;
 use App\Models\Theme;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -117,6 +119,7 @@ class SongIndexTest extends TestCase
             'as',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
@@ -187,6 +190,241 @@ class SongIndexTest extends TestCase
             json_decode(
                 json_encode(
                     SongCollection::make($builder->get(), QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Song Index Endpoint shall support filtering by created_at.
+     *
+     * @return void
+     */
+    public function testCreatedAtFilter()
+    {
+        $created_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'created_at' => $created_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+            Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        $song = Song::where('created_at', $created_filter)->get();
+
+        $response = $this->get(route('api.song.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SongCollection::make($song, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Song Index Endpoint shall support filtering by updated_at.
+     *
+     * @return void
+     */
+    public function testUpdatedAtFilter()
+    {
+        $updated_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'updated_at' => $updated_filter,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+            Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        });
+
+        $song = Song::where('updated_at', $updated_filter)->get();
+
+        $response = $this->get(route('api.song.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SongCollection::make($song, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Song Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithoutTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITHOUT,
+            ],
+        ];
+
+        Song::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_song = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_song->each(function ($song) {
+            $song->delete();
+        });
+
+        $song = Song::withoutTrashed()->get();
+
+        $response = $this->get(route('api.song.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SongCollection::make($song, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Song Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testWithTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Song::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_song = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_song->each(function ($song) {
+            $song->delete();
+        });
+
+        $song = Song::withTrashed()->get();
+
+        $response = $this->get(route('api.song.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SongCollection::make($song, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Song Index Endpoint shall support filtering by trashed.
+     *
+     * @return void
+     */
+    public function testOnlyTrashedFilter()
+    {
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'trashed' => TrashedStatus::ONLY,
+            ],
+        ];
+
+        Song::factory()->count($this->faker->randomDigitNotNull)->create();
+
+        $delete_song = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        $delete_song->each(function ($song) {
+            $song->delete();
+        });
+
+        $song = Song::onlyTrashed()->get();
+
+        $response = $this->get(route('api.song.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SongCollection::make($song, QueryParser::make($parameters))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Song Index Endpoint shall support filtering by deleted_at.
+     *
+     * @return void
+     */
+    public function testDeletedAtFilter()
+    {
+        $deleted_filter = $this->faker->date();
+        $excluded_date = $this->faker->date();
+
+        $parameters = [
+            QueryParser::PARAM_FILTER => [
+                'deleted_at' => $deleted_filter,
+                'trashed' => TrashedStatus::WITH,
+            ],
+        ];
+
+        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+            $song = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+            $song->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+            $song = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+            $song->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+        $song = Song::withTrashed()->where('deleted_at', $deleted_filter)->get();
+
+        $response = $this->get(route('api.song.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    SongCollection::make($song, QueryParser::make($parameters))
                         ->response()
                         ->getData()
                 ),

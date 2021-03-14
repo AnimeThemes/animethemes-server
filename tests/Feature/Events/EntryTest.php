@@ -4,6 +4,7 @@ namespace Tests\Feature\Events;
 
 use App\Events\Entry\EntryCreated;
 use App\Events\Entry\EntryDeleted;
+use App\Events\Entry\EntryRestored;
 use App\Events\Entry\EntryUpdated;
 use App\Models\Anime;
 use App\Models\Entry;
@@ -49,6 +50,24 @@ class EntryTest extends TestCase
         $entry->delete();
 
         Event::assertDispatched(EntryDeleted::class);
+    }
+
+    /**
+     * When an Entry is restored, an EntryRestored event shall be dispatched.
+     *
+     * @return void
+     */
+    public function testEntryRestoredEventDispatched()
+    {
+        Event::fake(EntryRestored::class);
+
+        $entry = Entry::factory()
+            ->for(Theme::factory()->for(Anime::factory()))
+            ->create();
+
+        $entry->restore();
+
+        Event::assertDispatched(EntryRestored::class);
     }
 
     /**

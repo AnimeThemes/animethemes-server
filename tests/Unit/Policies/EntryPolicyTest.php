@@ -210,7 +210,7 @@ class EntryPolicyTest extends TestCase
         $policy = new EntryPolicy();
 
         $this->assertFalse($policy->forceDelete($read_only, $entry));
-        $this->assertTrue($policy->forceDelete($contributor, $entry));
+        $this->assertFalse($policy->forceDelete($contributor, $entry));
         $this->assertTrue($policy->forceDelete($admin, $entry));
     }
 

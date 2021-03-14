@@ -16,6 +16,7 @@ class CreateEntriesTable extends Migration
         Schema::create('entry', function (Blueprint $table) {
             $table->id('entry_id');
             $table->timestamps(6);
+            $table->softDeletes('deleted_at', 6);
             $table->integer('version')->nullable();
             $table->string('episodes')->nullable();
             $table->boolean('nsfw')->default(false);

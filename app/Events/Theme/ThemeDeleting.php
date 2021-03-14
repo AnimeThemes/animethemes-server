@@ -3,9 +3,8 @@
 namespace App\Events\Theme;
 
 use App\Contracts\Events\CascadesDeletesEvent;
-use App\Events\Entry\EntryDeleting;
 use App\Models\Entry;
-use Illuminate\Support\Facades\Event;
+use App\Models\Video;
 
 class ThemeDeleting extends ThemeEvent implements CascadesDeletesEvent
 {
@@ -20,9 +19,13 @@ class ThemeDeleting extends ThemeEvent implements CascadesDeletesEvent
 
         $theme->entries->each(function (Entry $entry) {
             Entry::withoutEvents(function () use ($entry) {
-                Event::until(new EntryDeleting($entry));
                 $entry->unsearchable();
                 $entry->delete();
+
+                $videos = $entry->videos;
+                $videos->each(function (Video $video) {
+                    $video->searchable();
+                });
             });
         });
     }

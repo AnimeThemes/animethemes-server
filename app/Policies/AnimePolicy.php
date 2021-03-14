@@ -92,7 +92,7 @@ class AnimePolicy
      */
     public function forceDelete(User $user, Anime $anime)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**

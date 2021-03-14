@@ -26,6 +26,7 @@ class AnnouncementTest extends TestCase
         $resource->assertHasField(__('nova.id'));
         $resource->assertHasField(__('nova.created_at'));
         $resource->assertHasField(__('nova.updated_at'));
+        $resource->assertHasField(__('nova.deleted_at'));
         $resource->assertHasField(__('nova.content'));
     }
 
@@ -68,7 +69,7 @@ class AnnouncementTest extends TestCase
     }
 
     /**
-     * The Announcement Resource shall contain an Updated At field.
+     * The Announcement Resource shall contain a Deleted At field.
      *
      * @return void
      */
@@ -77,6 +78,25 @@ class AnnouncementTest extends TestCase
         $resource = $this->novaResource(Announcement::class);
 
         $field = $resource->field(__('nova.updated_at'));
+
+        $field->assertHiddenFromIndex();
+        $field->assertShownOnDetail();
+        $field->assertHiddenWhenCreating();
+        $field->assertShownWhenUpdating();
+        $field->assertNotNullable();
+        $field->assertNotSortable();
+    }
+
+    /**
+     * The Announcement Resource shall contain an Updated At field.
+     *
+     * @return void
+     */
+    public function testDeletedAtField()
+    {
+        $resource = $this->novaResource(Announcement::class);
+
+        $field = $resource->field(__('nova.deleted_at'));
 
         $field->assertHiddenFromIndex();
         $field->assertShownOnDetail();

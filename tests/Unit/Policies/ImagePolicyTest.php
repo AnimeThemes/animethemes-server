@@ -199,7 +199,7 @@ class ImagePolicyTest extends TestCase
         $policy = new ImagePolicy();
 
         $this->assertFalse($policy->forceDelete($read_only, $image));
-        $this->assertTrue($policy->forceDelete($contributor, $image));
+        $this->assertFalse($policy->forceDelete($contributor, $image));
         $this->assertTrue($policy->forceDelete($admin, $image));
     }
 

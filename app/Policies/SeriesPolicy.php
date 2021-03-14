@@ -90,7 +90,7 @@ class SeriesPolicy
      */
     public function forceDelete(User $user, Series $series)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**

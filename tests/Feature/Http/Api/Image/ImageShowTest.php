@@ -45,6 +45,33 @@ class ImageShowTest extends TestCase
     }
 
     /**
+     * The Image Show Endpoint shall return an Image Image for soft deleted images.
+     *
+     * @return void
+     */
+    public function testSoftDelete()
+    {
+        $image = Image::factory()->createOne();
+
+        $image->delete();
+
+        $image = Image::withTrashed()->with(ImageResource::allowedIncludePaths())->first();
+
+        $response = $this->get(route('api.image.show', ['image' => $image]));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    ImageResource::make($image, QueryParser::make())
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Image Show Endpoint shall allow inclusion of related resources.
      *
      * @return void
@@ -94,6 +121,7 @@ class ImageShowTest extends TestCase
             'as',
             'created_at',
             'updated_at',
+            'deleted_at',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));

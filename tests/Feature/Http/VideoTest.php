@@ -31,6 +31,24 @@ class VideoTest extends TestCase
     }
 
     /**
+     * If the video is soft deleted, the user shall be redirected to the Welcome Screen.
+     *
+     * @return void
+     */
+    public function testSoftDeleteVideoStreamingRedirect()
+    {
+        Config::set('app.allow_video_streams', true);
+
+        $video = Video::factory()->create();
+
+        $video->delete();
+
+        $response = $this->get(route('video.show', ['video' => $video]));
+
+        $response->assertRedirect(Config::get('app.url'));
+    }
+
+    /**
      * If video streaming is enabled, the video show route shall stream the video.
      *
      * @return void

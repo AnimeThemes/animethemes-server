@@ -2,21 +2,17 @@
 
 namespace App\Models;
 
-use App\Contracts\Nameable;
 use App\Events\Series\SeriesCreated;
 use App\Events\Series\SeriesDeleted;
+use App\Events\Series\SeriesRestored;
 use App\Events\Series\SeriesUpdated;
 use App\Pivots\AnimeSeries;
 use ElasticScoutDriverPlus\QueryDsl;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class Series extends Model implements Auditable, Nameable
+class Series extends BaseModel
 {
-    use HasFactory, QueryDsl, Searchable;
-    use \OwenIt\Auditing\Auditable;
+    use QueryDsl, Searchable;
 
     /**
      * @var array
@@ -33,6 +29,7 @@ class Series extends Model implements Auditable, Nameable
     protected $dispatchesEvents = [
         'created' => SeriesCreated::class,
         'deleted' => SeriesDeleted::class,
+        'restored' => SeriesRestored::class,
         'updated' => SeriesUpdated::class,
     ];
 
@@ -49,13 +46,6 @@ class Series extends Model implements Auditable, Nameable
      * @var string
      */
     protected $primaryKey = 'series_id';
-
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
      * Get the route key for the model.

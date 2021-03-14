@@ -2,22 +2,18 @@
 
 namespace App\Models;
 
-use App\Contracts\Nameable;
 use App\Enums\ResourceSite;
 use App\Events\ExternalResource\ExternalResourceCreated;
 use App\Events\ExternalResource\ExternalResourceDeleted;
+use App\Events\ExternalResource\ExternalResourceRestored;
 use App\Events\ExternalResource\ExternalResourceUpdated;
 use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
 use BenSampo\Enum\Traits\CastsEnums;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class ExternalResource extends Model implements Auditable, Nameable
+class ExternalResource extends BaseModel
 {
-    use CastsEnums, HasFactory;
-    use \OwenIt\Auditing\Auditable;
+    use CastsEnums;
 
     /**
      * @var array
@@ -34,6 +30,7 @@ class ExternalResource extends Model implements Auditable, Nameable
     protected $dispatchesEvents = [
         'created' => ExternalResourceCreated::class,
         'deleted' => ExternalResourceDeleted::class,
+        'restored' => ExternalResourceRestored::class,
         'updated' => ExternalResourceUpdated::class,
     ];
 
@@ -50,13 +47,6 @@ class ExternalResource extends Model implements Auditable, Nameable
      * @var string
      */
     protected $primaryKey = 'resource_id';
-
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
      * @var array

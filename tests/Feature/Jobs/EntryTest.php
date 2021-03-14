@@ -55,6 +55,25 @@ class EntryTest extends TestCase
     }
 
     /**
+     * When an entry is restored, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testEntryRestoredSendsDiscordNotification()
+    {
+        $entry = Entry::factory()
+            ->for(Theme::factory()->for(Anime::factory()))
+            ->create();
+
+        Config::set('app.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotification::class);
+
+        $entry->restore();
+
+        Bus::assertDispatched(SendDiscordNotification::class);
+    }
+
+    /**
      * When an entry is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void

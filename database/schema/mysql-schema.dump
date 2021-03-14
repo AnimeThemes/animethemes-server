@@ -38,6 +38,7 @@ CREATE TABLE `anime` (
   `anime_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp(6) NULL DEFAULT NULL,
   `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `year` int(11) DEFAULT NULL,
@@ -90,6 +91,7 @@ CREATE TABLE `announcement` (
   `announcement_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp(6) NULL DEFAULT NULL,
   `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`announcement_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -101,6 +103,7 @@ CREATE TABLE `artist` (
   `artist_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp(6) NULL DEFAULT NULL,
   `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`artist_id`)
@@ -204,6 +207,7 @@ CREATE TABLE `entry` (
   `entry_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp(6) NULL DEFAULT NULL,
   `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `version` int(11) DEFAULT NULL,
   `episodes` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nsfw` tinyint(1) NOT NULL DEFAULT 0,
@@ -249,6 +253,7 @@ CREATE TABLE `image` (
   `image_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp(6) NULL DEFAULT NULL,
   `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `facet` int(11) DEFAULT NULL,
   PRIMARY KEY (`image_id`)
@@ -261,6 +266,7 @@ CREATE TABLE `invitation` (
   `invitation_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp(6) NULL DEFAULT NULL,
   `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -314,6 +320,7 @@ CREATE TABLE `resource` (
   `resource_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp(6) NULL DEFAULT NULL,
   `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `site` int(11) DEFAULT NULL,
   `link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `external_id` int(11) DEFAULT NULL,
@@ -327,6 +334,7 @@ CREATE TABLE `series` (
   `series_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp(6) NULL DEFAULT NULL,
   `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`series_id`)
@@ -354,6 +362,7 @@ CREATE TABLE `song` (
   `song_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp(6) NULL DEFAULT NULL,
   `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`song_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -365,6 +374,7 @@ CREATE TABLE `synonym` (
   `synonym_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp(6) NULL DEFAULT NULL,
   `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `text` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `anime_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`synonym_id`),
@@ -379,6 +389,7 @@ CREATE TABLE `theme` (
   `theme_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp(6) NULL DEFAULT NULL,
   `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `group` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `type` int(11) DEFAULT NULL,
   `sequence` int(11) DEFAULT NULL,
@@ -407,6 +418,7 @@ CREATE TABLE `users` (
   `current_team_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp(6) NULL DEFAULT NULL,
   `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `role` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
@@ -419,6 +431,7 @@ CREATE TABLE `video` (
   `video_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp(6) NULL DEFAULT NULL,
   `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `basename` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `filename` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,

@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
 use App\JsonApi\Filter\Base\CreatedAtFilter;
+use App\JsonApi\Filter\Base\DeletedAtFilter;
+use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
 
 class SynonymCollection extends BaseCollection
@@ -54,6 +56,7 @@ class SynonymCollection extends BaseCollection
             'synonym_id',
             'created_at',
             'updated_at',
+            'deleted_at',
             'text',
             'anime_id',
         ];
@@ -69,6 +72,8 @@ class SynonymCollection extends BaseCollection
         return [
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
+            DeletedAtFilter::class,
+            TrashedFilter::class,
         ];
     }
 }

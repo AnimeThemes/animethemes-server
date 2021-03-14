@@ -4,6 +4,7 @@ namespace Tests\Feature\Events;
 
 use App\Events\Theme\ThemeCreated;
 use App\Events\Theme\ThemeDeleted;
+use App\Events\Theme\ThemeRestored;
 use App\Events\Theme\ThemeUpdated;
 use App\Models\Anime;
 use App\Models\Theme;
@@ -48,6 +49,24 @@ class ThemeTest extends TestCase
         $theme->delete();
 
         Event::assertDispatched(ThemeDeleted::class);
+    }
+
+    /**
+     * When a Theme is restored, a ThemeRestored event shall be dispatched.
+     *
+     * @return void
+     */
+    public function testThemeRestoredEventDispatched()
+    {
+        Event::fake(ThemeRestored::class);
+
+        $theme = Theme::factory()
+            ->for(Anime::factory())
+            ->create();
+
+        $theme->restore();
+
+        Event::assertDispatched(ThemeRestored::class);
     }
 
     /**

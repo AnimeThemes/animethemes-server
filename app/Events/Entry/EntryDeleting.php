@@ -2,25 +2,27 @@
 
 namespace App\Events\Entry;
 
-use App\Contracts\Events\CascadesDeletesEvent;
+use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Models\Video;
 
-class EntryDeleting extends EntryEvent implements CascadesDeletesEvent
+class EntryDeleting extends EntryEvent implements UpdateRelatedIndicesEvent
 {
     /**
-     * Perform cascading deletes.
+     * Perform updates on related indices.
      *
      * @return void
      */
-    public function cascadeDeletes()
+    public function updateRelatedIndices()
     {
         $entry = $this->getEntry();
 
-        // refresh video documents by detaching entry
-        $videos = $entry->videos;
-        $entry->videos()->detach();
-        $videos->each(function (Video $video) {
-            $video->searchable();
-        });
+        if ($entry->isForceDeleting()) {
+            // refresh video documents by detaching entry
+            $videos = $entry->videos;
+            $entry->videos()->detach();
+            $videos->each(function (Video $video) {
+                $video->searchable();
+            });
+        }
     }
 }

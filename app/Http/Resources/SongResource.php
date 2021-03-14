@@ -68,6 +68,7 @@ class SongResource extends BaseResource
             })),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
+            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
             'themes' => ThemeCollection::make($this->whenLoaded('themes'), $this->parser),
             'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->parser),
         ];
