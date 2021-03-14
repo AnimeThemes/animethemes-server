@@ -8,11 +8,12 @@ use App\Models\Synonym;
 use App\Models\User;
 use App\Policies\SynonymPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 class SynonymPolicyTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithoutEvents;
 
     /**
      * Any user regardless of role can view any synonym.

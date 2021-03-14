@@ -10,11 +10,12 @@ use App\Models\Artist;
 use App\Models\ExternalResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 class ExternalResourceShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * By default, the Resource Show Endpoint shall return an ExternalResource Resource with all allowed include paths.

@@ -8,6 +8,7 @@ use App\Nova\Actions\CreateExternalResourceSiteForAnimeAction;
 use App\Rules\ResourceSiteDomainRule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Actions\MockAction;
 use JoshGaber\NovaUnit\Actions\NovaActionTest;
 use Laravel\Nova\Fields\ActionFields;
@@ -15,7 +16,7 @@ use Tests\TestCase;
 
 class CreateExternalResourceSiteForAnimeTest extends TestCase
 {
-    use NovaActionTest, RefreshDatabase, WithFaker;
+    use NovaActionTest, RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * The Create Anime Resource Action shall have a link field.

@@ -8,12 +8,13 @@ use App\Nova\Filters\ExternalResourceSiteFilter;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
 use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 class ExternalResourceTest extends TestCase
 {
-    use NovaResourceTest;
+    use NovaResourceTest, WithoutEvents;
 
     /**
      * The External Resource shall contain Resource Fields.

@@ -10,12 +10,13 @@ use App\Nova\Filters\RecentlyUpdatedFilter;
 use App\Nova\Lenses\ImageUnlinkedLens;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
 class ImageUnlinkedTest extends TestCase
 {
-    use NovaLensTest, RefreshDatabase, WithFaker;
+    use NovaLensTest, RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * The Image Unlinked Lens shall contain Image Fields.

@@ -12,12 +12,13 @@ use App\Models\Synonym;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class SynonymIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * By default, the Synonym Index Endpoint shall return a collection of Synonym Resources with all allowed include paths.

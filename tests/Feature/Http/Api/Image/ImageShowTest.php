@@ -10,11 +10,12 @@ use App\Models\Artist;
 use App\Models\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 class ImageShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * By default, the Image Show Endpoint shall return an Image Resource with all allowed include paths.

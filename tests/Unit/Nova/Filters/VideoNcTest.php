@@ -6,12 +6,13 @@ use App\Models\Video;
 use App\Nova\Filters\VideoNcFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 class VideoNcTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker;
+    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * The Video Nc Filter shall be a select filter.

@@ -14,12 +14,13 @@ use App\Models\ExternalResource;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class ExternalResourceIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * By default, the Resource Index Endpoint shall return a collection of ExternalResource Resources with all allowed include paths.

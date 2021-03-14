@@ -5,12 +5,13 @@ namespace Tests\Unit\Nova\Resources;
 use App\Nova\Artist;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 class ArtistTest extends TestCase
 {
-    use NovaResourceTest;
+    use NovaResourceTest, WithoutEvents;
 
     /**
      * The Artist Resource shall contain Artist Fields.

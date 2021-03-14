@@ -10,12 +10,13 @@ use App\Models\Announcement;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class AnnouncementIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * By default, the Announcement Index Endpoint shall return a collection of Announcement Resources with all allowed include paths.

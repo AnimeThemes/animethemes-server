@@ -5,12 +5,13 @@ namespace Tests\Unit\Nova\Resources;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
 use App\Nova\Series;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 class SeriesTest extends TestCase
 {
-    use NovaResourceTest;
+    use NovaResourceTest, WithoutEvents;
 
     /**
      * The Series Resource shall contain Series Fields.

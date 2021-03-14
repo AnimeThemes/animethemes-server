@@ -16,12 +16,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable implements Auditable, MustVerifyEmail, Nameable
+class User extends Authenticatable implements MustVerifyEmail, Nameable
 {
     use CastsEnums, HasApiTokens, HasFactory, Notifiable, SoftDeletes, TwoFactorAuthenticatable;
-    use \OwenIt\Auditing\Auditable;
 
     /**
      * The attributes that are mass assignable.

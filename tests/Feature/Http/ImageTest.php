@@ -4,13 +4,14 @@ namespace Tests\Feature\Http;
 
 use App\Models\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
 class ImageTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithoutEvents;
 
     /**
      * If the image is soft deleted, the user shall be redirected to the Welcome Screen.

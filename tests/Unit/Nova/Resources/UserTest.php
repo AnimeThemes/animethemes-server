@@ -8,12 +8,13 @@ use App\Nova\Filters\RecentlyUpdatedFilter;
 use App\Nova\Filters\UserRoleFilter;
 use App\Nova\User;
 use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    use NovaResourceTest;
+    use NovaResourceTest, WithoutEvents;
 
     /**
      * The User Resource shall contain User Fields.

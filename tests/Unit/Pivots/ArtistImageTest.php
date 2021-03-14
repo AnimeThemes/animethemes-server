@@ -7,11 +7,12 @@ use App\Models\Image;
 use App\Pivots\ArtistImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 class ArtistImageTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithoutEvents;
 
     /**
      * An ArtistImage shall belong to an Artist.

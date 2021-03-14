@@ -7,11 +7,12 @@ use App\JsonApi\QueryParser;
 use App\Models\Announcement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 class AnnouncementShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * By default, the Annouc Show Endpoint shall return an Announcement Resource with all allowed include paths.

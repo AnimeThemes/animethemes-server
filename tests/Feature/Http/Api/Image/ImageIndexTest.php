@@ -5,7 +5,6 @@ namespace Tests\Feature\Http\Api\Image;
 use App\Enums\AnimeSeason;
 use App\Enums\Filter\TrashedStatus;
 use App\Enums\ImageFacet;
-use App\Enums\ResourceSite;
 use App\Http\Resources\ImageCollection;
 use App\Http\Resources\ImageResource;
 use App\JsonApi\QueryParser;
@@ -15,12 +14,13 @@ use App\Models\Image;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class ImageIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * By default, the Image Index Endpoint shall return a collection of Image Resources with all allowed include paths.

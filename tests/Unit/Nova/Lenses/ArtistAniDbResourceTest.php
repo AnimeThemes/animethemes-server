@@ -10,12 +10,13 @@ use App\Nova\Filters\RecentlyUpdatedFilter;
 use App\Nova\Lenses\ArtistAniDbResourceLens;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
 class ArtistAniDbResourceTest extends TestCase
 {
-    use NovaLensTest, RefreshDatabase, WithFaker;
+    use NovaLensTest, RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * The Artist AniDb Resource Lens shall contain Artist Fields.

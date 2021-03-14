@@ -256,10 +256,10 @@ class SeriesShowTest extends TestCase
         Series::factory()
             ->has(
                 Anime::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->has(
                         Theme::factory()
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->numberBetween(1, 3))
                             ->state(new Sequence(
                                 ['group' => $group_filter],
                                 ['group' => $excluded_group],
@@ -296,7 +296,7 @@ class SeriesShowTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequence_filter = $this->faker->randomDigitNotNull;
+        $sequence_filter = $this->faker->numberBetween(1, 3);
         $excluded_sequence = $sequence_filter + 1;
 
         $parameters = [
@@ -308,10 +308,10 @@ class SeriesShowTest extends TestCase
         Series::factory()
             ->has(
                 Anime::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->has(
                         Theme::factory()
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->numberBetween(1, 3))
                             ->state(new Sequence(
                                 ['sequence' => $sequence_filter],
                                 ['sequence' => $excluded_sequence],
@@ -359,8 +359,8 @@ class SeriesShowTest extends TestCase
         Series::factory()
             ->has(
                 Anime::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Theme::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->numberBetween(1, 3))
+                    ->has(Theme::factory()->count($this->faker->numberBetween(1, 3)))
             )
             ->create();
 
@@ -403,11 +403,11 @@ class SeriesShowTest extends TestCase
         Series::factory()
             ->has(
                 Anime::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->has(
                         Theme::factory()
-                            ->count($this->faker->randomDigitNotNull)
-                            ->has(Entry::factory()->count($this->faker->randomDigitNotNull))
+                            ->count($this->faker->numberBetween(1, 3))
+                            ->has(Entry::factory()->count($this->faker->numberBetween(1, 3)))
                     )
             )
             ->create();
@@ -451,11 +451,11 @@ class SeriesShowTest extends TestCase
         Series::factory()
             ->has(
                 Anime::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->has(
                         Theme::factory()
-                            ->count($this->faker->randomDigitNotNull)
-                            ->has(Entry::factory()->count($this->faker->randomDigitNotNull))
+                            ->count($this->faker->numberBetween(1, 3))
+                            ->has(Entry::factory()->count($this->faker->numberBetween(1, 3)))
                     )
             )
             ->create();
@@ -488,7 +488,7 @@ class SeriesShowTest extends TestCase
      */
     public function testEntriesByVersion()
     {
-        $version_filter = $this->faker->randomDigitNotNull;
+        $version_filter = $this->faker->numberBetween(1, 3);
         $excluded_version = $version_filter + 1;
 
         $parameters = [
@@ -500,13 +500,13 @@ class SeriesShowTest extends TestCase
         Series::factory()
             ->has(
                 Anime::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->has(
                         Theme::factory()
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->numberBetween(1, 3))
                             ->has(
                                 Entry::factory()
-                                ->count($this->faker->randomDigitNotNull)
+                                ->count($this->faker->numberBetween(1, 3))
                                 ->state(new Sequence(
                                     ['version' => $version_filter],
                                     ['version' => $excluded_version],
@@ -758,16 +758,16 @@ class SeriesShowTest extends TestCase
         Series::factory()
             ->has(
                 Anime::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->has(
                         Theme::factory()
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->numberBetween(1, 3))
                             ->has(
                                 Entry::factory()
-                                    ->count($this->faker->randomDigitNotNull)
+                                    ->count($this->faker->numberBetween(1, 3))
                                     ->has(
                                         Video::factory()
-                                            ->count($this->faker->randomDigitNotNull)
+                                            ->count($this->faker->numberBetween(1, 3))
                                             ->state(new Sequence(
                                                 ['resolution' => $resolution_filter],
                                                 ['resolution' => $excluded_resolution],

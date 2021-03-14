@@ -7,12 +7,13 @@ use App\Nova\Filters\RecentlyUpdatedFilter;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 class RecentlyUpdatedTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker;
+    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * The Recently Updated Filter shall be a select filter.

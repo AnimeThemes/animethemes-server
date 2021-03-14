@@ -7,12 +7,13 @@ use App\Models\User;
 use App\Nova\Filters\UserRoleFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 class UserRoleTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker;
+    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * The User Status Filter shall be a select filter.

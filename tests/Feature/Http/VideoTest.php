@@ -4,13 +4,14 @@ namespace Tests\Feature\Http;
 
 use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
 class VideoTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithoutEvents;
 
     /**
      * If video streaming is disabled through the 'app.allow_video_streams' property,

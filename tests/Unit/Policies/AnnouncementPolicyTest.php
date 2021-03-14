@@ -7,11 +7,12 @@ use App\Models\Announcement;
 use App\Models\User;
 use App\Policies\AnnouncementPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 class AnnouncementPolicyTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithoutEvents;
 
     /**
      * Any user regardless of role can view any announcement.

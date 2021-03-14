@@ -7,12 +7,13 @@ use App\Models\Anime;
 use App\Nova\Filters\AnimeSeasonFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 class AnimeSeasonTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker;
+    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * The Anime Season Filter shall be a select filter.

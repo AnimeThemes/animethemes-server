@@ -10,12 +10,13 @@ use App\Nova\Filters\RecentlyUpdatedFilter;
 use App\Nova\Lenses\ArtistCoverSmallLens;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
 class ArtistCoverSmallTest extends TestCase
 {
-    use NovaLensTest, RefreshDatabase, WithFaker;
+    use NovaLensTest, RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * The Artist Small Cover Lens shall contain Artist Fields.
