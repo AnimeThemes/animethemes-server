@@ -8,13 +8,12 @@ use App\Events\Song\SongRestored;
 use App\Events\Song\SongUpdated;
 use App\Models\Song;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class SongTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When a Song is created, a SongCreated event shall be dispatched.

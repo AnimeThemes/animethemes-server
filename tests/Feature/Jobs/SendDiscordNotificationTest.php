@@ -6,8 +6,6 @@ use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\SendDiscordNotification;
 use App\Notifications\DiscordNotification;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
 use NotificationChannels\Discord\DiscordMessage;
@@ -15,8 +13,6 @@ use Tests\TestCase;
 
 class SendDiscordNotificationTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
-
     /**
      * A basic feature test example.
      *

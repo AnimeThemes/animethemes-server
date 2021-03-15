@@ -6,8 +6,6 @@ use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\SendDiscordNotification as SendDiscordNotificationJob;
 use App\Listeners\SendDiscordNotification;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
@@ -15,8 +13,6 @@ use Tests\TestCase;
 
 class SendDiscordNotificationTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
-
     /**
      * If discord notifications are disabled through the 'app.allow_discord_notifications' property,
      * discord notification jobs shall not be dispatched.

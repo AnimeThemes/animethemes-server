@@ -36,7 +36,7 @@ class AnimeIndexTest extends TestCase
      */
     public function testDefault()
     {
-        Anime::factory()->jsonApiResource()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
         $anime = Anime::with(AnimeCollection::allowedIncludePaths())->get();
 
         $response = $this->get(route('api.anime.index'));
@@ -85,7 +85,7 @@ class AnimeIndexTest extends TestCase
             QueryParser::PARAM_INCLUDE => $included_paths->join(','),
         ];
 
-        Anime::factory()->jsonApiResource()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
         $anime = Anime::with($included_paths->all())->get();
 
         $response = $this->get(route('api.anime.index', $parameters));
@@ -656,10 +656,10 @@ class AnimeIndexTest extends TestCase
         Anime::factory()
             ->has(
                 Theme::factory()
-                    ->has(Entry::factory()->count($this->faker->randomDigitNotNull))
-                    ->count($this->faker->randomDigitNotNull)
+                    ->has(Entry::factory()->count($this->faker->numberBetween(1, 3)))
+                    ->count($this->faker->numberBetween(1, 3))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->create();
 
         $anime = Anime::with([
@@ -701,10 +701,10 @@ class AnimeIndexTest extends TestCase
         Anime::factory()
             ->has(
                 Theme::factory()
-                    ->has(Entry::factory()->count($this->faker->randomDigitNotNull))
-                    ->count($this->faker->randomDigitNotNull)
+                    ->has(Entry::factory()->count($this->faker->numberBetween(1, 3)))
+                    ->count($this->faker->numberBetween(1, 3))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->create();
 
         $anime = Anime::with([
@@ -735,7 +735,7 @@ class AnimeIndexTest extends TestCase
      */
     public function testEntriesByVersion()
     {
-        $version_filter = $this->faker->randomDigitNotNull;
+        $version_filter = $this->faker->numberBetween(1, 3);
         $excluded_version = $version_filter + 1;
 
         $parameters = [
@@ -745,13 +745,13 @@ class AnimeIndexTest extends TestCase
         ];
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->has(
                         Entry::factory()
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->numberBetween(1, 3))
                             ->state(new Sequence(
                                 ['version' => $version_filter],
                                 ['version' => $excluded_version],
@@ -878,7 +878,7 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        Anime::factory()->jsonApiResource()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
 
         $anime = Anime::with([
             'themes.entries.videos' => function ($query) use ($lyrics_filter) {
@@ -916,7 +916,7 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        Anime::factory()->jsonApiResource()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
 
         $anime = Anime::with([
             'themes.entries.videos' => function ($query) use ($nc_filter) {
@@ -954,7 +954,7 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        Anime::factory()->jsonApiResource()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
 
         $anime = Anime::with([
             'themes.entries.videos' => function ($query) use ($overlap_filter) {
@@ -994,16 +994,16 @@ class AnimeIndexTest extends TestCase
         ];
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->has(
                         Entry::factory()
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->numberBetween(1, 3))
                             ->has(
                                 Video::factory()
-                                    ->count($this->faker->randomDigitNotNull)
+                                    ->count($this->faker->numberBetween(1, 3))
                                     ->state(new Sequence(
                                         ['resolution' => $resolution_filter],
                                         ['resolution' => $excluded_resolution],
@@ -1049,7 +1049,7 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        Anime::factory()->jsonApiResource()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
 
         $anime = Anime::with([
             'themes.entries.videos' => function ($query) use ($source_filter) {
@@ -1087,7 +1087,7 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        Anime::factory()->jsonApiResource()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
 
         $anime = Anime::with([
             'themes.entries.videos' => function ($query) use ($subbed_filter) {
@@ -1125,7 +1125,7 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        Anime::factory()->jsonApiResource()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
 
         $anime = Anime::with([
             'themes.entries.videos' => function ($query) use ($uncen_filter) {

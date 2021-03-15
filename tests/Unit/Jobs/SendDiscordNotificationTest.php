@@ -6,14 +6,13 @@ use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\Middleware\RateLimited;
 use App\Jobs\SendDiscordNotification;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use NotificationChannels\Discord\DiscordMessage;
 use Tests\TestCase;
 
 class SendDiscordNotificationTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     /**
      * A basic unit test example.

@@ -6,14 +6,13 @@ use App\Jobs\SendDiscordNotification;
 use App\Models\Anime;
 use App\Models\Synonym;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class SynonymTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When a synonym is created, a SendDiscordNotification job shall be dispatched.

@@ -6,8 +6,7 @@ use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Http\Testing\File;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class VideoFactory extends Factory
 {
@@ -25,16 +24,10 @@ class VideoFactory extends Factory
      */
     public function definition()
     {
-        $fs = Storage::fake('spaces');
-        $file_name = $this->faker->word();
-        $file = File::fake()->create($file_name.'.webm');
-        $fs_file = $fs->put('', $file);
-        $fs_pathinfo = pathinfo(strval($fs_file));
-
         return [
-            'basename' => $fs_pathinfo['basename'],
-            'filename' => $fs_pathinfo['filename'],
-            'path' => $fs_file,
+            'basename' => Str::random(),
+            'filename' => Str::random(),
+            'path' => Str::random(),
             'size' => $this->faker->randomNumber(),
             'resolution' => $this->faker->randomNumber(),
             'nc' => $this->faker->boolean,

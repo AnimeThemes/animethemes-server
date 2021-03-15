@@ -26,7 +26,7 @@ class YearShowTest extends TestCase
         $year = intval($this->faker->year());
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->jsonApiResource()
             ->create([
                 'year' => $year,
@@ -37,7 +37,7 @@ class YearShowTest extends TestCase
         $winter_resources = AnimeCollection::make($winter_anime->sortBy('name')->values(), QueryParser::make());
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->jsonApiResource()
             ->create([
                 'year' => $year,
@@ -48,7 +48,7 @@ class YearShowTest extends TestCase
         $spring_resources = AnimeCollection::make($spring_anime->sortBy('name')->values(), QueryParser::make());
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->jsonApiResource()
             ->create([
                 'year' => $year,
@@ -59,7 +59,7 @@ class YearShowTest extends TestCase
         $summer_resources = AnimeCollection::make($summer_anime->sortBy('name')->values(), QueryParser::make());
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->jsonApiResource()
             ->create([
                 'year' => $year,
@@ -96,7 +96,7 @@ class YearShowTest extends TestCase
         ];
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->jsonApiResource()
             ->create([
                 'year' => $year,
@@ -107,7 +107,7 @@ class YearShowTest extends TestCase
         $winter_resources = AnimeCollection::make($winter_anime->sortBy('name')->values(), QueryParser::make($parameters));
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->jsonApiResource()
             ->create([
                 'year' => $year,
@@ -118,7 +118,7 @@ class YearShowTest extends TestCase
         $spring_resources = AnimeCollection::make($spring_anime->sortBy('name')->values(), QueryParser::make($parameters));
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->jsonApiResource()
             ->create([
                 'year' => $year,
@@ -129,7 +129,7 @@ class YearShowTest extends TestCase
         $summer_resources = AnimeCollection::make($summer_anime->sortBy('name')->values(), QueryParser::make($parameters));
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->jsonApiResource()
             ->create([
                 'year' => $year,
@@ -179,7 +179,7 @@ class YearShowTest extends TestCase
         ];
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->jsonApiResource()
             ->create([
                 'year' => $year,
@@ -190,7 +190,7 @@ class YearShowTest extends TestCase
         $winter_resources = AnimeCollection::make($winter_anime->sortBy('name')->values(), QueryParser::make($parameters));
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->jsonApiResource()
             ->create([
                 'year' => $year,
@@ -201,7 +201,7 @@ class YearShowTest extends TestCase
         $spring_resources = AnimeCollection::make($spring_anime->sortBy('name')->values(), QueryParser::make($parameters));
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->jsonApiResource()
             ->create([
                 'year' => $year,
@@ -212,7 +212,7 @@ class YearShowTest extends TestCase
         $summer_resources = AnimeCollection::make($summer_anime->sortBy('name')->values(), QueryParser::make($parameters));
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->numberBetween(1, 3))
             ->jsonApiResource()
             ->create([
                 'year' => $year,

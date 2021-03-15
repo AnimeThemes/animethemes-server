@@ -7,13 +7,12 @@ use App\Events\Pivot\AnimeImage\AnimeImageDeleted;
 use App\Models\Anime;
 use App\Models\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class AnimeImageTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Anime is attached to an Image or vice versa, an AnimeImageCreated event shall be dispatched.

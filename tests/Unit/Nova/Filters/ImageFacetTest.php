@@ -7,12 +7,13 @@ use App\Models\Image;
 use App\Nova\Filters\ImageFacetFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 class ImageFacetTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker;
+    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * The Image Facet Filter shall be a select filter.

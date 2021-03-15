@@ -8,13 +8,12 @@ use App\JsonApi\QueryParser;
 use Carbon\Carbon;
 use DateTime;
 use DateTimeInterface;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class DateFilterTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     /**
      * If values that are not mappable to dates are specified for the key, don't apply the filter.

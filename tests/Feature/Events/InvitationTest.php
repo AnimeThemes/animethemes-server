@@ -8,13 +8,12 @@ use App\Events\Invitation\InvitationRestored;
 use App\Events\Invitation\InvitationUpdated;
 use App\Models\Invitation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class InvitationTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Invitation is created, an InvitationCreated event shall be dispatched.

@@ -51,7 +51,7 @@ class AnimeFactory extends Factory
             function (Anime $anime) {
                 Synonym::factory()
                     ->for($anime)
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->create();
 
                 Theme::factory()
@@ -59,25 +59,25 @@ class AnimeFactory extends Factory
                     ->for(Song::factory())
                     ->has(
                         Entry::factory()
-                            ->count($this->faker->randomDigitNotNull)
-                            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                            ->count($this->faker->numberBetween(1, 3))
+                            ->has(Video::factory()->count($this->faker->numberBetween(1, 3)))
                     )
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->create();
 
                 Series::factory()
                     ->hasAttached($anime, [], 'anime')
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->create();
 
                 ExternalResource::factory()
                     ->hasAttached($anime, [], 'anime')
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->create();
 
                 Image::factory()
                     ->hasAttached($anime, [], 'anime')
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->create();
             }
         );

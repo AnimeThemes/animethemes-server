@@ -3,7 +3,6 @@
 namespace Tests\Unit\Grills;
 
 use App\Grills\Grill;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Collection;
@@ -12,7 +11,7 @@ use Tests\TestCase;
 
 class GrillsTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     /**
      * If there are no grills, return null.

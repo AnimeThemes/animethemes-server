@@ -11,14 +11,12 @@ use App\Nova\Filters\RecentlyUpdatedFilter;
 use App\Nova\Filters\UserRoleFilter;
 use App\Nova\Invitation;
 use BenSampo\Enum\Rules\EnumValue;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 class InvitationTest extends TestCase
 {
-    use NovaResourceTest, RefreshDatabase, WithFaker;
+    use NovaResourceTest;
 
     /**
      * The Invitation Resource shall contain Invitation Fields.

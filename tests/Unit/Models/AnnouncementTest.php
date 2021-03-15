@@ -4,13 +4,12 @@ namespace Tests\Unit\Models;
 
 use App\Models\Announcement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class AnnouncementTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * Announcement shall be auditable.

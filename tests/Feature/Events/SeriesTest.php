@@ -8,13 +8,12 @@ use App\Events\Series\SeriesRestored;
 use App\Events\Series\SeriesUpdated;
 use App\Models\Series;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class SeriesTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When a Series is created, a SeriesCreated event shall be dispatched.

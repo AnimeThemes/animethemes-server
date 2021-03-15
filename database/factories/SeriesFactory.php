@@ -46,21 +46,21 @@ class SeriesFactory extends Factory
         return $this->afterCreating(
             function (Series $series) {
                 Anime::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->hasAttached($series)
-                    ->has(Synonym::factory()->count($this->faker->randomDigitNotNull))
+                    ->has(Synonym::factory()->count($this->faker->numberBetween(1, 3)))
                     ->has(
                         Theme::factory()
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->numberBetween(1, 3))
                             ->for(Song::factory())
                             ->has(
                                 Entry::factory()
-                                    ->count($this->faker->randomDigitNotNull)
-                                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                                    ->count($this->faker->numberBetween(1, 3))
+                                    ->has(Video::factory()->count($this->faker->numberBetween(1, 3)))
                             )
                     )
-                    ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull))
-                    ->has(Image::factory()->count($this->faker->randomDigitNotNull))
+                    ->has(ExternalResource::factory()->count($this->faker->numberBetween(1, 3)))
+                    ->has(Image::factory()->count($this->faker->numberBetween(1, 3)))
                     ->create();
             }
         );

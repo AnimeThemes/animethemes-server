@@ -6,14 +6,13 @@ use App\Jobs\SendDiscordNotification;
 use App\Models\Artist;
 use App\Pivots\ArtistMember;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class ArtistMemberTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Artist is attached to a Member or vice versa, a SendDiscordNotification job shall be dispatched.

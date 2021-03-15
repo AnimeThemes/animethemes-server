@@ -9,11 +9,12 @@ use App\Models\Anime;
 use App\Models\Synonym;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 class SynonymShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * By default, the Synonym Show Endpoint shall return a Synonym Resource with all allowed include paths.

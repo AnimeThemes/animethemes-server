@@ -6,13 +6,12 @@ use App\Enums\Filter\BinaryLogicalOperator;
 use App\Enums\Filter\UnaryLogicalOperator;
 use App\JsonApi\Condition\Condition;
 use App\JsonApi\QueryParser;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class WhereInConditionTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     /**
      * By default, the Where In Condition shall be scoped globally.

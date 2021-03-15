@@ -5,6 +5,7 @@ namespace Tests\Feature\Console;
 use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -12,7 +13,7 @@ use Tests\TestCase;
 
 class VideoReconcileTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * If no changes are needed, the Reconcile Video Command shall output 'No Videos created or deleted or updated'.

@@ -5,8 +5,7 @@ namespace Database\Factories;
 use App\Enums\ImageFacet;
 use App\Models\Image;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Http\Testing\File;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ImageFactory extends Factory
 {
@@ -24,12 +23,8 @@ class ImageFactory extends Factory
      */
     public function definition()
     {
-        $fs = Storage::fake('images');
-        $file = File::fake()->image($this->faker->word());
-        $fs_file = $fs->put('', $file);
-
         return [
-            'path' => $fs_file,
+            'path' => Str::random(),
             'facet' => ImageFacet::getRandomValue(),
         ];
     }

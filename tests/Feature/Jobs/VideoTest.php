@@ -5,14 +5,13 @@ namespace Tests\Feature\Jobs;
 use App\Jobs\SendDiscordNotification;
 use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class VideoTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When a video is created, a SendDiscordNotification job shall be dispatched.

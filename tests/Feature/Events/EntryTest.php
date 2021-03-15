@@ -10,13 +10,12 @@ use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\Theme;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class EntryTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Entry is created, an EntryCreated event shall be dispatched.

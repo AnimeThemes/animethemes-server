@@ -3,14 +3,13 @@
 namespace Tests\Feature\Console;
 
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class DatabaseDumpTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     /**
      * The Database Dump Command shall output "Database dump '{dumpFile}' has been created".

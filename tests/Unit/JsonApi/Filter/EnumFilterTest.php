@@ -5,13 +5,12 @@ namespace Tests\Unit\JsonApi\Filter;
 use App\JsonApi\Filter\EnumFilter;
 use App\JsonApi\QueryParser;
 use BenSampo\Enum\Enum;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class EnumFilterTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     /**
      * If values that are not mappable to enum instances are specified for the key, don't apply the filter.

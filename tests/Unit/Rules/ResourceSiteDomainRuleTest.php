@@ -4,13 +4,12 @@ namespace Tests\Unit\Rules;
 
 use App\Enums\ResourceSite;
 use App\Rules\ResourceSiteDomainRule;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ResourceSiteDomainRuleTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     /**
      * The Resource Site Domain Rule shall return true if the link matches the site.

@@ -4,13 +4,12 @@ namespace Tests\Unit\JsonApi\Filter;
 
 use App\JsonApi\Filter\Filter;
 use App\JsonApi\QueryParser;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class FilterTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     /**
      * The filter key shall be accessible.

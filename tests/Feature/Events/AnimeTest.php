@@ -8,13 +8,12 @@ use App\Events\Anime\AnimeRestored;
 use App\Events\Anime\AnimeUpdated;
 use App\Models\Anime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class AnimeTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Anime is created, an AnimeCreated event shall be dispatched.

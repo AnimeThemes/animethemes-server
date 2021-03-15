@@ -7,14 +7,13 @@ use App\Enums\UserRole;
 use App\Mail\InvitationEmail;
 use App\Models\Invitation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class InvitationTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * The role attribute of an invitation shall be cast to a UserRole enum instance.

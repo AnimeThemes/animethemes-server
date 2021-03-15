@@ -304,8 +304,8 @@ class AnimeShowTest extends TestCase
         Anime::factory()
             ->has(
                 Theme::factory()
-                    ->has(Entry::factory()->count($this->faker->randomDigitNotNull))
-                    ->count($this->faker->randomDigitNotNull)
+                    ->has(Entry::factory()->count($this->faker->numberBetween(1, 3)))
+                    ->count($this->faker->numberBetween(1, 3))
             )
             ->create();
 
@@ -348,8 +348,8 @@ class AnimeShowTest extends TestCase
         Anime::factory()
             ->has(
                 Theme::factory()
-                    ->has(Entry::factory()->count($this->faker->randomDigitNotNull))
-                    ->count($this->faker->randomDigitNotNull)
+                    ->has(Entry::factory()->count($this->faker->numberBetween(1, 3)))
+                    ->count($this->faker->numberBetween(1, 3))
             )
             ->create();
 
@@ -381,7 +381,7 @@ class AnimeShowTest extends TestCase
      */
     public function testEntriesByVersion()
     {
-        $version_filter = $this->faker->randomDigitNotNull;
+        $version_filter = $this->faker->numberBetween(1, 3);
         $excluded_version = $version_filter + 1;
 
         $parameters = [
@@ -393,10 +393,10 @@ class AnimeShowTest extends TestCase
         Anime::factory()
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->has(
                         Entry::factory()
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->numberBetween(1, 3))
                             ->state(new Sequence(
                                 ['version' => $version_filter],
                                 ['version' => $excluded_version],
@@ -639,13 +639,13 @@ class AnimeShowTest extends TestCase
         Anime::factory()
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->numberBetween(1, 3))
                     ->has(
                         Entry::factory()
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->numberBetween(1, 3))
                             ->has(
                                 Video::factory()
-                                    ->count($this->faker->randomDigitNotNull)
+                                    ->count($this->faker->numberBetween(1, 3))
                                     ->state(new Sequence(
                                         ['resolution' => $resolution_filter],
                                         ['resolution' => $excluded_resolution],

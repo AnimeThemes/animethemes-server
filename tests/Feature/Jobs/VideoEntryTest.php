@@ -8,14 +8,13 @@ use App\Models\Entry;
 use App\Models\Theme;
 use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class VideoEntryTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When a Video is attached to an Entry or vice versa, a SendDiscordNotification job shall be dispatched.

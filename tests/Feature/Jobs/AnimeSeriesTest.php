@@ -6,14 +6,13 @@ use App\Jobs\SendDiscordNotification;
 use App\Models\Anime;
 use App\Models\Series;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class AnimeSeriesTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /**
      * When an Anime is attached to a Series or vice versa, a SendDiscordNotification job shall be dispatched.
