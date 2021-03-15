@@ -4,14 +4,17 @@ namespace Tests\Feature\Http;
 
 use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
 class VideoTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * If video streaming is disabled through the 'app.allow_video_streams' property,
@@ -57,7 +60,16 @@ class VideoTest extends TestCase
     {
         Config::set('app.allow_video_streams', true);
 
-        $video = Video::factory()->create();
+        $fs = Storage::fake('spaces');
+        $file = File::fake()->create($this->faker->word().'.webm');
+        $fs_file = $fs->put('', $file);
+        $fs_pathinfo = pathinfo(strval($fs_file));
+
+        $video = Video::create([
+            'basename' => $fs_pathinfo['basename'],
+            'filename' => $fs_pathinfo['filename'],
+            'path' => $this->faker->word(),
+        ]);
 
         $response = $this->get(route('video.show', ['video' => $video]));
 

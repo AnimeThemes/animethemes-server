@@ -2,16 +2,20 @@
 
 namespace Tests\Feature\Http;
 
+use App\Enums\ImageFacet;
 use App\Models\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
 class ImageTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * If the image is soft deleted, the user shall be redirected to the Welcome Screen.
@@ -36,7 +40,14 @@ class ImageTest extends TestCase
      */
     public function testImageStreaming()
     {
-        $image = Image::factory()->create();
+        $fs = Storage::fake('images');
+        $file = File::fake()->image($this->faker->word());
+        $fs_file = $fs->put('', $file);
+
+        $image = Image::create([
+            'path' => $fs_file,
+            'facet' => ImageFacet::getRandomValue(),
+        ]);
 
         $response = $this->get(route('image.show', ['image' => $image]));
 
