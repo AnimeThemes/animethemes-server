@@ -20,6 +20,7 @@
         "devpartners/auditable-log": "^1.0",
         "doctrine/dbal": "^2.12.1",
         "enlightn/enlightn": "^1.18",
+        "enlightn/enlightnpro": "^1.14",
         "fakerphp/faker": "^1.13",
         "fideloper/proxy": "^4.3",
         "fruitcake/laravel-cors": "^2.0.2",
@@ -93,6 +94,10 @@
         {
             "type": "composer",
             "url": "https://nova.laravel.com"
+        },
+        {
+            "type": "composer",
+            "url": "https://satis.laravel-enlightn.com"
         }
     ]
 }
