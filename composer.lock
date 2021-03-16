@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7dd87e374d988a2948edcfef19db6979",
+    "content-hash": "1a15b6ae25f3076d66a76ec4a78155c4",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -648,6 +648,86 @@
                 }
             ],
             "time": "2021-02-16T17:27:06+00:00"
+        },
+        {
+            "name": "bepsvpt/secure-headers",
+            "version": "7.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bepsvpt/secure-headers.git",
+                "reference": "c80c5ff1357ab61495f168d560f12cc370d8b25b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bepsvpt/secure-headers/zipball/c80c5ff1357ab61495f168d560f12cc370d8b25b",
+                "reference": "c80c5ff1357ab61495f168d560f12cc370d8b25b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.1 || ~6.0 || ~7.0 || ~8.0",
+                "php": "^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "ext-json": "*",
+                "ext-xdebug": "*",
+                "orchestra/testbench": "~3.1 || ~4.0 || ~5.0 || ~6.0"
+            },
+            "suggest": {
+                "friendsofphp/php-cs-fixer": "Coding style fixer",
+                "phpstan/phpstan": "Static analysis tool",
+                "phpunit/phpunit": "PHP unit testing framework"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Bepsvpt\\SecureHeaders\\SecureHeadersServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bepsvpt\\SecureHeaders\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "bepsvpt",
+                    "email": "og7lsrszah6y3lz@infinitefa.email"
+                }
+            ],
+            "description": "Add security related headers to HTTP response. The package includes Service Providers for easy Laravel integration.",
+            "homepage": "https://github.com/bepsvpt/secure-headers",
+            "keywords": [
+                "clear-site-data",
+                "content-security-policy",
+                "csp",
+                "except-ct",
+                "feature-policy",
+                "header",
+                "hsts",
+                "https",
+                "laravel",
+                "referrer-policy"
+            ],
+            "support": {
+                "issues": "https://github.com/bepsvpt/secure-headers/issues",
+                "source": "https://github.com/bepsvpt/secure-headers/tree/7.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://opencollective.com/secure-headers",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2020-12-12T07:01:56+00:00"
         },
         {
             "name": "bjeavons/zxcvbn-php",
