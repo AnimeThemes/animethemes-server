@@ -55,6 +55,12 @@
                             </x-jet-dropdown-link>
                         @endif
 
+                        @if (Auth::user()->isAdmin())
+                            <x-jet-dropdown-link href="{{ route('horizon.index') }}">
+                                {{ __('Horizon') }}
+                            </x-jet-dropdown-link>
+                        @endif
+
                         @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                             <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
                                 {{ __('API Tokens') }}
