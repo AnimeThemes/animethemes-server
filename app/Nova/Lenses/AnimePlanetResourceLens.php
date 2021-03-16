@@ -4,7 +4,6 @@ namespace App\Nova\Lenses;
 
 use App\Enums\AnimeSeason;
 use App\Enums\ResourceSite;
-use App\Models\Anime;
 use App\Nova\Actions\CreateExternalResourceSiteForAnimeAction;
 use App\Nova\Filters\AnimeSeasonFilter;
 use App\Nova\Filters\AnimeYearFilter;

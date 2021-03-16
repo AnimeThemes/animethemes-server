@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Nova\Lenses;
 
-use App\Enums\ImageFacet;
 use App\Models\Artist;
 use App\Models\Song;
 use App\Nova\Filters\RecentlyCreatedFilter;
