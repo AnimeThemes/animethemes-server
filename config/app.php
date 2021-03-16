@@ -229,6 +229,7 @@ return [
         ElasticScoutDriver\ServiceProvider::class,
         ElasticScoutDriverPlus\ServiceProvider::class,
         NotificationChannels\Discord\DiscordServiceProvider::class,
+        Bepsvpt\SecureHeaders\SecureHeadersServiceProvider::class,
     ],
 
     /*

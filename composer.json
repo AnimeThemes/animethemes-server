@@ -13,6 +13,7 @@
         "babenkoivan/elastic-scout-driver": "^1.3",
         "babenkoivan/elastic-scout-driver-plus": "^2.0",
         "bensampo/laravel-enum": "^3.2",
+        "bepsvpt/secure-headers": "^7.1",
         "cyrildewit/eloquent-viewable": "^6.0",
         "darkaonline/l5-swagger": "^8.0.3",
         "david-griffiths/nova-dark-theme": "^1.0",
