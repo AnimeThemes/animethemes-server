@@ -34,6 +34,7 @@
         "laravel/nova": "~3.0",
         "laravel/sanctum": "^2.8",
         "laravel/scout": "^8.6",
+        "laravel/telescope": "^4.4",
         "laravel/tinker": "^2.5",
         "league/flysystem-aws-s3-v3": "^1.0",
         "livewire/livewire": "^2.3.3",
@@ -88,6 +89,11 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan horizon:publish --ansi",
+            "@php artisan nova:publish --ansi",
+            "@php artisan telescope:publish --ansi"
         ]
     },
     "repositories": [
