@@ -3,6 +3,7 @@
 namespace Database\Factories\Pivots;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ArtistMemberFactory extends Factory
 {
@@ -21,7 +22,7 @@ class ArtistMemberFactory extends Factory
     public function definition()
     {
         return [
-            'as' => $this->faker->word(),
+            'as' => Str::random(),
         ];
     }
 }

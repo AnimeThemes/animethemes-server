@@ -204,6 +204,7 @@ class RegistrationTest extends TestCase
         $response = $this->post(route('register'), ['token' => $invitation->token,
             'password' => $this->faker->password(6, 7),
             'password_confirmation' => $this->faker->password(8, 9),
+            'terms' => 'terms',
         ]);
 
         $response->assertSessionHasErrors(['password' => 'The password confirmation does not match.']);
@@ -222,9 +223,28 @@ class RegistrationTest extends TestCase
         $response = $this->post(route('register'), ['token' => $invitation->token,
             'password' => $weak_password,
             'password_confirmation' => $weak_password,
+            'terms' => 'terms',
         ]);
 
         $response->assertSessionHasErrors(['password' => 'Your password is not secure enough.']);
+    }
+
+    /**
+     * The terms field shall be required.
+     *
+     * @return void
+     */
+    public function testTermAcceptanceRequiredForRegistration()
+    {
+        $invitation = Invitation::factory()->create();
+
+        $strong_password = $this->faker->password(64, 128);
+        $response = $this->post(route('register'), ['token' => $invitation->token,
+            'password' => $strong_password,
+            'password_confirmation' => $strong_password,
+        ]);
+
+        $response->assertSessionHasErrors(['terms' => 'The terms field is required.']);
     }
 
     /**
@@ -240,6 +260,7 @@ class RegistrationTest extends TestCase
         $response = $this->post(route('register'), ['token' => $invitation->token,
             'password' => $strong_password,
             'password_confirmation' => $strong_password,
+            'terms' => 'terms',
         ]);
 
         $response->assertRedirect(route('dashboard'));
@@ -258,6 +279,7 @@ class RegistrationTest extends TestCase
         $this->post(route('register'), ['token' => $invitation->token,
             'password' => $strong_password,
             'password_confirmation' => $strong_password,
+            'terms' => 'terms',
         ]);
 
         $user = User::where('name', $invitation->name)->where('email', $invitation->email)->where('role', $invitation->role)->first();
@@ -278,6 +300,7 @@ class RegistrationTest extends TestCase
         $this->post(route('register'), ['token' => $invitation->token,
             'password' => $strong_password,
             'password_confirmation' => $strong_password,
+            'terms' => 'terms',
         ]);
 
         $user = User::where('name', $invitation->name)->where('email', $invitation->email)->where('role', $invitation->role)->first();

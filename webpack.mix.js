@@ -17,9 +17,12 @@ mix
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
         require('tailwindcss'),
+        require('autoprefixer'),
     ]);
 
 var modernizr = require("modernizr");
+
+fs = require('fs');
 
 modernizr.build({
     "options": [
@@ -29,7 +32,13 @@ modernizr.build({
         "video"
     ]
 }, function (result) {
-    var modernizrJS = new File('public/js/vendor/modernizr.min.js');
-    modernizrJS.write(result);
-    modernizrJS.minify();
+    fs.writeFile('public/js/vendor/modernizr.min.js', result, function (err, data) {
+        if (err) {
+            return console.log(err);
+        }
+    });
 });
+
+if (mix.inProduction()) {
+    mix.version();
+}

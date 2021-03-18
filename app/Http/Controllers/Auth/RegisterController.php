@@ -108,6 +108,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:192'],
             'email' => ['required', 'string', 'email', 'max:192', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed', 'zxcvbn_min:3', 'zxcvbn_dictionary:name,email'],
+            'terms' => ['required'],
         ]);
     }
 
