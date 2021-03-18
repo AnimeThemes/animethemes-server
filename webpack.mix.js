@@ -17,6 +17,7 @@ mix
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
         require('tailwindcss'),
+        require('autoprefixer'),
     ]);
 
 var modernizr = require("modernizr");
@@ -33,3 +34,7 @@ modernizr.build({
     modernizrJS.write(result);
     modernizrJS.minify();
 });
+
+if (mix.inProduction()) {
+    mix.version();
+}

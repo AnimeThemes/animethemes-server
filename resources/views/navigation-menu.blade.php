@@ -61,6 +61,12 @@
                             </x-jet-dropdown-link>
                         @endif
 
+                        @if (Auth::user()->isAdmin() && config('telescope.enabled'))
+                            <x-jet-dropdown-link href="{{ route('telescope') }}">
+                                {{ __('Telescope') }}
+                            </x-jet-dropdown-link>
+                        @endif
+
                         @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                             <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
                                 {{ __('API Tokens') }}
@@ -137,11 +143,13 @@
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
-                <div class="flex-shrink-0">
-                    <img class="h-10 w-10 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                </div>
+                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                    <div class="flex-shrink-0 mr-3">
+                        <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                    </div>
+                @endif
 
-                <div class="ml-3">
+                <div>
                     <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
@@ -152,6 +160,24 @@
                 <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                     {{ __('Profile') }}
                 </x-jet-responsive-nav-link>
+
+                @if (Auth::user()->isReadOnly() || Auth::user()->isContributor() || Auth::user()->isAdmin())
+                    <x-jet-responsive-nav-link href="{{ route('nova.index') }}">
+                        {{ __('Admin') }}
+                    </x-jet-responsive-nav-link>
+                @endif
+
+                @if (Auth::user()->isAdmin())
+                    <x-jet-responsive-nav-link href="{{ route('horizon.index') }}">
+                        {{ __('Horizon') }}
+                    </x-jet-responsive-nav-link>
+                @endif
+
+                @if (Auth::user()->isAdmin() && config('telescope.enabled'))
+                    <x-jet-responsive-nav-link href="{{ route('telescope') }}">
+                        {{ __('Telescope') }}
+                    </x-jet-responsive-nav-link>
+                @endif
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                     <x-jet-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
