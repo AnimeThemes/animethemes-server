@@ -20,7 +20,7 @@ class FallbackTest extends TestCase
         $response = $this->get(url('api/'.$this->faker->word));
 
         $response->assertJsonStructure([
-            'errors'
+            'errors',
         ]);
     }
 }
