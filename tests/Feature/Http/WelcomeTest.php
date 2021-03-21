@@ -3,7 +3,6 @@
 namespace Tests\Feature\Http;
 
 use App\Models\Announcement;
-use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
