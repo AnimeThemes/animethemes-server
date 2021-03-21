@@ -21,9 +21,5 @@
         "sass-loader": "^11.0.1",
         "tailwindcss": "^2.0.4",
         "vue-template-compiler": "^2.6.12"
-    },
-    "dependencies": {
-        "jquery": "^3.6.0",
-        "modernizr": "^3.11.6"
     }
 }

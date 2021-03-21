@@ -166,6 +166,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Transparency Bearer Token
+    |--------------------------------------------------------------------------
+    |
+    | Bearer HTTP authentication scheme token used for DO API calls.
+    | Needed for transparency purposes.
+    |
+    */
+
+    'transparency_bearer_token' => env('TRANSPARENCY_BEARER_TOKEN', null),
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |

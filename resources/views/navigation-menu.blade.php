@@ -2,23 +2,38 @@
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
+            @auth
             <div class="flex">
+            @endauth
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('welcome.index') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
+                @guest
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex justify-self-end">
+                        <x-jet-nav-link href="{{ route('login') }}">
+                            {{ __('Log in') }}
+                        </x-jet-nav-link>
+                    </div>
+                @endguest
+
+                @auth
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
                 </div>
+                @endauth
+            @auth
             </div>
+            @endauth
 
             <!-- Settings Dropdown -->
+            @auth
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-jet-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -119,6 +134,7 @@
                     </x-slot>
                 </x-jet-dropdown>
             </div>
+            @endauth
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -135,12 +151,20 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+            @auth
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
+            @endauth
+            @guest
+            <x-jet-responsive-nav-link href="{{ route('login') }}">
+                {{ __('Log in') }}
+            </x-jet-responsive-nav-link>
+            @endguest
         </div>
 
         <!-- Responsive Settings Options -->
+        @auth
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
@@ -226,5 +250,6 @@
                 @endif
             </div>
         </div>
+        @endauth
     </div>
 </nav>

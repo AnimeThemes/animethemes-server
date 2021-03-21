@@ -42,22 +42,4 @@ class WelcomeTest extends TestCase
             $response->assertSee($announcement->content);
         }
     }
-
-    /**
-     * The welcome route shall display the number of videos.
-     *
-     * @return void
-     */
-    public function testWelcomeVideoCount()
-    {
-        $created_video_count = $this->faker->randomDigitNotNull;
-
-        Video::factory()
-            ->count($created_video_count)
-            ->create();
-
-        $response = $this->get(route('welcome.index'));
-
-        $response->assertSee("Currently serving {$created_video_count} files");
-    }
 }
