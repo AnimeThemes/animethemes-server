@@ -84,7 +84,7 @@ We care about data privacy and security. Please review our Privacy Policy. By us
 
 ## Software License Agreement
 
-AnimeThemes is licensed under the MIT License. Plesae visit the [AnimeThemes Github repository](https://github.com/AnimeThemes/animethemes-server/) to review the terms of the AnimeThemes license agreement.
+AnimeThemes is licensed under the MIT License. Please visit the [AnimeThemes Github repository](https://github.com/AnimeThemes/animethemes-server/) to review the terms of the AnimeThemes license agreement.
 
 ## Term and Termination
 

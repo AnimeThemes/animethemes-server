@@ -5,6 +5,15 @@
         <loc>{{ route('welcome.index') }}</loc>
     </url>
     <url>
+        <loc>{{ route('terms.show') }}</loc>
+    </url>
+    <url>
+        <loc>{{ route('policy.show') }}</loc>
+    </url>
+    <url>
+        <loc>{{ url('wiki') }}</loc>
+    </url>
+    <url>
         <loc>{{ route('l5-swagger.default.api') }}</loc>
     </url>
 </sitemapindex>

@@ -42,13 +42,6 @@ return [
             'visibility' => 'public',
         ],
 
-        'grill' => [
-            'driver' => 'local',
-            'root' => public_path('img/grill'),
-            'url' => env('APP_URL').'/img/grill',
-            'visibility' => 'public',
-        ],
-
         'images' => [
             'driver' => 's3',
             'key' => env('IMAGE_ACCESS_KEY_ID'),

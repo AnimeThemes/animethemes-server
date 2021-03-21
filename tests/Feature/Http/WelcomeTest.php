@@ -3,7 +3,6 @@
 namespace Tests\Feature\Http;
 
 use App\Models\Announcement;
-use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -41,23 +40,5 @@ class WelcomeTest extends TestCase
         foreach ($announcements as $announcement) {
             $response->assertSee($announcement->content);
         }
-    }
-
-    /**
-     * The welcome route shall display the number of videos.
-     *
-     * @return void
-     */
-    public function testWelcomeVideoCount()
-    {
-        $created_video_count = $this->faker->randomDigitNotNull;
-
-        Video::factory()
-            ->count($created_video_count)
-            ->create();
-
-        $response = $this->get(route('welcome.index'));
-
-        $response->assertSee("Currently serving {$created_video_count} files");
     }
 }

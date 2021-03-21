@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\DonateController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\TransparencyController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +21,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
+
+Route::get('transparency', [TransparencyController::class, 'show'])->name('transparency.show');
+Route::get('donate', [DonateController::class, 'show'])->name('donate.show');
+Route::get('faq', [FaqController::class, 'show'])->name('faq.show');
 
 Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap.index');
 

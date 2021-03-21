@@ -1,7 +1,6 @@
 /node_modules
 /public/hot
 /public/storage
-/public/img/grill
 /storage/*.key
 /vendor
 .env
