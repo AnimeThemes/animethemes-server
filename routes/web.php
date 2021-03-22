@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DonateController;
+use App\Http\Controllers\EncodingController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\GuidelinesController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TransparencyController;
@@ -26,7 +28,15 @@ Route::get('transparency', [TransparencyController::class, 'show'])->name('trans
 Route::get('donate', [DonateController::class, 'show'])->name('donate.show');
 Route::get('faq', [FaqController::class, 'show'])->name('faq.show');
 
+Route::get('encoding', [EncodingController::class, 'index'])->name('encoding.index');
+Route::get('encoding/{docName}', [EncodingController::class, 'show'])->name('encoding.show');
+
+Route::get('guidelines', [GuidelinesController::class, 'index'])->name('guidelines.index');
+Route::get('guidelines/{docName}', [GuidelinesController::class, 'show'])->name('guidelines.show');
+
 Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap.index');
+Route::get('/sitemap/encoding', [SitemapController::class, 'encoding'])->name('sitemap.encoding');
+Route::get('/sitemap/guidelines', [SitemapController::class, 'guidelines'])->name('sitemap.guidelines');
 
 Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [RegisterController::class, 'register']);

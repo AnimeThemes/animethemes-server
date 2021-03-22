@@ -10,8 +10,6 @@
         </div>
     </div>
 
-    <br>
-
     <!-- Announcements -->
     <div class="container sm:max-w-4xl mx-auto px-6">
         @foreach ($announcements as $announcement)
@@ -24,21 +22,19 @@
         @endforeach
     </div>
 
-    <br>
-
     <!-- Calls to Action -->
     <div class="container sm:max-w-4xl mx-auto px-6">
         <div class="flex flex-row content-center justify-center">
-            <div class="w-full sm:max-w-md m-6 px-6 p-4 space-y-6 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <div class="w-full sm:max-w-md mx-6 px-6 p-4 space-y-6 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 <div class="font-bold text-lg text-center">{{ __('Browse our repository') }}</div>
                 <p>Search the <a class="font-bold hover:underline" href="https://staging.animethemes.moe/wiki">wiki</a> for listings of themes by Year, Series, Artist and Anime.</p>
                 <p>Query the <a class="font-bold hover:underline" href="{{ route('l5-swagger.default.api') }}">API</a> for the scripting needs of your project.</p>
             </div>
-            <div class="w-full sm:max-w-md m-6 px-6 p-4 space-y-6 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <div class="w-full sm:max-w-md mx-6 px-6 p-4 space-y-6 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 <div class="font-bold text-lg text-center">{{ __('Want to contribute?') }}</div>
-                <p>Check out our <a class="font-bold hover:underline" href="https://www.reddit.com/r/AnimeThemes/wiki/encoding#wiki_guides">encoding guides</a> on how to make WebMs that meet <a class="font-bold hover:underline" href="https://www.reddit.com/r/AnimeThemes/wiki/encoding#wiki_standards">our standards</a>.</p>
+                <p>Check out our <a class="font-bold hover:underline" href="{{ route('encoding.index') }}">encoding guides</a> on how to make WebMs that meet <a class="font-bold hover:underline" href="https://www.reddit.com/r/AnimeThemes/wiki/encoding#wiki_standards">our standards</a>.</p>
                 <p>Contact the moderation team on our <a class="font-bold hover:underline" href="https://discordapp.com/invite/m9zbVyQ">Discord server</a> if you would like to join our wiki contributor team.</p>
             </div>
         </div>
-    </div>>
+    </div>
 </x-app-layout>

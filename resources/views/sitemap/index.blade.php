@@ -11,9 +11,24 @@
         <loc>{{ route('policy.show') }}</loc>
     </url>
     <url>
-        <loc>{{ url('wiki') }}</loc>
+        <loc>{{ route('transparency.show') }}</loc>
+    </url>
+    <url>
+        <loc>{{ route('donate.show') }}</loc>
+    </url>
+    <url>
+        <loc>{{ route('faq.show') }}</loc>
     </url>
     <url>
         <loc>{{ route('l5-swagger.default.api') }}</loc>
     </url>
+    <url>
+        <loc>{{ url('wiki') }}</loc>
+    </url>
+    <sitemap>
+        <loc>{{ route('sitemap.encoding') }}</loc>
+    </sitemap>
+    <sitemap>
+        <loc>{{ route('sitemap.guidelines') }}</loc>
+    </sitemap>
 </sitemapindex>

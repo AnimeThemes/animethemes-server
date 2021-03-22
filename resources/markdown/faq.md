@@ -14,7 +14,7 @@ AnimeThemes.moe is our self-owned file hosting solution. Video submissions are u
 
 ## How can I contribute?
 
-Check out our [encoding guides](https://www.reddit.com/r/AnimeThemes/wiki/encoding#wiki_guides) on how to make WebMs that meet our standards and to our various encoding effort listings.
+Check out our [encoding guides](/encoding#guides) on how to make WebMs that meet our standards and to our various encoding effort listings.
 
 Contact the moderation team on our [Discord server](https://discordapp.com/invite/m9zbVyQ) if you would like to join our wiki contributor team.
 
@@ -26,7 +26,7 @@ You cannot use AnimeThemes.moe for a competitive or commercial service without a
 
 ## Where can I find full-length songs?
 
-We do not provide or accept full-length audio tracks, AMVs/MADs, covers, remixes, loops, interpolations, upscales or any form of OP/ED not sourced directly from its anime.
+We do not provide or accept full-length audio tracks, insert songs, AMVs/MADs, covers, remixes, loops, interpolations, upscales or any form of OP/ED not sourced directly from its anime.
 
 ## What is Themes.moe?
 
