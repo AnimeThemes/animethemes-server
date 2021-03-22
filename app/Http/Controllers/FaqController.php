@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Laravel\Jetstream\Jetstream;
-use League\CommonMark\CommonMarkConverter;
-use League\CommonMark\Environment;
-use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use App\Concerns\Http\Controllers\DisplaysMarkdownDocument;
 
 class FaqController extends Controller
 {
+    use DisplaysMarkdownDocument;
+
     /**
      * Show the FAQ for the application.
      *
@@ -16,13 +15,6 @@ class FaqController extends Controller
      */
     public function show()
     {
-        $faqFile = Jetstream::localizedMarkdownPath('faq.md');
-
-        $environment = Environment::createCommonMarkEnvironment();
-        $environment->addExtension(new GithubFlavoredMarkdownExtension());
-
-        return view('faq', [
-            'faq'=> (new CommonMarkConverter([], $environment))->convertToHtml(file_get_contents($faqFile)),
-        ]);
+        return $this->displayMarkdownDocument('faq');
     }
 }
