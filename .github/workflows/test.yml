@@ -1,11 +1,9 @@
-name: tests
+name: Tests
 
-on:
-  push:
-    branches: [ '**' ]
+on: push
 
 jobs:
-  laravel-tests:
+  test:
 
     runs-on: ubuntu-latest
 

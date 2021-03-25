@@ -23,13 +23,11 @@ class AnimeResourceSeeder extends Seeder
             sleep(rand(5, 15));
 
             // Get JSON of Year page content
-            $year_wiki_contents = file_get_contents($year_page);
-            $year_wiki_json = json_decode($year_wiki_contents);
-            $year_wiki_content_md = $year_wiki_json->data->content_md;
+            $year_wiki_contents = WikiPages::getPageContents($year_page);
 
             // Match headers of Anime and links of Resources
             // Format: "###[{Anime Name}]({Resource Link})"
-            preg_match_all('/###\[(.*)\]\((https\:\/\/.*)\)/m', $year_wiki_content_md, $anime_resource_wiki_entries, PREG_SET_ORDER);
+            preg_match_all('/###\[(.*)\]\((https\:\/\/.*)\)/m', $year_wiki_contents, $anime_resource_wiki_entries, PREG_SET_ORDER);
 
             foreach ($anime_resource_wiki_entries as $anime_resource_wiki_entry) {
                 $anime_name = html_entity_decode($anime_resource_wiki_entry[1]);

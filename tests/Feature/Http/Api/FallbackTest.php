@@ -2,13 +2,11 @@
 
 namespace Tests\Feature\Http\Api;
 
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class FallbackTest extends TestCase
 {
-    use WithFaker;
-
     /**
      * The API shall return an errors object when requests are made to an
      * unregistered route.
@@ -17,7 +15,7 @@ class FallbackTest extends TestCase
      */
     public function testAbortJson()
     {
-        $response = $this->get(url('api/'.$this->faker->word));
+        $response = $this->get(url('api/'.Str::random()));
 
         $response->assertJsonStructure([
             'errors',

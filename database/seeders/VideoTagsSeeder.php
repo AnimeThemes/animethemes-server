@@ -25,13 +25,11 @@ class VideoTagsSeeder extends Seeder
             sleep(rand(5, 15));
 
             // Get JSON of Year page content
-            $year_wiki_contents = file_get_contents($video_page);
-            $year_wiki_json = json_decode($year_wiki_contents);
-            $year_wiki_content_md = $year_wiki_json->data->content_md;
+            $year_wiki_contents = WikiPages::getPageContents($video_page);
 
             // Match Tags and basename of Videos
             // Format: "[Webm ({Tag 1, Tag 2, Tag 3...})]({Video Link})
-            preg_match_all('/\[Webm.*\((.*)\)\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)|\[Webm\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)/m', $year_wiki_content_md, $video_wiki_entries, PREG_SET_ORDER);
+            preg_match_all('/\[Webm.*\((.*)\)\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)|\[Webm\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)/m', $year_wiki_contents, $video_wiki_entries, PREG_SET_ORDER);
 
             foreach ($video_wiki_entries as $video_wiki_entry) {
                 // Video tags are potentially inconsistent so we make an effort for uniformity
