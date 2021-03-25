@@ -91,7 +91,6 @@ class VideoResource extends BaseResource
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
             'tags' => $this->when($this->isAllowedField('tags'), implode('', $this->tags)),
             'link' => $this->when($this->isAllowedField('link'), route('video.show', $this)),
-            'views' => $this->when($this->isAllowedField('views'), views($this->resource)->count()),
             'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->parser),
         ];
     }

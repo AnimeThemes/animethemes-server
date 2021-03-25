@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(DatabaseDumpCommand::class)->daily();
         $schedule->command(VideoReconcileCommand::class)->hourly();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        $schedule->command('telescope:prune')->daily();
     }
 
     /**

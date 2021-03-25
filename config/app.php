@@ -178,6 +178,55 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Debug Blacklist
+    |--------------------------------------------------------------------------
+    |
+    | Obscure sensitive variables when an exception is uncaught for debug environments.
+    |
+    */
+
+    'debug_blacklist' => [
+        '_ENV' => [
+            'APP_KEY',
+            'DB_PASSWORD',
+            'REDIS_PASSWORD',
+            'MAL_BEARER_TOKEN',
+            'ELASTIC_PASS',
+            'TRANSPARENCY_BEARER_TOKEN',
+            'IMAGE_ACCESS_KEY_ID',
+            'IMAGE_SECRET_ACCESS_KEY',
+            'VIDEO_ACCESS_KEY_ID',
+            'VIDEO_SECRET_ACCESS_KEY',
+            'ALGOLIA_APP_ID',
+            'ALGOLIA_SECRET',
+            'MAILGUN_SECRET',
+            'POSTMARK_TOKEN',
+            'DISCORD_BOT_API_TOKEN',
+        ],
+        '_SERVER' => [
+            'APP_KEY',
+            'DB_PASSWORD',
+            'REDIS_PASSWORD',
+            'MAL_BEARER_TOKEN',
+            'ELASTIC_PASS',
+            'TRANSPARENCY_BEARER_TOKEN',
+            'IMAGE_ACCESS_KEY_ID',
+            'IMAGE_SECRET_ACCESS_KEY',
+            'VIDEO_ACCESS_KEY_ID',
+            'VIDEO_SECRET_ACCESS_KEY',
+            'ALGOLIA_APP_ID',
+            'ALGOLIA_SECRET',
+            'MAILGUN_SECRET',
+            'POSTMARK_TOKEN',
+            'DISCORD_BOT_API_TOKEN',
+        ],
+        '_POST' => [
+            'password',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
