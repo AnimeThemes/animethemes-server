@@ -140,7 +140,6 @@ class VideoShowTest extends TestCase
             'deleted_at',
             'tags',
             'link',
-            'views',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
