@@ -29,12 +29,10 @@ class AnimeThemeSeeder extends Seeder
             sleep(rand(5, 15));
 
             // Get JSON of Year page content
-            $year_wiki_contents = file_get_contents($year_page);
-            $year_wiki_json = json_decode($year_wiki_contents);
-            $year_wiki_content_md = $year_wiki_json->data->content_md;
+            $year_wiki_contents = WikiPages::getPageContents($year_page);
 
             // We want to proceed line by line
-            preg_match_all('/^(.*)$/m', $year_wiki_content_md, $anime_theme_wiki_entries, PREG_SET_ORDER);
+            preg_match_all('/^(.*)$/m', $year_wiki_contents, $anime_theme_wiki_entries, PREG_SET_ORDER);
 
             // The current Anime & Group
             $season = null;

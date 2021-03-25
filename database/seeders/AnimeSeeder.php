@@ -17,13 +17,11 @@ class AnimeSeeder extends Seeder
     public function run()
     {
         // Get JSON of Anime Index page content
-        $anime_wiki_contents = file_get_contents(WikiPages::ANIME_INDEX);
-        $anime_wiki_json = json_decode($anime_wiki_contents);
-        $anime_wiki_content_md = $anime_wiki_json->data->content_md;
+        $anime_wiki_contents = WikiPages::getPageContents(WikiPages::ANIME_INDEX);
 
         // Match Anime Entries
         // Format: "[{Anime Name} ({Year})](/r/AnimeThemes/wiki/{year}#{anchor link})"
-        preg_match_all('/\[(.*)\s\((.*)\)\]\(\/r\/AnimeThemes\/wiki\/.*\)/m', $anime_wiki_content_md, $anime_wiki_entries, PREG_SET_ORDER);
+        preg_match_all('/\[(.*)\s\((.*)\)\]\(\/r\/AnimeThemes\/wiki\/.*\)/m', $anime_wiki_contents, $anime_wiki_entries, PREG_SET_ORDER);
 
         foreach ($anime_wiki_entries as $anime_wiki_entry) {
             $anime_name = html_entity_decode($anime_wiki_entry[1]);

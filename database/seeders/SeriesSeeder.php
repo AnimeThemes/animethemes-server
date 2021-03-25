@@ -17,13 +17,11 @@ class SeriesSeeder extends Seeder
     public function run()
     {
         // Get JSON of Series Index page content
-        $series_wiki_contents = file_get_contents(WikiPages::SERIES_INDEX);
-        $series_wiki_json = json_decode($series_wiki_contents);
-        $series_wiki_content_md = $series_wiki_json->data->content_md;
+        $series_wiki_contents = WikiPages::getPageContents(WikiPages::SERIES_INDEX);
 
         // Match Series Entries
         // Format: "[{Series Name}](/r/AnimeThemes/wiki/series/{Series Slug}/)
-        preg_match_all('/\[(.*)\]\(\/r\/AnimeThemes\/wiki\/series\/(.*)\)/m', $series_wiki_content_md, $series_wiki_entries, PREG_SET_ORDER);
+        preg_match_all('/\[(.*)\]\(\/r\/AnimeThemes\/wiki\/series\/(.*)\)/m', $series_wiki_contents, $series_wiki_entries, PREG_SET_ORDER);
 
         foreach ($series_wiki_entries as $series_wiki_entry) {
             $series_name = html_entity_decode($series_wiki_entry[1]);
@@ -44,13 +42,11 @@ class SeriesSeeder extends Seeder
 
             // Get JSON of Series Entry page content
             $series_link = WikiPages::getSeriesPage($series_slug);
-            $series_anime_wiki_contents = file_get_contents($series_link);
-            $series_anime_wiki_json = json_decode($series_anime_wiki_contents);
-            $series_anime_wiki_content_md = $series_anime_wiki_json->data->content_md;
+            $series_anime_wiki_contents = WikiPages::getPageContents($series_link);
 
             // Match headers of Anime in Series Entry page
             // Format: "###[{Anime Name}]({Resource Link})"
-            preg_match_all('/###\[(.*)\]\(https\:\/\/.*\)/m', $series_anime_wiki_content_md, $series_anime_wiki_entries, PREG_PATTERN_ORDER);
+            preg_match_all('/###\[(.*)\]\(https\:\/\/.*\)/m', $series_anime_wiki_contents, $series_anime_wiki_entries, PREG_PATTERN_ORDER);
             $series_anime_names = array_map(function ($series_anime_wiki_entry) {
                 return html_entity_decode($series_anime_wiki_entry);
             }, $series_anime_wiki_entries[1]);

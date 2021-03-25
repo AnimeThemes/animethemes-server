@@ -82,7 +82,7 @@ class VideoSeeder extends Seeder
      */
     protected function handleFailedDeletion(Video $video)
     {
-        Log::error("Video '{$delete_video->basename}' was not deleted");
+        Log::error("Video '{$video->basename}' was not deleted");
     }
 
     /**

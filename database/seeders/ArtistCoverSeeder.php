@@ -75,8 +75,9 @@ class ArtistCoverSeeder extends Seeder
 
                     // Create large cover image
                     if (! is_null($anilist_cover_large) && is_null($artist_cover_large)) {
-                        $cover_image = file_get_contents($anilist_cover_large);
-                        $cover_file = File::createWithContent(Str::random(40).'.png', $cover_image);
+                        $cover_image_response = $client->get($anilist_cover_large);
+                        $cover_image = $cover_image_response->getBody()->getContents();
+                        $cover_file = File::createWithContent(basename($anilist_cover_large), $cover_image);
                         $cover_large = $fs->putFile('', $cover_file);
 
                         $cover_large_image = Image::create([
@@ -91,8 +92,9 @@ class ArtistCoverSeeder extends Seeder
 
                     // Create small cover image
                     if (! is_null($anilist_cover_small) && is_null($artist_cover_small)) {
-                        $cover_image = file_get_contents($anilist_cover_small);
-                        $cover_file = File::createWithContent(Str::random(40).'.png', $cover_image);
+                        $cover_image_response = $client->get($anilist_cover_small);
+                        $cover_image = $cover_image_response->getBody()->getContents();
+                        $cover_file = File::createWithContent(basename($anilist_cover_small), $cover_image);
                         $cover_small = $fs->putFile('', $cover_file);
 
                         $cover_small_image = Image::create([

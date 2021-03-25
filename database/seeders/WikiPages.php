@@ -2,7 +2,11 @@
 
 namespace Database\Seeders;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class WikiPages
 {
@@ -86,5 +90,31 @@ class WikiPages
             ->append($slug)
             ->append('.json')
             ->__toString();
+    }
+
+    /**
+     * Get contents of reddit wiki page.
+     *
+     * @param string $page
+     * @return mixed
+     */
+    public static function getPageContents(string $page)
+    {
+        try {
+            $client = new Client;
+
+            $response = $client->post($page);
+
+            $contents = json_decode($response->getBody()->getContents());
+
+            return $contents->data->content_md;
+        } catch (ClientException $e) {
+            // We may be requesting an invalid Reddit page
+            Log::info($e->getMessage());
+        } catch (ServerException $e) {
+            // We may have upset Reddit
+            Log::info($e->getMessage());
+            abort(500);
+        }
     }
 }

@@ -18,13 +18,11 @@ class ArtistSeeder extends Seeder
     public function run()
     {
         // Get JSON of Artist Index page content
-        $artist_wiki_contents = file_get_contents(WikiPages::ARTIST_INDEX);
-        $artist_wiki_json = json_decode($artist_wiki_contents);
-        $artist_wiki_content_md = $artist_wiki_json->data->content_md;
+        $artist_wiki_contents = WikiPages::getPageContents(WikiPages::ARTIST_INDEX);
 
         // Match Artist Entries
         // Format: "[{Artist Name}](/r/AnimeThemes/wiki/artist/{Artist Slug}/)"
-        preg_match_all('/\[(.*)\]\(\/r\/AnimeThemes\/wiki\/artist\/(.*)\)/m', $artist_wiki_content_md, $artist_wiki_entries, PREG_SET_ORDER);
+        preg_match_all('/\[(.*)\]\(\/r\/AnimeThemes\/wiki\/artist\/(.*)\)/m', $artist_wiki_contents, $artist_wiki_entries, PREG_SET_ORDER);
 
         foreach ($artist_wiki_entries as $artist_wiki_entry) {
             $artist_name = html_entity_decode($artist_wiki_entry[1]);
@@ -45,13 +43,11 @@ class ArtistSeeder extends Seeder
 
             // Get JSON of Artist Entry page content
             $artist_link = WikiPages::getArtistPage($artist_slug);
-            $artist_resource_wiki_contents = file_get_contents($artist_link);
-            $artist_resource_wiki_json = json_decode($artist_resource_wiki_contents);
-            $artist_resource_wiki_content_md = $artist_resource_wiki_json->data->content_md;
+            $artist_resource_wiki_contents = WikiPages::getPageContents($artist_link);
 
             // Match headers of Resource in Artist Entry page
             // Format: "##[{Artist Name}]({Resource Link})"
-            preg_match('/##\[.*\]\((https\:\/\/.*)\)/m', $artist_resource_wiki_content_md, $artist_resource_entry);
+            preg_match('/##\[.*\]\((https\:\/\/.*)\)/m', $artist_resource_wiki_contents, $artist_resource_entry);
             $artist_resource_link = html_entity_decode($artist_resource_entry[1]);
             preg_match('/([0-9]+)/', $artist_resource_link, $external_id);
             $resource_site = ResourceSite::valueOf($artist_resource_link);
