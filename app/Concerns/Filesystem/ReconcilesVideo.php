@@ -129,7 +129,7 @@ trait ReconcilesVideo
     }
 
     /**
-     * Callback for
+     * Callback for handling completion of reconciliation.
      *
      * @return void
      */
