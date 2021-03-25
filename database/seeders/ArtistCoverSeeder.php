@@ -13,7 +13,6 @@ use Illuminate\Database\Seeder;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class ArtistCoverSeeder extends Seeder
 {
