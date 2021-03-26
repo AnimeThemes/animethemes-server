@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http;
 
 use App\Models\Video;
+use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class VideoTest extends TestCase
     {
         Config::set('app.allow_video_streams', true);
 
-        $fs = Storage::fake('spaces');
+        $fs = Storage::fake('videos');
         $file = File::fake()->create($this->faker->word().'.webm');
         $fs_file = $fs->put('', $file);
         $fs_pathinfo = pathinfo(strval($fs_file));
@@ -69,6 +70,8 @@ class VideoTest extends TestCase
             'basename' => $fs_pathinfo['basename'],
             'filename' => $fs_pathinfo['filename'],
             'path' => $this->faker->word(),
+            'size' => $this->faker->randomNumber(),
+            'mimetype' => MimeType::fromFilename($fs_pathinfo['basename']),
         ]);
 
         $response = $this->get(route('video.show', ['video' => $video]));

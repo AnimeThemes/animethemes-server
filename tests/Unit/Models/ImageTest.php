@@ -8,6 +8,7 @@ use App\Models\Artist;
 use App\Models\Image;
 use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
+use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -106,12 +107,15 @@ class ImageTest extends TestCase
     public function testImageStorageDeletion()
     {
         $fs = Storage::fake('images');
-        $file = File::fake()->image($this->faker->word());
+        $file = File::fake()->image($this->faker->word().'.jpg');
         $fs_file = $fs->put('', $file);
+        $fs_pathinfo = pathinfo(strval($fs_file));
 
         $image = Image::create([
             'path' => $fs_file,
             'facet' => ImageFacet::getRandomValue(),
+            'size' => $this->faker->randomNumber(),
+            'mimetype' => MimeType::fromFilename($fs_pathinfo['basename']),
         ]);
 
         $image->delete();
@@ -127,12 +131,15 @@ class ImageTest extends TestCase
     public function testImageStorageForceDeletion()
     {
         $fs = Storage::fake('images');
-        $file = File::fake()->image($this->faker->word());
+        $file = File::fake()->image($this->faker->word().'.jpg');
         $fs_file = $fs->put('', $file);
+        $fs_pathinfo = pathinfo(strval($fs_file));
 
         $image = Image::create([
             'path' => $fs_file,
             'facet' => ImageFacet::getRandomValue(),
+            'size' => $this->faker->randomNumber(),
+            'mimetype' => MimeType::fromFilename($fs_pathinfo['basename']),
         ]);
 
         $image->forceDelete();

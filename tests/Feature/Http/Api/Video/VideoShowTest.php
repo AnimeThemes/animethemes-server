@@ -128,6 +128,7 @@ class VideoShowTest extends TestCase
             'filename',
             'path',
             'size',
+            'mimetype',
             'resolution',
             'nc',
             'subbed',

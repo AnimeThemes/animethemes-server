@@ -29,6 +29,7 @@ class VideoFactory extends Factory
             'filename' => Str::random(),
             'path' => Str::random(),
             'size' => $this->faker->randomNumber(),
+            'mimetype' => $this->faker->mimeType,
             'resolution' => $this->faker->randomNumber(),
             'nc' => $this->faker->boolean,
             'subbed' => $this->faker->boolean,

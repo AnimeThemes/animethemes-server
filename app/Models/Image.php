@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\Streamable;
 use App\Enums\ImageFacet;
 use App\Events\Image\ImageCreated;
 use App\Events\Image\ImageDeleted;
@@ -12,14 +13,14 @@ use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
 use BenSampo\Enum\Traits\CastsEnums;
 
-class Image extends BaseModel
+class Image extends BaseModel implements Streamable
 {
     use CastsEnums;
 
     /**
      * @var array
      */
-    protected $fillable = ['path', 'facet'];
+    protected $fillable = ['path', 'facet', 'size', 'mimetype'];
 
     /**
      * The event map for the model.
@@ -72,6 +73,46 @@ class Image extends BaseModel
     public function getName()
     {
         return $this->path;
+    }
+
+    /**
+     * Get path.
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Get MIME type.
+     *
+     * @return string
+     */
+    public function getMimetype()
+    {
+        return $this->mimetype;
+    }
+
+    /**
+     * Get size.
+     *
+     * @return int
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
+     * Get name of storage disk.
+     *
+     * @return string
+     */
+    public function getDisk()
+    {
+        return 'images';
     }
 
     /**

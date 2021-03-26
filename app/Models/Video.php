@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\Streamable;
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
 use App\Events\Video\VideoCreated;
@@ -16,14 +17,14 @@ use CyrildeWit\EloquentViewable\InteractsWithViews;
 use ElasticScoutDriverPlus\QueryDsl;
 use Laravel\Scout\Searchable;
 
-class Video extends BaseModel implements Viewable
+class Video extends BaseModel implements Streamable, Viewable
 {
     use CastsEnums, InteractsWithViews, QueryDsl, Searchable;
 
     /**
      * @var array
      */
-    protected $fillable = ['basename', 'filename', 'path', 'size'];
+    protected $fillable = ['basename', 'filename', 'path', 'size', 'mimetype'];
 
     /**
      * The event map for the model.
@@ -140,6 +141,46 @@ class Video extends BaseModel implements Viewable
     public function getName()
     {
         return $this->filename;
+    }
+
+    /**
+     * Get path.
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Get MIME type.
+     *
+     * @return string
+     */
+    public function getMimetype()
+    {
+        return $this->mimetype;
+    }
+
+    /**
+     * Get size.
+     *
+     * @return int
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
+     * Get name of storage disk.
+     *
+     * @return string
+     */
+    public function getDisk()
+    {
+        return 'videos';
     }
 
     /**

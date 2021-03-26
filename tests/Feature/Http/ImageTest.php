@@ -4,6 +4,7 @@ namespace Tests\Feature\Http;
 
 use App\Enums\ImageFacet;
 use App\Models\Image;
+use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -41,12 +42,15 @@ class ImageTest extends TestCase
     public function testImageStreaming()
     {
         $fs = Storage::fake('images');
-        $file = File::fake()->image($this->faker->word());
+        $file = File::fake()->image($this->faker->word().'.jpg');
         $fs_file = $fs->put('', $file);
+        $fs_pathinfo = pathinfo(strval($fs_file));
 
         $image = Image::create([
             'path' => $fs_file,
             'facet' => ImageFacet::getRandomValue(),
+            'size' => $this->faker->randomNumber(),
+            'mimetype' => MimeType::fromFilename($fs_pathinfo['basename']),
         ]);
 
         $response = $this->get(route('image.show', ['image' => $image]));

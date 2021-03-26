@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\Http\Controllers\StreamsContent;
 use App\Models\Image;
-use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
+    use StreamsContent;
+
     /**
      * Create a new controller instance.
      *
@@ -18,10 +20,12 @@ class ImageController extends Controller
     }
 
     /**
+     * Stream image.
+     *
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function show(Image $image)
     {
-        return Storage::disk('images')->response($image->path);
+        return $this->streamContent($image);
     }
 }

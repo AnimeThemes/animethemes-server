@@ -69,6 +69,7 @@ class VideoCollection extends BaseCollection
             'filename',
             'path',
             'size',
+            'mimetype',
             'basename',
             'resolution',
             'nc',

@@ -64,16 +64,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.176.0",
+            "version": "3.176.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0713d48ba190cf49486e1cd95cd2def25ef4c80e"
+                "reference": "86bce9d17ade07f9ec6f0cbe36a7917dfecb0f7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0713d48ba190cf49486e1cd95cd2def25ef4c80e",
-                "reference": "0713d48ba190cf49486e1cd95cd2def25ef4c80e",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/86bce9d17ade07f9ec6f0cbe36a7917dfecb0f7e",
+                "reference": "86bce9d17ade07f9ec6f0cbe36a7917dfecb0f7e",
                 "shasum": ""
             },
             "require": {
@@ -148,9 +148,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.176.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.176.1"
             },
-            "time": "2021-03-25T18:17:15+00:00"
+            "time": "2021-03-26T03:59:54+00:00"
         },
         {
             "name": "babenkoivan/elastic-adapter",

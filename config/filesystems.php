@@ -54,7 +54,7 @@ return [
             'visibility' => env('IMAGE_VISIBILITY'),
         ],
 
-        'spaces' => [
+        'videos' => [
             'driver' => 's3',
             'key' => env('VIDEO_ACCESS_KEY_ID'),
             'secret' => env('VIDEO_SECRET_ACCESS_KEY'),

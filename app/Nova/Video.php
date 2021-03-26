@@ -85,7 +85,7 @@ class Video extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            new Panel(__('nova.video_metadata'), $this->videoProperties()),
+            new Panel(__('nova.file_properties'), $this->fileProperties()),
 
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
@@ -151,7 +151,7 @@ class Video extends Resource
     /**
      * @return array
      */
-    protected function videoProperties()
+    protected function fileProperties()
     {
         return [
             Text::make(__('nova.basename'), 'basename')
@@ -170,6 +170,11 @@ class Video extends Resource
                 ->readonly(),
 
             Number::make(__('nova.size'), 'size')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            Text::make(__('nova.mimetype'), 'mimetype')
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->readonly(),

@@ -91,7 +91,8 @@ class SynopsisCoverSeeder extends Seeder
                         $cover_large_image = Image::create([
                             'facet' => ImageFacet::COVER_LARGE,
                             'path' => $cover_large,
-                            //'contentType =>
+                            'size' => $cover_image_response->getHeader('Content-Length')[0],
+                            'mimetype' => $cover_image_response->getHeader('Content-Type')[0],
                         ]);
 
                         // Attach large cover to anime
@@ -109,6 +110,8 @@ class SynopsisCoverSeeder extends Seeder
                         $cover_small_image = Image::create([
                             'facet' => ImageFacet::COVER_SMALL,
                             'path' => $cover_small,
+                            'size' => $cover_image_response->getHeader('Content-Length')[0],
+                            'mimetype' => $cover_image_response->getHeader('Content-Type')[0],
                         ]);
 
                         // Attach large cover to anime

@@ -129,6 +129,7 @@ class VideoIndexTest extends TestCase
             'filename',
             'path',
             'size',
+            'mimetype',
             'resolution',
             'nc',
             'subbed',

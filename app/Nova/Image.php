@@ -10,7 +10,9 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image as NovaImage;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
 class Image extends Resource
@@ -82,6 +84,8 @@ class Image extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
+            new Panel(__('nova.file_properties'), $this->fileProperties()),
+
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
             Select::make(__('nova.facet'), 'facet')
@@ -93,11 +97,8 @@ class Image extends Resource
                 ->rules('required', (new EnumValue(ImageFacet::class, false))->__toString())
                 ->help(__('nova.image_facet_help')),
 
-            NovaImage::make(__('nova.image'), 'path')
-                ->disk('images')
-                ->acceptedTypes('image/*')
-                ->creationRules('required', 'image')
-                ->updateRules('image'),
+            NovaImage::make(__('nova.image'), 'path', 'images', new StoreImage)
+                ->creationRules('required'),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
                 ->searchable(),
@@ -106,6 +107,29 @@ class Image extends Resource
                 ->searchable(),
 
             AuditableLog::make(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function fileProperties()
+    {
+        return [
+            Text::make(__('nova.path'), 'path')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            Number::make(__('nova.size'), 'size')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
+
+            Text::make(__('nova.mimetype'), 'mimetype')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->readonly(),
         ];
     }
 
