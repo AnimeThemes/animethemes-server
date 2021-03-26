@@ -103,7 +103,7 @@ class WikiPages
         try {
             $client = new Client;
 
-            $response = $client->post($page);
+            $response = $client->get($page);
 
             $contents = json_decode($response->getBody()->getContents());
 

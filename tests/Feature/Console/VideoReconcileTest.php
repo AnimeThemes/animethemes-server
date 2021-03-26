@@ -3,6 +3,7 @@
 namespace Tests\Feature\Console;
 
 use App\Models\Video;
+use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -22,7 +23,7 @@ class VideoReconcileTest extends TestCase
      */
     public function testNoResultsForReconcileVideoCommand()
     {
-        Storage::fake('spaces');
+        Storage::fake('videos');
 
         $this->artisan('reconcile:video')->expectsOutput('No Videos created or deleted or updated');
     }
@@ -35,7 +36,7 @@ class VideoReconcileTest extends TestCase
      */
     public function testDirectoryNoResultsForReconcileVideoCommand()
     {
-        $fs = Storage::fake('spaces');
+        $fs = Storage::fake('videos');
 
         $fs->makeDirectory($this->faker->word());
 
@@ -50,7 +51,7 @@ class VideoReconcileTest extends TestCase
      */
     public function testExtensionNoResultsForReconcileVideoCommand()
     {
-        $fs = Storage::fake('spaces');
+        $fs = Storage::fake('videos');
 
         $file = File::fake()->image($this->faker->word());
         $fs->put('', $file);
@@ -65,7 +66,7 @@ class VideoReconcileTest extends TestCase
      */
     public function testCreatedForReconcileVideoCommand()
     {
-        $fs = Storage::fake('spaces');
+        $fs = Storage::fake('videos');
 
         $created_video_count = $this->faker->randomDigitNotNull;
         Collection::times($created_video_count)->each(function () use ($fs) {
@@ -87,7 +88,7 @@ class VideoReconcileTest extends TestCase
         $deleted_video_count = $this->faker->randomDigitNotNull;
         Video::factory()->count($deleted_video_count)->create();
 
-        Storage::fake('spaces');
+        Storage::fake('videos');
 
         $this->artisan('reconcile:video')->expectsOutput("0 Videos created, {$deleted_video_count} Videos deleted, 0 Videos updated");
     }
@@ -99,7 +100,7 @@ class VideoReconcileTest extends TestCase
      */
     public function testUpdatedForReconcileVideoCommand()
     {
-        $fs = Storage::fake('spaces');
+        $fs = Storage::fake('videos');
 
         $updated_video_count = $this->faker->randomDigitNotNull;
 
@@ -113,6 +114,8 @@ class VideoReconcileTest extends TestCase
                 'basename' => $fs_pathinfo['basename'],
                 'filename' => $fs_pathinfo['filename'],
                 'path' => $this->faker->word(),
+                'size' => $this->faker->randomNumber(),
+                'mimetype' => MimeType::fromFilename($fs_pathinfo['basename']),
             ]);
         });
 

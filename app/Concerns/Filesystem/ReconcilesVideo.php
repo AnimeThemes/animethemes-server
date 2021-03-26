@@ -4,6 +4,7 @@ namespace App\Concerns\Filesystem;
 
 use App\Models\Video;
 use Aws\S3\Exception\S3Exception;
+use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
@@ -189,7 +190,7 @@ trait ReconcilesVideo
             $this->deleteVideosOnlyInDb($fs_videos, $db_videos);
 
             // Database update fields
-            $db_videos = Video::all('video_id', 'basename', 'path', 'size');
+            $db_videos = Video::all('video_id', 'basename', 'path', 'size', 'mimetype');
 
             // Update videos that have been changed
             $this->updateVideosModifiedInSpace($fs_videos, $db_videos);
@@ -208,7 +209,7 @@ trait ReconcilesVideo
     protected function initializeVideosFromSpace()
     {
         // Get metadata for all objects in storage
-        $fs = Storage::disk('spaces');
+        $fs = Storage::disk('videos');
         $fs_videos = collect($fs->listContents('', true));
 
         // Filter all objects for WebM metadata
@@ -219,10 +220,13 @@ trait ReconcilesVideo
 
         // Create videos from metadata that we can later save if needed
         return $fs_videos->map(function ($fs_file) {
-            $fs_video = new Video;
-            $fs_video->fill($fs_file);
-
-            return $fs_video;
+            return Video::make([
+                'basename' => $fs_file['basename'],
+                'filename' => $fs_file['filename'],
+                'path' => $fs_file['path'],
+                'size' => $fs_file['size'],
+                'mimetype' => MimeType::fromFilename($fs_file['basename']),
+            ]);
         });
     }
 

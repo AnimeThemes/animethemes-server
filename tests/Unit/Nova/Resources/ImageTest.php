@@ -142,8 +142,6 @@ class ImageTest extends TestCase
         $field = $resource->field(__('nova.image'));
 
         $field->assertHasCreationRule('required');
-        $field->assertHasCreationRule('image');
-        $field->assertHasUpdateRule('image');
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();

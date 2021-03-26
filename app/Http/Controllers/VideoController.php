@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\Http\Controllers\StreamsContent;
 use App\Models\Video;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class VideoController extends Controller
 {
+    use StreamsContent;
+
     /**
      * Create a new controller instance.
      *
@@ -19,6 +20,8 @@ class VideoController extends Controller
     }
 
     /**
+     * Stream video.
+     *
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function show(Video $video)
@@ -29,27 +32,6 @@ class VideoController extends Controller
             ->cooldown(now()->addMinutes(5))
             ->record();
 
-        $response = new StreamedResponse;
-
-        $disposition = $response->headers->makeDisposition('inline', $video->basename);
-
-        $response->headers->replace([
-            'Accept-Ranges' => 'bytes',
-            'Content-Type' => 'video/webm',
-            'Content-Length' => $video->size,
-            'Content-Disposition' => $disposition,
-        ]);
-
-        $fs = Storage::disk('spaces');
-
-        $response->setCallback(function () use ($fs, $video) {
-            $stream = $fs->readStream($video->path);
-            if (! is_null($stream)) {
-                fpassthru($stream);
-                fclose($stream);
-            }
-        });
-
-        return $response;
+        return $this->streamContent($video);
     }
 }

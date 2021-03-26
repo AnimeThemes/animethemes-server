@@ -115,14 +115,14 @@ class ImageShowTest extends TestCase
     public function testSparseFieldsets()
     {
         $fields = collect([
-            'id',
-            'link',
-            'external_id',
-            'site',
-            'as',
+            'image_id',
             'created_at',
             'updated_at',
             'deleted_at',
+            'path',
+            'size',
+            'mimetype',
+            'facet',
         ]);
 
         $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));

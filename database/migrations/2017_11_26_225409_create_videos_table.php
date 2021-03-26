@@ -21,7 +21,8 @@ class CreateVideosTable extends Migration
             $table->string('basename');
             $table->string('filename');
             $table->string('path');
-            $table->integer('size')->nullable();
+            $table->integer('size');
+            $table->string('mimetype');
             $table->integer('resolution')->nullable();
             $table->boolean('nc')->default(false);
             $table->boolean('subbed')->default(false);

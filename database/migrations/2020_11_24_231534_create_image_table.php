@@ -18,6 +18,8 @@ class CreateImageTable extends Migration
             $table->timestamps(6);
             $table->softDeletes('deleted_at', 6);
             $table->string('path');
+            $table->integer('size');
+            $table->string('mimetype');
             $table->integer('facet')->nullable();
         });
     }

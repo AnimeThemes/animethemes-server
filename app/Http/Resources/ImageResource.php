@@ -48,6 +48,8 @@ class ImageResource extends BaseResource
         return [
             'id' => $this->when($this->isAllowedField('id'), $this->image_id),
             'path' => $this->when($this->isAllowedField('path'), $this->path),
+            'size' => $this->when($this->isAllowedField('size'), $this->path),
+            'mimetype' => $this->when($this->isAllowedField('mimetype'), $this->path),
             'facet' => $this->when($this->isAllowedField('facet'), strval(optional($this->facet)->description)),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),

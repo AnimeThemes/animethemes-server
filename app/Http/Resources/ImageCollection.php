@@ -59,6 +59,8 @@ class ImageCollection extends BaseCollection
             'updated_at',
             'deleted_at',
             'path',
+            'size',
+            'mimetype',
             'facet',
         ];
     }
