@@ -168,7 +168,7 @@ final class CreateVideoIndex implements MigrationInterface
             $mapping->text('path');
             $mapping->long('resolution');
             $mapping->long('size');
-            $mapping->string('mimetype');
+            $mapping->text('mimetype');
             $mapping->long('source');
             $mapping->boolean('subbed');
             $mapping->text('synonym_slug');
