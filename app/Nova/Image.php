@@ -97,14 +97,7 @@ class Image extends Resource
                 ->rules('required', (new EnumValue(ImageFacet::class, false))->__toString())
                 ->help(__('nova.image_facet_help')),
 
-            NovaImage::make(__('nova.image'), 'path', 'images', function (Request $request, $model, $attribute, $requestAttribute, $disk, $storagePath) {
-                    $file = $request->file($attribute);
-                    return [
-                        'path' => $file->store($storagePath, $disk),
-                        'size' => $file->getSize(),
-                        'mimetype' => $file->getClientMimeType(),
-                    ];
-                })
+            NovaImage::make(__('nova.image'), 'path', 'images', new StoreImage)
                 ->creationRules('required'),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
