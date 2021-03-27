@@ -101,10 +101,32 @@ class Image extends Resource
                 ->creationRules('required'),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
-                ->searchable(),
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        DateTime::make(__('nova.created_at'), 'created_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
+
+                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
+                    ];
+                }),
 
             BelongsToMany::make(__('nova.artists'), 'Artists', Artist::class)
-                ->searchable(),
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        DateTime::make(__('nova.created_at'), 'created_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
+
+                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
+                    ];
+                }),
 
             AuditableLog::make(),
         ];

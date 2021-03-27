@@ -142,7 +142,18 @@ class Video extends Resource
                 ->help(__('nova.video_source_help')),
 
             BelongsToMany::make(__('nova.entries'), 'Entries', Entry::class)
-                ->searchable(),
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        DateTime::make(__('nova.created_at'), 'created_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
+
+                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
+                    ];
+                }),
 
             AuditableLog::make(),
         ];

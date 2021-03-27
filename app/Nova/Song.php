@@ -101,7 +101,15 @@ class Song extends Resource
                     return [
                         Text::make(__('nova.as'), 'as')
                             ->rules('nullable', 'max:192')
-                            ->help(__('nova.as_help')),
+                            ->help(__('nova.resource_as_help')),
+
+                        DateTime::make(__('nova.created_at'), 'created_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
+
+                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
                     ];
                 }),
 

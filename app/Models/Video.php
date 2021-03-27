@@ -190,6 +190,8 @@ class Video extends BaseModel implements Streamable, Viewable
      */
     public function entries()
     {
-        return $this->belongsToMany('App\Models\Entry', 'entry_video', 'video_id', 'entry_id')->using(VideoEntry::class);
+        return $this->belongsToMany('App\Models\Entry', 'entry_video', 'video_id', 'entry_id')
+            ->using(VideoEntry::class)
+            ->withTimestamps();
     }
 }

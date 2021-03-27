@@ -14,6 +14,7 @@ class CreateEntryVideo extends Migration
     public function up()
     {
         Schema::create('entry_video', function (Blueprint $table) {
+            $table->timestamps(6);
             $table->unsignedBigInteger('entry_id');
             $table->foreign('entry_id')->references('entry_id')->on('entry')->onDelete('cascade');
             $table->unsignedBigInteger('video_id');

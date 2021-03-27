@@ -109,7 +109,9 @@ class Entry extends BaseModel
      */
     public function videos()
     {
-        return $this->belongsToMany('App\Models\Video', 'entry_video', 'entry_id', 'video_id')->using(VideoEntry::class);
+        return $this->belongsToMany('App\Models\Video', 'entry_video', 'entry_id', 'video_id')
+            ->using(VideoEntry::class)
+            ->withTimestamps();
     }
 
     /**

@@ -96,7 +96,18 @@ class Series extends Resource
                 ->help(__('nova.series_slug_help')),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
-                ->searchable(),
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        DateTime::make(__('nova.created_at'), 'created_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
+
+                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
+                    ];
+                }),
 
             AuditableLog::make(),
         ];

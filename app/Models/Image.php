@@ -122,7 +122,9 @@ class Image extends BaseModel implements Streamable
      */
     public function anime()
     {
-        return $this->belongsToMany('App\Models\Anime', 'anime_image', 'image_id', 'anime_id')->using(AnimeImage::class);
+        return $this->belongsToMany('App\Models\Anime', 'anime_image', 'image_id', 'anime_id')
+            ->using(AnimeImage::class)
+            ->withTimestamps();
     }
 
     /**
@@ -132,6 +134,8 @@ class Image extends BaseModel implements Streamable
      */
     public function artists()
     {
-        return $this->belongsToMany('App\Models\Artist', 'artist_image', 'image_id', 'artist_id')->using(ArtistImage::class);
+        return $this->belongsToMany('App\Models\Artist', 'artist_image', 'image_id', 'artist_id')
+            ->using(ArtistImage::class)
+            ->withTimestamps();
     }
 }

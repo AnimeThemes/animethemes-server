@@ -79,7 +79,10 @@ class ExternalResource extends BaseModel
      */
     public function anime()
     {
-        return $this->belongsToMany('App\Models\Anime', 'anime_resource', 'resource_id', 'anime_id')->using(AnimeResource::class)->withPivot('as');
+        return $this->belongsToMany('App\Models\Anime', 'anime_resource', 'resource_id', 'anime_id')
+            ->using(AnimeResource::class)
+            ->withPivot('as')
+            ->withTimestamps();
     }
 
     /**
@@ -89,6 +92,9 @@ class ExternalResource extends BaseModel
      */
     public function artists()
     {
-        return $this->belongsToMany('App\Models\Artist', 'artist_resource', 'resource_id', 'artist_id')->using(ArtistResource::class)->withPivot('as');
+        return $this->belongsToMany('App\Models\Artist', 'artist_resource', 'resource_id', 'artist_id')
+            ->using(ArtistResource::class)
+            ->withPivot('as')
+            ->withTimestamps();
     }
 }

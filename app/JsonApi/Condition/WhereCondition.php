@@ -85,7 +85,7 @@ class WhereCondition extends Condition
     public function apply(Builder $builder, Filter $filter)
     {
         return $builder->where(
-            $this->getField(),
+            $filter->getScope().'.'.$this->getField(),
             optional($this->getComparisonOperator())->value,
             collect($filter->getFilterValues($this))->first(),
             $this->getLogicalOperator()->value

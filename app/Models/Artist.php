@@ -90,7 +90,10 @@ class Artist extends BaseModel
      */
     public function songs()
     {
-        return $this->belongsToMany('App\Models\Song', 'artist_song', 'artist_id', 'song_id')->using(ArtistSong::class)->withPivot('as');
+        return $this->belongsToMany('App\Models\Song', 'artist_song', 'artist_id', 'song_id')
+            ->using(ArtistSong::class)
+            ->withPivot('as')
+            ->withTimestamps();
     }
 
     /**
@@ -100,7 +103,10 @@ class Artist extends BaseModel
      */
     public function externalResources()
     {
-        return $this->belongsToMany('App\Models\ExternalResource', 'artist_resource', 'artist_id', 'resource_id')->using(ArtistResource::class)->withPivot('as');
+        return $this->belongsToMany('App\Models\ExternalResource', 'artist_resource', 'artist_id', 'resource_id')
+            ->using(ArtistResource::class)
+            ->withPivot('as')
+            ->withTimestamps();
     }
 
     /**
@@ -110,7 +116,10 @@ class Artist extends BaseModel
      */
     public function members()
     {
-        return $this->belongsToMany('App\Models\Artist', 'artist_member', 'artist_id', 'member_id')->using(ArtistMember::class)->withPivot('as');
+        return $this->belongsToMany('App\Models\Artist', 'artist_member', 'artist_id', 'member_id')
+            ->using(ArtistMember::class)
+            ->withPivot('as')
+            ->withTimestamps();
     }
 
     /**
@@ -120,7 +129,10 @@ class Artist extends BaseModel
      */
     public function groups()
     {
-        return $this->belongsToMany('App\Models\Artist', 'artist_member', 'member_id', 'artist_id')->using(ArtistMember::class)->withPivot('as');
+        return $this->belongsToMany('App\Models\Artist', 'artist_member', 'member_id', 'artist_id')
+            ->using(ArtistMember::class)
+            ->withPivot('as')
+            ->withTimestamps();
     }
 
     /**
@@ -130,6 +142,8 @@ class Artist extends BaseModel
      */
     public function images()
     {
-        return $this->belongsToMany('App\Models\Image', 'artist_image', 'artist_id', 'image_id')->using(ArtistImage::class);
+        return $this->belongsToMany('App\Models\Image', 'artist_image', 'artist_id', 'image_id')
+            ->using(ArtistImage::class)
+            ->withTimestamps();
     }
 }
