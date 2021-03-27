@@ -74,6 +74,8 @@ class Series extends BaseModel
      */
     public function anime()
     {
-        return $this->belongsToMany('App\Models\Anime', 'anime_series', 'series_id', 'anime_id')->using(AnimeSeries::class);
+        return $this->belongsToMany('App\Models\Anime', 'anime_series', 'series_id', 'anime_id')
+            ->using(AnimeSeries::class)
+            ->withTimestamps();
     }
 }

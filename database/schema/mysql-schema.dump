@@ -51,6 +51,8 @@ DROP TABLE IF EXISTS `anime_image`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `anime_image` (
+  `created_at` timestamp(6) NULL DEFAULT NULL,
+  `updated_at` timestamp(6) NULL DEFAULT NULL,
   `anime_id` bigint(20) unsigned NOT NULL,
   `image_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`anime_id`,`image_id`),
@@ -63,6 +65,8 @@ DROP TABLE IF EXISTS `anime_resource`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `anime_resource` (
+  `created_at` timestamp(6) NULL DEFAULT NULL,
+  `updated_at` timestamp(6) NULL DEFAULT NULL,
   `anime_id` bigint(20) unsigned NOT NULL,
   `resource_id` bigint(20) unsigned NOT NULL,
   `as` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -76,6 +80,8 @@ DROP TABLE IF EXISTS `anime_series`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `anime_series` (
+  `created_at` timestamp(6) NULL DEFAULT NULL,
+  `updated_at` timestamp(6) NULL DEFAULT NULL,
   `anime_id` bigint(20) unsigned NOT NULL,
   `series_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`anime_id`,`series_id`),
@@ -113,6 +119,8 @@ DROP TABLE IF EXISTS `artist_image`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `artist_image` (
+  `created_at` timestamp(6) NULL DEFAULT NULL,
+  `updated_at` timestamp(6) NULL DEFAULT NULL,
   `artist_id` bigint(20) unsigned NOT NULL,
   `image_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`artist_id`,`image_id`),
@@ -125,6 +133,8 @@ DROP TABLE IF EXISTS `artist_member`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `artist_member` (
+  `created_at` timestamp(6) NULL DEFAULT NULL,
+  `updated_at` timestamp(6) NULL DEFAULT NULL,
   `artist_id` bigint(20) unsigned NOT NULL,
   `member_id` bigint(20) unsigned NOT NULL,
   `as` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -138,6 +148,8 @@ DROP TABLE IF EXISTS `artist_resource`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `artist_resource` (
+  `created_at` timestamp(6) NULL DEFAULT NULL,
+  `updated_at` timestamp(6) NULL DEFAULT NULL,
   `artist_id` bigint(20) unsigned NOT NULL,
   `resource_id` bigint(20) unsigned NOT NULL,
   `as` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -151,6 +163,8 @@ DROP TABLE IF EXISTS `artist_song`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `artist_song` (
+  `created_at` timestamp(6) NULL DEFAULT NULL,
+  `updated_at` timestamp(6) NULL DEFAULT NULL,
   `artist_id` bigint(20) unsigned NOT NULL,
   `song_id` bigint(20) unsigned NOT NULL,
   `as` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -223,6 +237,8 @@ DROP TABLE IF EXISTS `entry_video`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `entry_video` (
+  `created_at` timestamp(6) NULL DEFAULT NULL,
+  `updated_at` timestamp(6) NULL DEFAULT NULL,
   `entry_id` bigint(20) unsigned NOT NULL,
   `video_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`entry_id`,`video_id`),
@@ -255,8 +271,8 @@ CREATE TABLE `image` (
   `updated_at` timestamp(6) NULL DEFAULT NULL,
   `deleted_at` timestamp(6) NULL DEFAULT NULL,
   `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `size` int(11) DEFAULT NULL,
-  `mimetype` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `size` int(11) NOT NULL,
+  `mimetype` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `facet` int(11) DEFAULT NULL,
   PRIMARY KEY (`image_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -475,8 +491,8 @@ CREATE TABLE `video` (
   `basename` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `filename` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `size` int(11) DEFAULT NULL,
-  `mimetype` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `size` int(11) NOT NULL,
+  `mimetype` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `resolution` int(11) DEFAULT NULL,
   `nc` tinyint(1) NOT NULL DEFAULT 0,
   `subbed` tinyint(1) NOT NULL DEFAULT 0,
@@ -508,37 +524,37 @@ CREATE TABLE `views` (
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1);
-INSERT INTO `migrations` VALUES (2,'2014_10_12_100000_create_password_resets_table',1);
-INSERT INTO `migrations` VALUES (3,'2014_10_12_200000_add_two_factor_columns_to_users_table',1);
-INSERT INTO `migrations` VALUES (4,'2017_11_26_225409_create_videos_table',1);
-INSERT INTO `migrations` VALUES (5,'2018_01_01_000000_create_action_events_table',1);
-INSERT INTO `migrations` VALUES (6,'2019_05_10_000000_add_fields_to_action_events_table',1);
-INSERT INTO `migrations` VALUES (7,'2019_08_19_000000_create_failed_jobs_table',1);
-INSERT INTO `migrations` VALUES (8,'2019_12_14_000001_create_personal_access_tokens_table',1);
-INSERT INTO `migrations` VALUES (9,'2019_15_12_112000_create_elastic_migrations_table',1);
-INSERT INTO `migrations` VALUES (10,'2020_04_12_212732_create_announcements_table',1);
-INSERT INTO `migrations` VALUES (11,'2020_05_05_044925_create_anime_table',1);
-INSERT INTO `migrations` VALUES (12,'2020_05_05_044939_create_series_table',1);
-INSERT INTO `migrations` VALUES (13,'2020_05_05_044953_create_songs_table',1);
-INSERT INTO `migrations` VALUES (14,'2020_05_05_045006_create_artists_table',1);
-INSERT INTO `migrations` VALUES (15,'2020_05_05_045017_create_resources_table',1);
-INSERT INTO `migrations` VALUES (16,'2020_05_05_045028_create_themes_table',1);
-INSERT INTO `migrations` VALUES (17,'2020_05_05_045037_create_entries_table',1);
-INSERT INTO `migrations` VALUES (18,'2020_05_05_051400_create_synonyms_table',1);
-INSERT INTO `migrations` VALUES (19,'2020_05_05_054036_create_anime_series',1);
-INSERT INTO `migrations` VALUES (20,'2020_05_05_055804_create_entry_video',1);
-INSERT INTO `migrations` VALUES (21,'2020_05_05_060307_create_anime_resource',1);
-INSERT INTO `migrations` VALUES (22,'2020_05_05_062655_create_artist_song',1);
-INSERT INTO `migrations` VALUES (23,'2020_05_05_063144_create_artist_resource',1);
-INSERT INTO `migrations` VALUES (24,'2020_05_06_024632_create_audits_table',1);
-INSERT INTO `migrations` VALUES (25,'2020_05_24_220046_create_invitations_table',1);
-INSERT INTO `migrations` VALUES (26,'2020_06_10_050701_create_artist_member',1);
-INSERT INTO `migrations` VALUES (27,'2020_09_16_183751_create_sessions_table',1);
-INSERT INTO `migrations` VALUES (28,'2020_11_05_220613_create_configs_table',1);
-INSERT INTO `migrations` VALUES (29,'2020_11_24_231534_create_image_table',1);
-INSERT INTO `migrations` VALUES (30,'2020_11_24_232439_create_anime_image',1);
-INSERT INTO `migrations` VALUES (31,'2020_11_24_232525_create_artist_image',1);
-INSERT INTO `migrations` VALUES (32,'2020_12_08_034959_create_views_table',1);
-INSERT INTO `migrations` VALUES (33,'2018_08_08_100000_create_telescope_entries_table',2);
-INSERT INTO `migrations` VALUES (36,'2021_03_25_022128_update_telescope_entries_table',3);
+INSERT INTO `migrations` VALUES (71,'2014_10_12_000000_create_users_table',1);
+INSERT INTO `migrations` VALUES (72,'2014_10_12_100000_create_password_resets_table',1);
+INSERT INTO `migrations` VALUES (73,'2014_10_12_200000_add_two_factor_columns_to_users_table',1);
+INSERT INTO `migrations` VALUES (74,'2017_11_26_225409_create_videos_table',1);
+INSERT INTO `migrations` VALUES (75,'2018_01_01_000000_create_action_events_table',1);
+INSERT INTO `migrations` VALUES (76,'2018_08_08_100000_create_telescope_entries_table',1);
+INSERT INTO `migrations` VALUES (77,'2019_05_10_000000_add_fields_to_action_events_table',1);
+INSERT INTO `migrations` VALUES (78,'2019_08_19_000000_create_failed_jobs_table',1);
+INSERT INTO `migrations` VALUES (79,'2019_12_14_000001_create_personal_access_tokens_table',1);
+INSERT INTO `migrations` VALUES (80,'2019_15_12_112000_create_elastic_migrations_table',1);
+INSERT INTO `migrations` VALUES (81,'2020_04_12_212732_create_announcements_table',1);
+INSERT INTO `migrations` VALUES (82,'2020_05_05_044925_create_anime_table',1);
+INSERT INTO `migrations` VALUES (83,'2020_05_05_044939_create_series_table',1);
+INSERT INTO `migrations` VALUES (84,'2020_05_05_044953_create_songs_table',1);
+INSERT INTO `migrations` VALUES (85,'2020_05_05_045006_create_artists_table',1);
+INSERT INTO `migrations` VALUES (86,'2020_05_05_045017_create_resources_table',1);
+INSERT INTO `migrations` VALUES (87,'2020_05_05_045028_create_themes_table',1);
+INSERT INTO `migrations` VALUES (88,'2020_05_05_045037_create_entries_table',1);
+INSERT INTO `migrations` VALUES (89,'2020_05_05_051400_create_synonyms_table',1);
+INSERT INTO `migrations` VALUES (90,'2020_05_05_054036_create_anime_series',1);
+INSERT INTO `migrations` VALUES (91,'2020_05_05_055804_create_entry_video',1);
+INSERT INTO `migrations` VALUES (92,'2020_05_05_060307_create_anime_resource',1);
+INSERT INTO `migrations` VALUES (93,'2020_05_05_062655_create_artist_song',1);
+INSERT INTO `migrations` VALUES (94,'2020_05_05_063144_create_artist_resource',1);
+INSERT INTO `migrations` VALUES (95,'2020_05_06_024632_create_audits_table',1);
+INSERT INTO `migrations` VALUES (96,'2020_05_24_220046_create_invitations_table',1);
+INSERT INTO `migrations` VALUES (97,'2020_06_10_050701_create_artist_member',1);
+INSERT INTO `migrations` VALUES (98,'2020_09_16_183751_create_sessions_table',1);
+INSERT INTO `migrations` VALUES (99,'2020_11_05_220613_create_configs_table',1);
+INSERT INTO `migrations` VALUES (100,'2020_11_24_231534_create_image_table',1);
+INSERT INTO `migrations` VALUES (101,'2020_11_24_232439_create_anime_image',1);
+INSERT INTO `migrations` VALUES (102,'2020_11_24_232525_create_artist_image',1);
+INSERT INTO `migrations` VALUES (103,'2020_12_08_034959_create_views_table',1);
+INSERT INTO `migrations` VALUES (104,'2021_03_25_022128_update_telescope_entries_table',1);

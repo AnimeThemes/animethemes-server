@@ -5,9 +5,8 @@ namespace App\Pivots;
 use App\Events\Pivot\ArtistImage\ArtistImageCreated;
 use App\Events\Pivot\ArtistImage\ArtistImageDeleted;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ArtistImage extends Pivot
+class ArtistImage extends BasePivot
 {
     use HasFactory;
 
@@ -17,13 +16,6 @@ class ArtistImage extends Pivot
      * @var string
      */
     protected $table = 'artist_image';
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     /**
      * The event map for the model.

@@ -14,6 +14,7 @@ class CreateArtistResource extends Migration
     public function up()
     {
         Schema::create('artist_resource', function (Blueprint $table) {
+            $table->timestamps(6);
             $table->unsignedBigInteger('artist_id');
             $table->foreign('artist_id')->references('artist_id')->on('artist')->onDelete('cascade');
             $table->unsignedBigInteger('resource_id');

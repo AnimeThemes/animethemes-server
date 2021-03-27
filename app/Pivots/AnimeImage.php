@@ -5,9 +5,8 @@ namespace App\Pivots;
 use App\Events\Pivot\AnimeImage\AnimeImageCreated;
 use App\Events\Pivot\AnimeImage\AnimeImageDeleted;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class AnimeImage extends Pivot
+class AnimeImage extends BasePivot
 {
     use HasFactory;
 
@@ -17,13 +16,6 @@ class AnimeImage extends Pivot
      * @var string
      */
     protected $table = 'anime_image';
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     /**
      * The event map for the model.

@@ -128,7 +128,18 @@ class Entry extends Resource
                 ->help(__('nova.entry_notes_help')),
 
             BelongsToMany::make(__('nova.videos'), 'Videos', Video::class)
-                ->searchable(),
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        DateTime::make(__('nova.created_at'), 'created_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
+
+                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
+                    ];
+                }),
 
             AuditableLog::make(),
         ];

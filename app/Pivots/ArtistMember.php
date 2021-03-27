@@ -6,9 +6,8 @@ use App\Events\Pivot\ArtistMember\ArtistMemberCreated;
 use App\Events\Pivot\ArtistMember\ArtistMemberDeleted;
 use App\Events\Pivot\ArtistMember\ArtistMemberUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ArtistMember extends Pivot
+class ArtistMember extends BasePivot
 {
     use HasFactory;
 
@@ -23,13 +22,6 @@ class ArtistMember extends Pivot
      * @var string
      */
     protected $table = 'artist_member';
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     /**
      * The event map for the model.

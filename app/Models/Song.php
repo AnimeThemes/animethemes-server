@@ -80,6 +80,9 @@ class Song extends BaseModel
      */
     public function artists()
     {
-        return $this->belongsToMany('App\Models\Artist', 'artist_song', 'song_id', 'artist_id')->using(ArtistSong::class)->withPivot('as');
+        return $this->belongsToMany('App\Models\Artist', 'artist_song', 'song_id', 'artist_id')
+            ->using(ArtistSong::class)
+            ->withPivot('as')
+            ->withTimestamps();
     }
 }

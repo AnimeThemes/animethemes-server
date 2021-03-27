@@ -14,6 +14,7 @@ class CreateAnimeResource extends Migration
     public function up()
     {
         Schema::create('anime_resource', function (Blueprint $table) {
+            $table->timestamps(6);
             $table->unsignedBigInteger('anime_id');
             $table->foreign('anime_id')->references('anime_id')->on('anime')->onDelete('cascade');
             $table->unsignedBigInteger('resource_id');

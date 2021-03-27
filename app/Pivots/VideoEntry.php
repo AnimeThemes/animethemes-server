@@ -5,9 +5,8 @@ namespace App\Pivots;
 use App\Events\Pivot\VideoEntry\VideoEntryCreated;
 use App\Events\Pivot\VideoEntry\VideoEntryDeleted;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class VideoEntry extends Pivot
+class VideoEntry extends BasePivot
 {
     use HasFactory;
 
@@ -17,13 +16,6 @@ class VideoEntry extends Pivot
      * @var string
      */
     protected $table = 'entry_video';
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     /**
      * The event map for the model.

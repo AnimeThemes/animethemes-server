@@ -118,7 +118,9 @@ class Anime extends BaseModel
      */
     public function series()
     {
-        return $this->belongsToMany('App\Models\Series', 'anime_series', 'anime_id', 'series_id')->using(AnimeSeries::class);
+        return $this->belongsToMany('App\Models\Series', 'anime_series', 'anime_id', 'series_id')
+            ->using(AnimeSeries::class)
+            ->withTimestamps();
     }
 
     /**
@@ -138,7 +140,10 @@ class Anime extends BaseModel
      */
     public function externalResources()
     {
-        return $this->belongsToMany('App\Models\ExternalResource', 'anime_resource', 'anime_id', 'resource_id')->using(AnimeResource::class)->withPivot('as');
+        return $this->belongsToMany('App\Models\ExternalResource', 'anime_resource', 'anime_id', 'resource_id')
+            ->using(AnimeResource::class)
+            ->withPivot('as')
+            ->withTimestamps();
     }
 
     /**
@@ -148,6 +153,8 @@ class Anime extends BaseModel
      */
     public function images()
     {
-        return $this->belongsToMany('App\Models\Image', 'anime_image', 'anime_id', 'image_id')->using(AnimeImage::class);
+        return $this->belongsToMany('App\Models\Image', 'anime_image', 'anime_id', 'image_id')
+            ->using(AnimeImage::class)
+            ->withTimestamps();
     }
 }
