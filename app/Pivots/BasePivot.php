@@ -3,12 +3,9 @@
 namespace App\Pivots;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
-use OwenIt\Auditing\Contracts\Auditable;
 
-abstract class BasePivot extends Pivot implements Auditable
+abstract class BasePivot extends Pivot
 {
-    use \OwenIt\Auditing\Auditable;
-
     /**
      * The storage format of the model's date columns.
      *
