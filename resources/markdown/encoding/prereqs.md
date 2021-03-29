@@ -86,7 +86,7 @@ At this point we should determine certain arguments we may need for the encoding
 
 First, we should determine the start and end positions of our encode. [MPC-HC](https://mpc-hc.org/) or [MPC-BE](https://sourceforge.net/projects/mpcbe/) are recommended to get the most accurate positions. We can do this by opening the file in the player, using the ctrl + g shortcut, and modifying the timestamp value in the Go To Dialog that appears. Using this method, we can get the exact position of the start and end frames.
 
-If we are working with an extra, we may want to refer to our [Common Start/End Positions](https://docs.google.com/spreadsheets/d/1FflijVd5GX3P8vi47GK-Ut7_S8fwoMeewo8HraiqATc/edit?usp=sharing) spreadsheet as we prefer the padding in these videos to be cut out.
+If we are working with an extra, we may want to refer to our [Common Start/End Positions](/encoding/common_positions) spreadsheet as we prefer the padding in these videos to be cut out.
 
 **Audio filters**
 

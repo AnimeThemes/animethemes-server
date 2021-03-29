@@ -2,6 +2,9 @@
 
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
+        <loc>{{ route('encoding.index') }}</loc>
+    </url>
+    <url>
         <loc>{{ route('encoding.show', ['docName' => 'audio_filtering']) }}</loc>
     </url>
     <url>
@@ -11,10 +14,10 @@
         <loc>{{ route('encoding.show', ['docName' => 'colorspace']) }}</loc>
     </url>
     <url>
-        <loc>{{ route('encoding.show', ['docName' => 'ffmpeg']) }}</loc>
+        <loc>{{ route('encoding.show', ['docName' => 'common_positions']) }}</loc>
     </url>
     <url>
-        <loc>{{ route('encoding.index') }}</loc>
+        <loc>{{ route('encoding.show', ['docName' => 'ffmpeg']) }}</loc>
     </url>
     <url>
         <loc>{{ route('encoding.show', ['docName' => 'prereqs']) }}</loc>
