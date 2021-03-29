@@ -5,9 +5,9 @@
         <loc>{{ route('guidelines.index') }}</loc>
     </url>
     <url>
-        <loc>{{ route('guidelines.show', ['docName' => 'submission_title_formatting']) }}</loc>
+        <loc>{{ route('guidelines.show', ['docName' => 'approved_hosts']) }}</loc>
     </url>
     <url>
-        <loc>{{ route('guidelines.show', ['docName' => 'approved_hosts']) }}</loc>
+        <loc>{{ route('guidelines.show', ['docName' => 'submission_title_formatting']) }}</loc>
     </url>
 </sitemapindex>

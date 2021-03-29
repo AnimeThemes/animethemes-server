@@ -16,7 +16,7 @@ class StoreImage
      * @param string $requestAttribute
      * @param string $disk
      * @param string $storagePath
-     * @return void
+     * @return array
      */
     public function __invoke(
         Request $request,
