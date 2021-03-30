@@ -15,7 +15,7 @@ class SongQueryPayload extends ElasticQueryPayload
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function performSearch()
+    protected function doPerformSearch()
     {
         $builder = Song::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

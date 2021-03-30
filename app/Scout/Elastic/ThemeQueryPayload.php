@@ -16,7 +16,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function performSearch()
+    protected function doPerformSearch()
     {
         $builder = Theme::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

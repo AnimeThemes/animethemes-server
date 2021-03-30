@@ -34,35 +34,35 @@ class SearchResource extends BaseResource
     {
         return [
             AnimeCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && $this->isAllowedField(AnimeCollection::$wrap),
+                $this->isAllowedField(AnimeCollection::$wrap),
                 AnimeCollection::performSearch($this->parser)
             ),
             ArtistCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && $this->isAllowedField(ArtistCollection::$wrap),
+                $this->isAllowedField(ArtistCollection::$wrap),
                 ArtistCollection::performSearch($this->parser)
             ),
             EntryCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && $this->isAllowedField(EntryCollection::$wrap),
+                $this->isAllowedField(EntryCollection::$wrap),
                 EntryCollection::performSearch($this->parser)
             ),
             SeriesCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && $this->isAllowedField(SeriesCollection::$wrap),
+                $this->isAllowedField(SeriesCollection::$wrap),
                 SeriesCollection::performSearch($this->parser)
             ),
             SongCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && $this->isAllowedField(SongCollection::$wrap),
+                $this->isAllowedField(SongCollection::$wrap),
                 SongCollection::performSearch($this->parser)
             ),
             SynonymCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && $this->isAllowedField(SynonymCollection::$wrap),
+                $this->isAllowedField(SynonymCollection::$wrap),
                 SynonymCollection::performSearch($this->parser)
             ),
             ThemeCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && $this->isAllowedField(ThemeCollection::$wrap),
+                $this->isAllowedField(ThemeCollection::$wrap),
                 ThemeCollection::performSearch($this->parser)
             ),
             VideoCollection::$wrap => $this->when(
-                $this->parser->hasSearch() && $this->isAllowedField(VideoCollection::$wrap),
+                $this->isAllowedField(VideoCollection::$wrap),
                 VideoCollection::performSearch($this->parser)
             ),
         ];

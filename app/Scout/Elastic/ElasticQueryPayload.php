@@ -3,6 +3,7 @@
 namespace App\Scout\Elastic;
 
 use App\JsonApi\QueryParser;
+use Illuminate\Database\Eloquent\Collection;
 
 abstract class ElasticQueryPayload
 {
@@ -35,9 +36,33 @@ abstract class ElasticQueryPayload
     }
 
     /**
+     * Determine if this search should be performed.
+     *
+     * @return bool
+     */
+    protected function shouldPerformSearch()
+    {
+        return $this->parser->hasSearch();
+    }
+
+    /**
+     * Perform search if condition is met, otherwise return empty collection
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function performSearch()
+    {
+        if ($this->shouldPerformSearch()) {
+            return $this->doPerformSearch();
+        }
+
+        return Collection::make();
+    }
+
+    /**
      * Build and execute Elasticsearch query.
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    abstract public function performSearch();
+    abstract protected function doPerformSearch();
 }

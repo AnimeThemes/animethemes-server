@@ -15,7 +15,7 @@ class SynonymQueryPayload extends ElasticQueryPayload
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function performSearch()
+    protected function doPerformSearch()
     {
         $builder = Synonym::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

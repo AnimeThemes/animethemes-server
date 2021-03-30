@@ -16,7 +16,7 @@ class VideoQueryPayload extends ElasticQueryPayload
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function performSearch()
+    protected function doPerformSearch()
     {
         $builder = Video::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
