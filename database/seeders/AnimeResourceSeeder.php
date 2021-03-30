@@ -24,6 +24,9 @@ class AnimeResourceSeeder extends Seeder
 
             // Get JSON of Year page content
             $year_wiki_contents = WikiPages::getPageContents($year_page);
+            if ($year_wiki_contents === null) {
+                continue;
+            }
 
             // Match headers of Anime and links of Resources
             // Format: "###[{Anime Name}]({Resource Link})"

@@ -24,6 +24,9 @@ class AnimeSeasonSeeder extends Seeder
 
             // Get JSON of Year page content
             $year_wiki_contents = WikiPages::getPageContents($year_page);
+            if ($year_wiki_contents === null) {
+                continue;
+            }
 
             // We want to proceed line by line
             preg_match_all('/^(.*)$/m', $year_wiki_contents, $anime_season_wiki_entries, PREG_SET_ORDER);

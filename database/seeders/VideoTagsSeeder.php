@@ -26,6 +26,9 @@ class VideoTagsSeeder extends Seeder
 
             // Get JSON of Year page content
             $year_wiki_contents = WikiPages::getPageContents($video_page);
+            if ($year_wiki_contents === null) {
+                return;
+            }
 
             // Match Tags and basename of Videos
             // Format: "[Webm ({Tag 1, Tag 2, Tag 3...})]({Video Link})
