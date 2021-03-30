@@ -81,9 +81,10 @@ class KitsuResourceSeeder extends Seeder
                     // We may not have a match for this MAL resource
                     Log::info($e->getMessage());
                 } catch (ServerException $e) {
-                    // We may have upset Kitsu
+                    // We may have upset Kitsu, try again later
                     Log::info($e->getMessage());
-                    abort(500);
+
+                    return;
                 }
             }
         }

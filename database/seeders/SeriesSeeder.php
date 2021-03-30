@@ -18,6 +18,9 @@ class SeriesSeeder extends Seeder
     {
         // Get JSON of Series Index page content
         $series_wiki_contents = WikiPages::getPageContents(WikiPages::SERIES_INDEX);
+        if ($series_wiki_contents === null) {
+            return;
+        }
 
         // Match Series Entries
         // Format: "[{Series Name}](/r/AnimeThemes/wiki/series/{Series Slug}/)
@@ -43,6 +46,9 @@ class SeriesSeeder extends Seeder
             // Get JSON of Series Entry page content
             $series_link = WikiPages::getSeriesPage($series_slug);
             $series_anime_wiki_contents = WikiPages::getPageContents($series_link);
+            if ($series_anime_wiki_contents === null) {
+                continue;
+            }
 
             // Match headers of Anime in Series Entry page
             // Format: "###[{Anime Name}]({Resource Link})"

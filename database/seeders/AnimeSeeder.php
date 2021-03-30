@@ -18,6 +18,9 @@ class AnimeSeeder extends Seeder
     {
         // Get JSON of Anime Index page content
         $anime_wiki_contents = WikiPages::getPageContents(WikiPages::ANIME_INDEX);
+        if ($anime_wiki_contents === null) {
+            return;
+        }
 
         // Match Anime Entries
         // Format: "[{Anime Name} ({Year})](/r/AnimeThemes/wiki/{year}#{anchor link})"

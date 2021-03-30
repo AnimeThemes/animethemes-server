@@ -21,6 +21,9 @@ class ArtistSongSeeder extends Seeder
     {
         // Get JSON of Artist Index page content
         $artist_wiki_contents = WikiPages::getPageContents(WikiPages::ARTIST_INDEX);
+        if ($artist_wiki_contents === null) {
+            return;
+        }
 
         // Match Artist Entries
         // Format: "[{Artist Name}](/r/AnimeThemes/wiki/artist/{Artist Slug}/)"
@@ -41,6 +44,9 @@ class ArtistSongSeeder extends Seeder
             // Get JSON of Artist Entry page content
             $artist_link = WikiPages::getArtistPage($artist_slug);
             $artist_song_wiki_contents = WikiPages::getPageContents($artist_link);
+            if ($artist_song_wiki_contents === null) {
+                continue;
+            }
 
             // We want to proceed line by line
             preg_match_all('/^(.*)$/m', $artist_song_wiki_contents, $artist_song_wiki_entries, PREG_SET_ORDER);

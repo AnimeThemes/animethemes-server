@@ -19,6 +19,9 @@ class ArtistSeeder extends Seeder
     {
         // Get JSON of Artist Index page content
         $artist_wiki_contents = WikiPages::getPageContents(WikiPages::ARTIST_INDEX);
+        if ($artist_wiki_contents === null) {
+            return;
+        }
 
         // Match Artist Entries
         // Format: "[{Artist Name}](/r/AnimeThemes/wiki/artist/{Artist Slug}/)"
@@ -44,6 +47,9 @@ class ArtistSeeder extends Seeder
             // Get JSON of Artist Entry page content
             $artist_link = WikiPages::getArtistPage($artist_slug);
             $artist_resource_wiki_contents = WikiPages::getPageContents($artist_link);
+            if ($artist_resource_wiki_contents === null) {
+                continue;
+            }
 
             // Match headers of Resource in Artist Entry page
             // Format: "##[{Artist Name}]({Resource Link})"

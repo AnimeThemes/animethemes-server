@@ -112,9 +112,10 @@ class WikiPages
             // We may be requesting an invalid Reddit page
             Log::info($e->getMessage());
         } catch (ServerException $e) {
-            // We may have upset Reddit
+            // We may have upset Reddit, try again later
             Log::info($e->getMessage());
-            abort(500);
+
+            return null;
         }
     }
 }
