@@ -16,7 +16,7 @@ class EntryQueryPayload extends ElasticQueryPayload
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function performSearch()
+    protected function doPerformSearch()
     {
         $builder = Entry::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

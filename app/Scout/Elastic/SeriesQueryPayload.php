@@ -15,7 +15,7 @@ class SeriesQueryPayload extends ElasticQueryPayload
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function performSearch()
+    protected function doPerformSearch()
     {
         $builder = Series::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

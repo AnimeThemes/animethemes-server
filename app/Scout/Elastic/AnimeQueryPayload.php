@@ -16,7 +16,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function performSearch()
+    protected function doPerformSearch()
     {
         $builder = Anime::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

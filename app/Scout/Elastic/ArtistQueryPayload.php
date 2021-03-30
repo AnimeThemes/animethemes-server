@@ -16,7 +16,7 @@ class ArtistQueryPayload extends ElasticQueryPayload
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function performSearch()
+    protected function doPerformSearch()
     {
         $builder = Artist::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
