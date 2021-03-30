@@ -46,7 +46,7 @@ abstract class ElasticQueryPayload
     }
 
     /**
-     * Perform search if condition is met, otherwise return empty collection
+     * Perform search if condition is met, otherwise return empty collection.
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
