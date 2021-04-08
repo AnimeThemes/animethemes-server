@@ -166,4 +166,16 @@ return [
 
         Watchers\ViewWatcher::class => env('TELESCOPE_VIEW_WATCHER', true),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Telescope Team
+    |--------------------------------------------------------------------------
+    |
+    | This configuration option allows you to define the team that grants
+    | access to Telescope.
+    |
+    */
+
+    'team' => env('TELESCOPE_TEAM_ID'),
 ];

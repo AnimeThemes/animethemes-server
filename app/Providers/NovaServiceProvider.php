@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Team;
+use App\Models\User;
 use App\Nova\Metrics\AnimePerDay;
 use App\Nova\Metrics\ArtistsPerDay;
 use App\Nova\Metrics\NewAnime;
@@ -10,6 +12,8 @@ use App\Nova\Metrics\NewSeries;
 use App\Nova\Metrics\NewVideos;
 use App\Nova\Metrics\SeriesPerDay;
 use App\Nova\Metrics\VideosPerDay;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
@@ -45,18 +49,18 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function gate()
     {
-        Gate::define('viewNova', function ($user) {
-            // We are only granting accounts for nova access
-            // We will check that the user has a role intended for nova
-            return $user->isReadOnly() || $user->isContributor() || $user->isAdmin();
+        Gate::define('viewNova', function (User $user) {
+            $nova_team = Team::find(Config::get('nova.team'));
+
+            return $user->isCurrentTeam($nova_team);
         });
 
         // Only admins can see audit logs
-        Gate::define('audit', function ($user) {
-            return $user->isAdmin();
+        Gate::define('audit', function (User $user) {
+            return $user->hasCurrentTeamPermission('audit:read');
         });
-        Gate::define('audit_restore', function ($user) {
-            return $user->isAdmin();
+        Gate::define('audit_restore', function (User $user) {
+            return $user->hasCurrentTeamPermission('audit:restore');
         });
     }
 
@@ -99,8 +103,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             (new \Illuminatech\NovaConfig\NovaConfig())
-                ->canSee(function ($request) {
-                    return $request->user()->isAdmin();
+                ->canSee(function (Request $request) {
+                    return $request->user()->hasCurrentTeamPermission('config:update');
                 }),
         ];
     }

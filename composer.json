@@ -1,12 +1,27 @@
 {
-    "name": "laravel/laravel",
+    "name": "animethemes/animethemes-server",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "AnimeThemes.moe resource management & API",
     "keywords": [
-        "framework",
-        "laravel"
+        "anime",
+        "animethemes"
     ],
+    "homepage": "https://animethemes.moe/",
+    "readme": "README.md",
     "license": "MIT",
+    "support": {
+        "email": "admin@animethemes.moe"
+    },
+    "funding": [
+        {
+            "type": "patreon",
+            "url": "https://www.patreon.com/AnimeThemes"
+        },
+        {
+            "type": "ko-fi",
+            "url": "https://ko-fi.com/animethemes"
+        }
+    ],
     "require": {
         "php": "^8.0",
         "babenkoivan/elastic-migrations": "^1.4",
@@ -59,6 +74,10 @@
     },
     "config": {
         "optimize-autoloader": true,
+        "platform": {
+            "ext-pcntl": "8.0",
+            "ext-posix": "8.0"
+        },
         "preferred-install": "dist",
         "sort-packages": true
     },

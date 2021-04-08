@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Team;
+use App\Models\User;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\Horizon;
@@ -32,8 +34,10 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      */
     protected function gate()
     {
-        Gate::define('viewHorizon', function ($user) {
-            return $user->isAdmin();
+        Gate::define('viewHorizon', function (User $user) {
+            $horizon_team = Team::find(Config::get('horizon.team'));
+
+            return $user->isCurrentTeam($horizon_team);
         });
     }
 }

@@ -9,6 +9,7 @@ use App\Nova\Filters\AnimeSeasonFilter;
 use App\Nova\Filters\AnimeYearFilter;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -39,7 +40,7 @@ class AnimeAnnResourceLens extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave('externalResources', function ($resource_query) {
+            $query->whereDoesntHave('externalResources', function (Builder $resource_query) {
                 $resource_query->where('site', ResourceSite::ANN);
             })
         ));
@@ -111,8 +112,10 @@ class AnimeAnnResourceLens extends Lens
     public function actions(Request $request)
     {
         return [
-            (new CreateExternalResourceSiteForAnimeAction(ResourceSite::ANN))->canSee(function ($request) {
-                return $request->user()->isContributor() || $request->user()->isAdmin();
+            (new CreateExternalResourceSiteForAnimeAction(ResourceSite::ANN))->canSee(function (Request $request) {
+                $user = $request->user();
+
+                return $user->hasCurrentTeamPermission('resource:create');
             }),
         ];
     }

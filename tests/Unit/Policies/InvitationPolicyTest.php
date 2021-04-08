@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Policies;
 
-use App\Enums\UserRole;
 use App\Models\Invitation;
 use App\Models\User;
 use App\Policies\InvitationPolicy;
@@ -20,22 +19,22 @@ class InvitationPolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->viewAny($read_only));
-        $this->assertFalse($policy->viewAny($contributor));
+        $this->assertFalse($policy->viewAny($viewer));
+        $this->assertFalse($policy->viewAny($editor));
         $this->assertTrue($policy->viewAny($admin));
     }
 
@@ -46,23 +45,23 @@ class InvitationPolicyTest extends TestCase
      */
     public function testView()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $invitation = Invitation::factory()->create();
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->view($read_only, $invitation));
-        $this->assertFalse($policy->view($contributor, $invitation));
+        $this->assertFalse($policy->view($viewer, $invitation));
+        $this->assertFalse($policy->view($editor, $invitation));
         $this->assertTrue($policy->view($admin, $invitation));
     }
 
@@ -73,22 +72,22 @@ class InvitationPolicyTest extends TestCase
      */
     public function testCreate()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->create($read_only));
-        $this->assertFalse($policy->create($contributor));
+        $this->assertFalse($policy->create($viewer));
+        $this->assertFalse($policy->create($editor));
         $this->assertTrue($policy->create($admin));
     }
 
@@ -99,23 +98,23 @@ class InvitationPolicyTest extends TestCase
      */
     public function testUpdate()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $invitation = Invitation::factory()->create();
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->update($read_only, $invitation));
-        $this->assertFalse($policy->update($contributor, $invitation));
+        $this->assertFalse($policy->update($viewer, $invitation));
+        $this->assertFalse($policy->update($editor, $invitation));
         $this->assertTrue($policy->update($admin, $invitation));
     }
 
@@ -126,23 +125,23 @@ class InvitationPolicyTest extends TestCase
      */
     public function testDelete()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $invitation = Invitation::factory()->create();
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->delete($read_only, $invitation));
-        $this->assertFalse($policy->delete($contributor, $invitation));
+        $this->assertFalse($policy->delete($viewer, $invitation));
+        $this->assertFalse($policy->delete($editor, $invitation));
         $this->assertTrue($policy->delete($admin, $invitation));
     }
 
@@ -153,23 +152,23 @@ class InvitationPolicyTest extends TestCase
      */
     public function testRestore()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $invitation = Invitation::factory()->create();
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->restore($read_only, $invitation));
-        $this->assertFalse($policy->restore($contributor, $invitation));
+        $this->assertFalse($policy->restore($viewer, $invitation));
+        $this->assertFalse($policy->restore($editor, $invitation));
         $this->assertTrue($policy->restore($admin, $invitation));
     }
 
@@ -180,23 +179,23 @@ class InvitationPolicyTest extends TestCase
      */
     public function testForceDelete()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $invitation = Invitation::factory()->create();
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->forceDelete($read_only, $invitation));
-        $this->assertFalse($policy->forceDelete($contributor, $invitation));
+        $this->assertFalse($policy->forceDelete($viewer, $invitation));
+        $this->assertFalse($policy->forceDelete($editor, $invitation));
         $this->assertTrue($policy->forceDelete($admin, $invitation));
     }
 }

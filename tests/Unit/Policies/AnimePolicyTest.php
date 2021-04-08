@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Policies;
 
-use App\Enums\UserRole;
 use App\Models\Anime;
 use App\Models\ExternalResource;
 use App\Models\Image;
@@ -24,22 +23,22 @@ class AnimePolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $policy = new AnimePolicy();
 
-        $this->assertTrue($policy->viewAny($read_only));
-        $this->assertTrue($policy->viewAny($contributor));
+        $this->assertTrue($policy->viewAny($viewer));
+        $this->assertTrue($policy->viewAny($editor));
         $this->assertTrue($policy->viewAny($admin));
     }
 
@@ -50,23 +49,23 @@ class AnimePolicyTest extends TestCase
      */
     public function testView()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertTrue($policy->view($read_only, $anime));
-        $this->assertTrue($policy->view($contributor, $anime));
+        $this->assertTrue($policy->view($viewer, $anime));
+        $this->assertTrue($policy->view($editor, $anime));
         $this->assertTrue($policy->view($admin, $anime));
     }
 
@@ -77,22 +76,22 @@ class AnimePolicyTest extends TestCase
      */
     public function testCreate()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->create($read_only));
-        $this->assertTrue($policy->create($contributor));
+        $this->assertFalse($policy->create($viewer));
+        $this->assertTrue($policy->create($editor));
         $this->assertTrue($policy->create($admin));
     }
 
@@ -103,23 +102,23 @@ class AnimePolicyTest extends TestCase
      */
     public function testUpdate()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->update($read_only, $anime));
-        $this->assertTrue($policy->update($contributor, $anime));
+        $this->assertFalse($policy->update($viewer, $anime));
+        $this->assertTrue($policy->update($editor, $anime));
         $this->assertTrue($policy->update($admin, $anime));
     }
 
@@ -130,23 +129,23 @@ class AnimePolicyTest extends TestCase
      */
     public function testDelete()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->delete($read_only, $anime));
-        $this->assertTrue($policy->delete($contributor, $anime));
+        $this->assertFalse($policy->delete($viewer, $anime));
+        $this->assertTrue($policy->delete($editor, $anime));
         $this->assertTrue($policy->delete($admin, $anime));
     }
 
@@ -157,23 +156,23 @@ class AnimePolicyTest extends TestCase
      */
     public function testRestore()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->restore($read_only, $anime));
-        $this->assertTrue($policy->restore($contributor, $anime));
+        $this->assertFalse($policy->restore($viewer, $anime));
+        $this->assertTrue($policy->restore($editor, $anime));
         $this->assertTrue($policy->restore($admin, $anime));
     }
 
@@ -184,23 +183,23 @@ class AnimePolicyTest extends TestCase
      */
     public function testForceDelete()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->forceDelete($read_only, $anime));
-        $this->assertFalse($policy->forceDelete($contributor, $anime));
+        $this->assertFalse($policy->forceDelete($viewer, $anime));
+        $this->assertFalse($policy->forceDelete($editor, $anime));
         $this->assertTrue($policy->forceDelete($admin, $anime));
     }
 
@@ -211,23 +210,23 @@ class AnimePolicyTest extends TestCase
      */
     public function testAttachAnySeries()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachAnySeries($read_only, $anime));
-        $this->assertTrue($policy->attachAnySeries($contributor, $anime));
+        $this->assertFalse($policy->attachAnySeries($viewer, $anime));
+        $this->assertTrue($policy->attachAnySeries($editor, $anime));
         $this->assertTrue($policy->attachAnySeries($admin, $anime));
     }
 
@@ -238,24 +237,24 @@ class AnimePolicyTest extends TestCase
      */
     public function testAttachNewSeries()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $series = Series::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachSeries($read_only, $anime, $series));
-        $this->assertTrue($policy->attachSeries($contributor, $anime, $series));
+        $this->assertFalse($policy->attachSeries($viewer, $anime, $series));
+        $this->assertTrue($policy->attachSeries($editor, $anime, $series));
         $this->assertTrue($policy->attachSeries($admin, $anime, $series));
     }
 
@@ -266,25 +265,25 @@ class AnimePolicyTest extends TestCase
      */
     public function testAttachExistingSeries()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $series = Series::factory()->create();
         $anime->series()->attach($series);
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachSeries($read_only, $anime, $series));
-        $this->assertFalse($policy->attachSeries($contributor, $anime, $series));
+        $this->assertFalse($policy->attachSeries($viewer, $anime, $series));
+        $this->assertFalse($policy->attachSeries($editor, $anime, $series));
         $this->assertFalse($policy->attachSeries($admin, $anime, $series));
     }
 
@@ -295,24 +294,24 @@ class AnimePolicyTest extends TestCase
      */
     public function testDetachSeries()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $series = Series::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->detachSeries($read_only, $anime, $series));
-        $this->assertTrue($policy->detachSeries($contributor, $anime, $series));
+        $this->assertFalse($policy->detachSeries($viewer, $anime, $series));
+        $this->assertTrue($policy->detachSeries($editor, $anime, $series));
         $this->assertTrue($policy->detachSeries($admin, $anime, $series));
     }
 
@@ -323,23 +322,23 @@ class AnimePolicyTest extends TestCase
      */
     public function testAttachAnyResource()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachAnyExternalResource($read_only, $anime));
-        $this->assertTrue($policy->attachAnyExternalResource($contributor, $anime));
+        $this->assertFalse($policy->attachAnyExternalResource($viewer, $anime));
+        $this->assertTrue($policy->attachAnyExternalResource($editor, $anime));
         $this->assertTrue($policy->attachAnyExternalResource($admin, $anime));
     }
 
@@ -350,24 +349,24 @@ class AnimePolicyTest extends TestCase
      */
     public function testAttachResource()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $resource = ExternalResource::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachExternalResource($read_only, $anime, $resource));
-        $this->assertTrue($policy->attachExternalResource($contributor, $anime, $resource));
+        $this->assertFalse($policy->attachExternalResource($viewer, $anime, $resource));
+        $this->assertTrue($policy->attachExternalResource($editor, $anime, $resource));
         $this->assertTrue($policy->attachExternalResource($admin, $anime, $resource));
     }
 
@@ -378,24 +377,24 @@ class AnimePolicyTest extends TestCase
      */
     public function testDetachResource()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $resource = ExternalResource::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->detachExternalResource($read_only, $anime, $resource));
-        $this->assertTrue($policy->detachExternalResource($contributor, $anime, $resource));
+        $this->assertFalse($policy->detachExternalResource($viewer, $anime, $resource));
+        $this->assertTrue($policy->detachExternalResource($editor, $anime, $resource));
         $this->assertTrue($policy->detachExternalResource($admin, $anime, $resource));
     }
 
@@ -406,23 +405,23 @@ class AnimePolicyTest extends TestCase
      */
     public function testAttachAnyImage()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachAnyImage($read_only, $anime));
-        $this->assertTrue($policy->attachAnyImage($contributor, $anime));
+        $this->assertFalse($policy->attachAnyImage($viewer, $anime));
+        $this->assertTrue($policy->attachAnyImage($editor, $anime));
         $this->assertTrue($policy->attachAnyImage($admin, $anime));
     }
 
@@ -433,24 +432,24 @@ class AnimePolicyTest extends TestCase
      */
     public function testAttachNewImage()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $image = Image::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachImage($read_only, $anime, $image));
-        $this->assertTrue($policy->attachImage($contributor, $anime, $image));
+        $this->assertFalse($policy->attachImage($viewer, $anime, $image));
+        $this->assertTrue($policy->attachImage($editor, $anime, $image));
         $this->assertTrue($policy->attachImage($admin, $anime, $image));
     }
 
@@ -461,25 +460,25 @@ class AnimePolicyTest extends TestCase
      */
     public function testAttachExistingImage()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $image = Image::factory()->create();
         $anime->images()->attach($image);
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachImage($read_only, $anime, $image));
-        $this->assertFalse($policy->attachImage($contributor, $anime, $image));
+        $this->assertFalse($policy->attachImage($viewer, $anime, $image));
+        $this->assertFalse($policy->attachImage($editor, $anime, $image));
         $this->assertFalse($policy->attachImage($admin, $anime, $image));
     }
 
@@ -490,24 +489,24 @@ class AnimePolicyTest extends TestCase
      */
     public function testDetachImage()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $anime = Anime::factory()->create();
         $image = Image::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->detachImage($read_only, $anime, $image));
-        $this->assertTrue($policy->detachImage($contributor, $anime, $image));
+        $this->assertFalse($policy->detachImage($viewer, $anime, $image));
+        $this->assertTrue($policy->detachImage($editor, $anime, $image));
         $this->assertTrue($policy->detachImage($admin, $anime, $image));
     }
 }

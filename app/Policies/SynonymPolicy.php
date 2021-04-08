@@ -41,7 +41,7 @@ class SynonymPolicy
      */
     public function create(User $user)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('synonym:create');
     }
 
     /**
@@ -53,7 +53,7 @@ class SynonymPolicy
      */
     public function update(User $user, Synonym $synonym)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('synonym:update');
     }
 
     /**
@@ -65,7 +65,7 @@ class SynonymPolicy
      */
     public function delete(User $user, Synonym $synonym)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('synonym:delete');
     }
 
     /**
@@ -77,7 +77,7 @@ class SynonymPolicy
      */
     public function restore(User $user, Synonym $synonym)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('synonym:restore');
     }
 
     /**
@@ -89,6 +89,6 @@ class SynonymPolicy
      */
     public function forceDelete(User $user, Synonym $synonym)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('synonym:forceDelete');
     }
 }

@@ -43,7 +43,7 @@ class ImagePolicy
      */
     public function create(User $user)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('image:create');
     }
 
     /**
@@ -55,7 +55,7 @@ class ImagePolicy
      */
     public function update(User $user, Image $image)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('image:update');
     }
 
     /**
@@ -67,7 +67,7 @@ class ImagePolicy
      */
     public function delete(User $user, Image $image)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('image:delete');
     }
 
     /**
@@ -79,7 +79,7 @@ class ImagePolicy
      */
     public function restore(User $user, Image $image)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('image:restore');
     }
 
     /**
@@ -91,7 +91,7 @@ class ImagePolicy
      */
     public function forceDelete(User $user, Image $image)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('image:forceDelete');
     }
 
     /**
@@ -103,7 +103,7 @@ class ImagePolicy
      */
     public function attachAnyArtist(User $user, Image $image)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('image:update');
     }
 
     /**
@@ -120,7 +120,7 @@ class ImagePolicy
             return false;
         }
 
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('image:update');
     }
 
     /**
@@ -133,7 +133,7 @@ class ImagePolicy
      */
     public function detachArtist(User $user, Image $image, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('image:update');
     }
 
     /**
@@ -145,7 +145,7 @@ class ImagePolicy
      */
     public function attachAnyAnime(User $user, Image $image)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('image:update');
     }
 
     /**
@@ -162,7 +162,7 @@ class ImagePolicy
             return false;
         }
 
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('image:update');
     }
 
     /**
@@ -175,6 +175,6 @@ class ImagePolicy
      */
     public function detachAnime(User $user, Image $image, Anime $anime)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('image:update');
     }
 }

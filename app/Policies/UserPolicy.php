@@ -17,7 +17,7 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return $user->hasCurrentTeamPermission('user:read');
     }
 
     /**
@@ -29,7 +29,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return $user->isAdmin() || $user->is($model);
+        return $user->is($model) || ($user->hasCurrentTeamPermission('user:read'));
     }
 
     /**
@@ -40,7 +40,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('user:create');
     }
 
     /**
@@ -52,7 +52,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->isAdmin() || $user->is($model);
+        return $user->is($model) || ($user->hasCurrentTeamPermission('user:update'));
     }
 
     /**
@@ -64,7 +64,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('user:delete');
     }
 
     /**
@@ -76,7 +76,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('user:restore');
     }
 
     /**
@@ -88,6 +88,6 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('user:forceDelete');
     }
 }

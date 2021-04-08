@@ -10,6 +10,7 @@ use App\Nova\Filters\AnimeYearFilter;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
 use App\Nova\Lenses\AnimeCoverLargeLens;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -119,7 +120,7 @@ class AnimeCoverLargeTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filtered_animes = Anime::whereDoesntHave('images', function ($image_query) {
+        $filtered_animes = Anime::whereDoesntHave('images', function (Builder $image_query) {
             $image_query->where('facet', ImageFacet::COVER_LARGE);
         })
         ->get();

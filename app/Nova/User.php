@@ -2,13 +2,10 @@
 
 namespace App\Nova;
 
-use App\Enums\UserRole;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
@@ -36,7 +33,9 @@ class User extends Resource
      */
     public static function availableForNavigation(Request $request)
     {
-        return $request->user()->isAdmin();
+        $user = $request->user();
+
+        return $user->hasCurrentTeamPermission('user:read');
     }
 
     /**
@@ -101,21 +100,10 @@ class User extends Resource
                 ->rules('required', 'max:192', 'alpha_dash'),
 
             Text::make(__('nova.email'), 'email')
-                ->readonly(function ($request) {
-                    return ! $request->user()->isAdmin();
-                })
                 ->sortable()
                 ->rules('required', 'email', 'max:192')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Select::make(__('nova.role'), 'role')
-                ->options(UserRole::asSelectArray())
-                ->displayUsing(function ($enum) {
-                    return $enum ? $enum->description : null;
-                })
-                ->sortable()
-                ->rules('required', (new EnumValue(UserRole::class, false))->__toString()),
         ];
     }
 
@@ -162,7 +150,6 @@ class User extends Resource
     public function filters(Request $request)
     {
         return [
-            new Filters\UserRoleFilter,
             new Filters\RecentlyCreatedFilter,
             new Filters\RecentlyUpdatedFilter,
         ];

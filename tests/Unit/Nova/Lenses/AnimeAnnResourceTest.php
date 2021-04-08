@@ -10,6 +10,7 @@ use App\Nova\Filters\AnimeYearFilter;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
 use App\Nova\Lenses\AnimeAnnResourceLens;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -109,7 +110,7 @@ class AnimeAnnResourceTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filtered_animes = Anime::whereDoesntHave('externalResources', function ($resource_query) {
+        $filtered_animes = Anime::whereDoesntHave('externalResources', function (Builder $resource_query) {
             $resource_query->where('site', ResourceSite::ANN);
         })
         ->get();

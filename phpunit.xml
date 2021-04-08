@@ -24,5 +24,9 @@
         <server name="TELESCOPE_ENABLED" value="false"/>
         <server name="SCOUT_QUEUE" value="false"/>
         <server name="SCOUT_DRIVER" value="null"/>
+        <server name="HORIZON_TEAM_ID" value="null"/>
+        <server name="TEAM_CREATOR_ID" value="null"/>
+        <server name="NOVA_TEAM_ID" value="null"/>
+        <server name="TELESCOPE_TEAM_ID" value="null"/>
     </php>
 </phpunit>

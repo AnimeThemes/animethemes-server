@@ -5,7 +5,6 @@ use App\Enums\ImageFacet;
 use App\Enums\InvitationStatus;
 use App\Enums\ResourceSite;
 use App\Enums\ThemeType;
-use App\Enums\UserRole;
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
 
@@ -38,11 +37,6 @@ return [
     ThemeType::class => [
         ThemeType::OP => 'OP',
         ThemeType::ED => 'ED',
-    ],
-    UserRole::class => [
-        UserRole::READ_ONLY => 'Read Only',
-        UserRole::CONTRIBUTOR => 'Contributor',
-        UserRole::ADMIN => 'Admin',
     ],
     VideoOverlap::class => [
         VideoOverlap::NONE => 'None',

@@ -42,7 +42,7 @@ class VideoPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('video:create');
     }
 
     /**
@@ -54,7 +54,7 @@ class VideoPolicy
      */
     public function update(User $user, Video $video)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('video:update');
     }
 
     /**
@@ -66,7 +66,7 @@ class VideoPolicy
      */
     public function delete(User $user, Video $video)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('video:delete');
     }
 
     /**
@@ -78,7 +78,7 @@ class VideoPolicy
      */
     public function restore(User $user, Video $video)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('video:restore');
     }
 
     /**
@@ -90,7 +90,7 @@ class VideoPolicy
      */
     public function forceDelete(User $user, Video $video)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('video:forceDelete');
     }
 
     /**
@@ -102,7 +102,7 @@ class VideoPolicy
      */
     public function attachAnyEntry(User $user, Video $video)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('videoentry:create');
     }
 
     /**
@@ -115,7 +115,7 @@ class VideoPolicy
      */
     public function attachEntry(User $user, Video $video, Entry $entry)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('videoentry:create');
     }
 
     /**
@@ -128,6 +128,6 @@ class VideoPolicy
      */
     public function detachEntry(User $user, Video $video, Entry $entry)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('videoentry:delete');
     }
 }

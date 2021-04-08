@@ -225,7 +225,7 @@ class QueryParserTest extends TestCase
     public function testDescSortsAreParsed()
     {
         $sorts_desc = $this->faker->unique()->words($this->faker->randomDigitNotNull);
-        $sorts_desc_symbol = array_map(function ($sort) {
+        $sorts_desc_symbol = array_map(function (string $sort) {
             return '-'.$sort;
         }, $sorts_desc);
 
@@ -249,7 +249,7 @@ class QueryParserTest extends TestCase
     public function testAscSortsAreParsed()
     {
         $sorts_asc = $this->faker->unique()->words($this->faker->randomDigitNotNull);
-        $sorts_asc_symbol = array_map(function ($sort) {
+        $sorts_asc_symbol = array_map(function (string $sort) {
             return '+'.$sort;
         }, $sorts_asc);
 

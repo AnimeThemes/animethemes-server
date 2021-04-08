@@ -18,7 +18,7 @@ class AnnouncementPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('announcement:read');
     }
 
     /**
@@ -30,7 +30,7 @@ class AnnouncementPolicy
      */
     public function view(User $user, Announcement $announcement)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('announcement:read');
     }
 
     /**
@@ -41,7 +41,7 @@ class AnnouncementPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('announcement:create');
     }
 
     /**
@@ -53,7 +53,7 @@ class AnnouncementPolicy
      */
     public function update(User $user, Announcement $announcement)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('announcement:update');
     }
 
     /**
@@ -65,7 +65,7 @@ class AnnouncementPolicy
      */
     public function delete(User $user, Announcement $announcement)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('announcement:delete');
     }
 
     /**
@@ -77,7 +77,7 @@ class AnnouncementPolicy
      */
     public function restore(User $user, Announcement $announcement)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('announcement:restore');
     }
 
     /**
@@ -89,6 +89,6 @@ class AnnouncementPolicy
      */
     public function forceDelete(User $user, Announcement $announcement)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('announcement:forceDelete');
     }
 }

@@ -42,7 +42,7 @@ class SongPolicy
      */
     public function create(User $user)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('song:create');
     }
 
     /**
@@ -54,7 +54,7 @@ class SongPolicy
      */
     public function update(User $user, Song $song)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('song:update');
     }
 
     /**
@@ -66,7 +66,7 @@ class SongPolicy
      */
     public function delete(User $user, Song $song)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('song:delete');
     }
 
     /**
@@ -78,7 +78,7 @@ class SongPolicy
      */
     public function restore(User $user, Song $song)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('song:restore');
     }
 
     /**
@@ -90,7 +90,7 @@ class SongPolicy
      */
     public function forceDelete(User $user, Song $song)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('song:forceDelete');
     }
 
     /**
@@ -102,7 +102,7 @@ class SongPolicy
      */
     public function addTheme(User $user, Song $song)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('songtheme:create');
     }
 
     /**
@@ -114,7 +114,7 @@ class SongPolicy
      */
     public function attachAnyArtist(User $user, Song $song)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('song:update');
     }
 
     /**
@@ -127,7 +127,7 @@ class SongPolicy
      */
     public function attachArtist(User $user, Song $song, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('song:update');
     }
 
     /**
@@ -140,6 +140,6 @@ class SongPolicy
      */
     public function detachArtist(User $user, Song $song, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('song:update');
     }
 }

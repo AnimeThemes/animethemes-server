@@ -8,6 +8,7 @@ use App\Models\Image;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
 use App\Nova\Lenses\ArtistCoverSmallLens;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -111,7 +112,7 @@ class ArtistCoverSmallTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filtered_artists = Artist::whereDoesntHave('images', function ($image_query) {
+        $filtered_artists = Artist::whereDoesntHave('images', function (Builder $image_query) {
             $image_query->where('facet', ImageFacet::COVER_SMALL);
         })
         ->get();

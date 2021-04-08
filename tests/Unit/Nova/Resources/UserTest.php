@@ -2,12 +2,9 @@
 
 namespace Tests\Unit\Nova\Resources;
 
-use App\Enums\UserRole;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
-use App\Nova\Filters\UserRoleFilter;
 use App\Nova\User;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
@@ -31,7 +28,6 @@ class UserTest extends TestCase
         $resource->assertHasField(__('nova.deleted_at'));
         $resource->assertHasField(__('nova.name'));
         $resource->assertHasField(__('nova.email'));
-        $resource->assertHasField(__('nova.role'));
     }
 
     /**
@@ -157,27 +153,6 @@ class UserTest extends TestCase
     }
 
     /**
-     * The User Resource shall contain a Role field.
-     *
-     * @return void
-     */
-    public function testRoleField()
-    {
-        $resource = $this->novaResource(User::class);
-
-        $field = $resource->field(__('nova.role'));
-
-        $field->assertHasRule('required');
-        $field->assertHasRule((new EnumValue(UserRole::class, false))->__toString());
-        $field->assertShownOnIndex();
-        $field->assertShownOnDetail();
-        $field->assertShownWhenCreating();
-        $field->assertShownWhenUpdating();
-        $field->assertNotNullable();
-        $field->assertSortable();
-    }
-
-    /**
      * The User Resource shall contain User Filters.
      *
      * @return void
@@ -186,7 +161,6 @@ class UserTest extends TestCase
     {
         $resource = $this->novaResource(User::class);
 
-        $resource->assertHasFilter(UserRoleFilter::class);
         $resource->assertHasFilter(RecentlyCreatedFilter::class);
         $resource->assertHasFilter(RecentlyUpdatedFilter::class);
     }

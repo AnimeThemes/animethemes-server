@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Policies;
 
-use App\Enums\UserRole;
 use App\Models\User;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,22 +19,22 @@ class UserPolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $policy = new UserPolicy();
 
-        $this->assertTrue($policy->viewAny($read_only));
-        $this->assertTrue($policy->viewAny($contributor));
+        $this->assertFalse($policy->viewAny($viewer));
+        $this->assertFalse($policy->viewAny($editor));
         $this->assertTrue($policy->viewAny($admin));
     }
 
@@ -46,23 +45,23 @@ class UserPolicyTest extends TestCase
      */
     public function testView()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $user = User::factory()->create();
         $policy = new UserPolicy();
 
-        $this->assertFalse($policy->view($read_only, $user));
-        $this->assertFalse($policy->view($contributor, $user));
+        $this->assertFalse($policy->view($viewer, $user));
+        $this->assertFalse($policy->view($editor, $user));
         $this->assertTrue($policy->view($admin, $user));
         $this->assertTrue($policy->view($user, $user));
     }
@@ -74,22 +73,22 @@ class UserPolicyTest extends TestCase
      */
     public function testCreate()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $policy = new UserPolicy();
 
-        $this->assertFalse($policy->create($read_only));
-        $this->assertFalse($policy->create($contributor));
+        $this->assertFalse($policy->create($viewer));
+        $this->assertFalse($policy->create($editor));
         $this->assertTrue($policy->create($admin));
     }
 
@@ -100,23 +99,23 @@ class UserPolicyTest extends TestCase
      */
     public function testUpdate()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $user = User::factory()->create();
         $policy = new UserPolicy();
 
-        $this->assertFalse($policy->update($read_only, $user));
-        $this->assertFalse($policy->update($contributor, $user));
+        $this->assertFalse($policy->update($viewer, $user));
+        $this->assertFalse($policy->update($editor, $user));
         $this->assertTrue($policy->update($admin, $user));
     }
 
@@ -127,23 +126,23 @@ class UserPolicyTest extends TestCase
      */
     public function testDelete()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $user = User::factory()->create();
         $policy = new UserPolicy();
 
-        $this->assertFalse($policy->delete($read_only, $user));
-        $this->assertFalse($policy->delete($contributor, $user));
+        $this->assertFalse($policy->delete($viewer, $user));
+        $this->assertFalse($policy->delete($editor, $user));
         $this->assertTrue($policy->delete($admin, $user));
     }
 
@@ -154,23 +153,23 @@ class UserPolicyTest extends TestCase
      */
     public function testRestore()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $user = User::factory()->create();
         $policy = new UserPolicy();
 
-        $this->assertFalse($policy->restore($read_only, $user));
-        $this->assertFalse($policy->restore($contributor, $user));
+        $this->assertFalse($policy->restore($viewer, $user));
+        $this->assertFalse($policy->restore($editor, $user));
         $this->assertTrue($policy->restore($admin, $user));
     }
 
@@ -181,23 +180,23 @@ class UserPolicyTest extends TestCase
      */
     public function testForceDelete()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $user = User::factory()->create();
         $policy = new UserPolicy();
 
-        $this->assertFalse($policy->forceDelete($read_only, $user));
-        $this->assertFalse($policy->forceDelete($contributor, $user));
+        $this->assertFalse($policy->forceDelete($viewer, $user));
+        $this->assertFalse($policy->forceDelete($editor, $user));
         $this->assertTrue($policy->forceDelete($admin, $user));
     }
 }

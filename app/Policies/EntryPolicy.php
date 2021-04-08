@@ -42,7 +42,7 @@ class EntryPolicy
      */
     public function create(User $user)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('entry:create');
     }
 
     /**
@@ -54,7 +54,7 @@ class EntryPolicy
      */
     public function update(User $user, Entry $entry)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('entry:update');
     }
 
     /**
@@ -66,7 +66,7 @@ class EntryPolicy
      */
     public function delete(User $user, Entry $entry)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('entry:delete');
     }
 
     /**
@@ -78,7 +78,7 @@ class EntryPolicy
      */
     public function restore(User $user, Entry $entry)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('entry:restore');
     }
 
     /**
@@ -90,7 +90,7 @@ class EntryPolicy
      */
     public function forceDelete(User $user, Entry $entry)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('entry:forceDelete');
     }
 
     /**
@@ -102,7 +102,7 @@ class EntryPolicy
      */
     public function attachAnyVideo(User $user, Entry $entry)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('entry:update');
     }
 
     /**
@@ -119,7 +119,7 @@ class EntryPolicy
             return false;
         }
 
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('entry:update');
     }
 
     /**
@@ -132,6 +132,6 @@ class EntryPolicy
      */
     public function detachVideo(User $user, Entry $entry, Video $video)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('entry:update');
     }
 }

@@ -214,12 +214,12 @@ trait ReconcilesVideo
 
         // Filter all objects for WebM metadata
         // We don't want to filter on the remote filesystem for performance concerns
-        $fs_videos = $fs_videos->filter(function ($fs_file) {
+        $fs_videos = $fs_videos->filter(function (array $fs_file) {
             return $fs_file['type'] === 'file' && $fs_file['extension'] === 'webm';
         });
 
         // Create videos from metadata that we can later save if needed
-        return $fs_videos->map(function ($fs_file) {
+        return $fs_videos->map(function (array $fs_file) {
             return Video::make([
                 'basename' => $fs_file['basename'],
                 'filename' => $fs_file['filename'],
@@ -239,7 +239,7 @@ trait ReconcilesVideo
      */
     protected function createVideosOnlyInSpace(Collection $fs_videos, Collection $db_videos)
     {
-        $create_videos = $fs_videos->diffUsing($db_videos, function ($a, $b) {
+        $create_videos = $fs_videos->diffUsing($db_videos, function (Video $a, Video $b) {
             return $a->basename <=> $b->basename;
         });
 
@@ -264,7 +264,7 @@ trait ReconcilesVideo
      */
     protected function deleteVideosOnlyInDb(Collection $fs_videos, Collection $db_videos)
     {
-        $delete_videos = $db_videos->diffUsing($fs_videos, function ($a, $b) {
+        $delete_videos = $db_videos->diffUsing($fs_videos, function (Video $a, Video $b) {
             return $a->basename <=> $b->basename;
         });
 
@@ -289,7 +289,7 @@ trait ReconcilesVideo
      */
     protected function updateVideosModifiedInSpace(Collection $fs_videos, Collection $db_videos)
     {
-        $updated_videos = $db_videos->diffUsing($fs_videos, function ($a, $b) {
+        $updated_videos = $db_videos->diffUsing($fs_videos, function (Video $a, Video $b) {
             return [$a->basename, $a->path, $a->size] <=> [$b->basename, $b->path, $b->size];
         });
 

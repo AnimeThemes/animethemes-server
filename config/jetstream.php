@@ -45,8 +45,8 @@ return [
         Features::termsAndPrivacyPolicy(),
         // Features::profilePhotos(),
         // Features::api(),
-        // Features::teams(['invitations' => true]),
-        Features::accountDeletion(),
+        Features::teams(['invitations' => true]),
+        //Features::accountDeletion(),
     ],
 
     /*
@@ -61,4 +61,15 @@ return [
     */
 
     'profile_photo_disk' => 'public',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Team Creator
+    |--------------------------------------------------------------------------
+    |
+    | This configuration option allows you to define the user that can create teams.
+    |
+    */
+
+    'creator' => env('TEAM_CREATOR_ID'),
 ];

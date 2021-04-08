@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Team;
+use App\Models\User;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
@@ -62,8 +65,10 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function gate()
     {
-        Gate::define('viewTelescope', function ($user) {
-            return $user->isAdmin();
+        Gate::define('viewTelescope', function (User $user) {
+            $telescope_team = Team::find(Config::get('telescope.team'));
+
+            return $user->isCurrentTeam($telescope_team);
         });
     }
 }

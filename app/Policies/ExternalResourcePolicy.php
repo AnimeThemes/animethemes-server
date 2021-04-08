@@ -43,7 +43,7 @@ class ExternalResourcePolicy
      */
     public function create(User $user)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('resource:create');
     }
 
     /**
@@ -55,7 +55,7 @@ class ExternalResourcePolicy
      */
     public function update(User $user, ExternalResource $externalResource)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('resource:update');
     }
 
     /**
@@ -67,7 +67,7 @@ class ExternalResourcePolicy
      */
     public function delete(User $user, ExternalResource $externalResource)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('resource:delete');
     }
 
     /**
@@ -79,7 +79,7 @@ class ExternalResourcePolicy
      */
     public function restore(User $user, ExternalResource $externalResource)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('resource:restore');
     }
 
     /**
@@ -91,7 +91,7 @@ class ExternalResourcePolicy
      */
     public function forceDelete(User $user, ExternalResource $externalResource)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('resource:forceDelete');
     }
 
     /**
@@ -103,7 +103,7 @@ class ExternalResourcePolicy
      */
     public function attachAnyArtist(User $user, ExternalResource $externalResource)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('resource:update');
     }
 
     /**
@@ -116,7 +116,7 @@ class ExternalResourcePolicy
      */
     public function attachArtist(User $user, ExternalResource $externalResource, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('resource:update');
     }
 
     /**
@@ -129,7 +129,7 @@ class ExternalResourcePolicy
      */
     public function detachArtist(User $user, ExternalResource $externalResource, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('resource:update');
     }
 
     /**
@@ -141,7 +141,7 @@ class ExternalResourcePolicy
      */
     public function attachAnyAnime(User $user, ExternalResource $externalResource)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('resource:update');
     }
 
     /**
@@ -154,7 +154,7 @@ class ExternalResourcePolicy
      */
     public function attachAnime(User $user, ExternalResource $externalResource, Anime $anime)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('resource:update');
     }
 
     /**
@@ -167,6 +167,6 @@ class ExternalResourcePolicy
      */
     public function detachAnime(User $user, ExternalResource $externalResource, Anime $anime)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('resource:update');
     }
 }
