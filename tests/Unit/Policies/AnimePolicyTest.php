@@ -6,7 +6,6 @@ use App\Models\Anime;
 use App\Models\ExternalResource;
 use App\Models\Image;
 use App\Models\Series;
-use App\Models\Team;
 use App\Models\User;
 use App\Policies\AnimePolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
