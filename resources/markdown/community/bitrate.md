@@ -612,7 +612,6 @@ The iDOLM@STER|"Watashi-tachi wa Zutto...Deshou"|[ED25][NC, Lyrics, Over]
 The iDOLM@STER|"Yakusoku"|[ED20][NC, Lyrics, Trans]
 The iDOLM@STER 765 Pro to Iu Monogatari|"my song"|[ED][NC, Lyrics]|
 The iDOLM@STER 765 Pro to Iu Monogatari|"my song"|[ED]|
-The Last Naruto the Movie|"Hoshi no Utsuwa"|[ED][NC, BD, 1032]|
 Toaru Hikuushi e no Koiuta|"Kaze ga Shitteru"|[ED1][NC, BD]|
 Toaru Hikuushi e no Koiuta|"azurite"|[OP][NC, BD]|
 Top wo Nerae! Gunbuster|"Active Heart"|[ED2][Over, BD, Lyrics]|

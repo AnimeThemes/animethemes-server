@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Policies;
 
-use App\Enums\UserRole;
 use App\Models\Anime;
 use App\Models\Theme;
 use App\Models\User;
@@ -21,22 +20,22 @@ class ThemePolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $policy = new ThemePolicy();
 
-        $this->assertTrue($policy->viewAny($read_only));
-        $this->assertTrue($policy->viewAny($contributor));
+        $this->assertTrue($policy->viewAny($viewer));
+        $this->assertTrue($policy->viewAny($editor));
         $this->assertTrue($policy->viewAny($admin));
     }
 
@@ -47,25 +46,25 @@ class ThemePolicyTest extends TestCase
      */
     public function testView()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $theme = Theme::factory()
             ->for(Anime::factory())
             ->create();
         $policy = new ThemePolicy();
 
-        $this->assertTrue($policy->view($read_only, $theme));
-        $this->assertTrue($policy->view($contributor, $theme));
+        $this->assertTrue($policy->view($viewer, $theme));
+        $this->assertTrue($policy->view($editor, $theme));
         $this->assertTrue($policy->view($admin, $theme));
     }
 
@@ -76,22 +75,22 @@ class ThemePolicyTest extends TestCase
      */
     public function testCreate()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $policy = new ThemePolicy();
 
-        $this->assertFalse($policy->create($read_only));
-        $this->assertTrue($policy->create($contributor));
+        $this->assertFalse($policy->create($viewer));
+        $this->assertTrue($policy->create($editor));
         $this->assertTrue($policy->create($admin));
     }
 
@@ -102,25 +101,25 @@ class ThemePolicyTest extends TestCase
      */
     public function testUpdate()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $theme = Theme::factory()
             ->for(Anime::factory())
             ->create();
         $policy = new ThemePolicy();
 
-        $this->assertFalse($policy->update($read_only, $theme));
-        $this->assertTrue($policy->update($contributor, $theme));
+        $this->assertFalse($policy->update($viewer, $theme));
+        $this->assertTrue($policy->update($editor, $theme));
         $this->assertTrue($policy->update($admin, $theme));
     }
 
@@ -131,25 +130,25 @@ class ThemePolicyTest extends TestCase
      */
     public function testDelete()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $theme = Theme::factory()
             ->for(Anime::factory())
             ->create();
         $policy = new ThemePolicy();
 
-        $this->assertFalse($policy->delete($read_only, $theme));
-        $this->assertTrue($policy->delete($contributor, $theme));
+        $this->assertFalse($policy->delete($viewer, $theme));
+        $this->assertTrue($policy->delete($editor, $theme));
         $this->assertTrue($policy->delete($admin, $theme));
     }
 
@@ -160,25 +159,25 @@ class ThemePolicyTest extends TestCase
      */
     public function testRestore()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $theme = Theme::factory()
             ->for(Anime::factory())
             ->create();
         $policy = new ThemePolicy();
 
-        $this->assertFalse($policy->restore($read_only, $theme));
-        $this->assertTrue($policy->restore($contributor, $theme));
+        $this->assertFalse($policy->restore($viewer, $theme));
+        $this->assertTrue($policy->restore($editor, $theme));
         $this->assertTrue($policy->restore($admin, $theme));
     }
 
@@ -189,25 +188,25 @@ class ThemePolicyTest extends TestCase
      */
     public function testForceDelete()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $theme = Theme::factory()
             ->for(Anime::factory())
             ->create();
         $policy = new ThemePolicy();
 
-        $this->assertFalse($policy->forceDelete($read_only, $theme));
-        $this->assertFalse($policy->forceDelete($contributor, $theme));
+        $this->assertFalse($policy->forceDelete($viewer, $theme));
+        $this->assertFalse($policy->forceDelete($editor, $theme));
         $this->assertTrue($policy->forceDelete($admin, $theme));
     }
 }

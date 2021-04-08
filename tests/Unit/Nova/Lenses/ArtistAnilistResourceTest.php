@@ -8,6 +8,7 @@ use App\Models\ExternalResource;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
 use App\Nova\Lenses\ArtistAnilistResourceLens;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -101,7 +102,7 @@ class ArtistAnilistResourceTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filtered_artists = Artist::whereDoesntHave('externalResources', function ($resource_query) {
+        $filtered_artists = Artist::whereDoesntHave('externalResources', function (Builder $resource_query) {
             $resource_query->where('site', ResourceSite::ANILIST);
         })
         ->get();

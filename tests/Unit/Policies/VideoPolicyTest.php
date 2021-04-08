@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Policies;
 
-use App\Enums\UserRole;
 use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\Theme;
@@ -23,22 +22,22 @@ class VideoPolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $policy = new VideoPolicy();
 
-        $this->assertTrue($policy->viewAny($read_only));
-        $this->assertTrue($policy->viewAny($contributor));
+        $this->assertTrue($policy->viewAny($viewer));
+        $this->assertTrue($policy->viewAny($editor));
         $this->assertTrue($policy->viewAny($admin));
     }
 
@@ -49,23 +48,23 @@ class VideoPolicyTest extends TestCase
      */
     public function testView()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $video = Video::factory()->create();
         $policy = new VideoPolicy();
 
-        $this->assertTrue($policy->view($read_only, $video));
-        $this->assertTrue($policy->view($contributor, $video));
+        $this->assertTrue($policy->view($viewer, $video));
+        $this->assertTrue($policy->view($editor, $video));
         $this->assertTrue($policy->view($admin, $video));
     }
 
@@ -76,22 +75,22 @@ class VideoPolicyTest extends TestCase
      */
     public function testCreate()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->create($read_only));
-        $this->assertFalse($policy->create($contributor));
+        $this->assertFalse($policy->create($viewer));
+        $this->assertFalse($policy->create($editor));
         $this->assertTrue($policy->create($admin));
     }
 
@@ -102,23 +101,23 @@ class VideoPolicyTest extends TestCase
      */
     public function testUpdate()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $video = Video::factory()->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->update($read_only, $video));
-        $this->assertTrue($policy->update($contributor, $video));
+        $this->assertFalse($policy->update($viewer, $video));
+        $this->assertTrue($policy->update($editor, $video));
         $this->assertTrue($policy->update($admin, $video));
     }
 
@@ -129,23 +128,23 @@ class VideoPolicyTest extends TestCase
      */
     public function testDelete()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $video = Video::factory()->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->delete($read_only, $video));
-        $this->assertFalse($policy->delete($contributor, $video));
+        $this->assertFalse($policy->delete($viewer, $video));
+        $this->assertFalse($policy->delete($editor, $video));
         $this->assertTrue($policy->delete($admin, $video));
     }
 
@@ -156,23 +155,23 @@ class VideoPolicyTest extends TestCase
      */
     public function testRestore()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $video = Video::factory()->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->restore($read_only, $video));
-        $this->assertFalse($policy->restore($contributor, $video));
+        $this->assertFalse($policy->restore($viewer, $video));
+        $this->assertFalse($policy->restore($editor, $video));
         $this->assertTrue($policy->restore($admin, $video));
     }
 
@@ -183,23 +182,23 @@ class VideoPolicyTest extends TestCase
      */
     public function testForceDelete()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $video = Video::factory()->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->forceDelete($read_only, $video));
-        $this->assertFalse($policy->forceDelete($contributor, $video));
+        $this->assertFalse($policy->forceDelete($viewer, $video));
+        $this->assertFalse($policy->forceDelete($editor, $video));
         $this->assertTrue($policy->forceDelete($admin, $video));
     }
 
@@ -210,23 +209,23 @@ class VideoPolicyTest extends TestCase
      */
     public function testAttachAnyEntry()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $video = Video::factory()->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->attachAnyEntry($read_only, $video));
-        $this->assertFalse($policy->attachAnyEntry($contributor, $video));
+        $this->assertFalse($policy->attachAnyEntry($viewer, $video));
+        $this->assertFalse($policy->attachAnyEntry($editor, $video));
         $this->assertTrue($policy->attachAnyEntry($admin, $video));
     }
 
@@ -237,17 +236,17 @@ class VideoPolicyTest extends TestCase
      */
     public function testAttachEntry()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $video = Video::factory()->create();
         $entry = Entry::factory()
@@ -255,8 +254,8 @@ class VideoPolicyTest extends TestCase
             ->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->attachEntry($read_only, $video, $entry));
-        $this->assertFalse($policy->attachEntry($contributor, $video, $entry));
+        $this->assertFalse($policy->attachEntry($viewer, $video, $entry));
+        $this->assertFalse($policy->attachEntry($editor, $video, $entry));
         $this->assertTrue($policy->attachEntry($admin, $video, $entry));
     }
 
@@ -267,17 +266,17 @@ class VideoPolicyTest extends TestCase
      */
     public function testDetachEntry()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $video = Video::factory()->create();
         $entry = Entry::factory()
@@ -285,8 +284,8 @@ class VideoPolicyTest extends TestCase
             ->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->detachEntry($read_only, $video, $entry));
-        $this->assertFalse($policy->detachEntry($contributor, $video, $entry));
+        $this->assertFalse($policy->detachEntry($viewer, $video, $entry));
+        $this->assertFalse($policy->detachEntry($editor, $video, $entry));
         $this->assertTrue($policy->detachEntry($admin, $video, $entry));
     }
 }

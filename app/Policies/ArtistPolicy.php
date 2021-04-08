@@ -44,7 +44,7 @@ class ArtistPolicy
      */
     public function create(User $user)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:create');
     }
 
     /**
@@ -56,7 +56,7 @@ class ArtistPolicy
      */
     public function update(User $user, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:update');
     }
 
     /**
@@ -68,7 +68,7 @@ class ArtistPolicy
      */
     public function delete(User $user, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:delete');
     }
 
     /**
@@ -80,7 +80,7 @@ class ArtistPolicy
      */
     public function restore(User $user, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:restore');
     }
 
     /**
@@ -92,7 +92,7 @@ class ArtistPolicy
      */
     public function forceDelete(User $user, Artist $artist)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:forceDelete');
     }
 
     /**
@@ -104,7 +104,7 @@ class ArtistPolicy
      */
     public function attachAnyExternalResource(User $user, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:update');
     }
 
     /**
@@ -117,7 +117,7 @@ class ArtistPolicy
      */
     public function attachExternalResource(User $user, Artist $artist, ExternalResource $externalResource)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:update');
     }
 
     /**
@@ -130,7 +130,7 @@ class ArtistPolicy
      */
     public function detachExternalResource(User $user, Artist $artist, ExternalResource $externalResource)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:update');
     }
 
     /**
@@ -142,7 +142,7 @@ class ArtistPolicy
      */
     public function attachAnySong(User $user, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:update');
     }
 
     /**
@@ -155,7 +155,7 @@ class ArtistPolicy
      */
     public function attachSong(User $user, Artist $artist, Song $song)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:update');
     }
 
     /**
@@ -168,7 +168,7 @@ class ArtistPolicy
      */
     public function detachSong(User $user, Artist $artist, Song $song)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:update');
     }
 
     /**
@@ -180,7 +180,7 @@ class ArtistPolicy
      */
     public function attachAnyArtist(User $user, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:update');
     }
 
     /**
@@ -193,7 +193,7 @@ class ArtistPolicy
      */
     public function attachArtist(User $user, Artist $artist, Artist $member)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:update');
     }
 
     /**
@@ -206,7 +206,7 @@ class ArtistPolicy
      */
     public function detachArtist(User $user, Artist $artist, Artist $member)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:update');
     }
 
     /**
@@ -218,7 +218,7 @@ class ArtistPolicy
      */
     public function attachAnyImage(User $user, Artist $artist)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:update');
     }
 
     /**
@@ -235,7 +235,7 @@ class ArtistPolicy
             return false;
         }
 
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:update');
     }
 
     /**
@@ -248,6 +248,6 @@ class ArtistPolicy
      */
     public function detachImage(User $user, Artist $artist, Image $image)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('artist:update');
     }
 }

@@ -18,7 +18,7 @@ class InvitationPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('invitation:read');
     }
 
     /**
@@ -30,7 +30,7 @@ class InvitationPolicy
      */
     public function view(User $user, Invitation $invitation)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('invitation:read');
     }
 
     /**
@@ -41,7 +41,7 @@ class InvitationPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('invitation:create');
     }
 
     /**
@@ -53,7 +53,7 @@ class InvitationPolicy
      */
     public function update(User $user, Invitation $invitation)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('invitation:update');
     }
 
     /**
@@ -65,7 +65,7 @@ class InvitationPolicy
      */
     public function delete(User $user, Invitation $invitation)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('invitation:delete');
     }
 
     /**
@@ -77,7 +77,7 @@ class InvitationPolicy
      */
     public function restore(User $user, Invitation $invitation)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('invitation:restore');
     }
 
     /**
@@ -89,6 +89,6 @@ class InvitationPolicy
      */
     public function forceDelete(User $user, Invitation $invitation)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('invitation:forceDelete');
     }
 }

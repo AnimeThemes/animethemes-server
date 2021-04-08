@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\InvitationStatus;
-use App\Enums\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,7 +21,6 @@ class CreateInvitationsTable extends Migration
             $table->string('token');
             $table->string('name');
             $table->string('email');
-            $table->integer('role')->default(UserRole::READ_ONLY);
             $table->integer('status')->default(InvitationStatus::OPEN);
         });
     }

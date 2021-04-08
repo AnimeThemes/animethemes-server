@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Models;
 
-use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -16,20 +15,6 @@ use Tests\TestCase;
 class UserTest extends TestCase
 {
     use RefreshDatabase, WithFaker, WithoutEvents;
-
-    /**
-     * The role attribute of a user shall be cast to a UserRole enum instance.
-     *
-     * @return void
-     */
-    public function testCastsRoleToEnum()
-    {
-        $user = User::factory()->create();
-
-        $role = $user->role;
-
-        $this->assertInstanceOf(UserRole::class, $role);
-    }
 
     /**
      * Users shall have a one-to-many polymorphic relationship to PersonalAccessToken.
@@ -73,53 +58,5 @@ class UserTest extends TestCase
         $user = User::factory()->create();
 
         $this->assertIsString($user->getName());
-    }
-
-    /**
-     * An Admin user shall have the Admin role.
-     *
-     * @return void
-     */
-    public function testUserRoleIsAdmin()
-    {
-        $user = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
-
-        $this->assertTrue($user->isAdmin());
-        $this->assertFalse($user->isContributor());
-        $this->assertFalse($user->isReadOnly());
-    }
-
-    /**
-     * A Contributor user shall have the Contributor role.
-     *
-     * @return void
-     */
-    public function testUserRoleIsContributor()
-    {
-        $user = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
-
-        $this->assertFalse($user->isAdmin());
-        $this->assertTrue($user->isContributor());
-        $this->assertFalse($user->isReadOnly());
-    }
-
-    /**
-     * A Read-only user shall have the Read-only role.
-     *
-     * @return void
-     */
-    public function testUserRoleIsReadOnly()
-    {
-        $user = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
-
-        $this->assertFalse($user->isAdmin());
-        $this->assertFalse($user->isContributor());
-        $this->assertTrue($user->isReadOnly());
     }
 }

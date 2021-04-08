@@ -44,7 +44,7 @@ class AnimePolicy
      */
     public function create(User $user)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:create');
     }
 
     /**
@@ -56,7 +56,7 @@ class AnimePolicy
      */
     public function update(User $user, Anime $anime)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:update');
     }
 
     /**
@@ -68,7 +68,7 @@ class AnimePolicy
      */
     public function delete(User $user, Anime $anime)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:delete');
     }
 
     /**
@@ -80,7 +80,7 @@ class AnimePolicy
      */
     public function restore(User $user, Anime $anime)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:restore');
     }
 
     /**
@@ -92,7 +92,7 @@ class AnimePolicy
      */
     public function forceDelete(User $user, Anime $anime)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:forceDelete');
     }
 
     /**
@@ -104,7 +104,7 @@ class AnimePolicy
      */
     public function attachAnySeries(User $user, Anime $anime)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:update');
     }
 
     /**
@@ -121,7 +121,7 @@ class AnimePolicy
             return false;
         }
 
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:update');
     }
 
     /**
@@ -134,7 +134,7 @@ class AnimePolicy
      */
     public function detachSeries(User $user, Anime $anime, Series $series)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:update');
     }
 
     /**
@@ -146,7 +146,7 @@ class AnimePolicy
      */
     public function attachAnyExternalResource(User $user, Anime $anime)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:update');
     }
 
     /**
@@ -159,7 +159,7 @@ class AnimePolicy
      */
     public function attachExternalResource(User $user, Anime $anime, ExternalResource $externalResource)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:update');
     }
 
     /**
@@ -172,7 +172,7 @@ class AnimePolicy
      */
     public function detachExternalResource(User $user, Anime $anime, ExternalResource $externalResource)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:update');
     }
 
     /**
@@ -184,7 +184,7 @@ class AnimePolicy
      */
     public function attachAnyImage(User $user, Anime $anime)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:update');
     }
 
     /**
@@ -201,7 +201,7 @@ class AnimePolicy
             return false;
         }
 
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:update');
     }
 
     /**
@@ -214,6 +214,6 @@ class AnimePolicy
      */
     public function detachImage(User $user, Anime $anime, Image $image)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('anime:update');
     }
 }

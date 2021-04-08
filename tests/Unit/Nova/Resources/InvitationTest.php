@@ -3,12 +3,10 @@
 namespace Tests\Unit\Nova\Resources;
 
 use App\Enums\InvitationStatus;
-use App\Enums\UserRole;
 use App\Nova\Actions\ResendInvitationAction;
 use App\Nova\Filters\InvitationStatusFilter;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
-use App\Nova\Filters\UserRoleFilter;
 use App\Nova\Invitation;
 use BenSampo\Enum\Rules\EnumValue;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
@@ -33,7 +31,6 @@ class InvitationTest extends TestCase
         $resource->assertHasField(__('nova.deleted_at'));
         $resource->assertHasField(__('nova.name'));
         $resource->assertHasField(__('nova.email'));
-        $resource->assertHasField(__('nova.role'));
         $resource->assertHasField(__('nova.status'));
     }
 
@@ -159,27 +156,6 @@ class InvitationTest extends TestCase
     }
 
     /**
-     * The Invitation Resource shall contain a Role field.
-     *
-     * @return void
-     */
-    public function testRoleField()
-    {
-        $resource = $this->novaResource(Invitation::class);
-
-        $field = $resource->field(__('nova.role'));
-
-        $field->assertHasRule('required');
-        $field->assertHasRule((new EnumValue(UserRole::class, false))->__toString());
-        $field->assertShownOnIndex();
-        $field->assertShownOnDetail();
-        $field->assertShownWhenCreating();
-        $field->assertShownWhenUpdating();
-        $field->assertNotNullable();
-        $field->assertSortable();
-    }
-
-    /**
      * The Invitation Resource shall contain a Status field.
      *
      * @return void
@@ -209,7 +185,6 @@ class InvitationTest extends TestCase
     {
         $resource = $this->novaResource(Invitation::class);
 
-        $resource->assertHasFilter(UserRoleFilter::class);
         $resource->assertHasFilter(InvitationStatusFilter::class);
         $resource->assertHasFilter(RecentlyCreatedFilter::class);
         $resource->assertHasFilter(RecentlyUpdatedFilter::class);

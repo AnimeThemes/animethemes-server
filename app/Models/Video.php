@@ -96,7 +96,7 @@ class Video extends BaseModel implements Streamable, Viewable
     public function toSearchableArray()
     {
         $array = $this->toArray();
-        $array['entries'] = $this->entries->map(function ($item) {
+        $array['entries'] = $this->entries->map(function (Entry $item) {
             return $item->toSearchableArray();
         })->toArray();
 

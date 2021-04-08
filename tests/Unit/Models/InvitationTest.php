@@ -3,7 +3,6 @@
 namespace Tests\Unit\Models;
 
 use App\Enums\InvitationStatus;
-use App\Enums\UserRole;
 use App\Mail\InvitationEmail;
 use App\Models\Invitation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,20 +13,6 @@ use Tests\TestCase;
 class InvitationTest extends TestCase
 {
     use RefreshDatabase;
-
-    /**
-     * The role attribute of an invitation shall be cast to a UserRole enum instance.
-     *
-     * @return void
-     */
-    public function testCastsRoleToEnum()
-    {
-        $invitation = Invitation::factory()->create();
-
-        $role = $invitation->role;
-
-        $this->assertInstanceOf(UserRole::class, $role);
-    }
 
     /**
      * The status attribute of an invitation shall be cast to an InvitationStatus enum instance.

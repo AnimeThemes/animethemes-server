@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\InvitationStatus;
-use App\Enums\UserRole;
 use App\Events\Invitation\InvitationCreated;
 use App\Events\Invitation\InvitationCreating;
 use App\Events\Invitation\InvitationDeleted;
@@ -16,7 +15,7 @@ class Invitation extends BaseModel
 {
     use CastsEnums;
 
-    protected $fillable = ['name', 'email', 'role', 'status'];
+    protected $fillable = ['name', 'email', 'status'];
 
     /**
      * The event map for the model.
@@ -51,7 +50,6 @@ class Invitation extends BaseModel
      * @var array
      */
     protected $enumCasts = [
-        'role' => UserRole::class,
         'status' => InvitationStatus::class,
     ];
 
@@ -61,7 +59,6 @@ class Invitation extends BaseModel
      * @var array
      */
     protected $casts = [
-        'role' => 'int',
         'status' => 'int',
     ];
 

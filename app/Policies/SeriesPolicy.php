@@ -42,7 +42,7 @@ class SeriesPolicy
      */
     public function create(User $user)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('series:create');
     }
 
     /**
@@ -54,7 +54,7 @@ class SeriesPolicy
      */
     public function update(User $user, Series $series)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('series:update');
     }
 
     /**
@@ -66,7 +66,7 @@ class SeriesPolicy
      */
     public function delete(User $user, Series $series)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('series:delete');
     }
 
     /**
@@ -78,7 +78,7 @@ class SeriesPolicy
      */
     public function restore(User $user, Series $series)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('series:restore');
     }
 
     /**
@@ -90,7 +90,7 @@ class SeriesPolicy
      */
     public function forceDelete(User $user, Series $series)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('series:forceDelete');
     }
 
     /**
@@ -102,7 +102,7 @@ class SeriesPolicy
      */
     public function attachAnyAnime(User $user, Series $series)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('series:update');
     }
 
     /**
@@ -119,7 +119,7 @@ class SeriesPolicy
             return false;
         }
 
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('series:update');
     }
 
     /**
@@ -132,6 +132,6 @@ class SeriesPolicy
      */
     public function detachAnime(User $user, Series $series, Anime $anime)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('series:update');
     }
 }

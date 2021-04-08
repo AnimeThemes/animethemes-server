@@ -5,6 +5,7 @@ namespace App\Nova\Lenses;
 use App\Enums\ImageFacet;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -33,7 +34,7 @@ class ArtistCoverLargeLens extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave('images', function ($image_query) {
+            $query->whereDoesntHave('images', function (Builder $image_query) {
                 $image_query->where('facet', ImageFacet::COVER_LARGE);
             })
         ));

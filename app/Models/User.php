@@ -3,23 +3,22 @@
 namespace App\Models;
 
 use App\Contracts\Nameable;
-use App\Enums\UserRole;
 use App\Events\User\UserCreated;
 use App\Events\User\UserDeleted;
 use App\Events\User\UserRestored;
 use App\Events\User\UserUpdated;
-use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail, Nameable
 {
-    use CastsEnums, HasApiTokens, HasFactory, Notifiable, SoftDeletes, TwoFactorAuthenticatable;
+    use HasApiTokens, HasFactory, HasTeams, Notifiable, SoftDeletes, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -30,7 +29,6 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
         'name',
         'email',
         'password',
-        'role',
     ];
 
     /**
@@ -67,20 +65,12 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
-     * @var array
-     */
-    protected $enumCasts = [
-        'role' => UserRole::class,
-    ];
-
-    /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'role' => 'int',
     ];
 
     /**
@@ -93,27 +83,61 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
         return $this->name;
     }
 
+    // Make HasTeams more null safe
+
     /**
+     * Determine if the given team is the current team.
+     *
+     * @param  mixed $team
      * @return bool
      */
-    public function isAdmin()
+    public function isCurrentTeam($team)
     {
-        return $this->role->is(UserRole::ADMIN);
+        return $team !== null
+            && $this->currentTeam !== null
+            && $team->id === $this->currentTeam->id;
     }
 
     /**
+     * Determine if the user owns the given team.
+     *
+     * @param  mixed  $team
      * @return bool
      */
-    public function isContributor()
+    public function ownsTeam($team)
     {
-        return $this->role->is(UserRole::CONTRIBUTOR);
+        return $team !== null
+            && $this->id == $team->{$this->getForeignKey()};
     }
 
     /**
+     * Determine if the user belongs to the given team.
+     *
+     * @param  mixed  $team
      * @return bool
      */
-    public function isReadOnly()
+    public function belongsToTeam($team)
     {
-        return $this->role->is(UserRole::READ_ONLY);
+        return $team !== null
+            && ($this->teams->contains(function ($t) use ($team) {
+                return $t->id === $team->id;
+            }) || $this->ownsTeam($team));
+    }
+
+    /**
+     * Determine if the user has the given permission on the current team.
+     *
+     * @param  string  $permission
+     * @return bool
+     */
+    public function hasCurrentTeamPermission(string $permission)
+    {
+        $currentTeam = $this->currentTeam;
+
+        if ($currentTeam === null) {
+            return false;
+        }
+
+        return $this->hasTeamPermission($currentTeam, $permission);
     }
 }

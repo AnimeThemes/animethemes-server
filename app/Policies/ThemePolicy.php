@@ -41,7 +41,7 @@ class ThemePolicy
      */
     public function create(User $user)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('theme:create');
     }
 
     /**
@@ -53,7 +53,7 @@ class ThemePolicy
      */
     public function update(User $user, Theme $theme)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('theme:update');
     }
 
     /**
@@ -65,7 +65,7 @@ class ThemePolicy
      */
     public function delete(User $user, Theme $theme)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('theme:delete');
     }
 
     /**
@@ -77,7 +77,7 @@ class ThemePolicy
      */
     public function restore(User $user, Theme $theme)
     {
-        return $user->isContributor() || $user->isAdmin();
+        return $user->hasCurrentTeamPermission('theme:restore');
     }
 
     /**
@@ -89,6 +89,6 @@ class ThemePolicy
      */
     public function forceDelete(User $user, Theme $theme)
     {
-        return $user->isAdmin();
+        return $user->hasCurrentTeamPermission('theme:forceDelete');
     }
 }

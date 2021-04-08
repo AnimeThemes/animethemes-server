@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Policies;
 
-use App\Enums\UserRole;
 use App\Models\Artist;
 use App\Models\ExternalResource;
 use App\Models\Image;
@@ -24,22 +23,22 @@ class ArtistPolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $policy = new ArtistPolicy();
 
-        $this->assertTrue($policy->viewAny($read_only));
-        $this->assertTrue($policy->viewAny($contributor));
+        $this->assertTrue($policy->viewAny($viewer));
+        $this->assertTrue($policy->viewAny($editor));
         $this->assertTrue($policy->viewAny($admin));
     }
 
@@ -50,23 +49,23 @@ class ArtistPolicyTest extends TestCase
      */
     public function testView()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertTrue($policy->view($read_only, $artist));
-        $this->assertTrue($policy->view($contributor, $artist));
+        $this->assertTrue($policy->view($viewer, $artist));
+        $this->assertTrue($policy->view($editor, $artist));
         $this->assertTrue($policy->view($admin, $artist));
     }
 
@@ -77,22 +76,22 @@ class ArtistPolicyTest extends TestCase
      */
     public function testCreate()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->create($read_only));
-        $this->assertTrue($policy->create($contributor));
+        $this->assertFalse($policy->create($viewer));
+        $this->assertTrue($policy->create($editor));
         $this->assertTrue($policy->create($admin));
     }
 
@@ -103,23 +102,23 @@ class ArtistPolicyTest extends TestCase
      */
     public function testUpdate()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->update($read_only, $artist));
-        $this->assertTrue($policy->update($contributor, $artist));
+        $this->assertFalse($policy->update($viewer, $artist));
+        $this->assertTrue($policy->update($editor, $artist));
         $this->assertTrue($policy->update($admin, $artist));
     }
 
@@ -130,23 +129,23 @@ class ArtistPolicyTest extends TestCase
      */
     public function testDelete()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->delete($read_only, $artist));
-        $this->assertTrue($policy->delete($contributor, $artist));
+        $this->assertFalse($policy->delete($viewer, $artist));
+        $this->assertTrue($policy->delete($editor, $artist));
         $this->assertTrue($policy->delete($admin, $artist));
     }
 
@@ -157,23 +156,23 @@ class ArtistPolicyTest extends TestCase
      */
     public function testRestore()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->restore($read_only, $artist));
-        $this->assertTrue($policy->restore($contributor, $artist));
+        $this->assertFalse($policy->restore($viewer, $artist));
+        $this->assertTrue($policy->restore($editor, $artist));
         $this->assertTrue($policy->restore($admin, $artist));
     }
 
@@ -184,23 +183,23 @@ class ArtistPolicyTest extends TestCase
      */
     public function testForceDelete()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->forceDelete($read_only, $artist));
-        $this->assertFalse($policy->forceDelete($contributor, $artist));
+        $this->assertFalse($policy->forceDelete($viewer, $artist));
+        $this->assertFalse($policy->forceDelete($editor, $artist));
         $this->assertTrue($policy->forceDelete($admin, $artist));
     }
 
@@ -211,23 +210,23 @@ class ArtistPolicyTest extends TestCase
      */
     public function testAttachAnyResource()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->attachAnyExternalResource($read_only, $artist));
-        $this->assertTrue($policy->attachAnyExternalResource($contributor, $artist));
+        $this->assertFalse($policy->attachAnyExternalResource($viewer, $artist));
+        $this->assertTrue($policy->attachAnyExternalResource($editor, $artist));
         $this->assertTrue($policy->attachAnyExternalResource($admin, $artist));
     }
 
@@ -238,24 +237,24 @@ class ArtistPolicyTest extends TestCase
      */
     public function testAttachResource()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $resource = ExternalResource::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->attachExternalResource($read_only, $artist, $resource));
-        $this->assertTrue($policy->attachExternalResource($contributor, $artist, $resource));
+        $this->assertFalse($policy->attachExternalResource($viewer, $artist, $resource));
+        $this->assertTrue($policy->attachExternalResource($editor, $artist, $resource));
         $this->assertTrue($policy->attachExternalResource($admin, $artist, $resource));
     }
 
@@ -266,24 +265,24 @@ class ArtistPolicyTest extends TestCase
      */
     public function testDetachResource()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $resource = ExternalResource::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->detachExternalResource($read_only, $artist, $resource));
-        $this->assertTrue($policy->detachExternalResource($contributor, $artist, $resource));
+        $this->assertFalse($policy->detachExternalResource($viewer, $artist, $resource));
+        $this->assertTrue($policy->detachExternalResource($editor, $artist, $resource));
         $this->assertTrue($policy->detachExternalResource($admin, $artist, $resource));
     }
 
@@ -294,23 +293,23 @@ class ArtistPolicyTest extends TestCase
      */
     public function testAttachAnySong()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->attachAnySong($read_only, $artist));
-        $this->assertTrue($policy->attachAnySong($contributor, $artist));
+        $this->assertFalse($policy->attachAnySong($viewer, $artist));
+        $this->assertTrue($policy->attachAnySong($editor, $artist));
         $this->assertTrue($policy->attachAnySong($admin, $artist));
     }
 
@@ -321,24 +320,24 @@ class ArtistPolicyTest extends TestCase
      */
     public function testAttachSong()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $song = Song::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->attachSong($read_only, $artist, $song));
-        $this->assertTrue($policy->attachSong($contributor, $artist, $song));
+        $this->assertFalse($policy->attachSong($viewer, $artist, $song));
+        $this->assertTrue($policy->attachSong($editor, $artist, $song));
         $this->assertTrue($policy->attachSong($admin, $artist, $song));
     }
 
@@ -349,24 +348,24 @@ class ArtistPolicyTest extends TestCase
      */
     public function testDetachSong()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $song = Song::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->detachSong($read_only, $artist, $song));
-        $this->assertTrue($policy->detachSong($contributor, $artist, $song));
+        $this->assertFalse($policy->detachSong($viewer, $artist, $song));
+        $this->assertTrue($policy->detachSong($editor, $artist, $song));
         $this->assertTrue($policy->detachSong($admin, $artist, $song));
     }
 
@@ -377,23 +376,23 @@ class ArtistPolicyTest extends TestCase
      */
     public function testAttachAnyArtist()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->attachAnyArtist($read_only, $artist));
-        $this->assertTrue($policy->attachAnyArtist($contributor, $artist));
+        $this->assertFalse($policy->attachAnyArtist($viewer, $artist));
+        $this->assertTrue($policy->attachAnyArtist($editor, $artist));
         $this->assertTrue($policy->attachAnyArtist($admin, $artist));
     }
 
@@ -404,24 +403,24 @@ class ArtistPolicyTest extends TestCase
      */
     public function testAttachArtist()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $member_group = Artist::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->attachArtist($read_only, $artist, $member_group));
-        $this->assertTrue($policy->attachArtist($contributor, $artist, $member_group));
+        $this->assertFalse($policy->attachArtist($viewer, $artist, $member_group));
+        $this->assertTrue($policy->attachArtist($editor, $artist, $member_group));
         $this->assertTrue($policy->attachArtist($admin, $artist, $member_group));
     }
 
@@ -432,24 +431,24 @@ class ArtistPolicyTest extends TestCase
      */
     public function testDetachArtist()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $group_member = Artist::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->detachArtist($read_only, $artist, $group_member));
-        $this->assertTrue($policy->detachArtist($contributor, $artist, $group_member));
+        $this->assertFalse($policy->detachArtist($viewer, $artist, $group_member));
+        $this->assertTrue($policy->detachArtist($editor, $artist, $group_member));
         $this->assertTrue($policy->detachArtist($admin, $artist, $group_member));
     }
 
@@ -460,23 +459,23 @@ class ArtistPolicyTest extends TestCase
      */
     public function testAttachAnyImage()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->attachAnyImage($read_only, $artist));
-        $this->assertTrue($policy->attachAnyImage($contributor, $artist));
+        $this->assertFalse($policy->attachAnyImage($viewer, $artist));
+        $this->assertTrue($policy->attachAnyImage($editor, $artist));
         $this->assertTrue($policy->attachAnyImage($admin, $artist));
     }
 
@@ -487,24 +486,24 @@ class ArtistPolicyTest extends TestCase
      */
     public function testAttachNewImage()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $image = Image::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->attachImage($read_only, $artist, $image));
-        $this->assertTrue($policy->attachImage($contributor, $artist, $image));
+        $this->assertFalse($policy->attachImage($viewer, $artist, $image));
+        $this->assertTrue($policy->attachImage($editor, $artist, $image));
         $this->assertTrue($policy->attachImage($admin, $artist, $image));
     }
 
@@ -515,25 +514,25 @@ class ArtistPolicyTest extends TestCase
      */
     public function testAttachExistingImage()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $image = Image::factory()->create();
         $artist->images()->attach($image);
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->attachImage($read_only, $artist, $image));
-        $this->assertFalse($policy->attachImage($contributor, $artist, $image));
+        $this->assertFalse($policy->attachImage($viewer, $artist, $image));
+        $this->assertFalse($policy->attachImage($editor, $artist, $image));
         $this->assertFalse($policy->attachImage($admin, $artist, $image));
     }
 
@@ -544,24 +543,24 @@ class ArtistPolicyTest extends TestCase
      */
     public function testDetachImage()
     {
-        $read_only = User::factory()->create([
-            'role' => UserRole::READ_ONLY,
-        ]);
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->create();
 
-        $contributor = User::factory()->create([
-            'role' => UserRole::CONTRIBUTOR,
-        ]);
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->create();
 
-        $admin = User::factory()->create([
-            'role' => UserRole::ADMIN,
-        ]);
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->create();
 
         $artist = Artist::factory()->create();
         $image = Image::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->detachImage($read_only, $artist, $image));
-        $this->assertTrue($policy->detachImage($contributor, $artist, $image));
+        $this->assertFalse($policy->detachImage($viewer, $artist, $image));
+        $this->assertTrue($policy->detachImage($editor, $artist, $image));
         $this->assertTrue($policy->detachImage($admin, $artist, $image));
     }
 }

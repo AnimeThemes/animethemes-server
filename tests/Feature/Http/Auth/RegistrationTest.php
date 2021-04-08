@@ -282,7 +282,7 @@ class RegistrationTest extends TestCase
             'terms' => 'terms',
         ]);
 
-        $user = User::where('name', $invitation->name)->where('email', $invitation->email)->where('role', $invitation->role)->first();
+        $user = User::where('name', $invitation->name)->where('email', $invitation->email)->first();
 
         $this->assertNotNull($user);
     }
@@ -303,7 +303,7 @@ class RegistrationTest extends TestCase
             'terms' => 'terms',
         ]);
 
-        $user = User::where('name', $invitation->name)->where('email', $invitation->email)->where('role', $invitation->role)->first();
+        $user = User::where('name', $invitation->name)->where('email', $invitation->email)->first();
 
         $this->assertAuthenticatedAs($user);
     }

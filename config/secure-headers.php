@@ -143,7 +143,7 @@ return [
      */
 
     'permissions-policy' => [
-        'enable' => (bool) env('ENABLE_PERMISSIONS_POLICY', true),
+        'enable' => (bool) env('ENABLE_PERMISSIONS_POLICY', false),
 
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy/accelerometer
         'accelerometer' => [

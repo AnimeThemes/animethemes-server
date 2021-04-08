@@ -93,7 +93,6 @@ return [
     'resource_link_help' => 'The URL of the resource. Ex: https://myanimelist.net/people/8/, https://anidb.net/creator/3/, https://kaguya.love/',
     'resource_site_help' => 'The site that we are linking to.',
     'resource_unlinked_lens' => 'Resource Without Anime or Artist',
-    'role' => 'Role',
     'season' => 'Season',
     'sequence' => 'Sequence',
     'series_name_help' => 'The display title of the Series. Ex: "Monogatari", "Code Geass", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',

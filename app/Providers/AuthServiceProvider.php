@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Team;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
@@ -23,6 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Series' => 'App\Policies\SeriesPolicy',
         'App\Models\Song' => 'App\Policies\SongPolicy',
         'App\Models\Synonym' => 'App\Policies\SynonymPolicy',
+        'App\Models\Team' => 'App\Policies\TeamPolicy',
         'App\Models\Theme' => 'App\Policies\ThemePolicy',
         'App\Models\User' => 'App\Policies\UserPolicy',
         'App\Models\Video' => 'App\Policies\VideoPolicy',
@@ -37,10 +41,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::before(function ($user, $ability) {
-            if ($user->isAdmin()) {
-                return true;
-            }
+        Gate::define('viewNova', function (User $user) {
+            $nova_team = Team::find(Config::get('nova.team'));
+
+            return $user->isCurrentTeam($nova_team);
         });
     }
 }
