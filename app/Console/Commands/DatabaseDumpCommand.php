@@ -67,7 +67,7 @@ class DatabaseDumpCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return int
      */
     public function handle()
     {
@@ -88,24 +88,24 @@ class DatabaseDumpCommand extends Command
                     break;
                 case 'mysql':
                     MySql::create()
+                        ->doNotCreateTables()
                         ->setDbName($dbConnection->getDatabaseName())
                         ->setUserName(strval($dbConnection->getConfig('username')))
                         ->setPassword(strval($dbConnection->getConfig('password')))
                         ->setHost($dbConnection->getConfig('host'))
                         ->setPort($dbConnection->getConfig('port'))
                         ->includeTables($this->allowedTables)
-                        ->doNotCreateTables()
                         ->dumpToFile($dumpFile);
                     break;
                 case 'pgsql':
                     PostgreSql::create()
+                        ->doNotCreateTables()
                         ->setDbName($dbConnection->getDatabaseName())
                         ->setUserName(strval($dbConnection->getConfig('username')))
                         ->setPassword(strval($dbConnection->getConfig('password')))
                         ->setHost($dbConnection->getConfig('host'))
                         ->setPort($dbConnection->getConfig('port'))
                         ->includeTables($this->allowedTables)
-                        ->doNotCreateTables()
                         ->dumpToFile($dumpFile);
                     break;
                 default:
@@ -121,7 +121,11 @@ class DatabaseDumpCommand extends Command
         } catch (Exception $exception) {
             Log::error($exception);
             $this->error($exception->getMessage());
+
+            return 1;
         }
+
+        return 0;
     }
 
     /**

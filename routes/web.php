@@ -14,6 +14,7 @@ use App\Http\Controllers\Sitemap\EventSitemapController;
 use App\Http\Controllers\Sitemap\GuidelinesSitemapController;
 use App\Http\Controllers\Sitemap\SitemapController;
 use App\Http\Controllers\TransparencyController;
+use App\Http\Controllers\VideoController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +57,8 @@ Route::get('register', [RegisterController::class, 'showRegistrationForm'])->nam
 Route::post('register', [RegisterController::class, 'register']);
 
 Route::resource('image', ImageController::class)->only('show');
+
+Route::resource('video', VideoController::class)->only('show');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

@@ -54,8 +54,6 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'video_url' => env('APP_VIDEO_URL', 'v.localhost'),
-
     'asset_url' => env('ASSET_URL', null),
 
     /*
@@ -132,7 +130,7 @@ return [
     |
     | When video streams are allowed, requests to the video.show route will
     | stream video. If disabled, requests to the video.show route will
-    | return an empty response.
+    | redirect the user to the welcome page.
     |
     */
 
@@ -151,30 +149,6 @@ return [
     */
 
     'allow_discord_notifications' => (bool) env('ALLOW_DISCORD_NOTIFICATIONS', false),
-
-    /*
-    |--------------------------------------------------------------------------
-    | MAL Bearer Token
-    |--------------------------------------------------------------------------
-    |
-    | Bearer HTTP authentication scheme token used for MAL API calls.
-    | Needed for seeding purposes.
-    |
-    */
-
-    'mal_bearer_token' => env('MAL_BEARER_TOKEN', null),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Transparency Bearer Token
-    |--------------------------------------------------------------------------
-    |
-    | Bearer HTTP authentication scheme token used for DO API calls.
-    | Needed for transparency purposes.
-    |
-    */
-
-    'transparency_bearer_token' => env('TRANSPARENCY_BEARER_TOKEN', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -267,31 +241,30 @@ return [
         /*
          * Package Service Providers...
          */
+        Bepsvpt\SecureHeaders\SecureHeadersServiceProvider::class,
+        ElasticClient\ServiceProvider::class,
+        ElasticMigrations\ServiceProvider::class,
+        ElasticScoutDriver\ServiceProvider::class,
+        ElasticScoutDriverPlus\ServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
+        L5Swagger\L5SwaggerServiceProvider::class,
+        NotificationChannels\Discord\DiscordServiceProvider::class,
+        SMartins\Exceptions\JsonHandlerServiceProvider::class,
+        Spatie\JsonApiPaginate\JsonApiPaginateServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\HorizonServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        App\Providers\TelescopeServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
         App\Providers\NovaServiceProvider::class,
-        L5Swagger\L5SwaggerServiceProvider::class,
-        Laravel\Scout\ScoutServiceProvider::class,
-        Spatie\JsonApiPaginate\JsonApiPaginateServiceProvider::class,
-        SMartins\Exceptions\JsonHandlerServiceProvider::class,
         App\Providers\PersistentConfigServiceProvider::class,
-        ElasticClient\ServiceProvider::class,
-        ElasticMigrations\ServiceProvider::class,
-        ElasticScoutDriver\ServiceProvider::class,
-        ElasticScoutDriverPlus\ServiceProvider::class,
-        NotificationChannels\Discord\DiscordServiceProvider::class,
-        Bepsvpt\SecureHeaders\SecureHeadersServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
     ],
 
     /*

@@ -18,7 +18,7 @@ class IsVideoStreamingAllowed
     public function handle(Request $request, Closure $next)
     {
         if (! Config::get('app.allow_video_streams', false)) {
-            return redirect(Config::get('app.url'));
+            return redirect(route('welcome.index'));
         }
 
         return $next($request);

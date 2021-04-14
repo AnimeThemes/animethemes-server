@@ -3,6 +3,7 @@ includes:
 
 parameters:
     checkModelProperties: true
+    checkOctaneCompatibility: true
 
     paths:
         - app
