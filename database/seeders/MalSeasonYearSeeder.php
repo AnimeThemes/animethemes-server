@@ -32,7 +32,7 @@ class MalSeasonYearSeeder extends Seeder
 
         try {
             $client = new Client;
-            $response = $client->get("https://api.myanimelist.net/v2/users/@me", [
+            $response = $client->get('https://api.myanimelist.net/v2/users/@me', [
                 'headers' => [
                     'Authorization' => 'Bearer '.$mal_bearer_token,
                 ],
