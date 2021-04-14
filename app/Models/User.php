@@ -93,9 +93,9 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
      */
     public function isCurrentTeam($team)
     {
-        return $team !== null
-            && $this->currentTeam !== null
-            && $team->id === $this->currentTeam->id;
+        $currentTeam = $this->currentTeam;
+
+        return $currentTeam !== null && $currentTeam->is($team);
     }
 
     /**

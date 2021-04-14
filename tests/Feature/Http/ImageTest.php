@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Http\Testing\File;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
@@ -31,7 +30,7 @@ class ImageTest extends TestCase
 
         $response = $this->get(route('image.show', ['image' => $image]));
 
-        $response->assertRedirect(Config::get('app.url'));
+        $response->assertRedirect(route('welcome.index'));
     }
 
     /**

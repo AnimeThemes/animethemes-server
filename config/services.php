@@ -35,4 +35,12 @@ return [
         'db_updates_discord_channel' => env('DB_UPDATES_DISCORD_CHANNEL'),
         'admin_discord_channel' => env('ADMIN_DISCORD_CHANNEL'),
     ],
+
+    'mal' => [
+        'token' => env('MAL_BEARER_TOKEN'),
+    ],
+
+    'do' => [
+        'token' => env('TRANSPARENCY_BEARER_TOKEN'),
+    ],
 ];

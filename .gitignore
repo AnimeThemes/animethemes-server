@@ -12,3 +12,5 @@ npm-debug.log
 yarn-error.log
 .vscode
 auth.json
+*.sqlite
+*.sqlite3

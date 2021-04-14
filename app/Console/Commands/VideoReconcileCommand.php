@@ -29,11 +29,13 @@ class VideoReconcileCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return int
      */
     public function handle()
     {
         $this->reconcileVideo();
+
+        return 0;
     }
 
     /**

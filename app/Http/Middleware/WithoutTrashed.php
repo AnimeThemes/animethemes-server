@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 
 class WithoutTrashed
 {
@@ -21,7 +20,7 @@ class WithoutTrashed
         $model = $request->route($modelKey);
 
         if ($model == null || $model->trashed()) {
-            return redirect(Config::get('app.url'));
+            return redirect(route('welcome.index'));
         }
 
         return $next($request);

@@ -31,7 +31,7 @@ class VideoTest extends TestCase
 
         $response = $this->get(route('video.show', ['video' => $video]));
 
-        $response->assertRedirect(Config::get('app.url'));
+        $response->assertRedirect(route('welcome.index'));
     }
 
     /**
@@ -49,7 +49,7 @@ class VideoTest extends TestCase
 
         $response = $this->get(route('video.show', ['video' => $video]));
 
-        $response->assertRedirect(Config::get('app.url'));
+        $response->assertRedirect(route('welcome.index'));
     }
 
     /**

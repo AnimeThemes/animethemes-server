@@ -16,7 +16,7 @@ class VideoController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('without_trashed:video');
+        $this->middleware(['is_video_streaming_allowed', 'without_trashed:video']);
     }
 
     /**
