@@ -4,6 +4,7 @@ namespace App\Events\Theme;
 
 use App\Contracts\Events\CascadesRestoresEvent;
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Entry;
 use App\Models\Video;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -25,8 +26,9 @@ class ThemeRestored extends ThemeEvent implements CascadesRestoresEvent, Discord
         $theme = $this->getTheme();
         $anime = $this->getAnime();
 
-        return DiscordMessage::create('Theme Restored', [
-            'description' => "Theme '{$theme->getName()}' has been restored for Anime '{$anime->getName()}'.",
+        return DiscordMessage::create('', [
+            'description' => "Theme '**{$theme->getName()}**' has been restored for Anime '**{$anime->getName()}**'.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

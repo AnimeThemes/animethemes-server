@@ -3,6 +3,7 @@
 namespace App\Events\Artist;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
@@ -20,8 +21,9 @@ class ArtistDeleted extends ArtistEvent implements DiscordMessageEvent
     {
         $artist = $this->getArtist();
 
-        return DiscordMessage::create('Artist Deleted', [
-            'description' => "Artist '{$artist->getName()}' has been deleted.",
+        return DiscordMessage::create('', [
+            'description' => "Artist '**{$artist->getName()}**' has been deleted.",
+            'color' => EmbedColor::RED,
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Events\Pivot\AnimeResource;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -22,8 +23,9 @@ class AnimeResourceCreated extends AnimeResourceEvent implements DiscordMessageE
         $anime = $this->getAnime();
         $resource = $this->getResource();
 
-        return DiscordMessage::create('Resource Attached', [
-            'description' => "Resource '{$resource->getName()}' has been attached to Anime '{$anime->getName()}'.",
+        return DiscordMessage::create('', [
+            'description' => "Resource '**{$resource->getName()}**' has been attached to Anime '**{$anime->getName()}**'.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

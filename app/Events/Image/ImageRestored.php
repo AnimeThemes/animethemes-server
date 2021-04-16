@@ -3,6 +3,7 @@
 namespace App\Events\Image;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -21,8 +22,9 @@ class ImageRestored extends ImageEvent implements DiscordMessageEvent
     {
         $image = $this->getImage();
 
-        return DiscordMessage::create('Image Restored', [
-            'description' => "Image '{$image->getName()}' has been restored.",
+        return DiscordMessage::create('', [
+            'description' => "Image '**{$image->getName()}**' has been restored.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

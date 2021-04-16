@@ -4,6 +4,7 @@ namespace App\Events\ExternalResource;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\ExternalResource;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
@@ -34,9 +35,10 @@ class ExternalResourceUpdated extends ExternalResourceEvent implements DiscordMe
     {
         $resource = $this->getResource();
 
-        return DiscordMessage::create('Resource Updated', [
-            'description' => "Resource '{$resource->getName()}' has been updated.",
+        return DiscordMessage::create('', [
+            'description' => "Resource '**{$resource->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
+            'color' => EmbedColor::YELLOW,
         ]);
     }
 

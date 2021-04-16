@@ -4,6 +4,7 @@ namespace App\Events\Pivot\VideoEntry;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -23,8 +24,9 @@ class VideoEntryCreated extends VideoEntryEvent implements DiscordMessageEvent, 
         $video = $this->getVideo();
         $entry = $this->getEntry();
 
-        return DiscordMessage::create('Video Attached', [
-            'description' => "Video '{$video->getName()}' has been attached to Entry '{$entry->getName()}'.",
+        return DiscordMessage::create('', [
+            'description' => "Video '**{$video->getName()}**' has been attached to Entry '**{$entry->getName()}**'.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

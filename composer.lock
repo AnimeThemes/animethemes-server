@@ -64,16 +64,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.178.3",
+            "version": "3.178.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "cfeed02f14b0fb3cba8bb75f2ae28cb8c9807369"
+                "reference": "5a268a20272c0c9171570ed57f68b629e966deab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/cfeed02f14b0fb3cba8bb75f2ae28cb8c9807369",
-                "reference": "cfeed02f14b0fb3cba8bb75f2ae28cb8c9807369",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5a268a20272c0c9171570ed57f68b629e966deab",
+                "reference": "5a268a20272c0c9171570ed57f68b629e966deab",
                 "shasum": ""
             },
             "require": {
@@ -148,9 +148,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.178.3"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.178.5"
             },
-            "time": "2021-04-13T18:16:44+00:00"
+            "time": "2021-04-15T18:12:46+00:00"
         },
         {
             "name": "babenkoivan/elastic-adapter",
@@ -2447,16 +2447,16 @@
         },
         {
             "name": "enlightn/enlightn",
-            "version": "v1.21.0",
+            "version": "v1.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/enlightn/enlightn.git",
-                "reference": "959c9dc6d4dc95c6182569e96fc6e3c48ac538fc"
+                "reference": "0958011684210838bb50646bedd6a33f73994e7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/enlightn/enlightn/zipball/959c9dc6d4dc95c6182569e96fc6e3c48ac538fc",
-                "reference": "959c9dc6d4dc95c6182569e96fc6e3c48ac538fc",
+                "url": "https://api.github.com/repos/enlightn/enlightn/zipball/0958011684210838bb50646bedd6a33f73994e7c",
+                "reference": "0958011684210838bb50646bedd6a33f73994e7c",
                 "shasum": ""
             },
             "require": {
@@ -2524,9 +2524,9 @@
             "support": {
                 "docs": "https://www.laravel-enlightn.com/docs/",
                 "issues": "https://github.com/enlightn/enlightn/issues",
-                "source": "https://github.com/enlightn/enlightn/tree/v1.21.0"
+                "source": "https://github.com/enlightn/enlightn/tree/v1.22.0"
             },
-            "time": "2021-03-23T07:38:44+00:00"
+            "time": "2021-04-15T15:05:41+00:00"
         },
         {
             "name": "enlightn/enlightnpro",
@@ -4424,17 +4424,17 @@
         },
         {
             "name": "laravel/nova",
-            "version": "3.23.1",
+            "version": "3.23.2",
             "source": {
                 "type": "git",
                 "url": "git@github.com:laravel/nova.git",
-                "reference": "09eb76a742ba42a0cd0a165886f90f7f19160d17"
+                "reference": "3520781b6a64dab93f68b9412383bf622b6d09b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-09eb76a742ba42a0cd0a165886f90f7f19160d17-zip-61b826.zip",
-                "reference": "09eb76a742ba42a0cd0a165886f90f7f19160d17",
-                "shasum": "4ffe4bd0e76c12c04935a764b48982aff13b4af2"
+                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-3520781b6a64dab93f68b9412383bf622b6d09b9-zip-4de43f.zip",
+                "reference": "3520781b6a64dab93f68b9412383bf622b6d09b9",
+                "shasum": "9b62802f2b1e334fb548a9dc5b80fb14034027a6"
             },
             "require": {
                 "brick/money": "^0.5.0",
@@ -4513,9 +4513,9 @@
                 "laravel"
             ],
             "support": {
-                "source": "https://github.com/laravel/nova/tree/v3.23.1"
+                "source": "https://github.com/laravel/nova/tree/v3.23.2"
             },
-            "time": "2021-04-07T22:08:41+00:00"
+            "time": "2021-04-14T08:09:25+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -7687,16 +7687,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.46.0",
+            "version": "v3.47.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "cc408812fc927e265da158bf68239530740ab4cc"
+                "reference": "0f8548c0d443fa37f10a45948d5f2babf685c657"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/cc408812fc927e265da158bf68239530740ab4cc",
-                "reference": "cc408812fc927e265da158bf68239530740ab4cc",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/0f8548c0d443fa37f10a45948d5f2babf685c657",
+                "reference": "0f8548c0d443fa37f10a45948d5f2babf685c657",
                 "shasum": ""
             },
             "type": "library",
@@ -7742,9 +7742,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.46.0"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.47.1"
             },
-            "time": "2021-03-31T18:50:40+00:00"
+            "time": "2021-04-15T21:56:21+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

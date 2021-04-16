@@ -3,6 +3,7 @@
 namespace App\Events\Pivot\ArtistResource;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -22,8 +23,9 @@ class ArtistResourceCreated extends ArtistResourceEvent implements DiscordMessag
         $artist = $this->getArtist();
         $resource = $this->getResource();
 
-        return DiscordMessage::create('Resource Attached', [
-            'description' => "Resource '{$resource->getName()}' has been attached to Artist '{$artist->getName()}'.",
+        return DiscordMessage::create('', [
+            'description' => "Resource '**{$resource->getName()}**' has been attached to Artist '**{$artist->getName()}**'.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

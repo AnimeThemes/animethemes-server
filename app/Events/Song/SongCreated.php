@@ -4,6 +4,7 @@ namespace App\Events\Song;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Artist;
 use App\Models\Entry;
 use App\Models\Theme;
@@ -26,8 +27,9 @@ class SongCreated extends SongEvent implements DiscordMessageEvent, UpdateRelate
     {
         $song = $this->getSong();
 
-        return DiscordMessage::create('Song Created', [
-            'description' => "Song '{$song->getName()}' has been created.",
+        return DiscordMessage::create('', [
+            'description' => "Song '**{$song->getName()}**' has been created.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

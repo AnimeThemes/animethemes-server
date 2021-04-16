@@ -3,6 +3,7 @@
 namespace App\Events\Pivot\AnimeImage;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -22,8 +23,9 @@ class AnimeImageCreated extends AnimeImageEvent implements DiscordMessageEvent
         $anime = $this->getAnime();
         $image = $this->getImage();
 
-        return DiscordMessage::create('Image Attached', [
-            'description' => "Image '{$image->getName()}' has been attached to Anime '{$anime->getName()}'.",
+        return DiscordMessage::create('', [
+            'description' => "Image '**{$image->getName()}**' has been attached to Anime '**{$anime->getName()}**'.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

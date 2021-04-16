@@ -3,6 +3,7 @@
 namespace App\Events\User;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
@@ -20,8 +21,9 @@ class UserDeleted extends UserEvent implements DiscordMessageEvent
     {
         $user = $this->getUser();
 
-        return DiscordMessage::create('User Deleted', [
-            'description' => "User '{$user->getName()}' has been deleted.",
+        return DiscordMessage::create('', [
+            'description' => "User '**{$user->getName()}**' has been deleted.",
+            'color' => EmbedColor::RED,
         ]);
     }
 

@@ -5,6 +5,7 @@ namespace App\Events\User;
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Discord\DiscordEmbedField;
+use App\Enums\Discord\EmbedColor;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -37,9 +38,10 @@ class UserUpdated extends UserEvent implements DiscordMessageEvent
     {
         $user = $this->getUser();
 
-        return DiscordMessage::create('User Updated', [
-            'description' => "User '{$user->getName()}' has been updated.",
+        return DiscordMessage::create('', [
+            'description' => "User '**{$user->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
+            'color' => EmbedColor::YELLOW,
         ]);
     }
 

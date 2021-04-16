@@ -5,6 +5,7 @@ namespace App\Events\Anime;
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\Theme;
@@ -38,9 +39,10 @@ class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
     {
         $anime = $this->getAnime();
 
-        return DiscordMessage::create('Anime Updated', [
-            'description' => "Anime '{$anime->getName()}' has been updated.",
+        return DiscordMessage::create('', [
+            'description' => "Anime '**{$anime->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
+            'color' => EmbedColor::YELLOW,
         ]);
     }
 

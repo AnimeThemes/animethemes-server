@@ -4,6 +4,7 @@ namespace App\Events\Invitation;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Invitation;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
@@ -34,9 +35,10 @@ class InvitationUpdated extends InvitationEvent implements DiscordMessageEvent
     {
         $invitation = $this->getInvitation();
 
-        return DiscordMessage::create('Invitation Updated', [
-            'description' => "Invitation '{$invitation->getName()}' has been updated.",
+        return DiscordMessage::create('', [
+            'description' => "Invitation '**{$invitation->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
+            'color' => EmbedColor::YELLOW,
         ]);
     }
 

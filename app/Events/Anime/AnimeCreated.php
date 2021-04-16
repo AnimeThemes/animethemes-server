@@ -4,6 +4,7 @@ namespace App\Events\Anime;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Entry;
 use App\Models\Theme;
 use App\Models\Video;
@@ -25,8 +26,9 @@ class AnimeCreated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
     {
         $anime = $this->getAnime();
 
-        return DiscordMessage::create('Anime Created', [
-            'description' => "Anime '{$anime->getName()}' has been created.",
+        return DiscordMessage::create('', [
+            'description' => "Anime '**{$anime->getName()}**' has been created.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

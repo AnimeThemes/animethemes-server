@@ -4,6 +4,7 @@ namespace App\Events\Synonym;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Entry;
 use App\Models\Theme;
 use App\Models\Video;
@@ -26,8 +27,9 @@ class SynonymCreated extends SynonymEvent implements DiscordMessageEvent, Update
         $synonym = $this->getSynonym();
         $anime = $this->getAnime();
 
-        return DiscordMessage::create('Synonym Created', [
-            'description' => "Synonym '{$synonym->getName()}' has been created for Anime '{$anime->getName()}'.",
+        return DiscordMessage::create('', [
+            'description' => "Synonym '**{$synonym->getName()}**' has been created for Anime '**{$anime->getName()}**'.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

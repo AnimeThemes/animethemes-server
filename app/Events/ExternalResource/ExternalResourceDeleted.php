@@ -3,6 +3,7 @@
 namespace App\Events\ExternalResource;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
@@ -20,8 +21,9 @@ class ExternalResourceDeleted extends ExternalResourceEvent implements DiscordMe
     {
         $resource = $this->getResource();
 
-        return DiscordMessage::create('Resource Deleted', [
-            'description' => "Resource '{$resource->getName()}' has been deleted.",
+        return DiscordMessage::create('', [
+            'description' => "Resource '**{$resource->getName()}**' has been deleted.",
+            'color' => EmbedColor::RED,
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Events\Announcement;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -21,8 +22,9 @@ class AnnouncementRestored extends AnnouncementEvent implements DiscordMessageEv
     {
         $announcement = $this->getAnnouncement();
 
-        return DiscordMessage::create('Announcement Restored', [
-            'description' => "Announcement '{$announcement->getName()}' has been restored.",
+        return DiscordMessage::create('', [
+            'description' => "Announcement '**{$announcement->getName()}**' has been restored.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

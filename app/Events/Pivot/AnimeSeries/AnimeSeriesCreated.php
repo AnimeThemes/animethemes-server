@@ -3,6 +3,7 @@
 namespace App\Events\Pivot\AnimeSeries;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -22,8 +23,9 @@ class AnimeSeriesCreated extends AnimeSeriesEvent implements DiscordMessageEvent
         $anime = $this->getAnime();
         $series = $this->getSeries();
 
-        return DiscordMessage::create('Anime Attached', [
-            'description' => "Anime '{$anime->getName()}' has been attached to Series '{$series->getName()}'.",
+        return DiscordMessage::create('', [
+            'description' => "Anime '**{$anime->getName()}**' has been attached to Series '**{$series->getName()}**'.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

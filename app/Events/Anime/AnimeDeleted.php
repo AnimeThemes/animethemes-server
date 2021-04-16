@@ -3,6 +3,7 @@
 namespace App\Events\Anime;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
@@ -20,8 +21,9 @@ class AnimeDeleted extends AnimeEvent implements DiscordMessageEvent
     {
         $anime = $this->getAnime();
 
-        return DiscordMessage::create('Anime Deleted', [
-            'description' => "Anime '{$anime->getName()}' has been deleted.",
+        return DiscordMessage::create('', [
+            'description' => "Anime '**{$anime->getName()}**' has been deleted.",
+            'color' => EmbedColor::RED,
         ]);
     }
 

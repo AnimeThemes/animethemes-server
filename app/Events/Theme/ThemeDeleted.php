@@ -3,6 +3,7 @@
 namespace App\Events\Theme;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
@@ -21,8 +22,9 @@ class ThemeDeleted extends ThemeEvent implements DiscordMessageEvent
         $theme = $this->getTheme();
         $anime = $this->getAnime();
 
-        return DiscordMessage::create('Theme Deleted', [
-            'description' => "Theme '{$theme->getName()}' has been deleted for Anime '{$anime->getName()}'.",
+        return DiscordMessage::create('', [
+            'description' => "Theme '**{$theme->getName()}**' has been deleted for Anime '**{$anime->getName()}**'.",
+            'color' => EmbedColor::RED,
         ]);
     }
 

@@ -4,6 +4,7 @@ namespace App\Events\Song;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Artist;
 use App\Models\Entry;
 use App\Models\Theme;
@@ -25,8 +26,9 @@ class SongDeleted extends SongEvent implements DiscordMessageEvent, UpdateRelate
     {
         $song = $this->getSong();
 
-        return DiscordMessage::create('Song Deleted', [
-            'description' => "Song '{$song->getName()}' has been deleted.",
+        return DiscordMessage::create('', [
+            'description' => "Song '**{$song->getName()}**' has been deleted.",
+            'color' => EmbedColor::RED,
         ]);
     }
 
