@@ -3,6 +3,7 @@
 namespace App\Events\Video;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -21,8 +22,9 @@ class VideoCreated extends VideoEvent implements DiscordMessageEvent
     {
         $video = $this->getVideo();
 
-        return DiscordMessage::create('Video Created', [
-            'description' => "Video '{$video->getName()}' has been created.",
+        return DiscordMessage::create('', [
+            'description' => "Video '**{$video->getName()}**' has been created.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

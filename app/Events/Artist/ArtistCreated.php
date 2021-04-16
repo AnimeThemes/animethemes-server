@@ -3,6 +3,7 @@
 namespace App\Events\Artist;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -21,8 +22,9 @@ class ArtistCreated extends ArtistEvent implements DiscordMessageEvent
     {
         $artist = $this->getArtist();
 
-        return DiscordMessage::create('Artist Created', [
-            'description' => "Artist '{$artist->getName()}' has been created.",
+        return DiscordMessage::create('', [
+            'description' => "Artist '**{$artist->getName()}**' has been created.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Events\Pivot\ArtistMember;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -22,8 +23,9 @@ class ArtistMemberCreated extends ArtistMemberEvent implements DiscordMessageEve
         $artist = $this->getArtist();
         $member = $this->getMember();
 
-        return DiscordMessage::create('Member Attached', [
-            'description' => "Member '{$member->getName()}' has been attached to Artist '{$artist->getName()}'.",
+        return DiscordMessage::create('', [
+            'description' => "Member '**{$member->getName()}**' has been attached to Artist '**{$artist->getName()}**'.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

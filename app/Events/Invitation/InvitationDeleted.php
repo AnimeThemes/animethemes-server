@@ -3,6 +3,7 @@
 namespace App\Events\Invitation;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
@@ -20,8 +21,9 @@ class InvitationDeleted extends InvitationEvent implements DiscordMessageEvent
     {
         $invitation = $this->getInvitation();
 
-        return DiscordMessage::create('Invitation Deleted', [
-            'description' => "Invitation '{$invitation->getName()}' has been deleted.",
+        return DiscordMessage::create('', [
+            'description' => "Invitation '**{$invitation->getName()}**' has been deleted.",
+            'color' => EmbedColor::RED,
         ]);
     }
 

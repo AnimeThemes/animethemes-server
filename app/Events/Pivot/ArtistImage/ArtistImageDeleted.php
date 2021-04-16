@@ -3,6 +3,7 @@
 namespace App\Events\Pivot\ArtistImage;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -22,8 +23,9 @@ class ArtistImageDeleted extends ArtistImageEvent implements DiscordMessageEvent
         $artist = $this->getArtist();
         $image = $this->getImage();
 
-        return DiscordMessage::create('Image Detached', [
-            'description' => "Image '{$image->getName()}' has been detached from Artist '{$artist->getName()}'.",
+        return DiscordMessage::create('', [
+            'description' => "Image '**{$image->getName()}**' has been detached from Artist '**{$artist->getName()}**'.",
+            'color' => EmbedColor::RED,
         ]);
     }
 

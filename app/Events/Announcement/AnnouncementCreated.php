@@ -3,6 +3,7 @@
 namespace App\Events\Announcement;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -21,8 +22,9 @@ class AnnouncementCreated extends AnnouncementEvent implements DiscordMessageEve
     {
         $announcement = $this->getAnnouncement();
 
-        return DiscordMessage::create('Announcement Created', [
-            'description' => "Announcement '{$announcement->getName()}' has been created.",
+        return DiscordMessage::create('', [
+            'description' => "Announcement '**{$announcement->getName()}**' has been created.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

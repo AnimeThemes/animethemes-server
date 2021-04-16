@@ -5,6 +5,7 @@ namespace App\Events\Song;
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Artist;
 use App\Models\Entry;
 use App\Models\Song;
@@ -39,9 +40,10 @@ class SongUpdated extends SongEvent implements DiscordMessageEvent, UpdateRelate
     {
         $song = $this->getSong();
 
-        return DiscordMessage::create('Song Updated', [
-            'description' => "Song '{$song->getName()}' has been updated.",
+        return DiscordMessage::create('', [
+            'description' => "Song '**{$song->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
+            'color' => EmbedColor::YELLOW,
         ]);
     }
 

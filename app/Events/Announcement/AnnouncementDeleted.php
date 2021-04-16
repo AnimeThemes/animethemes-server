@@ -3,6 +3,7 @@
 namespace App\Events\Announcement;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
@@ -20,8 +21,9 @@ class AnnouncementDeleted extends AnnouncementEvent implements DiscordMessageEve
     {
         $announcement = $this->getAnnouncement();
 
-        return DiscordMessage::create('Announcement Deleted', [
-            'description' => "Announcement '{$announcement->getName()}' has been deleted.",
+        return DiscordMessage::create('', [
+            'description' => "Announcement '**{$announcement->getName()}**' has been deleted.",
+            'color' => EmbedColor::RED,
         ]);
     }
 

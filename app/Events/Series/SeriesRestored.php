@@ -3,6 +3,7 @@
 namespace App\Events\Series;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -21,8 +22,9 @@ class SeriesRestored extends SeriesEvent implements DiscordMessageEvent
     {
         $series = $this->getSeries();
 
-        return DiscordMessage::create('Series Restored', [
-            'description' => "Series '{$series->getName()}' has been restored.",
+        return DiscordMessage::create('', [
+            'description' => "Series '**{$series->getName()}**' has been restored.",
+            'color' => EmbedColor::RED,
         ]);
     }
 

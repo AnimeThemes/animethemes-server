@@ -5,6 +5,7 @@ namespace App\Events\Pivot\ArtistSong;
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Pivots\ArtistSong;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
@@ -36,9 +37,10 @@ class ArtistSongUpdated extends ArtistSongEvent implements DiscordMessageEvent, 
         $artist = $this->getArtist();
         $song = $this->getSong();
 
-        return DiscordMessage::create('Song Updated', [
-            'description' => "Song '{$song->getName()}' for Artist '{$artist->getName()}' has been updated.",
+        return DiscordMessage::create('', [
+            'description' => "Song '**{$song->getName()}**' for Artist '**{$artist->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
+            'color' => EmbedColor::YELLOW,
         ]);
     }
 

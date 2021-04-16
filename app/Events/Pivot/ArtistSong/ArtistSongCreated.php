@@ -4,6 +4,7 @@ namespace App\Events\Pivot\ArtistSong;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -23,8 +24,9 @@ class ArtistSongCreated extends ArtistSongEvent implements DiscordMessageEvent, 
         $artist = $this->getArtist();
         $song = $this->getSong();
 
-        return DiscordMessage::create('Song Attached', [
-            'description' => "Song '{$song->getName()}' has been attached to Artist '{$artist->getName()}'.",
+        return DiscordMessage::create('', [
+            'description' => "Song '**{$song->getName()}**' has been attached to Artist '**{$artist->getName()}**'.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

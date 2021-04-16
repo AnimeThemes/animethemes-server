@@ -4,6 +4,7 @@ namespace App\Events\Song;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Artist;
 use App\Models\Entry;
 use App\Models\Theme;
@@ -25,8 +26,9 @@ class SongRestored extends SongEvent implements DiscordMessageEvent, UpdateRelat
     {
         $song = $this->getSong();
 
-        return DiscordMessage::create('Song Restored', [
-            'description' => "Song '{$song->getName()}' has been restored.",
+        return DiscordMessage::create('', [
+            'description' => "Song '**{$song->getName()}**' has been restored.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

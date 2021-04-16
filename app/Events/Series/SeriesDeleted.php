@@ -3,6 +3,7 @@
 namespace App\Events\Series;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
@@ -20,8 +21,9 @@ class SeriesDeleted extends SeriesEvent implements DiscordMessageEvent
     {
         $series = $this->getSeries();
 
-        return DiscordMessage::create('Series Deleted', [
-            'description' => "Series '{$series->getName()}' has been deleted.",
+        return DiscordMessage::create('', [
+            'description' => "Series '**{$series->getName()}**' has been deleted.",
+            'color' => EmbedColor::RED,
         ]);
     }
 

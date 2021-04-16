@@ -3,6 +3,7 @@
 namespace App\Events\Image;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
@@ -20,8 +21,9 @@ class ImageDeleted extends ImageEvent implements DiscordMessageEvent
     {
         $image = $this->getImage();
 
-        return DiscordMessage::create('Image Deleted', [
-            'description' => "Image '{$image->getName()}' has been deleted.",
+        return DiscordMessage::create('', [
+            'description' => "Image '**{$image->getName()}**' has been deleted.",
+            'color' => EmbedColor::RED,
         ]);
     }
 

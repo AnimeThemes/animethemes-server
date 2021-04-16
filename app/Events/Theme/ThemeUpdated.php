@@ -5,6 +5,7 @@ namespace App\Events\Theme;
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Entry;
 use App\Models\Theme;
 use App\Models\Video;
@@ -38,9 +39,10 @@ class ThemeUpdated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
         $theme = $this->getTheme();
         $anime = $this->getAnime();
 
-        return DiscordMessage::create('Theme Updated', [
-            'description' => "Theme '{$theme->getName()}' has been updated for Anime '{$anime->getName()}'.",
+        return DiscordMessage::create('', [
+            'description' => "Theme '**{$theme->getName()}**' has been updated for Anime '**{$anime->getName()}**'.",
             'fields' => $this->getEmbedFields(),
+            'color' => EmbedColor::YELLOW,
         ]);
     }
 

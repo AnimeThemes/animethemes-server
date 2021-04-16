@@ -4,6 +4,7 @@ namespace App\Events\Pivot\ArtistResource;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Pivots\ArtistResource;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
@@ -35,9 +36,10 @@ class ArtistResourceUpdated extends ArtistResourceEvent implements DiscordMessag
         $artist = $this->getArtist();
         $resource = $this->getResource();
 
-        return DiscordMessage::create('Resource Updated', [
-            'description' => "Resource '{$resource->getName()}' for Artist '{$artist->getName()}' has been updated.",
+        return DiscordMessage::create('', [
+            'description' => "Resource '**{$resource->getName()}**' for Artist '**{$artist->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
+            'color' => EmbedColor::YELLOW,
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Events\Invitation;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -21,8 +22,9 @@ class InvitationCreated extends InvitationEvent implements DiscordMessageEvent
     {
         $invitation = $this->getInvitation();
 
-        return DiscordMessage::create('Invitation Created', [
-            'description' => "Invitation '{$invitation->getName()}' has been created.",
+        return DiscordMessage::create('', [
+            'description' => "Invitation '**{$invitation->getName()}**' has been created.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

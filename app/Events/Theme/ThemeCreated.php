@@ -4,6 +4,7 @@ namespace App\Events\Theme;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Entry;
 use App\Models\Video;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -25,8 +26,9 @@ class ThemeCreated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
         $theme = $this->getTheme();
         $anime = $this->getAnime();
 
-        return DiscordMessage::create('Theme Created', [
-            'description' => "Theme '{$theme->getName()}' has been created for Anime '{$anime->getName()}'.",
+        return DiscordMessage::create('', [
+            'description' => "Theme '**{$theme->getName()}**' has been created for Anime '**{$anime->getName()}**'.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

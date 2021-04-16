@@ -3,6 +3,7 @@
 namespace App\Events\Video;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
@@ -20,8 +21,9 @@ class VideoDeleted extends VideoEvent implements DiscordMessageEvent
     {
         $video = $this->getVideo();
 
-        return DiscordMessage::create('Video Deleted', [
-            'description' => "Video '{$video->getName()}' has been deleted.",
+        return DiscordMessage::create('', [
+            'description' => "Video '**{$video->getName()}**' has been deleted.",
+            'color' => EmbedColor::RED,
         ]);
     }
 

@@ -4,6 +4,7 @@ namespace App\Events\Anime;
 
 use App\Contracts\Events\CascadesRestoresEvent;
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Entry;
 use App\Models\Synonym;
 use App\Models\Theme;
@@ -26,8 +27,9 @@ class AnimeRestored extends AnimeEvent implements CascadesRestoresEvent, Discord
     {
         $anime = $this->getAnime();
 
-        return DiscordMessage::create('Anime Restored', [
-            'description' => "Anime '{$anime->getName()}' has been restored.",
+        return DiscordMessage::create('', [
+            'description' => "Anime '**{$anime->getName()}**' has been restored.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

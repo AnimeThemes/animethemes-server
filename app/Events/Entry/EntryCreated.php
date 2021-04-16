@@ -4,6 +4,7 @@ namespace App\Events\Entry;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Video;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -23,8 +24,9 @@ class EntryCreated extends EntryEvent implements DiscordMessageEvent, UpdateRela
     {
         $entry = $this->getEntry();
 
-        return DiscordMessage::create('Entry Created', [
-            'description' => "Entry '{$entry->getName()}' has been created.",
+        return DiscordMessage::create('', [
+            'description' => "Entry '**{$entry->getName()}**' has been created.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

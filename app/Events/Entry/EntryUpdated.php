@@ -5,6 +5,7 @@ namespace App\Events\Entry;
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Entry;
 use App\Models\Video;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -36,9 +37,10 @@ class EntryUpdated extends EntryEvent implements DiscordMessageEvent, UpdateRela
     {
         $entry = $this->getEntry();
 
-        return DiscordMessage::create('Entry Updated', [
-            'description' => "Entry '{$entry->getName()}' has been updated.",
+        return DiscordMessage::create('', [
+            'description' => "Entry '**{$entry->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
+            'color' => EmbedColor::YELLOW,
         ]);
     }
 

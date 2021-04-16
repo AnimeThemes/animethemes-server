@@ -4,6 +4,7 @@ namespace App\Events\Series;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Series;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
@@ -34,9 +35,10 @@ class SeriesUpdated extends SeriesEvent implements DiscordMessageEvent
     {
         $series = $this->getSeries();
 
-        return DiscordMessage::create('Series Updated', [
-            'description' => "Series '{$series->getName()}' has been updated.",
+        return DiscordMessage::create('', [
+            'description' => "Series '**{$series->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
+            'color' => EmbedColor::YELLOW,
         ]);
     }
 

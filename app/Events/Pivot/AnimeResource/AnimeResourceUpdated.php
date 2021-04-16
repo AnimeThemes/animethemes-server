@@ -4,6 +4,7 @@ namespace App\Events\Pivot\AnimeResource;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Pivots\AnimeResource;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
@@ -35,9 +36,10 @@ class AnimeResourceUpdated extends AnimeResourceEvent implements DiscordMessageE
         $anime = $this->getAnime();
         $resource = $this->getResource();
 
-        return DiscordMessage::create('Resource Updated', [
-            'description' => "Resource '{$resource->getName()}' for Anime '{$anime->getName()}' has been updated.",
+        return DiscordMessage::create('', [
+            'description' => "Resource '**{$resource->getName()}**' for Anime '**{$anime->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
+            'color' => EmbedColor::YELLOW,
         ]);
     }
 

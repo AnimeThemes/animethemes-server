@@ -4,6 +4,7 @@ namespace App\Events\Pivot\ArtistMember;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Pivots\ArtistMember;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
@@ -35,9 +36,10 @@ class ArtistMemberUpdated extends ArtistMemberEvent implements DiscordMessageEve
         $artist = $this->getArtist();
         $member = $this->getMember();
 
-        return DiscordMessage::create('Member Updated', [
-            'description' => "Member '{$member->getName()}' for Artist '{$artist->getName()}' has been updated.",
+        return DiscordMessage::create('', [
+            'description' => "Member '**{$member->getName()}**' for Artist '**{$artist->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
+            'color' => EmbedColor::YELLOW,
         ]);
     }
 

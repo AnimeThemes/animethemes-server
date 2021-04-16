@@ -3,6 +3,7 @@
 namespace App\Events\ExternalResource;
 
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -21,8 +22,9 @@ class ExternalResourceCreated extends ExternalResourceEvent implements DiscordMe
     {
         $resource = $this->getResource();
 
-        return DiscordMessage::create('Resource Created', [
-            'description' => "Resource '{$resource->getName()}' has been created.",
+        return DiscordMessage::create('', [
+            'description' => "Resource '**{$resource->getName()}**' has been created.",
+            'color' => EmbedColor::GREEN,
         ]);
     }
 

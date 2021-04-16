@@ -4,6 +4,7 @@ namespace App\Events\Video;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Video;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
@@ -34,9 +35,10 @@ class VideoUpdated extends VideoEvent implements DiscordMessageEvent
     {
         $video = $this->getVideo();
 
-        return DiscordMessage::create('Video Updated', [
-            'description' => "Video '{$video->getName()}' has been updated.",
+        return DiscordMessage::create('', [
+            'description' => "Video '**{$video->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
+            'color' => EmbedColor::YELLOW,
         ]);
     }
 

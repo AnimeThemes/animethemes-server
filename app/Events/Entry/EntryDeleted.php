@@ -4,6 +4,7 @@ namespace App\Events\Entry;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Discord\EmbedColor;
 use App\Models\Video;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
@@ -22,8 +23,9 @@ class EntryDeleted extends EntryEvent implements DiscordMessageEvent, UpdateRela
     {
         $entry = $this->getEntry();
 
-        return DiscordMessage::create('Entry Deleted', [
-            'description' => "Entry '{$entry->getName()}' has been deleted.",
+        return DiscordMessage::create('', [
+            'description' => "Entry '**{$entry->getName()}**' has been deleted.",
+            'color' => EmbedColor::RED,
         ]);
     }
 
