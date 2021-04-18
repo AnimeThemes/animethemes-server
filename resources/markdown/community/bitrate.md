@@ -219,7 +219,6 @@ Gugure! Kokkuri-san|"This Merry-Go-Round Song"|[ED2][Trans]|
 Gugure! Kokkuri-san|"This Merry-Go-Round Song (Piano Version)"|[ED3]|
 Gunslinger Stratos The Animation|"MIRAI"|[ED]|
 Gunslinger Stratos The Animation|"vanilla sky"|[OP]|
-Gyakkyou Burai Kaiji Hakairoku Hen|"Chase the Light!"|[OP][480]|
 Hai to Gensou no Grimgar|"Knew day"|[OP V2][NC, 1080]|
 Hai to Gensou no Grimgar|"Knew day"|[OP V1]|
 Hai to Gensou no Grimgar|"Knew day"|[ED1]|
