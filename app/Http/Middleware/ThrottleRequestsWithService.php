@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Enlightn\Enlightn\Analyzers\Concerns\DetectsRedis;
+use Illuminate\Cache\RateLimiter;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
@@ -24,10 +25,20 @@ class ThrottleRequestsWithService
      */
     public function handle(Request $request, Closure $next, $maxAttempts = 60, $decayMinutes = 1, $prefix = '')
     {
+        // Throttle with Redis if configured, else use default throttling middleware
+        $middleware = null;
         if ($this->appUsesRedis()) {
-            return app(ThrottleRequestsWithRedis::class)->handle($request, $next, $maxAttempts, $decayMinutes, $prefix);
+            $middleware = app(ThrottleRequestsWithRedis::class);
+        } else {
+            $middleware = app(ThrottleRequests::class);
         }
 
-        return app(ThrottleRequests::class)->handle($request, $next, $maxAttempts, $decayMinutes, $prefix);
+        // Use named limiter if configured, else use default handling
+        // Note: framework requires that we pass exactly 3 arguments to use named limiter
+        if (app(RateLimiter::class)->limiter($maxAttempts) !== null) {
+            return $middleware->handle($request, $next, $maxAttempts);
+        }
+
+        return $middleware->handle($request, $next, $maxAttempts, $decayMinutes, $prefix);
     }
 }

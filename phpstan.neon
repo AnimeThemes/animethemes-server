@@ -20,6 +20,9 @@ parameters:
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::jsonApiResource\(\).#'
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::withCurrentTeam\(\).#'
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::withPersonalTeam\(\).#'
+        -
+            message: '#Unreachable statement - code above always terminates.#'
+            path: app/Http/Middleware/ThrottleRequestsWithService.php
 
     excludes_analyse:
 
