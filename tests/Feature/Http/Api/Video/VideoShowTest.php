@@ -20,21 +20,15 @@ class VideoShowTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * By default, the Video Show Endpoint shall return a Video Resource with all allowed include paths.
+     * By default, the Video Show Endpoint shall return a Video Resource.
      *
      * @return void
      */
     public function testDefault()
     {
-        Video::factory()
-            ->has(
-                Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->for(Theme::factory()->for(Anime::factory()))
-            )
-            ->create();
+        $this->withoutEvents();
 
-        $video = Video::with(VideoResource::allowedIncludePaths())->first();
+        $video = Video::factory()->create();
 
         $response = $this->get(route('api.video.show', ['video' => $video]));
 
@@ -57,11 +51,11 @@ class VideoShowTest extends TestCase
      */
     public function testSoftDelete()
     {
+        $this->withoutEvents();
+
         $video = Video::factory()->createOne();
 
         $video->delete();
-
-        $video = Video::withTrashed()->with(VideoResource::allowedIncludePaths())->first();
 
         $response = $this->get(route('api.video.show', ['video' => $video]));
 
@@ -122,6 +116,8 @@ class VideoShowTest extends TestCase
      */
     public function testSparseFieldsets()
     {
+        $this->withoutEvents();
+
         $fields = collect([
             'id',
             'basename',
@@ -151,9 +147,7 @@ class VideoShowTest extends TestCase
             ],
         ];
 
-        Video::factory()->create();
-
-        $video = Video::with(VideoResource::allowedIncludePaths())->first();
+        $video = Video::factory()->create();
 
         $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
 
@@ -182,6 +176,7 @@ class VideoShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'nsfw' => $nsfw_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries',
         ];
 
         Video::factory()
@@ -226,6 +221,7 @@ class VideoShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'spoiler' => $spoiler_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries',
         ];
 
         Video::factory()
@@ -271,6 +267,7 @@ class VideoShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'version' => $version_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries',
         ];
 
         Video::factory()
@@ -320,6 +317,7 @@ class VideoShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'group' => $group_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries.theme',
         ];
 
         Video::factory()
@@ -371,6 +369,7 @@ class VideoShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'sequence' => $sequence_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries.theme',
         ];
 
         Video::factory()
@@ -421,6 +420,7 @@ class VideoShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'type' => $type_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries.theme',
         ];
 
         Video::factory()
@@ -465,6 +465,7 @@ class VideoShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries.theme.anime',
         ];
 
         Video::factory()
@@ -510,6 +511,7 @@ class VideoShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries.theme.anime',
         ];
 
         Video::factory()

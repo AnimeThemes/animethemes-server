@@ -5,11 +5,12 @@ namespace Tests\Feature\Http\Api\Anime;
 use App\Models\Anime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 class YearIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
      * The Year Index Endpoint shall display a list of unique years of anime.

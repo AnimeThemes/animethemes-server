@@ -29,13 +29,9 @@ class ExternalResourceIndexTest extends TestCase
      */
     public function testDefault()
     {
-        ExternalResource::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
+        $resources = ExternalResource::factory()
             ->count($this->faker->randomDigitNotNull)
             ->create();
-
-        $resources = ExternalResource::with(ExternalResourceCollection::allowedIncludePaths())->get();
 
         $response = $this->get(route('api.resource.index'));
 
@@ -131,13 +127,9 @@ class ExternalResourceIndexTest extends TestCase
             ],
         ];
 
-        ExternalResource::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
+        $resources = ExternalResource::factory()
             ->count($this->faker->randomDigitNotNull)
             ->create();
-
-        $resources = ExternalResource::with(ExternalResourceCollection::allowedIncludePaths())->get();
 
         $response = $this->get(route('api.resource.index', $parameters));
 
@@ -179,7 +171,7 @@ class ExternalResourceIndexTest extends TestCase
 
         ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $builder = ExternalResource::with(ExternalResourceCollection::allowedIncludePaths());
+        $builder = ExternalResource::query();
 
         foreach ($parser->getSorts() as $field => $isAsc) {
             $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
@@ -450,8 +442,6 @@ class ExternalResourceIndexTest extends TestCase
         ];
 
         ExternalResource::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
@@ -484,6 +474,7 @@ class ExternalResourceIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         ExternalResource::factory()
@@ -526,6 +517,7 @@ class ExternalResourceIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         ExternalResource::factory()

@@ -15,14 +15,13 @@ class AnnouncementShowTest extends TestCase
     use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
-     * By default, the Annouc Show Endpoint shall return an Announcement Resource with all allowed include paths.
+     * By default, the Annouc Show Endpoint shall return an Announcement Resource.
      *
      * @return void
      */
     public function testDefault()
     {
-        Announcement::factory()->create();
-        $announcement = Announcement::with(AnnouncementResource::allowedIncludePaths())->first();
+        $announcement = Announcement::factory()->create();
 
         $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
 
@@ -49,7 +48,7 @@ class AnnouncementShowTest extends TestCase
 
         $announcement->delete();
 
-        $announcement = Announcement::withTrashed()->with(AnnouncementResource::allowedIncludePaths())->first();
+        $announcement->unsetRelations();
 
         $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
 
@@ -119,8 +118,7 @@ class AnnouncementShowTest extends TestCase
             ],
         ];
 
-        Announcement::factory()->create();
-        $announcement = Announcement::with(AnnouncementResource::allowedIncludePaths())->first();
+        $announcement = Announcement::factory()->create();
 
         $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
 

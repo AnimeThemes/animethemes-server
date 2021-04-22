@@ -18,6 +18,7 @@ use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 class AnimeShowTest extends TestCase
@@ -25,14 +26,15 @@ class AnimeShowTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * By default, the Anime Show Endpoint shall return an Anime Resource with all allowed include paths.
+     * By default, the Anime Show Endpoint shall return an Anime Resource.
      *
      * @return void
      */
     public function testDefault()
     {
-        Anime::factory()->jsonApiResource()->create();
-        $anime = Anime::with(AnimeResource::allowedIncludePaths())->first();
+        $this->withoutEvents();
+
+        $anime = Anime::factory()->create();
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime]));
 
@@ -49,17 +51,19 @@ class AnimeShowTest extends TestCase
     }
 
     /**
-     * The Image Show Endpoint shall return an Anime Resource for soft deleted anime.
+     * The Anime Show Endpoint shall return an Anime Resource for soft deleted anime.
      *
      * @return void
      */
     public function testSoftDelete()
     {
+        $this->withoutEvents();
+
         $anime = Anime::factory()->createOne();
 
         $anime->delete();
 
-        $anime = Anime::withTrashed()->with(AnimeResource::allowedIncludePaths())->first();
+        $anime->unsetRelations();
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime]));
 
@@ -113,6 +117,8 @@ class AnimeShowTest extends TestCase
      */
     public function testSparseFieldsets()
     {
+        $this->withoutEvents();
+
         $fields = collect([
             'id',
             'name',
@@ -133,8 +139,7 @@ class AnimeShowTest extends TestCase
             ],
         ];
 
-        Anime::factory()->create();
-        $anime = Anime::with(AnimeResource::allowedIncludePaths())->first();
+        $anime = Anime::factory()->create();
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
@@ -164,6 +169,7 @@ class AnimeShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'group' => $group_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes',
         ];
 
         Anime::factory()
@@ -212,6 +218,7 @@ class AnimeShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'sequence' => $sequence_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes',
         ];
 
         Anime::factory()
@@ -259,6 +266,7 @@ class AnimeShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'type' => $type_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes',
         ];
 
         Anime::factory()
@@ -299,6 +307,7 @@ class AnimeShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'nsfw' => $nsfw_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.entries',
         ];
 
         Anime::factory()
@@ -343,6 +352,7 @@ class AnimeShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'spoiler' => $spoiler_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.entries',
         ];
 
         Anime::factory()
@@ -388,6 +398,7 @@ class AnimeShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'version' => $version_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.entries',
         ];
 
         Anime::factory()
@@ -433,12 +444,15 @@ class AnimeShowTest extends TestCase
      */
     public function testResourcesBySite()
     {
+        $this->withoutEvents();
+
         $site_filter = ResourceSite::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'site' => $site_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'externalResources',
         ];
 
         Anime::factory()
@@ -473,12 +487,15 @@ class AnimeShowTest extends TestCase
      */
     public function testImagesByFacet()
     {
+        $this->withoutEvents();
+
         $facet_filter = ImageFacet::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'facet' => $facet_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'images',
         ];
 
         Anime::factory()
@@ -519,6 +536,7 @@ class AnimeShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'lyrics' => $lyrics_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->create();
@@ -557,6 +575,7 @@ class AnimeShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'nc' => $nc_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->create();
@@ -595,6 +614,7 @@ class AnimeShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'overlap' => $overlap_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->create();
@@ -634,6 +654,7 @@ class AnimeShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'resolution' => $resolution_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
 
         Anime::factory()
@@ -689,6 +710,7 @@ class AnimeShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'source' => $source_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->create();
@@ -727,6 +749,7 @@ class AnimeShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'subbed' => $subbed_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->create();
@@ -765,6 +788,7 @@ class AnimeShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'uncen' => $uncen_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->create();

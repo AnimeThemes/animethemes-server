@@ -24,19 +24,16 @@ class EntryIndexTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * By default, the Entry Index Endpoint shall return a collection of Entry Resources with all allowed include paths.
+     * By default, the Entry Index Endpoint shall return a collection of Entry Resources.
      *
      * @return void
      */
     public function testDefault()
     {
-        Entry::factory()
+        $entries = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull)
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
             ->create();
-
-        $entries = Entry::with(EntryCollection::allowedIncludePaths())->get();
 
         $response = $this->get(route('api.entry.index'));
 
@@ -62,7 +59,6 @@ class EntryIndexTest extends TestCase
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull)
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
             ->create();
 
         $response = $this->get(route('api.entry.index'));
@@ -137,13 +133,10 @@ class EntryIndexTest extends TestCase
             ],
         ];
 
-        Entry::factory()
+        $entries = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull)
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
             ->create();
-
-        $entries = Entry::with(EntryCollection::allowedIncludePaths())->get();
 
         $response = $this->get(route('api.entry.index', $parameters));
 
@@ -186,10 +179,9 @@ class EntryIndexTest extends TestCase
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull)
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
             ->create();
 
-        $builder = Entry::with(EntryCollection::allowedIncludePaths());
+        $builder = Entry::query();
 
         foreach ($parser->getSorts() as $field => $isAsc) {
             $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
@@ -229,7 +221,6 @@ class EntryIndexTest extends TestCase
             Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull)
-                ->has(Video::factory()->count($this->faker->randomDigitNotNull))
                 ->create();
         });
 
@@ -237,7 +228,6 @@ class EntryIndexTest extends TestCase
             Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull)
-                ->has(Video::factory()->count($this->faker->randomDigitNotNull))
                 ->create();
         });
 
@@ -277,7 +267,6 @@ class EntryIndexTest extends TestCase
             Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull)
-                ->has(Video::factory()->count($this->faker->randomDigitNotNull))
                 ->create();
         });
 
@@ -285,7 +274,6 @@ class EntryIndexTest extends TestCase
             Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull)
-                ->has(Video::factory()->count($this->faker->randomDigitNotNull))
                 ->create();
         });
 
@@ -321,13 +309,11 @@ class EntryIndexTest extends TestCase
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull)
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
             ->create();
 
         $delete_entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull)
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
             ->create();
 
         $delete_entry->each(function ($entry) {
@@ -366,13 +352,11 @@ class EntryIndexTest extends TestCase
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull)
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
             ->create();
 
         $delete_entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull)
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
             ->create();
 
         $delete_entry->each(function ($entry) {
@@ -411,13 +395,11 @@ class EntryIndexTest extends TestCase
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull)
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
             ->create();
 
         $delete_entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull)
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
             ->create();
 
         $delete_entry->each(function ($entry) {
@@ -461,7 +443,6 @@ class EntryIndexTest extends TestCase
             $entry = Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull)
-                ->has(Video::factory()->count($this->faker->randomDigitNotNull))
                 ->create();
 
             $entry->each(function ($item) {
@@ -473,7 +454,6 @@ class EntryIndexTest extends TestCase
             $entry = Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull)
-                ->has(Video::factory()->count($this->faker->randomDigitNotNull))
                 ->create();
 
             $entry->each(function ($item) {
@@ -623,6 +603,7 @@ class EntryIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Entry::factory()
@@ -665,6 +646,7 @@ class EntryIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Entry::factory()
@@ -714,6 +696,7 @@ class EntryIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'group' => $group_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'theme',
         ];
 
         Entry::factory()
@@ -762,6 +745,7 @@ class EntryIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'sequence' => $sequence_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'theme',
         ];
 
         Entry::factory()
@@ -809,6 +793,7 @@ class EntryIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'type' => $type_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'theme',
         ];
 
         Entry::factory()

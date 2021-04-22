@@ -1335,14 +1335,6 @@ Theme title|Links|Episodes|Notes
 -|-|-|-
 ED "Futuristic Player"|[Webm]()||
 
-### [Sazae-san](https://myanimelist.net/anime/2406/)
-**Mrs. Sazae**
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-OP "Sazae-san"|[Webm]()||
-ED "Sazae-san Ikka"|[Webm]()||
-
 ### [Sengoku Musou](https://myanimelist.net/anime/28283/)
 **Samurai Warriors**
 

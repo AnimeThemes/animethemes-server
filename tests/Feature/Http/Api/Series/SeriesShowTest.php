@@ -27,14 +27,15 @@ class SeriesShowTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * By default, the Series Show Endpoint shall return a Series Resource with all allowed include paths.
+     * By default, the Series Show Endpoint shall return a Series Resource.
      *
      * @return void
      */
     public function testDefault()
     {
-        Series::factory()->jsonApiResource()->create();
-        $series = Series::with(SeriesResource::allowedIncludePaths())->first();
+        $this->withoutEvents();
+
+        $series = Series::factory()->create();
 
         $response = $this->get(route('api.series.show', ['series' => $series]));
 
@@ -57,11 +58,13 @@ class SeriesShowTest extends TestCase
      */
     public function testSoftDelete()
     {
+        $this->withoutEvents();
+
         $series = Series::factory()->createOne();
 
         $series->delete();
 
-        $series = Series::withTrashed()->with(SeriesResource::allowedIncludePaths())->first();
+        $series->unsetRelations();
 
         $response = $this->get(route('api.series.show', ['series' => $series]));
 
@@ -115,6 +118,8 @@ class SeriesShowTest extends TestCase
      */
     public function testSparseFieldsets()
     {
+        $this->withoutEvents();
+
         $fields = collect([
             'id',
             'name',
@@ -132,8 +137,7 @@ class SeriesShowTest extends TestCase
             ],
         ];
 
-        Series::factory()->create();
-        $series = Series::with(SeriesResource::allowedIncludePaths())->first();
+        $series = Series::factory()->create();
 
         $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
 
@@ -156,12 +160,15 @@ class SeriesShowTest extends TestCase
      */
     public function testAnimeBySeason()
     {
+        $this->withoutEvents();
+
         $season_filter = AnimeSeason::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Series::factory()
@@ -196,12 +203,15 @@ class SeriesShowTest extends TestCase
      */
     public function testYearFilter()
     {
+        $this->withoutEvents();
+
         $year_filter = $this->faker->numberBetween(2000, 2002);
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Series::factory()
@@ -251,6 +261,7 @@ class SeriesShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'group' => $group_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes',
         ];
 
         Series::factory()
@@ -303,6 +314,7 @@ class SeriesShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'sequence' => $sequence_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes',
         ];
 
         Series::factory()
@@ -354,6 +366,7 @@ class SeriesShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'type' => $type_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes',
         ];
 
         Series::factory()
@@ -398,6 +411,7 @@ class SeriesShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'nsfw' => $nsfw_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries',
         ];
 
         Series::factory()
@@ -446,6 +460,7 @@ class SeriesShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'spoiler' => $spoiler_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries',
         ];
 
         Series::factory()
@@ -495,6 +510,7 @@ class SeriesShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'version' => $version_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries',
         ];
 
         Series::factory()
@@ -544,12 +560,15 @@ class SeriesShowTest extends TestCase
      */
     public function testResourcesBySite()
     {
+        $this->withoutEvents();
+
         $site_filter = ResourceSite::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'site' => $site_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.externalResources',
         ];
 
         Series::factory()
@@ -588,12 +607,15 @@ class SeriesShowTest extends TestCase
      */
     public function testImagesByFacet()
     {
+        $this->withoutEvents();
+
         $facet_filter = ImageFacet::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'facet' => $facet_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.images',
         ];
 
         Series::factory()
@@ -638,6 +660,7 @@ class SeriesShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'lyrics' => $lyrics_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()->jsonApiResource()->create();
@@ -676,6 +699,7 @@ class SeriesShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'nc' => $nc_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()->jsonApiResource()->create();
@@ -714,6 +738,7 @@ class SeriesShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'overlap' => $overlap_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()->jsonApiResource()->create();
@@ -753,6 +778,7 @@ class SeriesShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'resolution' => $resolution_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()
@@ -812,6 +838,7 @@ class SeriesShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'source' => $source_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()->jsonApiResource()->create();
@@ -850,6 +877,7 @@ class SeriesShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'subbed' => $subbed_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()->jsonApiResource()->create();
@@ -888,6 +916,7 @@ class SeriesShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'uncen' => $uncen_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()->jsonApiResource()->create();

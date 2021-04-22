@@ -24,19 +24,15 @@ class SongIndexTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * By default, the Song Index Endpoint shall return a collection of Song Resources with all allowed include paths.
+     * By default, the Song Index Endpoint shall return a collection of Song Resources.
      *
      * @return void
      */
     public function testDefault()
     {
-        Song::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull)->for(Anime::factory()))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
-            ->count($this->faker->randomDigitNotNull)
-            ->create();
+        $this->withoutEvents();
 
-        $songs = Song::with(SongCollection::allowedIncludePaths())->get();
+        $songs = Song::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $response = $this->get(route('api.song.index'));
 
@@ -59,6 +55,8 @@ class SongIndexTest extends TestCase
      */
     public function testPaginated()
     {
+        $this->withoutEvents();
+
         Song::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $response = $this->get(route('api.song.index'));
@@ -113,6 +111,8 @@ class SongIndexTest extends TestCase
      */
     public function testSparseFieldsets()
     {
+        $this->withoutEvents();
+
         $fields = collect([
             'id',
             'title',
@@ -130,13 +130,7 @@ class SongIndexTest extends TestCase
             ],
         ];
 
-        Song::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull)->for(Anime::factory()))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
-            ->count($this->faker->randomDigitNotNull)
-            ->create();
-
-        $songs = Song::with(SongCollection::allowedIncludePaths())->get();
+        $songs = Song::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $response = $this->get(route('api.song.index', $parameters));
 
@@ -178,7 +172,7 @@ class SongIndexTest extends TestCase
 
         Song::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $builder = Song::with(SongCollection::allowedIncludePaths());
+        $builder = Song::query();
 
         foreach ($parser->getSorts() as $field => $isAsc) {
             $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
@@ -205,6 +199,8 @@ class SongIndexTest extends TestCase
      */
     public function testCreatedAtFilter()
     {
+        $this->withoutEvents();
+
         $created_filter = $this->faker->date();
         $excluded_date = $this->faker->date();
 
@@ -245,6 +241,8 @@ class SongIndexTest extends TestCase
      */
     public function testUpdatedAtFilter()
     {
+        $this->withoutEvents();
+
         $updated_filter = $this->faker->date();
         $excluded_date = $this->faker->date();
 
@@ -285,6 +283,8 @@ class SongIndexTest extends TestCase
      */
     public function testWithoutTrashedFilter()
     {
+        $this->withoutEvents();
+
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'trashed' => TrashedStatus::WITHOUT,
@@ -321,6 +321,8 @@ class SongIndexTest extends TestCase
      */
     public function testWithTrashedFilter()
     {
+        $this->withoutEvents();
+
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'trashed' => TrashedStatus::WITH,
@@ -357,6 +359,8 @@ class SongIndexTest extends TestCase
      */
     public function testOnlyTrashedFilter()
     {
+        $this->withoutEvents();
+
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'trashed' => TrashedStatus::ONLY,
@@ -393,6 +397,8 @@ class SongIndexTest extends TestCase
      */
     public function testDeletedAtFilter()
     {
+        $this->withoutEvents();
+
         $deleted_filter = $this->faker->date();
         $excluded_date = $this->faker->date();
 
@@ -447,6 +453,7 @@ class SongIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'group' => $group_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes',
         ];
 
         Song::factory()
@@ -497,6 +504,7 @@ class SongIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'sequence' => $sequence_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes',
         ];
 
         Song::factory()
@@ -546,6 +554,7 @@ class SongIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'type' => $type_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes',
         ];
 
         Song::factory()
@@ -587,6 +596,7 @@ class SongIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.anime',
         ];
 
         Song::factory()
@@ -629,6 +639,7 @@ class SongIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.anime',
         ];
 
         Song::factory()

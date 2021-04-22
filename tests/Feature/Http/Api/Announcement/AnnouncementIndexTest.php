@@ -19,14 +19,13 @@ class AnnouncementIndexTest extends TestCase
     use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
-     * By default, the Announcement Index Endpoint shall return a collection of Announcement Resources with all allowed include paths.
+     * By default, the Announcement Index Endpoint shall return a collection of Announcement Resources.
      *
      * @return void
      */
     public function testDefault()
     {
-        Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
-        $announcements = Announcement::with(AnnouncementCollection::allowedIncludePaths())->get();
+        $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $response = $this->get(route('api.announcement.index'));
 
@@ -114,8 +113,7 @@ class AnnouncementIndexTest extends TestCase
             ],
         ];
 
-        Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
-        $announcements = Announcement::with(AnnouncementCollection::allowedIncludePaths())->get();
+        $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $response = $this->get(route('api.announcement.index', $parameters));
 
@@ -157,7 +155,7 @@ class AnnouncementIndexTest extends TestCase
 
         Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $builder = Announcement::with(AnnouncementCollection::allowedIncludePaths());
+        $builder = Announcement::query();
 
         foreach ($parser->getSorts() as $field => $isAsc) {
             $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
