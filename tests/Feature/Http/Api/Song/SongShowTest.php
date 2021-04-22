@@ -20,18 +20,15 @@ class SongShowTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * By default, the Song Show Endpoint shall return a Song Resource with all allowed include paths.
+     * By default, the Song Show Endpoint shall return a Song Resource.
      *
      * @return void
      */
     public function testDefault()
     {
-        Song::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull)->for(Anime::factory()))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
-            ->create();
+        $this->withoutEvents();
 
-        $song = Song::with(SongResource::allowedIncludePaths())->first();
+        $song = Song::factory()->create();
 
         $response = $this->get(route('api.song.show', ['song' => $song]));
 
@@ -54,11 +51,13 @@ class SongShowTest extends TestCase
      */
     public function testSoftDelete()
     {
+        $this->withoutEvents();
+
         $song = Song::factory()->createOne();
 
         $song->delete();
 
-        $song = Song::withTrashed()->with(SongResource::allowedIncludePaths())->first();
+        $song->unsetRelations();
 
         $response = $this->get(route('api.song.show', ['song' => $song]));
 
@@ -116,6 +115,8 @@ class SongShowTest extends TestCase
      */
     public function testSparseFieldsets()
     {
+        $this->withoutEvents();
+
         $fields = collect([
             'id',
             'title',
@@ -133,12 +134,7 @@ class SongShowTest extends TestCase
             ],
         ];
 
-        Song::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull)->for(Anime::factory()))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
-            ->create();
-
-        $song = Song::with(SongResource::allowedIncludePaths())->first();
+        $song = Song::factory()->create();
 
         $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
 
@@ -168,6 +164,7 @@ class SongShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'group' => $group_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes',
         ];
 
         Song::factory()
@@ -217,6 +214,7 @@ class SongShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'sequence' => $sequence_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes',
         ];
 
         Song::factory()
@@ -265,6 +263,7 @@ class SongShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'type' => $type_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes',
         ];
 
         Song::factory()
@@ -305,6 +304,7 @@ class SongShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.anime',
         ];
 
         Song::factory()
@@ -346,6 +346,7 @@ class SongShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'themes.anime',
         ];
 
         Song::factory()

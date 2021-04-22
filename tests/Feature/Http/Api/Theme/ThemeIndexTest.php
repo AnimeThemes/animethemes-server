@@ -29,7 +29,7 @@ class ThemeIndexTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * By default, the Theme Index Endpoint shall return a collection of Theme Resources with all allowed include paths.
+     * By default, the Theme Index Endpoint shall return a collection of Theme Resources.
      *
      * @return void
      */
@@ -38,15 +38,10 @@ class ThemeIndexTest extends TestCase
         Theme::factory()
             ->for(Anime::factory())
             ->for(Song::factory())
-            ->has(
-                Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
-            )
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $themes = Theme::with(ThemeCollection::allowedIncludePaths())->get();
+        $themes = Theme::all();
 
         $response = $this->get(route('api.theme.index'));
 
@@ -155,7 +150,7 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $themes = Theme::with(ThemeCollection::allowedIncludePaths())->get();
+        $themes = Theme::all();
 
         $response = $this->get(route('api.theme.index', $parameters));
 
@@ -200,7 +195,7 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $builder = Theme::with(ThemeCollection::allowedIncludePaths());
+        $builder = Theme::query();
 
         foreach ($parser->getSorts() as $field => $isAsc) {
             $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
@@ -619,6 +614,7 @@ class ThemeIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Theme::factory()
@@ -661,6 +657,7 @@ class ThemeIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Theme::factory()
@@ -707,6 +704,7 @@ class ThemeIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'facet' => $facet_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.images',
         ];
 
         Theme::factory()
@@ -751,6 +749,7 @@ class ThemeIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'nsfw' => $nsfw_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries',
         ];
 
         Theme::factory()
@@ -793,6 +792,7 @@ class ThemeIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'spoiler' => $spoiler_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries',
         ];
 
         Theme::factory()
@@ -836,6 +836,7 @@ class ThemeIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'version' => $version_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries',
         ];
 
         Theme::factory()
@@ -885,6 +886,7 @@ class ThemeIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'lyrics' => $lyrics_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
 
         Theme::factory()
@@ -931,6 +933,7 @@ class ThemeIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'nc' => $nc_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
 
         Theme::factory()
@@ -977,6 +980,7 @@ class ThemeIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'overlap' => $overlap_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
 
         Theme::factory()
@@ -1024,6 +1028,7 @@ class ThemeIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'resolution' => $resolution_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
 
         Theme::factory()
@@ -1077,6 +1082,7 @@ class ThemeIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'source' => $source_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
 
         Theme::factory()
@@ -1123,6 +1129,7 @@ class ThemeIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'subbed' => $subbed_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
 
         Theme::factory()
@@ -1169,6 +1176,7 @@ class ThemeIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'uncen' => $uncen_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
 
         Theme::factory()

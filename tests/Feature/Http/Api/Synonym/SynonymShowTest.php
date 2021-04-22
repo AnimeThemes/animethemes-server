@@ -17,17 +17,15 @@ class SynonymShowTest extends TestCase
     use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
-     * By default, the Synonym Show Endpoint shall return a Synonym Resource with all allowed include paths.
+     * By default, the Synonym Show Endpoint shall return a Synonym Resource.
      *
      * @return void
      */
     public function testDefault()
     {
-        Synonym::factory()
-            ->for(Anime::factory())
-            ->create();
+        $synonym = Synonym::factory()->for(Anime::factory())->createOne();
 
-        $synonym = Synonym::with(SynonymResource::allowedIncludePaths())->first();
+        $synonym->unsetRelations();
 
         $response = $this->get(route('api.synonym.show', ['synonym' => $synonym]));
 
@@ -50,13 +48,11 @@ class SynonymShowTest extends TestCase
      */
     public function testSoftDelete()
     {
-        $synonym = Synonym::factory()
-            ->for(Anime::factory())
-            ->createOne();
+        $synonym = Synonym::factory()->for(Anime::factory())->createOne();
 
         $synonym->delete();
 
-        $synonym = Synonym::withTrashed()->with(SynonymResource::allowedIncludePaths())->first();
+        $synonym->unsetRelations();
 
         $response = $this->get(route('api.synonym.show', ['synonym' => $synonym]));
 
@@ -86,9 +82,7 @@ class SynonymShowTest extends TestCase
             QueryParser::PARAM_INCLUDE => $included_paths->join(','),
         ];
 
-        Synonym::factory()
-            ->for(Anime::factory())
-            ->create();
+        Synonym::factory()->for(Anime::factory())->create();
 
         $synonym = Synonym::with($included_paths->all())->first();
 
@@ -129,12 +123,9 @@ class SynonymShowTest extends TestCase
             ],
         ];
 
-        Synonym::factory()
-            ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
-            ->create();
+        $synonym = Synonym::factory()->for(Anime::factory())->createOne();
 
-        $synonym = Synonym::with(SynonymResource::allowedIncludePaths())->first();
+        $synonym->unsetRelations();
 
         $response = $this->get(route('api.synonym.show', ['synonym' => $synonym] + $parameters));
 
@@ -163,11 +154,10 @@ class SynonymShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
-        Synonym::factory()
-            ->for(Anime::factory())
-            ->create();
+        Synonym::factory()->for(Anime::factory())->create();
 
         $synonym = Synonym::with([
             'anime' => function ($query) use ($season_filter) {
@@ -204,6 +194,7 @@ class SynonymShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Synonym::factory()

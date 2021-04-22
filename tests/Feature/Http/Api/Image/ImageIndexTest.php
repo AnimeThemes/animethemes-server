@@ -23,19 +23,15 @@ class ImageIndexTest extends TestCase
     use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
-     * By default, the Image Index Endpoint shall return a collection of Image Resources with all allowed include paths.
+     * By default, the Image Index Endpoint shall return a collection of Image Resources.
      *
      * @return void
      */
     public function testDefault()
     {
-        Image::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
+        $images = Image::factory()
             ->count($this->faker->randomDigitNotNull)
             ->create();
-
-        $images = Image::with(ImageCollection::allowedIncludePaths())->get();
 
         $response = $this->get(route('api.image.index'));
 
@@ -131,13 +127,9 @@ class ImageIndexTest extends TestCase
             ],
         ];
 
-        Image::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
+        $images = Image::factory()
             ->count($this->faker->randomDigitNotNull)
             ->create();
-
-        $images = Image::with(ImageCollection::allowedIncludePaths())->get();
 
         $response = $this->get(route('api.image.index', $parameters));
 
@@ -179,7 +171,7 @@ class ImageIndexTest extends TestCase
 
         Image::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $builder = Image::with(ImageCollection::allowedIncludePaths());
+        $builder = Image::query();
 
         foreach ($parser->getSorts() as $field => $isAsc) {
             $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
@@ -450,8 +442,6 @@ class ImageIndexTest extends TestCase
         ];
 
         Image::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
@@ -484,6 +474,7 @@ class ImageIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Image::factory()
@@ -526,6 +517,7 @@ class ImageIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Image::factory()

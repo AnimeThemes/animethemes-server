@@ -28,14 +28,15 @@ class ArtistIndexTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * By default, the Artist Index Endpoint shall return a collection of Artist Resources with all allowed include paths.
+     * By default, the Artist Index Endpoint shall return a collection of Artist Resources.
      *
      * @return void
      */
     public function testDefault()
     {
-        Artist::factory()->jsonApiResource()->create();
-        $artists = Artist::with(ArtistCollection::allowedIncludePaths())->get();
+        $this->withoutEvents();
+
+        $artists = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $response = $this->get(route('api.artist.index'));
 
@@ -58,7 +59,9 @@ class ArtistIndexTest extends TestCase
      */
     public function testPaginated()
     {
-        Artist::factory()->create();
+        $this->withoutEvents();
+
+        Artist::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $response = $this->get(route('api.artist.index'));
 
@@ -107,6 +110,8 @@ class ArtistIndexTest extends TestCase
      */
     public function testSparseFieldsets()
     {
+        $this->withoutEvents();
+
         $fields = collect([
             'id',
             'name',
@@ -125,8 +130,7 @@ class ArtistIndexTest extends TestCase
             ],
         ];
 
-        Artist::factory()->create();
-        $artists = Artist::with(ArtistCollection::allowedIncludePaths())->get();
+        $artists = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $response = $this->get(route('api.artist.index', $parameters));
 
@@ -149,6 +153,8 @@ class ArtistIndexTest extends TestCase
      */
     public function testSorts()
     {
+        $this->withoutEvents();
+
         $allowed_sorts = collect(ArtistCollection::allowedSortFields());
         $included_sorts = $allowed_sorts->random($this->faker->numberBetween(1, count($allowed_sorts)))->map(function ($included_sort) {
             if ($this->faker->boolean()) {
@@ -166,9 +172,9 @@ class ArtistIndexTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        Artist::factory()->create();
+        Artist::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $builder = Artist::with(ArtistCollection::allowedIncludePaths());
+        $builder = Artist::query();
 
         foreach ($parser->getSorts() as $field => $isAsc) {
             $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
@@ -195,6 +201,8 @@ class ArtistIndexTest extends TestCase
      */
     public function testCreatedAtFilter()
     {
+        $this->withoutEvents();
+
         $created_filter = $this->faker->date();
         $excluded_date = $this->faker->date();
 
@@ -235,6 +243,8 @@ class ArtistIndexTest extends TestCase
      */
     public function testUpdatedAtFilter()
     {
+        $this->withoutEvents();
+
         $updated_filter = $this->faker->date();
         $excluded_date = $this->faker->date();
 
@@ -275,6 +285,8 @@ class ArtistIndexTest extends TestCase
      */
     public function testWithoutTrashedFilter()
     {
+        $this->withoutEvents();
+
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'trashed' => TrashedStatus::WITHOUT,
@@ -311,6 +323,8 @@ class ArtistIndexTest extends TestCase
      */
     public function testWithTrashedFilter()
     {
+        $this->withoutEvents();
+
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'trashed' => TrashedStatus::WITH,
@@ -347,6 +361,8 @@ class ArtistIndexTest extends TestCase
      */
     public function testOnlyTrashedFilter()
     {
+        $this->withoutEvents();
+
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'trashed' => TrashedStatus::ONLY,
@@ -383,6 +399,8 @@ class ArtistIndexTest extends TestCase
      */
     public function testDeletedAtFilter()
     {
+        $this->withoutEvents();
+
         $deleted_filter = $this->faker->date();
         $excluded_date = $this->faker->date();
 
@@ -437,6 +455,7 @@ class ArtistIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'group' => $group_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'songs.themes',
         ];
 
         Artist::factory()
@@ -491,6 +510,7 @@ class ArtistIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'sequence' => $sequence_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'songs.themes',
         ];
 
         Artist::factory()
@@ -544,6 +564,7 @@ class ArtistIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'type' => $type_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'songs.themes',
         ];
 
         Artist::factory()
@@ -593,6 +614,7 @@ class ArtistIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'songs.themes.anime',
         ];
 
         Artist::factory()
@@ -643,6 +665,7 @@ class ArtistIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'songs.themes.anime',
         ];
 
         Artist::factory()
@@ -691,12 +714,15 @@ class ArtistIndexTest extends TestCase
      */
     public function testResourcesBySite()
     {
+        $this->withoutEvents();
+
         $site_filter = ResourceSite::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'site' => $site_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'externalResources',
         ];
 
         Artist::factory()
@@ -732,12 +758,15 @@ class ArtistIndexTest extends TestCase
      */
     public function testImagesByFacet()
     {
+        $this->withoutEvents();
+
         $facet_filter = ImageFacet::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'facet' => $facet_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'images',
         ];
 
         Artist::factory()

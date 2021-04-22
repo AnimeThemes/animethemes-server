@@ -31,14 +31,15 @@ class SeriesIndexTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * By default, the Series Index Endpoint shall return a collection of Series Resources with all allowed include paths.
+     * By default, the Series Index Endpoint shall return a collection of Series Resources.
      *
      * @return void
      */
     public function testDefault()
     {
-        Series::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
-        $series = Series::with(SeriesCollection::allowedIncludePaths())->get();
+        $this->withoutEvents();
+
+        $series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $response = $this->get(route('api.series.index'));
 
@@ -61,6 +62,8 @@ class SeriesIndexTest extends TestCase
      */
     public function testPaginated()
     {
+        $this->withoutEvents();
+
         Series::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $response = $this->get(route('api.series.index'));
@@ -110,6 +113,8 @@ class SeriesIndexTest extends TestCase
      */
     public function testSparseFieldsets()
     {
+        $this->withoutEvents();
+
         $fields = collect([
             'id',
             'name',
@@ -128,8 +133,7 @@ class SeriesIndexTest extends TestCase
             ],
         ];
 
-        Series::factory()->count($this->faker->randomDigitNotNull)->create();
-        $series = Series::with(SeriesCollection::allowedIncludePaths())->get();
+        $series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $response = $this->get(route('api.series.index', $parameters));
 
@@ -152,6 +156,8 @@ class SeriesIndexTest extends TestCase
      */
     public function testSorts()
     {
+        $this->withoutEvents();
+
         $allowed_sorts = collect(SeriesCollection::allowedSortFields());
         $included_sorts = $allowed_sorts->random($this->faker->numberBetween(1, count($allowed_sorts)))->map(function ($included_sort) {
             if ($this->faker->boolean()) {
@@ -171,7 +177,7 @@ class SeriesIndexTest extends TestCase
 
         Series::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $builder = Series::with(SeriesCollection::allowedIncludePaths());
+        $builder = Series::query();
 
         foreach ($parser->getSorts() as $field => $isAsc) {
             $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
@@ -198,6 +204,8 @@ class SeriesIndexTest extends TestCase
      */
     public function testCreatedAtFilter()
     {
+        $this->withoutEvents();
+
         $created_filter = $this->faker->date();
         $excluded_date = $this->faker->date();
 
@@ -238,6 +246,8 @@ class SeriesIndexTest extends TestCase
      */
     public function testUpdatedAtFilter()
     {
+        $this->withoutEvents();
+
         $updated_filter = $this->faker->date();
         $excluded_date = $this->faker->date();
 
@@ -278,6 +288,8 @@ class SeriesIndexTest extends TestCase
      */
     public function testWithoutTrashedFilter()
     {
+        $this->withoutEvents();
+
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'trashed' => TrashedStatus::WITHOUT,
@@ -314,6 +326,8 @@ class SeriesIndexTest extends TestCase
      */
     public function testWithTrashedFilter()
     {
+        $this->withoutEvents();
+
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'trashed' => TrashedStatus::WITH,
@@ -350,6 +364,8 @@ class SeriesIndexTest extends TestCase
      */
     public function testOnlyTrashedFilter()
     {
+        $this->withoutEvents();
+
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'trashed' => TrashedStatus::ONLY,
@@ -386,6 +402,8 @@ class SeriesIndexTest extends TestCase
      */
     public function testDeletedAtFilter()
     {
+        $this->withoutEvents();
+
         $deleted_filter = $this->faker->date();
         $excluded_date = $this->faker->date();
 
@@ -433,12 +451,15 @@ class SeriesIndexTest extends TestCase
      */
     public function testAnimeBySeason()
     {
+        $this->withoutEvents();
+
         $season_filter = AnimeSeason::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Series::factory()
@@ -474,12 +495,15 @@ class SeriesIndexTest extends TestCase
      */
     public function testYearFilter()
     {
+        $this->withoutEvents();
+
         $year_filter = $this->faker->numberBetween(2000, 2002);
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Series::factory()
@@ -530,6 +554,7 @@ class SeriesIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'group' => $group_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes',
         ];
 
         Series::factory()
@@ -583,6 +608,7 @@ class SeriesIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'sequence' => $sequence_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes',
         ];
 
         Series::factory()
@@ -635,6 +661,7 @@ class SeriesIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'type' => $type_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes',
         ];
 
         Series::factory()
@@ -680,6 +707,7 @@ class SeriesIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'nsfw' => $nsfw_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries',
         ];
 
         Series::factory()
@@ -729,6 +757,7 @@ class SeriesIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'spoiler' => $spoiler_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries',
         ];
 
         Series::factory()
@@ -779,6 +808,7 @@ class SeriesIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'version' => $version_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries',
         ];
 
         Series::factory()
@@ -829,12 +859,15 @@ class SeriesIndexTest extends TestCase
      */
     public function testResourcesBySite()
     {
+        $this->withoutEvents();
+
         $site_filter = ResourceSite::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'site' => $site_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.externalResources',
         ];
 
         Series::factory()
@@ -874,12 +907,15 @@ class SeriesIndexTest extends TestCase
      */
     public function testImagesByFacet()
     {
+        $this->withoutEvents();
+
         $facet_filter = ImageFacet::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'facet' => $facet_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.images',
         ];
 
         Series::factory()
@@ -925,6 +961,7 @@ class SeriesIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'lyrics' => $lyrics_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
@@ -963,6 +1000,7 @@ class SeriesIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'nc' => $nc_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
@@ -1001,6 +1039,7 @@ class SeriesIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'overlap' => $overlap_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
@@ -1040,6 +1079,7 @@ class SeriesIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'resolution' => $resolution_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()
@@ -1100,6 +1140,7 @@ class SeriesIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'source' => $source_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
@@ -1138,6 +1179,7 @@ class SeriesIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'subbed' => $subbed_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
@@ -1176,6 +1218,7 @@ class SeriesIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'uncen' => $uncen_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime.themes.entries.videos',
         ];
 
         Series::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();

@@ -19,18 +19,15 @@ class EntryShowTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * By default, the Entry Show Endpoint shall return an Entry Resource with all allowed include paths.
+     * By default, the Entry Show Endpoint shall return an Entry Resource.
      *
      * @return void
      */
     public function testDefault()
     {
-        Entry::factory()
+        $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
             ->create();
-
-        $entry = Entry::with(EntryResource::allowedIncludePaths())->first();
 
         $response = $this->get(route('api.entry.show', ['entry' => $entry]));
 
@@ -59,7 +56,7 @@ class EntryShowTest extends TestCase
 
         $entry->delete();
 
-        $entry = Entry::withTrashed()->with(EntryResource::allowedIncludePaths())->first();
+        $entry->unsetRelations();
 
         $response = $this->get(route('api.entry.show', ['entry' => $entry]));
 
@@ -137,12 +134,9 @@ class EntryShowTest extends TestCase
             ],
         ];
 
-        Entry::factory()
+        $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
             ->create();
-
-        $entry = Entry::with(EntryResource::allowedIncludePaths())->first();
 
         $response = $this->get(route('api.entry.show', ['entry' => $entry] + $parameters));
 
@@ -171,6 +165,7 @@ class EntryShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Entry::factory()
@@ -212,6 +207,7 @@ class EntryShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Entry::factory()
@@ -260,6 +256,7 @@ class EntryShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'group' => $group_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'theme',
         ];
 
         Entry::factory()
@@ -307,6 +304,7 @@ class EntryShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'sequence' => $sequence_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'theme',
         ];
 
         Entry::factory()
@@ -353,6 +351,7 @@ class EntryShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'type' => $type_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'theme',
         ];
 
         Entry::factory()

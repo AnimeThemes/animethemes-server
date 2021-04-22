@@ -82,11 +82,11 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     * By default, all include paths are allowed if include paths are not specified.
+     * By default, no include paths are allowed if include paths are not specified.
      *
      * @return void
      */
-    public function testAllAllowedIncludesByDefault()
+    public function testNoAllowedIncludesByDefault()
     {
         $includes = $this->faker->words($this->faker->randomDigitNotNull);
 
@@ -94,7 +94,7 @@ class QueryParserTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $this->assertEmpty(array_diff($includes, $parser->getIncludePaths($includes)));
+        $this->assertEmpty($parser->getIncludePaths($includes));
     }
 
     /**
@@ -136,11 +136,11 @@ class QueryParserTest extends TestCase
     }
 
     /**
-     * By default, all include paths are allowed if selected include paths are not specified.
+     * By default, no include paths are allowed if selected include paths are not specified.
      *
      * @return void
      */
-    public function testAllAllowedResourceIncludesByDefault()
+    public function testNoAllowedResourceIncludesByDefault()
     {
         $type = $this->faker->word();
         $includes = $this->faker->words($this->faker->randomDigitNotNull);
@@ -149,7 +149,7 @@ class QueryParserTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $this->assertEmpty(array_diff($includes, $parser->getResourceIncludePaths($includes, $type)));
+        $this->assertEmpty($parser->getResourceIncludePaths($includes, $type));
     }
 
     /**

@@ -353,13 +353,8 @@ class QueryParser
      */
     public function getIncludePaths($allowedIncludePaths)
     {
-        // If include paths are not specified, return full list of allowed include paths
-        if (is_null($this->includes)) {
-            return $allowedIncludePaths;
-        }
-
         // Return list of include paths that are contained in the list of allowed include paths
-        return array_values(array_intersect($this->includes, $allowedIncludePaths));
+        return collect($this->includes)->intersect($allowedIncludePaths)->all();
     }
 
     /**
@@ -371,14 +366,9 @@ class QueryParser
      */
     public function getResourceIncludePaths($allowedResourceIncludePaths, $type)
     {
-        // If we are not specifying include paths for this type, include all default relations
-        if (! Arr::exists($this->resourceIncludes, $type)) {
-            return $allowedResourceIncludePaths;
-        }
-
         // Return list of include paths that are contained in the list of allowed include paths for this type
         $resourceTypeIncludes = Arr::get($this->resourceIncludes, $type);
 
-        return array_values(array_intersect($resourceTypeIncludes, $allowedResourceIncludePaths));
+        return collect($resourceTypeIncludes)->intersect($allowedResourceIncludePaths)->all();
     }
 }

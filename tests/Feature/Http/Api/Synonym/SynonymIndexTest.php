@@ -21,7 +21,7 @@ class SynonymIndexTest extends TestCase
     use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
-     * By default, the Synonym Index Endpoint shall return a collection of Synonym Resources with all allowed include paths.
+     * By default, the Synonym Index Endpoint shall return a collection of Synonym Resources.
      *
      * @return void
      */
@@ -32,7 +32,7 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $synonyms = Synonym::with(SynonymCollection::allowedIncludePaths())->get();
+        $synonyms = Synonym::all();
 
         $response = $this->get(route('api.synonym.index'));
 
@@ -132,7 +132,7 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $synonyms = Synonym::with(SynonymCollection::allowedIncludePaths())->get();
+        $synonyms = Synonym::all();
 
         $response = $this->get(route('api.synonym.index', $parameters));
 
@@ -177,7 +177,7 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $builder = Synonym::with(SynonymCollection::allowedIncludePaths());
+        $builder = Synonym::query();
 
         foreach ($parser->getSorts() as $field => $isAsc) {
             $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
@@ -478,6 +478,7 @@ class SynonymIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Synonym::factory()
@@ -520,6 +521,7 @@ class SynonymIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Synonym::factory()

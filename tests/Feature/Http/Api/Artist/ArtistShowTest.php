@@ -24,14 +24,15 @@ class ArtistShowTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /**
-     * By default, the Artist Show Endpoint shall return an Artist Resource with all allowed include paths.
+     * By default, the Artist Show Endpoint shall return an Artist Resource.
      *
      * @return void
      */
     public function testDefault()
     {
-        Artist::factory()->jsonApiResource()->create();
-        $artist = Artist::with(ArtistResource::allowedIncludePaths())->first();
+        $this->withoutEvents();
+
+        $artist = Artist::factory()->create();
 
         $response = $this->get(route('api.artist.show', ['artist' => $artist]));
 
@@ -54,11 +55,13 @@ class ArtistShowTest extends TestCase
      */
     public function testSoftDelete()
     {
+        $this->withoutEvents();
+
         $artist = Artist::factory()->createOne();
 
         $artist->delete();
 
-        $artist = Artist::withTrashed()->with(ArtistResource::allowedIncludePaths())->first();
+        $artist->unsetRelations();
 
         $response = $this->get(route('api.artist.show', ['artist' => $artist]));
 
@@ -112,6 +115,8 @@ class ArtistShowTest extends TestCase
      */
     public function testSparseFieldsets()
     {
+        $this->withoutEvents();
+
         $fields = collect([
             'id',
             'name',
@@ -130,8 +135,7 @@ class ArtistShowTest extends TestCase
             ],
         ];
 
-        Artist::factory()->create();
-        $artist = Artist::with(ArtistResource::allowedIncludePaths())->first();
+        $artist = Artist::factory()->create();
 
         $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
@@ -161,6 +165,7 @@ class ArtistShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'group' => $group_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'songs.themes',
         ];
 
         Artist::factory()
@@ -214,6 +219,7 @@ class ArtistShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'sequence' => $sequence_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'songs.themes',
         ];
 
         Artist::factory()
@@ -266,6 +272,7 @@ class ArtistShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'type' => $type_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'songs.themes',
         ];
 
         Artist::factory()
@@ -314,6 +321,7 @@ class ArtistShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'songs.themes.anime',
         ];
 
         Artist::factory()
@@ -363,6 +371,7 @@ class ArtistShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'songs.themes.anime',
         ];
 
         Artist::factory()
@@ -410,12 +419,15 @@ class ArtistShowTest extends TestCase
      */
     public function testResourcesBySite()
     {
+        $this->withoutEvents();
+
         $site_filter = ResourceSite::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'site' => $site_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'externalResources',
         ];
 
         Artist::factory()
@@ -450,12 +462,15 @@ class ArtistShowTest extends TestCase
      */
     public function testImagesByFacet()
     {
+        $this->withoutEvents();
+
         $facet_filter = ImageFacet::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'facet' => $facet_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'images',
         ];
 
         Artist::factory()

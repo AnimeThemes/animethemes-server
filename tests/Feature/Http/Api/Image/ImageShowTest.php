@@ -18,18 +18,13 @@ class ImageShowTest extends TestCase
     use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
-     * By default, the Image Show Endpoint shall return an Image Resource with all allowed include paths.
+     * By default, the Image Show Endpoint shall return an Image Resource.
      *
      * @return void
      */
     public function testDefault()
     {
-        Image::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
-            ->create();
-
-        $image = Image::with(ImageResource::allowedIncludePaths())->first();
+        $image = Image::factory()->create();
 
         $response = $this->get(route('api.image.show', ['image' => $image]));
 
@@ -56,7 +51,7 @@ class ImageShowTest extends TestCase
 
         $image->delete();
 
-        $image = Image::withTrashed()->with(ImageResource::allowedIncludePaths())->first();
+        $image->unsetRelations();
 
         $response = $this->get(route('api.image.show', ['image' => $image]));
 
@@ -133,12 +128,7 @@ class ImageShowTest extends TestCase
             ],
         ];
 
-        Image::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
-            ->create();
-
-        $image = Image::with(ImageResource::allowedIncludePaths())->first();
+        $image = Image::factory()->create();
 
         $response = $this->get(route('api.image.show', ['image' => $image] + $parameters));
 
@@ -167,6 +157,7 @@ class ImageShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Image::factory()
@@ -208,6 +199,7 @@ class ImageShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         Image::factory()

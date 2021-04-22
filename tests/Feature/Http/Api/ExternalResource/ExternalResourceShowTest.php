@@ -18,18 +18,13 @@ class ExternalResourceShowTest extends TestCase
     use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
-     * By default, the Resource Show Endpoint shall return an ExternalResource Resource with all allowed include paths.
+     * By default, the Resource Show Endpoint shall return an ExternalResource Resource.
      *
      * @return void
      */
     public function testDefault()
     {
-        ExternalResource::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
-            ->create();
-
-        $resource = ExternalResource::with(ExternalResourceResource::allowedIncludePaths())->first();
+        $resource = ExternalResource::factory()->create();
 
         $response = $this->get(route('api.resource.show', ['resource' => $resource]));
 
@@ -56,7 +51,7 @@ class ExternalResourceShowTest extends TestCase
 
         $resource->delete();
 
-        $resource = ExternalResource::withTrashed()->with(ExternalResourceResource::allowedIncludePaths())->first();
+        $resource->unsetRelations();
 
         $response = $this->get(route('api.resource.show', ['resource' => $resource]));
 
@@ -133,12 +128,7 @@ class ExternalResourceShowTest extends TestCase
             ],
         ];
 
-        ExternalResource::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
-            ->create();
-
-        $resource = ExternalResource::with(ExternalResourceResource::allowedIncludePaths())->first();
+        $resource = ExternalResource::factory()->create();
 
         $response = $this->get(route('api.resource.show', ['resource' => $resource] + $parameters));
 
@@ -167,6 +157,7 @@ class ExternalResourceShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'season' => $season_filter->key,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         ExternalResource::factory()
@@ -208,6 +199,7 @@ class ExternalResourceShowTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'year' => $year_filter,
             ],
+            QueryParser::PARAM_INCLUDE => 'anime',
         ];
 
         ExternalResource::factory()
