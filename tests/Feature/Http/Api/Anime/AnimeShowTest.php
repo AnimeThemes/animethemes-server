@@ -18,7 +18,6 @@ use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 class AnimeShowTest extends TestCase
