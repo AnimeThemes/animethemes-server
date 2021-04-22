@@ -97,7 +97,9 @@ class QueryParser
             $fieldsParam = $parameters[self::PARAM_FIELDS];
             if (Arr::accessible($fieldsParam) && Arr::isAssoc($fieldsParam)) {
                 foreach ($fieldsParam as $type => $fieldList) {
-                    Arr::set($fields, $type, array_map('trim', explode(',', $fieldList)));
+                    if (! Arr::accessible($fieldList)) {
+                        Arr::set($fields, $type, array_map('trim', explode(',', $fieldList)));
+                    }
                 }
             }
         }
@@ -149,7 +151,9 @@ class QueryParser
             $includeParam = $parameters[self::PARAM_INCLUDE];
             if (Arr::accessible($includeParam) && Arr::isAssoc($includeParam)) {
                 foreach ($includeParam as $type => $includeList) {
-                    Arr::set($resourceIncludes, $type, array_map('trim', explode(',', $includeList)));
+                    if (! Arr::accessible($includeList)) {
+                        Arr::set($resourceIncludes, $type, array_map('trim', explode(',', $includeList)));
+                    }
                 }
             }
         }
@@ -219,7 +223,9 @@ class QueryParser
             $filterParam = $parameters[self::PARAM_FILTER];
             if (Arr::accessible($filterParam) && Arr::isAssoc($filterParam)) {
                 foreach (Arr::dot($filterParam) as $filterCondition => $filterValues) {
-                    $conditions[] = Condition::make($filterCondition, $filterValues);
+                    if ($filterValues !== null) {
+                        $conditions[] = Condition::make($filterCondition, $filterValues);
+                    }
                 }
             }
         }
@@ -278,7 +284,10 @@ class QueryParser
         $limit = 0;
 
         if (Arr::exists($parameters, self::PARAM_LIMIT)) {
-            $limit = intval($parameters[self::PARAM_LIMIT]);
+            $limitParam = $parameters[self::PARAM_LIMIT];
+            if (! Arr::accessible($limitParam)) {
+                $limit = intval($limitParam);
+            }
         }
 
         return $limit;
