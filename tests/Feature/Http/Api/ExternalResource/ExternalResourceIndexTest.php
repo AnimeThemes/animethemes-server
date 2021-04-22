@@ -23,7 +23,7 @@ class ExternalResourceIndexTest extends TestCase
     use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
-     * By default, the Resource Index Endpoint shall return a collection of ExternalResource Resources with all allowed include paths.
+     * By default, the Resource Index Endpoint shall return a collection of ExternalResource Resources.
      *
      * @return void
      */
