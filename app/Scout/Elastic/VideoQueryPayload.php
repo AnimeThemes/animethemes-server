@@ -2,23 +2,21 @@
 
 namespace App\Scout\Elastic;
 
-use App\Http\Resources\VideoCollection;
 use App\Models\Video;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
-use Illuminate\Support\Str;
 
 class VideoQueryPayload extends ElasticQueryPayload
 {
     /**
-     * Build and execute Elasticsearch query.
+     * Build Elasticsearch query.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
      */
-    protected function doPerformSearch()
+    protected function buildQuery()
     {
-        $builder = Video::boolSearch()
+        return Video::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('filename')
                 ->query($this->parser->getSearch())
@@ -253,10 +251,6 @@ class VideoQueryPayload extends ElasticQueryPayload
                     )
                 )
             )
-            ->minimumShouldMatch(1)
-            ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(VideoCollection::allowedIncludePaths(), Str::lower(VideoCollection::$wrap)));
-
-        return $builder->execute()->models();
+            ->minimumShouldMatch(1);
     }
 }

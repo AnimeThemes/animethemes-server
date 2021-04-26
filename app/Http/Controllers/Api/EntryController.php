@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\EntryCollection;
 use App\Http\Resources\EntryResource;
 use App\Models\Entry;
@@ -92,9 +93,11 @@ class EntryController extends BaseController
      */
     public function index()
     {
-        $entries = EntryCollection::performQuery($this->parser);
+        if ($this->parser->hasSearch()) {
+            return EntryCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
+        }
 
-        return $entries->toResponse(request());
+        return EntryCollection::performQuery($this->parser)->toResponse(request());
     }
 
     /**

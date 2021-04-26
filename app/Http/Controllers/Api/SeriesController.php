@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\SeriesCollection;
 use App\Http\Resources\SeriesResource;
 use App\Models\Series;
@@ -68,9 +69,11 @@ class SeriesController extends BaseController
      */
     public function index()
     {
-        $series = SeriesCollection::performQuery($this->parser);
+        if ($this->parser->hasSearch()) {
+            return SeriesCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
+        }
 
-        return $series->toResponse(request());
+        return SeriesCollection::performQuery($this->parser)->toResponse(request());
     }
 
     /**

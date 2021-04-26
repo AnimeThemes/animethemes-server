@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\ThemeResource;
 use App\Models\Theme;
@@ -92,9 +93,11 @@ class ThemeController extends BaseController
      */
     public function index()
     {
-        $themes = ThemeCollection::performQuery($this->parser);
+        if ($this->parser->hasSearch()) {
+            return ThemeCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
+        }
 
-        return $themes->toResponse(request());
+        return ThemeCollection::performQuery($this->parser)->toResponse(request());
     }
 
     /**

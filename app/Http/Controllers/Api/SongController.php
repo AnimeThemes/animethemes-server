@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\SongCollection;
 use App\Http\Resources\SongResource;
 use App\Models\Song;
@@ -68,9 +69,11 @@ class SongController extends BaseController
      */
     public function index()
     {
-        $songs = SongCollection::performQuery($this->parser);
+        if ($this->parser->hasSearch()) {
+            return SongCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
+        }
 
-        return $songs->toResponse(request());
+        return SongCollection::performQuery($this->parser)->toResponse(request());
     }
 
     /**

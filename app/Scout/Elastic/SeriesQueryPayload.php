@@ -2,22 +2,20 @@
 
 namespace App\Scout\Elastic;
 
-use App\Http\Resources\SeriesCollection;
 use App\Models\Series;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
-use Illuminate\Support\Str;
 
 class SeriesQueryPayload extends ElasticQueryPayload
 {
     /**
-     * Build and execute Elasticsearch query.
+     * Build Elasticsearch query.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
      */
-    protected function doPerformSearch()
+    protected function buildQuery()
     {
-        $builder = Series::boolSearch()
+        return Series::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
@@ -34,10 +32,6 @@ class SeriesQueryPayload extends ElasticQueryPayload
                 ->lenient(true)
                 ->fuzziness('AUTO')
             )
-            ->minimumShouldMatch(1)
-            ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(SeriesCollection::allowedIncludePaths(), Str::lower(SeriesCollection::$wrap)));
-
-        return $builder->execute()->models();
+            ->minimumShouldMatch(1);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\AnimeCollection;
 use App\Http\Resources\AnimeResource;
 use App\Models\Anime;
@@ -84,9 +85,11 @@ class AnimeController extends BaseController
      */
     public function index()
     {
-        $anime = AnimeCollection::performQuery($this->parser);
+        if ($this->parser->hasSearch()) {
+            return AnimeCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
+        }
 
-        return $anime->toResponse(request());
+        return AnimeCollection::performQuery($this->parser)->toResponse(request());
     }
 
     /**
