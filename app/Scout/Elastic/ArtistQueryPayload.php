@@ -2,23 +2,21 @@
 
 namespace App\Scout\Elastic;
 
-use App\Http\Resources\ArtistCollection;
 use App\Models\Artist;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
-use Illuminate\Support\Str;
 
 class ArtistQueryPayload extends ElasticQueryPayload
 {
     /**
-     * Build and execute Elasticsearch query.
+     * Build Elasticsearch query.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
      */
-    protected function doPerformSearch()
+    protected function buildQuery()
     {
-        $builder = Artist::boolSearch()
+        return Artist::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
@@ -69,10 +67,6 @@ class ArtistQueryPayload extends ElasticQueryPayload
                     )
                 )
             )
-            ->minimumShouldMatch(1)
-            ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(ArtistCollection::allowedIncludePaths(), Str::singular(ArtistCollection::$wrap)));
-
-        return $builder->execute()->models();
+            ->minimumShouldMatch(1);
     }
 }

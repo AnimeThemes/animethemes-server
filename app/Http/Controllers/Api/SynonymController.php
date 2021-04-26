@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\SynonymCollection;
 use App\Http\Resources\SynonymResource;
 use App\Models\Synonym;
@@ -68,9 +69,11 @@ class SynonymController extends BaseController
      */
     public function index()
     {
-        $synonyms = SynonymCollection::performQuery($this->parser);
+        if ($this->parser->hasSearch()) {
+            return SynonymCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
+        }
 
-        return $synonyms->toResponse(request());
+        return SynonymCollection::performQuery($this->parser)->toResponse(request());
     }
 
     /**

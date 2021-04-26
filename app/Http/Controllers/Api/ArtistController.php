@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\ArtistCollection;
 use App\Http\Resources\ArtistResource;
 use App\Models\Artist;
@@ -68,9 +69,11 @@ class ArtistController extends BaseController
      */
     public function index()
     {
-        $artists = ArtistCollection::performQuery($this->parser);
+        if ($this->parser->hasSearch()) {
+            return ArtistCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
+        }
 
-        return $artists->toResponse(request());
+        return ArtistCollection::performQuery($this->parser)->toResponse(request());
     }
 
     /**

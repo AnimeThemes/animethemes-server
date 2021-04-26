@@ -2,23 +2,21 @@
 
 namespace App\Scout\Elastic;
 
-use App\Http\Resources\AnimeCollection;
 use App\Models\Anime;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
-use Illuminate\Support\Str;
 
 class AnimeQueryPayload extends ElasticQueryPayload
 {
     /**
-     * Build and execute Elasticsearch query.
+     * Build Elasticsearch query.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
      */
-    protected function doPerformSearch()
+    protected function buildQuery()
     {
-        $builder = Anime::boolSearch()
+        return Anime::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
@@ -60,10 +58,6 @@ class AnimeQueryPayload extends ElasticQueryPayload
                     ->fuzziness('AUTO')
                 )
             )
-            ->minimumShouldMatch(1)
-            ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(AnimeCollection::allowedIncludePaths(), Str::singular(AnimeCollection::$wrap)));
-
-        return $builder->execute()->models();
+            ->minimumShouldMatch(1);
     }
 }

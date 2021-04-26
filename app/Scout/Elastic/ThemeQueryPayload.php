@@ -2,23 +2,21 @@
 
 namespace App\Scout\Elastic;
 
-use App\Http\Resources\ThemeCollection;
 use App\Models\Theme;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
-use Illuminate\Support\Str;
 
 class ThemeQueryPayload extends ElasticQueryPayload
 {
     /**
-     * Build and execute Elasticsearch query.
+     * Build Elasticsearch query.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
      */
-    protected function doPerformSearch()
+    protected function buildQuery()
     {
-        $builder = Theme::boolSearch()
+        return Theme::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('slug')
                 ->query($this->parser->getSearch())
@@ -151,10 +149,6 @@ class ThemeQueryPayload extends ElasticQueryPayload
                     ->fuzziness('AUTO')
                 )
             )
-            ->minimumShouldMatch(1)
-            ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(ThemeCollection::allowedIncludePaths(), Str::lower(ThemeCollection::$wrap)));
-
-        return $builder->execute()->models();
+            ->minimumShouldMatch(1);
     }
 }

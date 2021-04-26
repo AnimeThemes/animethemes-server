@@ -2,23 +2,21 @@
 
 namespace App\Scout\Elastic;
 
-use App\Http\Resources\EntryCollection;
 use App\Models\Entry;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
-use Illuminate\Support\Str;
 
 class EntryQueryPayload extends ElasticQueryPayload
 {
     /**
-     * Build and execute Elasticsearch query.
+     * Build Elasticsearch query.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
      */
-    protected function doPerformSearch()
+    protected function buildQuery()
     {
-        $builder = Entry::boolSearch()
+        return Entry::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
                 ->field('version')
                 ->query($this->parser->getSearch())
@@ -194,10 +192,6 @@ class EntryQueryPayload extends ElasticQueryPayload
                     )
                 )
             )
-            ->minimumShouldMatch(1)
-            ->size($this->parser->getLimit())
-            ->load($this->parser->getResourceIncludePaths(EntryCollection::allowedIncludePaths(), Str::lower(EntryCollection::$wrap)));
-
-        return $builder->execute()->models();
+            ->minimumShouldMatch(1);
     }
 }

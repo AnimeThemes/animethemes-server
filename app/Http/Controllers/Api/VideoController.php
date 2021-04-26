@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\VideoCollection;
 use App\Http\Resources\VideoResource;
 use App\Models\Video;
@@ -124,9 +125,11 @@ class VideoController extends BaseController
      */
     public function index()
     {
-        $videos = VideoCollection::performQuery($this->parser);
+        if ($this->parser->hasSearch()) {
+            return VideoCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
+        }
 
-        return $videos->toResponse(request());
+        return VideoCollection::performQuery($this->parser)->toResponse(request());
     }
 
     /**
