@@ -18,7 +18,7 @@ trait PerformsConstrainedEagerLoading
     {
         $constrainedEagerLoads = [];
 
-        $allowedIncludePaths = $parser->getIncludePaths(static::allowedIncludePaths());
+        $allowedIncludePaths = $parser->getIncludePaths(static::allowedIncludePaths(), Str::singular(static::$wrap));
 
         foreach ($allowedIncludePaths as $allowedIncludePath) {
             $relation = static::relation($allowedIncludePath);

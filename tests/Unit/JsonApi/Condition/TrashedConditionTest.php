@@ -101,7 +101,7 @@ class TrashedConditionTest extends TestCase
     public function testLogicalOperator()
     {
         $operator = BinaryLogicalOperator::getRandomInstance();
-        $default = BinaryLogicalOperator::fromValue(BinaryLogicalOperator::AND);
+        $default = BinaryLogicalOperator::AND();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [

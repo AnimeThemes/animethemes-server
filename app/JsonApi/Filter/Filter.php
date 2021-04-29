@@ -4,6 +4,7 @@ namespace App\JsonApi\Filter;
 
 use App\JsonApi\Condition\Condition;
 use App\JsonApi\QueryParser;
+use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 abstract class Filter
@@ -63,6 +64,23 @@ abstract class Filter
         foreach ($this->getConditions() as $condition) {
             if ($this->shouldApplyFilter($condition)) {
                 $builder = $condition->apply($builder, $this);
+            }
+        }
+
+        return $builder;
+    }
+
+    /**
+     * Modify search request builder with filter criteria.
+     *
+     * @param \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
+     * @return \ElasticScoutDriverPlus\Builders\BoolQueryBuilder
+     */
+    public function applyElasticsearchFilter(BoolQueryBuilder $builder)
+    {
+        foreach ($this->getConditions() as $condition) {
+            if ($this->shouldApplyFilter($condition)) {
+                $builder = $condition->applyElasticsearchFilter($builder, $this);
             }
         }
 

@@ -94,7 +94,7 @@ class WhereConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertEquals(ComparisonOperator::fromValue(ComparisonOperator::EQ), $condition->getComparisonOperator());
+        $this->assertEquals(ComparisonOperator::EQ(), $condition->getComparisonOperator());
     }
 
     /**
@@ -142,7 +142,7 @@ class WhereConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertEquals(BinaryLogicalOperator::fromValue(BinaryLogicalOperator::AND), $condition->getLogicalOperator());
+        $this->assertEquals(BinaryLogicalOperator::AND(), $condition->getLogicalOperator());
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\JsonApi\Condition;
 use App\Enums\Filter\BinaryLogicalOperator;
 use App\Enums\Filter\ComparisonOperator;
 use App\JsonApi\Filter\Filter;
+use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -118,6 +119,15 @@ abstract class Condition
      * @return Builder $builder
      */
     abstract public function apply(Builder $builder, Filter $filter);
+
+    /**
+     * Apply condition to builder through filter.
+     *
+     * @param BoolQueryBuilder $builder
+     * @param Filter $filter
+     * @return BoolQueryBuilder $builder
+     */
+    abstract public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter);
 
     /**
      * Create a new condition instance from query string.

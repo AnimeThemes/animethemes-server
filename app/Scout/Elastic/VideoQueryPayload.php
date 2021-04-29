@@ -14,7 +14,7 @@ class VideoQueryPayload extends ElasticQueryPayload
      *
      * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
      */
-    protected function buildQuery()
+    public function buildQuery()
     {
         return Video::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

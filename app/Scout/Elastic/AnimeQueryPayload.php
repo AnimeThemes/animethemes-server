@@ -14,7 +14,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
      *
      * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
      */
-    protected function buildQuery()
+    public function buildQuery()
     {
         return Anime::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

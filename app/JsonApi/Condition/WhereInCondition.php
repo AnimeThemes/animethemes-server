@@ -5,6 +5,8 @@ namespace App\JsonApi\Condition;
 use App\Enums\Filter\BinaryLogicalOperator;
 use App\Enums\Filter\UnaryLogicalOperator;
 use App\JsonApi\Filter\Filter;
+use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
+use ElasticScoutDriverPlus\Builders\TermsQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
@@ -57,7 +59,7 @@ class WhereInCondition extends Condition
     {
         $scope = '';
         $field = '';
-        $operator = BinaryLogicalOperator::fromValue(BinaryLogicalOperator::AND);
+        $operator = BinaryLogicalOperator::AND();
         $not = false;
 
         $filterParts = Str::of($filterParam)->explode('.');
@@ -111,5 +113,31 @@ class WhereInCondition extends Condition
             $this->getLogicalOperator()->value,
             $this->not
         );
+    }
+
+    /**
+     * Apply condition to builder through filter.
+     *
+     * @param BoolQueryBuilder $builder
+     * @param Filter $filter
+     * @return BoolQueryBuilder $builder
+     */
+    public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter)
+    {
+        $clause = (new TermsQueryBuilder())->terms($filter->getKey(), $filter->getFilterValues($this));
+
+        if (BinaryLogicalOperator::OR()->is($this->getLogicalOperator())) {
+            if ($this->not) {
+                return $builder->should((new BoolQueryBuilder())->mustNot($clause));
+            }
+
+            return $builder->should($clause);
+        }
+
+        if ($this->not) {
+            return $builder->mustNot($clause);
+        }
+
+        return $builder->must($clause);
     }
 }
