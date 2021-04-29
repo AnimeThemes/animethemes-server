@@ -5,6 +5,9 @@ namespace App\JsonApi\Condition;
 use App\Enums\Filter\BinaryLogicalOperator;
 use App\Enums\Filter\ComparisonOperator;
 use App\JsonApi\Filter\Filter;
+use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
+use ElasticScoutDriverPlus\Builders\RangeQueryBuilder;
+use ElasticScoutDriverPlus\Builders\TermQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
@@ -36,8 +39,8 @@ class WhereCondition extends Condition
     {
         $scope = '';
         $field = '';
-        $comparisonOperator = ComparisonOperator::fromValue(ComparisonOperator::EQ);
-        $logicalOperator = BinaryLogicalOperator::fromValue(BinaryLogicalOperator::AND);
+        $comparisonOperator = ComparisonOperator::EQ();
+        $logicalOperator = BinaryLogicalOperator::AND();
 
         $filterParts = Str::of($filterParam)->explode('.');
         while ($filterParts->isNotEmpty()) {
@@ -90,5 +93,68 @@ class WhereCondition extends Condition
             collect($filter->getFilterValues($this))->first(),
             $this->getLogicalOperator()->value
         );
+    }
+
+    /**
+     * Apply condition to builder through filter.
+     *
+     * @param BoolQueryBuilder $builder
+     * @param Filter $filter
+     * @return BoolQueryBuilder $builder
+     */
+    public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter)
+    {
+        $clause = $this->getElasticsearchClause($filter);
+
+        if (BinaryLogicalOperator::OR()->is($this->getLogicalOperator())) {
+            if (ComparisonOperator::NE()->is($this->getComparisonOperator())) {
+                return $builder->should((new BoolQueryBuilder())->mustNot($clause));
+            }
+
+            return $builder->should($clause);
+        }
+
+        if (ComparisonOperator::NE()->is($this->getComparisonOperator())) {
+            return $builder->mustNot($clause);
+        }
+
+        return $builder->must($clause);
+    }
+
+    /**
+     * Build clause for Elasticsearch filter based on comparison operator.
+     *
+     * @param Filter $filter
+     * @return \ElasticScoutDriverPlus\Builders\AbstractParameterizedQueryBuilder
+     */
+    protected function getElasticsearchClause(Filter $filter)
+    {
+        if (ComparisonOperator::LT()->is($this->getComparisonOperator())) {
+            return (new RangeQueryBuilder())
+                ->field($filter->getKey())
+                ->lt(collect($filter->getFilterValues($this))->first());
+        }
+
+        if (ComparisonOperator::GT()->is($this->getComparisonOperator())) {
+            return (new RangeQueryBuilder())
+                ->field($filter->getKey())
+                ->gt(collect($filter->getFilterValues($this))->first());
+        }
+
+        if (ComparisonOperator::LTE()->is($this->getComparisonOperator())) {
+            return (new RangeQueryBuilder())
+                ->field($filter->getKey())
+                ->lte(collect($filter->getFilterValues($this))->first());
+        }
+
+        if (ComparisonOperator::GTE()->is($this->getComparisonOperator())) {
+            return (new RangeQueryBuilder())
+                ->field($filter->getKey())
+                ->gte(collect($filter->getFilterValues($this))->first());
+        }
+
+        return (new TermQueryBuilder())
+            ->field($filter->getKey())
+            ->value(collect($filter->getFilterValues($this))->first());
     }
 }

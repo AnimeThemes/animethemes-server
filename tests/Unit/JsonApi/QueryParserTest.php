@@ -149,7 +149,7 @@ class QueryParserTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $this->assertEmpty($parser->getResourceIncludePaths($includes, $type));
+        $this->assertEmpty($parser->getIncludePaths($includes, $type));
     }
 
     /**
@@ -170,7 +170,7 @@ class QueryParserTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $this->assertEmpty($parser->getResourceIncludePaths($includes, $type));
+        $this->assertEmpty($parser->getIncludePaths($includes, $type));
     }
 
     /**
@@ -193,7 +193,7 @@ class QueryParserTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $this->assertEmpty(array_diff($allowed_includes, $parser->getResourceIncludePaths($allowed_includes, $type)));
+        $this->assertEmpty(array_diff($allowed_includes, $parser->getIncludePaths($allowed_includes, $type)));
     }
 
     /**

@@ -13,7 +13,7 @@ class SynonymQueryPayload extends ElasticQueryPayload
      *
      * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
      */
-    protected function buildQuery()
+    public function buildQuery()
     {
         return Synonym::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

@@ -5,6 +5,7 @@ namespace App\JsonApi\Condition;
 use App\Enums\Filter\BinaryLogicalOperator;
 use App\Enums\Filter\TrashedStatus;
 use App\JsonApi\Filter\Filter;
+use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
@@ -36,7 +37,7 @@ class TrashedCondition extends Condition
     {
         $scope = '';
         $field = '';
-        $logicalOperator = BinaryLogicalOperator::fromValue(BinaryLogicalOperator::AND);
+        $logicalOperator = BinaryLogicalOperator::AND();
 
         $filterParts = Str::of($filterParam)->explode('.');
         while ($filterParts->isNotEmpty()) {
@@ -85,6 +86,18 @@ class TrashedCondition extends Condition
             }
         }
 
+        return $builder;
+    }
+
+    /**
+     * Apply condition to builder through filter.
+     *
+     * @param BoolQueryBuilder $builder
+     * @param Filter $filter
+     * @return BoolQueryBuilder $builder
+     */
+    public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter)
+    {
         return $builder;
     }
 }

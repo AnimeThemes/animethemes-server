@@ -14,7 +14,7 @@ class ArtistQueryPayload extends ElasticQueryPayload
      *
      * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
      */
-    protected function buildQuery()
+    public function buildQuery()
     {
         return Artist::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

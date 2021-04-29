@@ -34,11 +34,6 @@ class QueryParser
     /**
      * @var array
      */
-    protected $resourceIncludes;
-
-    /**
-     * @var array
-     */
     protected $sorts;
 
     /**
@@ -65,7 +60,6 @@ class QueryParser
     {
         $this->fields = $this->parseFields($parameters);
         $this->includes = $this->parseIncludes($parameters);
-        $this->resourceIncludes = $this->parseResourceIncludes($parameters);
         $this->sorts = $this->parseSorts($parameters);
         $this->conditions = $this->parseConditions($parameters);
         $this->search = $this->parseSearch($parameters);
@@ -130,35 +124,18 @@ class QueryParser
         if (Arr::exists($parameters, self::PARAM_INCLUDE)) {
             $includeParam = $parameters[self::PARAM_INCLUDE];
             if (! Arr::accessible($includeParam)) {
-                $includes = array_map('trim', explode(',', $includeParam));
+                Arr::set($includes, '', array_map('trim', explode(',', $includeParam)));
             }
-        }
-
-        return $includes;
-    }
-
-    /**
-     * Parse includes by resource from parameters.
-     *
-     * @param array $parameters
-     * @return array
-     */
-    private function parseResourceIncludes($parameters)
-    {
-        $resourceIncludes = [];
-
-        if (Arr::exists($parameters, self::PARAM_INCLUDE)) {
-            $includeParam = $parameters[self::PARAM_INCLUDE];
             if (Arr::accessible($includeParam) && Arr::isAssoc($includeParam)) {
                 foreach ($includeParam as $type => $includeList) {
                     if (! Arr::accessible($includeList)) {
-                        Arr::set($resourceIncludes, $type, array_map('trim', explode(',', $includeList)));
+                        Arr::set($includes, $type, array_map('trim', explode(',', $includeList)));
                     }
                 }
             }
         }
 
-        return $resourceIncludes;
+        return $includes;
     }
 
     /**
@@ -358,26 +335,19 @@ class QueryParser
      * The validated include paths used to eager load relations.
      *
      * @param array $allowedIncludePaths
-     * @return array
-     */
-    public function getIncludePaths($allowedIncludePaths)
-    {
-        // Return list of include paths that are contained in the list of allowed include paths
-        return collect($this->includes)->intersect($allowedIncludePaths)->all();
-    }
-
-    /**
-     * The validated include paths used to eager load relations for the specified type.
-     *
-     * @param array $allowedResourceIncludePaths
      * @param string $type
      * @return array
      */
-    public function getResourceIncludePaths($allowedResourceIncludePaths, $type)
+    public function getIncludePaths($allowedIncludePaths, $type = '')
     {
         // Return list of include paths that are contained in the list of allowed include paths for this type
-        $resourceTypeIncludes = Arr::get($this->resourceIncludes, $type);
+        $resourceTypeIncludes = [];
+        if (Arr::has($this->includes, $type)) {
+            $resourceTypeIncludes = Arr::get($this->includes, $type);
+        } else {
+            $resourceTypeIncludes = Arr::get($this->includes, '');
+        }
 
-        return collect($resourceTypeIncludes)->intersect($allowedResourceIncludePaths)->all();
+        return collect($resourceTypeIncludes)->intersect($allowedIncludePaths)->all();
     }
 }

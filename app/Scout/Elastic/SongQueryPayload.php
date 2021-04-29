@@ -13,7 +13,7 @@ class SongQueryPayload extends ElasticQueryPayload
      *
      * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
      */
-    protected function buildQuery()
+    public function buildQuery()
     {
         return Song::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
