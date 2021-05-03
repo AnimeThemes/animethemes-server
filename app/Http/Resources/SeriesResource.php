@@ -134,14 +134,6 @@ class SeriesResource extends BaseResource
     {
         return [
             'anime',
-            'anime.synonyms',
-            'anime.themes',
-            'anime.themes.entries',
-            'anime.themes.entries.videos',
-            'anime.themes.song',
-            'anime.themes.song.artists',
-            'anime.externalResources',
-            'anime.images',
         ];
     }
 }

@@ -24,7 +24,8 @@ class SendDiscordNotificationTest extends TestCase
         Config::set('app.allow_discord_notifications', false);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        $event = new class implements DiscordMessageEvent {
+        $event = new class implements DiscordMessageEvent
+        {
             use Dispatchable;
 
             /**
@@ -66,7 +67,8 @@ class SendDiscordNotificationTest extends TestCase
         Config::set('app.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        $event = new class implements DiscordMessageEvent {
+        $event = new class implements DiscordMessageEvent
+        {
             use Dispatchable;
 
             /**

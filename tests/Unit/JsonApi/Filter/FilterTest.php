@@ -24,7 +24,8 @@ class FilterTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter {
+        $filter = new class($parser, $filter_field) extends Filter
+        {
             // We don't need to do any customization
         };
 
@@ -50,7 +51,8 @@ class FilterTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter {
+        $filter = new class($parser, $filter_field) extends Filter
+        {
             // We don't need to do any customization
         };
 
@@ -76,7 +78,8 @@ class FilterTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter {
+        $filter = new class($parser, $filter_field) extends Filter
+        {
             // We don't need to do any customization
         };
 
@@ -103,7 +106,8 @@ class FilterTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter {
+        $filter = new class($parser, $filter_field) extends Filter
+        {
             // We don't need to do any customization
         };
 
@@ -130,7 +134,8 @@ class FilterTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter {
+        $filter = new class($parser, $filter_field) extends Filter
+        {
             // We don't need to do any customization
         };
 
@@ -150,7 +155,8 @@ class FilterTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter {
+        $filter = new class($parser, $filter_field) extends Filter
+        {
             // We don't need to do any customization
         };
 
@@ -171,7 +177,8 @@ class FilterTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter {
+        $filter = new class($parser, $filter_field) extends Filter
+        {
             // We don't need to do any customization
         };
 
