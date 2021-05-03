@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -208,6 +209,9 @@ class SongIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'created_at' => $created_filter,
             ],
+            Config::get('json-api-paginate.pagination_parameter') => [
+                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            ],
         ];
 
         Carbon::withTestNow(Carbon::parse($created_filter), function () {
@@ -250,6 +254,9 @@ class SongIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'updated_at' => $updated_filter,
             ],
+            Config::get('json-api-paginate.pagination_parameter') => [
+                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            ],
         ];
 
         Carbon::withTestNow(Carbon::parse($updated_filter), function () {
@@ -289,6 +296,9 @@ class SongIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'trashed' => TrashedStatus::WITHOUT,
             ],
+            Config::get('json-api-paginate.pagination_parameter') => [
+                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            ],
         ];
 
         Song::factory()->count($this->faker->randomDigitNotNull)->create();
@@ -327,6 +337,9 @@ class SongIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'trashed' => TrashedStatus::WITH,
             ],
+            Config::get('json-api-paginate.pagination_parameter') => [
+                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            ],
         ];
 
         Song::factory()->count($this->faker->randomDigitNotNull)->create();
@@ -364,6 +377,9 @@ class SongIndexTest extends TestCase
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 'trashed' => TrashedStatus::ONLY,
+            ],
+            Config::get('json-api-paginate.pagination_parameter') => [
+                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
@@ -406,6 +422,9 @@ class SongIndexTest extends TestCase
             QueryParser::PARAM_FILTER => [
                 'deleted_at' => $deleted_filter,
                 'trashed' => TrashedStatus::WITH,
+            ],
+            Config::get('json-api-paginate.pagination_parameter') => [
+                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
