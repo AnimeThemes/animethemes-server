@@ -19,7 +19,8 @@ class DiscordEmbedFieldTest extends TestCase
      */
     public function testDiscordEmbedFormatEnum()
     {
-        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum {
+        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
+        {
             const ZERO = 0;
             const ONE = 1;
             const TWO = 2;

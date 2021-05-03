@@ -37,7 +37,8 @@ class EnumFilterTest extends TestCase
             const TWO = 2;
         };
 
-        $filter = new class($parser, $filter_field, get_class($enum)) extends EnumFilter {
+        $filter = new class($parser, $filter_field, get_class($enum)) extends EnumFilter
+        {
             // We don't need to do any customization
         };
 
@@ -53,7 +54,8 @@ class EnumFilterTest extends TestCase
     {
         $filter_field = $this->faker->word();
 
-        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum {
+        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
+        {
             const ZERO = 0;
             const ONE = 1;
             const TWO = 2;
@@ -71,7 +73,8 @@ class EnumFilterTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field, get_class($enum)) extends EnumFilter {
+        $filter = new class($parser, $filter_field, get_class($enum)) extends EnumFilter
+        {
             // We don't need to do any customization
         };
 
@@ -87,7 +90,8 @@ class EnumFilterTest extends TestCase
     {
         $filter_field = $this->faker->word();
 
-        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum {
+        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
+        {
             const ZERO = 0;
             const ONE = 1;
             const TWO = 2;
@@ -101,7 +105,8 @@ class EnumFilterTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field, get_class($enum)) extends EnumFilter {
+        $filter = new class($parser, $filter_field, get_class($enum)) extends EnumFilter
+        {
             // We don't need to do any customization
         };
 

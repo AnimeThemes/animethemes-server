@@ -30,7 +30,8 @@ class BooleanFilterTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends BooleanFilter {
+        $filter = new class($parser, $filter_field) extends BooleanFilter
+        {
             // We don't need to do any customization
         };
 
@@ -56,7 +57,8 @@ class BooleanFilterTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends BooleanFilter {
+        $filter = new class($parser, $filter_field) extends BooleanFilter
+        {
             // We don't need to do any customization
         };
 
@@ -82,7 +84,8 @@ class BooleanFilterTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends BooleanFilter {
+        $filter = new class($parser, $filter_field) extends BooleanFilter
+        {
             // We don't need to do any customization
         };
 
