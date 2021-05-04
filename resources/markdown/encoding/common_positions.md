@@ -23,6 +23,7 @@ This is a list of common start and end positions of NC extras with black frame p
 | 0              | 01:30.007    |
 | 0              | 01:30.048    |
 | 00:00.460      | 01:30.549    |
+| 00:00.960      | 00:30.989    |
 | 00:00.960      | 01:30.924    |
 | 00:00.960      | 01:30.966    |
 | 00:00.960      | 01:31.008    |
