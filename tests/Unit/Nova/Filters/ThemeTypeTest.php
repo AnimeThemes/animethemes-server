@@ -35,8 +35,8 @@ class ThemeTypeTest extends TestCase
     {
         $filter = $this->novaFilter(ThemeTypeFilter::class);
 
-        foreach (ThemeType::getInstances() as $season) {
-            $filter->assertHasOption($season->description);
+        foreach (ThemeType::getInstances() as $type) {
+            $filter->assertHasOption($type->description);
         }
     }
 

@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Enums;
+
+use BenSampo\Enum\Contracts\LocalizedEnum;
+use BenSampo\Enum\Enum;
+
+final class InvoiceVendor extends Enum implements LocalizedEnum
+{
+    const OTHER = 0;
+    const DIGITALOCEAN = 1;
+}

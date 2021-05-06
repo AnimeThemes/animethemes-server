@@ -34,6 +34,10 @@ use App\Events\Invitation\InvitationCreating;
 use App\Events\Invitation\InvitationDeleted;
 use App\Events\Invitation\InvitationRestored;
 use App\Events\Invitation\InvitationUpdated;
+use App\Events\Invoice\InvoiceCreated;
+use App\Events\Invoice\InvoiceDeleted;
+use App\Events\Invoice\InvoiceRestored;
+use App\Events\Invoice\InvoiceUpdated;
 use App\Events\Pivot\AnimeImage\AnimeImageCreated;
 use App\Events\Pivot\AnimeImage\AnimeImageDeleted;
 use App\Events\Pivot\AnimeResource\AnimeResourceCreated;
@@ -262,6 +266,18 @@ class EventServiceProvider extends ServiceProvider
             SendDiscordNotification::class,
         ],
         InvitationUpdated::class => [
+            SendDiscordNotification::class,
+        ],
+        InvoiceCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        InvoiceDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        InvoiceRestored::class => [
+            SendDiscordNotification::class,
+        ],
+        InvoiceUpdated::class => [
             SendDiscordNotification::class,
         ],
         Registered::class => [

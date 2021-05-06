@@ -292,6 +292,21 @@ CREATE TABLE `invitation` (
   PRIMARY KEY (`invitation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `invoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invoice` (
+  `invoice_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp(6) NULL DEFAULT NULL,
+  `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
+  `vendor` int(11) NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` decimal(8,2) NOT NULL,
+  `external_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`invoice_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `migrations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -602,3 +617,4 @@ INSERT INTO `migrations` VALUES (34,'2020_11_24_232439_create_anime_image',1);
 INSERT INTO `migrations` VALUES (35,'2020_11_24_232525_create_artist_image',1);
 INSERT INTO `migrations` VALUES (36,'2020_12_08_034959_create_views_table',1);
 INSERT INTO `migrations` VALUES (37,'2021_03_25_022128_update_telescope_entries_table',1);
+INSERT INTO `migrations` VALUES (38,'2021_05_04_221257_create_invoices_table',2);

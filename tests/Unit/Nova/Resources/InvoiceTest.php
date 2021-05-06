@@ -2,48 +2,49 @@
 
 namespace Tests\Unit\Nova\Resources;
 
-use App\Enums\ResourceSite;
-use App\Nova\ExternalResource;
-use App\Nova\Filters\ExternalResourceSiteFilter;
+use App\Enums\InvoiceVendor;
+use App\Nova\Filters\InvoiceVendorFilter;
 use App\Nova\Filters\RecentlyCreatedFilter;
 use App\Nova\Filters\RecentlyUpdatedFilter;
+use App\Nova\Invoice;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
-class ExternalResourceTest extends TestCase
+class InvoiceTest extends TestCase
 {
     use NovaResourceTest, WithoutEvents;
 
     /**
-     * The External Resource shall contain Resource Fields.
+     * The Invoice Resource shall contain Invoice Fields.
      *
      * @return void
      */
     public function testFields()
     {
-        $resource = $this->novaResource(ExternalResource::class);
+        $invoice = $this->novaResource(Invoice::class);
 
-        $resource->assertHasField(__('nova.id'));
-        $resource->assertHasField(__('nova.created_at'));
-        $resource->assertHasField(__('nova.updated_at'));
-        $resource->assertHasField(__('nova.deleted_at'));
-        $resource->assertHasField(__('nova.site'));
-        $resource->assertHasField(__('nova.link'));
-        $resource->assertHasField(__('nova.external_id'));
+        $invoice->assertHasField(__('nova.id'));
+        $invoice->assertHasField(__('nova.created_at'));
+        $invoice->assertHasField(__('nova.updated_at'));
+        $invoice->assertHasField(__('nova.deleted_at'));
+        $invoice->assertHasField(__('nova.vendor'));
+        $invoice->assertHasField(__('nova.description'));
+        $invoice->assertHasField(__('nova.amount'));
+        $invoice->assertHasField(__('nova.external_id'));
     }
 
     /**
-     * The External Resource shall contain an ID field.
+     * The Invoice Resource shall contain an ID field.
      *
      * @return void
      */
     public function testIdField()
     {
-        $resource = $this->novaResource(ExternalResource::class);
+        $invoice = $this->novaResource(Invoice::class);
 
-        $field = $resource->field(__('nova.id'));
+        $field = $invoice->field(__('nova.id'));
 
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
@@ -60,9 +61,9 @@ class ExternalResourceTest extends TestCase
      */
     public function testCreatedAtField()
     {
-        $resource = $this->novaResource(ExternalResource::class);
+        $invoice = $this->novaResource(Invoice::class);
 
-        $field = $resource->field(__('nova.created_at'));
+        $field = $invoice->field(__('nova.created_at'));
 
         $field->assertHiddenFromIndex();
         $field->assertShownOnDetail();
@@ -79,9 +80,9 @@ class ExternalResourceTest extends TestCase
      */
     public function testUpdatedAtField()
     {
-        $resource = $this->novaResource(ExternalResource::class);
+        $invoice = $this->novaResource(Invoice::class);
 
-        $field = $resource->field(__('nova.updated_at'));
+        $field = $invoice->field(__('nova.updated_at'));
 
         $field->assertHiddenFromIndex();
         $field->assertShownOnDetail();
@@ -98,9 +99,9 @@ class ExternalResourceTest extends TestCase
      */
     public function testDeletedAtField()
     {
-        $resource = $this->novaResource(ExternalResource::class);
+        $invoice = $this->novaResource(Invoice::class);
 
-        $field = $resource->field(__('nova.deleted_at'));
+        $field = $invoice->field(__('nova.deleted_at'));
 
         $field->assertHiddenFromIndex();
         $field->assertShownOnDetail();
@@ -111,18 +112,18 @@ class ExternalResourceTest extends TestCase
     }
 
     /**
-     * The External Resource shall contain a Site field.
+     * The Invoice Resource shall contain a Vendor field.
      *
      * @return void
      */
-    public function testSiteField()
+    public function testVendorField()
     {
-        $resource = $this->novaResource(ExternalResource::class);
+        $invoice = $this->novaResource(Invoice::class);
 
-        $field = $resource->field(__('nova.site'));
+        $field = $invoice->field(__('nova.vendor'));
 
         $field->assertHasRule('required');
-        $field->assertHasRule((new EnumValue(ResourceSite::class, false))->__toString());
+        $field->assertHasRule((new EnumValue(InvoiceVendor::class, false))->__toString());
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();
@@ -132,21 +133,18 @@ class ExternalResourceTest extends TestCase
     }
 
     /**
-     * The External Resource shall contain a Link field.
+     * The Invoice Resource shall contain a Description field.
      *
      * @return void
      */
-    public function testLinkField()
+    public function testDescriptionField()
     {
-        $resource = $this->novaResource(ExternalResource::class);
+        $invoice = $this->novaResource(Invoice::class);
 
-        $field = $resource->field(__('nova.link'));
+        $field = $invoice->field(__('nova.description'));
 
         $field->assertHasRule('required');
         $field->assertHasRule('max:192');
-        $field->assertHasRule('url');
-        $field->assertHasCreationRule('unique:resource,link');
-        $field->assertHasUpdateRule('unique:resource,link,{{resourceId}},resource_id');
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();
@@ -156,48 +154,47 @@ class ExternalResourceTest extends TestCase
     }
 
     /**
-     * The External Resource shall contain an External Id field.
+     * The Invoice Resource shall contain an Amount field.
      *
      * @return void
      */
-    public function testExternalIdField()
+    public function testAmountField()
     {
-        $resource = $this->novaResource(ExternalResource::class);
+        $invoice = $this->novaResource(Invoice::class);
 
-        $field = $resource->field(__('nova.external_id'));
+        $field = $invoice->field(__('nova.amount'));
 
-        $field->assertHasRule('nullable');
-        $field->assertHasRule('integer');
+        $field->assertHasRule('required');
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();
         $field->assertShownWhenUpdating();
-        $field->assertNullable();
+        $field->assertNotNullable();
         $field->assertSortable();
     }
 
     /**
-     * The External Resource shall contain Resource Filters.
+     * The Invoice Resource shall contain Invoice Filters.
      *
      * @return void
      */
     public function testFilters()
     {
-        $resource = $this->novaResource(ExternalResource::class);
+        $resource = $this->novaResource(Invoice::class);
 
-        $resource->assertHasFilter(ExternalResourceSiteFilter::class);
+        $resource->assertHasFilter(InvoiceVendorFilter::class);
         $resource->assertHasFilter(RecentlyCreatedFilter::class);
         $resource->assertHasFilter(RecentlyUpdatedFilter::class);
     }
 
     /**
-     * The External Resource shall contain no Actions.
+     * The Invoice Resource shall contain no Actions.
      *
      * @return void
      */
     public function testActions()
     {
-        $resource = $this->novaResource(ExternalResource::class);
+        $resource = $this->novaResource(Invoice::class);
 
         $resource->assertHasNoActions();
     }

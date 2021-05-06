@@ -3,6 +3,7 @@
 use App\Enums\AnimeSeason;
 use App\Enums\ImageFacet;
 use App\Enums\InvitationStatus;
+use App\Enums\InvoiceVendor;
 use App\Enums\ResourceSite;
 use App\Enums\ThemeType;
 use App\Enums\VideoOverlap;
@@ -22,6 +23,10 @@ return [
     InvitationStatus::class => [
         InvitationStatus::OPEN => 'Open',
         InvitationStatus::CLOSED => 'Closed',
+    ],
+    InvoiceVendor::class => [
+        InvoiceVendor::OTHER => 'Other',
+        InvoiceVendor::DIGITALOCEAN => 'DigitalOcean',
     ],
     ResourceSite::class => [
         ResourceSite::OFFICIAL_SITE => 'Official Website',

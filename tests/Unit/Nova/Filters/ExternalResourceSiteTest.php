@@ -35,8 +35,8 @@ class ExternalResourceSiteTest extends TestCase
     {
         $filter = $this->novaFilter(ExternalResourceSiteFilter::class);
 
-        foreach (ResourceSite::getInstances() as $season) {
-            $filter->assertHasOption($season->description);
+        foreach (ResourceSite::getInstances() as $site) {
+            $filter->assertHasOption($site->description);
         }
     }
 
