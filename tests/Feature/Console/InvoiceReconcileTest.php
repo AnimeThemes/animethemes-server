@@ -16,7 +16,7 @@ class InvoiceReconcileTest extends TestCase
     use RefreshDatabase, WithFaker, WithoutEvents;
 
     /**
-     * The Reconcile Invoice Command shall require a 'vendor' argument
+     * The Reconcile Invoice Command shall require a 'vendor' argument.
      *
      * @return void
      */
