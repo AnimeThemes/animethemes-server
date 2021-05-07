@@ -2,15 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Concerns\Reconcile\ReconcilesVideo;
+use App\Concerns\Reconcile\ReconcilesInvoice;
+use App\Enums\InvoiceVendor;
 use App\Models\BaseModel;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
-class VideoSeeder extends Seeder
+class DigitalOceanInvoiceSeeder extends Seeder
 {
-    use ReconcilesVideo;
+    use ReconcilesInvoice;
 
     /**
      * Run the database seeds.
@@ -19,6 +20,8 @@ class VideoSeeder extends Seeder
      */
     public function run()
     {
+        $this->setVendor(InvoiceVendor::DIGITALOCEAN());
+
         $this->reconcileContent();
     }
 
@@ -31,80 +34,80 @@ class VideoSeeder extends Seeder
     {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
-                Log::info("{$this->created} Videos created, {$this->deleted} Videos deleted, {$this->updated} Videos updated");
+                Log::info("{$this->created} Invoices created, {$this->deleted} Invoices deleted, {$this->updated} Invoices updated");
             }
             if ($this->hasFailures()) {
-                Log::error("Failed to create {$this->created_failed} Videos, delete {$this->deleted_failed} Videos, update {$this->updated_failed} Videos");
+                Log::error("Failed to create {$this->created_failed} Invoices, delete {$this->deleted_failed} Invoices, update {$this->updated_failed} Invoices");
             }
         } else {
-            Log::info('No Videos created or deleted or updated');
+            Log::info('No Invoices created or deleted or updated');
         }
     }
 
     /**
-     * Handler for successful video creation.
+     * Handler for successful invoice creation.
      *
      * @param BaseModel $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
     {
-        Log::info("Video '{$model->getName()}' created");
+        Log::info("Invoice '{$model->getName()}' created");
     }
 
     /**
-     * Handler for failed video creation.
+     * Handler for failed invoice creation.
      *
      * @param BaseModel $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
     {
-        Log::error("Video '{$model->getName()}' was not created");
+        Log::error("Invoice '{$model->getName()}' was not created");
     }
 
     /**
-     * Handler for successful video deletion.
+     * Handler for successful invoice deletion.
      *
      * @param BaseModel $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
     {
-        Log::info("Video '{$model->getName()}' deleted");
+        Log::info("Invoice '{$model->getName()}' deleted");
     }
 
     /**
-     * Handler for failed video deletion.
+     * Handler for failed invoice deletion.
      *
      * @param BaseModel $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
     {
-        Log::error("Video '{$model->getName()}' was not deleted");
+        Log::error("Invoice '{$model->getName()}' was not deleted");
     }
 
     /**
-     * Handler for successful video update.
+     * Handler for successful invoice update.
      *
      * @param BaseModel $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
     {
-        Log::info("Video '{$model->getName()}' updated");
+        Log::info("Invoice '{$model->getName()}' updated");
     }
 
     /**
-     * Handler for failed video update.
+     * Handler for failed invoice update.
      *
      * @param BaseModel $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)
     {
-        Log::error("Video '{$model->getName()}' was not updated");
+        Log::error("Invoice '{$model->getName()}' was not updated");
     }
 
     /**

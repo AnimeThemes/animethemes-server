@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Console;
 
+use App\Console\Commands\VideoReconcileCommand;
 use App\Models\Video;
 use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -21,11 +22,11 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testNoResultsForReconcileVideoCommand()
+    public function testNoResults()
     {
         Storage::fake('videos');
 
-        $this->artisan('reconcile:video')->expectsOutput('No Videos created or deleted or updated');
+        $this->artisan(VideoReconcileCommand::class)->expectsOutput('No Videos created or deleted or updated');
     }
 
     /**
@@ -34,13 +35,13 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testDirectoryNoResultsForReconcileVideoCommand()
+    public function testDirectoryNoResults()
     {
         $fs = Storage::fake('videos');
 
         $fs->makeDirectory($this->faker->word());
 
-        $this->artisan('reconcile:video')->expectsOutput('No Videos created or deleted or updated');
+        $this->artisan(VideoReconcileCommand::class)->expectsOutput('No Videos created or deleted or updated');
     }
 
     /**
@@ -49,14 +50,14 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testExtensionNoResultsForReconcileVideoCommand()
+    public function testExtensionNoResults()
     {
         $fs = Storage::fake('videos');
 
         $file = File::fake()->image($this->faker->word());
         $fs->put('', $file);
 
-        $this->artisan('reconcile:video')->expectsOutput('No Videos created or deleted or updated');
+        $this->artisan(VideoReconcileCommand::class)->expectsOutput('No Videos created or deleted or updated');
     }
 
     /**
@@ -64,7 +65,7 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedForReconcileVideoCommand()
+    public function testCreated()
     {
         $fs = Storage::fake('videos');
 
@@ -75,7 +76,7 @@ class VideoReconcileTest extends TestCase
             $fs->put('', $file);
         });
 
-        $this->artisan('reconcile:video')->expectsOutput("{$created_video_count} Videos created, 0 Videos deleted, 0 Videos updated");
+        $this->artisan(VideoReconcileCommand::class)->expectsOutput("{$created_video_count} Videos created, 0 Videos deleted, 0 Videos updated");
     }
 
     /**
@@ -83,14 +84,14 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testDeletedForReconcileVideoCommand()
+    public function testDeleted()
     {
         $deleted_video_count = $this->faker->randomDigitNotNull;
         Video::factory()->count($deleted_video_count)->create();
 
         Storage::fake('videos');
 
-        $this->artisan('reconcile:video')->expectsOutput("0 Videos created, {$deleted_video_count} Videos deleted, 0 Videos updated");
+        $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, {$deleted_video_count} Videos deleted, 0 Videos updated");
     }
 
     /**
@@ -98,7 +99,7 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testUpdatedForReconcileVideoCommand()
+    public function testUpdated()
     {
         $fs = Storage::fake('videos');
 
@@ -119,6 +120,6 @@ class VideoReconcileTest extends TestCase
             ]);
         });
 
-        $this->artisan('reconcile:video')->expectsOutput("0 Videos created, 0 Videos deleted, {$updated_video_count} Videos updated");
+        $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, 0 Videos deleted, {$updated_video_count} Videos updated");
     }
 }

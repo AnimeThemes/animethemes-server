@@ -3,9 +3,13 @@
 namespace App\Console;
 
 use App\Console\Commands\DatabaseDumpCommand;
+use App\Console\Commands\InvoiceReconcileCommand;
 use App\Console\Commands\VideoReconcileCommand;
+use App\Enums\InvoiceVendor;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Laravel\Horizon\Console\SnapshotCommand;
+use Laravel\Telescope\Console\PruneCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,6 +20,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\DatabaseDumpCommand::class,
+        \App\Console\Commands\InvoiceReconcileCommand::class,
         \App\Console\Commands\VideoReconcileCommand::class,
     ];
 
@@ -29,8 +34,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command(DatabaseDumpCommand::class)->daily();
         $schedule->command(VideoReconcileCommand::class)->hourly();
-        $schedule->command('horizon:snapshot')->everyFiveMinutes();
-        $schedule->command('telescope:prune')->daily();
+        $schedule->command(InvoiceReconcileCommand::class, ['vendor' => InvoiceVendor::DIGITALOCEAN()->key])->monthlyOn(2);
+        $schedule->command(SnapshotCommand::class)->everyFiveMinutes();
+        $schedule->command(PruneCommand::class)->daily();
     }
 
     /**
