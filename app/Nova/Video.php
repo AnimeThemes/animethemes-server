@@ -260,6 +260,7 @@ class Video extends Resource
     {
         return [
             new Lenses\VideoSourceLens,
+            new Lenses\VideoUnlinkedLens,
         ];
     }
 
