@@ -143,6 +143,7 @@ return [
     'video_subbed_help' => 'Set if this video has subtitles of dialogue.',
     'video_uncen_help' => 'Set if this video is an uncensored version of a censored sequence.',
     'video_unknown_source_lens' => 'Video with Unknown Source Type',
+    'video_unlinked_lens' => 'Video Without Entries',
     'video' => 'Video',
     'videos' => 'Videos',
     'wiki' => 'Wiki',
