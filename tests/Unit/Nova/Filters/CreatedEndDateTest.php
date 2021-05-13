@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Nova\Filters;
 
-use App\Enums\Filter\AllowedDateFormat;
 use App\Enums\Filter\ComparisonOperator;
 use App\Models\Anime;
 use App\Nova\Filters\CreatedEndDateFilter;
