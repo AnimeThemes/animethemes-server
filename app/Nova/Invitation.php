@@ -150,8 +150,12 @@ class Invitation extends Resource
     {
         return [
             new Filters\InvitationStatusFilter,
-            new Filters\RecentlyCreatedFilter,
-            new Filters\RecentlyUpdatedFilter,
+            new Filters\CreatedStartDateFilter,
+            new Filters\CreatedEndDateFilter,
+            new Filters\UpdatedStartDateFilter,
+            new Filters\UpdatedEndDateFilter,
+            new Filters\DeletedStartDateFilter,
+            new Filters\DeletedEndDateFilter,
         ];
     }
 

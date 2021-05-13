@@ -3,9 +3,13 @@
 namespace Tests\Unit\Nova\Resources;
 
 use App\Enums\ThemeType;
-use App\Nova\Filters\RecentlyCreatedFilter;
-use App\Nova\Filters\RecentlyUpdatedFilter;
+use App\Nova\Filters\CreatedEndDateFilter;
+use App\Nova\Filters\CreatedStartDateFilter;
+use App\Nova\Filters\DeletedEndDateFilter;
+use App\Nova\Filters\DeletedStartDateFilter;
 use App\Nova\Filters\ThemeTypeFilter;
+use App\Nova\Filters\UpdatedEndDateFilter;
+use App\Nova\Filters\UpdatedStartDateFilter;
 use App\Nova\Theme;
 use BenSampo\Enum\Rules\EnumValue;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
@@ -205,8 +209,12 @@ class ThemeTest extends TestCase
         $resource = $this->novaResource(Theme::class);
 
         $resource->assertHasFilter(ThemeTypeFilter::class);
-        $resource->assertHasFilter(RecentlyCreatedFilter::class);
-        $resource->assertHasFilter(RecentlyUpdatedFilter::class);
+        $resource->assertHasFilter(CreatedStartDateFilter::class);
+        $resource->assertHasFilter(CreatedEndDateFilter::class);
+        $resource->assertHasFilter(UpdatedStartDateFilter::class);
+        $resource->assertHasFilter(UpdatedEndDateFilter::class);
+        $resource->assertHasFilter(DeletedStartDateFilter::class);
+        $resource->assertHasFilter(DeletedEndDateFilter::class);
     }
 
     /**

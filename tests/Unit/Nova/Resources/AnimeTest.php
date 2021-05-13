@@ -6,8 +6,12 @@ use App\Enums\AnimeSeason;
 use App\Nova\Anime;
 use App\Nova\Filters\AnimeSeasonFilter;
 use App\Nova\Filters\AnimeYearFilter;
-use App\Nova\Filters\RecentlyCreatedFilter;
-use App\Nova\Filters\RecentlyUpdatedFilter;
+use App\Nova\Filters\CreatedEndDateFilter;
+use App\Nova\Filters\CreatedStartDateFilter;
+use App\Nova\Filters\DeletedEndDateFilter;
+use App\Nova\Filters\DeletedStartDateFilter;
+use App\Nova\Filters\UpdatedEndDateFilter;
+use App\Nova\Filters\UpdatedStartDateFilter;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
@@ -229,8 +233,12 @@ class AnimeTest extends TestCase
 
         $resource->assertHasFilter(AnimeSeasonFilter::class);
         $resource->assertHasFilter(AnimeYearFilter::class);
-        $resource->assertHasFilter(RecentlyCreatedFilter::class);
-        $resource->assertHasFilter(RecentlyUpdatedFilter::class);
+        $resource->assertHasFilter(CreatedStartDateFilter::class);
+        $resource->assertHasFilter(CreatedEndDateFilter::class);
+        $resource->assertHasFilter(UpdatedStartDateFilter::class);
+        $resource->assertHasFilter(UpdatedEndDateFilter::class);
+        $resource->assertHasFilter(DeletedStartDateFilter::class);
+        $resource->assertHasFilter(DeletedEndDateFilter::class);
     }
 
     /**

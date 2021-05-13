@@ -4,8 +4,12 @@ namespace Tests\Unit\Nova\Resources;
 
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
-use App\Nova\Filters\RecentlyCreatedFilter;
-use App\Nova\Filters\RecentlyUpdatedFilter;
+use App\Nova\Filters\CreatedEndDateFilter;
+use App\Nova\Filters\CreatedStartDateFilter;
+use App\Nova\Filters\DeletedEndDateFilter;
+use App\Nova\Filters\DeletedStartDateFilter;
+use App\Nova\Filters\UpdatedEndDateFilter;
+use App\Nova\Filters\UpdatedStartDateFilter;
 use App\Nova\Filters\VideoLyricsFilter;
 use App\Nova\Filters\VideoNcFilter;
 use App\Nova\Filters\VideoOverlapFilter;
@@ -364,8 +368,12 @@ class VideoTest extends TestCase
         $resource->assertHasFilter(VideoOverlapFilter::class);
         $resource->assertHasFilter(VideoSourceFilter::class);
         $resource->assertHasFilter(VideoTypeFilter::class);
-        $resource->assertHasFilter(RecentlyCreatedFilter::class);
-        $resource->assertHasFilter(RecentlyUpdatedFilter::class);
+        $resource->assertHasFilter(CreatedStartDateFilter::class);
+        $resource->assertHasFilter(CreatedEndDateFilter::class);
+        $resource->assertHasFilter(UpdatedStartDateFilter::class);
+        $resource->assertHasFilter(UpdatedEndDateFilter::class);
+        $resource->assertHasFilter(DeletedStartDateFilter::class);
+        $resource->assertHasFilter(DeletedEndDateFilter::class);
     }
 
     /**

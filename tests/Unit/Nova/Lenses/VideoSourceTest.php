@@ -4,8 +4,12 @@ namespace Tests\Unit\Nova\Lenses;
 
 use App\Enums\VideoSource;
 use App\Models\Video;
-use App\Nova\Filters\RecentlyCreatedFilter;
-use App\Nova\Filters\RecentlyUpdatedFilter;
+use App\Nova\Filters\CreatedEndDateFilter;
+use App\Nova\Filters\CreatedStartDateFilter;
+use App\Nova\Filters\DeletedEndDateFilter;
+use App\Nova\Filters\DeletedStartDateFilter;
+use App\Nova\Filters\UpdatedEndDateFilter;
+use App\Nova\Filters\UpdatedStartDateFilter;
 use App\Nova\Filters\VideoTypeFilter;
 use App\Nova\Lenses\VideoSourceLens;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -64,8 +68,12 @@ class VideoSourceTest extends TestCase
         $lens = $this->novaLens(VideoSourceLens::class);
 
         $lens->assertHasFilter(VideoTypeFilter::class);
-        $lens->assertHasFilter(RecentlyCreatedFilter::class);
-        $lens->assertHasFilter(RecentlyUpdatedFilter::class);
+        $lens->assertHasFilter(CreatedStartDateFilter::class);
+        $lens->assertHasFilter(CreatedEndDateFilter::class);
+        $lens->assertHasFilter(UpdatedStartDateFilter::class);
+        $lens->assertHasFilter(UpdatedEndDateFilter::class);
+        $lens->assertHasFilter(DeletedStartDateFilter::class);
+        $lens->assertHasFilter(DeletedEndDateFilter::class);
     }
 
     /**

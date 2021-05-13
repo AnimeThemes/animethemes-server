@@ -4,8 +4,12 @@ namespace Tests\Unit\Nova\Lenses;
 
 use App\Models\Artist;
 use App\Models\Song;
-use App\Nova\Filters\RecentlyCreatedFilter;
-use App\Nova\Filters\RecentlyUpdatedFilter;
+use App\Nova\Filters\CreatedEndDateFilter;
+use App\Nova\Filters\CreatedStartDateFilter;
+use App\Nova\Filters\DeletedEndDateFilter;
+use App\Nova\Filters\DeletedStartDateFilter;
+use App\Nova\Filters\UpdatedEndDateFilter;
+use App\Nova\Filters\UpdatedStartDateFilter;
 use App\Nova\Lenses\ArtistSongLens;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -54,8 +58,12 @@ class ArtistSongTest extends TestCase
     {
         $lens = $this->novaLens(ArtistSongLens::class);
 
-        $lens->assertHasFilter(RecentlyCreatedFilter::class);
-        $lens->assertHasFilter(RecentlyUpdatedFilter::class);
+        $lens->assertHasFilter(CreatedStartDateFilter::class);
+        $lens->assertHasFilter(CreatedEndDateFilter::class);
+        $lens->assertHasFilter(UpdatedStartDateFilter::class);
+        $lens->assertHasFilter(UpdatedEndDateFilter::class);
+        $lens->assertHasFilter(DeletedStartDateFilter::class);
+        $lens->assertHasFilter(DeletedEndDateFilter::class);
     }
 
     /**

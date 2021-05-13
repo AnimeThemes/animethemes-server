@@ -2,8 +2,12 @@
 
 namespace App\Nova\Lenses;
 
-use App\Nova\Filters\RecentlyCreatedFilter;
-use App\Nova\Filters\RecentlyUpdatedFilter;
+use App\Nova\Filters\CreatedEndDateFilter;
+use App\Nova\Filters\CreatedStartDateFilter;
+use App\Nova\Filters\DeletedEndDateFilter;
+use App\Nova\Filters\DeletedStartDateFilter;
+use App\Nova\Filters\UpdatedEndDateFilter;
+use App\Nova\Filters\UpdatedStartDateFilter;
 use App\Nova\Filters\VideoTypeFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Boolean;
@@ -92,8 +96,12 @@ class VideoSourceLens extends Lens
     {
         return [
             new VideoTypeFilter,
-            new RecentlyCreatedFilter,
-            new RecentlyUpdatedFilter,
+            new CreatedStartDateFilter,
+            new CreatedEndDateFilter,
+            new UpdatedStartDateFilter,
+            new UpdatedEndDateFilter,
+            new DeletedStartDateFilter,
+            new DeletedEndDateFilter,
         ];
     }
 
