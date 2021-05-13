@@ -245,8 +245,12 @@ class Video extends Resource
             new Filters\VideoOverlapFilter,
             new Filters\VideoSourceFilter,
             new Filters\VideoTypeFilter,
-            new Filters\RecentlyCreatedFilter,
-            new Filters\RecentlyUpdatedFilter,
+            new Filters\CreatedStartDateFilter,
+            new Filters\CreatedEndDateFilter,
+            new Filters\UpdatedStartDateFilter,
+            new Filters\UpdatedEndDateFilter,
+            new Filters\DeletedStartDateFilter,
+            new Filters\DeletedEndDateFilter,
         ];
     }
 

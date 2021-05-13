@@ -6,8 +6,12 @@ use App\Enums\AnimeSeason;
 use App\Enums\ImageFacet;
 use App\Nova\Filters\AnimeSeasonFilter;
 use App\Nova\Filters\AnimeYearFilter;
-use App\Nova\Filters\RecentlyCreatedFilter;
-use App\Nova\Filters\RecentlyUpdatedFilter;
+use App\Nova\Filters\CreatedEndDateFilter;
+use App\Nova\Filters\CreatedStartDateFilter;
+use App\Nova\Filters\DeletedEndDateFilter;
+use App\Nova\Filters\DeletedStartDateFilter;
+use App\Nova\Filters\UpdatedEndDateFilter;
+use App\Nova\Filters\UpdatedStartDateFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
@@ -97,8 +101,12 @@ class AnimeCoverLargeLens extends Lens
         return [
             new AnimeSeasonFilter,
             new AnimeYearFilter,
-            new RecentlyCreatedFilter,
-            new RecentlyUpdatedFilter,
+            new CreatedStartDateFilter,
+            new CreatedEndDateFilter,
+            new UpdatedStartDateFilter,
+            new UpdatedEndDateFilter,
+            new DeletedStartDateFilter,
+            new DeletedEndDateFilter,
         ];
     }
 

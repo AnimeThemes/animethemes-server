@@ -4,9 +4,13 @@ namespace Tests\Unit\Nova\Resources;
 
 use App\Enums\ResourceSite;
 use App\Nova\ExternalResource;
+use App\Nova\Filters\CreatedEndDateFilter;
+use App\Nova\Filters\CreatedStartDateFilter;
+use App\Nova\Filters\DeletedEndDateFilter;
+use App\Nova\Filters\DeletedStartDateFilter;
 use App\Nova\Filters\ExternalResourceSiteFilter;
-use App\Nova\Filters\RecentlyCreatedFilter;
-use App\Nova\Filters\RecentlyUpdatedFilter;
+use App\Nova\Filters\UpdatedEndDateFilter;
+use App\Nova\Filters\UpdatedStartDateFilter;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
@@ -185,8 +189,12 @@ class ExternalResourceTest extends TestCase
         $resource = $this->novaResource(ExternalResource::class);
 
         $resource->assertHasFilter(ExternalResourceSiteFilter::class);
-        $resource->assertHasFilter(RecentlyCreatedFilter::class);
-        $resource->assertHasFilter(RecentlyUpdatedFilter::class);
+        $resource->assertHasFilter(CreatedStartDateFilter::class);
+        $resource->assertHasFilter(CreatedEndDateFilter::class);
+        $resource->assertHasFilter(UpdatedStartDateFilter::class);
+        $resource->assertHasFilter(UpdatedEndDateFilter::class);
+        $resource->assertHasFilter(DeletedStartDateFilter::class);
+        $resource->assertHasFilter(DeletedEndDateFilter::class);
     }
 
     /**

@@ -4,9 +4,13 @@ namespace Tests\Unit\Nova\Resources;
 
 use App\Enums\InvitationStatus;
 use App\Nova\Actions\ResendInvitationAction;
+use App\Nova\Filters\CreatedEndDateFilter;
+use App\Nova\Filters\CreatedStartDateFilter;
+use App\Nova\Filters\DeletedEndDateFilter;
+use App\Nova\Filters\DeletedStartDateFilter;
 use App\Nova\Filters\InvitationStatusFilter;
-use App\Nova\Filters\RecentlyCreatedFilter;
-use App\Nova\Filters\RecentlyUpdatedFilter;
+use App\Nova\Filters\UpdatedEndDateFilter;
+use App\Nova\Filters\UpdatedStartDateFilter;
 use App\Nova\Invitation;
 use BenSampo\Enum\Rules\EnumValue;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
@@ -186,8 +190,12 @@ class InvitationTest extends TestCase
         $resource = $this->novaResource(Invitation::class);
 
         $resource->assertHasFilter(InvitationStatusFilter::class);
-        $resource->assertHasFilter(RecentlyCreatedFilter::class);
-        $resource->assertHasFilter(RecentlyUpdatedFilter::class);
+        $resource->assertHasFilter(CreatedStartDateFilter::class);
+        $resource->assertHasFilter(CreatedEndDateFilter::class);
+        $resource->assertHasFilter(UpdatedStartDateFilter::class);
+        $resource->assertHasFilter(UpdatedEndDateFilter::class);
+        $resource->assertHasFilter(DeletedStartDateFilter::class);
+        $resource->assertHasFilter(DeletedEndDateFilter::class);
     }
 
     /**

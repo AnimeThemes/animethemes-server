@@ -235,8 +235,12 @@ class Anime extends Resource
         return [
             new Filters\AnimeSeasonFilter,
             new Filters\AnimeYearFilter,
-            new Filters\RecentlyCreatedFilter,
-            new Filters\RecentlyUpdatedFilter,
+            new Filters\CreatedStartDateFilter,
+            new Filters\CreatedEndDateFilter,
+            new Filters\UpdatedStartDateFilter,
+            new Filters\UpdatedEndDateFilter,
+            new Filters\DeletedStartDateFilter,
+            new Filters\DeletedEndDateFilter,
         ];
     }
 

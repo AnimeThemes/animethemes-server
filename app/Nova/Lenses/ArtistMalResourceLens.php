@@ -4,8 +4,12 @@ namespace App\Nova\Lenses;
 
 use App\Enums\ResourceSite;
 use App\Nova\Actions\CreateExternalResourceSiteForArtistAction;
-use App\Nova\Filters\RecentlyCreatedFilter;
-use App\Nova\Filters\RecentlyUpdatedFilter;
+use App\Nova\Filters\CreatedEndDateFilter;
+use App\Nova\Filters\CreatedStartDateFilter;
+use App\Nova\Filters\DeletedEndDateFilter;
+use App\Nova\Filters\DeletedStartDateFilter;
+use App\Nova\Filters\UpdatedEndDateFilter;
+use App\Nova\Filters\UpdatedStartDateFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
@@ -81,8 +85,12 @@ class ArtistMalResourceLens extends Lens
     public function filters(Request $request)
     {
         return [
-            new RecentlyCreatedFilter,
-            new RecentlyUpdatedFilter,
+            new CreatedStartDateFilter,
+            new CreatedEndDateFilter,
+            new UpdatedStartDateFilter,
+            new UpdatedEndDateFilter,
+            new DeletedStartDateFilter,
+            new DeletedEndDateFilter,
         ];
     }
 

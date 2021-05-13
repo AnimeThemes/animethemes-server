@@ -150,8 +150,12 @@ class User extends Resource
     public function filters(Request $request)
     {
         return [
-            new Filters\RecentlyCreatedFilter,
-            new Filters\RecentlyUpdatedFilter,
+            new Filters\CreatedStartDateFilter,
+            new Filters\CreatedEndDateFilter,
+            new Filters\UpdatedStartDateFilter,
+            new Filters\UpdatedEndDateFilter,
+            new Filters\DeletedStartDateFilter,
+            new Filters\DeletedEndDateFilter,
         ];
     }
 
