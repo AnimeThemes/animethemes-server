@@ -1,6 +1,8 @@
 <?php
 
 use App\Enums\AnimeSeason;
+use App\Enums\BillingFrequency;
+use App\Enums\BillingService;
 use App\Enums\ImageFacet;
 use App\Enums\InvitationStatus;
 use App\Enums\ResourceSite;
@@ -14,6 +16,17 @@ return [
         AnimeSeason::SPRING => 'Spring',
         AnimeSeason::SUMMER => 'Summer',
         AnimeSeason::FALL => 'Fall',
+    ],
+    BillingFrequency::class => [
+        BillingFrequency::ONCE => 'Once',
+        BillingFrequency::ANNUALLY => 'Annually',
+        BillingFrequency::BIANNUALLY => 'Biannually',
+        BillingFrequency::QUARTERLY => 'Quarterly',
+        BillingFrequency::MONTHLY => 'Monthly',
+    ],
+    BillingService::class => [
+        BillingService::OTHER => 'Other',
+        BillingService::DIGITALOCEAN => 'DigitalOcean',
     ],
     ImageFacet::class => [
         ImageFacet::COVER_SMALL => 'Small Cover',

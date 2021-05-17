@@ -15,6 +15,10 @@ use App\Events\Artist\ArtistCreated;
 use App\Events\Artist\ArtistDeleted;
 use App\Events\Artist\ArtistRestored;
 use App\Events\Artist\ArtistUpdated;
+use App\Events\Balance\BalanceCreated;
+use App\Events\Balance\BalanceDeleted;
+use App\Events\Balance\BalanceRestored;
+use App\Events\Balance\BalanceUpdated;
 use App\Events\Entry\EntryCreated;
 use App\Events\Entry\EntryDeleted;
 use App\Events\Entry\EntryDeleting;
@@ -73,6 +77,10 @@ use App\Events\Theme\ThemeDeleted;
 use App\Events\Theme\ThemeDeleting;
 use App\Events\Theme\ThemeRestored;
 use App\Events\Theme\ThemeUpdated;
+use App\Events\Transaction\TransactionCreated;
+use App\Events\Transaction\TransactionDeleted;
+use App\Events\Transaction\TransactionRestored;
+use App\Events\Transaction\TransactionUpdated;
 use App\Events\User\UserCreated;
 use App\Events\User\UserDeleted;
 use App\Events\User\UserRestored;
@@ -200,6 +208,18 @@ class EventServiceProvider extends ServiceProvider
             UpdateRelatedIndices::class,
         ],
         ArtistUpdated::class => [
+            SendDiscordNotification::class,
+        ],
+        BalanceCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        BalanceDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        BalanceRestored::class => [
+            SendDiscordNotification::class,
+        ],
+        BalanceUpdated::class => [
             SendDiscordNotification::class,
         ],
         EntryCreated::class => [
@@ -334,6 +354,18 @@ class EventServiceProvider extends ServiceProvider
         ThemeUpdated::class => [
             SendDiscordNotification::class,
             UpdateRelatedIndices::class,
+        ],
+        TransactionCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        TransactionDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        TransactionRestored::class => [
+            SendDiscordNotification::class,
+        ],
+        TransactionUpdated::class => [
+            SendDiscordNotification::class,
         ],
         UserCreated::class => [
             SendDiscordNotification::class,

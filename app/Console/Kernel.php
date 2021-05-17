@@ -3,9 +3,13 @@
 namespace App\Console;
 
 use App\Console\Commands\DatabaseDumpCommand;
+use App\Console\Commands\TransactionReconcileCommand;
 use App\Console\Commands\VideoReconcileCommand;
+use App\Enums\BillingService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Laravel\Horizon\Console\SnapshotCommand;
+use Laravel\Telescope\Console\PruneCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,6 +20,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\DatabaseDumpCommand::class,
+        \App\Console\Commands\TransactionReconcileCommand::class,
         \App\Console\Commands\VideoReconcileCommand::class,
     ];
 
@@ -28,9 +33,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(DatabaseDumpCommand::class)->daily();
+        $schedule->command(PruneCommand::class)->daily();
+        $schedule->command(SnapshotCommand::class)->everyFiveMinutes();
+        $schedule->command(TransactionReconcileCommand::class, ['service' => BillingService::DIGITALOCEAN()->key])->daily();
         $schedule->command(VideoReconcileCommand::class)->hourly();
-        $schedule->command('horizon:snapshot')->everyFiveMinutes();
-        $schedule->command('telescope:prune')->daily();
     }
 
     /**

@@ -35,8 +35,8 @@ class ImageFacetTest extends TestCase
     {
         $filter = $this->novaFilter(ImageFacetFilter::class);
 
-        foreach (ImageFacet::getInstances() as $season) {
-            $filter->assertHasOption($season->description);
+        foreach (ImageFacet::getInstances() as $facet) {
+            $filter->assertHasOption($facet->description);
         }
     }
 

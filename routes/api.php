@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AnimeController;
 use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\ArtistController;
+use App\Http\Controllers\Api\BalanceController;
 use App\Http\Controllers\Api\EntryController;
 use App\Http\Controllers\Api\ExternalResourceController;
 use App\Http\Controllers\Api\ImageController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Api\SeriesController;
 use App\Http\Controllers\Api\SongController;
 use App\Http\Controllers\Api\SynonymController;
 use App\Http\Controllers\Api\ThemeController;
+use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\VideoController;
 use App\Http\Controllers\Api\YearController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +37,7 @@ Route::group(['as' => 'api.'], function () {
     Route::apiResource('anime', AnimeController::class)->only(['index', 'show']);
     Route::apiResource('announcement', AnnouncementController::class)->only(['index', 'show']);
     Route::apiResource('artist', ArtistController::class)->only(['index', 'show']);
+    Route::apiResource('balance', BalanceController::class)->only(['index', 'show']);
     Route::apiResource('entry', EntryController::class)->only(['index', 'show']);
     Route::apiResource('image', ImageController::class)->only(['index', 'show']);
     Route::apiResource('resource', ExternalResourceController::class)->only(['index', 'show']);
@@ -42,6 +45,7 @@ Route::group(['as' => 'api.'], function () {
     Route::apiResource('song', SongController::class)->only(['index', 'show']);
     Route::apiResource('synonym', SynonymController::class)->only(['index', 'show']);
     Route::apiResource('theme', ThemeController::class)->only(['index', 'show']);
+    Route::apiResource('transaction', TransactionController::class)->only(['index', 'show']);
     Route::apiResource('video', VideoController::class)->only(['index', 'show']);
 
     // Year Routes

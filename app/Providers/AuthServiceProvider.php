@@ -19,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Anime' => 'App\Policies\AnimePolicy',
         'App\Models\Announcement' => 'App\Policies\AnnouncementPolicy',
         'App\Models\Artist' => 'App\Policies\ArtistPolicy',
+        'App\Models\Balance' => 'App\Policies\BalancePolicy',
         'App\Models\Entry' => 'App\Policies\EntryPolicy',
         'App\Models\Image' => 'App\Policies\ImagePolicy',
         'App\Models\ExternalResource' => 'App\Policies\ExternalResourcePolicy',
@@ -28,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Synonym' => 'App\Policies\SynonymPolicy',
         'App\Models\Team' => 'App\Policies\TeamPolicy',
         'App\Models\Theme' => 'App\Policies\ThemePolicy',
+        'App\Models\Transaction' => 'App\Policies\TransactionPolicy',
         'App\Models\User' => 'App\Policies\UserPolicy',
         'App\Models\Video' => 'App\Policies\VideoPolicy',
     ];

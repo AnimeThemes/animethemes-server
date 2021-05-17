@@ -33,6 +33,7 @@ class ExternalResourceTest extends TestCase
         $resource->assertHasField(__('nova.created_at'));
         $resource->assertHasField(__('nova.updated_at'));
         $resource->assertHasField(__('nova.deleted_at'));
+        $resource->assertHasField(__('nova.site'));
         $resource->assertHasField(__('nova.link'));
         $resource->assertHasField(__('nova.external_id'));
     }
@@ -180,7 +181,7 @@ class ExternalResourceTest extends TestCase
     }
 
     /**
-     * The Anime Resource shall contain Anime Filters.
+     * The External Resource shall contain External Filters.
      *
      * @return void
      */
