@@ -3,12 +3,12 @@
 namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
-use App\JsonApi\Filter\Transaction\TransactionDateFilter;
-use App\JsonApi\Filter\Transaction\TransactionServiceFilter;
 use App\JsonApi\Filter\Base\CreatedAtFilter;
 use App\JsonApi\Filter\Base\DeletedAtFilter;
 use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
+use App\JsonApi\Filter\Transaction\TransactionDateFilter;
+use App\JsonApi\Filter\Transaction\TransactionServiceFilter;
 
 class TransactionCollection extends BaseCollection
 {

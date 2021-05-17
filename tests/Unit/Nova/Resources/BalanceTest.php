@@ -4,6 +4,7 @@ namespace Tests\Unit\Nova\Resources;
 
 use App\Enums\BillingFrequency;
 use App\Enums\BillingService;
+use App\Nova\Balance;
 use App\Nova\Filters\BillingServiceFilter;
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;
@@ -11,7 +12,6 @@ use App\Nova\Filters\DeletedEndDateFilter;
 use App\Nova\Filters\DeletedStartDateFilter;
 use App\Nova\Filters\UpdatedEndDateFilter;
 use App\Nova\Filters\UpdatedStartDateFilter;
-use App\Nova\Balance;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
