@@ -62,7 +62,7 @@ class Balance extends BaseModel
     protected $casts = [
         'service' => 'int',
         'frequency' => 'int',
-        'date' => 'date:Y-m',
+        'date' => 'date:Y-m-d',
     ];
 
     /**

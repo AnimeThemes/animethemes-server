@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Balance;
+use App\Models\Transaction;
+use Carbon\Carbon;
+
 class TransparencyController extends Controller
 {
     /**
@@ -11,6 +15,17 @@ class TransparencyController extends Controller
      */
     public function show()
     {
-        return view('transparency');
+        $balances = Balance::whereBetween('date', [ Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            ->orderBy('usage', 'desc')
+            ->get();
+
+        $transactions = Transaction::whereBetween('date', [ Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            ->orderBy('date', 'desc')
+            ->get();
+
+        return view('transparency', [
+            'balances' => $balances,
+            'transactions' => $transactions,
+        ]);
     }
 }

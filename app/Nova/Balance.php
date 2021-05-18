@@ -85,9 +85,6 @@ class Balance extends Resource
             new Panel(__('nova.timestamps'), $this->timestamps()),
 
             Date::make(__('nova.date'), 'date')
-                ->format('YYYY-MM')
-                ->pickerFormat('Y-m')
-                ->pickerDisplayFormat('Y-m')
                 ->sortable()
                 ->rules('required')
                 ->help(__('nova.balance_date_help')),
@@ -102,7 +99,7 @@ class Balance extends Resource
                 ->help(__('nova.billing_service_help')),
 
             Select::make(__('nova.frequency'), 'frequency')
-                ->options(BillingService::asSelectArray())
+                ->options(BillingFrequency::asSelectArray())
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })

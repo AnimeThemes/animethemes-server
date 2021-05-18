@@ -2,6 +2,7 @@
 
 return [
     'admin' => 'Admin',
+    'amount' => 'Amount',
     'anime_create_resource_action_success' => 'The Resource has been created and attached to Anime',
     'anime_create_resource_action' => 'Create :site Resource for Anime',
     'anime_image_lens' => 'Anime Without :facet Image',
@@ -47,6 +48,7 @@ return [
     'deleted_at_end' => 'Deleted At End',
     'deleted_at_start' => 'Deleted At Start',
     'deleted_at' => 'Deleted At',
+    'description' => 'Description',
     'disabled' => 'Disabled',
     'disable' => 'Disable',
     'email' => 'Email',
