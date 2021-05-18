@@ -15,11 +15,11 @@ class TransparencyController extends Controller
      */
     public function show()
     {
-        $balances = Balance::whereBetween('date', [ Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+        $balances = Balance::whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
             ->orderBy('usage', 'desc')
             ->get();
 
-        $transactions = Transaction::whereBetween('date', [ Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+        $transactions = Transaction::whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
             ->orderBy('date', 'desc')
             ->get();
 
