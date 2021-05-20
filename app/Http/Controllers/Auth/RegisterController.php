@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    use PasswordValidationRules;
-
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -29,7 +27,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use PasswordValidationRules, RegistersUsers;
 
     /**
      * Where to redirect users after registration.
