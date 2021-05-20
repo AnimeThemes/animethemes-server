@@ -23,21 +23,16 @@ class SynopsisCoverSeeder extends Seeder
      */
     public function run()
     {
-        // Get anime that have MAL resource but do not have Anilist resource
-        $animes = Anime::whereHas('externalResources', function ($resource_query) {
-            $resource_query->where('site', ResourceSite::ANILIST);
-        })->whereDoesntHave('images', function ($image_query) {
-            $image_query->whereIn('facet', [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
-        })
-        ->get();
+        // Get anime that have MAL resource but not both cover images
+        $animes = $this->getUnseededAnime();
 
         $fs = Storage::disk('images');
 
         foreach ($animes as $anime) {
-            $anilist_resource = $anime->externalResources->firstWhere('site', strval(ResourceSite::ANILIST));
+            $anilist_resource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::ANILIST));
             if (! is_null(optional($anilist_resource)->external_id)) {
-                $anime_cover_large = $anime->images->firstWhere('facet', strval(ImageFacet::COVER_LARGE));
-                $anime_cover_small = $anime->images->firstWhere('facet', strval(ImageFacet::COVER_SMALL));
+                $anime_cover_large = $anime->images()->firstWhere('facet', strval(ImageFacet::COVER_LARGE));
+                $anime_cover_small = $anime->images()->firstWhere('facet', strval(ImageFacet::COVER_SMALL));
 
                 // Try not to upset Anilist
                 sleep(rand(5, 15));
@@ -129,5 +124,21 @@ class SynopsisCoverSeeder extends Seeder
                 }
             }
         }
+    }
+
+    /**
+     * Get anime that have MAL resource but not both cover images.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function getUnseededAnime()
+    {
+        return Anime::query()
+            ->whereHas('externalResources', function ($resource_query) {
+                $resource_query->where('site', ResourceSite::ANILIST);
+            })->whereDoesntHave('images', function ($image_query) {
+                $image_query->whereIn('facet', [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
+            })
+            ->get();
     }
 }

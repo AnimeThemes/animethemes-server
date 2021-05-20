@@ -49,7 +49,7 @@ class SynonymDeleted extends SynonymEvent implements DiscordMessageEvent, Update
      */
     public function updateRelatedIndices()
     {
-        $anime = $this->getAnime();
+        $anime = $this->getAnime()->load('themes.entries.videos');
 
         $anime->searchable();
         $anime->themes->each(function (Theme $theme) {

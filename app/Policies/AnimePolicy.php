@@ -7,6 +7,8 @@ use App\Models\ExternalResource;
 use App\Models\Image;
 use App\Models\Series;
 use App\Models\User;
+use App\Pivots\AnimeImage;
+use App\Pivots\AnimeSeries;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AnimePolicy
@@ -117,7 +119,7 @@ class AnimePolicy
      */
     public function attachSeries(User $user, Anime $anime, Series $series)
     {
-        if ($anime->series->contains($series)) {
+        if (AnimeSeries::where($anime->getKeyName(), $anime->getKey())->where($series->getKeyName(), $series->getKey())->exists()) {
             return false;
         }
 
@@ -197,7 +199,7 @@ class AnimePolicy
      */
     public function attachImage(User $user, Anime $anime, Image $image)
     {
-        if ($anime->images->contains($image)) {
+        if (AnimeImage::where($anime->getKeyName(), $anime->getKey())->where($image->getKeyName(), $image->getKey())->exists()) {
             return false;
         }
 

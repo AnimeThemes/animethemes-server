@@ -50,7 +50,7 @@ class SynonymCreated extends SynonymEvent implements DiscordMessageEvent, Update
      */
     public function updateRelatedIndices()
     {
-        $synonym = $this->getSynonym();
+        $synonym = $this->getSynonym()->load('anime.themes.entries.videos');
 
         $synonym->anime->searchable();
         $synonym->anime->themes->each(function (Theme $theme) {

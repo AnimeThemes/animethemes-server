@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rules\Password;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -40,6 +41,15 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        Password::defaults(function () {
+            return Password::min(8)
+                ->uncompromised()
+                ->mixedCase()
+                ->letters()
+                ->numbers()
+                ->symbols();
+        });
 
         Gate::define('viewNova', function (User $user) {
             $nova_team = Team::find(Config::get('nova.team'));

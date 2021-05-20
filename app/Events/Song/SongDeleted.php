@@ -49,7 +49,7 @@ class SongDeleted extends SongEvent implements DiscordMessageEvent, UpdateRelate
      */
     public function updateRelatedIndices()
     {
-        $song = $this->getSong();
+        $song = $this->getSong()->load(['artists', 'themes.entries.videos']);
 
         $artists = $song->artists;
         $artists->each(function (Artist $artist) {

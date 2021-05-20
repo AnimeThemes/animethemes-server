@@ -64,7 +64,7 @@ class SongUpdated extends SongEvent implements DiscordMessageEvent, UpdateRelate
      */
     public function updateRelatedIndices()
     {
-        $song = $this->getSong();
+        $song = $this->getSong()->load(['artists', 'themes.entries.videos']);
 
         $song->artists->each(function (Artist $artist) {
             $artist->searchable();

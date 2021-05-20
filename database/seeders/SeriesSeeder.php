@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Anime;
 use App\Models\Series;
+use App\Pivots\AnimeSeries;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
@@ -61,7 +62,7 @@ class SeriesSeeder extends Seeder
             // Note: We are not concerned about Name collision here. It's more likely that collisions are within a series.
             $animes = Anime::whereIn('name', $series_anime_names)->get();
             foreach ($animes as $anime) {
-                if (! $series->anime->contains($anime)) {
+                if (AnimeSeries::where($anime->getKeyName(), $anime->getKey())->where($series->getKeyName(), $series->getKey())->doesntExist()) {
                     Log::info("Attaching anime '{$anime->name}' to series '{$series->name}'");
                     $series->anime()->attach($anime);
                 }

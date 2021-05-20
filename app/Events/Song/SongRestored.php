@@ -49,7 +49,7 @@ class SongRestored extends SongEvent implements DiscordMessageEvent, UpdateRelat
      */
     public function updateRelatedIndices()
     {
-        $song = $this->getSong();
+        $song = $this->getSong()->load(['artists', 'themes.entries.videos']);
 
         // refresh artist documents by detaching song
         $artists = $song->artists;

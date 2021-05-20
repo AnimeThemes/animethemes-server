@@ -57,11 +57,7 @@ abstract class BaseModel extends Model implements Auditable, Nameable
         $this->exists = true;
 
         // Save quietly so that we do not fire an updated event on restore
-        $result = self::withoutEvents(
-            function () {
-                return $this->save();
-            }
-        );
+        $result = $this->saveQuietly();
 
         $this->fireModelEvent('restored', false);
 

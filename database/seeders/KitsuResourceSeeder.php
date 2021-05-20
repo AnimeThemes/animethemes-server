@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\ResourceSite;
 use App\Models\Anime;
 use App\Models\ExternalResource;
+use App\Pivots\AnimeResource;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
@@ -22,15 +23,10 @@ class KitsuResourceSeeder extends Seeder
     public function run()
     {
         // Get anime that have MAL resource but do not have Kitsu resource
-        $animes = Anime::whereHas('externalResources', function ($resource_query) {
-            $resource_query->where('site', ResourceSite::MAL);
-        })->whereDoesntHave('externalResources', function ($resource_query) {
-            $resource_query->where('site', ResourceSite::KITSU);
-        })
-        ->get();
+        $animes = $this->getUnseededAnime();
 
         foreach ($animes as $anime) {
-            $mal_resource = $anime->externalResources->firstWhere('site', strval(ResourceSite::MAL));
+            $mal_resource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::MAL));
             if (! is_null(optional($mal_resource)->external_id)) {
 
                 // Try not to upset Kitsu
@@ -69,7 +65,7 @@ class KitsuResourceSeeder extends Seeder
                         }
 
                         // Attach Kitsu resource to anime
-                        if (! $kitsu_resource->anime->contains($anime)) {
+                        if (AnimeResource::where($anime->getKeyName(), $anime->getKey())->where($kitsu_resource->getKeyName(), $kitsu_resource->getKey())->doesntExist()) {
                             Log::info("Attaching resource '{$kitsu_resource->link}' to anime '{$anime->name}'");
                             $kitsu_resource->anime()->attach($anime);
                         }
@@ -88,5 +84,21 @@ class KitsuResourceSeeder extends Seeder
                 }
             }
         }
+    }
+
+    /**
+     * Get anime that have MAL resource but do not have Kitsu resource.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function getUnseededAnime()
+    {
+        return Anime::query()
+            ->whereHas('externalResources', function ($resource_query) {
+                $resource_query->where('site', ResourceSite::MAL);
+            })->whereDoesntHave('externalResources', function ($resource_query) {
+                $resource_query->where('site', ResourceSite::KITSU);
+            })
+            ->get();
     }
 }
