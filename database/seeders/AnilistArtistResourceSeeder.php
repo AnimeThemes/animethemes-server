@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\ResourceSite;
 use App\Models\Artist;
 use App\Models\ExternalResource;
+use App\Pivots\ArtistResource;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
@@ -70,7 +71,7 @@ class AnilistArtistResourceSeeder extends Seeder
                 }
 
                 // Attach Anilist resource to artist
-                if (! $anilist_resource->artists->contains($artist)) {
+                if (ArtistResource::where($artist->getKeyName(), $artist->getKey())->where($anilist_resource->getKeyName(), $anilist_resource->getKey())->doesntExist()) {
                     Log::info("Attaching resource '{$anilist_resource->link}' to artist '{$artist->name}'");
                     $anilist_resource->artists()->attach($artist);
                 }

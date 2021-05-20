@@ -105,11 +105,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
         $this->exists = true;
 
         // Save quietly so that we do not fire an updated event on restore
-        $result = self::withoutEvents(
-            function () {
-                return $this->save();
-            }
-        );
+        $result = $this->saveQuietly();
 
         $this->fireModelEvent('restored', false);
 
@@ -129,18 +125,6 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
         $currentTeam = $this->currentTeam;
 
         return $currentTeam !== null && $currentTeam->is($team);
-    }
-
-    /**
-     * Determine if the user owns the given team.
-     *
-     * @param  mixed  $team
-     * @return bool
-     */
-    public function ownsTeam($team)
-    {
-        return $team !== null
-            && $this->id == $team->{$this->getForeignKey()};
     }
 
     /**

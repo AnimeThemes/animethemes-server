@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\ResourceSite;
 use App\Models\Anime;
 use App\Models\ExternalResource;
+use App\Pivots\AnimeResource;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
@@ -21,15 +22,10 @@ class AniDbResourceSeeder extends Seeder
     public function run()
     {
         // Get anime that have MAL resource but do not have AniDB resource
-        $animes = Anime::whereHas('externalResources', function ($resource_query) {
-            $resource_query->where('site', ResourceSite::MAL);
-        })->whereDoesntHave('externalResources', function ($resource_query) {
-            $resource_query->where('site', ResourceSite::ANIDB);
-        })
-        ->get();
+        $animes = $this->getUnseededAnime();
 
         foreach ($animes as $anime) {
-            $mal_resource = $anime->externalResources->firstWhere('site', strval(ResourceSite::MAL));
+            $mal_resource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::MAL));
             if (! is_null(optional($mal_resource)->external_id)) {
 
                 // Try not to upset Yuna
@@ -60,7 +56,7 @@ class AniDbResourceSeeder extends Seeder
                         }
 
                         // Attach AniDB resource to anime
-                        if (! $anidb_resource->anime->contains($anime)) {
+                        if (AnimeResource::where($anime->getKeyName(), $anime->getKey())->where($anidb_resource->getKeyName(), $anidb_resource->getKey())->doesntExist()) {
                             Log::info("Attaching resource '{$anidb_resource->link}' to anime '{$anime->name}'");
                             $anidb_resource->anime()->attach($anime);
                         }
@@ -76,5 +72,21 @@ class AniDbResourceSeeder extends Seeder
                 }
             }
         }
+    }
+
+    /**
+     * Get anime that have MAL resource but do not have AniDB resource.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function getUnseededAnime()
+    {
+        return Anime::query()
+            ->whereHas('externalResources', function ($resource_query) {
+                $resource_query->where('site', ResourceSite::MAL);
+            })->whereDoesntHave('externalResources', function ($resource_query) {
+                $resource_query->where('site', ResourceSite::ANIDB);
+            })
+            ->get();
     }
 }

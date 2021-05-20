@@ -7,6 +7,7 @@ use App\Models\ExternalResource;
 use App\Models\Image;
 use App\Models\Song;
 use App\Models\User;
+use App\Pivots\ArtistImage;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ArtistPolicy
@@ -231,7 +232,7 @@ class ArtistPolicy
      */
     public function attachImage(User $user, Artist $artist, Image $image)
     {
-        if ($artist->images->contains($image)) {
+        if (ArtistImage::where($artist->getKeyName(), $artist->getKey())->where($image->getKeyName(), $image->getKey())->exists()) {
             return false;
         }
 

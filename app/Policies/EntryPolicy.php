@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Entry;
 use App\Models\User;
 use App\Models\Video;
+use App\Pivots\VideoEntry;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class EntryPolicy
@@ -115,7 +116,7 @@ class EntryPolicy
      */
     public function attachVideo(User $user, Entry $entry, Video $video)
     {
-        if ($entry->videos->contains($video)) {
+        if (VideoEntry::where($entry->getKeyName(), $entry->getKey())->where($video->getKeyName(), $video->getKey())->exists()) {
             return false;
         }
 

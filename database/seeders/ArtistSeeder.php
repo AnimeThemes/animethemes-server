@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\ResourceSite;
 use App\Models\Artist;
 use App\Models\ExternalResource;
+use App\Pivots\ArtistResource;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
@@ -70,7 +71,7 @@ class ArtistSeeder extends Seeder
             }
 
             // Attach resource to artist if needed
-            if (! $artist->externalResources->contains($resource)) {
+            if (ArtistResource::where($artist->getKeyName(), $artist->getKey())->where($resource->getKeyName(), $resource->getKey())->doesntExist()) {
                 Log::info("Attaching resource '{$resource->link}' to artist '{$artist->name}'");
                 $resource->artists()->attach($artist);
             }

@@ -10,6 +10,7 @@ use App\Models\Song;
 use App\Models\Synonym;
 use App\Models\Theme;
 use App\Models\Video;
+use App\Pivots\VideoEntry;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -270,7 +271,7 @@ class AnimeThemeSeeder extends Seeder
     private static function attach_video_to_entry($video_basename, $entry): void
     {
         $video = Video::where('basename', $video_basename)->first();
-        if ($video !== null && ! $entry->videos->contains($video)) {
+        if ($video !== null && VideoEntry::where($entry->getKeyName(), $entry->getKey())->where($video->getKeyName(), $video->getKey())->doesntExist()) {
             Log::info("Attaching video '{$video->basename}' to entry '{$entry->getName()}'");
             $entry->videos()->attach($video);
         }

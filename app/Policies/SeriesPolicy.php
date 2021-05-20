@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Anime;
 use App\Models\Series;
 use App\Models\User;
+use App\Pivots\AnimeSeries;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SeriesPolicy
@@ -115,7 +116,7 @@ class SeriesPolicy
      */
     public function attachAnime(User $user, Series $series, Anime $anime)
     {
-        if ($series->anime->contains($anime)) {
+        if (AnimeSeries::where($anime->getKeyName(), $anime->getKey())->where($series->getKeyName(), $series->getKey())->exists()) {
             return false;
         }
 

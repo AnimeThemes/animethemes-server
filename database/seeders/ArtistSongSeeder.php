@@ -6,6 +6,7 @@ use App\Enums\ThemeType;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Theme;
+use App\Pivots\ArtistSong;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -100,7 +101,7 @@ class ArtistSongSeeder extends Seeder
                             $theme = $matching_themes->first();
                             $song = $theme->song;
 
-                            if ($song !== null && ! $artist->songs->contains($song)) {
+                            if ($song !== null && ArtistSong::where($artist->getKeyName(), $artist->getKey())->where($song->getKeyName(), $song->getKey())->doesntExist()) {
                                 Log::info("Attaching song '{$song->title}' to artist '{$artist->name}'");
                                 $artist->songs()->attach($song);
                             }

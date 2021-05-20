@@ -15,7 +15,7 @@ class ThemeDeleting extends ThemeEvent implements CascadesDeletesEvent
      */
     public function cascadeDeletes()
     {
-        $theme = $this->getTheme();
+        $theme = $this->getTheme()->load('entries.videos');
 
         $theme->entries->each(function (Entry $entry) {
             Entry::withoutEvents(function () use ($entry) {

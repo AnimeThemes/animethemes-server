@@ -17,7 +17,7 @@ class AnimeDeleting extends AnimeEvent implements CascadesDeletesEvent
      */
     public function cascadeDeletes()
     {
-        $anime = $this->getAnime();
+        $anime = $this->getAnime()->load(['synonyms', 'themes.entries.videos']);
 
         $anime->synonyms->each(function (Synonym $synonym) {
             Synonym::withoutEvents(function () use ($synonym) {

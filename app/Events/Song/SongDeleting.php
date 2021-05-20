@@ -17,7 +17,7 @@ class SongDeleting extends SongEvent implements UpdateRelatedIndicesEvent
      */
     public function updateRelatedIndices()
     {
-        $song = $this->getSong();
+        $song = $this->getSong()->load(['artists', 'themes.entries.videos']);
 
         if ($song->isForceDeleting()) {
             // refresh artist documents by detaching song

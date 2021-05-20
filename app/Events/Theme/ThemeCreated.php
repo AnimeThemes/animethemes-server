@@ -49,7 +49,7 @@ class ThemeCreated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
      */
     public function updateRelatedIndices()
     {
-        $theme = $this->getTheme();
+        $theme = $this->getTheme()->load('entries.videos');
 
         $theme->entries->each(function (Entry $entry) {
             $entry->searchable();

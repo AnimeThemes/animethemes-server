@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Concerns\Fortify\PasswordValidationRules;
 use App\Enums\InvitationStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Invitation;
@@ -26,7 +27,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use PasswordValidationRules, RegistersUsers;
 
     /**
      * Where to redirect users after registration.
@@ -106,7 +107,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:192'],
             'email' => ['required', 'string', 'email', 'max:192', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed', 'zxcvbn_min:3', 'zxcvbn_dictionary:name,email'],
+            'password' => $this->passwordRules(),
             'terms' => ['required'],
         ]);
     }

@@ -6,6 +6,8 @@ use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Image;
 use App\Models\User;
+use App\Pivots\AnimeImage;
+use App\Pivots\ArtistImage;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ImagePolicy
@@ -116,7 +118,7 @@ class ImagePolicy
      */
     public function attachArtist(User $user, Image $image, Artist $artist)
     {
-        if ($image->artists->contains($artist)) {
+        if (ArtistImage::where($artist->getKeyName(), $artist->getKey())->where($image->getKeyName(), $image->getKey())->exists()) {
             return false;
         }
 
@@ -158,7 +160,7 @@ class ImagePolicy
      */
     public function attachAnime(User $user, Image $image, Anime $anime)
     {
-        if ($image->anime->contains($anime)) {
+        if (AnimeImage::where($anime->getKeyName(), $anime->getKey())->where($image->getKeyName(), $image->getKey())->exists()) {
             return false;
         }
 

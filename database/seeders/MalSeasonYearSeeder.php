@@ -47,14 +47,11 @@ class MalSeasonYearSeeder extends Seeder
             return;
         }
 
-        $animes = Anime::whereNull('season')
-            ->whereHas('externalResources', function ($resource_query) {
-                $resource_query->where('site', ResourceSite::MAL);
-            })
-            ->get();
+        // Get anime that have MAL resource but do not season
+        $animes = $this->getUnseededAnime();
 
         foreach ($animes as $anime) {
-            $mal_resource = $anime->externalResources->firstWhere('site', strval(ResourceSite::MAL));
+            $mal_resource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::MAL));
             if (! is_null(optional($mal_resource)->external_id)) {
 
                 // Try not to upset MAL
@@ -93,5 +90,19 @@ class MalSeasonYearSeeder extends Seeder
                 }
             }
         }
+    }
+
+    /**
+     * Get anime that have MAL resource but do not season.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function getUnseededAnime()
+    {
+        return Anime::whereNull('season')
+            ->whereHas('externalResources', function ($resource_query) {
+                $resource_query->where('site', ResourceSite::MAL);
+            })
+            ->get();
     }
 }
