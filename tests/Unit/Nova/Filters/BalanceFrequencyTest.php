@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Nova\Filters;
 
-use App\Enums\BillingFrequency;
-use App\Models\Balance;
+use App\Enums\Billing\Frequency;
+use App\Models\Billing\Balance;
 use App\Nova\Filters\BalanceFrequencyFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -27,7 +27,7 @@ class BalanceFrequencyTest extends TestCase
     }
 
     /**
-     * The Balance Frequency Filter shall have an option for each BillingFrequency instance.
+     * The Balance Frequency Filter shall have an option for each Frequency instance.
      *
      * @return void
      */
@@ -35,7 +35,7 @@ class BalanceFrequencyTest extends TestCase
     {
         $filter = $this->novaFilter(BalanceFrequencyFilter::class);
 
-        foreach (BillingFrequency::getInstances() as $frequency) {
+        foreach (Frequency::getInstances() as $frequency) {
             $filter->assertHasOption($frequency->description);
         }
     }
@@ -47,7 +47,7 @@ class BalanceFrequencyTest extends TestCase
      */
     public function testFilter()
     {
-        $frequency = BillingFrequency::getRandomInstance();
+        $frequency = Frequency::getRandomInstance();
 
         Balance::factory()->count($this->faker->randomDigitNotNull)->create();
 

@@ -1,8 +1,8 @@
 <?php
 
 use App\Enums\AnimeSeason;
-use App\Enums\BillingFrequency;
-use App\Enums\BillingService;
+use App\Enums\Billing\Frequency;
+use App\Enums\Billing\Service;
 use App\Enums\ImageFacet;
 use App\Enums\InvitationStatus;
 use App\Enums\ResourceSite;
@@ -17,16 +17,12 @@ return [
         AnimeSeason::SUMMER => 'Summer',
         AnimeSeason::FALL => 'Fall',
     ],
-    BillingFrequency::class => [
-        BillingFrequency::ONCE => 'Once',
-        BillingFrequency::ANNUALLY => 'Annually',
-        BillingFrequency::BIANNUALLY => 'Biannually',
-        BillingFrequency::QUARTERLY => 'Quarterly',
-        BillingFrequency::MONTHLY => 'Monthly',
-    ],
-    BillingService::class => [
-        BillingService::OTHER => 'Other',
-        BillingService::DIGITALOCEAN => 'DigitalOcean',
+    Frequency::class => [
+        Frequency::ONCE => 'Once',
+        Frequency::ANNUALLY => 'Annually',
+        Frequency::BIANNUALLY => 'Biannually',
+        Frequency::QUARTERLY => 'Quarterly',
+        Frequency::MONTHLY => 'Monthly',
     ],
     ImageFacet::class => [
         ImageFacet::COVER_SMALL => 'Small Cover',
@@ -46,6 +42,13 @@ return [
         ResourceSite::KITSU => 'Kitsu',
         ResourceSite::MAL => 'MyAnimeList',
         ResourceSite::WIKI => 'Wiki',
+    ],
+    Service::class => [
+        Service::OTHER => 'Other',
+        Service::DIGITALOCEAN => 'DigitalOcean',
+        Service::AWS => 'AWS',
+        Service::HOVER => 'Hover',
+        Service::WALKERSERVERS => 'WalkerServers',
     ],
     ThemeType::class => [
         ThemeType::OP => 'OP',

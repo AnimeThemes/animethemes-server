@@ -2,7 +2,7 @@
 
 namespace App\Nova\Filters;
 
-use App\Enums\BillingService;
+use App\Enums\Billing\Service;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
@@ -46,6 +46,6 @@ class BillingServiceFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(BillingService::asSelectArray());
+        return array_flip(Service::asSelectArray());
     }
 }

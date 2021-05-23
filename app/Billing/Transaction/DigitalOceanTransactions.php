@@ -3,8 +3,8 @@
 namespace App\Billing\Transaction;
 
 use App\Contracts\Billing\ServiceTransactions;
-use App\Enums\BillingService;
-use App\Models\Transaction;
+use App\Enums\Billing\Service;
+use App\Models\Billing\Transaction;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -54,7 +54,7 @@ class DigitalOceanTransactions implements ServiceTransactions
                 foreach ($billing_history as $source_transaction) {
                     $source_transactions[] = Transaction::make([
                         'date' => Carbon::parse($source_transaction['date']),
-                        'service' => BillingService::DIGITALOCEAN,
+                        'service' => Service::DIGITALOCEAN,
                         'description' => $source_transaction['description'],
                         'amount' => $source_transaction['amount'],
                         'external_id' => Arr::get($source_transaction, 'invoice_id', null),

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Concerns\Reconcile\ReconcilesTransaction;
-use App\Enums\BillingService;
+use App\Enums\Billing\Service;
 use App\Models\BaseModel;
 use Exception;
 use Illuminate\Database\Seeder;
@@ -20,7 +20,7 @@ class DigitalOceanTransactionSeeder extends Seeder
      */
     public function run()
     {
-        $this->setService(BillingService::DIGITALOCEAN());
+        $this->setService(Service::DIGITALOCEAN());
 
         $this->reconcileContent();
     }

@@ -2,7 +2,7 @@
 
 namespace App\Nova\Filters;
 
-use App\Enums\BillingFrequency;
+use App\Enums\Billing\Frequency;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
@@ -46,6 +46,6 @@ class BalanceFrequencyFilter extends Filter
      */
     public function options(Request $request)
     {
-        return array_flip(BillingFrequency::asSelectArray());
+        return array_flip(Frequency::asSelectArray());
     }
 }

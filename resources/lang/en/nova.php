@@ -36,6 +36,7 @@ return [
     'basename' => 'Basename',
     'billing_service_help' => 'The provider that is billing us',
     'billing_service' => 'Billing Service',
+    'billing' => 'Billing',
     'cancel' => 'Cancel',
     'change' => 'Change',
     'confirm_new_password' => 'Confirm New Password',

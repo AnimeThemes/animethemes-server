@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Enums\BillingService;
+use App\Enums\Billing\Service;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
@@ -21,7 +21,7 @@ class Transaction extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Transaction::class;
+    public static $model = \App\Models\Billing\Transaction::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -37,7 +37,7 @@ class Transaction extends Resource
      */
     public static function group()
     {
-        return __('nova.admin');
+        return __('nova.billing');
     }
 
     /**
@@ -91,12 +91,12 @@ class Transaction extends Resource
                 ->help(__('nova.transaction_date_help')),
 
             Select::make(__('nova.service'), 'service')
-                ->options(BillingService::asSelectArray())
+                ->options(Service::asSelectArray())
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', (new EnumValue(BillingService::class, false))->__toString())
+                ->rules('required', (new EnumValue(Service::class, false))->__toString())
                 ->help(__('nova.billing_service_help')),
 
             Text::make(__('nova.description'), 'description')

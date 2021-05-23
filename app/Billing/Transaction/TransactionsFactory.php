@@ -2,20 +2,20 @@
 
 namespace App\Billing\Transaction;
 
-use App\Enums\BillingService;
+use App\Enums\Billing\Service;
 
 class TransactionsFactory
 {
     /**
      * Create a new collector instance from service.
      *
-     * @param BillingService $service
+     * @param Service $service
      * @return \App\Contracts\Billing\ServiceTransactions|null
      */
-    public static function create(BillingService $service)
+    public static function create(Service $service)
     {
         switch ($service->value) {
-        case BillingService::DIGITALOCEAN:
+        case Service::DIGITALOCEAN:
             return new DigitalOceanTransactions;
         }
 

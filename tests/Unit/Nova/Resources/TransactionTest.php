@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Nova\Resources;
 
-use App\Enums\BillingService;
+use App\Enums\Billing\Service;
 use App\Nova\Filters\BillingServiceFilter;
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;
@@ -148,7 +148,7 @@ class TransactionTest extends TestCase
         $field = $transaction->field(__('nova.service'));
 
         $field->assertHasRule('required');
-        $field->assertHasRule((new EnumValue(BillingService::class, false))->__toString());
+        $field->assertHasRule((new EnumValue(Service::class, false))->__toString());
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();

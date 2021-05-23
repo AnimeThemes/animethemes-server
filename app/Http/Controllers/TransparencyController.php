@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Balance;
-use App\Models\Transaction;
+use App\Models\Billing\Balance;
+use App\Models\Billing\Transaction;
 use Carbon\Carbon;
 
 class TransparencyController extends Controller

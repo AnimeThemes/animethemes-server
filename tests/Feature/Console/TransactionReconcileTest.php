@@ -3,8 +3,8 @@
 namespace Tests\Feature\Console;
 
 use App\Console\Commands\TransactionReconcileCommand;
-use App\Enums\BillingService;
-use App\Models\Transaction;
+use App\Enums\Billing\Service;
+use App\Models\Billing\Transaction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -35,7 +35,7 @@ class TransactionReconcileTest extends TestCase
      */
     public function testNoResults()
     {
-        $this->artisan(TransactionReconcileCommand::class, ['service' => BillingService::OTHER()->key])->expectsOutput('No Transactions created or deleted or updated');
+        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::OTHER()->key])->expectsOutput('No Transactions created or deleted or updated');
     }
 
     /**
@@ -47,9 +47,9 @@ class TransactionReconcileTest extends TestCase
     {
         $deleted_transaction_count = $this->faker->randomDigitNotNull;
         Transaction::factory()->count($deleted_transaction_count)->create([
-            'service' => BillingService::OTHER,
+            'service' => Service::OTHER,
         ]);
 
-        $this->artisan(TransactionReconcileCommand::class, ['service' => BillingService::OTHER()->key])->expectsOutput("0 Transactions created, {$deleted_transaction_count} Transactions deleted, 0 Transactions updated");
+        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::OTHER()->key])->expectsOutput("0 Transactions created, {$deleted_transaction_count} Transactions deleted, 0 Transactions updated");
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Nova\Filters;
 
-use App\Enums\BillingService;
-use App\Models\Balance;
+use App\Enums\Billing\Service;
+use App\Models\Billing\Balance;
 use App\Nova\Filters\BillingServiceFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -27,7 +27,7 @@ class BillingServiceTest extends TestCase
     }
 
     /**
-     * The Balance Service Filter shall have an option for each BillingService instance.
+     * The Balance Service Filter shall have an option for each Service instance.
      *
      * @return void
      */
@@ -35,7 +35,7 @@ class BillingServiceTest extends TestCase
     {
         $filter = $this->novaFilter(BillingServiceFilter::class);
 
-        foreach (BillingService::getInstances() as $service) {
+        foreach (Service::getInstances() as $service) {
             $filter->assertHasOption($service->description);
         }
     }
@@ -47,7 +47,7 @@ class BillingServiceTest extends TestCase
      */
     public function testFilter()
     {
-        $service = BillingService::getRandomInstance();
+        $service = Service::getRandomInstance();
 
         Balance::factory()->count($this->faker->randomDigitNotNull)->create();
 

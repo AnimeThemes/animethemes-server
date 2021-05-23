@@ -2,8 +2,8 @@
 
 namespace App\Nova;
 
-use App\Enums\BillingFrequency;
-use App\Enums\BillingService;
+use App\Enums\Billing\Frequency;
+use App\Enums\Billing\Service;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
@@ -20,7 +20,7 @@ class Balance extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Balance::class;
+    public static $model = \App\Models\Billing\Balance::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -36,7 +36,7 @@ class Balance extends Resource
      */
     public static function group()
     {
-        return __('nova.admin');
+        return __('nova.billing');
     }
 
     /**
@@ -90,21 +90,21 @@ class Balance extends Resource
                 ->help(__('nova.balance_date_help')),
 
             Select::make(__('nova.service'), 'service')
-                ->options(BillingService::asSelectArray())
+                ->options(Service::asSelectArray())
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', (new EnumValue(BillingService::class, false))->__toString())
+                ->rules('required', (new EnumValue(Service::class, false))->__toString())
                 ->help(__('nova.billing_service_help')),
 
             Select::make(__('nova.frequency'), 'frequency')
-                ->options(BillingFrequency::asSelectArray())
+                ->options(Frequency::asSelectArray())
                 ->displayUsing(function ($enum) {
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', (new EnumValue(BillingFrequency::class, false))->__toString())
+                ->rules('required', (new EnumValue(Frequency::class, false))->__toString())
                 ->help(__('nova.balance_frequency_help')),
 
             Currency::make(__('nova.usage'), 'usage')

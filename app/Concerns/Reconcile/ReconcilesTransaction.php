@@ -3,8 +3,8 @@
 namespace App\Concerns\Reconcile;
 
 use App\Billing\Transaction\TransactionsFactory;
-use App\Enums\BillingService;
-use App\Models\Transaction;
+use App\Enums\Billing\Service;
+use App\Models\Billing\Transaction;
 use Illuminate\Support\Collection;
 
 trait ReconcilesTransaction
@@ -14,17 +14,17 @@ trait ReconcilesTransaction
     /**
      * The billing service.
      *
-     * @var \App\Enums\BillingService
+     * @var \App\Enums\Billing\Service
      */
     protected $service;
 
     /**
      * Set the billing service.
      *
-     * @param BillingService $service
+     * @param Service $service
      * @return void
      */
-    protected function setService(BillingService $service)
+    protected function setService(Service $service)
     {
         $this->service = $service;
     }

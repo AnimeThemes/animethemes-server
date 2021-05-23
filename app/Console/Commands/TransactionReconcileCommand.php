@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Concerns\Reconcile\ReconcilesTransaction;
-use App\Enums\BillingService;
+use App\Enums\Billing\Service;
 use App\Models\BaseModel;
 use Exception;
 use Illuminate\Console\Command;
@@ -36,7 +36,7 @@ class TransactionReconcileCommand extends Command
     public function handle()
     {
         $key = $this->argument('service');
-        $service = BillingService::coerce(Str::upper($key));
+        $service = Service::coerce(Str::upper($key));
 
         if ($service === null) {
             Log::error("Cannot perform reconciliation for Service '{$key}'");
