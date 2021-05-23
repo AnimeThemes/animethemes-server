@@ -4,13 +4,13 @@ namespace App\Http\Resources\Billing;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
 use App\Http\Resources\BaseCollection;
-use App\JsonApi\Filter\Billing\Balance\BalanceDateFilter;
-use App\JsonApi\Filter\Billing\Balance\BalanceFrequencyFilter;
-use App\JsonApi\Filter\Billing\Balance\BalanceServiceFilter;
 use App\JsonApi\Filter\Base\CreatedAtFilter;
 use App\JsonApi\Filter\Base\DeletedAtFilter;
 use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
+use App\JsonApi\Filter\Billing\Balance\BalanceDateFilter;
+use App\JsonApi\Filter\Billing\Balance\BalanceFrequencyFilter;
+use App\JsonApi\Filter\Billing\Balance\BalanceServiceFilter;
 use App\Models\Billing\Balance;
 
 class BalanceCollection extends BaseCollection
