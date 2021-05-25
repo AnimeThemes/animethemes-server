@@ -2,30 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Billing\Balance;
-use App\Models\Billing\Transaction;
-use Carbon\Carbon;
+use App\Http\Requests\TransparencyRequest;
 
 class TransparencyController extends Controller
 {
     /**
      * Show the transparency for the application.
      *
+     * @param \App\Http\Requests\TransparencyRequest
      * @return \Illuminate\View\View
      */
-    public function show()
+    public function show(TransparencyRequest $request)
     {
-        $balances = Balance::whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-            ->orderBy('usage', 'desc')
-            ->get();
-
-        $transactions = Transaction::whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-            ->orderBy('date', 'desc')
-            ->get();
-
         return view('transparency', [
-            'balances' => $balances,
-            'transactions' => $transactions,
+            'balances' => $request->getBalances(),
+            'transactions' => $request->getTransactions(),
+            'filterOptions' => $request->getValidDates(),
+            'selectedDate' => $request->getSelectedDate(),
         ]);
     }
 }
