@@ -52,13 +52,13 @@ class TransparencyRequest extends FormRequest
             'date' => [
                 'nullable',
                 'date_format:Y-m',
-                new TransparencyDateRule($this->validDates)
+                new TransparencyDateRule($this->validDates),
             ],
         ];
     }
 
     /**
-     * Undocumented function
+     * Initialize list of year/month combinations for transparency filtering.
      *
      * @return \Illuminate\Support\Collection
      */
@@ -77,7 +77,7 @@ class TransparencyRequest extends FormRequest
     }
 
     /**
-     * Undocumented function
+     * Get the list of valid year/month combinations for transparency filtering.
      *
      * @return \Illuminate\Support\Collection
      */
@@ -87,7 +87,7 @@ class TransparencyRequest extends FormRequest
     }
 
     /**
-     * Undocumented function
+     * Get the validated year/month combination for the transparency filter.
      *
      * @return Carbon
      */
@@ -103,7 +103,7 @@ class TransparencyRequest extends FormRequest
     }
 
     /**
-     * Undocumented function
+     * Get Balances for selected month.
      *
      * @return \Illuminate\Support\Collection
      */
@@ -117,7 +117,7 @@ class TransparencyRequest extends FormRequest
     }
 
     /**
-     * Undocumented function
+     * Get Transactions for selected month.
      *
      * @return \Illuminate\Support\Collection
      */
