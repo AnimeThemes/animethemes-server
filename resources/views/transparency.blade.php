@@ -20,7 +20,7 @@
                         <div class="relative">
                             <select name="date" class="h-full rounded-l">
                                 @foreach ($filterOptions as $filterOption)
-                                <option {{ $filterOption->equalTo($selectedDate) ? 'selected' : '' }}>{{ $filterOption->format('Y-m') }}</option>
+                                <option {{ $filterOption->format('Y-m') === $selectedDate->format('Y-m') ? 'selected' : '' }}>{{ $filterOption->format('Y-m') }}</option>
                                 @endforeach
                             </select>
                         </div>
