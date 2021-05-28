@@ -143,6 +143,6 @@ class BalanceReconcileTest extends TestCase
 
         $this->app->instance(DigitalOceanBalanceRepository::class, $mock);
 
-        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Balances created, 0 Balances deleted, 1 Balances updated");
+        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput('0 Balances created, 0 Balances deleted, 1 Balances updated');
     }
 }
