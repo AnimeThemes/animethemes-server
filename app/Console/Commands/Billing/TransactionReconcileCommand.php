@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Billing;
 
-use App\Concerns\Reconcile\ReconcilesTransaction;
+use App\Concerns\Reconcile\Billing\ReconcilesTransaction;
+use App\Contracts\Repositories\Repository;
 use App\Enums\Billing\Service;
 use App\Models\BaseModel;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -39,15 +41,29 @@ class TransactionReconcileCommand extends Command
         $service = Service::coerce(Str::upper($key));
 
         if ($service === null) {
-            Log::error("Cannot perform reconciliation for Service '{$key}'");
-            $this->error("Cannot perform reconciliation for Service '{$key}'");
+            Log::error("Invalid Service '{$key}'");
+            $this->error("Invalid Service '{$key}'");
 
             return 1;
         }
 
-        $this->setService($service);
+        $sourceRepository = $this->getSourceRepository($service);
+        if ($sourceRepository === null) {
+            Log::error("No source repository implemented for Service '{$key}'");
+            $this->error("No source repository implemented for Service '{$key}'");
 
-        $this->reconcileContent();
+            return 1;
+        }
+
+        $destinationRepository = $this->getDestinationRepository($service);
+        if ($destinationRepository === null) {
+            Log::error("No destination repository implemented for Service '{$key}'");
+            $this->error("No destination repository implemented for Service '{$key}'");
+
+            return 1;
+        }
+
+        $this->reconcileRepositories($sourceRepository, $destinationRepository);
 
         return 0;
     }
@@ -57,7 +73,7 @@ class TransactionReconcileCommand extends Command
      *
      * @return void
      */
-    private function postReconciliationTask()
+    protected function postReconciliationTask()
     {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
@@ -156,5 +172,37 @@ class TransactionReconcileCommand extends Command
     {
         Log::error($exception);
         $this->error($exception->getMessage());
+    }
+
+    /**
+     * Get source repository for service.
+     *
+     * @param Service $service
+     * @return Repository|null
+     */
+    protected function getSourceRepository(Service $service)
+    {
+        switch ($service->value) {
+        case Service::DIGITALOCEAN:
+            return App::make(\App\Repositories\Service\Billing\DigitalOceanTransactionRepository::class);
+        }
+
+        return null;
+    }
+
+    /**
+     * Get destination repository for service.
+     *
+     * @param Service $service
+     * @return Repository|null
+     */
+    protected function getDestinationRepository(Service $service)
+    {
+        switch ($service->value) {
+        case Service::DIGITALOCEAN:
+            return App::make(\App\Repositories\Eloquent\Billing\DigitalOceanTransactionRepository::class);
+        }
+
+        return null;
     }
 }

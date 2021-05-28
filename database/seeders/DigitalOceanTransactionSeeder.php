@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Concerns\Reconcile\ReconcilesTransaction;
-use App\Enums\Billing\Service;
+use App\Concerns\Reconcile\Billing\ReconcilesTransaction;
 use App\Models\BaseModel;
+use App\Repositories\Eloquent\Billing\DigitalOceanTransactionRepository as DigitalOceanDestinationRepository;
+use App\Repositories\Service\Billing\DigitalOceanTransactionRepository as DigitalOceanSourceRepository;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
@@ -20,9 +21,11 @@ class DigitalOceanTransactionSeeder extends Seeder
      */
     public function run()
     {
-        $this->setService(Service::DIGITALOCEAN());
+        $sourceRepository = new DigitalOceanSourceRepository;
 
-        $this->reconcileContent();
+        $destinationRepository = new DigitalOceanDestinationRepository;
+
+        $this->reconcileRepositories($sourceRepository, $destinationRepository);
     }
 
     /**
@@ -30,7 +33,7 @@ class DigitalOceanTransactionSeeder extends Seeder
      *
      * @return void
      */
-    private function postReconciliationTask()
+    protected function postReconciliationTask()
     {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {

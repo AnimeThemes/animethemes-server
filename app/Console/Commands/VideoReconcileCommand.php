@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use App\Concerns\Reconcile\ReconcilesVideo;
 use App\Models\BaseModel;
+use App\Repositories\Eloquent\VideoRepository as VideoDestinationRepository;
+use App\Repositories\Service\VideoRepository as VideoSourceRepository;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -33,7 +35,11 @@ class VideoReconcileCommand extends Command
      */
     public function handle()
     {
-        $this->reconcileContent();
+        $sourceRepository = new VideoSourceRepository;
+
+        $destinationRepository = new VideoDestinationRepository;
+
+        $this->reconcileRepositories($sourceRepository, $destinationRepository);
 
         return 0;
     }
@@ -43,7 +49,7 @@ class VideoReconcileCommand extends Command
      *
      * @return void
      */
-    private function postReconciliationTask()
+    protected function postReconciliationTask()
     {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {

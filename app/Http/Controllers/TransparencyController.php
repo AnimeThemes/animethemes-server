@@ -9,7 +9,7 @@ class TransparencyController extends Controller
     /**
      * Show the transparency for the application.
      *
-     * @param \App\Http\Requests\TransparencyRequest
+     * @param \App\Http\Requests\TransparencyRequest $request
      * @return \Illuminate\View\View
      */
     public function show(TransparencyRequest $request)

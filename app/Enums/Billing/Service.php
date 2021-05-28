@@ -8,6 +8,9 @@ use BenSampo\Enum\Enum;
 /**
  * @method static static OTHER()
  * @method static static DIGITALOCEAN()
+ * @method static static AWS()
+ * @method static static HOVER()
+ * @method static static WALKERSERVERS()
  */
 final class Service extends Enum implements LocalizedEnum
 {

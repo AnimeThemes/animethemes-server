@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Concerns\Reconcile;
+namespace App\Concerns\Reconcile\Billing;
 
-use App\Models\Video;
+use App\Concerns\Reconcile\ReconcilesRepositories;
+use App\Enums\Filter\AllowedDateFormat;
+use App\Models\Billing\Transaction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-trait ReconcilesVideo
+trait ReconcilesTransaction
 {
     use ReconcilesRepositories;
 
@@ -19,8 +21,8 @@ trait ReconcilesVideo
      */
     protected function diffForCreateDelete(Collection $a, Collection $b)
     {
-        return $a->diffUsing($b, function (Video $first, Video $second) {
-            return $first->basename <=> $second->basename;
+        return $a->diffUsing($b, function (Transaction $first, Transaction $second) {
+            return $first->external_id <=> $second->external_id;
         });
     }
 
@@ -33,8 +35,8 @@ trait ReconcilesVideo
      */
     protected function diffForUpdate(Collection $a, Collection $b)
     {
-        return $a->diffUsing($b, function (Video $first, Video $second) {
-            return [$first->basename, $first->path, $first->size] <=> [$second->basename, $second->path, $second->size];
+        return $a->diffUsing($b, function (Transaction $first, Transaction $second) {
+            return [$first->external_id, $first->date->format(AllowedDateFormat::WITH_DAY), $first->description, $first->amount] <=> [$second->external_id, $second->date->format(AllowedDateFormat::WITH_DAY), $second->description, $second->amount];
         });
     }
 
@@ -47,6 +49,6 @@ trait ReconcilesVideo
      */
     protected function resolveUpdatedModel(Collection $source_models, Model $destination_model)
     {
-        return $source_models->firstWhere('basename', $destination_model->getAttribute('basename'));
+        return $source_models->firstWhere('external_id', $destination_model->getAttribute('external_id'));
     }
 }

@@ -19,7 +19,7 @@ class Balance extends BaseModel
     /**
      * @var array
      */
-    protected $fillable = ['date', 'service', 'frequency', 'usage', 'amount'];
+    protected $fillable = ['date', 'service', 'frequency', 'usage', 'balance'];
 
     /**
      * The event map for the model.

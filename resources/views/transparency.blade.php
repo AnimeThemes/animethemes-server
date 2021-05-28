@@ -138,7 +138,7 @@
                                         <td class="px-6 py-4">
                                             {{ $transaction->service->description }}
                                         </td>
-                                        <td class="px-6 py-4 font-bold {{ $balance->usage >= 0 ? 'text-red-500' : 'text-green-500' }}">
+                                        <td class="px-6 py-4 font-bold {{ $transaction->amount >= 0 ? 'text-red-500' : 'text-green-500' }}">
                                             {{ $transaction->amount }}
                                         </td>
                                         <td class="px-6 py-4">

@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Concerns\Reconcile\ReconcilesVideo;
 use App\Models\BaseModel;
+use App\Repositories\Eloquent\VideoRepository as VideoDestinationRepository;
+use App\Repositories\Service\VideoRepository as VideoSourceRepository;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
@@ -19,7 +21,11 @@ class VideoSeeder extends Seeder
      */
     public function run()
     {
-        $this->reconcileContent();
+        $sourceRepository = new VideoSourceRepository;
+
+        $destinationRepository = new VideoDestinationRepository;
+
+        $this->reconcileRepositories($sourceRepository, $destinationRepository);
     }
 
     /**
@@ -27,7 +33,7 @@ class VideoSeeder extends Seeder
      *
      * @return void
      */
-    private function postReconciliationTask()
+    protected function postReconciliationTask()
     {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
