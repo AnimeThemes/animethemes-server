@@ -6,7 +6,6 @@ use App\Console\Commands\Billing\TransactionReconcileCommand;
 use App\Enums\Billing\Service;
 use App\Models\Billing\Transaction;
 use App\Repositories\Service\Billing\DigitalOceanTransactionRepository;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -111,59 +110,5 @@ class TransactionReconcileTest extends TestCase
         $this->app->instance(DigitalOceanTransactionRepository::class, $mock);
 
         $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Transactions created, {$deleted_transaction_count} Transactions deleted, 0 Transactions updated");
-    }
-
-    /**
-     * If transactions are updated, the Reconcile Transaction Command shall output '0 Transactions created, 0 Transactions deleted, {Updated Count} Transactions updated'.
-     *
-     * @return void
-     */
-    public function testUpdated()
-    {
-        $updated_transaction_count = $this->faker->randomDigitNotNull;
-
-        Transaction::factory()
-            ->count($updated_transaction_count)
-            ->state(new Sequence(
-                ['external_id' => 1],
-                ['external_id' => 2],
-                ['external_id' => 3],
-                ['external_id' => 4],
-                ['external_id' => 5],
-                ['external_id' => 6],
-                ['external_id' => 7],
-                ['external_id' => 8],
-                ['external_id' => 9],
-            ))
-            ->create([
-                'service' => Service::DIGITALOCEAN,
-            ]);
-
-        $source_transactions = Transaction::factory()
-            ->count($updated_transaction_count)
-            ->state(new Sequence(
-                ['external_id' => 1],
-                ['external_id' => 2],
-                ['external_id' => 3],
-                ['external_id' => 4],
-                ['external_id' => 5],
-                ['external_id' => 6],
-                ['external_id' => 7],
-                ['external_id' => 8],
-                ['external_id' => 9],
-            ))
-            ->make([
-                'service' => Service::DIGITALOCEAN,
-            ]);
-
-        $mock = $this->mock(DigitalOceanTransactionRepository::class);
-
-        $mock->shouldReceive('all')
-            ->once()
-            ->andReturn($source_transactions);
-
-        $this->app->instance(DigitalOceanTransactionRepository::class, $mock);
-
-        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Transactions created, 0 Transactions deleted, {$updated_transaction_count} Transactions updated");
     }
 }

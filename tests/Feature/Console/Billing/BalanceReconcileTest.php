@@ -123,8 +123,6 @@ class BalanceReconcileTest extends TestCase
      */
     public function testUpdated()
     {
-        $updated_balance_count = $this->faker->randomDigitNotNull;
-
         Balance::factory()
             ->create([
                 'date' => Carbon::now()->format(AllowedDateFormat::WITH_DAY),
@@ -145,6 +143,6 @@ class BalanceReconcileTest extends TestCase
 
         $this->app->instance(DigitalOceanBalanceRepository::class, $mock);
 
-        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Balances created, 0 Balances deleted, {$updated_balance_count} Balances updated");
+        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Balances created, 0 Balances deleted, 1 Balances updated");
     }
 }
