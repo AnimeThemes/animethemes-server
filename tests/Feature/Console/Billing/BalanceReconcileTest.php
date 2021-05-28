@@ -123,7 +123,7 @@ class BalanceReconcileTest extends TestCase
      */
     public function testUpdated()
     {
-        $updated_balance_count = $this->faker->randomDigitNotNull;;
+        $updated_balance_count = $this->faker->randomDigitNotNull;
 
         Balance::factory()
             ->create([

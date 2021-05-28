@@ -2,8 +2,8 @@
 
 namespace App\Repositories\Service;
 
-use App\Models\Video;
 use App\Contracts\Repositories\Repository;
+use App\Models\Video;
 use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;

@@ -120,7 +120,7 @@ class TransactionReconcileTest extends TestCase
      */
     public function testUpdated()
     {
-        $updated_transaction_count = $this->faker->randomDigitNotNull;;
+        $updated_transaction_count = $this->faker->randomDigitNotNull;
 
         Transaction::factory()
             ->count($updated_transaction_count)
