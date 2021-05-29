@@ -46,7 +46,7 @@ class EntrySpoilerTest extends TestCase
      */
     public function testFilter()
     {
-        $spoiler_filter = $this->faker->boolean();
+        $spoilerFilter = $this->faker->boolean();
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
@@ -55,12 +55,12 @@ class EntrySpoilerTest extends TestCase
 
         $filter = $this->novaFilter(EntrySpoilerFilter::class);
 
-        $response = $filter->apply(Entry::class, $spoiler_filter);
+        $response = $filter->apply(Entry::class, $spoilerFilter);
 
-        $filtered_entries = Entry::where('spoiler', $spoiler_filter)->get();
-        foreach ($filtered_entries as $filtered_entry) {
-            $response->assertContains($filtered_entry);
+        $filteredEntries = Entry::where('spoiler', $spoilerFilter)->get();
+        foreach ($filteredEntries as $filteredEntry) {
+            $response->assertContains($filteredEntry);
         }
-        $response->assertCount($filtered_entries->count());
+        $response->assertCount($filteredEntries->count());
     }
 }

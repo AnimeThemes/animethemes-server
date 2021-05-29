@@ -136,7 +136,7 @@ class EntryController extends BaseController
      *     )
      * )
      *
-     * @param  \App\Models\Entry  $entry
+     * @param \App\Models\Entry $entry
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Entry $entry)

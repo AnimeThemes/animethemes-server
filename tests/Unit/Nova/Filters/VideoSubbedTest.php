@@ -45,7 +45,7 @@ class VideoSubbedTest extends TestCase
      */
     public function testFilter()
     {
-        $subbed_filter = $this->faker->boolean();
+        $subbedFilter = $this->faker->boolean();
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull)
@@ -53,12 +53,12 @@ class VideoSubbedTest extends TestCase
 
         $filter = $this->novaFilter(VideoSubbedFilter::class);
 
-        $response = $filter->apply(Video::class, $subbed_filter);
+        $response = $filter->apply(Video::class, $subbedFilter);
 
-        $filtered_videos = Video::where('subbed', $subbed_filter)->get();
-        foreach ($filtered_videos as $filtered_video) {
-            $response->assertContains($filtered_video);
+        $filteredVideos = Video::where('subbed', $subbedFilter)->get();
+        foreach ($filteredVideos as $filteredVideo) {
+            $response->assertContains($filteredVideo);
         }
-        $response->assertCount($filtered_videos->count());
+        $response->assertCount($filteredVideos->count());
     }
 }

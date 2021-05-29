@@ -22,8 +22,8 @@ class WhereInCondition extends Condition
     /**
      * Create a new condition instance.
      *
-     * @param Predicate $predicate
-     * @param BinaryLogicalOperator $operator
+     * @param \App\JsonApi\Condition\Predicate $predicate
+     * @param \App\Enums\Filter\BinaryLogicalOperator $operator
      * @param bool $not
      * @param string $scope
      */
@@ -53,7 +53,7 @@ class WhereInCondition extends Condition
      *
      * @param string $filterParam
      * @param string $filterValues
-     * @return Condition
+     * @return \App\JsonApi\Condition\Condition
      */
     public static function make(string $filterParam, string $filterValues)
     {
@@ -64,29 +64,29 @@ class WhereInCondition extends Condition
 
         $filterParts = Str::of($filterParam)->explode('.');
         while ($filterParts->isNotEmpty()) {
-            $filter_part = $filterParts->pop();
+            $filterPart = $filterParts->pop();
 
             // Set Not
-            if (empty($scope) && empty($field) && UnaryLogicalOperator::hasKey(Str::upper($filter_part))) {
+            if (empty($scope) && empty($field) && UnaryLogicalOperator::hasKey(Str::upper($filterPart))) {
                 $not = true;
                 continue;
             }
 
             // Set operator
-            if (empty($scope) && empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filter_part))) {
-                $operator = BinaryLogicalOperator::fromKey(Str::upper($filter_part));
+            if (empty($scope) && empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
+                $operator = BinaryLogicalOperator::fromKey(Str::upper($filterPart));
                 continue;
             }
 
             // Set field
             if (empty($scope) && empty($field)) {
-                $field = Str::lower($filter_part);
+                $field = Str::lower($filterPart);
                 continue;
             }
 
             // Set scope
             if (empty($scope) && ! empty($field)) {
-                $scope = Str::lower($filter_part);
+                $scope = Str::lower($filterPart);
                 continue;
             }
         }
@@ -101,9 +101,9 @@ class WhereInCondition extends Condition
     /**
      * Apply condition to builder through filter.
      *
-     * @param Builder $builder
-     * @param Filter $filter
-     * @return Builder $builder
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param \App\JsonApi\Filter\Filter $filter
+     * @return \Illuminate\Database\Eloquent\Builder $builder
      */
     public function apply(Builder $builder, Filter $filter)
     {
@@ -118,9 +118,9 @@ class WhereInCondition extends Condition
     /**
      * Apply condition to builder through filter.
      *
-     * @param BoolQueryBuilder $builder
-     * @param Filter $filter
-     * @return BoolQueryBuilder $builder
+     * @param \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
+     * @param \App\JsonApi\Filter\Filter $filter
+     * @return \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
      */
     public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter)
     {

@@ -16,8 +16,8 @@ class WhereCondition extends Condition
     /**
      * Create a new condition instance.
      *
-     * @param Predicate $predicate
-     * @param BinaryLogicalOperator $operator
+     * @param \App\JsonApi\Condition\Predicate $predicate
+     * @param \App\Enums\Filter\BinaryLogicalOperator $operator
      * @param string $scope
      */
     final public function __construct(
@@ -33,7 +33,7 @@ class WhereCondition extends Condition
      *
      * @param string $filterParam
      * @param string $filterValues
-     * @return Condition
+     * @return \App\JsonApi\Condition\Condition
      */
     public static function make(string $filterParam, string $filterValues)
     {
@@ -81,9 +81,9 @@ class WhereCondition extends Condition
     /**
      * Apply condition to builder through filter.
      *
-     * @param Builder $builder
-     * @param Filter $filter
-     * @return Builder $builder
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param \App\JsonApi\Filter\Filter $filter
+     * @return \Illuminate\Database\Eloquent\Builder $builder
      */
     public function apply(Builder $builder, Filter $filter)
     {
@@ -98,9 +98,9 @@ class WhereCondition extends Condition
     /**
      * Apply condition to builder through filter.
      *
-     * @param BoolQueryBuilder $builder
-     * @param Filter $filter
-     * @return BoolQueryBuilder $builder
+     * @param \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
+     * @param \App\JsonApi\Filter\Filter $filter
+     * @return \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
      */
     public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter)
     {
@@ -124,7 +124,7 @@ class WhereCondition extends Condition
     /**
      * Build clause for Elasticsearch filter based on comparison operator.
      *
-     * @param Filter $filter
+     * @param \App\JsonApi\Filter\Filter $filter
      * @return \ElasticScoutDriverPlus\Builders\AbstractParameterizedQueryBuilder
      */
     protected function getElasticsearchClause(Filter $filter)

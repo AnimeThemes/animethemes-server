@@ -72,14 +72,14 @@ class SeriesTest extends TestCase
      */
     public function testAnime()
     {
-        $anime_count = $this->faker->randomDigitNotNull;
+        $animeCount = $this->faker->randomDigitNotNull;
 
         $series = Series::factory()
-            ->has(Anime::factory()->count($anime_count))
+            ->has(Anime::factory()->count($animeCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $series->anime());
-        $this->assertEquals($anime_count, $series->anime()->count());
+        $this->assertEquals($animeCount, $series->anime()->count());
         $this->assertInstanceOf(Anime::class, $series->anime()->first());
         $this->assertEquals(AnimeSeries::class, $series->anime()->getPivotClass());
     }

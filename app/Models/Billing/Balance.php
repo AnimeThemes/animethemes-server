@@ -4,6 +4,7 @@ namespace App\Models\Billing;
 
 use App\Enums\Billing\Frequency;
 use App\Enums\Billing\Service;
+use App\Enums\Filter\AllowedDateFormat;
 use App\Events\Billing\Balance\BalanceCreated;
 use App\Events\Billing\Balance\BalanceDeleted;
 use App\Events\Billing\Balance\BalanceRestored;
@@ -75,7 +76,7 @@ class Balance extends BaseModel
     {
         return Str::of($this->service->description)
             ->append(' ')
-            ->append($this->date)
+            ->append($this->date->format(AllowedDateFormat::WITH_MONTH))
             ->__toString();
     }
 }

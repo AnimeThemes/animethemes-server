@@ -112,7 +112,7 @@ class SynonymController extends BaseController
      *     )
      * )
      *
-     * @param  \App\Models\Synonym  $synonym
+     * @param \App\Models\Synonym $synonym
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Synonym $synonym)

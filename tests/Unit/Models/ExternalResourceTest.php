@@ -65,14 +65,14 @@ class ExternalResourceTest extends TestCase
      */
     public function testAnime()
     {
-        $anime_count = $this->faker->randomDigitNotNull;
+        $animeCount = $this->faker->randomDigitNotNull;
 
         $resource = ExternalResource::factory()
-            ->has(Anime::factory()->count($anime_count))
+            ->has(Anime::factory()->count($animeCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $resource->anime());
-        $this->assertEquals($anime_count, $resource->anime()->count());
+        $this->assertEquals($animeCount, $resource->anime()->count());
         $this->assertInstanceOf(Anime::class, $resource->anime()->first());
         $this->assertEquals(AnimeResource::class, $resource->anime()->getPivotClass());
     }
@@ -84,14 +84,14 @@ class ExternalResourceTest extends TestCase
      */
     public function testArtists()
     {
-        $artist_count = $this->faker->randomDigitNotNull;
+        $artistCount = $this->faker->randomDigitNotNull;
 
         $resource = ExternalResource::factory()
-            ->has(Artist::factory()->count($artist_count))
+            ->has(Artist::factory()->count($artistCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $resource->artists());
-        $this->assertEquals($artist_count, $resource->artists()->count());
+        $this->assertEquals($artistCount, $resource->artists()->count());
         $this->assertInstanceOf(Artist::class, $resource->artists()->first());
         $this->assertEquals(ArtistResource::class, $resource->artists()->getPivotClass());
     }

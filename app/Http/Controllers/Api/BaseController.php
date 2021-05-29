@@ -81,6 +81,11 @@ abstract class BaseController extends Controller
      */
     protected $parser;
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->parser = new QueryParser(request()->all());

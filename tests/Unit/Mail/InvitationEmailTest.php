@@ -20,10 +20,10 @@ class InvitationEmailTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        $registration_link = route('register', ['token' => $invitation->token]);
+        $registrationLink = route('register', ['token' => $invitation->token]);
 
         $mail = new InvitationEmail($invitation);
 
-        $mail->assertSeeInHtml($registration_link);
+        $mail->assertSeeInHtml($registrationLink);
     }
 }

@@ -62,18 +62,18 @@ class QueryParserTest extends TestCase
     {
         $type = $this->faker->word();
         $fields = $this->faker->words($this->faker->randomDigitNotNull);
-        $allowed_field = Arr::random($fields);
+        $allowedField = Arr::random($fields);
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                $type => $allowed_field,
+                $type => $allowedField,
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
         foreach ($fields as $field) {
-            if ($field == $allowed_field) {
+            if ($field == $allowedField) {
                 $this->assertTrue($parser->isAllowedField($type, $field));
             } else {
                 $this->assertFalse($parser->isAllowedField($type, $field));
@@ -122,9 +122,9 @@ class QueryParserTest extends TestCase
      */
     public function testIncludeAllowedPaths()
     {
-        $include_count = $this->faker->randomDigitNotNull;
-        $includes = $this->faker->words($include_count * 2);
-        $allowed_includes = Arr::random($includes, $include_count);
+        $includeCount = $this->faker->randomDigitNotNull;
+        $includes = $this->faker->words($includeCount * 2);
+        $allowedIncludes = Arr::random($includes, $includeCount);
 
         $parameters = [
             QueryParser::PARAM_INCLUDE => implode(',', $includes),
@@ -132,7 +132,7 @@ class QueryParserTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $this->assertEmpty(array_diff($allowed_includes, $parser->getIncludePaths($allowed_includes)));
+        $this->assertEmpty(array_diff($allowedIncludes, $parser->getIncludePaths($allowedIncludes)));
     }
 
     /**
@@ -181,9 +181,9 @@ class QueryParserTest extends TestCase
     public function testResourceIncludeAllowedPaths()
     {
         $type = $this->faker->word();
-        $include_count = $this->faker->randomDigitNotNull;
-        $includes = $this->faker->words($include_count * 2);
-        $allowed_includes = Arr::random($includes, $include_count);
+        $includeCount = $this->faker->randomDigitNotNull;
+        $includes = $this->faker->words($includeCount * 2);
+        $allowedIncludes = Arr::random($includes, $includeCount);
 
         $parameters = [
             QueryParser::PARAM_INCLUDE => [
@@ -193,7 +193,7 @@ class QueryParserTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $this->assertEmpty(array_diff($allowed_includes, $parser->getIncludePaths($allowed_includes, $type)));
+        $this->assertEmpty(array_diff($allowedIncludes, $parser->getIncludePaths($allowedIncludes, $type)));
     }
 
     /**
@@ -210,10 +210,10 @@ class QueryParserTest extends TestCase
         ];
 
         $parser = new QueryParser($parameters);
-        $parser_sorts = $parser->getSorts();
+        $parserSorts = $parser->getSorts();
 
         foreach ($sorts as $sort) {
-            $this->assertTrue(Arr::get($parser_sorts, $sort));
+            $this->assertTrue(Arr::get($parserSorts, $sort));
         }
     }
 
@@ -224,20 +224,20 @@ class QueryParserTest extends TestCase
      */
     public function testDescSortsAreParsed()
     {
-        $sorts_desc = $this->faker->unique()->words($this->faker->randomDigitNotNull);
-        $sorts_desc_symbol = array_map(function (string $sort) {
+        $sortsDesc = $this->faker->unique()->words($this->faker->randomDigitNotNull);
+        $sortsDescSymbol = array_map(function (string $sort) {
             return '-'.$sort;
-        }, $sorts_desc);
+        }, $sortsDesc);
 
         $parameters = [
-            QueryParser::PARAM_SORT => implode(',', $sorts_desc_symbol),
+            QueryParser::PARAM_SORT => implode(',', $sortsDescSymbol),
         ];
 
         $parser = new QueryParser($parameters);
-        $parser_sorts = $parser->getSorts();
+        $parserSorts = $parser->getSorts();
 
-        foreach ($sorts_desc as $sort) {
-            $this->assertFalse(Arr::get($parser_sorts, $sort));
+        foreach ($sortsDesc as $sort) {
+            $this->assertFalse(Arr::get($parserSorts, $sort));
         }
     }
 
@@ -248,20 +248,20 @@ class QueryParserTest extends TestCase
      */
     public function testAscSortsAreParsed()
     {
-        $sorts_asc = $this->faker->unique()->words($this->faker->randomDigitNotNull);
-        $sorts_asc_symbol = array_map(function (string $sort) {
+        $sortsAsc = $this->faker->unique()->words($this->faker->randomDigitNotNull);
+        $sortsAscSymbol = array_map(function (string $sort) {
             return '+'.$sort;
-        }, $sorts_asc);
+        }, $sortsAsc);
 
         $parameters = [
-            QueryParser::PARAM_SORT => implode(',', $sorts_asc_symbol),
+            QueryParser::PARAM_SORT => implode(',', $sortsAscSymbol),
         ];
 
         $parser = new QueryParser($parameters);
-        $parser_sorts = $parser->getSorts();
+        $parserSorts = $parser->getSorts();
 
-        foreach ($sorts_asc as $sort) {
-            $this->assertTrue(Arr::get($parser_sorts, $sort));
+        foreach ($sortsAsc as $sort) {
+            $this->assertTrue(Arr::get($parserSorts, $sort));
         }
     }
 
@@ -273,19 +273,19 @@ class QueryParserTest extends TestCase
     public function testHasFilter()
     {
         $fields = $this->faker->words($this->faker->randomDigitNotNull);
-        $filter_field = Arr::random($fields);
+        $filterField = Arr::random($fields);
         $filter = $this->faker->word();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => $filter,
+                $filterField => $filter,
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
         foreach ($fields as $field) {
-            if ($field == $filter_field) {
+            if ($field == $filterField) {
                 $this->assertTrue($parser->hasCondition($field));
             } else {
                 $this->assertFalse($parser->hasCondition($field));
@@ -301,19 +301,19 @@ class QueryParserTest extends TestCase
     public function testGetFilters()
     {
         $fields = $this->faker->words($this->faker->randomDigitNotNull);
-        $filter_field = Arr::random($fields);
+        $filterField = Arr::random($fields);
         $filter = $this->faker->word();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => $filter,
+                $filterField => $filter,
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
         foreach ($fields as $field) {
-            if ($field == $filter_field) {
+            if ($field == $filterField) {
                 $this->assertNotEmpty($parser->getConditions($field));
             } else {
                 $this->assertEmpty($parser->getConditions($field));
@@ -446,13 +446,13 @@ class QueryParserTest extends TestCase
      */
     public function testOverridenDefaultLimit()
     {
-        $default_limit = $this->faker->randomDigitNotNull;
+        $defaultLimit = $this->faker->randomDigitNotNull;
 
         $parameters = [];
 
         $parser = new QueryParser($parameters);
 
-        $this->assertEquals($default_limit, $parser->getLimit($default_limit));
+        $this->assertEquals($defaultLimit, $parser->getLimit($defaultLimit));
     }
 
     /**
@@ -463,7 +463,7 @@ class QueryParserTest extends TestCase
     public function testValidOverridenDefaultLimit()
     {
         $limit = $this->faker->randomDigitNotNull;
-        $default_limit = $limit + $this->faker->randomDigitNotNull;
+        $defaultLimit = $limit + $this->faker->randomDigitNotNull;
 
         $parameters = [
             QueryParser::PARAM_LIMIT => $limit,
@@ -471,7 +471,7 @@ class QueryParserTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $this->assertEquals($limit, $parser->getLimit($default_limit));
+        $this->assertEquals($limit, $parser->getLimit($defaultLimit));
     }
 
     /**
@@ -481,8 +481,8 @@ class QueryParserTest extends TestCase
      */
     public function testInvalidOverridenDefaultLimit()
     {
-        $default_limit = $this->faker->randomDigitNotNull;
-        $limit = $default_limit + $this->faker->randomDigitNotNull;
+        $defaultLimit = $this->faker->randomDigitNotNull;
+        $limit = $defaultLimit + $this->faker->randomDigitNotNull;
 
         $parameters = [
             QueryParser::PARAM_LIMIT => $limit,
@@ -490,7 +490,7 @@ class QueryParserTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $this->assertEquals($default_limit, $parser->getLimit($default_limit));
+        $this->assertEquals($defaultLimit, $parser->getLimit($defaultLimit));
     }
 
     /**
@@ -500,7 +500,7 @@ class QueryParserTest extends TestCase
      */
     public function testPositiveBoundOverridenDefaultLimit()
     {
-        $default_limit = $this->faker->randomDigitNotNull;
+        $defaultLimit = $this->faker->randomDigitNotNull;
         $limit = $this->faker->randomDigit * -1;
 
         $parameters = [
@@ -509,6 +509,6 @@ class QueryParserTest extends TestCase
 
         $parser = new QueryParser($parameters);
 
-        $this->assertEquals($default_limit, $parser->getLimit($default_limit));
+        $this->assertEquals($defaultLimit, $parser->getLimit($defaultLimit));
     }
 }

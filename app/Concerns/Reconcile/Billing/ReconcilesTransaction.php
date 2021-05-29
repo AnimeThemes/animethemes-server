@@ -14,9 +14,9 @@ trait ReconcilesTransaction
     /**
      * Perform set operation for create and delete steps.
      *
-     * @param Collection $a
-     * @param Collection $b
-     * @return Collection
+     * @param \Illuminate\Support\Collection $a
+     * @param \Illuminate\Support\Collection $b
+     * @return \Illuminate\Support\Collection
      */
     protected function diffForCreateDelete(Collection $a, Collection $b)
     {

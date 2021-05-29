@@ -23,7 +23,7 @@ class RegistrationTest extends TestCase
     {
         $response = $this->get(route('register'));
 
-        $response->assertRedirect(route('welcome.index'));
+        $response->assertRedirect(route('welcome'));
     }
 
     /**
@@ -38,7 +38,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->get(route('register', ['token' => $invitation->token]));
 
-        $response->assertRedirect(route('welcome.index'));
+        $response->assertRedirect(route('welcome'));
     }
 
     /**
@@ -55,7 +55,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->get(route('register', ['token' => $invitation->token]));
 
-        $response->assertRedirect(route('welcome.index'));
+        $response->assertRedirect(route('welcome'));
     }
 
     /**
@@ -72,7 +72,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->get(route('register', ['token' => $invitation->token]));
 
-        $response->assertRedirect(route('welcome.index'));
+        $response->assertRedirect(route('welcome'));
     }
 
     /**
@@ -100,7 +100,7 @@ class RegistrationTest extends TestCase
     {
         $response = $this->post(route('register'));
 
-        $response->assertRedirect(route('welcome.index'));
+        $response->assertRedirect(route('welcome'));
     }
 
     /**
@@ -115,7 +115,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->post(route('register'), ['token' => $invitation->token]);
 
-        $response->assertRedirect(route('welcome.index'));
+        $response->assertRedirect(route('welcome'));
     }
 
     /**
@@ -132,7 +132,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->post(route('register'), ['token' => $invitation->token]);
 
-        $response->assertRedirect(route('welcome.index'));
+        $response->assertRedirect(route('welcome'));
     }
 
     /**
@@ -219,10 +219,10 @@ class RegistrationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        $weak_password = $this->faker->password(8, 8);
+        $weakPassword = $this->faker->password(8, 8);
         $response = $this->post(route('register'), ['token' => $invitation->token,
-            'password' => $weak_password,
-            'password_confirmation' => $weak_password,
+            'password' => $weakPassword,
+            'password_confirmation' => $weakPassword,
             'terms' => 'terms',
         ]);
 
@@ -238,10 +238,10 @@ class RegistrationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        $strong_password = $this->faker->password(64, 128);
+        $strongPassword = $this->faker->password(64, 128);
         $response = $this->post(route('register'), ['token' => $invitation->token,
-            'password' => $strong_password,
-            'password_confirmation' => $strong_password,
+            'password' => $strongPassword,
+            'password_confirmation' => $strongPassword,
         ]);
 
         $response->assertSessionHasErrors(['terms' => 'The terms field is required.']);
@@ -256,10 +256,10 @@ class RegistrationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        $strong_password = $this->faker->password(64, 128);
+        $strongPassword = $this->faker->password(64, 128);
         $response = $this->post(route('register'), ['token' => $invitation->token,
-            'password' => $strong_password,
-            'password_confirmation' => $strong_password,
+            'password' => $strongPassword,
+            'password_confirmation' => $strongPassword,
             'terms' => 'terms',
         ]);
 
@@ -275,10 +275,10 @@ class RegistrationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        $strong_password = $this->faker->password(64, 128);
+        $strongPassword = $this->faker->password(64, 128);
         $this->post(route('register'), ['token' => $invitation->token,
-            'password' => $strong_password,
-            'password_confirmation' => $strong_password,
+            'password' => $strongPassword,
+            'password_confirmation' => $strongPassword,
             'terms' => 'terms',
         ]);
 
@@ -296,10 +296,10 @@ class RegistrationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        $strong_password = $this->faker->password(64, 128);
+        $strongPassword = $this->faker->password(64, 128);
         $this->post(route('register'), ['token' => $invitation->token,
-            'password' => $strong_password,
-            'password_confirmation' => $strong_password,
+            'password' => $strongPassword,
+            'password_confirmation' => $strongPassword,
             'terms' => 'terms',
         ]);
 

@@ -10,7 +10,7 @@ class CreateInvitationToken
     /**
      * Handle the event.
      *
-     * @param  \App\Events\Invitation\InvitationEvent  $event
+     * @param \App\Events\Invitation\InvitationEvent $event
      * @return void
      */
     public function handle(InvitationEvent $event)

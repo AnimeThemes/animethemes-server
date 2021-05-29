@@ -55,10 +55,10 @@ class ImageFacetTest extends TestCase
 
         $response = $filter->apply(Image::class, $facet->value);
 
-        $filtered_images = Image::where('facet', $facet->value)->get();
-        foreach ($filtered_images as $filtered_image) {
-            $response->assertContains($filtered_image);
+        $filteredImages = Image::where('facet', $facet->value)->get();
+        foreach ($filteredImages as $filteredImage) {
+            $response->assertContains($filteredImage);
         }
-        $response->assertCount($filtered_images->count());
+        $response->assertCount($filteredImages->count());
     }
 }

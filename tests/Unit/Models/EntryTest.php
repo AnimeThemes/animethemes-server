@@ -99,15 +99,15 @@ class EntryTest extends TestCase
      */
     public function testVideos()
     {
-        $video_count = $this->faker->randomDigitNotNull;
+        $videoCount = $this->faker->randomDigitNotNull;
 
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->has(Video::factory()->count($video_count))
+            ->has(Video::factory()->count($videoCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $entry->videos());
-        $this->assertEquals($video_count, $entry->videos()->count());
+        $this->assertEquals($videoCount, $entry->videos()->count());
         $this->assertInstanceOf(Video::class, $entry->videos()->first());
         $this->assertEquals(VideoEntry::class, $entry->videos()->getPivotClass());
     }

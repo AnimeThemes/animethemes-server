@@ -63,7 +63,7 @@ class ArtistSongTest extends TestCase
         $artist = Artist::factory()->create();
         $song = Song::factory()->create();
 
-        $artist_song = ArtistSong::factory()
+        $artistSong = ArtistSong::factory()
             ->for($artist, 'artist')
             ->for($song, 'song')
             ->create();
@@ -73,8 +73,8 @@ class ArtistSongTest extends TestCase
             ->for($song, 'song')
             ->make();
 
-        $artist_song->fill($changes->getAttributes());
-        $artist_song->save();
+        $artistSong->fill($changes->getAttributes());
+        $artistSong->save();
 
         Event::assertDispatched(ArtistSongUpdated::class);
     }

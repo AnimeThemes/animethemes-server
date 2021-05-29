@@ -67,10 +67,10 @@ class TransactionReconcileTest extends TestCase
      */
     public function testCreated()
     {
-        $created_transaction_count = $this->faker->randomDigitNotNull;
+        $createdTransactionCount = $this->faker->randomDigitNotNull;
 
         $transactions = Transaction::factory()
-            ->count($created_transaction_count)
+            ->count($createdTransactionCount)
             ->make([
                 'service' => Service::DIGITALOCEAN,
             ]);
@@ -83,7 +83,7 @@ class TransactionReconcileTest extends TestCase
 
         $this->app->instance(DigitalOceanTransactionRepository::class, $mock);
 
-        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("{$created_transaction_count} Transactions created, 0 Transactions deleted, 0 Transactions updated");
+        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("{$createdTransactionCount} Transactions created, 0 Transactions deleted, 0 Transactions updated");
     }
 
     /**
@@ -93,10 +93,10 @@ class TransactionReconcileTest extends TestCase
      */
     public function testDeleted()
     {
-        $deleted_transaction_count = $this->faker->randomDigitNotNull;
+        $deletedTransactionCount = $this->faker->randomDigitNotNull;
 
         Transaction::factory()
-            ->count($deleted_transaction_count)
+            ->count($deletedTransactionCount)
             ->create([
                 'service' => Service::DIGITALOCEAN,
             ]);
@@ -109,6 +109,6 @@ class TransactionReconcileTest extends TestCase
 
         $this->app->instance(DigitalOceanTransactionRepository::class, $mock);
 
-        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Transactions created, {$deleted_transaction_count} Transactions deleted, 0 Transactions updated");
+        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Transactions created, {$deletedTransactionCount} Transactions deleted, 0 Transactions updated");
     }
 }

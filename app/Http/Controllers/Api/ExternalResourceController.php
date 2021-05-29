@@ -117,7 +117,7 @@ class ExternalResourceController extends BaseController
      *     )
      * )
      *
-     * @param  \App\Models\ExternalResource  $resource
+     * @param \App\Models\ExternalResource $resource
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(ExternalResource $resource)

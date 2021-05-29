@@ -23,7 +23,7 @@ abstract class BaseCollection extends ResourceCollection
     /**
      * Create a new resource instance.
      *
-     * @param  mixed  $resource
+     * @param mixed $resource
      * @param \App\JsonApi\QueryParser $parser
      * @return void
      */

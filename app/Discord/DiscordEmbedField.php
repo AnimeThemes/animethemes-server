@@ -16,21 +16,21 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      *
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * The value of the field.
      *
      * @var string
      */
-    private $value;
+    protected $value;
 
     /**
      * Whether or not this field should display inline.
      *
      * @var bool
      */
-    private $inline;
+    protected $inline;
 
     /**
      * Create a new field instance.
@@ -49,7 +49,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     /**
      * Create a new field instance.
      *
-     * @param  mixed  ...$parameters
+     * @param mixed ...$parameters
      * @return static
      */
     public static function make(...$parameters)

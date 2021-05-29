@@ -110,8 +110,8 @@ class ArtistAnilistResourceTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filtered_artists = Artist::whereDoesntHave('externalResources', function (Builder $resource_query) {
-            $resource_query->where('site', ResourceSite::ANILIST);
+        $filteredArtists = Artist::whereDoesntHave('externalResources', function (Builder $resourceQuery) {
+            $resourceQuery->where('site', ResourceSite::ANILIST);
         })
         ->get();
 
@@ -119,9 +119,9 @@ class ArtistAnilistResourceTest extends TestCase
 
         $query = $lens->query(Artist::class);
 
-        foreach ($filtered_artists as $filtered_artist) {
-            $query->assertContains($filtered_artist);
+        foreach ($filteredArtists as $filteredArtist) {
+            $query->assertContains($filteredArtist);
         }
-        $query->assertCount($filtered_artists->count());
+        $query->assertCount($filteredArtists->count());
     }
 }

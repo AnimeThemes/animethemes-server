@@ -75,14 +75,14 @@ class SongTest extends TestCase
      */
     public function testThemes()
     {
-        $theme_count = $this->faker->randomDigitNotNull;
+        $themeCount = $this->faker->randomDigitNotNull;
 
         $song = Song::factory()
-            ->has(Theme::factory()->for(Anime::factory())->count($theme_count))
+            ->has(Theme::factory()->for(Anime::factory())->count($themeCount))
             ->create();
 
         $this->assertInstanceOf(HasMany::class, $song->themes());
-        $this->assertEquals($theme_count, $song->themes()->count());
+        $this->assertEquals($themeCount, $song->themes()->count());
         $this->assertInstanceOf(Theme::class, $song->themes()->first());
     }
 
@@ -93,14 +93,14 @@ class SongTest extends TestCase
      */
     public function testArtists()
     {
-        $artist_count = $this->faker->randomDigitNotNull;
+        $artistCount = $this->faker->randomDigitNotNull;
 
         $song = Song::factory()
-            ->has(Artist::factory()->count($artist_count))
+            ->has(Artist::factory()->count($artistCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $song->artists());
-        $this->assertEquals($artist_count, $song->artists()->count());
+        $this->assertEquals($artistCount, $song->artists()->count());
         $this->assertInstanceOf(Artist::class, $song->artists()->first());
         $this->assertEquals(ArtistSong::class, $song->artists()->getPivotClass());
     }

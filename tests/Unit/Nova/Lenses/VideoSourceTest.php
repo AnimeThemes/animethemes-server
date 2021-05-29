@@ -129,15 +129,15 @@ class VideoSourceTest extends TestCase
                 'source' => $this->faker->boolean() ? VideoSource::getRandomValue() : null,
             ]);
 
-        $filtered_videos = Video::whereNull('source')->get();
+        $filteredVideos = Video::whereNull('source')->get();
 
         $lens = $this->novaLens(VideoSourceLens::class);
 
         $query = $lens->query(Video::class);
 
-        foreach ($filtered_videos as $filtered_video) {
-            $query->assertContains($filtered_video);
+        foreach ($filteredVideos as $filteredVideo) {
+            $query->assertContains($filteredVideo);
         }
-        $query->assertCount($filtered_videos->count());
+        $query->assertCount($filteredVideos->count());
     }
 }

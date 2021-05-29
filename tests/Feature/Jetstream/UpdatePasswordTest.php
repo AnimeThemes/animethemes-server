@@ -18,30 +18,30 @@ class UpdatePasswordTest extends TestCase
     {
         $this->actingAs($user = User::factory()->create());
 
-        $new_password = $this->faker->password(64, 128);
+        $newPassword = $this->faker->password(64, 128);
 
         Livewire::test(UpdatePasswordForm::class)
                 ->set('state', [
                     'current_password' => 'password',
-                    'password' => $new_password,
-                    'password_confirmation' => $new_password,
+                    'password' => $newPassword,
+                    'password_confirmation' => $newPassword,
                 ])
                 ->call('updatePassword');
 
-        $this->assertTrue(Hash::check($new_password, $user->fresh()->password));
+        $this->assertTrue(Hash::check($newPassword, $user->fresh()->password));
     }
 
     public function test_current_password_must_be_correct()
     {
         $this->actingAs($user = User::factory()->create());
 
-        $new_password = $this->faker->password(64, 128);
+        $newPassword = $this->faker->password(64, 128);
 
         Livewire::test(UpdatePasswordForm::class)
                 ->set('state', [
                     'current_password' => 'wrong-password',
-                    'password' => $new_password,
-                    'password_confirmation' => $new_password,
+                    'password' => $newPassword,
+                    'password_confirmation' => $newPassword,
                 ])
                 ->call('updatePassword')
                 ->assertHasErrors(['current_password']);

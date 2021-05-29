@@ -10,16 +10,6 @@ class ImageController extends Controller
     use StreamsContent;
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('without_trashed:image');
-    }
-
-    /**
      * Stream image.
      *
      * @return \Symfony\Component\HttpFoundation\StreamedResponse

@@ -50,9 +50,9 @@ class TransparencyDateTest extends TestCase
         $format = null;
 
         while ($format == null) {
-            $format_candidate = AllowedDateFormat::getRandomInstance();
-            if (! $format_candidate->is(AllowedDateFormat::WITH_MONTH)) {
-                $format = $format_candidate;
+            $formatCandidate = AllowedDateFormat::getRandomInstance();
+            if (! $formatCandidate->is(AllowedDateFormat::WITH_MONTH)) {
+                $format = $formatCandidate;
             }
         }
 
@@ -60,9 +60,9 @@ class TransparencyDateTest extends TestCase
 
         $rule = new TransparencyDateRule($validDates);
 
-        $formatted_date = Carbon::now()->format($format);
+        $formattedDate = Carbon::now()->format($format);
 
-        $this->assertFalse($rule->passes($this->faker->word(), $formatted_date));
+        $this->assertFalse($rule->passes($this->faker->word(), $formattedDate));
     }
 
     /**
@@ -76,9 +76,9 @@ class TransparencyDateTest extends TestCase
 
         $rule = new TransparencyDateRule($validDates);
 
-        $formatted_date = Carbon::now()->subMonths($this->faker->randomDigitNotNull)->format(AllowedDateFormat::WITH_MONTH);
+        $formattedDate = Carbon::now()->subMonths($this->faker->randomDigitNotNull)->format(AllowedDateFormat::WITH_MONTH);
 
-        $this->assertFalse($rule->passes($this->faker->word(), $formatted_date));
+        $this->assertFalse($rule->passes($this->faker->word(), $formattedDate));
     }
 
     /**
@@ -92,8 +92,8 @@ class TransparencyDateTest extends TestCase
 
         $rule = new TransparencyDateRule($validDates);
 
-        $formatted_date = Carbon::now()->format(AllowedDateFormat::WITH_MONTH);
+        $formattedDate = Carbon::now()->format(AllowedDateFormat::WITH_MONTH);
 
-        $this->assertTrue($rule->passes($this->faker->word(), $formatted_date));
+        $this->assertTrue($rule->passes($this->faker->word(), $formattedDate));
     }
 }

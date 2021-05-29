@@ -55,9 +55,9 @@ class ResourceSiteDomainRuleTest extends TestCase
         $site = null;
 
         while ($site === null) {
-            $site_candidate = ResourceSite::getRandomInstance();
-            if (! $site_candidate->is(ResourceSite::OFFICIAL_SITE)) {
-                $site = $site_candidate;
+            $siteCandidate = ResourceSite::getRandomInstance();
+            if (! $siteCandidate->is(ResourceSite::OFFICIAL_SITE)) {
+                $site = $siteCandidate;
             }
         }
 

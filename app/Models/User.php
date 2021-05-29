@@ -117,7 +117,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     /**
      * Determine if the given team is the current team.
      *
-     * @param  mixed $team
+     * @param mixed $team
      * @return bool
      */
     public function isCurrentTeam($team)
@@ -130,7 +130,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     /**
      * Determine if the user belongs to the given team.
      *
-     * @param  mixed  $team
+     * @param mixed $team
      * @return bool
      */
     public function belongsToTeam($team)
@@ -144,7 +144,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     /**
      * Determine if the user has the given permission on the current team.
      *
-     * @param  string  $permission
+     * @param string $permission
      * @return bool
      */
     public function hasCurrentTeamPermission(string $permission)

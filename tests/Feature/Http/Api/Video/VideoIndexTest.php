@@ -82,11 +82,11 @@ class VideoIndexTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(VideoCollection::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(VideoCollection::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         Video::factory()
@@ -98,7 +98,7 @@ class VideoIndexTest extends TestCase
             )
             ->create();
 
-        $videos = Video::with($included_paths->all())->get();
+        $videos = Video::with($includedPaths->all())->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -144,11 +144,11 @@ class VideoIndexTest extends TestCase
             'link',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                VideoResource::$wrap => $included_fields->join(','),
+                VideoResource::$wrap => $includedFields->join(','),
             ],
         ];
 
@@ -179,19 +179,19 @@ class VideoIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $allowed_sorts = collect(VideoCollection::allowedSortFields());
-        $included_sorts = $allowed_sorts->random($this->faker->numberBetween(1, count($allowed_sorts)))->map(function ($included_sort) {
+        $allowedSorts = collect(VideoCollection::allowedSortFields());
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
-                    ->append($included_sort)
+                    ->append($includedSort)
                     ->__toString();
             }
 
-            return $included_sort;
+            return $includedSort;
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $included_sorts->join(','),
+            QueryParser::PARAM_SORT => $includedSorts->join(','),
         ];
 
         $parser = QueryParser::make($parameters);
@@ -229,27 +229,27 @@ class VideoIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $created_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $createdFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'created_at' => $created_filter,
+                'created_at' => $createdFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
             Video::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Video::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        $video = Video::where('created_at', $created_filter)->get();
+        $video = Video::where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -274,27 +274,27 @@ class VideoIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $updated_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $updatedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'updated_at' => $updated_filter,
+                'updated_at' => $updatedFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
             Video::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Video::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        $video = Video::where('updated_at', $updated_filter)->get();
+        $video = Video::where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -330,8 +330,8 @@ class VideoIndexTest extends TestCase
 
         Video::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_video = Video::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_video->each(function ($video) {
+        $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteVideo->each(function ($video) {
             $video->delete();
         });
 
@@ -371,8 +371,8 @@ class VideoIndexTest extends TestCase
 
         Video::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_video = Video::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_video->each(function ($video) {
+        $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteVideo->each(function ($video) {
             $video->delete();
         });
 
@@ -412,8 +412,8 @@ class VideoIndexTest extends TestCase
 
         Video::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_video = Video::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_video->each(function ($video) {
+        $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteVideo->each(function ($video) {
             $video->delete();
         });
 
@@ -442,12 +442,12 @@ class VideoIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $deleted_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $deletedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'deleted_at' => $deleted_filter,
+                'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
@@ -455,21 +455,21 @@ class VideoIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
             $video = Video::factory()->count($this->faker->randomDigitNotNull)->create();
             $video->each(function ($item) {
                 $item->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             $video = Video::factory()->count($this->faker->randomDigitNotNull)->create();
             $video->each(function ($item) {
                 $item->delete();
             });
         });
 
-        $video = Video::withTrashed()->where('deleted_at', $deleted_filter)->get();
+        $video = Video::withTrashed()->where('deleted_at', $deletedFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -494,11 +494,11 @@ class VideoIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $lyrics_filter = $this->faker->boolean();
+        $lyricsFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'lyrics' => $lyrics_filter,
+                'lyrics' => $lyricsFilter,
             ],
         ];
 
@@ -506,7 +506,7 @@ class VideoIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $videos = Video::where('lyrics', $lyrics_filter)->get();
+        $videos = Video::where('lyrics', $lyricsFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -531,11 +531,11 @@ class VideoIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $nc_filter = $this->faker->boolean();
+        $ncFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'nc' => $nc_filter,
+                'nc' => $ncFilter,
             ],
         ];
 
@@ -543,7 +543,7 @@ class VideoIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $videos = Video::where('nc', $nc_filter)->get();
+        $videos = Video::where('nc', $ncFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -568,11 +568,11 @@ class VideoIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $overlap_filter = VideoOverlap::getRandomInstance();
+        $overlapFilter = VideoOverlap::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'overlap' => $overlap_filter->key,
+                'overlap' => $overlapFilter->key,
             ],
         ];
 
@@ -580,7 +580,7 @@ class VideoIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $videos = Video::where('overlap', $overlap_filter->value)->get();
+        $videos = Video::where('overlap', $overlapFilter->value)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -605,24 +605,24 @@ class VideoIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $resolution_filter = $this->faker->randomNumber();
-        $excluded_resolution = $resolution_filter + 1;
+        $resolutionFilter = $this->faker->randomNumber();
+        $excludedResolution = $resolutionFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'resolution' => $resolution_filter,
+                'resolution' => $resolutionFilter,
             ],
         ];
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull)
             ->state(new Sequence(
-                ['resolution' => $resolution_filter],
-                ['resolution' => $excluded_resolution],
+                ['resolution' => $resolutionFilter],
+                ['resolution' => $excludedResolution],
             ))
             ->create();
 
-        $videos = Video::where('resolution', $resolution_filter)->get();
+        $videos = Video::where('resolution', $resolutionFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -647,11 +647,11 @@ class VideoIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $source_filter = VideoSource::getRandomInstance();
+        $sourceFilter = VideoSource::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'source' => $source_filter->key,
+                'source' => $sourceFilter->key,
             ],
         ];
 
@@ -659,7 +659,7 @@ class VideoIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $videos = Video::where('source', $source_filter->value)->get();
+        $videos = Video::where('source', $sourceFilter->value)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -684,11 +684,11 @@ class VideoIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $subbed_filter = $this->faker->boolean();
+        $subbedFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'subbed' => $subbed_filter,
+                'subbed' => $subbedFilter,
             ],
         ];
 
@@ -696,7 +696,7 @@ class VideoIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $videos = Video::where('subbed', $subbed_filter)->get();
+        $videos = Video::where('subbed', $subbedFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -721,11 +721,11 @@ class VideoIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $uncen_filter = $this->faker->boolean();
+        $uncenFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'uncen' => $uncen_filter,
+                'uncen' => $uncenFilter,
             ],
         ];
 
@@ -733,7 +733,7 @@ class VideoIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $videos = Video::where('uncen', $uncen_filter)->get();
+        $videos = Video::where('uncen', $uncenFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -756,11 +756,11 @@ class VideoIndexTest extends TestCase
      */
     public function testEntriesByNsfw()
     {
-        $nsfw_filter = $this->faker->boolean();
+        $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'nsfw' => $nsfw_filter,
+                'nsfw' => $nsfwFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries',
         ];
@@ -775,8 +775,8 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries' => function ($query) use ($nsfw_filter) {
-                $query->where('nsfw', $nsfw_filter);
+            'entries' => function ($query) use ($nsfwFilter) {
+                $query->where('nsfw', $nsfwFilter);
             },
         ])
         ->get();
@@ -802,11 +802,11 @@ class VideoIndexTest extends TestCase
      */
     public function testEntriesBySpoiler()
     {
-        $spoiler_filter = $this->faker->boolean();
+        $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'spoiler' => $spoiler_filter,
+                'spoiler' => $spoilerFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries',
         ];
@@ -821,8 +821,8 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries' => function ($query) use ($spoiler_filter) {
-                $query->where('spoiler', $spoiler_filter);
+            'entries' => function ($query) use ($spoilerFilter) {
+                $query->where('spoiler', $spoilerFilter);
             },
         ])
         ->get();
@@ -848,12 +848,12 @@ class VideoIndexTest extends TestCase
      */
     public function testEntriesByVersion()
     {
-        $version_filter = $this->faker->randomDigitNotNull;
-        $excluded_version = $version_filter + 1;
+        $versionFilter = $this->faker->randomDigitNotNull;
+        $excludedVersion = $versionFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'version' => $version_filter,
+                'version' => $versionFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries',
         ];
@@ -865,15 +865,15 @@ class VideoIndexTest extends TestCase
                     ->count($this->faker->randomDigitNotNull)
                     ->for(Theme::factory()->for(Anime::factory()))
                     ->state(new Sequence(
-                        ['version' => $version_filter],
-                        ['version' => $excluded_version],
+                        ['version' => $versionFilter],
+                        ['version' => $excludedVersion],
                     ))
             )
             ->create();
 
         $videos = Video::with([
-            'entries' => function ($query) use ($version_filter) {
-                $query->where('version', $version_filter);
+            'entries' => function ($query) use ($versionFilter) {
+                $query->where('version', $versionFilter);
             },
         ])
         ->get();
@@ -899,12 +899,12 @@ class VideoIndexTest extends TestCase
      */
     public function testThemesByGroup()
     {
-        $group_filter = $this->faker->word();
-        $excluded_group = $this->faker->word();
+        $groupFilter = $this->faker->word();
+        $excludedGroup = $this->faker->word();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'group' => $group_filter,
+                'group' => $groupFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.theme',
         ];
@@ -918,15 +918,15 @@ class VideoIndexTest extends TestCase
                         Theme::factory()
                             ->for(Anime::factory())
                             ->state([
-                                'group' => $this->faker->boolean() ? $group_filter : $excluded_group,
+                                'group' => $this->faker->boolean() ? $groupFilter : $excludedGroup,
                             ])
                     )
             )
             ->create();
 
         $videos = Video::with([
-            'entries.theme' => function ($query) use ($group_filter) {
-                $query->where('group', $group_filter);
+            'entries.theme' => function ($query) use ($groupFilter) {
+                $query->where('group', $groupFilter);
             },
         ])
         ->get();
@@ -952,12 +952,12 @@ class VideoIndexTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequence_filter = $this->faker->randomDigitNotNull;
-        $excluded_sequence = $sequence_filter + 1;
+        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'sequence' => $sequence_filter,
+                'sequence' => $sequenceFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.theme',
         ];
@@ -971,15 +971,15 @@ class VideoIndexTest extends TestCase
                         Theme::factory()
                             ->for(Anime::factory())
                             ->state([
-                                'sequence' => $this->faker->boolean() ? $sequence_filter : $excluded_sequence,
+                                'sequence' => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
                             ])
                     )
             )
             ->create();
 
         $videos = Video::with([
-            'entries.theme' => function ($query) use ($sequence_filter) {
-                $query->where('sequence', $sequence_filter);
+            'entries.theme' => function ($query) use ($sequenceFilter) {
+                $query->where('sequence', $sequenceFilter);
             },
         ])
         ->get();
@@ -1005,11 +1005,11 @@ class VideoIndexTest extends TestCase
      */
     public function testThemesByType()
     {
-        $type_filter = ThemeType::getRandomInstance();
+        $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'type' => $type_filter->key,
+                'type' => $typeFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.theme',
         ];
@@ -1024,8 +1024,8 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries.theme' => function ($query) use ($type_filter) {
-                $query->where('type', $type_filter->value);
+            'entries.theme' => function ($query) use ($typeFilter) {
+                $query->where('type', $typeFilter->value);
             },
         ])
         ->get();
@@ -1051,11 +1051,11 @@ class VideoIndexTest extends TestCase
      */
     public function testAnimeBySeason()
     {
-        $season_filter = AnimeSeason::getRandomInstance();
+        $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'season' => $season_filter->key,
+                'season' => $seasonFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.theme.anime',
         ];
@@ -1070,8 +1070,8 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries.theme.anime' => function ($query) use ($season_filter) {
-                $query->where('season', $season_filter->value);
+            'entries.theme.anime' => function ($query) use ($seasonFilter) {
+                $query->where('season', $seasonFilter->value);
             },
         ])
         ->get();
@@ -1097,12 +1097,12 @@ class VideoIndexTest extends TestCase
      */
     public function testAnimeByYear()
     {
-        $year_filter = intval($this->faker->year());
-        $excluded_year = $year_filter + 1;
+        $yearFilter = intval($this->faker->year());
+        $excludedYear = $yearFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'year' => $year_filter,
+                'year' => $yearFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.theme.anime',
         ];
@@ -1117,7 +1117,7 @@ class VideoIndexTest extends TestCase
                             ->for(
                                 Anime::factory()
                                     ->state([
-                                        'year' => $this->faker->boolean() ? $year_filter : $excluded_year,
+                                        'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                                     ])
                             )
                     )
@@ -1125,8 +1125,8 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries.theme.anime' => function ($query) use ($year_filter) {
-                $query->where('year', $year_filter);
+            'entries.theme.anime' => function ($query) use ($yearFilter) {
+                $query->where('year', $yearFilter);
             },
         ])
         ->get();

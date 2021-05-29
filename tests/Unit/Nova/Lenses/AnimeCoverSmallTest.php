@@ -128,8 +128,8 @@ class AnimeCoverSmallTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filtered_animes = Anime::whereDoesntHave('images', function (Builder $image_query) {
-            $image_query->where('facet', ImageFacet::COVER_SMALL);
+        $filteredAnimes = Anime::whereDoesntHave('images', function (Builder $imageQuery) {
+            $imageQuery->where('facet', ImageFacet::COVER_SMALL);
         })
         ->get();
 
@@ -137,9 +137,9 @@ class AnimeCoverSmallTest extends TestCase
 
         $query = $lens->query(Anime::class);
 
-        foreach ($filtered_animes as $filtered_anime) {
-            $query->assertContains($filtered_anime);
+        foreach ($filteredAnimes as $filteredAnime) {
+            $query->assertContains($filteredAnime);
         }
-        $query->assertCount($filtered_animes->count());
+        $query->assertCount($filteredAnimes->count());
     }
 }

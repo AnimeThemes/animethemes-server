@@ -71,15 +71,15 @@ class AnnouncementShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(AnnouncementResource::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(AnnouncementResource::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         Announcement::factory()->create();
-        $announcement = Announcement::with($included_paths->all())->first();
+        $announcement = Announcement::with($includedPaths->all())->first();
 
         $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
 
@@ -110,11 +110,11 @@ class AnnouncementShowTest extends TestCase
             'deleted_at',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                AnnouncementResource::$wrap => $included_fields->join(','),
+                AnnouncementResource::$wrap => $includedFields->join(','),
             ],
         ];
 

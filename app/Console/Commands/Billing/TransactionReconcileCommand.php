@@ -3,7 +3,6 @@
 namespace App\Console\Commands\Billing;
 
 use App\Concerns\Reconcile\Billing\ReconcilesTransaction;
-use App\Contracts\Repositories\Repository;
 use App\Enums\Billing\Service;
 use App\Models\BaseModel;
 use Exception;
@@ -81,8 +80,8 @@ class TransactionReconcileCommand extends Command
                 $this->info("{$this->created} Transactions created, {$this->deleted} Transactions deleted, {$this->updated} Transactions updated");
             }
             if ($this->hasFailures()) {
-                Log::error("Failed to create {$this->created_failed} Transactions, delete {$this->deleted_failed} Transactions, update {$this->updated_failed} Transactions");
-                $this->error("Failed to create {$this->created_failed} Transactions, delete {$this->deleted_failed} Transactions, update {$this->updated_failed} Transactions");
+                Log::error("Failed to create {$this->createdFailed} Transactions, delete {$this->deletedFailed} Transactions, update {$this->updatedFailed} Transactions");
+                $this->error("Failed to create {$this->createdFailed} Transactions, delete {$this->deletedFailed} Transactions, update {$this->updatedFailed} Transactions");
             }
         } else {
             Log::info('No Transactions created or deleted or updated');
@@ -93,7 +92,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for successful transaction creation.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
@@ -105,7 +104,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for failed transaction creation.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
@@ -117,7 +116,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for successful transaction deletion.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
@@ -129,7 +128,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for failed transaction deletion.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
@@ -141,7 +140,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for successful transaction update.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
@@ -153,7 +152,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for failed transaction update.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)
@@ -177,8 +176,8 @@ class TransactionReconcileCommand extends Command
     /**
      * Get source repository for service.
      *
-     * @param Service $service
-     * @return Repository|null
+     * @param \App\Enums\Billing\Service $service
+     * @return \App\Contracts\Repositories\Repository|null
      */
     protected function getSourceRepository(Service $service)
     {
@@ -193,8 +192,8 @@ class TransactionReconcileCommand extends Command
     /**
      * Get destination repository for service.
      *
-     * @param Service $service
-     * @return Repository|null
+     * @param \App\Enums\Billing\Service $service
+     * @return \App\Contracts\Repositories\Repository|null
      */
     protected function getDestinationRepository(Service $service)
     {

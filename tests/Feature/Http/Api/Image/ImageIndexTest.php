@@ -73,11 +73,11 @@ class ImageIndexTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(ImageCollection::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(ImageCollection::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         Image::factory()
@@ -86,7 +86,7 @@ class ImageIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $images = Image::with($included_paths->all())->get();
+        $images = Image::with($includedPaths->all())->get();
 
         $response = $this->get(route('api.image.index', $parameters));
 
@@ -120,11 +120,11 @@ class ImageIndexTest extends TestCase
             'facet',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                ImageResource::$wrap => $included_fields->join(','),
+                ImageResource::$wrap => $includedFields->join(','),
             ],
         ];
 
@@ -153,19 +153,19 @@ class ImageIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowed_sorts = collect(ImageCollection::allowedSortFields());
-        $included_sorts = $allowed_sorts->random($this->faker->numberBetween(1, count($allowed_sorts)))->map(function ($included_sort) {
+        $allowedSorts = collect(ImageCollection::allowedSortFields());
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
-                    ->append($included_sort)
+                    ->append($includedSort)
                     ->__toString();
             }
 
-            return $included_sort;
+            return $includedSort;
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $included_sorts->join(','),
+            QueryParser::PARAM_SORT => $includedSorts->join(','),
         ];
 
         $parser = QueryParser::make($parameters);
@@ -199,27 +199,27 @@ class ImageIndexTest extends TestCase
      */
     public function testCreatedAtFilter()
     {
-        $created_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $createdFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'created_at' => $created_filter,
+                'created_at' => $createdFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
             Image::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Image::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        $image = Image::where('created_at', $created_filter)->get();
+        $image = Image::where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.image.index', $parameters));
 
@@ -242,27 +242,27 @@ class ImageIndexTest extends TestCase
      */
     public function testUpdatedAtFilter()
     {
-        $updated_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $updatedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'updated_at' => $updated_filter,
+                'updated_at' => $updatedFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
             Image::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Image::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        $image = Image::where('updated_at', $updated_filter)->get();
+        $image = Image::where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.image.index', $parameters));
 
@@ -296,8 +296,8 @@ class ImageIndexTest extends TestCase
 
         Image::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_image = Image::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_image->each(function ($image) {
+        $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteImage->each(function ($image) {
             $image->delete();
         });
 
@@ -335,8 +335,8 @@ class ImageIndexTest extends TestCase
 
         Image::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_image = Image::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_image->each(function ($image) {
+        $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteImage->each(function ($image) {
             $image->delete();
         });
 
@@ -374,8 +374,8 @@ class ImageIndexTest extends TestCase
 
         Image::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_image = Image::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_image->each(function ($image) {
+        $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteImage->each(function ($image) {
             $image->delete();
         });
 
@@ -402,12 +402,12 @@ class ImageIndexTest extends TestCase
      */
     public function testDeletedAtFilter()
     {
-        $deleted_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $deletedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'deleted_at' => $deleted_filter,
+                'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
@@ -415,21 +415,21 @@ class ImageIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
             $image = Image::factory()->count($this->faker->randomDigitNotNull)->create();
             $image->each(function ($item) {
                 $item->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             $image = Image::factory()->count($this->faker->randomDigitNotNull)->create();
             $image->each(function ($item) {
                 $item->delete();
             });
         });
 
-        $image = Image::withTrashed()->where('deleted_at', $deleted_filter)->get();
+        $image = Image::withTrashed()->where('deleted_at', $deletedFilter)->get();
 
         $response = $this->get(route('api.image.index', $parameters));
 
@@ -452,11 +452,11 @@ class ImageIndexTest extends TestCase
      */
     public function testFacetFilter()
     {
-        $facet_filter = ImageFacet::getRandomInstance();
+        $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'facet' => $facet_filter->key,
+                'facet' => $facetFilter->key,
             ],
         ];
 
@@ -464,7 +464,7 @@ class ImageIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $images = Image::where('facet', $facet_filter->value)->get();
+        $images = Image::where('facet', $facetFilter->value)->get();
 
         $response = $this->get(route('api.image.index', $parameters));
 
@@ -487,11 +487,11 @@ class ImageIndexTest extends TestCase
      */
     public function testAnimeBySeason()
     {
-        $season_filter = AnimeSeason::getRandomInstance();
+        $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'season' => $season_filter->key,
+                'season' => $seasonFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -502,8 +502,8 @@ class ImageIndexTest extends TestCase
             ->create();
 
         $images = Image::with([
-            'anime' => function ($query) use ($season_filter) {
-                $query->where('season', $season_filter->value);
+            'anime' => function ($query) use ($seasonFilter) {
+                $query->where('season', $seasonFilter->value);
             },
         ])
         ->get();
@@ -529,12 +529,12 @@ class ImageIndexTest extends TestCase
      */
     public function testAnimeByYear()
     {
-        $year_filter = intval($this->faker->year());
-        $excluded_year = $year_filter + 1;
+        $yearFilter = intval($this->faker->year());
+        $excludedYear = $yearFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'year' => $year_filter,
+                'year' => $yearFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -544,15 +544,15 @@ class ImageIndexTest extends TestCase
                 Anime::factory()
                 ->count($this->faker->randomDigitNotNull)
                 ->state([
-                    'year' => $this->faker->boolean() ? $year_filter : $excluded_year,
+                    'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                 ])
             )
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
         $images = Image::with([
-            'anime' => function ($query) use ($year_filter) {
-                $query->where('year', $year_filter);
+            'anime' => function ($query) use ($yearFilter) {
+                $query->where('year', $yearFilter);
             },
         ])
         ->get();

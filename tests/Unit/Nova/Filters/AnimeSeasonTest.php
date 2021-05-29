@@ -55,10 +55,10 @@ class AnimeSeasonTest extends TestCase
 
         $response = $filter->apply(Anime::class, $season->value);
 
-        $filtered_animes = Anime::where('season', $season->value)->get();
-        foreach ($filtered_animes as $filtered_anime) {
-            $response->assertContains($filtered_anime);
+        $filteredAnimes = Anime::where('season', $season->value)->get();
+        foreach ($filteredAnimes as $filteredAnime) {
+            $response->assertContains($filteredAnime);
         }
-        $response->assertCount($filtered_animes->count());
+        $response->assertCount($filteredAnimes->count());
     }
 }

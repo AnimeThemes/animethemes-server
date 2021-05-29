@@ -26,8 +26,8 @@ class KitsuResourceSeeder extends Seeder
         $animes = $this->getUnseededAnime();
 
         foreach ($animes as $anime) {
-            $mal_resource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::MAL));
-            if (! is_null(optional($mal_resource)->external_id)) {
+            $malResource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::MAL));
+            if (! is_null(optional($malResource)->external_id)) {
 
                 // Try not to upset Kitsu
                 sleep(rand(5, 15));
@@ -35,39 +35,39 @@ class KitsuResourceSeeder extends Seeder
                 // Kitsu api call
                 try {
                     $client = new Client;
-                    $response = $client->get('https://kitsu.io/api/edge/mappings?filter[externalSite]=myanimelist/anime&include=item&filter[externalId]='.$mal_resource->external_id, [
+                    $response = $client->get('https://kitsu.io/api/edge/mappings?filter[externalSite]=myanimelist/anime&include=item&filter[externalId]='.$malResource->external_id, [
                         'headers' => [
                             'Accept' => 'application/vnd.api+json',
                             'Content-Type' => 'application/vnd.api+json',
                         ],
                     ]);
-                    $kitsu_resource_json = json_decode($response->getBody()->getContents());
+                    $kitsuResourceJson = json_decode($response->getBody()->getContents());
 
-                    $kitsu_resource_data = property_exists($kitsu_resource_json, 'data') ? $kitsu_resource_json->data : [];
-                    $kitsu_resource_included = property_exists($kitsu_resource_json, 'included') ? $kitsu_resource_json->included : [];
+                    $kitsuResourceData = property_exists($kitsuResourceJson, 'data') ? $kitsuResourceJson->data : [];
+                    $kitsuResourceIncluded = property_exists($kitsuResourceJson, 'included') ? $kitsuResourceJson->included : [];
 
                     // Only proceed if we have a single match
-                    if (count($kitsu_resource_data) == 1 && count($kitsu_resource_included) == 1) {
-                        $kitsu_id = $kitsu_resource_included[0]->id;
-                        $kitsu_slug = $kitsu_resource_included[0]->attributes->slug;
+                    if (count($kitsuResourceData) == 1 && count($kitsuResourceIncluded) == 1) {
+                        $kitsuId = $kitsuResourceIncluded[0]->id;
+                        $kitsuSlug = $kitsuResourceIncluded[0]->attributes->slug;
 
                         // Check if Kitsu resource already exists
-                        $kitsu_resource = ExternalResource::where('site', ResourceSite::KITSU)->where('external_id', $kitsu_id)->first();
+                        $kitsuResource = ExternalResource::where('site', ResourceSite::KITSU)->where('external_id', $kitsuId)->first();
 
                         // Create Kitsu resource if it doesn't already exist
-                        if (is_null($kitsu_resource)) {
-                            Log::info("Creating kitsu resource '{$kitsu_id}' for anime '{$anime->name}'");
-                            $kitsu_resource = ExternalResource::create([
+                        if (is_null($kitsuResource)) {
+                            Log::info("Creating kitsu resource '{$kitsuId}' for anime '{$anime->name}'");
+                            $kitsuResource = ExternalResource::create([
                                 'site' => ResourceSite::KITSU,
-                                'link' => "https://kitsu.io/anime/{$kitsu_slug}",
-                                'external_id' => $kitsu_id,
+                                'link' => "https://kitsu.io/anime/{$kitsuSlug}",
+                                'external_id' => $kitsuId,
                             ]);
                         }
 
                         // Attach Kitsu resource to anime
-                        if (AnimeResource::where($anime->getKeyName(), $anime->getKey())->where($kitsu_resource->getKeyName(), $kitsu_resource->getKey())->doesntExist()) {
-                            Log::info("Attaching resource '{$kitsu_resource->link}' to anime '{$anime->name}'");
-                            $kitsu_resource->anime()->attach($anime);
+                        if (AnimeResource::where($anime->getKeyName(), $anime->getKey())->where($kitsuResource->getKeyName(), $kitsuResource->getKey())->doesntExist()) {
+                            Log::info("Attaching resource '{$kitsuResource->link}' to anime '{$anime->name}'");
+                            $kitsuResource->anime()->attach($anime);
                         }
                     }
                 } catch (HttpException $e) {
@@ -91,13 +91,13 @@ class KitsuResourceSeeder extends Seeder
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    private function getUnseededAnime()
+    protected function getUnseededAnime()
     {
         return Anime::query()
-            ->whereHas('externalResources', function ($resource_query) {
-                $resource_query->where('site', ResourceSite::MAL);
-            })->whereDoesntHave('externalResources', function ($resource_query) {
-                $resource_query->where('site', ResourceSite::KITSU);
+            ->whereHas('externalResources', function ($resourceQuery) {
+                $resourceQuery->where('site', ResourceSite::MAL);
+            })->whereDoesntHave('externalResources', function ($resourceQuery) {
+                $resourceQuery->where('site', ResourceSite::KITSU);
             })
             ->get();
     }

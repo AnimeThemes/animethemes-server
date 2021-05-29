@@ -22,7 +22,7 @@ class BalanceController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Billing\Balance  $balance
+     * @param \App\Models\Billing\Balance $balance
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Balance $balance)

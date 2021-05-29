@@ -77,18 +77,18 @@ class SeriesShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(SeriesResource::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(SeriesResource::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         Series::factory()
             ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
             ->create();
 
-        $series = Series::with($included_paths->all())->first();
+        $series = Series::with($includedPaths->all())->first();
 
         $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
 
@@ -122,11 +122,11 @@ class SeriesShowTest extends TestCase
             'deleted_at',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                SeriesResource::$wrap => $included_fields->join(','),
+                SeriesResource::$wrap => $includedFields->join(','),
             ],
         ];
 
@@ -155,11 +155,11 @@ class SeriesShowTest extends TestCase
     {
         $this->withoutEvents();
 
-        $season_filter = AnimeSeason::getRandomInstance();
+        $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'season' => $season_filter->key,
+                'season' => $seasonFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -169,8 +169,8 @@ class SeriesShowTest extends TestCase
             ->create();
 
         $series = Series::with([
-            'anime' => function ($query) use ($season_filter) {
-                $query->where('season', $season_filter->value);
+            'anime' => function ($query) use ($seasonFilter) {
+                $query->where('season', $seasonFilter->value);
             },
         ])
         ->first();
@@ -198,11 +198,11 @@ class SeriesShowTest extends TestCase
     {
         $this->withoutEvents();
 
-        $year_filter = $this->faker->numberBetween(2000, 2002);
+        $yearFilter = $this->faker->numberBetween(2000, 2002);
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'year' => $year_filter,
+                'year' => $yearFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -220,8 +220,8 @@ class SeriesShowTest extends TestCase
             ->create();
 
         $series = Series::with([
-            'anime' => function ($query) use ($year_filter) {
-                $query->where('year', $year_filter);
+            'anime' => function ($query) use ($yearFilter) {
+                $query->where('year', $yearFilter);
             },
         ])
         ->first();

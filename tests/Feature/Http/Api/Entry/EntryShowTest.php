@@ -79,11 +79,11 @@ class EntryShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(EntryResource::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(EntryResource::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         Entry::factory()
@@ -91,7 +91,7 @@ class EntryShowTest extends TestCase
             ->has(Video::factory()->count($this->faker->randomDigitNotNull))
             ->create();
 
-        $entry = Entry::with($included_paths->all())->first();
+        $entry = Entry::with($includedPaths->all())->first();
 
         $response = $this->get(route('api.entry.show', ['entry' => $entry] + $parameters));
 
@@ -126,11 +126,11 @@ class EntryShowTest extends TestCase
             'deleted_at',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                EntryResource::$wrap => $included_fields->join(','),
+                EntryResource::$wrap => $includedFields->join(','),
             ],
         ];
 
@@ -159,11 +159,11 @@ class EntryShowTest extends TestCase
      */
     public function testAnimeBySeason()
     {
-        $season_filter = AnimeSeason::getRandomInstance();
+        $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'season' => $season_filter->key,
+                'season' => $seasonFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -173,8 +173,8 @@ class EntryShowTest extends TestCase
             ->create();
 
         $entry = Entry::with([
-            'anime' => function ($query) use ($season_filter) {
-                $query->where('season', $season_filter->value);
+            'anime' => function ($query) use ($seasonFilter) {
+                $query->where('season', $seasonFilter->value);
             },
         ])
         ->first();
@@ -200,12 +200,12 @@ class EntryShowTest extends TestCase
      */
     public function testAnimeByYear()
     {
-        $year_filter = intval($this->faker->year());
-        $excluded_year = $year_filter + 1;
+        $yearFilter = intval($this->faker->year());
+        $excludedYear = $yearFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'year' => $year_filter,
+                'year' => $yearFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -215,15 +215,15 @@ class EntryShowTest extends TestCase
                 Theme::factory()->for(
                     Anime::factory()
                         ->state([
-                            'year' => $this->faker->boolean() ? $year_filter : $excluded_year,
+                            'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                         ])
                 )
             )
             ->create();
 
         $entry = Entry::with([
-            'anime' => function ($query) use ($year_filter) {
-                $query->where('year', $year_filter);
+            'anime' => function ($query) use ($yearFilter) {
+                $query->where('year', $yearFilter);
             },
         ])
         ->first();
@@ -249,12 +249,12 @@ class EntryShowTest extends TestCase
      */
     public function testThemesByGroup()
     {
-        $group_filter = $this->faker->word();
-        $excluded_group = $this->faker->word();
+        $groupFilter = $this->faker->word();
+        $excludedGroup = $this->faker->word();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'group' => $group_filter,
+                'group' => $groupFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'theme',
         ];
@@ -264,14 +264,14 @@ class EntryShowTest extends TestCase
                 Theme::factory()
                     ->for(Anime::factory())
                     ->state([
-                        'group' => $this->faker->boolean() ? $group_filter : $excluded_group,
+                        'group' => $this->faker->boolean() ? $groupFilter : $excludedGroup,
                     ])
             )
             ->create();
 
         $entry = Entry::with([
-            'theme' => function ($query) use ($group_filter) {
-                $query->where('group', $group_filter);
+            'theme' => function ($query) use ($groupFilter) {
+                $query->where('group', $groupFilter);
             },
         ])
         ->first();
@@ -297,12 +297,12 @@ class EntryShowTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequence_filter = $this->faker->randomDigitNotNull;
-        $excluded_sequence = $sequence_filter + 1;
+        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'sequence' => $sequence_filter,
+                'sequence' => $sequenceFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'theme',
         ];
@@ -312,14 +312,14 @@ class EntryShowTest extends TestCase
                 Theme::factory()
                     ->for(Anime::factory())
                     ->state([
-                        'sequence' => $this->faker->boolean() ? $sequence_filter : $excluded_sequence,
+                        'sequence' => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
                     ])
             )
             ->create();
 
         $entry = Entry::with([
-            'theme' => function ($query) use ($sequence_filter) {
-                $query->where('sequence', $sequence_filter);
+            'theme' => function ($query) use ($sequenceFilter) {
+                $query->where('sequence', $sequenceFilter);
             },
         ])
         ->first();
@@ -345,11 +345,11 @@ class EntryShowTest extends TestCase
      */
     public function testThemesByType()
     {
-        $type_filter = ThemeType::getRandomInstance();
+        $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'type' => $type_filter->key,
+                'type' => $typeFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'theme',
         ];
@@ -359,8 +359,8 @@ class EntryShowTest extends TestCase
             ->create();
 
         $entry = Entry::with([
-            'theme' => function ($query) use ($type_filter) {
-                $query->where('type', $type_filter->value);
+            'theme' => function ($query) use ($typeFilter) {
+                $query->where('type', $typeFilter->value);
             },
         ])
         ->first();

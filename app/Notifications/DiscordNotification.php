@@ -33,7 +33,7 @@ class DiscordNotification extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -44,7 +44,7 @@ class DiscordNotification extends Notification implements ShouldQueue
     /**
      * Get the discord representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return \NotificationChannels\Discord\DiscordMessage
      */
     public function toDiscord($notifiable)

@@ -78,11 +78,11 @@ class VideoShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(VideoResource::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(VideoResource::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         Video::factory()
@@ -93,7 +93,7 @@ class VideoShowTest extends TestCase
             )
             ->create();
 
-        $video = Video::with($included_paths->all())->first();
+        $video = Video::with($includedPaths->all())->first();
 
         $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
 
@@ -139,11 +139,11 @@ class VideoShowTest extends TestCase
             'link',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                VideoResource::$wrap => $included_fields->join(','),
+                VideoResource::$wrap => $includedFields->join(','),
             ],
         ];
 
@@ -170,11 +170,11 @@ class VideoShowTest extends TestCase
      */
     public function testEntriesByNsfw()
     {
-        $nsfw_filter = $this->faker->boolean();
+        $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'nsfw' => $nsfw_filter,
+                'nsfw' => $nsfwFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries',
         ];
@@ -188,8 +188,8 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'entries' => function ($query) use ($nsfw_filter) {
-                $query->where('nsfw', $nsfw_filter);
+            'entries' => function ($query) use ($nsfwFilter) {
+                $query->where('nsfw', $nsfwFilter);
             },
         ])
         ->first();
@@ -215,11 +215,11 @@ class VideoShowTest extends TestCase
      */
     public function testEntriesBySpoiler()
     {
-        $spoiler_filter = $this->faker->boolean();
+        $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'spoiler' => $spoiler_filter,
+                'spoiler' => $spoilerFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries',
         ];
@@ -233,8 +233,8 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'entries' => function ($query) use ($spoiler_filter) {
-                $query->where('spoiler', $spoiler_filter);
+            'entries' => function ($query) use ($spoilerFilter) {
+                $query->where('spoiler', $spoilerFilter);
             },
         ])
         ->first();
@@ -260,12 +260,12 @@ class VideoShowTest extends TestCase
      */
     public function testEntriesByVersion()
     {
-        $version_filter = $this->faker->randomDigitNotNull;
-        $excluded_version = $version_filter + 1;
+        $versionFilter = $this->faker->randomDigitNotNull;
+        $excludedVersion = $versionFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'version' => $version_filter,
+                'version' => $versionFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries',
         ];
@@ -276,15 +276,15 @@ class VideoShowTest extends TestCase
                     ->count($this->faker->randomDigitNotNull)
                     ->for(Theme::factory()->for(Anime::factory()))
                     ->state(new Sequence(
-                        ['version' => $version_filter],
-                        ['version' => $excluded_version],
+                        ['version' => $versionFilter],
+                        ['version' => $excludedVersion],
                     ))
             )
             ->create();
 
         $video = Video::with([
-            'entries' => function ($query) use ($version_filter) {
-                $query->where('version', $version_filter);
+            'entries' => function ($query) use ($versionFilter) {
+                $query->where('version', $versionFilter);
             },
         ])
         ->first();
@@ -310,12 +310,12 @@ class VideoShowTest extends TestCase
      */
     public function testThemesByGroup()
     {
-        $group_filter = $this->faker->word();
-        $excluded_group = $this->faker->word();
+        $groupFilter = $this->faker->word();
+        $excludedGroup = $this->faker->word();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'group' => $group_filter,
+                'group' => $groupFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.theme',
         ];
@@ -328,15 +328,15 @@ class VideoShowTest extends TestCase
                         Theme::factory()
                             ->for(Anime::factory())
                             ->state([
-                                'group' => $this->faker->boolean() ? $group_filter : $excluded_group,
+                                'group' => $this->faker->boolean() ? $groupFilter : $excludedGroup,
                             ])
                     )
             )
             ->create();
 
         $video = Video::with([
-            'entries.theme' => function ($query) use ($group_filter) {
-                $query->where('group', $group_filter);
+            'entries.theme' => function ($query) use ($groupFilter) {
+                $query->where('group', $groupFilter);
             },
         ])
         ->first();
@@ -362,12 +362,12 @@ class VideoShowTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequence_filter = $this->faker->randomDigitNotNull;
-        $excluded_sequence = $sequence_filter + 1;
+        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'sequence' => $sequence_filter,
+                'sequence' => $sequenceFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.theme',
         ];
@@ -380,15 +380,15 @@ class VideoShowTest extends TestCase
                         Theme::factory()
                             ->for(Anime::factory())
                             ->state([
-                                'sequence' => $this->faker->boolean() ? $sequence_filter : $excluded_sequence,
+                                'sequence' => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
                             ])
                     )
             )
             ->create();
 
         $video = Video::with([
-            'entries.theme' => function ($query) use ($sequence_filter) {
-                $query->where('sequence', $sequence_filter);
+            'entries.theme' => function ($query) use ($sequenceFilter) {
+                $query->where('sequence', $sequenceFilter);
             },
         ])
         ->first();
@@ -414,11 +414,11 @@ class VideoShowTest extends TestCase
      */
     public function testThemesByType()
     {
-        $type_filter = ThemeType::getRandomInstance();
+        $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'type' => $type_filter->key,
+                'type' => $typeFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.theme',
         ];
@@ -432,8 +432,8 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'entries.theme' => function ($query) use ($type_filter) {
-                $query->where('type', $type_filter->value);
+            'entries.theme' => function ($query) use ($typeFilter) {
+                $query->where('type', $typeFilter->value);
             },
         ])
         ->first();
@@ -459,11 +459,11 @@ class VideoShowTest extends TestCase
      */
     public function testAnimeBySeason()
     {
-        $season_filter = AnimeSeason::getRandomInstance();
+        $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'season' => $season_filter->key,
+                'season' => $seasonFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.theme.anime',
         ];
@@ -477,8 +477,8 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'entries.theme.anime' => function ($query) use ($season_filter) {
-                $query->where('season', $season_filter->value);
+            'entries.theme.anime' => function ($query) use ($seasonFilter) {
+                $query->where('season', $seasonFilter->value);
             },
         ])
         ->first();
@@ -504,12 +504,12 @@ class VideoShowTest extends TestCase
      */
     public function testAnimeByYear()
     {
-        $year_filter = intval($this->faker->year());
-        $excluded_year = $year_filter + 1;
+        $yearFilter = intval($this->faker->year());
+        $excludedYear = $yearFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'year' => $year_filter,
+                'year' => $yearFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.theme.anime',
         ];
@@ -523,7 +523,7 @@ class VideoShowTest extends TestCase
                             ->for(
                                 Anime::factory()
                                     ->state([
-                                        'year' => $this->faker->boolean() ? $year_filter : $excluded_year,
+                                        'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                                     ])
                             )
                     )
@@ -531,8 +531,8 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'entries.theme.anime' => function ($query) use ($year_filter) {
-                $query->where('year', $year_filter);
+            'entries.theme.anime' => function ($query) use ($yearFilter) {
+                $query->where('year', $yearFilter);
             },
         ])
         ->first();

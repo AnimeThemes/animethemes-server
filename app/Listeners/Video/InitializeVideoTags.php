@@ -4,6 +4,7 @@ namespace App\Listeners\Video;
 
 use App\Enums\VideoSource;
 use App\Events\Video\VideoEvent;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -12,7 +13,7 @@ class InitializeVideoTags
     /**
      * Handle the event.
      *
-     * @param  \App\Events\Video\VideoEvent  $event
+     * @param \App\Events\Video\VideoEvent $event
      * @return void
      */
     public function handle(VideoEvent $event)
@@ -22,11 +23,11 @@ class InitializeVideoTags
         try {
             // Match Tags of filename
             // Format: "{Base Name}-{OP|ED}{Sequence}v{Version}-{Tags}"
-            preg_match('/^.*\-(?:OP|ED).*\-(.*)$/', $video->filename, $tags_match);
+            preg_match('/^.*\-(?:OP|ED).*\-(.*)$/', $video->filename, $tagsMatch);
 
             // Check if the filename has tags, which is not guaranteed
-            if (! empty($tags_match)) {
-                $tags = $tags_match[1];
+            if (! empty($tagsMatch)) {
+                $tags = $tagsMatch[1];
 
                 // Set true/false if tag is included/excluded
                 $video->nc = Str::contains($tags, 'NC');
@@ -46,16 +47,16 @@ class InitializeVideoTags
                 }
 
                 // Set source type for first matching tag to key
-                foreach (VideoSource::getKeys() as $source_key) {
-                    if (Str::contains($tags, $source_key)) {
-                        $video->source = VideoSource::getValue($source_key);
+                foreach (VideoSource::getKeys() as $sourceKey) {
+                    if (Str::contains($tags, $sourceKey)) {
+                        $video->source = VideoSource::getValue($sourceKey);
                         break;
                     }
                 }
 
                 // Note: Our naming convention does not include Overlap type
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Log::error($exception);
         }
     }

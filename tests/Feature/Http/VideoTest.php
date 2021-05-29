@@ -31,7 +31,7 @@ class VideoTest extends TestCase
 
         $response = $this->get(route('video.show', ['video' => $video]));
 
-        $response->assertRedirect(route('welcome.index'));
+        $response->assertRedirect(route('welcome'));
     }
 
     /**
@@ -49,7 +49,7 @@ class VideoTest extends TestCase
 
         $response = $this->get(route('video.show', ['video' => $video]));
 
-        $response->assertRedirect(route('welcome.index'));
+        $response->assertRedirect(route('welcome'));
     }
 
     /**
@@ -63,15 +63,15 @@ class VideoTest extends TestCase
 
         $fs = Storage::fake('videos');
         $file = File::fake()->create($this->faker->word().'.webm');
-        $fs_file = $fs->put('', $file);
-        $fs_pathinfo = pathinfo(strval($fs_file));
+        $fsFile = $fs->put('', $file);
+        $fsPathinfo = pathinfo(strval($fsFile));
 
         $video = Video::create([
-            'basename' => $fs_pathinfo['basename'],
-            'filename' => $fs_pathinfo['filename'],
+            'basename' => $fsPathinfo['basename'],
+            'filename' => $fsPathinfo['filename'],
             'path' => $this->faker->word(),
             'size' => $this->faker->randomNumber(),
-            'mimetype' => MimeType::fromFilename($fs_pathinfo['basename']),
+            'mimetype' => MimeType::fromFilename($fsPathinfo['basename']),
         ]);
 
         $response = $this->get(route('video.show', ['video' => $video]));

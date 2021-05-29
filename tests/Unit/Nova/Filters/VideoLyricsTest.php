@@ -45,7 +45,7 @@ class VideoLyricsTest extends TestCase
      */
     public function testFilter()
     {
-        $lyrics_filter = $this->faker->boolean();
+        $lyricsFilter = $this->faker->boolean();
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull)
@@ -53,12 +53,12 @@ class VideoLyricsTest extends TestCase
 
         $filter = $this->novaFilter(VideoLyricsFilter::class);
 
-        $response = $filter->apply(Video::class, $lyrics_filter);
+        $response = $filter->apply(Video::class, $lyricsFilter);
 
-        $filtered_videos = Video::where('lyrics', $lyrics_filter)->get();
-        foreach ($filtered_videos as $filtered_video) {
-            $response->assertContains($filtered_video);
+        $filteredVideos = Video::where('lyrics', $lyricsFilter)->get();
+        foreach ($filteredVideos as $filteredVideo) {
+            $response->assertContains($filteredVideo);
         }
-        $response->assertCount($filtered_videos->count());
+        $response->assertCount($filteredVideos->count());
     }
 }

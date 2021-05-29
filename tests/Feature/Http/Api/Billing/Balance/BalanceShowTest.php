@@ -71,15 +71,15 @@ class BalanceShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(BalanceResource::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(BalanceResource::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         Balance::factory()->create();
-        $balance = Balance::with($included_paths->all())->first();
+        $balance = Balance::with($includedPaths->all())->first();
 
         $response = $this->get(route('api.balance.show', ['balance' => $balance]));
 
@@ -111,14 +111,14 @@ class BalanceShowTest extends TestCase
             'service',
             'frequency',
             'usage',
-            'month_to_date_balance',
+            'month_toDateBalance',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                BalanceResource::$wrap => $included_fields->join(','),
+                BalanceResource::$wrap => $includedFields->join(','),
             ],
         ];
 

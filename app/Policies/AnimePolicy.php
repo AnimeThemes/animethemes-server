@@ -18,7 +18,7 @@ class AnimePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
+     * @param \App\Models\User $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -29,8 +29,8 @@ class AnimePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
      * @return mixed
      */
     public function view(User $user, Anime $anime)
@@ -41,7 +41,7 @@ class AnimePolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
+     * @param \App\Models\User $user
      * @return mixed
      */
     public function create(User $user)
@@ -52,8 +52,8 @@ class AnimePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
      * @return mixed
      */
     public function update(User $user, Anime $anime)
@@ -64,8 +64,8 @@ class AnimePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
      * @return mixed
      */
     public function delete(User $user, Anime $anime)
@@ -76,8 +76,8 @@ class AnimePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
      * @return mixed
      */
     public function restore(User $user, Anime $anime)
@@ -88,8 +88,8 @@ class AnimePolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
      * @return mixed
      */
     public function forceDelete(User $user, Anime $anime)
@@ -100,8 +100,8 @@ class AnimePolicy
     /**
      * Determine whether the user can attach any series to the anime.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
      * @return mixed
      */
     public function attachAnySeries(User $user, Anime $anime)
@@ -112,9 +112,9 @@ class AnimePolicy
     /**
      * Determine whether the user can attach a series to the anime.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
-     * @param  \App\Models\Series  $series
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
+     * @param \App\Models\Series $series
      * @return mixed
      */
     public function attachSeries(User $user, Anime $anime, Series $series)
@@ -129,9 +129,9 @@ class AnimePolicy
     /**
      * Determine whether the user can detach a series from the anime.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
-     * @param  \App\Models\Series  $series
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
+     * @param \App\Models\Series $series
      * @return mixed
      */
     public function detachSeries(User $user, Anime $anime, Series $series)
@@ -142,8 +142,8 @@ class AnimePolicy
     /**
      * Determine whether the user can attach any resource to the anime.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
      * @return mixed
      */
     public function attachAnyExternalResource(User $user, Anime $anime)
@@ -154,9 +154,9 @@ class AnimePolicy
     /**
      * Determine whether the user can attach a resource to the anime.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
-     * @param  \App\Models\ExternalResource  $externalResource
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
+     * @param \App\Models\ExternalResource $externalResource
      * @return mixed
      */
     public function attachExternalResource(User $user, Anime $anime, ExternalResource $externalResource)
@@ -167,9 +167,9 @@ class AnimePolicy
     /**
      * Determine whether the user can detach a resource from the anime.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
-     * @param  \App\Models\ExternalResource  $externalResource
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
+     * @param \App\Models\ExternalResource $externalResource
      * @return mixed
      */
     public function detachExternalResource(User $user, Anime $anime, ExternalResource $externalResource)
@@ -180,8 +180,8 @@ class AnimePolicy
     /**
      * Determine whether the user can attach any image to the anime.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
      * @return mixed
      */
     public function attachAnyImage(User $user, Anime $anime)
@@ -192,9 +192,9 @@ class AnimePolicy
     /**
      * Determine whether the user can attach an image to the anime.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
-     * @param  \App\Models\Image  $image
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
+     * @param \App\Models\Image $image
      * @return mixed
      */
     public function attachImage(User $user, Anime $anime, Image $image)
@@ -209,9 +209,9 @@ class AnimePolicy
     /**
      * Determine whether the user can detach an image from the anime.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Anime  $anime
-     * @param  \App\Models\Image  $image
+     * @param \App\Models\User $user
+     * @param \App\Models\Anime $anime
+     * @param \App\Models\Image $image
      * @return mixed
      */
     public function detachImage(User $user, Anime $anime, Image $image)

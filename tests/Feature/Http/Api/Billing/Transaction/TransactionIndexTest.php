@@ -67,15 +67,15 @@ class TransactionIndexTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(TransactionCollection::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(TransactionCollection::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
-        $transactions = Transaction::with($included_paths->all())->get();
+        $transactions = Transaction::with($includedPaths->all())->get();
 
         $response = $this->get(route('api.transaction.index', $parameters));
 
@@ -110,11 +110,11 @@ class TransactionIndexTest extends TestCase
             'external_id',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                TransactionResource::$wrap => $included_fields->join(','),
+                TransactionResource::$wrap => $includedFields->join(','),
             ],
         ];
 
@@ -141,19 +141,19 @@ class TransactionIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowed_sorts = collect(TransactionCollection::allowedSortFields());
-        $included_sorts = $allowed_sorts->random($this->faker->numberBetween(1, count($allowed_sorts)))->map(function ($included_sort) {
+        $allowedSorts = collect(TransactionCollection::allowedSortFields());
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
-                    ->append($included_sort)
+                    ->append($includedSort)
                     ->__toString();
             }
 
-            return $included_sort;
+            return $includedSort;
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $included_sorts->join(','),
+            QueryParser::PARAM_SORT => $includedSorts->join(','),
         ];
 
         $parser = QueryParser::make($parameters);
@@ -187,27 +187,27 @@ class TransactionIndexTest extends TestCase
      */
     public function testCreatedAtFilter()
     {
-        $created_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $createdFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'created_at' => $created_filter,
+                'created_at' => $createdFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
             Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        $transaction = Transaction::where('created_at', $created_filter)->get();
+        $transaction = Transaction::where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.transaction.index', $parameters));
 
@@ -230,27 +230,27 @@ class TransactionIndexTest extends TestCase
      */
     public function testUpdatedAtFilter()
     {
-        $updated_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $updatedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'updated_at' => $updated_filter,
+                'updated_at' => $updatedFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
             Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        $transaction = Transaction::where('updated_at', $updated_filter)->get();
+        $transaction = Transaction::where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.transaction.index', $parameters));
 
@@ -284,8 +284,8 @@ class TransactionIndexTest extends TestCase
 
         Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_transaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_transaction->each(function ($transaction) {
+        $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteTransaction->each(function ($transaction) {
             $transaction->delete();
         });
 
@@ -323,8 +323,8 @@ class TransactionIndexTest extends TestCase
 
         Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_transaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_transaction->each(function ($transaction) {
+        $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteTransaction->each(function ($transaction) {
             $transaction->delete();
         });
 
@@ -362,8 +362,8 @@ class TransactionIndexTest extends TestCase
 
         Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_transaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_transaction->each(function ($transaction) {
+        $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteTransaction->each(function ($transaction) {
             $transaction->delete();
         });
 
@@ -390,12 +390,12 @@ class TransactionIndexTest extends TestCase
      */
     public function testDeletedAtFilter()
     {
-        $deleted_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $deletedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'deleted_at' => $deleted_filter,
+                'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
@@ -403,21 +403,21 @@ class TransactionIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
             $transaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
             $transaction->each(function ($item) {
                 $item->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             $transaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
             $transaction->each(function ($item) {
                 $item->delete();
             });
         });
 
-        $transaction = Transaction::withTrashed()->where('deleted_at', $deleted_filter)->get();
+        $transaction = Transaction::withTrashed()->where('deleted_at', $deletedFilter)->get();
 
         $response = $this->get(route('api.transaction.index', $parameters));
 

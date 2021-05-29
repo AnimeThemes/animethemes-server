@@ -27,44 +27,44 @@ class DigitalOceanTransactionRepository implements Repository
     public function all()
     {
         // Do not proceed if we do not have authorization to the DO API
-        $do_bearer_token = Config::get('services.do.token');
-        if ($do_bearer_token === null) {
+        $doBearerToken = Config::get('services.do.token');
+        if ($doBearerToken === null) {
             Log::error('DO_BEARER_TOKEN must be configured in your env file.');
 
             return Collection::make();
         }
 
-        $source_transactions = [];
+        $sourceTransactions = [];
 
         try {
             $client = new Client();
 
-            $next_billing_history = 'https://api.digitalocean.com/v2/customers/my/billing_history?per_page=200';
-            while (! empty($next_billing_history)) {
+            $nextBillingHistory = 'https://api.digitalocean.com/v2/customers/my/billing_history?per_page=200';
+            while (! empty($nextBillingHistory)) {
                 // Try not to upset DO
                 sleep(rand(5, 15));
 
-                $response = $client->get($next_billing_history, [
+                $response = $client->get($nextBillingHistory, [
                     'headers' => [
                         'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer '.$do_bearer_token,
+                        'Authorization' => 'Bearer '.$doBearerToken,
                     ],
                 ]);
 
-                $billing_history_json = json_decode($response->getBody()->getContents(), true);
+                $billingHistoryJson = json_decode($response->getBody()->getContents(), true);
 
-                $billing_history = $billing_history_json['billing_history'];
-                foreach ($billing_history as $source_transaction) {
-                    $source_transactions[] = Transaction::make([
-                        'date' => DateTime::createFromFormat('!'.DateTimeInterface::RFC3339, $source_transaction['date'])->format(AllowedDateFormat::WITH_DAY),
+                $billingHistory = $billingHistoryJson['billing_history'];
+                foreach ($billingHistory as $sourceTransaction) {
+                    $sourceTransactions[] = Transaction::make([
+                        'date' => DateTime::createFromFormat('!'.DateTimeInterface::RFC3339, $sourceTransaction['date'])->format(AllowedDateFormat::WITH_DAY),
                         'service' => Service::DIGITALOCEAN,
-                        'description' => $source_transaction['description'],
-                        'amount' => $source_transaction['amount'],
-                        'external_id' => Arr::get($source_transaction, 'invoice_id', null),
+                        'description' => $sourceTransaction['description'],
+                        'amount' => $sourceTransaction['amount'],
+                        'external_id' => Arr::get($sourceTransaction, 'invoice_id', null),
                     ]);
                 }
 
-                $next_billing_history = Arr::get($billing_history_json, 'links.pages.next', null);
+                $nextBillingHistory = Arr::get($billingHistoryJson, 'links.pages.next', null);
             }
         } catch (ClientException $e) {
             Log::info($e->getMessage());
@@ -76,13 +76,13 @@ class DigitalOceanTransactionRepository implements Repository
             return Collection::make();
         }
 
-        return Collection::make($source_transactions);
+        return Collection::make($sourceTransactions);
     }
 
     /**
      * Save model to the repository.
      *
-     * @param Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @return bool
      */
     public function save(Model $model)
@@ -94,7 +94,7 @@ class DigitalOceanTransactionRepository implements Repository
     /**
      * Delete model from the repository.
      *
-     * @param Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @return bool
      */
     public function delete(Model $model)
@@ -106,7 +106,7 @@ class DigitalOceanTransactionRepository implements Repository
     /**
      * Update model in the repository.
      *
-     * @param Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @param array $attributes
      * @return bool
      */

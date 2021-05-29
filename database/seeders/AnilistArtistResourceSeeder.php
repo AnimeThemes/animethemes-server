@@ -22,8 +22,8 @@ class AnilistArtistResourceSeeder extends Seeder
     public function run()
     {
         // Get artists that have MAL resource but do not have Anilist resource
-        $artists = Artist::whereDoesntHave('externalResources', function ($resource_query) {
-            $resource_query->where('site', ResourceSite::ANILIST);
+        $artists = Artist::whereDoesntHave('externalResources', function ($resourceQuery) {
+            $resourceQuery->where('site', ResourceSite::ANILIST);
         })
         ->get();
 
@@ -54,26 +54,26 @@ class AnilistArtistResourceSeeder extends Seeder
                         'variables' => $variables,
                     ],
                 ]);
-                $anilist_resource_json = json_decode($response->getBody()->getContents());
-                $anilist_id = $anilist_resource_json->data->Staff->id;
+                $anilistResourceJson = json_decode($response->getBody()->getContents());
+                $anilistId = $anilistResourceJson->data->Staff->id;
 
                 // Check if Anilist resource already exists
-                $anilist_resource = ExternalResource::where('site', ResourceSite::ANILIST)->where('external_id', $anilist_id)->first();
+                $anilistResource = ExternalResource::where('site', ResourceSite::ANILIST)->where('external_id', $anilistId)->first();
 
                 // Create Anilist resource if it doesn't already exist
-                if (is_null($anilist_resource)) {
-                    Log::info("Creating anilist resource '{$anilist_id}' for artist '{$artist->name}'");
-                    $anilist_resource = ExternalResource::create([
+                if (is_null($anilistResource)) {
+                    Log::info("Creating anilist resource '{$anilistId}' for artist '{$artist->name}'");
+                    $anilistResource = ExternalResource::create([
                         'site' => ResourceSite::ANILIST,
-                        'link' => "https://anilist.co/staff/{$anilist_id}/",
-                        'external_id' => $anilist_id,
+                        'link' => "https://anilist.co/staff/{$anilistId}/",
+                        'external_id' => $anilistId,
                     ]);
                 }
 
                 // Attach Anilist resource to artist
-                if (ArtistResource::where($artist->getKeyName(), $artist->getKey())->where($anilist_resource->getKeyName(), $anilist_resource->getKey())->doesntExist()) {
-                    Log::info("Attaching resource '{$anilist_resource->link}' to artist '{$artist->name}'");
-                    $anilist_resource->artists()->attach($artist);
+                if (ArtistResource::where($artist->getKeyName(), $artist->getKey())->where($anilistResource->getKeyName(), $anilistResource->getKey())->doesntExist()) {
+                    Log::info("Attaching resource '{$anilistResource->link}' to artist '{$artist->name}'");
+                    $anilistResource->artists()->attach($artist);
                 }
             } catch (ClientException $e) {
                 // We may not have a match for this MAL resource

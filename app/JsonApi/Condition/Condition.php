@@ -3,7 +3,6 @@
 namespace App\JsonApi\Condition;
 
 use App\Enums\Filter\BinaryLogicalOperator;
-use App\Enums\Filter\ComparisonOperator;
 use App\JsonApi\Filter\Filter;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,22 +22,22 @@ abstract class Condition
     /**
      * The predicate of the condition.
      *
-     * @var Predicate
+     * @var \App\JsonApi\Condition\Predicate
      */
     protected $predicate;
 
     /**
      * The logical operator of the condition.
      *
-     * @var BinaryLogicalOperator
+     * @var \App\Enums\Filter\BinaryLogicalOperator
      */
     protected $operator;
 
     /**
      * Create a new condition instance.
      *
-     * @param Predicate $predicate
-     * @param BinaryLogicalOperator $operator
+     * @param \App\JsonApi\Condition\Predicate $predicate
+     * @param \App\Enums\Filter\BinaryLogicalOperator $operator
      * @param string $scope
      */
     public function __construct(
@@ -74,7 +73,7 @@ abstract class Condition
     /**
      * Get the comparison operator.
      *
-     * @return ComparisonOperator|null $operator
+     * @return \App\Enums\Filter\ComparisonOperator|null $operator
      */
     public function getComparisonOperator()
     {
@@ -84,7 +83,7 @@ abstract class Condition
     /**
      * Get the logical operator.
      *
-     * @return BinaryLogicalOperator
+     * @return \App\Enums\Filter\BinaryLogicalOperator
      */
     public function getLogicalOperator()
     {
@@ -114,18 +113,18 @@ abstract class Condition
     /**
      * Apply condition to builder through filter.
      *
-     * @param Builder $builder
-     * @param Filter $filter
-     * @return Builder $builder
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param \App\JsonApi\Filter\Filter $filter
+     * @return \Illuminate\Database\Eloquent\Builder $builder
      */
     abstract public function apply(Builder $builder, Filter $filter);
 
     /**
      * Apply condition to builder through filter.
      *
-     * @param BoolQueryBuilder $builder
-     * @param Filter $filter
-     * @return BoolQueryBuilder $builder
+     * @param \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
+     * @param \App\JsonApi\Filter\Filter $filter
+     * @return \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
      */
     abstract public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter);
 
@@ -134,7 +133,7 @@ abstract class Condition
      *
      * @param string $filterParam
      * @param string $filterValues
-     * @return Condition
+     * @return \App\JsonApi\Condition\Condition
      */
     public static function make(string $filterParam, string $filterValues)
     {

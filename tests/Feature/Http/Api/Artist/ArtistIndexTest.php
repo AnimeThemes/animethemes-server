@@ -80,18 +80,18 @@ class ArtistIndexTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(ArtistCollection::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(ArtistCollection::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
         Artist::factory()->jsonApiResource()->create();
-        $artists = Artist::with($included_paths->all())->get();
+        $artists = Artist::with($includedPaths->all())->get();
 
         $response = $this->get(route('api.artist.index', $parameters));
 
@@ -126,11 +126,11 @@ class ArtistIndexTest extends TestCase
             'deleted_at',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                ArtistResource::$wrap => $included_fields->join(','),
+                ArtistResource::$wrap => $includedFields->join(','),
             ],
         ];
 
@@ -159,19 +159,19 @@ class ArtistIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $allowed_sorts = collect(ArtistCollection::allowedSortFields());
-        $included_sorts = $allowed_sorts->random($this->faker->numberBetween(1, count($allowed_sorts)))->map(function ($included_sort) {
+        $allowedSorts = collect(ArtistCollection::allowedSortFields());
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
-                    ->append($included_sort)
+                    ->append($includedSort)
                     ->__toString();
             }
 
-            return $included_sort;
+            return $includedSort;
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $included_sorts->join(','),
+            QueryParser::PARAM_SORT => $includedSorts->join(','),
         ];
 
         $parser = QueryParser::make($parameters);
@@ -207,27 +207,27 @@ class ArtistIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $created_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $createdFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'created_at' => $created_filter,
+                'created_at' => $createdFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
             Artist::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Artist::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        $artist = Artist::where('created_at', $created_filter)->get();
+        $artist = Artist::where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.artist.index', $parameters));
 
@@ -252,27 +252,27 @@ class ArtistIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $updated_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $updatedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'updated_at' => $updated_filter,
+                'updated_at' => $updatedFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
             Artist::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Artist::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        $artist = Artist::where('updated_at', $updated_filter)->get();
+        $artist = Artist::where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.artist.index', $parameters));
 
@@ -308,8 +308,8 @@ class ArtistIndexTest extends TestCase
 
         Artist::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_artist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_artist->each(function ($artist) {
+        $deleteArtist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteArtist->each(function ($artist) {
             $artist->delete();
         });
 
@@ -349,8 +349,8 @@ class ArtistIndexTest extends TestCase
 
         Artist::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_artist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_artist->each(function ($artist) {
+        $deleteArtist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteArtist->each(function ($artist) {
             $artist->delete();
         });
 
@@ -390,8 +390,8 @@ class ArtistIndexTest extends TestCase
 
         Artist::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_artist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_artist->each(function ($artist) {
+        $deleteArtist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteArtist->each(function ($artist) {
             $artist->delete();
         });
 
@@ -420,12 +420,12 @@ class ArtistIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $deleted_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $deletedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'deleted_at' => $deleted_filter,
+                'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
@@ -433,21 +433,21 @@ class ArtistIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
             $artist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
             $artist->each(function ($item) {
                 $item->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             $artist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
             $artist->each(function ($item) {
                 $item->delete();
             });
         });
 
-        $artist = Artist::withTrashed()->where('deleted_at', $deleted_filter)->get();
+        $artist = Artist::withTrashed()->where('deleted_at', $deletedFilter)->get();
 
         $response = $this->get(route('api.artist.index', $parameters));
 
@@ -470,12 +470,12 @@ class ArtistIndexTest extends TestCase
      */
     public function testThemesByGroup()
     {
-        $group_filter = $this->faker->word();
-        $excluded_group = $this->faker->word();
+        $groupFilter = $this->faker->word();
+        $excludedGroup = $this->faker->word();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'group' => $group_filter,
+                'group' => $groupFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'songs.themes',
         ];
@@ -489,8 +489,8 @@ class ArtistIndexTest extends TestCase
                             ->for(Anime::factory())
                             ->count($this->faker->randomDigitNotNull)
                             ->state(new Sequence(
-                                ['group' => $group_filter],
-                                ['group' => $excluded_group],
+                                ['group' => $groupFilter],
+                                ['group' => $excludedGroup],
                             ))
                     )
             )
@@ -498,8 +498,8 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'songs.themes' => function ($query) use ($group_filter) {
-                $query->where('group', $group_filter);
+            'songs.themes' => function ($query) use ($groupFilter) {
+                $query->where('group', $groupFilter);
             },
         ])
         ->get();
@@ -525,12 +525,12 @@ class ArtistIndexTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequence_filter = $this->faker->randomDigitNotNull;
-        $excluded_sequence = $sequence_filter + 1;
+        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'sequence' => $sequence_filter,
+                'sequence' => $sequenceFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'songs.themes',
         ];
@@ -544,8 +544,8 @@ class ArtistIndexTest extends TestCase
                             ->for(Anime::factory())
                             ->count($this->faker->randomDigitNotNull)
                             ->state(new Sequence(
-                                ['sequence' => $sequence_filter],
-                                ['sequence' => $excluded_sequence],
+                                ['sequence' => $sequenceFilter],
+                                ['sequence' => $excludedSequence],
                             ))
                     )
             )
@@ -553,8 +553,8 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'songs.themes' => function ($query) use ($sequence_filter) {
-                $query->where('sequence', $sequence_filter);
+            'songs.themes' => function ($query) use ($sequenceFilter) {
+                $query->where('sequence', $sequenceFilter);
             },
         ])
         ->get();
@@ -580,11 +580,11 @@ class ArtistIndexTest extends TestCase
      */
     public function testThemesByType()
     {
-        $type_filter = ThemeType::getRandomInstance();
+        $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'type' => $type_filter->key,
+                'type' => $typeFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'songs.themes',
         ];
@@ -603,8 +603,8 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'songs.themes' => function ($query) use ($type_filter) {
-                $query->where('type', $type_filter->value);
+            'songs.themes' => function ($query) use ($typeFilter) {
+                $query->where('type', $typeFilter->value);
             },
         ])
         ->get();
@@ -630,11 +630,11 @@ class ArtistIndexTest extends TestCase
      */
     public function testAnimeBySeason()
     {
-        $season_filter = AnimeSeason::getRandomInstance();
+        $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'season' => $season_filter->key,
+                'season' => $seasonFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'songs.themes.anime',
         ];
@@ -653,8 +653,8 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'songs.themes.anime' => function ($query) use ($season_filter) {
-                $query->where('season', $season_filter->value);
+            'songs.themes.anime' => function ($query) use ($seasonFilter) {
+                $query->where('season', $seasonFilter->value);
             },
         ])
         ->get();
@@ -680,12 +680,12 @@ class ArtistIndexTest extends TestCase
      */
     public function testAnimeByYear()
     {
-        $year_filter = intval($this->faker->year());
-        $excluded_year = $year_filter + 1;
+        $yearFilter = intval($this->faker->year());
+        $excludedYear = $yearFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'year' => $year_filter,
+                'year' => $yearFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'songs.themes.anime',
         ];
@@ -699,7 +699,7 @@ class ArtistIndexTest extends TestCase
                             ->for(
                                 Anime::factory()
                                     ->state([
-                                        'year' => $this->faker->boolean() ? $year_filter : $excluded_year,
+                                        'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                                     ])
                             )
                             ->count($this->faker->randomDigitNotNull)
@@ -709,8 +709,8 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'songs.themes.anime' => function ($query) use ($year_filter) {
-                $query->where('year', $year_filter);
+            'songs.themes.anime' => function ($query) use ($yearFilter) {
+                $query->where('year', $yearFilter);
             },
         ])
         ->get();
@@ -738,11 +738,11 @@ class ArtistIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $site_filter = ResourceSite::getRandomInstance();
+        $siteFilter = ResourceSite::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'site' => $site_filter->key,
+                'site' => $siteFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'externalResources',
         ];
@@ -753,8 +753,8 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'externalResources' => function ($query) use ($site_filter) {
-                $query->where('site', $site_filter->value);
+            'externalResources' => function ($query) use ($siteFilter) {
+                $query->where('site', $siteFilter->value);
             },
         ])
         ->get();
@@ -782,11 +782,11 @@ class ArtistIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $facet_filter = ImageFacet::getRandomInstance();
+        $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'facet' => $facet_filter->key,
+                'facet' => $facetFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'images',
         ];
@@ -797,8 +797,8 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'images' => function ($query) use ($facet_filter) {
-                $query->where('facet', $facet_filter->value);
+            'images' => function ($query) use ($facetFilter) {
+                $query->where('facet', $facetFilter->value);
             },
         ])
         ->get();

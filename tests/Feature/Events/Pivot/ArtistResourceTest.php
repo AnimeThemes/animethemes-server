@@ -63,7 +63,7 @@ class ArtistResourceTest extends TestCase
         $artist = Artist::factory()->create();
         $resource = ExternalResource::factory()->create();
 
-        $artist_resource = ArtistResource::factory()
+        $artistResource = ArtistResource::factory()
             ->for($artist, 'artist')
             ->for($resource, 'resource')
             ->create();
@@ -73,8 +73,8 @@ class ArtistResourceTest extends TestCase
             ->for($resource, 'resource')
             ->make();
 
-        $artist_resource->fill($changes->getAttributes());
-        $artist_resource->save();
+        $artistResource->fill($changes->getAttributes());
+        $artistResource->save();
 
         Event::assertDispatched(ArtistResourceUpdated::class);
     }

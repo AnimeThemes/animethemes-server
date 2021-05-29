@@ -136,7 +136,7 @@ class ThemeController extends BaseController
      *     )
      * )
      *
-     * @param  \App\Models\Theme  $theme
+     * @param \App\Models\Theme $theme
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Theme $theme)

@@ -18,18 +18,18 @@ class FilterTest extends TestCase
      */
     public function testGetKey()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
         $parameters = [];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter
+        $filter = new class($parser, $filterField) extends Filter
         {
             // We don't need to do any customization
         };
 
-        $this->assertEquals($filter_field, $filter->getKey());
+        $this->assertEquals($filterField, $filter->getKey());
     }
 
     /**
@@ -39,26 +39,26 @@ class FilterTest extends TestCase
      */
     public function testGetValues()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
-        $filter_values = $this->faker->words($this->faker->randomDigitNotNull);
+        $filterValues = $this->faker->words($this->faker->randomDigitNotNull);
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => implode(',', $filter_values),
+                $filterField => implode(',', $filterValues),
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter
+        $filter = new class($parser, $filterField) extends Filter
         {
             // We don't need to do any customization
         };
 
         $conditions = collect($filter->getConditions());
 
-        $this->assertEmpty(array_diff($filter_values, $filter->getFilterValues($conditions->first())));
+        $this->assertEmpty(array_diff($filterValues, $filter->getFilterValues($conditions->first())));
     }
 
     /**
@@ -68,22 +68,22 @@ class FilterTest extends TestCase
      */
     public function testShouldApplyIfHasFilter()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => $this->faker->word(),
+                $filterField => $this->faker->word(),
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter
+        $filter = new class($parser, $filterField) extends Filter
         {
             // We don't need to do any customization
         };
 
-        $this->assertTrue($filter->shouldApplyFilter($parser->getConditions($filter_field)[0]));
+        $this->assertTrue($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -94,24 +94,24 @@ class FilterTest extends TestCase
     public function testShouldNotApplyIfScopeDoesNotMatch()
     {
         $scope = $this->faker->word();
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 $scope => [
-                    $filter_field => $this->faker->word(),
+                    $filterField => $this->faker->word(),
                 ],
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter
+        $filter = new class($parser, $filterField) extends Filter
         {
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->scope($this->faker->word())->shouldApplyFilter($parser->getConditions($filter_field)[0]));
+        $this->assertFalse($filter->scope($this->faker->word())->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -122,24 +122,24 @@ class FilterTest extends TestCase
     public function testShouldApplyIfScopeMatches()
     {
         $scope = $this->faker->word();
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
                 $scope => [
-                    $filter_field => $this->faker->word(),
+                    $filterField => $this->faker->word(),
                 ],
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter
+        $filter = new class($parser, $filterField) extends Filter
         {
             // We don't need to do any customization
         };
 
-        $this->assertTrue($filter->scope($scope)->shouldApplyFilter($parser->getConditions($filter_field)[0]));
+        $this->assertTrue($filter->scope($scope)->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -149,13 +149,13 @@ class FilterTest extends TestCase
      */
     public function testDefaultScope()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
         $parameters = [];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter
+        $filter = new class($parser, $filterField) extends Filter
         {
             // We don't need to do any customization
         };
@@ -171,18 +171,18 @@ class FilterTest extends TestCase
     public function testSetScope()
     {
         $scope = $this->faker->word();
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
         $parameters = [];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends Filter
+        $filter = new class($parser, $filterField) extends Filter
         {
             // We don't need to do any customization
         };
 
-        $scoped_filter = $filter->scope($scope);
+        $scopedFilter = $filter->scope($scope);
 
         $this->assertEquals($scope, $filter->getScope());
     }

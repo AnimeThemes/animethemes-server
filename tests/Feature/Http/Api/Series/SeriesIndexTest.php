@@ -73,11 +73,11 @@ class SeriesIndexTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(SeriesCollection::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(SeriesCollection::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         Series::factory()
@@ -85,7 +85,7 @@ class SeriesIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $series = Series::with($included_paths->all())->get();
+        $series = Series::with($includedPaths->all())->get();
 
         $response = $this->get(route('api.series.index', $parameters));
 
@@ -120,11 +120,11 @@ class SeriesIndexTest extends TestCase
             'deleted_at',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                SeriesResource::$wrap => $included_fields->join(','),
+                SeriesResource::$wrap => $includedFields->join(','),
             ],
         ];
 
@@ -153,19 +153,19 @@ class SeriesIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $allowed_sorts = collect(SeriesCollection::allowedSortFields());
-        $included_sorts = $allowed_sorts->random($this->faker->numberBetween(1, count($allowed_sorts)))->map(function ($included_sort) {
+        $allowedSorts = collect(SeriesCollection::allowedSortFields());
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
-                    ->append($included_sort)
+                    ->append($includedSort)
                     ->__toString();
             }
 
-            return $included_sort;
+            return $includedSort;
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $included_sorts->join(','),
+            QueryParser::PARAM_SORT => $includedSorts->join(','),
         ];
 
         $parser = QueryParser::make($parameters);
@@ -201,27 +201,27 @@ class SeriesIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $created_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $createdFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'created_at' => $created_filter,
+                'created_at' => $createdFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
             Series::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Series::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        $series = Series::where('created_at', $created_filter)->get();
+        $series = Series::where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.series.index', $parameters));
 
@@ -246,27 +246,27 @@ class SeriesIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $updated_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $updatedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'updated_at' => $updated_filter,
+                'updated_at' => $updatedFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
             Series::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Series::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        $series = Series::where('updated_at', $updated_filter)->get();
+        $series = Series::where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.series.index', $parameters));
 
@@ -302,8 +302,8 @@ class SeriesIndexTest extends TestCase
 
         Series::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_series->each(function ($series) {
+        $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteSeries->each(function ($series) {
             $series->delete();
         });
 
@@ -343,8 +343,8 @@ class SeriesIndexTest extends TestCase
 
         Series::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_series->each(function ($series) {
+        $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteSeries->each(function ($series) {
             $series->delete();
         });
 
@@ -384,8 +384,8 @@ class SeriesIndexTest extends TestCase
 
         Series::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_series->each(function ($series) {
+        $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteSeries->each(function ($series) {
             $series->delete();
         });
 
@@ -414,12 +414,12 @@ class SeriesIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $deleted_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $deletedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'deleted_at' => $deleted_filter,
+                'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
@@ -427,21 +427,21 @@ class SeriesIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
             $series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
             $series->each(function ($item) {
                 $item->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             $series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
             $series->each(function ($item) {
                 $item->delete();
             });
         });
 
-        $series = Series::withTrashed()->where('deleted_at', $deleted_filter)->get();
+        $series = Series::withTrashed()->where('deleted_at', $deletedFilter)->get();
 
         $response = $this->get(route('api.series.index', $parameters));
 
@@ -466,11 +466,11 @@ class SeriesIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $season_filter = AnimeSeason::getRandomInstance();
+        $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'season' => $season_filter->key,
+                'season' => $seasonFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -481,8 +481,8 @@ class SeriesIndexTest extends TestCase
             ->create();
 
         $series = Series::with([
-            'anime' => function ($query) use ($season_filter) {
-                $query->where('season', $season_filter->value);
+            'anime' => function ($query) use ($seasonFilter) {
+                $query->where('season', $seasonFilter->value);
             },
         ])
         ->get();
@@ -510,11 +510,11 @@ class SeriesIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $year_filter = $this->faker->numberBetween(2000, 2002);
+        $yearFilter = $this->faker->numberBetween(2000, 2002);
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'year' => $year_filter,
+                'year' => $yearFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -533,8 +533,8 @@ class SeriesIndexTest extends TestCase
             ->create();
 
         $series = Series::with([
-            'anime' => function ($query) use ($year_filter) {
-                $query->where('year', $year_filter);
+            'anime' => function ($query) use ($yearFilter) {
+                $query->where('year', $yearFilter);
             },
         ])
         ->get();

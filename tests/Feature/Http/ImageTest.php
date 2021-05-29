@@ -30,7 +30,7 @@ class ImageTest extends TestCase
 
         $response = $this->get(route('image.show', ['image' => $image]));
 
-        $response->assertRedirect(route('welcome.index'));
+        $response->assertRedirect(route('welcome'));
     }
 
     /**
@@ -42,14 +42,14 @@ class ImageTest extends TestCase
     {
         $fs = Storage::fake('images');
         $file = File::fake()->image($this->faker->word().'.jpg');
-        $fs_file = $fs->put('', $file);
-        $fs_pathinfo = pathinfo(strval($fs_file));
+        $fsFile = $fs->put('', $file);
+        $fsPathinfo = pathinfo(strval($fsFile));
 
         $image = Image::create([
-            'path' => $fs_file,
+            'path' => $fsFile,
             'facet' => ImageFacet::getRandomValue(),
             'size' => $this->faker->randomNumber(),
-            'mimetype' => MimeType::fromFilename($fs_pathinfo['basename']),
+            'mimetype' => MimeType::fromFilename($fsPathinfo['basename']),
         ]);
 
         $response = $this->get(route('image.show', ['image' => $image]));

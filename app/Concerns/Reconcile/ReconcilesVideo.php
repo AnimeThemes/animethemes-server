@@ -13,9 +13,9 @@ trait ReconcilesVideo
     /**
      * Perform set operation for create and delete steps.
      *
-     * @param Collection $a
-     * @param Collection $b
-     * @return Collection
+     * @param \Illuminate\Support\Collection $a
+     * @param \Illuminate\Support\Collection $b
+     * @return \Illuminate\Support\Collection
      */
     protected function diffForCreateDelete(Collection $a, Collection $b)
     {
@@ -27,9 +27,9 @@ trait ReconcilesVideo
     /**
      * Perform set operation for update step.
      *
-     * @param Collection $a
-     * @param Collection $b
-     * @return Collection
+     * @param \Illuminate\Support\Collection $a
+     * @param \Illuminate\Support\Collection $b
+     * @return \Illuminate\Support\Collection
      */
     protected function diffForUpdate(Collection $a, Collection $b)
     {
@@ -41,12 +41,12 @@ trait ReconcilesVideo
     /**
      * Get source model that has been updated for destination model.
      *
-     * @param Collection $source_models
-     * @param Model $destination_model
-     * @return Model|null
+     * @param \Illuminate\Support\Collection $sourceModels
+     * @param \Illuminate\Database\Eloquent\Model $destinationModel
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
-    protected function resolveUpdatedModel(Collection $source_models, Model $destination_model)
+    protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel)
     {
-        return $source_models->firstWhere('basename', $destination_model->getAttribute('basename'));
+        return $sourceModels->firstWhere('basename', $destinationModel->getAttribute('basename'));
     }
 }

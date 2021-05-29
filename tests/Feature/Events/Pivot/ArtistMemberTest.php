@@ -62,7 +62,7 @@ class ArtistMemberTest extends TestCase
         $artist = Artist::factory()->create();
         $member = Artist::factory()->create();
 
-        $artist_member = ArtistMember::factory()
+        $artistMember = ArtistMember::factory()
             ->for($artist, 'artist')
             ->for($member, 'member')
             ->create();
@@ -72,8 +72,8 @@ class ArtistMemberTest extends TestCase
             ->for($member, 'member')
             ->make();
 
-        $artist_member->fill($changes->getAttributes());
-        $artist_member->save();
+        $artistMember->fill($changes->getAttributes());
+        $artistMember->save();
 
         Event::assertDispatched(ArtistMemberUpdated::class);
     }

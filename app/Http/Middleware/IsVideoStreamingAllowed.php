@@ -11,14 +11,14 @@ class IsVideoStreamingAllowed
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
         if (! Config::get('app.allow_video_streams', false)) {
-            return redirect(route('welcome.index'));
+            return redirect(route('welcome'));
         }
 
         return $next($request);

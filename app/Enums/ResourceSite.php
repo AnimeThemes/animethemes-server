@@ -26,11 +26,15 @@ final class ResourceSite extends Enum implements LocalizedEnum
      * Get domain by resource site.
      * TODO: Domain should be an attribute of the type.
      *
-     * @param int $value the resource site key
+     * @param int|null $value the resource site key
      * @return string|null
      */
-    public static function getDomain($value)
+    public static function getDomain(?int $value)
     {
+        if ($value === null) {
+            return null;
+        }
+
         switch ($value) {
         case self::TWITTER:
             return 'twitter.com';
@@ -62,10 +66,10 @@ final class ResourceSite extends Enum implements LocalizedEnum
      */
     public static function valueOf($link)
     {
-        $parsed_host = parse_url($link, PHP_URL_HOST);
+        $parsedHost = parse_url($link, PHP_URL_HOST);
 
         foreach (ResourceSite::getValues() as $value) {
-            if ($parsed_host === ResourceSite::getDomain($value)) {
+            if ($parsedHost === ResourceSite::getDomain($value)) {
                 return $value;
             }
         }

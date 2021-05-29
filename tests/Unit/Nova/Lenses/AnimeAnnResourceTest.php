@@ -118,8 +118,8 @@ class AnimeAnnResourceTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filtered_animes = Anime::whereDoesntHave('externalResources', function (Builder $resource_query) {
-            $resource_query->where('site', ResourceSite::ANN);
+        $filteredAnimes = Anime::whereDoesntHave('externalResources', function (Builder $resourceQuery) {
+            $resourceQuery->where('site', ResourceSite::ANN);
         })
         ->get();
 
@@ -127,9 +127,9 @@ class AnimeAnnResourceTest extends TestCase
 
         $query = $lens->query(Anime::class);
 
-        foreach ($filtered_animes as $filtered_anime) {
-            $query->assertContains($filtered_anime);
+        foreach ($filteredAnimes as $filteredAnime) {
+            $query->assertContains($filteredAnime);
         }
-        $query->assertCount($filtered_animes->count());
+        $query->assertCount($filteredAnimes->count());
     }
 }

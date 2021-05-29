@@ -149,15 +149,15 @@ class VideoUnlinkedTest extends TestCase
             )
             ->create();
 
-        $filtered_videos = Video::whereDoesntHave('entries')->get();
+        $filteredVideos = Video::whereDoesntHave('entries')->get();
 
         $lens = $this->novaLens(VideoUnlinkedLens::class);
 
         $query = $lens->query(Video::class);
 
-        foreach ($filtered_videos as $filtered_video) {
-            $query->assertContains($filtered_video);
+        foreach ($filteredVideos as $filteredVideo) {
+            $query->assertContains($filteredVideo);
         }
-        $query->assertCount($filtered_videos->count());
+        $query->assertCount($filteredVideos->count());
     }
 }

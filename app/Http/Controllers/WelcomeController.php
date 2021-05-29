@@ -11,7 +11,7 @@ class WelcomeController extends Controller
      *
      * @return  \Illuminate\View\View
      */
-    public function index()
+    public function show()
     {
         return view('welcome', [
             'announcements' => Announcement::all(),

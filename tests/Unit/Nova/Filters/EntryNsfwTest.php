@@ -46,7 +46,7 @@ class EntryNsfwTest extends TestCase
      */
     public function testFilter()
     {
-        $nsfw_filter = $this->faker->boolean();
+        $nsfwFilter = $this->faker->boolean();
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
@@ -55,12 +55,12 @@ class EntryNsfwTest extends TestCase
 
         $filter = $this->novaFilter(EntryNsfwFilter::class);
 
-        $response = $filter->apply(Entry::class, $nsfw_filter);
+        $response = $filter->apply(Entry::class, $nsfwFilter);
 
-        $filtered_entries = Entry::where('nsfw', $nsfw_filter)->get();
-        foreach ($filtered_entries as $filtered_entry) {
-            $response->assertContains($filtered_entry);
+        $filteredEntries = Entry::where('nsfw', $nsfwFilter)->get();
+        foreach ($filteredEntries as $filteredEntry) {
+            $response->assertContains($filteredEntry);
         }
-        $response->assertCount($filtered_entries->count());
+        $response->assertCount($filteredEntries->count());
     }
 }

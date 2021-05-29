@@ -19,26 +19,26 @@ class ArtistSeeder extends Seeder
     public function run()
     {
         // Get JSON of Artist Index page content
-        $artist_wiki_contents = WikiPages::getPageContents(WikiPages::ARTIST_INDEX);
-        if ($artist_wiki_contents === null) {
+        $artistWikiContents = WikiPages::getPageContents(WikiPages::ARTIST_INDEX);
+        if ($artistWikiContents === null) {
             return;
         }
 
         // Match Artist Entries
         // Format: "[{Artist Name}](/r/AnimeThemes/wiki/artist/{Artist Slug}/)"
-        preg_match_all('/\[(.*)\]\(\/r\/AnimeThemes\/wiki\/artist\/(.*)\)/m', $artist_wiki_contents, $artist_wiki_entries, PREG_SET_ORDER);
+        preg_match_all('/\[(.*)\]\(\/r\/AnimeThemes\/wiki\/artist\/(.*)\)/m', $artistWikiContents, $artistWikiEntries, PREG_SET_ORDER);
 
-        foreach ($artist_wiki_entries as $artist_wiki_entry) {
-            $artist_name = html_entity_decode($artist_wiki_entry[1]);
-            $artist_slug = html_entity_decode($artist_wiki_entry[2]);
+        foreach ($artistWikiEntries as $artistWikiEntry) {
+            $artistName = html_entity_decode($artistWikiEntry[1]);
+            $artistSlug = html_entity_decode($artistWikiEntry[2]);
 
             // Create artist if it doesn't already exist
-            $artist = Artist::where('name', $artist_name)->where('slug', $artist_slug)->first();
+            $artist = Artist::where('name', $artistName)->where('slug', $artistSlug)->first();
             if ($artist === null) {
-                Log::info("Creating artist with name '{$artist_name}' and slug '{$artist_slug}'");
+                Log::info("Creating artist with name '{$artistName}' and slug '{$artistSlug}'");
                 $artist = Artist::create([
-                    'name' => $artist_name,
-                    'slug' => $artist_slug,
+                    'name' => $artistName,
+                    'slug' => $artistSlug,
                 ]);
             }
 
@@ -46,27 +46,27 @@ class ArtistSeeder extends Seeder
             sleep(rand(5, 15));
 
             // Get JSON of Artist Entry page content
-            $artist_link = WikiPages::getArtistPage($artist_slug);
-            $artist_resource_wiki_contents = WikiPages::getPageContents($artist_link);
-            if ($artist_resource_wiki_contents === null) {
+            $artistLink = WikiPages::getArtistPage($artistSlug);
+            $artistResourceWikiContents = WikiPages::getPageContents($artistLink);
+            if ($artistResourceWikiContents === null) {
                 continue;
             }
 
             // Match headers of Resource in Artist Entry page
             // Format: "##[{Artist Name}]({Resource Link})"
-            preg_match('/##\[.*\]\((https\:\/\/.*)\)/m', $artist_resource_wiki_contents, $artist_resource_entry);
-            $artist_resource_link = html_entity_decode($artist_resource_entry[1]);
-            preg_match('/([0-9]+)/', $artist_resource_link, $external_id);
-            $resource_site = ResourceSite::valueOf($artist_resource_link);
+            preg_match('/##\[.*\]\((https\:\/\/.*)\)/m', $artistResourceWikiContents, $artistResourceEntry);
+            $artistResourceLink = html_entity_decode($artistResourceEntry[1]);
+            preg_match('/([0-9]+)/', $artistResourceLink, $externalId);
+            $resourceSite = ResourceSite::valueOf($artistResourceLink);
 
             // Create Resource Model with link and derived site
-            $resource = ExternalResource::where('site', $resource_site)->where('link', $artist_resource_link)->first();
+            $resource = ExternalResource::where('site', $resourceSite)->where('link', $artistResourceLink)->first();
             if ($resource === null) {
-                Log::info("Creating resource with site '{$resource_site}' and link '{$artist_resource_link}'");
+                Log::info("Creating resource with site '{$resourceSite}' and link '{$artistResourceLink}'");
                 $resource = ExternalResource::create([
-                    'site' => $resource_site,
-                    'link' => $artist_resource_link,
-                    'external_id' => intval($external_id[1]),
+                    'site' => $resourceSite,
+                    'link' => $artistResourceLink,
+                    'external_id' => intval($externalId[1]),
                 ]);
             }
 

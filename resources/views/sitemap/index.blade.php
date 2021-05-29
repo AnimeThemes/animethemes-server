@@ -20,7 +20,7 @@
         <loc>{{ route('transparency.show') }}</loc>
     </url>
     <url>
-        <loc>{{ route('welcome.index') }}</loc>
+        <loc>{{ route('welcome') }}</loc>
     </url>
     <url>
         <loc>{{ url('wiki') }}</loc>

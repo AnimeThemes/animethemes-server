@@ -29,10 +29,10 @@ class ArtistCoverSeeder extends Seeder
         $fs = Storage::disk('images');
 
         foreach ($artists as $artist) {
-            $anilist_resource = $artist->externalResources()->firstWhere('site', strval(ResourceSite::ANILIST));
-            if (! is_null(optional($anilist_resource)->external_id)) {
-                $artist_cover_large = $artist->images()->firstWhere('facet', strval(ImageFacet::COVER_LARGE));
-                $artist_cover_small = $artist->images()->firstWhere('facet', strval(ImageFacet::COVER_SMALL));
+            $anilistResource = $artist->externalResources()->firstWhere('site', strval(ResourceSite::ANILIST));
+            if (! is_null(optional($anilistResource)->external_id)) {
+                $artistCoverLarge = $artist->images()->firstWhere('facet', strval(ImageFacet::COVER_LARGE));
+                $artistCoverSmall = $artist->images()->firstWhere('facet', strval(ImageFacet::COVER_SMALL));
 
                 // Try not to upset Anilist
                 sleep(rand(5, 15));
@@ -51,7 +51,7 @@ class ArtistCoverSeeder extends Seeder
 
                 // Anilist graphql variables
                 $variables = [
-                    'id' => $anilist_resource->external_id,
+                    'id' => $anilistResource->external_id,
                 ];
 
                 // Anilist graphql api call
@@ -63,46 +63,46 @@ class ArtistCoverSeeder extends Seeder
                             'variables' => $variables,
                         ],
                     ]);
-                    $anilist_resource_json = json_decode($response->getBody()->getContents());
-                    $anilist_cover_large = $anilist_resource_json->data->Staff->image->large;
-                    $anilist_cover_small = $anilist_resource_json->data->Staff->image->medium;
+                    $anilistResourceJson = json_decode($response->getBody()->getContents());
+                    $anilistCoverLarge = $anilistResourceJson->data->Staff->image->large;
+                    $anilistCoverSmall = $anilistResourceJson->data->Staff->image->medium;
 
                     // Create large cover image
-                    if (! is_null($anilist_cover_large) && is_null($artist_cover_large)) {
-                        $cover_image_response = $client->get($anilist_cover_large);
-                        $cover_image = $cover_image_response->getBody()->getContents();
-                        $cover_file = File::createWithContent(basename($anilist_cover_large), $cover_image);
-                        $cover_large = $fs->putFile('', $cover_file);
+                    if (! is_null($anilistCoverLarge) && is_null($artistCoverLarge)) {
+                        $coverImageResponse = $client->get($anilistCoverLarge);
+                        $coverImage = $coverImageResponse->getBody()->getContents();
+                        $coverFile = File::createWithContent(basename($anilistCoverLarge), $coverImage);
+                        $coverLarge = $fs->putFile('', $coverFile);
 
-                        $cover_large_image = Image::create([
+                        $coverLargeImage = Image::create([
                             'facet' => ImageFacet::COVER_LARGE,
-                            'path' => $cover_large,
-                            'size' => $cover_image_response->getHeader('Content-Length')[0],
-                            'mimetype' => $cover_image_response->getHeader('Content-Type')[0],
+                            'path' => $coverLarge,
+                            'size' => $coverImageResponse->getHeader('Content-Length')[0],
+                            'mimetype' => $coverImageResponse->getHeader('Content-Type')[0],
                         ]);
 
                         // Attach large cover to artist
-                        Log::info("Attaching image '{$cover_large_image->path}' to artist '{$artist->name}'");
-                        $cover_large_image->artists()->attach($artist);
+                        Log::info("Attaching image '{$coverLargeImage->path}' to artist '{$artist->name}'");
+                        $coverLargeImage->artists()->attach($artist);
                     }
 
                     // Create small cover image
-                    if (! is_null($anilist_cover_small) && is_null($artist_cover_small)) {
-                        $cover_image_response = $client->get($anilist_cover_small);
-                        $cover_image = $cover_image_response->getBody()->getContents();
-                        $cover_file = File::createWithContent(basename($anilist_cover_small), $cover_image);
-                        $cover_small = $fs->putFile('', $cover_file);
+                    if (! is_null($anilistCoverSmall) && is_null($artistCoverSmall)) {
+                        $coverImageResponse = $client->get($anilistCoverSmall);
+                        $coverImage = $coverImageResponse->getBody()->getContents();
+                        $coverFile = File::createWithContent(basename($anilistCoverSmall), $coverImage);
+                        $coverSmall = $fs->putFile('', $coverFile);
 
-                        $cover_small_image = Image::create([
+                        $coverSmallImage = Image::create([
                             'facet' => ImageFacet::COVER_SMALL,
-                            'path' => $cover_small,
-                            'size' => $cover_image_response->getHeader('Content-Length')[0],
-                            'mimetype' => $cover_image_response->getHeader('Content-Type')[0],
+                            'path' => $coverSmall,
+                            'size' => $coverImageResponse->getHeader('Content-Length')[0],
+                            'mimetype' => $coverImageResponse->getHeader('Content-Type')[0],
                         ]);
 
                         // Attach large cover to artist
-                        Log::info("Attaching image '{$cover_small_image->path}' to artist '{$artist->name}'");
-                        $cover_small_image->artists()->attach($artist);
+                        Log::info("Attaching image '{$coverSmallImage->path}' to artist '{$artist->name}'");
+                        $coverSmallImage->artists()->attach($artist);
                     }
                 } catch (ClientException $e) {
                     // We may not have a match for this MAL resource
@@ -122,13 +122,13 @@ class ArtistCoverSeeder extends Seeder
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    private function getUnseededArtists()
+    protected function getUnseededArtists()
     {
         return Artist::query()
-            ->whereHas('externalResources', function ($resource_query) {
-                $resource_query->where('site', ResourceSite::ANILIST);
-            })->whereDoesntHave('images', function ($image_query) {
-                $image_query->whereIn('facet', [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
+            ->whereHas('externalResources', function ($resourceQuery) {
+                $resourceQuery->where('site', ResourceSite::ANILIST);
+            })->whereDoesntHave('images', function ($imageQuery) {
+                $imageQuery->whereIn('facet', [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
             })
             ->get();
     }

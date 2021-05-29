@@ -18,24 +18,24 @@ class BooleanFilterTest extends TestCase
      */
     public function testShouldNotApplyIfNoBooleans()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
-        $boolean_values = $this->faker->words($this->faker->randomDigitNotNull);
+        $booleanValues = $this->faker->words($this->faker->randomDigitNotNull);
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => implode(',', $boolean_values),
+                $filterField => implode(',', $booleanValues),
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends BooleanFilter
+        $filter = new class($parser, $filterField) extends BooleanFilter
         {
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filter_field)[0]));
+        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -45,24 +45,24 @@ class BooleanFilterTest extends TestCase
      */
     public function testShouldNotApplyIfAllBooleans()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
-        $boolean_values = [true, false];
+        $booleanValues = [true, false];
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => implode(',', $boolean_values),
+                $filterField => implode(',', $booleanValues),
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends BooleanFilter
+        $filter = new class($parser, $filterField) extends BooleanFilter
         {
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filter_field)[0]));
+        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -72,25 +72,25 @@ class BooleanFilterTest extends TestCase
      */
     public function testConvertsValidatedBoolean()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
-        $boolean_value = $this->faker->boolean();
+        $booleanValue = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => $boolean_value ? 'true' : 'false',
+                $filterField => $booleanValue ? 'true' : 'false',
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends BooleanFilter
+        $filter = new class($parser, $filterField) extends BooleanFilter
         {
             // We don't need to do any customization
         };
 
-        $filter_values = $filter->getFilterValues($parser->getConditions($filter_field)[0]);
+        $filterValues = $filter->getFilterValues($parser->getConditions($filterField)[0]);
 
-        $this->assertEquals($boolean_value, $filter_values[0]);
+        $this->assertEquals($booleanValue, $filterValues[0]);
     }
 }

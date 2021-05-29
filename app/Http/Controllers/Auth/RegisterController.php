@@ -40,16 +40,6 @@ class RegisterController extends Controller
     }
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware(['guest', 'has_invitation']);
-    }
-
-    /**
      * Show the application registration form.
      *
      * @return \Illuminate\View\View
@@ -67,12 +57,13 @@ class RegisterController extends Controller
     /**
      * Handle a registration request for the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     public function register(Request $request)
     {
         $invitation = Invitation::where('token', $request->input('token'))->firstOrFail();
+
         $data = array_merge($request->all(), [
             'name' => $invitation->name,
             'email' => $invitation->email,
@@ -99,7 +90,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -115,7 +106,7 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\Models\User
      */
     protected function create(array $data)

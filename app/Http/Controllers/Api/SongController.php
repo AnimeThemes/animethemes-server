@@ -112,7 +112,7 @@ class SongController extends BaseController
      *     )
      * )
      *
-     * @param  \App\Models\Song  $song
+     * @param \App\Models\Song $song
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Song $song)

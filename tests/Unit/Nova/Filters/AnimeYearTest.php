@@ -46,21 +46,21 @@ class AnimeYearTest extends TestCase
      */
     public function testFilter()
     {
-        $filter_year = $this->faker->numberBetween(1960, date('Y'));
-        $excluded_year = $filter_year + 1;
+        $filterYear = $this->faker->numberBetween(1960, date('Y'));
+        $excludedYear = $filterYear + 1;
 
         Anime::factory()
-            ->count($this->faker->boolean() ? $filter_year : $excluded_year)
+            ->count($this->faker->boolean() ? $filterYear : $excludedYear)
             ->create();
 
         $filter = $this->novaFilter(AnimeYearFilter::class);
 
-        $response = $filter->apply(Anime::class, $filter_year);
+        $response = $filter->apply(Anime::class, $filterYear);
 
-        $filtered_animes = Anime::where('year', $filter_year)->get();
-        foreach ($filtered_animes as $filtered_anime) {
-            $response->assertContains($filtered_anime);
+        $filteredAnimes = Anime::where('year', $filterYear)->get();
+        foreach ($filteredAnimes as $filteredAnime) {
+            $response->assertContains($filteredAnime);
         }
-        $response->assertCount($filtered_animes->count());
+        $response->assertCount($filteredAnimes->count());
     }
 }

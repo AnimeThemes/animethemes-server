@@ -73,11 +73,11 @@ class ExternalResourceIndexTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(ExternalResourceCollection::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(ExternalResourceCollection::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         ExternalResource::factory()
@@ -86,7 +86,7 @@ class ExternalResourceIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $resources = ExternalResource::with($included_paths->all())->get();
+        $resources = ExternalResource::with($includedPaths->all())->get();
 
         $response = $this->get(route('api.resource.index', $parameters));
 
@@ -120,11 +120,11 @@ class ExternalResourceIndexTest extends TestCase
             'deleted_at',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                ExternalResourceResource::$wrap => $included_fields->join(','),
+                ExternalResourceResource::$wrap => $includedFields->join(','),
             ],
         ];
 
@@ -153,19 +153,19 @@ class ExternalResourceIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowed_sorts = collect(ExternalResourceCollection::allowedSortFields());
-        $included_sorts = $allowed_sorts->random($this->faker->numberBetween(1, count($allowed_sorts)))->map(function ($included_sort) {
+        $allowedSorts = collect(ExternalResourceCollection::allowedSortFields());
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
-                    ->append($included_sort)
+                    ->append($includedSort)
                     ->__toString();
             }
 
-            return $included_sort;
+            return $includedSort;
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $included_sorts->join(','),
+            QueryParser::PARAM_SORT => $includedSorts->join(','),
         ];
 
         $parser = QueryParser::make($parameters);
@@ -199,27 +199,27 @@ class ExternalResourceIndexTest extends TestCase
      */
     public function testCreatedAtFilter()
     {
-        $created_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $createdFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'created_at' => $created_filter,
+                'created_at' => $createdFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
             ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        $resource = ExternalResource::where('created_at', $created_filter)->get();
+        $resource = ExternalResource::where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.resource.index', $parameters));
 
@@ -242,27 +242,27 @@ class ExternalResourceIndexTest extends TestCase
      */
     public function testUpdatedAtFilter()
     {
-        $updated_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $updatedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'updated_at' => $updated_filter,
+                'updated_at' => $updatedFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
             ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
         });
 
-        $resource = ExternalResource::where('updated_at', $updated_filter)->get();
+        $resource = ExternalResource::where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.resource.index', $parameters));
 
@@ -296,8 +296,8 @@ class ExternalResourceIndexTest extends TestCase
 
         ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_resource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_resource->each(function ($resource) {
+        $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteResource->each(function ($resource) {
             $resource->delete();
         });
 
@@ -335,8 +335,8 @@ class ExternalResourceIndexTest extends TestCase
 
         ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_resource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_resource->each(function ($resource) {
+        $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteResource->each(function ($resource) {
             $resource->delete();
         });
 
@@ -374,8 +374,8 @@ class ExternalResourceIndexTest extends TestCase
 
         ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $delete_resource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
-        $delete_resource->each(function ($resource) {
+        $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteResource->each(function ($resource) {
             $resource->delete();
         });
 
@@ -402,12 +402,12 @@ class ExternalResourceIndexTest extends TestCase
      */
     public function testDeletedAtFilter()
     {
-        $deleted_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $deletedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'deleted_at' => $deleted_filter,
+                'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
@@ -415,21 +415,21 @@ class ExternalResourceIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
             $resource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
             $resource->each(function ($item) {
                 $item->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             $resource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
             $resource->each(function ($item) {
                 $item->delete();
             });
         });
 
-        $resource = ExternalResource::withTrashed()->where('deleted_at', $deleted_filter)->get();
+        $resource = ExternalResource::withTrashed()->where('deleted_at', $deletedFilter)->get();
 
         $response = $this->get(route('api.resource.index', $parameters));
 
@@ -452,11 +452,11 @@ class ExternalResourceIndexTest extends TestCase
      */
     public function testSiteFilter()
     {
-        $site_filter = ResourceSite::getRandomInstance();
+        $siteFilter = ResourceSite::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'site' => $site_filter->key,
+                'site' => $siteFilter->key,
             ],
         ];
 
@@ -464,7 +464,7 @@ class ExternalResourceIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $resources = ExternalResource::where('site', $site_filter->value)->get();
+        $resources = ExternalResource::where('site', $siteFilter->value)->get();
 
         $response = $this->get(route('api.resource.index', $parameters));
 
@@ -487,11 +487,11 @@ class ExternalResourceIndexTest extends TestCase
      */
     public function testAnimeBySeason()
     {
-        $season_filter = AnimeSeason::getRandomInstance();
+        $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'season' => $season_filter->key,
+                'season' => $seasonFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -502,8 +502,8 @@ class ExternalResourceIndexTest extends TestCase
             ->create();
 
         $resources = ExternalResource::with([
-            'anime' => function ($query) use ($season_filter) {
-                $query->where('season', $season_filter->value);
+            'anime' => function ($query) use ($seasonFilter) {
+                $query->where('season', $seasonFilter->value);
             },
         ])
         ->get();
@@ -529,12 +529,12 @@ class ExternalResourceIndexTest extends TestCase
      */
     public function testAnimeByYear()
     {
-        $year_filter = intval($this->faker->year());
-        $excluded_year = $year_filter + 1;
+        $yearFilter = intval($this->faker->year());
+        $excludedYear = $yearFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'year' => $year_filter,
+                'year' => $yearFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -544,15 +544,15 @@ class ExternalResourceIndexTest extends TestCase
                 Anime::factory()
                 ->count($this->faker->randomDigitNotNull)
                 ->state([
-                    'year' => $this->faker->boolean() ? $year_filter : $excluded_year,
+                    'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                 ])
             )
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
         $resources = ExternalResource::with([
-            'anime' => function ($query) use ($year_filter) {
-                $query->where('year', $year_filter);
+            'anime' => function ($query) use ($yearFilter) {
+                $query->where('year', $yearFilter);
             },
         ])
         ->get();

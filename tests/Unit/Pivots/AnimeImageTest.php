@@ -21,13 +21,13 @@ class AnimeImageTest extends TestCase
      */
     public function testAnime()
     {
-        $anime_image = AnimeImage::factory()
+        $animeImage = AnimeImage::factory()
             ->for(Anime::factory())
             ->for(Image::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $anime_image->anime());
-        $this->assertInstanceOf(Anime::class, $anime_image->anime()->first());
+        $this->assertInstanceOf(BelongsTo::class, $animeImage->anime());
+        $this->assertInstanceOf(Anime::class, $animeImage->anime()->first());
     }
 
     /**
@@ -37,12 +37,12 @@ class AnimeImageTest extends TestCase
      */
     public function testImage()
     {
-        $anime_image = AnimeImage::factory()
+        $animeImage = AnimeImage::factory()
             ->for(Anime::factory())
             ->for(Image::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $anime_image->image());
-        $this->assertInstanceOf(Image::class, $anime_image->image()->first());
+        $this->assertInstanceOf(BelongsTo::class, $animeImage->image());
+        $this->assertInstanceOf(Image::class, $animeImage->image()->first());
     }
 }

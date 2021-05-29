@@ -35,9 +35,9 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewHorizon', function (User $user) {
-            $horizon_team = Team::find(Config::get('horizon.team'));
+            $horizonTeam = Team::find(Config::get('horizon.team'));
 
-            return $user->isCurrentTeam($horizon_team);
+            return $user->isCurrentTeam($horizonTeam);
         });
     }
 }

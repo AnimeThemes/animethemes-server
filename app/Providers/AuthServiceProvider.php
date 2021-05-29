@@ -54,9 +54,9 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('viewNova', function (User $user) {
-            $nova_team = Team::find(Config::get('nova.team'));
+            $novaTeam = Team::find(Config::get('nova.team'));
 
-            return $user->isCurrentTeam($nova_team);
+            return $user->isCurrentTeam($novaTeam);
         });
     }
 }

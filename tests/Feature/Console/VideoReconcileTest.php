@@ -69,14 +69,14 @@ class VideoReconcileTest extends TestCase
     {
         $fs = Storage::fake('videos');
 
-        $created_video_count = $this->faker->randomDigitNotNull;
-        Collection::times($created_video_count)->each(function () use ($fs) {
-            $file_name = $this->faker->word();
-            $file = File::fake()->create($file_name.'.webm');
+        $createdVideoCount = $this->faker->randomDigitNotNull;
+        Collection::times($createdVideoCount)->each(function () use ($fs) {
+            $fileName = $this->faker->word();
+            $file = File::fake()->create($fileName.'.webm');
             $fs->put('', $file);
         });
 
-        $this->artisan(VideoReconcileCommand::class)->expectsOutput("{$created_video_count} Videos created, 0 Videos deleted, 0 Videos updated");
+        $this->artisan(VideoReconcileCommand::class)->expectsOutput("{$createdVideoCount} Videos created, 0 Videos deleted, 0 Videos updated");
     }
 
     /**
@@ -86,12 +86,12 @@ class VideoReconcileTest extends TestCase
      */
     public function testDeleted()
     {
-        $deleted_video_count = $this->faker->randomDigitNotNull;
-        Video::factory()->count($deleted_video_count)->create();
+        $deletedVideoCount = $this->faker->randomDigitNotNull;
+        Video::factory()->count($deletedVideoCount)->create();
 
         Storage::fake('videos');
 
-        $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, {$deleted_video_count} Videos deleted, 0 Videos updated");
+        $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, {$deletedVideoCount} Videos deleted, 0 Videos updated");
     }
 
     /**
@@ -103,23 +103,23 @@ class VideoReconcileTest extends TestCase
     {
         $fs = Storage::fake('videos');
 
-        $updated_video_count = $this->faker->randomDigitNotNull;
+        $updatedVideoCount = $this->faker->randomDigitNotNull;
 
-        Collection::times($updated_video_count)->each(function () use ($fs) {
-            $file_name = $this->faker->word();
-            $file = File::fake()->create($file_name.'.webm');
-            $fs_file = $fs->put('', $file);
-            $fs_pathinfo = pathinfo(strval($fs_file));
+        Collection::times($updatedVideoCount)->each(function () use ($fs) {
+            $fileName = $this->faker->word();
+            $file = File::fake()->create($fileName.'.webm');
+            $fsFile = $fs->put('', $file);
+            $fsPathinfo = pathinfo(strval($fsFile));
 
             Video::create([
-                'basename' => $fs_pathinfo['basename'],
-                'filename' => $fs_pathinfo['filename'],
+                'basename' => $fsPathinfo['basename'],
+                'filename' => $fsPathinfo['filename'],
                 'path' => $this->faker->word(),
                 'size' => $this->faker->randomNumber(),
-                'mimetype' => MimeType::fromFilename($fs_pathinfo['basename']),
+                'mimetype' => MimeType::fromFilename($fsPathinfo['basename']),
             ]);
         });
 
-        $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, 0 Videos deleted, {$updated_video_count} Videos updated");
+        $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, 0 Videos deleted, {$updatedVideoCount} Videos updated");
     }
 }

@@ -108,10 +108,10 @@ class ResendInvitationTest extends TestCase
      */
     public function testMailSentForOpenInvitations()
     {
-        $invitation_count = $this->faker->randomDigitNotNull;
+        $invitationCount = $this->faker->randomDigitNotNull;
 
         $invitations = Invitation::factory()
-            ->count($invitation_count)
+            ->count($invitationCount)
             ->create([
                 'status' => InvitationStatus::OPEN,
             ]);
@@ -122,7 +122,7 @@ class ResendInvitationTest extends TestCase
 
         $action->handle(new ActionFields(collect(), collect()), $invitations);
 
-        Mail::assertQueued(InvitationEmail::class, $invitation_count);
+        Mail::assertQueued(InvitationEmail::class, $invitationCount);
     }
 
     /**
@@ -138,14 +138,14 @@ class ResendInvitationTest extends TestCase
                 'status' => InvitationStatus::OPEN,
             ]);
 
-        $old_tokens = $invitations->pluck('token');
+        $oldTokens = $invitations->pluck('token');
 
         $action = ResendInvitationAction::make();
 
         $action->handle(new ActionFields(collect(), collect()), $invitations);
 
         foreach ($invitations as $invitation) {
-            $this->assertNotContains($invitation->token, $old_tokens);
+            $this->assertNotContains($invitation->token, $oldTokens);
         }
     }
 }

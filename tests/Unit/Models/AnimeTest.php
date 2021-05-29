@@ -94,14 +94,14 @@ class AnimeTest extends TestCase
      */
     public function testSynonyms()
     {
-        $synonym_count = $this->faker->randomDigitNotNull;
+        $synonymCount = $this->faker->randomDigitNotNull;
 
         $anime = Anime::factory()
-            ->has(Synonym::factory()->count($synonym_count))
+            ->has(Synonym::factory()->count($synonymCount))
             ->create();
 
         $this->assertInstanceOf(HasMany::class, $anime->synonyms());
-        $this->assertEquals($synonym_count, $anime->synonyms()->count());
+        $this->assertEquals($synonymCount, $anime->synonyms()->count());
         $this->assertInstanceOf(Synonym::class, $anime->synonyms()->first());
     }
 
@@ -112,14 +112,14 @@ class AnimeTest extends TestCase
      */
     public function testSeries()
     {
-        $series_count = $this->faker->randomDigitNotNull;
+        $seriesCount = $this->faker->randomDigitNotNull;
 
         $anime = Anime::factory()
-            ->has(Series::factory()->count($series_count))
+            ->has(Series::factory()->count($seriesCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $anime->series());
-        $this->assertEquals($series_count, $anime->series()->count());
+        $this->assertEquals($seriesCount, $anime->series()->count());
         $this->assertInstanceOf(Series::class, $anime->series()->first());
         $this->assertEquals(AnimeSeries::class, $anime->series()->getPivotClass());
     }
@@ -131,14 +131,14 @@ class AnimeTest extends TestCase
      */
     public function testThemes()
     {
-        $theme_count = $this->faker->randomDigitNotNull;
+        $themeCount = $this->faker->randomDigitNotNull;
 
         $anime = Anime::factory()
-            ->has(Theme::factory()->count($theme_count))
+            ->has(Theme::factory()->count($themeCount))
             ->create();
 
         $this->assertInstanceOf(HasMany::class, $anime->themes());
-        $this->assertEquals($theme_count, $anime->themes()->count());
+        $this->assertEquals($themeCount, $anime->themes()->count());
         $this->assertInstanceOf(Theme::class, $anime->themes()->first());
     }
 
@@ -149,14 +149,14 @@ class AnimeTest extends TestCase
      */
     public function testExternalResources()
     {
-        $resource_count = $this->faker->randomDigitNotNull;
+        $resourceCount = $this->faker->randomDigitNotNull;
 
         $anime = Anime::factory()
-            ->has(ExternalResource::factory()->count($resource_count))
+            ->has(ExternalResource::factory()->count($resourceCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $anime->externalResources());
-        $this->assertEquals($resource_count, $anime->externalResources()->count());
+        $this->assertEquals($resourceCount, $anime->externalResources()->count());
         $this->assertInstanceOf(ExternalResource::class, $anime->externalResources()->first());
         $this->assertEquals(AnimeResource::class, $anime->externalResources()->getPivotClass());
     }
@@ -168,14 +168,14 @@ class AnimeTest extends TestCase
      */
     public function testImages()
     {
-        $image_count = $this->faker->randomDigitNotNull;
+        $imageCount = $this->faker->randomDigitNotNull;
 
         $anime = Anime::factory()
-            ->has(Image::factory()->count($image_count))
+            ->has(Image::factory()->count($imageCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $anime->images());
-        $this->assertEquals($image_count, $anime->images()->count());
+        $this->assertEquals($imageCount, $anime->images()->count());
         $this->assertInstanceOf(Image::class, $anime->images()->first());
         $this->assertEquals(AnimeImage::class, $anime->images()->getPivotClass());
     }

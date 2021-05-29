@@ -71,15 +71,15 @@ class TransactionShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(TransactionResource::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(TransactionResource::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         Transaction::factory()->create();
-        $transaction = Transaction::with($included_paths->all())->first();
+        $transaction = Transaction::with($includedPaths->all())->first();
 
         $response = $this->get(route('api.transaction.show', ['transaction' => $transaction]));
 
@@ -114,11 +114,11 @@ class TransactionShowTest extends TestCase
             'external_id',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                TransactionResource::$wrap => $included_fields->join(','),
+                TransactionResource::$wrap => $includedFields->join(','),
             ],
         ];
 

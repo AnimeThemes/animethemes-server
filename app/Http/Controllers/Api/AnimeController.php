@@ -128,7 +128,7 @@ class AnimeController extends BaseController
      *     )
      * )
      *
-     * @param  \App\Models\Anime  $anime
+     * @param \App\Models\Anime $anime
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Anime $anime)
