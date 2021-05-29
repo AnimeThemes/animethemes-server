@@ -112,7 +112,7 @@ class ArtistController extends BaseController
      *     )
      * )
      *
-     * @param  \App\Models\Artist  $artist
+     * @param \App\Models\Artist $artist
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Artist $artist)

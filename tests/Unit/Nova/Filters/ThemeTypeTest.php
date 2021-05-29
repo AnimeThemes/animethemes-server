@@ -58,10 +58,10 @@ class ThemeTypeTest extends TestCase
 
         $response = $filter->apply(Theme::class, $type->value);
 
-        $filtered_themes = Theme::where('type', $type->value)->get();
-        foreach ($filtered_themes as $filtered_theme) {
-            $response->assertContains($filtered_theme);
+        $filteredThemes = Theme::where('type', $type->value)->get();
+        foreach ($filteredThemes as $filteredTheme) {
+            $response->assertContains($filteredTheme);
         }
-        $response->assertCount($filtered_themes->count());
+        $response->assertCount($filteredThemes->count());
     }
 }

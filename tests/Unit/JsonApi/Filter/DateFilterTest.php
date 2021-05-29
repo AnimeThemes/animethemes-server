@@ -22,24 +22,24 @@ class DateFilterTest extends TestCase
      */
     public function testShouldNotApplyIfNoDates()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
-        $date_values = $this->faker->words($this->faker->randomDigitNotNull);
+        $dateValues = $this->faker->words($this->faker->randomDigitNotNull);
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => implode(',', $date_values),
+                $filterField => implode(',', $dateValues),
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends DateFilter
+        $filter = new class($parser, $filterField) extends DateFilter
         {
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filter_field)[0]));
+        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -49,24 +49,24 @@ class DateFilterTest extends TestCase
      */
     public function testShouldNotApplyIfWrongFormat()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
-        $filter_value = Carbon::now()->format(DateTimeInterface::RFC1036);
+        $filterValue = Carbon::now()->format(DateTimeInterface::RFC1036);
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => $filter_value,
+                $filterField => $filterValue,
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends DateFilter
+        $filter = new class($parser, $filterField) extends DateFilter
         {
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filter_field)[0]));
+        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -76,24 +76,24 @@ class DateFilterTest extends TestCase
      */
     public function testShouldApplyIfAcceptedFormat()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
-        $filter_value = Carbon::now()->format(AllowedDateFormat::getRandomValue());
+        $filterValue = Carbon::now()->format(AllowedDateFormat::getRandomValue());
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => $filter_value,
+                $filterField => $filterValue,
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends DateFilter
+        $filter = new class($parser, $filterField) extends DateFilter
         {
             // We don't need to do any customization
         };
 
-        $this->assertTrue($filter->shouldApplyFilter($parser->getConditions($filter_field)[0]));
+        $this->assertTrue($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -103,27 +103,27 @@ class DateFilterTest extends TestCase
      */
     public function testConvertsDatesToCanonicalFormat()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
-        $date_format = AllowedDateFormat::getRandomValue();
+        $dateFormat = AllowedDateFormat::getRandomValue();
 
-        $date_filter = Carbon::now()->format($date_format);
+        $dateFilter = Carbon::now()->format($dateFormat);
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => $date_filter,
+                $filterField => $dateFilter,
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field) extends DateFilter
+        $filter = new class($parser, $filterField) extends DateFilter
         {
             // We don't need to do any customization
         };
 
-        $filter_values = $filter->getFilterValues($parser->getConditions($filter_field)[0]);
+        $filterValues = $filter->getFilterValues($parser->getConditions($filterField)[0]);
 
-        $this->assertEquals(DateTime::createFromFormat('!'.$date_format, $date_filter)->format(AllowedDateFormat::WITH_MICRO), $filter_values[0]);
+        $this->assertEquals(DateTime::createFromFormat('!'.$dateFormat, $dateFilter)->format(AllowedDateFormat::WITH_MICRO), $filterValues[0]);
     }
 }

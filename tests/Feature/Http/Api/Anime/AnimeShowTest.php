@@ -85,15 +85,15 @@ class AnimeShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(AnimeResource::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(AnimeResource::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         Anime::factory()->jsonApiResource()->create();
-        $anime = Anime::with($included_paths->all())->first();
+        $anime = Anime::with($includedPaths->all())->first();
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
@@ -130,11 +130,11 @@ class AnimeShowTest extends TestCase
             'deleted_at',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                AnimeResource::$wrap => $included_fields->join(','),
+                AnimeResource::$wrap => $includedFields->join(','),
             ],
         ];
 
@@ -161,12 +161,12 @@ class AnimeShowTest extends TestCase
      */
     public function testThemesByGroup()
     {
-        $group_filter = $this->faker->word();
-        $excluded_group = $this->faker->word();
+        $groupFilter = $this->faker->word();
+        $excludedGroup = $this->faker->word();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'group' => $group_filter,
+                'group' => $groupFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'themes',
         ];
@@ -176,15 +176,15 @@ class AnimeShowTest extends TestCase
                 Theme::factory()
                     ->count($this->faker->randomDigitNotNull)
                     ->state(new Sequence(
-                        ['group' => $group_filter],
-                        ['group' => $excluded_group],
+                        ['group' => $groupFilter],
+                        ['group' => $excludedGroup],
                     ))
             )
             ->create();
 
         $anime = Anime::with([
-            'themes' => function ($query) use ($group_filter) {
-                $query->where('group', $group_filter);
+            'themes' => function ($query) use ($groupFilter) {
+                $query->where('group', $groupFilter);
             },
         ])
         ->first();
@@ -210,12 +210,12 @@ class AnimeShowTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequence_filter = $this->faker->randomDigitNotNull;
-        $excluded_sequence = $sequence_filter + 1;
+        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'sequence' => $sequence_filter,
+                'sequence' => $sequenceFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'themes',
         ];
@@ -225,15 +225,15 @@ class AnimeShowTest extends TestCase
                 Theme::factory()
                     ->count($this->faker->randomDigitNotNull)
                     ->state(new Sequence(
-                        ['sequence' => $sequence_filter],
-                        ['sequence' => $excluded_sequence],
+                        ['sequence' => $sequenceFilter],
+                        ['sequence' => $excludedSequence],
                     ))
             )
             ->create();
 
         $anime = Anime::with([
-            'themes' => function ($query) use ($sequence_filter) {
-                $query->where('sequence', $sequence_filter);
+            'themes' => function ($query) use ($sequenceFilter) {
+                $query->where('sequence', $sequenceFilter);
             },
         ])
         ->first();
@@ -259,11 +259,11 @@ class AnimeShowTest extends TestCase
      */
     public function testThemesByType()
     {
-        $type_filter = ThemeType::getRandomInstance();
+        $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'type' => $type_filter->key,
+                'type' => $typeFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'themes',
         ];
@@ -273,8 +273,8 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes' => function ($query) use ($type_filter) {
-                $query->where('type', $type_filter->value);
+            'themes' => function ($query) use ($typeFilter) {
+                $query->where('type', $typeFilter->value);
             },
         ])
         ->first();
@@ -300,11 +300,11 @@ class AnimeShowTest extends TestCase
      */
     public function testEntriesByNsfw()
     {
-        $nsfw_filter = $this->faker->boolean();
+        $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'nsfw' => $nsfw_filter,
+                'nsfw' => $nsfwFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'themes.entries',
         ];
@@ -318,8 +318,8 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes.entries' => function ($query) use ($nsfw_filter) {
-                $query->where('nsfw', $nsfw_filter);
+            'themes.entries' => function ($query) use ($nsfwFilter) {
+                $query->where('nsfw', $nsfwFilter);
             },
         ])
         ->first();
@@ -345,11 +345,11 @@ class AnimeShowTest extends TestCase
      */
     public function testEntriesBySpoiler()
     {
-        $spoiler_filter = $this->faker->boolean();
+        $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'spoiler' => $spoiler_filter,
+                'spoiler' => $spoilerFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'themes.entries',
         ];
@@ -363,8 +363,8 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes.entries' => function ($query) use ($spoiler_filter) {
-                $query->where('spoiler', $spoiler_filter);
+            'themes.entries' => function ($query) use ($spoilerFilter) {
+                $query->where('spoiler', $spoilerFilter);
             },
         ])
         ->first();
@@ -390,12 +390,12 @@ class AnimeShowTest extends TestCase
      */
     public function testEntriesByVersion()
     {
-        $version_filter = $this->faker->numberBetween(1, 3);
-        $excluded_version = $version_filter + 1;
+        $versionFilter = $this->faker->numberBetween(1, 3);
+        $excludedVersion = $versionFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'version' => $version_filter,
+                'version' => $versionFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'themes.entries',
         ];
@@ -408,16 +408,16 @@ class AnimeShowTest extends TestCase
                         Entry::factory()
                             ->count($this->faker->numberBetween(1, 3))
                             ->state(new Sequence(
-                                ['version' => $version_filter],
-                                ['version' => $excluded_version],
+                                ['version' => $versionFilter],
+                                ['version' => $excludedVersion],
                             ))
                     )
             )
             ->create();
 
         $anime = Anime::with([
-            'themes.entries' => function ($query) use ($version_filter) {
-                $query->where('version', $version_filter);
+            'themes.entries' => function ($query) use ($versionFilter) {
+                $query->where('version', $versionFilter);
             },
         ])
         ->first();
@@ -445,11 +445,11 @@ class AnimeShowTest extends TestCase
     {
         $this->withoutEvents();
 
-        $site_filter = ResourceSite::getRandomInstance();
+        $siteFilter = ResourceSite::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'site' => $site_filter->key,
+                'site' => $siteFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'externalResources',
         ];
@@ -459,8 +459,8 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'externalResources' => function ($query) use ($site_filter) {
-                $query->where('site', $site_filter->value);
+            'externalResources' => function ($query) use ($siteFilter) {
+                $query->where('site', $siteFilter->value);
             },
         ])
         ->first();
@@ -488,11 +488,11 @@ class AnimeShowTest extends TestCase
     {
         $this->withoutEvents();
 
-        $facet_filter = ImageFacet::getRandomInstance();
+        $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'facet' => $facet_filter->key,
+                'facet' => $facetFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'images',
         ];
@@ -502,8 +502,8 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'images' => function ($query) use ($facet_filter) {
-                $query->where('facet', $facet_filter->value);
+            'images' => function ($query) use ($facetFilter) {
+                $query->where('facet', $facetFilter->value);
             },
         ])
         ->first();
@@ -529,11 +529,11 @@ class AnimeShowTest extends TestCase
      */
     public function testVideosByLyrics()
     {
-        $lyrics_filter = $this->faker->boolean();
+        $lyricsFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'lyrics' => $lyrics_filter,
+                'lyrics' => $lyricsFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
@@ -541,8 +541,8 @@ class AnimeShowTest extends TestCase
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($lyrics_filter) {
-                $query->where('lyrics', $lyrics_filter);
+            'themes.entries.videos' => function ($query) use ($lyricsFilter) {
+                $query->where('lyrics', $lyricsFilter);
             },
         ])
         ->first();
@@ -568,11 +568,11 @@ class AnimeShowTest extends TestCase
      */
     public function testVideosByNc()
     {
-        $nc_filter = $this->faker->boolean();
+        $ncFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'nc' => $nc_filter,
+                'nc' => $ncFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
@@ -580,8 +580,8 @@ class AnimeShowTest extends TestCase
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($nc_filter) {
-                $query->where('nc', $nc_filter);
+            'themes.entries.videos' => function ($query) use ($ncFilter) {
+                $query->where('nc', $ncFilter);
             },
         ])
         ->first();
@@ -607,11 +607,11 @@ class AnimeShowTest extends TestCase
      */
     public function testVideosByOverlap()
     {
-        $overlap_filter = VideoOverlap::getRandomInstance();
+        $overlapFilter = VideoOverlap::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'overlap' => $overlap_filter->key,
+                'overlap' => $overlapFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
@@ -619,8 +619,8 @@ class AnimeShowTest extends TestCase
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($overlap_filter) {
-                $query->where('overlap', $overlap_filter->value);
+            'themes.entries.videos' => function ($query) use ($overlapFilter) {
+                $query->where('overlap', $overlapFilter->value);
             },
         ])
         ->first();
@@ -646,12 +646,12 @@ class AnimeShowTest extends TestCase
      */
     public function testVideosByResolution()
     {
-        $resolution_filter = $this->faker->randomNumber();
-        $excluded_resolution = $resolution_filter + 1;
+        $resolutionFilter = $this->faker->randomNumber();
+        $excludedResolution = $resolutionFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'resolution' => $resolution_filter,
+                'resolution' => $resolutionFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
@@ -667,8 +667,8 @@ class AnimeShowTest extends TestCase
                                 Video::factory()
                                     ->count($this->faker->numberBetween(1, 3))
                                     ->state(new Sequence(
-                                        ['resolution' => $resolution_filter],
-                                        ['resolution' => $excluded_resolution],
+                                        ['resolution' => $resolutionFilter],
+                                        ['resolution' => $excludedResolution],
                                     ))
                             )
                     )
@@ -676,8 +676,8 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($resolution_filter) {
-                $query->where('resolution', $resolution_filter);
+            'themes.entries.videos' => function ($query) use ($resolutionFilter) {
+                $query->where('resolution', $resolutionFilter);
             },
         ])
         ->first();
@@ -703,11 +703,11 @@ class AnimeShowTest extends TestCase
      */
     public function testVideosBySource()
     {
-        $source_filter = VideoSource::getRandomInstance();
+        $sourceFilter = VideoSource::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'source' => $source_filter->key,
+                'source' => $sourceFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
@@ -715,8 +715,8 @@ class AnimeShowTest extends TestCase
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($source_filter) {
-                $query->where('source', $source_filter->value);
+            'themes.entries.videos' => function ($query) use ($sourceFilter) {
+                $query->where('source', $sourceFilter->value);
             },
         ])
         ->first();
@@ -742,11 +742,11 @@ class AnimeShowTest extends TestCase
      */
     public function testVideosBySubbed()
     {
-        $subbed_filter = $this->faker->boolean();
+        $subbedFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'subbed' => $subbed_filter,
+                'subbed' => $subbedFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
@@ -754,8 +754,8 @@ class AnimeShowTest extends TestCase
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($subbed_filter) {
-                $query->where('subbed', $subbed_filter);
+            'themes.entries.videos' => function ($query) use ($subbedFilter) {
+                $query->where('subbed', $subbedFilter);
             },
         ])
         ->first();
@@ -781,11 +781,11 @@ class AnimeShowTest extends TestCase
      */
     public function testVideosByUncen()
     {
-        $uncen_filter = $this->faker->boolean();
+        $uncenFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'uncen' => $uncen_filter,
+                'uncen' => $uncenFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
         ];
@@ -793,8 +793,8 @@ class AnimeShowTest extends TestCase
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($uncen_filter) {
-                $query->where('uncen', $uncen_filter);
+            'themes.entries.videos' => function ($query) use ($uncenFilter) {
+                $query->where('uncen', $uncenFilter);
             },
         ])
         ->first();

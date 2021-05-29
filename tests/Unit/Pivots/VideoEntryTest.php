@@ -22,13 +22,13 @@ class VideoEntryTest extends TestCase
      */
     public function testVideo()
     {
-        $video_entry = VideoEntry::factory()
+        $videoEntry = VideoEntry::factory()
             ->for(Video::factory())
             ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $video_entry->video());
-        $this->assertInstanceOf(Video::class, $video_entry->video()->first());
+        $this->assertInstanceOf(BelongsTo::class, $videoEntry->video());
+        $this->assertInstanceOf(Video::class, $videoEntry->video()->first());
     }
 
     /**
@@ -38,12 +38,12 @@ class VideoEntryTest extends TestCase
      */
     public function testEntry()
     {
-        $video_entry = VideoEntry::factory()
+        $videoEntry = VideoEntry::factory()
             ->for(Video::factory())
             ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $video_entry->entry());
-        $this->assertInstanceOf(Entry::class, $video_entry->entry()->first());
+        $this->assertInstanceOf(BelongsTo::class, $videoEntry->entry());
+        $this->assertInstanceOf(Entry::class, $videoEntry->entry()->first());
     }
 }

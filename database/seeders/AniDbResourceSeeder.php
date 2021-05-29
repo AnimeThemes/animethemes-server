@@ -25,8 +25,8 @@ class AniDbResourceSeeder extends Seeder
         $animes = $this->getUnseededAnime();
 
         foreach ($animes as $anime) {
-            $mal_resource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::MAL));
-            if (! is_null(optional($mal_resource)->external_id)) {
+            $malResource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::MAL));
+            if (! is_null(optional($malResource)->external_id)) {
 
                 // Try not to upset Yuna
                 sleep(rand(5, 15));
@@ -34,31 +34,31 @@ class AniDbResourceSeeder extends Seeder
                 // Yuna api call
                 try {
                     $client = new Client;
-                    $response = $client->get('https://relations.yuna.moe/api/ids?source=myanimelist&id='.$mal_resource->external_id);
+                    $response = $client->get('https://relations.yuna.moe/api/ids?source=myanimelist&id='.$malResource->external_id);
 
-                    $anidb_resource_json = json_decode($response->getBody()->getContents());
-                    $anidb_id = $anidb_resource_json !== null && property_exists($anidb_resource_json, 'anidb') ? $anidb_resource_json->anidb : null;
+                    $anidbResourceJson = json_decode($response->getBody()->getContents());
+                    $anidbId = $anidbResourceJson !== null && property_exists($anidbResourceJson, 'anidb') ? $anidbResourceJson->anidb : null;
 
                     // Only proceed if we have a match
-                    if ($anidb_id !== null) {
+                    if ($anidbId !== null) {
 
                         // Check if AniDB resource already exists
-                        $anidb_resource = ExternalResource::where('site', ResourceSite::ANIDB)->where('external_id', $anidb_id)->first();
+                        $anidbResource = ExternalResource::where('site', ResourceSite::ANIDB)->where('external_id', $anidbId)->first();
 
                         // Create AniDB resource if it doesn't already exist
-                        if (is_null($anidb_resource)) {
-                            Log::info("Creating anidb resource '{$anidb_id}' for anime '{$anime->name}'");
-                            $anidb_resource = ExternalResource::create([
+                        if (is_null($anidbResource)) {
+                            Log::info("Creating anidb resource '{$anidbId}' for anime '{$anime->name}'");
+                            $anidbResource = ExternalResource::create([
                                 'site' => ResourceSite::ANIDB,
-                                'link' => "https://anidb.net/anime/{$anidb_id}",
-                                'external_id' => $anidb_id,
+                                'link' => "https://anidb.net/anime/{$anidbId}",
+                                'external_id' => $anidbId,
                             ]);
                         }
 
                         // Attach AniDB resource to anime
-                        if (AnimeResource::where($anime->getKeyName(), $anime->getKey())->where($anidb_resource->getKeyName(), $anidb_resource->getKey())->doesntExist()) {
-                            Log::info("Attaching resource '{$anidb_resource->link}' to anime '{$anime->name}'");
-                            $anidb_resource->anime()->attach($anime);
+                        if (AnimeResource::where($anime->getKeyName(), $anime->getKey())->where($anidbResource->getKeyName(), $anidbResource->getKey())->doesntExist()) {
+                            Log::info("Attaching resource '{$anidbResource->link}' to anime '{$anime->name}'");
+                            $anidbResource->anime()->attach($anime);
                         }
                     }
                 } catch (ClientException $e) {
@@ -79,13 +79,13 @@ class AniDbResourceSeeder extends Seeder
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    private function getUnseededAnime()
+    protected function getUnseededAnime()
     {
         return Anime::query()
-            ->whereHas('externalResources', function ($resource_query) {
-                $resource_query->where('site', ResourceSite::MAL);
-            })->whereDoesntHave('externalResources', function ($resource_query) {
-                $resource_query->where('site', ResourceSite::ANIDB);
+            ->whereHas('externalResources', function ($resourceQuery) {
+                $resourceQuery->where('site', ResourceSite::MAL);
+            })->whereDoesntHave('externalResources', function ($resourceQuery) {
+                $resourceQuery->where('site', ResourceSite::ANIDB);
             })
             ->get();
     }

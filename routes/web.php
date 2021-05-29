@@ -29,9 +29,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
+// Home
+Route::get('/', [WelcomeController::class, 'show'])->name('welcome');
 
+// Billing
 Route::get('transparency', [TransparencyController::class, 'show'])->name('transparency.show');
+
+// Content Streaming
+Route::resource('image', ImageController::class)->only('show')->middleware('without_trashed:image');
+Route::resource('video', VideoController::class)->only('show')->middleware(['is_video_streaming_allowed', 'without_trashed:video']);
+
+// Documents
 Route::get('donate', [DonateController::class, 'show'])->name('donate.show');
 Route::get('faq', [FaqController::class, 'show'])->name('faq.show');
 
@@ -47,18 +55,16 @@ Route::get('event/{docName}', [EventController::class, 'show'])->name('event.sho
 Route::get('guidelines', [GuidelinesController::class, 'index'])->name('guidelines.index');
 Route::get('guidelines/{docName}', [GuidelinesController::class, 'show'])->name('guidelines.show');
 
-Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap.index');
+// Sitemaps
+Route::get('/sitemap', [SitemapController::class, 'show'])->name('sitemap');
 Route::get('/sitemap/community', [CommunitySitemapController::class, 'show'])->name('sitemap.community');
 Route::get('/sitemap/encoding', [EncodingSitemapController::class, 'show'])->name('sitemap.encoding');
 Route::get('/sitemap/event', [EventSitemapController::class, 'show'])->name('sitemap.event');
 Route::get('/sitemap/guidelines', [GuidelinesSitemapController::class, 'show'])->name('sitemap.guidelines');
 
-Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [RegisterController::class, 'register']);
-
-Route::resource('image', ImageController::class)->only('show');
-
-Route::resource('video', VideoController::class)->only('show');
+// Auth
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register')->middleware(['guest', 'has_invitation']);
+Route::post('register', [RegisterController::class, 'register'])->middleware(['guest', 'has_invitation']);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

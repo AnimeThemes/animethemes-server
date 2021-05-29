@@ -20,13 +20,13 @@ class ArtistMemberTest extends TestCase
      */
     public function testArtist()
     {
-        $artist_member = ArtistMember::factory()
+        $artistMember = ArtistMember::factory()
             ->for(Artist::factory(), 'artist')
             ->for(Artist::factory(), 'member')
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artist_member->artist());
-        $this->assertInstanceOf(Artist::class, $artist_member->artist()->first());
+        $this->assertInstanceOf(BelongsTo::class, $artistMember->artist());
+        $this->assertInstanceOf(Artist::class, $artistMember->artist()->first());
     }
 
     /**
@@ -36,12 +36,12 @@ class ArtistMemberTest extends TestCase
      */
     public function testMember()
     {
-        $artist_member = ArtistMember::factory()
+        $artistMember = ArtistMember::factory()
             ->for(Artist::factory(), 'artist')
             ->for(Artist::factory(), 'member')
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artist_member->member());
-        $this->assertInstanceOf(Artist::class, $artist_member->member()->first());
+        $this->assertInstanceOf(BelongsTo::class, $artistMember->member());
+        $this->assertInstanceOf(Artist::class, $artistMember->member()->first());
     }
 }

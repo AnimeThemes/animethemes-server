@@ -134,7 +134,7 @@ class ImageUnlinkedTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filtered_images = Image::whereDoesntHave('anime')
+        $filteredImages = Image::whereDoesntHave('anime')
             ->whereDoesntHave('artists')
             ->get();
 
@@ -142,9 +142,9 @@ class ImageUnlinkedTest extends TestCase
 
         $query = $lens->query(Image::class);
 
-        foreach ($filtered_images as $filtered_image) {
-            $query->assertContains($filtered_image);
+        foreach ($filteredImages as $filteredImage) {
+            $query->assertContains($filteredImage);
         }
-        $query->assertCount($filtered_images->count());
+        $query->assertCount($filteredImages->count());
     }
 }

@@ -17,7 +17,7 @@ class ImagePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
+     * @param \App\Models\User $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -28,8 +28,8 @@ class ImagePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Image  $image
+     * @param \App\Models\User $user
+     * @param \App\Models\Image $image
      * @return mixed
      */
     public function view(User $user, Image $image)
@@ -40,7 +40,7 @@ class ImagePolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
+     * @param \App\Models\User $user
      * @return mixed
      */
     public function create(User $user)
@@ -51,8 +51,8 @@ class ImagePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Image  $image
+     * @param \App\Models\User $user
+     * @param \App\Models\Image $image
      * @return mixed
      */
     public function update(User $user, Image $image)
@@ -63,8 +63,8 @@ class ImagePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Image  $image
+     * @param \App\Models\User $user
+     * @param \App\Models\Image $image
      * @return mixed
      */
     public function delete(User $user, Image $image)
@@ -75,8 +75,8 @@ class ImagePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Image  $image
+     * @param \App\Models\User $user
+     * @param \App\Models\Image $image
      * @return mixed
      */
     public function restore(User $user, Image $image)
@@ -87,8 +87,8 @@ class ImagePolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Image  $image
+     * @param \App\Models\User $user
+     * @param \App\Models\Image $image
      * @return mixed
      */
     public function forceDelete(User $user, Image $image)
@@ -99,8 +99,8 @@ class ImagePolicy
     /**
      * Determine whether the user can attach any artist to the image.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Image  $image
+     * @param \App\Models\User $user
+     * @param \App\Models\Image $image
      * @return mixed
      */
     public function attachAnyArtist(User $user, Image $image)
@@ -111,9 +111,9 @@ class ImagePolicy
     /**
      * Determine whether the user can attach an artist to the image.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Image  $image
-     * @param  \App\Models\Artist  $artist
+     * @param \App\Models\User $user
+     * @param \App\Models\Image $image
+     * @param \App\Models\Artist $artist
      * @return mixed
      */
     public function attachArtist(User $user, Image $image, Artist $artist)
@@ -128,9 +128,9 @@ class ImagePolicy
     /**
      * Determine whether the user can detach an artist from the image.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Image  $image
-     * @param  \App\Models\Artist  $artist
+     * @param \App\Models\User $user
+     * @param \App\Models\Image $image
+     * @param \App\Models\Artist $artist
      * @return mixed
      */
     public function detachArtist(User $user, Image $image, Artist $artist)
@@ -141,8 +141,8 @@ class ImagePolicy
     /**
      * Determine whether the user can attach any anime to the image.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Image  $image
+     * @param \App\Models\User $user
+     * @param \App\Models\Image $image
      * @return mixed
      */
     public function attachAnyAnime(User $user, Image $image)
@@ -153,9 +153,9 @@ class ImagePolicy
     /**
      * Determine whether the user can attach an anime to the image.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Image  $image
-     * @param  \App\Models\Anime  $anime
+     * @param \App\Models\User $user
+     * @param \App\Models\Image $image
+     * @param \App\Models\Anime $anime
      * @return mixed
      */
     public function attachAnime(User $user, Image $image, Anime $anime)
@@ -170,9 +170,9 @@ class ImagePolicy
     /**
      * Determine whether the user can detach an anime from the image.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Image  $image
-     * @param  \App\Models\Anime  $anime
+     * @param \App\Models\User $user
+     * @param \App\Models\Image $image
+     * @param \App\Models\Anime $anime
      * @return mixed
      */
     public function detachAnime(User $user, Image $image, Anime $anime)

@@ -69,7 +69,7 @@ class QueryParser
     /**
      * Create a new query parser instance.
      *
-     * @param  mixed  ...$parameters
+     * @param mixed ...$parameters
      * @return static
      */
     public static function make(...$parameters)
@@ -83,7 +83,7 @@ class QueryParser
      * @param array $parameters
      * @return array
      */
-    private function parseFields($parameters)
+    protected function parseFields($parameters)
     {
         $fields = [];
 
@@ -117,7 +117,7 @@ class QueryParser
      * @param array $parameters
      * @return array|null
      */
-    private function parseIncludes($parameters)
+    protected function parseIncludes($parameters)
     {
         $includes = null;
 
@@ -144,7 +144,7 @@ class QueryParser
      * @param array $parameters
      * @return array
      */
-    private function parseSorts($parameters)
+    protected function parseSorts($parameters)
     {
         $sorts = [];
 
@@ -192,7 +192,7 @@ class QueryParser
      * @param array $parameters
      * @return \App\JsonApi\Condition\Condition[]
      */
-    private function parseConditions($parameters)
+    protected function parseConditions($parameters)
     {
         $conditions = [];
 
@@ -216,7 +216,7 @@ class QueryParser
      * @param array $parameters
      * @return string
      */
-    private function parseSearch($parameters)
+    protected function parseSearch($parameters)
     {
         $search = '';
 
@@ -256,7 +256,7 @@ class QueryParser
      * @param array $parameters
      * @return int
      */
-    private function parseLimit($parameters)
+    protected function parseLimit($parameters)
     {
         $limit = 0;
 
@@ -274,7 +274,7 @@ class QueryParser
      * Get the number of resources to return per page.
      * Acceptable range is [1-15]. Default is 15.
      *
-     * @param  int  $limit
+     * @param int $limit
      * @return int
      */
     public function getLimit($limit = self::DEFAULT_LIMIT)

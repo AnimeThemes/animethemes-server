@@ -62,7 +62,7 @@ class AnimeResourceTest extends TestCase
         $anime = Anime::factory()->create();
         $resource = ExternalResource::factory()->create();
 
-        $anime_resource = AnimeResource::factory()
+        $animeResource = AnimeResource::factory()
             ->for($anime, 'anime')
             ->for($resource, 'resource')
             ->create();
@@ -75,8 +75,8 @@ class AnimeResourceTest extends TestCase
         Config::set('app.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotification::class);
 
-        $anime_resource->fill($changes->getAttributes());
-        $anime_resource->save();
+        $animeResource->fill($changes->getAttributes());
+        $animeResource->save();
 
         Bus::assertDispatched(SendDiscordNotification::class);
     }

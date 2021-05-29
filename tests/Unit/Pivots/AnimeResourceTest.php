@@ -21,13 +21,13 @@ class AnimeResourceTest extends TestCase
      */
     public function testAnime()
     {
-        $anime_resource = AnimeResource::factory()
+        $animeResource = AnimeResource::factory()
             ->for(Anime::factory())
             ->for(ExternalResource::factory(), 'resource')
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $anime_resource->anime());
-        $this->assertInstanceOf(Anime::class, $anime_resource->anime()->first());
+        $this->assertInstanceOf(BelongsTo::class, $animeResource->anime());
+        $this->assertInstanceOf(Anime::class, $animeResource->anime()->first());
     }
 
     /**
@@ -37,12 +37,12 @@ class AnimeResourceTest extends TestCase
      */
     public function testResource()
     {
-        $anime_resource = AnimeResource::factory()
+        $animeResource = AnimeResource::factory()
             ->for(Anime::factory())
             ->for(ExternalResource::factory(), 'resource')
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $anime_resource->resource());
-        $this->assertInstanceOf(ExternalResource::class, $anime_resource->resource()->first());
+        $this->assertInstanceOf(BelongsTo::class, $animeResource->resource());
+        $this->assertInstanceOf(ExternalResource::class, $animeResource->resource()->first());
     }
 }

@@ -23,8 +23,8 @@ class MalSeasonYearSeeder extends Seeder
     public function run()
     {
         // Do not proceed if we do not have authorization to the MAL API
-        $mal_bearer_token = Config::get('services.mal.token');
-        if ($mal_bearer_token === null) {
+        $malBearerToken = Config::get('services.mal.token');
+        if ($malBearerToken === null) {
             Log::error('MAL_BEARER_TOKEN must be configured in your env file.');
 
             return;
@@ -34,7 +34,7 @@ class MalSeasonYearSeeder extends Seeder
             $client = new Client;
             $response = $client->get('https://api.myanimelist.net/v2/users/@me', [
                 'headers' => [
-                    'Authorization' => 'Bearer '.$mal_bearer_token,
+                    'Authorization' => 'Bearer '.$malBearerToken,
                 ],
             ]);
         } catch (ClientException $e) {
@@ -51,28 +51,28 @@ class MalSeasonYearSeeder extends Seeder
         $animes = $this->getUnseededAnime();
 
         foreach ($animes as $anime) {
-            $mal_resource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::MAL));
-            if (! is_null(optional($mal_resource)->external_id)) {
+            $malResource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::MAL));
+            if (! is_null(optional($malResource)->external_id)) {
 
                 // Try not to upset MAL
                 sleep(rand(5, 15));
 
                 try {
                     $client = new Client;
-                    $response = $client->get("https://api.myanimelist.net/v2/anime/{$mal_resource->external_id}?fields=start_season", [
+                    $response = $client->get("https://api.myanimelist.net/v2/anime/{$malResource->external_id}?fields=start_season", [
                         'headers' => [
-                            'Authorization' => 'Bearer '.$mal_bearer_token,
+                            'Authorization' => 'Bearer '.$malBearerToken,
                         ],
                     ]);
-                    $mal_resource_json = json_decode($response->getBody()->getContents());
+                    $malResourceJson = json_decode($response->getBody()->getContents());
 
-                    if (! is_null(optional($mal_resource_json)->start_season)) {
-                        if (is_int($mal_resource_json->start_season->year)) {
-                            $anime->year = $mal_resource_json->start_season->year;
-                            Log::info("Setting year '{$mal_resource_json->start_season->year}' for anime '{$anime->name}'");
+                    if (! is_null(optional($malResourceJson)->start_season)) {
+                        if (is_int($malResourceJson->start_season->year)) {
+                            $anime->year = $malResourceJson->start_season->year;
+                            Log::info("Setting year '{$malResourceJson->start_season->year}' for anime '{$anime->name}'");
                         }
-                        if (AnimeSeason::hasKey(Str::upper($mal_resource_json->start_season->season))) {
-                            $season = AnimeSeason::getValue(Str::upper($mal_resource_json->start_season->season));
+                        if (AnimeSeason::hasKey(Str::upper($malResourceJson->start_season->season))) {
+                            $season = AnimeSeason::getValue(Str::upper($malResourceJson->start_season->season));
                             $anime->season = $season;
                             Log::info("Setting season '{$season}' for anime '{$anime->name}'");
                         }
@@ -97,11 +97,11 @@ class MalSeasonYearSeeder extends Seeder
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    private function getUnseededAnime()
+    protected function getUnseededAnime()
     {
         return Anime::whereNull('season')
-            ->whereHas('externalResources', function ($resource_query) {
-                $resource_query->where('site', ResourceSite::MAL);
+            ->whereHas('externalResources', function ($resourceQuery) {
+                $resourceQuery->where('site', ResourceSite::MAL);
             })
             ->get();
     }

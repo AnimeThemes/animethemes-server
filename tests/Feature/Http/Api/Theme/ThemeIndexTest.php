@@ -86,11 +86,11 @@ class ThemeIndexTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(ThemeCollection::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(ThemeCollection::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         Theme::factory()
@@ -104,7 +104,7 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $themes = Theme::with($included_paths->all())->get();
+        $themes = Theme::with($includedPaths->all())->get();
 
         $response = $this->get(route('api.theme.index', $parameters));
 
@@ -138,11 +138,11 @@ class ThemeIndexTest extends TestCase
             'deleted_at',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                ThemeResource::$wrap => $included_fields->join(','),
+                ThemeResource::$wrap => $includedFields->join(','),
             ],
         ];
 
@@ -174,19 +174,19 @@ class ThemeIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowed_sorts = collect(ThemeCollection::allowedSortFields());
-        $included_sorts = $allowed_sorts->random($this->faker->numberBetween(1, count($allowed_sorts)))->map(function ($included_sort) {
+        $allowedSorts = collect(ThemeCollection::allowedSortFields());
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
-                    ->append($included_sort)
+                    ->append($includedSort)
                     ->__toString();
             }
 
-            return $included_sort;
+            return $includedSort;
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $included_sorts->join(','),
+            QueryParser::PARAM_SORT => $includedSorts->join(','),
         ];
 
         $parser = QueryParser::make($parameters);
@@ -223,33 +223,33 @@ class ThemeIndexTest extends TestCase
      */
     public function testCreatedAtFilter()
     {
-        $created_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $createdFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'created_at' => $created_filter,
+                'created_at' => $createdFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
             Theme::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Theme::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
         });
 
-        $theme = Theme::where('created_at', $created_filter)->get();
+        $theme = Theme::where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.theme.index', $parameters));
 
@@ -272,33 +272,33 @@ class ThemeIndexTest extends TestCase
      */
     public function testUpdatedAtFilter()
     {
-        $updated_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $updatedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'updated_at' => $updated_filter,
+                'updated_at' => $updatedFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
             Theme::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Theme::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
         });
 
-        $theme = Theme::where('updated_at', $updated_filter)->get();
+        $theme = Theme::where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.theme.index', $parameters));
 
@@ -335,12 +335,12 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $delete_theme = Theme::factory()
+        $deleteTheme = Theme::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $delete_theme->each(function ($theme) {
+        $deleteTheme->each(function ($theme) {
             $theme->delete();
         });
 
@@ -381,12 +381,12 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $delete_theme = Theme::factory()
+        $deleteTheme = Theme::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $delete_theme->each(function ($theme) {
+        $deleteTheme->each(function ($theme) {
             $theme->delete();
         });
 
@@ -427,12 +427,12 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $delete_theme = Theme::factory()
+        $deleteTheme = Theme::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $delete_theme->each(function ($theme) {
+        $deleteTheme->each(function ($theme) {
             $theme->delete();
         });
 
@@ -459,12 +459,12 @@ class ThemeIndexTest extends TestCase
      */
     public function testDeletedAtFilter()
     {
-        $deleted_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $deletedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'deleted_at' => $deleted_filter,
+                'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
@@ -472,21 +472,21 @@ class ThemeIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
             Theme::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Theme::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
         });
 
-        $theme = Theme::withTrashed()->where('deleted_at', $deleted_filter)->get();
+        $theme = Theme::withTrashed()->where('deleted_at', $deletedFilter)->get();
 
         $response = $this->get(route('api.theme.index', $parameters));
 
@@ -509,25 +509,25 @@ class ThemeIndexTest extends TestCase
      */
     public function testGroupFilter()
     {
-        $group_filter = $this->faker->word();
-        $excluded_group = $this->faker->word();
+        $groupFilter = $this->faker->word();
+        $excludedGroup = $this->faker->word();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'group' => $group_filter,
+                'group' => $groupFilter,
             ],
         ];
 
         Theme::factory()
             ->for(Anime::factory())
             ->state(new Sequence(
-                ['group' => $group_filter],
-                ['group' => $excluded_group],
+                ['group' => $groupFilter],
+                ['group' => $excludedGroup],
             ))
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $themes = Theme::where('group', $group_filter)->get();
+        $themes = Theme::where('group', $groupFilter)->get();
 
         $response = $this->get(route('api.theme.index', $parameters));
 
@@ -550,25 +550,25 @@ class ThemeIndexTest extends TestCase
      */
     public function testSequenceFilter()
     {
-        $sequence_filter = $this->faker->randomDigitNotNull;
-        $excluded_sequence = $sequence_filter + 1;
+        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'sequence' => $sequence_filter,
+                'sequence' => $sequenceFilter,
             ],
         ];
 
         Theme::factory()
             ->for(Anime::factory())
             ->state(new Sequence(
-                ['sequence' => $sequence_filter],
-                ['sequence' => $excluded_sequence],
+                ['sequence' => $sequenceFilter],
+                ['sequence' => $excludedSequence],
             ))
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $themes = Theme::where('sequence', $sequence_filter)->get();
+        $themes = Theme::where('sequence', $sequenceFilter)->get();
 
         $response = $this->get(route('api.theme.index', $parameters));
 
@@ -591,11 +591,11 @@ class ThemeIndexTest extends TestCase
      */
     public function testTypeFilter()
     {
-        $type_filter = ThemeType::getRandomInstance();
+        $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'type' => $type_filter->key,
+                'type' => $typeFilter->key,
             ],
         ];
 
@@ -604,7 +604,7 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $themes = Theme::where('type', $type_filter->value)->get();
+        $themes = Theme::where('type', $typeFilter->value)->get();
 
         $response = $this->get(route('api.theme.index', $parameters));
 
@@ -627,11 +627,11 @@ class ThemeIndexTest extends TestCase
      */
     public function testAnimeBySeason()
     {
-        $season_filter = AnimeSeason::getRandomInstance();
+        $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'season' => $season_filter->key,
+                'season' => $seasonFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -642,8 +642,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'anime' => function ($query) use ($season_filter) {
-                $query->where('season', $season_filter->value);
+            'anime' => function ($query) use ($seasonFilter) {
+                $query->where('season', $seasonFilter->value);
             },
         ])
         ->get();
@@ -669,12 +669,12 @@ class ThemeIndexTest extends TestCase
      */
     public function testAnimeByYear()
     {
-        $year_filter = intval($this->faker->year());
-        $excluded_year = $year_filter + 1;
+        $yearFilter = intval($this->faker->year());
+        $excludedYear = $yearFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'year' => $year_filter,
+                'year' => $yearFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -683,15 +683,15 @@ class ThemeIndexTest extends TestCase
             ->for(
                 Anime::factory()
                     ->state([
-                        'year' => $this->faker->boolean() ? $year_filter : $excluded_year,
+                        'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                     ])
             )
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
         $themes = Theme::with([
-            'anime' => function ($query) use ($year_filter) {
-                $query->where('year', $year_filter);
+            'anime' => function ($query) use ($yearFilter) {
+                $query->where('year', $yearFilter);
             },
         ])
         ->get();
@@ -717,11 +717,11 @@ class ThemeIndexTest extends TestCase
      */
     public function testImagesByFacet()
     {
-        $facet_filter = ImageFacet::getRandomInstance();
+        $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'facet' => $facet_filter->key,
+                'facet' => $facetFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'anime.images',
         ];
@@ -735,8 +735,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'anime.images' => function ($query) use ($facet_filter) {
-                $query->where('facet', $facet_filter->value);
+            'anime.images' => function ($query) use ($facetFilter) {
+                $query->where('facet', $facetFilter->value);
             },
         ])
         ->get();
@@ -762,11 +762,11 @@ class ThemeIndexTest extends TestCase
      */
     public function testEntriesByNsfw()
     {
-        $nsfw_filter = $this->faker->boolean();
+        $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'nsfw' => $nsfw_filter,
+                'nsfw' => $nsfwFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries',
         ];
@@ -778,8 +778,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries' => function ($query) use ($nsfw_filter) {
-                $query->where('nsfw', $nsfw_filter);
+            'entries' => function ($query) use ($nsfwFilter) {
+                $query->where('nsfw', $nsfwFilter);
             },
         ])
         ->get();
@@ -805,11 +805,11 @@ class ThemeIndexTest extends TestCase
      */
     public function testEntriesBySpoiler()
     {
-        $spoiler_filter = $this->faker->boolean();
+        $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'spoiler' => $spoiler_filter,
+                'spoiler' => $spoilerFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries',
         ];
@@ -821,8 +821,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries' => function ($query) use ($spoiler_filter) {
-                $query->where('spoiler', $spoiler_filter);
+            'entries' => function ($query) use ($spoilerFilter) {
+                $query->where('spoiler', $spoilerFilter);
             },
         ])
         ->get();
@@ -848,12 +848,12 @@ class ThemeIndexTest extends TestCase
      */
     public function testEntriesByVersion()
     {
-        $version_filter = $this->faker->randomDigitNotNull;
-        $excluded_version = $version_filter + 1;
+        $versionFilter = $this->faker->randomDigitNotNull;
+        $excludedVersion = $versionFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'version' => $version_filter,
+                'version' => $versionFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries',
         ];
@@ -864,16 +864,16 @@ class ThemeIndexTest extends TestCase
                 Entry::factory()
                     ->count($this->faker->randomDigitNotNull)
                     ->state(new Sequence(
-                        ['version' => $version_filter],
-                        ['version' => $excluded_version],
+                        ['version' => $versionFilter],
+                        ['version' => $excludedVersion],
                     ))
             )
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
         $themes = Theme::with([
-            'entries' => function ($query) use ($version_filter) {
-                $query->where('version', $version_filter);
+            'entries' => function ($query) use ($versionFilter) {
+                $query->where('version', $versionFilter);
             },
         ])
         ->get();
@@ -899,11 +899,11 @@ class ThemeIndexTest extends TestCase
      */
     public function testVideosByLyrics()
     {
-        $lyrics_filter = $this->faker->boolean();
+        $lyricsFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'lyrics' => $lyrics_filter,
+                'lyrics' => $lyricsFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
@@ -919,8 +919,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($lyrics_filter) {
-                $query->where('lyrics', $lyrics_filter);
+            'entries.videos' => function ($query) use ($lyricsFilter) {
+                $query->where('lyrics', $lyricsFilter);
             },
         ])
         ->get();
@@ -946,11 +946,11 @@ class ThemeIndexTest extends TestCase
      */
     public function testVideosByNc()
     {
-        $nc_filter = $this->faker->boolean();
+        $ncFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'nc' => $nc_filter,
+                'nc' => $ncFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
@@ -966,8 +966,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($nc_filter) {
-                $query->where('nc', $nc_filter);
+            'entries.videos' => function ($query) use ($ncFilter) {
+                $query->where('nc', $ncFilter);
             },
         ])
         ->get();
@@ -993,11 +993,11 @@ class ThemeIndexTest extends TestCase
      */
     public function testVideosByOverlap()
     {
-        $overlap_filter = VideoOverlap::getRandomInstance();
+        $overlapFilter = VideoOverlap::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'overlap' => $overlap_filter->key,
+                'overlap' => $overlapFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
@@ -1013,8 +1013,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($overlap_filter) {
-                $query->where('overlap', $overlap_filter->value);
+            'entries.videos' => function ($query) use ($overlapFilter) {
+                $query->where('overlap', $overlapFilter->value);
             },
         ])
         ->get();
@@ -1040,12 +1040,12 @@ class ThemeIndexTest extends TestCase
      */
     public function testVideosByResolution()
     {
-        $resolution_filter = $this->faker->randomNumber();
-        $excluded_resolution = $resolution_filter + 1;
+        $resolutionFilter = $this->faker->randomNumber();
+        $excludedResolution = $resolutionFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'resolution' => $resolution_filter,
+                'resolution' => $resolutionFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
@@ -1059,8 +1059,8 @@ class ThemeIndexTest extends TestCase
                         Video::factory()
                             ->count($this->faker->randomDigitNotNull)
                             ->state(new Sequence(
-                                ['resolution' => $resolution_filter],
-                                ['resolution' => $excluded_resolution],
+                                ['resolution' => $resolutionFilter],
+                                ['resolution' => $excludedResolution],
                             ))
                     )
             )
@@ -1068,8 +1068,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($resolution_filter) {
-                $query->where('resolution', $resolution_filter);
+            'entries.videos' => function ($query) use ($resolutionFilter) {
+                $query->where('resolution', $resolutionFilter);
             },
         ])
         ->get();
@@ -1095,11 +1095,11 @@ class ThemeIndexTest extends TestCase
      */
     public function testVideosBySource()
     {
-        $source_filter = VideoSource::getRandomInstance();
+        $sourceFilter = VideoSource::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'source' => $source_filter->key,
+                'source' => $sourceFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
@@ -1115,8 +1115,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($source_filter) {
-                $query->where('source', $source_filter->value);
+            'entries.videos' => function ($query) use ($sourceFilter) {
+                $query->where('source', $sourceFilter->value);
             },
         ])
         ->get();
@@ -1142,11 +1142,11 @@ class ThemeIndexTest extends TestCase
      */
     public function testVideosBySubbed()
     {
-        $subbed_filter = $this->faker->boolean();
+        $subbedFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'subbed' => $subbed_filter,
+                'subbed' => $subbedFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
@@ -1162,8 +1162,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($subbed_filter) {
-                $query->where('subbed', $subbed_filter);
+            'entries.videos' => function ($query) use ($subbedFilter) {
+                $query->where('subbed', $subbedFilter);
             },
         ])
         ->get();
@@ -1189,11 +1189,11 @@ class ThemeIndexTest extends TestCase
      */
     public function testVideosByUncen()
     {
-        $uncen_filter = $this->faker->boolean();
+        $uncenFilter = $this->faker->boolean();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'uncen' => $uncen_filter,
+                'uncen' => $uncenFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'entries.videos',
         ];
@@ -1209,8 +1209,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($uncen_filter) {
-                $query->where('uncen', $uncen_filter);
+            'entries.videos' => function ($query) use ($uncenFilter) {
+                $query->where('uncen', $uncenFilter);
             },
         ])
         ->get();

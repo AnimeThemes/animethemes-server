@@ -17,7 +17,7 @@ class SearchResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param mixed  $parser
+     * @param mixed $parser
      * @return void
      */
     public function __construct($parser)
@@ -28,7 +28,7 @@ class SearchResource extends BaseResource
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)

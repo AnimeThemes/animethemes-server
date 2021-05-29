@@ -9,7 +9,7 @@ class CascadesDeletes
     /**
      * Handle the event.
      *
-     * @param  \App\Contracts\Events\CascadesDeletesEvent  $event
+     * @param \App\Contracts\Events\CascadesDeletesEvent $event
      * @return void
      */
     public function handle(CascadesDeletesEvent $event)

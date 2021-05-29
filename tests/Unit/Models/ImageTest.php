@@ -68,14 +68,14 @@ class ImageTest extends TestCase
      */
     public function testAnime()
     {
-        $anime_count = $this->faker->randomDigitNotNull;
+        $animeCount = $this->faker->randomDigitNotNull;
 
         $image = Image::factory()
-            ->has(Anime::factory()->count($anime_count))
+            ->has(Anime::factory()->count($animeCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $image->anime());
-        $this->assertEquals($anime_count, $image->anime()->count());
+        $this->assertEquals($animeCount, $image->anime()->count());
         $this->assertInstanceOf(Anime::class, $image->anime()->first());
         $this->assertEquals(AnimeImage::class, $image->anime()->getPivotClass());
     }
@@ -87,14 +87,14 @@ class ImageTest extends TestCase
      */
     public function testArtists()
     {
-        $artist_count = $this->faker->randomDigitNotNull;
+        $artistCount = $this->faker->randomDigitNotNull;
 
         $image = Image::factory()
-            ->has(Artist::factory()->count($artist_count))
+            ->has(Artist::factory()->count($artistCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $image->artists());
-        $this->assertEquals($artist_count, $image->artists()->count());
+        $this->assertEquals($artistCount, $image->artists()->count());
         $this->assertInstanceOf(Artist::class, $image->artists()->first());
         $this->assertEquals(ArtistImage::class, $image->artists()->getPivotClass());
     }
@@ -108,14 +108,14 @@ class ImageTest extends TestCase
     {
         $fs = Storage::fake('images');
         $file = File::fake()->image($this->faker->word().'.jpg');
-        $fs_file = $fs->put('', $file);
-        $fs_pathinfo = pathinfo(strval($fs_file));
+        $fsFile = $fs->put('', $file);
+        $fsPathinfo = pathinfo(strval($fsFile));
 
         $image = Image::create([
-            'path' => $fs_file,
+            'path' => $fsFile,
             'facet' => ImageFacet::getRandomValue(),
             'size' => $this->faker->randomNumber(),
-            'mimetype' => MimeType::fromFilename($fs_pathinfo['basename']),
+            'mimetype' => MimeType::fromFilename($fsPathinfo['basename']),
         ]);
 
         $image->delete();
@@ -132,14 +132,14 @@ class ImageTest extends TestCase
     {
         $fs = Storage::fake('images');
         $file = File::fake()->image($this->faker->word().'.jpg');
-        $fs_file = $fs->put('', $file);
-        $fs_pathinfo = pathinfo(strval($fs_file));
+        $fsFile = $fs->put('', $file);
+        $fsPathinfo = pathinfo(strval($fsFile));
 
         $image = Image::create([
-            'path' => $fs_file,
+            'path' => $fsFile,
             'facet' => ImageFacet::getRandomValue(),
             'size' => $this->faker->randomNumber(),
-            'mimetype' => MimeType::fromFilename($fs_pathinfo['basename']),
+            'mimetype' => MimeType::fromFilename($fsPathinfo['basename']),
         ]);
 
         $image->forceDelete();

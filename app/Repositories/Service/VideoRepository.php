@@ -19,22 +19,22 @@ class VideoRepository implements Repository
     {
         // Get metadata for all objects in storage
         $fs = Storage::disk('videos');
-        $fs_videos = collect($fs->listContents('', true));
+        $fsVideos = collect($fs->listContents('', true));
 
         // Filter all objects for WebM metadata
         // We don't want to filter on the remote filesystem for performance concerns
-        $fs_videos = $fs_videos->filter(function (array $fs_file) {
-            return $fs_file['type'] === 'file' && $fs_file['extension'] === 'webm';
+        $fsVideos = $fsVideos->filter(function (array $fsFile) {
+            return $fsFile['type'] === 'file' && $fsFile['extension'] === 'webm';
         });
 
         // Create videos from metadata that we can later save if needed
-        return $fs_videos->map(function (array $fs_file) {
+        return $fsVideos->map(function (array $fsFile) {
             return Video::make([
-                'basename' => $fs_file['basename'],
-                'filename' => $fs_file['filename'],
-                'path' => $fs_file['path'],
-                'size' => $fs_file['size'],
-                'mimetype' => MimeType::fromFilename($fs_file['basename']),
+                'basename' => $fsFile['basename'],
+                'filename' => $fsFile['filename'],
+                'path' => $fsFile['path'],
+                'size' => $fsFile['size'],
+                'mimetype' => MimeType::fromFilename($fsFile['basename']),
             ]);
         });
     }
@@ -42,7 +42,7 @@ class VideoRepository implements Repository
     /**
      * Save model to the repository.
      *
-     * @param Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @return bool
      */
     public function save(Model $model)
@@ -54,7 +54,7 @@ class VideoRepository implements Repository
     /**
      * Delete model from the repository.
      *
-     * @param Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @return bool
      */
     public function delete(Model $model)
@@ -66,7 +66,7 @@ class VideoRepository implements Repository
     /**
      * Update model in the repository.
      *
-     * @param Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @param array $attributes
      * @return bool
      */

@@ -19,7 +19,7 @@ class WelcomeTest extends TestCase
      */
     public function testWelcome()
     {
-        $response = $this->get(route('welcome.index'));
+        $response = $this->get(route('welcome'));
 
         $response->assertViewIs('welcome');
     }
@@ -35,7 +35,7 @@ class WelcomeTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $response = $this->get(route('welcome.index'));
+        $response = $this->get(route('welcome'));
 
         foreach ($announcements as $announcement) {
             $response->assertSee($announcement->content);

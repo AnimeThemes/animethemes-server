@@ -45,7 +45,7 @@ class VideoNcTest extends TestCase
      */
     public function testFilter()
     {
-        $nc_filter = $this->faker->boolean();
+        $ncFilter = $this->faker->boolean();
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull)
@@ -53,12 +53,12 @@ class VideoNcTest extends TestCase
 
         $filter = $this->novaFilter(VideoNcFilter::class);
 
-        $response = $filter->apply(Video::class, $nc_filter);
+        $response = $filter->apply(Video::class, $ncFilter);
 
-        $filtered_videos = Video::where('nc', $nc_filter)->get();
-        foreach ($filtered_videos as $filtered_video) {
-            $response->assertContains($filtered_video);
+        $filteredVideos = Video::where('nc', $ncFilter)->get();
+        foreach ($filteredVideos as $filteredVideo) {
+            $response->assertContains($filteredVideo);
         }
-        $response->assertCount($filtered_videos->count());
+        $response->assertCount($filteredVideos->count());
     }
 }

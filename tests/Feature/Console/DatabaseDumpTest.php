@@ -43,7 +43,7 @@ class DatabaseDumpTest extends TestCase
      *
      * @return string
      */
-    private function getDumpFile()
+    protected function getDumpFile()
     {
         $randomDate = Carbon::parse($this->faker->iso8601());
 

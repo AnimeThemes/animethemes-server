@@ -40,7 +40,7 @@ class VideoSeeder extends Seeder
                 Log::info("{$this->created} Videos created, {$this->deleted} Videos deleted, {$this->updated} Videos updated");
             }
             if ($this->hasFailures()) {
-                Log::error("Failed to create {$this->created_failed} Videos, delete {$this->deleted_failed} Videos, update {$this->updated_failed} Videos");
+                Log::error("Failed to create {$this->createdFailed} Videos, delete {$this->deletedFailed} Videos, update {$this->updatedFailed} Videos");
             }
         } else {
             Log::info('No Videos created or deleted or updated');
@@ -50,7 +50,7 @@ class VideoSeeder extends Seeder
     /**
      * Handler for successful video creation.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
@@ -61,7 +61,7 @@ class VideoSeeder extends Seeder
     /**
      * Handler for failed video creation.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
@@ -72,7 +72,7 @@ class VideoSeeder extends Seeder
     /**
      * Handler for successful video deletion.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
@@ -83,7 +83,7 @@ class VideoSeeder extends Seeder
     /**
      * Handler for failed video deletion.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
@@ -94,7 +94,7 @@ class VideoSeeder extends Seeder
     /**
      * Handler for successful video update.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
@@ -105,7 +105,7 @@ class VideoSeeder extends Seeder
     /**
      * Handler for failed video update.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)

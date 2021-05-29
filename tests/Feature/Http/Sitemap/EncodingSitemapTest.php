@@ -151,7 +151,7 @@ class EncodingSitemapTest extends TestCase
     }
 
     /**
-     * The encoding sitemap shall display the encoding video_filtering route.
+     * The encoding sitemap shall display the encoding videoFiltering route.
      *
      * @return void
      */

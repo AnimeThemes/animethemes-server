@@ -26,7 +26,7 @@ abstract class ElasticQueryPayload
     /**
      * Create a new query payload instance.
      *
-     * @param  mixed  ...$parameters
+     * @param mixed ...$parameters
      * @return static
      */
     public static function make(...$parameters)

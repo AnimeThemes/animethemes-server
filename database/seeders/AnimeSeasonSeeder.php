@@ -17,43 +17,43 @@ class AnimeSeasonSeeder extends Seeder
      */
     public function run()
     {
-        foreach (WikiPages::YEAR_MAP as $year_page => $years) {
+        foreach (WikiPages::YEAR_MAP as $yearPage => $years) {
 
             // Try not to upset Reddit
             sleep(rand(5, 15));
 
             // Get JSON of Year page content
-            $year_wiki_contents = WikiPages::getPageContents($year_page);
-            if ($year_wiki_contents === null) {
+            $yearWikiContents = WikiPages::getPageContents($yearPage);
+            if ($yearWikiContents === null) {
                 continue;
             }
 
             // We want to proceed line by line
-            preg_match_all('/^(.*)$/m', $year_wiki_contents, $anime_season_wiki_entries, PREG_SET_ORDER);
+            preg_match_all('/^(.*)$/m', $yearWikiContents, $animeSeasonWikiEntries, PREG_SET_ORDER);
 
             // The current year and season
             $year = $years[0];
             $season = null;
 
-            foreach ($anime_season_wiki_entries as $anime_season_wiki_entry) {
-                $wiki_entry_line = html_entity_decode($anime_season_wiki_entry[0]);
+            foreach ($animeSeasonWikiEntries as $animeSeasonWikiEntry) {
+                $wikiEntryLine = html_entity_decode($animeSeasonWikiEntry[0]);
 
                 // If Season heading line, set the current Season
                 // Format: "##{Year} {Season} Season (Quarter)"
-                if (preg_match('/^##(\d+).*(Fall|Summer|Spring|Winter).*(?:\\r)?$/', $wiki_entry_line, $anime_season)) {
-                    $season = AnimeSeason::getValue(Str::upper($anime_season[2]));
+                if (preg_match('/^##(\d+).*(Fall|Summer|Spring|Winter).*(?:\\r)?$/', $wikiEntryLine, $animeSeason)) {
+                    $season = AnimeSeason::getValue(Str::upper($animeSeason[2]));
                     continue;
                 }
 
                 // If Anime heading line, attempt to set Anime to current Season
                 // Format: "###[{Anime Name}]({Resource Link})"
-                if ($year !== null && $season !== null && preg_match('/###\[(.*)\]\(https\:\/\/.*\)/', $wiki_entry_line, $anime_name)) {
+                if ($year !== null && $season !== null && preg_match('/###\[(.*)\]\(https\:\/\/.*\)/', $wikiEntryLine, $animeName)) {
                     try {
                         // Set season if we have a definitive match
                         // This is not guaranteed as an Anime Name may be inconsistent between indices
-                        $matching_anime = Anime::where('name', html_entity_decode($anime_name[1]))->where('year', $year);
-                        if ($matching_anime->count() === 1) {
-                            $anime = $matching_anime->first();
+                        $matchingAnime = Anime::where('name', html_entity_decode($animeName[1]))->where('year', $year);
+                        if ($matchingAnime->count() === 1) {
+                            $anime = $matchingAnime->first();
                             $anime->season = $season;
                             if ($anime->isDirty()) {
                                 Log::info("Setting season '{$season}' for anime '{$anime->name}'");

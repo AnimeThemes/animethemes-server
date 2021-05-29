@@ -77,14 +77,14 @@ class ArtistTest extends TestCase
      */
     public function testSongs()
     {
-        $song_count = $this->faker->randomDigitNotNull;
+        $songCount = $this->faker->randomDigitNotNull;
 
         $artist = Artist::factory()
-            ->has(Song::factory()->count($song_count))
+            ->has(Song::factory()->count($songCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $artist->songs());
-        $this->assertEquals($song_count, $artist->songs()->count());
+        $this->assertEquals($songCount, $artist->songs()->count());
         $this->assertInstanceOf(Song::class, $artist->songs()->first());
         $this->assertEquals(ArtistSong::class, $artist->songs()->getPivotClass());
     }
@@ -96,14 +96,14 @@ class ArtistTest extends TestCase
      */
     public function testExternalResources()
     {
-        $resource_count = $this->faker->randomDigitNotNull;
+        $resourceCount = $this->faker->randomDigitNotNull;
 
         $artist = Artist::factory()
-            ->has(ExternalResource::factory()->count($resource_count))
+            ->has(ExternalResource::factory()->count($resourceCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $artist->externalResources());
-        $this->assertEquals($resource_count, $artist->externalResources()->count());
+        $this->assertEquals($resourceCount, $artist->externalResources()->count());
         $this->assertInstanceOf(ExternalResource::class, $artist->externalResources()->first());
         $this->assertEquals(ArtistResource::class, $artist->externalResources()->getPivotClass());
     }
@@ -115,14 +115,14 @@ class ArtistTest extends TestCase
      */
     public function testMembers()
     {
-        $member_count = $this->faker->randomDigitNotNull;
+        $memberCount = $this->faker->randomDigitNotNull;
 
         $artist = Artist::factory()
-            ->has(Artist::factory()->count($member_count), 'members')
+            ->has(Artist::factory()->count($memberCount), 'members')
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $artist->members());
-        $this->assertEquals($member_count, $artist->members()->count());
+        $this->assertEquals($memberCount, $artist->members()->count());
         $this->assertInstanceOf(Artist::class, $artist->members()->first());
         $this->assertEquals(ArtistMember::class, $artist->members()->getPivotClass());
     }
@@ -134,14 +134,14 @@ class ArtistTest extends TestCase
      */
     public function testGroups()
     {
-        $group_count = $this->faker->randomDigitNotNull;
+        $groupCount = $this->faker->randomDigitNotNull;
 
         $artist = Artist::factory()
-            ->has(Artist::factory()->count($group_count), 'groups')
+            ->has(Artist::factory()->count($groupCount), 'groups')
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $artist->groups());
-        $this->assertEquals($group_count, $artist->groups()->count());
+        $this->assertEquals($groupCount, $artist->groups()->count());
         $this->assertInstanceOf(Artist::class, $artist->groups()->first());
         $this->assertEquals(ArtistMember::class, $artist->groups()->getPivotClass());
     }
@@ -153,14 +153,14 @@ class ArtistTest extends TestCase
      */
     public function testImages()
     {
-        $image_count = $this->faker->randomDigitNotNull;
+        $imageCount = $this->faker->randomDigitNotNull;
 
         $artist = Artist::factory()
-            ->has(Image::factory()->count($image_count))
+            ->has(Image::factory()->count($imageCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $artist->images());
-        $this->assertEquals($image_count, $artist->images()->count());
+        $this->assertEquals($imageCount, $artist->images()->count());
         $this->assertInstanceOf(Image::class, $artist->images()->first());
         $this->assertEquals(ArtistImage::class, $artist->images()->getPivotClass());
     }

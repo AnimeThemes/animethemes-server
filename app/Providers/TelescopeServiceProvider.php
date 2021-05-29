@@ -66,9 +66,9 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewTelescope', function (User $user) {
-            $telescope_team = Team::find(Config::get('telescope.team'));
+            $telescopeTeam = Team::find(Config::get('telescope.team'));
 
-            return $user->isCurrentTeam($telescope_team);
+            return $user->isCurrentTeam($telescopeTeam);
         });
     }
 }

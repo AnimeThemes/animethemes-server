@@ -26,8 +26,8 @@ class DigitalOceanBalanceRepository implements Repository
     public function all()
     {
         // Do not proceed if we do not have authorization to the DO API
-        $do_bearer_token = Config::get('services.do.token');
-        if ($do_bearer_token === null) {
+        $doBearerToken = Config::get('services.do.token');
+        if ($doBearerToken === null) {
             Log::error('DO_BEARER_TOKEN must be configured in your env file.');
 
             return Collection::make();
@@ -39,18 +39,18 @@ class DigitalOceanBalanceRepository implements Repository
             $response = $client->get('https://api.digitalocean.com/v2/customers/my/balance', [
                 'headers' => [
                     'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer '.$do_bearer_token,
+                    'Authorization' => 'Bearer '.$doBearerToken,
                 ],
             ]);
 
-            $balance_json = json_decode($response->getBody()->getContents(), true);
+            $balanceJson = json_decode($response->getBody()->getContents(), true);
 
             $balance = Balance::make([
                 'date' => Carbon::now()->firstOfMonth()->format(AllowedDateFormat::WITH_DAY),
                 'service' => Service::DIGITALOCEAN,
                 'frequency' => Frequency::MONTHLY,
-                'usage' => $balance_json['month_to_date_usage'],
-                'balance' => -1 * floatval($balance_json['month_to_date_balance']),
+                'usage' => $balanceJson['month_to_date_usage'],
+                'balance' => -1 * floatval($balanceJson['month_to_date_balance']),
             ]);
 
             return collect([$balance]);
@@ -68,7 +68,7 @@ class DigitalOceanBalanceRepository implements Repository
     /**
      * Save model to the repository.
      *
-     * @param Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @return bool
      */
     public function save(Model $model)
@@ -80,7 +80,7 @@ class DigitalOceanBalanceRepository implements Repository
     /**
      * Delete model from the repository.
      *
-     * @param Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @return bool
      */
     public function delete(Model $model)
@@ -92,7 +92,7 @@ class DigitalOceanBalanceRepository implements Repository
     /**
      * Update model in the repository.
      *
-     * @param Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @param array $attributes
      * @return bool
      */

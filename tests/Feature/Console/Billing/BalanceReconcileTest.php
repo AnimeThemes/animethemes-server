@@ -69,10 +69,10 @@ class BalanceReconcileTest extends TestCase
      */
     public function testCreated()
     {
-        $created_balance_count = $this->faker->randomDigitNotNull;
+        $createdBalanceCount = $this->faker->randomDigitNotNull;
 
         $balances = Balance::factory()
-            ->count($created_balance_count)
+            ->count($createdBalanceCount)
             ->make([
                 'date' => Carbon::now()->format(AllowedDateFormat::WITH_DAY),
                 'service' => Service::DIGITALOCEAN,
@@ -86,7 +86,7 @@ class BalanceReconcileTest extends TestCase
 
         $this->app->instance(DigitalOceanBalanceRepository::class, $mock);
 
-        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("{$created_balance_count} Balances created, 0 Balances deleted, 0 Balances updated");
+        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("{$createdBalanceCount} Balances created, 0 Balances deleted, 0 Balances updated");
     }
 
     /**
@@ -96,10 +96,10 @@ class BalanceReconcileTest extends TestCase
      */
     public function testDeleted()
     {
-        $deleted_balance_count = $this->faker->randomDigitNotNull;
+        $deletedBalanceCount = $this->faker->randomDigitNotNull;
 
         Balance::factory()
-            ->count($deleted_balance_count)
+            ->count($deletedBalanceCount)
             ->create([
                 'date' => Carbon::now()->format(AllowedDateFormat::WITH_DAY),
                 'service' => Service::DIGITALOCEAN,
@@ -113,7 +113,7 @@ class BalanceReconcileTest extends TestCase
 
         $this->app->instance(DigitalOceanBalanceRepository::class, $mock);
 
-        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Balances created, {$deleted_balance_count} Balances deleted, 0 Balances updated");
+        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Balances created, {$deletedBalanceCount} Balances deleted, 0 Balances updated");
     }
 
     /**
@@ -129,7 +129,7 @@ class BalanceReconcileTest extends TestCase
                 'service' => Service::DIGITALOCEAN,
             ]);
 
-        $source_balances = Balance::factory()
+        $sourceBalances = Balance::factory()
             ->make([
                 'date' => Carbon::now()->format(AllowedDateFormat::WITH_DAY),
                 'service' => Service::DIGITALOCEAN,
@@ -139,7 +139,7 @@ class BalanceReconcileTest extends TestCase
 
         $mock->shouldReceive('all')
             ->once()
-            ->andReturn(collect([$source_balances]));
+            ->andReturn(collect([$sourceBalances]));
 
         $this->app->instance(DigitalOceanBalanceRepository::class, $mock);
 

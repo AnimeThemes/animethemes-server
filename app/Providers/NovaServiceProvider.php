@@ -50,9 +50,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function (User $user) {
-            $nova_team = Team::find(Config::get('nova.team'));
+            $novaTeam = Team::find(Config::get('nova.team'));
 
-            return $user->isCurrentTeam($nova_team);
+            return $user->isCurrentTeam($novaTeam);
         });
 
         // Only admins can see audit logs

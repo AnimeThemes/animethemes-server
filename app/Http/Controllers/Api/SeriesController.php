@@ -112,7 +112,7 @@ class SeriesController extends BaseController
      *     )
      * )
      *
-     * @param  \App\Models\Series  $series
+     * @param \App\Models\Series $series
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Series $series)

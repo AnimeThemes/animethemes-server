@@ -73,6 +73,8 @@ class Invitation extends BaseModel
     }
 
     /**
+     * Is invitation open?
+     *
      * @return bool
      */
     public function isOpen()
@@ -81,6 +83,8 @@ class Invitation extends BaseModel
     }
 
     /**
+     * Generate token for invitation.
+     *
      * @return string
      */
     public static function createToken()

@@ -134,7 +134,7 @@ class ExternalResourceUnlinkedTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filtered_resources = ExternalResource::whereDoesntHave('anime')
+        $filteredResources = ExternalResource::whereDoesntHave('anime')
             ->whereDoesntHave('artists')
             ->get();
 
@@ -142,9 +142,9 @@ class ExternalResourceUnlinkedTest extends TestCase
 
         $query = $lens->query(ExternalResource::class);
 
-        foreach ($filtered_resources as $filtered_resource) {
-            $query->assertContains($filtered_resource);
+        foreach ($filteredResources as $filteredResource) {
+            $query->assertContains($filteredResource);
         }
-        $query->assertCount($filtered_resources->count());
+        $query->assertCount($filteredResources->count());
     }
 }

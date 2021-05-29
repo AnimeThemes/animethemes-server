@@ -74,11 +74,11 @@ class ExternalResourceShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(ExternalResourceResource::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(ExternalResourceResource::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         ExternalResource::factory()
@@ -86,7 +86,7 @@ class ExternalResourceShowTest extends TestCase
             ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
             ->create();
 
-        $resource = ExternalResource::with($included_paths->all())->first();
+        $resource = ExternalResource::with($includedPaths->all())->first();
 
         $response = $this->get(route('api.resource.show', ['resource' => $resource] + $parameters));
 
@@ -120,11 +120,11 @@ class ExternalResourceShowTest extends TestCase
             'deleted_at',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                ExternalResourceResource::$wrap => $included_fields->join(','),
+                ExternalResourceResource::$wrap => $includedFields->join(','),
             ],
         ];
 
@@ -151,11 +151,11 @@ class ExternalResourceShowTest extends TestCase
      */
     public function testAnimeBySeason()
     {
-        $season_filter = AnimeSeason::getRandomInstance();
+        $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'season' => $season_filter->key,
+                'season' => $seasonFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -165,8 +165,8 @@ class ExternalResourceShowTest extends TestCase
             ->create();
 
         $resource = ExternalResource::with([
-            'anime' => function ($query) use ($season_filter) {
-                $query->where('season', $season_filter->value);
+            'anime' => function ($query) use ($seasonFilter) {
+                $query->where('season', $seasonFilter->value);
             },
         ])
         ->first();
@@ -192,12 +192,12 @@ class ExternalResourceShowTest extends TestCase
      */
     public function testAnimeByYear()
     {
-        $year_filter = intval($this->faker->year());
-        $excluded_year = $year_filter + 1;
+        $yearFilter = intval($this->faker->year());
+        $excludedYear = $yearFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'year' => $year_filter,
+                'year' => $yearFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -207,14 +207,14 @@ class ExternalResourceShowTest extends TestCase
                 Anime::factory()
                 ->count($this->faker->randomDigitNotNull)
                 ->state([
-                    'year' => $this->faker->boolean() ? $year_filter : $excluded_year,
+                    'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                 ])
             )
             ->create();
 
         $resource = ExternalResource::with([
-            'anime' => function ($query) use ($year_filter) {
-                $query->where('year', $year_filter);
+            'anime' => function ($query) use ($yearFilter) {
+                $query->where('year', $yearFilter);
             },
         ])
         ->first();

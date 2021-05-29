@@ -11,7 +11,7 @@ class SitemapController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function show()
     {
         return response()
             ->view('sitemap.index')

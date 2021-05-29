@@ -10,7 +10,7 @@ abstract class EloquentRepository implements Repository
     /**
      * Save model to the repository.
      *
-     * @param Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @return bool
      */
     public function save(Model $model)
@@ -21,7 +21,7 @@ abstract class EloquentRepository implements Repository
     /**
      * Delete model from the repository.
      *
-     * @param Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @return bool
      */
     public function delete(Model $model)
@@ -32,7 +32,7 @@ abstract class EloquentRepository implements Repository
     /**
      * Update model in the repository.
      *
-     * @param Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @param array $attributes
      * @return bool
      */

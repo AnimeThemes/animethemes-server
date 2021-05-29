@@ -63,7 +63,7 @@ class AnimeResourceTest extends TestCase
         $anime = Anime::factory()->create();
         $resource = ExternalResource::factory()->create();
 
-        $anime_resource = AnimeResource::factory()
+        $animeResource = AnimeResource::factory()
             ->for($anime, 'anime')
             ->for($resource, 'resource')
             ->create();
@@ -73,8 +73,8 @@ class AnimeResourceTest extends TestCase
             ->for($resource, 'resource')
             ->make();
 
-        $anime_resource->fill($changes->getAttributes());
-        $anime_resource->save();
+        $animeResource->fill($changes->getAttributes());
+        $animeResource->save();
 
         Event::assertDispatched(AnimeResourceUpdated::class);
     }

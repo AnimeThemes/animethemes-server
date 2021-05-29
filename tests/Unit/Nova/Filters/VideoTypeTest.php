@@ -57,11 +57,11 @@ class VideoTypeTest extends TestCase
 
         $response = $filter->apply(Video::class, VideoTypeFilter::ANIME);
 
-        $filtered_videos = Video::where('path', 'not like', 'misc%')->get();
-        foreach ($filtered_videos as $filtered_video) {
-            $response->assertContains($filtered_video);
+        $filteredVideos = Video::where('path', 'not like', 'misc%')->get();
+        foreach ($filteredVideos as $filteredVideo) {
+            $response->assertContains($filteredVideo);
         }
-        $response->assertCount($filtered_videos->count());
+        $response->assertCount($filteredVideos->count());
     }
 
     /**
@@ -83,10 +83,10 @@ class VideoTypeTest extends TestCase
 
         $response = $filter->apply(Video::class, VideoTypeFilter::MISC);
 
-        $filtered_videos = Video::where('path', 'like', 'misc%')->get();
-        foreach ($filtered_videos as $filtered_video) {
-            $response->assertContains($filtered_video);
+        $filteredVideos = Video::where('path', 'like', 'misc%')->get();
+        foreach ($filteredVideos as $filteredVideo) {
+            $response->assertContains($filteredVideo);
         }
-        $response->assertCount($filtered_videos->count());
+        $response->assertCount($filteredVideos->count());
     }
 }

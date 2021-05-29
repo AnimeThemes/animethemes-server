@@ -55,10 +55,10 @@ class ExternalResourceSiteTest extends TestCase
 
         $response = $filter->apply(ExternalResource::class, $site->value);
 
-        $filtered_resources = ExternalResource::where('site', $site->value)->get();
-        foreach ($filtered_resources as $filtered_resource) {
-            $response->assertContains($filtered_resource);
+        $filteredResources = ExternalResource::where('site', $site->value)->get();
+        foreach ($filteredResources as $filteredResource) {
+            $response->assertContains($filteredResource);
         }
-        $response->assertCount($filtered_resources->count());
+        $response->assertCount($filteredResources->count());
     }
 }

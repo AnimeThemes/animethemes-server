@@ -80,21 +80,21 @@ class SearchTest extends TestCase
             VideoCollection::$wrap,
         ];
 
-        $included_fields = Arr::random($fields, $this->faker->numberBetween(1, count($fields)));
+        $includedFields = Arr::random($fields, $this->faker->numberBetween(1, count($fields)));
 
         $q = $this->faker->word();
 
         $parameters = [
             QueryParser::PARAM_SEARCH => $q,
             QueryParser::PARAM_FIELDS => [
-                SearchResource::$wrap => implode(',', $included_fields),
+                SearchResource::$wrap => implode(',', $includedFields),
             ],
         ];
 
         $response = $this->get(route('api.search.index', $parameters));
 
         $response->assertJsonStructure([
-            SearchResource::$wrap => $included_fields,
+            SearchResource::$wrap => $includedFields,
         ]);
     }
 }

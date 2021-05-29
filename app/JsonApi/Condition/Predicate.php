@@ -16,14 +16,14 @@ class Predicate
     /**
      * The comparison operator of the predicate.
      *
-     * @var ComparisonOperator|null
+     * @var \App\Enums\Filter\ComparisonOperator|null
      */
     protected $operator;
 
     /**
      * The expression of the predicate.
      *
-     * @var Expression
+     * @var \App\JsonApi\Condition\Expression
      */
     protected $expression;
 
@@ -31,8 +31,8 @@ class Predicate
      * Create a new predicate.
      *
      * @param string $column
-     * @param ComparisonOperator|null $operator
-     * @param Expression $expression
+     * @param \App\Enums\Filter\ComparisonOperator|null $operator
+     * @param \App\JsonApi\Condition\Expression $expression
      */
     public function __construct(
         string $column,
@@ -57,7 +57,7 @@ class Predicate
     /**
      * Get the predicate operator.
      *
-     * @return ComparisonOperator|null $operator
+     * @return \App\Enums\Filter\ComparisonOperator|null $operator
      */
     public function getOperator()
     {
@@ -67,7 +67,7 @@ class Predicate
     /**
      * Get the predicate expression.
      *
-     * @return Expression $expression
+     * @return \App\JsonApi\Condition\Expression $expression
      */
     public function getExpression()
     {

@@ -89,7 +89,7 @@ class TransparencyRequest extends FormRequest
     /**
      * Get the validated year/month combination for the transparency filter.
      *
-     * @return Carbon
+     * @return \Carbon\Carbon
      */
     public function getSelectedDate()
     {

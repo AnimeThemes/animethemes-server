@@ -62,14 +62,14 @@ class PasswordResetTest extends TestCase
             'email' => $user->email,
         ]);
 
-        $strong_password = $this->faker->password(64, 128);
+        $strongPassword = $this->faker->password(64, 128);
 
-        Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user, $strong_password) {
+        Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user, $strongPassword) {
             $response = $this->post('/reset-password', [
                 'token' => $notification->token,
                 'email' => $user->email,
-                'password' => $strong_password,
-                'password_confirmation' => $strong_password,
+                'password' => $strongPassword,
+                'password_confirmation' => $strongPassword,
             ]);
 
             $response->assertSessionHasNoErrors();

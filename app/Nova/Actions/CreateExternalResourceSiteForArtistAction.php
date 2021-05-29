@@ -21,12 +21,12 @@ class CreateExternalResourceSiteForArtistAction extends Action
      *
      * @var int
      */
-    private $site;
+    protected $site;
 
     /**
      * @param int $site
      */
-    public function __construct($site)
+    public function __construct(int $site)
     {
         $this->site = $site;
     }
@@ -44,8 +44,8 @@ class CreateExternalResourceSiteForArtistAction extends Action
     /**
      * Perform the action on the given models.
      *
-     * @param  \Laravel\Nova\Fields\ActionFields  $fields
-     * @param  \Illuminate\Support\Collection  $models
+     * @param \Laravel\Nova\Fields\ActionFields $fields
+     * @param \Illuminate\Support\Collection $models
      * @return mixed
      */
     public function handle(ActionFields $fields, Collection $models)

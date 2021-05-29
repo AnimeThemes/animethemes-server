@@ -18,7 +18,7 @@ class InvitationEmail extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param \App\Models\Invitation  $invitation
+     * @param \App\Models\Invitation $invitation
      * @return void
      */
     public function __construct($invitation)

@@ -62,7 +62,7 @@ class ArtistSongTest extends TestCase
         $artist = Artist::factory()->create();
         $song = Song::factory()->create();
 
-        $artist_song = ArtistSong::factory()
+        $artistSong = ArtistSong::factory()
             ->for($artist, 'artist')
             ->for($song, 'song')
             ->create();
@@ -75,8 +75,8 @@ class ArtistSongTest extends TestCase
         Config::set('app.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotification::class);
 
-        $artist_song->fill($changes->getAttributes());
-        $artist_song->save();
+        $artistSong->fill($changes->getAttributes());
+        $artistSong->save();
 
         Bus::assertDispatched(SendDiscordNotification::class);
     }

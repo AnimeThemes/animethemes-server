@@ -10,8 +10,8 @@ class StoreImage
     /**
      * Store the incoming file upload.
      *
-     * @param Request $request
-     * @param Model $model
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @param string $attribute
      * @param string $requestAttribute
      * @param string $disk

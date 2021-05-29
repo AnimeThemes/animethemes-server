@@ -15,9 +15,9 @@ trait ReconcilesBalance
     /**
      * Perform set operation for create and delete steps.
      *
-     * @param Collection $a
-     * @param Collection $b
-     * @return Collection
+     * @param \Illuminate\Support\Collection $a
+     * @param \Illuminate\Support\Collection $b
+     * @return \Illuminate\Support\Collection
      */
     protected function diffForCreateDelete(Collection $a, Collection $b)
     {
@@ -29,9 +29,9 @@ trait ReconcilesBalance
     /**
      * Perform set operation for update step.
      *
-     * @param Collection $a
-     * @param Collection $b
-     * @return Collection
+     * @param \Illuminate\Support\Collection $a
+     * @param \Illuminate\Support\Collection $b
+     * @return \Illuminate\Support\Collection
      */
     protected function diffForUpdate(Collection $a, Collection $b)
     {
@@ -43,18 +43,18 @@ trait ReconcilesBalance
     /**
      * Get source model that has been updated for destination model.
      *
-     * @param Collection $source_models
-     * @param Model $destination_model
-     * @return Model|null
+     * @param \Illuminate\Support\Collection $sourceModels
+     * @param \Illuminate\Database\Eloquent\Model $destinationModel
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
-    protected function resolveUpdatedModel(Collection $source_models, Model $destination_model)
+    protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel)
     {
-        $formatted_destination_date = $destination_model->getAttribute('date')->format(AllowedDateFormat::WITH_MONTH);
+        $formattedDestinationDate = $destinationModel->getAttribute('date')->format(AllowedDateFormat::WITH_MONTH);
 
-        $filtered_source_models = $source_models->filter(function (Balance $item) use ($formatted_destination_date) {
-            return $item->date->format(AllowedDateFormat::WITH_MONTH) === $formatted_destination_date;
+        $filteredSourceModels = $sourceModels->filter(function (Balance $item) use ($formattedDestinationDate) {
+            return $item->date->format(AllowedDateFormat::WITH_MONTH) === $formattedDestinationDate;
         });
 
-        return $filtered_source_models->first();
+        return $filteredSourceModels->first();
     }
 }

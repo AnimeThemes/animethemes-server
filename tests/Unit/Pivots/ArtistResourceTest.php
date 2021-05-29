@@ -21,13 +21,13 @@ class ArtistResourceTest extends TestCase
      */
     public function testArtist()
     {
-        $artist_resource = ArtistResource::factory()
+        $artistResource = ArtistResource::factory()
             ->for(Artist::factory())
             ->for(ExternalResource::factory(), 'resource')
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artist_resource->artist());
-        $this->assertInstanceOf(Artist::class, $artist_resource->artist()->first());
+        $this->assertInstanceOf(BelongsTo::class, $artistResource->artist());
+        $this->assertInstanceOf(Artist::class, $artistResource->artist()->first());
     }
 
     /**
@@ -37,12 +37,12 @@ class ArtistResourceTest extends TestCase
      */
     public function testResource()
     {
-        $artist_resource = ArtistResource::factory()
+        $artistResource = ArtistResource::factory()
             ->for(Artist::factory())
             ->for(ExternalResource::factory(), 'resource')
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artist_resource->resource());
-        $this->assertInstanceOf(ExternalResource::class, $artist_resource->resource()->first());
+        $this->assertInstanceOf(BelongsTo::class, $artistResource->resource());
+        $this->assertInstanceOf(ExternalResource::class, $artistResource->resource()->first());
     }
 }

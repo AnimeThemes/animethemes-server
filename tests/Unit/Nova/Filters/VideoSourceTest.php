@@ -55,10 +55,10 @@ class VideoSourceTest extends TestCase
 
         $response = $filter->apply(Video::class, $source->value);
 
-        $filtered_videos = Video::where('source', $source->value)->get();
-        foreach ($filtered_videos as $filtered_video) {
-            $response->assertContains($filtered_video);
+        $filteredVideos = Video::where('source', $source->value)->get();
+        foreach ($filteredVideos as $filteredVideo) {
+            $response->assertContains($filteredVideo);
         }
-        $response->assertCount($filtered_videos->count());
+        $response->assertCount($filteredVideos->count());
     }
 }

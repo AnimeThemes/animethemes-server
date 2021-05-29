@@ -416,12 +416,12 @@ class ArtistPolicyTest extends TestCase
             ->create();
 
         $artist = Artist::factory()->create();
-        $member_group = Artist::factory()->create();
+        $memberGroup = Artist::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->attachArtist($viewer, $artist, $member_group));
-        $this->assertTrue($policy->attachArtist($editor, $artist, $member_group));
-        $this->assertTrue($policy->attachArtist($admin, $artist, $member_group));
+        $this->assertFalse($policy->attachArtist($viewer, $artist, $memberGroup));
+        $this->assertTrue($policy->attachArtist($editor, $artist, $memberGroup));
+        $this->assertTrue($policy->attachArtist($admin, $artist, $memberGroup));
     }
 
     /**
@@ -444,12 +444,12 @@ class ArtistPolicyTest extends TestCase
             ->create();
 
         $artist = Artist::factory()->create();
-        $group_member = Artist::factory()->create();
+        $groupMember = Artist::factory()->create();
         $policy = new ArtistPolicy();
 
-        $this->assertFalse($policy->detachArtist($viewer, $artist, $group_member));
-        $this->assertTrue($policy->detachArtist($editor, $artist, $group_member));
-        $this->assertTrue($policy->detachArtist($admin, $artist, $group_member));
+        $this->assertFalse($policy->detachArtist($viewer, $artist, $groupMember));
+        $this->assertTrue($policy->detachArtist($editor, $artist, $groupMember));
+        $this->assertTrue($policy->detachArtist($admin, $artist, $groupMember));
     }
 
     /**

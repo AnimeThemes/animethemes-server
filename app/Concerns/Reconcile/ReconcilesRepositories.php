@@ -22,7 +22,7 @@ trait ReconcilesRepositories
      *
      * @var int
      */
-    protected $created_failed = 0;
+    protected $createdFailed = 0;
 
     /**
      * The number of models deleted.
@@ -36,7 +36,7 @@ trait ReconcilesRepositories
      *
      * @var int
      */
-    protected $deleted_failed = 0;
+    protected $deletedFailed = 0;
 
     /**
      * The number of models updated.
@@ -50,12 +50,12 @@ trait ReconcilesRepositories
      *
      * @var int
      */
-    protected $updated_failed = 0;
+    protected $updatedFailed = 0;
 
     /**
      * Callback for successful model creation.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
@@ -66,7 +66,7 @@ trait ReconcilesRepositories
     /**
      * Callback for failed model creation.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
@@ -77,7 +77,7 @@ trait ReconcilesRepositories
     /**
      * Callback for successful model deletion.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
@@ -88,7 +88,7 @@ trait ReconcilesRepositories
     /**
      * Callback for failed model deletion.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
@@ -99,7 +99,7 @@ trait ReconcilesRepositories
     /**
      * Callback for successful model update.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
@@ -110,7 +110,7 @@ trait ReconcilesRepositories
     /**
      * Callback for failed model update.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)
@@ -144,7 +144,7 @@ trait ReconcilesRepositories
      *
      * @return bool
      */
-    private function hasResults()
+    protected function hasResults()
     {
         return $this->hasChanges() || $this->hasFailures();
     }
@@ -154,7 +154,7 @@ trait ReconcilesRepositories
      *
      * @return bool
      */
-    private function hasChanges()
+    protected function hasChanges()
     {
         return $this->created > 0 || $this->deleted > 0 || $this->updated > 0;
     }
@@ -164,32 +164,32 @@ trait ReconcilesRepositories
      *
      * @return bool
      */
-    private function hasFailures()
+    protected function hasFailures()
     {
-        return $this->created_failed > 0 || $this->deleted_failed > 0 || $this->updated_failed > 0;
+        return $this->createdFailed > 0 || $this->deletedFailed > 0 || $this->updatedFailed > 0;
     }
 
     /**
      * Perform set reconciliation between source and destination repositories.
      *
-     * @param Repository $source
-     * @param Repository $destination
+     * @param \App\Contracts\Repositories\Repository $source
+     * @param \App\Contracts\Repositories\Repository $destination
      * @return void
      */
     public function reconcileRepositories(Repository $source, Repository $destination)
     {
         try {
-            $source_models = $source->all();
+            $sourceModels = $source->all();
 
-            $destination_models = $destination->all();
+            $destinationModels = $destination->all();
 
-            $this->createModelsFromSource($destination, $source_models, $destination_models);
+            $this->createModelsFromSource($destination, $sourceModels, $destinationModels);
 
-            $this->deleteModelsFromDestination($destination, $source_models, $destination_models);
+            $this->deleteModelsFromDestination($destination, $sourceModels, $destinationModels);
 
-            $destination_models = $destination->all();
+            $destinationModels = $destination->all();
 
-            $this->updateDestinationModels($destination, $source_models, $destination_models);
+            $this->updateDestinationModels($destination, $sourceModels, $destinationModels);
         } catch (Exception $exception) {
             $this->handleException($exception);
         } finally {
@@ -200,9 +200,9 @@ trait ReconcilesRepositories
     /**
      * Perform set operation for create and delete steps.
      *
-     * @param Collection $a
-     * @param Collection $b
-     * @return Collection
+     * @param \Illuminate\Support\Collection $a
+     * @param \Illuminate\Support\Collection $b
+     * @return \Illuminate\Support\Collection
      */
     protected function diffForCreateDelete(Collection $a, Collection $b)
     {
@@ -212,23 +212,23 @@ trait ReconcilesRepositories
     /**
      * Create models that exist in source but not in destination.
      *
-     * @param Repository $destination
-     * @param Collection $source_models
-     * @param Collection $destination_models
+     * @param \App\Contracts\Repositories\Repository $destination
+     * @param \Illuminate\Support\Collection $sourceModels
+     * @param \Illuminate\Support\Collection $destinationModels
      * @return void
      */
-    protected function createModelsFromSource(Repository $destination, Collection $source_models, Collection $destination_models)
+    protected function createModelsFromSource(Repository $destination, Collection $sourceModels, Collection $destinationModels)
     {
-        $create_models = $this->diffForCreateDelete($source_models, $destination_models);
+        $createModels = $this->diffForCreateDelete($sourceModels, $destinationModels);
 
-        foreach ($create_models as $create_model) {
-            $create_result = $destination->save($create_model);
-            if ($create_result) {
+        foreach ($createModels as $createModel) {
+            $createResult = $destination->save($createModel);
+            if ($createResult) {
                 $this->created++;
-                $this->handleCreated($create_model);
+                $this->handleCreated($createModel);
             } else {
-                $this->created_failed++;
-                $this->handleFailedCreation($create_model);
+                $this->createdFailed++;
+                $this->handleFailedCreation($createModel);
             }
         }
     }
@@ -236,23 +236,23 @@ trait ReconcilesRepositories
     /**
      * Delete models that exist in destination but not in source.
      *
-     * @param Repository $destination
-     * @param Collection $source_models
-     * @param Collection $destination_models
+     * @param \App\Contracts\Repositories\Repository $destination
+     * @param \Illuminate\Support\Collection $sourceModels
+     * @param \Illuminate\Support\Collection $destinationModels
      * @return void
      */
-    public function deleteModelsFromDestination(Repository $destination, Collection $source_models, Collection $destination_models)
+    public function deleteModelsFromDestination(Repository $destination, Collection $sourceModels, Collection $destinationModels)
     {
-        $delete_models = $this->diffForCreateDelete($destination_models, $source_models);
+        $deleteModels = $this->diffForCreateDelete($destinationModels, $sourceModels);
 
-        foreach ($delete_models as $delete_model) {
-            $delete_result = $destination->delete($delete_model);
-            if ($delete_result) {
+        foreach ($deleteModels as $deleteModel) {
+            $deleteResult = $destination->delete($deleteModel);
+            if ($deleteResult) {
                 $this->deleted++;
-                $this->handleDeleted($delete_model);
+                $this->handleDeleted($deleteModel);
             } else {
-                $this->deleted_failed++;
-                $this->handleFailedDeletion($delete_model);
+                $this->deletedFailed++;
+                $this->handleFailedDeletion($deleteModel);
             }
         }
     }
@@ -260,9 +260,9 @@ trait ReconcilesRepositories
     /**
      * Perform set operation for update step.
      *
-     * @param Collection $a
-     * @param Collection $b
-     * @return Collection
+     * @param \Illuminate\Support\Collection $a
+     * @param \Illuminate\Support\Collection $b
+     * @return \Illuminate\Support\Collection
      */
     protected function diffForUpdate(Collection $a, Collection $b)
     {
@@ -272,11 +272,11 @@ trait ReconcilesRepositories
     /**
      * Get source model that has been updated for destination model.
      *
-     * @param Collection $source_models
-     * @param Model $destination_model
-     * @return Model|null
+     * @param \Illuminate\Support\Collection $sourceModels
+     * @param \Illuminate\Database\Eloquent\Model $destinationModel
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
-    protected function resolveUpdatedModel(Collection $source_models, Model $destination_model)
+    protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel)
     {
         return null;
     }
@@ -284,25 +284,25 @@ trait ReconcilesRepositories
     /**
      * Update destination models that have changed in source.
      *
-     * @param Repository $destination
-     * @param Collection $source_models
-     * @param Collection $destination_models
+     * @param \App\Contracts\Repositories\Repository $destination
+     * @param \Illuminate\Support\Collection $sourceModels
+     * @param \Illuminate\Support\Collection $destinationModels
      * @return void
      */
-    public function updateDestinationModels(Repository $destination, Collection $source_models, Collection $destination_models)
+    public function updateDestinationModels(Repository $destination, Collection $sourceModels, Collection $destinationModels)
     {
-        $updated_models = $this->diffForUpdate($destination_models, $source_models);
+        $updatedModels = $this->diffForUpdate($destinationModels, $sourceModels);
 
-        foreach ($updated_models as $updated_model) {
-            $source_model = $this->resolveUpdatedModel($source_models, $updated_model);
-            if (! is_null($source_model)) {
-                $update_result = $destination->update($updated_model, $source_model->toArray());
-                if ($update_result) {
+        foreach ($updatedModels as $updatedModel) {
+            $sourceModel = $this->resolveUpdatedModel($sourceModels, $updatedModel);
+            if (! is_null($sourceModel)) {
+                $updateResult = $destination->update($updatedModel, $sourceModel->toArray());
+                if ($updateResult) {
                     $this->updated++;
-                    $this->handleUpdated($updated_model);
+                    $this->handleUpdated($updatedModel);
                 } else {
-                    $this->updated_failed++;
-                    $this->handleFailedUpdate($updated_model);
+                    $this->updatedFailed++;
+                    $this->handleFailedUpdate($updatedModel);
                 }
             }
         }

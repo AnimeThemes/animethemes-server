@@ -120,8 +120,8 @@ class ArtistCoverSmallTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filtered_artists = Artist::whereDoesntHave('images', function (Builder $image_query) {
-            $image_query->where('facet', ImageFacet::COVER_SMALL);
+        $filteredArtists = Artist::whereDoesntHave('images', function (Builder $imageQuery) {
+            $imageQuery->where('facet', ImageFacet::COVER_SMALL);
         })
         ->get();
 
@@ -129,9 +129,9 @@ class ArtistCoverSmallTest extends TestCase
 
         $query = $lens->query(Artist::class);
 
-        foreach ($filtered_artists as $filtered_artist) {
-            $query->assertContains($filtered_artist);
+        foreach ($filteredArtists as $filteredArtist) {
+            $query->assertContains($filteredArtist);
         }
-        $query->assertCount($filtered_artists->count());
+        $query->assertCount($filteredArtists->count());
     }
 }

@@ -21,13 +21,13 @@ class AnimeSeriesTest extends TestCase
      */
     public function testAnime()
     {
-        $anime_series = AnimeSeries::factory()
+        $animeSeries = AnimeSeries::factory()
             ->for(Anime::factory())
             ->for(Series::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $anime_series->anime());
-        $this->assertInstanceOf(Anime::class, $anime_series->anime()->first());
+        $this->assertInstanceOf(BelongsTo::class, $animeSeries->anime());
+        $this->assertInstanceOf(Anime::class, $animeSeries->anime()->first());
     }
 
     /**
@@ -37,12 +37,12 @@ class AnimeSeriesTest extends TestCase
      */
     public function testSeries()
     {
-        $anime_series = AnimeSeries::factory()
+        $animeSeries = AnimeSeries::factory()
             ->for(Anime::factory())
             ->for(Series::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $anime_series->series());
-        $this->assertInstanceOf(Series::class, $anime_series->series()->first());
+        $this->assertInstanceOf(BelongsTo::class, $animeSeries->series());
+        $this->assertInstanceOf(Series::class, $animeSeries->series()->first());
     }
 }

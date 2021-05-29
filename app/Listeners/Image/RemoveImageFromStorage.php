@@ -14,7 +14,7 @@ class RemoveImageFromStorage implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  \App\Events\Image\ImageEvent  $event
+     * @param \App\Events\Image\ImageEvent $event
      * @return void
      */
     public function handle(ImageEvent $event)

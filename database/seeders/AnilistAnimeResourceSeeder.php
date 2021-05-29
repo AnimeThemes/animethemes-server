@@ -25,8 +25,8 @@ class AnilistAnimeResourceSeeder extends Seeder
         $animes = $this->getUnseededAnime();
 
         foreach ($animes as $anime) {
-            $mal_resource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::MAL));
-            if (! is_null(optional($mal_resource)->external_id)) {
+            $malResource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::MAL));
+            if (! is_null(optional($malResource)->external_id)) {
 
                 // Try not to upset Anilist
                 sleep(rand(5, 15));
@@ -42,7 +42,7 @@ class AnilistAnimeResourceSeeder extends Seeder
 
                 // Anilist graphql variables
                 $variables = [
-                    'id' => $mal_resource->external_id,
+                    'id' => $malResource->external_id,
                 ];
 
                 // Anilist graphql api call
@@ -54,26 +54,26 @@ class AnilistAnimeResourceSeeder extends Seeder
                             'variables' => $variables,
                         ],
                     ]);
-                    $anilist_resource_json = json_decode($response->getBody()->getContents());
-                    $anilist_id = $anilist_resource_json->data->Media->id;
+                    $anilistResourceJson = json_decode($response->getBody()->getContents());
+                    $anilistId = $anilistResourceJson->data->Media->id;
 
                     // Check if Anilist resource already exists
-                    $anilist_resource = ExternalResource::where('site', ResourceSite::ANILIST)->where('external_id', $anilist_id)->first();
+                    $anilistResource = ExternalResource::where('site', ResourceSite::ANILIST)->where('external_id', $anilistId)->first();
 
                     // Create Anilist resource if it doesn't already exist
-                    if (is_null($anilist_resource)) {
-                        Log::info("Creating anilist resource '{$anilist_id}' for anime '{$anime->name}'");
-                        $anilist_resource = ExternalResource::create([
+                    if (is_null($anilistResource)) {
+                        Log::info("Creating anilist resource '{$anilistId}' for anime '{$anime->name}'");
+                        $anilistResource = ExternalResource::create([
                             'site' => ResourceSite::ANILIST,
-                            'link' => "https://anilist.co/anime/{$anilist_id}/",
-                            'external_id' => $anilist_id,
+                            'link' => "https://anilist.co/anime/{$anilistId}/",
+                            'external_id' => $anilistId,
                         ]);
                     }
 
                     // Attach Anilist resource to anime
-                    if (AnimeResource::where($anime->getKeyName(), $anime->getKey())->where($anilist_resource->getKeyName(), $anilist_resource->getKey())->doesntExist()) {
-                        Log::info("Attaching resource '{$anilist_resource->link}' to anime '{$anime->name}'");
-                        $anilist_resource->anime()->attach($anime);
+                    if (AnimeResource::where($anime->getKeyName(), $anime->getKey())->where($anilistResource->getKeyName(), $anilistResource->getKey())->doesntExist()) {
+                        Log::info("Attaching resource '{$anilistResource->link}' to anime '{$anime->name}'");
+                        $anilistResource->anime()->attach($anime);
                     }
                 } catch (ClientException $e) {
                     // We may not have a match for this MAL resource
@@ -93,13 +93,13 @@ class AnilistAnimeResourceSeeder extends Seeder
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    private function getUnseededAnime()
+    protected function getUnseededAnime()
     {
         return Anime::query()
-            ->whereHas('externalResources', function ($resource_query) {
-                $resource_query->where('site', ResourceSite::MAL);
-            })->whereDoesntHave('externalResources', function ($resource_query) {
-                $resource_query->where('site', ResourceSite::ANILIST);
+            ->whereHas('externalResources', function ($resourceQuery) {
+                $resourceQuery->where('site', ResourceSite::MAL);
+            })->whereDoesntHave('externalResources', function ($resourceQuery) {
+                $resourceQuery->where('site', ResourceSite::ANILIST);
             })
             ->get();
     }

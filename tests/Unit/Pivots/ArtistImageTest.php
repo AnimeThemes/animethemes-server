@@ -21,13 +21,13 @@ class ArtistImageTest extends TestCase
      */
     public function testArtist()
     {
-        $artist_image = ArtistImage::factory()
+        $artistImage = ArtistImage::factory()
             ->for(Artist::factory())
             ->for(Image::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artist_image->artist());
-        $this->assertInstanceOf(Artist::class, $artist_image->artist()->first());
+        $this->assertInstanceOf(BelongsTo::class, $artistImage->artist());
+        $this->assertInstanceOf(Artist::class, $artistImage->artist()->first());
     }
 
     /**
@@ -37,12 +37,12 @@ class ArtistImageTest extends TestCase
      */
     public function testImage()
     {
-        $artist_image = ArtistImage::factory()
+        $artistImage = ArtistImage::factory()
             ->for(Artist::factory())
             ->for(Image::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artist_image->image());
-        $this->assertInstanceOf(Image::class, $artist_image->image()->first());
+        $this->assertInstanceOf(BelongsTo::class, $artistImage->image());
+        $this->assertInstanceOf(Image::class, $artistImage->image()->first());
     }
 }

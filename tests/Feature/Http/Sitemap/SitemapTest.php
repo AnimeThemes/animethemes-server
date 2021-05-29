@@ -13,7 +13,7 @@ class SitemapTest extends TestCase
      */
     public function testSitemapIndex()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertViewIs('sitemap.index');
     }
@@ -25,7 +25,7 @@ class SitemapTest extends TestCase
      */
     public function testDonate()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertSee(route('donate.show'));
     }
@@ -37,7 +37,7 @@ class SitemapTest extends TestCase
      */
     public function testFaq()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertSee(route('faq.show'));
     }
@@ -49,7 +49,7 @@ class SitemapTest extends TestCase
      */
     public function testApiDocs()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertSee(route('l5-swagger.default.api'));
     }
@@ -61,7 +61,7 @@ class SitemapTest extends TestCase
      */
     public function testPolicy()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertSee(route('policy.show'));
     }
@@ -73,7 +73,7 @@ class SitemapTest extends TestCase
      */
     public function testTerms()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertSee(route('terms.show'));
     }
@@ -85,7 +85,7 @@ class SitemapTest extends TestCase
      */
     public function testTransparency()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertSee(route('transparency.show'));
     }
@@ -97,9 +97,9 @@ class SitemapTest extends TestCase
      */
     public function testWelcome()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
-        $response->assertSee(route('welcome.index'));
+        $response->assertSee(route('welcome'));
     }
 
     /**
@@ -109,7 +109,7 @@ class SitemapTest extends TestCase
      */
     public function testWiki()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertSee(url('wiki'));
     }
@@ -121,7 +121,7 @@ class SitemapTest extends TestCase
      */
     public function testCommunitySitemap()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertSee(route('sitemap.community'));
     }
@@ -133,7 +133,7 @@ class SitemapTest extends TestCase
      */
     public function testEncodingSitemap()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertSee(route('sitemap.encoding'));
     }
@@ -145,7 +145,7 @@ class SitemapTest extends TestCase
      */
     public function testEventSitemap()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertSee(route('sitemap.event'));
     }
@@ -157,7 +157,7 @@ class SitemapTest extends TestCase
      */
     public function testGuidelinesSitemap()
     {
-        $response = $this->get(route('sitemap.index'));
+        $response = $this->get(route('sitemap'));
 
         $response->assertSee(route('sitemap.guidelines'));
     }

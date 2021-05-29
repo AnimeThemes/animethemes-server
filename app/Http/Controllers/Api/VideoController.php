@@ -168,7 +168,7 @@ class VideoController extends BaseController
      *     )
      * )
      *
-     * @param  \App\Models\Video  $video
+     * @param \App\Models\Video $video
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Video $video)

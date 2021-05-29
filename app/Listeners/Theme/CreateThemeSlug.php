@@ -9,7 +9,7 @@ class CreateThemeSlug
     /**
      * Handle the event.
      *
-     * @param  \App\Events\Theme\ThemeEvent  $event
+     * @param \App\Events\Theme\ThemeEvent $event
      * @return void
      */
     public function handle(ThemeEvent $event)

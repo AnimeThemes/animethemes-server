@@ -17,15 +17,15 @@ class ResourceSiteDomainRule implements Rule
      *
      * @var int
      */
-    private $site;
+    protected $site;
 
     /**
      * Create a new rule instance.
      *
-     * @param  int $site The resource site key
+     * @param int|null $site
      * @return void
      */
-    public function __construct($site)
+    public function __construct(?int $site)
     {
         $this->site = $site;
     }
@@ -33,8 +33,8 @@ class ResourceSiteDomainRule implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)

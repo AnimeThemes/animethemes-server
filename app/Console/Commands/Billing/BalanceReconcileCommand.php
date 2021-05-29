@@ -3,7 +3,6 @@
 namespace App\Console\Commands\Billing;
 
 use App\Concerns\Reconcile\Billing\ReconcilesBalance;
-use App\Contracts\Repositories\Repository;
 use App\Enums\Billing\Service;
 use App\Models\BaseModel;
 use Exception;
@@ -81,8 +80,8 @@ class BalanceReconcileCommand extends Command
                 $this->info("{$this->created} Balances created, {$this->deleted} Balances deleted, {$this->updated} Balances updated");
             }
             if ($this->hasFailures()) {
-                Log::error("Failed to create {$this->created_failed} Balances, delete {$this->deleted_failed} Balances, update {$this->updated_failed} Balances");
-                $this->error("Failed to create {$this->created_failed} Balances, delete {$this->deleted_failed} Balances, update {$this->updated_failed} Balances");
+                Log::error("Failed to create {$this->createdFailed} Balances, delete {$this->deletedFailed} Balances, update {$this->updatedFailed} Balances");
+                $this->error("Failed to create {$this->createdFailed} Balances, delete {$this->deletedFailed} Balances, update {$this->updatedFailed} Balances");
             }
         } else {
             Log::info('No Balances created or deleted or updated');
@@ -93,7 +92,7 @@ class BalanceReconcileCommand extends Command
     /**
      * Handler for successful balance creation.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
@@ -105,7 +104,7 @@ class BalanceReconcileCommand extends Command
     /**
      * Handler for failed balance creation.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
@@ -117,7 +116,7 @@ class BalanceReconcileCommand extends Command
     /**
      * Handler for successful balance deletion.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
@@ -129,7 +128,7 @@ class BalanceReconcileCommand extends Command
     /**
      * Handler for failed balance deletion.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
@@ -141,7 +140,7 @@ class BalanceReconcileCommand extends Command
     /**
      * Handler for successful balance update.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
@@ -153,7 +152,7 @@ class BalanceReconcileCommand extends Command
     /**
      * Handler for failed balance update.
      *
-     * @param BaseModel $model
+     * @param \App\Models\BaseModel $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)
@@ -177,8 +176,8 @@ class BalanceReconcileCommand extends Command
     /**
      * Get source repository for service.
      *
-     * @param Service $service
-     * @return Repository|null
+     * @param \App\Enums\Billing\Service $service
+     * @return \App\Contracts\Repositories\Repository|null
      */
     protected function getSourceRepository(Service $service)
     {
@@ -193,8 +192,8 @@ class BalanceReconcileCommand extends Command
     /**
      * Get destination repository for service.
      *
-     * @param Service $service
-     * @return Repository|null
+     * @param \App\Enums\Billing\Service $service
+     * @return \App\Contracts\Repositories\Repository|null
      */
     protected function getDestinationRepository(Service $service)
     {

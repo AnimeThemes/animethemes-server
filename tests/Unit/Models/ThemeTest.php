@@ -130,15 +130,15 @@ class ThemeTest extends TestCase
      */
     public function testEntries()
     {
-        $entry_count = $this->faker->randomDigitNotNull;
+        $entryCount = $this->faker->randomDigitNotNull;
 
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->has(Entry::factory()->count($entry_count))
+            ->has(Entry::factory()->count($entryCount))
             ->create();
 
         $this->assertInstanceOf(HasMany::class, $theme->entries());
-        $this->assertEquals($entry_count, $theme->entries()->count());
+        $this->assertEquals($entryCount, $theme->entries()->count());
         $this->assertInstanceOf(Entry::class, $theme->entries()->first());
     }
 

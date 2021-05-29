@@ -196,9 +196,9 @@ class VideoTest extends TestCase
     {
         $source = null;
         while ($source == null) {
-            $source_candidate = VideoSource::getRandomInstance();
-            if (! $source_candidate->is(VideoSource::BD) && ! $source_candidate->is(VideoSource::DVD)) {
-                $source = $source_candidate->value;
+            $sourceCandidate = VideoSource::getRandomInstance();
+            if (! $sourceCandidate->is(VideoSource::BD) && ! $sourceCandidate->is(VideoSource::DVD)) {
+                $source = $sourceCandidate->value;
             }
         }
 
@@ -273,14 +273,14 @@ class VideoTest extends TestCase
      */
     public function testEntries()
     {
-        $entry_count = $this->faker->randomDigitNotNull;
+        $entryCount = $this->faker->randomDigitNotNull;
 
         $video = Video::factory()
-            ->has(Entry::factory()->for(Theme::factory()->for(Anime::factory()))->count($entry_count))
+            ->has(Entry::factory()->for(Theme::factory()->for(Anime::factory()))->count($entryCount))
             ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $video->entries());
-        $this->assertEquals($entry_count, $video->entries()->count());
+        $this->assertEquals($entryCount, $video->entries()->count());
         $this->assertInstanceOf(Entry::class, $video->entries()->first());
         $this->assertEquals(VideoEntry::class, $video->entries()->getPivotClass());
     }

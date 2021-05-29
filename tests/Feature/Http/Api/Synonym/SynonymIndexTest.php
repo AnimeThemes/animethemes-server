@@ -77,11 +77,11 @@ class SynonymIndexTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowed_paths = collect(SynonymCollection::allowedIncludePaths());
-        $included_paths = $allowed_paths->random($this->faker->numberBetween(0, count($allowed_paths)));
+        $allowedPaths = collect(SynonymCollection::allowedIncludePaths());
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $included_paths->join(','),
+            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
         Synonym::factory()
@@ -89,7 +89,7 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $synonyms = Synonym::with($included_paths->all())->get();
+        $synonyms = Synonym::with($includedPaths->all())->get();
 
         $response = $this->get(route('api.synonym.index', $parameters));
 
@@ -120,11 +120,11 @@ class SynonymIndexTest extends TestCase
             'deleted_at',
         ]);
 
-        $included_fields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
             QueryParser::PARAM_FIELDS => [
-                SynonymResource::$wrap => $included_fields->join(','),
+                SynonymResource::$wrap => $includedFields->join(','),
             ],
         ];
 
@@ -156,19 +156,19 @@ class SynonymIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowed_sorts = collect(SynonymCollection::allowedSortFields());
-        $included_sorts = $allowed_sorts->random($this->faker->numberBetween(1, count($allowed_sorts)))->map(function ($included_sort) {
+        $allowedSorts = collect(SynonymCollection::allowedSortFields());
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
-                    ->append($included_sort)
+                    ->append($includedSort)
                     ->__toString();
             }
 
-            return $included_sort;
+            return $includedSort;
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $included_sorts->join(','),
+            QueryParser::PARAM_SORT => $includedSorts->join(','),
         ];
 
         $parser = QueryParser::make($parameters);
@@ -205,33 +205,33 @@ class SynonymIndexTest extends TestCase
      */
     public function testCreatedAtFilter()
     {
-        $created_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $createdFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'created_at' => $created_filter,
+                'created_at' => $createdFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($created_filter), function () {
+        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
             Synonym::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Synonym::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
         });
 
-        $synonym = Synonym::where('created_at', $created_filter)->get();
+        $synonym = Synonym::where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.synonym.index', $parameters));
 
@@ -254,33 +254,33 @@ class SynonymIndexTest extends TestCase
      */
     public function testUpdatedAtFilter()
     {
-        $updated_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $updatedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'updated_at' => $updated_filter,
+                'updated_at' => $updatedFilter,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
                 Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updated_filter), function () {
+        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
             Synonym::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Synonym::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
         });
 
-        $synonym = Synonym::where('updated_at', $updated_filter)->get();
+        $synonym = Synonym::where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.synonym.index', $parameters));
 
@@ -317,12 +317,12 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $delete_synonym = Synonym::factory()
+        $deleteSynonym = Synonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $delete_synonym->each(function ($synonym) {
+        $deleteSynonym->each(function ($synonym) {
             $synonym->delete();
         });
 
@@ -363,12 +363,12 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $delete_synonym = Synonym::factory()
+        $deleteSynonym = Synonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $delete_synonym->each(function ($synonym) {
+        $deleteSynonym->each(function ($synonym) {
             $synonym->delete();
         });
 
@@ -409,12 +409,12 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $delete_synonym = Synonym::factory()
+        $deleteSynonym = Synonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $delete_synonym->each(function ($synonym) {
+        $deleteSynonym->each(function ($synonym) {
             $synonym->delete();
         });
 
@@ -441,12 +441,12 @@ class SynonymIndexTest extends TestCase
      */
     public function testDeletedAtFilter()
     {
-        $deleted_filter = $this->faker->date();
-        $excluded_date = $this->faker->date();
+        $deletedFilter = $this->faker->date();
+        $excludedDate = $this->faker->date();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'deleted_at' => $deleted_filter,
+                'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
             Config::get('json-api-paginate.pagination_parameter') => [
@@ -454,21 +454,21 @@ class SynonymIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deleted_filter), function () {
+        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
             Synonym::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excluded_date), function () {
+        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             Synonym::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
         });
 
-        $synonym = Synonym::withTrashed()->where('deleted_at', $deleted_filter)->get();
+        $synonym = Synonym::withTrashed()->where('deleted_at', $deletedFilter)->get();
 
         $response = $this->get(route('api.synonym.index', $parameters));
 
@@ -491,11 +491,11 @@ class SynonymIndexTest extends TestCase
      */
     public function testAnimeBySeason()
     {
-        $season_filter = AnimeSeason::getRandomInstance();
+        $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'season' => $season_filter->key,
+                'season' => $seasonFilter->key,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -506,8 +506,8 @@ class SynonymIndexTest extends TestCase
             ->create();
 
         $synonyms = Synonym::with([
-            'anime' => function ($query) use ($season_filter) {
-                $query->where('season', $season_filter->value);
+            'anime' => function ($query) use ($seasonFilter) {
+                $query->where('season', $seasonFilter->value);
             },
         ])
         ->get();
@@ -533,12 +533,12 @@ class SynonymIndexTest extends TestCase
      */
     public function testAnimeByYear()
     {
-        $year_filter = intval($this->faker->year());
-        $excluded_year = $year_filter + 1;
+        $yearFilter = intval($this->faker->year());
+        $excludedYear = $yearFilter + 1;
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                'year' => $year_filter,
+                'year' => $yearFilter,
             ],
             QueryParser::PARAM_INCLUDE => 'anime',
         ];
@@ -547,15 +547,15 @@ class SynonymIndexTest extends TestCase
             ->for(
                 Anime::factory()
                     ->state([
-                        'year' => $this->faker->boolean() ? $year_filter : $excluded_year,
+                        'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                     ])
             )
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
         $synonyms = Synonym::with([
-            'anime' => function ($query) use ($year_filter) {
-                $query->where('year', $year_filter);
+            'anime' => function ($query) use ($yearFilter) {
+                $query->where('year', $yearFilter);
             },
         ])
         ->get();

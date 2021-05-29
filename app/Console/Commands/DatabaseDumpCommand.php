@@ -55,16 +55,6 @@ class DatabaseDumpCommand extends Command
     ];
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return int
@@ -134,7 +124,7 @@ class DatabaseDumpCommand extends Command
      *
      * @return string
      */
-    private function getDumpFile()
+    protected function getDumpFile()
     {
         $dumpFile = Str::of('db-dumps')
             ->append(DIRECTORY_SEPARATOR)

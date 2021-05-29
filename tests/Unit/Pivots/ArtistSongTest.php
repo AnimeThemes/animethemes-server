@@ -21,13 +21,13 @@ class ArtistSongTest extends TestCase
      */
     public function testArtist()
     {
-        $artist_song = ArtistSong::factory()
+        $artistSong = ArtistSong::factory()
             ->for(Artist::factory())
             ->for(Song::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artist_song->artist());
-        $this->assertInstanceOf(Artist::class, $artist_song->artist()->first());
+        $this->assertInstanceOf(BelongsTo::class, $artistSong->artist());
+        $this->assertInstanceOf(Artist::class, $artistSong->artist()->first());
     }
 
     /**
@@ -37,12 +37,12 @@ class ArtistSongTest extends TestCase
      */
     public function testSong()
     {
-        $artist_song = ArtistSong::factory()
+        $artistSong = ArtistSong::factory()
             ->for(Artist::factory())
             ->for(Song::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artist_song->song());
-        $this->assertInstanceOf(Song::class, $artist_song->song()->first());
+        $this->assertInstanceOf(BelongsTo::class, $artistSong->song());
+        $this->assertInstanceOf(Song::class, $artistSong->song()->first());
     }
 }

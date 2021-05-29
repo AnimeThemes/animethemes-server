@@ -45,7 +45,7 @@ class VideoUncenTest extends TestCase
      */
     public function testFilter()
     {
-        $uncen_filter = $this->faker->boolean();
+        $uncenFilter = $this->faker->boolean();
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull)
@@ -53,12 +53,12 @@ class VideoUncenTest extends TestCase
 
         $filter = $this->novaFilter(VideoUncenFilter::class);
 
-        $response = $filter->apply(Video::class, $uncen_filter);
+        $response = $filter->apply(Video::class, $uncenFilter);
 
-        $filtered_videos = Video::where('uncen', $uncen_filter)->get();
-        foreach ($filtered_videos as $filtered_video) {
-            $response->assertContains($filtered_video);
+        $filteredVideos = Video::where('uncen', $uncenFilter)->get();
+        foreach ($filteredVideos as $filteredVideo) {
+            $response->assertContains($filteredVideo);
         }
-        $response->assertCount($filtered_videos->count());
+        $response->assertCount($filteredVideos->count());
     }
 }

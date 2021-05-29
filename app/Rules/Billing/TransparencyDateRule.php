@@ -23,6 +23,7 @@ class TransparencyDateRule implements Rule
     /**
      * Create a new rule instance.
      *
+     * @param \Illuminate\Support\Collection $validDates
      * @return void
      */
     public function __construct(Collection $validDates)
@@ -33,8 +34,8 @@ class TransparencyDateRule implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -52,5 +53,17 @@ class TransparencyDateRule implements Rule
     public function message()
     {
         return __('The selected month is not valid.');
+    }
+
+    /**
+     * Convert the rule to a validation string.
+     *
+     * @return string
+     *
+     * @see \Illuminate\Validation\ValidationRuleParser::parseParameters
+     */
+    public function __toString()
+    {
+        return "{$this->rule}";
     }
 }

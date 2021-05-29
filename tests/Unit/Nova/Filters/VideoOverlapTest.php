@@ -55,10 +55,10 @@ class VideoOverlapTest extends TestCase
 
         $response = $filter->apply(Video::class, $overlap->value);
 
-        $filtered_videos = Video::where('overlap', $overlap->value)->get();
-        foreach ($filtered_videos as $filtered_video) {
-            $response->assertContains($filtered_video);
+        $filteredVideos = Video::where('overlap', $overlap->value)->get();
+        foreach ($filteredVideos as $filteredVideo) {
+            $response->assertContains($filteredVideo);
         }
-        $response->assertCount($filtered_videos->count());
+        $response->assertCount($filteredVideos->count());
     }
 }

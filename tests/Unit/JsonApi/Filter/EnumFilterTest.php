@@ -19,13 +19,13 @@ class EnumFilterTest extends TestCase
      */
     public function testShouldNotApplyIfNoEnums()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
-        $enum_values = $this->faker->words($this->faker->randomDigitNotNull);
+        $enumValues = $this->faker->words($this->faker->randomDigitNotNull);
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => implode(',', $enum_values),
+                $filterField => implode(',', $enumValues),
             ],
         ];
 
@@ -38,12 +38,12 @@ class EnumFilterTest extends TestCase
             const TWO = 2;
         };
 
-        $filter = new class($parser, $filter_field, get_class($enum)) extends EnumFilter
+        $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter
         {
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filter_field)[0]));
+        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -53,7 +53,7 @@ class EnumFilterTest extends TestCase
      */
     public function testShouldNotApplyIfAllEnums()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
         $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
         {
@@ -62,24 +62,24 @@ class EnumFilterTest extends TestCase
             const TWO = 2;
         };
 
-        $enum_class = get_class($enum);
+        $enumClass = get_class($enum);
 
-        $enum_values = $enum_class::getValues();
+        $enumValues = $enumClass::getValues();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => implode(',', $enum_values),
+                $filterField => implode(',', $enumValues),
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field, get_class($enum)) extends EnumFilter
+        $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter
         {
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filter_field)[0]));
+        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -89,7 +89,7 @@ class EnumFilterTest extends TestCase
      */
     public function testEnumKeyConvertedToValue()
     {
-        $filter_field = $this->faker->word();
+        $filterField = $this->faker->word();
 
         $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
         {
@@ -100,19 +100,19 @@ class EnumFilterTest extends TestCase
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
-                $filter_field => $enum->key,
+                $filterField => $enum->key,
             ],
         ];
 
         $parser = new QueryParser($parameters);
 
-        $filter = new class($parser, $filter_field, get_class($enum)) extends EnumFilter
+        $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter
         {
             // We don't need to do any customization
         };
 
-        $filter_values = $filter->getFilterValues($parser->getConditions($filter_field)[0]);
+        $filterValues = $filter->getFilterValues($parser->getConditions($filterField)[0]);
 
-        $this->assertEquals($enum->value, $filter_values[0]);
+        $this->assertEquals($enum->value, $filterValues[0]);
     }
 }
