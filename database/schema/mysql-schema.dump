@@ -197,6 +197,22 @@ CREATE TABLE `audits` (
   KEY `audits_user_id_user_type_index` (`user_id`,`user_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `balance`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `balance` (
+  `balance_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp(6) NULL DEFAULT NULL,
+  `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
+  `date` date NOT NULL,
+  `service` int(11) NOT NULL,
+  `frequency` int(11) NOT NULL,
+  `usage` decimal(8,2) NOT NULL,
+  `balance` decimal(8,2) NOT NULL,
+  PRIMARY KEY (`balance_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `configs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -501,6 +517,22 @@ CREATE TABLE `theme` (
   CONSTRAINT `theme_song_id_foreign` FOREIGN KEY (`song_id`) REFERENCES `song` (`song_id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `transaction`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `transaction` (
+  `transaction_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp(6) NULL DEFAULT NULL,
+  `updated_at` timestamp(6) NULL DEFAULT NULL,
+  `deleted_at` timestamp(6) NULL DEFAULT NULL,
+  `date` date NOT NULL,
+  `service` int(11) NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` decimal(8,2) NOT NULL,
+  `external_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`transaction_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -602,3 +634,5 @@ INSERT INTO `migrations` VALUES (34,'2020_11_24_232439_create_anime_image',1);
 INSERT INTO `migrations` VALUES (35,'2020_11_24_232525_create_artist_image',1);
 INSERT INTO `migrations` VALUES (36,'2020_12_08_034959_create_views_table',1);
 INSERT INTO `migrations` VALUES (37,'2021_03_25_022128_update_telescope_entries_table',1);
+INSERT INTO `migrations` VALUES (38,'2021_05_13_192052_create_transactions_table',2);
+INSERT INTO `migrations` VALUES (39,'2021_05_13_194800_create_balances_table',2);

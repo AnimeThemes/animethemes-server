@@ -15,6 +15,14 @@ use App\Events\Artist\ArtistCreated;
 use App\Events\Artist\ArtistDeleted;
 use App\Events\Artist\ArtistRestored;
 use App\Events\Artist\ArtistUpdated;
+use App\Events\Billing\Balance\BalanceCreated;
+use App\Events\Billing\Balance\BalanceDeleted;
+use App\Events\Billing\Balance\BalanceRestored;
+use App\Events\Billing\Balance\BalanceUpdated;
+use App\Events\Billing\Transaction\TransactionCreated;
+use App\Events\Billing\Transaction\TransactionDeleted;
+use App\Events\Billing\Transaction\TransactionRestored;
+use App\Events\Billing\Transaction\TransactionUpdated;
 use App\Events\Entry\EntryCreated;
 use App\Events\Entry\EntryDeleted;
 use App\Events\Entry\EntryDeleting;
@@ -202,6 +210,18 @@ class EventServiceProvider extends ServiceProvider
         ArtistUpdated::class => [
             SendDiscordNotification::class,
         ],
+        BalanceCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        BalanceDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        BalanceRestored::class => [
+            SendDiscordNotification::class,
+        ],
+        BalanceUpdated::class => [
+            SendDiscordNotification::class,
+        ],
         EntryCreated::class => [
             SendDiscordNotification::class,
             UpdateRelatedIndices::class,
@@ -334,6 +354,18 @@ class EventServiceProvider extends ServiceProvider
         ThemeUpdated::class => [
             SendDiscordNotification::class,
             UpdateRelatedIndices::class,
+        ],
+        TransactionCreated::class => [
+            SendDiscordNotification::class,
+        ],
+        TransactionDeleted::class => [
+            SendDiscordNotification::class,
+        ],
+        TransactionRestored::class => [
+            SendDiscordNotification::class,
+        ],
+        TransactionUpdated::class => [
+            SendDiscordNotification::class,
         ],
         UserCreated::class => [
             SendDiscordNotification::class,

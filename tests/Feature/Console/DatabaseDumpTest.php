@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Console;
 
+use App\Console\Commands\DatabaseDumpCommand;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
@@ -20,7 +21,7 @@ class DatabaseDumpTest extends TestCase
     {
         $dumpFile = $this->getDumpFile();
 
-        $this->artisan('db:dump')->expectsOutput("Database dump '{$dumpFile}' has been created");
+        $this->artisan(DatabaseDumpCommand::class)->expectsOutput("Database dump '{$dumpFile}' has been created");
     }
 
     /**
@@ -32,7 +33,7 @@ class DatabaseDumpTest extends TestCase
     {
         $dumpFile = $this->getDumpFile();
 
-        $this->artisan('db:dump')->run();
+        $this->artisan(DatabaseDumpCommand::class)->run();
 
         $this->assertFileExists($dumpFile);
     }

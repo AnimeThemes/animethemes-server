@@ -41,6 +41,6 @@ return [
     ],
 
     'do' => [
-        'token' => env('TRANSPARENCY_BEARER_TOKEN'),
+        'token' => env('DO_BEARER_TOKEN'),
     ],
 ];

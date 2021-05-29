@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\AnimeController;
 use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\ArtistController;
+use App\Http\Controllers\Api\Billing\BalanceController;
+use App\Http\Controllers\Api\Billing\TransactionController;
 use App\Http\Controllers\Api\EntryController;
 use App\Http\Controllers\Api\ExternalResourceController;
 use App\Http\Controllers\Api\ImageController;
@@ -30,6 +32,10 @@ Route::group(['as' => 'api.'], function () {
 
     // Search Routes
     Route::get('search', [SearchController::class, 'index'])->name('search.index');
+
+    // Billing Resources
+    Route::apiResource('balance', BalanceController::class)->only(['index', 'show']);
+    Route::apiResource('transaction', TransactionController::class)->only(['index', 'show']);
 
     // Resource Routes
     Route::apiResource('anime', AnimeController::class)->only(['index', 'show']);

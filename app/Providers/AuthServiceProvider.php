@@ -20,6 +20,8 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Anime' => 'App\Policies\AnimePolicy',
         'App\Models\Announcement' => 'App\Policies\AnnouncementPolicy',
         'App\Models\Artist' => 'App\Policies\ArtistPolicy',
+        'App\Models\Billing\Balance' => 'App\Policies\Billing\BalancePolicy',
+        'App\Models\Billing\Transaction' => 'App\Policies\Billing\TransactionPolicy',
         'App\Models\Entry' => 'App\Policies\EntryPolicy',
         'App\Models\Image' => 'App\Policies\ImagePolicy',
         'App\Models\ExternalResource' => 'App\Policies\ExternalResourcePolicy',

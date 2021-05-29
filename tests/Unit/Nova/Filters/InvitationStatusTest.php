@@ -34,8 +34,8 @@ class InvitationStatusTest extends TestCase
     {
         $filter = $this->novaFilter(InvitationStatusFilter::class);
 
-        foreach (InvitationStatus::getInstances() as $season) {
-            $filter->assertHasOption($season->description);
+        foreach (InvitationStatus::getInstances() as $status) {
+            $filter->assertHasOption($status->description);
         }
     }
 

@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Concerns\Filesystem\ReconcilesVideo;
-use App\Models\Video;
-use Aws\S3\Exception\S3Exception;
+use App\Concerns\Reconcile\ReconcilesVideo;
+use App\Models\BaseModel;
+use App\Repositories\Eloquent\VideoRepository as VideoDestinationRepository;
+use App\Repositories\Service\VideoRepository as VideoSourceRepository;
+use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
@@ -19,7 +21,11 @@ class VideoSeeder extends Seeder
      */
     public function run()
     {
-        $this->reconcileVideo();
+        $sourceRepository = new VideoSourceRepository;
+
+        $destinationRepository = new VideoDestinationRepository;
+
+        $this->reconcileRepositories($sourceRepository, $destinationRepository);
     }
 
     /**
@@ -27,7 +33,7 @@ class VideoSeeder extends Seeder
      *
      * @return void
      */
-    private function postReconciliationTask()
+    protected function postReconciliationTask()
     {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
@@ -44,76 +50,76 @@ class VideoSeeder extends Seeder
     /**
      * Handler for successful video creation.
      *
-     * @param Video $video
+     * @param BaseModel $model
      * @return void
      */
-    protected function handleCreated(Video $video)
+    protected function handleCreated(BaseModel $model)
     {
-        Log::info("Video '{$video->basename}' created");
+        Log::info("Video '{$model->getName()}' created");
     }
 
     /**
      * Handler for failed video creation.
      *
-     * @param Video $video
+     * @param BaseModel $model
      * @return void
      */
-    protected function handleFailedCreation(Video $video)
+    protected function handleFailedCreation(BaseModel $model)
     {
-        Log::error("Video '{$video->basename}' was not created");
+        Log::error("Video '{$model->getName()}' was not created");
     }
 
     /**
      * Handler for successful video deletion.
      *
-     * @param Video $video
+     * @param BaseModel $model
      * @return void
      */
-    protected function handleDeleted(Video $video)
+    protected function handleDeleted(BaseModel $model)
     {
-        Log::info("Video '{$video->basename}' deleted");
+        Log::info("Video '{$model->getName()}' deleted");
     }
 
     /**
      * Handler for failed video deletion.
      *
-     * @param Video $video
+     * @param BaseModel $model
      * @return void
      */
-    protected function handleFailedDeletion(Video $video)
+    protected function handleFailedDeletion(BaseModel $model)
     {
-        Log::error("Video '{$video->basename}' was not deleted");
+        Log::error("Video '{$model->getName()}' was not deleted");
     }
 
     /**
      * Handler for successful video update.
      *
-     * @param Video $video
+     * @param BaseModel $model
      * @return void
      */
-    protected function handleUpdated(Video $video)
+    protected function handleUpdated(BaseModel $model)
     {
-        Log::info("Video '{$video->basename}' updated");
+        Log::info("Video '{$model->getName()}' updated");
     }
 
     /**
      * Handler for failed video update.
      *
-     * @param Video $video
+     * @param BaseModel $model
      * @return void
      */
-    protected function handleFailedUpdate(Video $video)
+    protected function handleFailedUpdate(BaseModel $model)
     {
-        Log::error("Video '{$video->basename}' was not updated");
+        Log::error("Video '{$model->getName()}' was not updated");
     }
 
     /**
      * Handler for exception.
      *
-     * @param S3Exception $exception
+     * @param Exception $exception
      * @return void
      */
-    protected function handleException(S3Exception $exception)
+    protected function handleException(Exception $exception)
     {
         Log::error($exception);
     }
