@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
- * Class ArtistMemberTest
- * @package Events\Pivot
+ * Class ArtistMemberTest.
  */
 class ArtistMemberTest extends TestCase
 {

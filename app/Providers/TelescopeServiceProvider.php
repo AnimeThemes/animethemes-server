@@ -13,8 +13,7 @@ use Laravel\Telescope\Telescope;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
 
 /**
- * Class TelescopeServiceProvider
- * @package App\Providers
+ * Class TelescopeServiceProvider.
  */
 class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 {

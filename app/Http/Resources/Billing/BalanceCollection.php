@@ -18,8 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 /**
- * Class BalanceCollection
- * @package App\Http\Resources\Billing
+ * Class BalanceCollection.
  */
 class BalanceCollection extends BaseCollection
 {

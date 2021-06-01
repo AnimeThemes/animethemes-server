@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 /**
- * Class Handler
- * @package App\Exceptions
+ * Class Handler.
  */
 class Handler extends ExceptionHandler
 {

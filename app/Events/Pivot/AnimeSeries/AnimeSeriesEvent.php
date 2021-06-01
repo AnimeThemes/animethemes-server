@@ -9,8 +9,7 @@ use App\Models\Series;
 use App\Pivots\AnimeSeries;
 
 /**
- * Class AnimeSeriesEvent
- * @package App\Events\Pivot\AnimeSeries
+ * Class AnimeSeriesEvent.
  */
 abstract class AnimeSeriesEvent
 {

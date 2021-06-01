@@ -25,8 +25,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class SongIndexTest
- * @package Http\Api\Song
+ * Class SongIndexTest.
  */
 class SongIndexTest extends TestCase
 {

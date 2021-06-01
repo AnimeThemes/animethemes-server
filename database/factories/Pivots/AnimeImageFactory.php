@@ -8,8 +8,7 @@ use App\Pivots\AnimeImage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class AnimeImageFactory
- * @package Database\Factories\Pivots
+ * Class AnimeImageFactory.
  */
 class AnimeImageFactory extends Factory
 {

@@ -11,8 +11,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class SeriesSeeder
- * @package Database\Seeders
+ * Class SeriesSeeder.
  */
 class SeriesSeeder extends Seeder
 {

@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\JsonApi\Condition;
 
 /**
- * Class Expression
- * @package App\JsonApi\Condition
+ * Class Expression.
  */
 class Expression
 {

@@ -15,8 +15,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
 
 /**
- * Class FortifyServiceProvider
- * @package App\Providers
+ * Class FortifyServiceProvider.
  */
 class FortifyServiceProvider extends ServiceProvider
 {

@@ -13,8 +13,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
- * Class YearController
- * @package App\Http\Controllers\Api
+ * Class YearController.
  */
 class YearController extends BaseController
 {

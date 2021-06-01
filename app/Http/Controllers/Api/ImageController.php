@@ -10,8 +10,7 @@ use App\Models\Image;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class ImageController
- * @package App\Http\Controllers\Api
+ * Class ImageController.
  */
 class ImageController extends BaseController
 {

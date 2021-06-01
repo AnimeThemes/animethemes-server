@@ -21,8 +21,7 @@ use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 /**
- * Class TransactionTest
- * @package Nova\Resources
+ * Class TransactionTest.
  */
 class TransactionTest extends TestCase
 {

@@ -16,8 +16,7 @@ use App\JsonApi\Filter\Theme\ThemeTypeFilter;
 use Illuminate\Http\Request;
 
 /**
- * Class ThemeCollection
- * @package App\Http\Resources
+ * Class ThemeCollection.
  */
 class ThemeCollection extends BaseCollection
 {

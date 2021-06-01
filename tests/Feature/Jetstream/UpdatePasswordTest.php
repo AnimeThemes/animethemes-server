@@ -13,8 +13,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
- * Class UpdatePasswordTest
- * @package Jetstream
+ * Class UpdatePasswordTest.
  */
 class UpdatePasswordTest extends TestCase
 {

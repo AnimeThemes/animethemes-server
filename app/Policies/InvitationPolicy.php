@@ -8,8 +8,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
- * Class InvitationPolicy
- * @package App\Policies
+ * Class InvitationPolicy.
  */
 class InvitationPolicy
 {

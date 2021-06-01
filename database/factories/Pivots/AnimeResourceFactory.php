@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class AnimeResourceFactory
- * @package Database\Factories\Pivots
+ * Class AnimeResourceFactory.
  */
 class AnimeResourceFactory extends Factory
 {

@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class VideoTest
- * @package Jobs
+ * Class VideoTest.
  */
 class VideoTest extends TestCase
 {

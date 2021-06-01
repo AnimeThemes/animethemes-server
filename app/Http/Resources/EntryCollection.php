@@ -16,8 +16,7 @@ use App\JsonApi\Filter\Entry\EntryVersionFilter;
 use Illuminate\Http\Request;
 
 /**
- * Class EntryCollection
- * @package App\Http\Resources
+ * Class EntryCollection.
  */
 class EntryCollection extends BaseCollection
 {

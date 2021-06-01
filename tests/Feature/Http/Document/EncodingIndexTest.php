@@ -7,8 +7,7 @@ namespace Http\Document;
 use Tests\TestCase;
 
 /**
- * Class EncodingIndexTest
- * @package Http\Document
+ * Class EncodingIndexTest.
  */
 class EncodingIndexTest extends TestCase
 {

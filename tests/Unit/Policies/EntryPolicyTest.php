@@ -14,8 +14,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Class EntryPolicyTest
- * @package Policies
+ * Class EntryPolicyTest.
  */
 class EntryPolicyTest extends TestCase
 {

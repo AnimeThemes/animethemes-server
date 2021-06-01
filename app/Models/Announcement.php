@@ -10,8 +10,7 @@ use App\Events\Announcement\AnnouncementRestored;
 use App\Events\Announcement\AnnouncementUpdated;
 
 /**
- * Class Announcement
- * @package App\Models
+ * Class Announcement.
  */
 class Announcement extends BaseModel
 {

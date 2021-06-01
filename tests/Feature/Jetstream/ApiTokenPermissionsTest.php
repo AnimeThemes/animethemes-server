@@ -13,8 +13,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
- * Class ApiTokenPermissionsTest
- * @package Jetstream
+ * Class ApiTokenPermissionsTest.
  */
 class ApiTokenPermissionsTest extends TestCase
 {

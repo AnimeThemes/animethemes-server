@@ -7,8 +7,7 @@ namespace Http\Document;
 use Tests\TestCase;
 
 /**
- * Class CommunityShowTest
- * @package Http\Document
+ * Class CommunityShowTest.
  */
 class CommunityShowTest extends TestCase
 {

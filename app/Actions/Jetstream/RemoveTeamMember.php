@@ -11,8 +11,7 @@ use Laravel\Jetstream\Contracts\RemovesTeamMembers;
 use Laravel\Jetstream\Events\TeamMemberRemoved;
 
 /**
- * Class RemoveTeamMember
- * @package App\Actions\Jetstream
+ * Class RemoveTeamMember.
  */
 class RemoveTeamMember implements RemovesTeamMembers
 {

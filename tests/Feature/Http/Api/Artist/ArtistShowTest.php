@@ -25,8 +25,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class ArtistShowTest
- * @package Http\Api\Artist
+ * Class ArtistShowTest.
  */
 class ArtistShowTest extends TestCase
 {

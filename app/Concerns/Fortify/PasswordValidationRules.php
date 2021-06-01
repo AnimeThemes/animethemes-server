@@ -7,8 +7,7 @@ namespace App\Concerns\Fortify;
 use Illuminate\Validation\Rules\Password;
 
 /**
- * Trait PasswordValidationRules
- * @package App\Concerns\Fortify
+ * Trait PasswordValidationRules.
  */
 trait PasswordValidationRules
 {

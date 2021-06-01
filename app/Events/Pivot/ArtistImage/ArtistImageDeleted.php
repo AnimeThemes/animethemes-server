@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class ArtistImageDeleted
- * @package App\Events\Pivot\ArtistImage
+ * Class ArtistImageDeleted.
  */
 class ArtistImageDeleted extends ArtistImageEvent implements DiscordMessageEvent
 {

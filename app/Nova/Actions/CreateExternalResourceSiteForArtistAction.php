@@ -15,8 +15,7 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Text;
 
 /**
- * Class CreateExternalResourceSiteForArtistAction
- * @package App\Nova\Actions
+ * Class CreateExternalResourceSiteForArtistAction.
  */
 class CreateExternalResourceSiteForArtistAction extends Action
 {
@@ -43,7 +42,7 @@ class CreateExternalResourceSiteForArtistAction extends Action
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.artist_create_resource_action', ['site' => ResourceSite::getDescription($this->site)]);
     }

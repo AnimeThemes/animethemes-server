@@ -15,8 +15,7 @@ use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 /**
- * Class VideoUncenTest
- * @package Nova\Filters
+ * Class VideoUncenTest.
  */
 class VideoUncenTest extends TestCase
 {

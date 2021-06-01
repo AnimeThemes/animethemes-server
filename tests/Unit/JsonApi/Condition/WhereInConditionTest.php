@@ -12,8 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class WhereInConditionTest
- * @package JsonApi\Condition
+ * Class WhereInConditionTest.
  */
 class WhereInConditionTest extends TestCase
 {

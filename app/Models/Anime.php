@@ -20,8 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 
 /**
- * Class Anime
- * @package App\Models
+ * Class Anime.
  */
 class Anime extends BaseModel
 {

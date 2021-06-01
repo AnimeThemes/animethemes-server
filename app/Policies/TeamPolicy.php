@@ -10,8 +10,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class TeamPolicy
- * @package App\Policies
+ * Class TeamPolicy.
  */
 class TeamPolicy
 {

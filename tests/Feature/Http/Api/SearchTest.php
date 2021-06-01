@@ -20,8 +20,7 @@ use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 /**
- * Class SearchTest
- * @package Http\Api
+ * Class SearchTest.
  */
 class SearchTest extends TestCase
 {

@@ -7,8 +7,7 @@ namespace App\Events\Series;
 use App\Models\Series;
 
 /**
- * Class SeriesEvent
- * @package App\Events\Series
+ * Class SeriesEvent.
  */
 abstract class SeriesEvent
 {

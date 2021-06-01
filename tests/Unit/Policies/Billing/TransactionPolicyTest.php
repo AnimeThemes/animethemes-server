@@ -10,8 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Class TransactionPolicyTest
- * @package Policies\Billing
+ * Class TransactionPolicyTest.
  */
 class TransactionPolicyTest extends TestCase
 {

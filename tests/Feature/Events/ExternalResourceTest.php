@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
- * Class ExternalResourceTest
- * @package Events
+ * Class ExternalResourceTest.
  */
 class ExternalResourceTest extends TestCase
 {

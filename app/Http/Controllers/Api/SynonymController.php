@@ -11,8 +11,7 @@ use App\Models\Synonym;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class SynonymController
- * @package App\Http\Controllers\Api
+ * Class SynonymController.
  */
 class SynonymController extends BaseController
 {

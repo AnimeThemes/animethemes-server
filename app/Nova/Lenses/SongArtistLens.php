@@ -18,8 +18,7 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 
 /**
- * Class SongArtistLens
- * @package App\Nova\Lenses
+ * Class SongArtistLens.
  */
 class SongArtistLens extends Lens
 {
@@ -28,7 +27,7 @@ class SongArtistLens extends Lens
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.song_artist_lens');
     }

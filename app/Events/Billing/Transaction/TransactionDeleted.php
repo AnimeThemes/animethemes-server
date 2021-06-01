@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class TransactionDeleted
- * @package App\Events\Billing\Transaction
+ * Class TransactionDeleted.
  */
 class TransactionDeleted extends TransactionEvent implements DiscordMessageEvent
 {

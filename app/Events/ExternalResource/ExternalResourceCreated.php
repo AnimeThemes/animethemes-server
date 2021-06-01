@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class ExternalResourceCreated
- * @package App\Events\ExternalResource
+ * Class ExternalResourceCreated.
  */
 class ExternalResourceCreated extends ExternalResourceEvent implements DiscordMessageEvent
 {

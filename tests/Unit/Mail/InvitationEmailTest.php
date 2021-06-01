@@ -10,8 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Class InvitationEmailTest
- * @package Mail
+ * Class InvitationEmailTest.
  */
 class InvitationEmailTest extends TestCase
 {

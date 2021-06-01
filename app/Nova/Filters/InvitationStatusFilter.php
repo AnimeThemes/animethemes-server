@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class InvitationStatusFilter
- * @package App\Nova\Filters
+ * Class InvitationStatusFilter.
  */
 class InvitationStatusFilter extends Filter
 {
@@ -27,7 +26,7 @@ class InvitationStatusFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.status');
     }

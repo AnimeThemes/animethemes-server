@@ -31,8 +31,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class ThemeIndexTest
- * @package Http\Api\Theme
+ * Class ThemeIndexTest.
  */
 class ThemeIndexTest extends TestCase
 {

@@ -19,8 +19,7 @@ use Tests\TestCase;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
 /**
- * Class EntryShowTest
- * @package Http\Api\Entry
+ * Class EntryShowTest.
  */
 class EntryShowTest extends TestCase
 {

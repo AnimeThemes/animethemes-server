@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class VideoSeeder
- * @package Database\Seeders
+ * Class VideoSeeder.
  */
 class VideoSeeder extends Seeder
 {

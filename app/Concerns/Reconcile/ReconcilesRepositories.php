@@ -11,8 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Trait ReconcilesRepositories
- * @package App\Concerns\Reconcile
+ * Trait ReconcilesRepositories.
  */
 trait ReconcilesRepositories
 {

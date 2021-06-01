@@ -8,8 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
- * Class SitemapController
- * @package App\Http\Controllers\Sitemap
+ * Class SitemapController.
  */
 class SitemapController extends Controller
 {

@@ -14,8 +14,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
 /**
- * Class Artist
- * @package App\Nova
+ * Class Artist.
  */
 class Artist extends Resource
 {
@@ -38,7 +37,7 @@ class Artist extends Resource
      *
      * @return array|string|null
      */
-    public static function group(): array|string|null
+    public static function group(): array | string | null
     {
         return __('nova.wiki');
     }
@@ -48,7 +47,7 @@ class Artist extends Resource
      *
      * @return array|string|null
      */
-    public static function label(): array|string|null
+    public static function label(): array | string | null
     {
         return __('nova.artists');
     }
@@ -58,7 +57,7 @@ class Artist extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel(): array|string|null
+    public static function singularLabel(): array | string | null
     {
         return __('nova.artist');
     }

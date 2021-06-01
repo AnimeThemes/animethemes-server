@@ -11,8 +11,7 @@ use App\Models\Theme;
 use App\Models\Video;
 
 /**
- * Class SongDeleting
- * @package App\Events\Song
+ * Class SongDeleting.
  */
 class SongDeleting extends SongEvent implements UpdateRelatedIndicesEvent
 {

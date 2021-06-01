@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class BalanceUpdated
- * @package App\Events\Billing\Balance
+ * Class BalanceUpdated.
  */
 class BalanceUpdated extends BalanceEvent implements DiscordMessageEvent
 {

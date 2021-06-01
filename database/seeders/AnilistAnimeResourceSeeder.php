@@ -19,8 +19,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class AnilistAnimeResourceSeeder
- * @package Database\Seeders
+ * Class AnilistAnimeResourceSeeder.
  */
 class AnilistAnimeResourceSeeder extends Seeder
 {

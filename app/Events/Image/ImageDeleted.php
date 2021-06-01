@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class ImageDeleted
- * @package App\Events\Image
+ * Class ImageDeleted.
  */
 class ImageDeleted extends ImageEvent implements DiscordMessageEvent
 {

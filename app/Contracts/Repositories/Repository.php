@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Interface Repository
- * @package App\Contracts\Repositories
+ * Interface Repository.
  */
 interface Repository
 {

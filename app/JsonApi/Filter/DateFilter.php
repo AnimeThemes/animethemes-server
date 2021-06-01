@@ -8,8 +8,7 @@ use App\Enums\Filter\AllowedDateFormat;
 use DateTime;
 
 /**
- * Class DateFilter
- * @package App\JsonApi\Filter
+ * Class DateFilter.
  */
 abstract class DateFilter extends Filter
 {

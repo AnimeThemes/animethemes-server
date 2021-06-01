@@ -9,8 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
 /**
- * Class CommunityController
- * @package App\Http\Controllers\Document
+ * Class CommunityController.
  */
 class CommunityController extends Controller
 {

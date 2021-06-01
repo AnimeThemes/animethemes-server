@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class BalanceTest
- * @package Models\Billing
+ * Class BalanceTest.
  */
 class BalanceTest extends TestCase
 {

@@ -23,8 +23,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class ImageIndexTest
- * @package Http\Api\Image
+ * Class ImageIndexTest.
  */
 class ImageIndexTest extends TestCase
 {

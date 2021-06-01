@@ -9,8 +9,7 @@ use App\Models\Theme;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class ThemeFactory
- * @package Database\Factories
+ * Class ThemeFactory.
  */
 class ThemeFactory extends Factory
 {

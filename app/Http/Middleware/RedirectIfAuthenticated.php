@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class RedirectIfAuthenticated
- * @package App\Http\Middleware
+ * Class RedirectIfAuthenticated.
  */
 class RedirectIfAuthenticated
 {

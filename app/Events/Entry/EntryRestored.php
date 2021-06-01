@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class EntryRestored
- * @package App\Events\Entry
+ * Class EntryRestored.
  */
 class EntryRestored extends EntryEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {

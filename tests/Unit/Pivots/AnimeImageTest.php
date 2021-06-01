@@ -13,8 +13,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class AnimeImageTest
- * @package Pivots
+ * Class AnimeImageTest.
  */
 class AnimeImageTest extends TestCase
 {

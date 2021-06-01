@@ -10,8 +10,7 @@ use Laravel\Jetstream\Contracts\DeletesTeams;
 use Laravel\Jetstream\Contracts\DeletesUsers;
 
 /**
- * Class DeleteUser
- * @package App\Actions\Jetstream
+ * Class DeleteUser.
  */
 class DeleteUser implements DeletesUsers
 {

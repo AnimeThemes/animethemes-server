@@ -20,8 +20,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
 /**
- * Class ExternalResource
- * @package App\Nova
+ * Class ExternalResource.
  */
 class ExternalResource extends Resource
 {
@@ -44,7 +43,7 @@ class ExternalResource extends Resource
      *
      * @return array|string|null
      */
-    public static function group(): array|string|null
+    public static function group(): array | string | null
     {
         return __('nova.wiki');
     }
@@ -63,7 +62,7 @@ class ExternalResource extends Resource
      *
      * @return array|string|null
      */
-    public static function label(): array|string|null
+    public static function label(): array | string | null
     {
         return __('nova.external_resources');
     }
@@ -73,7 +72,7 @@ class ExternalResource extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel(): array|string|null
+    public static function singularLabel(): array | string | null
     {
         return __('nova.external_resource');
     }

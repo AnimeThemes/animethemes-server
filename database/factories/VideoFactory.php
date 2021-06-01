@@ -11,8 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class VideoFactory
- * @package Database\Factories
+ * Class VideoFactory.
  */
 class VideoFactory extends Factory
 {

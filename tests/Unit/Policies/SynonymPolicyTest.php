@@ -11,8 +11,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class SynonymPolicyTest
- * @package Policies
+ * Class SynonymPolicyTest.
  */
 class SynonymPolicyTest extends TestCase
 {

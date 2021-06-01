@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class VideoDeleted
- * @package App\Events\Video
+ * Class VideoDeleted.
  */
 class VideoDeleted extends VideoEvent implements DiscordMessageEvent
 {

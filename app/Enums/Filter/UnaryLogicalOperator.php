@@ -7,8 +7,7 @@ namespace App\Enums\Filter;
 use BenSampo\Enum\Enum;
 
 /**
- * Class UnaryLogicalOperator
- * @package App\Enums\Filter
+ * Class UnaryLogicalOperator.
  */
 final class UnaryLogicalOperator extends Enum
 {

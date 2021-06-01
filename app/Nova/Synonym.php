@@ -13,8 +13,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
 /**
- * Class Synonym
- * @package App\Nova
+ * Class Synonym.
  */
 class Synonym extends Resource
 {
@@ -44,7 +43,7 @@ class Synonym extends Resource
      *
      * @return array|string|null
      */
-    public static function label(): array|string|null
+    public static function label(): array | string | null
     {
         return __('nova.synonyms');
     }
@@ -54,7 +53,7 @@ class Synonym extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel(): array|string|null
+    public static function singularLabel(): array | string | null
     {
         return __('nova.synonym');
     }

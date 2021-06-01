@@ -8,8 +8,7 @@ use App\Models\Song;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class SongFactory
- * @package Database\Factories
+ * Class SongFactory.
  */
 class SongFactory extends Factory
 {

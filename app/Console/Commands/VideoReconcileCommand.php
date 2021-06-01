@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class VideoReconcileCommand
- * @package App\Console\Commands
+ * Class VideoReconcileCommand.
  */
 class VideoReconcileCommand extends Command
 {

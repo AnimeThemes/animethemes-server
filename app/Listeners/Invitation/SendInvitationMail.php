@@ -11,8 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
 /**
- * Class SendInvitationMail
- * @package App\Listeners\Invitation
+ * Class SendInvitationMail.
  */
 class SendInvitationMail implements ShouldQueue
 {

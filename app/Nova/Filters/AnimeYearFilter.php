@@ -10,8 +10,7 @@ use Illuminate\Support\Arr;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class AnimeYearFilter
- * @package App\Nova\Filters
+ * Class AnimeYearFilter.
  */
 class AnimeYearFilter extends Filter
 {
@@ -27,7 +26,7 @@ class AnimeYearFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.year');
     }

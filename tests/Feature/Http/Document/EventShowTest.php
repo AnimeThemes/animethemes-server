@@ -7,8 +7,7 @@ namespace Http\Document;
 use Tests\TestCase;
 
 /**
- * Class EventShowTest
- * @package Http\Document
+ * Class EventShowTest.
  */
 class EventShowTest extends TestCase
 {

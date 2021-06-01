@@ -16,8 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 
 /**
- * Class Song
- * @package App\Models
+ * Class Song.
  */
 class Song extends BaseModel
 {

@@ -9,8 +9,7 @@ use App\Models\Video;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * Class VideoController
- * @package App\Http\Controllers
+ * Class VideoController.
  */
 class VideoController extends Controller
 {

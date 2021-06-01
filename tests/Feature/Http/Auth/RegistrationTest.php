@@ -12,8 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class RegistrationTest
- * @package Http\Auth
+ * Class RegistrationTest.
  */
 class RegistrationTest extends TestCase
 {

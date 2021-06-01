@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class VideoEntryCreated
- * @package App\Events\Pivot\VideoEntry
+ * Class VideoEntryCreated.
  */
 class VideoEntryCreated extends VideoEntryEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {

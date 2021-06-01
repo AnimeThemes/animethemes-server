@@ -11,8 +11,7 @@ use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
 /**
- * Class VideoQueryPayload
- * @package App\Scout\Elastic
+ * Class VideoQueryPayload.
  */
 class VideoQueryPayload extends ElasticQueryPayload
 {

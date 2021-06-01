@@ -7,8 +7,7 @@ namespace App\Enums\Discord;
 use BenSampo\Enum\Enum;
 
 /**
- * Class EmbedColor
- * @package App\Enums\Discord
+ * Class EmbedColor.
  */
 final class EmbedColor extends Enum
 {

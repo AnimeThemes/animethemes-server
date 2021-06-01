@@ -8,8 +8,7 @@ use App\JsonApi\Filter\Filter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class ThemeSequenceFilter
- * @package App\JsonApi\Filter\Theme
+ * Class ThemeSequenceFilter.
  */
 class ThemeSequenceFilter extends Filter
 {

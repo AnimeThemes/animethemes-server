@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class ArtistSongTest
- * @package Jobs\Pivot
+ * Class ArtistSongTest.
  */
 class ArtistSongTest extends TestCase
 {

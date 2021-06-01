@@ -11,8 +11,7 @@ use App\Models\Artist;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class ArtistController
- * @package App\Http\Controllers\Api
+ * Class ArtistController.
  */
 class ArtistController extends BaseController
 {

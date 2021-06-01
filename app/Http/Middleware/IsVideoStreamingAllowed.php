@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class IsVideoStreamingAllowed
- * @package App\Http\Middleware
+ * Class IsVideoStreamingAllowed.
  */
 class IsVideoStreamingAllowed
 {

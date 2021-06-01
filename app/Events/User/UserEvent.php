@@ -7,8 +7,7 @@ namespace App\Events\User;
 use App\Models\User;
 
 /**
- * Class UserEvent
- * @package App\Events\User
+ * Class UserEvent.
  */
 abstract class UserEvent
 {

@@ -8,8 +8,7 @@ use App\JsonApi\Filter\BooleanFilter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class EntrySpoilerFilter
- * @package App\JsonApi\Filter\Entry
+ * Class EntrySpoilerFilter.
  */
 class EntrySpoilerFilter extends BooleanFilter
 {

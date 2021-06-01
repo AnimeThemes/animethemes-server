@@ -15,8 +15,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use Tests\TestCase;
 
 /**
- * Class UserTest
- * @package Models
+ * Class UserTest.
  */
 class UserTest extends TestCase
 {

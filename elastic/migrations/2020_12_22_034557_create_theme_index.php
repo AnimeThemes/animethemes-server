@@ -7,7 +7,7 @@ use ElasticMigrations\Facades\Index;
 use ElasticMigrations\MigrationInterface;
 
 /**
- * Class CreateThemeIndex
+ * Class CreateThemeIndex.
  */
 final class CreateThemeIndex implements MigrationInterface
 {

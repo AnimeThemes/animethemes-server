@@ -9,8 +9,7 @@ use App\JsonApi\Filter\EnumFilter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class VideoSourceFilter
- * @package App\JsonApi\Filter\Video
+ * Class VideoSourceFilter.
  */
 class VideoSourceFilter extends EnumFilter
 {

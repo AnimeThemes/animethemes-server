@@ -10,8 +10,7 @@ use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Collection;
 
 /**
- * Class TransparencyDateRule
- * @package App\Rules\Billing
+ * Class TransparencyDateRule.
  */
 class TransparencyDateRule implements Rule
 {

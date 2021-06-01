@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class ArtistSongDeleted
- * @package App\Events\Pivot\ArtistSong
+ * Class ArtistSongDeleted.
  */
 class ArtistSongDeleted extends ArtistSongEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {

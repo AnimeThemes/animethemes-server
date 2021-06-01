@@ -9,8 +9,7 @@ use App\Models\Billing\Transaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class TransactionFactory
- * @package Database\Factories\Billing
+ * Class TransactionFactory.
  */
 class TransactionFactory extends Factory
 {

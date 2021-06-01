@@ -10,8 +10,7 @@ use Illuminatech\Config\StorageContract;
 use Illuminatech\Config\StorageDb;
 
 /**
- * Class PersistentConfigServiceProvider
- * @package App\Providers
+ * Class PersistentConfigServiceProvider.
  */
 class PersistentConfigServiceProvider extends AbstractPersistentConfigServiceProvider
 {

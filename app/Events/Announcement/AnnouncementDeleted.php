@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class AnnouncementDeleted
- * @package App\Events\Announcement
+ * Class AnnouncementDeleted.
  */
 class AnnouncementDeleted extends AnnouncementEvent implements DiscordMessageEvent
 {

@@ -25,8 +25,7 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 
 /**
- * Class AnimeCoverLargeLens
- * @package App\Nova\Lenses
+ * Class AnimeCoverLargeLens.
  */
 class AnimeCoverLargeLens extends Lens
 {
@@ -35,7 +34,7 @@ class AnimeCoverLargeLens extends Lens
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.anime_image_lens', ['facet' => ImageFacet::getDescription(ImageFacet::COVER_LARGE)]);
     }

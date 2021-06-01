@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class ExternalResourceSiteFilter
- * @package App\Nova\Filters
+ * Class ExternalResourceSiteFilter.
  */
 class ExternalResourceSiteFilter extends Filter
 {
@@ -27,7 +26,7 @@ class ExternalResourceSiteFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.site');
     }

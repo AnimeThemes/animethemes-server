@@ -10,8 +10,7 @@ use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 /**
- * Class QueryParserTest
- * @package JsonApi
+ * Class QueryParserTest.
  */
 class QueryParserTest extends TestCase
 {

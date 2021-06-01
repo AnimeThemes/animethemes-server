@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateConfigsTable
+ * Class CreateConfigsTable.
  */
 class CreateConfigsTable extends Migration
 {

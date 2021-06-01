@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class SongRestored
- * @package App\Events\Song
+ * Class SongRestored.
  */
 class SongRestored extends SongEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {

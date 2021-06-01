@@ -16,8 +16,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
 /**
- * Class ImageTest
- * @package Http
+ * Class ImageTest.
  */
 class ImageTest extends TestCase
 {

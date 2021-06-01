@@ -7,8 +7,7 @@ namespace App\Events\Song;
 use App\Models\Song;
 
 /**
- * Class SongEvent
- * @package App\Events\Song
+ * Class SongEvent.
  */
 abstract class SongEvent
 {

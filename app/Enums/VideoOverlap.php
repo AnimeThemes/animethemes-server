@@ -8,8 +8,7 @@ use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
- * Class VideoOverlap
- * @package App\Enums
+ * Class VideoOverlap.
  */
 final class VideoOverlap extends Enum implements LocalizedEnum
 {

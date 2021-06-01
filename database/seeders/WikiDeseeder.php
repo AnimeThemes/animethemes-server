@@ -8,8 +8,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Class WikiDeseeder
- * @package Database\Seeders
+ * Class WikiDeseeder.
  */
 class WikiDeseeder extends Seeder
 {

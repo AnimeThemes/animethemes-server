@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateSeriesTable
+ * Class CreateSeriesTable.
  */
 class CreateSeriesTable extends Migration
 {

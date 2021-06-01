@@ -15,8 +15,7 @@ use Spatie\DbDumper\Databases\PostgreSql;
 use Spatie\DbDumper\Databases\Sqlite;
 
 /**
- * Class DatabaseDumpCommand
- * @package App\Console\Commands
+ * Class DatabaseDumpCommand.
  */
 class DatabaseDumpCommand extends Command
 {

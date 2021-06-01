@@ -7,8 +7,7 @@ namespace Http\Document;
 use Tests\TestCase;
 
 /**
- * Class EncodingShowTest
- * @package Http\Document
+ * Class EncodingShowTest.
  */
 class EncodingShowTest extends TestCase
 {

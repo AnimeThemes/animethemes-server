@@ -11,8 +11,7 @@ use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 
 /**
- * Class UserFactory
- * @package Database\Factories
+ * Class UserFactory.
  */
 class UserFactory extends Factory
 {

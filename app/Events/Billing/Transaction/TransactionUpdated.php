@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class TransactionUpdated
- * @package App\Events\Billing\Transaction
+ * Class TransactionUpdated.
  */
 class TransactionUpdated extends TransactionEvent implements DiscordMessageEvent
 {

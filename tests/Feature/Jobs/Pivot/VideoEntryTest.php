@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class VideoEntryTest
- * @package Jobs\Pivot
+ * Class VideoEntryTest.
  */
 class VideoEntryTest extends TestCase
 {

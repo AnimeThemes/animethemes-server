@@ -10,8 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Class AuthenticationTest
- * @package Jetstream
+ * Class AuthenticationTest.
  */
 class AuthenticationTest extends TestCase
 {

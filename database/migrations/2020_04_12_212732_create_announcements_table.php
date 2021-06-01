@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateAnnouncementsTable
+ * Class CreateAnnouncementsTable.
  */
 class CreateAnnouncementsTable extends Migration
 {

@@ -8,8 +8,7 @@ use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
- * Class ResourceSite
- * @package App\Enums
+ * Class ResourceSite.
  */
 final class ResourceSite extends Enum implements LocalizedEnum
 {

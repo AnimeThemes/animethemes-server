@@ -8,8 +8,7 @@ use App\JsonApi\QueryParser;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Trait PerformsResourceQuery
- * @package App\Concerns\JsonApi
+ * Trait PerformsResourceQuery.
  */
 trait PerformsResourceQuery
 {

@@ -20,8 +20,7 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 
 /**
- * Class ArtistAnnResourceLens
- * @package App\Nova\Lenses
+ * Class ArtistAnnResourceLens.
  */
 class ArtistAnnResourceLens extends Lens
 {
@@ -30,7 +29,7 @@ class ArtistAnnResourceLens extends Lens
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.artist_resource_lens', ['site' => ResourceSite::getDescription(ResourceSite::ANN)]);
     }

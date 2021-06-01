@@ -24,8 +24,7 @@ use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
 /**
- * Class ExternalResourceUnlinkedTest
- * @package Nova\Lenses
+ * Class ExternalResourceUnlinkedTest.
  */
 class ExternalResourceUnlinkedTest extends TestCase
 {

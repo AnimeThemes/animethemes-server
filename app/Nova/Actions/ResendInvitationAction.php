@@ -6,17 +6,16 @@ namespace App\Nova\Actions;
 
 use App\Mail\InvitationEmail;
 use App\Models\Invitation;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
-use Exception;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 
 /**
- * Class ResendInvitationAction
- * @package App\Nova\Actions
+ * Class ResendInvitationAction.
  */
 class ResendInvitationAction extends Action
 {
@@ -28,7 +27,7 @@ class ResendInvitationAction extends Action
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.resend_invitation');
     }

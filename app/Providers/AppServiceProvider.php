@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class AppServiceProvider
- * @package App\Providers
+ * Class AppServiceProvider.
  */
 class AppServiceProvider extends ServiceProvider
 {

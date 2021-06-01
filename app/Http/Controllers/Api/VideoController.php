@@ -11,8 +11,7 @@ use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class VideoController
- * @package App\Http\Controllers\Api
+ * Class VideoController.
  */
 class VideoController extends BaseController
 {

@@ -8,8 +8,7 @@ use App\JsonApi\Filter\Filter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class AnimeYearFilter
- * @package App\JsonApi\Filter\Anime
+ * Class AnimeYearFilter.
  */
 class AnimeYearFilter extends Filter
 {

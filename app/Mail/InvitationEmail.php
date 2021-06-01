@@ -10,8 +10,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class InvitationEmail
- * @package App\Mail
+ * Class InvitationEmail.
  */
 class InvitationEmail extends Mailable
 {

@@ -16,8 +16,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class SeriesShowTest
- * @package Http\Api\Series
+ * Class SeriesShowTest.
  */
 class SeriesShowTest extends TestCase
 {

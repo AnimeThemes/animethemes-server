@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class VideoRestored
- * @package App\Events\Video
+ * Class VideoRestored.
  */
 class VideoRestored extends VideoEvent implements DiscordMessageEvent
 {

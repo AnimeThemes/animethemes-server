@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class BalanceFrequencyFilter
- * @package App\Nova\Filters
+ * Class BalanceFrequencyFilter.
  */
 class BalanceFrequencyFilter extends Filter
 {
@@ -27,7 +26,7 @@ class BalanceFrequencyFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.frequency');
     }

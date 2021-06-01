@@ -18,8 +18,7 @@ use Laravel\Nova\Fields\ActionFields;
 use Tests\TestCase;
 
 /**
- * Class CreateExternalResourceSiteForAnimeTest
- * @package Nova\Actions
+ * Class CreateExternalResourceSiteForAnimeTest.
  */
 class CreateExternalResourceSiteForAnimeTest extends TestCase
 {

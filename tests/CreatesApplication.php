@@ -8,8 +8,7 @@ use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Application;
 
 /**
- * Trait CreatesApplication
- * @package Tests
+ * Trait CreatesApplication.
  */
 trait CreatesApplication
 {

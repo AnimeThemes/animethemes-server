@@ -8,8 +8,7 @@ use App\JsonApi\QueryParser;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
- * Class BaseCollection
- * @package App\Http\Resources
+ * Class BaseCollection.
  */
 abstract class BaseCollection extends ResourceCollection
 {

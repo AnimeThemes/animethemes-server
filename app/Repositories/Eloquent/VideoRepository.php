@@ -8,8 +8,7 @@ use App\Models\Video;
 use Illuminate\Support\Collection;
 
 /**
- * Class VideoRepository
- * @package App\Repositories\Eloquent
+ * Class VideoRepository.
  */
 class VideoRepository extends EloquentRepository
 {

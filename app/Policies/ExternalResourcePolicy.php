@@ -8,8 +8,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
- * Class ExternalResourcePolicy
- * @package App\Policies
+ * Class ExternalResourcePolicy.
  */
 class ExternalResourcePolicy
 {

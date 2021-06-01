@@ -16,8 +16,7 @@ use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 /**
- * Class EntryNsfwTest
- * @package Nova\Filters
+ * Class EntryNsfwTest.
  */
 class EntryNsfwTest extends TestCase
 {

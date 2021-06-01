@@ -9,8 +9,7 @@ use App\Models\ExternalResource;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class ExternalResourceFactory
- * @package Database\Factories
+ * Class ExternalResourceFactory.
  */
 class ExternalResourceFactory extends Factory
 {

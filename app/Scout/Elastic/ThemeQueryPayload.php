@@ -11,8 +11,7 @@ use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
 /**
- * Class ThemeQueryPayload
- * @package App\Scout\Elastic
+ * Class ThemeQueryPayload.
  */
 class ThemeQueryPayload extends ElasticQueryPayload
 {

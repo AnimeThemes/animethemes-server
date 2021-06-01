@@ -18,8 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 
 /**
- * Class Theme
- * @package App\Models
+ * Class Theme.
  */
 class Theme extends BaseModel
 {

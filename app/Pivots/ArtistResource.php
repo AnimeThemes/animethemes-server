@@ -11,8 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class ArtistResource
- * @package App\Pivots
+ * Class ArtistResource.
  */
 class ArtistResource extends BasePivot
 {

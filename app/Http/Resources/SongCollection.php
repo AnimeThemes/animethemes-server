@@ -13,8 +13,7 @@ use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use Illuminate\Http\Request;
 
 /**
- * Class SongCollection
- * @package App\Http\Resources
+ * Class SongCollection.
  */
 class SongCollection extends BaseCollection
 {

@@ -11,8 +11,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class WelcomeTest
- * @package Http
+ * Class WelcomeTest.
  */
 class WelcomeTest extends TestCase
 {

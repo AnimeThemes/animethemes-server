@@ -13,8 +13,7 @@ use App\JsonApi\Filter\Image\ImageFacetFilter;
 use Illuminate\Http\Request;
 
 /**
- * Class ImageCollection
- * @package App\Http\Resources
+ * Class ImageCollection.
  */
 class ImageCollection extends BaseCollection
 {

@@ -12,8 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 /**
- * Class TrashedCondition
- * @package App\JsonApi\Condition
+ * Class TrashedCondition.
  */
 class TrashedCondition extends Condition
 {

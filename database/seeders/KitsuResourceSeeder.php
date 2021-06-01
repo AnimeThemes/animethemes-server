@@ -20,8 +20,7 @@ use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
- * Class KitsuResourceSeeder
- * @package Database\Seeders
+ * Class KitsuResourceSeeder.
  */
 class KitsuResourceSeeder extends Seeder
 {
@@ -45,7 +44,7 @@ class KitsuResourceSeeder extends Seeder
                 // Kitsu api call
                 try {
                     $client = new Client();
-                    $response = $client->get('https://kitsu.io/api/edge/mappings?filter[externalSite]=myanimelist/anime&include=item&filter[externalId]=' . $malResource->external_id, [
+                    $response = $client->get('https://kitsu.io/api/edge/mappings?filter[externalSite]=myanimelist/anime&include=item&filter[externalId]='.$malResource->external_id, [
                         'headers' => [
                             'Accept' => 'application/vnd.api+json',
                             'Content-Type' => 'application/vnd.api+json',

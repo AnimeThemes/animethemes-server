@@ -21,8 +21,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class SynopsisCoverSeeder
- * @package Database\Seeders
+ * Class SynopsisCoverSeeder.
  */
 class SynopsisCoverSeeder extends Seeder
 {

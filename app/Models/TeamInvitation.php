@@ -9,8 +9,7 @@ use Laravel\Jetstream\Jetstream;
 use Laravel\Jetstream\TeamInvitation as JetstreamTeamInvitation;
 
 /**
- * Class TeamInvitation
- * @package App\Models
+ * Class TeamInvitation.
  */
 class TeamInvitation extends JetstreamTeamInvitation
 {

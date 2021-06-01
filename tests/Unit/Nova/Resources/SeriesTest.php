@@ -18,8 +18,7 @@ use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 /**
- * Class SeriesTest
- * @package Nova\Resources
+ * Class SeriesTest.
  */
 class SeriesTest extends TestCase
 {

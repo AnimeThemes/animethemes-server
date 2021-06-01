@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class UserRestored
- * @package App\Events\User
+ * Class UserRestored.
  */
 class UserRestored extends UserEvent implements DiscordMessageEvent
 {

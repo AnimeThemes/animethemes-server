@@ -8,8 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
- * Class EventSitemapController
- * @package App\Http\Controllers\Sitemap
+ * Class EventSitemapController.
  */
 class EventSitemapController extends Controller
 {

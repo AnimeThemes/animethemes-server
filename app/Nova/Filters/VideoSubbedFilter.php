@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class VideoSubbedFilter
- * @package App\Nova\Filters
+ * Class VideoSubbedFilter.
  */
 class VideoSubbedFilter extends Filter
 {
@@ -26,7 +25,7 @@ class VideoSubbedFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.subbed');
     }

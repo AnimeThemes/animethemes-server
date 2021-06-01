@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class VideoTagsSeeder
- * @package Database\Seeders
+ * Class VideoTagsSeeder.
  */
 class VideoTagsSeeder extends Seeder
 {

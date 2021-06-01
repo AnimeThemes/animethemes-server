@@ -11,8 +11,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
- * Class BrowserSessionsTest
- * @package Jetstream
+ * Class BrowserSessionsTest.
  */
 class BrowserSessionsTest extends TestCase
 {

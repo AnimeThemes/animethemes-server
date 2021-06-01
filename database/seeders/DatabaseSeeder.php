@@ -7,8 +7,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 /**
- * Class DatabaseSeeder
- * @package Database\Seeders
+ * Class DatabaseSeeder.
  */
 class DatabaseSeeder extends Seeder
 {

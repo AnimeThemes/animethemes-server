@@ -7,8 +7,7 @@ namespace App\Events\Billing\Transaction;
 use App\Models\Billing\Transaction;
 
 /**
- * Class TransactionEvent
- * @package App\Events\Billing\Transaction
+ * Class TransactionEvent.
  */
 abstract class TransactionEvent
 {

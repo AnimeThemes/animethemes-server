@@ -19,8 +19,7 @@ use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- * Class User
- * @package App\Models
+ * Class User.
  */
 class User extends Authenticatable implements MustVerifyEmail, Nameable
 {

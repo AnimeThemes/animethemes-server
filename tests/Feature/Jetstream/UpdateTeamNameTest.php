@@ -11,8 +11,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
- * Class UpdateTeamNameTest
- * @package Jetstream
+ * Class UpdateTeamNameTest.
  */
 class UpdateTeamNameTest extends TestCase
 {

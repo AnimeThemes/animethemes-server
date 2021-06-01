@@ -11,8 +11,7 @@ use App\Pivots\ArtistImage;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
- * Class ArtistPolicy
- * @package App\Policies
+ * Class ArtistPolicy.
  */
 class ArtistPolicy
 {

@@ -9,8 +9,7 @@ use App\JsonApi\Filter\EnumFilter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class ImageFacetFilter
- * @package App\JsonApi\Filter\Image
+ * Class ImageFacetFilter.
  */
 class ImageFacetFilter extends EnumFilter
 {

@@ -7,8 +7,7 @@ namespace App\Events\Artist;
 use App\Models\Artist;
 
 /**
- * Class ArtistEvent
- * @package App\Events\Artist
+ * Class ArtistEvent.
  */
 abstract class ArtistEvent
 {

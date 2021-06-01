@@ -10,8 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class ResourceSiteDomainRuleTest
- * @package Rules
+ * Class ResourceSiteDomainRuleTest.
  */
 class ResourceSiteDomainRuleTest extends TestCase
 {

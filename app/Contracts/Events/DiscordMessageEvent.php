@@ -7,8 +7,7 @@ namespace App\Contracts\Events;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Interface DiscordMessageEvent
- * @package App\Contracts\Events
+ * Interface DiscordMessageEvent.
  */
 interface DiscordMessageEvent
 {

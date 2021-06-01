@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class VideoTypeFilter
- * @package App\Nova\Filters
+ * Class VideoTypeFilter.
  */
 class VideoTypeFilter extends Filter
 {
@@ -29,7 +28,7 @@ class VideoTypeFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.type');
     }

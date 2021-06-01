@@ -8,8 +8,7 @@ use App\Models\Synonym;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class SynonymFactory
- * @package Database\Factories
+ * Class SynonymFactory.
  */
 class SynonymFactory extends Factory
 {

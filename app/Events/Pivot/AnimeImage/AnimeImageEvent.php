@@ -9,8 +9,7 @@ use App\Models\Image;
 use App\Pivots\AnimeImage;
 
 /**
- * Class AnimeImageEvent
- * @package App\Events\Pivot\AnimeImage
+ * Class AnimeImageEvent.
  */
 abstract class AnimeImageEvent
 {

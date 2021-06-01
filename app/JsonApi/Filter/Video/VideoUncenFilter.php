@@ -8,8 +8,7 @@ use App\JsonApi\Filter\BooleanFilter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class VideoUncenFilter
- * @package App\JsonApi\Filter\Video
+ * Class VideoUncenFilter.
  */
 class VideoUncenFilter extends BooleanFilter
 {

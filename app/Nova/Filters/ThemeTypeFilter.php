@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class ThemeTypeFilter
- * @package App\Nova\Filters
+ * Class ThemeTypeFilter.
  */
 class ThemeTypeFilter extends Filter
 {
@@ -27,7 +26,7 @@ class ThemeTypeFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.type');
     }

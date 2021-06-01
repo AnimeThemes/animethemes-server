@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Contracts;
 
 /**
- * Interface Streamable
- * @package App\Contracts
+ * Interface Streamable.
  */
 interface Streamable
 {

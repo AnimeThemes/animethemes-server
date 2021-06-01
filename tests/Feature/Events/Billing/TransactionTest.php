@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
- * Class TransactionTest
- * @package Events\Billing
+ * Class TransactionTest.
  */
 class TransactionTest extends TestCase
 {

@@ -26,8 +26,7 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 
 /**
- * Class AnimeKitsuResourceLens
- * @package App\Nova\Lenses
+ * Class AnimeKitsuResourceLens.
  */
 class AnimeKitsuResourceLens extends Lens
 {
@@ -36,7 +35,7 @@ class AnimeKitsuResourceLens extends Lens
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.anime_resource_lens', ['site' => ResourceSite::getDescription(ResourceSite::KITSU)]);
     }

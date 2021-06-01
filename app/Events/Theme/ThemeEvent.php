@@ -8,8 +8,7 @@ use App\Models\Anime;
 use App\Models\Theme;
 
 /**
- * Class ThemeEvent
- * @package App\Events\Theme
+ * Class ThemeEvent.
  */
 abstract class ThemeEvent
 {

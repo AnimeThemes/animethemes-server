@@ -9,8 +9,7 @@ use App\Models\ExternalResource;
 use App\Pivots\AnimeResource;
 
 /**
- * Class AnimeResourceEvent
- * @package App\Events\Pivot\AnimeResource
+ * Class AnimeResourceEvent.
  */
 abstract class AnimeResourceEvent
 {

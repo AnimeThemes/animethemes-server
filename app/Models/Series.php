@@ -14,8 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Scout\Searchable;
 
 /**
- * Class Series
- * @package App\Models
+ * Class Series.
  */
 class Series extends BaseModel
 {

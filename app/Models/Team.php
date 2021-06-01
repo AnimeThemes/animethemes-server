@@ -11,8 +11,7 @@ use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
 
 /**
- * Class Team
- * @package App\Models
+ * Class Team.
  */
 class Team extends JetstreamTeam
 {

@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class AnimeRestored
- * @package App\Events\Anime
+ * Class AnimeRestored.
  */
 class AnimeRestored extends AnimeEvent implements CascadesRestoresEvent, DiscordMessageEvent
 {

@@ -8,8 +8,7 @@ use App\Enums\ResourceSite;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
- * Class ResourceSiteDomainRule
- * @package App\Rules
+ * Class ResourceSiteDomainRule.
  */
 class ResourceSiteDomainRule implements Rule
 {
@@ -59,7 +58,7 @@ class ResourceSiteDomainRule implements Rule
      *
      * @return array|string|null
      */
-    public function message(): array|string|null
+    public function message(): array | string | null
     {
         return __('validation.resource_link_site_mismatch');
     }

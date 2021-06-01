@@ -10,8 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Class InvitationPolicyTest
- * @package Policies
+ * Class InvitationPolicyTest.
  */
 class InvitationPolicyTest extends TestCase
 {

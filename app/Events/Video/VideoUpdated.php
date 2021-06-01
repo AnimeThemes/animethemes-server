@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class VideoUpdated
- * @package App\Events\Video
+ * Class VideoUpdated.
  */
 class VideoUpdated extends VideoEvent implements DiscordMessageEvent
 {

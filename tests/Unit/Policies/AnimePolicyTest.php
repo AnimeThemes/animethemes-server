@@ -14,8 +14,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class AnimePolicyTest
- * @package Policies
+ * Class AnimePolicyTest.
  */
 class AnimePolicyTest extends TestCase
 {

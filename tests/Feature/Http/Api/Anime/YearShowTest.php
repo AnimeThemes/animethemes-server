@@ -15,8 +15,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class YearShowTest
- * @package Http\Api\Anime
+ * Class YearShowTest.
  */
 class YearShowTest extends TestCase
 {

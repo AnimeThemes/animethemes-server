@@ -18,8 +18,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class TransactionIndexTest
- * @package Http\Api\Billing\Transaction
+ * Class TransactionIndexTest.
  */
 class TransactionIndexTest extends TestCase
 {

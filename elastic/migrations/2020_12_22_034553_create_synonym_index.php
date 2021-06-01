@@ -7,7 +7,7 @@ use ElasticMigrations\Facades\Index;
 use ElasticMigrations\MigrationInterface;
 
 /**
- * Class CreateSynonymIndex
+ * Class CreateSynonymIndex.
  */
 final class CreateSynonymIndex implements MigrationInterface
 {

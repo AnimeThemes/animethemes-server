@@ -9,8 +9,7 @@ use App\Models\Song;
 use App\Pivots\ArtistSong;
 
 /**
- * Class ArtistSongEvent
- * @package App\Events\Pivot\ArtistSong
+ * Class ArtistSongEvent.
  */
 abstract class ArtistSongEvent
 {

@@ -18,8 +18,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class AnimeFactory
- * @package Database\Factories
+ * Class AnimeFactory.
  */
 class AnimeFactory extends Factory
 {

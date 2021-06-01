@@ -8,8 +8,7 @@ use App\JsonApi\Filter\DateFilter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class UpdatedAtFilter
- * @package App\JsonApi\Filter\Base
+ * Class UpdatedAtFilter.
  */
 class UpdatedAtFilter extends DateFilter
 {

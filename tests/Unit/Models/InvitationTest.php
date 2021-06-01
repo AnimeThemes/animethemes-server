@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 /**
- * Class InvitationTest
- * @package Models
+ * Class InvitationTest.
  */
 class InvitationTest extends TestCase
 {

@@ -14,8 +14,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class ArtistFactory
- * @package Database\Factories
+ * Class ArtistFactory.
  */
 class ArtistFactory extends Factory
 {

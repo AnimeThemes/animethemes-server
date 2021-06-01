@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Trait ReconcilesVideo
- * @package App\Concerns\Reconcile
+ * Trait ReconcilesVideo.
  */
 trait ReconcilesVideo
 {

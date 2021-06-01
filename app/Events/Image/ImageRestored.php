@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class ImageRestored
- * @package App\Events\Image
+ * Class ImageRestored.
  */
 class ImageRestored extends ImageEvent implements DiscordMessageEvent
 {

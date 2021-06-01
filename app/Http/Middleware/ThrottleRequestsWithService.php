@@ -13,8 +13,7 @@ use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
 use Illuminate\Support\Facades\App;
 
 /**
- * Class ThrottleRequestsWithService
- * @package App\Http\Middleware
+ * Class ThrottleRequestsWithService.
  */
 class ThrottleRequestsWithService
 {
@@ -30,7 +29,7 @@ class ThrottleRequestsWithService
      * @param string $prefix
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, int|string $maxAttempts = 60, float|int $decayMinutes = 1, string $prefix = ''): mixed
+    public function handle(Request $request, Closure $next, int | string $maxAttempts = 60, float | int $decayMinutes = 1, string $prefix = ''): mixed
     {
         // Throttle with Redis if configured, else use default throttling middleware
         $middleware = $this->appUsesRedis()

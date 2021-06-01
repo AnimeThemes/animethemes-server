@@ -15,8 +15,7 @@ use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use Illuminate\Http\Request;
 
 /**
- * Class AnimeCollection
- * @package App\Http\Resources
+ * Class AnimeCollection.
  */
 class AnimeCollection extends BaseCollection
 {

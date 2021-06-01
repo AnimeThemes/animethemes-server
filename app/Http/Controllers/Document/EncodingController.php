@@ -9,8 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
 /**
- * Class EncodingController
- * @package App\Http\Controllers\Document
+ * Class EncodingController.
  */
 class EncodingController extends Controller
 {

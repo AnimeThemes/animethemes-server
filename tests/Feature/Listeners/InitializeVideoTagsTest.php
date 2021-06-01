@@ -12,8 +12,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class InitializeVideoTagsTest
- * @package Listeners
+ * Class InitializeVideoTagsTest.
  */
 class InitializeVideoTagsTest extends TestCase
 {

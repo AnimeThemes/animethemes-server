@@ -11,8 +11,7 @@ use App\Models\Billing\Transaction;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class TransactionController
- * @package App\Http\Controllers\Api\Billing
+ * Class TransactionController.
  */
 class TransactionController extends BaseController
 {

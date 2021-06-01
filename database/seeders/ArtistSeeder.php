@@ -12,8 +12,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class ArtistSeeder
- * @package Database\Seeders
+ * Class ArtistSeeder.
  */
 class ArtistSeeder extends Seeder
 {

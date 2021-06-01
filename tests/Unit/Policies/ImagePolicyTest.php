@@ -14,8 +14,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class ImagePolicyTest
- * @package Policies
+ * Class ImagePolicyTest.
  */
 class ImagePolicyTest extends TestCase
 {

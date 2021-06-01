@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
 /**
- * Trait PerformsResourceCollectionSearch
- * @package App\Concerns\JsonApi
+ * Trait PerformsResourceCollectionSearch.
  */
 trait PerformsResourceCollectionSearch
 {
@@ -31,8 +30,7 @@ trait PerformsResourceCollectionSearch
     public static function performSearch(
         QueryParser $parser,
         PaginationStrategy $paginationStrategy
-    ): static
-    {
+    ): static {
         $driver = Config::get('scout.driver');
 
         // Perform Elasticsearch search
@@ -70,8 +68,7 @@ trait PerformsResourceCollectionSearch
     protected static function performElasticSearch(
         QueryParser $parser,
         PaginationStrategy $paginationStrategy
-    ): static
-    {
+    ): static {
         $elasticQueryPayload = static::elasticQueryPayload($parser);
 
         // initialize builder with payload for matches

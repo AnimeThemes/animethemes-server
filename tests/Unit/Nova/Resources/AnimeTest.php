@@ -22,8 +22,7 @@ use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 /**
- * Class AnimeTest
- * @package Nova\Resources
+ * Class AnimeTest.
  */
 class AnimeTest extends TestCase
 {

@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class SeriesUpdated
- * @package App\Events\Series
+ * Class SeriesUpdated.
  */
 class SeriesUpdated extends SeriesEvent implements DiscordMessageEvent
 {

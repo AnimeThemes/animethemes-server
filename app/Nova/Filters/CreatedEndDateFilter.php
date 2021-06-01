@@ -12,8 +12,7 @@ use Illuminate\Support\Carbon;
 use Laravel\Nova\Filters\DateFilter;
 
 /**
- * Class CreatedEndDateFilter
- * @package App\Nova\Filters
+ * Class CreatedEndDateFilter.
  */
 class CreatedEndDateFilter extends DateFilter
 {
@@ -22,7 +21,7 @@ class CreatedEndDateFilter extends DateFilter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.created_at_end');
     }

@@ -7,8 +7,7 @@ namespace Http\Document;
 use Tests\TestCase;
 
 /**
- * Class FaqTest
- * @package Http\Document
+ * Class FaqTest.
  */
 class FaqTest extends TestCase
 {

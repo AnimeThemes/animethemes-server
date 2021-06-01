@@ -11,8 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class SendDiscordNotification
- * @package App\Listeners
+ * Class SendDiscordNotification.
  */
 class SendDiscordNotification implements ShouldQueue
 {

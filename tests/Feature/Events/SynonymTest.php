@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
- * Class SynonymTest
- * @package Events
+ * Class SynonymTest.
  */
 class SynonymTest extends TestCase
 {

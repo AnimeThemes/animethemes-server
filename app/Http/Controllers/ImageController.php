@@ -9,8 +9,7 @@ use App\Models\Image;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * Class ImageController
- * @package App\Http\Controllers
+ * Class ImageController.
  */
 class ImageController extends Controller
 {

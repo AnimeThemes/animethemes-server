@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 /**
- * Trait PerformsResourceCollectionQuery
- * @package App\Concerns\JsonApi
+ * Trait PerformsResourceCollectionQuery.
  */
 trait PerformsResourceCollectionQuery
 {

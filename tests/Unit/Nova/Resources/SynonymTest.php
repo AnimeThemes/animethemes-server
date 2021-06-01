@@ -18,8 +18,7 @@ use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 /**
- * Class SynonymTest
- * @package Nova\Resources
+ * Class SynonymTest.
  */
 class SynonymTest extends TestCase
 {

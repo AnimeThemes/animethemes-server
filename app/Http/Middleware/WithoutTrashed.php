@@ -8,8 +8,7 @@ use Closure;
 use Illuminate\Http\Request;
 
 /**
- * Class WithoutTrashed
- * @package App\Http\Middleware
+ * Class WithoutTrashed.
  */
 class WithoutTrashed
 {

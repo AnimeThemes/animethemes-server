@@ -10,8 +10,7 @@ use Illuminate\Support\Str;
 use JsonSerializable;
 
 /**
- * Class DiscordEmbedField
- * @package App\Discord
+ * Class DiscordEmbedField.
  */
 class DiscordEmbedField implements Arrayable, JsonSerializable
 {

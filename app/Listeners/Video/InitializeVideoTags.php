@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class InitializeVideoTags
- * @package App\Listeners\Video
+ * Class InitializeVideoTags.
  */
 class InitializeVideoTags
 {

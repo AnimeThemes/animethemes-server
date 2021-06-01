@@ -13,8 +13,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class AnimeResourceSeeder
- * @package Database\Seeders
+ * Class AnimeResourceSeeder.
  */
 class AnimeResourceSeeder extends Seeder
 {

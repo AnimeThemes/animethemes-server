@@ -16,8 +16,7 @@ use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 /**
- * Class AnimeSeasonTest
- * @package Nova\Filters
+ * Class AnimeSeasonTest.
  */
 class AnimeSeasonTest extends TestCase
 {

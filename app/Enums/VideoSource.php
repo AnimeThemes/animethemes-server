@@ -8,8 +8,7 @@ use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
- * Class VideoSource
- * @package App\Enums
+ * Class VideoSource.
  */
 final class VideoSource extends Enum implements LocalizedEnum
 {

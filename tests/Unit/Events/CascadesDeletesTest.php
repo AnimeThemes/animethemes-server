@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
- * Class CascadesDeletesTest
- * @package Events
+ * Class CascadesDeletesTest.
  */
 class CascadesDeletesTest extends TestCase
 {

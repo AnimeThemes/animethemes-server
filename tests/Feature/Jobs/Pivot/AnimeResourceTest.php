@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class AnimeResourceTest
- * @package Jobs\Pivot
+ * Class AnimeResourceTest.
  */
 class AnimeResourceTest extends TestCase
 {

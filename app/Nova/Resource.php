@@ -9,8 +9,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource as NovaResource;
 
 /**
- * Class Resource
- * @package App\Nova
+ * Class Resource.
  */
 abstract class Resource extends NovaResource
 {

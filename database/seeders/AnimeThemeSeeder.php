@@ -20,8 +20,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class AnimeThemeSeeder
- * @package Database\Seeders
+ * Class AnimeThemeSeeder.
  */
 class AnimeThemeSeeder extends Seeder
 {
@@ -239,8 +238,7 @@ class AnimeThemeSeeder extends Seeder
         string $episodes,
         string $notes,
         Theme $theme
-    ): Entry
-    {
+    ): Entry {
         // Create Entry if it doesn't exist
         $entry = Entry::where('theme_id', $theme->theme_id)
             ->where(function (Builder $query) use ($version) {

@@ -11,8 +11,7 @@ use Illuminate\Support\Carbon;
 use Laravel\Nova\Filters\DateFilter;
 
 /**
- * Class DeletedEndDateFilter
- * @package App\Nova\Filters
+ * Class DeletedEndDateFilter.
  */
 class DeletedEndDateFilter extends DateFilter
 {
@@ -21,7 +20,7 @@ class DeletedEndDateFilter extends DateFilter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.deleted_at_end');
     }

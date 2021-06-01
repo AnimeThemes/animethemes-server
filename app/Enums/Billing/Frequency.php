@@ -7,8 +7,7 @@ namespace App\Enums\Billing;
 use BenSampo\Enum\Enum;
 
 /**
- * Class Frequency
- * @package App\Enums\Billing
+ * Class Frequency.
  */
 final class Frequency extends Enum
 {

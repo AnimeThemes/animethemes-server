@@ -20,8 +20,7 @@ use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 /**
- * Class ThemeTest
- * @package Nova\Resources
+ * Class ThemeTest.
  */
 class ThemeTest extends TestCase
 {

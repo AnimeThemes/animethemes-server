@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 
 /**
- * Trait PerformsConstrainedEagerLoading
- * @package App\Concerns\JsonApi
+ * Trait PerformsConstrainedEagerLoading.
  */
 trait PerformsConstrainedEagerLoading
 {

@@ -15,8 +15,7 @@ use Laravel\Horizon\Console\SnapshotCommand;
 use Laravel\Telescope\Console\PruneCommand;
 
 /**
- * Class Kernel
- * @package App\Console
+ * Class Kernel.
  */
 class Kernel extends ConsoleKernel
 {

@@ -16,8 +16,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
 /**
- * Class VideoTest
- * @package Http
+ * Class VideoTest.
  */
 class VideoTest extends TestCase
 {

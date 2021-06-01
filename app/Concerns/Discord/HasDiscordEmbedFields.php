@@ -7,8 +7,7 @@ namespace App\Concerns\Discord;
 use App\Discord\DiscordEmbedField;
 
 /**
- * Trait HasDiscordEmbedFields
- * @package App\Concerns\Discord
+ * Trait HasDiscordEmbedFields.
  */
 trait HasDiscordEmbedFields
 {

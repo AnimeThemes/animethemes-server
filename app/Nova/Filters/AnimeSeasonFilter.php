@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class AnimeSeasonFilter
- * @package App\Nova\Filters
+ * Class AnimeSeasonFilter.
  */
 class AnimeSeasonFilter extends Filter
 {
@@ -27,7 +26,7 @@ class AnimeSeasonFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.season');
     }

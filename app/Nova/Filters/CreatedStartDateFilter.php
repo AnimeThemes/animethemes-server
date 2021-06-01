@@ -12,8 +12,7 @@ use Illuminate\Support\Carbon;
 use Laravel\Nova\Filters\DateFilter;
 
 /**
- * Class CreatedStartDateFilter
- * @package App\Nova\Filters
+ * Class CreatedStartDateFilter.
  */
 class CreatedStartDateFilter extends DateFilter
 {
@@ -22,7 +21,7 @@ class CreatedStartDateFilter extends DateFilter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.created_at_start');
     }

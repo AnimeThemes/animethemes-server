@@ -9,8 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
 /**
- * Class DonateController
- * @package App\Http\Controllers\Document
+ * Class DonateController.
  */
 class DonateController extends Controller
 {

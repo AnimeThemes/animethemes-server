@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class ThemeTest
- * @package Jobs
+ * Class ThemeTest.
  */
 class ThemeTest extends TestCase
 {

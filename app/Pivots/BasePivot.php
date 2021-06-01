@@ -7,8 +7,7 @@ namespace App\Pivots;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
- * Class BasePivot
- * @package App\Pivots
+ * Class BasePivot.
  */
 abstract class BasePivot extends Pivot
 {

@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules\Password;
 
 /**
- * Class AuthServiceProvider
- * @package App\Providers
+ * Class AuthServiceProvider.
  */
 class AuthServiceProvider extends ServiceProvider
 {

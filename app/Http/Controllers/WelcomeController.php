@@ -8,8 +8,7 @@ use App\Models\Announcement;
 use Illuminate\View\View;
 
 /**
- * Class WelcomeController
- * @package App\Http\Controllers
+ * Class WelcomeController.
  */
 class WelcomeController extends Controller
 {

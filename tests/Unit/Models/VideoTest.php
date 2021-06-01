@@ -20,8 +20,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class VideoTest
- * @package Models
+ * Class VideoTest.
  */
 class VideoTest extends TestCase
 {

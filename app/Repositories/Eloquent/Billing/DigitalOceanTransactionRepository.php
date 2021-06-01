@@ -10,8 +10,7 @@ use App\Repositories\Eloquent\EloquentRepository;
 use Illuminate\Support\Collection;
 
 /**
- * Class DigitalOceanTransactionRepository
- * @package App\Repositories\Eloquent\Billing
+ * Class DigitalOceanTransactionRepository.
  */
 class DigitalOceanTransactionRepository extends EloquentRepository
 {

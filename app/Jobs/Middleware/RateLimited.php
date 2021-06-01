@@ -9,8 +9,7 @@ use Illuminate\Contracts\Redis\LimiterTimeoutException;
 use Illuminate\Support\Facades\Redis;
 
 /**
- * Class RateLimited
- * @package App\Jobs\Middleware
+ * Class RateLimited.
  */
 class RateLimited
 {

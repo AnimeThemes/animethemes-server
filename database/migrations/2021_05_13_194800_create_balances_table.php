@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateBalancesTable
+ * Class CreateBalancesTable.
  */
 class CreateBalancesTable extends Migration
 {

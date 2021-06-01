@@ -16,8 +16,7 @@ use Laravel\Jetstream\Jetstream;
 use Laravel\Jetstream\Rules\Role;
 
 /**
- * Class AddTeamMember
- * @package App\Actions\Jetstream
+ * Class AddTeamMember.
  */
 class AddTeamMember implements AddsTeamMembers
 {

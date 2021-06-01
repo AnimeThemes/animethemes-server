@@ -15,8 +15,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Jetstream\Jetstream;
 
 /**
- * Class JetstreamServiceProvider
- * @package App\Providers
+ * Class JetstreamServiceProvider.
  */
 class JetstreamServiceProvider extends ServiceProvider
 {

@@ -18,8 +18,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class AnnouncementIndexTest
- * @package Http\Api\Announcement
+ * Class AnnouncementIndexTest.
  */
 class AnnouncementIndexTest extends TestCase
 {

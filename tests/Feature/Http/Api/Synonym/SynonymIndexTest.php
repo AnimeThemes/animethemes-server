@@ -21,8 +21,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class SynonymIndexTest
- * @package Http\Api\Synonym
+ * Class SynonymIndexTest.
  */
 class SynonymIndexTest extends TestCase
 {

@@ -18,8 +18,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
 /**
- * Class Transaction
- * @package App\Nova
+ * Class Transaction.
  */
 class Transaction extends Resource
 {
@@ -42,7 +41,7 @@ class Transaction extends Resource
      *
      * @return array|string|null
      */
-    public static function group(): array|string|null
+    public static function group(): array | string | null
     {
         return __('nova.billing');
     }
@@ -52,7 +51,7 @@ class Transaction extends Resource
      *
      * @return array|string|null
      */
-    public static function label(): array|string|null
+    public static function label(): array | string | null
     {
         return __('nova.transactions');
     }
@@ -62,7 +61,7 @@ class Transaction extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel(): array|string|null
+    public static function singularLabel(): array | string | null
     {
         return __('nova.transaction');
     }

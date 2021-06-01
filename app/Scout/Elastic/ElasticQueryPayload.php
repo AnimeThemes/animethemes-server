@@ -8,8 +8,7 @@ use App\JsonApi\QueryParser;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
 /**
- * Class ElasticQueryPayload
- * @package App\Scout\Elastic
+ * Class ElasticQueryPayload.
  */
 abstract class ElasticQueryPayload
 {

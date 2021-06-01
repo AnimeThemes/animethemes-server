@@ -11,8 +11,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
- * Class LeaveTeamTest
- * @package Jetstream
+ * Class LeaveTeamTest.
  */
 class LeaveTeamTest extends TestCase
 {

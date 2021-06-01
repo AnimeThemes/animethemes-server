@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class TransactionTest
- * @package Models\Billing
+ * Class TransactionTest.
  */
 class TransactionTest extends TestCase
 {

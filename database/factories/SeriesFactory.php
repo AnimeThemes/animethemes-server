@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class SeriesFactory
- * @package Database\Factories
+ * Class SeriesFactory.
  */
 class SeriesFactory extends Factory
 {

@@ -17,8 +17,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class ExternalResourceShowTest
- * @package Http\Api\ExternalResource
+ * Class ExternalResourceShowTest.
  */
 class ExternalResourceShowTest extends TestCase
 {

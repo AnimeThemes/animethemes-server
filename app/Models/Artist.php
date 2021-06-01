@@ -17,8 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Scout\Searchable;
 
 /**
- * Class Artist
- * @package App\Models
+ * Class Artist.
  */
 class Artist extends BaseModel
 {

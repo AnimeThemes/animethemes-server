@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateAuditsTable
+ * Class CreateAuditsTable.
  */
 class CreateAuditsTable extends Migration
 {

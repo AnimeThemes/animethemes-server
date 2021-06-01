@@ -7,8 +7,7 @@ namespace App\Listeners;
 use App\Contracts\Events\CascadesDeletesEvent;
 
 /**
- * Class CascadesDeletes
- * @package App\Listeners
+ * Class CascadesDeletes.
  */
 class CascadesDeletes
 {

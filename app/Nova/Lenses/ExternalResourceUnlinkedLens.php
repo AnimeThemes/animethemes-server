@@ -19,8 +19,7 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 
 /**
- * Class ExternalResourceUnlinkedLens
- * @package App\Nova\Lenses
+ * Class ExternalResourceUnlinkedLens.
  */
 class ExternalResourceUnlinkedLens extends Lens
 {
@@ -29,7 +28,7 @@ class ExternalResourceUnlinkedLens extends Lens
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.resource_unlinked_lens');
     }

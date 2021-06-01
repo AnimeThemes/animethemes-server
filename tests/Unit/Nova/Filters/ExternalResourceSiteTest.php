@@ -16,8 +16,7 @@ use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 /**
- * Class ExternalResourceSiteTest
- * @package Nova\Filters
+ * Class ExternalResourceSiteTest.
  */
 class ExternalResourceSiteTest extends TestCase
 {

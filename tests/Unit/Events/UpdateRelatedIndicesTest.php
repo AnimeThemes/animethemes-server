@@ -32,8 +32,7 @@ use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
- * Class UpdateRelatedIndicesTest
- * @package Events
+ * Class UpdateRelatedIndicesTest.
  */
 class UpdateRelatedIndicesTest extends TestCase
 {

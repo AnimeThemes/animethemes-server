@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class LoggerMiddleware
- * @package App\Http\Middleware
+ * Class LoggerMiddleware.
  */
 class LoggerMiddleware
 {

@@ -13,8 +13,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
- * Class DeleteApiTokenTest
- * @package Jetstream
+ * Class DeleteApiTokenTest.
  */
 class DeleteApiTokenTest extends TestCase
 {

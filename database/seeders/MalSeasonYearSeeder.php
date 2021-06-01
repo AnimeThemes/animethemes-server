@@ -20,8 +20,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class MalSeasonYearSeeder
- * @package Database\Seeders
+ * Class MalSeasonYearSeeder.
  */
 class MalSeasonYearSeeder extends Seeder
 {

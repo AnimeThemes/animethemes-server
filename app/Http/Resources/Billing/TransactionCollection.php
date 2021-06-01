@@ -17,8 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 /**
- * Class TransactionCollection
- * @package App\Http\Resources\Billing
+ * Class TransactionCollection.
  */
 class TransactionCollection extends BaseCollection
 {

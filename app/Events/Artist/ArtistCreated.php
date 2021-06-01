@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class ArtistCreated
- * @package App\Events\Artist
+ * Class ArtistCreated.
  */
 class ArtistCreated extends ArtistEvent implements DiscordMessageEvent
 {

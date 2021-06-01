@@ -12,8 +12,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class VideoRepository
- * @package App\Repositories\Service
+ * Class VideoRepository.
  */
 class VideoRepository implements Repository
 {

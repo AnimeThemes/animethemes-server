@@ -21,8 +21,7 @@ use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 /**
- * Class ExternalResourceTest
- * @package Nova\Resources
+ * Class ExternalResourceTest.
  */
 class ExternalResourceTest extends TestCase
 {

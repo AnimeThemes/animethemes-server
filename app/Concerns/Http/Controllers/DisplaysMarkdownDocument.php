@@ -16,8 +16,7 @@ use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
 use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
 
 /**
- * Trait DisplaysMarkdownDocument
- * @package App\Concerns\Http\Controllers
+ * Trait DisplaysMarkdownDocument.
  */
 trait DisplaysMarkdownDocument
 {

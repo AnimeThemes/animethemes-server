@@ -18,8 +18,7 @@ use Laravel\Nova\Fields\ActionFields;
 use Tests\TestCase;
 
 /**
- * Class ResendInvitationTest
- * @package Nova\Actions
+ * Class ResendInvitationTest.
  */
 class ResendInvitationTest extends TestCase
 {

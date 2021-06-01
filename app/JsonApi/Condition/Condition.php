@@ -13,8 +13,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
- * Class Condition
- * @package App\JsonApi\Condition
+ * Class Condition.
  */
 abstract class Condition
 {

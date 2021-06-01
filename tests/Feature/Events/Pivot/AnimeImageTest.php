@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
- * Class AnimeImageTest
- * @package Events\Pivot
+ * Class AnimeImageTest.
  */
 class AnimeImageTest extends TestCase
 {

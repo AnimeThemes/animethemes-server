@@ -8,8 +8,7 @@ use App\JsonApi\QueryParser;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class BaseResource
- * @package App\Http\Resources
+ * Class BaseResource.
  */
 abstract class BaseResource extends JsonResource
 {
@@ -18,7 +17,7 @@ abstract class BaseResource extends JsonResource
      *
      * @var QueryParser|int
      */
-    protected QueryParser|int $parser;
+    protected QueryParser | int $parser;
 
     /**
      * Create a new resource instance.
@@ -27,7 +26,7 @@ abstract class BaseResource extends JsonResource
      * @param QueryParser|int $parser
      * @return void
      */
-    public function __construct(mixed $resource, QueryParser|int $parser)
+    public function __construct(mixed $resource, QueryParser | int $parser)
     {
         parent::__construct($resource);
 

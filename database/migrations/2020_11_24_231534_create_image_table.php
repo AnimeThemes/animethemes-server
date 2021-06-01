@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateImageTable
+ * Class CreateImageTable.
  */
 class CreateImageTable extends Migration
 {

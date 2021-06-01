@@ -11,8 +11,7 @@ use App\Models\Song;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class SongController
- * @package App\Http\Controllers\Api
+ * Class SongController.
  */
 class SongController extends BaseController
 {

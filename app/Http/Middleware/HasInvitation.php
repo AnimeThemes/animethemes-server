@@ -9,8 +9,7 @@ use Closure;
 use Illuminate\Http\Request;
 
 /**
- * Class HasInvitation
- * @package App\Http\Middleware
+ * Class HasInvitation.
  */
 class HasInvitation
 {

@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class WikiPages
- * @package Database\Seeders
+ * Class WikiPages.
  */
 class WikiPages
 {

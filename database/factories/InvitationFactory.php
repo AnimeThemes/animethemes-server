@@ -9,8 +9,7 @@ use App\Models\Invitation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class InvitationFactory
- * @package Database\Factories
+ * Class InvitationFactory.
  */
 class InvitationFactory extends Factory
 {

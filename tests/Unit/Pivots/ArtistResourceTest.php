@@ -13,8 +13,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class ArtistResourceTest
- * @package Pivots
+ * Class ArtistResourceTest.
  */
 class ArtistResourceTest extends TestCase
 {

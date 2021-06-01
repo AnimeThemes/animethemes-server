@@ -11,8 +11,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
- * Class TwoFactorAuthenticationSettingsTest
- * @package Jetstream
+ * Class TwoFactorAuthenticationSettingsTest.
  */
 class TwoFactorAuthenticationSettingsTest extends TestCase
 {

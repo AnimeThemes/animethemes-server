@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class AnimeSeasonSeeder
- * @package Database\Seeders
+ * Class AnimeSeasonSeeder.
  */
 class AnimeSeasonSeeder extends Seeder
 {
@@ -70,7 +69,6 @@ class AnimeSeasonSeeder extends Seeder
                     } catch (Exception $e) {
                         Log::error($e->getMessage());
                     }
-
                 }
 
                 // Otherwise just fall through to the next line

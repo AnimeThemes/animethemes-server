@@ -7,8 +7,7 @@ namespace App\Events\Invitation;
 use App\Models\Invitation;
 
 /**
- * Class InvitationEvent
- * @package App\Events\Invitation
+ * Class InvitationEvent.
  */
 abstract class InvitationEvent
 {

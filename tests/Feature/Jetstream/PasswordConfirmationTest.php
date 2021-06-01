@@ -10,8 +10,7 @@ use Laravel\Jetstream\Features;
 use Tests\TestCase;
 
 /**
- * Class PasswordConfirmationTest
- * @package Jetstream
+ * Class PasswordConfirmationTest.
  */
 class PasswordConfirmationTest extends TestCase
 {

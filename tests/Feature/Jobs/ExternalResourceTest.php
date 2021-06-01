@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class ExternalResourceTest
- * @package Jobs
+ * Class ExternalResourceTest.
  */
 class ExternalResourceTest extends TestCase
 {

@@ -22,8 +22,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class AnimeTest
- * @package Models
+ * Class AnimeTest.
  */
 class AnimeTest extends TestCase
 {

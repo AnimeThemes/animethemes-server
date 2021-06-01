@@ -7,8 +7,7 @@ namespace App\Enums\Filter;
 use BenSampo\Enum\Enum;
 
 /**
- * Class TrashedStatus
- * @package App\Enums\Filter
+ * Class TrashedStatus.
  */
 final class TrashedStatus extends Enum
 {

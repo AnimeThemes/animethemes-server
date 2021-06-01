@@ -20,8 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 /**
- * Class ImageTest
- * @package Models
+ * Class ImageTest.
  */
 class ImageTest extends TestCase
 {

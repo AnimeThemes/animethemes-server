@@ -7,8 +7,7 @@ namespace Http\Document;
 use Tests\TestCase;
 
 /**
- * Class GuidelinesIndexTest
- * @package Http\Document
+ * Class GuidelinesIndexTest.
  */
 class GuidelinesIndexTest extends TestCase
 {

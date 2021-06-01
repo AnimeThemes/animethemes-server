@@ -13,8 +13,7 @@ use App\Pivots\AnimeSeries;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
- * Class AnimePolicy
- * @package App\Policies
+ * Class AnimePolicy.
  */
 class AnimePolicy
 {

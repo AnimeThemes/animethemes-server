@@ -36,8 +36,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Laravel\Jetstream\Http\Middleware\AuthenticateSession;
 
 /**
- * Class Kernel
- * @package App\Http
+ * Class Kernel.
  */
 class Kernel extends HttpKernel
 {

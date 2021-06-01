@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
- * Class AnimeResourceTest
- * @package Events\Pivot
+ * Class AnimeResourceTest.
  */
 class AnimeResourceTest extends TestCase
 {

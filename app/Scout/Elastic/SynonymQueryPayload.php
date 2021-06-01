@@ -10,8 +10,7 @@ use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
 /**
- * Class SynonymQueryPayload
- * @package App\Scout\Elastic
+ * Class SynonymQueryPayload.
  */
 class SynonymQueryPayload extends ElasticQueryPayload
 {

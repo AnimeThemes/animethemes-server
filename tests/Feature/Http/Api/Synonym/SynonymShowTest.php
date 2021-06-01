@@ -16,8 +16,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class SynonymShowTest
- * @package Http\Api\Synonym
+ * Class SynonymShowTest.
  */
 class SynonymShowTest extends TestCase
 {

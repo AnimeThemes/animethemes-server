@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class ArtistDeleted
- * @package App\Events\Artist
+ * Class ArtistDeleted.
  */
 class ArtistDeleted extends ArtistEvent implements DiscordMessageEvent
 {

@@ -8,8 +8,7 @@ use App\JsonApi\Filter\BooleanFilter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class EntryNsfwFilter
- * @package App\JsonApi\Filter\Entry
+ * Class EntryNsfwFilter.
  */
 class EntryNsfwFilter extends BooleanFilter
 {

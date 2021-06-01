@@ -11,8 +11,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class SongPolicyTest
- * @package Policies
+ * Class SongPolicyTest.
  */
 class SongPolicyTest extends TestCase
 {

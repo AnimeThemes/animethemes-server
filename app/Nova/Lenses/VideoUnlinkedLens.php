@@ -21,8 +21,7 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 
 /**
- * Class VideoUnlinkedLens
- * @package App\Nova\Lenses
+ * Class VideoUnlinkedLens.
  */
 class VideoUnlinkedLens extends Lens
 {
@@ -31,7 +30,7 @@ class VideoUnlinkedLens extends Lens
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.video_unlinked_lens');
     }

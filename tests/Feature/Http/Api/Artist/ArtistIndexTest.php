@@ -30,8 +30,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class ArtistIndexTest
- * @package Http\Api\Artist
+ * Class ArtistIndexTest.
  */
 class ArtistIndexTest extends TestCase
 {

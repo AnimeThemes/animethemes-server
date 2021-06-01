@@ -10,8 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class FilterTest
- * @package JsonApi\Filter
+ * Class FilterTest.
  */
 class FilterTest extends TestCase
 {

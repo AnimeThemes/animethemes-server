@@ -16,8 +16,7 @@ use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Support\Str;
 
 /**
- * Class Balance
- * @package App\Models\Billing
+ * Class Balance.
  */
 class Balance extends BaseModel
 {

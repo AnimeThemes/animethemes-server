@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class ArtistMemberTest
- * @package Jobs\Pivot
+ * Class ArtistMemberTest.
  */
 class ArtistMemberTest extends TestCase
 {

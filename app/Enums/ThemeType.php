@@ -8,8 +8,7 @@ use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
- * Class ThemeType
- * @package App\Enums
+ * Class ThemeType.
  */
 final class ThemeType extends Enum implements LocalizedEnum
 {

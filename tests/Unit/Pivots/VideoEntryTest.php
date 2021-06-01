@@ -14,8 +14,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Class VideoEntryTest
- * @package Pivots
+ * Class VideoEntryTest.
  */
 class VideoEntryTest extends TestCase
 {

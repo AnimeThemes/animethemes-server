@@ -11,8 +11,7 @@ use App\Models\Billing\Balance;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class BalanceController
- * @package App\Http\Controllers\Api\Billing
+ * Class BalanceController.
  */
 class BalanceController extends BaseController
 {

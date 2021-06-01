@@ -8,8 +8,7 @@ use App\JsonApi\QueryParser;
 use Illuminate\Support\Str;
 
 /**
- * Class EnumFilter
- * @package App\JsonApi\Filter
+ * Class EnumFilter.
  */
 abstract class EnumFilter extends Filter
 {

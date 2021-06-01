@@ -18,8 +18,7 @@ use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 /**
- * Class SongTest
- * @package Nova\Resources
+ * Class SongTest.
  */
 class SongTest extends TestCase
 {

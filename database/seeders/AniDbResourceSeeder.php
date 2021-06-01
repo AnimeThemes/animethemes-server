@@ -19,8 +19,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class AniDbResourceSeeder
- * @package Database\Seeders
+ * Class AniDbResourceSeeder.
  */
 class AniDbResourceSeeder extends Seeder
 {

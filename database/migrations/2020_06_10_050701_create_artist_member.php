@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateArtistMember
+ * Class CreateArtistMember.
  */
 class CreateArtistMember extends Migration
 {

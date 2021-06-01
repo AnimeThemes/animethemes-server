@@ -8,8 +8,7 @@ use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
- * Class InvitationStatus
- * @package App\Enums
+ * Class InvitationStatus.
  */
 final class InvitationStatus extends Enum implements LocalizedEnum
 {

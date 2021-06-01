@@ -10,8 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Class VideoPolicyTest
- * @package Policies
+ * Class VideoPolicyTest.
  */
 class VideoPolicyTest extends TestCase
 {

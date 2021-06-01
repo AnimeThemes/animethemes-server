@@ -7,8 +7,7 @@ namespace Http\Document;
 use Tests\TestCase;
 
 /**
- * Class DonateTest
- * @package Http\Document
+ * Class DonateTest.
  */
 class DonateTest extends TestCase
 {

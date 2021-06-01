@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Trait HasAttributeUpdateEmbedFields
- * @package App\Concerns\Discord
+ * Trait HasAttributeUpdateEmbedFields.
  */
 trait HasAttributeUpdateEmbedFields
 {

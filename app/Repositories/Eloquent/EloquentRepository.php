@@ -8,8 +8,7 @@ use App\Contracts\Repositories\Repository;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class EloquentRepository
- * @package App\Repositories\Eloquent
+ * Class EloquentRepository.
  */
 abstract class EloquentRepository implements Repository
 {

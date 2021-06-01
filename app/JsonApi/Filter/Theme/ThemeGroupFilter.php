@@ -8,8 +8,7 @@ use App\JsonApi\Filter\Filter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class ThemeGroupFilter
- * @package App\JsonApi\Filter\Theme
+ * Class ThemeGroupFilter.
  */
 class ThemeGroupFilter extends Filter
 {

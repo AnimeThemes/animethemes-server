@@ -16,8 +16,7 @@ use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 /**
- * Class ImageFacetTest
- * @package Nova\Filters
+ * Class ImageFacetTest.
  */
 class ImageFacetTest extends TestCase
 {

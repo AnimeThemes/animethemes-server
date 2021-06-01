@@ -9,8 +9,7 @@ use App\Models\ExternalResource;
 use App\Pivots\ArtistResource;
 
 /**
- * Class ArtistResourceEvent
- * @package App\Events\Pivot\ArtistResource
+ * Class ArtistResourceEvent.
  */
 abstract class ArtistResourceEvent
 {

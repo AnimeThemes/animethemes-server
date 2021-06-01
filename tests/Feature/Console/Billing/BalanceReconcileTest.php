@@ -18,8 +18,7 @@ use RuntimeException;
 use Tests\TestCase;
 
 /**
- * Class BalanceReconcileTest
- * @package Console\Billing
+ * Class BalanceReconcileTest.
  */
 class BalanceReconcileTest extends TestCase
 {

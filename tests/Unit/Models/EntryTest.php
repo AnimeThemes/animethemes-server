@@ -18,8 +18,7 @@ use Tests\TestCase;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
 /**
- * Class EntryTest
- * @package Models
+ * Class EntryTest.
  */
 class EntryTest extends TestCase
 {

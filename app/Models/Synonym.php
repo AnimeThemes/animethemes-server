@@ -13,8 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Scout\Searchable;
 
 /**
- * Class Synonym
- * @package App\Models
+ * Class Synonym.
  */
 class Synonym extends BaseModel
 {

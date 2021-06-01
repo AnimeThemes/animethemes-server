@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class DigitalOceanTransactionSeeder
- * @package Database\Seeders
+ * Class DigitalOceanTransactionSeeder.
  */
 class DigitalOceanTransactionSeeder extends Seeder
 {

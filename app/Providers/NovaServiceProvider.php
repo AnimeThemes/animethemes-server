@@ -22,8 +22,7 @@ use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 /**
- * Class NovaServiceProvider
- * @package App\Providers
+ * Class NovaServiceProvider.
  */
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {

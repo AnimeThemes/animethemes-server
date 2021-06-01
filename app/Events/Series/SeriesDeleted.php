@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class SeriesDeleted
- * @package App\Events\Series
+ * Class SeriesDeleted.
  */
 class SeriesDeleted extends SeriesEvent implements DiscordMessageEvent
 {

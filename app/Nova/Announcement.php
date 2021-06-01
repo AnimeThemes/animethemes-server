@@ -12,8 +12,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Panel;
 
 /**
- * Class Announcement
- * @package App\Nova
+ * Class Announcement.
  */
 class Announcement extends Resource
 {
@@ -36,7 +35,7 @@ class Announcement extends Resource
      *
      * @return array|string|null
      */
-    public static function group(): array|string|null
+    public static function group(): array | string | null
     {
         return __('nova.admin');
     }
@@ -46,7 +45,7 @@ class Announcement extends Resource
      *
      * @return array|string|null
      */
-    public static function label(): array|string|null
+    public static function label(): array | string | null
     {
         return __('nova.announcements');
     }
@@ -56,7 +55,7 @@ class Announcement extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel(): array|string|null
+    public static function singularLabel(): array | string | null
     {
         return __('nova.announcement');
     }

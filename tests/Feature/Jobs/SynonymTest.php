@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class SynonymTest
- * @package Jobs
+ * Class SynonymTest.
  */
 class SynonymTest extends TestCase
 {

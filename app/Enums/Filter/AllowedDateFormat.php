@@ -7,8 +7,7 @@ namespace App\Enums\Filter;
 use BenSampo\Enum\Enum;
 
 /**
- * Class AllowedDateFormat
- * @package App\Enums\Filter
+ * Class AllowedDateFormat.
  */
 final class AllowedDateFormat extends Enum
 {

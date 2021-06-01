@@ -11,8 +11,7 @@ use NotificationChannels\Discord\DiscordChannel;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class DiscordNotification
- * @package App\Notifications
+ * Class DiscordNotification.
  */
 class DiscordNotification extends Notification implements ShouldQueue
 {

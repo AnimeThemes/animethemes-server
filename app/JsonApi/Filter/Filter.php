@@ -10,8 +10,7 @@ use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class Filter
- * @package App\JsonApi\Filter
+ * Class Filter.
  */
 abstract class Filter
 {

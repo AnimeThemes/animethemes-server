@@ -17,8 +17,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class ImageShowTest
- * @package Http\Api\Image
+ * Class ImageShowTest.
  */
 class ImageShowTest extends TestCase
 {

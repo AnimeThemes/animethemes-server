@@ -12,8 +12,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
 /**
- * Class User
- * @package App\Nova
+ * Class User.
  */
 class User extends Resource
 {
@@ -49,7 +48,7 @@ class User extends Resource
      *
      * @return array|string|null
      */
-    public static function group(): array|string|null
+    public static function group(): array | string | null
     {
         return __('nova.admin');
     }
@@ -59,7 +58,7 @@ class User extends Resource
      *
      * @return array|string|null
      */
-    public static function label(): array|string|null
+    public static function label(): array | string | null
     {
         return __('nova.users');
     }
@@ -69,7 +68,7 @@ class User extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel(): array|string|null
+    public static function singularLabel(): array | string | null
     {
         return __('nova.user');
     }

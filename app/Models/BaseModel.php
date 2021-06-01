@@ -12,8 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
- * Class BaseModel
- * @package App\Models
+ * Class BaseModel.
  */
 abstract class BaseModel extends Model implements Auditable, Nameable
 {

@@ -13,8 +13,7 @@ use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use Illuminate\Http\Request;
 
 /**
- * Class SynonymCollection
- * @package App\Http\Resources
+ * Class SynonymCollection.
  */
 class SynonymCollection extends BaseCollection
 {

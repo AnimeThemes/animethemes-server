@@ -16,8 +16,7 @@ use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 /**
- * Class BalanceFrequencyTest
- * @package Nova\Filters
+ * Class BalanceFrequencyTest.
  */
 class BalanceFrequencyTest extends TestCase
 {

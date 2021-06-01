@@ -13,8 +13,7 @@ use App\JsonApi\Filter\ExternalResource\ExternalResourceSiteFilter;
 use Illuminate\Http\Request;
 
 /**
- * Class ExternalResourceCollection
- * @package App\Http\Resources
+ * Class ExternalResourceCollection.
  */
 class ExternalResourceCollection extends BaseCollection
 {

@@ -13,8 +13,7 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
 
 /**
- * Class CreateNewUser
- * @package App\Actions\Fortify
+ * Class CreateNewUser.
  */
 class CreateNewUser implements CreatesNewUsers
 {

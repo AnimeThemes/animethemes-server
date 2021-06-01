@@ -15,8 +15,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 /**
- * Class TransparencyRequest
- * @package App\Http\Requests
+ * Class TransparencyRequest.
  */
 class TransparencyRequest extends FormRequest
 {

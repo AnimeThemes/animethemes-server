@@ -22,8 +22,7 @@ use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 /**
- * Class BalanceTest
- * @package Nova\Resources
+ * Class BalanceTest.
  */
 class BalanceTest extends TestCase
 {

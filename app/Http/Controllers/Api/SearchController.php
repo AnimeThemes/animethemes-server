@@ -8,8 +8,7 @@ use App\Http\Resources\SearchResource;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class SearchController
- * @package App\Http\Controllers\Api
+ * Class SearchController.
  */
 class SearchController extends BaseController
 {

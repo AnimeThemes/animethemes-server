@@ -12,8 +12,7 @@ use stdClass;
 use Tests\TestCase;
 
 /**
- * Class DiscordEmbedFieldTest
- * @package Discord
+ * Class DiscordEmbedFieldTest.
  */
 class DiscordEmbedFieldTest extends TestCase
 {

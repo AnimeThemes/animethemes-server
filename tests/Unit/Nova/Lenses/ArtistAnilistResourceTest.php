@@ -25,8 +25,7 @@ use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
 /**
- * Class ArtistAnilistResourceTest
- * @package Nova\Lenses
+ * Class ArtistAnilistResourceTest.
  */
 class ArtistAnilistResourceTest extends TestCase
 {

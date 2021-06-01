@@ -21,8 +21,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class SeriesIndexTest
- * @package Http\Api\Series
+ * Class SeriesIndexTest.
  */
 class SeriesIndexTest extends TestCase
 {

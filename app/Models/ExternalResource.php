@@ -15,8 +15,7 @@ use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * Class ExternalResource
- * @package App\Models
+ * Class ExternalResource.
  */
 class ExternalResource extends BaseModel
 {

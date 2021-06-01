@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class AnimeSeeder
- * @package Database\Seeders
+ * Class AnimeSeeder.
  */
 class AnimeSeeder extends Seeder
 {

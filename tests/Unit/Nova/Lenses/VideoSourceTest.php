@@ -24,8 +24,7 @@ use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
 /**
- * Class VideoSourceTest
- * @package Nova\Lenses
+ * Class VideoSourceTest.
  */
 class VideoSourceTest extends TestCase
 {

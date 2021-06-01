@@ -11,8 +11,7 @@ use App\Models\Anime;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class AnimeController
- * @package App\Http\Controllers\Api
+ * Class AnimeController.
  */
 class AnimeController extends BaseController
 {

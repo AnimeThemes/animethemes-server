@@ -21,8 +21,7 @@ use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 /**
- * Class ImageTest
- * @package Nova\Resources
+ * Class ImageTest.
  */
 class ImageTest extends TestCase
 {

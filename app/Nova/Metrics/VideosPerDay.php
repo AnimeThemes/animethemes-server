@@ -12,8 +12,7 @@ use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Metrics\TrendResult;
 
 /**
- * Class VideosPerDay
- * @package App\Nova\Metrics
+ * Class VideosPerDay.
  */
 class VideosPerDay extends Trend
 {
@@ -47,7 +46,7 @@ class VideosPerDay extends Trend
      *
      * @return  DateTimeInterface|DateInterval|float|int
      */
-    public function cacheFor(): DateInterval|float|DateTimeInterface|int
+    public function cacheFor(): DateInterval | float | DateTimeInterface | int
     {
         return now()->addMinutes(5);
     }

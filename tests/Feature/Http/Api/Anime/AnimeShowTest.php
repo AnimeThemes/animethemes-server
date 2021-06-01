@@ -25,8 +25,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class AnimeShowTest
- * @package Http\Api\Anime
+ * Class AnimeShowTest.
  */
 class AnimeShowTest extends TestCase
 {

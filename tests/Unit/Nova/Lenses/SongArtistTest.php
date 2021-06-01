@@ -23,8 +23,7 @@ use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
 /**
- * Class SongArtistTest
- * @package Nova\Lenses
+ * Class SongArtistTest.
  */
 class SongArtistTest extends TestCase
 {

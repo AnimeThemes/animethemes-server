@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class AnimeSeriesTest
- * @package Jobs\Pivot
+ * Class AnimeSeriesTest.
  */
 class AnimeSeriesTest extends TestCase
 {

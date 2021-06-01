@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class AnimeUpdated
- * @package App\Events\Anime
+ * Class AnimeUpdated.
  */
 class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {

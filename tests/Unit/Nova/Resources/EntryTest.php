@@ -19,8 +19,7 @@ use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 /**
- * Class EntryTest
- * @package Nova\Resources
+ * Class EntryTest.
  */
 class EntryTest extends TestCase
 {

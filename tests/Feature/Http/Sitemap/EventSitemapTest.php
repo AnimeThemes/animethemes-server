@@ -7,8 +7,7 @@ namespace Http\Sitemap;
 use Tests\TestCase;
 
 /**
- * Class EventSitemapTest
- * @package Http\Sitemap
+ * Class EventSitemapTest.
  */
 class EventSitemapTest extends TestCase
 {

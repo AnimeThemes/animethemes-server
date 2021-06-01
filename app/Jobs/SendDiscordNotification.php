@@ -16,8 +16,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Notification;
 
 /**
- * Class SendDiscordNotification
- * @package App\Jobs
+ * Class SendDiscordNotification.
  */
 class SendDiscordNotification implements ShouldQueue
 {

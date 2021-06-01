@@ -9,8 +9,7 @@ use App\Models\Entry;
 use App\Models\Video;
 
 /**
- * Class ThemeDeleting
- * @package App\Events\Theme
+ * Class ThemeDeleting.
  */
 class ThemeDeleting extends ThemeEvent implements CascadesDeletesEvent
 {

@@ -11,8 +11,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class DatabaseDumpTest
- * @package Console
+ * Class DatabaseDumpTest.
  */
 class DatabaseDumpTest extends TestCase
 {

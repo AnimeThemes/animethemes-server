@@ -16,8 +16,7 @@ use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 /**
- * Class ThemeTypeTest
- * @package Nova\Filters
+ * Class ThemeTypeTest.
  */
 class ThemeTypeTest extends TestCase
 {

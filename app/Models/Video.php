@@ -21,8 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Scout\Searchable;
 
 /**
- * Class Video
- * @package App\Models
+ * Class Video.
  */
 class Video extends BaseModel implements Streamable, Viewable
 {

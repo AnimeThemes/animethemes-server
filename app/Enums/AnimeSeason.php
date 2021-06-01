@@ -8,8 +8,7 @@ use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
- * Class AnimeSeason
- * @package App\Enums
+ * Class AnimeSeason.
  */
 final class AnimeSeason extends Enum implements LocalizedEnum
 {

@@ -8,8 +8,7 @@ use App\Http\Requests\TransparencyRequest;
 use Illuminate\View\View;
 
 /**
- * Class TransparencyController
- * @package App\Http\Controllers
+ * Class TransparencyController.
  */
 class TransparencyController extends Controller
 {

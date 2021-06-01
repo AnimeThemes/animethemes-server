@@ -15,8 +15,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class ConditionTest
- * @package JsonApi\Condition
+ * Class ConditionTest.
  */
 class ConditionTest extends TestCase
 {

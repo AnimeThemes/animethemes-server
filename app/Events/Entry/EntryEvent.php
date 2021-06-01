@@ -7,8 +7,7 @@ namespace App\Events\Entry;
 use App\Models\Entry;
 
 /**
- * Class EntryEvent
- * @package App\Events\Entry
+ * Class EntryEvent.
  */
 abstract class EntryEvent
 {

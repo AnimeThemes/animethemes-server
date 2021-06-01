@@ -19,8 +19,7 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 
 /**
- * Class ArtistCoverSmallLens
- * @package App\Nova\Lenses
+ * Class ArtistCoverSmallLens.
  */
 class ArtistCoverSmallLens extends Lens
 {
@@ -29,7 +28,7 @@ class ArtistCoverSmallLens extends Lens
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.artist_image_lens', ['facet' => ImageFacet::getDescription(ImageFacet::COVER_SMALL)]);
     }

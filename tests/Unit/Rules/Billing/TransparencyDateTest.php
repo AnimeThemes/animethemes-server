@@ -12,8 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class TransparencyDateTest
- * @package Rules\Billing
+ * Class TransparencyDateTest.
  */
 class TransparencyDateTest extends TestCase
 {

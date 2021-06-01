@@ -12,8 +12,7 @@ use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Metrics\TrendResult;
 
 /**
- * Class SeriesPerDay
- * @package App\Nova\Metrics
+ * Class SeriesPerDay.
  */
 class SeriesPerDay extends Trend
 {
@@ -47,7 +46,7 @@ class SeriesPerDay extends Trend
      *
      * @return  DateTimeInterface|DateInterval|float|int
      */
-    public function cacheFor(): DateInterval|float|DateTimeInterface|int
+    public function cacheFor(): DateInterval | float | DateTimeInterface | int
     {
         return now()->addMinutes(5);
     }

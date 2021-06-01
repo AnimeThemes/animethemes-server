@@ -9,8 +9,7 @@ use App\Models\Invitation;
 use Exception;
 
 /**
- * Class CreateInvitationToken
- * @package App\Listeners\Invitation
+ * Class CreateInvitationToken.
  */
 class CreateInvitationToken
 {

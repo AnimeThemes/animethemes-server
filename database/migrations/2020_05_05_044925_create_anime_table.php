@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateAnimeTable
+ * Class CreateAnimeTable.
  */
 class CreateAnimeTable extends Migration
 {

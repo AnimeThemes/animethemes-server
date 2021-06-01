@@ -11,8 +11,7 @@ use App\Models\Entry;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class EntryController
- * @package App\Http\Controllers\Api
+ * Class EntryController.
  */
 class EntryController extends BaseController
 {

@@ -16,8 +16,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
 /**
- * Class Invitation
- * @package App\Nova
+ * Class Invitation.
  */
 class Invitation extends Resource
 {
@@ -40,7 +39,7 @@ class Invitation extends Resource
      *
      * @return array|string|null
      */
-    public static function group(): array|string|null
+    public static function group(): array | string | null
     {
         return __('nova.admin');
     }
@@ -50,7 +49,7 @@ class Invitation extends Resource
      *
      * @return array|string|null
      */
-    public static function label(): array|string|null
+    public static function label(): array | string | null
     {
         return __('nova.invitations');
     }
@@ -60,7 +59,7 @@ class Invitation extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel(): array|string|null
+    public static function singularLabel(): array | string | null
     {
         return __('nova.invitation');
     }

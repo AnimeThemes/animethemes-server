@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class ImageFacetFilter
- * @package App\Nova\Filters
+ * Class ImageFacetFilter.
  */
 class ImageFacetFilter extends Filter
 {
@@ -27,7 +26,7 @@ class ImageFacetFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.facet');
     }

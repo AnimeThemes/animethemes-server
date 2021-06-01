@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class SynonymRestored
- * @package App\Events\Synonym
+ * Class SynonymRestored.
  */
 class SynonymRestored extends SynonymEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {

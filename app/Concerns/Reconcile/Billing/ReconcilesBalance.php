@@ -11,8 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Trait ReconcilesBalance
- * @package App\Concerns\Reconcile\Billing
+ * Trait ReconcilesBalance.
  */
 trait ReconcilesBalance
 {

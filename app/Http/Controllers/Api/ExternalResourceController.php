@@ -10,8 +10,7 @@ use App\Models\ExternalResource;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class ExternalResourceController
- * @package App\Http\Controllers\Api
+ * Class ExternalResourceController.
  */
 class ExternalResourceController extends BaseController
 {

@@ -9,8 +9,7 @@ use App\Http\Resources\BaseResource;
 use Illuminate\Http\Request;
 
 /**
- * Class TransactionResource
- * @package App\Http\Resources\Billing
+ * Class TransactionResource.
  */
 class TransactionResource extends BaseResource
 {

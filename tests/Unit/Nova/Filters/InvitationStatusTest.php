@@ -15,8 +15,7 @@ use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 /**
- * Class InvitationStatusTest
- * @package Nova\Filters
+ * Class InvitationStatusTest.
  */
 class InvitationStatusTest extends TestCase
 {

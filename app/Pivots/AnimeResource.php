@@ -11,8 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class AnimeResource
- * @package App\Pivots
+ * Class AnimeResource.
  */
 class AnimeResource extends BasePivot
 {

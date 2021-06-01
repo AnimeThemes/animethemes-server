@@ -11,8 +11,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class UserPolicyTest
- * @package Policies
+ * Class UserPolicyTest.
  */
 class UserPolicyTest extends TestCase
 {

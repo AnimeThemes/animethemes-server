@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class ThemeRestored
- * @package App\Events\Theme
+ * Class ThemeRestored.
  */
 class ThemeRestored extends ThemeEvent implements CascadesRestoresEvent, DiscordMessageEvent
 {

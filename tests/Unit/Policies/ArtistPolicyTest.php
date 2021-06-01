@@ -13,8 +13,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class ArtistPolicyTest
- * @package Policies
+ * Class ArtistPolicyTest.
  */
 class ArtistPolicyTest extends TestCase
 {

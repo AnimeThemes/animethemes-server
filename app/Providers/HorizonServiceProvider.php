@@ -12,8 +12,7 @@ use Laravel\Horizon\Horizon;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
 
 /**
- * Class HorizonServiceProvider
- * @package App\Providers
+ * Class HorizonServiceProvider.
  */
 class HorizonServiceProvider extends HorizonApplicationServiceProvider
 {

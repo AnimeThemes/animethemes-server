@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateViewsTable
+ * Class CreateViewsTable.
  */
 class CreateViewsTable extends Migration
 {

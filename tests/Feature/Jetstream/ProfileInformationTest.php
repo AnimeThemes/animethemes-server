@@ -11,8 +11,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
- * Class ProfileInformationTest
- * @package Jetstream
+ * Class ProfileInformationTest.
  */
 class ProfileInformationTest extends TestCase
 {

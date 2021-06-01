@@ -11,8 +11,7 @@ use App\Pivots\VideoEntry;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
- * Class EntryPolicy
- * @package App\Policies
+ * Class EntryPolicy.
  */
 class EntryPolicy
 {

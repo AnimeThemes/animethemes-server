@@ -7,8 +7,7 @@ namespace App\JsonApi\Condition;
 use App\Enums\Filter\ComparisonOperator;
 
 /**
- * Class Predicate
- * @package App\JsonApi\Condition
+ * Class Predicate.
  */
 class Predicate
 {

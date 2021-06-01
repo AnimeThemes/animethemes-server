@@ -11,8 +11,7 @@ use App\Models\Theme;
 use Illuminate\Support\Facades\Event;
 
 /**
- * Class AnimeDeleting
- * @package App\Events\Anime
+ * Class AnimeDeleting.
  */
 class AnimeDeleting extends AnimeEvent implements CascadesDeletesEvent
 {

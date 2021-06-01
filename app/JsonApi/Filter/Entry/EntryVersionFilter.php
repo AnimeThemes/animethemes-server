@@ -8,8 +8,7 @@ use App\JsonApi\Filter\Filter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class EntryVersionFilter
- * @package App\JsonApi\Filter\Entry
+ * Class EntryVersionFilter.
  */
 class EntryVersionFilter extends Filter
 {

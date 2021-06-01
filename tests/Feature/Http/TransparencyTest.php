@@ -14,8 +14,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class TransparencyTest
- * @package Http
+ * Class TransparencyTest.
  */
 class TransparencyTest extends TestCase
 {

@@ -8,8 +8,7 @@ use App\Pivots\ArtistImage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class ArtistImageFactory
- * @package Database\Factories\Pivots
+ * Class ArtistImageFactory.
  */
 class ArtistImageFactory extends Factory
 {

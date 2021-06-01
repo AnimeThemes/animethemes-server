@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateTeamInvitationsTable
+ * Class CreateTeamInvitationsTable.
  */
 class CreateTeamInvitationsTable extends Migration
 {

@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 /**
- * Class StoreImage
- * @package App\Nova
+ * Class StoreImage.
  */
 class StoreImage
 {
@@ -31,8 +30,7 @@ class StoreImage
         string $requestAttribute,
         string $disk,
         string $storagePath
-    ): array
-    {
+    ): array {
         $file = $request->file($attribute);
 
         return [

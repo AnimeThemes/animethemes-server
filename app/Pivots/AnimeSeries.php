@@ -10,8 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class AnimeSeries
- * @package App\Pivots
+ * Class AnimeSeries.
  */
 class AnimeSeries extends BasePivot
 {

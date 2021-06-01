@@ -25,8 +25,7 @@ use Tests\TestCase;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
 /**
- * Class EntryIndexTest
- * @package Http\Api\Entry
+ * Class EntryIndexTest.
  */
 class EntryIndexTest extends TestCase
 {

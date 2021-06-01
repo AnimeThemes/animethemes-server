@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class SongTest
- * @package Jobs
+ * Class SongTest.
  */
 class SongTest extends TestCase
 {

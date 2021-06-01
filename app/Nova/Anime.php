@@ -22,8 +22,7 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
 
 /**
- * Class Anime
- * @package App\Nova
+ * Class Anime.
  */
 class Anime extends Resource
 {
@@ -46,7 +45,7 @@ class Anime extends Resource
      *
      * @return array|string|null
      */
-    public static function group(): array|string|null
+    public static function group(): array | string | null
     {
         return __('nova.wiki');
     }
@@ -56,7 +55,7 @@ class Anime extends Resource
      *
      * @return array|string|null
      */
-    public static function label(): array|string|null
+    public static function label(): array | string | null
     {
         return __('nova.anime');
     }
@@ -66,7 +65,7 @@ class Anime extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel(): array|string|null
+    public static function singularLabel(): array | string | null
     {
         return __('nova.anime');
     }

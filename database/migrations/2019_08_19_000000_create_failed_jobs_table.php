@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateFailedJobsTable
+ * Class CreateFailedJobsTable.
  */
 class CreateFailedJobsTable extends Migration
 {

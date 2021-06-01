@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
- * Class AnimeTest
- * @package Events
+ * Class AnimeTest.
  */
 class AnimeTest extends TestCase
 {

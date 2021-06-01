@@ -9,8 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
 /**
- * Class EventController
- * @package App\Http\Controllers\Document
+ * Class EventController.
  */
 class EventController extends Controller
 {

@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
- * Class VideoEntryTest
- * @package Events\Pivot
+ * Class VideoEntryTest.
  */
 class VideoEntryTest extends TestCase
 {

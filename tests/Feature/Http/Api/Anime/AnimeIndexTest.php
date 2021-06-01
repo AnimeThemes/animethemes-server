@@ -31,8 +31,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class AnimeIndexTest
- * @package Http\Api\Anime
+ * Class AnimeIndexTest.
  */
 class AnimeIndexTest extends TestCase
 {

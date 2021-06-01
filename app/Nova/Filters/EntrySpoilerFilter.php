@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class EntrySpoilerFilter
- * @package App\Nova\Filters
+ * Class EntrySpoilerFilter.
  */
 class EntrySpoilerFilter extends Filter
 {
@@ -26,7 +25,7 @@ class EntrySpoilerFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.spoiler');
     }

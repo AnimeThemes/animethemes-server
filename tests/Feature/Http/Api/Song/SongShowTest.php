@@ -20,8 +20,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class SongShowTest
- * @package Http\Api\Song
+ * Class SongShowTest.
  */
 class SongShowTest extends TestCase
 {

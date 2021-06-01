@@ -13,8 +13,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
- * Class InviteTeamMemberTest
- * @package Jetstream
+ * Class InviteTeamMemberTest.
  */
 class InviteTeamMemberTest extends TestCase
 {

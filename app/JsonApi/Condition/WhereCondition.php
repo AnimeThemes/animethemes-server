@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class WhereCondition
- * @package App\JsonApi\Condition
+ * Class WhereCondition.
  */
 class WhereCondition extends Condition
 {

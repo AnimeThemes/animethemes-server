@@ -27,8 +27,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class VideoIndexTest
- * @package Http\Api\Video
+ * Class VideoIndexTest.
  */
 class VideoIndexTest extends TestCase
 {

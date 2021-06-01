@@ -7,8 +7,7 @@ namespace App\Events\ExternalResource;
 use App\Models\ExternalResource;
 
 /**
- * Class ExternalResourceEvent
- * @package App\Events\ExternalResource
+ * Class ExternalResourceEvent.
  */
 class ExternalResourceEvent
 {

@@ -8,8 +8,7 @@ use App\Pivots\VideoEntry;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class VideoEntryFactory
- * @package Database\Factories\Pivots
+ * Class VideoEntryFactory.
  */
 class VideoEntryFactory extends Factory
 {

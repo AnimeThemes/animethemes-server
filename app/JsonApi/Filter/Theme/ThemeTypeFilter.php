@@ -9,8 +9,7 @@ use App\JsonApi\Filter\EnumFilter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class ThemeTypeFilter
- * @package App\JsonApi\Filter\Theme
+ * Class ThemeTypeFilter.
  */
 class ThemeTypeFilter extends EnumFilter
 {

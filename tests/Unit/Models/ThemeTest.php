@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class ThemeTest
- * @package Models
+ * Class ThemeTest.
  */
 class ThemeTest extends TestCase
 {

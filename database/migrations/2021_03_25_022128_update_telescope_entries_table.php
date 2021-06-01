@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class UpdateTelescopeEntriesTable
+ * Class UpdateTelescopeEntriesTable.
  */
 class UpdateTelescopeEntriesTable extends Migration
 {

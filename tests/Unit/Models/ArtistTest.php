@@ -19,8 +19,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class ArtistTest
- * @package Models
+ * Class ArtistTest.
  */
 class ArtistTest extends TestCase
 {

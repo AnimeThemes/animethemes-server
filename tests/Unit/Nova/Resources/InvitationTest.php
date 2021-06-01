@@ -21,8 +21,7 @@ use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 /**
- * Class InvitationTest
- * @package Nova\Resources
+ * Class InvitationTest.
  */
 class InvitationTest extends TestCase
 {

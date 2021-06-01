@@ -12,8 +12,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
- * Class CreateApiTokenTest
- * @package Jetstream
+ * Class CreateApiTokenTest.
  */
 class CreateApiTokenTest extends TestCase
 {

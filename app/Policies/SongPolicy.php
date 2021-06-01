@@ -8,8 +8,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
- * Class SongPolicy
- * @package App\Policies
+ * Class SongPolicy.
  */
 class SongPolicy
 {

@@ -8,8 +8,7 @@ use App\JsonApi\Filter\Filter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class VideoResolutionFilter
- * @package App\JsonApi\Filter\Video
+ * Class VideoResolutionFilter.
  */
 class VideoResolutionFilter extends Filter
 {

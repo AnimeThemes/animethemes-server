@@ -10,8 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class TeamFactory
- * @package Database\Factories
+ * Class TeamFactory.
  */
 class TeamFactory extends Factory
 {

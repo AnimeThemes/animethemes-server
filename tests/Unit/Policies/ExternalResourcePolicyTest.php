@@ -11,8 +11,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class ExternalResourcePolicyTest
- * @package Policies
+ * Class ExternalResourcePolicyTest.
  */
 class ExternalResourcePolicyTest extends TestCase
 {

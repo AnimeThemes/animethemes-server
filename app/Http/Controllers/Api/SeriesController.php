@@ -11,8 +11,7 @@ use App\Models\Series;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class SeriesController
- * @package App\Http\Controllers\Api
+ * Class SeriesController.
  */
 class SeriesController extends BaseController
 {

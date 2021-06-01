@@ -7,7 +7,7 @@ use ElasticMigrations\Facades\Index;
 use ElasticMigrations\MigrationInterface;
 
 /**
- * Class CreateVideoIndex
+ * Class CreateVideoIndex.
  */
 final class CreateVideoIndex implements MigrationInterface
 {

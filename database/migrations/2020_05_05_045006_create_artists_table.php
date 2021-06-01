@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateArtistsTable
+ * Class CreateArtistsTable.
  */
 class CreateArtistsTable extends Migration
 {

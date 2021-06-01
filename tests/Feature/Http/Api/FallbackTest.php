@@ -8,8 +8,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class FallbackTest
- * @package Http\Api
+ * Class FallbackTest.
  */
 class FallbackTest extends TestCase
 {

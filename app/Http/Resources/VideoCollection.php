@@ -20,8 +20,7 @@ use App\JsonApi\Filter\Video\VideoUncenFilter;
 use Illuminate\Http\Request;
 
 /**
- * Class VideoCollection
- * @package App\Http\Resources
+ * Class VideoCollection.
  */
 class VideoCollection extends BaseCollection
 {

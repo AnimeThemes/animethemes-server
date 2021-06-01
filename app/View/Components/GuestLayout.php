@@ -8,8 +8,7 @@ use Illuminate\View\Component;
 use Illuminate\View\View;
 
 /**
- * Class GuestLayout
- * @package App\View\Components
+ * Class GuestLayout.
  */
 class GuestLayout extends Component
 {

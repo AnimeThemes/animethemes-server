@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class ThemeUpdated
- * @package App\Events\Theme
+ * Class ThemeUpdated.
  */
 class ThemeUpdated extends ThemeEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {

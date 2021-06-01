@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class VideoLyricsFilter
- * @package App\Nova\Filters
+ * Class VideoLyricsFilter.
  */
 class VideoLyricsFilter extends Filter
 {
@@ -26,7 +25,7 @@ class VideoLyricsFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.lyrics');
     }

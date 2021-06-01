@@ -12,8 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class TrashedConditionTest
- * @package JsonApi\Condition
+ * Class TrashedConditionTest.
  */
 class TrashedConditionTest extends TestCase
 {

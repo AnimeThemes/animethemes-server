@@ -11,8 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class EnumFilterTest
- * @package JsonApi\Filter
+ * Class EnumFilterTest.
  */
 class EnumFilterTest extends TestCase
 {

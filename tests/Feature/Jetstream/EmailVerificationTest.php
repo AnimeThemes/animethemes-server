@@ -14,8 +14,7 @@ use Laravel\Fortify\Features;
 use Tests\TestCase;
 
 /**
- * Class EmailVerificationTest
- * @package Jetstream
+ * Class EmailVerificationTest.
  */
 class EmailVerificationTest extends TestCase
 {

@@ -8,8 +8,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
- * Class SynonymPolicy
- * @package App\Policies
+ * Class SynonymPolicy.
  */
 class SynonymPolicy
 {

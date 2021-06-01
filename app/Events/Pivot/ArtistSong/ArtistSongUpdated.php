@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class ArtistSongUpdated
- * @package App\Events\Pivot\ArtistSong
+ * Class ArtistSongUpdated.
  */
 class ArtistSongUpdated extends ArtistSongEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {

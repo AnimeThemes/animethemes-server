@@ -9,8 +9,7 @@ use App\Models\Video;
 use App\Pivots\VideoEntry;
 
 /**
- * Class VideoEntryEvent
- * @package App\Events\Pivot\VideoEntry
+ * Class VideoEntryEvent.
  */
 abstract class VideoEntryEvent
 {

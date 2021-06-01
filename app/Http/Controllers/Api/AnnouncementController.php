@@ -10,8 +10,7 @@ use App\Models\Announcement;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class AnnouncementController
- * @package App\Http\Controllers\Api
+ * Class AnnouncementController.
  */
 class AnnouncementController extends BaseController
 {

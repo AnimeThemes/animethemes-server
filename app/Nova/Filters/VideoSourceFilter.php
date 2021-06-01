@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class VideoSourceFilter
- * @package App\Nova\Filters
+ * Class VideoSourceFilter.
  */
 class VideoSourceFilter extends Filter
 {
@@ -27,7 +26,7 @@ class VideoSourceFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.source');
     }

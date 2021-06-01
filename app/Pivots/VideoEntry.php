@@ -10,8 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class VideoEntry
- * @package App\Pivots
+ * Class VideoEntry.
  */
 class VideoEntry extends BasePivot
 {

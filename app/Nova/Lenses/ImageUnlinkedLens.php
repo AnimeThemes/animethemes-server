@@ -22,8 +22,7 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 
 /**
- * Class ImageUnlinkedLens
- * @package App\Nova\Lenses
+ * Class ImageUnlinkedLens.
  */
 class ImageUnlinkedLens extends Lens
 {
@@ -32,7 +31,7 @@ class ImageUnlinkedLens extends Lens
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.image_unlinked_lens');
     }

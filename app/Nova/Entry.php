@@ -16,8 +16,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
 /**
- * Class Entry
- * @package App\Nova
+ * Class Entry.
  */
 class Entry extends Resource
 {
@@ -47,7 +46,7 @@ class Entry extends Resource
      *
      * @return array|string|null
      */
-    public static function label(): array|string|null
+    public static function label(): array | string | null
     {
         return __('nova.entries');
     }
@@ -57,7 +56,7 @@ class Entry extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel(): array|string|null
+    public static function singularLabel(): array | string | null
     {
         return __('nova.entry');
     }

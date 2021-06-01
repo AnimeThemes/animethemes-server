@@ -7,8 +7,7 @@ namespace App\Events\Anime;
 use App\Models\Anime;
 
 /**
- * Class AnimeEvent
- * @package App\Events\Anime
+ * Class AnimeEvent.
  */
 abstract class AnimeEvent
 {

@@ -16,8 +16,7 @@ use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 /**
- * Class BillingServiceTest
- * @package Nova\Filters
+ * Class BillingServiceTest.
  */
 class BillingServiceTest extends TestCase
 {

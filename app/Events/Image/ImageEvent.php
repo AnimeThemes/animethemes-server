@@ -7,8 +7,7 @@ namespace App\Events\Image;
 use App\Models\Image;
 
 /**
- * Class ImageEvent
- * @package App\Events\Image
+ * Class ImageEvent.
  */
 abstract class ImageEvent
 {

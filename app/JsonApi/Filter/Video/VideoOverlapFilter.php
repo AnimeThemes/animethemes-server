@@ -9,8 +9,7 @@ use App\JsonApi\Filter\EnumFilter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class VideoOverlapFilter
- * @package App\JsonApi\Filter\Video
+ * Class VideoOverlapFilter.
  */
 class VideoOverlapFilter extends EnumFilter
 {

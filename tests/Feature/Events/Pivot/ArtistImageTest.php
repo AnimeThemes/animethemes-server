@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
- * Class ArtistImageTest
- * @package Events\Pivot
+ * Class ArtistImageTest.
  */
 class ArtistImageTest extends TestCase
 {

@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class ExternalResourceDeleted
- * @package App\Events\ExternalResource
+ * Class ExternalResourceDeleted.
  */
 class ExternalResourceDeleted extends ExternalResourceEvent implements DiscordMessageEvent
 {

@@ -8,8 +8,7 @@ use App\Models\Entry;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class EntryFactory
- * @package Database\Factories
+ * Class EntryFactory.
  */
 class EntryFactory extends Factory
 {

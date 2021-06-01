@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class SeriesTest
- * @package Models
+ * Class SeriesTest.
  */
 class SeriesTest extends TestCase
 {

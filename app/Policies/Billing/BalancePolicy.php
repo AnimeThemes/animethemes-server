@@ -8,8 +8,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
- * Class BalancePolicy
- * @package App\Policies\Billing
+ * Class BalancePolicy.
  */
 class BalancePolicy
 {

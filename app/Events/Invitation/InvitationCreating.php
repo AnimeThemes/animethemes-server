@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Invitation;
 
 /**
- * Class InvitationCreating
- * @package App\Events\Invitation
+ * Class InvitationCreating.
  */
 class InvitationCreating extends InvitationEvent
 {

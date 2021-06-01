@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * Trait StreamsContent
- * @package App\Concerns\Http\Controllers
+ * Trait StreamsContent.
  */
 trait StreamsContent
 {

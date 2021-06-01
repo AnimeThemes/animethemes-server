@@ -7,8 +7,7 @@ namespace App\Events\Announcement;
 use App\Models\Announcement;
 
 /**
- * Class AnnouncementEvent
- * @package App\Events\Announcement
+ * Class AnnouncementEvent.
  */
 abstract class AnnouncementEvent
 {

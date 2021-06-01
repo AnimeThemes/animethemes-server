@@ -13,8 +13,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class TransactionShowTest
- * @package Http\Api\Billing\Transaction
+ * Class TransactionShowTest.
  */
 class TransactionShowTest extends TestCase
 {

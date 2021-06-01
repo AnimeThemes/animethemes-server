@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateArtistResource
+ * Class CreateArtistResource.
  */
 class CreateArtistResource extends Migration
 {

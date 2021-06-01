@@ -7,8 +7,7 @@ namespace Http\Sitemap;
 use Tests\TestCase;
 
 /**
- * Class EncodingSitemapTest
- * @package Http\Sitemap
+ * Class EncodingSitemapTest.
  */
 class EncodingSitemapTest extends TestCase
 {

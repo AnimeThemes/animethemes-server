@@ -15,8 +15,7 @@ use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 /**
- * Class VideoTypeTest
- * @package Nova\Filters
+ * Class VideoTypeTest.
  */
 class VideoTypeTest extends TestCase
 {

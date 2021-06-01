@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 /**
- * Class PasswordResetTest
- * @package Jetstream
+ * Class PasswordResetTest.
  */
 class PasswordResetTest extends TestCase
 {

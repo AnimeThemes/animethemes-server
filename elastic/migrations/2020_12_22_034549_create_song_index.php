@@ -7,7 +7,7 @@ use ElasticMigrations\Facades\Index;
 use ElasticMigrations\MigrationInterface;
 
 /**
- * Class CreateSongIndex
+ * Class CreateSongIndex.
  */
 final class CreateSongIndex implements MigrationInterface
 {

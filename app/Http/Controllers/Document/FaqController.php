@@ -9,8 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
 /**
- * Class FaqController
- * @package App\Http\Controllers\Document
+ * Class FaqController.
  */
 class FaqController extends Controller
 {

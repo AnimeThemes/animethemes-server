@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class BillingServiceFilter
- * @package App\Nova\Filters
+ * Class BillingServiceFilter.
  */
 class BillingServiceFilter extends Filter
 {
@@ -27,7 +26,7 @@ class BillingServiceFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.billing_service');
     }

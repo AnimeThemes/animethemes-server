@@ -13,8 +13,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class AnnouncementShowTest
- * @package Http\Api\Announcement
+ * Class AnnouncementShowTest.
  */
 class AnnouncementShowTest extends TestCase
 {

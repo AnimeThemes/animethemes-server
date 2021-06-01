@@ -9,8 +9,7 @@ use App\JsonApi\Filter\EnumFilter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class BalanceFrequencyFilter
- * @package App\JsonApi\Filter\Billing\Balance
+ * Class BalanceFrequencyFilter.
  */
 class BalanceFrequencyFilter extends EnumFilter
 {

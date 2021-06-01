@@ -8,8 +8,7 @@ use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
- * Class ImageFacet
- * @package App\Enums
+ * Class ImageFacet.
  */
 final class ImageFacet extends Enum implements LocalizedEnum
 {

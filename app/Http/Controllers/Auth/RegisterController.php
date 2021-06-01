@@ -20,8 +20,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 /**
- * Class RegisterController
- * @package App\Http\Controllers\Auth
+ * Class RegisterController.
  */
 class RegisterController extends Controller
 {
@@ -71,7 +70,7 @@ class RegisterController extends Controller
      * @return RedirectResponse|JsonResponse
      * @throws ValidationException
      */
-    public function register(Request $request): JsonResponse|RedirectResponse
+    public function register(Request $request): JsonResponse | RedirectResponse
     {
         $invitation = Invitation::where('token', $request->input('token'))->firstOrFail();
 

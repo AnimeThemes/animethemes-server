@@ -10,8 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class RemoveImageFromStorage
- * @package App\Listeners\Image
+ * Class RemoveImageFromStorage.
  */
 class RemoveImageFromStorage implements ShouldQueue
 {

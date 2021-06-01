@@ -7,8 +7,7 @@ namespace App\Listeners;
 use App\Contracts\Events\CascadesRestoresEvent;
 
 /**
- * Class CascadesRestores
- * @package App\Listeners
+ * Class CascadesRestores.
  */
 class CascadesRestores
 {

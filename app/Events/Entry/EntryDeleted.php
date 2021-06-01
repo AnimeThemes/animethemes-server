@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class EntryDeleted
- * @package App\Events\Entry
+ * Class EntryDeleted.
  */
 class EntryDeleted extends EntryEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {

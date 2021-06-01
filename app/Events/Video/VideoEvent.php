@@ -7,8 +7,7 @@ namespace App\Events\Video;
 use App\Models\Video;
 
 /**
- * Class VideoEvent
- * @package App\Events\Video
+ * Class VideoEvent.
  */
 abstract class VideoEvent
 {

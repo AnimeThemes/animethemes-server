@@ -8,8 +8,7 @@ use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Models\Video;
 
 /**
- * Class EntryDeleting
- * @package App\Events\Entry
+ * Class EntryDeleting.
  */
 class EntryDeleting extends EntryEvent implements UpdateRelatedIndicesEvent
 {

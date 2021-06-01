@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
 /**
- * Class VideoUncenFilter
- * @package App\Nova\Filters
+ * Class VideoUncenFilter.
  */
 class VideoUncenFilter extends Filter
 {
@@ -26,7 +25,7 @@ class VideoUncenFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.uncen');
     }

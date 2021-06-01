@@ -10,8 +10,7 @@ use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
 /**
- * Class SeriesQueryPayload
- * @package App\Scout\Elastic
+ * Class SeriesQueryPayload.
  */
 class SeriesQueryPayload extends ElasticQueryPayload
 {

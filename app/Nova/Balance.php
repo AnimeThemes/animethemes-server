@@ -17,8 +17,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Panel;
 
 /**
- * Class Balance
- * @package App\Nova
+ * Class Balance.
  */
 class Balance extends Resource
 {
@@ -41,7 +40,7 @@ class Balance extends Resource
      *
      * @return array|string|null
      */
-    public static function group(): array|string|null
+    public static function group(): array | string | null
     {
         return __('nova.billing');
     }
@@ -51,7 +50,7 @@ class Balance extends Resource
      *
      * @return array|string|null
      */
-    public static function label(): array|string|null
+    public static function label(): array | string | null
     {
         return __('nova.balances');
     }
@@ -61,7 +60,7 @@ class Balance extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel(): array|string|null
+    public static function singularLabel(): array | string | null
     {
         return __('nova.balance');
     }

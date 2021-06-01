@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class AnimeResourceUpdated
- * @package App\Events\Pivot\AnimeResource
+ * Class AnimeResourceUpdated.
  */
 class AnimeResourceUpdated extends AnimeResourceEvent implements DiscordMessageEvent
 {

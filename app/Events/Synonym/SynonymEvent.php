@@ -8,8 +8,7 @@ use App\Models\Anime;
 use App\Models\Synonym;
 
 /**
- * Class SynonymEvent
- * @package App\Events\Synonym
+ * Class SynonymEvent.
  */
 abstract class SynonymEvent
 {

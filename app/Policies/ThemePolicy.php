@@ -8,8 +8,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
- * Class ThemePolicy
- * @package App\Policies
+ * Class ThemePolicy.
  */
 class ThemePolicy
 {

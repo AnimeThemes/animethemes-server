@@ -13,8 +13,7 @@ use Laravel\Jetstream\Events\AddingTeam;
 use Laravel\Jetstream\Jetstream;
 
 /**
- * Class CreateTeam
- * @package App\Actions\Jetstream
+ * Class CreateTeam.
  */
 class CreateTeam implements CreatesTeams
 {

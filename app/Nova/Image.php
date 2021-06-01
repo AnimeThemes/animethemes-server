@@ -19,8 +19,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
 /**
- * Class Image
- * @package App\Nova
+ * Class Image.
  */
 class Image extends Resource
 {
@@ -43,7 +42,7 @@ class Image extends Resource
      *
      * @return array|string|null
      */
-    public static function group(): array|string|null
+    public static function group(): array | string | null
     {
         return __('nova.wiki');
     }
@@ -62,7 +61,7 @@ class Image extends Resource
      *
      * @return array|string|null
      */
-    public static function label(): array|string|null
+    public static function label(): array | string | null
     {
         return __('nova.images');
     }
@@ -72,7 +71,7 @@ class Image extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel(): array|string|null
+    public static function singularLabel(): array | string | null
     {
         return __('nova.image');
     }

@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
- * Class AnnouncementTest
- * @package Models
+ * Class AnnouncementTest.
  */
 class AnnouncementTest extends TestCase
 {

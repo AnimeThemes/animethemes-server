@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 /**
- * Class VideoReconcileTest
- * @package Console
+ * Class VideoReconcileTest.
  */
 class VideoReconcileTest extends TestCase
 {

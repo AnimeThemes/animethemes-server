@@ -14,8 +14,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class DateFilterTest
- * @package JsonApi\Filter
+ * Class DateFilterTest.
  */
 class DateFilterTest extends TestCase
 {

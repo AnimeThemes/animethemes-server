@@ -7,8 +7,7 @@ namespace Http\Sitemap;
 use Tests\TestCase;
 
 /**
- * Class CommunitySitemapTest
- * @package Http\Sitemap
+ * Class CommunitySitemapTest.
  */
 class CommunitySitemapTest extends TestCase
 {

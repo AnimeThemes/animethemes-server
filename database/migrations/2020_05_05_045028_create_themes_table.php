@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateThemesTable
+ * Class CreateThemesTable.
  */
 class CreateThemesTable extends Migration
 {

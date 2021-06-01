@@ -11,8 +11,7 @@ use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
- * Class RemoveTeamMemberTest
- * @package Jetstream
+ * Class RemoveTeamMemberTest.
  */
 class RemoveTeamMemberTest extends TestCase
 {

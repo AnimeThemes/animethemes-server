@@ -12,8 +12,7 @@ use Illuminate\Support\Carbon;
 use Laravel\Nova\Filters\DateFilter;
 
 /**
- * Class UpdatedStartDateFilter
- * @package App\Nova\Filters
+ * Class UpdatedStartDateFilter.
  */
 class UpdatedStartDateFilter extends DateFilter
 {
@@ -22,7 +21,7 @@ class UpdatedStartDateFilter extends DateFilter
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.updated_at_start');
     }

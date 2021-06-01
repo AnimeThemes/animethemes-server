@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class ArtistSongSeeder
- * @package Database\Seeders
+ * Class ArtistSongSeeder.
  */
 class ArtistSongSeeder extends Seeder
 {

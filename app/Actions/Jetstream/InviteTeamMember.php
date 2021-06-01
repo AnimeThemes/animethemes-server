@@ -18,8 +18,7 @@ use Laravel\Jetstream\Mail\TeamInvitation;
 use Laravel\Jetstream\Rules\Role;
 
 /**
- * Class InviteTeamMember
- * @package App\Actions\Jetstream
+ * Class InviteTeamMember.
  */
 class InviteTeamMember implements InvitesTeamMembers
 {

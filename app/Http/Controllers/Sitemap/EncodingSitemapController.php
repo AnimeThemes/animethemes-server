@@ -8,8 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
- * Class EncodingSitemapController
- * @package App\Http\Controllers\Sitemap
+ * Class EncodingSitemapController.
  */
 class EncodingSitemapController extends Controller
 {

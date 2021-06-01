@@ -11,8 +11,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class YearIndexTest
- * @package Http\Api\Anime
+ * Class YearIndexTest.
  */
 class YearIndexTest extends TestCase
 {

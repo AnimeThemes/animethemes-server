@@ -21,8 +21,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class ArtistCoverSeeder
- * @package Database\Seeders
+ * Class ArtistCoverSeeder.
  */
 class ArtistCoverSeeder extends Seeder
 {

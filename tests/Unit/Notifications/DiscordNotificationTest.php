@@ -11,8 +11,7 @@ use NotificationChannels\Discord\DiscordMessage;
 use Tests\TestCase;
 
 /**
- * Class DiscordNotificationTest
- * @package Notifications
+ * Class DiscordNotificationTest.
  */
 class DiscordNotificationTest extends TestCase
 {

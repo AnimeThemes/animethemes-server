@@ -7,8 +7,7 @@ namespace App\Events\Billing\Balance;
 use App\Models\Billing\Balance;
 
 /**
- * Class BalanceEvent
- * @package App\Events\Billing\Balance
+ * Class BalanceEvent.
  */
 abstract class BalanceEvent
 {

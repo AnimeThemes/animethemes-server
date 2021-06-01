@@ -11,8 +11,7 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Jetstream\Contracts\UpdatesTeamNames;
 
 /**
- * Class UpdateTeamName
- * @package App\Actions\Jetstream
+ * Class UpdateTeamName.
  */
 class UpdateTeamName implements UpdatesTeamNames
 {

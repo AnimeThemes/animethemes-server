@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class InvitationRestored
- * @package App\Events\Invitation
+ * Class InvitationRestored.
  */
 class InvitationRestored extends InvitationEvent implements DiscordMessageEvent
 {

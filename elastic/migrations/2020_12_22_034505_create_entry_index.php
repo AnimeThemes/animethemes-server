@@ -7,7 +7,7 @@ use ElasticMigrations\Facades\Index;
 use ElasticMigrations\MigrationInterface;
 
 /**
- * Class CreateEntryIndex
+ * Class CreateEntryIndex.
  */
 final class CreateEntryIndex implements MigrationInterface
 {

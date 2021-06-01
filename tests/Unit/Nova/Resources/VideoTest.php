@@ -28,8 +28,7 @@ use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 /**
- * Class VideoTest
- * @package Nova\Resources
+ * Class VideoTest.
  */
 class VideoTest extends TestCase
 {

@@ -14,8 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 /**
- * Class ArtistCollection
- * @package App\Http\Resources
+ * Class ArtistCollection.
  */
 class ArtistCollection extends BaseCollection
 {

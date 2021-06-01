@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class TransactionReconcileCommand
- * @package App\Console\Commands\Billing
+ * Class TransactionReconcileCommand.
  */
 class TransactionReconcileCommand extends Command
 {

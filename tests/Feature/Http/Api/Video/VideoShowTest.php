@@ -20,8 +20,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class VideoShowTest
- * @package Http\Api\Video
+ * Class VideoShowTest.
  */
 class VideoShowTest extends TestCase
 {

@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class ArtistMemberFactory
- * @package Database\Factories\Pivots
+ * Class ArtistMemberFactory.
  */
 class ArtistMemberFactory extends Factory
 {

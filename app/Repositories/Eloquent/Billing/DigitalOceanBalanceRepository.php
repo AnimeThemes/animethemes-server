@@ -11,8 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 /**
- * Class DigitalOceanBalanceRepository
- * @package App\Repositories\Eloquent\Billing
+ * Class DigitalOceanBalanceRepository.
  */
 class DigitalOceanBalanceRepository extends EloquentRepository
 {

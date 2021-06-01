@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
- * Class AnnouncementTest
- * @package Events
+ * Class AnnouncementTest.
  */
 class AnnouncementTest extends TestCase
 {

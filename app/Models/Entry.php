@@ -18,8 +18,7 @@ use Laravel\Scout\Searchable;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
 /**
- * Class Entry
- * @package App\Models
+ * Class Entry.
  */
 class Entry extends BaseModel
 {

@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class ThemeDeleted
- * @package App\Events\Theme
+ * Class ThemeDeleted.
  */
 class ThemeDeleted extends ThemeEvent implements DiscordMessageEvent
 {

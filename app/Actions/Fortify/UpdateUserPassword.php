@@ -11,8 +11,7 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
 
 /**
- * Class UpdateUserPassword
- * @package App\Actions\Fortify
+ * Class UpdateUserPassword.
  */
 class UpdateUserPassword implements UpdatesUserPasswords
 {

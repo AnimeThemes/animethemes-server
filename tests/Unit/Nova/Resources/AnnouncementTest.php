@@ -18,8 +18,7 @@ use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
 /**
- * Class AnnouncementTest
- * @package Nova\Resources
+ * Class AnnouncementTest.
  */
 class AnnouncementTest extends TestCase
 {

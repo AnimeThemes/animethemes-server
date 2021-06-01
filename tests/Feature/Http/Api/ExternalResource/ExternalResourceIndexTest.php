@@ -23,8 +23,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class ExternalResourceIndexTest
- * @package Http\Api\ExternalResource
+ * Class ExternalResourceIndexTest.
  */
 class ExternalResourceIndexTest extends TestCase
 {

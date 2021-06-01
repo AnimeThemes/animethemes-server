@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class AnimeSeriesDeleted
- * @package App\Events\Pivot\AnimeSeries
+ * Class AnimeSeriesDeleted.
  */
 class AnimeSeriesDeleted extends AnimeSeriesEvent implements DiscordMessageEvent
 {

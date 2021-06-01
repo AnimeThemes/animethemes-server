@@ -10,8 +10,7 @@ use App\Models\Billing\Transaction;
 use Illuminate\Support\Collection;
 
 /**
- * Trait ReconcilesTransaction
- * @package App\Concerns\Reconcile\Billing
+ * Trait ReconcilesTransaction.
  */
 trait ReconcilesTransaction
 {

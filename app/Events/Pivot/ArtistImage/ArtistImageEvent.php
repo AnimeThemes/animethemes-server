@@ -9,8 +9,7 @@ use App\Models\Image;
 use App\Pivots\ArtistImage;
 
 /**
- * Class ArtistImageEvent
- * @package App\Events\Pivot\ArtistImage
+ * Class ArtistImageEvent.
  */
 abstract class ArtistImageEvent
 {

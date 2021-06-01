@@ -9,8 +9,7 @@ use App\JsonApi\Filter\EnumFilter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class AnimeSeasonFilter
- * @package App\JsonApi\Filter\Anime
+ * Class AnimeSeasonFilter.
  */
 class AnimeSeasonFilter extends EnumFilter
 {

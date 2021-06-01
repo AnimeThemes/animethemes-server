@@ -13,8 +13,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
- * Class SeriesPolicyTest
- * @package Policies
+ * Class SeriesPolicyTest.
  */
 class SeriesPolicyTest extends TestCase
 {

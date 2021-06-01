@@ -11,8 +11,7 @@ use App\Models\Theme;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class ThemeController
- * @package App\Http\Controllers\Api
+ * Class ThemeController.
  */
 class ThemeController extends BaseController
 {

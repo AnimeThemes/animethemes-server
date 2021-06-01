@@ -10,8 +10,7 @@ use App\Models\Billing\Balance;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class BalanceFactory
- * @package Database\Factories\Billing
+ * Class BalanceFactory.
  */
 class BalanceFactory extends Factory
 {

@@ -8,8 +8,7 @@ use App\Models\Artist;
 use App\Pivots\ArtistMember;
 
 /**
- * Class ArtistMemberEvent
- * @package App\Events\Pivot\ArtistMember
+ * Class ArtistMemberEvent.
  */
 abstract class ArtistMemberEvent
 {

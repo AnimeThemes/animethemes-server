@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class UserDeleted
- * @package App\Events\User
+ * Class UserDeleted.
  */
 class UserDeleted extends UserEvent implements DiscordMessageEvent
 {

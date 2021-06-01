@@ -12,8 +12,7 @@ use Laravel\Nova\Metrics\Value;
 use Laravel\Nova\Metrics\ValueResult;
 
 /**
- * Class NewArtists
- * @package App\Nova\Metrics
+ * Class NewArtists.
  */
 class NewArtists extends Value
 {
@@ -51,7 +50,7 @@ class NewArtists extends Value
      *
      * @return  DateTimeInterface|DateInterval|float|int
      */
-    public function cacheFor(): DateInterval|float|DateTimeInterface|int
+    public function cacheFor(): DateInterval | float | DateTimeInterface | int
     {
         return now()->addMinutes(5);
     }

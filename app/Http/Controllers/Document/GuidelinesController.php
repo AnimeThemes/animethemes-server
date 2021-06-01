@@ -9,8 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
 /**
- * Class GuidelinesController
- * @package App\Http\Controllers\Document
+ * Class GuidelinesController.
  */
 class GuidelinesController extends Controller
 {

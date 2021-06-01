@@ -9,8 +9,7 @@ use App\JsonApi\Filter\EnumFilter;
 use App\JsonApi\QueryParser;
 
 /**
- * Class TrashedFilter
- * @package App\JsonApi\Filter\Base
+ * Class TrashedFilter.
  */
 class TrashedFilter extends EnumFilter
 {

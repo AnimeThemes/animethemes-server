@@ -19,8 +19,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
 /**
- * Class Theme
- * @package App\Nova
+ * Class Theme.
  */
 class Theme extends Resource
 {
@@ -43,7 +42,7 @@ class Theme extends Resource
      *
      * @return array|string|null
      */
-    public static function label(): array|string|null
+    public static function label(): array | string | null
     {
         return __('nova.themes');
     }
@@ -53,7 +52,7 @@ class Theme extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel(): array|string|null
+    public static function singularLabel(): array | string | null
     {
         return __('nova.theme');
     }

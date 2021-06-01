@@ -12,8 +12,7 @@ use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use Illuminate\Http\Request;
 
 /**
- * Class AnnouncementCollection
- * @package App\Http\Resources
+ * Class AnnouncementCollection.
  */
 class AnnouncementCollection extends BaseCollection
 {

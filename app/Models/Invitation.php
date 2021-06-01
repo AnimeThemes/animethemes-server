@@ -15,8 +15,7 @@ use Exception;
 use ParagonIE\ConstantTime\Base32;
 
 /**
- * Class Invitation
- * @package App\Models
+ * Class Invitation.
  */
 class Invitation extends BaseModel
 {

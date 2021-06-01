@@ -21,8 +21,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class DigitalOceanTransactionRepository
- * @package App\Repositories\Service\Billing
+ * Class DigitalOceanTransactionRepository.
  */
 class DigitalOceanTransactionRepository implements Repository
 {

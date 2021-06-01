@@ -8,8 +8,7 @@ use App\JsonApi\Condition\Condition;
 use Illuminate\Support\Arr;
 
 /**
- * Class QueryParser
- * @package App\JsonApi
+ * Class QueryParser.
  */
 class QueryParser
 {

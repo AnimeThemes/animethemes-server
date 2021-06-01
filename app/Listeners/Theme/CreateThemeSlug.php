@@ -7,8 +7,7 @@ namespace App\Listeners\Theme;
 use App\Events\Theme\ThemeEvent;
 
 /**
- * Class CreateThemeSlug
- * @package App\Listeners\Theme
+ * Class CreateThemeSlug.
  */
 class CreateThemeSlug
 {

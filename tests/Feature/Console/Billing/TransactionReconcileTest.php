@@ -16,8 +16,7 @@ use Symfony\Component\Console\Exception\RuntimeException;
 use Tests\TestCase;
 
 /**
- * Class TransactionReconcileTest
- * @package Console\Billing
+ * Class TransactionReconcileTest.
  */
 class TransactionReconcileTest extends TestCase
 {

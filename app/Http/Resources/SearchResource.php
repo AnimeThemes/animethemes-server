@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
- * Class SearchResource
- * @package App\Http\Resources
+ * Class SearchResource.
  */
 class SearchResource extends BaseResource
 {

@@ -27,8 +27,7 @@ use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
 /**
- * Class AnimePlanetResourceTest
- * @package Nova\Lenses
+ * Class AnimePlanetResourceTest.
  */
 class AnimePlanetResourceTest extends TestCase
 {

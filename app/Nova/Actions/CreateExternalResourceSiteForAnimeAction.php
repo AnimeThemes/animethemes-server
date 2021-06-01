@@ -15,8 +15,7 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Text;
 
 /**
- * Class CreateExternalResourceSiteForAnimeAction
- * @package App\Nova\Actions
+ * Class CreateExternalResourceSiteForAnimeAction.
  */
 class CreateExternalResourceSiteForAnimeAction extends Action
 {
@@ -43,7 +42,7 @@ class CreateExternalResourceSiteForAnimeAction extends Action
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.anime_create_resource_action', ['site' => ResourceSite::getDescription($this->site)]);
     }

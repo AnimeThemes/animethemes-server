@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
 /**
- * Class RouteServiceProvider
- * @package App\Providers
+ * Class RouteServiceProvider.
  */
 class RouteServiceProvider extends ServiceProvider
 {

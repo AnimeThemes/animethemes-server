@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class BalanceReconcileCommand
- * @package App\Console\Commands\Billing
+ * Class BalanceReconcileCommand.
  */
 class BalanceReconcileCommand extends Command
 {

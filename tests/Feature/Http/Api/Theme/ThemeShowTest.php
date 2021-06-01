@@ -25,8 +25,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class ThemeShowTest
- * @package Http\Api\Theme
+ * Class ThemeShowTest.
  */
 class ThemeShowTest extends TestCase
 {

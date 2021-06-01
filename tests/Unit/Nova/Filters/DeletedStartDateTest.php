@@ -18,8 +18,7 @@ use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 /**
- * Class DeletedStartDateTest
- * @package Nova\Filters
+ * Class DeletedStartDateTest.
  */
 class DeletedStartDateTest extends TestCase
 {

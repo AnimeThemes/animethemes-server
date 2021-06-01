@@ -8,8 +8,7 @@ use Closure;
 use Illuminate\Http\Request;
 
 /**
- * Class JsonMiddleware
- * @package App\Http\Middleware
+ * Class JsonMiddleware.
  */
 class JsonMiddleware
 {

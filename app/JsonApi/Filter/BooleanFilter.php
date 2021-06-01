@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\JsonApi\Filter;
 
 /**
- * Class BooleanFilter
- * @package App\JsonApi\Filter
+ * Class BooleanFilter.
  */
 abstract class BooleanFilter extends Filter
 {

@@ -8,8 +8,7 @@ use Illuminate\View\Component;
 use Illuminate\View\View;
 
 /**
- * Class AppLayout
- * @package App\View\Components
+ * Class AppLayout.
  */
 class AppLayout extends Component
 {

@@ -21,8 +21,7 @@ use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 
 /**
- * Class VideoSourceLens
- * @package App\Nova\Lenses
+ * Class VideoSourceLens.
  */
 class VideoSourceLens extends Lens
 {
@@ -31,7 +30,7 @@ class VideoSourceLens extends Lens
      *
      * @return array|string|null
      */
-    public function name(): array|string|null
+    public function name(): array | string | null
     {
         return __('nova.video_unknown_source_lens');
     }

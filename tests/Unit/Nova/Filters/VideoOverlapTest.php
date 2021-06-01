@@ -16,8 +16,7 @@ use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
 /**
- * Class VideoOverlapTest
- * @package Nova\Filters
+ * Class VideoOverlapTest.
  */
 class VideoOverlapTest extends TestCase
 {

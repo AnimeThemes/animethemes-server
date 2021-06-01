@@ -11,8 +11,7 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\ResetsUserPasswords;
 
 /**
- * Class ResetUserPassword
- * @package App\Actions\Fortify
+ * Class ResetUserPassword.
  */
 class ResetUserPassword implements ResetsUserPasswords
 {

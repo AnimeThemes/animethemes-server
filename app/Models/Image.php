@@ -17,8 +17,7 @@ use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * Class Image
- * @package App\Models
+ * Class Image.
  */
 class Image extends BaseModel implements Streamable
 {
