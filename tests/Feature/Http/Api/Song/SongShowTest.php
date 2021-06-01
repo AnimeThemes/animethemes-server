@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Api\Song;
+declare(strict_types=1);
+
+namespace Http\Api\Song;
 
 use App\Enums\AnimeSeason;
 use App\Enums\ThemeType;
@@ -11,13 +13,19 @@ use App\Models\Artist;
 use App\Models\Song;
 use App\Models\Theme;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class SongShowTest.
+ */
 class SongShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Song Show Endpoint shall return a Song Resource.
@@ -180,7 +188,7 @@ class SongShowTest extends TestCase
             ->create();
 
         $song = Song::with([
-            'themes' => function ($query) use ($groupFilter) {
+            'themes' => function (HasMany $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -230,7 +238,7 @@ class SongShowTest extends TestCase
             ->create();
 
         $song = Song::with([
-            'themes' => function ($query) use ($sequenceFilter) {
+            'themes' => function (HasMany $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -271,7 +279,7 @@ class SongShowTest extends TestCase
             ->create();
 
         $song = Song::with([
-            'themes' => function ($query) use ($typeFilter) {
+            'themes' => function (HasMany $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
@@ -312,7 +320,7 @@ class SongShowTest extends TestCase
             ->create();
 
         $song = Song::with([
-            'themes.anime' => function ($query) use ($seasonFilter) {
+            'themes.anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -363,7 +371,7 @@ class SongShowTest extends TestCase
             ->create();
 
         $song = Song::with([
-            'themes.anime' => function ($query) use ($yearFilter) {
+            'themes.anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

@@ -1,12 +1,17 @@
 <?php
 
-namespace Tests\Unit\JsonApi;
+declare(strict_types=1);
+
+namespace JsonApi;
 
 use App\JsonApi\QueryParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
+/**
+ * Class QueryParserTest.
+ */
 class QueryParserTest extends TestCase
 {
     use WithFaker;
@@ -23,10 +28,10 @@ class QueryParserTest extends TestCase
 
         $parameters = [];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         foreach ($fields as $field) {
-            $this->assertTrue($parser->isAllowedField($type, $field));
+            static::assertTrue($parser->isAllowedField($type, $field));
         }
     }
 
@@ -46,10 +51,10 @@ class QueryParserTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         foreach ($fields as $field) {
-            $this->assertFalse($parser->isAllowedField($type, $field));
+            static::assertFalse($parser->isAllowedField($type, $field));
         }
     }
 
@@ -70,13 +75,13 @@ class QueryParserTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         foreach ($fields as $field) {
             if ($field == $allowedField) {
-                $this->assertTrue($parser->isAllowedField($type, $field));
+                static::assertTrue($parser->isAllowedField($type, $field));
             } else {
-                $this->assertFalse($parser->isAllowedField($type, $field));
+                static::assertFalse($parser->isAllowedField($type, $field));
             }
         }
     }
@@ -92,9 +97,9 @@ class QueryParserTest extends TestCase
 
         $parameters = [];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEmpty($parser->getIncludePaths($includes));
+        static::assertEmpty($parser->getIncludePaths($includes));
     }
 
     /**
@@ -110,9 +115,9 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_INCLUDE => '',
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEmpty($parser->getIncludePaths($includes));
+        static::assertEmpty($parser->getIncludePaths($includes));
     }
 
     /**
@@ -130,9 +135,9 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_INCLUDE => implode(',', $includes),
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEmpty(array_diff($allowedIncludes, $parser->getIncludePaths($allowedIncludes)));
+        static::assertEmpty(array_diff($allowedIncludes, $parser->getIncludePaths($allowedIncludes)));
     }
 
     /**
@@ -147,9 +152,9 @@ class QueryParserTest extends TestCase
 
         $parameters = [];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEmpty($parser->getIncludePaths($includes, $type));
+        static::assertEmpty($parser->getIncludePaths($includes, $type));
     }
 
     /**
@@ -168,9 +173,9 @@ class QueryParserTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEmpty($parser->getIncludePaths($includes, $type));
+        static::assertEmpty($parser->getIncludePaths($includes, $type));
     }
 
     /**
@@ -191,9 +196,9 @@ class QueryParserTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEmpty(array_diff($allowedIncludes, $parser->getIncludePaths($allowedIncludes, $type)));
+        static::assertEmpty(array_diff($allowedIncludes, $parser->getIncludePaths($allowedIncludes, $type)));
     }
 
     /**
@@ -209,11 +214,11 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_SORT => implode(',', $sorts),
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
         $parserSorts = $parser->getSorts();
 
         foreach ($sorts as $sort) {
-            $this->assertTrue(Arr::get($parserSorts, $sort));
+            static::assertTrue(Arr::get($parserSorts, $sort));
         }
     }
 
@@ -233,11 +238,11 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_SORT => implode(',', $sortsDescSymbol),
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
         $parserSorts = $parser->getSorts();
 
         foreach ($sortsDesc as $sort) {
-            $this->assertFalse(Arr::get($parserSorts, $sort));
+            static::assertFalse(Arr::get($parserSorts, $sort));
         }
     }
 
@@ -257,11 +262,11 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_SORT => implode(',', $sortsAscSymbol),
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
         $parserSorts = $parser->getSorts();
 
         foreach ($sortsAsc as $sort) {
-            $this->assertTrue(Arr::get($parserSorts, $sort));
+            static::assertTrue(Arr::get($parserSorts, $sort));
         }
     }
 
@@ -282,13 +287,13 @@ class QueryParserTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         foreach ($fields as $field) {
             if ($field == $filterField) {
-                $this->assertTrue($parser->hasCondition($field));
+                static::assertTrue($parser->hasCondition($field));
             } else {
-                $this->assertFalse($parser->hasCondition($field));
+                static::assertFalse($parser->hasCondition($field));
             }
         }
     }
@@ -310,13 +315,13 @@ class QueryParserTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         foreach ($fields as $field) {
             if ($field == $filterField) {
-                $this->assertNotEmpty($parser->getConditions($field));
+                static::assertNotEmpty($parser->getConditions($field));
             } else {
-                $this->assertEmpty($parser->getConditions($field));
+                static::assertEmpty($parser->getConditions($field));
             }
         }
     }
@@ -332,9 +337,9 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_SEARCH => '',
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertFalse($parser->hasSearch());
+        static::assertFalse($parser->hasSearch());
     }
 
     /**
@@ -348,9 +353,9 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_SEARCH => $this->faker->word(),
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertTrue($parser->hasSearch());
+        static::assertTrue($parser->hasSearch());
     }
 
     /**
@@ -366,9 +371,9 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_SEARCH => $q,
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEquals($q, $parser->getSearch());
+        static::assertEquals($q, $parser->getSearch());
     }
 
     /**
@@ -380,9 +385,9 @@ class QueryParserTest extends TestCase
     {
         $parameters = [];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEquals(QueryParser::DEFAULT_LIMIT, $parser->getLimit());
+        static::assertEquals(QueryParser::DEFAULT_LIMIT, $parser->getLimit());
     }
 
     /**
@@ -398,9 +403,9 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_LIMIT => $limit,
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEquals($limit, $parser->getLimit());
+        static::assertEquals($limit, $parser->getLimit());
     }
 
     /**
@@ -416,9 +421,9 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_LIMIT => $limit,
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEquals(QueryParser::DEFAULT_LIMIT, $parser->getLimit());
+        static::assertEquals(QueryParser::DEFAULT_LIMIT, $parser->getLimit());
     }
 
     /**
@@ -434,9 +439,9 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_LIMIT => $limit,
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEquals(QueryParser::DEFAULT_LIMIT, $parser->getLimit());
+        static::assertEquals(QueryParser::DEFAULT_LIMIT, $parser->getLimit());
     }
 
     /**
@@ -450,9 +455,9 @@ class QueryParserTest extends TestCase
 
         $parameters = [];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEquals($defaultLimit, $parser->getLimit($defaultLimit));
+        static::assertEquals($defaultLimit, $parser->getLimit($defaultLimit));
     }
 
     /**
@@ -469,9 +474,9 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_LIMIT => $limit,
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEquals($limit, $parser->getLimit($defaultLimit));
+        static::assertEquals($limit, $parser->getLimit($defaultLimit));
     }
 
     /**
@@ -488,9 +493,9 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_LIMIT => $limit,
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEquals($defaultLimit, $parser->getLimit($defaultLimit));
+        static::assertEquals($defaultLimit, $parser->getLimit($defaultLimit));
     }
 
     /**
@@ -507,8 +512,8 @@ class QueryParserTest extends TestCase
             QueryParser::PARAM_LIMIT => $limit,
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
-        $this->assertEquals($defaultLimit, $parser->getLimit($defaultLimit));
+        static::assertEquals($defaultLimit, $parser->getLimit($defaultLimit));
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Api;
+declare(strict_types=1);
+
+namespace Http\Api;
 
 use App\Http\Resources\AnimeCollection;
 use App\Http\Resources\ArtistCollection;
@@ -17,9 +19,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
+/**
+ * Class SearchTest.
+ */
 class SearchTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * The Search Endpoint shall require a search term.

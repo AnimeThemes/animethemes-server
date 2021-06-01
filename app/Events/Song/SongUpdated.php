@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Song;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
@@ -15,14 +17,18 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class SongUpdated.
+ */
 class SongUpdated extends SongEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
+    use Dispatchable;
+    use HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Song $song
+     * @param Song $song
      * @return void
      */
     public function __construct(Song $song)
@@ -34,9 +40,9 @@ class SongUpdated extends SongEvent implements DiscordMessageEvent, UpdateRelate
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $song = $this->getSong();
 
@@ -52,7 +58,7 @@ class SongUpdated extends SongEvent implements DiscordMessageEvent, UpdateRelate
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

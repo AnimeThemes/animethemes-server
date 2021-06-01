@@ -1,12 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\AnimeCollection;
 use App\Http\Resources\AnimeResource;
 use App\Models\Anime;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * Class AnimeController.
+ */
 class AnimeController extends BaseController
 {
     /**
@@ -81,9 +87,9 @@ class AnimeController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         if ($this->parser->hasSearch()) {
             return AnimeCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
@@ -128,10 +134,10 @@ class AnimeController extends BaseController
      *     )
      * )
      *
-     * @param \App\Models\Anime $anime
-     * @return \Illuminate\Http\JsonResponse
+     * @param Anime $anime
+     * @return JsonResponse
      */
-    public function show(Anime $anime)
+    public function show(Anime $anime): JsonResponse
     {
         $resource = AnimeResource::performQuery($anime, $this->parser);
 

@@ -1,20 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scout\Elastic;
 
 use App\Models\Artist;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
+use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
+/**
+ * Class ArtistQueryPayload.
+ */
 class ArtistQueryPayload extends ElasticQueryPayload
 {
     /**
      * Build Elasticsearch query.
      *
-     * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
+     * @return SearchRequestBuilder
      */
-    public function buildQuery()
+    public function buildQuery(): SearchRequestBuilder
     {
         return Artist::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

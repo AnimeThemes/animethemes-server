@@ -1,29 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Pivot\ArtistMember;
 
+use App\Models\Artist;
 use App\Pivots\ArtistMember;
 
+/**
+ * Class ArtistMemberEvent.
+ */
 abstract class ArtistMemberEvent
 {
     /**
      * The artist that this artist member belongs to.
      *
-     * @var \App\Models\Artist
+     * @var Artist
      */
-    protected $artist;
+    protected Artist $artist;
 
     /**
      * The member that this artist member belongs to.
      *
-     * @var \App\Models\Artist
+     * @var Artist
      */
-    protected $member;
+    protected Artist $member;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Pivots\ArtistMember $artistMember
+     * @param ArtistMember $artistMember
      * @return void
      */
     public function __construct(ArtistMember $artistMember)
@@ -35,9 +41,9 @@ abstract class ArtistMemberEvent
     /**
      * Get the artist that this artist member belongs to.
      *
-     * @return \App\Models\Artist
+     * @return Artist
      */
-    public function getArtist()
+    public function getArtist(): Artist
     {
         return $this->artist;
     }
@@ -45,9 +51,9 @@ abstract class ArtistMemberEvent
     /**
      * Get the member that this artist member belongs to.
      *
-     * @return \App\Models\Artist
+     * @return Artist
      */
-    public function getMember()
+    public function getMember(): Artist
     {
         return $this->member;
     }

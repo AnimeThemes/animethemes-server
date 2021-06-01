@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Api\Announcement;
+declare(strict_types=1);
+
+namespace Http\Api\Announcement;
 
 use App\Enums\Filter\TrashedStatus;
 use App\Http\Resources\AnnouncementCollection;
@@ -15,9 +17,14 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class AnnouncementIndexTest.
+ */
 class AnnouncementIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Announcement Index Endpoint shall return a collection of Announcement Resources.
@@ -138,7 +145,7 @@ class AnnouncementIndexTest extends TestCase
     public function testSorts()
     {
         $allowedSorts = collect(AnnouncementCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -281,7 +288,7 @@ class AnnouncementIndexTest extends TestCase
         Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteAnnouncement = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteAnnouncement->each(function ($announcement) {
+        $deleteAnnouncement->each(function (Announcement $announcement) {
             $announcement->delete();
         });
 
@@ -320,7 +327,7 @@ class AnnouncementIndexTest extends TestCase
         Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteAnnouncement = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteAnnouncement->each(function ($announcement) {
+        $deleteAnnouncement->each(function (Announcement $announcement) {
             $announcement->delete();
         });
 
@@ -359,7 +366,7 @@ class AnnouncementIndexTest extends TestCase
         Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteAnnouncement = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteAnnouncement->each(function ($announcement) {
+        $deleteAnnouncement->each(function (Announcement $announcement) {
             $announcement->delete();
         });
 
@@ -400,16 +407,16 @@ class AnnouncementIndexTest extends TestCase
         ];
 
         Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $announcement = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
-            $announcement->each(function ($item) {
-                $item->delete();
+            $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+            $announcements->each(function (Announcement $announcement) {
+                $announcement->delete();
             });
         });
 
         Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $announcement = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
-            $announcement->each(function ($item) {
-                $item->delete();
+            $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+            $announcements->each(function (Announcement $announcement) {
+                $announcement->delete();
             });
         });
 

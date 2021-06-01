@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Entry;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
@@ -12,14 +14,18 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class EntryUpdated.
+ */
 class EntryUpdated extends EntryEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
+    use Dispatchable;
+    use HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Entry $entry
+     * @param Entry $entry
      * @return void
      */
     public function __construct(Entry $entry)
@@ -31,9 +37,9 @@ class EntryUpdated extends EntryEvent implements DiscordMessageEvent, UpdateRela
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $entry = $this->getEntry();
 
@@ -49,7 +55,7 @@ class EntryUpdated extends EntryEvent implements DiscordMessageEvent, UpdateRela
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

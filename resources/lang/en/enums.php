@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Enums\AnimeSeason;
 use App\Enums\Billing\Frequency;
 use App\Enums\Billing\Service;

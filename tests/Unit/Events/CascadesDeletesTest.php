@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Events;
+declare(strict_types=1);
+
+namespace Events;
 
 use App\Events\Anime\AnimeDeleting;
 use App\Events\Theme\ThemeDeleting;
@@ -8,6 +10,9 @@ use App\Listeners\CascadesDeletes;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class CascadesDeletesTest.
+ */
 class CascadesDeletesTest extends TestCase
 {
     /**
@@ -17,9 +22,9 @@ class CascadesDeletesTest extends TestCase
      */
     public function testAnimeDeleting()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(AnimeDeleting::class, CascadesDeletes::class);
+        $fake->assertListening(AnimeDeleting::class, CascadesDeletes::class);
     }
 
     /**
@@ -29,8 +34,8 @@ class CascadesDeletesTest extends TestCase
      */
     public function testThemeDeleting()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(ThemeDeleting::class, CascadesDeletes::class);
+        $fake->assertListening(ThemeDeleting::class, CascadesDeletes::class);
     }
 }

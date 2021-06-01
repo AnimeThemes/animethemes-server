@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Nova\Lenses;
+declare(strict_types=1);
+
+namespace Nova\Lenses;
 
 use App\Enums\VideoSource;
 use App\Models\Video;
@@ -15,21 +17,31 @@ use App\Nova\Lenses\VideoSourceLens;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Lenses\InvalidNovaLensException;
 use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
+/**
+ * Class VideoSourceTest.
+ */
 class VideoSourceTest extends TestCase
 {
-    use NovaLensTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaLensTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Video Source Lens shall contain Video Fields.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testFields()
     {
-        $lens = $this->novaLens(VideoSourceLens::class);
+        $lens = static::novaLens(VideoSourceLens::class);
 
         $lens->assertHasField(__('nova.id'));
         $lens->assertHasField(__('nova.filename'));
@@ -44,10 +56,12 @@ class VideoSourceTest extends TestCase
      * The Video Source Lens fields shall be sortable.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaLensException
      */
     public function testSortable()
     {
-        $lens = $this->novaLens(VideoSourceLens::class);
+        $lens = static::novaLens(VideoSourceLens::class);
 
         $lens->field(__('nova.id'))->assertSortable();
         $lens->field(__('nova.filename'))->assertSortable();
@@ -62,10 +76,11 @@ class VideoSourceTest extends TestCase
      * The Video Source Lens shall contain Video Filters.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testFilters()
     {
-        $lens = $this->novaLens(VideoSourceLens::class);
+        $lens = static::novaLens(VideoSourceLens::class);
 
         $lens->assertHasFilter(VideoTypeFilter::class);
         $lens->assertHasFilter(CreatedStartDateFilter::class);
@@ -80,10 +95,11 @@ class VideoSourceTest extends TestCase
      * The Video Source Lens shall contain no Actions.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testActions()
     {
-        $lens = $this->novaLens(VideoSourceLens::class);
+        $lens = static::novaLens(VideoSourceLens::class);
 
         $lens->assertHasNoActions();
     }
@@ -92,10 +108,12 @@ class VideoSourceTest extends TestCase
      * The Video Source Lens shall use the 'withFilters' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithFilters()
     {
-        $lens = $this->novaLens(VideoSourceLens::class);
+        $lens = static::novaLens(VideoSourceLens::class);
 
         $query = $lens->query(Video::class);
 
@@ -106,10 +124,12 @@ class VideoSourceTest extends TestCase
      * The Video Source Lens shall use the 'withOrdering' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithOrdering()
     {
-        $lens = $this->novaLens(VideoSourceLens::class);
+        $lens = static::novaLens(VideoSourceLens::class);
 
         $query = $lens->query(Video::class);
 
@@ -120,6 +140,8 @@ class VideoSourceTest extends TestCase
      * The Video Source Lens shall filter Videos without Source.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testQuery()
     {
@@ -131,7 +153,7 @@ class VideoSourceTest extends TestCase
 
         $filteredVideos = Video::whereNull('source')->get();
 
-        $lens = $this->novaLens(VideoSourceLens::class);
+        $lens = static::novaLens(VideoSourceLens::class);
 
         $query = $lens->query(Video::class);
 

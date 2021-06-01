@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Anime;
 
 use App\Contracts\Events\CascadesDeletesEvent;
@@ -8,6 +10,9 @@ use App\Models\Synonym;
 use App\Models\Theme;
 use Illuminate\Support\Facades\Event;
 
+/**
+ * Class AnimeDeleting.
+ */
 class AnimeDeleting extends AnimeEvent implements CascadesDeletesEvent
 {
     /**

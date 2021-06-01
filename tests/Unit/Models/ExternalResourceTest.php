@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Models;
+declare(strict_types=1);
+
+namespace Models;
 
 use App\Enums\ResourceSite;
 use App\Models\Anime;
@@ -14,9 +16,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class ExternalResourceTest.
+ */
 class ExternalResourceTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * The site attribute of a resource shall be cast to a ResourceSite enum instance.
@@ -29,7 +35,7 @@ class ExternalResourceTest extends TestCase
 
         $site = $resource->site;
 
-        $this->assertInstanceOf(ResourceSite::class, $site);
+        static::assertInstanceOf(ResourceSite::class, $site);
     }
 
     /**
@@ -43,7 +49,7 @@ class ExternalResourceTest extends TestCase
 
         $resource = ExternalResource::factory()->create();
 
-        $this->assertEquals(1, $resource->audits->count());
+        static::assertEquals(1, $resource->audits->count());
     }
 
     /**
@@ -55,7 +61,7 @@ class ExternalResourceTest extends TestCase
     {
         $resource = ExternalResource::factory()->create();
 
-        $this->assertIsString($resource->getName());
+        static::assertIsString($resource->getName());
     }
 
     /**
@@ -71,10 +77,10 @@ class ExternalResourceTest extends TestCase
             ->has(Anime::factory()->count($animeCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $resource->anime());
-        $this->assertEquals($animeCount, $resource->anime()->count());
-        $this->assertInstanceOf(Anime::class, $resource->anime()->first());
-        $this->assertEquals(AnimeResource::class, $resource->anime()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $resource->anime());
+        static::assertEquals($animeCount, $resource->anime()->count());
+        static::assertInstanceOf(Anime::class, $resource->anime()->first());
+        static::assertEquals(AnimeResource::class, $resource->anime()->getPivotClass());
     }
 
     /**
@@ -90,9 +96,9 @@ class ExternalResourceTest extends TestCase
             ->has(Artist::factory()->count($artistCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $resource->artists());
-        $this->assertEquals($artistCount, $resource->artists()->count());
-        $this->assertInstanceOf(Artist::class, $resource->artists()->first());
-        $this->assertEquals(ArtistResource::class, $resource->artists()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $resource->artists());
+        static::assertEquals($artistCount, $resource->artists()->count());
+        static::assertInstanceOf(Artist::class, $resource->artists()->first());
+        static::assertEquals(ArtistResource::class, $resource->artists()->getPivotClass());
     }
 }

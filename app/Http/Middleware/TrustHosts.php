@@ -1,9 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Middleware\TrustHosts as Middleware;
 
+/**
+ * Class TrustHosts.
+ */
 class TrustHosts extends Middleware
 {
     /**
@@ -11,7 +16,7 @@ class TrustHosts extends Middleware
      *
      * @return array
      */
-    public function hosts()
+    public function hosts(): array
     {
         return [
             $this->allSubdomainsOfApplicationUrl(),

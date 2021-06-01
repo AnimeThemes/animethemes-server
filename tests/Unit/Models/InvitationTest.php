@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Models;
+declare(strict_types=1);
+
+namespace Models;
 
 use App\Enums\InvitationStatus;
 use App\Mail\InvitationEmail;
@@ -10,6 +12,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
+/**
+ * Class InvitationTest.
+ */
 class InvitationTest extends TestCase
 {
     use RefreshDatabase;
@@ -25,7 +30,7 @@ class InvitationTest extends TestCase
 
         $status = $invitation->status;
 
-        $this->assertInstanceOf(InvitationStatus::class, $status);
+        static::assertInstanceOf(InvitationStatus::class, $status);
     }
 
     /**
@@ -39,7 +44,7 @@ class InvitationTest extends TestCase
 
         $invitation = Invitation::factory()->create();
 
-        $this->assertEquals(1, $invitation->audits->count());
+        static::assertEquals(1, $invitation->audits->count());
     }
 
     /**
@@ -51,7 +56,7 @@ class InvitationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        $this->assertIsString($invitation->getName());
+        static::assertIsString($invitation->getName());
     }
 
     /**
@@ -65,7 +70,7 @@ class InvitationTest extends TestCase
             'status' => InvitationStatus::OPEN,
         ]);
 
-        $this->assertTrue($invitation->isOpen());
+        static::assertTrue($invitation->isOpen());
     }
 
     /**
@@ -79,7 +84,7 @@ class InvitationTest extends TestCase
             'status' => InvitationStatus::CLOSED,
         ]);
 
-        $this->assertFalse($invitation->isOpen());
+        static::assertFalse($invitation->isOpen());
     }
 
     /**
@@ -91,7 +96,7 @@ class InvitationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        $this->assertArrayHasKey('token', $invitation);
+        static::assertArrayHasKey('token', $invitation);
     }
 
     /**

@@ -1,12 +1,17 @@
 <?php
 
-namespace Tests\Unit\JsonApi\Filter;
+declare(strict_types=1);
+
+namespace JsonApi\Filter;
 
 use App\JsonApi\Filter\BooleanFilter;
 use App\JsonApi\QueryParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class BooleanFilterTest.
+ */
 class BooleanFilterTest extends TestCase
 {
     use WithFaker;
@@ -28,14 +33,14 @@ class BooleanFilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends BooleanFilter
         {
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        static::assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -55,14 +60,14 @@ class BooleanFilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends BooleanFilter
         {
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        static::assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -82,7 +87,7 @@ class BooleanFilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends BooleanFilter
         {
@@ -91,6 +96,6 @@ class BooleanFilterTest extends TestCase
 
         $filterValues = $filter->getFilterValues($parser->getConditions($filterField)[0]);
 
-        $this->assertEquals($booleanValue, $filterValues[0]);
+        static::assertEquals($booleanValue, $filterValues[0]);
     }
 }

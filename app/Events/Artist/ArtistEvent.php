@@ -1,22 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Artist;
 
 use App\Models\Artist;
 
+/**
+ * Class ArtistEvent.
+ */
 abstract class ArtistEvent
 {
     /**
      * The artist that has fired this event.
      *
-     * @var \App\Models\Artist
+     * @var Artist
      */
-    protected $artist;
+    protected Artist $artist;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Artist $artist
+     * @param Artist $artist
      * @return void
      */
     public function __construct(Artist $artist)
@@ -27,9 +32,9 @@ abstract class ArtistEvent
     /**
      * Get the artist that has fired this event.
      *
-     * @return \App\Models\Artist
+     * @return Artist
      */
-    public function getArtist()
+    public function getArtist(): Artist
     {
         return $this->artist;
     }

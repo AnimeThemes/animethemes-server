@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Jobs;
+declare(strict_types=1);
+
+namespace Jobs;
 
 use App\Jobs\SendDiscordNotification;
 use App\Models\ExternalResource;
@@ -9,6 +11,9 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class ExternalResourceTest.
+ */
 class ExternalResourceTest extends TestCase
 {
     use RefreshDatabase;

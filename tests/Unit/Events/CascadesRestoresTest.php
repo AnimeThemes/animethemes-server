@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Events;
+declare(strict_types=1);
+
+namespace Events;
 
 use App\Events\Anime\AnimeRestored;
 use App\Events\Theme\ThemeRestored;
@@ -8,6 +10,9 @@ use App\Listeners\CascadesRestores;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class CascadesRestoresTest.
+ */
 class CascadesRestoresTest extends TestCase
 {
     /**
@@ -17,9 +22,9 @@ class CascadesRestoresTest extends TestCase
      */
     public function testAnimeRestored()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(AnimeRestored::class, CascadesRestores::class);
+        $fake->assertListening(AnimeRestored::class, CascadesRestores::class);
     }
 
     /**
@@ -29,8 +34,8 @@ class CascadesRestoresTest extends TestCase
      */
     public function testThemeRestored()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(ThemeRestored::class, CascadesRestores::class);
+        $fake->assertListening(ThemeRestored::class, CascadesRestores::class);
     }
 }

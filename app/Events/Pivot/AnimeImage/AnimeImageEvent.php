@@ -1,29 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Pivot\AnimeImage;
 
+use App\Models\Anime;
+use App\Models\Image;
 use App\Pivots\AnimeImage;
 
+/**
+ * Class AnimeImageEvent.
+ */
 abstract class AnimeImageEvent
 {
     /**
      * The anime that this anime image belongs to.
      *
-     * @var \App\Models\Anime
+     * @var Anime
      */
-    protected $anime;
+    protected Anime $anime;
 
     /**
      * The image that this anime image belongs to.
      *
-     * @var \App\Models\Image
+     * @var Image
      */
-    protected $image;
+    protected Image $image;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Pivots\AnimeImage $animeImage
+     * @param AnimeImage $animeImage
      * @return void
      */
     public function __construct(AnimeImage $animeImage)
@@ -35,9 +42,9 @@ abstract class AnimeImageEvent
     /**
      * Get the anime that this anime image belongs to.
      *
-     * @return \App\Models\Anime
+     * @return Anime
      */
-    public function getAnime()
+    public function getAnime(): Anime
     {
         return $this->anime;
     }
@@ -45,9 +52,9 @@ abstract class AnimeImageEvent
     /**
      * Get the image that this anime image belongs to.
      *
-     * @return \App\Models\Image
+     * @return Image
      */
-    public function getImage()
+    public function getImage(): Image
     {
         return $this->image;
     }

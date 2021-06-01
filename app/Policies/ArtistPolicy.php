@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Artist;
-use App\Models\ExternalResource;
 use App\Models\Image;
-use App\Models\Song;
 use App\Models\User;
 use App\Pivots\ArtistImage;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Class ArtistPolicy.
+ */
 class ArtistPolicy
 {
     use HandlesAuthorization;
@@ -17,10 +20,9 @@ class ArtistPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(): bool
     {
         return true;
     }
@@ -28,11 +30,9 @@ class ArtistPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @return mixed
+     * @return bool
      */
-    public function view(User $user, Artist $artist)
+    public function view(): bool
     {
         return true;
     }
@@ -40,10 +40,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:create');
     }
@@ -51,11 +51,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function update(User $user, Artist $artist)
+    public function update(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:update');
     }
@@ -63,11 +62,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function delete(User $user, Artist $artist)
+    public function delete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:delete');
     }
@@ -75,11 +73,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function restore(User $user, Artist $artist)
+    public function restore(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:restore');
     }
@@ -87,11 +84,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function forceDelete(User $user, Artist $artist)
+    public function forceDelete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:forceDelete');
     }
@@ -99,11 +95,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can attach any resource to the artist.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnyExternalResource(User $user, Artist $artist)
+    public function attachAnyExternalResource(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:update');
     }
@@ -111,12 +106,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can attach a resource to the artist.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @param \App\Models\ExternalResource $externalResource
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachExternalResource(User $user, Artist $artist, ExternalResource $externalResource)
+    public function attachExternalResource(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:update');
     }
@@ -124,12 +117,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can detach a resource from the artist.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @param \App\Models\ExternalResource $externalResource
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function detachExternalResource(User $user, Artist $artist, ExternalResource $externalResource)
+    public function detachExternalResource(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:update');
     }
@@ -137,11 +128,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can attach any song to the artist.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnySong(User $user, Artist $artist)
+    public function attachAnySong(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:update');
     }
@@ -149,12 +139,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can attach a song to the artist.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @param \App\Models\Song $song
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachSong(User $user, Artist $artist, Song $song)
+    public function attachSong(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:update');
     }
@@ -162,12 +150,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can detach a song from the artist.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @param \App\Models\Song $song
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function detachSong(User $user, Artist $artist, Song $song)
+    public function detachSong(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:update');
     }
@@ -175,11 +161,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can attach any group/member to the artist.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnyArtist(User $user, Artist $artist)
+    public function attachAnyArtist(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:update');
     }
@@ -187,12 +172,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can attach a group/member to the artist.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @param \App\Models\Artist $member
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachArtist(User $user, Artist $artist, Artist $member)
+    public function attachArtist(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:update');
     }
@@ -200,12 +183,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can detach a group/member from the artist.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @param \App\Models\Artist $member
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function detachArtist(User $user, Artist $artist, Artist $member)
+    public function detachArtist(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:update');
     }
@@ -213,11 +194,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can attach any image to the artist.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnyImage(User $user, Artist $artist)
+    public function attachAnyImage(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:update');
     }
@@ -225,12 +205,12 @@ class ArtistPolicy
     /**
      * Determine whether the user can attach an image to the artist.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @param \App\Models\Image $image
-     * @return mixed
+     * @param User $user
+     * @param Artist $artist
+     * @param Image $image
+     * @return bool
      */
-    public function attachImage(User $user, Artist $artist, Image $image)
+    public function attachImage(User $user, Artist $artist, Image $image): bool
     {
         if (ArtistImage::where($artist->getKeyName(), $artist->getKey())->where($image->getKeyName(), $image->getKey())->exists()) {
             return false;
@@ -242,12 +222,10 @@ class ArtistPolicy
     /**
      * Determine whether the user can detach an image from the artist.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Artist $artist
-     * @param \App\Models\Image $image
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function detachImage(User $user, Artist $artist, Image $image)
+    public function detachImage(User $user): bool
     {
         return $user->hasCurrentTeamPermission('artist:update');
     }

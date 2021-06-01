@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Anime;
@@ -11,6 +13,9 @@ use App\Models\Theme;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/**
+ * Class ArtistFactory.
+ */
 class ArtistFactory extends Factory
 {
     /**
@@ -25,7 +30,7 @@ class ArtistFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'slug' => Str::slug($this->faker->words(3, true), '_'),
@@ -38,7 +43,7 @@ class ArtistFactory extends Factory
      *
      * @return static
      */
-    public function jsonApiResource()
+    public function jsonApiResource(): static
     {
         return $this->afterCreating(
             function (Artist $artist) {

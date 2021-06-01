@@ -3,10 +3,12 @@
 declare(strict_types=1);
 
 use ElasticAdapter\Indices\Mapping;
-use ElasticAdapter\Indices\Settings;
 use ElasticMigrations\Facades\Index;
 use ElasticMigrations\MigrationInterface;
 
+/**
+ * Class CreateAnimeIndex.
+ */
 final class CreateAnimeIndex implements MigrationInterface
 {
     /**
@@ -14,7 +16,7 @@ final class CreateAnimeIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('anime', function (Mapping $mapping, Settings $settings) {
+        Index::create('anime', function (Mapping $mapping) {
             $mapping->long('anime_id');
             $mapping->date('created_at');
             $mapping->text('name');

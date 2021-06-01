@@ -1,12 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova\Filters;
 
 use App\Enums\Filter\ComparisonOperator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Laravel\Nova\Filters\DateFilter;
 
+/**
+ * Class DeletedStartDateFilter.
+ */
 class DeletedStartDateFilter extends DateFilter
 {
     /**
@@ -14,7 +20,7 @@ class DeletedStartDateFilter extends DateFilter
      *
      * @return array|string|null
      */
-    public function name()
+    public function name(): array | string | null
     {
         return __('nova.deleted_at_start');
     }
@@ -22,12 +28,12 @@ class DeletedStartDateFilter extends DateFilter
     /**
      * Apply the filter to the given query.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Request $request
+     * @param Builder $query
      * @param mixed $value
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function apply(Request $request, $query, $value)
+    public function apply(Request $request, $query, $value): Builder
     {
         $value = Carbon::parse($value);
 

@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Synonym;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * Class SynonymFactory.
+ */
 class SynonymFactory extends Factory
 {
     /**
@@ -19,7 +24,7 @@ class SynonymFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'text' => $this->faker->words(3, true),

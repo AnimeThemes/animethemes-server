@@ -1,27 +1,38 @@
 <?php
 
-namespace Tests\Unit\Nova\Filters;
+declare(strict_types=1);
+
+namespace Nova\Filters;
 
 use App\Models\Video;
 use App\Nova\Filters\VideoSubbedFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class VideoSubbedTest.
+ */
 class VideoSubbedTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Video Subbed Filter shall be a select filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
     {
-        $this->novaFilter(VideoSubbedFilter::class)
+        static::novaFilter(VideoSubbedFilter::class)
             ->assertSelectFilter();
     }
 
@@ -29,10 +40,11 @@ class VideoSubbedTest extends TestCase
      * The Video Subbed Filter shall have Yes and No options.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testOptions()
     {
-        $filter = $this->novaFilter(VideoSubbedFilter::class);
+        $filter = static::novaFilter(VideoSubbedFilter::class);
 
         $filter->assertHasOption(__('nova.no'));
         $filter->assertHasOption(__('nova.yes'));
@@ -42,6 +54,8 @@ class VideoSubbedTest extends TestCase
      * The Video Subbed Filter shall filter Videos By Subbed.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testFilter()
     {
@@ -51,7 +65,7 @@ class VideoSubbedTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filter = $this->novaFilter(VideoSubbedFilter::class);
+        $filter = static::novaFilter(VideoSubbedFilter::class);
 
         $response = $filter->apply(Video::class, $subbedFilter);
 

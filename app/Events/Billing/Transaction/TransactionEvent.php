@@ -1,22 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Billing\Transaction;
 
 use App\Models\Billing\Transaction;
 
+/**
+ * Class TransactionEvent.
+ */
 abstract class TransactionEvent
 {
     /**
      * The transaction that has fired this event.
      *
-     * @var \App\Models\Billing\Transaction
+     * @var Transaction
      */
-    protected $transaction;
+    protected Transaction $transaction;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Billing\Transaction $transaction
+     * @param Transaction $transaction
      * @return void
      */
     public function __construct(Transaction $transaction)
@@ -27,9 +32,9 @@ abstract class TransactionEvent
     /**
      * Get the transaction that has fired this event.
      *
-     * @return \App\Models\Billing\Transaction
+     * @return Transaction
      */
-    public function getTransaction()
+    public function getTransaction(): Transaction
     {
         return $this->transaction;
     }

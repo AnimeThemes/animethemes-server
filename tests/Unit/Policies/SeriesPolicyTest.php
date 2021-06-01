@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Policies;
+declare(strict_types=1);
+
+namespace Policies;
 
 use App\Models\Anime;
 use App\Models\Series;
@@ -10,9 +12,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class SeriesPolicyTest.
+ */
 class SeriesPolicyTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
      * Any user regardless of role can view any series.
@@ -21,23 +27,11 @@ class SeriesPolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
         $policy = new SeriesPolicy();
 
-        $this->assertTrue($policy->viewAny($viewer));
-        $this->assertTrue($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -47,24 +41,11 @@ class SeriesPolicyTest extends TestCase
      */
     public function testView()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
-        $series = Series::factory()->create();
         $policy = new SeriesPolicy();
 
-        $this->assertTrue($policy->view($viewer, $series));
-        $this->assertTrue($policy->view($editor, $series));
-        $this->assertTrue($policy->view($admin, $series));
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
     }
 
     /**
@@ -88,9 +69,9 @@ class SeriesPolicyTest extends TestCase
 
         $policy = new SeriesPolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertTrue($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertTrue($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
@@ -112,12 +93,11 @@ class SeriesPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $series = Series::factory()->create();
         $policy = new SeriesPolicy();
 
-        $this->assertFalse($policy->update($viewer, $series));
-        $this->assertTrue($policy->update($editor, $series));
-        $this->assertTrue($policy->update($admin, $series));
+        static::assertFalse($policy->update($viewer));
+        static::assertTrue($policy->update($editor));
+        static::assertTrue($policy->update($admin));
     }
 
     /**
@@ -139,12 +119,11 @@ class SeriesPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $series = Series::factory()->create();
         $policy = new SeriesPolicy();
 
-        $this->assertFalse($policy->delete($viewer, $series));
-        $this->assertTrue($policy->delete($editor, $series));
-        $this->assertTrue($policy->delete($admin, $series));
+        static::assertFalse($policy->delete($viewer));
+        static::assertTrue($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
@@ -166,12 +145,11 @@ class SeriesPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $series = Series::factory()->create();
         $policy = new SeriesPolicy();
 
-        $this->assertFalse($policy->restore($viewer, $series));
-        $this->assertTrue($policy->restore($editor, $series));
-        $this->assertTrue($policy->restore($admin, $series));
+        static::assertFalse($policy->restore($viewer));
+        static::assertTrue($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
@@ -193,12 +171,11 @@ class SeriesPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $series = Series::factory()->create();
         $policy = new SeriesPolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $series));
-        $this->assertFalse($policy->forceDelete($editor, $series));
-        $this->assertTrue($policy->forceDelete($admin, $series));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 
     /**
@@ -220,12 +197,11 @@ class SeriesPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $series = Series::factory()->create();
         $policy = new SeriesPolicy();
 
-        $this->assertFalse($policy->attachAnyAnime($viewer, $series));
-        $this->assertTrue($policy->attachAnyAnime($editor, $series));
-        $this->assertTrue($policy->attachAnyAnime($admin, $series));
+        static::assertFalse($policy->attachAnyAnime($viewer));
+        static::assertTrue($policy->attachAnyAnime($editor));
+        static::assertTrue($policy->attachAnyAnime($admin));
     }
 
     /**
@@ -251,9 +227,9 @@ class SeriesPolicyTest extends TestCase
         $anime = Anime::factory()->create();
         $policy = new SeriesPolicy();
 
-        $this->assertFalse($policy->attachAnime($viewer, $series, $anime));
-        $this->assertTrue($policy->attachAnime($editor, $series, $anime));
-        $this->assertTrue($policy->attachAnime($admin, $series, $anime));
+        static::assertFalse($policy->attachAnime($viewer, $series, $anime));
+        static::assertTrue($policy->attachAnime($editor, $series, $anime));
+        static::assertTrue($policy->attachAnime($admin, $series, $anime));
     }
 
     /**
@@ -275,12 +251,10 @@ class SeriesPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $series = Series::factory()->create();
-        $anime = Anime::factory()->create();
         $policy = new SeriesPolicy();
 
-        $this->assertFalse($policy->detachAnime($viewer, $series, $anime));
-        $this->assertTrue($policy->detachAnime($editor, $series, $anime));
-        $this->assertTrue($policy->detachAnime($admin, $series, $anime));
+        static::assertFalse($policy->detachAnime($viewer));
+        static::assertTrue($policy->detachAnime($editor));
+        static::assertTrue($policy->detachAnime($admin));
     }
 }

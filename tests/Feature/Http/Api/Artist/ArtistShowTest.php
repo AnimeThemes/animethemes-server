@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Api\Artist;
+declare(strict_types=1);
+
+namespace Http\Api\Artist;
 
 use App\Enums\AnimeSeason;
 use App\Enums\ImageFacet;
@@ -15,13 +17,20 @@ use App\Models\Image;
 use App\Models\Song;
 use App\Models\Theme;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class ArtistShowTest.
+ */
 class ArtistShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Artist Show Endpoint shall return an Artist Resource.
@@ -185,7 +194,7 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'songs.themes' => function ($query) use ($groupFilter) {
+            'songs.themes' => function (HasMany $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -239,7 +248,7 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'songs.themes' => function ($query) use ($sequenceFilter) {
+            'songs.themes' => function (HasMany $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -288,7 +297,7 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'songs.themes' => function ($query) use ($typeFilter) {
+            'songs.themes' => function (HasMany $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
@@ -337,7 +346,7 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'songs.themes.anime' => function ($query) use ($seasonFilter) {
+            'songs.themes.anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -392,7 +401,7 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'songs.themes.anime' => function ($query) use ($yearFilter) {
+            'songs.themes.anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])
@@ -435,7 +444,7 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'externalResources' => function ($query) use ($siteFilter) {
+            'externalResources' => function (BelongsToMany $query) use ($siteFilter) {
                 $query->where('site', $siteFilter->value);
             },
         ])
@@ -478,7 +487,7 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'images' => function ($query) use ($facetFilter) {
+            'images' => function (BelongsToMany $query) use ($facetFilter) {
                 $query->where('facet', $facetFilter->value);
             },
         ])

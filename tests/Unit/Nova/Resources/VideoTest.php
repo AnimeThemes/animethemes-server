@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Nova\Resources;
+declare(strict_types=1);
+
+namespace Nova\Resources;
 
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
@@ -20,21 +22,28 @@ use App\Nova\Filters\VideoUncenFilter;
 use App\Nova\Video;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
+/**
+ * Class VideoTest.
+ */
 class VideoTest extends TestCase
 {
-    use NovaResourceTest, WithoutEvents;
+    use NovaResourceTest;
+    use WithoutEvents;
 
     /**
      * The Video Resource shall contain Video Fields.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFields()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $resource->assertHasField(__('nova.id'));
         $resource->assertHasField(__('nova.created_at'));
@@ -57,10 +66,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain an ID field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testIdField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.id'));
 
@@ -76,10 +87,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Created At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testCreatedAtField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.created_at'));
 
@@ -95,10 +108,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain an Updated At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testUpdatedAtField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.updated_at'));
 
@@ -114,10 +129,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Deleted At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testDeletedAtField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.deleted_at'));
 
@@ -133,10 +150,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Basename field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testBasenameField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.basename'));
 
@@ -152,10 +171,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Filename field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testFilenameField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.filename'));
 
@@ -171,10 +192,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Path field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testPathField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.path'));
 
@@ -190,10 +213,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Size field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testSizeField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.size'));
 
@@ -209,10 +234,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Resolution field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testResolutionField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.resolution'));
 
@@ -230,10 +257,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain an NC field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testNcField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.nc'));
 
@@ -251,10 +280,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Subbed field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testSubbedField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.subbed'));
 
@@ -272,10 +303,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Lyrics field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testLyricsField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.lyrics'));
 
@@ -293,10 +326,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Uncen field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testUncenField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.uncen'));
 
@@ -314,10 +349,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain an Overlap field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testOverlapField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.overlap'));
 
@@ -335,10 +372,12 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Source field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testSourceField()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $field = $resource->field(__('nova.source'));
 
@@ -356,10 +395,11 @@ class VideoTest extends TestCase
      * The Video Resource shall contain Video Filters.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFilters()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $resource->assertHasFilter(VideoNcFilter::class);
         $resource->assertHasFilter(VideoSubbedFilter::class);
@@ -380,10 +420,11 @@ class VideoTest extends TestCase
      * The Video Resource shall contain no Actions.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testActions()
     {
-        $resource = $this->novaResource(Video::class);
+        $resource = static::novaResource(Video::class);
 
         $resource->assertHasNoActions();
     }

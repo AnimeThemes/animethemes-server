@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova\Lenses;
 
 use App\Nova\Filters\CreatedEndDateFilter;
@@ -8,12 +10,16 @@ use App\Nova\Filters\DeletedEndDateFilter;
 use App\Nova\Filters\DeletedStartDateFilter;
 use App\Nova\Filters\UpdatedEndDateFilter;
 use App\Nova\Filters\UpdatedStartDateFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
 
+/**
+ * Class ArtistSongLens.
+ */
 class ArtistSongLens extends Lens
 {
     /**
@@ -21,7 +27,7 @@ class ArtistSongLens extends Lens
      *
      * @return array|string|null
      */
-    public function name()
+    public function name(): array | string | null
     {
         return __('nova.artist_song_lens');
     }
@@ -29,11 +35,11 @@ class ArtistSongLens extends Lens
     /**
      * Get the query builder / paginator for the lens.
      *
-     * @param \Laravel\Nova\Http\Requests\LensRequest $request
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return mixed
+     * @param LensRequest $request
+     * @param Builder $query
+     * @return Builder
      */
-    public static function query(LensRequest $request, $query)
+    public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
             $query->whereDoesntHave('songs')
@@ -43,10 +49,10 @@ class ArtistSongLens extends Lens
     /**
      * Get the fields available to the lens.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             ID::make(__('nova.id'), 'artist_id')
@@ -63,10 +69,10 @@ class ArtistSongLens extends Lens
     /**
      * Get the cards available on the lens.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function cards(Request $request)
+    public function cards(Request $request): array
     {
         return [];
     }
@@ -74,28 +80,28 @@ class ArtistSongLens extends Lens
     /**
      * Get the filters available for the lens.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function filters(Request $request)
+    public function filters(Request $request): array
     {
         return [
-            new CreatedStartDateFilter,
-            new CreatedEndDateFilter,
-            new UpdatedStartDateFilter,
-            new UpdatedEndDateFilter,
-            new DeletedStartDateFilter,
-            new DeletedEndDateFilter,
+            new CreatedStartDateFilter(),
+            new CreatedEndDateFilter(),
+            new UpdatedStartDateFilter(),
+            new UpdatedEndDateFilter(),
+            new DeletedStartDateFilter(),
+            new DeletedEndDateFilter(),
         ];
     }
 
     /**
      * Get the actions available on the lens.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function actions(Request $request)
+    public function actions(Request $request): array
     {
         return [];
     }
@@ -105,7 +111,7 @@ class ArtistSongLens extends Lens
      *
      * @return string
      */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'artist-song-lens';
     }

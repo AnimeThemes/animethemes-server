@@ -1,11 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Pivots;
 
 use App\Events\Pivot\AnimeSeries\AnimeSeriesCreated;
 use App\Events\Pivot\AnimeSeries\AnimeSeriesDeleted;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Class AnimeSeries.
+ */
 class AnimeSeries extends BasePivot
 {
     use HasFactory;
@@ -32,9 +38,9 @@ class AnimeSeries extends BasePivot
     /**
      * Gets the anime that owns the anime series.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function anime()
+    public function anime(): BelongsTo
     {
         return $this->belongsTo('App\Models\Anime', 'anime_id', 'anime_id');
     }
@@ -42,9 +48,9 @@ class AnimeSeries extends BasePivot
     /**
      * Gets the series that owns the anime series.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function series()
+    public function series(): BelongsTo
     {
         return $this->belongsTo('App\Models\Series', 'series_id', 'series_id');
     }

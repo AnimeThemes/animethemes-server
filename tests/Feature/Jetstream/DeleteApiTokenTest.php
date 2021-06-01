@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Jetstream;
+declare(strict_types=1);
+
+namespace Jetstream;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,14 +12,17 @@ use Laravel\Jetstream\Http\Livewire\ApiTokenManager;
 use Livewire\Livewire;
 use Tests\TestCase;
 
+/**
+ * Class DeleteApiTokenTest.
+ */
 class DeleteApiTokenTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_api_tokens_can_be_deleted()
+    public function testApiTokensCanBeDeleted()
     {
         if (! Features::hasApiFeatures()) {
-            return $this->markTestSkipped('API support is not enabled.');
+            static::markTestSkipped('API support is not enabled.');
         }
 
         if (Features::hasTeamFeatures()) {
@@ -36,6 +41,6 @@ class DeleteApiTokenTest extends TestCase
                     ->set(['apiTokenIdBeingDeleted' => $token->id])
                     ->call('deleteApiToken');
 
-        $this->assertCount(0, $user->fresh()->tokens);
+        static::assertCount(0, $user->fresh()->tokens);
     }
 }

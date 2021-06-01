@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Api\Entry;
+declare(strict_types=1);
+
+namespace Http\Api\Entry;
 
 use App\Enums\AnimeSeason;
 use App\Enums\ThemeType;
@@ -10,13 +12,19 @@ use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\Theme;
 use App\Models\Video;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Znck\Eloquent\Relations\BelongsToThrough;
 
+/**
+ * Class EntryShowTest.
+ */
 class EntryShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Entry Show Endpoint shall return an Entry Resource.
@@ -173,7 +181,7 @@ class EntryShowTest extends TestCase
             ->create();
 
         $entry = Entry::with([
-            'anime' => function ($query) use ($seasonFilter) {
+            'anime' => function (BelongsToThrough $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -222,7 +230,7 @@ class EntryShowTest extends TestCase
             ->create();
 
         $entry = Entry::with([
-            'anime' => function ($query) use ($yearFilter) {
+            'anime' => function (BelongsToThrough $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])
@@ -270,7 +278,7 @@ class EntryShowTest extends TestCase
             ->create();
 
         $entry = Entry::with([
-            'theme' => function ($query) use ($groupFilter) {
+            'theme' => function (BelongsTo $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -318,7 +326,7 @@ class EntryShowTest extends TestCase
             ->create();
 
         $entry = Entry::with([
-            'theme' => function ($query) use ($sequenceFilter) {
+            'theme' => function (BelongsTo $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -359,7 +367,7 @@ class EntryShowTest extends TestCase
             ->create();
 
         $entry = Entry::with([
-            'theme' => function ($query) use ($typeFilter) {
+            'theme' => function (BelongsTo $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])

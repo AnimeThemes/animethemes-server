@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\ExternalResource;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
@@ -10,14 +12,18 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class ExternalResourceUpdated.
+ */
 class ExternalResourceUpdated extends ExternalResourceEvent implements DiscordMessageEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
+    use Dispatchable;
+    use HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\ExternalResource $resource
+     * @param ExternalResource $resource
      * @return void
      */
     public function __construct(ExternalResource $resource)
@@ -29,9 +35,9 @@ class ExternalResourceUpdated extends ExternalResourceEvent implements DiscordMe
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $resource = $this->getResource();
 
@@ -47,7 +53,7 @@ class ExternalResourceUpdated extends ExternalResourceEvent implements DiscordMe
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

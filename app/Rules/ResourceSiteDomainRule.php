@@ -1,23 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Rules;
 
 use App\Enums\ResourceSite;
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Class ResourceSiteDomainRule.
+ */
 class ResourceSiteDomainRule implements Rule
 {
     /**
      * The name of the rule.
      */
-    protected $rule = 'resource_site';
+    protected string $rule = 'resource_site';
 
     /**
      * The resource site key.
      *
-     * @var int
+     * @var int|null
      */
-    protected $site;
+    protected ?int $site;
 
     /**
      * Create a new rule instance.
@@ -37,7 +42,7 @@ class ResourceSiteDomainRule implements Rule
      * @param mixed $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         $domain = ResourceSite::getDomain($this->site);
 
@@ -53,7 +58,7 @@ class ResourceSiteDomainRule implements Rule
      *
      * @return array|string|null
      */
-    public function message()
+    public function message(): array | string | null
     {
         return __('validation.resource_link_site_mismatch');
     }

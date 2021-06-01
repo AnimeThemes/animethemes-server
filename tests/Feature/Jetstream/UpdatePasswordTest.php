@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Jetstream;
+declare(strict_types=1);
+
+namespace Jetstream;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,11 +12,15 @@ use Laravel\Jetstream\Http\Livewire\UpdatePasswordForm;
 use Livewire\Livewire;
 use Tests\TestCase;
 
+/**
+ * Class UpdatePasswordTest.
+ */
 class UpdatePasswordTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
-    public function test_password_can_be_updated()
+    public function testPasswordCanBeUpdated()
     {
         $this->actingAs($user = User::factory()->create());
 
@@ -28,10 +34,10 @@ class UpdatePasswordTest extends TestCase
                 ])
                 ->call('updatePassword');
 
-        $this->assertTrue(Hash::check($newPassword, $user->fresh()->password));
+        static::assertTrue(Hash::check($newPassword, $user->fresh()->password));
     }
 
-    public function test_current_password_must_be_correct()
+    public function testCurrentPasswordMustBeCorrect()
     {
         $this->actingAs($user = User::factory()->create());
 
@@ -46,10 +52,10 @@ class UpdatePasswordTest extends TestCase
                 ->call('updatePassword')
                 ->assertHasErrors(['current_password']);
 
-        $this->assertTrue(Hash::check('password', $user->fresh()->password));
+        static::assertTrue(Hash::check('password', $user->fresh()->password));
     }
 
-    public function test_new_passwords_must_match()
+    public function testNewPasswordsMustMatch()
     {
         $this->actingAs($user = User::factory()->create());
 
@@ -62,6 +68,6 @@ class UpdatePasswordTest extends TestCase
                 ->call('updatePassword')
                 ->assertHasErrors(['password']);
 
-        $this->assertTrue(Hash::check('password', $user->fresh()->password));
+        static::assertTrue(Hash::check('password', $user->fresh()->password));
     }
 }

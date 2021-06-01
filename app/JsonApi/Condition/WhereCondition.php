@@ -1,23 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\JsonApi\Condition;
 
 use App\Enums\Filter\BinaryLogicalOperator;
 use App\Enums\Filter\ComparisonOperator;
 use App\JsonApi\Filter\Filter;
+use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
+use ElasticScoutDriverPlus\Builders\AbstractParameterizedQueryBuilder;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\RangeQueryBuilder;
 use ElasticScoutDriverPlus\Builders\TermQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+/**
+ * Class WhereCondition.
+ */
 class WhereCondition extends Condition
 {
     /**
      * Create a new condition instance.
      *
-     * @param \App\JsonApi\Condition\Predicate $predicate
-     * @param \App\Enums\Filter\BinaryLogicalOperator $operator
+     * @param Predicate $predicate
+     * @param BinaryLogicalOperator $operator
      * @param string $scope
      */
     final public function __construct(
@@ -32,10 +40,10 @@ class WhereCondition extends Condition
      * Create a new condition instance from query string.
      *
      * @param string $filterParam
-     * @param string $filterValues
-     * @return \App\JsonApi\Condition\Condition
+     * @param mixed $filterValues
+     * @return Condition
      */
-    public static function make(string $filterParam, string $filterValues)
+    public static function make(string $filterParam, mixed $filterValues): Condition
     {
         $scope = '';
         $field = '';
@@ -48,13 +56,21 @@ class WhereCondition extends Condition
 
             // Set logical operator
             if (empty($scope) && empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
-                $logicalOperator = BinaryLogicalOperator::fromKey(Str::upper($filterPart));
+                try {
+                    $logicalOperator = BinaryLogicalOperator::fromKey(Str::upper($filterPart));
+                } catch (InvalidEnumKeyException $e) {
+                    Log::info($e->getMessage());
+                }
                 continue;
             }
 
             // Set comparison operator
             if (empty($scope) && empty($field) && ComparisonOperator::hasKey(Str::upper($filterPart))) {
-                $comparisonOperator = ComparisonOperator::fromKey(Str::upper($filterPart));
+                try {
+                    $comparisonOperator = ComparisonOperator::fromKey(Str::upper($filterPart));
+                } catch (InvalidEnumKeyException $e) {
+                    Log::info($e->getMessage());
+                }
                 continue;
             }
 
@@ -67,7 +83,6 @@ class WhereCondition extends Condition
             // Set scope
             if (empty($scope) && ! empty($field)) {
                 $scope = Str::lower($filterPart);
-                continue;
             }
         }
 
@@ -81,11 +96,11 @@ class WhereCondition extends Condition
     /**
      * Apply condition to builder through filter.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param \App\JsonApi\Filter\Filter $filter
-     * @return \Illuminate\Database\Eloquent\Builder $builder
+     * @param Builder $builder
+     * @param Filter $filter
+     * @return Builder $builder
      */
-    public function apply(Builder $builder, Filter $filter)
+    public function apply(Builder $builder, Filter $filter): Builder
     {
         return $builder->where(
             $filter->getScope().'.'.$this->getField(),
@@ -98,11 +113,11 @@ class WhereCondition extends Condition
     /**
      * Apply condition to builder through filter.
      *
-     * @param \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
-     * @param \App\JsonApi\Filter\Filter $filter
-     * @return \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
+     * @param BoolQueryBuilder $builder
+     * @param Filter $filter
+     * @return BoolQueryBuilder $builder
      */
-    public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter)
+    public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter): BoolQueryBuilder
     {
         $clause = $this->getElasticsearchClause($filter);
 
@@ -124,10 +139,10 @@ class WhereCondition extends Condition
     /**
      * Build clause for Elasticsearch filter based on comparison operator.
      *
-     * @param \App\JsonApi\Filter\Filter $filter
-     * @return \ElasticScoutDriverPlus\Builders\AbstractParameterizedQueryBuilder
+     * @param Filter $filter
+     * @return AbstractParameterizedQueryBuilder
      */
-    protected function getElasticsearchClause(Filter $filter)
+    protected function getElasticsearchClause(Filter $filter): AbstractParameterizedQueryBuilder
     {
         if (ComparisonOperator::LT()->is($this->getComparisonOperator())) {
             return (new RangeQueryBuilder())

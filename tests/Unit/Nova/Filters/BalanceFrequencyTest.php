@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Nova\Filters;
+declare(strict_types=1);
+
+namespace Nova\Filters;
 
 use App\Enums\Billing\Frequency;
 use App\Models\Billing\Balance;
@@ -8,21 +10,30 @@ use App\Nova\Filters\BalanceFrequencyFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class BalanceFrequencyTest.
+ */
 class BalanceFrequencyTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Balance Frequency Filter shall be a select filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
     {
-        $this->novaFilter(BalanceFrequencyFilter::class)
+        static::novaFilter(BalanceFrequencyFilter::class)
             ->assertSelectFilter();
     }
 
@@ -30,10 +41,11 @@ class BalanceFrequencyTest extends TestCase
      * The Balance Frequency Filter shall have an option for each Frequency instance.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testOptions()
     {
-        $filter = $this->novaFilter(BalanceFrequencyFilter::class);
+        $filter = static::novaFilter(BalanceFrequencyFilter::class);
 
         foreach (Frequency::getInstances() as $frequency) {
             $filter->assertHasOption($frequency->description);
@@ -44,6 +56,8 @@ class BalanceFrequencyTest extends TestCase
      * The Balance Frequency Filter shall filter Balances By Frequency.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testFilter()
     {
@@ -51,7 +65,7 @@ class BalanceFrequencyTest extends TestCase
 
         Balance::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $filter = $this->novaFilter(BalanceFrequencyFilter::class);
+        $filter = static::novaFilter(BalanceFrequencyFilter::class);
 
         $response = $filter->apply(Balance::class, $frequency->value);
 

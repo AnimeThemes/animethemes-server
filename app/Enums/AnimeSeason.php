@@ -1,14 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
+/**
+ * Class AnimeSeason.
+ */
 final class AnimeSeason extends Enum implements LocalizedEnum
 {
-    const WINTER = 0;
-    const SPRING = 1;
-    const SUMMER = 2;
-    const FALL = 3;
+    public const WINTER = 0;
+    public const SPRING = 1;
+    public const SUMMER = 2;
+    public const FALL = 3;
 }

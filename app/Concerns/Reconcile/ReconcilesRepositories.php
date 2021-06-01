@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Concerns\Reconcile;
 
 use App\Contracts\Repositories\Repository;
@@ -8,6 +10,9 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
+/**
+ * Trait ReconcilesRepositories.
+ */
 trait ReconcilesRepositories
 {
     /**
@@ -15,47 +20,47 @@ trait ReconcilesRepositories
      *
      * @var int
      */
-    protected $created = 0;
+    protected int $created = 0;
 
     /**
      * The number of models whose creation failed.
      *
      * @var int
      */
-    protected $createdFailed = 0;
+    protected int $createdFailed = 0;
 
     /**
      * The number of models deleted.
      *
      * @var int
      */
-    protected $deleted = 0;
+    protected int $deleted = 0;
 
     /**
      * The number of models whose deletion failed.
      *
      * @var int
      */
-    protected $deletedFailed = 0;
+    protected int $deletedFailed = 0;
 
     /**
      * The number of models updated.
      *
      * @var int
      */
-    protected $updated = 0;
+    protected int $updated = 0;
 
     /**
      * The number of models whose update failed.
      *
      * @var int
      */
-    protected $updatedFailed = 0;
+    protected int $updatedFailed = 0;
 
     /**
      * Callback for successful model creation.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
@@ -66,7 +71,7 @@ trait ReconcilesRepositories
     /**
      * Callback for failed model creation.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
@@ -77,7 +82,7 @@ trait ReconcilesRepositories
     /**
      * Callback for successful model deletion.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
@@ -88,7 +93,7 @@ trait ReconcilesRepositories
     /**
      * Callback for failed model deletion.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
@@ -99,7 +104,7 @@ trait ReconcilesRepositories
     /**
      * Callback for successful model update.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
@@ -110,7 +115,7 @@ trait ReconcilesRepositories
     /**
      * Callback for failed model update.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)
@@ -144,7 +149,7 @@ trait ReconcilesRepositories
      *
      * @return bool
      */
-    protected function hasResults()
+    protected function hasResults(): bool
     {
         return $this->hasChanges() || $this->hasFailures();
     }
@@ -154,7 +159,7 @@ trait ReconcilesRepositories
      *
      * @return bool
      */
-    protected function hasChanges()
+    protected function hasChanges(): bool
     {
         return $this->created > 0 || $this->deleted > 0 || $this->updated > 0;
     }
@@ -164,7 +169,7 @@ trait ReconcilesRepositories
      *
      * @return bool
      */
-    protected function hasFailures()
+    protected function hasFailures(): bool
     {
         return $this->createdFailed > 0 || $this->deletedFailed > 0 || $this->updatedFailed > 0;
     }
@@ -172,8 +177,8 @@ trait ReconcilesRepositories
     /**
      * Perform set reconciliation between source and destination repositories.
      *
-     * @param \App\Contracts\Repositories\Repository $source
-     * @param \App\Contracts\Repositories\Repository $destination
+     * @param Repository $source
+     * @param Repository $destination
      * @return void
      */
     public function reconcileRepositories(Repository $source, Repository $destination)
@@ -200,11 +205,11 @@ trait ReconcilesRepositories
     /**
      * Perform set operation for create and delete steps.
      *
-     * @param \Illuminate\Support\Collection $a
-     * @param \Illuminate\Support\Collection $b
-     * @return \Illuminate\Support\Collection
+     * @param Collection $a
+     * @param Collection $b
+     * @return Collection
      */
-    protected function diffForCreateDelete(Collection $a, Collection $b)
+    protected function diffForCreateDelete(Collection $a, Collection $b): Collection
     {
         return Collection::make();
     }
@@ -212,9 +217,9 @@ trait ReconcilesRepositories
     /**
      * Create models that exist in source but not in destination.
      *
-     * @param \App\Contracts\Repositories\Repository $destination
-     * @param \Illuminate\Support\Collection $sourceModels
-     * @param \Illuminate\Support\Collection $destinationModels
+     * @param Repository $destination
+     * @param Collection $sourceModels
+     * @param Collection $destinationModels
      * @return void
      */
     protected function createModelsFromSource(Repository $destination, Collection $sourceModels, Collection $destinationModels)
@@ -236,9 +241,9 @@ trait ReconcilesRepositories
     /**
      * Delete models that exist in destination but not in source.
      *
-     * @param \App\Contracts\Repositories\Repository $destination
-     * @param \Illuminate\Support\Collection $sourceModels
-     * @param \Illuminate\Support\Collection $destinationModels
+     * @param Repository $destination
+     * @param Collection $sourceModels
+     * @param Collection $destinationModels
      * @return void
      */
     public function deleteModelsFromDestination(Repository $destination, Collection $sourceModels, Collection $destinationModels)
@@ -260,11 +265,11 @@ trait ReconcilesRepositories
     /**
      * Perform set operation for update step.
      *
-     * @param \Illuminate\Support\Collection $a
-     * @param \Illuminate\Support\Collection $b
-     * @return \Illuminate\Support\Collection
+     * @param Collection $a
+     * @param Collection $b
+     * @return Collection
      */
-    protected function diffForUpdate(Collection $a, Collection $b)
+    protected function diffForUpdate(Collection $a, Collection $b): Collection
     {
         return Collection::make();
     }
@@ -272,11 +277,11 @@ trait ReconcilesRepositories
     /**
      * Get source model that has been updated for destination model.
      *
-     * @param \Illuminate\Support\Collection $sourceModels
-     * @param \Illuminate\Database\Eloquent\Model $destinationModel
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @param Collection $sourceModels
+     * @param Model $destinationModel
+     * @return Model|null
      */
-    protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel)
+    protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model
     {
         return null;
     }
@@ -284,9 +289,9 @@ trait ReconcilesRepositories
     /**
      * Update destination models that have changed in source.
      *
-     * @param \App\Contracts\Repositories\Repository $destination
-     * @param \Illuminate\Support\Collection $sourceModels
-     * @param \Illuminate\Support\Collection $destinationModels
+     * @param Repository $destination
+     * @param Collection $sourceModels
+     * @param Collection $destinationModels
      * @return void
      */
     public function updateDestinationModels(Repository $destination, Collection $sourceModels, Collection $destinationModels)
@@ -295,7 +300,7 @@ trait ReconcilesRepositories
 
         foreach ($updatedModels as $updatedModel) {
             $sourceModel = $this->resolveUpdatedModel($sourceModels, $updatedModel);
-            if (! is_null($sourceModel)) {
+            if ($sourceModel !== null) {
                 $updateResult = $destination->update($updatedModel, $sourceModel->toArray());
                 if ($updateResult) {
                     $this->updated++;

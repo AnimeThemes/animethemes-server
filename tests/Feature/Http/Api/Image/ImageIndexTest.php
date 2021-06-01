@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Api\Image;
+declare(strict_types=1);
+
+namespace Http\Api\Image;
 
 use App\Enums\AnimeSeason;
 use App\Enums\Filter\TrashedStatus;
@@ -12,6 +14,7 @@ use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Image;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -19,9 +22,14 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class ImageIndexTest.
+ */
 class ImageIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Image Index Endpoint shall return a collection of Image Resources.
@@ -154,7 +162,7 @@ class ImageIndexTest extends TestCase
     public function testSorts()
     {
         $allowedSorts = collect(ImageCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -297,7 +305,7 @@ class ImageIndexTest extends TestCase
         Image::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteImage->each(function ($image) {
+        $deleteImage->each(function (Image $image) {
             $image->delete();
         });
 
@@ -336,7 +344,7 @@ class ImageIndexTest extends TestCase
         Image::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteImage->each(function ($image) {
+        $deleteImage->each(function (Image $image) {
             $image->delete();
         });
 
@@ -375,7 +383,7 @@ class ImageIndexTest extends TestCase
         Image::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteImage->each(function ($image) {
+        $deleteImage->each(function (Image $image) {
             $image->delete();
         });
 
@@ -416,16 +424,16 @@ class ImageIndexTest extends TestCase
         ];
 
         Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $image = Image::factory()->count($this->faker->randomDigitNotNull)->create();
-            $image->each(function ($item) {
-                $item->delete();
+            $images = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+            $images->each(function (Image $image) {
+                $image->delete();
             });
         });
 
         Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $image = Image::factory()->count($this->faker->randomDigitNotNull)->create();
-            $image->each(function ($item) {
-                $item->delete();
+            $images = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+            $images->each(function (Image $image) {
+                $image->delete();
             });
         });
 
@@ -502,7 +510,7 @@ class ImageIndexTest extends TestCase
             ->create();
 
         $images = Image::with([
-            'anime' => function ($query) use ($seasonFilter) {
+            'anime' => function (BelongsToMany $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -551,7 +559,7 @@ class ImageIndexTest extends TestCase
             ->create();
 
         $images = Image::with([
-            'anime' => function ($query) use ($yearFilter) {
+            'anime' => function (BelongsToMany $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

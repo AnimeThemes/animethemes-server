@@ -1,27 +1,38 @@
 <?php
 
-namespace Tests\Unit\Nova\Filters;
+declare(strict_types=1);
+
+namespace Nova\Filters;
 
 use App\Models\Video;
 use App\Nova\Filters\VideoNcFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class VideoNcTest.
+ */
 class VideoNcTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Video Nc Filter shall be a select filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
     {
-        $this->novaFilter(VideoNcFilter::class)
+        static::novaFilter(VideoNcFilter::class)
             ->assertSelectFilter();
     }
 
@@ -29,10 +40,11 @@ class VideoNcTest extends TestCase
      * The Video Nc Filter shall have Yes and No options.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testOptions()
     {
-        $filter = $this->novaFilter(VideoNcFilter::class);
+        $filter = static::novaFilter(VideoNcFilter::class);
 
         $filter->assertHasOption(__('nova.no'));
         $filter->assertHasOption(__('nova.yes'));
@@ -42,6 +54,8 @@ class VideoNcTest extends TestCase
      * The Video Nc Filter shall filter Videos By Nc.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testFilter()
     {
@@ -51,7 +65,7 @@ class VideoNcTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filter = $this->novaFilter(VideoNcFilter::class);
+        $filter = static::novaFilter(VideoNcFilter::class);
 
         $response = $filter->apply(Video::class, $ncFilter);
 

@@ -1,22 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scout\Elastic;
 
 use App\JsonApi\QueryParser;
+use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
+/**
+ * Class ElasticQueryPayload.
+ */
 abstract class ElasticQueryPayload
 {
     /**
      * Filter set specified by the client.
      *
-     * @var \App\JsonApi\QueryParser
+     * @var QueryParser
      */
-    protected $parser;
+    protected QueryParser $parser;
 
     /**
      * Create a new query payload instance.
      *
-     * @param \App\JsonApi\QueryParser $parser
+     * @param QueryParser $parser
      */
     final public function __construct(QueryParser $parser)
     {
@@ -29,7 +35,7 @@ abstract class ElasticQueryPayload
      * @param mixed ...$parameters
      * @return static
      */
-    public static function make(...$parameters)
+    public static function make(...$parameters): static
     {
         return new static(...$parameters);
     }
@@ -37,7 +43,7 @@ abstract class ElasticQueryPayload
     /**
      * Build Elasticsearch query.
      *
-     * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
+     * @return SearchRequestBuilder
      */
-    abstract public function buildQuery();
+    abstract public function buildQuery(): SearchRequestBuilder;
 }

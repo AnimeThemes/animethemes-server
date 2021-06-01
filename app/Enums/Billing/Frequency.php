@@ -1,14 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums\Billing;
 
 use BenSampo\Enum\Enum;
 
+/**
+ * Class Frequency.
+ */
 final class Frequency extends Enum
 {
-    const ONCE = 0;
-    const ANNUALLY = 1;
-    const BIANNUALLY = 2;
-    const QUARTERLY = 3;
-    const MONTHLY = 4;
+    public const ONCE = 0;
+    public const ANNUALLY = 1;
+    public const BIANNUALLY = 2;
+    public const QUARTERLY = 3;
+    public const MONTHLY = 4;
 }

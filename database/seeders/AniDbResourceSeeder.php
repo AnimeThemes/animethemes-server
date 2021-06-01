@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Enums\ResourceSite;
@@ -8,10 +10,17 @@ use App\Models\ExternalResource;
 use App\Pivots\AnimeResource;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Class AniDbResourceSeeder.
+ */
 class AniDbResourceSeeder extends Seeder
 {
     /**
@@ -25,19 +34,19 @@ class AniDbResourceSeeder extends Seeder
         $animes = $this->getUnseededAnime();
 
         foreach ($animes as $anime) {
-            $malResource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::MAL));
-            if (! is_null(optional($malResource)->external_id)) {
+            $malResource = $anime->externalResources()->firstWhere('site', ResourceSite::MAL);
+            if ($malResource !== null && $malResource->external_id !== null) {
 
                 // Try not to upset Yuna
                 sleep(rand(5, 15));
 
                 // Yuna api call
                 try {
-                    $client = new Client;
+                    $client = new Client();
                     $response = $client->get('https://relations.yuna.moe/api/ids?source=myanimelist&id='.$malResource->external_id);
 
-                    $anidbResourceJson = json_decode($response->getBody()->getContents());
-                    $anidbId = $anidbResourceJson !== null && property_exists($anidbResourceJson, 'anidb') ? $anidbResourceJson->anidb : null;
+                    $anidbResourceJson = json_decode($response->getBody()->getContents(), true);
+                    $anidbId = Arr::get($anidbResourceJson, 'anidb');
 
                     // Only proceed if we have a match
                     if ($anidbId !== null) {
@@ -46,7 +55,7 @@ class AniDbResourceSeeder extends Seeder
                         $anidbResource = ExternalResource::where('site', ResourceSite::ANIDB)->where('external_id', $anidbId)->first();
 
                         // Create AniDB resource if it doesn't already exist
-                        if (is_null($anidbResource)) {
+                        if ($anidbResource === null) {
                             Log::info("Creating anidb resource '{$anidbId}' for anime '{$anime->name}'");
                             $anidbResource = ExternalResource::create([
                                 'site' => ResourceSite::ANIDB,
@@ -64,7 +73,7 @@ class AniDbResourceSeeder extends Seeder
                 } catch (ClientException $e) {
                     // We may not have a match for this MAL resource
                     Log::info($e->getMessage());
-                } catch (ServerException $e) {
+                } catch (ServerException | GuzzleException $e) {
                     // We may have upset Yuna, try again later
                     Log::info($e->getMessage());
 
@@ -77,14 +86,14 @@ class AniDbResourceSeeder extends Seeder
     /**
      * Get anime that have MAL resource but do not have AniDB resource.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
-    protected function getUnseededAnime()
+    protected function getUnseededAnime(): Collection
     {
         return Anime::query()
-            ->whereHas('externalResources', function ($resourceQuery) {
+            ->whereHas('externalResources', function (BelongsToMany $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::MAL);
-            })->whereDoesntHave('externalResources', function ($resourceQuery) {
+            })->whereDoesntHave('externalResources', function (BelongsToMany $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::ANIDB);
             })
             ->get();

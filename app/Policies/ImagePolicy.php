@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Anime;
@@ -10,6 +12,9 @@ use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Class ImagePolicy.
+ */
 class ImagePolicy
 {
     use HandlesAuthorization;
@@ -17,10 +22,9 @@ class ImagePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(): bool
     {
         return true;
     }
@@ -28,11 +32,9 @@ class ImagePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Image $image
-     * @return mixed
+     * @return bool
      */
-    public function view(User $user, Image $image)
+    public function view(): bool
     {
         return true;
     }
@@ -40,10 +42,10 @@ class ImagePolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasCurrentTeamPermission('image:create');
     }
@@ -51,11 +53,10 @@ class ImagePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Image $image
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function update(User $user, Image $image)
+    public function update(User $user): bool
     {
         return $user->hasCurrentTeamPermission('image:update');
     }
@@ -63,11 +64,10 @@ class ImagePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Image $image
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function delete(User $user, Image $image)
+    public function delete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('image:delete');
     }
@@ -75,11 +75,10 @@ class ImagePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Image $image
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function restore(User $user, Image $image)
+    public function restore(User $user): bool
     {
         return $user->hasCurrentTeamPermission('image:restore');
     }
@@ -87,11 +86,10 @@ class ImagePolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Image $image
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function forceDelete(User $user, Image $image)
+    public function forceDelete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('image:forceDelete');
     }
@@ -99,11 +97,10 @@ class ImagePolicy
     /**
      * Determine whether the user can attach any artist to the image.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Image $image
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnyArtist(User $user, Image $image)
+    public function attachAnyArtist(User $user): bool
     {
         return $user->hasCurrentTeamPermission('image:update');
     }
@@ -111,12 +108,12 @@ class ImagePolicy
     /**
      * Determine whether the user can attach an artist to the image.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Image $image
-     * @param \App\Models\Artist $artist
-     * @return mixed
+     * @param User $user
+     * @param Image $image
+     * @param Artist $artist
+     * @return bool
      */
-    public function attachArtist(User $user, Image $image, Artist $artist)
+    public function attachArtist(User $user, Image $image, Artist $artist): bool
     {
         if (ArtistImage::where($artist->getKeyName(), $artist->getKey())->where($image->getKeyName(), $image->getKey())->exists()) {
             return false;
@@ -128,12 +125,10 @@ class ImagePolicy
     /**
      * Determine whether the user can detach an artist from the image.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Image $image
-     * @param \App\Models\Artist $artist
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function detachArtist(User $user, Image $image, Artist $artist)
+    public function detachArtist(User $user): bool
     {
         return $user->hasCurrentTeamPermission('image:update');
     }
@@ -141,11 +136,10 @@ class ImagePolicy
     /**
      * Determine whether the user can attach any anime to the image.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Image $image
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnyAnime(User $user, Image $image)
+    public function attachAnyAnime(User $user): bool
     {
         return $user->hasCurrentTeamPermission('image:update');
     }
@@ -153,12 +147,12 @@ class ImagePolicy
     /**
      * Determine whether the user can attach an anime to the image.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Image $image
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @param User $user
+     * @param Image $image
+     * @param Anime $anime
+     * @return bool
      */
-    public function attachAnime(User $user, Image $image, Anime $anime)
+    public function attachAnime(User $user, Image $image, Anime $anime): bool
     {
         if (AnimeImage::where($anime->getKeyName(), $anime->getKey())->where($image->getKeyName(), $image->getKey())->exists()) {
             return false;
@@ -170,12 +164,10 @@ class ImagePolicy
     /**
      * Determine whether the user can detach an anime from the image.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Image $image
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function detachAnime(User $user, Image $image, Anime $anime)
+    public function detachAnime(User $user): bool
     {
         return $user->hasCurrentTeamPermission('image:update');
     }

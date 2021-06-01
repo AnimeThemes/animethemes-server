@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Enums\ThemeType;
 use App\Models\Theme;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * Class ThemeFactory.
+ */
 class ThemeFactory extends Factory
 {
     /**
@@ -20,7 +25,7 @@ class ThemeFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'group' => $this->faker->words(3, true),

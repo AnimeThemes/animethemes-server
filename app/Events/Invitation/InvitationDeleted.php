@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Invitation;
 
 use App\Contracts\Events\DiscordMessageEvent;
@@ -8,6 +10,9 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class InvitationDeleted.
+ */
 class InvitationDeleted extends InvitationEvent implements DiscordMessageEvent
 {
     use Dispatchable;
@@ -15,9 +20,9 @@ class InvitationDeleted extends InvitationEvent implements DiscordMessageEvent
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $invitation = $this->getInvitation();
 
@@ -32,7 +37,7 @@ class InvitationDeleted extends InvitationEvent implements DiscordMessageEvent
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.admin_discord_channel');
     }

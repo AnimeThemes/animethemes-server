@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Anime;
@@ -8,6 +10,9 @@ use App\Pivots\AnimeSeries;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Class SeriesSeeder.
+ */
 class SeriesSeeder extends Seeder
 {
     /**
@@ -54,7 +59,7 @@ class SeriesSeeder extends Seeder
             // Match headers of Anime in Series Entry page
             // Format: "###[{Anime Name}]({Resource Link})"
             preg_match_all('/###\[(.*)\]\(https\:\/\/.*\)/m', $seriesAnimeWikiContents, $seriesAnimeWikiEntries, PREG_PATTERN_ORDER);
-            $seriesAnimeNames = array_map(function ($seriesAnimeWikiEntry) {
+            $seriesAnimeNames = array_map(function (string $seriesAnimeWikiEntry) {
                 return html_entity_decode($seriesAnimeWikiEntry);
             }, $seriesAnimeWikiEntries[1]);
 

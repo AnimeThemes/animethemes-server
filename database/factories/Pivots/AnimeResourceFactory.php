@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories\Pivots;
 
+use App\Pivots\AnimeResource;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/**
+ * Class AnimeResourceFactory.
+ */
 class AnimeResourceFactory extends Factory
 {
     /**
@@ -12,14 +18,14 @@ class AnimeResourceFactory extends Factory
      *
      * @var string
      */
-    protected $model = \App\Pivots\AnimeResource::class;
+    protected $model = AnimeResource::class;
 
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'as' => Str::random(),

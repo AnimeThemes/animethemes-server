@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Nova\Resources;
+declare(strict_types=1);
+
+namespace Nova\Resources;
 
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;
@@ -10,21 +12,28 @@ use App\Nova\Filters\UpdatedEndDateFilter;
 use App\Nova\Filters\UpdatedStartDateFilter;
 use App\Nova\User;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
+/**
+ * Class UserTest.
+ */
 class UserTest extends TestCase
 {
-    use NovaResourceTest, WithoutEvents;
+    use NovaResourceTest;
+    use WithoutEvents;
 
     /**
      * The User Resource shall contain User Fields.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFields()
     {
-        $resource = $this->novaResource(User::class);
+        $resource = static::novaResource(User::class);
 
         $resource->assertHasField(__('nova.id'));
         $resource->assertHasField(__('nova.created_at'));
@@ -38,10 +47,12 @@ class UserTest extends TestCase
      * The User Resource shall contain an ID field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testIdField()
     {
-        $resource = $this->novaResource(User::class);
+        $resource = static::novaResource(User::class);
 
         $field = $resource->field(__('nova.id'));
 
@@ -57,10 +68,12 @@ class UserTest extends TestCase
      * The User Resource shall contain a Created At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testCreatedAtField()
     {
-        $resource = $this->novaResource(User::class);
+        $resource = static::novaResource(User::class);
 
         $field = $resource->field(__('nova.created_at'));
 
@@ -76,10 +89,12 @@ class UserTest extends TestCase
      * The User Resource shall contain an Updated At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testUpdatedAtField()
     {
-        $resource = $this->novaResource(User::class);
+        $resource = static::novaResource(User::class);
 
         $field = $resource->field(__('nova.updated_at'));
 
@@ -95,10 +110,12 @@ class UserTest extends TestCase
      * The User Resource shall contain a Deleted At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testDeletedAtField()
     {
-        $resource = $this->novaResource(User::class);
+        $resource = static::novaResource(User::class);
 
         $field = $resource->field(__('nova.deleted_at'));
 
@@ -114,10 +131,12 @@ class UserTest extends TestCase
      * The User Resource shall contain a Name field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testNameField()
     {
-        $resource = $this->novaResource(User::class);
+        $resource = static::novaResource(User::class);
 
         $field = $resource->field(__('nova.name'));
 
@@ -136,10 +155,12 @@ class UserTest extends TestCase
      * The User Resource shall contain a Email field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testEmailField()
     {
-        $resource = $this->novaResource(User::class);
+        $resource = static::novaResource(User::class);
 
         $field = $resource->field(__('nova.email'));
 
@@ -160,10 +181,11 @@ class UserTest extends TestCase
      * The User Resource shall contain User Filters.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFilters()
     {
-        $resource = $this->novaResource(User::class);
+        $resource = static::novaResource(User::class);
 
         $resource->assertHasFilter(CreatedStartDateFilter::class);
         $resource->assertHasFilter(CreatedEndDateFilter::class);
@@ -177,10 +199,11 @@ class UserTest extends TestCase
      * The User Resource shall contain User Actions.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testActions()
     {
-        $resource = $this->novaResource(User::class);
+        $resource = static::novaResource(User::class);
 
         $resource->assertHasNoActions();
     }

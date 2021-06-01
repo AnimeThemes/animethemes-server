@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Theme;
 
 use App\Contracts\Events\CascadesDeletesEvent;
 use App\Models\Entry;
 use App\Models\Video;
 
+/**
+ * Class ThemeDeleting.
+ */
 class ThemeDeleting extends ThemeEvent implements CascadesDeletesEvent
 {
     /**

@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Enums\ResourceSite;
 use App\Models\ExternalResource;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * Class ExternalResourceFactory.
+ */
 class ExternalResourceFactory extends Factory
 {
     /**
@@ -20,7 +25,7 @@ class ExternalResourceFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'site' => ResourceSite::getRandomValue(),

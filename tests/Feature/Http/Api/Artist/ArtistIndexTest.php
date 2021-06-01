@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Api\Artist;
+declare(strict_types=1);
+
+namespace Http\Api\Artist;
 
 use App\Enums\AnimeSeason;
 use App\Enums\Filter\TrashedStatus;
@@ -18,15 +20,22 @@ use App\Models\Song;
 use App\Models\Theme;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class ArtistIndexTest.
+ */
 class ArtistIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Artist Index Endpoint shall return a collection of Artist Resources.
@@ -160,7 +169,7 @@ class ArtistIndexTest extends TestCase
         $this->withoutEvents();
 
         $allowedSorts = collect(ArtistCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -309,7 +318,7 @@ class ArtistIndexTest extends TestCase
         Artist::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteArtist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteArtist->each(function ($artist) {
+        $deleteArtist->each(function (Artist $artist) {
             $artist->delete();
         });
 
@@ -350,7 +359,7 @@ class ArtistIndexTest extends TestCase
         Artist::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteArtist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteArtist->each(function ($artist) {
+        $deleteArtist->each(function (Artist $artist) {
             $artist->delete();
         });
 
@@ -391,7 +400,7 @@ class ArtistIndexTest extends TestCase
         Artist::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteArtist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteArtist->each(function ($artist) {
+        $deleteArtist->each(function (Artist $artist) {
             $artist->delete();
         });
 
@@ -434,16 +443,16 @@ class ArtistIndexTest extends TestCase
         ];
 
         Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $artist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
-            $artist->each(function ($item) {
-                $item->delete();
+            $artists = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+            $artists->each(function (Artist $artist) {
+                $artist->delete();
             });
         });
 
         Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $artist = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
-            $artist->each(function ($item) {
-                $item->delete();
+            $artists = Artist::factory()->count($this->faker->randomDigitNotNull)->create();
+            $artists->each(function (Artist $artist) {
+                $artist->delete();
             });
         });
 
@@ -498,7 +507,7 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'songs.themes' => function ($query) use ($groupFilter) {
+            'songs.themes' => function (HasMany $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -553,7 +562,7 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'songs.themes' => function ($query) use ($sequenceFilter) {
+            'songs.themes' => function (HasMany $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -603,7 +612,7 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'songs.themes' => function ($query) use ($typeFilter) {
+            'songs.themes' => function (HasMany $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
@@ -653,7 +662,7 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'songs.themes.anime' => function ($query) use ($seasonFilter) {
+            'songs.themes.anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -709,7 +718,7 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'songs.themes.anime' => function ($query) use ($yearFilter) {
+            'songs.themes.anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])
@@ -753,7 +762,7 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'externalResources' => function ($query) use ($siteFilter) {
+            'externalResources' => function (BelongsToMany $query) use ($siteFilter) {
                 $query->where('site', $siteFilter->value);
             },
         ])
@@ -797,7 +806,7 @@ class ArtistIndexTest extends TestCase
             ->create();
 
         $artists = Artist::with([
-            'images' => function ($query) use ($facetFilter) {
+            'images' => function (BelongsToMany $query) use ($facetFilter) {
                 $query->where('facet', $facetFilter->value);
             },
         ])

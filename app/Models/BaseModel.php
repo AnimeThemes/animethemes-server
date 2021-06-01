@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Contracts\Nameable;
@@ -9,9 +11,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * Class BaseModel.
+ */
 abstract class BaseModel extends Model implements Auditable, Nameable
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
     /**
@@ -26,9 +32,9 @@ abstract class BaseModel extends Model implements Auditable, Nameable
      *
      * @param mixed $value
      * @param string|null $field
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return Model|null
      */
-    public function resolveRouteBinding($value, $field = null)
+    public function resolveRouteBinding($value, $field = null): ?Model
     {
         return $this->where($field ?? $this->getRouteKeyName(), $value)
             ->withoutGlobalScope(SoftDeletingScope::class)
@@ -40,7 +46,7 @@ abstract class BaseModel extends Model implements Auditable, Nameable
      *
      * @return bool|null
      */
-    public function restore()
+    public function restore(): ?bool
     {
         // If the restoring event does not return false, we will proceed with this
         // restore operation. Otherwise, we bail out so the developer will stop

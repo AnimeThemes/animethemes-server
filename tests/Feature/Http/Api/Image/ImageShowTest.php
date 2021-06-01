@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Api\Image;
+declare(strict_types=1);
+
+namespace Http\Api\Image;
 
 use App\Enums\AnimeSeason;
 use App\Http\Resources\ImageResource;
@@ -8,14 +10,20 @@ use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Image;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class ImageShowTest.
+ */
 class ImageShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Image Show Endpoint shall return an Image Resource.
@@ -165,7 +173,7 @@ class ImageShowTest extends TestCase
             ->create();
 
         $image = Image::with([
-            'anime' => function ($query) use ($seasonFilter) {
+            'anime' => function (BelongsToMany $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -213,7 +221,7 @@ class ImageShowTest extends TestCase
             ->create();
 
         $image = Image::with([
-            'anime' => function ($query) use ($yearFilter) {
+            'anime' => function (BelongsToMany $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

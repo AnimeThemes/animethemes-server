@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova;
 
 use App\Enums\ImageFacet;
+use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
@@ -15,6 +18,9 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
+/**
+ * Class Image.
+ */
 class Image extends Resource
 {
     /**
@@ -22,7 +28,7 @@ class Image extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Image::class;
+    public static string $model = \App\Models\Image::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -36,7 +42,7 @@ class Image extends Resource
      *
      * @return array|string|null
      */
-    public static function group()
+    public static function group(): array | string | null
     {
         return __('nova.wiki');
     }
@@ -55,7 +61,7 @@ class Image extends Resource
      *
      * @return array|string|null
      */
-    public static function label()
+    public static function label(): array | string | null
     {
         return __('nova.images');
     }
@@ -65,7 +71,7 @@ class Image extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel()
+    public static function singularLabel(): array | string | null
     {
         return __('nova.image');
     }
@@ -73,10 +79,10 @@ class Image extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             ID::make(__('nova.id'), 'image_id')
@@ -90,14 +96,14 @@ class Image extends Resource
 
             Select::make(__('nova.facet'), 'facet')
                 ->options(ImageFacet::asSelectArray())
-                ->displayUsing(function ($enum) {
+                ->displayUsing(function (?Enum $enum) {
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
                 ->rules('required', (new EnumValue(ImageFacet::class, false))->__toString())
                 ->help(__('nova.image_facet_help')),
 
-            NovaImage::make(__('nova.image'), 'path', 'images', new StoreImage)
+            NovaImage::make(__('nova.image'), 'path', 'images', new StoreImage())
                 ->creationRules('required'),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
@@ -135,7 +141,7 @@ class Image extends Resource
     /**
      * @return array
      */
-    protected function fileProperties()
+    protected function fileProperties(): array
     {
         return [
             Text::make(__('nova.path'), 'path')
@@ -158,7 +164,7 @@ class Image extends Resource
     /**
      * @return array
      */
-    protected function timestamps()
+    protected function timestamps(): array
     {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
@@ -181,10 +187,10 @@ class Image extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function cards(Request $request)
+    public function cards(Request $request): array
     {
         return [];
     }
@@ -192,42 +198,42 @@ class Image extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function filters(Request $request)
+    public function filters(Request $request): array
     {
         return [
-            new Filters\ImageFacetFilter,
-            new Filters\CreatedStartDateFilter,
-            new Filters\CreatedEndDateFilter,
-            new Filters\UpdatedStartDateFilter,
-            new Filters\UpdatedEndDateFilter,
-            new Filters\DeletedStartDateFilter,
-            new Filters\DeletedEndDateFilter,
+            new Filters\ImageFacetFilter(),
+            new Filters\CreatedStartDateFilter(),
+            new Filters\CreatedEndDateFilter(),
+            new Filters\UpdatedStartDateFilter(),
+            new Filters\UpdatedEndDateFilter(),
+            new Filters\DeletedStartDateFilter(),
+            new Filters\DeletedEndDateFilter(),
         ];
     }
 
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function lenses(Request $request)
+    public function lenses(Request $request): array
     {
         return [
-            new Lenses\ImageUnlinkedLens,
+            new Lenses\ImageUnlinkedLens(),
         ];
     }
 
     /**
      * Get the actions available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function actions(Request $request)
+    public function actions(Request $request): array
     {
         return [];
     }

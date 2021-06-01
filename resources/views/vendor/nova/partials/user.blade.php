@@ -3,6 +3,7 @@
         <img
             src="https://secure.gravatar.com/avatar/{{ md5(\Illuminate\Support\Str::lower($user->email)) }}?size=512"
             class="rounded-full w-8 h-8 mr-3"
+            alt="{{ __('Avatar') }}"
         />
     @endisset
 

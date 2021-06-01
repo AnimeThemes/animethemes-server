@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Pivots;
+declare(strict_types=1);
+
+namespace Pivots;
 
 use App\Models\Artist;
 use App\Models\Image;
@@ -10,9 +12,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class ArtistImageTest.
+ */
 class ArtistImageTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
      * An ArtistImage shall belong to an Artist.
@@ -26,8 +32,8 @@ class ArtistImageTest extends TestCase
             ->for(Image::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artistImage->artist());
-        $this->assertInstanceOf(Artist::class, $artistImage->artist()->first());
+        static::assertInstanceOf(BelongsTo::class, $artistImage->artist());
+        static::assertInstanceOf(Artist::class, $artistImage->artist()->first());
     }
 
     /**
@@ -42,7 +48,7 @@ class ArtistImageTest extends TestCase
             ->for(Image::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artistImage->image());
-        $this->assertInstanceOf(Image::class, $artistImage->image()->first());
+        static::assertInstanceOf(BelongsTo::class, $artistImage->image());
+        static::assertInstanceOf(Image::class, $artistImage->image()->first());
     }
 }

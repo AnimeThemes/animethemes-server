@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Jobs\Billing;
+declare(strict_types=1);
+
+namespace Jobs\Billing;
 
 use App\Jobs\SendDiscordNotification;
 use App\Models\Billing\Balance;
@@ -9,6 +11,9 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class BalanceTest.
+ */
 class BalanceTest extends TestCase
 {
     use RefreshDatabase;

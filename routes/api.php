@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Api\AnimeController;
 use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\ArtistController;

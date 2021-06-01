@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Enums\VideoOverlap;
@@ -9,6 +11,9 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+/**
+ * Class VideoTagsSeeder.
+ */
 class VideoTagsSeeder extends Seeder
 {
     /**

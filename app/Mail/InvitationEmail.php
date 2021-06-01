@@ -1,27 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
+use App\Models\Invitation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Class InvitationEmail.
+ */
 class InvitationEmail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
-     * @var \App\Models\Invitation
+     * The invitation that grants access.
+     *
+     * @var Invitation
      */
-    protected $invitation;
+    protected Invitation $invitation;
 
     /**
      * Create a new message instance.
      *
-     * @param \App\Models\Invitation $invitation
+     * @param Invitation $invitation
      * @return void
      */
-    public function __construct($invitation)
+    public function __construct(Invitation $invitation)
     {
         $this->invitation = $invitation;
     }
@@ -31,7 +40,7 @@ class InvitationEmail extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(): static
     {
         return $this->subject(__('nova.invitation_subject'))
             ->markdown('email.invitation')

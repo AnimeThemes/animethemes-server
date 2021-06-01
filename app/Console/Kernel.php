@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console;
 
 use App\Console\Commands\Billing\BalanceReconcileCommand;
@@ -12,6 +14,9 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Laravel\Horizon\Console\SnapshotCommand;
 use Laravel\Telescope\Console\PruneCommand;
 
+/**
+ * Class Kernel.
+ */
 class Kernel extends ConsoleKernel
 {
     /**
@@ -20,16 +25,16 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\Billing\BalanceReconcileCommand::class,
-        \App\Console\Commands\Billing\TransactionReconcileCommand::class,
-        \App\Console\Commands\DatabaseDumpCommand::class,
-        \App\Console\Commands\VideoReconcileCommand::class,
+        BalanceReconcileCommand::class,
+        TransactionReconcileCommand::class,
+        DatabaseDumpCommand::class,
+        VideoReconcileCommand::class,
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param \Illuminate\Console\Scheduling\Schedule $schedule
+     * @param Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)

@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Api\Song;
+declare(strict_types=1);
+
+namespace Http\Api\Song;
 
 use App\Enums\AnimeSeason;
 use App\Enums\Filter\TrashedStatus;
@@ -14,15 +16,21 @@ use App\Models\Song;
 use App\Models\Theme;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class SongIndexTest.
+ */
 class SongIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Song Index Endpoint shall return a collection of Song Resources.
@@ -155,7 +163,7 @@ class SongIndexTest extends TestCase
     public function testSorts()
     {
         $allowedSorts = collect(SongCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -304,7 +312,7 @@ class SongIndexTest extends TestCase
         Song::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteSong = Song::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteSong->each(function ($song) {
+        $deleteSong->each(function (Song $song) {
             $song->delete();
         });
 
@@ -345,7 +353,7 @@ class SongIndexTest extends TestCase
         Song::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteSong = Song::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteSong->each(function ($song) {
+        $deleteSong->each(function (Song $song) {
             $song->delete();
         });
 
@@ -386,7 +394,7 @@ class SongIndexTest extends TestCase
         Song::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteSong = Song::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteSong->each(function ($song) {
+        $deleteSong->each(function (Song $song) {
             $song->delete();
         });
 
@@ -429,27 +437,27 @@ class SongIndexTest extends TestCase
         ];
 
         Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $song = Song::factory()->count($this->faker->randomDigitNotNull)->create();
-            $song->each(function ($item) {
-                $item->delete();
+            $songs = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+            $songs->each(function (Song $song) {
+                $song->delete();
             });
         });
 
         Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $song = Song::factory()->count($this->faker->randomDigitNotNull)->create();
-            $song->each(function ($item) {
-                $item->delete();
+            $songs = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+            $songs->each(function (Song $song) {
+                $song->delete();
             });
         });
 
-        $song = Song::withTrashed()->where('deleted_at', $deletedFilter)->get();
+        $songs = Song::withTrashed()->where('deleted_at', $deletedFilter)->get();
 
         $response = $this->get(route('api.song.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($song, QueryParser::make($parameters))
+                    SongCollection::make($songs, QueryParser::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -489,7 +497,7 @@ class SongIndexTest extends TestCase
             ->create();
 
         $songs = Song::with([
-            'themes' => function ($query) use ($groupFilter) {
+            'themes' => function (HasMany $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -540,7 +548,7 @@ class SongIndexTest extends TestCase
             ->create();
 
         $songs = Song::with([
-            'themes' => function ($query) use ($sequenceFilter) {
+            'themes' => function (HasMany $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -582,7 +590,7 @@ class SongIndexTest extends TestCase
             ->create();
 
         $songs = Song::with([
-            'themes' => function ($query) use ($typeFilter) {
+            'themes' => function (HasMany $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
@@ -624,7 +632,7 @@ class SongIndexTest extends TestCase
             ->create();
 
         $songs = Song::with([
-            'themes.anime' => function ($query) use ($seasonFilter) {
+            'themes.anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -676,7 +684,7 @@ class SongIndexTest extends TestCase
             ->create();
 
         $songs = Song::with([
-            'themes.anime' => function ($query) use ($yearFilter) {
+            'themes.anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

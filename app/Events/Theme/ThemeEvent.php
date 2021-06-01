@@ -1,29 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Theme;
 
+use App\Models\Anime;
 use App\Models\Theme;
 
+/**
+ * Class ThemeEvent.
+ */
 abstract class ThemeEvent
 {
     /**
      * The theme that has fired this event.
      *
-     * @var \App\Models\Theme
+     * @var Theme
      */
-    protected $theme;
+    protected Theme $theme;
 
     /**
      * The anime that the theme belongs to.
      *
-     * @var \App\Models\Anime
+     * @var Anime
      */
-    protected $anime;
+    protected Anime $anime;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Theme $theme
+     * @param Theme $theme
      * @return void
      */
     public function __construct(Theme $theme)
@@ -35,9 +41,9 @@ abstract class ThemeEvent
     /**
      * Get the theme that has fired this event.
      *
-     * @return \App\Models\Theme
+     * @return Theme
      */
-    public function getTheme()
+    public function getTheme(): Theme
     {
         return $this->theme;
     }
@@ -45,9 +51,9 @@ abstract class ThemeEvent
     /**
      * Get the anime that the theme belongs to.
      *
-     * @return \App\Models\Anime
+     * @return Anime
      */
-    public function getAnime()
+    public function getAnime(): Anime
     {
         return $this->anime;
     }

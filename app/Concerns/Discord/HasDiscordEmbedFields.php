@@ -1,9 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Concerns\Discord;
 
 use App\Discord\DiscordEmbedField;
 
+/**
+ * Trait HasDiscordEmbedFields.
+ */
 trait HasDiscordEmbedFields
 {
     /**
@@ -11,12 +16,12 @@ trait HasDiscordEmbedFields
      *
      * @var array
      */
-    protected $embedFields = [];
+    protected array $embedFields = [];
 
     /**
      * Add discord embed field.
      *
-     * @param \App\Discord\DiscordEmbedField $embedField
+     * @param DiscordEmbedField $embedField
      * @return void
      */
     protected function addEmbedField(DiscordEmbedField $embedField)
@@ -29,7 +34,7 @@ trait HasDiscordEmbedFields
      *
      * @return array
      */
-    protected function getEmbedFields()
+    protected function getEmbedFields(): array
     {
         return $this->embedFields;
     }

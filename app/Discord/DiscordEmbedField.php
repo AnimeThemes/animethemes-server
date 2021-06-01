@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Discord;
 
 use BenSampo\Enum\Enum;
@@ -7,30 +9,33 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 use JsonSerializable;
 
+/**
+ * Class DiscordEmbedField.
+ */
 class DiscordEmbedField implements Arrayable, JsonSerializable
 {
-    const DEFAULT_FIELD_VALUE = '-';
+    public const DEFAULT_FIELD_VALUE = '-';
 
     /**
      * The name of the field.
      *
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * The value of the field.
      *
      * @var string
      */
-    protected $value;
+    protected string $value;
 
     /**
      * Whether or not this field should display inline.
      *
      * @var bool
      */
-    protected $inline;
+    protected bool $inline;
 
     /**
      * Create a new field instance.
@@ -39,7 +44,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      * @param mixed $value
      * @param bool $inline
      */
-    final public function __construct(string $name, $value, bool $inline = false)
+    final public function __construct(string $name, mixed $value, bool $inline = false)
     {
         $this->name = $name;
         $this->value = $this->formatEmbedFieldValue($value);
@@ -52,7 +57,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      * @param mixed ...$parameters
      * @return static
      */
-    public static function make(...$parameters)
+    public static function make(...$parameters): static
     {
         return new static(...$parameters);
     }
@@ -62,7 +67,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'name' => $this->name,
@@ -76,7 +81,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
@@ -87,7 +92,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      * @param mixed $value
      * @return string
      */
-    protected function formatEmbedFieldValue($value)
+    protected function formatEmbedFieldValue(mixed $value): string
     {
         // Use description for enums
         if ($value instanceof Enum) {

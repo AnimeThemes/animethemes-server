@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Api\Billing\Transaction;
+declare(strict_types=1);
+
+namespace Http\Api\Billing\Transaction;
 
 use App\Enums\Filter\TrashedStatus;
 use App\Http\Resources\Billing\TransactionCollection;
@@ -15,9 +17,14 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class TransactionIndexTest.
+ */
 class TransactionIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Transaction Index Endpoint shall return a collection of Transaction Resources.
@@ -142,7 +149,7 @@ class TransactionIndexTest extends TestCase
     public function testSorts()
     {
         $allowedSorts = collect(TransactionCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -285,7 +292,7 @@ class TransactionIndexTest extends TestCase
         Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteTransaction->each(function ($transaction) {
+        $deleteTransaction->each(function (Transaction $transaction) {
             $transaction->delete();
         });
 
@@ -324,7 +331,7 @@ class TransactionIndexTest extends TestCase
         Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteTransaction->each(function ($transaction) {
+        $deleteTransaction->each(function (Transaction $transaction) {
             $transaction->delete();
         });
 
@@ -363,7 +370,7 @@ class TransactionIndexTest extends TestCase
         Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteTransaction->each(function ($transaction) {
+        $deleteTransaction->each(function (Transaction $transaction) {
             $transaction->delete();
         });
 
@@ -404,16 +411,16 @@ class TransactionIndexTest extends TestCase
         ];
 
         Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $transaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
-            $transaction->each(function ($item) {
-                $item->delete();
+            $transactions = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+            $transactions->each(function (Transaction $transaction) {
+                $transaction->delete();
             });
         });
 
         Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $transaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
-            $transaction->each(function ($item) {
-                $item->delete();
+            $transactions = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+            $transactions->each(function (Transaction $transaction) {
+                $transaction->delete();
             });
         });
 

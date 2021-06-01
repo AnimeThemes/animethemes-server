@@ -1,20 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova\Metrics;
 
 use App\Models\Video;
+use DateInterval;
+use DateTimeInterface;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
+use Laravel\Nova\Metrics\TrendResult;
 
+/**
+ * Class VideosPerDay.
+ */
 class VideosPerDay extends Trend
 {
     /**
      * Calculate the value of the metric.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-     * @return mixed
+     * @param NovaRequest $request
+     * @return TrendResult
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): TrendResult
     {
         return $this->countByDays($request, Video::class);
     }
@@ -24,7 +32,7 @@ class VideosPerDay extends Trend
      *
      * @return array
      */
-    public function ranges()
+    public function ranges(): array
     {
         return [
             30 => '30 Days',
@@ -36,9 +44,9 @@ class VideosPerDay extends Trend
     /**
      * Determine for how many minutes the metric should be cached.
      *
-     * @return  \DateTimeInterface|\DateInterval|float|int
+     * @return  DateTimeInterface|DateInterval|float|int
      */
-    public function cacheFor()
+    public function cacheFor(): DateInterval | float | DateTimeInterface | int
     {
         return now()->addMinutes(5);
     }
@@ -48,7 +56,7 @@ class VideosPerDay extends Trend
      *
      * @return string
      */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'videos-per-day';
     }

@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Nova\Filters;
+declare(strict_types=1);
+
+namespace Nova\Filters;
 
 use App\Enums\Filter\ComparisonOperator;
 use App\Models\Anime;
@@ -10,21 +12,30 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class CreatedStartDateTest.
+ */
 class CreatedStartDateTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Created Start Date Filter shall be a date filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testDateFilter()
     {
-        $this->novaFilter(CreatedStartDateFilter::class)
+        static::novaFilter(CreatedStartDateFilter::class)
             ->assertDateFilter();
     }
 
@@ -32,6 +43,8 @@ class CreatedStartDateTest extends TestCase
      * The Created Start Date Filter shall filter Models By Create Date.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testFilter()
     {
@@ -43,7 +56,7 @@ class CreatedStartDateTest extends TestCase
 
         Anime::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $filter = $this->novaFilter(CreatedStartDateFilter::class);
+        $filter = static::novaFilter(CreatedStartDateFilter::class);
 
         $response = $filter->apply(Anime::class, $dateFilter);
 

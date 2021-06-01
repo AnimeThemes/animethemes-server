@@ -1,22 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Entry;
 
 use App\Models\Entry;
 
+/**
+ * Class EntryEvent.
+ */
 abstract class EntryEvent
 {
     /**
      * The entry that has fired this event.
      *
-     * @var \App\Models\Entry
+     * @var Entry
      */
-    protected $entry;
+    protected Entry $entry;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Entry $entry
+     * @param Entry $entry
      * @return void
      */
     public function __construct(Entry $entry)
@@ -27,9 +32,9 @@ abstract class EntryEvent
     /**
      * Get the entry that has fired this event.
      *
-     * @return \App\Models\Entry
+     * @return Entry
      */
-    public function getEntry()
+    public function getEntry(): Entry
     {
         return $this->entry;
     }

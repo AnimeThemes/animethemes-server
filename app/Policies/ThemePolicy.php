@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
-use App\Models\Theme;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Class ThemePolicy.
+ */
 class ThemePolicy
 {
     use HandlesAuthorization;
@@ -13,10 +17,9 @@ class ThemePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(): bool
     {
         return true;
     }
@@ -24,11 +27,9 @@ class ThemePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Theme $theme
-     * @return mixed
+     * @return bool
      */
-    public function view(User $user, Theme $theme)
+    public function view(): bool
     {
         return true;
     }
@@ -36,10 +37,10 @@ class ThemePolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasCurrentTeamPermission('theme:create');
     }
@@ -47,11 +48,10 @@ class ThemePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Theme $theme
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function update(User $user, Theme $theme)
+    public function update(User $user): bool
     {
         return $user->hasCurrentTeamPermission('theme:update');
     }
@@ -59,11 +59,10 @@ class ThemePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Theme $theme
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function delete(User $user, Theme $theme)
+    public function delete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('theme:delete');
     }
@@ -71,11 +70,10 @@ class ThemePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Theme $theme
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function restore(User $user, Theme $theme)
+    public function restore(User $user): bool
     {
         return $user->hasCurrentTeamPermission('theme:restore');
     }
@@ -83,11 +81,10 @@ class ThemePolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Theme $theme
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function forceDelete(User $user, Theme $theme)
+    public function forceDelete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('theme:forceDelete');
     }

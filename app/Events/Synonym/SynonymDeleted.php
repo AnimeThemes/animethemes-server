@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Synonym;
 
 use App\Contracts\Events\DiscordMessageEvent;
@@ -12,6 +14,9 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class SynonymDeleted.
+ */
 class SynonymDeleted extends SynonymEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {
     use Dispatchable;
@@ -19,9 +24,9 @@ class SynonymDeleted extends SynonymEvent implements DiscordMessageEvent, Update
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $synonym = $this->getSynonym();
         $anime = $this->getAnime();
@@ -37,7 +42,7 @@ class SynonymDeleted extends SynonymEvent implements DiscordMessageEvent, Update
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

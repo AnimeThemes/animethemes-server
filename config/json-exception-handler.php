@@ -1,5 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
+use SMartins\Exceptions\Handlers\Handler;
+use SMartins\Exceptions\JsonApi\Response;
+
 return [
 
     /*
@@ -57,7 +62,7 @@ return [
     |
     | Any class the extends of \SMartins\Exceptions\Response\AbstractResponse.
     */
-    'response_handler' => \SMartins\Exceptions\JsonApi\Response::class,
+    'response_handler' => Response::class,
 
     /*
     |---------------------------------------------------------------------------
@@ -66,5 +71,5 @@ return [
     |
     | The class that will handler the exceptions.
     */
-    'exception_handler' => \SMartins\Exceptions\Handlers\Handler::class,
+    'exception_handler' => Handler::class,
 ];

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Image;
 
 use App\Contracts\Events\DiscordMessageEvent;
@@ -8,6 +10,9 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class ImageDeleted.
+ */
 class ImageDeleted extends ImageEvent implements DiscordMessageEvent
 {
     use Dispatchable;
@@ -15,9 +20,9 @@ class ImageDeleted extends ImageEvent implements DiscordMessageEvent
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $image = $this->getImage();
 
@@ -32,7 +37,7 @@ class ImageDeleted extends ImageEvent implements DiscordMessageEvent
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

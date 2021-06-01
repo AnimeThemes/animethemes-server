@@ -1,20 +1,28 @@
 <?php
 
-namespace Tests\Feature\Http\Api\Synonym;
+declare(strict_types=1);
+
+namespace Http\Api\Synonym;
 
 use App\Enums\AnimeSeason;
 use App\Http\Resources\SynonymResource;
 use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Synonym;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class SynonymShowTest.
+ */
 class SynonymShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Synonym Show Endpoint shall return a Synonym Resource.
@@ -160,7 +168,7 @@ class SynonymShowTest extends TestCase
         Synonym::factory()->for(Anime::factory())->create();
 
         $synonym = Synonym::with([
-            'anime' => function ($query) use ($seasonFilter) {
+            'anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -207,7 +215,7 @@ class SynonymShowTest extends TestCase
             ->create();
 
         $synonym = Synonym::with([
-            'anime' => function ($query) use ($yearFilter) {
+            'anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

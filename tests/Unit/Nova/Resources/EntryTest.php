@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Nova\Resources;
+declare(strict_types=1);
+
+namespace Nova\Resources;
 
 use App\Nova\Entry;
 use App\Nova\Filters\CreatedEndDateFilter;
@@ -11,9 +13,14 @@ use App\Nova\Filters\EntryNsfwFilter;
 use App\Nova\Filters\EntrySpoilerFilter;
 use App\Nova\Filters\UpdatedEndDateFilter;
 use App\Nova\Filters\UpdatedStartDateFilter;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
+/**
+ * Class EntryTest.
+ */
 class EntryTest extends TestCase
 {
     use NovaResourceTest;
@@ -22,10 +29,11 @@ class EntryTest extends TestCase
      * The Entry Resource shall contain Entry Fields.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFields()
     {
-        $resource = $this->novaResource(Entry::class);
+        $resource = static::novaResource(Entry::class);
 
         $resource->assertHasField(__('nova.id'));
         $resource->assertHasField(__('nova.created_at'));
@@ -42,10 +50,12 @@ class EntryTest extends TestCase
      * The Entry Resource shall contain an ID field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testIdField()
     {
-        $resource = $this->novaResource(Entry::class);
+        $resource = static::novaResource(Entry::class);
 
         $field = $resource->field(__('nova.id'));
 
@@ -61,10 +71,12 @@ class EntryTest extends TestCase
      * The Entry Resource shall contain a Created At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testCreatedAtField()
     {
-        $resource = $this->novaResource(Entry::class);
+        $resource = static::novaResource(Entry::class);
 
         $field = $resource->field(__('nova.created_at'));
 
@@ -80,10 +92,12 @@ class EntryTest extends TestCase
      * The Entry Resource shall contain an Updated At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testUpdatedAtField()
     {
-        $resource = $this->novaResource(Entry::class);
+        $resource = static::novaResource(Entry::class);
 
         $field = $resource->field(__('nova.updated_at'));
 
@@ -99,10 +113,12 @@ class EntryTest extends TestCase
      * The Entry Resource shall contain a Deleted At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testDeletedAtField()
     {
-        $resource = $this->novaResource(Entry::class);
+        $resource = static::novaResource(Entry::class);
 
         $field = $resource->field(__('nova.deleted_at'));
 
@@ -118,10 +134,12 @@ class EntryTest extends TestCase
      * The Entry Resource shall contain a Version field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testVersionField()
     {
-        $resource = $this->novaResource(Entry::class);
+        $resource = static::novaResource(Entry::class);
 
         $field = $resource->field(__('nova.version'));
 
@@ -139,10 +157,12 @@ class EntryTest extends TestCase
      * The Entry Resource shall contain a Episodes field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testEpisodesField()
     {
-        $resource = $this->novaResource(Entry::class);
+        $resource = static::novaResource(Entry::class);
 
         $field = $resource->field(__('nova.episodes'));
 
@@ -160,10 +180,12 @@ class EntryTest extends TestCase
      * The Entry Resource shall contain a NSFW field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testNsfwField()
     {
-        $resource = $this->novaResource(Entry::class);
+        $resource = static::novaResource(Entry::class);
 
         $field = $resource->field(__('nova.nsfw'));
 
@@ -181,10 +203,12 @@ class EntryTest extends TestCase
      * The Entry Resource shall contain a Spoiler field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testSpoilerField()
     {
-        $resource = $this->novaResource(Entry::class);
+        $resource = static::novaResource(Entry::class);
 
         $field = $resource->field(__('nova.spoiler'));
 
@@ -202,10 +226,12 @@ class EntryTest extends TestCase
      * The Entry Resource shall contain a Notes field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testNotesField()
     {
-        $resource = $this->novaResource(Entry::class);
+        $resource = static::novaResource(Entry::class);
 
         $field = $resource->field(__('nova.notes'));
 
@@ -223,10 +249,11 @@ class EntryTest extends TestCase
      * The Entry Resource shall contain Entry Filters.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFilters()
     {
-        $resource = $this->novaResource(Entry::class);
+        $resource = static::novaResource(Entry::class);
 
         $resource->assertHasFilter(EntryNsfwFilter::class);
         $resource->assertHasFilter(EntrySpoilerFilter::class);
@@ -242,10 +269,11 @@ class EntryTest extends TestCase
      * The Entry Resource shall contain no Actions.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testActions()
     {
-        $resource = $this->novaResource(Entry::class);
+        $resource = static::novaResource(Entry::class);
 
         $resource->assertHasNoActions();
     }

@@ -1,12 +1,17 @@
 <?php
 
-namespace Tests\Unit\JsonApi\Filter;
+declare(strict_types=1);
+
+namespace JsonApi\Filter;
 
 use App\JsonApi\Filter\Filter;
 use App\JsonApi\QueryParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class FilterTest.
+ */
 class FilterTest extends TestCase
 {
     use WithFaker;
@@ -22,14 +27,14 @@ class FilterTest extends TestCase
 
         $parameters = [];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends Filter
         {
             // We don't need to do any customization
         };
 
-        $this->assertEquals($filterField, $filter->getKey());
+        static::assertEquals($filterField, $filter->getKey());
     }
 
     /**
@@ -49,7 +54,7 @@ class FilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends Filter
         {
@@ -58,7 +63,7 @@ class FilterTest extends TestCase
 
         $conditions = collect($filter->getConditions());
 
-        $this->assertEmpty(array_diff($filterValues, $filter->getFilterValues($conditions->first())));
+        static::assertEmpty(array_diff($filterValues, $filter->getFilterValues($conditions->first())));
     }
 
     /**
@@ -76,14 +81,14 @@ class FilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends Filter
         {
             // We don't need to do any customization
         };
 
-        $this->assertTrue($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        static::assertTrue($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -104,14 +109,14 @@ class FilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends Filter
         {
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->scope($this->faker->word())->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        static::assertFalse($filter->scope($this->faker->word())->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -132,14 +137,14 @@ class FilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends Filter
         {
             // We don't need to do any customization
         };
 
-        $this->assertTrue($filter->scope($scope)->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        static::assertTrue($filter->scope($scope)->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -153,14 +158,14 @@ class FilterTest extends TestCase
 
         $parameters = [];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends Filter
         {
             // We don't need to do any customization
         };
 
-        $this->assertEmpty($filter->getScope());
+        static::assertEmpty($filter->getScope());
     }
 
     /**
@@ -175,15 +180,15 @@ class FilterTest extends TestCase
 
         $parameters = [];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends Filter
         {
             // We don't need to do any customization
         };
 
-        $scopedFilter = $filter->scope($scope);
+        $filter->scope($scope);
 
-        $this->assertEquals($scope, $filter->getScope());
+        static::assertEquals($scope, $filter->getScope());
     }
 }

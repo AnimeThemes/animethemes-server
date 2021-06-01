@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -77,9 +79,9 @@ abstract class BaseController extends Controller
     /**
      * Resolves include paths and field sets.
      *
-     * @var \App\JsonApi\QueryParser
+     * @var QueryParser
      */
-    protected $parser;
+    protected QueryParser $parser;
 
     /**
      * Create a new controller instance.
@@ -88,6 +90,6 @@ abstract class BaseController extends Controller
      */
     public function __construct()
     {
-        $this->parser = new QueryParser(request()->all());
+        $this->parser = QueryParser::make(request()->all());
     }
 }

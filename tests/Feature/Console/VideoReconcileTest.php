@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Console;
+declare(strict_types=1);
+
+namespace Console;
 
 use App\Console\Commands\VideoReconcileCommand;
 use App\Models\Video;
@@ -13,9 +15,14 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
+/**
+ * Class VideoReconcileTest.
+ */
 class VideoReconcileTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * If no changes are needed, the Reconcile Video Command shall output 'No Videos created or deleted or updated'.
@@ -55,7 +62,7 @@ class VideoReconcileTest extends TestCase
         $fs = Storage::fake('videos');
 
         $file = File::fake()->image($this->faker->word());
-        $fs->put('', $file);
+        $fs->putFile('', $file);
 
         $this->artisan(VideoReconcileCommand::class)->expectsOutput('No Videos created or deleted or updated');
     }
@@ -73,7 +80,7 @@ class VideoReconcileTest extends TestCase
         Collection::times($createdVideoCount)->each(function () use ($fs) {
             $fileName = $this->faker->word();
             $file = File::fake()->create($fileName.'.webm');
-            $fs->put('', $file);
+            $fs->putFile('', $file);
         });
 
         $this->artisan(VideoReconcileCommand::class)->expectsOutput("{$createdVideoCount} Videos created, 0 Videos deleted, 0 Videos updated");
@@ -108,7 +115,7 @@ class VideoReconcileTest extends TestCase
         Collection::times($updatedVideoCount)->each(function () use ($fs) {
             $fileName = $this->faker->word();
             $file = File::fake()->create($fileName.'.webm');
-            $fsFile = $fs->put('', $file);
+            $fsFile = $fs->putFile('', $file);
             $fsPathinfo = pathinfo(strval($fsFile));
 
             Video::create([

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
@@ -7,7 +9,11 @@ use App\JsonApi\Filter\Base\CreatedAtFilter;
 use App\JsonApi\Filter\Base\DeletedAtFilter;
 use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
+use Illuminate\Http\Request;
 
+/**
+ * Class AnnouncementCollection.
+ */
 class AnnouncementCollection extends BaseCollection
 {
     use PerformsResourceCollectionQuery;
@@ -22,10 +28,10 @@ class AnnouncementCollection extends BaseCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return $this->collection->map(function (AnnouncementResource $resource) {
             return $resource->parser($this->parser);
@@ -37,7 +43,7 @@ class AnnouncementCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedSortFields()
+    public static function allowedSortFields(): array
     {
         return [
             'announcement_id',
@@ -52,7 +58,7 @@ class AnnouncementCollection extends BaseCollection
      *
      * @return array
      */
-    public static function filters()
+    public static function filters(): array
     {
         return [
             CreatedAtFilter::class,

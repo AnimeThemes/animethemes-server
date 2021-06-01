@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova;
 
 use App\Enums\Billing\Frequency;
 use App\Enums\Billing\Service;
+use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
@@ -13,6 +16,9 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Panel;
 
+/**
+ * Class Balance.
+ */
 class Balance extends Resource
 {
     /**
@@ -20,7 +26,7 @@ class Balance extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Billing\Balance::class;
+    public static string $model = \App\Models\Billing\Balance::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -34,7 +40,7 @@ class Balance extends Resource
      *
      * @return array|string|null
      */
-    public static function group()
+    public static function group(): array | string | null
     {
         return __('nova.billing');
     }
@@ -44,7 +50,7 @@ class Balance extends Resource
      *
      * @return array|string|null
      */
-    public static function label()
+    public static function label(): array | string | null
     {
         return __('nova.balances');
     }
@@ -54,7 +60,7 @@ class Balance extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel()
+    public static function singularLabel(): array | string | null
     {
         return __('nova.balance');
     }
@@ -71,10 +77,10 @@ class Balance extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             ID::make(__('nova.id'), 'balance_id')
@@ -91,7 +97,7 @@ class Balance extends Resource
 
             Select::make(__('nova.service'), 'service')
                 ->options(Service::asSelectArray())
-                ->displayUsing(function ($enum) {
+                ->displayUsing(function (?Enum $enum) {
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
@@ -100,7 +106,7 @@ class Balance extends Resource
 
             Select::make(__('nova.frequency'), 'frequency')
                 ->options(Frequency::asSelectArray())
-                ->displayUsing(function ($enum) {
+                ->displayUsing(function (?Enum $enum) {
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
@@ -122,7 +128,7 @@ class Balance extends Resource
     /**
      * @return array
      */
-    protected function timestamps()
+    protected function timestamps(): array
     {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
@@ -145,10 +151,10 @@ class Balance extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function cards(Request $request)
+    public function cards(Request $request): array
     {
         return [];
     }
@@ -156,30 +162,30 @@ class Balance extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function filters(Request $request)
+    public function filters(Request $request): array
     {
         return [
-            new Filters\BillingServiceFilter,
-            new Filters\BalanceFrequencyFilter,
-            new Filters\CreatedStartDateFilter,
-            new Filters\CreatedEndDateFilter,
-            new Filters\UpdatedStartDateFilter,
-            new Filters\UpdatedEndDateFilter,
-            new Filters\DeletedStartDateFilter,
-            new Filters\DeletedEndDateFilter,
+            new Filters\BillingServiceFilter(),
+            new Filters\BalanceFrequencyFilter(),
+            new Filters\CreatedStartDateFilter(),
+            new Filters\CreatedEndDateFilter(),
+            new Filters\UpdatedStartDateFilter(),
+            new Filters\UpdatedEndDateFilter(),
+            new Filters\DeletedStartDateFilter(),
+            new Filters\DeletedEndDateFilter(),
         ];
     }
 
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function lenses(Request $request)
+    public function lenses(Request $request): array
     {
         return [];
     }
@@ -187,10 +193,10 @@ class Balance extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function actions(Request $request)
+    public function actions(Request $request): array
     {
         return [];
     }

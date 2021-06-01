@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceQuery;
+use Illuminate\Http\Request;
 
 /**
  * @OA\Schema(
@@ -67,14 +70,14 @@ class EntryResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->when($this->isAllowedField('id'), $this->entry_id),
-            'version' => $this->when($this->isAllowedField('version'), is_null($this->version) ? '' : $this->version),
+            'version' => $this->when($this->isAllowedField('version'), $this->version === null ? '' : $this->version),
             'episodes' => $this->when($this->isAllowedField('episodes'), $this->episodes),
             'nsfw' => $this->when($this->isAllowedField('nsfw'), $this->nsfw),
             'spoiler' => $this->when($this->isAllowedField('spoiler'), $this->spoiler),
@@ -92,7 +95,7 @@ class EntryResource extends BaseResource
      *
      * @return array
      */
-    public static function allowedIncludePaths()
+    public static function allowedIncludePaths(): array
     {
         return [
             'theme',

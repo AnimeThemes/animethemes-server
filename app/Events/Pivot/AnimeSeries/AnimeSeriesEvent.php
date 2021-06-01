@@ -1,29 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Pivot\AnimeSeries;
 
+use App\Models\Anime;
+use App\Models\Series;
 use App\Pivots\AnimeSeries;
 
+/**
+ * Class AnimeSeriesEvent.
+ */
 abstract class AnimeSeriesEvent
 {
     /**
      * The anime that this anime series belongs to.
      *
-     * @var \App\Models\Anime
+     * @var Anime
      */
-    protected $anime;
+    protected Anime $anime;
 
     /**
      * The series that this anime series belongs to.
      *
-     * @var \App\Models\Series
+     * @var Series
      */
-    protected $series;
+    protected Series $series;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Pivots\AnimeSeries $animeSeries
+     * @param AnimeSeries $animeSeries
      * @return void
      */
     public function __construct(AnimeSeries $animeSeries)
@@ -35,9 +42,9 @@ abstract class AnimeSeriesEvent
     /**
      * Get the anime that this anime series belongs to.
      *
-     * @return \App\Models\Anime
+     * @return Anime
      */
-    public function getAnime()
+    public function getAnime(): Anime
     {
         return $this->anime;
     }
@@ -45,9 +52,9 @@ abstract class AnimeSeriesEvent
     /**
      * Get the series that this anime series belongs to.
      *
-     * @return \App\Models\Series
+     * @return Series
      */
-    public function getSeries()
+    public function getSeries(): Series
     {
         return $this->series;
     }

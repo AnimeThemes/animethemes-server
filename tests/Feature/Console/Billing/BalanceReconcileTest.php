@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Console\Billing;
+declare(strict_types=1);
+
+namespace Console\Billing;
 
 use App\Console\Commands\Billing\BalanceReconcileCommand;
 use App\Enums\Billing\Service;
@@ -15,9 +17,14 @@ use Illuminate\Support\Collection;
 use RuntimeException;
 use Tests\TestCase;
 
+/**
+ * Class BalanceReconcileTest.
+ */
 class BalanceReconcileTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Reconcile Balance Command shall require a 'service' argument.

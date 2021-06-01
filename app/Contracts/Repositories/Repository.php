@@ -1,40 +1,46 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Contracts\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
+/**
+ * Interface Repository.
+ */
 interface Repository
 {
     /**
      * Get all models from the repository.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function all();
+    public function all(): Collection;
 
     /**
      * Save model to the repository.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param Model $model
      * @return bool
      */
-    public function save(Model $model);
+    public function save(Model $model): bool;
 
     /**
      * Delete model from the repository.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param Model $model
      * @return bool
      */
-    public function delete(Model $model);
+    public function delete(Model $model): bool;
 
     /**
      * Update model in the repository.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param Model $model
      * @param array $attributes
      * @return bool
      */
-    public function update(Model $model, array $attributes);
+    public function update(Model $model, array $attributes): bool;
 }

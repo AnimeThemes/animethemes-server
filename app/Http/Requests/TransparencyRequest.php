@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use App\Enums\Filter\AllowedDateFormat;
@@ -10,15 +12,19 @@ use Carbon\Carbon;
 use DateTime;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
+/**
+ * Class TransparencyRequest.
+ */
 class TransparencyRequest extends FormRequest
 {
     /**
      * The list of valid transparency dates.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
-    protected $validDates;
+    protected Collection $validDates;
 
     /**
      * Create a new rule instance.
@@ -36,7 +42,7 @@ class TransparencyRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -46,7 +52,7 @@ class TransparencyRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'date' => [
@@ -60,16 +66,16 @@ class TransparencyRequest extends FormRequest
     /**
      * Initialize list of year/month combinations for transparency filtering.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    protected function initializeValidDates()
+    protected function initializeValidDates(): Collection
     {
         $balanceDates = Balance::distinct('date')->pluck('date');
         $transactionDates = Transaction::distinct('date')->pluck('date');
 
         $validDates = $balanceDates->concat($transactionDates);
 
-        $validDates = $validDates->unique(function ($date) {
+        $validDates = $validDates->unique(function (Carbon $date) {
             return $date->format(AllowedDateFormat::WITH_MONTH);
         });
 
@@ -79,9 +85,9 @@ class TransparencyRequest extends FormRequest
     /**
      * Get the list of valid year/month combinations for transparency filtering.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function getValidDates()
+    public function getValidDates(): Collection
     {
         return $this->validDates;
     }
@@ -89,9 +95,9 @@ class TransparencyRequest extends FormRequest
     /**
      * Get the validated year/month combination for the transparency filter.
      *
-     * @return \Carbon\Carbon
+     * @return Carbon
      */
-    public function getSelectedDate()
+    public function getSelectedDate(): Carbon
     {
         $validDate = Arr::get(
             $this->validated(),
@@ -105,9 +111,9 @@ class TransparencyRequest extends FormRequest
     /**
      * Get Balances for selected month.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function getBalances()
+    public function getBalances(): Collection
     {
         $date = $this->getSelectedDate();
 
@@ -119,9 +125,9 @@ class TransparencyRequest extends FormRequest
     /**
      * Get Transactions for selected month.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function getTransactions()
+    public function getTransactions(): Collection
     {
         $date = $this->getSelectedDate();
 

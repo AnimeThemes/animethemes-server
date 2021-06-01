@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Events;
+declare(strict_types=1);
+
+namespace Events;
 
 use App\Events\Anime\AnimeCreated;
 use App\Events\Anime\AnimeDeleted;
@@ -11,6 +13,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class AnimeTest.
+ */
 class AnimeTest extends TestCase
 {
     use RefreshDatabase;

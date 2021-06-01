@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Enums\AnimeSeason;
@@ -11,10 +13,15 @@ use App\Models\Synonym;
 use App\Models\Theme;
 use App\Models\Video;
 use App\Pivots\VideoEntry;
+use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+/**
+ * Class AnimeThemeSeeder.
+ */
 class AnimeThemeSeeder extends Seeder
 {
     /**
@@ -78,8 +85,8 @@ class AnimeThemeSeeder extends Seeder
                             $entry = null;
                             continue;
                         }
-                    } catch (\Exception $exception) {
-                        Log::error($exception);
+                    } catch (Exception $e) {
+                        Log::error($e->getMessage());
                     }
 
                     $anime = null;
@@ -92,7 +99,7 @@ class AnimeThemeSeeder extends Seeder
                 // If Synonym heading line, attempt to set Synonyms for Anime
                 // Format: "{**Synonym 1**, **Synonym 2**, **Synonym 3**, ...}"
                 // Note: Line may use '"' as qualifier
-                if (! is_null($anime) && preg_match('/^\*\*(.*)\*\*(?:\\r)?$/', $wikiEntryLine, $synonymLine)) {
+                if ($anime !== null && preg_match('/^\*\*(.*)\*\*(?:\\r)?$/', $wikiEntryLine, $synonymLine)) {
                     $synonyms = html_entity_decode($synonymLine[1]);
                     preg_match_all('/(?|"([^"]+)"|([^,]+))(?:, )?/', $synonyms, $synonymList, PREG_SET_ORDER);
                     foreach ($synonymList as $synonym) {
@@ -113,7 +120,7 @@ class AnimeThemeSeeder extends Seeder
 
                 // If group line, attempt to set current group
                 // Format: "{Group}"
-                if (! is_null($anime) && preg_match('/^([a-zA-Z0-9- \+]+)(?:\\r)?$/', $wikiEntryLine, $groupName)) {
+                if ($anime !== null && preg_match('/^([a-zA-Z0-9- \+]+)(?:\\r)?$/', $wikiEntryLine, $groupName)) {
                     $groupText = Str::of(html_entity_decode($groupName[1]))->trim();
                     if (! empty($groupText)) {
                         $group = $groupText;
@@ -125,22 +132,22 @@ class AnimeThemeSeeder extends Seeder
 
                 // If Theme line, attempt to create Theme/Song/Entry
                 // Format: "{OP|ED}{Sequence} V{Version} "{Song Title}"|[Webm {Tags}](https://animethemes.moe/video/{Video Basename})|{Episodes}|{Notes}"
-                if (! is_null($anime) && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\".*\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wikiEntryLine, $themeMatch)) {
+                if ($anime !== null && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\".*\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wikiEntryLine, $themeMatch)) {
                     $themeType = ThemeType::getValue(Str::upper($themeMatch[1]));
                     $sequence = is_numeric($themeMatch[2]) ? intval($themeMatch[2]) : null;
                     $version = is_numeric($themeMatch[3]) ? intval($themeMatch[3]) : null;
                     $songTitle = html_entity_decode($themeMatch[4]);
                     $videoBasename = $themeMatch[5];
                     $episodes = $themeMatch[6];
-                    $notes = Str::of(html_entity_decode($themeMatch[7]))->trim();
+                    $notes = Str::of(html_entity_decode($themeMatch[7]))->trim()->__toString();
 
                     // Create/Update Theme if no version or V1
-                    if ($version === null || intval($version) === 1) {
+                    if ($version === null || $version === 1) {
                         // Create Theme if it doesn't exist
                         $theme = Theme::where('anime_id', $anime->anime_id)
                             ->where('group', $group)
                             ->where('type', $themeType)
-                            ->where(function ($query) use ($sequence) {
+                            ->where(function (Builder $query) use ($sequence) {
                                 if (intval($sequence) === 1) {
                                     // Edge Case: "OP|ED" has become "OP1|ED1"
                                     $query->where('sequence', $sequence)->orWhereNull('sequence');
@@ -200,7 +207,7 @@ class AnimeThemeSeeder extends Seeder
                     }
 
                     // Create Entry of Current Theme if V2+
-                    if (! is_null($theme) && is_numeric($version) && intval($version) > 1) {
+                    if ($theme !== null && is_numeric($version) && intval($version) > 1) {
                         $entry = self::createEntry($version, $episodes, $notes, $theme);
                         self::attachVideoToEntry($videoBasename, $entry);
                         continue;
@@ -209,7 +216,7 @@ class AnimeThemeSeeder extends Seeder
 
                 // If Entry Video line, attach Video to Entry
                 // Format: "||[Webm {Tags}](https://animethemes.moe/video/{Video Basename})||"
-                if (! is_null($entry) && preg_match('/^\|\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|\|(?:\\r)?$/', $wikiEntryLine, $videoName)) {
+                if ($entry !== null && preg_match('/^\|\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|\|(?:\\r)?$/', $wikiEntryLine, $videoName)) {
                     $videoBasename = $videoName[1];
                     self::attachVideoToEntry($videoBasename, $entry);
                 }
@@ -223,17 +230,18 @@ class AnimeThemeSeeder extends Seeder
      * @param int|null $version
      * @param string $episodes
      * @param string $notes
-     * @return \App\Models\Entry $entry
+     * @param Theme $theme
+     * @return Entry $entry
      */
     protected static function createEntry(
         ?int $version,
         string $episodes,
         string $notes,
         Theme $theme
-    ) {
+    ): Entry {
         // Create Entry if it doesn't exist
         $entry = Entry::where('theme_id', $theme->theme_id)
-            ->where(function ($query) use ($version) {
+            ->where(function (Builder $query) use ($version) {
                 if (intval($version) === 1) {
                     // Edge Case: "OP#|ED#" has become "OP# V1|ED# V1"
                     $query->where('version', $version)->orWhereNull('version');
@@ -276,7 +284,7 @@ class AnimeThemeSeeder extends Seeder
      * Attach video to entry.
      *
      * @param string $videoBasename
-     * @param \App\Models\Entry $entry
+     * @param Entry $entry
      * @return void
      */
     protected static function attachVideoToEntry(string $videoBasename, Entry $entry)

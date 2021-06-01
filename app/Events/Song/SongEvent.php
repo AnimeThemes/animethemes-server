@@ -1,22 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Song;
 
 use App\Models\Song;
 
+/**
+ * Class SongEvent.
+ */
 abstract class SongEvent
 {
     /**
      * The song that has fired this event.
      *
-     * @var \App\Models\Song
+     * @var Song
      */
-    protected $song;
+    protected Song $song;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Song $song
+     * @param Song $song
      * @return void
      */
     public function __construct(Song $song)
@@ -27,9 +32,9 @@ abstract class SongEvent
     /**
      * Get the song that has fired this event.
      *
-     * @return \App\Models\Song
+     * @return Song
      */
-    public function getSong()
+    public function getSong(): Song
     {
         return $this->song;
     }

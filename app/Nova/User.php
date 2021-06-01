@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova;
 
 use Illuminate\Http\Request;
@@ -9,6 +11,9 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
+/**
+ * Class User.
+ */
 class User extends Resource
 {
     /**
@@ -16,7 +21,7 @@ class User extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\User::class;
+    public static string $model = \App\Models\User::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -28,10 +33,10 @@ class User extends Resource
     /**
      * Determine if this resource is available for navigation.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return bool
      */
-    public static function availableForNavigation(Request $request)
+    public static function availableForNavigation(Request $request): bool
     {
         $user = $request->user();
 
@@ -43,7 +48,7 @@ class User extends Resource
      *
      * @return array|string|null
      */
-    public static function group()
+    public static function group(): array | string | null
     {
         return __('nova.admin');
     }
@@ -53,7 +58,7 @@ class User extends Resource
      *
      * @return array|string|null
      */
-    public static function label()
+    public static function label(): array | string | null
     {
         return __('nova.users');
     }
@@ -63,7 +68,7 @@ class User extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel()
+    public static function singularLabel(): array | string | null
     {
         return __('nova.user');
     }
@@ -80,10 +85,10 @@ class User extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             ID::make(__('nova.id'), 'id')
@@ -110,7 +115,7 @@ class User extends Resource
     /**
      * @return array
      */
-    protected function timestamps()
+    protected function timestamps(): array
     {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
@@ -133,10 +138,10 @@ class User extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function cards(Request $request)
+    public function cards(Request $request): array
     {
         return [];
     }
@@ -144,28 +149,28 @@ class User extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function filters(Request $request)
+    public function filters(Request $request): array
     {
         return [
-            new Filters\CreatedStartDateFilter,
-            new Filters\CreatedEndDateFilter,
-            new Filters\UpdatedStartDateFilter,
-            new Filters\UpdatedEndDateFilter,
-            new Filters\DeletedStartDateFilter,
-            new Filters\DeletedEndDateFilter,
+            new Filters\CreatedStartDateFilter(),
+            new Filters\CreatedEndDateFilter(),
+            new Filters\UpdatedStartDateFilter(),
+            new Filters\UpdatedEndDateFilter(),
+            new Filters\DeletedStartDateFilter(),
+            new Filters\DeletedEndDateFilter(),
         ];
     }
 
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function lenses(Request $request)
+    public function lenses(Request $request): array
     {
         return [];
     }
@@ -173,10 +178,10 @@ class User extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function actions(Request $request)
+    public function actions(Request $request): array
     {
         return [];
     }

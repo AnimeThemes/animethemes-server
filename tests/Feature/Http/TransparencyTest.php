@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http;
+declare(strict_types=1);
+
+namespace Http;
 
 use App\Enums\Filter\AllowedDateFormat;
 use App\Models\Billing\Balance;
@@ -11,9 +13,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class TransparencyTest.
+ */
 class TransparencyTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The transparency route shall display the transparency screen.

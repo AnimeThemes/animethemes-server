@@ -1,19 +1,23 @@
 <?php
 
-namespace Tests\Unit\Policies;
+declare(strict_types=1);
 
-use App\Models\Invitation;
+namespace Policies;
+
 use App\Models\User;
 use App\Policies\InvitationPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * Class InvitationPolicyTest.
+ */
 class InvitationPolicyTest extends TestCase
 {
     use RefreshDatabase;
 
     /**
-     * Any user regardless of role can view any invitation.
+     * An admin can view any invitation.
      *
      * @return void
      */
@@ -33,13 +37,13 @@ class InvitationPolicyTest extends TestCase
 
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->viewAny($viewer));
-        $this->assertFalse($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertFalse($policy->viewAny($viewer));
+        static::assertFalse($policy->viewAny($editor));
+        static::assertTrue($policy->viewAny($admin));
     }
 
     /**
-     * Any user regardless of role can view an invitation.
+     * An admin can view an invitation.
      *
      * @return void
      */
@@ -57,16 +61,15 @@ class InvitationPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $invitation = Invitation::factory()->create();
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->view($viewer, $invitation));
-        $this->assertFalse($policy->view($editor, $invitation));
-        $this->assertTrue($policy->view($admin, $invitation));
+        static::assertFalse($policy->view($viewer));
+        static::assertFalse($policy->view($editor));
+        static::assertTrue($policy->view($admin));
     }
 
     /**
-     * A contributor or admin may create an invitation.
+     * An admin may create an invitation.
      *
      * @return void
      */
@@ -86,13 +89,13 @@ class InvitationPolicyTest extends TestCase
 
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertFalse($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertFalse($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
-     * A contributor or admin may update an invitation.
+     * An admin may update an invitation.
      *
      * @return void
      */
@@ -110,16 +113,15 @@ class InvitationPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $invitation = Invitation::factory()->create();
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->update($viewer, $invitation));
-        $this->assertFalse($policy->update($editor, $invitation));
-        $this->assertTrue($policy->update($admin, $invitation));
+        static::assertFalse($policy->update($viewer));
+        static::assertFalse($policy->update($editor));
+        static::assertTrue($policy->update($admin));
     }
 
     /**
-     * A contributor or admin may delete an invitation.
+     * An admin may delete an invitation.
      *
      * @return void
      */
@@ -137,16 +139,15 @@ class InvitationPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $invitation = Invitation::factory()->create();
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->delete($viewer, $invitation));
-        $this->assertFalse($policy->delete($editor, $invitation));
-        $this->assertTrue($policy->delete($admin, $invitation));
+        static::assertFalse($policy->delete($viewer));
+        static::assertFalse($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
-     * A contributor or admin may restore an invitation.
+     * An admin may restore an invitation.
      *
      * @return void
      */
@@ -164,16 +165,15 @@ class InvitationPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $invitation = Invitation::factory()->create();
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->restore($viewer, $invitation));
-        $this->assertFalse($policy->restore($editor, $invitation));
-        $this->assertTrue($policy->restore($admin, $invitation));
+        static::assertFalse($policy->restore($viewer));
+        static::assertFalse($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
-     * A contributor or admin may force delete an invitation.
+     * An admin may force delete an invitation.
      *
      * @return void
      */
@@ -191,11 +191,10 @@ class InvitationPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $invitation = Invitation::factory()->create();
         $policy = new InvitationPolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $invitation));
-        $this->assertFalse($policy->forceDelete($editor, $invitation));
-        $this->assertTrue($policy->forceDelete($admin, $invitation));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 }

@@ -1,19 +1,23 @@
 <?php
 
-namespace Tests\Unit\Policies\Billing;
+declare(strict_types=1);
 
-use App\Models\Billing\Balance;
+namespace Policies\Billing;
+
 use App\Models\User;
 use App\Policies\Billing\BalancePolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * Class BalancePolicyTest.
+ */
 class BalancePolicyTest extends TestCase
 {
     use RefreshDatabase;
 
     /**
-     * Any user regardless of role can view any balance.
+     * An admin can view any balance.
      *
      * @return void
      */
@@ -33,13 +37,13 @@ class BalancePolicyTest extends TestCase
 
         $policy = new BalancePolicy();
 
-        $this->assertFalse($policy->viewAny($viewer));
-        $this->assertFalse($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertFalse($policy->viewAny($viewer));
+        static::assertFalse($policy->viewAny($editor));
+        static::assertTrue($policy->viewAny($admin));
     }
 
     /**
-     * Any user regardless of role can view a balance.
+     * An admin can view a balance.
      *
      * @return void
      */
@@ -57,16 +61,15 @@ class BalancePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $balance = Balance::factory()->create();
         $policy = new BalancePolicy();
 
-        $this->assertFalse($policy->view($viewer, $balance));
-        $this->assertFalse($policy->view($editor, $balance));
-        $this->assertTrue($policy->view($admin, $balance));
+        static::assertFalse($policy->view($viewer));
+        static::assertFalse($policy->view($editor));
+        static::assertTrue($policy->view($admin));
     }
 
     /**
-     * A contributor or admin may create a balance.
+     * An admin may create a balance.
      *
      * @return void
      */
@@ -86,13 +89,13 @@ class BalancePolicyTest extends TestCase
 
         $policy = new BalancePolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertFalse($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertFalse($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
-     * A contributor or admin may update a balance.
+     * An admin may update a balance.
      *
      * @return void
      */
@@ -110,16 +113,15 @@ class BalancePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $balance = Balance::factory()->create();
         $policy = new BalancePolicy();
 
-        $this->assertFalse($policy->update($viewer, $balance));
-        $this->assertFalse($policy->update($editor, $balance));
-        $this->assertTrue($policy->update($admin, $balance));
+        static::assertFalse($policy->update($viewer));
+        static::assertFalse($policy->update($editor));
+        static::assertTrue($policy->update($admin));
     }
 
     /**
-     * A contributor or admin may delete a balance.
+     * An admin may delete a balance.
      *
      * @return void
      */
@@ -137,16 +139,15 @@ class BalancePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $balance = Balance::factory()->create();
         $policy = new BalancePolicy();
 
-        $this->assertFalse($policy->delete($viewer, $balance));
-        $this->assertFalse($policy->delete($editor, $balance));
-        $this->assertTrue($policy->delete($admin, $balance));
+        static::assertFalse($policy->delete($viewer));
+        static::assertFalse($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
-     * A contributor or admin may restore a balance.
+     * An admin may restore a balance.
      *
      * @return void
      */
@@ -164,16 +165,15 @@ class BalancePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $balance = Balance::factory()->create();
         $policy = new BalancePolicy();
 
-        $this->assertFalse($policy->restore($viewer, $balance));
-        $this->assertFalse($policy->restore($editor, $balance));
-        $this->assertTrue($policy->restore($admin, $balance));
+        static::assertFalse($policy->restore($viewer));
+        static::assertFalse($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
-     * A contributor or admin may force delete a balance.
+     * An admin may force delete a balance.
      *
      * @return void
      */
@@ -191,11 +191,10 @@ class BalancePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $balance = Balance::factory()->create();
         $policy = new BalancePolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $balance));
-        $this->assertFalse($policy->forceDelete($editor, $balance));
-        $this->assertTrue($policy->forceDelete($admin, $balance));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 }

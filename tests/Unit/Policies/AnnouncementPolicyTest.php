@@ -1,20 +1,25 @@
 <?php
 
-namespace Tests\Unit\Policies;
+declare(strict_types=1);
 
-use App\Models\Announcement;
+namespace Policies;
+
 use App\Models\User;
 use App\Policies\AnnouncementPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class AnnouncementPolicyTest.
+ */
 class AnnouncementPolicyTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
-     * Any user regardless of role can view any announcement.
+     * An admin can view any announcement.
      *
      * @return void
      */
@@ -34,13 +39,13 @@ class AnnouncementPolicyTest extends TestCase
 
         $policy = new AnnouncementPolicy();
 
-        $this->assertFalse($policy->viewAny($viewer));
-        $this->assertFalse($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertFalse($policy->viewAny($viewer));
+        static::assertFalse($policy->viewAny($editor));
+        static::assertTrue($policy->viewAny($admin));
     }
 
     /**
-     * Any user regardless of role can view an announcement.
+     * An admin can view an announcement.
      *
      * @return void
      */
@@ -58,16 +63,15 @@ class AnnouncementPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $announcement = Announcement::factory()->create();
         $policy = new AnnouncementPolicy();
 
-        $this->assertFalse($policy->view($viewer, $announcement));
-        $this->assertFalse($policy->view($editor, $announcement));
-        $this->assertTrue($policy->view($admin, $announcement));
+        static::assertFalse($policy->view($viewer));
+        static::assertFalse($policy->view($editor));
+        static::assertTrue($policy->view($admin));
     }
 
     /**
-     * A contributor or admin may create an announcement.
+     * An admin may create an announcement.
      *
      * @return void
      */
@@ -87,13 +91,13 @@ class AnnouncementPolicyTest extends TestCase
 
         $policy = new AnnouncementPolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertFalse($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertFalse($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
-     * A contributor or admin may update an announcement.
+     * An admin may update an announcement.
      *
      * @return void
      */
@@ -111,16 +115,15 @@ class AnnouncementPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $announcement = Announcement::factory()->create();
         $policy = new AnnouncementPolicy();
 
-        $this->assertFalse($policy->update($viewer, $announcement));
-        $this->assertFalse($policy->update($editor, $announcement));
-        $this->assertTrue($policy->update($admin, $announcement));
+        static::assertFalse($policy->update($viewer));
+        static::assertFalse($policy->update($editor));
+        static::assertTrue($policy->update($admin));
     }
 
     /**
-     * A contributor or admin may delete an announcement.
+     * An admin may delete an announcement.
      *
      * @return void
      */
@@ -138,16 +141,15 @@ class AnnouncementPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $announcement = Announcement::factory()->create();
         $policy = new AnnouncementPolicy();
 
-        $this->assertFalse($policy->delete($viewer, $announcement));
-        $this->assertFalse($policy->delete($editor, $announcement));
-        $this->assertTrue($policy->delete($admin, $announcement));
+        static::assertFalse($policy->delete($viewer));
+        static::assertFalse($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
-     * A contributor or admin may restore an announcement.
+     * An admin may restore an announcement.
      *
      * @return void
      */
@@ -165,16 +167,15 @@ class AnnouncementPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $announcement = Announcement::factory()->create();
         $policy = new AnnouncementPolicy();
 
-        $this->assertFalse($policy->restore($viewer, $announcement));
-        $this->assertFalse($policy->restore($editor, $announcement));
-        $this->assertTrue($policy->restore($admin, $announcement));
+        static::assertFalse($policy->restore($viewer));
+        static::assertFalse($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
-     * A contributor or admin may force delete an announcement.
+     * An admin may force delete an announcement.
      *
      * @return void
      */
@@ -192,11 +193,10 @@ class AnnouncementPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $announcement = Announcement::factory()->create();
         $policy = new AnnouncementPolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $announcement));
-        $this->assertFalse($policy->forceDelete($editor, $announcement));
-        $this->assertTrue($policy->forceDelete($admin, $announcement));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 }

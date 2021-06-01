@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs\Middleware;
 
 use Enlightn\Enlightn\Analyzers\Concerns\DetectsRedis;
+use Illuminate\Contracts\Redis\LimiterTimeoutException;
 use Illuminate\Support\Facades\Redis;
 
+/**
+ * Class RateLimited.
+ */
 class RateLimited
 {
     use DetectsRedis;
@@ -14,9 +20,10 @@ class RateLimited
      *
      * @param mixed $job
      * @param callable $next
-     * @return mixed
+     * @return void
+     * @throws LimiterTimeoutException
      */
-    public function handle($job, $next)
+    public function handle(mixed $job, callable $next)
     {
         if ($this->appUsesRedis()) {
             Redis::throttle('key')

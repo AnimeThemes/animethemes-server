@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Concerns\Http\Controllers\StreamsContent;
 use App\Models\Video;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
+/**
+ * Class VideoController.
+ */
 class VideoController extends Controller
 {
     use StreamsContent;
@@ -12,9 +18,10 @@ class VideoController extends Controller
     /**
      * Stream video.
      *
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @param Video $video
+     * @return StreamedResponse
      */
-    public function show(Video $video)
+    public function show(Video $video): StreamedResponse
     {
         views($video)
             ->cooldown(now()->addMinutes(5))

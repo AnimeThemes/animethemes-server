@@ -1,20 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Contracts\Events;
 
+use NotificationChannels\Discord\DiscordMessage;
+
+/**
+ * Interface DiscordMessageEvent.
+ */
 interface DiscordMessageEvent
 {
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage();
+    public function getDiscordMessage(): DiscordMessage;
 
     /**
      * Get Discord channel the message will be sent to.
      *
      * @return string
      */
-    public function getDiscordChannel();
+    public function getDiscordChannel(): string;
 }

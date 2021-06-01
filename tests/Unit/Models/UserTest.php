@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Models;
+declare(strict_types=1);
+
+namespace Models;
 
 use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -12,9 +14,14 @@ use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\PersonalAccessToken;
 use Tests\TestCase;
 
+/**
+ * Class UserTest.
+ */
 class UserTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * Users shall have a one-to-many polymorphic relationship to PersonalAccessToken.
@@ -27,9 +34,9 @@ class UserTest extends TestCase
 
         $user->createToken($this->faker->word());
 
-        $this->assertInstanceOf(MorphMany::class, $user->tokens());
-        $this->assertEquals(1, $user->tokens()->count());
-        $this->assertInstanceOf(PersonalAccessToken::class, $user->tokens()->first());
+        static::assertInstanceOf(MorphMany::class, $user->tokens());
+        static::assertEquals(1, $user->tokens()->count());
+        static::assertInstanceOf(PersonalAccessToken::class, $user->tokens()->first());
     }
 
     /**
@@ -57,6 +64,6 @@ class UserTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->assertIsString($user->getName());
+        static::assertIsString($user->getName());
     }
 }

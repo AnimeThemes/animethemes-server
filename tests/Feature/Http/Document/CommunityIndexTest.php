@@ -1,9 +1,14 @@
 <?php
 
-namespace Tests\Feature\Http\Document;
+declare(strict_types=1);
+
+namespace Http\Document;
 
 use Tests\TestCase;
 
+/**
+ * Class CommunityIndexTest.
+ */
 class CommunityIndexTest extends TestCase
 {
     /**

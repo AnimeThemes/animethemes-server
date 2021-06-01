@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Api\Entry;
+declare(strict_types=1);
+
+namespace Http\Api\Entry;
 
 use App\Enums\AnimeSeason;
 use App\Enums\Filter\TrashedStatus;
@@ -14,15 +16,21 @@ use App\Models\Theme;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
+use Znck\Eloquent\Relations\BelongsToThrough;
 
+/**
+ * Class EntryIndexTest.
+ */
 class EntryIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Entry Index Endpoint shall return a collection of Entry Resources.
@@ -161,7 +169,7 @@ class EntryIndexTest extends TestCase
     public function testSorts()
     {
         $allowedSorts = collect(EntryCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -326,7 +334,7 @@ class EntryIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $deleteEntry->each(function ($entry) {
+        $deleteEntry->each(function (Entry $entry) {
             $entry->delete();
         });
 
@@ -372,7 +380,7 @@ class EntryIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $deleteEntry->each(function ($entry) {
+        $deleteEntry->each(function (Entry $entry) {
             $entry->delete();
         });
 
@@ -418,7 +426,7 @@ class EntryIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $deleteEntry->each(function ($entry) {
+        $deleteEntry->each(function (Entry $entry) {
             $entry->delete();
         });
 
@@ -459,24 +467,24 @@ class EntryIndexTest extends TestCase
         ];
 
         Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $entry = Entry::factory()
+            $entries = Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
 
-            $entry->each(function ($item) {
-                $item->delete();
+            $entries->each(function (Entry $entry) {
+                $entry->delete();
             });
         });
 
         Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $entry = Entry::factory()
+            $entries = Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull)
                 ->create();
 
-            $entry->each(function ($item) {
-                $item->delete();
+            $entries->each(function (Entry $entry) {
+                $entry->delete();
             });
         });
 
@@ -631,7 +639,7 @@ class EntryIndexTest extends TestCase
             ->create();
 
         $entries = Entry::with([
-            'anime' => function ($query) use ($seasonFilter) {
+            'anime' => function (BelongsToThrough $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -681,7 +689,7 @@ class EntryIndexTest extends TestCase
             ->create();
 
         $entries = Entry::with([
-            'anime' => function ($query) use ($yearFilter) {
+            'anime' => function (BelongsToThrough $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])
@@ -730,7 +738,7 @@ class EntryIndexTest extends TestCase
             ->create();
 
         $entries = Entry::with([
-            'theme' => function ($query) use ($groupFilter) {
+            'theme' => function (BelongsTo $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -779,7 +787,7 @@ class EntryIndexTest extends TestCase
             ->create();
 
         $entries = Entry::with([
-            'theme' => function ($query) use ($sequenceFilter) {
+            'theme' => function (BelongsTo $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -821,7 +829,7 @@ class EntryIndexTest extends TestCase
             ->create();
 
         $entries = Entry::with([
-            'theme' => function ($query) use ($typeFilter) {
+            'theme' => function (BelongsTo $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])

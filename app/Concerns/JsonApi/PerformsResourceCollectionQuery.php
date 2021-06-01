@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Concerns\JsonApi;
 
 use App\JsonApi\QueryParser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
+/**
+ * Trait PerformsResourceCollectionQuery.
+ */
 trait PerformsResourceCollectionQuery
 {
     use PerformsConstrainedEagerLoading;
@@ -14,7 +20,7 @@ trait PerformsResourceCollectionQuery
      *
      * @return array
      */
-    public static function allowedIncludePaths()
+    public static function allowedIncludePaths(): array
     {
         return [];
     }
@@ -24,7 +30,7 @@ trait PerformsResourceCollectionQuery
      *
      * @return array
      */
-    public static function allowedSortFields()
+    public static function allowedSortFields(): array
     {
         return [];
     }
@@ -34,7 +40,7 @@ trait PerformsResourceCollectionQuery
      *
      * @return array
      */
-    public static function filters()
+    public static function filters(): array
     {
         return [];
     }
@@ -43,9 +49,9 @@ trait PerformsResourceCollectionQuery
      * Resolve the model query builder from collection class name.
      * We are assuming a convention of "{Model}Collection".
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    protected static function queryBuilder()
+    protected static function queryBuilder(): Builder
     {
         $model = Str::replaceLast('Collection', '', class_basename(static::class));
 
@@ -57,10 +63,10 @@ trait PerformsResourceCollectionQuery
     /**
      * Perform query to prepare models for resource collection.
      *
-     * @param \App\JsonApi\QueryParser $parser
+     * @param QueryParser $parser
      * @return static
      */
-    public static function performQuery(QueryParser $parser)
+    public static function performQuery(QueryParser $parser): static
     {
         // initialize builder
         $builder = static::queryBuilder();

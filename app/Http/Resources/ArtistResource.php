@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceQuery;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 /**
@@ -74,10 +77,10 @@ class ArtistResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->when($this->isAllowedField('id'), $this->artist_id),
@@ -106,7 +109,7 @@ class ArtistResource extends BaseResource
      *
      * @return array
      */
-    public static function allowedIncludePaths()
+    public static function allowedIncludePaths(): array
     {
         return [
             'songs',
@@ -126,7 +129,7 @@ class ArtistResource extends BaseResource
      * @param string $allowedIncludePath
      * @return string
      */
-    protected static function relation($allowedIncludePath)
+    protected static function relation(string $allowedIncludePath): string
     {
         $relatedModel = Str::ucfirst(Str::singular(Str::of($allowedIncludePath)->explode('.')->last()));
 

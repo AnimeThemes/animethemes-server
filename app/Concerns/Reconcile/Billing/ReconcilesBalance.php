@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Concerns\Reconcile\Billing;
 
 use App\Concerns\Reconcile\ReconcilesRepositories;
@@ -8,6 +10,9 @@ use App\Models\Billing\Balance;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
+/**
+ * Trait ReconcilesBalance.
+ */
 trait ReconcilesBalance
 {
     use ReconcilesRepositories;
@@ -15,11 +20,11 @@ trait ReconcilesBalance
     /**
      * Perform set operation for create and delete steps.
      *
-     * @param \Illuminate\Support\Collection $a
-     * @param \Illuminate\Support\Collection $b
-     * @return \Illuminate\Support\Collection
+     * @param Collection $a
+     * @param Collection $b
+     * @return Collection
      */
-    protected function diffForCreateDelete(Collection $a, Collection $b)
+    protected function diffForCreateDelete(Collection $a, Collection $b): Collection
     {
         return $a->diffUsing($b, function (Balance $first, Balance $second) {
             return $first->date->format(AllowedDateFormat::WITH_MONTH) <=> $second->date->format(AllowedDateFormat::WITH_MONTH);
@@ -29,11 +34,11 @@ trait ReconcilesBalance
     /**
      * Perform set operation for update step.
      *
-     * @param \Illuminate\Support\Collection $a
-     * @param \Illuminate\Support\Collection $b
-     * @return \Illuminate\Support\Collection
+     * @param Collection $a
+     * @param Collection $b
+     * @return Collection
      */
-    protected function diffForUpdate(Collection $a, Collection $b)
+    protected function diffForUpdate(Collection $a, Collection $b): Collection
     {
         return $a->diffUsing($b, function (Balance $first, Balance $second) {
             return [$first->date->format(AllowedDateFormat::WITH_DAY), $first->frequency, $first->usage, $first->balance] <=> [$second->date->format(AllowedDateFormat::WITH_DAY), $second->frequency, $second->usage, $second->balance];
@@ -43,16 +48,16 @@ trait ReconcilesBalance
     /**
      * Get source model that has been updated for destination model.
      *
-     * @param \Illuminate\Support\Collection $sourceModels
-     * @param \Illuminate\Database\Eloquent\Model $destinationModel
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @param Collection $sourceModels
+     * @param Model $destinationModel
+     * @return Model|null
      */
-    protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel)
+    protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model
     {
         $formattedDestinationDate = $destinationModel->getAttribute('date')->format(AllowedDateFormat::WITH_MONTH);
 
-        $filteredSourceModels = $sourceModels->filter(function (Balance $item) use ($formattedDestinationDate) {
-            return $item->date->format(AllowedDateFormat::WITH_MONTH) === $formattedDestinationDate;
+        $filteredSourceModels = $sourceModels->filter(function (Balance $balance) use ($formattedDestinationDate) {
+            return $balance->date->format(AllowedDateFormat::WITH_MONTH) === $formattedDestinationDate;
         });
 
         return $filteredSourceModels->first();

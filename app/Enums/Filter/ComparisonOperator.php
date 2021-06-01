@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums\Filter;
 
 use BenSampo\Enum\Enum;
@@ -14,10 +16,10 @@ use BenSampo\Enum\Enum;
  */
 final class ComparisonOperator extends Enum
 {
-    const EQ = '=';
-    const NE = '<>';
-    const LT = '<';
-    const GT = '>';
-    const LTE = '<=';
-    const GTE = '>=';
+    public const EQ = '=';
+    public const NE = '<>';
+    public const LT = '<';
+    public const GT = '>';
+    public const LTE = '<=';
+    public const GTE = '>=';
 }

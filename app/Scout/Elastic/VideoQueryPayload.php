@@ -1,20 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scout\Elastic;
 
 use App\Models\Video;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
+use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
+/**
+ * Class VideoQueryPayload.
+ */
 class VideoQueryPayload extends ElasticQueryPayload
 {
     /**
      * Build Elasticsearch query.
      *
-     * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
+     * @return SearchRequestBuilder
      */
-    public function buildQuery()
+    public function buildQuery(): SearchRequestBuilder
     {
         return Video::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

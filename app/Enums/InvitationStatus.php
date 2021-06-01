@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
+/**
+ * Class InvitationStatus.
+ */
 final class InvitationStatus extends Enum implements LocalizedEnum
 {
-    const OPEN = 0;
-    const CLOSED = 1;
+    public const OPEN = 0;
+    public const CLOSED = 1;
 }

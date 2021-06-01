@@ -1,24 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+/**
+ * Class WikiPages.
+ */
 class WikiPages
 {
-    const ANIME_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/anime_index.json';
+    public const ANIME_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/anime_index.json';
 
-    const ARTIST_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/artist.json';
+    public const ARTIST_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/artist.json';
 
-    const SERIES_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/series.json';
+    public const SERIES_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/series.json';
 
-    const MISC_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/misc.json';
+    public const MISC_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/misc.json';
 
-    const YEAR_MAP = [
+    public const YEAR_MAP = [
         'https://www.reddit.com/r/AnimeThemes/wiki/60s.json' => [1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969],
         'https://www.reddit.com/r/AnimeThemes/wiki/70s.json' => [1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979],
         'https://www.reddit.com/r/AnimeThemes/wiki/80s.json' => [1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989],
@@ -53,7 +60,7 @@ class WikiPages
      * @param string $year
      * @return array
      */
-    public static function getAnimeIndexYears(string $year)
+    public static function getAnimeIndexYears(string $year): array
     {
         foreach (self::YEAR_MAP as $page => $years) {
             if (Str::contains($page, $year)) {
@@ -70,7 +77,7 @@ class WikiPages
      * @param string $slug
      * @return string
      */
-    public static function getArtistPage(string $slug)
+    public static function getArtistPage(string $slug): string
     {
         return Str::of('https://www.reddit.com/r/AnimeThemes/wiki/artist/')
             ->append($slug)
@@ -84,7 +91,7 @@ class WikiPages
      * @param string $slug
      * @return string
      */
-    public static function getSeriesPage(string $slug)
+    public static function getSeriesPage(string $slug): string
     {
         return Str::of('https://www.reddit.com/r/AnimeThemes/wiki/series/')
             ->append($slug)
@@ -98,23 +105,17 @@ class WikiPages
      * @param string $page
      * @return mixed
      */
-    public static function getPageContents(string $page)
+    public static function getPageContents(string $page): mixed
     {
         try {
-            $client = new Client;
+            $client = new Client();
 
             $response = $client->get($page);
 
-            $contents = json_decode($response->getBody()->getContents());
+            $contents = json_decode($response->getBody()->getContents(), true);
 
-            return $contents->data->content_md;
-        } catch (ClientException $e) {
-            // We may be requesting an invalid Reddit page
-            Log::info($e->getMessage());
-
-            return null;
-        } catch (ServerException $e) {
-            // We may have upset Reddit, try again later
+            return Arr::get($contents, 'data.content_md');
+        } catch (ClientException | ServerException | GuzzleException $e) {
             Log::info($e->getMessage());
 
             return null;

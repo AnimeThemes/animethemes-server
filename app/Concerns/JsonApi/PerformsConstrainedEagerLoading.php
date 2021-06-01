@@ -1,20 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Concerns\JsonApi;
 
 use App\JsonApi\QueryParser;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 
+/**
+ * Trait PerformsConstrainedEagerLoading.
+ */
 trait PerformsConstrainedEagerLoading
 {
     /**
      * Constrain eager loads by binding callbacks that filter on the relations.
      *
-     * @param \App\JsonApi\QueryParser $parser
+     * @param QueryParser $parser
      * @return array
      */
-    protected static function performConstrainedEagerLoads(QueryParser $parser)
+    protected static function performConstrainedEagerLoads(QueryParser $parser): array
     {
         $constrainedEagerLoads = [];
 
@@ -41,7 +46,7 @@ trait PerformsConstrainedEagerLoading
      * @param string $allowedIncludePath
      * @return string
      */
-    protected static function relation($allowedIncludePath)
+    protected static function relation(string $allowedIncludePath): string
     {
         $relatedModel = Str::ucfirst(Str::singular(Str::of($allowedIncludePath)->explode('.')->last()));
 

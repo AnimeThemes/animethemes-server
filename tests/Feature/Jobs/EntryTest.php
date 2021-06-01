@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Jobs;
+declare(strict_types=1);
+
+namespace Jobs;
 
 use App\Jobs\SendDiscordNotification;
 use App\Models\Anime;
@@ -11,6 +13,9 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class EntryTest.
+ */
 class EntryTest extends TestCase
 {
     use RefreshDatabase;

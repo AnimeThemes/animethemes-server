@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Jetstream;
+declare(strict_types=1);
+
+namespace Jetstream;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,28 +12,31 @@ use Laravel\Jetstream\Mail\TeamInvitation;
 use Livewire\Livewire;
 use Tests\TestCase;
 
+/**
+ * Class InviteTeamMemberTest.
+ */
 class InviteTeamMemberTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_team_members_can_be_invited_to_team()
+    public function testTeamMembersCanBeInvitedToTeam()
     {
         Mail::fake();
 
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
 
-        $component = Livewire::test(TeamMemberManager::class, ['team' => $user->currentTeam])
-                        ->set('addTeamMemberForm', [
-                            'email' => 'test@example.com',
-                            'role' => 'admin',
-                        ])->call('addTeamMember');
+        Livewire::test(TeamMemberManager::class, ['team' => $user->currentTeam])
+            ->set('addTeamMemberForm', [
+                'email' => 'test@example.com',
+                'role' => 'admin',
+            ])->call('addTeamMember');
 
         Mail::assertSent(TeamInvitation::class);
 
-        $this->assertCount(1, $user->currentTeam->fresh()->teamInvitations);
+        static::assertCount(1, $user->currentTeam->fresh()->teamInvitations);
     }
 
-    public function test_team_member_invitations_can_be_cancelled()
+    public function testTeamMemberInvitationsCanBeCancelled()
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
 
@@ -47,6 +52,6 @@ class InviteTeamMemberTest extends TestCase
         // Cancel the team invitation...
         $component->call('cancelTeamInvitation', $invitationId);
 
-        $this->assertCount(0, $user->currentTeam->fresh()->teamInvitations);
+        static::assertCount(0, $user->currentTeam->fresh()->teamInvitations);
     }
 }

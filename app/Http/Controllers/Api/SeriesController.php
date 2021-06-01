@@ -1,12 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\SeriesCollection;
 use App\Http\Resources\SeriesResource;
 use App\Models\Series;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * Class SeriesController.
+ */
 class SeriesController extends BaseController
 {
     /**
@@ -65,9 +71,9 @@ class SeriesController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         if ($this->parser->hasSearch()) {
             return SeriesCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
@@ -112,10 +118,10 @@ class SeriesController extends BaseController
      *     )
      * )
      *
-     * @param \App\Models\Series $series
-     * @return \Illuminate\Http\JsonResponse
+     * @param Series $series
+     * @return JsonResponse
      */
-    public function show(Series $series)
+    public function show(Series $series): JsonResponse
     {
         $resource = SeriesResource::performQuery($series, $this->parser);
 

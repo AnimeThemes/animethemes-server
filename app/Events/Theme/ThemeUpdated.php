@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Theme;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
@@ -13,14 +15,18 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class ThemeUpdated.
+ */
 class ThemeUpdated extends ThemeEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
+    use Dispatchable;
+    use HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Theme $theme
+     * @param Theme $theme
      * @return void
      */
     public function __construct(Theme $theme)
@@ -32,9 +38,9 @@ class ThemeUpdated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $theme = $this->getTheme();
         $anime = $this->getAnime();
@@ -51,7 +57,7 @@ class ThemeUpdated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

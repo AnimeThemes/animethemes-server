@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Listeners;
+declare(strict_types=1);
+
+namespace Listeners;
 
 use App\Enums\VideoSource;
 use App\Models\Video;
@@ -9,9 +11,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class InitializeVideoTagsTest.
+ */
 class InitializeVideoTagsTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * When a video is created, if the filename does not contain tags, the tag attributes shall retain their default values.
@@ -34,11 +40,11 @@ class InitializeVideoTagsTest extends TestCase
             'source' => null,
         ]);
 
-        $this->assertFalse($video->nc);
-        $this->assertFalse($video->subbed);
-        $this->assertFalse($video->lyrics);
-        $this->assertNull($video->resolution);
-        $this->assertNull($video->source);
+        static::assertFalse($video->nc);
+        static::assertFalse($video->subbed);
+        static::assertFalse($video->lyrics);
+        static::assertNull($video->resolution);
+        static::assertNull($video->source);
     }
 
     /**
@@ -64,7 +70,7 @@ class InitializeVideoTagsTest extends TestCase
             'source' => null,
         ]);
 
-        $this->assertTrue($video->nc);
+        static::assertTrue($video->nc);
     }
 
     /**
@@ -90,7 +96,7 @@ class InitializeVideoTagsTest extends TestCase
             'source' => null,
         ]);
 
-        $this->assertTrue($video->subbed);
+        static::assertTrue($video->subbed);
     }
 
     /**
@@ -116,7 +122,7 @@ class InitializeVideoTagsTest extends TestCase
             'source' => null,
         ]);
 
-        $this->assertTrue($video->lyrics);
+        static::assertTrue($video->lyrics);
     }
 
     /**
@@ -144,7 +150,7 @@ class InitializeVideoTagsTest extends TestCase
             'source' => null,
         ]);
 
-        $this->assertEquals($resolution, $video->resolution);
+        static::assertEquals($resolution, $video->resolution);
     }
 
     /**
@@ -170,7 +176,7 @@ class InitializeVideoTagsTest extends TestCase
             'source' => null,
         ]);
 
-        $this->assertEquals(720, $video->resolution);
+        static::assertEquals(720, $video->resolution);
     }
 
     /**
@@ -198,6 +204,6 @@ class InitializeVideoTagsTest extends TestCase
             'source' => null,
         ]);
 
-        $this->assertEquals($source, $video->source);
+        static::assertEquals($source, $video->source);
     }
 }

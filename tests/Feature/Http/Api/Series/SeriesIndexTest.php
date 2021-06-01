@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Api\Series;
+declare(strict_types=1);
+
+namespace Http\Api\Series;
 
 use App\Enums\AnimeSeason;
 use App\Enums\Filter\TrashedStatus;
@@ -11,15 +13,20 @@ use App\Models\Anime;
 use App\Models\Series;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class SeriesIndexTest.
+ */
 class SeriesIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Series Index Endpoint shall return a collection of Series Resources.
@@ -154,7 +161,7 @@ class SeriesIndexTest extends TestCase
         $this->withoutEvents();
 
         $allowedSorts = collect(SeriesCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -303,7 +310,7 @@ class SeriesIndexTest extends TestCase
         Series::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteSeries->each(function ($series) {
+        $deleteSeries->each(function (Series $series) {
             $series->delete();
         });
 
@@ -344,7 +351,7 @@ class SeriesIndexTest extends TestCase
         Series::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteSeries->each(function ($series) {
+        $deleteSeries->each(function (Series $series) {
             $series->delete();
         });
 
@@ -385,7 +392,7 @@ class SeriesIndexTest extends TestCase
         Series::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteSeries->each(function ($series) {
+        $deleteSeries->each(function (Series $series) {
             $series->delete();
         });
 
@@ -429,14 +436,14 @@ class SeriesIndexTest extends TestCase
 
         Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
             $series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
-            $series->each(function ($item) {
+            $series->each(function (Series $item) {
                 $item->delete();
             });
         });
 
         Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             $series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
-            $series->each(function ($item) {
+            $series->each(function (Series $item) {
                 $item->delete();
             });
         });
@@ -481,7 +488,7 @@ class SeriesIndexTest extends TestCase
             ->create();
 
         $series = Series::with([
-            'anime' => function ($query) use ($seasonFilter) {
+            'anime' => function (BelongsToMany $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -533,7 +540,7 @@ class SeriesIndexTest extends TestCase
             ->create();
 
         $series = Series::with([
-            'anime' => function ($query) use ($yearFilter) {
+            'anime' => function (BelongsToMany $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

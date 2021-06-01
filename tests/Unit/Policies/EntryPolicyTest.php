@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Policies;
+declare(strict_types=1);
+
+namespace Policies;
 
 use App\Models\Anime;
 use App\Models\Entry;
@@ -11,6 +13,9 @@ use App\Policies\EntryPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * Class EntryPolicyTest.
+ */
 class EntryPolicyTest extends TestCase
 {
     use RefreshDatabase;
@@ -22,23 +27,11 @@ class EntryPolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
         $policy = new EntryPolicy();
 
-        $this->assertTrue($policy->viewAny($viewer));
-        $this->assertTrue($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -48,26 +41,11 @@ class EntryPolicyTest extends TestCase
      */
     public function testView()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
         $policy = new EntryPolicy();
 
-        $this->assertTrue($policy->view($viewer, $entry));
-        $this->assertTrue($policy->view($editor, $entry));
-        $this->assertTrue($policy->view($admin, $entry));
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
     }
 
     /**
@@ -91,9 +69,9 @@ class EntryPolicyTest extends TestCase
 
         $policy = new EntryPolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertTrue($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertTrue($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
@@ -115,14 +93,11 @@ class EntryPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
         $policy = new EntryPolicy();
 
-        $this->assertFalse($policy->update($viewer, $entry));
-        $this->assertTrue($policy->update($editor, $entry));
-        $this->assertTrue($policy->update($admin, $entry));
+        static::assertFalse($policy->update($viewer));
+        static::assertTrue($policy->update($editor));
+        static::assertTrue($policy->update($admin));
     }
 
     /**
@@ -144,14 +119,11 @@ class EntryPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
         $policy = new EntryPolicy();
 
-        $this->assertFalse($policy->delete($viewer, $entry));
-        $this->assertTrue($policy->delete($editor, $entry));
-        $this->assertTrue($policy->delete($admin, $entry));
+        static::assertFalse($policy->delete($viewer));
+        static::assertTrue($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
@@ -173,14 +145,11 @@ class EntryPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
         $policy = new EntryPolicy();
 
-        $this->assertFalse($policy->restore($viewer, $entry));
-        $this->assertTrue($policy->restore($editor, $entry));
-        $this->assertTrue($policy->restore($admin, $entry));
+        static::assertFalse($policy->restore($viewer));
+        static::assertTrue($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
@@ -202,14 +171,11 @@ class EntryPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
         $policy = new EntryPolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $entry));
-        $this->assertFalse($policy->forceDelete($editor, $entry));
-        $this->assertTrue($policy->forceDelete($admin, $entry));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 
     /**
@@ -231,14 +197,11 @@ class EntryPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
         $policy = new EntryPolicy();
 
-        $this->assertFalse($policy->attachAnyVideo($viewer, $entry));
-        $this->assertTrue($policy->attachAnyVideo($editor, $entry));
-        $this->assertTrue($policy->attachAnyVideo($admin, $entry));
+        static::assertFalse($policy->attachAnyVideo($viewer));
+        static::assertTrue($policy->attachAnyVideo($editor));
+        static::assertTrue($policy->attachAnyVideo($admin));
     }
 
     /**
@@ -266,9 +229,9 @@ class EntryPolicyTest extends TestCase
         $video = Video::factory()->create();
         $policy = new EntryPolicy();
 
-        $this->assertFalse($policy->attachVideo($viewer, $entry, $video));
-        $this->assertTrue($policy->attachVideo($editor, $entry, $video));
-        $this->assertTrue($policy->attachVideo($admin, $entry, $video));
+        static::assertFalse($policy->attachVideo($viewer, $entry, $video));
+        static::assertTrue($policy->attachVideo($editor, $entry, $video));
+        static::assertTrue($policy->attachVideo($admin, $entry, $video));
     }
 
     /**
@@ -297,9 +260,9 @@ class EntryPolicyTest extends TestCase
         $entry->videos()->attach($video);
         $policy = new EntryPolicy();
 
-        $this->assertFalse($policy->attachVideo($viewer, $entry, $video));
-        $this->assertFalse($policy->attachVideo($editor, $entry, $video));
-        $this->assertFalse($policy->attachVideo($admin, $entry, $video));
+        static::assertFalse($policy->attachVideo($viewer, $entry, $video));
+        static::assertFalse($policy->attachVideo($editor, $entry, $video));
+        static::assertFalse($policy->attachVideo($admin, $entry, $video));
     }
 
     /**
@@ -321,14 +284,10 @@ class EntryPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
-        $video = Video::factory()->create();
         $policy = new EntryPolicy();
 
-        $this->assertFalse($policy->detachVideo($viewer, $entry, $video));
-        $this->assertTrue($policy->detachVideo($editor, $entry, $video));
-        $this->assertTrue($policy->detachVideo($admin, $entry, $video));
+        static::assertFalse($policy->detachVideo($viewer));
+        static::assertTrue($policy->detachVideo($editor));
+        static::assertTrue($policy->detachVideo($admin));
     }
 }

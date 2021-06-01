@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\JsonApi\Condition;
+declare(strict_types=1);
+
+namespace JsonApi\Condition;
 
 use App\Enums\Filter\BinaryLogicalOperator;
 use App\Enums\Filter\ComparisonOperator;
@@ -9,6 +11,9 @@ use App\JsonApi\QueryParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class WhereConditionTest.
+ */
 class WhereConditionTest extends TestCase
 {
     use WithFaker;
@@ -24,7 +29,7 @@ class WhereConditionTest extends TestCase
 
         $condition = Condition::make($field, $this->faker->word());
 
-        $this->assertEmpty($condition->getScope());
+        static::assertEmpty($condition->getScope());
     }
 
     /**
@@ -50,7 +55,7 @@ class WhereConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertEquals($scope, $condition->getScope());
+        static::assertEquals($scope, $condition->getScope());
     }
 
     /**
@@ -72,7 +77,7 @@ class WhereConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertEquals($field, $condition->getField());
+        static::assertEquals($field, $condition->getField());
     }
 
     /**
@@ -94,7 +99,7 @@ class WhereConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertEquals(ComparisonOperator::EQ(), $condition->getComparisonOperator());
+        static::assertEquals(ComparisonOperator::EQ(), $condition->getComparisonOperator());
     }
 
     /**
@@ -120,7 +125,7 @@ class WhereConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertEquals($operator, $condition->getComparisonOperator());
+        static::assertEquals($operator, $condition->getComparisonOperator());
     }
 
     /**
@@ -142,7 +147,7 @@ class WhereConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertEquals(BinaryLogicalOperator::AND(), $condition->getLogicalOperator());
+        static::assertEquals(BinaryLogicalOperator::AND(), $condition->getLogicalOperator());
     }
 
     /**
@@ -168,6 +173,6 @@ class WhereConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertEquals($operator, $condition->getLogicalOperator());
+        static::assertEquals($operator, $condition->getLogicalOperator());
     }
 }

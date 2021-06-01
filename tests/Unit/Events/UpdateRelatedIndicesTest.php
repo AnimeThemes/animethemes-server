@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Events;
+declare(strict_types=1);
+
+namespace Events;
 
 use App\Events\Anime\AnimeCreated;
 use App\Events\Anime\AnimeUpdated;
@@ -29,6 +31,9 @@ use App\Listeners\UpdateRelatedIndices;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class UpdateRelatedIndicesTest.
+ */
 class UpdateRelatedIndicesTest extends TestCase
 {
     /**
@@ -38,9 +43,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testAnimeCreated()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(AnimeCreated::class, UpdateRelatedIndices::class);
+        $fake->assertListening(AnimeCreated::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -50,9 +55,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testAnimeUpdated()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(AnimeUpdated::class, UpdateRelatedIndices::class);
+        $fake->assertListening(AnimeUpdated::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -62,9 +67,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testArtistSongCreated()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(ArtistSongCreated::class, UpdateRelatedIndices::class);
+        $fake->assertListening(ArtistSongCreated::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -74,9 +79,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testArtistSongDeleted()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(ArtistSongDeleted::class, UpdateRelatedIndices::class);
+        $fake->assertListening(ArtistSongDeleted::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -86,9 +91,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testArtistSongUpdated()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(ArtistSongUpdated::class, UpdateRelatedIndices::class);
+        $fake->assertListening(ArtistSongUpdated::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -98,9 +103,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testEntryCreated()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(EntryCreated::class, UpdateRelatedIndices::class);
+        $fake->assertListening(EntryCreated::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -110,9 +115,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testEntryDeleted()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(EntryDeleted::class, UpdateRelatedIndices::class);
+        $fake->assertListening(EntryDeleted::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -122,9 +127,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testEntryDeleting()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(EntryDeleting::class, UpdateRelatedIndices::class);
+        $fake->assertListening(EntryDeleting::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -134,9 +139,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testEntryRestored()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(EntryRestored::class, UpdateRelatedIndices::class);
+        $fake->assertListening(EntryRestored::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -146,9 +151,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testEntryUpdated()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(EntryUpdated::class, UpdateRelatedIndices::class);
+        $fake->assertListening(EntryUpdated::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -158,9 +163,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testSongCreated()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(SongCreated::class, UpdateRelatedIndices::class);
+        $fake->assertListening(SongCreated::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -170,9 +175,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testSongDeleted()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(SongDeleted::class, UpdateRelatedIndices::class);
+        $fake->assertListening(SongDeleted::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -182,9 +187,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testSongDeleting()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(SongDeleting::class, UpdateRelatedIndices::class);
+        $fake->assertListening(SongDeleting::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -194,9 +199,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testSongRestored()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(SongRestored::class, UpdateRelatedIndices::class);
+        $fake->assertListening(SongRestored::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -206,9 +211,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testSongUpdated()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(SongUpdated::class, UpdateRelatedIndices::class);
+        $fake->assertListening(SongUpdated::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -218,9 +223,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testSynonymCreated()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(SynonymCreated::class, UpdateRelatedIndices::class);
+        $fake->assertListening(SynonymCreated::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -230,9 +235,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testSynonymDeleted()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(SynonymDeleted::class, UpdateRelatedIndices::class);
+        $fake->assertListening(SynonymDeleted::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -242,9 +247,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testSynonymRestored()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(SynonymRestored::class, UpdateRelatedIndices::class);
+        $fake->assertListening(SynonymRestored::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -254,9 +259,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testSynonymUpdated()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(SynonymUpdated::class, UpdateRelatedIndices::class);
+        $fake->assertListening(SynonymUpdated::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -266,9 +271,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testThemeCreated()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(ThemeCreated::class, UpdateRelatedIndices::class);
+        $fake->assertListening(ThemeCreated::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -278,9 +283,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testThemeUpdated()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(ThemeUpdated::class, UpdateRelatedIndices::class);
+        $fake->assertListening(ThemeUpdated::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -290,9 +295,9 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testVideoEntryCreated()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(VideoEntryCreated::class, UpdateRelatedIndices::class);
+        $fake->assertListening(VideoEntryCreated::class, UpdateRelatedIndices::class);
     }
 
     /**
@@ -302,8 +307,8 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testVideoEntryDeleted()
     {
-        Event::fake();
+        $fake = Event::fake();
 
-        Event::assertListening(VideoEntryDeleted::class, UpdateRelatedIndices::class);
+        $fake->assertListening(VideoEntryDeleted::class, UpdateRelatedIndices::class);
     }
 }

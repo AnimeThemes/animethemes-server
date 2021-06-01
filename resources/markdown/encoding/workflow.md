@@ -164,7 +164,7 @@ Our arguments for the mode that targets average perceptual quality are:
 
 **-crf** is our Constant Rate Factor. It sets the quality/size tradeoff. Its range is 0-63, where lower values are better quality.
 
-**-b:v** must be 0 in in this mode.
+**-b:v** must be 0 in this mode.
 
 **-qcomp 0.7** biases to perceptual quality.
 

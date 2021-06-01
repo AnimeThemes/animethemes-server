@@ -1,29 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Pivot\ArtistResource;
 
+use App\Models\Artist;
+use App\Models\ExternalResource;
 use App\Pivots\ArtistResource;
 
+/**
+ * Class ArtistResourceEvent.
+ */
 abstract class ArtistResourceEvent
 {
     /**
      * The artist that this artist resource belongs to.
      *
-     * @var \App\Models\Artist
+     * @var Artist
      */
-    protected $artist;
+    protected Artist $artist;
 
     /**
      * The resource that this artist resource belongs to.
      *
-     * @var \App\Models\ExternalResource
+     * @var ExternalResource
      */
-    protected $resource;
+    protected ExternalResource $resource;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Pivots\ArtistResource $artistResource
+     * @param ArtistResource $artistResource
      * @return void
      */
     public function __construct(ArtistResource $artistResource)
@@ -35,9 +42,9 @@ abstract class ArtistResourceEvent
     /**
      * Get the artist that this artist resource belongs to.
      *
-     * @return \App\Models\Artist
+     * @return Artist
      */
-    public function getArtist()
+    public function getArtist(): Artist
     {
         return $this->artist;
     }
@@ -45,9 +52,9 @@ abstract class ArtistResourceEvent
     /**
      * Get the resource that this artist resource belongs to.
      *
-     * @return \App\Models\ExternalResource
+     * @return ExternalResource
      */
-    public function getResource()
+    public function getResource(): ExternalResource
     {
         return $this->resource;
     }

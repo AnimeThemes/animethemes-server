@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Events\Billing;
+declare(strict_types=1);
+
+namespace Events\Billing;
 
 use App\Events\Billing\Transaction\TransactionCreated;
 use App\Events\Billing\Transaction\TransactionDeleted;
@@ -11,6 +13,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class TransactionTest.
+ */
 class TransactionTest extends TestCase
 {
     use RefreshDatabase;

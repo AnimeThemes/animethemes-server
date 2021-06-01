@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Nova\Resources;
+declare(strict_types=1);
+
+namespace Nova\Resources;
 
 use App\Enums\ImageFacet;
 use App\Nova\Filters\CreatedEndDateFilter;
@@ -13,21 +15,28 @@ use App\Nova\Filters\UpdatedStartDateFilter;
 use App\Nova\Image;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
+/**
+ * Class ImageTest.
+ */
 class ImageTest extends TestCase
 {
-    use NovaResourceTest, WithoutEvents;
+    use NovaResourceTest;
+    use WithoutEvents;
 
     /**
      * The Image Resource shall contain Image Fields.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFields()
     {
-        $resource = $this->novaResource(Image::class);
+        $resource = static::novaResource(Image::class);
 
         $resource->assertHasField(__('nova.id'));
         $resource->assertHasField(__('nova.created_at'));
@@ -41,10 +50,12 @@ class ImageTest extends TestCase
      * The Image Resource shall contain an ID field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testIdField()
     {
-        $resource = $this->novaResource(Image::class);
+        $resource = static::novaResource(Image::class);
 
         $field = $resource->field(__('nova.id'));
 
@@ -60,10 +71,12 @@ class ImageTest extends TestCase
      * The Image Resource shall contain a Created At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testCreatedAtField()
     {
-        $resource = $this->novaResource(Image::class);
+        $resource = static::novaResource(Image::class);
 
         $field = $resource->field(__('nova.created_at'));
 
@@ -79,10 +92,12 @@ class ImageTest extends TestCase
      * The Image Resource shall contain an Updated At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testUpdatedAtField()
     {
-        $resource = $this->novaResource(Image::class);
+        $resource = static::novaResource(Image::class);
 
         $field = $resource->field(__('nova.updated_at'));
 
@@ -98,10 +113,12 @@ class ImageTest extends TestCase
      * The Image Resource shall contain a Deleted At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testDeletedAtField()
     {
-        $resource = $this->novaResource(Image::class);
+        $resource = static::novaResource(Image::class);
 
         $field = $resource->field(__('nova.deleted_at'));
 
@@ -117,10 +134,12 @@ class ImageTest extends TestCase
      * The Image Resource shall contain a Facet field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testFacetField()
     {
-        $resource = $this->novaResource(Image::class);
+        $resource = static::novaResource(Image::class);
 
         $field = $resource->field(__('nova.facet'));
 
@@ -138,10 +157,12 @@ class ImageTest extends TestCase
      * The Image Resource shall contain an Image field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testImageField()
     {
-        $resource = $this->novaResource(Image::class);
+        $resource = static::novaResource(Image::class);
 
         $field = $resource->field(__('nova.image'));
 
@@ -158,10 +179,11 @@ class ImageTest extends TestCase
      * The Image Resource shall contain Image Filters.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFilters()
     {
-        $resource = $this->novaResource(Image::class);
+        $resource = static::novaResource(Image::class);
 
         $resource->assertHasFilter(ImageFacetFilter::class);
         $resource->assertHasFilter(CreatedStartDateFilter::class);
@@ -176,10 +198,11 @@ class ImageTest extends TestCase
      * The Image Resource shall contain no Actions.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testActions()
     {
-        $resource = $this->novaResource(Image::class);
+        $resource = static::novaResource(Image::class);
 
         $resource->assertHasNoActions();
     }

@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Models;
+declare(strict_types=1);
+
+namespace Models;
 
 use App\Models\Anime;
 use App\Models\Series;
@@ -11,9 +13,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class SeriesTest.
+ */
 class SeriesTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * Series shall be a searchable resource.
@@ -24,7 +30,7 @@ class SeriesTest extends TestCase
     {
         $series = Series::factory()->create();
 
-        $this->assertIsString($series->searchableAs());
+        static::assertIsString($series->searchableAs());
     }
 
     /**
@@ -36,7 +42,7 @@ class SeriesTest extends TestCase
     {
         $series = Series::factory()->create();
 
-        $this->assertIsArray($series->toSearchableArray());
+        static::assertIsArray($series->toSearchableArray());
     }
 
     /**
@@ -50,7 +56,7 @@ class SeriesTest extends TestCase
 
         $series = Series::factory()->create();
 
-        $this->assertEquals(1, $series->audits->count());
+        static::assertEquals(1, $series->audits->count());
     }
 
     /**
@@ -62,7 +68,7 @@ class SeriesTest extends TestCase
     {
         $series = Series::factory()->create();
 
-        $this->assertIsString($series->getName());
+        static::assertIsString($series->getName());
     }
 
     /**
@@ -78,9 +84,9 @@ class SeriesTest extends TestCase
             ->has(Anime::factory()->count($animeCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $series->anime());
-        $this->assertEquals($animeCount, $series->anime()->count());
-        $this->assertInstanceOf(Anime::class, $series->anime()->first());
-        $this->assertEquals(AnimeSeries::class, $series->anime()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $series->anime());
+        static::assertEquals($animeCount, $series->anime()->count());
+        static::assertInstanceOf(Anime::class, $series->anime()->first());
+        static::assertEquals(AnimeSeries::class, $series->anime()->getPivotClass());
     }
 }

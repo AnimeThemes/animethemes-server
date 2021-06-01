@@ -1,22 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Image;
 
 use App\Models\Image;
 
+/**
+ * Class ImageEvent.
+ */
 abstract class ImageEvent
 {
     /**
      * The image that has fired this event.
      *
-     * @var \App\Models\Image
+     * @var Image
      */
-    protected $image;
+    protected Image $image;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Image $image
+     * @param Image $image
      * @return void
      */
     public function __construct(Image $image)
@@ -27,9 +32,9 @@ abstract class ImageEvent
     /**
      * Get the image that has fired this event.
      *
-     * @return \App\Models\Image
+     * @return Image
      */
-    public function getImage()
+    public function getImage(): Image
     {
         return $this->image;
     }

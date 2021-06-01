@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\ResourceSite;
@@ -10,12 +12,18 @@ use App\Events\ExternalResource\ExternalResourceUpdated;
 use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
 use BenSampo\Enum\Traits\CastsEnums;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * Class ExternalResource.
+ */
 class ExternalResource extends BaseModel
 {
     use CastsEnums;
 
     /**
+     * The attributes that are mass assignable.
+     *
      * @var array
      */
     protected $fillable = ['site', 'link', 'external_id'];
@@ -49,6 +57,8 @@ class ExternalResource extends BaseModel
     protected $primaryKey = 'resource_id';
 
     /**
+     * The attributes that should be cast to enum types.
+     *
      * @var array
      */
     protected $enumCasts = [
@@ -56,10 +66,13 @@ class ExternalResource extends BaseModel
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
      * @var array
      */
     protected $casts = [
         'site' => 'int',
+        'external_id' => 'int',
     ];
 
     /**
@@ -67,7 +80,7 @@ class ExternalResource extends BaseModel
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->link;
     }
@@ -75,9 +88,9 @@ class ExternalResource extends BaseModel
     /**
      * Get the anime that reference this resource.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function anime()
+    public function anime(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Anime', 'anime_resource', 'resource_id', 'anime_id')
             ->using(AnimeResource::class)
@@ -88,9 +101,9 @@ class ExternalResource extends BaseModel
     /**
      * Get the artists that reference this resource.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function artists()
+    public function artists(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Artist', 'artist_resource', 'resource_id', 'artist_id')
             ->using(ArtistResource::class)

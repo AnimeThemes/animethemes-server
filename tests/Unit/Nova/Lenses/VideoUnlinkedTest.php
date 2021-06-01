@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Nova\Lenses;
+declare(strict_types=1);
+
+namespace Nova\Lenses;
 
 use App\Models\Anime;
 use App\Models\Entry;
@@ -16,23 +18,33 @@ use App\Nova\Filters\VideoTypeFilter;
 use App\Nova\Lenses\VideoUnlinkedLens;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Lenses\InvalidNovaLensException;
 use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
+/**
+ * Class VideoUnlinkedTest.
+ */
 class VideoUnlinkedTest extends TestCase
 {
-    use NovaLensTest, RefreshDatabase, WithFaker;
+    use NovaLensTest;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * The Video Source Lens shall contain Video Fields.
      *
      * @return void
+     * @throws InvalidNovaLensException
+     * @throws InvalidNovaLensException
      */
     public function testFields()
     {
         $this->withoutEvents();
 
-        $lens = $this->novaLens(VideoUnlinkedLens::class);
+        $lens = static::novaLens(VideoUnlinkedLens::class);
 
         $lens->assertHasField(__('nova.id'));
         $lens->assertHasField(__('nova.filename'));
@@ -47,12 +59,14 @@ class VideoUnlinkedTest extends TestCase
      * The Video Source Lens fields shall be sortable.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaLensException
      */
     public function testSortable()
     {
         $this->withoutEvents();
 
-        $lens = $this->novaLens(VideoUnlinkedLens::class);
+        $lens = static::novaLens(VideoUnlinkedLens::class);
 
         $lens->field(__('nova.id'))->assertSortable();
         $lens->field(__('nova.filename'))->assertSortable();
@@ -67,12 +81,13 @@ class VideoUnlinkedTest extends TestCase
      * The Video Source Lens shall contain Video Filters.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testFilters()
     {
         $this->withoutEvents();
 
-        $lens = $this->novaLens(VideoUnlinkedLens::class);
+        $lens = static::novaLens(VideoUnlinkedLens::class);
 
         $lens->assertHasFilter(VideoTypeFilter::class);
         $lens->assertHasFilter(CreatedStartDateFilter::class);
@@ -87,12 +102,13 @@ class VideoUnlinkedTest extends TestCase
      * The Video Source Lens shall contain no Actions.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testActions()
     {
         $this->withoutEvents();
 
-        $lens = $this->novaLens(VideoUnlinkedLens::class);
+        $lens = static::novaLens(VideoUnlinkedLens::class);
 
         $lens->assertHasNoActions();
     }
@@ -101,12 +117,14 @@ class VideoUnlinkedTest extends TestCase
      * The Video Source Lens shall use the 'withFilters' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithFilters()
     {
         $this->withoutEvents();
 
-        $lens = $this->novaLens(VideoUnlinkedLens::class);
+        $lens = static::novaLens(VideoUnlinkedLens::class);
 
         $query = $lens->query(Video::class);
 
@@ -117,12 +135,14 @@ class VideoUnlinkedTest extends TestCase
      * The Video Source Lens shall use the 'withOrdering' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithOrdering()
     {
         $this->withoutEvents();
 
-        $lens = $this->novaLens(VideoUnlinkedLens::class);
+        $lens = static::novaLens(VideoUnlinkedLens::class);
 
         $query = $lens->query(Video::class);
 
@@ -133,6 +153,8 @@ class VideoUnlinkedTest extends TestCase
      * The Video Source Lens shall filter Videos without Source.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testQuery()
     {
@@ -151,7 +173,7 @@ class VideoUnlinkedTest extends TestCase
 
         $filteredVideos = Video::whereDoesntHave('entries')->get();
 
-        $lens = $this->novaLens(VideoUnlinkedLens::class);
+        $lens = static::novaLens(VideoUnlinkedLens::class);
 
         $query = $lens->query(Video::class);
 

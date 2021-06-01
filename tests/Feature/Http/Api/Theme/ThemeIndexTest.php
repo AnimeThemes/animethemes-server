@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Api\Theme;
+declare(strict_types=1);
+
+namespace Http\Api\Theme;
 
 use App\Enums\AnimeSeason;
 use App\Enums\Filter\TrashedStatus;
@@ -19,15 +21,22 @@ use App\Models\Theme;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class ThemeIndexTest.
+ */
 class ThemeIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Theme Index Endpoint shall return a collection of Theme Resources.
@@ -175,7 +184,7 @@ class ThemeIndexTest extends TestCase
     public function testSorts()
     {
         $allowedSorts = collect(ThemeCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -340,7 +349,7 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $deleteTheme->each(function ($theme) {
+        $deleteTheme->each(function (Theme $theme) {
             $theme->delete();
         });
 
@@ -386,7 +395,7 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $deleteTheme->each(function ($theme) {
+        $deleteTheme->each(function (Theme $theme) {
             $theme->delete();
         });
 
@@ -432,7 +441,7 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $deleteTheme->each(function ($theme) {
+        $deleteTheme->each(function (Theme $theme) {
             $theme->delete();
         });
 
@@ -642,7 +651,7 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'anime' => function ($query) use ($seasonFilter) {
+            'anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -690,7 +699,7 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'anime' => function ($query) use ($yearFilter) {
+            'anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])
@@ -735,7 +744,7 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'anime.images' => function ($query) use ($facetFilter) {
+            'anime.images' => function (BelongsToMany $query) use ($facetFilter) {
                 $query->where('facet', $facetFilter->value);
             },
         ])
@@ -778,7 +787,7 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries' => function ($query) use ($nsfwFilter) {
+            'entries' => function (HasMany $query) use ($nsfwFilter) {
                 $query->where('nsfw', $nsfwFilter);
             },
         ])
@@ -821,7 +830,7 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries' => function ($query) use ($spoilerFilter) {
+            'entries' => function (HasMany $query) use ($spoilerFilter) {
                 $query->where('spoiler', $spoilerFilter);
             },
         ])
@@ -872,7 +881,7 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries' => function ($query) use ($versionFilter) {
+            'entries' => function (HasMany $query) use ($versionFilter) {
                 $query->where('version', $versionFilter);
             },
         ])
@@ -919,7 +928,7 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($lyricsFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($lyricsFilter) {
                 $query->where('lyrics', $lyricsFilter);
             },
         ])
@@ -966,7 +975,7 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($ncFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($ncFilter) {
                 $query->where('nc', $ncFilter);
             },
         ])
@@ -1013,7 +1022,7 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($overlapFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($overlapFilter) {
                 $query->where('overlap', $overlapFilter->value);
             },
         ])
@@ -1068,7 +1077,7 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($resolutionFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($resolutionFilter) {
                 $query->where('resolution', $resolutionFilter);
             },
         ])
@@ -1115,7 +1124,7 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($sourceFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($sourceFilter) {
                 $query->where('source', $sourceFilter->value);
             },
         ])
@@ -1162,7 +1171,7 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($subbedFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($subbedFilter) {
                 $query->where('subbed', $subbedFilter);
             },
         ])
@@ -1209,7 +1218,7 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = Theme::with([
-            'entries.videos' => function ($query) use ($uncenFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($uncenFilter) {
                 $query->where('uncen', $uncenFilter);
             },
         ])

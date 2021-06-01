@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Enums\InvitationStatus;
 use App\Models\Invitation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * Class InvitationFactory.
+ */
 class InvitationFactory extends Factory
 {
     /**
@@ -20,7 +25,7 @@ class InvitationFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->name,

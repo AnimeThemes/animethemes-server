@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Anime;
@@ -7,6 +9,9 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+/**
+ * Class AnimeSeeder.
+ */
 class AnimeSeeder extends Seeder
 {
     /**

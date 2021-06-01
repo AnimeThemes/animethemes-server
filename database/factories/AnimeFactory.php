@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Enums\AnimeSeason;
@@ -15,6 +17,9 @@ use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/**
+ * Class AnimeFactory.
+ */
 class AnimeFactory extends Factory
 {
     /**
@@ -29,7 +34,7 @@ class AnimeFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'slug' => Str::slug($this->faker->words(3, true), '_'),
@@ -45,7 +50,7 @@ class AnimeFactory extends Factory
      *
      * @return static
      */
-    public function jsonApiResource()
+    public function jsonApiResource(): static
     {
         return $this->afterCreating(
             function (Anime $anime) {

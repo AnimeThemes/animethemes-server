@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http;
+declare(strict_types=1);
+
+namespace Http;
 
 use App\Enums\ImageFacet;
 use App\Models\Image;
@@ -13,9 +15,14 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
+/**
+ * Class ImageTest.
+ */
 class ImageTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * If the image is soft deleted, the user shall be redirected to the Welcome Screen.
@@ -42,7 +49,7 @@ class ImageTest extends TestCase
     {
         $fs = Storage::fake('images');
         $file = File::fake()->image($this->faker->word().'.jpg');
-        $fsFile = $fs->put('', $file);
+        $fsFile = $fs->putFile('', $file);
         $fsPathinfo = pathinfo(strval($fsFile));
 
         $image = Image::create([
@@ -54,6 +61,6 @@ class ImageTest extends TestCase
 
         $response = $this->get(route('image.show', ['image' => $image]));
 
-        $this->assertInstanceOf(StreamedResponse::class, $response->baseResponse);
+        static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
     }
 }

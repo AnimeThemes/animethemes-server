@@ -1,12 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\ThemeResource;
 use App\Models\Theme;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * Class ThemeController.
+ */
 class ThemeController extends BaseController
 {
     /**
@@ -89,9 +95,9 @@ class ThemeController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         if ($this->parser->hasSearch()) {
             return ThemeCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
@@ -136,10 +142,10 @@ class ThemeController extends BaseController
      *     )
      * )
      *
-     * @param \App\Models\Theme $theme
-     * @return \Illuminate\Http\JsonResponse
+     * @param Theme $theme
+     * @return JsonResponse
      */
-    public function show(Theme $theme)
+    public function show(Theme $theme): JsonResponse
     {
         $resource = ThemeResource::performQuery($theme, $this->parser);
 

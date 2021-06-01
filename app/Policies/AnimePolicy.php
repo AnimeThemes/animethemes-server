@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Anime;
-use App\Models\ExternalResource;
 use App\Models\Image;
 use App\Models\Series;
 use App\Models\User;
@@ -11,6 +12,9 @@ use App\Pivots\AnimeImage;
 use App\Pivots\AnimeSeries;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Class AnimePolicy.
+ */
 class AnimePolicy
 {
     use HandlesAuthorization;
@@ -18,10 +22,9 @@ class AnimePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(): bool
     {
         return true;
     }
@@ -29,11 +32,9 @@ class AnimePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @return bool
      */
-    public function view(User $user, Anime $anime)
+    public function view(): bool
     {
         return true;
     }
@@ -41,10 +42,10 @@ class AnimePolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasCurrentTeamPermission('anime:create');
     }
@@ -52,11 +53,10 @@ class AnimePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function update(User $user, Anime $anime)
+    public function update(User $user): bool
     {
         return $user->hasCurrentTeamPermission('anime:update');
     }
@@ -64,11 +64,10 @@ class AnimePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function delete(User $user, Anime $anime)
+    public function delete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('anime:delete');
     }
@@ -76,11 +75,10 @@ class AnimePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function restore(User $user, Anime $anime)
+    public function restore(User $user): bool
     {
         return $user->hasCurrentTeamPermission('anime:restore');
     }
@@ -88,11 +86,10 @@ class AnimePolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function forceDelete(User $user, Anime $anime)
+    public function forceDelete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('anime:forceDelete');
     }
@@ -100,11 +97,10 @@ class AnimePolicy
     /**
      * Determine whether the user can attach any series to the anime.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnySeries(User $user, Anime $anime)
+    public function attachAnySeries(User $user): bool
     {
         return $user->hasCurrentTeamPermission('anime:update');
     }
@@ -112,12 +108,12 @@ class AnimePolicy
     /**
      * Determine whether the user can attach a series to the anime.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @param \App\Models\Series $series
-     * @return mixed
+     * @param User $user
+     * @param Anime $anime
+     * @param Series $series
+     * @return bool
      */
-    public function attachSeries(User $user, Anime $anime, Series $series)
+    public function attachSeries(User $user, Anime $anime, Series $series): bool
     {
         if (AnimeSeries::where($anime->getKeyName(), $anime->getKey())->where($series->getKeyName(), $series->getKey())->exists()) {
             return false;
@@ -129,12 +125,10 @@ class AnimePolicy
     /**
      * Determine whether the user can detach a series from the anime.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @param \App\Models\Series $series
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function detachSeries(User $user, Anime $anime, Series $series)
+    public function detachSeries(User $user): bool
     {
         return $user->hasCurrentTeamPermission('anime:update');
     }
@@ -142,11 +136,10 @@ class AnimePolicy
     /**
      * Determine whether the user can attach any resource to the anime.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnyExternalResource(User $user, Anime $anime)
+    public function attachAnyExternalResource(User $user): bool
     {
         return $user->hasCurrentTeamPermission('anime:update');
     }
@@ -154,12 +147,10 @@ class AnimePolicy
     /**
      * Determine whether the user can attach a resource to the anime.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @param \App\Models\ExternalResource $externalResource
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachExternalResource(User $user, Anime $anime, ExternalResource $externalResource)
+    public function attachExternalResource(User $user): bool
     {
         return $user->hasCurrentTeamPermission('anime:update');
     }
@@ -167,12 +158,10 @@ class AnimePolicy
     /**
      * Determine whether the user can detach a resource from the anime.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @param \App\Models\ExternalResource $externalResource
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function detachExternalResource(User $user, Anime $anime, ExternalResource $externalResource)
+    public function detachExternalResource(User $user): bool
     {
         return $user->hasCurrentTeamPermission('anime:update');
     }
@@ -180,11 +169,10 @@ class AnimePolicy
     /**
      * Determine whether the user can attach any image to the anime.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnyImage(User $user, Anime $anime)
+    public function attachAnyImage(User $user): bool
     {
         return $user->hasCurrentTeamPermission('anime:update');
     }
@@ -192,12 +180,12 @@ class AnimePolicy
     /**
      * Determine whether the user can attach an image to the anime.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @param \App\Models\Image $image
-     * @return mixed
+     * @param User $user
+     * @param Anime $anime
+     * @param Image $image
+     * @return bool
      */
-    public function attachImage(User $user, Anime $anime, Image $image)
+    public function attachImage(User $user, Anime $anime, Image $image): bool
     {
         if (AnimeImage::where($anime->getKeyName(), $anime->getKey())->where($image->getKeyName(), $image->getKey())->exists()) {
             return false;
@@ -209,12 +197,10 @@ class AnimePolicy
     /**
      * Determine whether the user can detach an image from the anime.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Anime $anime
-     * @param \App\Models\Image $image
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function detachImage(User $user, Anime $anime, Image $image)
+    public function detachImage(User $user): bool
     {
         return $user->hasCurrentTeamPermission('anime:update');
     }

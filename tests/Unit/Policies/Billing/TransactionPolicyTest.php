@@ -1,19 +1,23 @@
 <?php
 
-namespace Tests\Unit\Policies\Billing;
+declare(strict_types=1);
 
-use App\Models\Billing\Transaction;
+namespace Policies\Billing;
+
 use App\Models\User;
 use App\Policies\Billing\TransactionPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * Class TransactionPolicyTest.
+ */
 class TransactionPolicyTest extends TestCase
 {
     use RefreshDatabase;
 
     /**
-     * Any user regardless of role can view any transaction.
+     * An admin can view any transaction.
      *
      * @return void
      */
@@ -33,13 +37,13 @@ class TransactionPolicyTest extends TestCase
 
         $policy = new TransactionPolicy();
 
-        $this->assertFalse($policy->viewAny($viewer));
-        $this->assertFalse($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertFalse($policy->viewAny($viewer));
+        static::assertFalse($policy->viewAny($editor));
+        static::assertTrue($policy->viewAny($admin));
     }
 
     /**
-     * Any user regardless of role can view a transaction.
+     * An admin can view a transaction.
      *
      * @return void
      */
@@ -57,16 +61,15 @@ class TransactionPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $transaction = Transaction::factory()->create();
         $policy = new TransactionPolicy();
 
-        $this->assertFalse($policy->view($viewer, $transaction));
-        $this->assertFalse($policy->view($editor, $transaction));
-        $this->assertTrue($policy->view($admin, $transaction));
+        static::assertFalse($policy->view($viewer));
+        static::assertFalse($policy->view($editor));
+        static::assertTrue($policy->view($admin));
     }
 
     /**
-     * A contributor or admin may create a transaction.
+     * An admin may create a transaction.
      *
      * @return void
      */
@@ -86,13 +89,13 @@ class TransactionPolicyTest extends TestCase
 
         $policy = new TransactionPolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertFalse($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertFalse($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
-     * A contributor or admin may update a transaction.
+     * An admin may update a transaction.
      *
      * @return void
      */
@@ -110,16 +113,15 @@ class TransactionPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $transaction = Transaction::factory()->create();
         $policy = new TransactionPolicy();
 
-        $this->assertFalse($policy->update($viewer, $transaction));
-        $this->assertFalse($policy->update($editor, $transaction));
-        $this->assertTrue($policy->update($admin, $transaction));
+        static::assertFalse($policy->update($viewer));
+        static::assertFalse($policy->update($editor));
+        static::assertTrue($policy->update($admin));
     }
 
     /**
-     * A contributor or admin may delete a transaction.
+     * An admin may delete a transaction.
      *
      * @return void
      */
@@ -137,16 +139,15 @@ class TransactionPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $transaction = Transaction::factory()->create();
         $policy = new TransactionPolicy();
 
-        $this->assertFalse($policy->delete($viewer, $transaction));
-        $this->assertFalse($policy->delete($editor, $transaction));
-        $this->assertTrue($policy->delete($admin, $transaction));
+        static::assertFalse($policy->delete($viewer));
+        static::assertFalse($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
-     * A contributor or admin may restore a transaction.
+     * An admin may restore a transaction.
      *
      * @return void
      */
@@ -164,16 +165,15 @@ class TransactionPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $transaction = Transaction::factory()->create();
         $policy = new TransactionPolicy();
 
-        $this->assertFalse($policy->restore($viewer, $transaction));
-        $this->assertFalse($policy->restore($editor, $transaction));
-        $this->assertTrue($policy->restore($admin, $transaction));
+        static::assertFalse($policy->restore($viewer));
+        static::assertFalse($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
-     * A contributor or admin may force delete a transaction.
+     * An admin may force delete a transaction.
      *
      * @return void
      */
@@ -191,11 +191,10 @@ class TransactionPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $transaction = Transaction::factory()->create();
         $policy = new TransactionPolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $transaction));
-        $this->assertFalse($policy->forceDelete($editor, $transaction));
-        $this->assertTrue($policy->forceDelete($admin, $transaction));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 }

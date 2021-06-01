@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Actions\Jetstream\AddTeamMember;
@@ -12,6 +14,9 @@ use App\Actions\Jetstream\UpdateTeamName;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Jetstream\Jetstream;
 
+/**
+ * Class JetstreamServiceProvider.
+ */
 class JetstreamServiceProvider extends ServiceProvider
 {
     /**

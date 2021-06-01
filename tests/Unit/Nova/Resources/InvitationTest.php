@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Nova\Resources;
+declare(strict_types=1);
+
+namespace Nova\Resources;
 
 use App\Enums\InvitationStatus;
 use App\Nova\Actions\ResendInvitationAction;
@@ -13,9 +15,14 @@ use App\Nova\Filters\UpdatedEndDateFilter;
 use App\Nova\Filters\UpdatedStartDateFilter;
 use App\Nova\Invitation;
 use BenSampo\Enum\Rules\EnumValue;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
+/**
+ * Class InvitationTest.
+ */
 class InvitationTest extends TestCase
 {
     use NovaResourceTest;
@@ -24,10 +31,11 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain Invitation Fields.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFields()
     {
-        $resource = $this->novaResource(Invitation::class);
+        $resource = static::novaResource(Invitation::class);
 
         $resource->assertHasField(__('nova.id'));
         $resource->assertHasField(__('nova.created_at'));
@@ -42,10 +50,12 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain an ID field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testIdField()
     {
-        $resource = $this->novaResource(Invitation::class);
+        $resource = static::novaResource(Invitation::class);
 
         $field = $resource->field(__('nova.id'));
 
@@ -61,10 +71,12 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain a Created At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testCreatedAtField()
     {
-        $resource = $this->novaResource(Invitation::class);
+        $resource = static::novaResource(Invitation::class);
 
         $field = $resource->field(__('nova.created_at'));
 
@@ -80,10 +92,12 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain an Updated At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testUpdatedAtField()
     {
-        $resource = $this->novaResource(Invitation::class);
+        $resource = static::novaResource(Invitation::class);
 
         $field = $resource->field(__('nova.updated_at'));
 
@@ -99,10 +113,12 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain a Deleted At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testDeletedAtField()
     {
-        $resource = $this->novaResource(Invitation::class);
+        $resource = static::novaResource(Invitation::class);
 
         $field = $resource->field(__('nova.deleted_at'));
 
@@ -118,10 +134,12 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain a Name field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testNameField()
     {
-        $resource = $this->novaResource(Invitation::class);
+        $resource = static::novaResource(Invitation::class);
 
         $field = $resource->field(__('nova.name'));
 
@@ -139,10 +157,12 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain a Email field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testEmailField()
     {
-        $resource = $this->novaResource(Invitation::class);
+        $resource = static::novaResource(Invitation::class);
 
         $field = $resource->field(__('nova.email'));
 
@@ -163,10 +183,12 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain a Status field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testStatusField()
     {
-        $resource = $this->novaResource(Invitation::class);
+        $resource = static::novaResource(Invitation::class);
 
         $field = $resource->field(__('nova.status'));
 
@@ -184,10 +206,11 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain Invitation Filters.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFilters()
     {
-        $resource = $this->novaResource(Invitation::class);
+        $resource = static::novaResource(Invitation::class);
 
         $resource->assertHasFilter(InvitationStatusFilter::class);
         $resource->assertHasFilter(CreatedStartDateFilter::class);
@@ -202,10 +225,11 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain Invitation Actions.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testActions()
     {
-        $resource = $this->novaResource(Invitation::class);
+        $resource = static::novaResource(Invitation::class);
 
         $resource->assertHasAction(ResendInvitationAction::class);
     }

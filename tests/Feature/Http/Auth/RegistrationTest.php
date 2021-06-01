@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http\Auth;
+declare(strict_types=1);
+
+namespace Http\Auth;
 
 use App\Enums\InvitationStatus;
 use App\Models\Invitation;
@@ -9,9 +11,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class RegistrationTest.
+ */
 class RegistrationTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * If the show registration form request does not have an invitation,
@@ -284,7 +290,7 @@ class RegistrationTest extends TestCase
 
         $user = User::where('name', $invitation->name)->where('email', $invitation->email)->first();
 
-        $this->assertNotNull($user);
+        static::assertNotNull($user);
     }
 
     /**

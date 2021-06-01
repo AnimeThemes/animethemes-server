@@ -1,16 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\JsonApi\Filter\Video;
 
 use App\JsonApi\Filter\BooleanFilter;
 use App\JsonApi\QueryParser;
 
+/**
+ * Class VideoNcFilter.
+ */
 class VideoNcFilter extends BooleanFilter
 {
     /**
      * Create a new filter instance.
      *
-     * @param \App\JsonApi\QueryParser $parser
+     * @param QueryParser $parser
      */
     public function __construct(QueryParser $parser)
     {

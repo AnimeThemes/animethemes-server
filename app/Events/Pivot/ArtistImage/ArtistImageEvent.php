@@ -1,29 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Pivot\ArtistImage;
 
+use App\Models\Artist;
+use App\Models\Image;
 use App\Pivots\ArtistImage;
 
+/**
+ * Class ArtistImageEvent.
+ */
 abstract class ArtistImageEvent
 {
     /**
      * The artist that this artist image belongs to.
      *
-     * @var \App\Models\Artist
+     * @var Artist
      */
-    protected $artist;
+    protected Artist $artist;
 
     /**
      * The image that this artist image belongs to.
      *
-     * @var \App\Models\Image
+     * @var Image
      */
-    protected $image;
+    protected Image $image;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Pivots\ArtistImage $artistImage
+     * @param ArtistImage $artistImage
      * @return void
      */
     public function __construct(ArtistImage $artistImage)
@@ -35,9 +42,9 @@ abstract class ArtistImageEvent
     /**
      * Get the artist that this artist image belongs to.
      *
-     * @return \App\Models\Artist
+     * @return Artist
      */
-    public function getArtist()
+    public function getArtist(): Artist
     {
         return $this->artist;
     }
@@ -45,9 +52,9 @@ abstract class ArtistImageEvent
     /**
      * Get the image that this artist image belongs to.
      *
-     * @return \App\Models\Image
+     * @return Image
      */
-    public function getImage()
+    public function getImage(): Image
     {
         return $this->image;
     }

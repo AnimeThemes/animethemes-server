@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
@@ -8,7 +10,11 @@ use App\JsonApi\Filter\Base\DeletedAtFilter;
 use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\ExternalResource\ExternalResourceSiteFilter;
+use Illuminate\Http\Request;
 
+/**
+ * Class ExternalResourceCollection.
+ */
 class ExternalResourceCollection extends BaseCollection
 {
     use PerformsResourceCollectionQuery;
@@ -23,10 +29,10 @@ class ExternalResourceCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return $this->collection->map(function (ExternalResourceResource $resource) {
             return $resource->parser($this->parser);
@@ -38,7 +44,7 @@ class ExternalResourceCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedIncludePaths()
+    public static function allowedIncludePaths(): array
     {
         return [
             'anime',
@@ -51,7 +57,7 @@ class ExternalResourceCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedSortFields()
+    public static function allowedSortFields(): array
     {
         return [
             'resource_id',
@@ -69,7 +75,7 @@ class ExternalResourceCollection extends BaseCollection
      *
      * @return array
      */
-    public static function filters()
+    public static function filters(): array
     {
         return [
             ExternalResourceSiteFilter::class,

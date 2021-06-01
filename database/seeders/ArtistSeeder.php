@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Enums\ResourceSite;
@@ -9,6 +11,9 @@ use App\Pivots\ArtistResource;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Class ArtistSeeder.
+ */
 class ArtistSeeder extends Seeder
 {
     /**

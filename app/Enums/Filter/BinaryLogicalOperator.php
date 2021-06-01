@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums\Filter;
 
 use BenSampo\Enum\Enum;
@@ -10,6 +12,6 @@ use BenSampo\Enum\Enum;
  */
 final class BinaryLogicalOperator extends Enum
 {
-    const AND = 'and';
-    const OR = 'or';
+    public const AND = 'and';
+    public const OR = 'or';
 }

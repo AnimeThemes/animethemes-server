@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Song;
 
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
@@ -8,6 +10,9 @@ use App\Models\Entry;
 use App\Models\Theme;
 use App\Models\Video;
 
+/**
+ * Class SongDeleting.
+ */
 class SongDeleting extends SongEvent implements UpdateRelatedIndicesEvent
 {
     /**

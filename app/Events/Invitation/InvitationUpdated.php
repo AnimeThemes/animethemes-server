@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Invitation;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
@@ -10,14 +12,18 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class InvitationUpdated.
+ */
 class InvitationUpdated extends InvitationEvent implements DiscordMessageEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
+    use Dispatchable;
+    use HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Invitation $invitation
+     * @param Invitation $invitation
      * @return void
      */
     public function __construct(Invitation $invitation)
@@ -29,9 +35,9 @@ class InvitationUpdated extends InvitationEvent implements DiscordMessageEvent
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $invitation = $this->getInvitation();
 
@@ -47,7 +53,7 @@ class InvitationUpdated extends InvitationEvent implements DiscordMessageEvent
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.admin_discord_channel');
     }

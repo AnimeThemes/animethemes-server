@@ -1,9 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories\Pivots;
 
+use App\Pivots\AnimeImage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * Class AnimeImageFactory.
+ */
 class AnimeImageFactory extends Factory
 {
     /**
@@ -11,14 +17,14 @@ class AnimeImageFactory extends Factory
      *
      * @var string
      */
-    protected $model = \App\Pivots\AnimeImage::class;
+    protected $model = AnimeImage::class;
 
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             //

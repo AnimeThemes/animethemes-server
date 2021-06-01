@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\JsonApi\Filter;
+declare(strict_types=1);
+
+namespace JsonApi\Filter;
 
 use App\JsonApi\Filter\EnumFilter;
 use App\JsonApi\QueryParser;
@@ -8,6 +10,9 @@ use BenSampo\Enum\Enum;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class EnumFilterTest.
+ */
 class EnumFilterTest extends TestCase
 {
     use WithFaker;
@@ -29,13 +34,13 @@ class EnumFilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
         {
-            const ZERO = 0;
-            const ONE = 1;
-            const TWO = 2;
+            public const ZERO = 0;
+            public const ONE = 1;
+            public const TWO = 2;
         };
 
         $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter
@@ -43,7 +48,7 @@ class EnumFilterTest extends TestCase
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        static::assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -57,9 +62,9 @@ class EnumFilterTest extends TestCase
 
         $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
         {
-            const ZERO = 0;
-            const ONE = 1;
-            const TWO = 2;
+            public const ZERO = 0;
+            public const ONE = 1;
+            public const TWO = 2;
         };
 
         $enumClass = get_class($enum);
@@ -72,14 +77,14 @@ class EnumFilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter
         {
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        static::assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -93,9 +98,9 @@ class EnumFilterTest extends TestCase
 
         $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
         {
-            const ZERO = 0;
-            const ONE = 1;
-            const TWO = 2;
+            public const ZERO = 0;
+            public const ONE = 1;
+            public const TWO = 2;
         };
 
         $parameters = [
@@ -104,7 +109,7 @@ class EnumFilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter
         {
@@ -113,6 +118,6 @@ class EnumFilterTest extends TestCase
 
         $filterValues = $filter->getFilterValues($parser->getConditions($filterField)[0]);
 
-        $this->assertEquals($enum->value, $filterValues[0]);
+        static::assertEquals($enum->value, $filterValues[0]);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Models\Billing;
+declare(strict_types=1);
+
+namespace Models\Billing;
 
 use App\Enums\Billing\Frequency;
 use App\Enums\Billing\Service;
@@ -9,6 +11,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class BalanceTest.
+ */
 class BalanceTest extends TestCase
 {
     use RefreshDatabase;
@@ -24,7 +29,7 @@ class BalanceTest extends TestCase
 
         $service = $balance->service;
 
-        $this->assertInstanceOf(Service::class, $service);
+        static::assertInstanceOf(Service::class, $service);
     }
 
     /**
@@ -38,7 +43,7 @@ class BalanceTest extends TestCase
 
         $frequency = $balance->frequency;
 
-        $this->assertInstanceOf(Frequency::class, $frequency);
+        static::assertInstanceOf(Frequency::class, $frequency);
     }
 
     /**
@@ -52,7 +57,7 @@ class BalanceTest extends TestCase
 
         $balance = Balance::factory()->create();
 
-        $this->assertEquals(1, $balance->audits->count());
+        static::assertEquals(1, $balance->audits->count());
     }
 
     /**
@@ -64,6 +69,6 @@ class BalanceTest extends TestCase
     {
         $balance = Balance::factory()->create();
 
-        $this->assertIsString($balance->getName());
+        static::assertIsString($balance->getName());
     }
 }

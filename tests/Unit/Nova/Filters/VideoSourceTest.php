@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Nova\Filters;
+declare(strict_types=1);
+
+namespace Nova\Filters;
 
 use App\Enums\VideoSource;
 use App\Models\Video;
@@ -8,21 +10,30 @@ use App\Nova\Filters\VideoSourceFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class VideoSourceTest.
+ */
 class VideoSourceTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Video Source Filter shall be a select filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
     {
-        $this->novaFilter(VideoSourceFilter::class)
+        static::novaFilter(VideoSourceFilter::class)
             ->assertSelectFilter();
     }
 
@@ -30,10 +41,11 @@ class VideoSourceTest extends TestCase
      * The Video Source Filter shall have an option for each VideoSource instance.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testOptions()
     {
-        $filter = $this->novaFilter(VideoSourceFilter::class);
+        $filter = static::novaFilter(VideoSourceFilter::class);
 
         foreach (VideoSource::getInstances() as $source) {
             $filter->assertHasOption($source->description);
@@ -44,6 +56,8 @@ class VideoSourceTest extends TestCase
      * The Video Source Filter shall filter Video By Source.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testFilter()
     {
@@ -51,7 +65,7 @@ class VideoSourceTest extends TestCase
 
         Video::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $filter = $this->novaFilter(VideoSourceFilter::class);
+        $filter = static::novaFilter(VideoSourceFilter::class);
 
         $response = $filter->apply(Video::class, $source->value);
 

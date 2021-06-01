@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -8,6 +10,9 @@ use Illuminate\Notifications\Notification;
 use NotificationChannels\Discord\DiscordChannel;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class DiscordNotification.
+ */
 class DiscordNotification extends Notification implements ShouldQueue
 {
     use Queueable;
@@ -15,14 +20,14 @@ class DiscordNotification extends Notification implements ShouldQueue
     /**
      * The Discord message payload.
      *
-     * @var \NotificationChannels\Discord\DiscordMessage
+     * @var DiscordMessage
      */
-    protected $message;
+    protected DiscordMessage $message;
 
     /**
      * Create a new notification instance.
      *
-     * @param \NotificationChannels\Discord\DiscordMessage $message
+     * @param DiscordMessage $message
      * @return void
      */
     public function __construct(DiscordMessage $message)
@@ -36,7 +41,7 @@ class DiscordNotification extends Notification implements ShouldQueue
      * @param mixed $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via(mixed $notifiable): array
     {
         return [DiscordChannel::class];
     }
@@ -45,9 +50,9 @@ class DiscordNotification extends Notification implements ShouldQueue
      * Get the discord representation of the notification.
      *
      * @param mixed $notifiable
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function toDiscord($notifiable)
+    public function toDiscord(mixed $notifiable): DiscordMessage
     {
         return $this->message;
     }

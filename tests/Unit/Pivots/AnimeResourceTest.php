@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\Pivots;
+declare(strict_types=1);
+
+namespace Pivots;
 
 use App\Models\Anime;
 use App\Models\ExternalResource;
@@ -10,9 +12,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class AnimeResourceTest.
+ */
 class AnimeResourceTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
      * An AnimeResource shall belong to an Anime.
@@ -26,8 +32,8 @@ class AnimeResourceTest extends TestCase
             ->for(ExternalResource::factory(), 'resource')
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $animeResource->anime());
-        $this->assertInstanceOf(Anime::class, $animeResource->anime()->first());
+        static::assertInstanceOf(BelongsTo::class, $animeResource->anime());
+        static::assertInstanceOf(Anime::class, $animeResource->anime()->first());
     }
 
     /**
@@ -42,7 +48,7 @@ class AnimeResourceTest extends TestCase
             ->for(ExternalResource::factory(), 'resource')
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $animeResource->resource());
-        $this->assertInstanceOf(ExternalResource::class, $animeResource->resource()->first());
+        static::assertInstanceOf(BelongsTo::class, $animeResource->resource());
+        static::assertInstanceOf(ExternalResource::class, $animeResource->resource()->first());
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Models\Team;
@@ -9,6 +11,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules\Password;
 
+/**
+ * Class AuthServiceProvider.
+ */
 class AuthServiceProvider extends ServiceProvider
 {
     /**

@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Series;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/**
+ * Class SeriesFactory.
+ */
 class SeriesFactory extends Factory
 {
     /**
@@ -20,7 +25,7 @@ class SeriesFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'slug' => Str::slug($this->faker->words(3, true), '_'),

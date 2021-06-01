@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Enums\VideoOverlap;
@@ -8,6 +10,9 @@ use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/**
+ * Class VideoFactory.
+ */
 class VideoFactory extends Factory
 {
     /**
@@ -22,7 +27,7 @@ class VideoFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'basename' => Str::random(),

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceQuery;
+use Illuminate\Http\Request;
 
 /**
  * @OA\Schema(
@@ -38,10 +41,10 @@ class SynonymResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->when($this->isAllowedField('id'), $this->synonym_id),
@@ -58,7 +61,7 @@ class SynonymResource extends BaseResource
      *
      * @return array
      */
-    public static function allowedIncludePaths()
+    public static function allowedIncludePaths(): array
     {
         return [
             'anime',

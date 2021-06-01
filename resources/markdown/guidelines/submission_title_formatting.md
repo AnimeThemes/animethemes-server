@@ -39,7 +39,7 @@ Submissions must have a descriptive title that includes the anime, which OP or E
 * In the general case, we will follow the anime's MAL page for deriving Song Titles.
 * We recommend cross-referencing MAL with other resources such as Japanese Wikipedia and ANN's Encyclopedia to confirm the accuracy of Song Titles.
 * If the title cannot be derived, we will allow the submission to use an empty value for this field.
-* We permit the use of an parenthetical after the quoted Song Title to provide the original character set of the Song Title. This is useful in the absence of accepted translations on available resources.
+* We permit the use of a parenthetical after the quoted Song Title to provide the original character set of the Song Title. This is useful in the absence of accepted translations on available resources.
 
 `Tags` - Identifying characteristics of the video
 

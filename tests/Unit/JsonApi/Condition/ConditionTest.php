@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Unit\JsonApi\Condition;
+declare(strict_types=1);
+
+namespace JsonApi\Condition;
 
 use App\Enums\Filter\ComparisonOperator;
 use App\JsonApi\Condition\Condition;
@@ -12,6 +14,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class ConditionTest.
+ */
 class ConditionTest extends TestCase
 {
     use WithFaker;
@@ -27,7 +32,7 @@ class ConditionTest extends TestCase
 
         $condition = Condition::make($field, $this->faker->word());
 
-        $this->assertEquals($field, $condition->getField());
+        static::assertEquals($field, $condition->getField());
     }
 
     /**
@@ -53,7 +58,7 @@ class ConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertEquals($operator, $condition->getComparisonOperator());
+        static::assertEquals($operator, $condition->getComparisonOperator());
     }
 
     /**
@@ -69,7 +74,7 @@ class ConditionTest extends TestCase
 
         $condition = Condition::make($field, $value);
 
-        $this->assertequals([$value], $condition->getFilterValues());
+        static::assertEquals([$value], $condition->getFilterValues());
     }
 
     /**
@@ -85,7 +90,7 @@ class ConditionTest extends TestCase
 
         $condition = Condition::make($field, $values);
 
-        $this->assertequals(Str::of($values)->explode(',')->all(), $condition->getFilterValues());
+        static::assertEquals(Str::of($values)->explode(',')->all(), $condition->getFilterValues());
     }
 
     /**
@@ -101,7 +106,7 @@ class ConditionTest extends TestCase
 
         $condition = Condition::make($field, $values);
 
-        $this->assertInstanceOf(WhereInCondition::class, $condition);
+        static::assertInstanceOf(WhereInCondition::class, $condition);
     }
 
     /**
@@ -117,7 +122,7 @@ class ConditionTest extends TestCase
 
         $condition = Condition::make($field, $value);
 
-        $this->assertInstanceOf(WhereCondition::class, $condition);
+        static::assertInstanceOf(WhereCondition::class, $condition);
     }
 
     /**
@@ -131,6 +136,6 @@ class ConditionTest extends TestCase
 
         $condition = Condition::make('trashed', $value);
 
-        $this->assertInstanceOf(TrashedCondition::class, $condition);
+        static::assertInstanceOf(TrashedCondition::class, $condition);
     }
 }

@@ -1,22 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\User;
 
 use App\Models\User;
 
+/**
+ * Class UserEvent.
+ */
 abstract class UserEvent
 {
     /**
      * The user that has fired this event.
      *
-     * @var \App\Models\User
+     * @var User
      */
-    protected $user;
+    protected User $user;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      * @return void
      */
     public function __construct(User $user)
@@ -27,9 +32,9 @@ abstract class UserEvent
     /**
      * Get the user that has fired this event.
      *
-     * @return \App\Models\User
+     * @return User
      */
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }

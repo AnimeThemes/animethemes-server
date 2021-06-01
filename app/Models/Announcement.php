@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Events\Announcement\AnnouncementCreated;
@@ -7,8 +9,16 @@ use App\Events\Announcement\AnnouncementDeleted;
 use App\Events\Announcement\AnnouncementRestored;
 use App\Events\Announcement\AnnouncementUpdated;
 
+/**
+ * Class Announcement.
+ */
 class Announcement extends BaseModel
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = ['content'];
 
     /**
@@ -44,7 +54,7 @@ class Announcement extends BaseModel
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return strval($this->getKey());
     }

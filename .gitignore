@@ -11,6 +11,7 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .vscode
+.idea
 auth.json
 *.sqlite
 *.sqlite3

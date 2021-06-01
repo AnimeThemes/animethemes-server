@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Http;
+declare(strict_types=1);
+
+namespace Http;
 
 use App\Models\Announcement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -8,9 +10,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class WelcomeTest.
+ */
 class WelcomeTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The welcome route shall display the home screen.

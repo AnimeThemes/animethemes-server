@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova;
 
 use App\Enums\InvitationStatus;
+use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
@@ -12,6 +15,9 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
+/**
+ * Class Invitation.
+ */
 class Invitation extends Resource
 {
     /**
@@ -19,7 +25,7 @@ class Invitation extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Invitation::class;
+    public static string $model = \App\Models\Invitation::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -33,7 +39,7 @@ class Invitation extends Resource
      *
      * @return array|string|null
      */
-    public static function group()
+    public static function group(): array | string | null
     {
         return __('nova.admin');
     }
@@ -43,7 +49,7 @@ class Invitation extends Resource
      *
      * @return array|string|null
      */
-    public static function label()
+    public static function label(): array | string | null
     {
         return __('nova.invitations');
     }
@@ -53,7 +59,7 @@ class Invitation extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel()
+    public static function singularLabel(): array | string | null
     {
         return __('nova.invitation');
     }
@@ -70,10 +76,10 @@ class Invitation extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             ID::make(__('nova.id'), 'invitation_id')
@@ -96,7 +102,7 @@ class Invitation extends Resource
             Select::make(__('nova.status'), 'status')
                 ->hideWhenCreating()
                 ->options(InvitationStatus::asSelectArray())
-                ->displayUsing(function ($enum) {
+                ->displayUsing(function (?Enum $enum) {
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
@@ -109,7 +115,7 @@ class Invitation extends Resource
     /**
      * @return array
      */
-    protected function timestamps()
+    protected function timestamps(): array
     {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
@@ -132,10 +138,10 @@ class Invitation extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function cards(Request $request)
+    public function cards(Request $request): array
     {
         return [];
     }
@@ -143,29 +149,29 @@ class Invitation extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function filters(Request $request)
+    public function filters(Request $request): array
     {
         return [
-            new Filters\InvitationStatusFilter,
-            new Filters\CreatedStartDateFilter,
-            new Filters\CreatedEndDateFilter,
-            new Filters\UpdatedStartDateFilter,
-            new Filters\UpdatedEndDateFilter,
-            new Filters\DeletedStartDateFilter,
-            new Filters\DeletedEndDateFilter,
+            new Filters\InvitationStatusFilter(),
+            new Filters\CreatedStartDateFilter(),
+            new Filters\CreatedEndDateFilter(),
+            new Filters\UpdatedStartDateFilter(),
+            new Filters\UpdatedEndDateFilter(),
+            new Filters\DeletedStartDateFilter(),
+            new Filters\DeletedEndDateFilter(),
         ];
     }
 
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function lenses(Request $request)
+    public function lenses(Request $request): array
     {
         return [];
     }
@@ -173,13 +179,13 @@ class Invitation extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function actions(Request $request)
+    public function actions(Request $request): array
     {
         return [
-            (new Actions\ResendInvitationAction)
+            (new Actions\ResendInvitationAction())
                 ->confirmText(__('nova.resend_invitation_confirm_message'))
                 ->confirmButtonText(__('nova.resend'))
                 ->cancelButtonText(__('nova.cancel')),

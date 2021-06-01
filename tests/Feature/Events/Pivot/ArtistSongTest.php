@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Events\Pivot;
+declare(strict_types=1);
+
+namespace Events\Pivot;
 
 use App\Events\Pivot\ArtistSong\ArtistSongCreated;
 use App\Events\Pivot\ArtistSong\ArtistSongDeleted;
@@ -12,6 +14,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class ArtistSongTest.
+ */
 class ArtistSongTest extends TestCase
 {
     use RefreshDatabase;

@@ -1,10 +1,15 @@
 <?php
 
-namespace Tests\Feature\Http\Api;
+declare(strict_types=1);
+
+namespace Http\Api;
 
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class FallbackTest.
+ */
 class FallbackTest extends TestCase
 {
     /**

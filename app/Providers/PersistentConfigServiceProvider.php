@@ -1,17 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminatech\Config\Providers\AbstractPersistentConfigServiceProvider;
 use Illuminatech\Config\StorageContract;
 use Illuminatech\Config\StorageDb;
 
+/**
+ * Class PersistentConfigServiceProvider.
+ */
 class PersistentConfigServiceProvider extends AbstractPersistentConfigServiceProvider
 {
     /**
      * Defines the storage for the persistent config.
      *
-     * @return \Illuminatech\Config\StorageContract
+     * @return StorageContract
+     * @throws BindingResolutionException
      */
     protected function storage(): StorageContract
     {

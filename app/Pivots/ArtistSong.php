@@ -1,12 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Pivots;
 
 use App\Events\Pivot\ArtistSong\ArtistSongCreated;
 use App\Events\Pivot\ArtistSong\ArtistSongDeleted;
 use App\Events\Pivot\ArtistSong\ArtistSongUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Class ArtistSong.
+ */
 class ArtistSong extends BasePivot
 {
     use HasFactory;
@@ -39,9 +45,9 @@ class ArtistSong extends BasePivot
     /**
      * Gets the artist that owns the artist song.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function artist()
+    public function artist(): BelongsTo
     {
         return $this->belongsTo('App\Models\Artist', 'artist_id', 'artist_id');
     }
@@ -49,9 +55,9 @@ class ArtistSong extends BasePivot
     /**
      * Gets the song that owns the artist song.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function song()
+    public function song(): BelongsTo
     {
         return $this->belongsTo('App\Models\Song', 'song_id', 'song_id');
     }

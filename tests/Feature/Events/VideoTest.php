@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Events;
+declare(strict_types=1);
+
+namespace Events;
 
 use App\Events\Video\VideoCreated;
 use App\Events\Video\VideoDeleted;
@@ -11,6 +13,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class VideoTest.
+ */
 class VideoTest extends TestCase
 {
     use RefreshDatabase;

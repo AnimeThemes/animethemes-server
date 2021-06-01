@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
+/**
+ * Class StoreImage.
+ */
 class StoreImage
 {
     /**
      * Store the incoming file upload.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param Request $request
+     * @param Model $model
      * @param string $attribute
      * @param string $requestAttribute
      * @param string $disk
@@ -25,7 +30,7 @@ class StoreImage
         string $requestAttribute,
         string $disk,
         string $storagePath
-    ) {
+    ): array {
         $file = $request->file($attribute);
 
         return [

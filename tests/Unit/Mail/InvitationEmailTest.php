@@ -1,12 +1,17 @@
 <?php
 
-namespace Tests\Unit\Mail;
+declare(strict_types=1);
+
+namespace Mail;
 
 use App\Mail\InvitationEmail;
 use App\Models\Invitation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * Class InvitationEmailTest.
+ */
 class InvitationEmailTest extends TestCase
 {
     use RefreshDatabase;

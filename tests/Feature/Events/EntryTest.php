@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Events;
+declare(strict_types=1);
+
+namespace Events;
 
 use App\Events\Entry\EntryCreated;
 use App\Events\Entry\EntryDeleted;
@@ -13,6 +15,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class EntryTest.
+ */
 class EntryTest extends TestCase
 {
     use RefreshDatabase;

@@ -1,9 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories\Pivots;
 
+use App\Pivots\VideoEntry;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * Class VideoEntryFactory.
+ */
 class VideoEntryFactory extends Factory
 {
     /**
@@ -11,14 +17,14 @@ class VideoEntryFactory extends Factory
      *
      * @var string
      */
-    protected $model = \App\Pivots\VideoEntry::class;
+    protected $model = VideoEntry::class;
 
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             //

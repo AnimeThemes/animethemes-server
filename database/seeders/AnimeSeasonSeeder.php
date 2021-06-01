@@ -1,13 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Enums\AnimeSeason;
 use App\Models\Anime;
+use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+/**
+ * Class AnimeSeasonSeeder.
+ */
 class AnimeSeasonSeeder extends Seeder
 {
     /**
@@ -60,11 +66,9 @@ class AnimeSeasonSeeder extends Seeder
                                 $anime->save();
                             }
                         }
-                    } catch (\Exception $exception) {
-                        Log::error($exception);
+                    } catch (Exception $e) {
+                        Log::error($e->getMessage());
                     }
-
-                    continue;
                 }
 
                 // Otherwise just fall through to the next line

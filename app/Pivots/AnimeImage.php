@@ -1,11 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Pivots;
 
 use App\Events\Pivot\AnimeImage\AnimeImageCreated;
 use App\Events\Pivot\AnimeImage\AnimeImageDeleted;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Class AnimeImage.
+ */
 class AnimeImage extends BasePivot
 {
     use HasFactory;
@@ -32,9 +38,9 @@ class AnimeImage extends BasePivot
     /**
      * Gets the anime that owns the anime image.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function anime()
+    public function anime(): BelongsTo
     {
         return $this->belongsTo('App\Models\Anime', 'anime_id', 'anime_id');
     }
@@ -42,9 +48,9 @@ class AnimeImage extends BasePivot
     /**
      * Gets the image that owns the anime image.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function image()
+    public function image(): BelongsTo
     {
         return $this->belongsTo('App\Models\Image', 'image_id', 'image_id');
     }

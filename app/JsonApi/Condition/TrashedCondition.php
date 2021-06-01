@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\JsonApi\Condition;
 
 use App\Enums\Filter\BinaryLogicalOperator;
@@ -9,13 +11,16 @@ use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
+/**
+ * Class TrashedCondition.
+ */
 class TrashedCondition extends Condition
 {
     /**
      * Create a new condition instance.
      *
-     * @param \App\JsonApi\Condition\Predicate $predicate
-     * @param \App\Enums\Filter\BinaryLogicalOperator $operator
+     * @param Predicate $predicate
+     * @param BinaryLogicalOperator $operator
      * @param string $scope
      */
     final public function __construct(
@@ -30,10 +35,10 @@ class TrashedCondition extends Condition
      * Create a new condition instance from query string.
      *
      * @param string $filterParam
-     * @param string $filterValues
-     * @return \App\JsonApi\Condition\Condition
+     * @param mixed $filterValues
+     * @return Condition
      */
-    public static function make(string $filterParam, string $filterValues)
+    public static function make(string $filterParam, mixed $filterValues): Condition
     {
         $scope = '';
         $field = '';
@@ -52,7 +57,6 @@ class TrashedCondition extends Condition
             // Set scope
             if (empty($scope) && ! empty($field)) {
                 $scope = Str::lower($filterPart);
-                continue;
             }
         }
 
@@ -66,24 +70,19 @@ class TrashedCondition extends Condition
     /**
      * Apply condition to builder through filter.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param \App\JsonApi\Filter\Filter $filter
-     * @return \Illuminate\Database\Eloquent\Builder $builder
+     * @param Builder $builder
+     * @param Filter $filter
+     * @return Builder $builder
      */
-    public function apply(Builder $builder, Filter $filter)
+    public function apply(Builder $builder, Filter $filter): Builder
     {
         foreach ($filter->getFilterValues($this) as $filterValue) {
-            switch (Str::lower($filterValue)) {
-            case TrashedStatus::WITH:
-                $builder = $builder->withTrashed();
-                break;
-            case TrashedStatus::WITHOUT:
-                $builder = $builder->withoutTrashed();
-                break;
-            case TrashedStatus::ONLY:
-                $builder = $builder->onlyTrashed();
-                break;
-            }
+            $builder = match (Str::lower($filterValue)) {
+                TrashedStatus::WITH => $builder->withTrashed(),
+                TrashedStatus::WITHOUT => $builder->withoutTrashed(),
+                TrashedStatus::ONLY => $builder->onlyTrashed(),
+                default => $builder,
+            };
         }
 
         return $builder;
@@ -92,11 +91,11 @@ class TrashedCondition extends Condition
     /**
      * Apply condition to builder through filter.
      *
-     * @param \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
-     * @param \App\JsonApi\Filter\Filter $filter
-     * @return \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
+     * @param BoolQueryBuilder $builder
+     * @param Filter $filter
+     * @return BoolQueryBuilder $builder
      */
-    public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter)
+    public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter): BoolQueryBuilder
     {
         return $builder;
     }

@@ -1,13 +1,19 @@
 <?php
 
-namespace Tests\Unit\Rules\Billing;
+declare(strict_types=1);
+
+namespace Rules\Billing;
 
 use App\Enums\Filter\AllowedDateFormat;
 use App\Rules\Billing\TransparencyDateRule;
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class TransparencyDateTest.
+ */
 class TransparencyDateTest extends TestCase
 {
     use WithFaker;
@@ -23,7 +29,7 @@ class TransparencyDateTest extends TestCase
 
         $rule = new TransparencyDateRule($validDates);
 
-        $this->assertFalse($rule->passes($this->faker->word(), $this->faker->word()));
+        static::assertFalse($rule->passes($this->faker->word(), $this->faker->word()));
     }
 
     /**
@@ -37,7 +43,7 @@ class TransparencyDateTest extends TestCase
 
         $rule = new TransparencyDateRule($validDates);
 
-        $this->assertFalse($rule->passes($this->faker->word(), $this->faker->numberBetween()));
+        static::assertFalse($rule->passes($this->faker->word(), $this->faker->numberBetween()));
     }
 
     /**
@@ -47,22 +53,13 @@ class TransparencyDateTest extends TestCase
      */
     public function testInvalidDateFormat()
     {
-        $format = null;
-
-        while ($format == null) {
-            $formatCandidate = AllowedDateFormat::getRandomInstance();
-            if (! $formatCandidate->is(AllowedDateFormat::WITH_MONTH)) {
-                $format = $formatCandidate;
-            }
-        }
-
         $validDates = collect([Carbon::now()]);
 
         $rule = new TransparencyDateRule($validDates);
 
-        $formattedDate = Carbon::now()->format($format);
+        $formattedDate = Carbon::now()->format(DateTimeInterface::RFC822);
 
-        $this->assertFalse($rule->passes($this->faker->word(), $formattedDate));
+        static::assertFalse($rule->passes($this->faker->word(), $formattedDate));
     }
 
     /**
@@ -78,7 +75,7 @@ class TransparencyDateTest extends TestCase
 
         $formattedDate = Carbon::now()->subMonths($this->faker->randomDigitNotNull)->format(AllowedDateFormat::WITH_MONTH);
 
-        $this->assertFalse($rule->passes($this->faker->word(), $formattedDate));
+        static::assertFalse($rule->passes($this->faker->word(), $formattedDate));
     }
 
     /**
@@ -94,6 +91,6 @@ class TransparencyDateTest extends TestCase
 
         $formattedDate = Carbon::now()->format(AllowedDateFormat::WITH_MONTH);
 
-        $this->assertTrue($rule->passes($this->faker->word(), $formattedDate));
+        static::assertTrue($rule->passes($this->faker->word(), $formattedDate));
     }
 }

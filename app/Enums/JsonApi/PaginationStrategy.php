@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums\JsonApi;
 
 use BenSampo\Enum\Enum;
@@ -11,7 +13,7 @@ use BenSampo\Enum\Enum;
  */
 final class PaginationStrategy extends Enum
 {
-    const NONE = 0;
-    const LIMIT = 1;
-    const OFFSET = 2;
+    public const NONE = 0;
+    public const LIMIT = 1;
+    public const OFFSET = 2;
 }

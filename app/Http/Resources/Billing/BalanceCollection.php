@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources\Billing;
 
 use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
@@ -12,7 +14,12 @@ use App\JsonApi\Filter\Billing\Balance\BalanceDateFilter;
 use App\JsonApi\Filter\Billing\Balance\BalanceFrequencyFilter;
 use App\JsonApi\Filter\Billing\Balance\BalanceServiceFilter;
 use App\Models\Billing\Balance;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
+/**
+ * Class BalanceCollection.
+ */
 class BalanceCollection extends BaseCollection
 {
     use PerformsResourceCollectionQuery;
@@ -27,10 +34,10 @@ class BalanceCollection extends BaseCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return $this->collection->map(function (BalanceResource $resource) {
             return $resource->parser($this->parser);
@@ -41,9 +48,9 @@ class BalanceCollection extends BaseCollection
      * Resolve the model query builder from collection class name.
      * We are assuming a convention of "{Model}Collection".
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    protected static function queryBuilder()
+    protected static function queryBuilder(): Builder
     {
         return Balance::query();
     }
@@ -53,7 +60,7 @@ class BalanceCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedSortFields()
+    public static function allowedSortFields(): array
     {
         return [
             'balance_id',
@@ -73,7 +80,7 @@ class BalanceCollection extends BaseCollection
      *
      * @return array
      */
-    public static function filters()
+    public static function filters(): array
     {
         return [
             BalanceDateFilter::class,

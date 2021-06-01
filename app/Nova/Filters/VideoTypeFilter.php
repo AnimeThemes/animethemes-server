@@ -1,14 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova\Filters;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
+/**
+ * Class VideoTypeFilter.
+ */
 class VideoTypeFilter extends Filter
 {
-    const ANIME = 'anime';
-    const MISC = 'misc';
+    public const ANIME = 'anime';
+    public const MISC = 'misc';
 
     /**
      * The filter's component.
@@ -22,7 +28,7 @@ class VideoTypeFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name()
+    public function name(): array | string | null
     {
         return __('nova.type');
     }
@@ -30,30 +36,27 @@ class VideoTypeFilter extends Filter
     /**
      * Apply the filter to the given query.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Request $request
+     * @param Builder $query
      * @param mixed $value
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function apply(Request $request, $query, $value)
+    public function apply(Request $request, $query, $value): Builder
     {
-        switch ($value) {
-            case self::ANIME:
-                return $query->where('path', 'not like', 'misc%');
-            case self::MISC:
-                return $query->where('path', 'like', 'misc%');
-            default:
-                return $query;
-        }
+        return match ($value) {
+            self::ANIME => $query->where('path', 'not like', 'misc%'),
+            self::MISC => $query->where('path', 'like', 'misc%'),
+            default => $query,
+        };
     }
 
     /**
      * Get the filter's available options.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function options(Request $request)
+    public function options(Request $request): array
     {
         return [
             __('nova.anime') => self::ANIME,

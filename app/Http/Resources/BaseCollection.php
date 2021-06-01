@@ -1,17 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
+use App\JsonApi\QueryParser;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
+/**
+ * Class BaseCollection.
+ */
 abstract class BaseCollection extends ResourceCollection
 {
     /**
      * Sparse field set specified by the client.
      *
-     * @var \App\JsonApi\QueryParser
+     * @var QueryParser
      */
-    protected $parser;
+    protected QueryParser $parser;
 
     /**
      * Indicates if all existing request query parameters should be added to pagination links.
@@ -24,10 +30,10 @@ abstract class BaseCollection extends ResourceCollection
      * Create a new resource instance.
      *
      * @param mixed $resource
-     * @param \App\JsonApi\QueryParser $parser
+     * @param mixed $parser
      * @return void
      */
-    public function __construct($resource, $parser)
+    public function __construct(mixed $resource, mixed $parser)
     {
         parent::__construct($resource);
 

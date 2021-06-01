@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Contracts\Streamable;
@@ -12,12 +14,18 @@ use App\Events\Image\ImageUpdated;
 use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
 use BenSampo\Enum\Traits\CastsEnums;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * Class Image.
+ */
 class Image extends BaseModel implements Streamable
 {
     use CastsEnums;
 
     /**
+     * The attributes that are mass assignable.
+     *
      * @var array
      */
     protected $fillable = ['path', 'facet', 'size', 'mimetype'];
@@ -52,6 +60,8 @@ class Image extends BaseModel implements Streamable
     protected $primaryKey = 'image_id';
 
     /**
+     * The attributes that should be cast to enum types.
+     *
      * @var array
      */
     protected $enumCasts = [
@@ -59,10 +69,13 @@ class Image extends BaseModel implements Streamable
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
      * @var array
      */
     protected $casts = [
         'facet' => 'int',
+        'size' => 'int',
     ];
 
     /**
@@ -70,7 +83,7 @@ class Image extends BaseModel implements Streamable
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->path;
     }
@@ -80,7 +93,7 @@ class Image extends BaseModel implements Streamable
      *
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -90,7 +103,7 @@ class Image extends BaseModel implements Streamable
      *
      * @return string
      */
-    public function getMimetype()
+    public function getMimetype(): string
     {
         return $this->mimetype;
     }
@@ -100,7 +113,7 @@ class Image extends BaseModel implements Streamable
      *
      * @return int
      */
-    public function getSize()
+    public function getSize(): int
     {
         return $this->size;
     }
@@ -110,7 +123,7 @@ class Image extends BaseModel implements Streamable
      *
      * @return string
      */
-    public function getDisk()
+    public function getDisk(): string
     {
         return 'images';
     }
@@ -118,9 +131,9 @@ class Image extends BaseModel implements Streamable
     /**
      * Get the anime that use this image.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function anime()
+    public function anime(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Anime', 'anime_image', 'image_id', 'anime_id')
             ->using(AnimeImage::class)
@@ -130,9 +143,9 @@ class Image extends BaseModel implements Streamable
     /**
      * Get the artists that use this image.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function artists()
+    public function artists(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Artist', 'artist_image', 'image_id', 'artist_id')
             ->using(ArtistImage::class)

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceQuery;
+use Illuminate\Http\Request;
 
 /**
  * @OA\Schema(
@@ -89,15 +92,15 @@ class ThemeResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->when($this->isAllowedField('id'), $this->theme_id),
             'type' => $this->when($this->isAllowedField('type'), strval(optional($this->type)->description)),
-            'sequence' => $this->when($this->isAllowedField('sequence'), is_null($this->sequence) ? '' : $this->sequence),
+            'sequence' => $this->when($this->isAllowedField('sequence'), $this->sequence === null ? '' : $this->sequence),
             'group' => $this->when($this->isAllowedField('group'), strval($this->group)),
             'slug' => $this->when($this->isAllowedField('slug'), strval($this->slug)),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
@@ -114,7 +117,7 @@ class ThemeResource extends BaseResource
      *
      * @return array
      */
-    public static function allowedIncludePaths()
+    public static function allowedIncludePaths(): array
     {
         return [
             'anime',

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Enums\ResourceSite;
@@ -8,10 +10,16 @@ use App\Models\ExternalResource;
 use App\Pivots\ArtistResource;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Class AnilistArtistResourceSeeder.
+ */
 class AnilistArtistResourceSeeder extends Seeder
 {
     /**
@@ -22,7 +30,7 @@ class AnilistArtistResourceSeeder extends Seeder
     public function run()
     {
         // Get artists that have MAL resource but do not have Anilist resource
-        $artists = Artist::whereDoesntHave('externalResources', function ($resourceQuery) {
+        $artists = Artist::whereDoesntHave('externalResources', function (BelongsToMany $resourceQuery) {
             $resourceQuery->where('site', ResourceSite::ANILIST);
         })
         ->get();
@@ -47,21 +55,21 @@ class AnilistArtistResourceSeeder extends Seeder
 
             // Anilist graphql api call
             try {
-                $client = new Client;
+                $client = new Client();
                 $response = $client->post('https://graphql.anilist.co', [
                     'json' => [
                         'query' => $query,
                         'variables' => $variables,
                     ],
                 ]);
-                $anilistResourceJson = json_decode($response->getBody()->getContents());
-                $anilistId = $anilistResourceJson->data->Staff->id;
+                $anilistResourceJson = json_decode($response->getBody()->getContents(), true);
+                $anilistId = Arr::get($anilistResourceJson, 'data.Staff.id');
 
                 // Check if Anilist resource already exists
                 $anilistResource = ExternalResource::where('site', ResourceSite::ANILIST)->where('external_id', $anilistId)->first();
 
                 // Create Anilist resource if it doesn't already exist
-                if (is_null($anilistResource)) {
+                if ($anilistResource === null) {
                     Log::info("Creating anilist resource '{$anilistId}' for artist '{$artist->name}'");
                     $anilistResource = ExternalResource::create([
                         'site' => ResourceSite::ANILIST,
@@ -78,7 +86,7 @@ class AnilistArtistResourceSeeder extends Seeder
             } catch (ClientException $e) {
                 // We may not have a match for this MAL resource
                 Log::info($e->getMessage());
-            } catch (ServerException $e) {
+            } catch (ServerException | GuzzleException $e) {
                 // We may have upset Anilist, try again later
                 Log::info($e->getMessage());
 

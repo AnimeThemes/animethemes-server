@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Feature\Events;
+declare(strict_types=1);
+
+namespace Events;
 
 use App\Events\Invitation\InvitationCreated;
 use App\Events\Invitation\InvitationDeleted;
@@ -11,6 +13,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class InvitationTest.
+ */
 class InvitationTest extends TestCase
 {
     use RefreshDatabase;

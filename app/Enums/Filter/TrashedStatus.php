@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums\Filter;
 
 use BenSampo\Enum\Enum;
 
+/**
+ * Class TrashedStatus.
+ */
 final class TrashedStatus extends Enum
 {
-    const WITH = 'with';
-    const WITHOUT = 'without';
-    const ONLY = 'only';
+    public const WITH = 'with';
+    public const WITHOUT = 'without';
+    public const ONLY = 'only';
 }

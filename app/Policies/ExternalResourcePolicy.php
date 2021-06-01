@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
-use App\Models\Anime;
-use App\Models\Artist;
-use App\Models\ExternalResource;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Class ExternalResourcePolicy.
+ */
 class ExternalResourcePolicy
 {
     use HandlesAuthorization;
@@ -15,10 +17,9 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(): bool
     {
         return true;
     }
@@ -26,11 +27,9 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\ExternalResource $externalResource
-     * @return mixed
+     * @return bool
      */
-    public function view(User $user, ExternalResource $externalResource)
+    public function view(): bool
     {
         return true;
     }
@@ -38,10 +37,10 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasCurrentTeamPermission('resource:create');
     }
@@ -49,11 +48,10 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\ExternalResource $externalResource
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function update(User $user, ExternalResource $externalResource)
+    public function update(User $user): bool
     {
         return $user->hasCurrentTeamPermission('resource:update');
     }
@@ -61,11 +59,10 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\ExternalResource $externalResource
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function delete(User $user, ExternalResource $externalResource)
+    public function delete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('resource:delete');
     }
@@ -73,11 +70,10 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\ExternalResource $externalResource
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function restore(User $user, ExternalResource $externalResource)
+    public function restore(User $user): bool
     {
         return $user->hasCurrentTeamPermission('resource:restore');
     }
@@ -85,11 +81,10 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\ExternalResource $externalResource
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function forceDelete(User $user, ExternalResource $externalResource)
+    public function forceDelete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('resource:forceDelete');
     }
@@ -97,11 +92,10 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can attach any artist to the resource.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\ExternalResource $externalResource
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnyArtist(User $user, ExternalResource $externalResource)
+    public function attachAnyArtist(User $user): bool
     {
         return $user->hasCurrentTeamPermission('resource:update');
     }
@@ -109,12 +103,10 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can attach an artist to the resource.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\ExternalResource $externalResource
-     * @param \App\Models\Artist $artist
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachArtist(User $user, ExternalResource $externalResource, Artist $artist)
+    public function attachArtist(User $user): bool
     {
         return $user->hasCurrentTeamPermission('resource:update');
     }
@@ -122,12 +114,10 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can detach an artist from the resource.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\ExternalResource $externalResource
-     * @param \App\Models\Artist $artist
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function detachArtist(User $user, ExternalResource $externalResource, Artist $artist)
+    public function detachArtist(User $user): bool
     {
         return $user->hasCurrentTeamPermission('resource:update');
     }
@@ -135,11 +125,10 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can attach any anime to the resource.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\ExternalResource $externalResource
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnyAnime(User $user, ExternalResource $externalResource)
+    public function attachAnyAnime(User $user): bool
     {
         return $user->hasCurrentTeamPermission('resource:update');
     }
@@ -147,12 +136,10 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can attach an anime to the resource.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\ExternalResource $externalResource
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnime(User $user, ExternalResource $externalResource, Anime $anime)
+    public function attachAnime(User $user): bool
     {
         return $user->hasCurrentTeamPermission('resource:update');
     }
@@ -160,12 +147,10 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can detach an anime from the resource.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\ExternalResource $externalResource
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function detachAnime(User $user, ExternalResource $externalResource, Anime $anime)
+    public function detachAnime(User $user): bool
     {
         return $user->hasCurrentTeamPermission('resource:update');
     }

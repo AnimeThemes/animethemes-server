@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\InvitationStatus;
@@ -9,12 +11,21 @@ use App\Events\Invitation\InvitationDeleted;
 use App\Events\Invitation\InvitationRestored;
 use App\Events\Invitation\InvitationUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
+use Exception;
 use ParagonIE\ConstantTime\Base32;
 
+/**
+ * Class Invitation.
+ */
 class Invitation extends BaseModel
 {
     use CastsEnums;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = ['name', 'email', 'status'];
 
     /**
@@ -47,6 +58,8 @@ class Invitation extends BaseModel
     protected $primaryKey = 'invitation_id';
 
     /**
+     * The attributes that should be cast to enum types.
+     *
      * @var array
      */
     protected $enumCasts = [
@@ -67,7 +80,7 @@ class Invitation extends BaseModel
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -77,7 +90,7 @@ class Invitation extends BaseModel
      *
      * @return bool
      */
-    public function isOpen()
+    public function isOpen(): bool
     {
         return $this->status->is(InvitationStatus::OPEN);
     }
@@ -86,8 +99,9 @@ class Invitation extends BaseModel
      * Generate token for invitation.
      *
      * @return string
+     * @throws Exception
      */
-    public static function createToken()
+    public static function createToken(): string
     {
         return Base32::encodeUpper(random_bytes(rand(20, 100)));
     }
