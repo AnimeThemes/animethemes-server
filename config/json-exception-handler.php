@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use SMartins\Exceptions\Handlers\Handler;
 use SMartins\Exceptions\JsonApi\Response;

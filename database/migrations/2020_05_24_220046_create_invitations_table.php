@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use App\Enums\InvitationStatus;
 use Illuminate\Database\Migrations\Migration;
