@@ -1,29 +1,35 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Pivot\ArtistSong;
 
+use App\Models\Artist;
+use App\Models\Song;
 use App\Pivots\ArtistSong;
 
+/**
+ * Class ArtistSongEvent
+ * @package App\Events\Pivot\ArtistSong
+ */
 abstract class ArtistSongEvent
 {
     /**
      * The artist that this artist song belongs to.
      *
-     * @var \App\Models\Artist
+     * @var Artist
      */
-    protected $artist;
+    protected Artist $artist;
 
     /**
      * The song that this artist song belongs to.
      *
-     * @var \App\Models\Song
+     * @var Song
      */
-    protected $song;
+    protected Song $song;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Pivots\ArtistSong $artistSong
+     * @param ArtistSong $artistSong
      * @return void
      */
     public function __construct(ArtistSong $artistSong)
@@ -35,9 +41,9 @@ abstract class ArtistSongEvent
     /**
      * Get the artist that this artist song belongs to.
      *
-     * @return \App\Models\Artist
+     * @return Artist
      */
-    public function getArtist()
+    public function getArtist(): Artist
     {
         return $this->artist;
     }
@@ -45,9 +51,9 @@ abstract class ArtistSongEvent
     /**
      * Get the song that this artist song belongs to.
      *
-     * @return \App\Models\Song
+     * @return Song
      */
-    public function getSong()
+    public function getSong(): Song
     {
         return $this->song;
     }

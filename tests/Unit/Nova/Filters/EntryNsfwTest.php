@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Filters;
+namespace Nova\Filters;
 
 use App\Models\Anime;
 use App\Models\Entry;
@@ -8,21 +8,30 @@ use App\Models\Theme;
 use App\Nova\Filters\EntryNsfwFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class EntryNsfwTest
+ * @package Nova\Filters
+ */
 class EntryNsfwTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * The Entry Nsfw Filter shall be a select filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
     {
-        $this->novaFilter(EntryNsfwFilter::class)
+        static::novaFilter(EntryNsfwFilter::class)
             ->assertSelectFilter();
     }
 
@@ -30,10 +39,11 @@ class EntryNsfwTest extends TestCase
      * The Entry Nsfw Filter shall have Yes and No options.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testOptions()
     {
-        $filter = $this->novaFilter(EntryNsfwFilter::class);
+        $filter = static::novaFilter(EntryNsfwFilter::class);
 
         $filter->assertHasOption(__('nova.no'));
         $filter->assertHasOption(__('nova.yes'));
@@ -43,6 +53,8 @@ class EntryNsfwTest extends TestCase
      * The Entry Nsfw Filter shall filter Entries By NSFW.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testFilter()
     {
@@ -53,7 +65,7 @@ class EntryNsfwTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filter = $this->novaFilter(EntryNsfwFilter::class);
+        $filter = static::novaFilter(EntryNsfwFilter::class);
 
         $response = $filter->apply(Entry::class, $nsfwFilter);
 

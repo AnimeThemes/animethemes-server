@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Resources;
 
@@ -11,10 +11,16 @@ use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\Entry\EntryNsfwFilter;
 use App\JsonApi\Filter\Entry\EntrySpoilerFilter;
 use App\JsonApi\Filter\Entry\EntryVersionFilter;
+use Illuminate\Http\Request;
 
+/**
+ * Class EntryCollection
+ * @package App\Http\Resources
+ */
 class EntryCollection extends BaseCollection
 {
-    use PerformsResourceCollectionQuery, PerformsResourceCollectionSearch;
+    use PerformsResourceCollectionQuery;
+    use PerformsResourceCollectionSearch;
 
     /**
      * The "data" wrapper that should be applied.
@@ -26,10 +32,10 @@ class EntryCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return $this->collection->map(function (EntryResource $resource) {
             return $resource->parser($this->parser);
@@ -41,7 +47,7 @@ class EntryCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedIncludePaths()
+    public static function allowedIncludePaths(): array
     {
         return [
             'theme',
@@ -55,7 +61,7 @@ class EntryCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedSortFields()
+    public static function allowedSortFields(): array
     {
         return [
             'entry_id',
@@ -74,7 +80,7 @@ class EntryCollection extends BaseCollection
      *
      * @return array
      */
-    public static function filters()
+    public static function filters(): array
     {
         return [
             EntryNsfwFilter::class,

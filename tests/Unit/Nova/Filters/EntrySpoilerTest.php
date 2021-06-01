@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Filters;
+namespace Nova\Filters;
 
 use App\Models\Anime;
 use App\Models\Entry;
@@ -8,21 +8,30 @@ use App\Models\Theme;
 use App\Nova\Filters\EntrySpoilerFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class EntrySpoilerTest
+ * @package Nova\Filters
+ */
 class EntrySpoilerTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * The Entry Spoiler Filter shall be a select filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
     {
-        $this->novaFilter(EntrySpoilerFilter::class)
+        static::novaFilter(EntrySpoilerFilter::class)
             ->assertSelectFilter();
     }
 
@@ -30,10 +39,11 @@ class EntrySpoilerTest extends TestCase
      * The Entry Spoiler Filter shall have an option for each AnimeSeason instance.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testOptions()
     {
-        $filter = $this->novaFilter(EntrySpoilerFilter::class);
+        $filter = static::novaFilter(EntrySpoilerFilter::class);
 
         $filter->assertHasOption(__('nova.no'));
         $filter->assertHasOption(__('nova.yes'));
@@ -43,6 +53,8 @@ class EntrySpoilerTest extends TestCase
      * The Entry Spoiler Filter shall filter Entries By Spoiler.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testFilter()
     {
@@ -53,7 +65,7 @@ class EntrySpoilerTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filter = $this->novaFilter(EntrySpoilerFilter::class);
+        $filter = static::novaFilter(EntrySpoilerFilter::class);
 
         $response = $filter->apply(Entry::class, $spoilerFilter);
 

@@ -1,14 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\JsonApi\Condition;
 
 use App\Enums\Filter\BinaryLogicalOperator;
+use App\Enums\Filter\ComparisonOperator;
 use App\JsonApi\Filter\Filter;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
+/**
+ * Class Condition
+ * @package App\JsonApi\Condition
+ */
 abstract class Condition
 {
     /**
@@ -17,27 +22,27 @@ abstract class Condition
      *
      * @var string
      */
-    protected $scope;
+    protected string $scope;
 
     /**
      * The predicate of the condition.
      *
-     * @var \App\JsonApi\Condition\Predicate
+     * @var Predicate
      */
-    protected $predicate;
+    protected Predicate $predicate;
 
     /**
      * The logical operator of the condition.
      *
-     * @var \App\Enums\Filter\BinaryLogicalOperator
+     * @var BinaryLogicalOperator
      */
-    protected $operator;
+    protected BinaryLogicalOperator $operator;
 
     /**
      * Create a new condition instance.
      *
-     * @param \App\JsonApi\Condition\Predicate $predicate
-     * @param \App\Enums\Filter\BinaryLogicalOperator $operator
+     * @param Predicate $predicate
+     * @param BinaryLogicalOperator $operator
      * @param string $scope
      */
     public function __construct(
@@ -55,7 +60,7 @@ abstract class Condition
      *
      * @return string
      */
-    public function getScope()
+    public function getScope(): string
     {
         return $this->scope;
     }
@@ -65,7 +70,7 @@ abstract class Condition
      *
      * @return string
      */
-    public function getField()
+    public function getField(): string
     {
         return $this->predicate->getColumn();
     }
@@ -73,9 +78,9 @@ abstract class Condition
     /**
      * Get the comparison operator.
      *
-     * @return \App\Enums\Filter\ComparisonOperator|null $operator
+     * @return ComparisonOperator|null $operator
      */
-    public function getComparisonOperator()
+    public function getComparisonOperator(): ?ComparisonOperator
     {
         return $this->predicate->getOperator();
     }
@@ -83,9 +88,9 @@ abstract class Condition
     /**
      * Get the logical operator.
      *
-     * @return \App\Enums\Filter\BinaryLogicalOperator
+     * @return BinaryLogicalOperator
      */
-    public function getLogicalOperator()
+    public function getLogicalOperator(): BinaryLogicalOperator
     {
         return $this->operator;
     }
@@ -95,7 +100,7 @@ abstract class Condition
      *
      * @return array
      */
-    public function getFilterValues()
+    public function getFilterValues(): array
     {
         $value = $this->predicate->getExpression()->getValue();
 
@@ -113,29 +118,29 @@ abstract class Condition
     /**
      * Apply condition to builder through filter.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param \App\JsonApi\Filter\Filter $filter
-     * @return \Illuminate\Database\Eloquent\Builder $builder
+     * @param Builder $builder
+     * @param Filter $filter
+     * @return Builder $builder
      */
-    abstract public function apply(Builder $builder, Filter $filter);
+    abstract public function apply(Builder $builder, Filter $filter): Builder;
 
     /**
      * Apply condition to builder through filter.
      *
-     * @param \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
-     * @param \App\JsonApi\Filter\Filter $filter
-     * @return \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
+     * @param BoolQueryBuilder $builder
+     * @param Filter $filter
+     * @return BoolQueryBuilder $builder
      */
-    abstract public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter);
+    abstract public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter): BoolQueryBuilder;
 
     /**
      * Create a new condition instance from query string.
      *
      * @param string $filterParam
-     * @param string $filterValues
-     * @return \App\JsonApi\Condition\Condition
+     * @param mixed $filterValues
+     * @return Condition
      */
-    public static function make(string $filterParam, string $filterValues)
+    public static function make(string $filterParam, mixed $filterValues): Condition
     {
         if (Str::of($filterParam)->explode('.')->contains('trashed')) {
             return TrashedCondition::make($filterParam, $filterValues);

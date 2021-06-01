@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Listeners;
+namespace Listeners;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\SendDiscordNotification as SendDiscordNotificationJob;
@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 use Tests\TestCase;
 
+/**
+ * Class SendDiscordNotificationTest
+ * @package Listeners
+ */
 class SendDiscordNotificationTest extends TestCase
 {
     /**
@@ -31,9 +35,9 @@ class SendDiscordNotificationTest extends TestCase
             /**
              * Get Discord message payload.
              *
-             * @return \NotificationChannels\Discord\DiscordMessage
+             * @return DiscordMessage
              */
-            public function getDiscordMessage()
+            public function getDiscordMessage(): DiscordMessage
             {
                 return DiscordMessage::create();
             }
@@ -43,7 +47,7 @@ class SendDiscordNotificationTest extends TestCase
              *
              * @return string
              */
-            public function getDiscordChannel()
+            public function getDiscordChannel(): string
             {
                 return '';
             }
@@ -74,9 +78,9 @@ class SendDiscordNotificationTest extends TestCase
             /**
              * Get Discord message payload.
              *
-             * @return \NotificationChannels\Discord\DiscordMessage
+             * @return DiscordMessage
              */
-            public function getDiscordMessage()
+            public function getDiscordMessage(): DiscordMessage
             {
                 return DiscordMessage::create();
             }
@@ -86,7 +90,7 @@ class SendDiscordNotificationTest extends TestCase
              *
              * @return string
              */
-            public function getDiscordChannel()
+            public function getDiscordChannel(): string
             {
                 return '';
             }

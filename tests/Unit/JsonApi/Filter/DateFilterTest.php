@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\JsonApi\Filter;
+namespace JsonApi\Filter;
 
 use App\Enums\Filter\AllowedDateFormat;
 use App\JsonApi\Filter\DateFilter;
@@ -11,6 +11,10 @@ use DateTimeInterface;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class DateFilterTest
+ * @package JsonApi\Filter
+ */
 class DateFilterTest extends TestCase
 {
     use WithFaker;
@@ -32,14 +36,14 @@ class DateFilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends DateFilter
         {
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        static::assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -59,14 +63,14 @@ class DateFilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends DateFilter
         {
             // We don't need to do any customization
         };
 
-        $this->assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        static::assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -86,14 +90,14 @@ class DateFilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends DateFilter
         {
             // We don't need to do any customization
         };
 
-        $this->assertTrue($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        static::assertTrue($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
     /**
@@ -115,7 +119,7 @@ class DateFilterTest extends TestCase
             ],
         ];
 
-        $parser = new QueryParser($parameters);
+        $parser = QueryParser::make($parameters);
 
         $filter = new class($parser, $filterField) extends DateFilter
         {
@@ -124,6 +128,6 @@ class DateFilterTest extends TestCase
 
         $filterValues = $filter->getFilterValues($parser->getConditions($filterField)[0]);
 
-        $this->assertEquals(DateTime::createFromFormat('!'.$dateFormat, $dateFilter)->format(AllowedDateFormat::WITH_MICRO), $filterValues[0]);
+        static::assertEquals(DateTime::createFromFormat('!'.$dateFormat, $dateFilter)->format(AllowedDateFormat::WITH_MICRO), $filterValues[0]);
     }
 }

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Events\Pivot;
+namespace Events\Pivot;
 
 use App\Events\Pivot\VideoEntry\VideoEntryCreated;
 use App\Events\Pivot\VideoEntry\VideoEntryDeleted;
@@ -12,6 +12,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class VideoEntryTest
+ * @package Events\Pivot
+ */
 class VideoEntryTest extends TestCase
 {
     use RefreshDatabase;

@@ -1,15 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Concerns\JsonApi;
 
 use App\Enums\JsonApi\PaginationStrategy;
 use App\JsonApi\QueryParser;
+use App\Scout\Elastic\ElasticQueryPayload;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Exceptions\QueryBuilderException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
+/**
+ * Trait PerformsResourceCollectionSearch
+ * @package App\Concerns\JsonApi
+ */
 trait PerformsResourceCollectionSearch
 {
     use PerformsConstrainedEagerLoading;
@@ -17,14 +22,15 @@ trait PerformsResourceCollectionSearch
     /**
      * Perform query to prepare models for resource collection.
      *
-     * @param \App\JsonApi\QueryParser $parser
-     * @param \App\Enums\JsonApi\PaginationStrategy $paginationStrategy
+     * @param QueryParser $parser
+     * @param PaginationStrategy $paginationStrategy
      * @return static
      */
     public static function performSearch(
         QueryParser $parser,
         PaginationStrategy $paginationStrategy
-    ) {
+    ): static
+    {
         $driver = Config::get('scout.driver');
 
         // Perform Elasticsearch search
@@ -40,10 +46,10 @@ trait PerformsResourceCollectionSearch
      * Resolve Elasticsearch query builder from collection class name.
      * We are assuming a convention of "{Model}Collection" to "{Model}QueryPayload".
      *
-     * @param \App\JsonApi\QueryParser $parser
-     * @return \App\Scout\Elastic\ElasticQueryPayload
+     * @param QueryParser $parser
+     * @return ElasticQueryPayload
      */
-    protected static function elasticQueryPayload(QueryParser $parser)
+    protected static function elasticQueryPayload(QueryParser $parser): ElasticQueryPayload
     {
         $model = Str::replaceLast('Collection', '', class_basename(static::class));
 
@@ -55,14 +61,15 @@ trait PerformsResourceCollectionSearch
     /**
      * Execute Elasticsearch query with resolved payload builder.
      *
-     * @param \App\JsonApi\QueryParser $parser
-     * @param \App\Enums\JsonApi\PaginationStrategy $paginationStrategy
+     * @param QueryParser $parser
+     * @param PaginationStrategy $paginationStrategy
      * @return static
      */
     protected static function performElasticSearch(
         QueryParser $parser,
         PaginationStrategy $paginationStrategy
-    ) {
+    ): static
+    {
         $elasticQueryPayload = static::elasticQueryPayload($parser);
 
         // initialize builder with payload for matches
@@ -79,7 +86,7 @@ trait PerformsResourceCollectionSearch
         }
         try {
             $builder->filter($filterBuilder);
-        } catch (QueryBuilderException $e) {
+        } catch (QueryBuilderException) {
             // There doesn't appear to be a way to check if any filters have been set in the filter builder
         }
 

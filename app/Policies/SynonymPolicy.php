@@ -1,11 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Models\Synonym;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Class SynonymPolicy
+ * @package App\Policies
+ */
 class SynonymPolicy
 {
     use HandlesAuthorization;
@@ -13,10 +16,9 @@ class SynonymPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(): bool
     {
         return true;
     }
@@ -24,11 +26,9 @@ class SynonymPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Synonym $synonym
-     * @return mixed
+     * @return bool
      */
-    public function view(User $user, Synonym $synonym)
+    public function view(): bool
     {
         return true;
     }
@@ -36,10 +36,10 @@ class SynonymPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasCurrentTeamPermission('synonym:create');
     }
@@ -47,11 +47,10 @@ class SynonymPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Synonym $synonym
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function update(User $user, Synonym $synonym)
+    public function update(User $user): bool
     {
         return $user->hasCurrentTeamPermission('synonym:update');
     }
@@ -59,11 +58,10 @@ class SynonymPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Synonym $synonym
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function delete(User $user, Synonym $synonym)
+    public function delete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('synonym:delete');
     }
@@ -71,11 +69,10 @@ class SynonymPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Synonym $synonym
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function restore(User $user, Synonym $synonym)
+    public function restore(User $user): bool
     {
         return $user->hasCurrentTeamPermission('synonym:restore');
     }
@@ -83,11 +80,10 @@ class SynonymPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Synonym $synonym
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function forceDelete(User $user, Synonym $synonym)
+    public function forceDelete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('synonym:forceDelete');
     }

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Resources;
+namespace Nova\Resources;
 
 use App\Enums\AnimeSeason;
 use App\Nova\Anime;
@@ -14,21 +14,29 @@ use App\Nova\Filters\UpdatedEndDateFilter;
 use App\Nova\Filters\UpdatedStartDateFilter;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
+/**
+ * Class AnimeTest
+ * @package Nova\Resources
+ */
 class AnimeTest extends TestCase
 {
-    use NovaResourceTest, WithoutEvents;
+    use NovaResourceTest;
+    use WithoutEvents;
 
     /**
      * The Anime Resource shall contain Anime Fields.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFields()
     {
-        $resource = $this->novaResource(Anime::class);
+        $resource = static::novaResource(Anime::class);
 
         $resource->assertHasField(__('nova.id'));
         $resource->assertHasField(__('nova.created_at'));
@@ -44,10 +52,12 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain an ID field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testIdField()
     {
-        $resource = $this->novaResource(Anime::class);
+        $resource = static::novaResource(Anime::class);
 
         $field = $resource->field(__('nova.id'));
 
@@ -63,10 +73,12 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Created At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testCreatedAtField()
     {
-        $resource = $this->novaResource(Anime::class);
+        $resource = static::novaResource(Anime::class);
 
         $field = $resource->field(__('nova.created_at'));
 
@@ -82,10 +94,12 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain an Updated At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testUpdatedAtField()
     {
-        $resource = $this->novaResource(Anime::class);
+        $resource = static::novaResource(Anime::class);
 
         $field = $resource->field(__('nova.updated_at'));
 
@@ -101,10 +115,12 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Deleted At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testDeletedAtField()
     {
-        $resource = $this->novaResource(Anime::class);
+        $resource = static::novaResource(Anime::class);
 
         $field = $resource->field(__('nova.deleted_at'));
 
@@ -120,10 +136,12 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Name field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testNameField()
     {
-        $resource = $this->novaResource(Anime::class);
+        $resource = static::novaResource(Anime::class);
 
         $field = $resource->field(__('nova.name'));
 
@@ -141,10 +159,12 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Slug field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testSlugField()
     {
-        $resource = $this->novaResource(Anime::class);
+        $resource = static::novaResource(Anime::class);
 
         $field = $resource->field(__('nova.slug'));
 
@@ -164,10 +184,12 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Year field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testYearField()
     {
-        $resource = $this->novaResource(Anime::class);
+        $resource = static::novaResource(Anime::class);
 
         $field = $resource->field(__('nova.year'));
 
@@ -186,15 +208,17 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Season field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testSeasonField()
     {
-        $resource = $this->novaResource(Anime::class);
+        $resource = static::novaResource(Anime::class);
 
         $field = $resource->field(__('nova.season'));
 
         $field->assertHasRule('required');
-        $field->assertHasRule(new EnumValue(AnimeSeason::class, false));
+        $field->assertHasRule((new EnumValue(AnimeSeason::class, false))->__toString());
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();
@@ -207,10 +231,12 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Synopsis field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testSynopsisField()
     {
-        $resource = $this->novaResource(Anime::class);
+        $resource = static::novaResource(Anime::class);
 
         $field = $resource->field(__('nova.synopsis'));
 
@@ -226,10 +252,11 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain Anime Filters.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFilters()
     {
-        $resource = $this->novaResource(Anime::class);
+        $resource = static::novaResource(Anime::class);
 
         $resource->assertHasFilter(AnimeSeasonFilter::class);
         $resource->assertHasFilter(AnimeYearFilter::class);
@@ -245,10 +272,11 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain no Actions.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testActions()
     {
-        $resource = $this->novaResource(Anime::class);
+        $resource = static::novaResource(Anime::class);
 
         $resource->assertHasNoActions();
     }

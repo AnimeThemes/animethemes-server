@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Pivots;
+namespace Pivots;
 
 use App\Models\Artist;
 use App\Models\Song;
@@ -10,9 +10,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class ArtistSongTest
+ * @package Pivots
+ */
 class ArtistSongTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
      * An ArtistSong shall belong to an Artist.
@@ -26,8 +31,8 @@ class ArtistSongTest extends TestCase
             ->for(Song::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artistSong->artist());
-        $this->assertInstanceOf(Artist::class, $artistSong->artist()->first());
+        static::assertInstanceOf(BelongsTo::class, $artistSong->artist());
+        static::assertInstanceOf(Artist::class, $artistSong->artist()->first());
     }
 
     /**
@@ -42,7 +47,7 @@ class ArtistSongTest extends TestCase
             ->for(Song::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artistSong->song());
-        $this->assertInstanceOf(Song::class, $artistSong->song()->first());
+        static::assertInstanceOf(BelongsTo::class, $artistSong->song());
+        static::assertInstanceOf(Song::class, $artistSong->song()->first());
     }
 }

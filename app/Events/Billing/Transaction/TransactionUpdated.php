@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Billing\Transaction;
 
@@ -10,14 +10,19 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class TransactionUpdated
+ * @package App\Events\Billing\Transaction
+ */
 class TransactionUpdated extends TransactionEvent implements DiscordMessageEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
+    use Dispatchable;
+    use HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Billing\Transaction $transaction
+     * @param Transaction $transaction
      * @return void
      */
     public function __construct(Transaction $transaction)
@@ -29,9 +34,9 @@ class TransactionUpdated extends TransactionEvent implements DiscordMessageEvent
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $transaction = $this->getTransaction();
 
@@ -47,7 +52,7 @@ class TransactionUpdated extends TransactionEvent implements DiscordMessageEvent
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

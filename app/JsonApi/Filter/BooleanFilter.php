@@ -1,7 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\JsonApi\Filter;
 
+/**
+ * Class BooleanFilter
+ * @package App\JsonApi\Filter
+ */
 abstract class BooleanFilter extends Filter
 {
     /**
@@ -10,10 +14,10 @@ abstract class BooleanFilter extends Filter
      * @param array $filterValues
      * @return array
      */
-    protected function convertFilterValues(array $filterValues)
+    protected function convertFilterValues(array $filterValues): array
     {
         return array_map(
-            function ($filterValue) {
+            function (string $filterValue) {
                 return filter_var($filterValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
             },
             $filterValues
@@ -28,13 +32,13 @@ abstract class BooleanFilter extends Filter
      * @param array $filterValues
      * @return array
      */
-    protected function getValidFilterValues(array $filterValues)
+    protected function getValidFilterValues(array $filterValues): array
     {
         return array_values(
             array_filter(
                 $filterValues,
-                function ($filterValue) {
-                    return ! is_null(filter_var($filterValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE));
+                function (string $filterValue) {
+                    return filter_var($filterValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null;
                 }
             )
         );
@@ -46,7 +50,7 @@ abstract class BooleanFilter extends Filter
      * @param array $filterValues
      * @return bool
      */
-    protected function isAllFilterValues(array $filterValues)
+    protected function isAllFilterValues(array $filterValues): bool
     {
         return in_array(true, $filterValues) && in_array(false, $filterValues);
     }

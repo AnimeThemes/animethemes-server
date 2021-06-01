@@ -1,10 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Factories;
 
 use App\Models\Announcement;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * Class AnnouncementFactory
+ * @package Database\Factories
+ */
 class AnnouncementFactory extends Factory
 {
     /**
@@ -19,7 +23,7 @@ class AnnouncementFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'content' => $this->faker->sentence(),

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Resources;
+namespace Nova\Resources;
 
 use App\Enums\ThemeType;
 use App\Nova\Filters\CreatedEndDateFilter;
@@ -12,9 +12,15 @@ use App\Nova\Filters\UpdatedEndDateFilter;
 use App\Nova\Filters\UpdatedStartDateFilter;
 use App\Nova\Theme;
 use BenSampo\Enum\Rules\EnumValue;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
+/**
+ * Class ThemeTest
+ * @package Nova\Resources
+ */
 class ThemeTest extends TestCase
 {
     use NovaResourceTest;
@@ -23,10 +29,11 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain Theme Fields.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFields()
     {
-        $resource = $this->novaResource(Theme::class);
+        $resource = static::novaResource(Theme::class);
 
         $resource->assertHasField(__('nova.id'));
         $resource->assertHasField(__('nova.created_at'));
@@ -42,10 +49,12 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain an ID field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testIdField()
     {
-        $resource = $this->novaResource(Theme::class);
+        $resource = static::novaResource(Theme::class);
 
         $field = $resource->field(__('nova.id'));
 
@@ -61,10 +70,12 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain a Created At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testCreatedAtField()
     {
-        $resource = $this->novaResource(Theme::class);
+        $resource = static::novaResource(Theme::class);
 
         $field = $resource->field(__('nova.created_at'));
 
@@ -80,10 +91,12 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain an Updated At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testUpdatedAtField()
     {
-        $resource = $this->novaResource(Theme::class);
+        $resource = static::novaResource(Theme::class);
 
         $field = $resource->field(__('nova.updated_at'));
 
@@ -99,10 +112,12 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain a Deleted At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testDeletedAtField()
     {
-        $resource = $this->novaResource(Theme::class);
+        $resource = static::novaResource(Theme::class);
 
         $field = $resource->field(__('nova.deleted_at'));
 
@@ -118,10 +133,12 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain a Type field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testTypeField()
     {
-        $resource = $this->novaResource(Theme::class);
+        $resource = static::novaResource(Theme::class);
 
         $field = $resource->field(__('nova.type'));
 
@@ -139,10 +156,12 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain a Sequence field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testSequenceField()
     {
-        $resource = $this->novaResource(Theme::class);
+        $resource = static::novaResource(Theme::class);
 
         $field = $resource->field(__('nova.sequence'));
 
@@ -160,10 +179,12 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain a Group field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testGroupField()
     {
-        $resource = $this->novaResource(Theme::class);
+        $resource = static::novaResource(Theme::class);
 
         $field = $resource->field(__('nova.group'));
 
@@ -181,10 +202,12 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain a Slug field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testSlugField()
     {
-        $resource = $this->novaResource(Theme::class);
+        $resource = static::novaResource(Theme::class);
 
         $field = $resource->field(__('nova.slug'));
 
@@ -203,10 +226,11 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain Theme Filters.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFilters()
     {
-        $resource = $this->novaResource(Theme::class);
+        $resource = static::novaResource(Theme::class);
 
         $resource->assertHasFilter(ThemeTypeFilter::class);
         $resource->assertHasFilter(CreatedStartDateFilter::class);
@@ -221,10 +245,11 @@ class ThemeTest extends TestCase
      * The Entry Resource shall contain no Actions.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testActions()
     {
-        $resource = $this->novaResource(Theme::class);
+        $resource = static::novaResource(Theme::class);
 
         $resource->assertHasNoActions();
     }

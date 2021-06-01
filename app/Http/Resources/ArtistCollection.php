@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Resources;
 
@@ -8,11 +8,17 @@ use App\JsonApi\Filter\Base\CreatedAtFilter;
 use App\JsonApi\Filter\Base\DeletedAtFilter;
 use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+/**
+ * Class ArtistCollection
+ * @package App\Http\Resources
+ */
 class ArtistCollection extends BaseCollection
 {
-    use PerformsResourceCollectionQuery, PerformsResourceCollectionSearch;
+    use PerformsResourceCollectionQuery;
+    use PerformsResourceCollectionSearch;
 
     /**
      * The "data" wrapper that should be applied.
@@ -24,10 +30,10 @@ class ArtistCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return $this->collection->map(function (ArtistResource $resource) {
             return $resource->parser($this->parser);
@@ -39,7 +45,7 @@ class ArtistCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedIncludePaths()
+    public static function allowedIncludePaths(): array
     {
         return [
             'songs',
@@ -57,7 +63,7 @@ class ArtistCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedSortFields()
+    public static function allowedSortFields(): array
     {
         return [
             'artist_id',
@@ -74,7 +80,7 @@ class ArtistCollection extends BaseCollection
      *
      * @return array
      */
-    public static function filters()
+    public static function filters(): array
     {
         return [
             CreatedAtFilter::class,
@@ -91,7 +97,7 @@ class ArtistCollection extends BaseCollection
      * @param string $allowedIncludePath
      * @return string
      */
-    protected static function relation($allowedIncludePath)
+    protected static function relation(string $allowedIncludePath): string
     {
         $relatedModel = Str::ucfirst(Str::singular(Str::of($allowedIncludePath)->explode('.')->last()));
 

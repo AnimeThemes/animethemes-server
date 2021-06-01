@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Resources;
+namespace Nova\Resources;
 
 use App\Enums\Billing\Frequency;
 use App\Enums\Billing\Service;
@@ -14,21 +14,29 @@ use App\Nova\Filters\UpdatedEndDateFilter;
 use App\Nova\Filters\UpdatedStartDateFilter;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
+/**
+ * Class BalanceTest
+ * @package Nova\Resources
+ */
 class BalanceTest extends TestCase
 {
-    use NovaResourceTest, WithoutEvents;
+    use NovaResourceTest;
+    use WithoutEvents;
 
     /**
      * The Balance Resource shall contain Balance Fields.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFields()
     {
-        $balance = $this->novaResource(Balance::class);
+        $balance = static::novaResource(Balance::class);
 
         $balance->assertHasField(__('nova.id'));
         $balance->assertHasField(__('nova.created_at'));
@@ -45,10 +53,12 @@ class BalanceTest extends TestCase
      * The Balance Resource shall contain an ID field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testIdField()
     {
-        $balance = $this->novaResource(Balance::class);
+        $balance = static::novaResource(Balance::class);
 
         $field = $balance->field(__('nova.id'));
 
@@ -64,10 +74,12 @@ class BalanceTest extends TestCase
      * The Balance Resource shall contain a Created At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testCreatedAtField()
     {
-        $balance = $this->novaResource(Balance::class);
+        $balance = static::novaResource(Balance::class);
 
         $field = $balance->field(__('nova.created_at'));
 
@@ -83,10 +95,12 @@ class BalanceTest extends TestCase
      * The Balance Resource shall contain an Updated At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testUpdatedAtField()
     {
-        $balance = $this->novaResource(Balance::class);
+        $balance = static::novaResource(Balance::class);
 
         $field = $balance->field(__('nova.updated_at'));
 
@@ -102,10 +116,12 @@ class BalanceTest extends TestCase
      * The Balance Resource shall contain a Deleted At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testDeletedAtField()
     {
-        $balance = $this->novaResource(Balance::class);
+        $balance = static::novaResource(Balance::class);
 
         $field = $balance->field(__('nova.deleted_at'));
 
@@ -121,10 +137,12 @@ class BalanceTest extends TestCase
      * The Balance Resource shall contain a Deleted At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testDateField()
     {
-        $balance = $this->novaResource(Balance::class);
+        $balance = static::novaResource(Balance::class);
 
         $field = $balance->field(__('nova.date'));
 
@@ -141,10 +159,12 @@ class BalanceTest extends TestCase
      * The Balance Resource shall contain a Service field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testServiceField()
     {
-        $balance = $this->novaResource(Balance::class);
+        $balance = static::novaResource(Balance::class);
 
         $field = $balance->field(__('nova.service'));
 
@@ -162,10 +182,12 @@ class BalanceTest extends TestCase
      * The Balance Resource shall contain a Frequency field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testFrequencyField()
     {
-        $balance = $this->novaResource(Balance::class);
+        $balance = static::novaResource(Balance::class);
 
         $field = $balance->field(__('nova.frequency'));
 
@@ -183,10 +205,12 @@ class BalanceTest extends TestCase
      * The Balance Resource shall contain a Usage field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testUsageField()
     {
-        $balance = $this->novaResource(Balance::class);
+        $balance = static::novaResource(Balance::class);
 
         $field = $balance->field(__('nova.usage'));
 
@@ -203,10 +227,12 @@ class BalanceTest extends TestCase
      * The Balance Resource shall contain a Balance field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testBalanceField()
     {
-        $balance = $this->novaResource(Balance::class);
+        $balance = static::novaResource(Balance::class);
 
         $field = $balance->field(__('nova.balance'));
 
@@ -223,10 +249,11 @@ class BalanceTest extends TestCase
      * The Balance Resource shall contain Balance Filters.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFilters()
     {
-        $resource = $this->novaResource(Balance::class);
+        $resource = static::novaResource(Balance::class);
 
         $resource->assertHasFilter(BillingServiceFilter::class);
         $resource->assertHasFilter(CreatedStartDateFilter::class);
@@ -241,10 +268,11 @@ class BalanceTest extends TestCase
      * The Balance Resource shall contain no Actions.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testActions()
     {
-        $resource = $this->novaResource(Balance::class);
+        $resource = static::novaResource(Balance::class);
 
         $resource->assertHasNoActions();
     }

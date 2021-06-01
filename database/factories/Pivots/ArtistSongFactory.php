@@ -1,10 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Factories\Pivots;
 
+use App\Pivots\ArtistSong;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/**
+ * Class ArtistSongFactory
+ * @package Database\Factories\Pivots
+ */
 class ArtistSongFactory extends Factory
 {
     /**
@@ -12,14 +17,14 @@ class ArtistSongFactory extends Factory
      *
      * @var string
      */
-    protected $model = \App\Pivots\ArtistSong::class;
+    protected $model = ArtistSong::class;
 
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'as' => Str::random(),

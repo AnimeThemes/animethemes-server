@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Series;
+namespace Http\Api\Series;
 
 use App\Enums\AnimeSeason;
 use App\Http\Resources\SeriesResource;
@@ -8,13 +8,19 @@ use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Series;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class SeriesShowTest
+ * @package Http\Api\Series
+ */
 class SeriesShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Series Show Endpoint shall return a Series Resource.
@@ -169,7 +175,7 @@ class SeriesShowTest extends TestCase
             ->create();
 
         $series = Series::with([
-            'anime' => function ($query) use ($seasonFilter) {
+            'anime' => function (BelongsToMany $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -220,7 +226,7 @@ class SeriesShowTest extends TestCase
             ->create();
 
         $series = Series::with([
-            'anime' => function ($query) use ($yearFilter) {
+            'anime' => function (BelongsToMany $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

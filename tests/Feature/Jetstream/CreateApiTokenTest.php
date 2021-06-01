@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Jetstream;
+namespace Jetstream;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -9,14 +9,18 @@ use Laravel\Jetstream\Http\Livewire\ApiTokenManager;
 use Livewire\Livewire;
 use Tests\TestCase;
 
+/**
+ * Class CreateApiTokenTest
+ * @package Jetstream
+ */
 class CreateApiTokenTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_api_tokens_can_be_created()
+    public function testApiTokensCanBeCreated()
     {
         if (! Features::hasApiFeatures()) {
-            return $this->markTestSkipped('API support is not enabled.');
+            static::markTestSkipped('API support is not enabled.');
         }
 
         if (Features::hasTeamFeatures()) {
@@ -35,9 +39,9 @@ class CreateApiTokenTest extends TestCase
                     ]])
                     ->call('createApiToken');
 
-        $this->assertCount(1, $user->fresh()->tokens);
-        $this->assertEquals('Test Token', $user->fresh()->tokens->first()->name);
-        $this->assertTrue($user->fresh()->tokens->first()->can('read'));
-        $this->assertFalse($user->fresh()->tokens->first()->can('delete'));
+        static::assertCount(1, $user->fresh()->tokens);
+        static::assertEquals('Test Token', $user->fresh()->tokens->first()->name);
+        static::assertTrue($user->fresh()->tokens->first()->can('read'));
+        static::assertFalse($user->fresh()->tokens->first()->can('delete'));
     }
 }

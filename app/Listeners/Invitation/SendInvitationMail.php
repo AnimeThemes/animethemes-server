@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Listeners\Invitation;
 
@@ -8,6 +8,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
+/**
+ * Class SendInvitationMail
+ * @package App\Listeners\Invitation
+ */
 class SendInvitationMail implements ShouldQueue
 {
     use InteractsWithQueue;
@@ -15,7 +19,7 @@ class SendInvitationMail implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param \App\Events\Invitation\InvitationEvent $event
+     * @param InvitationEvent $event
      * @return void
      */
     public function handle(InvitationEvent $event)

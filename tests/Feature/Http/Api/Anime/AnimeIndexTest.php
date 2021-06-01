@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Anime;
+namespace Http\Api\Anime;
 
 use App\Enums\AnimeSeason;
 use App\Enums\Filter\TrashedStatus;
@@ -20,15 +20,22 @@ use App\Models\Theme;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class AnimeIndexTest
+ * @package Http\Api\Anime
+ */
 class AnimeIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Anime Index Endpoint shall return a collection of Anime Resources.
@@ -161,7 +168,7 @@ class AnimeIndexTest extends TestCase
         $this->withoutEvents();
 
         $allowedSorts = collect(AnimeCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -386,7 +393,7 @@ class AnimeIndexTest extends TestCase
         Anime::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteAnime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteAnime->each(function ($anime) {
+        $deleteAnime->each(function (Anime $anime) {
             $anime->delete();
         });
 
@@ -427,7 +434,7 @@ class AnimeIndexTest extends TestCase
         Anime::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteAnime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteAnime->each(function ($anime) {
+        $deleteAnime->each(function (Anime $anime) {
             $anime->delete();
         });
 
@@ -468,7 +475,7 @@ class AnimeIndexTest extends TestCase
         Anime::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteAnime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteAnime->each(function ($anime) {
+        $deleteAnime->each(function (Anime $anime) {
             $anime->delete();
         });
 
@@ -512,14 +519,14 @@ class AnimeIndexTest extends TestCase
 
         Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
             $anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
-            $anime->each(function ($item) {
+            $anime->each(function (Anime $item) {
                 $item->delete();
             });
         });
 
         Carbon::withTestNow(Carbon::parse($excludedDate), function () {
             $anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
-            $anime->each(function ($item) {
+            $anime->each(function (Anime $item) {
                 $item->delete();
             });
         });
@@ -570,7 +577,7 @@ class AnimeIndexTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes' => function ($query) use ($groupFilter) {
+            'themes' => function (HasMany $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -620,7 +627,7 @@ class AnimeIndexTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes' => function ($query) use ($sequenceFilter) {
+            'themes' => function (HasMany $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -662,7 +669,7 @@ class AnimeIndexTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes' => function ($query) use ($typeFilter) {
+            'themes' => function (HasMany $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
@@ -708,7 +715,7 @@ class AnimeIndexTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes.entries' => function ($query) use ($nsfwFilter) {
+            'themes.entries' => function (HasMany $query) use ($nsfwFilter) {
                 $query->where('nsfw', $nsfwFilter);
             },
         ])
@@ -754,7 +761,7 @@ class AnimeIndexTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes.entries' => function ($query) use ($spoilerFilter) {
+            'themes.entries' => function (HasMany $query) use ($spoilerFilter) {
                 $query->where('spoiler', $spoilerFilter);
             },
         ])
@@ -808,7 +815,7 @@ class AnimeIndexTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes.entries' => function ($query) use ($versionFilter) {
+            'themes.entries' => function (HasMany $query) use ($versionFilter) {
                 $query->where('version', $versionFilter);
             },
         ])
@@ -850,7 +857,7 @@ class AnimeIndexTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'externalResources' => function ($query) use ($siteFilter) {
+            'externalResources' => function (BelongsToMany $query) use ($siteFilter) {
                 $query->where('site', $siteFilter->value);
             },
         ])
@@ -892,7 +899,7 @@ class AnimeIndexTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'images' => function ($query) use ($facetFilter) {
+            'images' => function (BelongsToMany $query) use ($facetFilter) {
                 $query->where('facet', $facetFilter->value);
             },
         ])
@@ -931,7 +938,7 @@ class AnimeIndexTest extends TestCase
         Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($lyricsFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($lyricsFilter) {
                 $query->where('lyrics', $lyricsFilter);
             },
         ])
@@ -970,7 +977,7 @@ class AnimeIndexTest extends TestCase
         Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($ncFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($ncFilter) {
                 $query->where('nc', $ncFilter);
             },
         ])
@@ -1009,7 +1016,7 @@ class AnimeIndexTest extends TestCase
         Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($overlapFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($overlapFilter) {
                 $query->where('overlap', $overlapFilter->value);
             },
         ])
@@ -1067,7 +1074,7 @@ class AnimeIndexTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($resolutionFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($resolutionFilter) {
                 $query->where('resolution', $resolutionFilter);
             },
         ])
@@ -1106,7 +1113,7 @@ class AnimeIndexTest extends TestCase
         Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($sourceFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($sourceFilter) {
                 $query->where('source', $sourceFilter->value);
             },
         ])
@@ -1145,7 +1152,7 @@ class AnimeIndexTest extends TestCase
         Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($subbedFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($subbedFilter) {
                 $query->where('subbed', $subbedFilter);
             },
         ])
@@ -1184,7 +1191,7 @@ class AnimeIndexTest extends TestCase
         Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($uncenFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($uncenFilter) {
                 $query->where('uncen', $uncenFilter);
             },
         ])

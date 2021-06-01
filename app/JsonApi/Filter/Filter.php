@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\JsonApi\Filter;
 
@@ -7,34 +7,39 @@ use App\JsonApi\QueryParser;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Class Filter
+ * @package App\JsonApi\Filter
+ */
 abstract class Filter
 {
     /**
      * Filters specified by the client.
      *
-     * @var \App\JsonApi\QueryParser
+     * @var QueryParser
      */
-    protected $parser;
+    protected QueryParser $parser;
 
     /**
      * Filter key value.
      *
      * @var string
      */
-    protected $key;
+    protected string $key;
 
     /**
      * Filter scope.
      *
      * @var string
      */
-    protected $scope;
+    protected string $scope;
 
     /**
      * Create a new filter instance.
      *
-     * @param \App\JsonApi\QueryParser $parser
+     * @param QueryParser $parser
      * @param string $key
+     * @param string $scope
      */
     public function __construct(QueryParser $parser, string $key, string $scope = '')
     {
@@ -48,7 +53,7 @@ abstract class Filter
      *
      * @return string
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -56,10 +61,10 @@ abstract class Filter
     /**
      * Modify query builder with filter criteria.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $builder
+     * @return Builder
      */
-    public function applyFilter(Builder $builder)
+    public function applyFilter(Builder $builder): Builder
     {
         foreach ($this->getConditions() as $condition) {
             if ($this->shouldApplyFilter($condition)) {
@@ -73,10 +78,10 @@ abstract class Filter
     /**
      * Modify search request builder with filter criteria.
      *
-     * @param \ElasticScoutDriverPlus\Builders\BoolQueryBuilder $builder
-     * @return \ElasticScoutDriverPlus\Builders\BoolQueryBuilder
+     * @param BoolQueryBuilder $builder
+     * @return BoolQueryBuilder
      */
-    public function applyElasticsearchFilter(BoolQueryBuilder $builder)
+    public function applyElasticsearchFilter(BoolQueryBuilder $builder): BoolQueryBuilder
     {
         foreach ($this->getConditions() as $condition) {
             if ($this->shouldApplyFilter($condition)) {
@@ -90,10 +95,10 @@ abstract class Filter
     /**
      * Determine if this filter should be applied.
      *
-     * @param \App\JsonApi\Condition\Condition $condition
+     * @param Condition $condition
      * @return bool
      */
-    public function shouldApplyFilter(Condition $condition)
+    public function shouldApplyFilter(Condition $condition): bool
     {
         // Don't apply filter if scope does not match
         if (! $this->isMatchingScope($condition)) {
@@ -113,10 +118,10 @@ abstract class Filter
     /**
      * Determine if the scope of this condition matches the intended scope.
      *
-     * @param \App\JsonApi\Condition\Condition $condition
+     * @param Condition $condition
      * @return bool
      */
-    protected function isMatchingScope(Condition $condition)
+    protected function isMatchingScope(Condition $condition): bool
     {
         return empty($condition->getScope()) || strcasecmp($condition->getScope(), $this->getScope()) === 0;
     }
@@ -124,9 +129,9 @@ abstract class Filter
     /**
      * Get the underlying query conditions.
      *
-     * @return \App\JsonApi\Condition\Condition[]
+     * @return Condition[]
      */
-    public function getConditions()
+    public function getConditions(): array
     {
         return $this->parser->getConditions($this->getKey());
     }
@@ -134,10 +139,10 @@ abstract class Filter
     /**
      * Get sanitized filter values.
      *
-     * @param \App\JsonApi\Condition\Condition $condition
+     * @param Condition $condition
      * @return array
      */
-    public function getFilterValues(Condition $condition)
+    public function getFilterValues(Condition $condition): array
     {
         return $this->getUniqueFilterValues(
             $this->convertFilterValues(
@@ -154,7 +159,7 @@ abstract class Filter
      * @param array $filterValues
      * @return array
      */
-    protected function getUniqueFilterValues(array $filterValues)
+    protected function getUniqueFilterValues(array $filterValues): array
     {
         return array_values(array_unique($filterValues));
     }
@@ -165,7 +170,7 @@ abstract class Filter
      * @param array $filterValues
      * @return array
      */
-    protected function convertFilterValues(array $filterValues)
+    protected function convertFilterValues(array $filterValues): array
     {
         return $filterValues;
     }
@@ -176,7 +181,7 @@ abstract class Filter
      * @param array $filterValues
      * @return array
      */
-    protected function getValidFilterValues(array $filterValues)
+    protected function getValidFilterValues(array $filterValues): array
     {
         return $filterValues;
     }
@@ -188,7 +193,7 @@ abstract class Filter
      * @param array $filterValues
      * @return bool
      */
-    protected function isAllFilterValues(array $filterValues)
+    protected function isAllFilterValues(array $filterValues): bool
     {
         return false;
     }
@@ -199,7 +204,7 @@ abstract class Filter
      * @param string $scope
      * @return $this
      */
-    public function scope(string $scope)
+    public function scope(string $scope): static
     {
         $this->scope = $scope;
 
@@ -211,7 +216,7 @@ abstract class Filter
      *
      * @return string
      */
-    public function getScope()
+    public function getScope(): string
     {
         return $this->scope;
     }

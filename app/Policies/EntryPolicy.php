@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Policies;
 
@@ -8,6 +8,10 @@ use App\Models\Video;
 use App\Pivots\VideoEntry;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Class EntryPolicy
+ * @package App\Policies
+ */
 class EntryPolicy
 {
     use HandlesAuthorization;
@@ -15,10 +19,9 @@ class EntryPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(): bool
     {
         return true;
     }
@@ -26,11 +29,9 @@ class EntryPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Entry $entry
-     * @return mixed
+     * @return bool
      */
-    public function view(User $user, Entry $entry)
+    public function view(): bool
     {
         return true;
     }
@@ -38,10 +39,10 @@ class EntryPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasCurrentTeamPermission('entry:create');
     }
@@ -49,11 +50,10 @@ class EntryPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Entry $entry
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function update(User $user, Entry $entry)
+    public function update(User $user): bool
     {
         return $user->hasCurrentTeamPermission('entry:update');
     }
@@ -61,11 +61,10 @@ class EntryPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Entry $entry
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function delete(User $user, Entry $entry)
+    public function delete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('entry:delete');
     }
@@ -73,11 +72,10 @@ class EntryPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Entry $entry
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function restore(User $user, Entry $entry)
+    public function restore(User $user): bool
     {
         return $user->hasCurrentTeamPermission('entry:restore');
     }
@@ -85,11 +83,10 @@ class EntryPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Entry $entry
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function forceDelete(User $user, Entry $entry)
+    public function forceDelete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('entry:forceDelete');
     }
@@ -97,11 +94,10 @@ class EntryPolicy
     /**
      * Determine whether the user can attach any video to the entry.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Entry $entry
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnyVideo(User $user, Entry $entry)
+    public function attachAnyVideo(User $user): bool
     {
         return $user->hasCurrentTeamPermission('entry:update');
     }
@@ -109,12 +105,12 @@ class EntryPolicy
     /**
      * Determine whether the user can attach a video to the entry.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Entry $entry
-     * @param \App\Models\Video $video
-     * @return mixed
+     * @param User $user
+     * @param Entry $entry
+     * @param Video $video
+     * @return bool
      */
-    public function attachVideo(User $user, Entry $entry, Video $video)
+    public function attachVideo(User $user, Entry $entry, Video $video): bool
     {
         if (VideoEntry::where($entry->getKeyName(), $entry->getKey())->where($video->getKeyName(), $video->getKey())->exists()) {
             return false;
@@ -126,12 +122,10 @@ class EntryPolicy
     /**
      * Determine whether the user can detach a video from the entry.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Entry $entry
-     * @param \App\Models\Video $video
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function detachVideo(User $user, Entry $entry, Video $video)
+    public function detachVideo(User $user): bool
     {
         return $user->hasCurrentTeamPermission('entry:update');
     }

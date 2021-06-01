@@ -1,9 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Document;
+namespace Http\Document;
 
 use Tests\TestCase;
 
+/**
+ * Class CommunityIndexTest
+ * @package Http\Document
+ */
 class CommunityIndexTest extends TestCase
 {
     /**

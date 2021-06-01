@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Factories;
 
@@ -7,6 +7,10 @@ use App\Models\Image;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/**
+ * Class ImageFactory
+ * @package Database\Factories
+ */
 class ImageFactory extends Factory
 {
     /**
@@ -21,7 +25,7 @@ class ImageFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'path' => Str::random(),

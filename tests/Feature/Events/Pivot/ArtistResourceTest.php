@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Events\Pivot;
+namespace Events\Pivot;
 
 use App\Events\Pivot\ArtistResource\ArtistResourceCreated;
 use App\Events\Pivot\ArtistResource\ArtistResourceDeleted;
@@ -12,6 +12,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class ArtistResourceTest
+ * @package Events\Pivot
+ */
 class ArtistResourceTest extends TestCase
 {
     use RefreshDatabase;

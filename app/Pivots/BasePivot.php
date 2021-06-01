@@ -1,9 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Pivots;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
+/**
+ * Class BasePivot
+ * @package App\Pivots
+ */
 abstract class BasePivot extends Pivot
 {
     /**

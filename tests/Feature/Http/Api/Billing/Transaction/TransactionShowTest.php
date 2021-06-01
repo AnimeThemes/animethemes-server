@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Billing\Transaction;
+namespace Http\Api\Billing\Transaction;
 
 use App\Http\Resources\Billing\TransactionResource;
 use App\JsonApi\QueryParser;
@@ -10,9 +10,15 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class TransactionShowTest
+ * @package Http\Api\Billing\Transaction
+ */
 class TransactionShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Annouc Show Endpoint shall return an Transaction Resource.

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Pivot\ArtistSong;
 
@@ -11,14 +11,19 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class ArtistSongUpdated
+ * @package App\Events\Pivot\ArtistSong
+ */
 class ArtistSongUpdated extends ArtistSongEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
+    use Dispatchable;
+    use HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Pivots\ArtistSong $artistSong
+     * @param ArtistSong $artistSong
      * @return void
      */
     public function __construct(ArtistSong $artistSong)
@@ -30,9 +35,9 @@ class ArtistSongUpdated extends ArtistSongEvent implements DiscordMessageEvent, 
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $artist = $this->getArtist();
         $song = $this->getSong();
@@ -49,7 +54,7 @@ class ArtistSongUpdated extends ArtistSongEvent implements DiscordMessageEvent, 
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

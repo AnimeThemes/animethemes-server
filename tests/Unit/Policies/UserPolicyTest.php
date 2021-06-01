@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Policies;
+namespace Policies;
 
 use App\Models\User;
 use App\Policies\UserPolicy;
@@ -8,12 +8,17 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class UserPolicyTest
+ * @package Policies
+ */
 class UserPolicyTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
-     * Any user regardless of role can view any user.
+     * An admin can view any user.
      *
      * @return void
      */
@@ -33,13 +38,13 @@ class UserPolicyTest extends TestCase
 
         $policy = new UserPolicy();
 
-        $this->assertFalse($policy->viewAny($viewer));
-        $this->assertFalse($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertFalse($policy->viewAny($viewer));
+        static::assertFalse($policy->viewAny($editor));
+        static::assertTrue($policy->viewAny($admin));
     }
 
     /**
-     * Any user regardless of role can view a user.
+     * An admin can view a user.
      *
      * @return void
      */
@@ -60,14 +65,14 @@ class UserPolicyTest extends TestCase
         $user = User::factory()->create();
         $policy = new UserPolicy();
 
-        $this->assertFalse($policy->view($viewer, $user));
-        $this->assertFalse($policy->view($editor, $user));
-        $this->assertTrue($policy->view($admin, $user));
-        $this->assertTrue($policy->view($user, $user));
+        static::assertFalse($policy->view($viewer, $user));
+        static::assertFalse($policy->view($editor, $user));
+        static::assertTrue($policy->view($admin, $user));
+        static::assertTrue($policy->view($user, $user));
     }
 
     /**
-     * A contributor or admin may create a user.
+     * An admin may create a user.
      *
      * @return void
      */
@@ -87,13 +92,13 @@ class UserPolicyTest extends TestCase
 
         $policy = new UserPolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertFalse($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertFalse($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
-     * A contributor or admin may update a user.
+     * An admin may update a user.
      *
      * @return void
      */
@@ -114,13 +119,13 @@ class UserPolicyTest extends TestCase
         $user = User::factory()->create();
         $policy = new UserPolicy();
 
-        $this->assertFalse($policy->update($viewer, $user));
-        $this->assertFalse($policy->update($editor, $user));
-        $this->assertTrue($policy->update($admin, $user));
+        static::assertFalse($policy->update($viewer, $user));
+        static::assertFalse($policy->update($editor, $user));
+        static::assertTrue($policy->update($admin, $user));
     }
 
     /**
-     * A contributor or admin may delete a user.
+     * An admin may delete a user.
      *
      * @return void
      */
@@ -138,16 +143,15 @@ class UserPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $user = User::factory()->create();
         $policy = new UserPolicy();
 
-        $this->assertFalse($policy->delete($viewer, $user));
-        $this->assertFalse($policy->delete($editor, $user));
-        $this->assertTrue($policy->delete($admin, $user));
+        static::assertFalse($policy->delete($viewer));
+        static::assertFalse($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
-     * A contributor or admin may restore a user.
+     * An admin may restore a user.
      *
      * @return void
      */
@@ -165,16 +169,15 @@ class UserPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $user = User::factory()->create();
         $policy = new UserPolicy();
 
-        $this->assertFalse($policy->restore($viewer, $user));
-        $this->assertFalse($policy->restore($editor, $user));
-        $this->assertTrue($policy->restore($admin, $user));
+        static::assertFalse($policy->restore($viewer));
+        static::assertFalse($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
-     * A contributor or admin may force delete a user.
+     * An admin may force delete a user.
      *
      * @return void
      */
@@ -192,11 +195,10 @@ class UserPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $user = User::factory()->create();
         $policy = new UserPolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $user));
-        $this->assertFalse($policy->forceDelete($editor, $user));
-        $this->assertTrue($policy->forceDelete($admin, $user));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 }

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Events;
+namespace Events;
 
 use App\Events\Song\SongCreated;
 use App\Events\Song\SongDeleted;
@@ -11,6 +11,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class SongTest
+ * @package Events
+ */
 class SongTest extends TestCase
 {
     use RefreshDatabase;

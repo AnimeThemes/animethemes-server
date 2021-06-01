@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Video;
+namespace Http\Api\Video;
 
 use App\Enums\AnimeSeason;
 use App\Enums\Filter\TrashedStatus;
@@ -16,15 +16,22 @@ use App\Models\Theme;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class VideoIndexTest
+ * @package Http\Api\Video
+ */
 class VideoIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Video Index Endpoint shall return a collection of Video Resources.
@@ -180,7 +187,7 @@ class VideoIndexTest extends TestCase
         $this->withoutEvents();
 
         $allowedSorts = collect(VideoCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -331,7 +338,7 @@ class VideoIndexTest extends TestCase
         Video::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteVideo->each(function ($video) {
+        $deleteVideo->each(function (Video $video) {
             $video->delete();
         });
 
@@ -372,7 +379,7 @@ class VideoIndexTest extends TestCase
         Video::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteVideo->each(function ($video) {
+        $deleteVideo->each(function (Video $video) {
             $video->delete();
         });
 
@@ -413,7 +420,7 @@ class VideoIndexTest extends TestCase
         Video::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteVideo->each(function ($video) {
+        $deleteVideo->each(function (Video $video) {
             $video->delete();
         });
 
@@ -456,16 +463,16 @@ class VideoIndexTest extends TestCase
         ];
 
         Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $video = Video::factory()->count($this->faker->randomDigitNotNull)->create();
-            $video->each(function ($item) {
-                $item->delete();
+            $videos = Video::factory()->count($this->faker->randomDigitNotNull)->create();
+            $videos->each(function (Video $video) {
+                $video->delete();
             });
         });
 
         Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $video = Video::factory()->count($this->faker->randomDigitNotNull)->create();
-            $video->each(function ($item) {
-                $item->delete();
+            $videos = Video::factory()->count($this->faker->randomDigitNotNull)->create();
+            $videos->each(function (Video $video) {
+                $video->delete();
             });
         });
 
@@ -775,7 +782,7 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries' => function ($query) use ($nsfwFilter) {
+            'entries' => function (BelongsToMany $query) use ($nsfwFilter) {
                 $query->where('nsfw', $nsfwFilter);
             },
         ])
@@ -821,7 +828,7 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries' => function ($query) use ($spoilerFilter) {
+            'entries' => function (BelongsToMany $query) use ($spoilerFilter) {
                 $query->where('spoiler', $spoilerFilter);
             },
         ])
@@ -872,7 +879,7 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries' => function ($query) use ($versionFilter) {
+            'entries' => function (BelongsToMany $query) use ($versionFilter) {
                 $query->where('version', $versionFilter);
             },
         ])
@@ -925,7 +932,7 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries.theme' => function ($query) use ($groupFilter) {
+            'entries.theme' => function (BelongsTo $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -978,7 +985,7 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries.theme' => function ($query) use ($sequenceFilter) {
+            'entries.theme' => function (BelongsTo $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -1024,7 +1031,7 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries.theme' => function ($query) use ($typeFilter) {
+            'entries.theme' => function (BelongsTo $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
@@ -1070,7 +1077,7 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries.theme.anime' => function ($query) use ($seasonFilter) {
+            'entries.theme.anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -1125,7 +1132,7 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries.theme.anime' => function ($query) use ($yearFilter) {
+            'entries.theme.anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

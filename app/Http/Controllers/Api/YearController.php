@@ -1,13 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
 use App\Enums\AnimeSeason;
 use App\Http\Resources\AnimeCollection;
+use App\Http\Resources\AnimeResource;
 use App\Models\Anime;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
+/**
+ * Class YearController
+ * @package App\Http\Controllers\Api
+ */
 class YearController extends BaseController
 {
     /**
@@ -26,9 +32,9 @@ class YearController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return new JsonResponse(Anime::distinct('year')->orderBy('year')->pluck('year'));
     }
@@ -58,9 +64,9 @@ class YearController extends BaseController
      * )
      *
      * @param string $year
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function show($year)
+    public function show(string $year): JsonResponse
     {
         $anime = AnimeCollection::make(
             Anime::where('year', $year)
@@ -72,11 +78,11 @@ class YearController extends BaseController
 
         $anime = collect($anime->toArray(request()));
 
-        $anime = $anime->groupBy(function ($item) {
-            return Str::lower(AnimeSeason::getDescription($item->season));
+        $anime = $anime->groupBy(function (AnimeResource $anime) {
+            return Str::lower(AnimeSeason::getDescription($anime->season));
         });
 
-        $anime = $anime->sortBy(function ($seasonAnime, $seasonKey) {
+        $anime = $anime->sortBy(function (Collection $seasonAnime, string $seasonKey) {
             return AnimeSeason::getValue(Str::upper($seasonKey));
         });
 

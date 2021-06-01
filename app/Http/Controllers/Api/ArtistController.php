@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
@@ -6,7 +6,12 @@ use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\ArtistCollection;
 use App\Http\Resources\ArtistResource;
 use App\Models\Artist;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * Class ArtistController
+ * @package App\Http\Controllers\Api
+ */
 class ArtistController extends BaseController
 {
     /**
@@ -65,9 +70,9 @@ class ArtistController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         if ($this->parser->hasSearch()) {
             return ArtistCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
@@ -112,10 +117,10 @@ class ArtistController extends BaseController
      *     )
      * )
      *
-     * @param \App\Models\Artist $artist
-     * @return \Illuminate\Http\JsonResponse
+     * @param Artist $artist
+     * @return JsonResponse
      */
-    public function show(Artist $artist)
+    public function show(Artist $artist): JsonResponse
     {
         $resource = ArtistResource::performQuery($artist, $this->parser);
 

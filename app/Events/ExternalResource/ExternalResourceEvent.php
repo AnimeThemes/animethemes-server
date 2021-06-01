@@ -1,22 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\ExternalResource;
 
 use App\Models\ExternalResource;
 
+/**
+ * Class ExternalResourceEvent
+ * @package App\Events\ExternalResource
+ */
 class ExternalResourceEvent
 {
     /**
      * The resource that has fired this event.
      *
-     * @var \App\Models\ExternalResource
+     * @var ExternalResource
      */
-    protected $resource;
+    protected ExternalResource $resource;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\ExternalResource $resource
+     * @param ExternalResource $resource
      * @return void
      */
     public function __construct(ExternalResource $resource)
@@ -27,9 +31,9 @@ class ExternalResourceEvent
     /**
      * Get the resource that has fired this event.
      *
-     * @return \App\Models\ExternalResource
+     * @return ExternalResource
      */
-    public function getResource()
+    public function getResource(): ExternalResource
     {
         return $this->resource;
     }

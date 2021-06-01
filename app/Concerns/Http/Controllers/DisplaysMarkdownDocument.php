@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Concerns\Http\Controllers;
 
+use Illuminate\View\View;
 use Laravel\Jetstream\Jetstream;
 use League\CommonMark\Block\Element\FencedCode;
 use League\CommonMark\Block\Element\IndentedCode;
@@ -12,15 +13,19 @@ use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
 use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
 
+/**
+ * Trait DisplaysMarkdownDocument
+ * @package App\Concerns\Http\Controllers
+ */
 trait DisplaysMarkdownDocument
 {
     /**
      * Display markdown document.
      *
      * @param string $docPath
-     * @return \Illuminate\View\View
+     * @return View
      */
-    protected function displayMarkdownDocument(string $docPath)
+    protected function displayMarkdownDocument(string $docPath): View
     {
         $document = Jetstream::localizedMarkdownPath($docPath.'.md');
 

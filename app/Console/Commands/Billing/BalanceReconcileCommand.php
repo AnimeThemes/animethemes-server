@@ -1,16 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Console\Commands\Billing;
 
 use App\Concerns\Reconcile\Billing\ReconcilesBalance;
+use App\Contracts\Repositories\Repository;
 use App\Enums\Billing\Service;
 use App\Models\BaseModel;
+use App\Repositories\Eloquent\Billing\DigitalOceanBalanceRepository as DigitalOceanDestinationRepository;
+use App\Repositories\Service\Billing\DigitalOceanBalanceRepository as DigitalOceanSourceRepository;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+/**
+ * Class BalanceReconcileCommand
+ * @package App\Console\Commands\Billing
+ */
 class BalanceReconcileCommand extends Command
 {
     use ReconcilesBalance;
@@ -34,7 +41,7 @@ class BalanceReconcileCommand extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $key = $this->argument('service');
         $service = Service::coerce(Str::upper($key));
@@ -92,7 +99,7 @@ class BalanceReconcileCommand extends Command
     /**
      * Handler for successful balance creation.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
@@ -104,7 +111,7 @@ class BalanceReconcileCommand extends Command
     /**
      * Handler for failed balance creation.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
@@ -116,7 +123,7 @@ class BalanceReconcileCommand extends Command
     /**
      * Handler for successful balance deletion.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
@@ -128,7 +135,7 @@ class BalanceReconcileCommand extends Command
     /**
      * Handler for failed balance deletion.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
@@ -140,7 +147,7 @@ class BalanceReconcileCommand extends Command
     /**
      * Handler for successful balance update.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
@@ -152,7 +159,7 @@ class BalanceReconcileCommand extends Command
     /**
      * Handler for failed balance update.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)
@@ -169,21 +176,21 @@ class BalanceReconcileCommand extends Command
      */
     protected function handleException(Exception $exception)
     {
-        Log::error($exception);
+        Log::error($exception->getMessage());
         $this->error($exception->getMessage());
     }
 
     /**
      * Get source repository for service.
      *
-     * @param \App\Enums\Billing\Service $service
-     * @return \App\Contracts\Repositories\Repository|null
+     * @param Service $service
+     * @return Repository|null
      */
-    protected function getSourceRepository(Service $service)
+    protected function getSourceRepository(Service $service): ?Repository
     {
         switch ($service->value) {
         case Service::DIGITALOCEAN:
-            return App::make(\App\Repositories\Service\Billing\DigitalOceanBalanceRepository::class);
+            return App::make(DigitalOceanSourceRepository::class);
         }
 
         return null;
@@ -192,14 +199,14 @@ class BalanceReconcileCommand extends Command
     /**
      * Get destination repository for service.
      *
-     * @param \App\Enums\Billing\Service $service
-     * @return \App\Contracts\Repositories\Repository|null
+     * @param Service $service
+     * @return Repository|null
      */
-    protected function getDestinationRepository(Service $service)
+    protected function getDestinationRepository(Service $service): ?Repository
     {
         switch ($service->value) {
         case Service::DIGITALOCEAN:
-            return App::make(\App\Repositories\Eloquent\Billing\DigitalOceanBalanceRepository::class);
+            return App::make(DigitalOceanDestinationRepository::class);
         }
 
         return null;

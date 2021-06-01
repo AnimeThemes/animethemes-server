@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Resources;
+namespace Nova\Resources;
 
 use App\Enums\Billing\Service;
 use App\Nova\Filters\BillingServiceFilter;
@@ -13,21 +13,29 @@ use App\Nova\Filters\UpdatedStartDateFilter;
 use App\Nova\Transaction;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
+/**
+ * Class TransactionTest
+ * @package Nova\Resources
+ */
 class TransactionTest extends TestCase
 {
-    use NovaResourceTest, WithoutEvents;
+    use NovaResourceTest;
+    use WithoutEvents;
 
     /**
      * The Transaction Resource shall contain Transaction Fields.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFields()
     {
-        $transaction = $this->novaResource(Transaction::class);
+        $transaction = static::novaResource(Transaction::class);
 
         $transaction->assertHasField(__('nova.id'));
         $transaction->assertHasField(__('nova.created_at'));
@@ -44,10 +52,12 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain an ID field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testIdField()
     {
-        $transaction = $this->novaResource(Transaction::class);
+        $transaction = static::novaResource(Transaction::class);
 
         $field = $transaction->field(__('nova.id'));
 
@@ -63,10 +73,12 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain a Created At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testCreatedAtField()
     {
-        $transaction = $this->novaResource(Transaction::class);
+        $transaction = static::novaResource(Transaction::class);
 
         $field = $transaction->field(__('nova.created_at'));
 
@@ -82,10 +94,12 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain an Updated At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testUpdatedAtField()
     {
-        $transaction = $this->novaResource(Transaction::class);
+        $transaction = static::novaResource(Transaction::class);
 
         $field = $transaction->field(__('nova.updated_at'));
 
@@ -101,10 +115,12 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain a Deleted At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testDeletedAtField()
     {
-        $transaction = $this->novaResource(Transaction::class);
+        $transaction = static::novaResource(Transaction::class);
 
         $field = $transaction->field(__('nova.deleted_at'));
 
@@ -120,10 +136,12 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain a Deleted At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testDateField()
     {
-        $transaction = $this->novaResource(Transaction::class);
+        $transaction = static::novaResource(Transaction::class);
 
         $field = $transaction->field(__('nova.date'));
 
@@ -140,10 +158,12 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain a Service field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testServiceField()
     {
-        $transaction = $this->novaResource(Transaction::class);
+        $transaction = static::novaResource(Transaction::class);
 
         $field = $transaction->field(__('nova.service'));
 
@@ -161,10 +181,12 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain a Description field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testDescriptionField()
     {
-        $transaction = $this->novaResource(Transaction::class);
+        $transaction = static::novaResource(Transaction::class);
 
         $field = $transaction->field(__('nova.description'));
 
@@ -182,10 +204,12 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain an Amount field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testAmountField()
     {
-        $transaction = $this->novaResource(Transaction::class);
+        $transaction = static::novaResource(Transaction::class);
 
         $field = $transaction->field(__('nova.amount'));
 
@@ -202,10 +226,11 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain Transaction Filters.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFilters()
     {
-        $resource = $this->novaResource(Transaction::class);
+        $resource = static::novaResource(Transaction::class);
 
         $resource->assertHasFilter(BillingServiceFilter::class);
         $resource->assertHasFilter(CreatedStartDateFilter::class);
@@ -220,10 +245,11 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain no Actions.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testActions()
     {
-        $resource = $this->novaResource(Transaction::class);
+        $resource = static::novaResource(Transaction::class);
 
         $resource->assertHasNoActions();
     }

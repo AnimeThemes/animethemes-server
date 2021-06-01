@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Events;
+namespace Events;
 
 use App\Events\Synonym\SynonymCreated;
 use App\Events\Synonym\SynonymDeleted;
@@ -12,6 +12,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class SynonymTest
+ * @package Events
+ */
 class SynonymTest extends TestCase
 {
     use RefreshDatabase;

@@ -1,16 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Enums;
 
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
+/**
+ * Class VideoSource
+ * @package App\Enums
+ */
 final class VideoSource extends Enum implements LocalizedEnum
 {
-    const WEB = 0;
-    const RAW = 1;
-    const BD = 2;
-    const DVD = 3;
-    const VHS = 4;
-    const LD = 5;
+    public const WEB = 0;
+    public const RAW = 1;
+    public const BD = 2;
+    public const DVD = 3;
+    public const VHS = 4;
+    public const LD = 5;
 }

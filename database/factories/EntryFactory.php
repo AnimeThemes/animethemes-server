@@ -1,10 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Factories;
 
 use App\Models\Entry;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * Class EntryFactory
+ * @package Database\Factories
+ */
 class EntryFactory extends Factory
 {
     /**
@@ -19,7 +23,7 @@ class EntryFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'version' => $this->faker->randomDigitNotNull,

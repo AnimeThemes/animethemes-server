@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Repositories\Eloquent\Billing;
 
@@ -6,20 +6,26 @@ use App\Enums\Billing\Service;
 use App\Models\Billing\Balance;
 use App\Repositories\Eloquent\EloquentRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
+/**
+ * Class DigitalOceanBalanceRepository
+ * @package App\Repositories\Eloquent\Billing
+ */
 class DigitalOceanBalanceRepository extends EloquentRepository
 {
     /**
      * Get all models from the repository.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function all()
+    public function all(): Collection
     {
-        $currentMonth = Carbon::now();
+        $now = Carbon::now();
 
         return Balance::where('service', Service::DIGITALOCEAN)
-            ->whereBetween('date', [$currentMonth->copy()->startOfMonth(), $currentMonth->copy()->endOfMonth()])
+            ->whereMonth('date', strval($now->month))
+            ->whereYear('date', strval($now->year))
             ->get();
     }
 }

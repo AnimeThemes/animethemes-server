@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Events;
+namespace Events;
 
 use App\Events\Series\SeriesCreated;
 use App\Events\Series\SeriesDeleted;
@@ -11,6 +11,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class SeriesTest
+ * @package Events
+ */
 class SeriesTest extends TestCase
 {
     use RefreshDatabase;

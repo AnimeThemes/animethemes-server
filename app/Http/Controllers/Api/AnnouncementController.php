@@ -1,11 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\AnnouncementCollection;
 use App\Http\Resources\AnnouncementResource;
 use App\Models\Announcement;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * Class AnnouncementController
+ * @package App\Http\Controllers\Api
+ */
 class AnnouncementController extends BaseController
 {
     /**
@@ -56,9 +61,9 @@ class AnnouncementController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $announcements = AnnouncementCollection::performQuery($this->parser);
 
@@ -93,10 +98,10 @@ class AnnouncementController extends BaseController
      *     )
      * )
      *
-     * @param \App\Models\Announcement $announcement
-     * @return \Illuminate\Http\JsonResponse
+     * @param Announcement $announcement
+     * @return JsonResponse
      */
-    public function show(Announcement $announcement)
+    public function show(Announcement $announcement): JsonResponse
     {
         $resource = AnnouncementResource::performQuery($announcement, $this->parser);
 

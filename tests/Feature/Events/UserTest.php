@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Events;
+namespace Events;
 
 use App\Events\User\UserCreated;
 use App\Events\User\UserDeleted;
@@ -11,6 +11,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class UserTest
+ * @package Events
+ */
 class UserTest extends TestCase
 {
     use RefreshDatabase;

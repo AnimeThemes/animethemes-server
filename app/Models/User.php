@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -16,9 +16,18 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * Class User
+ * @package App\Models
+ */
 class User extends Authenticatable implements MustVerifyEmail, Nameable
 {
-    use HasApiTokens, HasFactory, HasTeams, Notifiable, SoftDeletes, TwoFactorAuthenticatable;
+    use HasApiTokens;
+    use HasFactory;
+    use HasTeams;
+    use Notifiable;
+    use SoftDeletes;
+    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -78,7 +87,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -88,7 +97,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
      *
      * @return bool|null
      */
-    public function restore()
+    public function restore(): ?bool
     {
         // If the restoring event does not return false, we will proceed with this
         // restore operation. Otherwise, we bail out so the developer will stop
@@ -120,7 +129,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
      * @param mixed $team
      * @return bool
      */
-    public function isCurrentTeam($team)
+    public function isCurrentTeam($team): bool
     {
         $currentTeam = $this->currentTeam;
 
@@ -133,10 +142,10 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
      * @param mixed $team
      * @return bool
      */
-    public function belongsToTeam($team)
+    public function belongsToTeam($team): bool
     {
         return $team !== null
-            && ($this->teams->contains(function ($t) use ($team) {
+            && ($this->teams->contains(function (Team $t) use ($team) {
                 return $t->id === $team->id;
             }) || $this->ownsTeam($team));
     }
@@ -147,7 +156,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
      * @param string $permission
      * @return bool
      */
-    public function hasCurrentTeamPermission(string $permission)
+    public function hasCurrentTeamPermission(string $permission): bool
     {
         $currentTeam = $this->currentTeam;
 

@@ -1,19 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Scout\Elastic;
 
 use App\Models\Series;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
+use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
+/**
+ * Class SeriesQueryPayload
+ * @package App\Scout\Elastic
+ */
 class SeriesQueryPayload extends ElasticQueryPayload
 {
     /**
      * Build Elasticsearch query.
      *
-     * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
+     * @return SearchRequestBuilder
      */
-    public function buildQuery()
+    public function buildQuery(): SearchRequestBuilder
     {
         return Series::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

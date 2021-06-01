@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Pivots;
+namespace Pivots;
 
 use App\Models\Anime;
 use App\Models\Entry;
@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * Class VideoEntryTest
+ * @package Pivots
+ */
 class VideoEntryTest extends TestCase
 {
     use RefreshDatabase;
@@ -27,8 +31,8 @@ class VideoEntryTest extends TestCase
             ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $videoEntry->video());
-        $this->assertInstanceOf(Video::class, $videoEntry->video()->first());
+        static::assertInstanceOf(BelongsTo::class, $videoEntry->video());
+        static::assertInstanceOf(Video::class, $videoEntry->video()->first());
     }
 
     /**
@@ -43,7 +47,7 @@ class VideoEntryTest extends TestCase
             ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $videoEntry->entry());
-        $this->assertInstanceOf(Entry::class, $videoEntry->entry()->first());
+        static::assertInstanceOf(BelongsTo::class, $videoEntry->entry());
+        static::assertInstanceOf(Entry::class, $videoEntry->entry()->first());
     }
 }

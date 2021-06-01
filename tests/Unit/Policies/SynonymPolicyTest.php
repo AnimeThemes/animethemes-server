@@ -1,18 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Policies;
+namespace Policies;
 
-use App\Models\Anime;
-use App\Models\Synonym;
 use App\Models\User;
 use App\Policies\SynonymPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class SynonymPolicyTest
+ * @package Policies
+ */
 class SynonymPolicyTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
      * Any user regardless of role can view any synonym.
@@ -21,23 +24,11 @@ class SynonymPolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
         $policy = new SynonymPolicy();
 
-        $this->assertTrue($policy->viewAny($viewer));
-        $this->assertTrue($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -47,26 +38,11 @@ class SynonymPolicyTest extends TestCase
      */
     public function testView()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
-        $synonym = Synonym::factory()
-            ->for(Anime::factory())
-            ->create();
         $policy = new SynonymPolicy();
 
-        $this->assertTrue($policy->view($viewer, $synonym));
-        $this->assertTrue($policy->view($editor, $synonym));
-        $this->assertTrue($policy->view($admin, $synonym));
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
     }
 
     /**
@@ -90,9 +66,9 @@ class SynonymPolicyTest extends TestCase
 
         $policy = new SynonymPolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertTrue($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertTrue($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
@@ -114,14 +90,11 @@ class SynonymPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $synonym = Synonym::factory()
-            ->for(Anime::factory())
-            ->create();
         $policy = new SynonymPolicy();
 
-        $this->assertFalse($policy->update($viewer, $synonym));
-        $this->assertTrue($policy->update($editor, $synonym));
-        $this->assertTrue($policy->update($admin, $synonym));
+        static::assertFalse($policy->update($viewer));
+        static::assertTrue($policy->update($editor));
+        static::assertTrue($policy->update($admin));
     }
 
     /**
@@ -143,14 +116,11 @@ class SynonymPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $synonym = Synonym::factory()
-            ->for(Anime::factory())
-            ->create();
         $policy = new SynonymPolicy();
 
-        $this->assertFalse($policy->delete($viewer, $synonym));
-        $this->assertTrue($policy->delete($editor, $synonym));
-        $this->assertTrue($policy->delete($admin, $synonym));
+        static::assertFalse($policy->delete($viewer));
+        static::assertTrue($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
@@ -172,14 +142,11 @@ class SynonymPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $synonym = Synonym::factory()
-            ->for(Anime::factory())
-            ->create();
         $policy = new SynonymPolicy();
 
-        $this->assertFalse($policy->restore($viewer, $synonym));
-        $this->assertTrue($policy->restore($editor, $synonym));
-        $this->assertTrue($policy->restore($admin, $synonym));
+        static::assertFalse($policy->restore($viewer));
+        static::assertTrue($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
@@ -201,13 +168,10 @@ class SynonymPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $synonym = Synonym::factory()
-            ->for(Anime::factory())
-            ->create();
         $policy = new SynonymPolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $synonym));
-        $this->assertFalse($policy->forceDelete($editor, $synonym));
-        $this->assertTrue($policy->forceDelete($admin, $synonym));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 }

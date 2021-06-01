@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Lenses;
+namespace Nova\Lenses;
 
 use App\Models\Anime;
 use App\Models\Artist;
@@ -15,21 +15,32 @@ use App\Nova\Lenses\ExternalResourceUnlinkedLens;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Lenses\InvalidNovaLensException;
 use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
+/**
+ * Class ExternalResourceUnlinkedTest
+ * @package Nova\Lenses
+ */
 class ExternalResourceUnlinkedTest extends TestCase
 {
-    use NovaLensTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaLensTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Resource Unlinked Lens shall contain Resource Fields.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testFields()
     {
-        $lens = $this->novaLens(ExternalResourceUnlinkedLens::class);
+        $lens = static::novaLens(ExternalResourceUnlinkedLens::class);
 
         $lens->assertHasField(__('nova.id'));
         $lens->assertHasField(__('nova.link'));
@@ -40,10 +51,12 @@ class ExternalResourceUnlinkedTest extends TestCase
      * The Resource Unlinked Lens fields shall be sortable.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaLensException
      */
     public function testSortable()
     {
-        $lens = $this->novaLens(ExternalResourceUnlinkedLens::class);
+        $lens = static::novaLens(ExternalResourceUnlinkedLens::class);
 
         $lens->field(__('nova.id'))->assertSortable();
         $lens->field(__('nova.link'))->assertSortable();
@@ -54,10 +67,11 @@ class ExternalResourceUnlinkedTest extends TestCase
      * The Resource Unlinked Lens shall contain Resource Filters.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testFilters()
     {
-        $lens = $this->novaLens(ExternalResourceUnlinkedLens::class);
+        $lens = static::novaLens(ExternalResourceUnlinkedLens::class);
 
         $lens->assertHasFilter(CreatedStartDateFilter::class);
         $lens->assertHasFilter(CreatedEndDateFilter::class);
@@ -71,10 +85,11 @@ class ExternalResourceUnlinkedTest extends TestCase
      * The Resource Unlinked Lens shall contain no Actions.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testActions()
     {
-        $lens = $this->novaLens(ExternalResourceUnlinkedLens::class);
+        $lens = static::novaLens(ExternalResourceUnlinkedLens::class);
 
         $lens->assertHasNoActions();
     }
@@ -83,10 +98,12 @@ class ExternalResourceUnlinkedTest extends TestCase
      * The Resource Unlinked Lens shall use the 'withFilters' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithFilters()
     {
-        $lens = $this->novaLens(ExternalResourceUnlinkedLens::class);
+        $lens = static::novaLens(ExternalResourceUnlinkedLens::class);
 
         $query = $lens->query(ExternalResource::class);
 
@@ -97,10 +114,12 @@ class ExternalResourceUnlinkedTest extends TestCase
      * The Resource Unlinked Lens shall use the 'withOrdering' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithOrdering()
     {
-        $lens = $this->novaLens(ExternalResourceUnlinkedLens::class);
+        $lens = static::novaLens(ExternalResourceUnlinkedLens::class);
 
         $query = $lens->query(ExternalResource::class);
 
@@ -111,6 +130,8 @@ class ExternalResourceUnlinkedTest extends TestCase
      * The Resource Unlinked Lens shall filter Resources without Anime or Artists.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testQuery()
     {
@@ -138,7 +159,7 @@ class ExternalResourceUnlinkedTest extends TestCase
             ->whereDoesntHave('artists')
             ->get();
 
-        $lens = $this->novaLens(ExternalResourceUnlinkedLens::class);
+        $lens = static::novaLens(ExternalResourceUnlinkedLens::class);
 
         $query = $lens->query(ExternalResource::class);
 

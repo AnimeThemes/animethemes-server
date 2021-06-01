@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Policies;
 
@@ -8,6 +8,10 @@ use App\Models\User;
 use App\Pivots\AnimeSeries;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Class SeriesPolicy
+ * @package App\Policies
+ */
 class SeriesPolicy
 {
     use HandlesAuthorization;
@@ -15,10 +19,9 @@ class SeriesPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(): bool
     {
         return true;
     }
@@ -26,11 +29,9 @@ class SeriesPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Series $series
-     * @return mixed
+     * @return bool
      */
-    public function view(User $user, Series $series)
+    public function view(): bool
     {
         return true;
     }
@@ -38,10 +39,10 @@ class SeriesPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasCurrentTeamPermission('series:create');
     }
@@ -49,11 +50,10 @@ class SeriesPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Series $series
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function update(User $user, Series $series)
+    public function update(User $user): bool
     {
         return $user->hasCurrentTeamPermission('series:update');
     }
@@ -61,11 +61,10 @@ class SeriesPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Series $series
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function delete(User $user, Series $series)
+    public function delete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('series:delete');
     }
@@ -73,11 +72,10 @@ class SeriesPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Series $series
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function restore(User $user, Series $series)
+    public function restore(User $user): bool
     {
         return $user->hasCurrentTeamPermission('series:restore');
     }
@@ -85,11 +83,10 @@ class SeriesPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Series $series
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function forceDelete(User $user, Series $series)
+    public function forceDelete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('series:forceDelete');
     }
@@ -97,11 +94,10 @@ class SeriesPolicy
     /**
      * Determine whether the user can attach any anime to the series.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Series $series
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function attachAnyAnime(User $user, Series $series)
+    public function attachAnyAnime(User $user): bool
     {
         return $user->hasCurrentTeamPermission('series:update');
     }
@@ -109,12 +105,12 @@ class SeriesPolicy
     /**
      * Determine whether the user can attach an anime to the series.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Series $series
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @param User $user
+     * @param Series $series
+     * @param Anime $anime
+     * @return bool
      */
-    public function attachAnime(User $user, Series $series, Anime $anime)
+    public function attachAnime(User $user, Series $series, Anime $anime): bool
     {
         if (AnimeSeries::where($anime->getKeyName(), $anime->getKey())->where($series->getKeyName(), $series->getKey())->exists()) {
             return false;
@@ -126,12 +122,10 @@ class SeriesPolicy
     /**
      * Determine whether the user can detach an anime from the series.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Series $series
-     * @param \App\Models\Anime $anime
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function detachAnime(User $user, Series $series, Anime $anime)
+    public function detachAnime(User $user): bool
     {
         return $user->hasCurrentTeamPermission('series:update');
     }

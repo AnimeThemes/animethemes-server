@@ -1,12 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Models;
+namespace Models;
 
 use App\Models\Announcement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class AnnouncementTest
+ * @package Models
+ */
 class AnnouncementTest extends TestCase
 {
     use RefreshDatabase;
@@ -22,7 +26,7 @@ class AnnouncementTest extends TestCase
 
         $announcement = Announcement::factory()->create();
 
-        $this->assertEquals(1, $announcement->audits->count());
+        static::assertEquals(1, $announcement->audits->count());
     }
 
     /**
@@ -34,6 +38,6 @@ class AnnouncementTest extends TestCase
     {
         $announcement = Announcement::factory()->create();
 
-        $this->assertIsString($announcement->getName());
+        static::assertIsString($announcement->getName());
     }
 }

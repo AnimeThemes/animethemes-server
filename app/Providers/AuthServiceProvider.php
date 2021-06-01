@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Providers;
 
@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules\Password;
 
+/**
+ * Class AuthServiceProvider
+ * @package App\Providers
+ */
 class AuthServiceProvider extends ServiceProvider
 {
     /**

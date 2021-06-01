@@ -1,16 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Console\Commands\Billing;
 
 use App\Concerns\Reconcile\Billing\ReconcilesTransaction;
+use App\Contracts\Repositories\Repository;
 use App\Enums\Billing\Service;
 use App\Models\BaseModel;
+use App\Repositories\Eloquent\Billing\DigitalOceanTransactionRepository;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+/**
+ * Class TransactionReconcileCommand
+ * @package App\Console\Commands\Billing
+ */
 class TransactionReconcileCommand extends Command
 {
     use ReconcilesTransaction;
@@ -34,7 +40,7 @@ class TransactionReconcileCommand extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $key = $this->argument('service');
         $service = Service::coerce(Str::upper($key));
@@ -92,7 +98,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for successful transaction creation.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
@@ -104,7 +110,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for failed transaction creation.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
@@ -116,7 +122,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for successful transaction deletion.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
@@ -128,7 +134,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for failed transaction deletion.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
@@ -140,7 +146,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for successful transaction update.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
@@ -152,7 +158,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for failed transaction update.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)
@@ -169,17 +175,17 @@ class TransactionReconcileCommand extends Command
      */
     protected function handleException(Exception $exception)
     {
-        Log::error($exception);
+        Log::error($exception->getMessage());
         $this->error($exception->getMessage());
     }
 
     /**
      * Get source repository for service.
      *
-     * @param \App\Enums\Billing\Service $service
-     * @return \App\Contracts\Repositories\Repository|null
+     * @param Service $service
+     * @return Repository|null
      */
-    protected function getSourceRepository(Service $service)
+    protected function getSourceRepository(Service $service): ?Repository
     {
         switch ($service->value) {
         case Service::DIGITALOCEAN:
@@ -192,14 +198,14 @@ class TransactionReconcileCommand extends Command
     /**
      * Get destination repository for service.
      *
-     * @param \App\Enums\Billing\Service $service
-     * @return \App\Contracts\Repositories\Repository|null
+     * @param Service $service
+     * @return Repository|null
      */
-    protected function getDestinationRepository(Service $service)
+    protected function getDestinationRepository(Service $service): ?Repository
     {
         switch ($service->value) {
         case Service::DIGITALOCEAN:
-            return App::make(\App\Repositories\Eloquent\Billing\DigitalOceanTransactionRepository::class);
+            return App::make(DigitalOceanTransactionRepository::class);
         }
 
         return null;

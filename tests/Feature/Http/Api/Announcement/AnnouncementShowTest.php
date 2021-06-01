@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Announcement;
+namespace Http\Api\Announcement;
 
 use App\Http\Resources\AnnouncementResource;
 use App\JsonApi\QueryParser;
@@ -10,9 +10,15 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class AnnouncementShowTest
+ * @package Http\Api\Announcement
+ */
 class AnnouncementShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Annouc Show Endpoint shall return an Announcement Resource.

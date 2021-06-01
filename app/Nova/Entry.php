@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Nova;
 
@@ -13,6 +13,10 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
+/**
+ * Class Entry
+ * @package App\Nova
+ */
 class Entry extends Resource
 {
     /**
@@ -20,7 +24,7 @@ class Entry extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Entry::class;
+    public static string $model = \App\Models\Entry::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -41,7 +45,7 @@ class Entry extends Resource
      *
      * @return array|string|null
      */
-    public static function label()
+    public static function label(): array|string|null
     {
         return __('nova.entries');
     }
@@ -51,7 +55,7 @@ class Entry extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel()
+    public static function singularLabel(): array|string|null
     {
         return __('nova.entry');
     }
@@ -75,10 +79,10 @@ class Entry extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
@@ -148,7 +152,7 @@ class Entry extends Resource
     /**
      * @return array
      */
-    protected function timestamps()
+    protected function timestamps(): array
     {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
@@ -171,10 +175,10 @@ class Entry extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function cards(Request $request)
+    public function cards(Request $request): array
     {
         return [];
     }
@@ -182,30 +186,30 @@ class Entry extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function filters(Request $request)
+    public function filters(Request $request): array
     {
         return [
-            new Filters\EntryNsfwFilter,
-            new Filters\EntrySpoilerFilter,
-            new Filters\CreatedStartDateFilter,
-            new Filters\CreatedEndDateFilter,
-            new Filters\UpdatedStartDateFilter,
-            new Filters\UpdatedEndDateFilter,
-            new Filters\DeletedStartDateFilter,
-            new Filters\DeletedEndDateFilter,
+            new Filters\EntryNsfwFilter(),
+            new Filters\EntrySpoilerFilter(),
+            new Filters\CreatedStartDateFilter(),
+            new Filters\CreatedEndDateFilter(),
+            new Filters\UpdatedStartDateFilter(),
+            new Filters\UpdatedEndDateFilter(),
+            new Filters\DeletedStartDateFilter(),
+            new Filters\DeletedEndDateFilter(),
         ];
     }
 
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function lenses(Request $request)
+    public function lenses(Request $request): array
     {
         return [];
     }
@@ -213,10 +217,10 @@ class Entry extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function actions(Request $request)
+    public function actions(Request $request): array
     {
         return [];
     }

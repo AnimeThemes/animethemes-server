@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Factories;
 
@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 
+/**
+ * Class UserFactory
+ * @package Database\Factories
+ */
 class UserFactory extends Factory
 {
     /**
@@ -22,7 +26,7 @@ class UserFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->name(),
@@ -36,11 +40,11 @@ class UserFactory extends Factory
     /**
      * Indicate that the model's email address should be unverified.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @return Factory
      */
-    public function unverified()
+    public function unverified(): Factory
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function () {
             return [
                 'email_verified_at' => null,
             ];
@@ -52,7 +56,7 @@ class UserFactory extends Factory
      *
      * @return static
      */
-    public function withPersonalTeam()
+    public function withPersonalTeam(): static
     {
         if (! Features::hasTeamFeatures()) {
             return $this->state([]);
@@ -70,9 +74,10 @@ class UserFactory extends Factory
     /**
      * Create and set current team for user with specified role.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @param string $role
+     * @return Factory
      */
-    public function withCurrentTeam(string $role)
+    public function withCurrentTeam(string $role): Factory
     {
         return $this->afterCreating(
             function (User $user) use ($role) {

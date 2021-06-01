@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Seeders;
 
@@ -8,8 +8,13 @@ use App\Repositories\Eloquent\VideoRepository as VideoDestinationRepository;
 use App\Repositories\Service\VideoRepository as VideoSourceRepository;
 use Exception;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Class VideoSeeder
+ * @package Database\Seeders
+ */
 class VideoSeeder extends Seeder
 {
     use ReconcilesVideo;
@@ -21,9 +26,9 @@ class VideoSeeder extends Seeder
      */
     public function run()
     {
-        $sourceRepository = new VideoSourceRepository;
+        $sourceRepository = App::make(VideoSourceRepository::class);
 
-        $destinationRepository = new VideoDestinationRepository;
+        $destinationRepository = App::make(VideoDestinationRepository::class);
 
         $this->reconcileRepositories($sourceRepository, $destinationRepository);
     }
@@ -50,7 +55,7 @@ class VideoSeeder extends Seeder
     /**
      * Handler for successful video creation.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
@@ -61,7 +66,7 @@ class VideoSeeder extends Seeder
     /**
      * Handler for failed video creation.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
@@ -72,7 +77,7 @@ class VideoSeeder extends Seeder
     /**
      * Handler for successful video deletion.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
@@ -83,7 +88,7 @@ class VideoSeeder extends Seeder
     /**
      * Handler for failed video deletion.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
@@ -94,7 +99,7 @@ class VideoSeeder extends Seeder
     /**
      * Handler for successful video update.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
@@ -105,7 +110,7 @@ class VideoSeeder extends Seeder
     /**
      * Handler for failed video update.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)
@@ -121,6 +126,6 @@ class VideoSeeder extends Seeder
      */
     protected function handleException(Exception $exception)
     {
-        Log::error($exception);
+        Log::error($exception->getMessage());
     }
 }

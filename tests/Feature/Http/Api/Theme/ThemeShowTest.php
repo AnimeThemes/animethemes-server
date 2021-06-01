@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Theme;
+namespace Http\Api\Theme;
 
 use App\Enums\AnimeSeason;
 use App\Enums\ImageFacet;
@@ -15,13 +15,21 @@ use App\Models\Song;
 use App\Models\Theme;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class ThemeShowTest
+ * @package Http\Api\Theme
+ */
 class ThemeShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Theme Show Endpoint shall return a Theme Resource.
@@ -187,7 +195,7 @@ class ThemeShowTest extends TestCase
             ->create();
 
         $theme = Theme::with([
-            'anime' => function ($query) use ($seasonFilter) {
+            'anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -234,7 +242,7 @@ class ThemeShowTest extends TestCase
             ->create();
 
         $theme = Theme::with([
-            'anime' => function ($query) use ($yearFilter) {
+            'anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])
@@ -278,7 +286,7 @@ class ThemeShowTest extends TestCase
             ->create();
 
         $theme = Theme::with([
-            'anime.images' => function ($query) use ($facetFilter) {
+            'anime.images' => function (BelongsToMany $query) use ($facetFilter) {
                 $query->where('facet', $facetFilter->value);
             },
         ])
@@ -320,7 +328,7 @@ class ThemeShowTest extends TestCase
             ->create();
 
         $theme = Theme::with([
-            'entries' => function ($query) use ($nsfwFilter) {
+            'entries' => function (HasMany $query) use ($nsfwFilter) {
                 $query->where('nsfw', $nsfwFilter);
             },
         ])
@@ -362,7 +370,7 @@ class ThemeShowTest extends TestCase
             ->create();
 
         $theme = Theme::with([
-            'entries' => function ($query) use ($spoilerFilter) {
+            'entries' => function (HasMany $query) use ($spoilerFilter) {
                 $query->where('spoiler', $spoilerFilter);
             },
         ])
@@ -412,7 +420,7 @@ class ThemeShowTest extends TestCase
             ->create();
 
         $theme = Theme::with([
-            'entries' => function ($query) use ($versionFilter) {
+            'entries' => function (HasMany $query) use ($versionFilter) {
                 $query->where('version', $versionFilter);
             },
         ])
@@ -458,7 +466,7 @@ class ThemeShowTest extends TestCase
             ->create();
 
         $theme = Theme::with([
-            'entries.videos' => function ($query) use ($lyricsFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($lyricsFilter) {
                 $query->where('lyrics', $lyricsFilter);
             },
         ])
@@ -504,7 +512,7 @@ class ThemeShowTest extends TestCase
             ->create();
 
         $theme = Theme::with([
-            'entries.videos' => function ($query) use ($ncFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($ncFilter) {
                 $query->where('nc', $ncFilter);
             },
         ])
@@ -550,7 +558,7 @@ class ThemeShowTest extends TestCase
             ->create();
 
         $theme = Theme::with([
-            'entries.videos' => function ($query) use ($overlapFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($overlapFilter) {
                 $query->where('overlap', $overlapFilter->value);
             },
         ])
@@ -604,7 +612,7 @@ class ThemeShowTest extends TestCase
             ->create();
 
         $theme = Theme::with([
-            'entries.videos' => function ($query) use ($resolutionFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($resolutionFilter) {
                 $query->where('resolution', $resolutionFilter);
             },
         ])
@@ -650,7 +658,7 @@ class ThemeShowTest extends TestCase
             ->create();
 
         $theme = Theme::with([
-            'entries.videos' => function ($query) use ($sourceFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($sourceFilter) {
                 $query->where('source', $sourceFilter->value);
             },
         ])
@@ -696,7 +704,7 @@ class ThemeShowTest extends TestCase
             ->create();
 
         $theme = Theme::with([
-            'entries.videos' => function ($query) use ($subbedFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($subbedFilter) {
                 $query->where('subbed', $subbedFilter);
             },
         ])
@@ -742,7 +750,7 @@ class ThemeShowTest extends TestCase
             ->create();
 
         $theme = Theme::with([
-            'entries.videos' => function ($query) use ($uncenFilter) {
+            'entries.videos' => function (BelongsToMany $query) use ($uncenFilter) {
                 $query->where('uncen', $uncenFilter);
             },
         ])

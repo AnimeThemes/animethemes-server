@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -15,11 +15,19 @@ use BenSampo\Enum\Traits\CastsEnums;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
 use ElasticScoutDriverPlus\QueryDsl;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Scout\Searchable;
 
+/**
+ * Class Video
+ * @package App\Models
+ */
 class Video extends BaseModel implements Streamable, Viewable
 {
-    use CastsEnums, InteractsWithViews, QueryDsl, Searchable;
+    use CastsEnums;
+    use InteractsWithViews;
+    use QueryDsl;
+    use Searchable;
 
     /**
      * @var array
@@ -65,7 +73,7 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * @return array
      */
-    public function getTagsAttribute()
+    public function getTagsAttribute(): array
     {
         $tags = [];
 
@@ -93,11 +101,11 @@ class Video extends BaseModel implements Streamable, Viewable
      *
      * @return array
      */
-    public function toSearchableArray()
+    public function toSearchableArray(): array
     {
         $array = $this->toArray();
-        $array['entries'] = $this->entries->map(function (Entry $item) {
-            return $item->toSearchableArray();
+        $array['entries'] = $this->entries->map(function (Entry $entry) {
+            return $entry->toSearchableArray();
         })->toArray();
 
         return $array;
@@ -108,7 +116,7 @@ class Video extends BaseModel implements Streamable, Viewable
      *
      * @return string
      */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'basename';
     }
@@ -127,6 +135,7 @@ class Video extends BaseModel implements Streamable, Viewable
     protected $casts = [
         'overlap' => 'int',
         'source' => 'int',
+        'size' => 'int',
         'nc' => 'boolean',
         'subbed' => 'boolean',
         'lyrics' => 'boolean',
@@ -138,7 +147,7 @@ class Video extends BaseModel implements Streamable, Viewable
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->filename;
     }
@@ -148,7 +157,7 @@ class Video extends BaseModel implements Streamable, Viewable
      *
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -158,7 +167,7 @@ class Video extends BaseModel implements Streamable, Viewable
      *
      * @return string
      */
-    public function getMimetype()
+    public function getMimetype(): string
     {
         return $this->mimetype;
     }
@@ -168,7 +177,7 @@ class Video extends BaseModel implements Streamable, Viewable
      *
      * @return int
      */
-    public function getSize()
+    public function getSize(): int
     {
         return $this->size;
     }
@@ -178,7 +187,7 @@ class Video extends BaseModel implements Streamable, Viewable
      *
      * @return string
      */
-    public function getDisk()
+    public function getDisk(): string
     {
         return 'videos';
     }
@@ -186,9 +195,9 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * Get the related entries.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function entries()
+    public function entries(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Entry', 'entry_video', 'video_id', 'entry_id')
             ->using(VideoEntry::class)

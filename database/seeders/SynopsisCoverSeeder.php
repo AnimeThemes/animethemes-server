@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Seeders;
 
@@ -8,12 +8,20 @@ use App\Models\Anime;
 use App\Models\Image;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Class SynopsisCoverSeeder
+ * @package Database\Seeders
+ */
 class SynopsisCoverSeeder extends Seeder
 {
     /**
@@ -29,10 +37,10 @@ class SynopsisCoverSeeder extends Seeder
         $fs = Storage::disk('images');
 
         foreach ($animes as $anime) {
-            $anilistResource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::ANILIST));
-            if (! is_null(optional($anilistResource)->external_id)) {
-                $animeCoverLarge = $anime->images()->firstWhere('facet', strval(ImageFacet::COVER_LARGE));
-                $animeCoverSmall = $anime->images()->firstWhere('facet', strval(ImageFacet::COVER_SMALL));
+            $anilistResource = $anime->externalResources()->firstWhere('site', ResourceSite::ANILIST);
+            if ($anilistResource !== null && $anilistResource->external_id !== null) {
+                $animeCoverLarge = $anime->images()->firstWhere('facet', ImageFacet::COVER_LARGE);
+                $animeCoverSmall = $anime->images()->firstWhere('facet', ImageFacet::COVER_SMALL);
 
                 // Try not to upset Anilist
                 sleep(rand(5, 15));
@@ -57,27 +65,27 @@ class SynopsisCoverSeeder extends Seeder
 
                 // Anilist graphql api call
                 try {
-                    $client = new Client;
+                    $client = new Client();
                     $response = $client->post('https://graphql.anilist.co', [
                         'json' => [
                             'query' => $query,
                             'variables' => $variables,
                         ],
                     ]);
-                    $anilistResourceJson = json_decode($response->getBody()->getContents());
-                    $anilistSynopsis = $anilistResourceJson->data->Media->description;
-                    $anilistCoverLarge = $anilistResourceJson->data->Media->coverImage->extraLarge;
-                    $anilistCoverSmall = $anilistResourceJson->data->Media->coverImage->medium;
+                    $anilistResourceJson = json_decode($response->getBody()->getContents(), true);
+                    $anilistSynopsis = Arr::get($anilistResourceJson, 'data.Media.description');
+                    $anilistCoverLarge = Arr::get($anilistResourceJson, 'data.Media.coverImage.extraLarge');
+                    $anilistCoverSmall = Arr::get($anilistResourceJson, 'data.Media.coverImage.medium');
 
                     // Set Anime synopsis
-                    if (! is_null($anilistSynopsis) && is_null($anime->synopsis)) {
+                    if ($anilistSynopsis !== null && $anime->synopsis === null) {
                         Log::info("Setting synopsis for anime '{$anime->name}'");
                         $anime->synopsis = $anilistSynopsis;
                         $anime->save();
                     }
 
                     // Create large cover image
-                    if (! is_null($anilistCoverLarge) && is_null($animeCoverLarge)) {
+                    if ($anilistCoverLarge !== null && $animeCoverLarge === null) {
                         $coverImageResponse = $client->get($anilistCoverLarge);
                         $coverImage = $coverImageResponse->getBody()->getContents();
                         $coverFile = File::createWithContent(basename($anilistCoverLarge), $coverImage);
@@ -96,7 +104,7 @@ class SynopsisCoverSeeder extends Seeder
                     }
 
                     // Create small cover image
-                    if (! is_null($anilistCoverSmall) && is_null($animeCoverSmall)) {
+                    if ($anilistCoverSmall !== null && $animeCoverSmall === null) {
                         $coverImageResponse = $client->get($anilistCoverSmall);
                         $coverImage = $coverImageResponse->getBody()->getContents();
                         $coverFile = File::createWithContent(basename($anilistCoverSmall), $coverImage);
@@ -116,7 +124,7 @@ class SynopsisCoverSeeder extends Seeder
                 } catch (ClientException $e) {
                     // We may not have a match for this MAL resource
                     Log::info($e->getMessage());
-                } catch (ServerException $e) {
+                } catch (ServerException | GuzzleException $e) {
                     // We may have upset Anilist, try again later
                     Log::info($e->getMessage());
 
@@ -129,14 +137,14 @@ class SynopsisCoverSeeder extends Seeder
     /**
      * Get anime that have MAL resource but not both cover images.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
-    protected function getUnseededAnime()
+    protected function getUnseededAnime(): Collection
     {
         return Anime::query()
-            ->whereHas('externalResources', function ($resourceQuery) {
+            ->whereHas('externalResources', function (BelongsToMany $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::ANILIST);
-            })->whereDoesntHave('images', function ($imageQuery) {
+            })->whereDoesntHave('images', function (BelongsToMany $imageQuery) {
                 $imageQuery->whereIn('facet', [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
             })
             ->get();

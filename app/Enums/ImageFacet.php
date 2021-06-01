@@ -1,12 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Enums;
 
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
+/**
+ * Class ImageFacet
+ * @package App\Enums
+ */
 final class ImageFacet extends Enum implements LocalizedEnum
 {
-    const COVER_SMALL = 0;
-    const COVER_LARGE = 1;
+    public const COVER_SMALL = 0;
+    public const COVER_LARGE = 1;
 }

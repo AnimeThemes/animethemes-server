@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Events;
+namespace Events;
 
 use App\Events\Image\ImageCreated;
 use App\Events\Image\ImageDeleted;
@@ -11,6 +11,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class ImageTest
+ * @package Events
+ */
 class ImageTest extends TestCase
 {
     use RefreshDatabase;

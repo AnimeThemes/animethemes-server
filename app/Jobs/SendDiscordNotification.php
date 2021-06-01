@@ -1,10 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Jobs;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\Middleware\RateLimited;
 use App\Notifications\DiscordNotification;
+use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -12,21 +13,28 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Notification;
 
+/**
+ * Class SendDiscordNotification
+ * @package App\Jobs
+ */
 class SendDiscordNotification implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * The event.
      *
-     * @var \App\Contracts\Events\DiscordMessageEvent
+     * @var DiscordMessageEvent
      */
-    protected $event;
+    protected DiscordMessageEvent $event;
 
     /**
      * Create a new job instance.
      *
-     * @param \App\Contracts\Events\DiscordMessageEvent $event
+     * @param DiscordMessageEvent $event
      * @return void
      */
     public function __construct(DiscordMessageEvent $event)
@@ -50,17 +58,17 @@ class SendDiscordNotification implements ShouldQueue
      *
      * @return array
      */
-    public function middleware()
+    public function middleware(): array
     {
-        return [new RateLimited];
+        return [new RateLimited()];
     }
 
     /**
      * Determine the time at which the job should timeout.
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function retryUntil()
+    public function retryUntil(): DateTime
     {
         return now()->addMinutes(15);
     }

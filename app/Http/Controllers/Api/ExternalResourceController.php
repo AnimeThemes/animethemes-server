@@ -1,11 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\ExternalResourceCollection;
 use App\Http\Resources\ExternalResourceResource;
 use App\Models\ExternalResource;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * Class ExternalResourceController
+ * @package App\Http\Controllers\Api
+ */
 class ExternalResourceController extends BaseController
 {
     /**
@@ -72,9 +77,9 @@ class ExternalResourceController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $resources = ExternalResourceCollection::performQuery($this->parser);
 
@@ -117,10 +122,10 @@ class ExternalResourceController extends BaseController
      *     )
      * )
      *
-     * @param \App\Models\ExternalResource $resource
-     * @return \Illuminate\Http\JsonResponse
+     * @param ExternalResource $resource
+     * @return JsonResponse
      */
-    public function show(ExternalResource $resource)
+    public function show(ExternalResource $resource): JsonResponse
     {
         $resource = ExternalResourceResource::performQuery($resource, $this->parser);
 

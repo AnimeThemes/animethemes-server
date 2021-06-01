@@ -1,27 +1,37 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Filters;
+namespace Nova\Filters;
 
 use App\Models\Video;
 use App\Nova\Filters\VideoUncenFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class VideoUncenTest
+ * @package Nova\Filters
+ */
 class VideoUncenTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Video Uncen Filter shall be a select filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
     {
-        $this->novaFilter(VideoUncenFilter::class)
+        static::novaFilter(VideoUncenFilter::class)
             ->assertSelectFilter();
     }
 
@@ -29,10 +39,11 @@ class VideoUncenTest extends TestCase
      * The Video Uncen Filter shall have Yes and No options.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testOptions()
     {
-        $filter = $this->novaFilter(VideoUncenFilter::class);
+        $filter = static::novaFilter(VideoUncenFilter::class);
 
         $filter->assertHasOption(__('nova.no'));
         $filter->assertHasOption(__('nova.yes'));
@@ -42,6 +53,8 @@ class VideoUncenTest extends TestCase
      * The Video Uncen Filter shall filter Videos By Uncen.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testFilter()
     {
@@ -51,7 +64,7 @@ class VideoUncenTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filter = $this->novaFilter(VideoUncenFilter::class);
+        $filter = static::novaFilter(VideoUncenFilter::class);
 
         $response = $filter->apply(Video::class, $uncenFilter);
 

@@ -1,9 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\SearchResource;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * Class SearchController
+ * @package App\Http\Controllers\Api
+ */
 class SearchController extends BaseController
 {
     /**
@@ -55,9 +60,9 @@ class SearchController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $resource = SearchResource::make($this->parser);
 

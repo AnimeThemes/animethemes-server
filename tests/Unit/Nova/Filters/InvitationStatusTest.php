@@ -1,27 +1,36 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Filters;
+namespace Nova\Filters;
 
 use App\Enums\InvitationStatus;
 use App\Models\Invitation;
 use App\Nova\Filters\InvitationStatusFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class InvitationStatusTest
+ * @package Nova\Filters
+ */
 class InvitationStatusTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * The Invitation Status Filter shall be a select filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
     {
-        $this->novaFilter(InvitationStatusFilter::class)
+        static::novaFilter(InvitationStatusFilter::class)
             ->assertSelectFilter();
     }
 
@@ -29,10 +38,11 @@ class InvitationStatusTest extends TestCase
      * The Invitation Status Filter shall have an option for each InvitationStatus instance.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testOptions()
     {
-        $filter = $this->novaFilter(InvitationStatusFilter::class);
+        $filter = static::novaFilter(InvitationStatusFilter::class);
 
         foreach (InvitationStatus::getInstances() as $status) {
             $filter->assertHasOption($status->description);
@@ -43,6 +53,8 @@ class InvitationStatusTest extends TestCase
      * The Invitation Status Filter shall filter Invitations By Status.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testFilter()
     {
@@ -50,7 +62,7 @@ class InvitationStatusTest extends TestCase
 
         Invitation::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $filter = $this->novaFilter(InvitationStatusFilter::class);
+        $filter = static::novaFilter(InvitationStatusFilter::class);
 
         $response = $filter->apply(Invitation::class, $status->value);
 

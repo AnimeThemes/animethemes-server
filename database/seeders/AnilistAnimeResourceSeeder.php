@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Seeders;
 
@@ -8,10 +8,18 @@ use App\Models\ExternalResource;
 use App\Pivots\AnimeResource;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Class AnilistAnimeResourceSeeder
+ * @package Database\Seeders
+ */
 class AnilistAnimeResourceSeeder extends Seeder
 {
     /**
@@ -25,8 +33,8 @@ class AnilistAnimeResourceSeeder extends Seeder
         $animes = $this->getUnseededAnime();
 
         foreach ($animes as $anime) {
-            $malResource = $anime->externalResources()->firstWhere('site', strval(ResourceSite::MAL));
-            if (! is_null(optional($malResource)->external_id)) {
+            $malResource = $anime->externalResources()->firstWhere('site', ResourceSite::MAL);
+            if ($malResource !== null && $malResource->external_id !== null) {
 
                 // Try not to upset Anilist
                 sleep(rand(5, 15));
@@ -47,21 +55,21 @@ class AnilistAnimeResourceSeeder extends Seeder
 
                 // Anilist graphql api call
                 try {
-                    $client = new Client;
+                    $client = new Client();
                     $response = $client->post('https://graphql.anilist.co', [
                         'json' => [
                             'query' => $query,
                             'variables' => $variables,
                         ],
                     ]);
-                    $anilistResourceJson = json_decode($response->getBody()->getContents());
-                    $anilistId = $anilistResourceJson->data->Media->id;
+                    $anilistResourceJson = json_decode($response->getBody()->getContents(), true);
+                    $anilistId = Arr::get($anilistResourceJson, 'data.Media.id');
 
                     // Check if Anilist resource already exists
                     $anilistResource = ExternalResource::where('site', ResourceSite::ANILIST)->where('external_id', $anilistId)->first();
 
                     // Create Anilist resource if it doesn't already exist
-                    if (is_null($anilistResource)) {
+                    if ($anilistResource === null) {
                         Log::info("Creating anilist resource '{$anilistId}' for anime '{$anime->name}'");
                         $anilistResource = ExternalResource::create([
                             'site' => ResourceSite::ANILIST,
@@ -78,7 +86,7 @@ class AnilistAnimeResourceSeeder extends Seeder
                 } catch (ClientException $e) {
                     // We may not have a match for this MAL resource
                     Log::info($e->getMessage());
-                } catch (ServerException $e) {
+                } catch (ServerException | GuzzleException $e) {
                     // We may have upset Anilist, try again later
                     Log::info($e->getMessage());
 
@@ -91,14 +99,14 @@ class AnilistAnimeResourceSeeder extends Seeder
     /**
      * Get anime that have MAL resource but do not have Anilist resource.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
-    protected function getUnseededAnime()
+    protected function getUnseededAnime(): Collection
     {
         return Anime::query()
-            ->whereHas('externalResources', function ($resourceQuery) {
+            ->whereHas('externalResources', function (BelongsToMany $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::MAL);
-            })->whereDoesntHave('externalResources', function ($resourceQuery) {
+            })->whereDoesntHave('externalResources', function (BelongsToMany $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::ANILIST);
             })
             ->get();

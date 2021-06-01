@@ -1,10 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Document;
 
 use App\Concerns\Http\Controllers\DisplaysMarkdownDocument;
 use App\Http\Controllers\Controller;
+use Illuminate\View\View;
 
+/**
+ * Class CommunityController
+ * @package App\Http\Controllers\Document
+ */
 class CommunityController extends Controller
 {
     use DisplaysMarkdownDocument;
@@ -12,9 +17,9 @@ class CommunityController extends Controller
     /**
      * Display the Community Index document.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         return $this->displayMarkdownDocument('community/index');
     }
@@ -22,9 +27,10 @@ class CommunityController extends Controller
     /**
      * Display the Community document.
      *
-     * @return \Illuminate\View\View
+     * @param string $docName
+     * @return View
      */
-    public function show($docName)
+    public function show(string $docName): View
     {
         return $this->displayMarkdownDocument('community/'.$docName);
     }

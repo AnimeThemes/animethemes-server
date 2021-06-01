@@ -1,9 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Policies;
+namespace Policies;
 
 use App\Models\Anime;
-use App\Models\ExternalResource;
 use App\Models\Image;
 use App\Models\Series;
 use App\Models\User;
@@ -12,9 +11,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class AnimePolicyTest
+ * @package Policies
+ */
 class AnimePolicyTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
      * Any user regardless of role can view any anime.
@@ -23,23 +27,11 @@ class AnimePolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
         $policy = new AnimePolicy();
 
-        $this->assertTrue($policy->viewAny($viewer));
-        $this->assertTrue($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -49,24 +41,11 @@ class AnimePolicyTest extends TestCase
      */
     public function testView()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
-        $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertTrue($policy->view($viewer, $anime));
-        $this->assertTrue($policy->view($editor, $anime));
-        $this->assertTrue($policy->view($admin, $anime));
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
     }
 
     /**
@@ -90,9 +69,9 @@ class AnimePolicyTest extends TestCase
 
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertTrue($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertTrue($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
@@ -114,12 +93,11 @@ class AnimePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->update($viewer, $anime));
-        $this->assertTrue($policy->update($editor, $anime));
-        $this->assertTrue($policy->update($admin, $anime));
+        static::assertFalse($policy->update($viewer));
+        static::assertTrue($policy->update($editor));
+        static::assertTrue($policy->update($admin));
     }
 
     /**
@@ -141,12 +119,11 @@ class AnimePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->delete($viewer, $anime));
-        $this->assertTrue($policy->delete($editor, $anime));
-        $this->assertTrue($policy->delete($admin, $anime));
+        static::assertFalse($policy->delete($viewer));
+        static::assertTrue($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
@@ -168,16 +145,15 @@ class AnimePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->restore($viewer, $anime));
-        $this->assertTrue($policy->restore($editor, $anime));
-        $this->assertTrue($policy->restore($admin, $anime));
+        static::assertFalse($policy->restore($viewer));
+        static::assertTrue($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
-     * A contributor or admin may force delete an anime.
+     * An admin may force delete an anime.
      *
      * @return void
      */
@@ -195,12 +171,11 @@ class AnimePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $anime));
-        $this->assertFalse($policy->forceDelete($editor, $anime));
-        $this->assertTrue($policy->forceDelete($admin, $anime));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 
     /**
@@ -222,12 +197,11 @@ class AnimePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachAnySeries($viewer, $anime));
-        $this->assertTrue($policy->attachAnySeries($editor, $anime));
-        $this->assertTrue($policy->attachAnySeries($admin, $anime));
+        static::assertFalse($policy->attachAnySeries($viewer));
+        static::assertTrue($policy->attachAnySeries($editor));
+        static::assertTrue($policy->attachAnySeries($admin));
     }
 
     /**
@@ -253,9 +227,9 @@ class AnimePolicyTest extends TestCase
         $series = Series::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachSeries($viewer, $anime, $series));
-        $this->assertTrue($policy->attachSeries($editor, $anime, $series));
-        $this->assertTrue($policy->attachSeries($admin, $anime, $series));
+        static::assertFalse($policy->attachSeries($viewer, $anime, $series));
+        static::assertTrue($policy->attachSeries($editor, $anime, $series));
+        static::assertTrue($policy->attachSeries($admin, $anime, $series));
     }
 
     /**
@@ -282,9 +256,9 @@ class AnimePolicyTest extends TestCase
         $anime->series()->attach($series);
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachSeries($viewer, $anime, $series));
-        $this->assertFalse($policy->attachSeries($editor, $anime, $series));
-        $this->assertFalse($policy->attachSeries($admin, $anime, $series));
+        static::assertFalse($policy->attachSeries($viewer, $anime, $series));
+        static::assertFalse($policy->attachSeries($editor, $anime, $series));
+        static::assertFalse($policy->attachSeries($admin, $anime, $series));
     }
 
     /**
@@ -306,13 +280,11 @@ class AnimePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $anime = Anime::factory()->create();
-        $series = Series::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->detachSeries($viewer, $anime, $series));
-        $this->assertTrue($policy->detachSeries($editor, $anime, $series));
-        $this->assertTrue($policy->detachSeries($admin, $anime, $series));
+        static::assertFalse($policy->detachSeries($viewer));
+        static::assertTrue($policy->detachSeries($editor));
+        static::assertTrue($policy->detachSeries($admin));
     }
 
     /**
@@ -334,12 +306,11 @@ class AnimePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachAnyExternalResource($viewer, $anime));
-        $this->assertTrue($policy->attachAnyExternalResource($editor, $anime));
-        $this->assertTrue($policy->attachAnyExternalResource($admin, $anime));
+        static::assertFalse($policy->attachAnyExternalResource($viewer));
+        static::assertTrue($policy->attachAnyExternalResource($editor));
+        static::assertTrue($policy->attachAnyExternalResource($admin));
     }
 
     /**
@@ -361,13 +332,11 @@ class AnimePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $anime = Anime::factory()->create();
-        $resource = ExternalResource::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachExternalResource($viewer, $anime, $resource));
-        $this->assertTrue($policy->attachExternalResource($editor, $anime, $resource));
-        $this->assertTrue($policy->attachExternalResource($admin, $anime, $resource));
+        static::assertFalse($policy->attachExternalResource($viewer));
+        static::assertTrue($policy->attachExternalResource($editor));
+        static::assertTrue($policy->attachExternalResource($admin));
     }
 
     /**
@@ -389,13 +358,11 @@ class AnimePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $anime = Anime::factory()->create();
-        $resource = ExternalResource::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->detachExternalResource($viewer, $anime, $resource));
-        $this->assertTrue($policy->detachExternalResource($editor, $anime, $resource));
-        $this->assertTrue($policy->detachExternalResource($admin, $anime, $resource));
+        static::assertFalse($policy->detachExternalResource($viewer));
+        static::assertTrue($policy->detachExternalResource($editor));
+        static::assertTrue($policy->detachExternalResource($admin));
     }
 
     /**
@@ -417,12 +384,11 @@ class AnimePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $anime = Anime::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachAnyImage($viewer, $anime));
-        $this->assertTrue($policy->attachAnyImage($editor, $anime));
-        $this->assertTrue($policy->attachAnyImage($admin, $anime));
+        static::assertFalse($policy->attachAnyImage($viewer));
+        static::assertTrue($policy->attachAnyImage($editor));
+        static::assertTrue($policy->attachAnyImage($admin));
     }
 
     /**
@@ -448,9 +414,9 @@ class AnimePolicyTest extends TestCase
         $image = Image::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachImage($viewer, $anime, $image));
-        $this->assertTrue($policy->attachImage($editor, $anime, $image));
-        $this->assertTrue($policy->attachImage($admin, $anime, $image));
+        static::assertFalse($policy->attachImage($viewer, $anime, $image));
+        static::assertTrue($policy->attachImage($editor, $anime, $image));
+        static::assertTrue($policy->attachImage($admin, $anime, $image));
     }
 
     /**
@@ -477,9 +443,9 @@ class AnimePolicyTest extends TestCase
         $anime->images()->attach($image);
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->attachImage($viewer, $anime, $image));
-        $this->assertFalse($policy->attachImage($editor, $anime, $image));
-        $this->assertFalse($policy->attachImage($admin, $anime, $image));
+        static::assertFalse($policy->attachImage($viewer, $anime, $image));
+        static::assertFalse($policy->attachImage($editor, $anime, $image));
+        static::assertFalse($policy->attachImage($admin, $anime, $image));
     }
 
     /**
@@ -501,12 +467,10 @@ class AnimePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $anime = Anime::factory()->create();
-        $image = Image::factory()->create();
         $policy = new AnimePolicy();
 
-        $this->assertFalse($policy->detachImage($viewer, $anime, $image));
-        $this->assertTrue($policy->detachImage($editor, $anime, $image));
-        $this->assertTrue($policy->detachImage($admin, $anime, $image));
+        static::assertFalse($policy->detachImage($viewer));
+        static::assertTrue($policy->detachImage($editor));
+        static::assertTrue($policy->detachImage($admin));
     }
 }

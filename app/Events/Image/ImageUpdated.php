@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Image;
 
@@ -10,14 +10,19 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class ImageUpdated
+ * @package App\Events\Image
+ */
 class ImageUpdated extends ImageEvent implements DiscordMessageEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
+    use Dispatchable;
+    use HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Image $image
+     * @param Image $image
      * @return void
      */
     public function __construct(Image $image)
@@ -29,9 +34,9 @@ class ImageUpdated extends ImageEvent implements DiscordMessageEvent
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $image = $this->getImage();
 
@@ -47,7 +52,7 @@ class ImageUpdated extends ImageEvent implements DiscordMessageEvent
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

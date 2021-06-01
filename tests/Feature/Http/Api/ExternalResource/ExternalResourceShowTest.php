@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\ExternalResource;
+namespace Http\Api\ExternalResource;
 
 use App\Enums\AnimeSeason;
 use App\Http\Resources\ExternalResourceResource;
@@ -8,14 +8,21 @@ use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\ExternalResource;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class ExternalResourceShowTest
+ * @package Http\Api\ExternalResource
+ */
 class ExternalResourceShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Resource Show Endpoint shall return an ExternalResource Resource.
@@ -165,7 +172,7 @@ class ExternalResourceShowTest extends TestCase
             ->create();
 
         $resource = ExternalResource::with([
-            'anime' => function ($query) use ($seasonFilter) {
+            'anime' => function (BelongsToMany $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -213,7 +220,7 @@ class ExternalResourceShowTest extends TestCase
             ->create();
 
         $resource = ExternalResource::with([
-            'anime' => function ($query) use ($yearFilter) {
+            'anime' => function (BelongsToMany $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

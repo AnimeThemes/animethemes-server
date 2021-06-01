@@ -1,7 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Contracts;
 
+/**
+ * Interface Nameable
+ * @package App\Contracts
+ */
 interface Nameable
 {
     /**
@@ -9,5 +13,5 @@ interface Nameable
      *
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 }

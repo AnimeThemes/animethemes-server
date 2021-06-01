@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -11,13 +11,21 @@ use App\Pivots\ArtistMember;
 use App\Pivots\ArtistResource;
 use App\Pivots\ArtistSong;
 use ElasticScoutDriverPlus\QueryDsl;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Scout\Searchable;
 
+/**
+ * Class Artist
+ * @package App\Models
+ */
 class Artist extends BaseModel
 {
-    use QueryDsl, Searchable;
+    use QueryDsl;
+    use Searchable;
 
     /**
+     * The attributes that are mass assignable.
+     *
      * @var array
      */
     protected $fillable = ['slug', 'name'];
@@ -55,7 +63,7 @@ class Artist extends BaseModel
      *
      * @return array
      */
-    public function toSearchableArray()
+    public function toSearchableArray(): array
     {
         $array = $this->toArray();
         $array['songs'] = $this->songs->toArray();
@@ -68,7 +76,7 @@ class Artist extends BaseModel
      *
      * @return string
      */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
@@ -78,7 +86,7 @@ class Artist extends BaseModel
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -86,9 +94,9 @@ class Artist extends BaseModel
     /**
      * Get the songs the artist has performed in.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function songs()
+    public function songs(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Song', 'artist_song', 'artist_id', 'song_id')
             ->using(ArtistSong::class)
@@ -99,9 +107,9 @@ class Artist extends BaseModel
     /**
      * Get the resources for the artist.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function externalResources()
+    public function externalResources(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\ExternalResource', 'artist_resource', 'artist_id', 'resource_id')
             ->using(ArtistResource::class)
@@ -112,9 +120,9 @@ class Artist extends BaseModel
     /**
      * Get the members that comprise this group.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function members()
+    public function members(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Artist', 'artist_member', 'artist_id', 'member_id')
             ->using(ArtistMember::class)
@@ -125,9 +133,9 @@ class Artist extends BaseModel
     /**
      * Get the groups the artist has performed in.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function groups()
+    public function groups(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Artist', 'artist_member', 'member_id', 'artist_id')
             ->using(ArtistMember::class)
@@ -138,9 +146,9 @@ class Artist extends BaseModel
     /**
      * Get the images for the artist.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function images()
+    public function images(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Image', 'artist_image', 'artist_id', 'image_id')
             ->using(ArtistImage::class)

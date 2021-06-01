@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Video;
 
@@ -10,14 +10,19 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class VideoUpdated
+ * @package App\Events\Video
+ */
 class VideoUpdated extends VideoEvent implements DiscordMessageEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
+    use Dispatchable;
+    use HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Video $video
+     * @param Video $video
      * @return void
      */
     public function __construct(Video $video)
@@ -29,9 +34,9 @@ class VideoUpdated extends VideoEvent implements DiscordMessageEvent
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $video = $this->getVideo();
 
@@ -47,7 +52,7 @@ class VideoUpdated extends VideoEvent implements DiscordMessageEvent
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

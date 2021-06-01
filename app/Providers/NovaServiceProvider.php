@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Providers;
 
@@ -15,9 +15,14 @@ use App\Nova\Metrics\VideosPerDay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
+use Illuminatech\NovaConfig\NovaConfig;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
+/**
+ * Class NovaServiceProvider
+ * @package App\Providers
+ */
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
@@ -69,18 +74,18 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      *
      * @return array
      */
-    protected function cards()
+    protected function cards(): array
     {
         return [
-            (new NewVideos)->width('1/4'),
-            (new NewAnime)->width('1/4'),
-            (new NewArtists)->width('1/4'),
-            (new NewSeries)->width('1/4'),
+            (new NewVideos())->width('1/4'),
+            (new NewAnime())->width('1/4'),
+            (new NewArtists())->width('1/4'),
+            (new NewSeries())->width('1/4'),
 
-            (new VideosPerDay)->width('1/4'),
-            (new AnimePerDay)->width('1/4'),
-            (new ArtistsPerDay)->width('1/4'),
-            (new SeriesPerDay)->width('1/4'),
+            (new VideosPerDay())->width('1/4'),
+            (new AnimePerDay())->width('1/4'),
+            (new ArtistsPerDay())->width('1/4'),
+            (new SeriesPerDay())->width('1/4'),
         ];
     }
 
@@ -89,7 +94,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      *
      * @return array
      */
-    protected function dashboards()
+    protected function dashboards(): array
     {
         return [];
     }
@@ -99,10 +104,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      *
      * @return array
      */
-    public function tools()
+    public function tools(): array
     {
         return [
-            (new \Illuminatech\NovaConfig\NovaConfig())
+            (new NovaConfig())
                 ->canSee(function (Request $request) {
                     return $request->user()->hasCurrentTeamPermission('config:update');
                 }),

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Anime;
+namespace Http\Api\Anime;
 
 use App\Enums\AnimeSeason;
 use App\Http\Resources\AnimeCollection;
@@ -12,9 +12,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class YearShowTest
+ * @package Http\Api\Anime
+ */
 class YearShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Year Show Endpoint shall return a grouping of Anime Resources of year by season.

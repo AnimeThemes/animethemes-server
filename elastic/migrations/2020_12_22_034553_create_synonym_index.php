@@ -1,12 +1,12 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use ElasticAdapter\Indices\Mapping;
-use ElasticAdapter\Indices\Settings;
 use ElasticMigrations\Facades\Index;
 use ElasticMigrations\MigrationInterface;
 
+/**
+ * Class CreateSynonymIndex
+ */
 final class CreateSynonymIndex implements MigrationInterface
 {
     /**
@@ -14,7 +14,7 @@ final class CreateSynonymIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('synonym', function (Mapping $mapping, Settings $settings) {
+        Index::create('synonym', function (Mapping $mapping) {
             $mapping->nested('anime', [
                 'properties' => [
                     'anime_id' => [

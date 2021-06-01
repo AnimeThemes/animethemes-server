@@ -1,22 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Anime;
 
 use App\Models\Anime;
 
+/**
+ * Class AnimeEvent
+ * @package App\Events\Anime
+ */
 abstract class AnimeEvent
 {
     /**
      * The anime that has fired this event.
      *
-     * @var \App\Models\Anime
+     * @var Anime
      */
-    protected $anime;
+    protected Anime $anime;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Anime $anime
+     * @param Anime $anime
      * @return void
      */
     public function __construct(Anime $anime)
@@ -27,9 +31,9 @@ abstract class AnimeEvent
     /**
      * Get the anime that has fired this event.
      *
-     * @return \App\Models\Anime
+     * @return Anime
      */
-    public function getAnime()
+    public function getAnime(): Anime
     {
         return $this->anime;
     }

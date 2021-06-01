@@ -36,7 +36,7 @@ The basic idea of a command given to the `ffmpeg` command line tool is to read f
 
 ## Examples
 
-Let's highlight some of the many things we can do using `ffmpeg` to give an idea of what it does and how it works!
+Let's highlight a few of the many things we can do using `ffmpeg` to give an idea of what it does and how it works!
 
 **Get information related to the file**
 

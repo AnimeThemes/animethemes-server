@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Actions;
+namespace Nova\Actions;
 
 use App\Enums\ResourceSite;
 use App\Models\Anime;
@@ -11,12 +11,20 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Actions\MockAction;
 use JoshGaber\NovaUnit\Actions\NovaActionTest;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
 use Laravel\Nova\Fields\ActionFields;
 use Tests\TestCase;
 
+/**
+ * Class CreateExternalResourceSiteForAnimeTest
+ * @package Nova\Actions
+ */
 class CreateExternalResourceSiteForAnimeTest extends TestCase
 {
-    use NovaActionTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaActionTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Create Anime Resource Action shall have a link field.
@@ -34,6 +42,7 @@ class CreateExternalResourceSiteForAnimeTest extends TestCase
      * The Create Anime Resource Action shall have a link field.
      *
      * @return void
+     * @throws FieldNotFoundException
      */
     public function testLinkField()
     {
@@ -86,6 +95,6 @@ class CreateExternalResourceSiteForAnimeTest extends TestCase
 
         $action->handle(new ActionFields(collect($fields), collect()), $models);
 
-        $this->assertEquals($models->count(), Anime::whereHas('externalResources')->count());
+        static::assertEquals($models->count(), Anime::whereHas('externalResources')->count());
     }
 }

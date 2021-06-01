@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Theme;
 
@@ -8,6 +8,10 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class ThemeDeleted
+ * @package App\Events\Theme
+ */
 class ThemeDeleted extends ThemeEvent implements DiscordMessageEvent
 {
     use Dispatchable;
@@ -15,9 +19,9 @@ class ThemeDeleted extends ThemeEvent implements DiscordMessageEvent
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $theme = $this->getTheme();
         $anime = $this->getAnime();
@@ -33,7 +37,7 @@ class ThemeDeleted extends ThemeEvent implements DiscordMessageEvent
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

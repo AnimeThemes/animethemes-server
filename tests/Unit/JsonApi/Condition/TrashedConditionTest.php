@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\JsonApi\Condition;
+namespace JsonApi\Condition;
 
 use App\Enums\Filter\BinaryLogicalOperator;
 use App\Enums\Filter\ComparisonOperator;
@@ -9,6 +9,10 @@ use App\JsonApi\QueryParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class TrashedConditionTest
+ * @package JsonApi\Condition
+ */
 class TrashedConditionTest extends TestCase
 {
     use WithFaker;
@@ -22,7 +26,7 @@ class TrashedConditionTest extends TestCase
     {
         $condition = Condition::make('trashed', $this->faker->word());
 
-        $this->assertEmpty($condition->getScope());
+        static::assertEmpty($condition->getScope());
     }
 
     /**
@@ -46,7 +50,7 @@ class TrashedConditionTest extends TestCase
 
         $condition = collect($parser->getConditions('trashed'))->first();
 
-        $this->assertEquals($scope, $condition->getScope());
+        static::assertEquals($scope, $condition->getScope());
     }
 
     /**
@@ -66,7 +70,7 @@ class TrashedConditionTest extends TestCase
 
         $condition = collect($parser->getConditions('trashed'))->first();
 
-        $this->assertEquals('trashed', $condition->getField());
+        static::assertEquals('trashed', $condition->getField());
     }
 
     /**
@@ -90,7 +94,7 @@ class TrashedConditionTest extends TestCase
 
         $condition = collect($parser->getConditions('trashed'))->first();
 
-        $this->assertNull($condition->getComparisonOperator());
+        static::assertNull($condition->getComparisonOperator());
     }
 
     /**
@@ -115,6 +119,6 @@ class TrashedConditionTest extends TestCase
 
         $condition = collect($parser->getConditions('trashed'))->first();
 
-        $this->assertEquals($default, $condition->getLogicalOperator());
+        static::assertEquals($default, $condition->getLogicalOperator());
     }
 }

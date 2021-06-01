@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
@@ -6,7 +6,12 @@ use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\SynonymCollection;
 use App\Http\Resources\SynonymResource;
 use App\Models\Synonym;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * Class SynonymController
+ * @package App\Http\Controllers\Api
+ */
 class SynonymController extends BaseController
 {
     /**
@@ -65,9 +70,9 @@ class SynonymController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         if ($this->parser->hasSearch()) {
             return SynonymCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
@@ -112,10 +117,10 @@ class SynonymController extends BaseController
      *     )
      * )
      *
-     * @param \App\Models\Synonym $synonym
-     * @return \Illuminate\Http\JsonResponse
+     * @param Synonym $synonym
+     * @return JsonResponse
      */
-    public function show(Synonym $synonym)
+    public function show(Synonym $synonym): JsonResponse
     {
         $resource = SynonymResource::performQuery($synonym, $this->parser);
 

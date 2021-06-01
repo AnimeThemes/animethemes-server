@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Actions;
+namespace Nova\Actions;
 
 use App\Enums\ResourceSite;
 use App\Models\Artist;
@@ -11,12 +11,20 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Actions\MockAction;
 use JoshGaber\NovaUnit\Actions\NovaActionTest;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
 use Laravel\Nova\Fields\ActionFields;
 use Tests\TestCase;
 
+/**
+ * Class CreateExternalResourceSiteForArtistTest
+ * @package Nova\Actions
+ */
 class CreateExternalResourceSiteForArtistTest extends TestCase
 {
-    use NovaActionTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaActionTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Create Artist Resource Action shall have a link field.
@@ -34,6 +42,7 @@ class CreateExternalResourceSiteForArtistTest extends TestCase
      * The Create Artist Resource Action shall have a link field.
      *
      * @return void
+     * @throws FieldNotFoundException
      */
     public function testLinkField()
     {
@@ -86,6 +95,6 @@ class CreateExternalResourceSiteForArtistTest extends TestCase
 
         $action->handle(new ActionFields(collect($fields), collect()), $models);
 
-        $this->assertEquals($models->count(), Artist::whereHas('externalResources')->count());
+        static::assertEquals($models->count(), Artist::whereHas('externalResources')->count());
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
@@ -10,10 +10,17 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
+/**
+ * Class RegisterController
+ * @package App\Http\Controllers\Auth
+ */
 class RegisterController extends Controller
 {
     /*
@@ -27,14 +34,15 @@ class RegisterController extends Controller
     |
     */
 
-    use PasswordValidationRules, RegistersUsers;
+    use PasswordValidationRules;
+    use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
      *
      * @return string
      */
-    public function redirectPath()
+    public function redirectPath(): string
     {
         return route('dashboard');
     }
@@ -42,9 +50,9 @@ class RegisterController extends Controller
     /**
      * Show the application registration form.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function showRegistrationForm()
+    public function showRegistrationForm(): View
     {
         $token = request('token');
         $invitation = Invitation::where('token', $token)->firstOrFail();
@@ -57,10 +65,11 @@ class RegisterController extends Controller
     /**
      * Handle a registration request for the application.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return RedirectResponse|JsonResponse
+     * @throws ValidationException
      */
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse|RedirectResponse
     {
         $invitation = Invitation::where('token', $request->input('token'))->firstOrFail();
 
@@ -93,7 +102,7 @@ class RegisterController extends Controller
      * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function validator(array $data): \Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:192'],
@@ -107,9 +116,9 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param array $data
-     * @return \App\Models\User
+     * @return User
      */
-    protected function create(array $data)
+    protected function create(array $data): User
     {
         return User::create([
             'name' => $data['name'],

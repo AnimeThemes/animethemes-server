@@ -1,20 +1,27 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Nova\Metrics;
 
 use App\Models\Series;
+use DateInterval;
+use DateTimeInterface;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Metrics\ValueResult;
 
+/**
+ * Class NewSeries
+ * @package App\Nova\Metrics
+ */
 class NewSeries extends Value
 {
     /**
      * Calculate the value of the metric.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-     * @return mixed
+     * @param NovaRequest $request
+     * @return ValueResult
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): ValueResult
     {
         return $this->count($request, Series::class);
     }
@@ -24,7 +31,7 @@ class NewSeries extends Value
      *
      * @return array
      */
-    public function ranges()
+    public function ranges(): array
     {
         return [
             30 => '30 Days',
@@ -40,9 +47,9 @@ class NewSeries extends Value
     /**
      * Determine for how many minutes the metric should be cached.
      *
-     * @return  \DateTimeInterface|\DateInterval|float|int
+     * @return  DateTimeInterface|DateInterval|float|int
      */
-    public function cacheFor()
+    public function cacheFor(): DateInterval|float|DateTimeInterface|int
     {
         return now()->addMinutes(5);
     }
@@ -52,7 +59,7 @@ class NewSeries extends Value
      *
      * @return string
      */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'new-series';
     }

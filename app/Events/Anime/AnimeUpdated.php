@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Anime;
 
@@ -14,14 +14,19 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class AnimeUpdated
+ * @package App\Events\Anime
+ */
 class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
+    use Dispatchable;
+    use HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Anime $anime
+     * @param Anime $anime
      * @return void
      */
     public function __construct(Anime $anime)
@@ -33,9 +38,9 @@ class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $anime = $this->getAnime();
 
@@ -51,7 +56,7 @@ class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

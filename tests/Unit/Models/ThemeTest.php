@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Models;
+namespace Models;
 
 use App\Enums\ThemeType;
 use App\Models\Anime;
@@ -14,9 +14,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class ThemeTest
+ * @package Models
+ */
 class ThemeTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * The type attribute of a theme shall be cast to a ThemeType enum instance.
@@ -31,7 +36,7 @@ class ThemeTest extends TestCase
 
         $type = $theme->type;
 
-        $this->assertInstanceOf(ThemeType::class, $type);
+        static::assertInstanceOf(ThemeType::class, $type);
     }
 
     /**
@@ -45,7 +50,7 @@ class ThemeTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        $this->assertIsString($theme->searchableAs());
+        static::assertIsString($theme->searchableAs());
     }
 
     /**
@@ -59,7 +64,7 @@ class ThemeTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        $this->assertIsArray($theme->toSearchableArray());
+        static::assertIsArray($theme->toSearchableArray());
     }
 
     /**
@@ -75,7 +80,7 @@ class ThemeTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        $this->assertEquals(1, $theme->audits->count());
+        static::assertEquals(1, $theme->audits->count());
     }
 
     /**
@@ -89,7 +94,7 @@ class ThemeTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        $this->assertIsString($theme->getName());
+        static::assertIsString($theme->getName());
     }
 
     /**
@@ -103,8 +108,8 @@ class ThemeTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $theme->anime());
-        $this->assertInstanceOf(Anime::class, $theme->anime()->first());
+        static::assertInstanceOf(BelongsTo::class, $theme->anime());
+        static::assertInstanceOf(Anime::class, $theme->anime()->first());
     }
 
     /**
@@ -119,8 +124,8 @@ class ThemeTest extends TestCase
             ->for(Song::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $theme->song());
-        $this->assertInstanceOf(Song::class, $theme->song()->first());
+        static::assertInstanceOf(BelongsTo::class, $theme->song());
+        static::assertInstanceOf(Song::class, $theme->song()->first());
     }
 
     /**
@@ -137,9 +142,9 @@ class ThemeTest extends TestCase
             ->has(Entry::factory()->count($entryCount))
             ->create();
 
-        $this->assertInstanceOf(HasMany::class, $theme->entries());
-        $this->assertEquals($entryCount, $theme->entries()->count());
-        $this->assertInstanceOf(Entry::class, $theme->entries()->first());
+        static::assertInstanceOf(HasMany::class, $theme->entries());
+        static::assertEquals($entryCount, $theme->entries()->count());
+        static::assertInstanceOf(Entry::class, $theme->entries()->first());
     }
 
     /**
@@ -153,6 +158,6 @@ class ThemeTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        $this->assertArrayHasKey('slug', $theme);
+        static::assertArrayHasKey('slug', $theme);
     }
 }

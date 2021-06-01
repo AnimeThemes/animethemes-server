@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Pivot\AnimeImage;
 
@@ -9,16 +9,21 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class AnimeImageDeleted
+ * @package App\Events\Pivot\AnimeImage
+ */
 class AnimeImageDeleted extends AnimeImageEvent implements DiscordMessageEvent
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $anime = $this->getAnime();
         $image = $this->getImage();
@@ -34,7 +39,7 @@ class AnimeImageDeleted extends AnimeImageEvent implements DiscordMessageEvent
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

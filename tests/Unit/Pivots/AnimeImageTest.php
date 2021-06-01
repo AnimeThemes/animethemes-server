@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Pivots;
+namespace Pivots;
 
 use App\Models\Anime;
 use App\Models\Image;
@@ -10,9 +10,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class AnimeImageTest
+ * @package Pivots
+ */
 class AnimeImageTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
      * An AnimeImage shall belong to an Anime.
@@ -26,8 +31,8 @@ class AnimeImageTest extends TestCase
             ->for(Image::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $animeImage->anime());
-        $this->assertInstanceOf(Anime::class, $animeImage->anime()->first());
+        static::assertInstanceOf(BelongsTo::class, $animeImage->anime());
+        static::assertInstanceOf(Anime::class, $animeImage->anime()->first());
     }
 
     /**
@@ -42,7 +47,7 @@ class AnimeImageTest extends TestCase
             ->for(Image::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $animeImage->image());
-        $this->assertInstanceOf(Image::class, $animeImage->image()->first());
+        static::assertInstanceOf(BelongsTo::class, $animeImage->image());
+        static::assertInstanceOf(Image::class, $animeImage->image()->first());
     }
 }

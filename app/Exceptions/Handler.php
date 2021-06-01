@@ -1,12 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
 use SMartins\Exceptions\JsonHandler;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
+/**
+ * Class Handler
+ * @package App\Exceptions
+ */
 class Handler extends ExceptionHandler
 {
     use JsonHandler;
@@ -44,13 +50,13 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Throwable $e
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Request $request
+     * @param Throwable $e
+     * @return Response
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
-    public function render($request, Throwable $e)
+    public function render($request, Throwable $e): Response
     {
         if ($request->expectsJson() && is_a($e, Exception::class)) {
             return $this->jsonResponse($e);

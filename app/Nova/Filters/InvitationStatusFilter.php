@@ -1,11 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Nova\Filters;
 
 use App\Enums\InvitationStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
+/**
+ * Class InvitationStatusFilter
+ * @package App\Nova\Filters
+ */
 class InvitationStatusFilter extends Filter
 {
     /**
@@ -20,7 +25,7 @@ class InvitationStatusFilter extends Filter
      *
      * @return array|string|null
      */
-    public function name()
+    public function name(): array|string|null
     {
         return __('nova.status');
     }
@@ -28,12 +33,12 @@ class InvitationStatusFilter extends Filter
     /**
      * Apply the filter to the given query.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Request $request
+     * @param Builder $query
      * @param mixed $value
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function apply(Request $request, $query, $value)
+    public function apply(Request $request, $query, $value): Builder
     {
         return $query->where('status', $value);
     }
@@ -41,10 +46,10 @@ class InvitationStatusFilter extends Filter
     /**
      * Get the filter's available options.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function options(Request $request)
+    public function options(Request $request): array
     {
         return array_flip(InvitationStatus::asSelectArray());
     }

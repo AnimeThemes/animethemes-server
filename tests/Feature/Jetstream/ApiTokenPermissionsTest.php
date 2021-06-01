@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Jetstream;
+namespace Jetstream;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,14 +10,18 @@ use Laravel\Jetstream\Http\Livewire\ApiTokenManager;
 use Livewire\Livewire;
 use Tests\TestCase;
 
+/**
+ * Class ApiTokenPermissionsTest
+ * @package Jetstream
+ */
 class ApiTokenPermissionsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_api_token_permissions_can_be_updated()
+    public function testApiTokenPermissionsCanBeUpdated()
     {
         if (! Features::hasApiFeatures()) {
-            return $this->markTestSkipped('API support is not enabled.');
+            static::markTestSkipped('API support is not enabled.');
         }
 
         if (Features::hasTeamFeatures()) {
@@ -42,8 +46,8 @@ class ApiTokenPermissionsTest extends TestCase
                     ]])
                     ->call('updateApiToken');
 
-        $this->assertTrue($user->fresh()->tokens->first()->can('delete'));
-        $this->assertFalse($user->fresh()->tokens->first()->can('read'));
-        $this->assertFalse($user->fresh()->tokens->first()->can('missing-permission'));
+        static::assertTrue($user->fresh()->tokens->first()->can('delete'));
+        static::assertFalse($user->fresh()->tokens->first()->can('read'));
+        static::assertFalse($user->fresh()->tokens->first()->can('missing-permission'));
     }
 }

@@ -1,10 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\JsonApi;
 
 use App\JsonApi\Condition\Condition;
 use Illuminate\Support\Arr;
 
+/**
+ * Class QueryParser
+ * @package App\JsonApi
+ */
 class QueryParser
 {
     public const PARAM_INCLUDE = 'include';
@@ -22,41 +26,53 @@ class QueryParser
     public const DEFAULT_LIMIT = 15;
 
     /**
+     * The list of fields to be included per type.
+     *
      * @var array
      */
-    protected $fields;
+    protected array $fields;
 
     /**
+     * The list of include paths per type.
+     *
      * @var array|null
      */
-    protected $includes;
+    protected ?array $includes;
 
     /**
+     * The list of fields and direction to base sorting on.
+     *
      * @var array
      */
-    protected $sorts;
+    protected array $sorts;
 
     /**
-     * @var \App\JsonApi\Condition\Condition[]
+     * The list of filter conditions to apply to the query.
+     *
+     * @var Condition[]
      */
-    protected $conditions;
+    protected array $conditions;
 
     /**
+     * The search query, if applicable..
+     *
      * @var string
      */
-    protected $search;
+    protected string $search;
 
     /**
+     * The result size limit, if applicable.
+     *
      * @var int
      */
-    protected $limit;
+    protected int $limit;
 
     /**
      * Create a new query parser instance.
      *
      * @param array $parameters
      */
-    final public function __construct($parameters = [])
+    final public function __construct(array $parameters = [])
     {
         $this->fields = $this->parseFields($parameters);
         $this->includes = $this->parseIncludes($parameters);
@@ -72,7 +88,7 @@ class QueryParser
      * @param mixed ...$parameters
      * @return static
      */
-    public static function make(...$parameters)
+    public static function make(...$parameters): static
     {
         return new static(...$parameters);
     }
@@ -83,7 +99,7 @@ class QueryParser
      * @param array $parameters
      * @return array
      */
-    protected function parseFields($parameters)
+    protected function parseFields(array $parameters): array
     {
         $fields = [];
 
@@ -91,7 +107,7 @@ class QueryParser
             $fieldsParam = $parameters[self::PARAM_FIELDS];
             if (Arr::accessible($fieldsParam) && Arr::isAssoc($fieldsParam)) {
                 foreach ($fieldsParam as $type => $fieldList) {
-                    if (! Arr::accessible($fieldList)) {
+                    if ($fieldList !== null && ! Arr::accessible($fieldList)) {
                         Arr::set($fields, $type, array_map('trim', explode(',', $fieldList)));
                     }
                 }
@@ -106,7 +122,7 @@ class QueryParser
      *
      * @return array
      */
-    public function getFields()
+    public function getFields(): array
     {
         return $this->fields;
     }
@@ -117,18 +133,18 @@ class QueryParser
      * @param array $parameters
      * @return array|null
      */
-    protected function parseIncludes($parameters)
+    protected function parseIncludes(array $parameters): ?array
     {
         $includes = null;
 
         if (Arr::exists($parameters, self::PARAM_INCLUDE)) {
             $includeParam = $parameters[self::PARAM_INCLUDE];
-            if (! Arr::accessible($includeParam)) {
+            if ($includeParam !== null && ! Arr::accessible($includeParam)) {
                 Arr::set($includes, '', array_map('trim', explode(',', $includeParam)));
             }
             if (Arr::accessible($includeParam) && Arr::isAssoc($includeParam)) {
                 foreach ($includeParam as $type => $includeList) {
-                    if (! Arr::accessible($includeList)) {
+                    if ($includeList !== null && ! Arr::accessible($includeList)) {
                         Arr::set($includes, $type, array_map('trim', explode(',', $includeList)));
                     }
                 }
@@ -144,13 +160,13 @@ class QueryParser
      * @param array $parameters
      * @return array
      */
-    protected function parseSorts($parameters)
+    protected function parseSorts(array $parameters): array
     {
         $sorts = [];
 
         if (Arr::exists($parameters, self::PARAM_SORT)) {
             $sortParam = $parameters[self::PARAM_SORT];
-            if (! Arr::accessible($sortParam)) {
+            if ($sortParam !== null && ! Arr::accessible($sortParam)) {
                 $sortValues = array_map('trim', explode(',', $sortParam));
                 foreach ($sortValues as $orderAndField) {
                     switch ($orderAndField[0]) {
@@ -181,7 +197,7 @@ class QueryParser
      *
      * @return array
      */
-    public function getSorts()
+    public function getSorts(): array
     {
         return $this->sorts;
     }
@@ -190,9 +206,9 @@ class QueryParser
      * Parse filter conditions from parameters.
      *
      * @param array $parameters
-     * @return \App\JsonApi\Condition\Condition[]
+     * @return Condition[]
      */
-    protected function parseConditions($parameters)
+    protected function parseConditions(array $parameters): array
     {
         $conditions = [];
 
@@ -216,7 +232,7 @@ class QueryParser
      * @param array $parameters
      * @return string
      */
-    protected function parseSearch($parameters)
+    protected function parseSearch(array $parameters): string
     {
         $search = '';
 
@@ -235,7 +251,7 @@ class QueryParser
      *
      * @return bool
      */
-    public function hasSearch()
+    public function hasSearch(): bool
     {
         return ! empty($this->search);
     }
@@ -245,7 +261,7 @@ class QueryParser
      *
      * @return string
      */
-    public function getSearch()
+    public function getSearch(): string
     {
         return $this->search;
     }
@@ -256,7 +272,7 @@ class QueryParser
      * @param array $parameters
      * @return int
      */
-    protected function parseLimit($parameters)
+    protected function parseLimit(array $parameters): int
     {
         $limit = 0;
 
@@ -277,7 +293,7 @@ class QueryParser
      * @param int $limit
      * @return int
      */
-    public function getLimit($limit = self::DEFAULT_LIMIT)
+    public function getLimit(int $limit = self::DEFAULT_LIMIT): int
     {
         if ($this->limit <= 0 || $this->limit > $limit) {
             return $limit;
@@ -294,7 +310,7 @@ class QueryParser
      *
      * @return bool
      */
-    public function isAllowedField($type, $field)
+    public function isAllowedField(string $type, string $field): bool
     {
         // If we aren't filtering this type, include all fields
         if (! Arr::exists($this->fields, $type)) {
@@ -313,7 +329,7 @@ class QueryParser
      * @param string $field
      * @return bool
      */
-    public function hasCondition($field)
+    public function hasCondition(string $field): bool
     {
         return ! empty($this->getConditions($field));
     }
@@ -322,9 +338,9 @@ class QueryParser
      * Get conditions for field.
      *
      * @param string $field
-     * @return \App\JsonApi\Condition\Condition[]
+     * @return Condition[]
      */
-    public function getConditions($field)
+    public function getConditions(string $field): array
     {
         return array_filter($this->conditions, function (Condition $condition) use ($field) {
             return $field === $condition->getField();
@@ -338,15 +354,10 @@ class QueryParser
      * @param string $type
      * @return array
      */
-    public function getIncludePaths($allowedIncludePaths, $type = '')
+    public function getIncludePaths(array $allowedIncludePaths, string $type = ''): array
     {
         // Return list of include paths that are contained in the list of allowed include paths for this type
-        $resourceTypeIncludes = [];
-        if (Arr::has($this->includes, $type)) {
-            $resourceTypeIncludes = Arr::get($this->includes, $type);
-        } else {
-            $resourceTypeIncludes = Arr::get($this->includes, '');
-        }
+        $resourceTypeIncludes = Arr::get($this->includes, $type, Arr::get($this->includes, ''));
 
         return collect($resourceTypeIncludes)->intersect($allowedIncludePaths)->all();
     }

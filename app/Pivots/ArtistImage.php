@@ -1,11 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Pivots;
 
 use App\Events\Pivot\ArtistImage\ArtistImageCreated;
 use App\Events\Pivot\ArtistImage\ArtistImageDeleted;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Class ArtistImage
+ * @package App\Pivots
+ */
 class ArtistImage extends BasePivot
 {
     use HasFactory;
@@ -32,9 +37,9 @@ class ArtistImage extends BasePivot
     /**
      * Gets the artist that owns the artist image.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function artist()
+    public function artist(): BelongsTo
     {
         return $this->belongsTo('App\Models\Artist', 'artist_id', 'artist_id');
     }
@@ -42,9 +47,9 @@ class ArtistImage extends BasePivot
     /**
      * Gets the image that owns the artist image.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function image()
+    public function image(): BelongsTo
     {
         return $this->belongsTo('App\Models\Image', 'image_id', 'image_id');
     }

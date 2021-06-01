@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Jetstream;
+namespace Jetstream;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -8,11 +8,15 @@ use Laravel\Jetstream\Http\Livewire\UpdateTeamNameForm;
 use Livewire\Livewire;
 use Tests\TestCase;
 
+/**
+ * Class UpdateTeamNameTest
+ * @package Jetstream
+ */
 class UpdateTeamNameTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_team_names_can_be_updated()
+    public function testTeamNamesCanBeUpdated()
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
 
@@ -20,7 +24,7 @@ class UpdateTeamNameTest extends TestCase
                     ->set(['state' => ['name' => 'Test Team']])
                     ->call('updateTeamName');
 
-        $this->assertCount(1, $user->fresh()->ownedTeams);
-        $this->assertEquals('Test Team', $user->currentTeam->fresh()->name);
+        static::assertCount(1, $user->fresh()->ownedTeams);
+        static::assertEquals('Test Team', $user->currentTeam->fresh()->name);
     }
 }

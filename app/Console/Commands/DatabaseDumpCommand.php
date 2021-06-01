@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Console\Commands;
 
@@ -12,6 +12,10 @@ use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
 use Spatie\DbDumper\Databases\Sqlite;
 
+/**
+ * Class DatabaseDumpCommand
+ * @package App\Console\Commands
+ */
 class DatabaseDumpCommand extends Command
 {
     /**
@@ -33,7 +37,7 @@ class DatabaseDumpCommand extends Command
      *
      * @var array
      */
-    protected $allowedTables = [
+    protected array $allowedTables = [
         'anime',
         'anime_image',
         'anime_resource',
@@ -59,7 +63,7 @@ class DatabaseDumpCommand extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         try {
             $dumpFile = $this->getDumpFile();
@@ -108,9 +112,9 @@ class DatabaseDumpCommand extends Command
             // The library will check if the file exists and is not empty
             Log::info("Database dump '{$dumpFile}' has been created");
             $this->info("Database dump '{$dumpFile}' has been created");
-        } catch (Exception $exception) {
-            Log::error($exception);
-            $this->error($exception->getMessage());
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $this->error($e->getMessage());
 
             return 1;
         }
@@ -124,7 +128,7 @@ class DatabaseDumpCommand extends Command
      *
      * @return string
      */
-    protected function getDumpFile()
+    protected function getDumpFile(): string
     {
         $dumpFile = Str::of('db-dumps')
             ->append(DIRECTORY_SEPARATOR)

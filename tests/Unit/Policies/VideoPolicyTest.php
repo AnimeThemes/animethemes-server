@@ -1,16 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Policies;
+namespace Policies;
 
-use App\Models\Anime;
-use App\Models\Entry;
-use App\Models\Theme;
 use App\Models\User;
-use App\Models\Video;
 use App\Policies\VideoPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * Class VideoPolicyTest
+ * @package Policies
+ */
 class VideoPolicyTest extends TestCase
 {
     use RefreshDatabase;
@@ -22,23 +22,11 @@ class VideoPolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
         $policy = new VideoPolicy();
 
-        $this->assertTrue($policy->viewAny($viewer));
-        $this->assertTrue($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -48,24 +36,11 @@ class VideoPolicyTest extends TestCase
      */
     public function testView()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
-        $video = Video::factory()->create();
         $policy = new VideoPolicy();
 
-        $this->assertTrue($policy->view($viewer, $video));
-        $this->assertTrue($policy->view($editor, $video));
-        $this->assertTrue($policy->view($admin, $video));
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
     }
 
     /**
@@ -89,9 +64,9 @@ class VideoPolicyTest extends TestCase
 
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertFalse($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertFalse($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
@@ -113,12 +88,11 @@ class VideoPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $video = Video::factory()->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->update($viewer, $video));
-        $this->assertTrue($policy->update($editor, $video));
-        $this->assertTrue($policy->update($admin, $video));
+        static::assertFalse($policy->update($viewer));
+        static::assertTrue($policy->update($editor));
+        static::assertTrue($policy->update($admin));
     }
 
     /**
@@ -140,12 +114,11 @@ class VideoPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $video = Video::factory()->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->delete($viewer, $video));
-        $this->assertFalse($policy->delete($editor, $video));
-        $this->assertTrue($policy->delete($admin, $video));
+        static::assertFalse($policy->delete($viewer));
+        static::assertFalse($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
@@ -167,12 +140,11 @@ class VideoPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $video = Video::factory()->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->restore($viewer, $video));
-        $this->assertFalse($policy->restore($editor, $video));
-        $this->assertTrue($policy->restore($admin, $video));
+        static::assertFalse($policy->restore($viewer));
+        static::assertFalse($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
@@ -194,12 +166,11 @@ class VideoPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $video = Video::factory()->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $video));
-        $this->assertFalse($policy->forceDelete($editor, $video));
-        $this->assertTrue($policy->forceDelete($admin, $video));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 
     /**
@@ -221,12 +192,11 @@ class VideoPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $video = Video::factory()->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->attachAnyEntry($viewer, $video));
-        $this->assertFalse($policy->attachAnyEntry($editor, $video));
-        $this->assertTrue($policy->attachAnyEntry($admin, $video));
+        static::assertFalse($policy->attachAnyEntry($viewer));
+        static::assertFalse($policy->attachAnyEntry($editor));
+        static::assertTrue($policy->attachAnyEntry($admin));
     }
 
     /**
@@ -248,15 +218,11 @@ class VideoPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $video = Video::factory()->create();
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->attachEntry($viewer, $video, $entry));
-        $this->assertFalse($policy->attachEntry($editor, $video, $entry));
-        $this->assertTrue($policy->attachEntry($admin, $video, $entry));
+        static::assertFalse($policy->attachEntry($viewer));
+        static::assertFalse($policy->attachEntry($editor));
+        static::assertTrue($policy->attachEntry($admin));
     }
 
     /**
@@ -278,14 +244,10 @@ class VideoPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $video = Video::factory()->create();
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
         $policy = new VideoPolicy();
 
-        $this->assertFalse($policy->detachEntry($viewer, $video, $entry));
-        $this->assertFalse($policy->detachEntry($editor, $video, $entry));
-        $this->assertTrue($policy->detachEntry($admin, $video, $entry));
+        static::assertFalse($policy->detachEntry($viewer));
+        static::assertFalse($policy->detachEntry($editor));
+        static::assertTrue($policy->detachEntry($admin));
     }
 }

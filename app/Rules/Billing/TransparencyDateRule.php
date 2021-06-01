@@ -1,29 +1,34 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Rules\Billing;
 
 use App\Enums\Filter\AllowedDateFormat;
+use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Collection;
 
+/**
+ * Class TransparencyDateRule
+ * @package App\Rules\Billing
+ */
 class TransparencyDateRule implements Rule
 {
     /**
      * The name of the rule.
      */
-    protected $rule = 'transparency_date';
+    protected string $rule = 'transparency_date';
 
     /**
      * The list of valid transparency dates.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
-    protected $validDates;
+    protected Collection $validDates;
 
     /**
      * Create a new rule instance.
      *
-     * @param \Illuminate\Support\Collection $validDates
+     * @param Collection $validDates
      * @return void
      */
     public function __construct(Collection $validDates)
@@ -38,10 +43,10 @@ class TransparencyDateRule implements Rule
      * @param mixed $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
-        return $this->validDates->contains(function ($item) use ($value) {
-            return $item->format(AllowedDateFormat::WITH_MONTH) === $value;
+        return $this->validDates->contains(function (Carbon $validDate) use ($value) {
+            return $validDate->format(AllowedDateFormat::WITH_MONTH) === $value;
         });
     }
 
@@ -50,7 +55,7 @@ class TransparencyDateRule implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return __('The selected month is not valid.');
     }

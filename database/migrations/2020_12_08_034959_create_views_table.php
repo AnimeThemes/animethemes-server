@@ -1,24 +1,28 @@
-<?php
+<?php declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Class CreateViewsTable
+ */
 class CreateViewsTable extends Migration
 {
     /**
      * The database schema.
      *
-     * @var \Illuminate\Database\Schema\Builder
+     * @var Builder
      */
-    protected $schema;
+    protected Builder $schema;
 
     /**
      * The table name.
      *
      * @var string
      */
-    protected $table;
+    protected mixed $table;
 
     /**
      * Create a new migration instance.

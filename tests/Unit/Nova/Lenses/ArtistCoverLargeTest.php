@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Lenses;
+namespace Nova\Lenses;
 
 use App\Enums\ImageFacet;
 use App\Models\Artist;
@@ -16,21 +16,32 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Lenses\InvalidNovaLensException;
 use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
+/**
+ * Class ArtistCoverLargeTest
+ * @package Nova\Lenses
+ */
 class ArtistCoverLargeTest extends TestCase
 {
-    use NovaLensTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaLensTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Artist Large Cover Lens shall contain Artist Fields.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testFields()
     {
-        $lens = $this->novaLens(ArtistCoverLargeLens::class);
+        $lens = static::novaLens(ArtistCoverLargeLens::class);
 
         $lens->assertHasField(__('nova.id'));
         $lens->assertHasField(__('nova.name'));
@@ -41,10 +52,12 @@ class ArtistCoverLargeTest extends TestCase
      * The Artist Large Cover Lens fields shall be sortable.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaLensException
      */
     public function testSortable()
     {
-        $lens = $this->novaLens(ArtistCoverLargeLens::class);
+        $lens = static::novaLens(ArtistCoverLargeLens::class);
 
         $lens->field(__('nova.id'))->assertSortable();
         $lens->field(__('nova.name'))->assertSortable();
@@ -55,10 +68,11 @@ class ArtistCoverLargeTest extends TestCase
      * The Artist Large Cover Lens shall contain Artist Filters.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testFilters()
     {
-        $lens = $this->novaLens(ArtistCoverLargeLens::class);
+        $lens = static::novaLens(ArtistCoverLargeLens::class);
 
         $lens->assertHasFilter(CreatedStartDateFilter::class);
         $lens->assertHasFilter(CreatedEndDateFilter::class);
@@ -72,10 +86,11 @@ class ArtistCoverLargeTest extends TestCase
      * The Artist Large Cover Lens shall contain no Actions.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testActions()
     {
-        $lens = $this->novaLens(ArtistCoverLargeLens::class);
+        $lens = static::novaLens(ArtistCoverLargeLens::class);
 
         $lens->assertHasNoActions();
     }
@@ -84,10 +99,12 @@ class ArtistCoverLargeTest extends TestCase
      * The Artist Large Cover Lens shall use the 'withFilters' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithFilters()
     {
-        $lens = $this->novaLens(ArtistCoverLargeLens::class);
+        $lens = static::novaLens(ArtistCoverLargeLens::class);
 
         $query = $lens->query(Artist::class);
 
@@ -98,10 +115,12 @@ class ArtistCoverLargeTest extends TestCase
      * The Artist Large Cover Lens shall use the 'withOrdering' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithOrdering()
     {
-        $lens = $this->novaLens(ArtistCoverLargeLens::class);
+        $lens = static::novaLens(ArtistCoverLargeLens::class);
 
         $query = $lens->query(Artist::class);
 
@@ -112,6 +131,8 @@ class ArtistCoverLargeTest extends TestCase
      * The Artist Large Cover Lens shall filter Artist without a Large Cover image.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testQuery()
     {
@@ -125,7 +146,7 @@ class ArtistCoverLargeTest extends TestCase
         })
         ->get();
 
-        $lens = $this->novaLens(ArtistCoverLargeLens::class);
+        $lens = static::novaLens(ArtistCoverLargeLens::class);
 
         $query = $lens->query(Artist::class);
 

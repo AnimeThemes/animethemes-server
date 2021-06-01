@@ -1,9 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Document;
+namespace Http\Document;
 
 use Tests\TestCase;
 
+/**
+ * Class EventShowTest
+ * @package Http\Document
+ */
 class EventShowTest extends TestCase
 {
     /**

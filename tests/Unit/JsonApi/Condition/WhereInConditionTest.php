@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\JsonApi\Condition;
+namespace JsonApi\Condition;
 
 use App\Enums\Filter\BinaryLogicalOperator;
 use App\Enums\Filter\UnaryLogicalOperator;
@@ -9,6 +9,10 @@ use App\JsonApi\QueryParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class WhereInConditionTest
+ * @package JsonApi\Condition
+ */
 class WhereInConditionTest extends TestCase
 {
     use WithFaker;
@@ -26,7 +30,7 @@ class WhereInConditionTest extends TestCase
 
         $condition = Condition::make($field, $values);
 
-        $this->assertEmpty($condition->getScope());
+        static::assertEmpty($condition->getScope());
     }
 
     /**
@@ -54,7 +58,7 @@ class WhereInConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertEquals($scope, $condition->getScope());
+        static::assertEquals($scope, $condition->getScope());
     }
 
     /**
@@ -78,7 +82,7 @@ class WhereInConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertEquals($field, $condition->getField());
+        static::assertEquals($field, $condition->getField());
     }
 
     /**
@@ -102,7 +106,7 @@ class WhereInConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertEquals(BinaryLogicalOperator::AND(), $condition->getLogicalOperator());
+        static::assertEquals(BinaryLogicalOperator::AND(), $condition->getLogicalOperator());
     }
 
     /**
@@ -130,7 +134,7 @@ class WhereInConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertEquals($operator, $condition->getLogicalOperator());
+        static::assertEquals($operator, $condition->getLogicalOperator());
     }
 
     /**
@@ -154,7 +158,7 @@ class WhereInConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertFalse($condition->useNot());
+        static::assertFalse($condition->useNot());
     }
 
     /**
@@ -180,6 +184,6 @@ class WhereInConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        $this->assertTrue($condition->useNot());
+        static::assertTrue($condition->useNot());
     }
 }

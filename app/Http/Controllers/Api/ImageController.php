@@ -1,11 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\ImageCollection;
 use App\Http\Resources\ImageResource;
 use App\Models\Image;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * Class ImageController
+ * @package App\Http\Controllers\Api
+ */
 class ImageController extends BaseController
 {
     /**
@@ -72,9 +77,9 @@ class ImageController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $images = ImageCollection::performQuery($this->parser);
 
@@ -117,10 +122,10 @@ class ImageController extends BaseController
      *     )
      * )
      *
-     * @param \App\Models\Image $image
-     * @return \Illuminate\Http\JsonResponse
+     * @param Image $image
+     * @return JsonResponse
      */
-    public function show(Image $image)
+    public function show(Image $image): JsonResponse
     {
         $resource = ImageResource::performQuery($image, $this->parser);
 

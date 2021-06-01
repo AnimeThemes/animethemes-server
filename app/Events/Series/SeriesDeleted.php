@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Series;
 
@@ -8,6 +8,10 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class SeriesDeleted
+ * @package App\Events\Series
+ */
 class SeriesDeleted extends SeriesEvent implements DiscordMessageEvent
 {
     use Dispatchable;
@@ -15,9 +19,9 @@ class SeriesDeleted extends SeriesEvent implements DiscordMessageEvent
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $series = $this->getSeries();
 
@@ -32,7 +36,7 @@ class SeriesDeleted extends SeriesEvent implements DiscordMessageEvent
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

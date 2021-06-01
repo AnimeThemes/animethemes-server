@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Nova;
 
 use App\Enums\AnimeSeason;
+use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
@@ -18,6 +19,10 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
 
+/**
+ * Class Anime
+ * @package App\Nova
+ */
 class Anime extends Resource
 {
     /**
@@ -25,7 +30,7 @@ class Anime extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Anime::class;
+    public static string $model = \App\Models\Anime::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -39,7 +44,7 @@ class Anime extends Resource
      *
      * @return array|string|null
      */
-    public static function group()
+    public static function group(): array|string|null
     {
         return __('nova.wiki');
     }
@@ -49,7 +54,7 @@ class Anime extends Resource
      *
      * @return array|string|null
      */
-    public static function label()
+    public static function label(): array|string|null
     {
         return __('nova.anime');
     }
@@ -59,7 +64,7 @@ class Anime extends Resource
      *
      * @return array|string|null
      */
-    public static function singularLabel()
+    public static function singularLabel(): array|string|null
     {
         return __('nova.anime');
     }
@@ -69,7 +74,7 @@ class Anime extends Resource
      *
      * @return string
      */
-    public static function uriKey()
+    public static function uriKey(): string
     {
         return Str::kebab(class_basename(get_called_class()));
     }
@@ -86,10 +91,10 @@ class Anime extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             ID::make(__('nova.id'), 'anime_id')
@@ -115,13 +120,13 @@ class Anime extends Resource
             Number::make(__('nova.year'), 'year')
                 ->sortable()
                 ->min(1960)
-                ->max(date('Y') + 1)
+                ->max(intval(date('Y')) + 1)
                 ->rules('required', 'digits:4', 'integer')
                 ->help(__('nova.anime_year_help')),
 
             Select::make(__('nova.season'), 'season')
                 ->options(AnimeSeason::asSelectArray())
-                ->displayUsing(function ($enum) {
+                ->displayUsing(function (?Enum $enum) {
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
@@ -190,7 +195,7 @@ class Anime extends Resource
     /**
      * @return array
      */
-    protected function timestamps()
+    protected function timestamps(): array
     {
         return [
             DateTime::make(__('nova.created_at'), 'created_at')
@@ -213,64 +218,64 @@ class Anime extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function cards(Request $request)
+    public function cards(Request $request): array
     {
         return [
-            (new Metrics\NewAnime)->width('1/2'),
-            (new Metrics\AnimePerDay)->width('1/2'),
+            (new Metrics\NewAnime())->width('1/2'),
+            (new Metrics\AnimePerDay())->width('1/2'),
         ];
     }
 
     /**
      * Get the filters available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function filters(Request $request)
+    public function filters(Request $request): array
     {
         return [
-            new Filters\AnimeSeasonFilter,
-            new Filters\AnimeYearFilter,
-            new Filters\CreatedStartDateFilter,
-            new Filters\CreatedEndDateFilter,
-            new Filters\UpdatedStartDateFilter,
-            new Filters\UpdatedEndDateFilter,
-            new Filters\DeletedStartDateFilter,
-            new Filters\DeletedEndDateFilter,
+            new Filters\AnimeSeasonFilter(),
+            new Filters\AnimeYearFilter(),
+            new Filters\CreatedStartDateFilter(),
+            new Filters\CreatedEndDateFilter(),
+            new Filters\UpdatedStartDateFilter(),
+            new Filters\UpdatedEndDateFilter(),
+            new Filters\DeletedStartDateFilter(),
+            new Filters\DeletedEndDateFilter(),
         ];
     }
 
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function lenses(Request $request)
+    public function lenses(Request $request): array
     {
         return [
-            new Lenses\AnimeAniDbResourceLens,
-            new Lenses\AnimeAnilistResourceLens,
-            new Lenses\AnimeCoverLargeLens,
-            new Lenses\AnimeCoverSmallLens,
-            new Lenses\AnimePlanetResourceLens,
-            new Lenses\AnimeAnnResourceLens,
-            new Lenses\AnimeKitsuResourceLens,
-            new Lenses\AnimeMalResourceLens,
+            new Lenses\AnimeAniDbResourceLens(),
+            new Lenses\AnimeAnilistResourceLens(),
+            new Lenses\AnimeCoverLargeLens(),
+            new Lenses\AnimeCoverSmallLens(),
+            new Lenses\AnimePlanetResourceLens(),
+            new Lenses\AnimeAnnResourceLens(),
+            new Lenses\AnimeKitsuResourceLens(),
+            new Lenses\AnimeMalResourceLens(),
         ];
     }
 
     /**
      * Get the actions available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function actions(Request $request)
+    public function actions(Request $request): array
     {
         return [];
     }

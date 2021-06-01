@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Models;
+namespace Models;
 
 use App\Enums\AnimeSeason;
 use App\Models\Anime;
@@ -19,9 +19,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class AnimeTest
+ * @package Models
+ */
 class AnimeTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * The season attribute of an anime shall be cast to an AnimeSeason enum instance.
@@ -34,7 +39,7 @@ class AnimeTest extends TestCase
 
         $season = $anime->season;
 
-        $this->assertInstanceOf(AnimeSeason::class, $season);
+        static::assertInstanceOf(AnimeSeason::class, $season);
     }
 
     /**
@@ -46,7 +51,7 @@ class AnimeTest extends TestCase
     {
         $anime = Anime::factory()->create();
 
-        $this->assertIsString($anime->searchableAs());
+        static::assertIsString($anime->searchableAs());
     }
 
     /**
@@ -58,7 +63,7 @@ class AnimeTest extends TestCase
     {
         $anime = Anime::factory()->create();
 
-        $this->assertIsArray($anime->toSearchableArray());
+        static::assertIsArray($anime->toSearchableArray());
     }
 
     /**
@@ -72,7 +77,7 @@ class AnimeTest extends TestCase
 
         $anime = Anime::factory()->create();
 
-        $this->assertEquals(1, $anime->audits->count());
+        static::assertEquals(1, $anime->audits->count());
     }
 
     /**
@@ -84,7 +89,7 @@ class AnimeTest extends TestCase
     {
         $anime = Anime::factory()->create();
 
-        $this->assertIsString($anime->getName());
+        static::assertIsString($anime->getName());
     }
 
     /**
@@ -100,9 +105,9 @@ class AnimeTest extends TestCase
             ->has(Synonym::factory()->count($synonymCount))
             ->create();
 
-        $this->assertInstanceOf(HasMany::class, $anime->synonyms());
-        $this->assertEquals($synonymCount, $anime->synonyms()->count());
-        $this->assertInstanceOf(Synonym::class, $anime->synonyms()->first());
+        static::assertInstanceOf(HasMany::class, $anime->synonyms());
+        static::assertEquals($synonymCount, $anime->synonyms()->count());
+        static::assertInstanceOf(Synonym::class, $anime->synonyms()->first());
     }
 
     /**
@@ -118,10 +123,10 @@ class AnimeTest extends TestCase
             ->has(Series::factory()->count($seriesCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $anime->series());
-        $this->assertEquals($seriesCount, $anime->series()->count());
-        $this->assertInstanceOf(Series::class, $anime->series()->first());
-        $this->assertEquals(AnimeSeries::class, $anime->series()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $anime->series());
+        static::assertEquals($seriesCount, $anime->series()->count());
+        static::assertInstanceOf(Series::class, $anime->series()->first());
+        static::assertEquals(AnimeSeries::class, $anime->series()->getPivotClass());
     }
 
     /**
@@ -137,9 +142,9 @@ class AnimeTest extends TestCase
             ->has(Theme::factory()->count($themeCount))
             ->create();
 
-        $this->assertInstanceOf(HasMany::class, $anime->themes());
-        $this->assertEquals($themeCount, $anime->themes()->count());
-        $this->assertInstanceOf(Theme::class, $anime->themes()->first());
+        static::assertInstanceOf(HasMany::class, $anime->themes());
+        static::assertEquals($themeCount, $anime->themes()->count());
+        static::assertInstanceOf(Theme::class, $anime->themes()->first());
     }
 
     /**
@@ -155,10 +160,10 @@ class AnimeTest extends TestCase
             ->has(ExternalResource::factory()->count($resourceCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $anime->externalResources());
-        $this->assertEquals($resourceCount, $anime->externalResources()->count());
-        $this->assertInstanceOf(ExternalResource::class, $anime->externalResources()->first());
-        $this->assertEquals(AnimeResource::class, $anime->externalResources()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $anime->externalResources());
+        static::assertEquals($resourceCount, $anime->externalResources()->count());
+        static::assertInstanceOf(ExternalResource::class, $anime->externalResources()->first());
+        static::assertEquals(AnimeResource::class, $anime->externalResources()->getPivotClass());
     }
 
     /**
@@ -174,9 +179,9 @@ class AnimeTest extends TestCase
             ->has(Image::factory()->count($imageCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $anime->images());
-        $this->assertEquals($imageCount, $anime->images()->count());
-        $this->assertInstanceOf(Image::class, $anime->images()->first());
-        $this->assertEquals(AnimeImage::class, $anime->images()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $anime->images());
+        static::assertEquals($imageCount, $anime->images()->count());
+        static::assertInstanceOf(Image::class, $anime->images()->first());
+        static::assertEquals(AnimeImage::class, $anime->images()->getPivotClass());
     }
 }

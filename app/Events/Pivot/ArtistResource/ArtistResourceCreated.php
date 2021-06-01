@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Pivot\ArtistResource;
 
@@ -9,16 +9,21 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class ArtistResourceCreated
+ * @package App\Events\Pivot\ArtistResource
+ */
 class ArtistResourceCreated extends ArtistResourceEvent implements DiscordMessageEvent
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $artist = $this->getArtist();
         $resource = $this->getResource();
@@ -34,7 +39,7 @@ class ArtistResourceCreated extends ArtistResourceEvent implements DiscordMessag
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

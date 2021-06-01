@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Video;
+namespace Http\Api\Video;
 
 use App\Enums\AnimeSeason;
 use App\Enums\ThemeType;
@@ -11,13 +11,20 @@ use App\Models\Entry;
 use App\Models\Theme;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class VideoShowTest
+ * @package Http\Api\Video
+ */
 class VideoShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Video Show Endpoint shall return a Video Resource.
@@ -188,7 +195,7 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'entries' => function ($query) use ($nsfwFilter) {
+            'entries' => function (BelongsToMany $query) use ($nsfwFilter) {
                 $query->where('nsfw', $nsfwFilter);
             },
         ])
@@ -233,7 +240,7 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'entries' => function ($query) use ($spoilerFilter) {
+            'entries' => function (BelongsToMany $query) use ($spoilerFilter) {
                 $query->where('spoiler', $spoilerFilter);
             },
         ])
@@ -283,7 +290,7 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'entries' => function ($query) use ($versionFilter) {
+            'entries' => function (BelongsToMany $query) use ($versionFilter) {
                 $query->where('version', $versionFilter);
             },
         ])
@@ -335,7 +342,7 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'entries.theme' => function ($query) use ($groupFilter) {
+            'entries.theme' => function (BelongsTo $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -387,7 +394,7 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'entries.theme' => function ($query) use ($sequenceFilter) {
+            'entries.theme' => function (BelongsTo $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -432,7 +439,7 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'entries.theme' => function ($query) use ($typeFilter) {
+            'entries.theme' => function (BelongsTo $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
@@ -477,7 +484,7 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'entries.theme.anime' => function ($query) use ($seasonFilter) {
+            'entries.theme.anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -531,7 +538,7 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'entries.theme.anime' => function ($query) use ($yearFilter) {
+            'entries.theme.anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

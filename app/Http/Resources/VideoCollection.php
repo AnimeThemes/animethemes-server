@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Resources;
 
@@ -15,10 +15,16 @@ use App\JsonApi\Filter\Video\VideoResolutionFilter;
 use App\JsonApi\Filter\Video\VideoSourceFilter;
 use App\JsonApi\Filter\Video\VideoSubbedFilter;
 use App\JsonApi\Filter\Video\VideoUncenFilter;
+use Illuminate\Http\Request;
 
+/**
+ * Class VideoCollection
+ * @package App\Http\Resources
+ */
 class VideoCollection extends BaseCollection
 {
-    use PerformsResourceCollectionQuery, PerformsResourceCollectionSearch;
+    use PerformsResourceCollectionQuery;
+    use PerformsResourceCollectionSearch;
 
     /**
      * The "data" wrapper that should be applied.
@@ -30,10 +36,10 @@ class VideoCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return $this->collection->map(function (VideoResource $resource) {
             return $resource->parser($this->parser);
@@ -45,7 +51,7 @@ class VideoCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedIncludePaths()
+    public static function allowedIncludePaths(): array
     {
         return [
             'entries',
@@ -59,7 +65,7 @@ class VideoCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedSortFields()
+    public static function allowedSortFields(): array
     {
         return [
             'video_id',
@@ -86,7 +92,7 @@ class VideoCollection extends BaseCollection
      *
      * @return array
      */
-    public static function filters()
+    public static function filters(): array
     {
         return [
             VideoLyricsFilter::class,

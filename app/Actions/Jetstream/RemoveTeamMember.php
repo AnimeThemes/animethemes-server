@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Actions\Jetstream;
 
@@ -8,6 +8,10 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Jetstream\Contracts\RemovesTeamMembers;
 use Laravel\Jetstream\Events\TeamMemberRemoved;
 
+/**
+ * Class RemoveTeamMember
+ * @package App\Actions\Jetstream
+ */
 class RemoveTeamMember implements RemovesTeamMembers
 {
     /**
@@ -17,8 +21,10 @@ class RemoveTeamMember implements RemovesTeamMembers
      * @param mixed $team
      * @param mixed $teamMember
      * @return void
+     * @throws ValidationException
+     * @throws AuthorizationException
      */
-    public function remove($user, $team, $teamMember)
+    public function remove(mixed $user, mixed $team, mixed $teamMember)
     {
         $this->authorize($user, $team, $teamMember);
 
@@ -36,12 +42,13 @@ class RemoveTeamMember implements RemovesTeamMembers
      * @param mixed $team
      * @param mixed $teamMember
      * @return void
+     * @throws AuthorizationException
      */
-    protected function authorize($user, $team, $teamMember)
+    protected function authorize(mixed $user, mixed $team, mixed $teamMember)
     {
         if (! Gate::forUser($user)->check('removeTeamMember', $team) &&
             $user->id !== $teamMember->id) {
-            throw new AuthorizationException;
+            throw new AuthorizationException();
         }
     }
 
@@ -51,8 +58,9 @@ class RemoveTeamMember implements RemovesTeamMembers
      * @param mixed $teamMember
      * @param mixed $team
      * @return void
+     * @throws ValidationException
      */
-    protected function ensureUserDoesNotOwnTeam($teamMember, $team)
+    protected function ensureUserDoesNotOwnTeam(mixed $teamMember, mixed $team)
     {
         if ($teamMember->id === $team->owner->id) {
             throw ValidationException::withMessages([

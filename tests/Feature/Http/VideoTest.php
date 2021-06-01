@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http;
+namespace Http;
 
 use App\Models\Video;
 use GuzzleHttp\Psr7\MimeType;
@@ -13,9 +13,15 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
+/**
+ * Class VideoTest
+ * @package Http
+ */
 class VideoTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * If video streaming is disabled through the 'app.allow_video_streams' property,
@@ -63,7 +69,7 @@ class VideoTest extends TestCase
 
         $fs = Storage::fake('videos');
         $file = File::fake()->create($this->faker->word().'.webm');
-        $fsFile = $fs->put('', $file);
+        $fsFile = $fs->putFile('', $file);
         $fsPathinfo = pathinfo(strval($fsFile));
 
         $video = Video::create([
@@ -76,6 +82,6 @@ class VideoTest extends TestCase
 
         $response = $this->get(route('video.show', ['video' => $video]));
 
-        $this->assertInstanceOf(StreamedResponse::class, $response->baseResponse);
+        static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
     }
 }

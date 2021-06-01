@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Jetstream;
+namespace Jetstream;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -8,11 +8,15 @@ use Laravel\Jetstream\Http\Livewire\CreateTeamForm;
 use Livewire\Livewire;
 use Tests\TestCase;
 
+/**
+ * Class CreateTeamTest
+ * @package Jetstream
+ */
 class CreateTeamTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_teams_cannot_be_created()
+    public function testTeamsCannotBeCreated()
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
 
@@ -20,6 +24,6 @@ class CreateTeamTest extends TestCase
                     ->set(['state' => ['name' => 'Test Team']])
                     ->call('createTeam');
 
-        $this->assertCount(1, $user->fresh()->ownedTeams);
+        static::assertCount(1, $user->fresh()->ownedTeams);
     }
 }

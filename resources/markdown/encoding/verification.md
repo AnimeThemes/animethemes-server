@@ -90,7 +90,7 @@ This isn't a file property and won't be included in MediaInfo. We will verify au
 
 MediaInfo does not include bit rate for each track. We will verify audio bitrate in the next step.
 
-**Audio must use a bitrate of 320 kbps if the source is a DVD or BD release and the source bitrate is > 320 kbps**
+**Audio must use a bitrate of 320 kbps if the source is a DVD or BD release, and the source bitrate is > 320 kbps**
 
 MediaInfo does not include bit rate for each track. We will verify audio bitrate in the next step.
 
@@ -161,7 +161,7 @@ In both our web browser and media player, check the start and end of the video f
 
 The result of verification is left to the discretion of the encoder. Weigh findings against the encoding standards in making a determination. It is encouraged to iterate over different settings to produce the best quality video within our constraints. Doing so is also in the best interest of continued learning and producing better quality videos.
 
-Don't shy away from following up with the moderation team or our encoding community if anything remains uncertain.
+Don't shy away from following up with the moderation team, or our encoding community if anything remains uncertain.
 
 ## Conclusion
 

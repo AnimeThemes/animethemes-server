@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Entry;
 
@@ -11,16 +11,21 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class EntryCreated
+ * @package App\Events\Entry
+ */
 class EntryCreated extends EntryEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $entry = $this->getEntry();
 
@@ -35,7 +40,7 @@ class EntryCreated extends EntryEvent implements DiscordMessageEvent, UpdateRela
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

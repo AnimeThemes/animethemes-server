@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models\Billing;
 
@@ -12,6 +12,10 @@ use App\Models\BaseModel;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Support\Str;
 
+/**
+ * Class Transaction
+ * @package App\Models\Billing
+ */
 class Transaction extends BaseModel
 {
     use CastsEnums;
@@ -61,6 +65,7 @@ class Transaction extends BaseModel
      */
     protected $casts = [
         'service' => 'int',
+        'external_id' => 'int',
         'date' => 'date:Y-m-d',
     ];
 
@@ -69,7 +74,7 @@ class Transaction extends BaseModel
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return Str::of($this->service->description)
             ->append(' ')

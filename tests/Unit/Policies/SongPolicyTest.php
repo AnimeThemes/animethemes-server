@@ -1,18 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Policies;
+namespace Policies;
 
-use App\Models\Artist;
-use App\Models\Song;
 use App\Models\User;
 use App\Policies\SongPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class SongPolicyTest
+ * @package Policies
+ */
 class SongPolicyTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
      * Any user regardless of role can view any song.
@@ -21,23 +24,11 @@ class SongPolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
         $policy = new SongPolicy();
 
-        $this->assertTrue($policy->viewAny($viewer));
-        $this->assertTrue($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -47,24 +38,11 @@ class SongPolicyTest extends TestCase
      */
     public function testView()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
-        $song = Song::factory()->create();
         $policy = new SongPolicy();
 
-        $this->assertTrue($policy->view($viewer, $song));
-        $this->assertTrue($policy->view($editor, $song));
-        $this->assertTrue($policy->view($admin, $song));
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
     }
 
     /**
@@ -88,9 +66,9 @@ class SongPolicyTest extends TestCase
 
         $policy = new SongPolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertTrue($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertTrue($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
@@ -112,12 +90,11 @@ class SongPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $song = Song::factory()->create();
         $policy = new SongPolicy();
 
-        $this->assertFalse($policy->update($viewer, $song));
-        $this->assertTrue($policy->update($editor, $song));
-        $this->assertTrue($policy->update($admin, $song));
+        static::assertFalse($policy->update($viewer));
+        static::assertTrue($policy->update($editor));
+        static::assertTrue($policy->update($admin));
     }
 
     /**
@@ -139,12 +116,11 @@ class SongPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $song = Song::factory()->create();
         $policy = new SongPolicy();
 
-        $this->assertFalse($policy->delete($viewer, $song));
-        $this->assertTrue($policy->delete($editor, $song));
-        $this->assertTrue($policy->delete($admin, $song));
+        static::assertFalse($policy->delete($viewer));
+        static::assertTrue($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
@@ -166,12 +142,11 @@ class SongPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $song = Song::factory()->create();
         $policy = new SongPolicy();
 
-        $this->assertFalse($policy->restore($viewer, $song));
-        $this->assertTrue($policy->restore($editor, $song));
-        $this->assertTrue($policy->restore($admin, $song));
+        static::assertFalse($policy->restore($viewer));
+        static::assertTrue($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
@@ -193,12 +168,11 @@ class SongPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $song = Song::factory()->create();
         $policy = new SongPolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $song));
-        $this->assertFalse($policy->forceDelete($editor, $song));
-        $this->assertTrue($policy->forceDelete($admin, $song));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 
     /**
@@ -220,12 +194,11 @@ class SongPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $song = Song::factory()->create();
         $policy = new SongPolicy();
 
-        $this->assertFalse($policy->addTheme($viewer, $song));
-        $this->assertFalse($policy->addTheme($editor, $song));
-        $this->assertTrue($policy->addTheme($admin, $song));
+        static::assertFalse($policy->addTheme($viewer));
+        static::assertFalse($policy->addTheme($editor));
+        static::assertTrue($policy->addTheme($admin));
     }
 
     /**
@@ -247,12 +220,11 @@ class SongPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $song = Song::factory()->create();
         $policy = new SongPolicy();
 
-        $this->assertFalse($policy->attachAnyArtist($viewer, $song));
-        $this->assertTrue($policy->attachAnyArtist($editor, $song));
-        $this->assertTrue($policy->attachAnyArtist($admin, $song));
+        static::assertFalse($policy->attachAnyArtist($viewer));
+        static::assertTrue($policy->attachAnyArtist($editor));
+        static::assertTrue($policy->attachAnyArtist($admin));
     }
 
     /**
@@ -274,13 +246,11 @@ class SongPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $song = Song::factory()->create();
-        $artist = Artist::factory()->create();
         $policy = new SongPolicy();
 
-        $this->assertFalse($policy->attachArtist($viewer, $song, $artist));
-        $this->assertTrue($policy->attachArtist($editor, $song, $artist));
-        $this->assertTrue($policy->attachArtist($admin, $song, $artist));
+        static::assertFalse($policy->attachArtist($viewer));
+        static::assertTrue($policy->attachArtist($editor));
+        static::assertTrue($policy->attachArtist($admin));
     }
 
     /**
@@ -302,12 +272,10 @@ class SongPolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $song = Song::factory()->create();
-        $artist = Artist::factory()->create();
         $policy = new SongPolicy();
 
-        $this->assertFalse($policy->detachArtist($viewer, $song, $artist));
-        $this->assertTrue($policy->detachArtist($editor, $song, $artist));
-        $this->assertTrue($policy->detachArtist($admin, $song, $artist));
+        static::assertFalse($policy->detachArtist($viewer));
+        static::assertTrue($policy->detachArtist($editor));
+        static::assertTrue($policy->detachArtist($admin));
     }
 }

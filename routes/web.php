@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Document\CommunityController;

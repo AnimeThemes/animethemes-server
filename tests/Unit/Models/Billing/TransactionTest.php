@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Models\Billing;
+namespace Models\Billing;
 
 use App\Enums\Billing\Service;
 use App\Models\Billing\Transaction;
@@ -8,6 +8,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class TransactionTest
+ * @package Models\Billing
+ */
 class TransactionTest extends TestCase
 {
     use RefreshDatabase;
@@ -23,7 +27,7 @@ class TransactionTest extends TestCase
 
         $service = $transaction->service;
 
-        $this->assertInstanceOf(Service::class, $service);
+        static::assertInstanceOf(Service::class, $service);
     }
 
     /**
@@ -37,7 +41,7 @@ class TransactionTest extends TestCase
 
         $transaction = Transaction::factory()->create();
 
-        $this->assertEquals(1, $transaction->audits->count());
+        static::assertEquals(1, $transaction->audits->count());
     }
 
     /**
@@ -49,6 +53,6 @@ class TransactionTest extends TestCase
     {
         $transaction = Transaction::factory()->create();
 
-        $this->assertIsString($transaction->getName());
+        static::assertIsString($transaction->getName());
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
@@ -6,7 +6,12 @@ use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\SongCollection;
 use App\Http\Resources\SongResource;
 use App\Models\Song;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * Class SongController
+ * @package App\Http\Controllers\Api
+ */
 class SongController extends BaseController
 {
     /**
@@ -65,9 +70,9 @@ class SongController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         if ($this->parser->hasSearch()) {
             return SongCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
@@ -112,10 +117,10 @@ class SongController extends BaseController
      *     )
      * )
      *
-     * @param \App\Models\Song $song
-     * @return \Illuminate\Http\JsonResponse
+     * @param Song $song
+     * @return JsonResponse
      */
-    public function show(Song $song)
+    public function show(Song $song): JsonResponse
     {
         $resource = SongResource::performQuery($song, $this->parser);
 

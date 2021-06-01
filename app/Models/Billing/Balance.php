@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models\Billing;
 
@@ -13,6 +13,10 @@ use App\Models\BaseModel;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Support\Str;
 
+/**
+ * Class Balance
+ * @package App\Models\Billing
+ */
 class Balance extends BaseModel
 {
     use CastsEnums;
@@ -72,7 +76,7 @@ class Balance extends BaseModel
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return Str::of($this->service->description)
             ->append(' ')

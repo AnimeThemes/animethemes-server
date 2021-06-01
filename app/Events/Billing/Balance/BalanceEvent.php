@@ -1,22 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Billing\Balance;
 
 use App\Models\Billing\Balance;
 
+/**
+ * Class BalanceEvent
+ * @package App\Events\Billing\Balance
+ */
 abstract class BalanceEvent
 {
     /**
      * The balance that has fired this event.
      *
-     * @var \App\Models\Billing\Balance
+     * @var Balance
      */
-    protected $balance;
+    protected Balance $balance;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Billing\Balance $balance
+     * @param Balance $balance
      * @return void
      */
     public function __construct(Balance $balance)
@@ -27,9 +31,9 @@ abstract class BalanceEvent
     /**
      * Get the balance that has fired this event.
      *
-     * @return \App\Models\Billing\Balance
+     * @return Balance
      */
-    public function getBalance()
+    public function getBalance(): Balance
     {
         return $this->balance;
     }

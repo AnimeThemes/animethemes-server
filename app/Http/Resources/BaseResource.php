@@ -1,26 +1,31 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\JsonApi\QueryParser;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Class BaseResource
+ * @package App\Http\Resources
+ */
 abstract class BaseResource extends JsonResource
 {
     /**
      * Sparse field set specified by the client.
      *
-     * @var \App\JsonApi\QueryParser
+     * @var QueryParser|int
      */
-    protected $parser;
+    protected QueryParser|int $parser;
 
     /**
      * Create a new resource instance.
      *
      * @param mixed $resource
-     * @param \App\JsonApi\QueryParser $parser
+     * @param QueryParser|int $parser
      * @return void
      */
-    public function __construct($resource, $parser)
+    public function __construct(mixed $resource, QueryParser|int $parser)
     {
         parent::__construct($resource);
 
@@ -30,10 +35,10 @@ abstract class BaseResource extends JsonResource
     /**
      * Set the parser.
      *
-     * @param \App\JsonApi\QueryParser $parser
+     * @param QueryParser $parser
      * @return static
      */
-    public function parser($parser)
+    public function parser(QueryParser $parser): static
     {
         $this->parser = $parser;
 
@@ -46,7 +51,7 @@ abstract class BaseResource extends JsonResource
      * @param string $field
      * @return bool
      */
-    protected function isAllowedField($field)
+    protected function isAllowedField(string $field): bool
     {
         return $this->parser->isAllowedField(static::$wrap, $field);
     }

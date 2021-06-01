@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Events\Pivot;
+namespace Events\Pivot;
 
 use App\Events\Pivot\AnimeResource\AnimeResourceCreated;
 use App\Events\Pivot\AnimeResource\AnimeResourceDeleted;
@@ -12,6 +12,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class AnimeResourceTest
+ * @package Events\Pivot
+ */
 class AnimeResourceTest extends TestCase
 {
     use RefreshDatabase;

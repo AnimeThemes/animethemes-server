@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Billing;
+namespace Jobs\Billing;
 
 use App\Jobs\SendDiscordNotification;
 use App\Models\Billing\Transaction;
@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class TransactionTest
+ * @package Jobs\Billing
+ */
 class TransactionTest extends TestCase
 {
     use RefreshDatabase;

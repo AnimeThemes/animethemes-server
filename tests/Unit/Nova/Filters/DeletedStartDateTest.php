@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Filters;
+namespace Nova\Filters;
 
 use App\Enums\Filter\ComparisonOperator;
 use App\Models\Anime;
@@ -10,22 +10,31 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Http\Request;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\MockFilterQuery;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class DeletedStartDateTest
+ * @package Nova\Filters
+ */
 class DeletedStartDateTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Deleted Start Date Filter shall be a date filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testDateFilter()
     {
-        $this->novaFilter(DeletedStartDateFilter::class)
+        static::novaFilter(DeletedStartDateFilter::class)
             ->assertDateFilter();
     }
 
@@ -40,17 +49,17 @@ class DeletedStartDateTest extends TestCase
 
         Carbon::withTestNow(Carbon::now()->subMonths($this->faker->randomDigitNotNull), function () {
             $anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
-            $anime->each(function ($item) {
+            $anime->each(function (Anime $item) {
                 $item->delete();
             });
         });
 
         $anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
-        $anime->each(function ($item) {
+        $anime->each(function (Anime $item) {
             $item->delete();
         });
 
-        $response = new MockFilterQuery((new DeletedStartDateFilter)->apply(Request::createFromGlobals(), Anime::withTrashed(), $dateFilter));
+        $response = new MockFilterQuery((new DeletedStartDateFilter())->apply(Request::createFromGlobals(), Anime::withTrashed(), $dateFilter));
 
         $filteredAnimes = Anime::withTrashed()->where('deleted_at', ComparisonOperator::GTE, $dateFilter)->get();
         foreach ($filteredAnimes as $filteredAnime) {

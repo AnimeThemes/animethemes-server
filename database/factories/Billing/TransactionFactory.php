@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Factories\Billing;
 
@@ -6,6 +6,10 @@ use App\Enums\Billing\Service;
 use App\Models\Billing\Transaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * Class TransactionFactory
+ * @package Database\Factories\Billing
+ */
 class TransactionFactory extends Factory
 {
     /**
@@ -20,7 +24,7 @@ class TransactionFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'date' => $this->faker->date(),

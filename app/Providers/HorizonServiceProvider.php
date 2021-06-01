@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Providers;
 
@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\Horizon;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
 
+/**
+ * Class HorizonServiceProvider
+ * @package App\Providers
+ */
 class HorizonServiceProvider extends HorizonApplicationServiceProvider
 {
     /**

@@ -1,13 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Enums;
 
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
+/**
+ * Class VideoOverlap
+ * @package App\Enums
+ */
 final class VideoOverlap extends Enum implements LocalizedEnum
 {
-    const NONE = 0;
-    const TRANS = 1;
-    const OVER = 2;
+    public const NONE = 0;
+    public const TRANS = 1;
+    public const OVER = 2;
 }

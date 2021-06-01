@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Repositories\Service;
 
@@ -6,16 +6,21 @@ use App\Contracts\Repositories\Repository;
 use App\Models\Video;
 use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Class VideoRepository
+ * @package App\Repositories\Service
+ */
 class VideoRepository implements Repository
 {
     /**
      * Get all models from the repository.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function all()
+    public function all(): Collection
     {
         // Get metadata for all objects in storage
         $fs = Storage::disk('videos');
@@ -42,10 +47,10 @@ class VideoRepository implements Repository
     /**
      * Save model to the repository.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param Model $model
      * @return bool
      */
-    public function save(Model $model)
+    public function save(Model $model): bool
     {
         // Do not write serialized models to object storage
         return false;
@@ -54,10 +59,10 @@ class VideoRepository implements Repository
     /**
      * Delete model from the repository.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param Model $model
      * @return bool
      */
-    public function delete(Model $model)
+    public function delete(Model $model): bool
     {
         // Do not write serialized models to object storage
         return false;
@@ -66,11 +71,11 @@ class VideoRepository implements Repository
     /**
      * Update model in the repository.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param Model $model
      * @param array $attributes
      * @return bool
      */
-    public function update(Model $model, array $attributes)
+    public function update(Model $model, array $attributes): bool
     {
         // Do not write serialized models to object storage
         return false;

@@ -1,22 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Series;
 
 use App\Models\Series;
 
+/**
+ * Class SeriesEvent
+ * @package App\Events\Series
+ */
 abstract class SeriesEvent
 {
     /**
      * The series that has fired this event.
      *
-     * @var \App\Models\Series
+     * @var Series
      */
-    protected $series;
+    protected Series $series;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Series $series
+     * @param Series $series
      * @return void
      */
     public function __construct(Series $series)
@@ -27,9 +31,9 @@ abstract class SeriesEvent
     /**
      * Get the series that has fired this event.
      *
-     * @return \App\Models\Series
+     * @return Series
      */
-    public function getSeries()
+    public function getSeries(): Series
     {
         return $this->series;
     }

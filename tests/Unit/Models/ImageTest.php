@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Models;
+namespace Models;
 
 use App\Enums\ImageFacet;
 use App\Models\Anime;
@@ -17,9 +17,14 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
+/**
+ * Class ImageTest
+ * @package Models
+ */
 class ImageTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * The facet attribute of an image shall be cast to an ImageFacet enum instance.
@@ -32,7 +37,7 @@ class ImageTest extends TestCase
 
         $facet = $image->facet;
 
-        $this->assertInstanceOf(ImageFacet::class, $facet);
+        static::assertInstanceOf(ImageFacet::class, $facet);
     }
 
     /**
@@ -46,7 +51,7 @@ class ImageTest extends TestCase
 
         $image = Image::factory()->create();
 
-        $this->assertEquals(1, $image->audits->count());
+        static::assertEquals(1, $image->audits->count());
     }
 
     /**
@@ -58,7 +63,7 @@ class ImageTest extends TestCase
     {
         $image = Image::factory()->create();
 
-        $this->assertIsString($image->getName());
+        static::assertIsString($image->getName());
     }
 
     /**
@@ -74,10 +79,10 @@ class ImageTest extends TestCase
             ->has(Anime::factory()->count($animeCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $image->anime());
-        $this->assertEquals($animeCount, $image->anime()->count());
-        $this->assertInstanceOf(Anime::class, $image->anime()->first());
-        $this->assertEquals(AnimeImage::class, $image->anime()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $image->anime());
+        static::assertEquals($animeCount, $image->anime()->count());
+        static::assertInstanceOf(Anime::class, $image->anime()->first());
+        static::assertEquals(AnimeImage::class, $image->anime()->getPivotClass());
     }
 
     /**
@@ -93,10 +98,10 @@ class ImageTest extends TestCase
             ->has(Artist::factory()->count($artistCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $image->artists());
-        $this->assertEquals($artistCount, $image->artists()->count());
-        $this->assertInstanceOf(Artist::class, $image->artists()->first());
-        $this->assertEquals(ArtistImage::class, $image->artists()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $image->artists());
+        static::assertEquals($artistCount, $image->artists()->count());
+        static::assertInstanceOf(Artist::class, $image->artists()->first());
+        static::assertEquals(ArtistImage::class, $image->artists()->getPivotClass());
     }
 
     /**
@@ -108,7 +113,7 @@ class ImageTest extends TestCase
     {
         $fs = Storage::fake('images');
         $file = File::fake()->image($this->faker->word().'.jpg');
-        $fsFile = $fs->put('', $file);
+        $fsFile = $fs->putFile('', $file);
         $fsPathinfo = pathinfo(strval($fsFile));
 
         $image = Image::create([
@@ -120,7 +125,7 @@ class ImageTest extends TestCase
 
         $image->delete();
 
-        $this->assertTrue($fs->exists($image->path));
+        static::assertTrue($fs->exists($image->path));
     }
 
     /**
@@ -132,7 +137,7 @@ class ImageTest extends TestCase
     {
         $fs = Storage::fake('images');
         $file = File::fake()->image($this->faker->word().'.jpg');
-        $fsFile = $fs->put('', $file);
+        $fsFile = $fs->putFile('', $file);
         $fsPathinfo = pathinfo(strval($fsFile));
 
         $image = Image::create([
@@ -144,6 +149,6 @@ class ImageTest extends TestCase
 
         $image->forceDelete();
 
-        $this->assertFalse($fs->exists($image->path));
+        static::assertFalse($fs->exists($image->path));
     }
 }

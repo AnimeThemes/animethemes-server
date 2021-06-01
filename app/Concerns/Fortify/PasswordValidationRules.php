@@ -1,9 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Concerns\Fortify;
 
 use Illuminate\Validation\Rules\Password;
 
+/**
+ * Trait PasswordValidationRules
+ * @package App\Concerns\Fortify
+ */
 trait PasswordValidationRules
 {
     /**
@@ -11,7 +15,7 @@ trait PasswordValidationRules
      *
      * @return array
      */
-    protected function passwordRules()
+    protected function passwordRules(): array
     {
         return array_merge(Password::required(), ['confirmed', 'zxcvbn_min:3', 'zxcvbn_dictionary']);
     }

@@ -1,10 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Resources\Billing;
 
 use App\Concerns\JsonApi\PerformsResourceQuery;
 use App\Http\Resources\BaseResource;
+use Illuminate\Http\Request;
 
+/**
+ * Class TransactionResource
+ * @package App\Http\Resources\Billing
+ */
 class TransactionResource extends BaseResource
 {
     use PerformsResourceQuery;
@@ -19,10 +24,10 @@ class TransactionResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->when($this->isAllowedField('id'), $this->transaction_id),
@@ -30,7 +35,7 @@ class TransactionResource extends BaseResource
             'service' => $this->when($this->isAllowedField('service'), strval(optional($this->service)->description)),
             'description' => $this->when($this->isAllowedField('description'), $this->description),
             'amount' => $this->when($this->isAllowedField('amount'), $this->amount),
-            'external_id' => $this->when($this->isAllowedField('external_id'), is_null($this->external_id) ? '' : $this->external_id),
+            'external_id' => $this->when($this->isAllowedField('external_id'), $this->external_id === null ? '' : $this->external_id),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),

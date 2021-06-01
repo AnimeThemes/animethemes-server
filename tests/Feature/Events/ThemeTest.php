@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Events;
+namespace Events;
 
 use App\Events\Theme\ThemeCreated;
 use App\Events\Theme\ThemeDeleted;
@@ -12,6 +12,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class ThemeTest
+ * @package Events
+ */
 class ThemeTest extends TestCase
 {
     use RefreshDatabase;

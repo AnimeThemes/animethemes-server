@@ -1,19 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Policies;
+namespace Policies;
 
-use App\Models\Anime;
-use App\Models\Artist;
-use App\Models\ExternalResource;
 use App\Models\User;
 use App\Policies\ExternalResourcePolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class ExternalResourcePolicyTest
+ * @package Policies
+ */
 class ExternalResourcePolicyTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
      * Any user regardless of role can view any resource.
@@ -22,23 +24,11 @@ class ExternalResourcePolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
         $policy = new ExternalResourcePolicy();
 
-        $this->assertTrue($policy->viewAny($viewer));
-        $this->assertTrue($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -48,24 +38,11 @@ class ExternalResourcePolicyTest extends TestCase
      */
     public function testView()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
-        $resource = ExternalResource::factory()->create();
         $policy = new ExternalResourcePolicy();
 
-        $this->assertTrue($policy->view($viewer, $resource));
-        $this->assertTrue($policy->view($editor, $resource));
-        $this->assertTrue($policy->view($admin, $resource));
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
     }
 
     /**
@@ -89,9 +66,9 @@ class ExternalResourcePolicyTest extends TestCase
 
         $policy = new ExternalResourcePolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertTrue($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertTrue($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
@@ -113,12 +90,11 @@ class ExternalResourcePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $resource = ExternalResource::factory()->create();
         $policy = new ExternalResourcePolicy();
 
-        $this->assertFalse($policy->update($viewer, $resource));
-        $this->assertTrue($policy->update($editor, $resource));
-        $this->assertTrue($policy->update($admin, $resource));
+        static::assertFalse($policy->update($viewer));
+        static::assertTrue($policy->update($editor));
+        static::assertTrue($policy->update($admin));
     }
 
     /**
@@ -140,12 +116,11 @@ class ExternalResourcePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $resource = ExternalResource::factory()->create();
         $policy = new ExternalResourcePolicy();
 
-        $this->assertFalse($policy->delete($viewer, $resource));
-        $this->assertTrue($policy->delete($editor, $resource));
-        $this->assertTrue($policy->delete($admin, $resource));
+        static::assertFalse($policy->delete($viewer));
+        static::assertTrue($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
@@ -167,12 +142,11 @@ class ExternalResourcePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $resource = ExternalResource::factory()->create();
         $policy = new ExternalResourcePolicy();
 
-        $this->assertFalse($policy->restore($viewer, $resource));
-        $this->assertTrue($policy->restore($editor, $resource));
-        $this->assertTrue($policy->restore($admin, $resource));
+        static::assertFalse($policy->restore($viewer));
+        static::assertTrue($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
@@ -194,12 +168,11 @@ class ExternalResourcePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $resource = ExternalResource::factory()->create();
         $policy = new ExternalResourcePolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $resource));
-        $this->assertFalse($policy->forceDelete($editor, $resource));
-        $this->assertTrue($policy->forceDelete($admin, $resource));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 
     /**
@@ -221,12 +194,11 @@ class ExternalResourcePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $resource = ExternalResource::factory()->create();
         $policy = new ExternalResourcePolicy();
 
-        $this->assertFalse($policy->attachAnyArtist($viewer, $resource));
-        $this->assertTrue($policy->attachAnyArtist($editor, $resource));
-        $this->assertTrue($policy->attachAnyArtist($admin, $resource));
+        static::assertFalse($policy->attachAnyArtist($viewer));
+        static::assertTrue($policy->attachAnyArtist($editor));
+        static::assertTrue($policy->attachAnyArtist($admin));
     }
 
     /**
@@ -248,13 +220,11 @@ class ExternalResourcePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $resource = ExternalResource::factory()->create();
-        $artist = Artist::factory()->create();
         $policy = new ExternalResourcePolicy();
 
-        $this->assertFalse($policy->attachArtist($viewer, $resource, $artist));
-        $this->assertTrue($policy->attachArtist($editor, $resource, $artist));
-        $this->assertTrue($policy->attachArtist($admin, $resource, $artist));
+        static::assertFalse($policy->attachArtist($viewer));
+        static::assertTrue($policy->attachArtist($editor));
+        static::assertTrue($policy->attachArtist($admin));
     }
 
     /**
@@ -276,13 +246,11 @@ class ExternalResourcePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $resource = ExternalResource::factory()->create();
-        $artist = Artist::factory()->create();
         $policy = new ExternalResourcePolicy();
 
-        $this->assertFalse($policy->detachArtist($viewer, $resource, $artist));
-        $this->assertTrue($policy->detachArtist($editor, $resource, $artist));
-        $this->assertTrue($policy->detachArtist($admin, $resource, $artist));
+        static::assertFalse($policy->detachArtist($viewer));
+        static::assertTrue($policy->detachArtist($editor));
+        static::assertTrue($policy->detachArtist($admin));
     }
 
     /**
@@ -304,12 +272,11 @@ class ExternalResourcePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $resource = ExternalResource::factory()->create();
         $policy = new ExternalResourcePolicy();
 
-        $this->assertFalse($policy->attachAnyAnime($viewer, $resource));
-        $this->assertTrue($policy->attachAnyAnime($editor, $resource));
-        $this->assertTrue($policy->attachAnyAnime($admin, $resource));
+        static::assertFalse($policy->attachAnyAnime($viewer));
+        static::assertTrue($policy->attachAnyAnime($editor));
+        static::assertTrue($policy->attachAnyAnime($admin));
     }
 
     /**
@@ -331,13 +298,11 @@ class ExternalResourcePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $resource = ExternalResource::factory()->create();
-        $anime = Anime::factory()->create();
         $policy = new ExternalResourcePolicy();
 
-        $this->assertFalse($policy->attachAnime($viewer, $resource, $anime));
-        $this->assertTrue($policy->attachAnime($editor, $resource, $anime));
-        $this->assertTrue($policy->attachAnime($admin, $resource, $anime));
+        static::assertFalse($policy->attachAnime($viewer));
+        static::assertTrue($policy->attachAnime($editor));
+        static::assertTrue($policy->attachAnime($admin));
     }
 
     /**
@@ -359,12 +324,10 @@ class ExternalResourcePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $resource = ExternalResource::factory()->create();
-        $anime = Anime::factory()->create();
         $policy = new ExternalResourcePolicy();
 
-        $this->assertFalse($policy->detachAnime($viewer, $resource, $anime));
-        $this->assertTrue($policy->detachAnime($editor, $resource, $anime));
-        $this->assertTrue($policy->detachAnime($admin, $resource, $anime));
+        static::assertFalse($policy->detachAnime($viewer));
+        static::assertTrue($policy->detachAnime($editor));
+        static::assertTrue($policy->detachAnime($admin));
     }
 }

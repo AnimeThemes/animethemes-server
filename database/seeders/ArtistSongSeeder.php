@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Seeders;
 
@@ -7,10 +7,16 @@ use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Theme;
 use App\Pivots\ArtistSong;
+use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+/**
+ * Class ArtistSongSeeder
+ * @package Database\Seeders
+ */
 class ArtistSongSeeder extends Seeder
 {
     /**
@@ -69,8 +75,8 @@ class ArtistSongSeeder extends Seeder
                             $anime = $matchingAnime->first();
                             continue;
                         }
-                    } catch (\Exception $exception) {
-                        Log::error($exception);
+                    } catch (Exception $e) {
+                        Log::error($e->getMessage());
                     }
 
                     $anime = null;
@@ -79,15 +85,15 @@ class ArtistSongSeeder extends Seeder
 
                 // If Theme line, attempt to load Theme and associate Song to Artist
                 // Format: "{OP|ED}{Sequence} V{Version} "{Song Title}" by {by}|[Webm {Tags}](https://animethemes.moe/video/{Video Basename})|{Episodes}|{Notes}"
-                if (! is_null($anime) && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\".*\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wikiEntryLine, $themeMatch)) {
+                if ($anime !== null && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\".*\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wikiEntryLine, $themeMatch)) {
                     $themeType = ThemeType::getValue(Str::upper($themeMatch[1]));
                     $sequence = is_numeric($themeMatch[2]) ? intval($themeMatch[2]) : null;
                     $version = is_numeric($themeMatch[3]) ? intval($themeMatch[3]) : null;
 
-                    if ($version === null || intval($version) === 1) {
+                    if ($version === null || $version === 1) {
                         $matchingThemes = Theme::where('anime_id', $anime->anime_id)
                             ->where('type', $themeType)
-                            ->where(function ($query) use ($sequence) {
+                            ->where(function (Builder $query) use ($sequence) {
                                 if (intval($sequence) === 1) {
                                     // Edge Case: "OP|ED" has become "OP1|ED1"
                                     $query->where('sequence', $sequence)->orWhereNull('sequence');

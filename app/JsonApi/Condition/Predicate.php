@@ -1,9 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\JsonApi\Condition;
 
 use App\Enums\Filter\ComparisonOperator;
 
+/**
+ * Class Predicate
+ * @package App\JsonApi\Condition
+ */
 class Predicate
 {
     /**
@@ -11,28 +15,28 @@ class Predicate
      *
      * @var string
      */
-    protected $column;
+    protected string $column;
 
     /**
      * The comparison operator of the predicate.
      *
-     * @var \App\Enums\Filter\ComparisonOperator|null
+     * @var ComparisonOperator|null
      */
-    protected $operator;
+    protected ?ComparisonOperator $operator;
 
     /**
      * The expression of the predicate.
      *
-     * @var \App\JsonApi\Condition\Expression
+     * @var Expression
      */
-    protected $expression;
+    protected Expression $expression;
 
     /**
      * Create a new predicate.
      *
      * @param string $column
-     * @param \App\Enums\Filter\ComparisonOperator|null $operator
-     * @param \App\JsonApi\Condition\Expression $expression
+     * @param ComparisonOperator|null $operator
+     * @param Expression $expression
      */
     public function __construct(
         string $column,
@@ -49,7 +53,7 @@ class Predicate
      *
      * @return string
      */
-    public function getColumn()
+    public function getColumn(): string
     {
         return $this->column;
     }
@@ -57,9 +61,9 @@ class Predicate
     /**
      * Get the predicate operator.
      *
-     * @return \App\Enums\Filter\ComparisonOperator|null $operator
+     * @return ComparisonOperator|null $operator
      */
-    public function getOperator()
+    public function getOperator(): ?ComparisonOperator
     {
         return $this->operator;
     }
@@ -67,9 +71,9 @@ class Predicate
     /**
      * Get the predicate expression.
      *
-     * @return \App\JsonApi\Condition\Expression $expression
+     * @return Expression $expression
      */
-    public function getExpression()
+    public function getExpression(): Expression
     {
         return $this->expression;
     }

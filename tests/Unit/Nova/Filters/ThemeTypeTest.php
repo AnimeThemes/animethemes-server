@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Filters;
+namespace Nova\Filters;
 
 use App\Enums\ThemeType;
 use App\Models\Anime;
@@ -8,21 +8,30 @@ use App\Models\Theme;
 use App\Nova\Filters\ThemeTypeFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class ThemeTypeTest
+ * @package Nova\Filters
+ */
 class ThemeTypeTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * The Theme Status Filter shall be a select filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
     {
-        $this->novaFilter(ThemeTypeFilter::class)
+        static::novaFilter(ThemeTypeFilter::class)
             ->assertSelectFilter();
     }
 
@@ -30,10 +39,11 @@ class ThemeTypeTest extends TestCase
      * The Theme Status Filter shall have an option for each ThemeType instance.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testOptions()
     {
-        $filter = $this->novaFilter(ThemeTypeFilter::class);
+        $filter = static::novaFilter(ThemeTypeFilter::class);
 
         foreach (ThemeType::getInstances() as $type) {
             $filter->assertHasOption($type->description);
@@ -44,6 +54,8 @@ class ThemeTypeTest extends TestCase
      * The Theme Status Filter shall filter Themes By Status.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testFilter()
     {
@@ -54,7 +66,7 @@ class ThemeTypeTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filter = $this->novaFilter(ThemeTypeFilter::class);
+        $filter = static::novaFilter(ThemeTypeFilter::class);
 
         $response = $filter->apply(Theme::class, $type->value);
 

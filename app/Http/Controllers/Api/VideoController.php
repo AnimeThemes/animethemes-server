@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
@@ -6,7 +6,12 @@ use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\VideoCollection;
 use App\Http\Resources\VideoResource;
 use App\Models\Video;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * Class VideoController
+ * @package App\Http\Controllers\Api
+ */
 class VideoController extends BaseController
 {
     /**
@@ -121,9 +126,9 @@ class VideoController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         if ($this->parser->hasSearch()) {
             return VideoCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
@@ -168,10 +173,10 @@ class VideoController extends BaseController
      *     )
      * )
      *
-     * @param \App\Models\Video $video
-     * @return \Illuminate\Http\JsonResponse
+     * @param Video $video
+     * @return JsonResponse
      */
-    public function show(Video $video)
+    public function show(Video $video): JsonResponse
     {
         $resource = VideoResource::performQuery($video, $this->parser);
 

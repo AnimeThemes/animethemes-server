@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Seeders;
 
@@ -9,6 +9,10 @@ use App\Pivots\ArtistResource;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Class ArtistSeeder
+ * @package Database\Seeders
+ */
 class ArtistSeeder extends Seeder
 {
     /**

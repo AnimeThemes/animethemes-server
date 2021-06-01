@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Resources;
+namespace Nova\Resources;
 
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;
@@ -10,21 +10,29 @@ use App\Nova\Filters\UpdatedEndDateFilter;
 use App\Nova\Filters\UpdatedStartDateFilter;
 use App\Nova\Synonym;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
 use Tests\TestCase;
 
+/**
+ * Class SynonymTest
+ * @package Nova\Resources
+ */
 class SynonymTest extends TestCase
 {
-    use NovaResourceTest, WithoutEvents;
+    use NovaResourceTest;
+    use WithoutEvents;
 
     /**
      * The Synonym Resource shall contain Synonym Fields.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFields()
     {
-        $resource = $this->novaResource(Synonym::class);
+        $resource = static::novaResource(Synonym::class);
 
         $resource->assertHasField(__('nova.id'));
         $resource->assertHasField(__('nova.created_at'));
@@ -37,10 +45,12 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain an ID field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testIdField()
     {
-        $resource = $this->novaResource(Synonym::class);
+        $resource = static::novaResource(Synonym::class);
 
         $field = $resource->field(__('nova.id'));
 
@@ -56,10 +66,12 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain a Created At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testCreatedAtField()
     {
-        $resource = $this->novaResource(Synonym::class);
+        $resource = static::novaResource(Synonym::class);
 
         $field = $resource->field(__('nova.created_at'));
 
@@ -75,10 +87,12 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain an Updated At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testUpdatedAtField()
     {
-        $resource = $this->novaResource(Synonym::class);
+        $resource = static::novaResource(Synonym::class);
 
         $field = $resource->field(__('nova.updated_at'));
 
@@ -94,10 +108,12 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain a Deleted At field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testDeletedAtField()
     {
-        $resource = $this->novaResource(Synonym::class);
+        $resource = static::novaResource(Synonym::class);
 
         $field = $resource->field(__('nova.deleted_at'));
 
@@ -113,10 +129,12 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain a Text field.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaResourceException
      */
     public function testTextField()
     {
-        $resource = $this->novaResource(Synonym::class);
+        $resource = static::novaResource(Synonym::class);
 
         $field = $resource->field(__('nova.text'));
 
@@ -134,10 +152,11 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain Synonym Filters.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testFilters()
     {
-        $resource = $this->novaResource(Synonym::class);
+        $resource = static::novaResource(Synonym::class);
 
         $resource->assertHasFilter(CreatedStartDateFilter::class);
         $resource->assertHasFilter(CreatedEndDateFilter::class);
@@ -151,10 +170,11 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain no Actions.
      *
      * @return void
+     * @throws InvalidNovaResourceException
      */
     public function testActions()
     {
-        $resource = $this->novaResource(Synonym::class);
+        $resource = static::novaResource(Synonym::class);
 
         $resource->assertHasNoActions();
     }

@@ -1,26 +1,30 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Enums;
 
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
+/**
+ * Class ResourceSite
+ * @package App\Enums
+ */
 final class ResourceSite extends Enum implements LocalizedEnum
 {
     // Official Media
-    const OFFICIAL_SITE = 0;
-    const TWITTER = 1;
+    public const OFFICIAL_SITE = 0;
+    public const TWITTER = 1;
 
     // Tracking Sites
-    const ANIDB = 2;
-    const ANILIST = 3;
-    const ANIME_PLANET = 4;
-    const ANN = 5;
-    const KITSU = 6;
-    const MAL = 7;
+    public const ANIDB = 2;
+    public const ANILIST = 3;
+    public const ANIME_PLANET = 4;
+    public const ANN = 5;
+    public const KITSU = 6;
+    public const MAL = 7;
 
     // Compendia
-    const WIKI = 8;
+    public const WIKI = 8;
 
     /**
      * Get domain by resource site.
@@ -29,7 +33,7 @@ final class ResourceSite extends Enum implements LocalizedEnum
      * @param int|null $value the resource site key
      * @return string|null
      */
-    public static function getDomain(?int $value)
+    public static function getDomain(?int $value): ?string
     {
         if ($value === null) {
             return null;
@@ -64,7 +68,7 @@ final class ResourceSite extends Enum implements LocalizedEnum
      * @param string $link the link to test
      * @return string|null
      */
-    public static function valueOf($link)
+    public static function valueOf(string $link): ?string
     {
         $parsedHost = parse_url($link, PHP_URL_HOST);
 

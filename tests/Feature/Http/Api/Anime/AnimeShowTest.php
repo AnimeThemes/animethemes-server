@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Anime;
+namespace Http\Api\Anime;
 
 use App\Enums\ImageFacet;
 use App\Enums\ResourceSite;
@@ -16,13 +16,20 @@ use App\Models\Image;
 use App\Models\Theme;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class AnimeShowTest
+ * @package Http\Api\Anime
+ */
 class AnimeShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * By default, the Anime Show Endpoint shall return an Anime Resource.
@@ -183,7 +190,7 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes' => function ($query) use ($groupFilter) {
+            'themes' => function (HasMany $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -232,7 +239,7 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes' => function ($query) use ($sequenceFilter) {
+            'themes' => function (HasMany $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -273,7 +280,7 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes' => function ($query) use ($typeFilter) {
+            'themes' => function (HasMany $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
@@ -318,7 +325,7 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes.entries' => function ($query) use ($nsfwFilter) {
+            'themes.entries' => function (HasMany $query) use ($nsfwFilter) {
                 $query->where('nsfw', $nsfwFilter);
             },
         ])
@@ -363,7 +370,7 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes.entries' => function ($query) use ($spoilerFilter) {
+            'themes.entries' => function (HasMany $query) use ($spoilerFilter) {
                 $query->where('spoiler', $spoilerFilter);
             },
         ])
@@ -416,7 +423,7 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes.entries' => function ($query) use ($versionFilter) {
+            'themes.entries' => function (HasMany $query) use ($versionFilter) {
                 $query->where('version', $versionFilter);
             },
         ])
@@ -459,7 +466,7 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'externalResources' => function ($query) use ($siteFilter) {
+            'externalResources' => function (BelongsToMany $query) use ($siteFilter) {
                 $query->where('site', $siteFilter->value);
             },
         ])
@@ -502,7 +509,7 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'images' => function ($query) use ($facetFilter) {
+            'images' => function (BelongsToMany $query) use ($facetFilter) {
                 $query->where('facet', $facetFilter->value);
             },
         ])
@@ -541,7 +548,7 @@ class AnimeShowTest extends TestCase
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($lyricsFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($lyricsFilter) {
                 $query->where('lyrics', $lyricsFilter);
             },
         ])
@@ -580,7 +587,7 @@ class AnimeShowTest extends TestCase
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($ncFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($ncFilter) {
                 $query->where('nc', $ncFilter);
             },
         ])
@@ -619,7 +626,7 @@ class AnimeShowTest extends TestCase
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($overlapFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($overlapFilter) {
                 $query->where('overlap', $overlapFilter->value);
             },
         ])
@@ -676,7 +683,7 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($resolutionFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($resolutionFilter) {
                 $query->where('resolution', $resolutionFilter);
             },
         ])
@@ -715,7 +722,7 @@ class AnimeShowTest extends TestCase
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($sourceFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($sourceFilter) {
                 $query->where('source', $sourceFilter->value);
             },
         ])
@@ -754,7 +761,7 @@ class AnimeShowTest extends TestCase
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($subbedFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($subbedFilter) {
                 $query->where('subbed', $subbedFilter);
             },
         ])
@@ -793,7 +800,7 @@ class AnimeShowTest extends TestCase
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function ($query) use ($uncenFilter) {
+            'themes.entries.videos' => function (BelongsToMany $query) use ($uncenFilter) {
                 $query->where('uncen', $uncenFilter);
             },
         ])

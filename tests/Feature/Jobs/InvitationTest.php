@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Jobs;
+namespace Jobs;
 
 use App\Jobs\SendDiscordNotification;
 use App\Models\Invitation;
@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class InvitationTest
+ * @package Jobs
+ */
 class InvitationTest extends TestCase
 {
     use RefreshDatabase;

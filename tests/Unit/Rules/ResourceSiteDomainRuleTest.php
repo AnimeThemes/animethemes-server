@@ -1,12 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Rules;
+namespace Rules;
 
 use App\Enums\ResourceSite;
 use App\Rules\ResourceSiteDomainRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class ResourceSiteDomainRuleTest
+ * @package Rules
+ */
 class ResourceSiteDomainRuleTest extends TestCase
 {
     use WithFaker;
@@ -28,7 +32,7 @@ class ResourceSiteDomainRuleTest extends TestCase
 
         $rule = new ResourceSiteDomainRule($site->value);
 
-        $this->assertTrue($rule->passes($this->faker->word(), $url));
+        static::assertTrue($rule->passes($this->faker->word(), $url));
     }
 
     /**
@@ -42,7 +46,7 @@ class ResourceSiteDomainRuleTest extends TestCase
 
         $rule = new ResourceSiteDomainRule($site);
 
-        $this->assertTrue($rule->passes($this->faker->word(), $this->faker->url));
+        static::assertTrue($rule->passes($this->faker->word(), $this->faker->url));
     }
 
     /**
@@ -63,6 +67,6 @@ class ResourceSiteDomainRuleTest extends TestCase
 
         $rule = new ResourceSiteDomainRule($site->value);
 
-        $this->assertFalse($rule->passes($this->faker->word(), $this->faker->url));
+        static::assertFalse($rule->passes($this->faker->word(), $this->faker->url));
     }
 }

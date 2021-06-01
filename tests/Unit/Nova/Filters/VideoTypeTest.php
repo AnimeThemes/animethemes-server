@@ -1,27 +1,37 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Filters;
+namespace Nova\Filters;
 
 use App\Models\Video;
 use App\Nova\Filters\VideoTypeFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class VideoTypeTest
+ * @package Nova\Filters
+ */
 class VideoTypeTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Video Type Filter shall be a select filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
     {
-        $this->novaFilter(VideoTypeFilter::class)
+        static::novaFilter(VideoTypeFilter::class)
             ->assertSelectFilter();
     }
 
@@ -29,10 +39,11 @@ class VideoTypeTest extends TestCase
      * The Video Type Filter shall have an Anime and Misc option.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testOptions()
     {
-        $filter = $this->novaFilter(VideoTypeFilter::class);
+        $filter = static::novaFilter(VideoTypeFilter::class);
 
         $filter->assertHasOption(__('nova.anime'));
         $filter->assertHasOption(__('nova.misc'));
@@ -42,6 +53,8 @@ class VideoTypeTest extends TestCase
      * The Video Type Filter shall filter Videos By Path.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testAnimeFilter()
     {
@@ -53,7 +66,7 @@ class VideoTypeTest extends TestCase
                 'path' => 'misc'.$this->faker->word(),
             ]);
 
-        $filter = $this->novaFilter(VideoTypeFilter::class);
+        $filter = static::novaFilter(VideoTypeFilter::class);
 
         $response = $filter->apply(Video::class, VideoTypeFilter::ANIME);
 
@@ -68,6 +81,8 @@ class VideoTypeTest extends TestCase
      * The Video Type Filter shall filter Videos By Path.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testMiscFilter()
     {
@@ -79,7 +94,7 @@ class VideoTypeTest extends TestCase
                 'path' => 'misc'.$this->faker->word(),
             ]);
 
-        $filter = $this->novaFilter(VideoTypeFilter::class);
+        $filter = static::novaFilter(VideoTypeFilter::class);
 
         $response = $filter->apply(Video::class, VideoTypeFilter::MISC);
 

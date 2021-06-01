@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Filters;
+namespace Nova\Filters;
 
 use App\Enums\Filter\ComparisonOperator;
 use App\Models\Anime;
@@ -10,21 +10,31 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class UpdatedEndDateTest
+ * @package Nova\Filters
+ */
 class UpdatedEndDateTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Updated End Date Filter shall be a date filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testDateFilter()
     {
-        $this->novaFilter(UpdatedEndDateFilter::class)
+        static::novaFilter(UpdatedEndDateFilter::class)
             ->assertDateFilter();
     }
 
@@ -32,6 +42,8 @@ class UpdatedEndDateTest extends TestCase
      * The Updated End Date Filter shall filter Models By Update Date.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testFilter()
     {
@@ -43,7 +55,7 @@ class UpdatedEndDateTest extends TestCase
 
         Anime::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $filter = $this->novaFilter(UpdatedEndDateFilter::class);
+        $filter = static::novaFilter(UpdatedEndDateFilter::class);
 
         $response = $filter->apply(Anime::class, $dateFilter);
 

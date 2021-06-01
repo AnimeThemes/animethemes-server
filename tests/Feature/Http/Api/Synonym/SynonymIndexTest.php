@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Synonym;
+namespace Http\Api\Synonym;
 
 use App\Enums\AnimeSeason;
 use App\Enums\Filter\TrashedStatus;
@@ -10,6 +10,7 @@ use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Synonym;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -17,9 +18,15 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class SynonymIndexTest
+ * @package Http\Api\Synonym
+ */
 class SynonymIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Synonym Index Endpoint shall return a collection of Synonym Resources.
@@ -157,7 +164,7 @@ class SynonymIndexTest extends TestCase
     public function testSorts()
     {
         $allowedSorts = collect(SynonymCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -322,7 +329,7 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $deleteSynonym->each(function ($synonym) {
+        $deleteSynonym->each(function (Synonym $synonym) {
             $synonym->delete();
         });
 
@@ -368,7 +375,7 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $deleteSynonym->each(function ($synonym) {
+        $deleteSynonym->each(function (Synonym $synonym) {
             $synonym->delete();
         });
 
@@ -414,7 +421,7 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $deleteSynonym->each(function ($synonym) {
+        $deleteSynonym->each(function (Synonym $synonym) {
             $synonym->delete();
         });
 
@@ -506,7 +513,7 @@ class SynonymIndexTest extends TestCase
             ->create();
 
         $synonyms = Synonym::with([
-            'anime' => function ($query) use ($seasonFilter) {
+            'anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -554,7 +561,7 @@ class SynonymIndexTest extends TestCase
             ->create();
 
         $synonyms = Synonym::with([
-            'anime' => function ($query) use ($yearFilter) {
+            'anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

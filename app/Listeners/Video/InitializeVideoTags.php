@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Listeners\Video;
 
@@ -8,12 +8,16 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+/**
+ * Class InitializeVideoTags
+ * @package App\Listeners\Video
+ */
 class InitializeVideoTags
 {
     /**
      * Handle the event.
      *
-     * @param \App\Events\Video\VideoEvent $event
+     * @param VideoEvent $event
      * @return void
      */
     public function handle(VideoEvent $event)
@@ -56,8 +60,8 @@ class InitializeVideoTags
 
                 // Note: Our naming convention does not include Overlap type
             }
-        } catch (Exception $exception) {
-            Log::error($exception);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
         }
     }
 }

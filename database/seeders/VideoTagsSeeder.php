@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Seeders;
 
@@ -9,6 +9,10 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+/**
+ * Class VideoTagsSeeder
+ * @package Database\Seeders
+ */
 class VideoTagsSeeder extends Seeder
 {
     /**

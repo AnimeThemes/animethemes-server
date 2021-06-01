@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -13,13 +13,23 @@ use App\Pivots\AnimeResource;
 use App\Pivots\AnimeSeries;
 use BenSampo\Enum\Traits\CastsEnums;
 use ElasticScoutDriverPlus\QueryDsl;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 
+/**
+ * Class Anime
+ * @package App\Models
+ */
 class Anime extends BaseModel
 {
-    use CastsEnums, QueryDsl, Searchable;
+    use CastsEnums;
+    use QueryDsl;
+    use Searchable;
 
     /**
+     * The attributes that are mass assignable.
+     *
      * @var array
      */
     protected $fillable = ['slug', 'name', 'year', 'season', 'synopsis'];
@@ -58,7 +68,7 @@ class Anime extends BaseModel
      *
      * @return array
      */
-    public function toSearchableArray()
+    public function toSearchableArray(): array
     {
         $array = $this->toArray();
         $array['synonyms'] = $this->synonyms->toArray();
@@ -71,12 +81,14 @@ class Anime extends BaseModel
      *
      * @return string
      */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
     /**
+     * The attributes that should be cast to enum types.
+     *
      * @var array
      */
     protected $enumCasts = [
@@ -84,6 +96,8 @@ class Anime extends BaseModel
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
      * @var array
      */
     protected $casts = [
@@ -96,7 +110,7 @@ class Anime extends BaseModel
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -104,9 +118,9 @@ class Anime extends BaseModel
     /**
      * Get the synonyms for the anime.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function synonyms()
+    public function synonyms(): HasMany
     {
         return $this->hasMany('App\Models\Synonym', 'anime_id', 'anime_id');
     }
@@ -114,9 +128,9 @@ class Anime extends BaseModel
     /**
      * Get the series the anime is included in.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function series()
+    public function series(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Series', 'anime_series', 'anime_id', 'series_id')
             ->using(AnimeSeries::class)
@@ -126,9 +140,9 @@ class Anime extends BaseModel
     /**
      * Get the themes for the anime.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function themes()
+    public function themes(): HasMany
     {
         return $this->hasMany('App\Models\Theme', 'anime_id', 'anime_id');
     }
@@ -136,9 +150,9 @@ class Anime extends BaseModel
     /**
      * Get the resources for the anime.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function externalResources()
+    public function externalResources(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\ExternalResource', 'anime_resource', 'anime_id', 'resource_id')
             ->using(AnimeResource::class)
@@ -149,9 +163,9 @@ class Anime extends BaseModel
     /**
      * Get the images for the anime.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function images()
+    public function images(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Image', 'anime_image', 'anime_id', 'image_id')
             ->using(AnimeImage::class)

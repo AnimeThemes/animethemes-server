@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Resources;
 
 use App\Concerns\JsonApi\PerformsResourceQuery;
+use Illuminate\Http\Request;
 
 /**
  * @OA\Schema(
@@ -42,15 +43,15 @@ class ExternalResourceResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->when($this->isAllowedField('id'), $this->resource_id),
             'link' => $this->when($this->isAllowedField('link'), $this->link),
-            'external_id' => $this->when($this->isAllowedField('external_id'), is_null($this->external_id) ? '' : $this->external_id),
+            'external_id' => $this->when($this->isAllowedField('external_id'), $this->external_id === null ? '' : $this->external_id),
             'site' => $this->when($this->isAllowedField('site'), strval(optional($this->site)->description)),
             'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('anime_resource', function () {
                 return strval($this->pivot->as);
@@ -70,7 +71,7 @@ class ExternalResourceResource extends BaseResource
      *
      * @return array
      */
-    public static function allowedIncludePaths()
+    public static function allowedIncludePaths(): array
     {
         return [
             'anime',

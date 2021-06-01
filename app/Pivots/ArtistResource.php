@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Pivots;
 
@@ -6,7 +6,12 @@ use App\Events\Pivot\ArtistResource\ArtistResourceCreated;
 use App\Events\Pivot\ArtistResource\ArtistResourceDeleted;
 use App\Events\Pivot\ArtistResource\ArtistResourceUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Class ArtistResource
+ * @package App\Pivots
+ */
 class ArtistResource extends BasePivot
 {
     use HasFactory;
@@ -39,9 +44,9 @@ class ArtistResource extends BasePivot
     /**
      * Gets the artist that owns the artist resource.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function artist()
+    public function artist(): BelongsTo
     {
         return $this->belongsTo('App\Models\Artist', 'artist_id', 'artist_id');
     }
@@ -49,9 +54,9 @@ class ArtistResource extends BasePivot
     /**
      * Gets the resource that owns the artist resource.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function resource()
+    public function resource(): BelongsTo
     {
         return $this->belongsTo('App\Models\ExternalResource', 'resource_id', 'resource_id');
     }

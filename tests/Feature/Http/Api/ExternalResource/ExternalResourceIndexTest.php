@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\ExternalResource;
+namespace Http\Api\ExternalResource;
 
 use App\Enums\AnimeSeason;
 use App\Enums\Filter\TrashedStatus;
@@ -12,6 +12,7 @@ use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\ExternalResource;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -19,9 +20,15 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class ExternalResourceIndexTest
+ * @package Http\Api\ExternalResource
+ */
 class ExternalResourceIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Resource Index Endpoint shall return a collection of ExternalResource Resources.
@@ -154,7 +161,7 @@ class ExternalResourceIndexTest extends TestCase
     public function testSorts()
     {
         $allowedSorts = collect(ExternalResourceCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -297,7 +304,7 @@ class ExternalResourceIndexTest extends TestCase
         ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteResource->each(function ($resource) {
+        $deleteResource->each(function (ExternalResource $resource) {
             $resource->delete();
         });
 
@@ -336,7 +343,7 @@ class ExternalResourceIndexTest extends TestCase
         ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteResource->each(function ($resource) {
+        $deleteResource->each(function (ExternalResource $resource) {
             $resource->delete();
         });
 
@@ -375,7 +382,7 @@ class ExternalResourceIndexTest extends TestCase
         ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteResource->each(function ($resource) {
+        $deleteResource->each(function (ExternalResource $resource) {
             $resource->delete();
         });
 
@@ -416,16 +423,16 @@ class ExternalResourceIndexTest extends TestCase
         ];
 
         Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $resource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
-            $resource->each(function ($item) {
-                $item->delete();
+            $resources = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+            $resources->each(function (ExternalResource $resource) {
+                $resource->delete();
             });
         });
 
         Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $resource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
-            $resource->each(function ($item) {
-                $item->delete();
+            $resources = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+            $resources->each(function (ExternalResource $resource) {
+                $resource->delete();
             });
         });
 
@@ -502,7 +509,7 @@ class ExternalResourceIndexTest extends TestCase
             ->create();
 
         $resources = ExternalResource::with([
-            'anime' => function ($query) use ($seasonFilter) {
+            'anime' => function (BelongsToMany $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -551,7 +558,7 @@ class ExternalResourceIndexTest extends TestCase
             ->create();
 
         $resources = ExternalResource::with([
-            'anime' => function ($query) use ($yearFilter) {
+            'anime' => function (BelongsToMany $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

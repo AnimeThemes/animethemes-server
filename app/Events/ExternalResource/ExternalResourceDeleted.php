@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\ExternalResource;
 
@@ -8,6 +8,10 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class ExternalResourceDeleted
+ * @package App\Events\ExternalResource
+ */
 class ExternalResourceDeleted extends ExternalResourceEvent implements DiscordMessageEvent
 {
     use Dispatchable;
@@ -15,9 +19,9 @@ class ExternalResourceDeleted extends ExternalResourceEvent implements DiscordMe
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $resource = $this->getResource();
 
@@ -32,7 +36,7 @@ class ExternalResourceDeleted extends ExternalResourceEvent implements DiscordMe
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

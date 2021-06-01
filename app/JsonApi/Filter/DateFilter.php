@@ -1,10 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\JsonApi\Filter;
 
 use App\Enums\Filter\AllowedDateFormat;
 use DateTime;
 
+/**
+ * Class DateFilter
+ * @package App\JsonApi\Filter
+ */
 abstract class DateFilter extends Filter
 {
     /**
@@ -13,10 +17,10 @@ abstract class DateFilter extends Filter
      * @param array $filterValues
      * @return array
      */
-    protected function convertFilterValues(array $filterValues)
+    protected function convertFilterValues(array $filterValues): array
     {
         return array_map(
-            function ($filterValue) {
+            function (string $filterValue) {
                 foreach (AllowedDateFormat::getValues() as $allowedDateFormat) {
                     $date = DateTime::createFromFormat('!'.$allowedDateFormat, $filterValue);
                     if ($date && $date->format($allowedDateFormat) == $filterValue) {
@@ -36,12 +40,12 @@ abstract class DateFilter extends Filter
      * @param array $filterValues
      * @return array
      */
-    protected function getValidFilterValues(array $filterValues)
+    protected function getValidFilterValues(array $filterValues): array
     {
         return array_values(
             array_filter(
                 $filterValues,
-                function ($filterValue) {
+                function (string $filterValue) {
                     foreach (AllowedDateFormat::getValues() as $allowedDateFormat) {
                         $date = DateTime::createFromFormat('!'.$allowedDateFormat, $filterValue);
                         if ($date && $date->format($allowedDateFormat) == $filterValue) {

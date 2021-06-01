@@ -1,15 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Listeners\Theme;
 
 use App\Events\Theme\ThemeEvent;
 
+/**
+ * Class CreateThemeSlug
+ * @package App\Listeners\Theme
+ */
 class CreateThemeSlug
 {
     /**
      * Handle the event.
      *
-     * @param \App\Events\Theme\ThemeEvent $event
+     * @param ThemeEvent $event
      * @return void
      */
     public function handle(ThemeEvent $event)

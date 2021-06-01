@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Resources\Billing;
 
@@ -11,7 +11,13 @@ use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\Billing\Transaction\TransactionDateFilter;
 use App\JsonApi\Filter\Billing\Transaction\TransactionServiceFilter;
 use App\Models\Billing\Transaction;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
+/**
+ * Class TransactionCollection
+ * @package App\Http\Resources\Billing
+ */
 class TransactionCollection extends BaseCollection
 {
     use PerformsResourceCollectionQuery;
@@ -26,10 +32,10 @@ class TransactionCollection extends BaseCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return $this->collection->map(function (TransactionResource $resource) {
             return $resource->parser($this->parser);
@@ -40,9 +46,9 @@ class TransactionCollection extends BaseCollection
      * Resolve the model query builder from collection class name.
      * We are assuming a convention of "{Model}Collection".
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    protected static function queryBuilder()
+    protected static function queryBuilder(): Builder
     {
         return Transaction::query();
     }
@@ -52,7 +58,7 @@ class TransactionCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedSortFields()
+    public static function allowedSortFields(): array
     {
         return [
             'transaction_id',
@@ -72,7 +78,7 @@ class TransactionCollection extends BaseCollection
      *
      * @return array
      */
-    public static function filters()
+    public static function filters(): array
     {
         return [
             TransactionDateFilter::class,

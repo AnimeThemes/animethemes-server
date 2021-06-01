@@ -1,29 +1,35 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Pivot\AnimeResource;
 
+use App\Models\Anime;
+use App\Models\ExternalResource;
 use App\Pivots\AnimeResource;
 
+/**
+ * Class AnimeResourceEvent
+ * @package App\Events\Pivot\AnimeResource
+ */
 abstract class AnimeResourceEvent
 {
     /**
      * The anime that this anime resource belongs to.
      *
-     * @var \App\Models\Anime
+     * @var Anime
      */
-    protected $anime;
+    protected Anime $anime;
 
     /**
      * The resource that this anime resource belongs to.
      *
-     * @var \App\Models\ExternalResource
+     * @var ExternalResource
      */
-    protected $resource;
+    protected ExternalResource $resource;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Pivots\AnimeResource $animeResource
+     * @param AnimeResource $animeResource
      * @return void
      */
     public function __construct(AnimeResource $animeResource)
@@ -35,9 +41,9 @@ abstract class AnimeResourceEvent
     /**
      * Get the anime that this anime resource belongs to.
      *
-     * @return \App\Models\Anime
+     * @return Anime
      */
-    public function getAnime()
+    public function getAnime(): Anime
     {
         return $this->anime;
     }
@@ -45,9 +51,9 @@ abstract class AnimeResourceEvent
     /**
      * Get the resource that this anime resource belongs to.
      *
-     * @return \App\Models\ExternalResource
+     * @return ExternalResource
      */
-    public function getResource()
+    public function getResource(): ExternalResource
     {
         return $this->resource;
     }

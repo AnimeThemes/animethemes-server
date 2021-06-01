@@ -1,12 +1,12 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use ElasticAdapter\Indices\Mapping;
-use ElasticAdapter\Indices\Settings;
 use ElasticMigrations\Facades\Index;
 use ElasticMigrations\MigrationInterface;
 
+/**
+ * Class CreateVideoIndex
+ */
 final class CreateVideoIndex implements MigrationInterface
 {
     /**
@@ -14,7 +14,7 @@ final class CreateVideoIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('video', function (Mapping $mapping, Settings $settings) {
+        Index::create('video', function (Mapping $mapping) {
             $mapping->text('anime_slug');
             $mapping->text('basename');
             $mapping->date('created_at');

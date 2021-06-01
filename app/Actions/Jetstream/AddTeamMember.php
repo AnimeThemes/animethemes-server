@@ -1,15 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Actions\Jetstream;
 
+use Closure;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Laravel\Jetstream\Contracts\AddsTeamMembers;
 use Laravel\Jetstream\Events\AddingTeamMember;
 use Laravel\Jetstream\Events\TeamMemberAdded;
 use Laravel\Jetstream\Jetstream;
 use Laravel\Jetstream\Rules\Role;
 
+/**
+ * Class AddTeamMember
+ * @package App\Actions\Jetstream
+ */
 class AddTeamMember implements AddsTeamMembers
 {
     /**
@@ -20,8 +27,10 @@ class AddTeamMember implements AddsTeamMembers
      * @param string $email
      * @param string|null $role
      * @return void
+     * @throws AuthorizationException
+     * @throws ValidationException
      */
-    public function add($user, $team, string $email, string $role = null)
+    public function add(mixed $user, mixed $team, string $email, string $role = null)
     {
         Gate::forUser($user)->authorize('addTeamMember', $team);
 
@@ -45,8 +54,9 @@ class AddTeamMember implements AddsTeamMembers
      * @param string $email
      * @param string|null $role
      * @return void
+     * @throws ValidationException
      */
-    protected function validate($team, string $email, ?string $role)
+    protected function validate(mixed $team, string $email, ?string $role)
     {
         Validator::make([
             'email' => $email,
@@ -63,12 +73,12 @@ class AddTeamMember implements AddsTeamMembers
      *
      * @return array
      */
-    protected function rules()
+    protected function rules(): array
     {
         return array_filter([
             'email' => ['required', 'email', 'exists:users'],
             'role' => Jetstream::hasRoles()
-                            ? ['required', 'string', new Role]
+                            ? ['required', 'string', new Role()]
                             : null,
         ]);
     }
@@ -78,9 +88,9 @@ class AddTeamMember implements AddsTeamMembers
      *
      * @param mixed $team
      * @param string $email
-     * @return \Closure
+     * @return Closure
      */
-    protected function ensureUserIsNotAlreadyOnTeam($team, string $email)
+    protected function ensureUserIsNotAlreadyOnTeam(mixed $team, string $email): Closure
     {
         return function ($validator) use ($team, $email) {
             $validator->errors()->addIf(

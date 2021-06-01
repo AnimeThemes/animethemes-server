@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Nova\Actions;
 
@@ -12,16 +12,21 @@ use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Text;
 
+/**
+ * Class CreateExternalResourceSiteForArtistAction
+ * @package App\Nova\Actions
+ */
 class CreateExternalResourceSiteForArtistAction extends Action
 {
-    use InteractsWithQueue, Queueable;
+    use InteractsWithQueue;
+    use Queueable;
 
     /**
      * The resource site key.
      *
      * @var int
      */
-    protected $site;
+    protected int $site;
 
     /**
      * @param int $site
@@ -36,7 +41,7 @@ class CreateExternalResourceSiteForArtistAction extends Action
      *
      * @return array|string|null
      */
-    public function name()
+    public function name(): array|string|null
     {
         return __('nova.artist_create_resource_action', ['site' => ResourceSite::getDescription($this->site)]);
     }
@@ -44,11 +49,11 @@ class CreateExternalResourceSiteForArtistAction extends Action
     /**
      * Perform the action on the given models.
      *
-     * @param \Laravel\Nova\Fields\ActionFields $fields
-     * @param \Illuminate\Support\Collection $models
-     * @return mixed
+     * @param ActionFields $fields
+     * @param Collection $models
+     * @return array
      */
-    public function handle(ActionFields $fields, Collection $models)
+    public function handle(ActionFields $fields, Collection $models): array
     {
         // Create Resource Model with link and provided site
         $resource = ExternalResource::create([
@@ -67,7 +72,7 @@ class CreateExternalResourceSiteForArtistAction extends Action
      *
      * @return array
      */
-    public function fields()
+    public function fields(): array
     {
         return [
             Text::make(__('nova.link'), 'link')

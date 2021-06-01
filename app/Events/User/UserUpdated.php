@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\User;
 
@@ -13,14 +13,19 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class UserUpdated
+ * @package App\Events\User
+ */
 class UserUpdated extends UserEvent implements DiscordMessageEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
+    use Dispatchable;
+    use HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      * @return void
      */
     public function __construct(User $user)
@@ -32,9 +37,9 @@ class UserUpdated extends UserEvent implements DiscordMessageEvent
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $user = $this->getUser();
 
@@ -50,7 +55,7 @@ class UserUpdated extends UserEvent implements DiscordMessageEvent
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.admin_discord_channel');
     }
@@ -58,9 +63,9 @@ class UserUpdated extends UserEvent implements DiscordMessageEvent
     /**
      * Add Embed Fields.
      *
-     * @param \Illuminate\Database\Eloquent\Model $original
-     * @param \Illuminate\Database\Eloquent\Model $original
-     * @param \Illuminate\Support\Collection $changedAttributes
+     * @param Model $original
+     * @param Model $changed
+     * @param Collection $changedAttributes
      * @return void
      */
     protected function addEmbedFields(Model $original, Model $changed, Collection $changedAttributes)

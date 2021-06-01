@@ -1,16 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\JsonApi\Filter\Base;
 
 use App\JsonApi\Filter\DateFilter;
 use App\JsonApi\QueryParser;
 
+/**
+ * Class DeletedAtFilter
+ * @package App\JsonApi\Filter\Base
+ */
 class DeletedAtFilter extends DateFilter
 {
     /**
      * Create a new filter instance.
      *
-     * @param \App\JsonApi\QueryParser $parser
+     * @param QueryParser $parser
      */
     public function __construct(QueryParser $parser)
     {

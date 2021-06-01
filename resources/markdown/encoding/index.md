@@ -35,11 +35,11 @@ We want to maximize quality within a reasonable file size range so that our vide
 
 **Files must erase source metadata using `-map_metadata -1`.**
 
-By default, FFmpeg will copy global metadata from the source file. While some of these entries do not effect the end user experience, some, like movie name or title, may be parsed and displayed by a media player. Regardless of effect, we want our encodes to contain only the metadata that pertains to our own encode of the source, so we need to tell FFmpeg explicitly to disable copying of global metadata.
+By default, FFmpeg will copy global metadata from the source file. While some of these entries do not affect the end user experience, some, like movie name or title, may be parsed and displayed by a media player. Regardless of effect, we want our encodes to contain only the metadata that pertains to our own encode of the source, so we need to tell FFmpeg explicitly to disable copying of global metadata.
 
 **Files must erase source menu data using `-map_chapters -1`.**
 
-By default, FFmpeg will copy chapters from the source file if at least one chapter is specified. Because chapters do not apply to our encodes, we we need to tell FFmpeg explicitly to disable copying of chapters.
+By default, FFmpeg will copy chapters from the source file if at least one chapter is specified. Because chapters do not apply to our encodes, we need to tell FFmpeg explicitly to disable copying of chapters.
 
 ### Video
 

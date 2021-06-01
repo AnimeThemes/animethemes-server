@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Billing\Balance;
+namespace Http\Api\Billing\Balance;
 
 use App\Enums\Filter\TrashedStatus;
 use App\Http\Resources\Billing\BalanceCollection;
@@ -15,9 +15,15 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class BalanceIndexTest
+ * @package Http\Api\Billing\Balance
+ */
 class BalanceIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Balance Index Endpoint shall return a collection of Balance Resources.
@@ -142,7 +148,7 @@ class BalanceIndexTest extends TestCase
     public function testSorts()
     {
         $allowedSorts = collect(BalanceCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function ($includedSort) {
+        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -285,7 +291,7 @@ class BalanceIndexTest extends TestCase
         Balance::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteBalance = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteBalance->each(function ($balance) {
+        $deleteBalance->each(function (Balance $balance) {
             $balance->delete();
         });
 
@@ -324,7 +330,7 @@ class BalanceIndexTest extends TestCase
         Balance::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteBalance = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteBalance->each(function ($balance) {
+        $deleteBalance->each(function (Balance $balance) {
             $balance->delete();
         });
 
@@ -363,7 +369,7 @@ class BalanceIndexTest extends TestCase
         Balance::factory()->count($this->faker->randomDigitNotNull)->create();
 
         $deleteBalance = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
-        $deleteBalance->each(function ($balance) {
+        $deleteBalance->each(function (Balance $balance) {
             $balance->delete();
         });
 
@@ -404,16 +410,16 @@ class BalanceIndexTest extends TestCase
         ];
 
         Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $balance = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
-            $balance->each(function ($item) {
-                $item->delete();
+            $balances = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+            $balances->each(function (Balance $balance) {
+                $balance->delete();
             });
         });
 
         Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $balance = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
-            $balance->each(function ($item) {
-                $item->delete();
+            $balances = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+            $balances->each(function (Balance $balance) {
+                $balance->delete();
             });
         });
 

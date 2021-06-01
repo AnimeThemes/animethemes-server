@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -9,13 +9,22 @@ use App\Events\Song\SongRestored;
 use App\Events\Song\SongUpdated;
 use App\Pivots\ArtistSong;
 use ElasticScoutDriverPlus\QueryDsl;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 
+/**
+ * Class Song
+ * @package App\Models
+ */
 class Song extends BaseModel
 {
-    use QueryDsl, Searchable;
+    use QueryDsl;
+    use Searchable;
 
     /**
+     * The attributes that are mass assignable.
+     *
      * @var array
      */
     protected $fillable = ['title'];
@@ -54,7 +63,7 @@ class Song extends BaseModel
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         if (empty($this->title)) {
             return $this->song_id;
@@ -66,9 +75,9 @@ class Song extends BaseModel
     /**
      * Get the themes that use this song.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function themes()
+    public function themes(): HasMany
     {
         return $this->hasMany('App\Models\Theme', 'song_id', 'song_id');
     }
@@ -76,9 +85,9 @@ class Song extends BaseModel
     /**
      * Get the artists included in the performance.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function artists()
+    public function artists(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Artist', 'artist_song', 'song_id', 'artist_id')
             ->using(ArtistSong::class)

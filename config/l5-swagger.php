@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 return [
     'default' => 'default',
@@ -77,7 +77,7 @@ return [
             /*
              * Edit to set the api's base path
              */
-            'base' => env('L5_SWAGGER_BASE_PATH', null),
+            'base' => env('L5_SWAGGER_BASE_PATH'),
 
             /*
              * Edit to set path where swagger ui assets should be stored
@@ -180,7 +180,7 @@ return [
          * 'method' (sort by HTTP method).
          * Default is the order returned by the server unchanged.
          */
-        'operations_sort' => env('L5_SWAGGER_OPERATIONS_SORT', null),
+        'operations_sort' => env('L5_SWAGGER_OPERATIONS_SORT'),
 
         /*
          * Pass the validatorUrl parameter to SwaggerUi init on the JS side.

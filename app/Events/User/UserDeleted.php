@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\User;
 
@@ -8,6 +8,10 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class UserDeleted
+ * @package App\Events\User
+ */
 class UserDeleted extends UserEvent implements DiscordMessageEvent
 {
     use Dispatchable;
@@ -15,9 +19,9 @@ class UserDeleted extends UserEvent implements DiscordMessageEvent
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $user = $this->getUser();
 
@@ -32,7 +36,7 @@ class UserDeleted extends UserEvent implements DiscordMessageEvent
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.admin_discord_channel');
     }

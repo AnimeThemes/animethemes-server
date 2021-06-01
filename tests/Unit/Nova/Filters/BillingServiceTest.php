@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Filters;
+namespace Nova\Filters;
 
 use App\Enums\Billing\Service;
 use App\Models\Billing\Balance;
@@ -8,21 +8,31 @@ use App\Nova\Filters\BillingServiceFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
 use JoshGaber\NovaUnit\Filters\NovaFilterTest;
 use Tests\TestCase;
 
+/**
+ * Class BillingServiceTest
+ * @package Nova\Filters
+ */
 class BillingServiceTest extends TestCase
 {
-    use NovaFilterTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaFilterTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Balance Service Filter shall be a select filter.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
     {
-        $this->novaFilter(BillingServiceFilter::class)
+        static::novaFilter(BillingServiceFilter::class)
             ->assertSelectFilter();
     }
 
@@ -30,10 +40,11 @@ class BillingServiceTest extends TestCase
      * The Balance Service Filter shall have an option for each Service instance.
      *
      * @return void
+     * @throws InvalidNovaFilterException
      */
     public function testOptions()
     {
-        $filter = $this->novaFilter(BillingServiceFilter::class);
+        $filter = static::novaFilter(BillingServiceFilter::class);
 
         foreach (Service::getInstances() as $service) {
             $filter->assertHasOption($service->description);
@@ -44,6 +55,8 @@ class BillingServiceTest extends TestCase
      * The Balance Service Filter shall filter Balances By Service.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaFilterException
      */
     public function testFilter()
     {
@@ -51,7 +64,7 @@ class BillingServiceTest extends TestCase
 
         Balance::factory()->count($this->faker->randomDigitNotNull)->create();
 
-        $filter = $this->novaFilter(BillingServiceFilter::class);
+        $filter = static::novaFilter(BillingServiceFilter::class);
 
         $response = $filter->apply(Balance::class, $service->value);
 

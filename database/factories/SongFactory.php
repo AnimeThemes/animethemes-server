@@ -1,10 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Factories;
 
 use App\Models\Song;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * Class SongFactory
+ * @package Database\Factories
+ */
 class SongFactory extends Factory
 {
     /**
@@ -19,7 +23,7 @@ class SongFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'title' => $this->faker->words(3, true),

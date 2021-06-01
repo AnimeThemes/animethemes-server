@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Resources;
 
@@ -8,7 +8,12 @@ use App\JsonApi\Filter\Base\DeletedAtFilter;
 use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\Image\ImageFacetFilter;
+use Illuminate\Http\Request;
 
+/**
+ * Class ImageCollection
+ * @package App\Http\Resources
+ */
 class ImageCollection extends BaseCollection
 {
     use PerformsResourceCollectionQuery;
@@ -23,10 +28,10 @@ class ImageCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return $this->collection->map(function (ImageResource $resource) {
             return $resource->parser($this->parser);
@@ -38,7 +43,7 @@ class ImageCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedIncludePaths()
+    public static function allowedIncludePaths(): array
     {
         return [
             'anime',
@@ -51,7 +56,7 @@ class ImageCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedSortFields()
+    public static function allowedSortFields(): array
     {
         return [
             'image_id',
@@ -70,7 +75,7 @@ class ImageCollection extends BaseCollection
      *
      * @return array
      */
-    public static function filters()
+    public static function filters(): array
     {
         return [
             ImageFacetFilter::class,

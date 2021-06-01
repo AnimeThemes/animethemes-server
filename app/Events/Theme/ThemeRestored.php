@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Theme;
 
@@ -12,16 +12,21 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class ThemeRestored
+ * @package App\Events\Theme
+ */
 class ThemeRestored extends ThemeEvent implements CascadesRestoresEvent, DiscordMessageEvent
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $theme = $this->getTheme();
         $anime = $this->getAnime();
@@ -37,7 +42,7 @@ class ThemeRestored extends ThemeEvent implements CascadesRestoresEvent, Discord
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

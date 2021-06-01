@@ -1,12 +1,12 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use ElasticAdapter\Indices\Mapping;
-use ElasticAdapter\Indices\Settings;
 use ElasticMigrations\Facades\Index;
 use ElasticMigrations\MigrationInterface;
 
+/**
+ * Class CreateSeriesIndex
+ */
 final class CreateSeriesIndex implements MigrationInterface
 {
     /**
@@ -14,7 +14,7 @@ final class CreateSeriesIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('series', function (Mapping $mapping, Settings $settings) {
+        Index::create('series', function (Mapping $mapping) {
             $mapping->date('created_at');
             $mapping->text('name');
             $mapping->long('series_id');

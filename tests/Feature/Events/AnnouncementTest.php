@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Events;
+namespace Events;
 
 use App\Events\Announcement\AnnouncementCreated;
 use App\Events\Announcement\AnnouncementDeleted;
@@ -11,6 +11,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class AnnouncementTest
+ * @package Events
+ */
 class AnnouncementTest extends TestCase
 {
     use RefreshDatabase;

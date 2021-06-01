@@ -1,13 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Seeders;
 
 use App\Enums\ResourceSite;
 use App\Models\Anime;
 use App\Models\ExternalResource;
+use Exception;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Class AnimeResourceSeeder
+ * @package Database\Seeders
+ */
 class AnimeResourceSeeder extends Seeder
 {
     /**
@@ -55,7 +61,7 @@ class AnimeResourceSeeder extends Seeder
                     // This is not guaranteed as an Anime Name may be inconsistent between indices
                     $resourceAnime = Anime::where('name', $animeName)
                         ->whereIn('year', $years)
-                        ->whereDoesntHave('externalResources', function ($resourceQuery) use ($resource) {
+                        ->whereDoesntHave('externalResources', function (BelongsToMany $resourceQuery) use ($resource) {
                             $resourceQuery->where('site', $resource->site->value)->where('link', $resource->link);
                         })
                         ->get();
@@ -63,7 +69,7 @@ class AnimeResourceSeeder extends Seeder
                         Log::info("Attaching resource '{$resourceLink}' to anime '{$animeName}'");
                         $resource->anime()->attach($resourceAnime);
                     }
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     Log::error($exception->getMessage());
                 }
             }

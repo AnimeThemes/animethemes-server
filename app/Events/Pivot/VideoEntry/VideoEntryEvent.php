@@ -1,29 +1,35 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Pivot\VideoEntry;
 
+use App\Models\Entry;
+use App\Models\Video;
 use App\Pivots\VideoEntry;
 
+/**
+ * Class VideoEntryEvent
+ * @package App\Events\Pivot\VideoEntry
+ */
 abstract class VideoEntryEvent
 {
     /**
      * The video that this video entry belongs to.
      *
-     * @var \App\Models\Video
+     * @var Video
      */
-    protected $video;
+    protected Video $video;
 
     /**
      * The entry that this video entry belongs to.
      *
-     * @var \App\Models\Entry
+     * @var Entry
      */
-    protected $entry;
+    protected Entry $entry;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Pivots\VideoEntry $videoEntry
+     * @param VideoEntry $videoEntry
      * @return void
      */
     public function __construct(VideoEntry $videoEntry)
@@ -35,9 +41,9 @@ abstract class VideoEntryEvent
     /**
      * Get the video that this video entry belongs to.
      *
-     * @return \App\Models\Video
+     * @return Video
      */
-    public function getVideo()
+    public function getVideo(): Video
     {
         return $this->video;
     }
@@ -45,9 +51,9 @@ abstract class VideoEntryEvent
     /**
      * Get the entry that this video entry belongs to.
      *
-     * @return \App\Models\Entry
+     * @return Entry
      */
-    public function getEntry()
+    public function getEntry(): Entry
     {
         return $this->entry;
     }

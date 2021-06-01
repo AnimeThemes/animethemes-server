@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Billing\Balance;
+namespace Http\Api\Billing\Balance;
 
 use App\Http\Resources\Billing\BalanceResource;
 use App\JsonApi\QueryParser;
@@ -10,9 +10,15 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class BalanceShowTest
+ * @package Http\Api\Billing\Balance
+ */
 class BalanceShowTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Annouc Show Endpoint shall return an Balance Resource.

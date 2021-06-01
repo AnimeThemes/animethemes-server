@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Resources;
 
@@ -8,10 +8,16 @@ use App\JsonApi\Filter\Base\CreatedAtFilter;
 use App\JsonApi\Filter\Base\DeletedAtFilter;
 use App\JsonApi\Filter\Base\TrashedFilter;
 use App\JsonApi\Filter\Base\UpdatedAtFilter;
+use Illuminate\Http\Request;
 
+/**
+ * Class SynonymCollection
+ * @package App\Http\Resources
+ */
 class SynonymCollection extends BaseCollection
 {
-    use PerformsResourceCollectionQuery, PerformsResourceCollectionSearch;
+    use PerformsResourceCollectionQuery;
+    use PerformsResourceCollectionSearch;
 
     /**
      * The "data" wrapper that should be applied.
@@ -23,10 +29,10 @@ class SynonymCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return $this->collection->map(function (SynonymResource $resource) {
             return $resource->parser($this->parser);
@@ -38,7 +44,7 @@ class SynonymCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedIncludePaths()
+    public static function allowedIncludePaths(): array
     {
         return [
             'anime',
@@ -50,7 +56,7 @@ class SynonymCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedSortFields()
+    public static function allowedSortFields(): array
     {
         return [
             'synonym_id',
@@ -67,7 +73,7 @@ class SynonymCollection extends BaseCollection
      *
      * @return array
      */
-    public static function filters()
+    public static function filters(): array
     {
         return [
             CreatedAtFilter::class,

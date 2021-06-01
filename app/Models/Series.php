@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -8,13 +8,21 @@ use App\Events\Series\SeriesRestored;
 use App\Events\Series\SeriesUpdated;
 use App\Pivots\AnimeSeries;
 use ElasticScoutDriverPlus\QueryDsl;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Scout\Searchable;
 
+/**
+ * Class Series
+ * @package App\Models
+ */
 class Series extends BaseModel
 {
-    use QueryDsl, Searchable;
+    use QueryDsl;
+    use Searchable;
 
     /**
+     * The attributes that are mass assignable.
+     *
      * @var array
      */
     protected $fillable = ['slug', 'name'];
@@ -52,7 +60,7 @@ class Series extends BaseModel
      *
      * @return string
      */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
@@ -62,7 +70,7 @@ class Series extends BaseModel
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -70,9 +78,9 @@ class Series extends BaseModel
     /**
      * Get the anime included in the series.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function anime()
+    public function anime(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Anime', 'anime_series', 'series_id', 'anime_id')
             ->using(AnimeSeries::class)

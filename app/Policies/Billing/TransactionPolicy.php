@@ -1,11 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Policies\Billing;
 
-use App\Models\Billing\Transaction;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Class TransactionPolicy
+ * @package App\Policies\Billing
+ */
 class TransactionPolicy
 {
     use HandlesAuthorization;
@@ -13,10 +16,10 @@ class TransactionPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return $user->hasCurrentTeamPermission('transaction:read');
     }
@@ -24,11 +27,10 @@ class TransactionPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Billing\Transaction $transaction
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function view(User $user, Transaction $transaction)
+    public function view(User $user): bool
     {
         return $user->hasCurrentTeamPermission('transaction:read');
     }
@@ -36,10 +38,10 @@ class TransactionPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasCurrentTeamPermission('transaction:create');
     }
@@ -47,11 +49,10 @@ class TransactionPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Billing\Transaction $transaction
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function update(User $user, Transaction $transaction)
+    public function update(User $user): bool
     {
         return $user->hasCurrentTeamPermission('transaction:update');
     }
@@ -59,11 +60,10 @@ class TransactionPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Billing\Transaction $transaction
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function delete(User $user, Transaction $transaction)
+    public function delete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('transaction:delete');
     }
@@ -71,11 +71,10 @@ class TransactionPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Billing\Transaction $transaction
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function restore(User $user, Transaction $transaction)
+    public function restore(User $user): bool
     {
         return $user->hasCurrentTeamPermission('transaction:restore');
     }
@@ -83,11 +82,10 @@ class TransactionPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Billing\Transaction $transaction
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
-    public function forceDelete(User $user, Transaction $transaction)
+    public function forceDelete(User $user): bool
     {
         return $user->hasCurrentTeamPermission('transaction:forceDelete');
     }

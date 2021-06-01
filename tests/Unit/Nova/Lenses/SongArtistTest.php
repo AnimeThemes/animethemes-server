@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Lenses;
+namespace Nova\Lenses;
 
 use App\Models\Artist;
 use App\Models\Song;
@@ -14,21 +14,32 @@ use App\Nova\Lenses\SongArtistLens;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Lenses\InvalidNovaLensException;
 use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
+/**
+ * Class SongArtistTest
+ * @package Nova\Lenses
+ */
 class SongArtistTest extends TestCase
 {
-    use NovaLensTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaLensTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Song Artist Lens shall contain Song Fields.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testFields()
     {
-        $lens = $this->novaLens(SongArtistLens::class);
+        $lens = static::novaLens(SongArtistLens::class);
 
         $lens->assertHasField(__('nova.id'));
         $lens->assertHasField(__('nova.title'));
@@ -38,10 +49,12 @@ class SongArtistTest extends TestCase
      * The Song Artist Lens fields shall be sortable.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaLensException
      */
     public function testSortable()
     {
-        $lens = $this->novaLens(SongArtistLens::class);
+        $lens = static::novaLens(SongArtistLens::class);
 
         $lens->field(__('nova.id'))->assertSortable();
         $lens->field(__('nova.title'))->assertSortable();
@@ -51,10 +64,11 @@ class SongArtistTest extends TestCase
      * The Song Artist Lens shall contain Song Filters.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testFilters()
     {
-        $lens = $this->novaLens(SongArtistLens::class);
+        $lens = static::novaLens(SongArtistLens::class);
 
         $lens->assertHasFilter(CreatedStartDateFilter::class);
         $lens->assertHasFilter(CreatedEndDateFilter::class);
@@ -68,10 +82,11 @@ class SongArtistTest extends TestCase
      * The Song Artist Lens shall contain no Actions.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testActions()
     {
-        $lens = $this->novaLens(SongArtistLens::class);
+        $lens = static::novaLens(SongArtistLens::class);
 
         $lens->assertHasNoActions();
     }
@@ -80,10 +95,12 @@ class SongArtistTest extends TestCase
      * The Song Artist Lens shall use the 'withFilters' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithFilters()
     {
-        $lens = $this->novaLens(SongArtistLens::class);
+        $lens = static::novaLens(SongArtistLens::class);
 
         $query = $lens->query(Song::class);
 
@@ -94,10 +111,12 @@ class SongArtistTest extends TestCase
      * The Song Artist Lens shall use the 'withOrdering' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithOrdering()
     {
-        $lens = $this->novaLens(SongArtistLens::class);
+        $lens = static::novaLens(SongArtistLens::class);
 
         $query = $lens->query(Song::class);
 
@@ -108,6 +127,8 @@ class SongArtistTest extends TestCase
      * The Song Artist Lens shall filter Songs without Artists.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testQuery()
     {
@@ -120,7 +141,7 @@ class SongArtistTest extends TestCase
 
         $filteredSongs = Song::whereDoesntHave('artists')->get();
 
-        $lens = $this->novaLens(SongArtistLens::class);
+        $lens = static::novaLens(SongArtistLens::class);
 
         $query = $lens->query(Song::class);
 

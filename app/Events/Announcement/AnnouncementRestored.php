@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Announcement;
 
@@ -9,16 +9,21 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class AnnouncementRestored
+ * @package App\Events\Announcement
+ */
 class AnnouncementRestored extends AnnouncementEvent implements DiscordMessageEvent
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $announcement = $this->getAnnouncement();
 
@@ -33,7 +38,7 @@ class AnnouncementRestored extends AnnouncementEvent implements DiscordMessageEv
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.admin_discord_channel');
     }

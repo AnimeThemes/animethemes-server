@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Pivots;
+namespace Pivots;
 
 use App\Models\Artist;
 use App\Models\ExternalResource;
@@ -10,9 +10,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class ArtistResourceTest
+ * @package Pivots
+ */
 class ArtistResourceTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
      * An ArtistResource shall belong to an Artist.
@@ -26,8 +31,8 @@ class ArtistResourceTest extends TestCase
             ->for(ExternalResource::factory(), 'resource')
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artistResource->artist());
-        $this->assertInstanceOf(Artist::class, $artistResource->artist()->first());
+        static::assertInstanceOf(BelongsTo::class, $artistResource->artist());
+        static::assertInstanceOf(Artist::class, $artistResource->artist()->first());
     }
 
     /**
@@ -42,7 +47,7 @@ class ArtistResourceTest extends TestCase
             ->for(ExternalResource::factory(), 'resource')
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artistResource->resource());
-        $this->assertInstanceOf(ExternalResource::class, $artistResource->resource()->first());
+        static::assertInstanceOf(BelongsTo::class, $artistResource->resource());
+        static::assertInstanceOf(ExternalResource::class, $artistResource->resource()->first());
     }
 }

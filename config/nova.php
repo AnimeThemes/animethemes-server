@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use Laravel\Nova\Actions\ActionResource;
 use Laravel\Nova\Http\Middleware\Authenticate;
@@ -32,7 +32,7 @@ return [
     |
     */
 
-    'domain' => env('NOVA_DOMAIN_NAME', null),
+    'domain' => env('NOVA_DOMAIN_NAME'),
 
     /*
     |--------------------------------------------------------------------------
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'guard' => env('NOVA_GUARD', null),
+    'guard' => env('NOVA_GUARD'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,7 +84,7 @@ return [
     |
     */
 
-    'passwords' => env('NOVA_PASSWORDS', null),
+    'passwords' => env('NOVA_PASSWORDS'),
 
     /*
     |--------------------------------------------------------------------------

@@ -1,18 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TransparencyRequest;
+use Illuminate\View\View;
 
+/**
+ * Class TransparencyController
+ * @package App\Http\Controllers
+ */
 class TransparencyController extends Controller
 {
     /**
      * Show the transparency for the application.
      *
-     * @param \App\Http\Requests\TransparencyRequest $request
-     * @return \Illuminate\View\View
+     * @param TransparencyRequest $request
+     * @return View
      */
-    public function show(TransparencyRequest $request)
+    public function show(TransparencyRequest $request): View
     {
         return view('transparency', [
             'balances' => $request->getBalances(),

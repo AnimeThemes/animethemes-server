@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Events\Billing;
+namespace Events\Billing;
 
 use App\Events\Billing\Balance\BalanceCreated;
 use App\Events\Billing\Balance\BalanceDeleted;
@@ -11,6 +11,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
+/**
+ * Class BalanceTest
+ * @package Events\Billing
+ */
 class BalanceTest extends TestCase
 {
     use RefreshDatabase;

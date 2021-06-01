@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Notifications;
+namespace Notifications;
 
 use App\Notifications\DiscordNotification;
 use Illuminate\Notifications\AnonymousNotifiable;
@@ -8,6 +8,10 @@ use NotificationChannels\Discord\DiscordChannel;
 use NotificationChannels\Discord\DiscordMessage;
 use Tests\TestCase;
 
+/**
+ * Class DiscordNotificationTest
+ * @package Notifications
+ */
 class DiscordNotificationTest extends TestCase
 {
     /**
@@ -21,7 +25,7 @@ class DiscordNotificationTest extends TestCase
 
         $notification = new DiscordNotification($message);
 
-        $this->assertEquals([DiscordChannel::class], $notification->via(new AnonymousNotifiable()));
+        static::assertEquals([DiscordChannel::class], $notification->via(new AnonymousNotifiable()));
     }
 
     /**
@@ -35,6 +39,6 @@ class DiscordNotificationTest extends TestCase
 
         $notification = new DiscordNotification($message);
 
-        $this->assertInstanceOf(DiscordMessage::class, $notification->toDiscord(new AnonymousNotifiable()));
+        static::assertInstanceOf(DiscordMessage::class, $notification->toDiscord(new AnonymousNotifiable()));
     }
 }

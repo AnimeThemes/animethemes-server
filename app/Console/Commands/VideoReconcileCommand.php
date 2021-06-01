@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Console\Commands;
 
@@ -8,8 +8,13 @@ use App\Repositories\Eloquent\VideoRepository as VideoDestinationRepository;
 use App\Repositories\Service\VideoRepository as VideoSourceRepository;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Class VideoReconcileCommand
+ * @package App\Console\Commands
+ */
 class VideoReconcileCommand extends Command
 {
     use ReconcilesVideo;
@@ -33,11 +38,11 @@ class VideoReconcileCommand extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $sourceRepository = new VideoSourceRepository;
+        $sourceRepository = App::make(VideoSourceRepository::class);
 
-        $destinationRepository = new VideoDestinationRepository;
+        $destinationRepository = App::make(VideoDestinationRepository::class);
 
         $this->reconcileRepositories($sourceRepository, $destinationRepository);
 
@@ -69,7 +74,7 @@ class VideoReconcileCommand extends Command
     /**
      * Handler for successful video creation.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
@@ -81,7 +86,7 @@ class VideoReconcileCommand extends Command
     /**
      * Handler for failed video creation.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
@@ -93,7 +98,7 @@ class VideoReconcileCommand extends Command
     /**
      * Handler for successful video deletion.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
@@ -105,7 +110,7 @@ class VideoReconcileCommand extends Command
     /**
      * Handler for failed video deletion.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
@@ -117,7 +122,7 @@ class VideoReconcileCommand extends Command
     /**
      * Handler for successful video update.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
@@ -129,7 +134,7 @@ class VideoReconcileCommand extends Command
     /**
      * Handler for failed video update.
      *
-     * @param \App\Models\BaseModel $model
+     * @param BaseModel $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)
@@ -146,7 +151,7 @@ class VideoReconcileCommand extends Command
      */
     protected function handleException(Exception $exception)
     {
-        Log::error($exception);
+        Log::error($exception->getMessage());
         $this->error($exception->getMessage());
     }
 }

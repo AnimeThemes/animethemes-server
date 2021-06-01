@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Announcement;
 
@@ -10,14 +10,19 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class AnnouncementUpdated
+ * @package App\Events\Announcement
+ */
 class AnnouncementUpdated extends AnnouncementEvent implements DiscordMessageEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
+    use Dispatchable;
+    use HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Announcement $announcement
+     * @param Announcement $announcement
      * @return void
      */
     public function __construct(Announcement $announcement)
@@ -29,9 +34,9 @@ class AnnouncementUpdated extends AnnouncementEvent implements DiscordMessageEve
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $announcement = $this->getAnnouncement();
 
@@ -47,7 +52,7 @@ class AnnouncementUpdated extends AnnouncementEvent implements DiscordMessageEve
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.admin_discord_channel');
     }

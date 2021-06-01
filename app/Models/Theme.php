@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -11,11 +11,19 @@ use App\Events\Theme\ThemeRestored;
 use App\Events\Theme\ThemeUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
 use ElasticScoutDriverPlus\QueryDsl;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 
+/**
+ * Class Theme
+ * @package App\Models
+ */
 class Theme extends BaseModel
 {
-    use CastsEnums, QueryDsl, Searchable;
+    use CastsEnums;
+    use QueryDsl;
+    use Searchable;
 
     /**
      * @var array
@@ -57,10 +65,10 @@ class Theme extends BaseModel
      *
      * @return array
      */
-    public function toSearchableArray()
+    public function toSearchableArray(): array
     {
         $array = $this->toArray();
-        $array['anime'] = optional($this->anime)->toSearchableArray();
+        $array['anime'] = $this->anime->toSearchableArray();
         $array['song'] = optional($this->song)->toSearchableArray();
 
         return $array;
@@ -86,7 +94,7 @@ class Theme extends BaseModel
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->slug;
     }
@@ -94,9 +102,9 @@ class Theme extends BaseModel
     /**
      * Gets the anime that owns the theme.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function anime()
+    public function anime(): BelongsTo
     {
         return $this->belongsTo('App\Models\Anime', 'anime_id', 'anime_id');
     }
@@ -104,9 +112,9 @@ class Theme extends BaseModel
     /**
      * Gets the song that the theme uses.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function song()
+    public function song(): BelongsTo
     {
         return $this->belongsTo('App\Models\Song', 'song_id', 'song_id');
     }
@@ -114,9 +122,9 @@ class Theme extends BaseModel
     /**
      * Get the entries for the theme.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function entries()
+    public function entries(): HasMany
     {
         return $this->hasMany('App\Models\Entry', 'theme_id', 'theme_id');
     }

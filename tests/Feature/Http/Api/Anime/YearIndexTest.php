@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Anime;
+namespace Http\Api\Anime;
 
 use App\Models\Anime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -8,9 +8,15 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class YearIndexTest
+ * @package Http\Api\Anime
+ */
 class YearIndexTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Year Index Endpoint shall display a list of unique years of anime.

@@ -1,30 +1,39 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Actions;
+namespace Nova\Actions;
 
 use App\Enums\InvitationStatus;
 use App\Mail\InvitationEmail;
 use App\Models\Invitation;
 use App\Nova\Actions\ResendInvitationAction;
+use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
+use JoshGaber\NovaUnit\Actions\InvalidNovaActionException;
 use JoshGaber\NovaUnit\Actions\NovaActionTest;
 use Laravel\Nova\Fields\ActionFields;
 use Tests\TestCase;
 
+/**
+ * Class ResendInvitationTest
+ * @package Nova\Actions
+ */
 class ResendInvitationTest extends TestCase
 {
-    use NovaActionTest, RefreshDatabase, WithFaker;
+    use NovaActionTest;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * The Resend Invitation Action shall have no fields.
      *
      * @return void
+     * @throws InvalidNovaActionException
      */
     public function testHasNoFields()
     {
-        $this->novaAction(ResendInvitationAction::class)
+        static::novaAction(ResendInvitationAction::class)
             ->assertHasNoFields();
     }
 
@@ -32,10 +41,11 @@ class ResendInvitationTest extends TestCase
      * The Resend Invitation Action shall return a dangerous message if no invitations were resent.
      *
      * @return void
+     * @throws InvalidNovaActionException
      */
     public function testNoInvitationsResent()
     {
-        $action = $this->novaAction(ResendInvitationAction::class);
+        $action = static::novaAction(ResendInvitationAction::class);
 
         $action->handle([], collect())
             ->assertDanger(__('nova.resent_invitations_for_none'));
@@ -45,6 +55,7 @@ class ResendInvitationTest extends TestCase
      * The Resend Invitation Action shall return a dangerous message if no invitations were resent.
      *
      * @return void
+     * @throws InvalidNovaActionException
      */
     public function testNoClosedInvitationsResent()
     {
@@ -54,7 +65,7 @@ class ResendInvitationTest extends TestCase
                 'status' => InvitationStatus::CLOSED,
             ]);
 
-        $action = $this->novaAction(ResendInvitationAction::class);
+        $action = static::novaAction(ResendInvitationAction::class);
 
         $action->handle([], $invitations)
             ->assertDanger(__('nova.resent_invitations_for_none'));
@@ -64,6 +75,7 @@ class ResendInvitationTest extends TestCase
      * The Resend Invitation Action shall return a dangerous message if no invitations were resent.
      *
      * @return void
+     * @throws InvalidNovaActionException
      */
     public function testOpenInvitationsResent()
     {
@@ -73,7 +85,7 @@ class ResendInvitationTest extends TestCase
                 'status' => InvitationStatus::OPEN,
             ]);
 
-        $action = $this->novaAction(ResendInvitationAction::class);
+        $action = static::novaAction(ResendInvitationAction::class);
 
         $action->handle([], $invitations)
             ->assertMessage(__('nova.resent_invitations_for_none', ['users' => $invitations->pluck('name')->join(',')]));
@@ -83,6 +95,7 @@ class ResendInvitationTest extends TestCase
      * The Resend Invitation Action shall not send emails for closed invitations.
      *
      * @return void
+     * @throws Exception
      */
     public function testNoMailSentForClosedInvitations()
     {
@@ -105,6 +118,7 @@ class ResendInvitationTest extends TestCase
      * The Resend Invitation Action shall send emails for open invitations.
      *
      * @return void
+     * @throws Exception
      */
     public function testMailSentForOpenInvitations()
     {
@@ -129,6 +143,7 @@ class ResendInvitationTest extends TestCase
      * The Resend Invitation Action shall change invitation tokens.
      *
      * @return void
+     * @throws Exception
      */
     public function testInvitationTokenChanged()
     {
@@ -145,7 +160,7 @@ class ResendInvitationTest extends TestCase
         $action->handle(new ActionFields(collect(), collect()), $invitations);
 
         foreach ($invitations as $invitation) {
-            $this->assertNotContains($invitation->token, $oldTokens);
+            static::assertNotContains($invitation->token, $oldTokens);
         }
     }
 }

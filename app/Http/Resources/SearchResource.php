@@ -1,10 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Resources;
 
 use App\Enums\JsonApi\PaginationStrategy;
+use App\JsonApi\QueryParser;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
+/**
+ * Class SearchResource
+ * @package App\Http\Resources
+ */
 class SearchResource extends BaseResource
 {
     /**
@@ -17,21 +23,21 @@ class SearchResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param mixed $parser
+     * @param QueryParser $parser
      * @return void
      */
-    public function __construct($parser)
+    public function __construct(QueryParser $parser)
     {
-        parent::__construct(new MissingValue, $parser);
+        parent::__construct(new MissingValue(), $parser);
     }
 
     /**
      * Transform the resource collection into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             AnimeCollection::$wrap => $this->when(

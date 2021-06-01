@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Models;
+namespace Models;
 
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
@@ -17,9 +17,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class VideoTest
+ * @package Models
+ */
 class VideoTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * The overlap attribute of a video shall be cast to a VideoOverlap enum instance.
@@ -32,7 +37,7 @@ class VideoTest extends TestCase
 
         $overlap = $video->overlap;
 
-        $this->assertInstanceOf(VideoOverlap::class, $overlap);
+        static::assertInstanceOf(VideoOverlap::class, $overlap);
     }
 
     /**
@@ -46,7 +51,7 @@ class VideoTest extends TestCase
 
         $source = $video->source;
 
-        $this->assertInstanceOf(VideoSource::class, $source);
+        static::assertInstanceOf(VideoSource::class, $source);
     }
 
     /**
@@ -58,7 +63,7 @@ class VideoTest extends TestCase
     {
         $video = Video::factory()->create();
 
-        $this->assertIsString($video->searchableAs());
+        static::assertIsString($video->searchableAs());
     }
 
     /**
@@ -70,7 +75,7 @@ class VideoTest extends TestCase
     {
         $video = Video::factory()->create();
 
-        $this->assertIsArray($video->toSearchableArray());
+        static::assertIsArray($video->toSearchableArray());
     }
 
     /**
@@ -84,7 +89,7 @@ class VideoTest extends TestCase
 
         $video = Video::factory()->create();
 
-        $this->assertEquals(1, $video->audits->count());
+        static::assertEquals(1, $video->audits->count());
     }
 
     /**
@@ -96,7 +101,7 @@ class VideoTest extends TestCase
     {
         $video = Video::factory()->create();
 
-        $this->assertIsString($video->getName());
+        static::assertIsString($video->getName());
     }
 
     /**
@@ -110,9 +115,9 @@ class VideoTest extends TestCase
 
         views($video)->record();
 
-        $this->assertInstanceOf(MorphMany::class, $video->views());
-        $this->assertEquals(1, $video->views()->count());
-        $this->assertInstanceOf(View::class, $video->views()->first());
+        static::assertInstanceOf(MorphMany::class, $video->views());
+        static::assertEquals(1, $video->views()->count());
+        static::assertInstanceOf(View::class, $video->views()->first());
     }
 
     /**
@@ -124,7 +129,7 @@ class VideoTest extends TestCase
     {
         $video = Video::factory()->create();
 
-        $this->assertArrayHasKey('tags', $video);
+        static::assertArrayHasKey('tags', $video);
     }
 
     /**
@@ -138,7 +143,7 @@ class VideoTest extends TestCase
             'nc' => true,
         ]);
 
-        $this->assertContains('NC', $video->tags);
+        static::assertContains('NC', $video->tags);
     }
 
     /**
@@ -152,7 +157,7 @@ class VideoTest extends TestCase
             'nc' => false,
         ]);
 
-        $this->assertNotContains('NC', $video->tags);
+        static::assertNotContains('NC', $video->tags);
     }
 
     /**
@@ -168,7 +173,7 @@ class VideoTest extends TestCase
             'source' => $source,
         ]);
 
-        $this->assertContains(VideoSource::getDescription($source), $video->tags);
+        static::assertContains(VideoSource::getDescription($source), $video->tags);
     }
 
     /**
@@ -184,7 +189,7 @@ class VideoTest extends TestCase
             'source' => $source,
         ]);
 
-        $this->assertContains(VideoSource::getDescription($source), $video->tags);
+        static::assertContains(VideoSource::getDescription($source), $video->tags);
     }
 
     /**
@@ -206,7 +211,7 @@ class VideoTest extends TestCase
             'source' => $source,
         ]);
 
-        $this->assertNotContains(VideoSource::getDescription($source), $video->tags);
+        static::assertNotContains(VideoSource::getDescription($source), $video->tags);
     }
 
     /**
@@ -218,7 +223,7 @@ class VideoTest extends TestCase
     {
         $video = Video::factory()->create();
 
-        $this->assertContains(strval($video->resolution), $video->tags);
+        static::assertContains(strval($video->resolution), $video->tags);
     }
 
     /**
@@ -232,7 +237,7 @@ class VideoTest extends TestCase
             'resolution' => 720,
         ]);
 
-        $this->assertNotContains(strval($video->resolution), $video->tags);
+        static::assertNotContains(strval($video->resolution), $video->tags);
     }
 
     /**
@@ -246,8 +251,8 @@ class VideoTest extends TestCase
             'subbed' => true,
         ]);
 
-        $this->assertContains('Subbed', $video->tags);
-        $this->assertNotContains('Lyrics', $video->tags);
+        static::assertContains('Subbed', $video->tags);
+        static::assertNotContains('Lyrics', $video->tags);
     }
 
     /**
@@ -262,8 +267,8 @@ class VideoTest extends TestCase
             'lyrics' => true,
         ]);
 
-        $this->assertNotContains('Subbed', $video->tags);
-        $this->assertContains('Lyrics', $video->tags);
+        static::assertNotContains('Subbed', $video->tags);
+        static::assertContains('Lyrics', $video->tags);
     }
 
     /**
@@ -279,9 +284,9 @@ class VideoTest extends TestCase
             ->has(Entry::factory()->for(Theme::factory()->for(Anime::factory()))->count($entryCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $video->entries());
-        $this->assertEquals($entryCount, $video->entries()->count());
-        $this->assertInstanceOf(Entry::class, $video->entries()->first());
-        $this->assertEquals(VideoEntry::class, $video->entries()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $video->entries());
+        static::assertEquals($entryCount, $video->entries()->count());
+        static::assertInstanceOf(Entry::class, $video->entries()->first());
+        static::assertEquals(VideoEntry::class, $video->entries()->getPivotClass());
     }
 }

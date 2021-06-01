@@ -1,9 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Sitemap;
+namespace Http\Sitemap;
 
 use Tests\TestCase;
 
+/**
+ * Class EventSitemapTest
+ * @package Http\Sitemap
+ */
 class EventSitemapTest extends TestCase
 {
     /**

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Console\Billing;
+namespace Console\Billing;
 
 use App\Console\Commands\Billing\TransactionReconcileCommand;
 use App\Enums\Billing\Service;
@@ -13,9 +13,15 @@ use Illuminate\Support\Collection;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Tests\TestCase;
 
+/**
+ * Class TransactionReconcileTest
+ * @package Console\Billing
+ */
 class TransactionReconcileTest extends TestCase
 {
-    use RefreshDatabase, WithFaker, WithoutEvents;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Reconcile Transaction Command shall require a 'service' argument.

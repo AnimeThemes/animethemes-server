@@ -117,7 +117,7 @@ If the true peak of the output file is near or above the limit of `-1.0` or the 
 
 FFmpeg provides the shorthand argument [`-ac 2`](https://trac.ffmpeg.org/wiki/AudioChannelManipulation#a5.1stereo) to downmix from surround sound to stereo in accordance with the [ATSC standards](http://www.atsc.org/wp-content/uploads/2015/03/A52-201212-17.pdf).
 
-If the source file audio is a surround sound mix and we make use of the shorthand argument for downmixing to stereo, the downmix will happen AFTER normalization and will produce a video whose loudness falls outside of the acceptable range.
+If the source file audio is a surround sound mix, and we make use of the shorthand argument for downmixing to stereo, the downmix will happen AFTER normalization and will produce a video whose loudness falls outside of the acceptable range.
 
 To prevent this, we need to remove the `-ac 2` shorthand from our commands and instead apply the [`aresample`](https://ffmpeg.org/ffmpeg-filters.html#aresample-1) filter to resample the input audio BEFORE normalizing.
 

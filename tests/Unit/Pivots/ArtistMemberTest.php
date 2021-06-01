@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Pivots;
+namespace Pivots;
 
 use App\Models\Artist;
 use App\Pivots\ArtistMember;
@@ -9,9 +9,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class ArtistMemberTest
+ * @package Pivots
+ */
 class ArtistMemberTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
      * An ArtistMember shall belong to an Artist.
@@ -25,8 +30,8 @@ class ArtistMemberTest extends TestCase
             ->for(Artist::factory(), 'member')
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artistMember->artist());
-        $this->assertInstanceOf(Artist::class, $artistMember->artist()->first());
+        static::assertInstanceOf(BelongsTo::class, $artistMember->artist());
+        static::assertInstanceOf(Artist::class, $artistMember->artist()->first());
     }
 
     /**
@@ -41,7 +46,7 @@ class ArtistMemberTest extends TestCase
             ->for(Artist::factory(), 'member')
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $artistMember->member());
-        $this->assertInstanceOf(Artist::class, $artistMember->member()->first());
+        static::assertInstanceOf(BelongsTo::class, $artistMember->member());
+        static::assertInstanceOf(Artist::class, $artistMember->member()->first());
     }
 }

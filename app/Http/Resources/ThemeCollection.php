@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Resources;
 
@@ -11,10 +11,16 @@ use App\JsonApi\Filter\Base\UpdatedAtFilter;
 use App\JsonApi\Filter\Theme\ThemeGroupFilter;
 use App\JsonApi\Filter\Theme\ThemeSequenceFilter;
 use App\JsonApi\Filter\Theme\ThemeTypeFilter;
+use Illuminate\Http\Request;
 
+/**
+ * Class ThemeCollection
+ * @package App\Http\Resources
+ */
 class ThemeCollection extends BaseCollection
 {
-    use PerformsResourceCollectionQuery, PerformsResourceCollectionSearch;
+    use PerformsResourceCollectionQuery;
+    use PerformsResourceCollectionSearch;
 
     /**
      * The "data" wrapper that should be applied.
@@ -26,10 +32,10 @@ class ThemeCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return $this->collection->map(function (ThemeResource $resource) {
             return $resource->parser($this->parser);
@@ -41,7 +47,7 @@ class ThemeCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedIncludePaths()
+    public static function allowedIncludePaths(): array
     {
         return [
             'anime',
@@ -58,7 +64,7 @@ class ThemeCollection extends BaseCollection
      *
      * @return array
      */
-    public static function allowedSortFields()
+    public static function allowedSortFields(): array
     {
         return [
             'theme_id',
@@ -79,7 +85,7 @@ class ThemeCollection extends BaseCollection
      *
      * @return array
      */
-    public static function filters()
+    public static function filters(): array
     {
         return [
             ThemeGroupFilter::class,

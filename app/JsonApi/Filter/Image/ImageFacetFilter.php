@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\JsonApi\Filter\Image;
 
@@ -6,12 +6,16 @@ use App\Enums\ImageFacet;
 use App\JsonApi\Filter\EnumFilter;
 use App\JsonApi\QueryParser;
 
+/**
+ * Class ImageFacetFilter
+ * @package App\JsonApi\Filter\Image
+ */
 class ImageFacetFilter extends EnumFilter
 {
     /**
      * Create a new filter instance.
      *
-     * @param \App\JsonApi\QueryParser $parser
+     * @param QueryParser $parser
      */
     public function __construct(QueryParser $parser)
     {

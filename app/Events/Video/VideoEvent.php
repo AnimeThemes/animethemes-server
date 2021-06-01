@@ -1,22 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Video;
 
 use App\Models\Video;
 
+/**
+ * Class VideoEvent
+ * @package App\Events\Video
+ */
 abstract class VideoEvent
 {
     /**
      * The video that has fired this event.
      *
-     * @var \App\Models\Video
+     * @var Video
      */
-    protected $video;
+    protected Video $video;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Video $video
+     * @param Video $video
      * @return void
      */
     public function __construct(Video $video)
@@ -27,9 +31,9 @@ abstract class VideoEvent
     /**
      * Get the video that has fired this event.
      *
-     * @return \App\Models\Video
+     * @return Video
      */
-    public function getVideo()
+    public function getVideo(): Video
     {
         return $this->video;
     }

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Models;
+namespace Models;
 
 use App\Models\Anime;
 use App\Models\Synonym;
@@ -10,9 +10,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class SynonymTest
+ * @package Models
+ */
 class SynonymTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * Synonym shall be a searchable resource.
@@ -25,7 +30,7 @@ class SynonymTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        $this->assertIsString($synonym->searchableAs());
+        static::assertIsString($synonym->searchableAs());
     }
 
     /**
@@ -39,7 +44,7 @@ class SynonymTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        $this->assertIsArray($synonym->toSearchableArray());
+        static::assertIsArray($synonym->toSearchableArray());
     }
 
     /**
@@ -55,7 +60,7 @@ class SynonymTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        $this->assertEquals(1, $synonym->audits->count());
+        static::assertEquals(1, $synonym->audits->count());
     }
 
     /**
@@ -69,7 +74,7 @@ class SynonymTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        $this->assertIsString($synonym->getName());
+        static::assertIsString($synonym->getName());
     }
 
     /**
@@ -83,7 +88,7 @@ class SynonymTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $synonym->anime());
-        $this->assertInstanceOf(Anime::class, $synonym->anime()->first());
+        static::assertInstanceOf(BelongsTo::class, $synonym->anime());
+        static::assertInstanceOf(Anime::class, $synonym->anime()->first());
     }
 }

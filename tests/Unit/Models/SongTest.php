@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Models;
+namespace Models;
 
 use App\Models\Anime;
 use App\Models\Artist;
@@ -14,9 +14,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class SongTest
+ * @package Models
+ */
 class SongTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * Song shall be a searchable resource.
@@ -27,7 +32,7 @@ class SongTest extends TestCase
     {
         $song = Song::factory()->create();
 
-        $this->assertIsString($song->searchableAs());
+        static::assertIsString($song->searchableAs());
     }
 
     /**
@@ -39,7 +44,7 @@ class SongTest extends TestCase
     {
         $song = Song::factory()->create();
 
-        $this->assertIsArray($song->toSearchableArray());
+        static::assertIsArray($song->toSearchableArray());
     }
 
     /**
@@ -53,7 +58,7 @@ class SongTest extends TestCase
 
         $song = Song::factory()->create();
 
-        $this->assertEquals(1, $song->audits->count());
+        static::assertEquals(1, $song->audits->count());
     }
 
     /**
@@ -65,7 +70,7 @@ class SongTest extends TestCase
     {
         $song = Song::factory()->create();
 
-        $this->assertIsString($song->getName());
+        static::assertIsString($song->getName());
     }
 
     /**
@@ -81,9 +86,9 @@ class SongTest extends TestCase
             ->has(Theme::factory()->for(Anime::factory())->count($themeCount))
             ->create();
 
-        $this->assertInstanceOf(HasMany::class, $song->themes());
-        $this->assertEquals($themeCount, $song->themes()->count());
-        $this->assertInstanceOf(Theme::class, $song->themes()->first());
+        static::assertInstanceOf(HasMany::class, $song->themes());
+        static::assertEquals($themeCount, $song->themes()->count());
+        static::assertInstanceOf(Theme::class, $song->themes()->first());
     }
 
     /**
@@ -99,9 +104,9 @@ class SongTest extends TestCase
             ->has(Artist::factory()->count($artistCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $song->artists());
-        $this->assertEquals($artistCount, $song->artists()->count());
-        $this->assertInstanceOf(Artist::class, $song->artists()->first());
-        $this->assertEquals(ArtistSong::class, $song->artists()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $song->artists());
+        static::assertEquals($artistCount, $song->artists()->count());
+        static::assertInstanceOf(Artist::class, $song->artists()->first());
+        static::assertEquals(ArtistSong::class, $song->artists()->getPivotClass());
     }
 }

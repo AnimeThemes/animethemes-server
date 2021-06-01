@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Scout\Elastic;
 
@@ -6,15 +6,20 @@ use App\Models\Entry;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
+use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
+/**
+ * Class EntryQueryPayload
+ * @package App\Scout\Elastic
+ */
 class EntryQueryPayload extends ElasticQueryPayload
 {
     /**
      * Build Elasticsearch query.
      *
-     * @return \ElasticScoutDriverPlus\Builders\SearchRequestBuilder
+     * @return SearchRequestBuilder
      */
-    public function buildQuery()
+    public function buildQuery(): SearchRequestBuilder
     {
         return Entry::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

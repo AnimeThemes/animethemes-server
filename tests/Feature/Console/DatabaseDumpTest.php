@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Console;
+namespace Console;
 
 use App\Console\Commands\DatabaseDumpCommand;
 use Carbon\Carbon;
@@ -8,6 +8,10 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+/**
+ * Class DatabaseDumpTest
+ * @package Console
+ */
 class DatabaseDumpTest extends TestCase
 {
     use WithFaker;
@@ -35,7 +39,7 @@ class DatabaseDumpTest extends TestCase
 
         $this->artisan(DatabaseDumpCommand::class)->run();
 
-        $this->assertFileExists($dumpFile);
+        static::assertFileExists($dumpFile);
     }
 
     /**
@@ -43,7 +47,7 @@ class DatabaseDumpTest extends TestCase
      *
      * @return string
      */
-    protected function getDumpFile()
+    protected function getDumpFile(): string
     {
         $randomDate = Carbon::parse($this->faker->iso8601());
 

@@ -1,7 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\JsonApi\Condition;
 
+/**
+ * Class Expression
+ * @package App\JsonApi\Condition
+ */
 class Expression
 {
     /**
@@ -9,14 +13,14 @@ class Expression
      *
      * @var mixed
      */
-    protected $value;
+    protected mixed $value;
 
     /**
      * Create a new expression.
      *
      * @param mixed $value
      */
-    public function __construct($value)
+    public function __construct(mixed $value)
     {
         $this->value = $value;
     }
@@ -26,7 +30,7 @@ class Expression
      *
      * @return mixed
      */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Lenses;
+namespace Nova\Lenses;
 
 use App\Enums\ResourceSite;
 use App\Models\Anime;
@@ -18,21 +18,32 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Lenses\InvalidNovaLensException;
 use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
+/**
+ * Class AnimeKitsuResourceTest
+ * @package Nova\Lenses
+ */
 class AnimeKitsuResourceTest extends TestCase
 {
-    use NovaLensTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaLensTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Anime Kitsu Resource Lens shall contain Anime Fields.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testFields()
     {
-        $lens = $this->novaLens(AnimeKitsuResourceLens::class);
+        $lens = static::novaLens(AnimeKitsuResourceLens::class);
 
         $lens->assertHasField(__('nova.id'));
         $lens->assertHasField(__('nova.name'));
@@ -45,10 +56,12 @@ class AnimeKitsuResourceTest extends TestCase
      * The Anime Kitsu Resource Lens fields shall be sortable.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaLensException
      */
     public function testSortable()
     {
-        $lens = $this->novaLens(AnimeKitsuResourceLens::class);
+        $lens = static::novaLens(AnimeKitsuResourceLens::class);
 
         $lens->field(__('nova.id'))->assertSortable();
         $lens->field(__('nova.name'))->assertSortable();
@@ -61,10 +74,11 @@ class AnimeKitsuResourceTest extends TestCase
      * The Anime Kitsu Resource Lens shall contain Anime Filters.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testFilters()
     {
-        $lens = $this->novaLens(AnimeKitsuResourceLens::class);
+        $lens = static::novaLens(AnimeKitsuResourceLens::class);
 
         $lens->assertHasFilter(AnimeSeasonFilter::class);
         $lens->assertHasFilter(AnimeYearFilter::class);
@@ -82,10 +96,12 @@ class AnimeKitsuResourceTest extends TestCase
      * The Anime Kitsu Resource Lens shall use the 'withFilters' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithFilters()
     {
-        $lens = $this->novaLens(AnimeKitsuResourceLens::class);
+        $lens = static::novaLens(AnimeKitsuResourceLens::class);
 
         $query = $lens->query(Anime::class);
 
@@ -96,10 +112,12 @@ class AnimeKitsuResourceTest extends TestCase
      * The Anime Kitsu Resource Lens shall use the 'withOrdering' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithOrdering()
     {
-        $lens = $this->novaLens(AnimeKitsuResourceLens::class);
+        $lens = static::novaLens(AnimeKitsuResourceLens::class);
 
         $query = $lens->query(Anime::class);
 
@@ -110,6 +128,8 @@ class AnimeKitsuResourceTest extends TestCase
      * The Anime Kitsu Resource Lens shall filter Anime without a Kitsu Resource.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testQuery()
     {
@@ -123,7 +143,7 @@ class AnimeKitsuResourceTest extends TestCase
         })
         ->get();
 
-        $lens = $this->novaLens(AnimeKitsuResourceLens::class);
+        $lens = static::novaLens(AnimeKitsuResourceLens::class);
 
         $query = $lens->query(Anime::class);
 

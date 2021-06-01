@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
@@ -6,7 +6,12 @@ use App\Enums\JsonApi\PaginationStrategy;
 use App\Http\Resources\EntryCollection;
 use App\Http\Resources\EntryResource;
 use App\Models\Entry;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * Class EntryController
+ * @package App\Http\Controllers\Api
+ */
 class EntryController extends BaseController
 {
     /**
@@ -89,9 +94,9 @@ class EntryController extends BaseController
      *     )
      * )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         if ($this->parser->hasSearch()) {
             return EntryCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse(request());
@@ -136,10 +141,10 @@ class EntryController extends BaseController
      *     )
      * )
      *
-     * @param \App\Models\Entry $entry
-     * @return \Illuminate\Http\JsonResponse
+     * @param Entry $entry
+     * @return JsonResponse
      */
-    public function show(Entry $entry)
+    public function show(Entry $entry): JsonResponse
     {
         $resource = EntryResource::performQuery($entry, $this->parser);
 

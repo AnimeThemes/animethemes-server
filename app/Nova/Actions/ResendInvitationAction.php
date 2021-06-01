@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Nova\Actions;
 
@@ -8,19 +8,25 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
+use Exception;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 
+/**
+ * Class ResendInvitationAction
+ * @package App\Nova\Actions
+ */
 class ResendInvitationAction extends Action
 {
-    use InteractsWithQueue, Queueable;
+    use InteractsWithQueue;
+    use Queueable;
 
     /**
      * Get the displayable name of the action.
      *
      * @return array|string|null
      */
-    public function name()
+    public function name(): array|string|null
     {
         return __('nova.resend_invitation');
     }
@@ -28,11 +34,12 @@ class ResendInvitationAction extends Action
     /**
      * Perform the action on the given models.
      *
-     * @param \Laravel\Nova\Fields\ActionFields $fields
-     * @param \Illuminate\Support\Collection $models
-     * @return mixed
+     * @param ActionFields $fields
+     * @param Collection $models
+     * @return array
+     * @throws Exception
      */
-    public function handle(ActionFields $fields, Collection $models)
+    public function handle(ActionFields $fields, Collection $models): array
     {
         $resentInvitations = [];
 
@@ -61,7 +68,7 @@ class ResendInvitationAction extends Action
      *
      * @return array
      */
-    public function fields()
+    public function fields(): array
     {
         return [];
     }

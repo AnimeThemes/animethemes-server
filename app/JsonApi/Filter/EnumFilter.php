@@ -1,10 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\JsonApi\Filter;
 
 use App\JsonApi\QueryParser;
 use Illuminate\Support\Str;
 
+/**
+ * Class EnumFilter
+ * @package App\JsonApi\Filter
+ */
 abstract class EnumFilter extends Filter
 {
     /**
@@ -12,12 +16,12 @@ abstract class EnumFilter extends Filter
      *
      * @var string
      */
-    protected $enumClass;
+    protected string $enumClass;
 
     /**
      * Create a new filter instance.
      *
-     * @param \App\JsonApi\QueryParser $parser
+     * @param QueryParser $parser
      * @param string $key
      * @param string $enumClass
      */
@@ -33,10 +37,10 @@ abstract class EnumFilter extends Filter
      * @param array $filterValues
      * @return array
      */
-    protected function convertFilterValues(array $filterValues)
+    protected function convertFilterValues(array $filterValues): array
     {
         return array_map(
-            function ($filterValue) {
+            function (string $filterValue) {
                 return $this->enumClass::getValue(Str::upper($filterValue));
             },
             $filterValues
@@ -49,12 +53,12 @@ abstract class EnumFilter extends Filter
      * @param array $filterValues
      * @return array
      */
-    protected function getValidFilterValues(array $filterValues)
+    protected function getValidFilterValues(array $filterValues): array
     {
         return array_values(
             array_filter(
                 $filterValues,
-                function ($filterValue) {
+                function (string $filterValue) {
                     return $this->enumClass::hasKey(Str::upper($filterValue));
                 }
             )
@@ -67,7 +71,7 @@ abstract class EnumFilter extends Filter
      * @param array $filterValues
      * @return bool
      */
-    protected function isAllFilterValues(array $filterValues)
+    protected function isAllFilterValues(array $filterValues): bool
     {
         return count($filterValues) === count($this->enumClass::getInstances());
     }

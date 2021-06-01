@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Pivot;
+namespace Jobs\Pivot;
 
 use App\Jobs\SendDiscordNotification;
 use App\Models\Anime;
@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class VideoEntryTest
+ * @package Jobs\Pivot
+ */
 class VideoEntryTest extends TestCase
 {
     use RefreshDatabase;

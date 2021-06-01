@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Policies;
+namespace Policies;
 
 use App\Models\Anime;
 use App\Models\Artist;
@@ -11,9 +11,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
+/**
+ * Class ImagePolicyTest
+ * @package Policies
+ */
 class ImagePolicyTest extends TestCase
 {
-    use RefreshDatabase, WithoutEvents;
+    use RefreshDatabase;
+    use WithoutEvents;
 
     /**
      * Any user regardless of role can view any image.
@@ -22,23 +27,11 @@ class ImagePolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
         $policy = new ImagePolicy();
 
-        $this->assertTrue($policy->viewAny($viewer));
-        $this->assertTrue($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -48,24 +41,11 @@ class ImagePolicyTest extends TestCase
      */
     public function testView()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
-        $image = Image::factory()->create();
         $policy = new ImagePolicy();
 
-        $this->assertTrue($policy->view($viewer, $image));
-        $this->assertTrue($policy->view($editor, $image));
-        $this->assertTrue($policy->view($admin, $image));
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
     }
 
     /**
@@ -89,9 +69,9 @@ class ImagePolicyTest extends TestCase
 
         $policy = new ImagePolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertTrue($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertTrue($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
@@ -113,12 +93,11 @@ class ImagePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $image = Image::factory()->create();
         $policy = new ImagePolicy();
 
-        $this->assertFalse($policy->update($viewer, $image));
-        $this->assertTrue($policy->update($editor, $image));
-        $this->assertTrue($policy->update($admin, $image));
+        static::assertFalse($policy->update($viewer));
+        static::assertTrue($policy->update($editor));
+        static::assertTrue($policy->update($admin));
     }
 
     /**
@@ -140,12 +119,11 @@ class ImagePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $image = Image::factory()->create();
         $policy = new ImagePolicy();
 
-        $this->assertFalse($policy->delete($viewer, $image));
-        $this->assertTrue($policy->delete($editor, $image));
-        $this->assertTrue($policy->delete($admin, $image));
+        static::assertFalse($policy->delete($viewer));
+        static::assertTrue($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
@@ -167,12 +145,11 @@ class ImagePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $image = Image::factory()->create();
         $policy = new ImagePolicy();
 
-        $this->assertFalse($policy->restore($viewer, $image));
-        $this->assertTrue($policy->restore($editor, $image));
-        $this->assertTrue($policy->restore($admin, $image));
+        static::assertFalse($policy->restore($viewer));
+        static::assertTrue($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
@@ -194,12 +171,11 @@ class ImagePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $image = Image::factory()->create();
         $policy = new ImagePolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $image));
-        $this->assertFalse($policy->forceDelete($editor, $image));
-        $this->assertTrue($policy->forceDelete($admin, $image));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 
     /**
@@ -221,12 +197,11 @@ class ImagePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $image = Image::factory()->create();
         $policy = new ImagePolicy();
 
-        $this->assertFalse($policy->attachAnyArtist($viewer, $image));
-        $this->assertTrue($policy->attachAnyArtist($editor, $image));
-        $this->assertTrue($policy->attachAnyArtist($admin, $image));
+        static::assertFalse($policy->attachAnyArtist($viewer));
+        static::assertTrue($policy->attachAnyArtist($editor));
+        static::assertTrue($policy->attachAnyArtist($admin));
     }
 
     /**
@@ -252,9 +227,9 @@ class ImagePolicyTest extends TestCase
         $artist = Artist::factory()->create();
         $policy = new ImagePolicy();
 
-        $this->assertFalse($policy->attachArtist($viewer, $image, $artist));
-        $this->assertTrue($policy->attachArtist($editor, $image, $artist));
-        $this->assertTrue($policy->attachArtist($admin, $image, $artist));
+        static::assertFalse($policy->attachArtist($viewer, $image, $artist));
+        static::assertTrue($policy->attachArtist($editor, $image, $artist));
+        static::assertTrue($policy->attachArtist($admin, $image, $artist));
     }
 
     /**
@@ -281,9 +256,9 @@ class ImagePolicyTest extends TestCase
         $image->artists()->attach($artist);
         $policy = new ImagePolicy();
 
-        $this->assertFalse($policy->attachArtist($viewer, $image, $artist));
-        $this->assertFalse($policy->attachArtist($editor, $image, $artist));
-        $this->assertFalse($policy->attachArtist($admin, $image, $artist));
+        static::assertFalse($policy->attachArtist($viewer, $image, $artist));
+        static::assertFalse($policy->attachArtist($editor, $image, $artist));
+        static::assertFalse($policy->attachArtist($admin, $image, $artist));
     }
 
     /**
@@ -305,13 +280,11 @@ class ImagePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $image = Image::factory()->create();
-        $artist = Artist::factory()->create();
         $policy = new ImagePolicy();
 
-        $this->assertFalse($policy->detachArtist($viewer, $image, $artist));
-        $this->assertTrue($policy->detachArtist($editor, $image, $artist));
-        $this->assertTrue($policy->detachArtist($admin, $image, $artist));
+        static::assertFalse($policy->detachArtist($viewer));
+        static::assertTrue($policy->detachArtist($editor));
+        static::assertTrue($policy->detachArtist($admin));
     }
 
     /**
@@ -333,12 +306,11 @@ class ImagePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $image = Image::factory()->create();
         $policy = new ImagePolicy();
 
-        $this->assertFalse($policy->attachAnyAnime($viewer, $image));
-        $this->assertTrue($policy->attachAnyAnime($editor, $image));
-        $this->assertTrue($policy->attachAnyAnime($admin, $image));
+        static::assertFalse($policy->attachAnyAnime($viewer));
+        static::assertTrue($policy->attachAnyAnime($editor));
+        static::assertTrue($policy->attachAnyAnime($admin));
     }
 
     /**
@@ -364,9 +336,9 @@ class ImagePolicyTest extends TestCase
         $anime = Anime::factory()->create();
         $policy = new ImagePolicy();
 
-        $this->assertFalse($policy->attachAnime($viewer, $image, $anime));
-        $this->assertTrue($policy->attachAnime($editor, $image, $anime));
-        $this->assertTrue($policy->attachAnime($admin, $image, $anime));
+        static::assertFalse($policy->attachAnime($viewer, $image, $anime));
+        static::assertTrue($policy->attachAnime($editor, $image, $anime));
+        static::assertTrue($policy->attachAnime($admin, $image, $anime));
     }
 
     /**
@@ -393,9 +365,9 @@ class ImagePolicyTest extends TestCase
         $image->anime()->attach($anime);
         $policy = new ImagePolicy();
 
-        $this->assertFalse($policy->attachAnime($viewer, $image, $anime));
-        $this->assertFalse($policy->attachAnime($editor, $image, $anime));
-        $this->assertFalse($policy->attachAnime($admin, $image, $anime));
+        static::assertFalse($policy->attachAnime($viewer, $image, $anime));
+        static::assertFalse($policy->attachAnime($editor, $image, $anime));
+        static::assertFalse($policy->attachAnime($admin, $image, $anime));
     }
 
     /**
@@ -417,12 +389,10 @@ class ImagePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $image = Image::factory()->create();
-        $anime = Anime::factory()->create();
         $policy = new ImagePolicy();
 
-        $this->assertFalse($policy->detachAnime($viewer, $image, $anime));
-        $this->assertTrue($policy->detachAnime($editor, $image, $anime));
-        $this->assertTrue($policy->detachAnime($admin, $image, $anime));
+        static::assertFalse($policy->detachAnime($viewer));
+        static::assertTrue($policy->detachAnime($editor));
+        static::assertTrue($policy->detachAnime($admin));
     }
 }

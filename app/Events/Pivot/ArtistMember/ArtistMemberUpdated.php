@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Events\Pivot\ArtistMember;
 
@@ -10,14 +10,19 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
+/**
+ * Class ArtistMemberUpdated
+ * @package App\Events\Pivot\ArtistMember
+ */
 class ArtistMemberUpdated extends ArtistMemberEvent implements DiscordMessageEvent
 {
-    use Dispatchable, HasAttributeUpdateEmbedFields;
+    use Dispatchable;
+    use HasAttributeUpdateEmbedFields;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Pivots\ArtistMember $artistMember
+     * @param ArtistMember $artistMember
      * @return void
      */
     public function __construct(ArtistMember $artistMember)
@@ -29,9 +34,9 @@ class ArtistMemberUpdated extends ArtistMemberEvent implements DiscordMessageEve
     /**
      * Get Discord message payload.
      *
-     * @return \NotificationChannels\Discord\DiscordMessage
+     * @return DiscordMessage
      */
-    public function getDiscordMessage()
+    public function getDiscordMessage(): DiscordMessage
     {
         $artist = $this->getArtist();
         $member = $this->getMember();
@@ -48,7 +53,7 @@ class ArtistMemberUpdated extends ArtistMemberEvent implements DiscordMessageEve
      *
      * @return string
      */
-    public function getDiscordChannel()
+    public function getDiscordChannel(): string
     {
         return Config::get('services.discord.db_updates_discord_channel');
     }

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Lenses;
+namespace Nova\Lenses;
 
 use App\Enums\ResourceSite;
 use App\Models\Artist;
@@ -16,21 +16,32 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
+use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
+use JoshGaber\NovaUnit\Lenses\InvalidNovaLensException;
 use JoshGaber\NovaUnit\Lenses\NovaLensTest;
 use Tests\TestCase;
 
+/**
+ * Class ArtistAnnResourceTest
+ * @package Nova\Lenses
+ */
 class ArtistAnnResourceTest extends TestCase
 {
-    use NovaLensTest, RefreshDatabase, WithFaker, WithoutEvents;
+    use NovaLensTest;
+    use RefreshDatabase;
+    use WithFaker;
+    use WithoutEvents;
 
     /**
      * The Artist Ann Resource Lens shall contain Artist Fields.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testFields()
     {
-        $lens = $this->novaLens(ArtistAnnResourceLens::class);
+        $lens = static::novaLens(ArtistAnnResourceLens::class);
 
         $lens->assertHasField(__('nova.id'));
         $lens->assertHasField(__('nova.name'));
@@ -41,10 +52,12 @@ class ArtistAnnResourceTest extends TestCase
      * The Artist Ann Resource Lens fields shall be sortable.
      *
      * @return void
+     * @throws FieldNotFoundException
+     * @throws InvalidNovaLensException
      */
     public function testSortable()
     {
-        $lens = $this->novaLens(ArtistAnnResourceLens::class);
+        $lens = static::novaLens(ArtistAnnResourceLens::class);
 
         $lens->field(__('nova.id'))->assertSortable();
         $lens->field(__('nova.name'))->assertSortable();
@@ -55,10 +68,11 @@ class ArtistAnnResourceTest extends TestCase
      * The Artist Ann Resource Lens shall contain Artist Filters.
      *
      * @return void
+     * @throws InvalidNovaLensException
      */
     public function testFilters()
     {
-        $lens = $this->novaLens(ArtistAnnResourceLens::class);
+        $lens = static::novaLens(ArtistAnnResourceLens::class);
 
         $lens->assertHasFilter(CreatedStartDateFilter::class);
         $lens->assertHasFilter(CreatedEndDateFilter::class);
@@ -74,10 +88,12 @@ class ArtistAnnResourceTest extends TestCase
      * The Artist Ann Resource Lens shall use the 'withFilters' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithFilters()
     {
-        $lens = $this->novaLens(ArtistAnnResourceLens::class);
+        $lens = static::novaLens(ArtistAnnResourceLens::class);
 
         $query = $lens->query(Artist::class);
 
@@ -88,10 +104,12 @@ class ArtistAnnResourceTest extends TestCase
      * The Artist Ann Resource Lens shall use the 'withOrdering' request.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testWithOrdering()
     {
-        $lens = $this->novaLens(ArtistAnnResourceLens::class);
+        $lens = static::novaLens(ArtistAnnResourceLens::class);
 
         $query = $lens->query(Artist::class);
 
@@ -102,6 +120,8 @@ class ArtistAnnResourceTest extends TestCase
      * The Artist Ann Resource Lens shall filter Artist without an ANN Resource.
      *
      * @return void
+     * @throws InvalidModelException
+     * @throws InvalidNovaLensException
      */
     public function testQuery()
     {
@@ -115,7 +135,7 @@ class ArtistAnnResourceTest extends TestCase
         })
         ->get();
 
-        $lens = $this->novaLens(ArtistAnnResourceLens::class);
+        $lens = static::novaLens(ArtistAnnResourceLens::class);
 
         $query = $lens->query(Artist::class);
 

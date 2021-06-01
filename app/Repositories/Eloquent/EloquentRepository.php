@@ -1,19 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Repositories\Eloquent;
 
 use App\Contracts\Repositories\Repository;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class EloquentRepository
+ * @package App\Repositories\Eloquent
+ */
 abstract class EloquentRepository implements Repository
 {
     /**
      * Save model to the repository.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param Model $model
      * @return bool
      */
-    public function save(Model $model)
+    public function save(Model $model): bool
     {
         return $model->save();
     }
@@ -21,10 +25,10 @@ abstract class EloquentRepository implements Repository
     /**
      * Delete model from the repository.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param Model $model
      * @return bool
      */
-    public function delete(Model $model)
+    public function delete(Model $model): bool
     {
         return $model->delete();
     }
@@ -32,11 +36,11 @@ abstract class EloquentRepository implements Repository
     /**
      * Update model in the repository.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param Model $model
      * @param array $attributes
      * @return bool
      */
-    public function update(Model $model, array $attributes)
+    public function update(Model $model, array $attributes): bool
     {
         return $model->update($attributes);
     }

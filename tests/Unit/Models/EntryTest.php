@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Models;
+namespace Models;
 
 use App\Models\Anime;
 use App\Models\Entry;
@@ -15,9 +15,14 @@ use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
+/**
+ * Class EntryTest
+ * @package Models
+ */
 class EntryTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * Entry shall be a searchable resource.
@@ -30,7 +35,7 @@ class EntryTest extends TestCase
             ->for(Theme::factory()->for(Anime::factory()))
             ->create();
 
-        $this->assertIsString($entry->searchableAs());
+        static::assertIsString($entry->searchableAs());
     }
 
     /**
@@ -44,7 +49,7 @@ class EntryTest extends TestCase
             ->for(Theme::factory()->for(Anime::factory()))
             ->create();
 
-        $this->assertIsArray($entry->toSearchableArray());
+        static::assertIsArray($entry->toSearchableArray());
     }
 
     /**
@@ -60,7 +65,7 @@ class EntryTest extends TestCase
             ->for(Theme::factory()->for(Anime::factory()))
             ->create();
 
-        $this->assertEquals(1, $entry->audits->count());
+        static::assertEquals(1, $entry->audits->count());
     }
 
     /**
@@ -74,7 +79,7 @@ class EntryTest extends TestCase
             ->for(Theme::factory()->for(Anime::factory()))
             ->create();
 
-        $this->assertIsString($entry->getName());
+        static::assertIsString($entry->getName());
     }
 
     /**
@@ -88,8 +93,8 @@ class EntryTest extends TestCase
             ->for(Theme::factory()->for(Anime::factory()))
             ->create();
 
-        $this->assertInstanceOf(BelongsTo::class, $entry->theme());
-        $this->assertInstanceOf(Theme::class, $entry->theme()->first());
+        static::assertInstanceOf(BelongsTo::class, $entry->theme());
+        static::assertInstanceOf(Theme::class, $entry->theme()->first());
     }
 
     /**
@@ -106,10 +111,10 @@ class EntryTest extends TestCase
             ->has(Video::factory()->count($videoCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $entry->videos());
-        $this->assertEquals($videoCount, $entry->videos()->count());
-        $this->assertInstanceOf(Video::class, $entry->videos()->first());
-        $this->assertEquals(VideoEntry::class, $entry->videos()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $entry->videos());
+        static::assertEquals($videoCount, $entry->videos()->count());
+        static::assertInstanceOf(Video::class, $entry->videos()->first());
+        static::assertEquals(VideoEntry::class, $entry->videos()->getPivotClass());
     }
 
     /**
@@ -123,7 +128,7 @@ class EntryTest extends TestCase
             ->for(Theme::factory()->for(Anime::factory()))
             ->create();
 
-        $this->assertInstanceOf(BelongsToThrough::class, $entry->anime());
-        $this->assertInstanceOf(Anime::class, $entry->anime()->first());
+        static::assertInstanceOf(BelongsToThrough::class, $entry->anime());
+        static::assertInstanceOf(Anime::class, $entry->anime()->first());
     }
 }

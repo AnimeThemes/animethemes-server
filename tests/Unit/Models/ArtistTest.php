@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Models;
+namespace Models;
 
 use App\Models\Artist;
 use App\Models\ExternalResource;
@@ -16,9 +16,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+/**
+ * Class ArtistTest
+ * @package Models
+ */
 class ArtistTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * Artist shall be a searchable resource.
@@ -29,7 +34,7 @@ class ArtistTest extends TestCase
     {
         $artist = Artist::factory()->create();
 
-        $this->assertIsString($artist->searchableAs());
+        static::assertIsString($artist->searchableAs());
     }
 
     /**
@@ -41,7 +46,7 @@ class ArtistTest extends TestCase
     {
         $artist = Artist::factory()->create();
 
-        $this->assertIsArray($artist->toSearchableArray());
+        static::assertIsArray($artist->toSearchableArray());
     }
 
     /**
@@ -55,7 +60,7 @@ class ArtistTest extends TestCase
 
         $artist = Artist::factory()->create();
 
-        $this->assertEquals(1, $artist->audits->count());
+        static::assertEquals(1, $artist->audits->count());
     }
 
     /**
@@ -67,7 +72,7 @@ class ArtistTest extends TestCase
     {
         $artist = Artist::factory()->create();
 
-        $this->assertIsString($artist->getName());
+        static::assertIsString($artist->getName());
     }
 
     /**
@@ -83,10 +88,10 @@ class ArtistTest extends TestCase
             ->has(Song::factory()->count($songCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $artist->songs());
-        $this->assertEquals($songCount, $artist->songs()->count());
-        $this->assertInstanceOf(Song::class, $artist->songs()->first());
-        $this->assertEquals(ArtistSong::class, $artist->songs()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $artist->songs());
+        static::assertEquals($songCount, $artist->songs()->count());
+        static::assertInstanceOf(Song::class, $artist->songs()->first());
+        static::assertEquals(ArtistSong::class, $artist->songs()->getPivotClass());
     }
 
     /**
@@ -102,10 +107,10 @@ class ArtistTest extends TestCase
             ->has(ExternalResource::factory()->count($resourceCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $artist->externalResources());
-        $this->assertEquals($resourceCount, $artist->externalResources()->count());
-        $this->assertInstanceOf(ExternalResource::class, $artist->externalResources()->first());
-        $this->assertEquals(ArtistResource::class, $artist->externalResources()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $artist->externalResources());
+        static::assertEquals($resourceCount, $artist->externalResources()->count());
+        static::assertInstanceOf(ExternalResource::class, $artist->externalResources()->first());
+        static::assertEquals(ArtistResource::class, $artist->externalResources()->getPivotClass());
     }
 
     /**
@@ -121,10 +126,10 @@ class ArtistTest extends TestCase
             ->has(Artist::factory()->count($memberCount), 'members')
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $artist->members());
-        $this->assertEquals($memberCount, $artist->members()->count());
-        $this->assertInstanceOf(Artist::class, $artist->members()->first());
-        $this->assertEquals(ArtistMember::class, $artist->members()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $artist->members());
+        static::assertEquals($memberCount, $artist->members()->count());
+        static::assertInstanceOf(Artist::class, $artist->members()->first());
+        static::assertEquals(ArtistMember::class, $artist->members()->getPivotClass());
     }
 
     /**
@@ -140,10 +145,10 @@ class ArtistTest extends TestCase
             ->has(Artist::factory()->count($groupCount), 'groups')
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $artist->groups());
-        $this->assertEquals($groupCount, $artist->groups()->count());
-        $this->assertInstanceOf(Artist::class, $artist->groups()->first());
-        $this->assertEquals(ArtistMember::class, $artist->groups()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $artist->groups());
+        static::assertEquals($groupCount, $artist->groups()->count());
+        static::assertInstanceOf(Artist::class, $artist->groups()->first());
+        static::assertEquals(ArtistMember::class, $artist->groups()->getPivotClass());
     }
 
     /**
@@ -159,9 +164,9 @@ class ArtistTest extends TestCase
             ->has(Image::factory()->count($imageCount))
             ->create();
 
-        $this->assertInstanceOf(BelongsToMany::class, $artist->images());
-        $this->assertEquals($imageCount, $artist->images()->count());
-        $this->assertInstanceOf(Image::class, $artist->images()->first());
-        $this->assertEquals(ArtistImage::class, $artist->images()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $artist->images());
+        static::assertEquals($imageCount, $artist->images()->count());
+        static::assertInstanceOf(Image::class, $artist->images()->first());
+        static::assertEquals(ArtistImage::class, $artist->images()->getPivotClass());
     }
 }

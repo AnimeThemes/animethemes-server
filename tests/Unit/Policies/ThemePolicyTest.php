@@ -1,14 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests\Unit\Policies;
+namespace Policies;
 
-use App\Models\Anime;
-use App\Models\Theme;
 use App\Models\User;
 use App\Policies\ThemePolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * Class ThemePolicyTest
+ * @package Policies
+ */
 class ThemePolicyTest extends TestCase
 {
     use RefreshDatabase;
@@ -20,23 +22,11 @@ class ThemePolicyTest extends TestCase
      */
     public function testViewAny()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
         $policy = new ThemePolicy();
 
-        $this->assertTrue($policy->viewAny($viewer));
-        $this->assertTrue($policy->viewAny($editor));
-        $this->assertTrue($policy->viewAny($admin));
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
+        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -46,26 +36,11 @@ class ThemePolicyTest extends TestCase
      */
     public function testView()
     {
-        $viewer = User::factory()
-            ->withCurrentTeam('viewer')
-            ->create();
-
-        $editor = User::factory()
-            ->withCurrentTeam('editor')
-            ->create();
-
-        $admin = User::factory()
-            ->withCurrentTeam('admin')
-            ->create();
-
-        $theme = Theme::factory()
-            ->for(Anime::factory())
-            ->create();
         $policy = new ThemePolicy();
 
-        $this->assertTrue($policy->view($viewer, $theme));
-        $this->assertTrue($policy->view($editor, $theme));
-        $this->assertTrue($policy->view($admin, $theme));
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
+        static::assertTrue($policy->view());
     }
 
     /**
@@ -89,9 +64,9 @@ class ThemePolicyTest extends TestCase
 
         $policy = new ThemePolicy();
 
-        $this->assertFalse($policy->create($viewer));
-        $this->assertTrue($policy->create($editor));
-        $this->assertTrue($policy->create($admin));
+        static::assertFalse($policy->create($viewer));
+        static::assertTrue($policy->create($editor));
+        static::assertTrue($policy->create($admin));
     }
 
     /**
@@ -113,14 +88,11 @@ class ThemePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $theme = Theme::factory()
-            ->for(Anime::factory())
-            ->create();
         $policy = new ThemePolicy();
 
-        $this->assertFalse($policy->update($viewer, $theme));
-        $this->assertTrue($policy->update($editor, $theme));
-        $this->assertTrue($policy->update($admin, $theme));
+        static::assertFalse($policy->update($viewer));
+        static::assertTrue($policy->update($editor));
+        static::assertTrue($policy->update($admin));
     }
 
     /**
@@ -142,14 +114,11 @@ class ThemePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $theme = Theme::factory()
-            ->for(Anime::factory())
-            ->create();
         $policy = new ThemePolicy();
 
-        $this->assertFalse($policy->delete($viewer, $theme));
-        $this->assertTrue($policy->delete($editor, $theme));
-        $this->assertTrue($policy->delete($admin, $theme));
+        static::assertFalse($policy->delete($viewer));
+        static::assertTrue($policy->delete($editor));
+        static::assertTrue($policy->delete($admin));
     }
 
     /**
@@ -171,14 +140,11 @@ class ThemePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $theme = Theme::factory()
-            ->for(Anime::factory())
-            ->create();
         $policy = new ThemePolicy();
 
-        $this->assertFalse($policy->restore($viewer, $theme));
-        $this->assertTrue($policy->restore($editor, $theme));
-        $this->assertTrue($policy->restore($admin, $theme));
+        static::assertFalse($policy->restore($viewer));
+        static::assertTrue($policy->restore($editor));
+        static::assertTrue($policy->restore($admin));
     }
 
     /**
@@ -200,13 +166,10 @@ class ThemePolicyTest extends TestCase
             ->withCurrentTeam('admin')
             ->create();
 
-        $theme = Theme::factory()
-            ->for(Anime::factory())
-            ->create();
         $policy = new ThemePolicy();
 
-        $this->assertFalse($policy->forceDelete($viewer, $theme));
-        $this->assertFalse($policy->forceDelete($editor, $theme));
-        $this->assertTrue($policy->forceDelete($admin, $theme));
+        static::assertFalse($policy->forceDelete($viewer));
+        static::assertFalse($policy->forceDelete($editor));
+        static::assertTrue($policy->forceDelete($admin));
     }
 }

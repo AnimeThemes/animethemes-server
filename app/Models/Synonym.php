@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -7,13 +7,21 @@ use App\Events\Synonym\SynonymDeleted;
 use App\Events\Synonym\SynonymRestored;
 use App\Events\Synonym\SynonymUpdated;
 use ElasticScoutDriverPlus\QueryDsl;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Scout\Searchable;
 
+/**
+ * Class Synonym
+ * @package App\Models
+ */
 class Synonym extends BaseModel
 {
-    use QueryDsl, Searchable;
+    use QueryDsl;
+    use Searchable;
 
     /**
+     * The attributes that are mass assignable.
+     *
      * @var array
      */
     protected $fillable = ['text'];
@@ -51,7 +59,7 @@ class Synonym extends BaseModel
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->text;
     }
@@ -59,9 +67,9 @@ class Synonym extends BaseModel
     /**
      * Gets the anime that owns the synonym.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function anime()
+    public function anime(): BelongsTo
     {
         return $this->belongsTo('App\Models\Anime', 'anime_id', 'anime_id');
     }

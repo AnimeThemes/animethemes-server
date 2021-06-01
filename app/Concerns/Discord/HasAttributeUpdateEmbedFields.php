@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Concerns\Discord;
 
@@ -6,6 +6,10 @@ use App\Discord\DiscordEmbedField;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
+/**
+ * Trait HasAttributeUpdateEmbedFields
+ * @package App\Concerns\Discord
+ */
 trait HasAttributeUpdateEmbedFields
 {
     use HasDiscordEmbedFields;
@@ -13,7 +17,7 @@ trait HasAttributeUpdateEmbedFields
     /**
      * Initialize embed fields with inline attribute changes.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param Model $model
      * @return void
      */
     protected function initializeEmbedFields(Model $model)
@@ -28,10 +32,10 @@ trait HasAttributeUpdateEmbedFields
     /**
      * Get changed attributes.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
-     * @return \Illuminate\Support\Collection
+     * @param Model $model
+     * @return Collection
      */
-    protected function getChangedAttributes(Model $model)
+    protected function getChangedAttributes(Model $model): Collection
     {
         return collect($model->getChanges())
             ->forget($model->getCreatedAtColumn())
@@ -42,9 +46,9 @@ trait HasAttributeUpdateEmbedFields
     /**
      * Add Embed Fields.
      *
-     * @param \Illuminate\Database\Eloquent\Model $original
-     * @param \Illuminate\Database\Eloquent\Model $original
-     * @param \Illuminate\Support\Collection $changedAttributes
+     * @param Model $original
+     * @param Model $changed
+     * @param Collection $changedAttributes
      * @return void
      */
     protected function addEmbedFields(Model $original, Model $changed, Collection $changedAttributes)
