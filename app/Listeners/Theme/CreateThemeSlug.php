@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listeners\Theme;
 
-use App\Events\Theme\ThemeEvent;
+use App\Events\Theme\ThemeCreating;
 
 /**
  * Class CreateThemeSlug.
@@ -14,10 +14,10 @@ class CreateThemeSlug
     /**
      * Handle the event.
      *
-     * @param ThemeEvent $event
+     * @param ThemeCreating $event
      * @return void
      */
-    public function handle(ThemeEvent $event)
+    public function handle(ThemeCreating $event)
     {
         $theme = $event->getTheme();
 

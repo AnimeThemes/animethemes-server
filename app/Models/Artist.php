@@ -13,6 +13,7 @@ use App\Pivots\ArtistMember;
 use App\Pivots\ArtistResource;
 use App\Pivots\ArtistSong;
 use ElasticScoutDriverPlus\QueryDsl;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Scout\Searchable;
 
@@ -58,6 +59,17 @@ class Artist extends BaseModel
      * @var string
      */
     protected $primaryKey = 'artist_id';
+
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with('songs');
+    }
 
     /**
      * Get the indexable data array for the model.

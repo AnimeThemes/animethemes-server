@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listeners\Image;
 
-use App\Events\Image\ImageEvent;
+use App\Events\Image\ImageDeleting;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Storage;
@@ -19,10 +19,10 @@ class RemoveImageFromStorage implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param ImageEvent $event
+     * @param ImageDeleting $event
      * @return void
      */
-    public function handle(ImageEvent $event)
+    public function handle(ImageDeleting $event)
     {
         $image = $event->getImage();
 

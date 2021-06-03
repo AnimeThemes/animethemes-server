@@ -239,7 +239,7 @@ class QueryParser
 
         if (Arr::exists($parameters, self::PARAM_SEARCH)) {
             $searchParam = $parameters[self::PARAM_SEARCH];
-            if (! Arr::accessible($searchParam)) {
+            if ($searchParam !== null && ! Arr::accessible($searchParam)) {
                 $search = trim($searchParam);
             }
         }

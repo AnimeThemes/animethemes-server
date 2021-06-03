@@ -11,6 +11,7 @@ use App\Events\Entry\EntryRestored;
 use App\Events\Entry\EntryUpdated;
 use App\Pivots\VideoEntry;
 use ElasticScoutDriverPlus\QueryDsl;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
@@ -72,6 +73,17 @@ class Entry extends BaseModel
         'spoiler' => 'boolean',
         'version' => 'int',
     ];
+
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with(['theme.anime.synonyms', 'theme.song']);
+    }
 
     /**
      * Get the indexable data array for the model.

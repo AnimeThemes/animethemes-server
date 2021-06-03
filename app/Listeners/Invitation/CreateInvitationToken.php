@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listeners\Invitation;
 
-use App\Events\Invitation\InvitationEvent;
+use App\Events\Invitation\InvitationCreating;
 use App\Models\Invitation;
 use Exception;
 
@@ -16,11 +16,11 @@ class CreateInvitationToken
     /**
      * Handle the event.
      *
-     * @param InvitationEvent $event
+     * @param InvitationCreating $event
      * @return void
      * @throws Exception
      */
-    public function handle(InvitationEvent $event)
+    public function handle(InvitationCreating $event)
     {
         $invitation = $event->getInvitation();
 

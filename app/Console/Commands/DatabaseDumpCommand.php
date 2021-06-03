@@ -88,7 +88,7 @@ class DatabaseDumpCommand extends Command
                         ->setUserName(strval($dbConnection->getConfig('username')))
                         ->setPassword(strval($dbConnection->getConfig('password')))
                         ->setHost($dbConnection->getConfig('host'))
-                        ->setPort($dbConnection->getConfig('port'))
+                        ->setPort(intval($dbConnection->getConfig('port')))
                         ->includeTables($this->allowedTables)
                         ->dumpToFile($dumpFile);
                     break;
@@ -99,7 +99,7 @@ class DatabaseDumpCommand extends Command
                         ->setUserName(strval($dbConnection->getConfig('username')))
                         ->setPassword(strval($dbConnection->getConfig('password')))
                         ->setHost($dbConnection->getConfig('host'))
-                        ->setPort($dbConnection->getConfig('port'))
+                        ->setPort(intval($dbConnection->getConfig('port')))
                         ->includeTables($this->allowedTables)
                         ->dumpToFile($dumpFile);
                     break;

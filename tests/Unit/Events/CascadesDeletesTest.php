@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Events;
 
-use App\Events\Anime\AnimeDeleting;
-use App\Events\Theme\ThemeDeleting;
+use App\Contracts\Events\CascadesDeletesEvent;
 use App\Listeners\CascadesDeletes;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -16,26 +16,18 @@ use Tests\TestCase;
 class CascadesDeletesTest extends TestCase
 {
     /**
-     * CascadesDeletes shall listen to AnimeDeleting.
+     * CascadesDeletes shall listen to CascadesDeletesEvent.
      *
      * @return void
      */
-    public function testAnimeDeleting()
+    public function testListening()
     {
         $fake = Event::fake();
 
-        $fake->assertListening(AnimeDeleting::class, CascadesDeletes::class);
-    }
+        $listener = Str::of(CascadesDeletes::class)
+            ->append('@handle')
+            ->__toString();
 
-    /**
-     * CascadesDeletes shall listen to ThemeDeleting.
-     *
-     * @return void
-     */
-    public function testThemeDeleting()
-    {
-        $fake = Event::fake();
-
-        $fake->assertListening(ThemeDeleting::class, CascadesDeletes::class);
+        $fake->assertListening(CascadesDeletesEvent::class, $listener);
     }
 }
