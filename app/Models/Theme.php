@@ -13,6 +13,7 @@ use App\Events\Theme\ThemeRestored;
 use App\Events\Theme\ThemeUpdated;
 use BenSampo\Enum\Traits\CastsEnums;
 use ElasticScoutDriverPlus\QueryDsl;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
@@ -60,6 +61,17 @@ class Theme extends BaseModel
      * @var string
      */
     protected $primaryKey = 'theme_id';
+
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with(['anime.synonyms', 'song']);
+    }
 
     /**
      * Get the indexable data array for the model.

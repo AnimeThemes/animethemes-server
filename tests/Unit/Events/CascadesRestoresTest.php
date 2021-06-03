@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Events;
 
-use App\Events\Anime\AnimeRestored;
-use App\Events\Theme\ThemeRestored;
+use App\Contracts\Events\CascadesRestoresEvent;
 use App\Listeners\CascadesRestores;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -16,26 +16,18 @@ use Tests\TestCase;
 class CascadesRestoresTest extends TestCase
 {
     /**
-     * CascadesRestores shall listen to AnimeRestored.
+     * CascadesRestores shall listen to CascadesRestoresEvent.
      *
      * @return void
      */
-    public function testAnimeRestored()
+    public function testListening()
     {
         $fake = Event::fake();
 
-        $fake->assertListening(AnimeRestored::class, CascadesRestores::class);
-    }
+        $listener = Str::of(CascadesRestores::class)
+            ->append('@handle')
+            ->__toString();
 
-    /**
-     * CascadesRestores shall listen to ThemeRestored.
-     *
-     * @return void
-     */
-    public function testThemeRestored()
-    {
-        $fake = Event::fake();
-
-        $fake->assertListening(ThemeRestored::class, CascadesRestores::class);
+        $fake->assertListening(CascadesRestoresEvent::class, $listener);
     }
 }

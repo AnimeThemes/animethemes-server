@@ -15,6 +15,7 @@ use App\Pivots\AnimeResource;
 use App\Pivots\AnimeSeries;
 use BenSampo\Enum\Traits\CastsEnums;
 use ElasticScoutDriverPlus\QueryDsl;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
@@ -63,6 +64,17 @@ class Anime extends BaseModel
      * @var string
      */
     protected $primaryKey = 'anime_id';
+
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with('synonyms');
+    }
 
     /**
      * Get the indexable data array for the model.

@@ -67,9 +67,9 @@ final class ResourceSite extends Enum implements LocalizedEnum
      * TODO: Domain should be an attribute of the type.
      *
      * @param string $link the link to test
-     * @return string|null
+     * @return int|null
      */
-    public static function valueOf(string $link): ?string
+    public static function valueOf(string $link): ?int
     {
         $parsedHost = parse_url($link, PHP_URL_HOST);
 

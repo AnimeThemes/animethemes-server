@@ -27,16 +27,6 @@ use Laravel\Nova\NovaApplicationServiceProvider;
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        parent::boot();
-    }
-
-    /**
      * Register the Nova routes.
      *
      * @return void
@@ -91,16 +81,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     }
 
     /**
-     * Get the extra dashboards that should be displayed on the Nova dashboard.
-     *
-     * @return array
-     */
-    protected function dashboards(): array
-    {
-        return [];
-    }
-
-    /**
      * Get the tools that should be listed in the Nova sidebar.
      *
      * @return array
@@ -113,15 +93,5 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     return $request->user()->hasCurrentTeamPermission('config:update');
                 }),
         ];
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
     }
 }

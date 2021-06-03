@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Listeners\Video;
 
 use App\Enums\VideoSource;
-use App\Events\Video\VideoEvent;
+use App\Events\Video\VideoCreating;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -18,10 +18,10 @@ class InitializeVideoTags
     /**
      * Handle the event.
      *
-     * @param VideoEvent $event
+     * @param VideoCreating $event
      * @return void
      */
-    public function handle(VideoEvent $event)
+    public function handle(VideoCreating $event)
     {
         $video = $event->getVideo();
 
