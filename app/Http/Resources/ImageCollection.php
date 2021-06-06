@@ -42,7 +42,7 @@ class ImageCollection extends BaseCollection
     /**
      * The include paths a client is allowed to request.
      *
-     * @return array
+     * @return string[]
      */
     public static function allowedIncludePaths(): array
     {
@@ -55,7 +55,7 @@ class ImageCollection extends BaseCollection
     /**
      * The sort field names a client is allowed to request.
      *
-     * @return array
+     * @return string[]
      */
     public static function allowedSortFields(): array
     {
@@ -74,7 +74,7 @@ class ImageCollection extends BaseCollection
     /**
      * The filters that can be applied by the client for this resource.
      *
-     * @return array
+     * @return string[]
      */
     public static function filters(): array
     {

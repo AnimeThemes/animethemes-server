@@ -32,7 +32,7 @@ class Anime extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = ['slug', 'name', 'year', 'season', 'synopsis'];
 
@@ -41,7 +41,7 @@ class Anime extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => AnimeCreated::class,
@@ -102,7 +102,7 @@ class Anime extends BaseModel
     /**
      * The attributes that should be cast to enum types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $enumCasts = [
         'season' => AnimeSeason::class,
@@ -111,7 +111,7 @@ class Anime extends BaseModel
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'season' => 'int',

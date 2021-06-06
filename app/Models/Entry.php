@@ -30,7 +30,7 @@ class Entry extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = ['version', 'episodes', 'nsfw', 'spoiler', 'notes'];
 
@@ -39,7 +39,7 @@ class Entry extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => EntryCreated::class,
@@ -66,7 +66,7 @@ class Entry extends BaseModel
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'nsfw' => 'boolean',

@@ -28,7 +28,7 @@ class Theme extends BaseModel
     use Searchable;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $fillable = ['type', 'sequence', 'group'];
 
@@ -37,7 +37,7 @@ class Theme extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => ThemeCreated::class,
@@ -88,14 +88,18 @@ class Theme extends BaseModel
     }
 
     /**
-     * @var array
+     * The attributes that should be cast to enum types.
+     *
+     * @var array<string, string>
      */
     protected $enumCasts = [
         'type' => ThemeType::class,
     ];
 
     /**
-     * @var array
+     * The attributes that should be cast to native types.
+     *
+     * @var array<string, string>
      */
     protected $casts = [
         'type' => 'int',

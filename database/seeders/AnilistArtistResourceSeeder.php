@@ -12,7 +12,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
@@ -30,7 +30,7 @@ class AnilistArtistResourceSeeder extends Seeder
     public function run()
     {
         // Get artists that have MAL resource but do not have Anilist resource
-        $artists = Artist::whereDoesntHave('externalResources', function (BelongsToMany $resourceQuery) {
+        $artists = Artist::whereDoesntHave('externalResources', function (Builder $resourceQuery) {
             $resourceQuery->where('site', ResourceSite::ANILIST);
         })
         ->get();

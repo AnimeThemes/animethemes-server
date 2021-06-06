@@ -28,7 +28,7 @@ class VideoEntry extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => VideoEntryCreated::class,

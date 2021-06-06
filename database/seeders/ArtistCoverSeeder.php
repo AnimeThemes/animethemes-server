@@ -12,8 +12,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Arr;
@@ -134,9 +134,9 @@ class ArtistCoverSeeder extends Seeder
     protected function getUnseededArtists(): Collection
     {
         return Artist::query()
-            ->whereHas('externalResources', function (BelongsToMany $resourceQuery) {
+            ->whereHas('externalResources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::ANILIST);
-            })->whereDoesntHave('images', function (BelongsToMany $imageQuery) {
+            })->whereDoesntHave('images', function (Builder $imageQuery) {
                 $imageQuery->whereIn('facet', [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
             })
             ->get();

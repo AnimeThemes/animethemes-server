@@ -32,7 +32,9 @@ class Video extends BaseModel implements Streamable, Viewable
     use Searchable;
 
     /**
-     * @var array
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
      */
     protected $fillable = ['basename', 'filename', 'path', 'size', 'mimetype'];
 
@@ -41,7 +43,7 @@ class Video extends BaseModel implements Streamable, Viewable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => VideoCreated::class,
@@ -68,7 +70,7 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * The accessors to append to the model's array form.
      *
-     * @var array
+     * @var string[]
      */
     protected $appends = ['tags'];
 
@@ -135,7 +137,9 @@ class Video extends BaseModel implements Streamable, Viewable
     }
 
     /**
-     * @var array
+     * The attributes that should be cast to enum types.
+     *
+     * @var array<string, string>
      */
     protected $enumCasts = [
         'overlap' => VideoOverlap::class,
@@ -143,7 +147,9 @@ class Video extends BaseModel implements Streamable, Viewable
     ];
 
     /**
-     * @var array
+     * The attributes that should be cast to native types.
+     *
+     * @var array<string, string>
      */
     protected $casts = [
         'overlap' => 'int',

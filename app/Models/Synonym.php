@@ -23,7 +23,7 @@ class Synonym extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = ['text'];
 
@@ -32,7 +32,7 @@ class Synonym extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => SynonymCreated::class,

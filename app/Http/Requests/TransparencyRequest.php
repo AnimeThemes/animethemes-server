@@ -58,7 +58,7 @@ class TransparencyRequest extends FormRequest
             'date' => [
                 'nullable',
                 'date_format:Y-m',
-                new TransparencyDateRule($this->validDates),
+                new TransparencyDateRule($this->getValidDates()),
             ],
         ];
     }
@@ -95,15 +95,15 @@ class TransparencyRequest extends FormRequest
     /**
      * Get the validated year/month combination for the transparency filter.
      *
-     * @return Carbon
+     * @return Carbon|null
      */
-    public function getSelectedDate(): Carbon
+    public function getSelectedDate(): ?Carbon
     {
-        $validDate = Arr::get(
-            $this->validated(),
-            'date',
-            Carbon::now()->format(AllowedDateFormat::WITH_MONTH)
-        );
+        $validDate = Arr::get($this->validated(), 'date');
+
+        if ($validDate === null) {
+            return $this->getValidDates()->first();
+        }
 
         return Carbon::instance(DateTime::createFromFormat('!'.AllowedDateFormat::WITH_MONTH, $validDate));
     }
@@ -117,8 +117,12 @@ class TransparencyRequest extends FormRequest
     {
         $date = $this->getSelectedDate();
 
-        return Balance::whereBetween('date', [$date->copy()->startOfMonth(), $date->copy()->endOfMonth()])
-            ->orderBy('usage', 'desc')
+        if ($date === null) {
+            return Collection::make();
+        }
+
+        return Balance::whereMonth('date', strval($date->month))
+            ->whereYear('date', strval($date->year))
             ->get();
     }
 
@@ -131,8 +135,12 @@ class TransparencyRequest extends FormRequest
     {
         $date = $this->getSelectedDate();
 
-        return Transaction::whereBetween('date', [$date->copy()->startOfMonth(), $date->copy()->endOfMonth()])
-            ->orderBy('date', 'desc')
+        if ($date === null) {
+            return Collection::make();
+        }
+
+        return Transaction::whereMonth('date', strval($date->month))
+            ->whereYear('date', strval($date->year))
             ->get();
     }
 }

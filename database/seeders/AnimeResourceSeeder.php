@@ -8,7 +8,7 @@ use App\Enums\ResourceSite;
 use App\Models\Anime;
 use App\Models\ExternalResource;
 use Exception;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
@@ -62,7 +62,7 @@ class AnimeResourceSeeder extends Seeder
                     // This is not guaranteed as an Anime Name may be inconsistent between indices
                     $resourceAnime = Anime::where('name', $animeName)
                         ->whereIn('year', $years)
-                        ->whereDoesntHave('externalResources', function (BelongsToMany $resourceQuery) use ($resource) {
+                        ->whereDoesntHave('externalResources', function (Builder $resourceQuery) use ($resource) {
                             $resourceQuery->where('site', $resource->site->value)->where('link', $resource->link);
                         })
                         ->get();

@@ -23,7 +23,7 @@ class PasswordResetTest extends TestCase
     public function testResetPasswordLinkScreenCanBeRendered()
     {
         if (! Features::enabled(Features::updatePasswords())) {
-            return $this->markTestSkipped('Password updates are not enabled.');
+            static::markTestSkipped('Password updates are not enabled.');
         }
 
         $response = $this->get('/forgot-password');
@@ -34,7 +34,7 @@ class PasswordResetTest extends TestCase
     public function testResetPasswordLinkCanBeRequested()
     {
         if (! Features::enabled(Features::updatePasswords())) {
-            return $this->markTestSkipped('Password updates are not enabled.');
+            static::markTestSkipped('Password updates are not enabled.');
         }
 
         Notification::fake();
@@ -51,7 +51,7 @@ class PasswordResetTest extends TestCase
     public function testResetPasswordScreenCanBeRendered()
     {
         if (! Features::enabled(Features::updatePasswords())) {
-            return $this->markTestSkipped('Password updates are not enabled.');
+            static::markTestSkipped('Password updates are not enabled.');
         }
 
         Notification::fake();
@@ -74,7 +74,7 @@ class PasswordResetTest extends TestCase
     public function testPasswordCanBeResetWithValidToken()
     {
         if (! Features::enabled(Features::updatePasswords())) {
-            return $this->markTestSkipped('Password updates are not enabled.');
+            static::markTestSkipped('Password updates are not enabled.');
         }
 
         Notification::fake();

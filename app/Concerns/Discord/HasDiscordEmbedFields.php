@@ -14,7 +14,7 @@ trait HasDiscordEmbedFields
     /**
      * The array of embed fields.
      *
-     * @var array
+     * @var DiscordEmbedField[]
      */
     protected array $embedFields = [];
 
@@ -32,7 +32,7 @@ trait HasDiscordEmbedFields
     /**
      * Get discord embed fields.
      *
-     * @return array
+     * @return DiscordEmbedField[]
      */
     protected function getEmbedFields(): array
     {

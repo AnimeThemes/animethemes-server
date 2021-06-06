@@ -24,7 +24,7 @@ class Invitation extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = ['name', 'email', 'status'];
 
@@ -33,7 +33,7 @@ class Invitation extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => InvitationCreated::class,
@@ -60,7 +60,7 @@ class Invitation extends BaseModel
     /**
      * The attributes that should be cast to enum types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $enumCasts = [
         'status' => InvitationStatus::class,
@@ -69,7 +69,7 @@ class Invitation extends BaseModel
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'status' => 'int',

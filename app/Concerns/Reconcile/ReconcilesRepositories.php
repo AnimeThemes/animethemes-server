@@ -222,8 +222,11 @@ trait ReconcilesRepositories
      * @param Collection $destinationModels
      * @return void
      */
-    protected function createModelsFromSource(Repository $destination, Collection $sourceModels, Collection $destinationModels)
-    {
+    protected function createModelsFromSource(
+        Repository $destination,
+        Collection $sourceModels,
+        Collection $destinationModels
+    ) {
         $createModels = $this->diffForCreateDelete($sourceModels, $destinationModels);
 
         foreach ($createModels as $createModel) {
@@ -246,8 +249,11 @@ trait ReconcilesRepositories
      * @param Collection $destinationModels
      * @return void
      */
-    public function deleteModelsFromDestination(Repository $destination, Collection $sourceModels, Collection $destinationModels)
-    {
+    public function deleteModelsFromDestination(
+        Repository $destination,
+        Collection $sourceModels,
+        Collection $destinationModels
+    ) {
         $deleteModels = $this->diffForCreateDelete($destinationModels, $sourceModels);
 
         foreach ($deleteModels as $deleteModel) {
@@ -294,8 +300,11 @@ trait ReconcilesRepositories
      * @param Collection $destinationModels
      * @return void
      */
-    public function updateDestinationModels(Repository $destination, Collection $sourceModels, Collection $destinationModels)
-    {
+    public function updateDestinationModels(
+        Repository $destination,
+        Collection $sourceModels,
+        Collection $destinationModels
+    ) {
         $updatedModels = $this->diffForUpdate($destinationModels, $sourceModels);
 
         foreach ($updatedModels as $updatedModel) {

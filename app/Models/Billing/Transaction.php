@@ -22,7 +22,7 @@ class Transaction extends BaseModel
     use CastsEnums;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $fillable = ['date', 'service', 'description', 'amount', 'external_id'];
 
@@ -31,7 +31,7 @@ class Transaction extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => TransactionCreated::class,
@@ -55,14 +55,18 @@ class Transaction extends BaseModel
     protected $primaryKey = 'transaction_id';
 
     /**
-     * @var array
+     * The attributes that should be cast to enum types.
+     *
+     * @var array<string, string>
      */
     protected $enumCasts = [
         'service' => Service::class,
     ];
 
     /**
-     * @var array
+     * The attributes that should be cast to native types.
+     *
+     * @var array<string, string>
      */
     protected $casts = [
         'service' => 'int',

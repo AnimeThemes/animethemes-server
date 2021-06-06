@@ -43,7 +43,7 @@ class QueryParser
     /**
      * The list of fields and direction to base sorting on.
      *
-     * @var array
+     * @var array<string, bool>
      */
     protected array $sorts;
 
@@ -159,7 +159,7 @@ class QueryParser
      * Parse sorts from parameters.
      *
      * @param array $parameters
-     * @return array
+     * @return array<string, bool>
      */
     protected function parseSorts(array $parameters): array
     {
@@ -196,7 +196,7 @@ class QueryParser
     /**
      * Get sorts.
      *
-     * @return array
+     * @return array<string, bool>
      */
     public function getSorts(): array
     {
@@ -353,7 +353,7 @@ class QueryParser
      *
      * @param array $allowedIncludePaths
      * @param string $type
-     * @return array
+     * @return string[]
      */
     public function getIncludePaths(array $allowedIncludePaths, string $type = ''): array
     {

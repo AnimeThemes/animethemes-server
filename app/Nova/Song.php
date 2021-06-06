@@ -35,7 +35,7 @@ class Song extends Resource
     /**
      * The relationships that should be eager loaded on index queries.
      *
-     * @var array
+     * @var string[]
      */
     public static $with = ['artists'];
 
@@ -72,7 +72,7 @@ class Song extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var array
+     * @var string[]
      */
     public static $search = [
         'title',

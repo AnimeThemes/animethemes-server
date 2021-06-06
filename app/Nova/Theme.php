@@ -60,7 +60,7 @@ class Theme extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var array
+     * @var string[]
      */
     public static $search = [
         'slug',

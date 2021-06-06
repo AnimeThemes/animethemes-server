@@ -144,32 +144,22 @@ class WhereCondition extends Condition
      */
     protected function getElasticsearchClause(Filter $filter): AbstractParameterizedQueryBuilder
     {
-        if (ComparisonOperator::LT()->is($this->getComparisonOperator())) {
-            return (new RangeQueryBuilder())
+        return match (optional($this->getComparisonOperator())->value) {
+            ComparisonOperator::LT => (new RangeQueryBuilder())
                 ->field($filter->getKey())
-                ->lt(collect($filter->getFilterValues($this))->first());
-        }
-
-        if (ComparisonOperator::GT()->is($this->getComparisonOperator())) {
-            return (new RangeQueryBuilder())
+                ->lt(collect($filter->getFilterValues($this))->first()),
+            ComparisonOperator::GT => (new RangeQueryBuilder())
                 ->field($filter->getKey())
-                ->gt(collect($filter->getFilterValues($this))->first());
-        }
-
-        if (ComparisonOperator::LTE()->is($this->getComparisonOperator())) {
-            return (new RangeQueryBuilder())
+                ->gt(collect($filter->getFilterValues($this))->first()),
+            ComparisonOperator::LTE => (new RangeQueryBuilder())
                 ->field($filter->getKey())
-                ->lte(collect($filter->getFilterValues($this))->first());
-        }
-
-        if (ComparisonOperator::GTE()->is($this->getComparisonOperator())) {
-            return (new RangeQueryBuilder())
+                ->lte(collect($filter->getFilterValues($this))->first()),
+            ComparisonOperator::GTE => (new RangeQueryBuilder())
                 ->field($filter->getKey())
-                ->gte(collect($filter->getFilterValues($this))->first());
-        }
-
-        return (new TermQueryBuilder())
-            ->field($filter->getKey())
-            ->value(collect($filter->getFilterValues($this))->first());
+                ->gte(collect($filter->getFilterValues($this))->first()),
+            default => (new TermQueryBuilder())
+                ->field($filter->getKey())
+                ->value(collect($filter->getFilterValues($this))->first()),
+        };
     }
 }
