@@ -26,7 +26,7 @@ class Image extends BaseModel implements Streamable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = ['path', 'facet', 'size', 'mimetype'];
 
@@ -35,7 +35,7 @@ class Image extends BaseModel implements Streamable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => ImageCreated::class,
@@ -62,7 +62,7 @@ class Image extends BaseModel implements Streamable
     /**
      * The attributes that should be cast to enum types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $enumCasts = [
         'facet' => ImageFacet::class,
@@ -71,7 +71,7 @@ class Image extends BaseModel implements Streamable
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'facet' => 'int',

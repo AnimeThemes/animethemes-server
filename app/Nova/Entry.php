@@ -64,7 +64,7 @@ class Entry extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var array
+     * @var string[]
      */
     public static $search = [
         'entry_id',

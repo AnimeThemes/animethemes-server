@@ -71,7 +71,7 @@ class ExternalResourceResource extends BaseResource
     /**
      * The include paths a client is allowed to request.
      *
-     * @return array
+     * @return string[]
      */
     public static function allowedIncludePaths(): array
     {

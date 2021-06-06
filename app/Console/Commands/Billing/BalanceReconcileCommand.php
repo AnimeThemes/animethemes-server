@@ -189,12 +189,10 @@ class BalanceReconcileCommand extends Command
      */
     protected function getSourceRepository(Service $service): ?Repository
     {
-        switch ($service->value) {
-        case Service::DIGITALOCEAN:
-            return App::make(DigitalOceanSourceRepository::class);
-        }
-
-        return null;
+        return match ($service->value) {
+            Service::DIGITALOCEAN => App::make(DigitalOceanSourceRepository::class),
+            default => null,
+        };
     }
 
     /**
@@ -205,11 +203,9 @@ class BalanceReconcileCommand extends Command
      */
     protected function getDestinationRepository(Service $service): ?Repository
     {
-        switch ($service->value) {
-        case Service::DIGITALOCEAN:
-            return App::make(DigitalOceanDestinationRepository::class);
-        }
-
-        return null;
+        return match ($service->value) {
+            Service::DIGITALOCEAN => App::make(DigitalOceanDestinationRepository::class),
+            default => null,
+        };
     }
 }

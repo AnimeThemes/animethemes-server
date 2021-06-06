@@ -18,7 +18,7 @@ class AnimeResource extends BasePivot
     use HasFactory;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $fillable = ['as'];
 
@@ -34,7 +34,7 @@ class AnimeResource extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => AnimeResourceCreated::class,

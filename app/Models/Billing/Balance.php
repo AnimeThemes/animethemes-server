@@ -23,7 +23,7 @@ class Balance extends BaseModel
     use CastsEnums;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $fillable = ['date', 'service', 'frequency', 'usage', 'balance'];
 
@@ -32,7 +32,7 @@ class Balance extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => BalanceCreated::class,
@@ -56,7 +56,9 @@ class Balance extends BaseModel
     protected $primaryKey = 'balance_id';
 
     /**
-     * @var array
+     * The attributes that should be cast to enum types.
+     *
+     * @var array<string, string>
      */
     protected $enumCasts = [
         'service' => Service::class,
@@ -64,7 +66,9 @@ class Balance extends BaseModel
     ];
 
     /**
-     * @var array
+     * The attributes that should be cast to native types.
+     *
+     * @var array<string, string>
      */
     protected $casts = [
         'service' => 'int',

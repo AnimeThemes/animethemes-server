@@ -31,12 +31,12 @@ class DatabaseDumpCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Produces sanitized database dump, targeting wiki-related tables for local seeding purposes';
+    protected $description = 'Produces sanitized database dump, targeting wiki-related tables for seeding purposes';
 
     /**
      * The list of tables to include in the dump.
      *
-     * @var array
+     * @var string[]
      */
     protected array $allowedTables = [
         'anime',

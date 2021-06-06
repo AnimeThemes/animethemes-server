@@ -8,7 +8,8 @@ use App\Concerns\Reconcile\Billing\ReconcilesTransaction;
 use App\Contracts\Repositories\Repository;
 use App\Enums\Billing\Service;
 use App\Models\BaseModel;
-use App\Repositories\Eloquent\Billing\DigitalOceanTransactionRepository;
+use App\Repositories\Eloquent\Billing\DigitalOceanTransactionRepository as DigitalOceanDestinationRepository;
+use App\Repositories\Service\Billing\DigitalOceanTransactionRepository as DigitalOceanSourceRepository;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
@@ -188,12 +189,10 @@ class TransactionReconcileCommand extends Command
      */
     protected function getSourceRepository(Service $service): ?Repository
     {
-        switch ($service->value) {
-        case Service::DIGITALOCEAN:
-            return App::make(\App\Repositories\Service\Billing\DigitalOceanTransactionRepository::class);
-        }
-
-        return null;
+        return match ($service->value) {
+            Service::DIGITALOCEAN => App::make(DigitalOceanSourceRepository::class),
+            default => null,
+        };
     }
 
     /**
@@ -204,11 +203,9 @@ class TransactionReconcileCommand extends Command
      */
     protected function getDestinationRepository(Service $service): ?Repository
     {
-        switch ($service->value) {
-        case Service::DIGITALOCEAN:
-            return App::make(DigitalOceanTransactionRepository::class);
-        }
-
-        return null;
+        return match ($service->value) {
+            Service::DIGITALOCEAN => App::make(DigitalOceanDestinationRepository::class),
+            default => null,
+        };
     }
 }

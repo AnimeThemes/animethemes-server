@@ -33,20 +33,16 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['name', 'email', 'password'];
 
     /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => UserCreated::class,
@@ -58,14 +54,9 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var string[]
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
-    ];
+    protected $hidden = ['password', 'remember_token', 'two_factor_recovery_codes', 'two_factor_secret'];
 
     /**
      * The storage format of the model's date columns.
@@ -77,7 +68,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',

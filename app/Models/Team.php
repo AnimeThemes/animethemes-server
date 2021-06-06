@@ -20,7 +20,7 @@ class Team extends JetstreamTeam
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'personal_team' => 'boolean',
@@ -29,17 +29,14 @@ class Team extends JetstreamTeam
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
-    protected $fillable = [
-        'name',
-        'personal_team',
-    ];
+    protected $fillable = ['name', 'personal_team'];
 
     /**
      * The event map for the model.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => TeamCreated::class,

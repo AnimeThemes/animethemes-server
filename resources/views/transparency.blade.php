@@ -9,30 +9,32 @@
         </div>
 
         <!-- Filters -->
-        <div class="py-4">
-            <div>
-                <h2 class="text-2xl font-semibold leading-tight">{{ __('Select Month') }}</h2>
-            </div>
-            <x-jet-input-error for="date" class="mt-2" />
-            <form method="GET" action="{{ route('transparency.show') }}">
-                <div class="my-2 flex sm:flex-row flex-col">
-                    <div class="flex flex-row mb-1 sm:mb-0">
-                        <div class="relative">
-                            <select name="date" class="h-full rounded-l">
-                                @foreach ($filterOptions as $filterOption)
-                                <option {{ $filterOption->format('Y-m') === $selectedDate->format('Y-m') ? 'selected' : '' }}>{{ $filterOption->format('Y-m') }}</option>
-                                @endforeach
-                            </select>
+        @if ($filterOptions->isNotEmpty())
+            <div class="py-4">
+                <div>
+                    <h2 class="text-2xl font-semibold leading-tight">{{ __('Select Month') }}</h2>
+                </div>
+                <x-jet-input-error for="date" class="mt-2" />
+                <form method="GET" action="{{ route('transparency.show') }}">
+                    <div class="my-2 flex sm:flex-row flex-col">
+                        <div class="flex flex-row mb-1 sm:mb-0">
+                            <div class="relative">
+                                <select name="date" class="h-full rounded-l">
+                                    @foreach ($filterOptions as $filterOption)
+                                        <option {{ $filterOption->format('Y-m') === $selectedDate->format('Y-m') ? 'selected' : '' }}>{{ $filterOption->format('Y-m') }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="block relative">
+                            <x-jet-button class="rounded-l-none h-full px-8">
+                                {{ __('Go!') }}
+                            </x-jet-button>
                         </div>
                     </div>
-                    <div class="block relative">
-                        <x-jet-button class="rounded-l-none h-full px-8">
-                            {{ __('Go!') }}
-                        </x-jet-button>
-                    </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
+        @endif
 
         <!-- Balances -->
         <div class="py-4">

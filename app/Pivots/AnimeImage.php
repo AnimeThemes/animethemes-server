@@ -28,7 +28,7 @@ class AnimeImage extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => AnimeImageCreated::class,

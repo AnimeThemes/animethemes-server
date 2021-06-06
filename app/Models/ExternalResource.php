@@ -24,7 +24,7 @@ class ExternalResource extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = ['site', 'link', 'external_id'];
 
@@ -33,7 +33,7 @@ class ExternalResource extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => ExternalResourceCreated::class,
@@ -59,7 +59,7 @@ class ExternalResource extends BaseModel
     /**
      * The attributes that should be cast to enum types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $enumCasts = [
         'site' => ResourceSite::class,
@@ -68,7 +68,7 @@ class ExternalResource extends BaseModel
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'site' => 'int',

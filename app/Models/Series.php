@@ -24,7 +24,7 @@ class Series extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = ['slug', 'name'];
 
@@ -33,7 +33,7 @@ class Series extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'created' => SeriesCreated::class,
