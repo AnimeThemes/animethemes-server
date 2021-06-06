@@ -99,7 +99,7 @@ class TransparencyRequest extends FormRequest
      */
     public function getSelectedDate(): ?Carbon
     {
-        $validDate =  Arr::get($this->validated(),'date');
+        $validDate =  Arr::get($this->validated(), 'date');
 
         if ($validDate === null) {
             return $this->getValidDates()->first();
