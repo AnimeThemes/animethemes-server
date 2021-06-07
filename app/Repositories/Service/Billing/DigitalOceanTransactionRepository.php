@@ -62,7 +62,7 @@ class DigitalOceanTransactionRepository implements Repository
                 $billingHistory = Arr::get($billingHistoryJson, 'billing_history', []);
                 foreach ($billingHistory as $sourceTransaction) {
                     $sourceTransactions[] = Transaction::make([
-                        'date' => DateTime::createFromFormat('!'.DateTimeInterface::RFC3339, Arr::get($sourceTransaction, 'date'))->format(AllowedDateFormat::WITH_DAY),
+                        'date' => DateTime::createFromFormat('!'.DateTimeInterface::RFC3339, Arr::get($sourceTransaction, 'date'))->format(AllowedDateFormat::YMD),
                         'service' => Service::DIGITALOCEAN,
                         'description' => Arr::get($sourceTransaction, 'description'),
                         'amount' => Arr::get($sourceTransaction, 'amount'),

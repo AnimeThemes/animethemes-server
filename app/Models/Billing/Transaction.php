@@ -83,7 +83,7 @@ class Transaction extends BaseModel
     {
         return Str::of($this->service->description)
             ->append(' ')
-            ->append($this->date->format(AllowedDateFormat::WITH_DAY))
+            ->append($this->date->format(AllowedDateFormat::YMD))
             ->__toString();
     }
 }

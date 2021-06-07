@@ -81,7 +81,7 @@ class BalanceReconcileTest extends TestCase
         $balances = Balance::factory()
             ->count($createdBalanceCount)
             ->make([
-                'date' => Carbon::now()->format(AllowedDateFormat::WITH_DAY),
+                'date' => Carbon::now()->format(AllowedDateFormat::YMD),
                 'service' => Service::DIGITALOCEAN,
             ]);
 
@@ -108,7 +108,7 @@ class BalanceReconcileTest extends TestCase
         Balance::factory()
             ->count($deletedBalanceCount)
             ->create([
-                'date' => Carbon::now()->format(AllowedDateFormat::WITH_DAY),
+                'date' => Carbon::now()->format(AllowedDateFormat::YMD),
                 'service' => Service::DIGITALOCEAN,
             ]);
 
@@ -132,13 +132,13 @@ class BalanceReconcileTest extends TestCase
     {
         Balance::factory()
             ->create([
-                'date' => Carbon::now()->format(AllowedDateFormat::WITH_DAY),
+                'date' => Carbon::now()->format(AllowedDateFormat::YMD),
                 'service' => Service::DIGITALOCEAN,
             ]);
 
         $sourceBalances = Balance::factory()
             ->make([
-                'date' => Carbon::now()->format(AllowedDateFormat::WITH_DAY),
+                'date' => Carbon::now()->format(AllowedDateFormat::YMD),
                 'service' => Service::DIGITALOCEAN,
             ]);
 

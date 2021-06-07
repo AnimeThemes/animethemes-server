@@ -7,6 +7,7 @@ namespace App\Concerns\Reconcile\Billing;
 use App\Concerns\Reconcile\ReconcilesRepositories;
 use App\Enums\Filter\AllowedDateFormat;
 use App\Models\Billing\Balance;
+use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -18,31 +19,24 @@ trait ReconcilesBalance
     use ReconcilesRepositories;
 
     /**
-     * Perform set operation for create and delete steps.
+     * Callback for create and delete set operation item comparison.
      *
-     * @param Collection $a
-     * @param Collection $b
-     * @return Collection
+     * @return Closure
      */
-    protected function diffForCreateDelete(Collection $a, Collection $b): Collection
+    protected function diffCallbackForCreateDelete(): Closure
     {
-        return $a->diffUsing($b, function (Balance $first, Balance $second) {
-            return $first->date->format(AllowedDateFormat::WITH_MONTH) <=> $second->date->format(AllowedDateFormat::WITH_MONTH);
-        });
+        return fn (Balance $first, Balance $second) => $first->date->format(AllowedDateFormat::YM) <=> $second->date->format(AllowedDateFormat::YM);
     }
 
     /**
-     * Perform set operation for update step.
+     * Callback for update set operation item comparison.
      *
-     * @param Collection $a
-     * @param Collection $b
-     * @return Collection
+     * @return Closure
      */
-    protected function diffForUpdate(Collection $a, Collection $b): Collection
+    protected function diffCallbackForUpdate(): Closure
     {
-        return $a->diffUsing($b, function (Balance $first, Balance $second) {
-            return [$first->date->format(AllowedDateFormat::WITH_DAY), $first->frequency, $first->usage, $first->balance] <=> [$second->date->format(AllowedDateFormat::WITH_DAY), $second->frequency, $second->usage, $second->balance];
-        });
+        return fn (Balance $first, Balance $second) => [$first->date->format(AllowedDateFormat::YMD), $first->usage, $first->balance]
+            <=> [$second->date->format(AllowedDateFormat::YMD), $second->usage, $second->balance];
     }
 
     /**
@@ -54,10 +48,10 @@ trait ReconcilesBalance
      */
     protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model
     {
-        $formattedDestinationDate = $destinationModel->getAttribute('date')->format(AllowedDateFormat::WITH_MONTH);
+        $formattedDestinationDate = $destinationModel->getAttribute('date')->format(AllowedDateFormat::YM);
 
         $filteredSourceModels = $sourceModels->filter(function (Balance $balance) use ($formattedDestinationDate) {
-            return $balance->date->format(AllowedDateFormat::WITH_MONTH) === $formattedDestinationDate;
+            return $balance->date->format(AllowedDateFormat::YM) === $formattedDestinationDate;
         });
 
         return $filteredSourceModels->first();

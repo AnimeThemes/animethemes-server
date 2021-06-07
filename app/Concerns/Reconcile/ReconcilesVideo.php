@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Concerns\Reconcile;
 
 use App\Models\Video;
+use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -16,31 +17,23 @@ trait ReconcilesVideo
     use ReconcilesRepositories;
 
     /**
-     * Perform set operation for create and delete steps.
+     * Callback for create and delete set operation item comparison.
      *
-     * @param Collection $a
-     * @param Collection $b
-     * @return Collection
+     * @return Closure
      */
-    protected function diffForCreateDelete(Collection $a, Collection $b): Collection
+    protected function diffCallbackForCreateDelete(): Closure
     {
-        return $a->diffUsing($b, function (Video $first, Video $second) {
-            return $first->basename <=> $second->basename;
-        });
+        return fn (Video $first, Video $second) => $first->basename <=> $second->basename;
     }
 
     /**
-     * Perform set operation for update step.
+     * Callback for update set operation item comparison.
      *
-     * @param Collection $a
-     * @param Collection $b
-     * @return Collection
+     * @return Closure
      */
-    protected function diffForUpdate(Collection $a, Collection $b): Collection
+    protected function diffCallbackForUpdate(): Closure
     {
-        return $a->diffUsing($b, function (Video $first, Video $second) {
-            return [$first->basename, $first->path, $first->size] <=> [$second->basename, $second->path, $second->size];
-        });
+        return fn (Video $first, Video $second) => [$first->basename, $first->path, $first->size] <=> [$second->basename, $second->path, $second->size];
     }
 
     /**

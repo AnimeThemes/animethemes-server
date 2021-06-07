@@ -25,7 +25,7 @@ abstract class DateFilter extends Filter
                 foreach (AllowedDateFormat::getValues() as $allowedDateFormat) {
                     $date = DateTime::createFromFormat('!'.$allowedDateFormat, $filterValue);
                     if ($date && $date->format($allowedDateFormat) == $filterValue) {
-                        return $date->format(AllowedDateFormat::WITH_MICRO);
+                        return $date->format(AllowedDateFormat::YMDHISU);
                     }
                 }
 

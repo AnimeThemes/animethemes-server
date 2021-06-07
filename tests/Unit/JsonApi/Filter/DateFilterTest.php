@@ -129,6 +129,6 @@ class DateFilterTest extends TestCase
 
         $filterValues = $filter->getFilterValues($parser->getConditions($filterField)[0]);
 
-        static::assertEquals(DateTime::createFromFormat('!'.$dateFormat, $dateFilter)->format(AllowedDateFormat::WITH_MICRO), $filterValues[0]);
+        static::assertEquals(DateTime::createFromFormat('!'.$dateFormat, $dateFilter)->format(AllowedDateFormat::YMDHISU), $filterValues[0]);
     }
 }

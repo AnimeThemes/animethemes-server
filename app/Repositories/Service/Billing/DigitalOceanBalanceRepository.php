@@ -53,7 +53,7 @@ class DigitalOceanBalanceRepository implements Repository
             $balanceJson = json_decode($response->getBody()->getContents(), true);
 
             $balance = Balance::make([
-                'date' => Carbon::now()->firstOfMonth()->format(AllowedDateFormat::WITH_DAY),
+                'date' => Carbon::now()->firstOfMonth()->format(AllowedDateFormat::YMD),
                 'service' => Service::DIGITALOCEAN,
                 'frequency' => Frequency::MONTHLY,
                 'usage' => Arr::get($balanceJson, 'month_to_date_usage'),

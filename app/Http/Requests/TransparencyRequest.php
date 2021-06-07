@@ -76,7 +76,7 @@ class TransparencyRequest extends FormRequest
         $validDates = $balanceDates->concat($transactionDates);
 
         $validDates = $validDates->unique(function (Carbon $date) {
-            return $date->format(AllowedDateFormat::WITH_MONTH);
+            return $date->format(AllowedDateFormat::YM);
         });
 
         return $validDates->sortDesc();
@@ -105,7 +105,7 @@ class TransparencyRequest extends FormRequest
             return $this->getValidDates()->first();
         }
 
-        return Carbon::instance(DateTime::createFromFormat('!'.AllowedDateFormat::WITH_MONTH, $validDate));
+        return Carbon::instance(DateTime::createFromFormat('!'.AllowedDateFormat::YM, $validDate));
     }
 
     /**
@@ -123,6 +123,7 @@ class TransparencyRequest extends FormRequest
 
         return Balance::whereMonth('date', strval($date->month))
             ->whereYear('date', strval($date->year))
+            ->orderBy('usage', 'desc')
             ->get();
     }
 
@@ -141,6 +142,7 @@ class TransparencyRequest extends FormRequest
 
         return Transaction::whereMonth('date', strval($date->month))
             ->whereYear('date', strval($date->year))
+            ->orderBy('date', 'desc')
             ->get();
     }
 }
