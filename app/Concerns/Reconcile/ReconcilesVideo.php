@@ -33,8 +33,7 @@ trait ReconcilesVideo
      */
     protected function diffCallbackForUpdate(): Closure
     {
-        return fn (Video $first, Video $second) =>
-            [$first->basename, $first->path, $first->size] <=> [$second->basename, $second->path, $second->size];
+        return fn (Video $first, Video $second) => [$first->basename, $first->path, $first->size] <=> [$second->basename, $second->path, $second->size];
     }
 
     /**

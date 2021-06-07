@@ -25,8 +25,7 @@ trait ReconcilesBalance
      */
     protected function diffCallbackForCreateDelete(): Closure
     {
-        return fn (Balance $first, Balance $second) =>
-            $first->date->format(AllowedDateFormat::YM) <=> $second->date->format(AllowedDateFormat::YM);
+        return fn (Balance $first, Balance $second) => $first->date->format(AllowedDateFormat::YM) <=> $second->date->format(AllowedDateFormat::YM);
     }
 
     /**
@@ -36,8 +35,7 @@ trait ReconcilesBalance
      */
     protected function diffCallbackForUpdate(): Closure
     {
-        return fn (Balance $first, Balance $second) =>
-            [$first->date->format(AllowedDateFormat::YMD), $first->usage, $first->balance]
+        return fn (Balance $first, Balance $second) => [$first->date->format(AllowedDateFormat::YMD), $first->usage, $first->balance]
             <=> [$second->date->format(AllowedDateFormat::YMD), $second->usage, $second->balance];
     }
 
