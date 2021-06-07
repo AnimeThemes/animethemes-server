@@ -39,11 +39,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(BalanceReconcileCommand::class, [Service::DIGITALOCEAN()->key])->daily();
+        $schedule->command(BalanceReconcileCommand::class, [Service::DIGITALOCEAN()->key])->dailyAt('07:00');
         $schedule->command(DatabaseDumpCommand::class)->daily();
         $schedule->command(PruneCommand::class)->daily();
         $schedule->command(SnapshotCommand::class)->everyFiveMinutes();
-        $schedule->command(TransactionReconcileCommand::class, [Service::DIGITALOCEAN()->key])->daily();
+        $schedule->command(TransactionReconcileCommand::class, [Service::DIGITALOCEAN()->key])->dailyAt('07:00');
         $schedule->command(VideoReconcileCommand::class)->hourly();
     }
 

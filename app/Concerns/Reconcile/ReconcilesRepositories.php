@@ -6,6 +6,7 @@ namespace App\Concerns\Reconcile;
 
 use App\Contracts\Repositories\Repository;
 use App\Models\BaseModel;
+use Closure;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -203,15 +204,13 @@ trait ReconcilesRepositories
     }
 
     /**
-     * Perform set operation for create and delete steps.
+     * Callback for create and delete set operation item comparison.
      *
-     * @param Collection $a
-     * @param Collection $b
-     * @return Collection
+     * @return Closure
      */
-    protected function diffForCreateDelete(Collection $a, Collection $b): Collection
+    protected function diffCallbackForCreateDelete(): Closure
     {
-        return Collection::make();
+        return fn () => 0;
     }
 
     /**
@@ -227,7 +226,7 @@ trait ReconcilesRepositories
         Collection $sourceModels,
         Collection $destinationModels
     ) {
-        $createModels = $this->diffForCreateDelete($sourceModels, $destinationModels);
+        $createModels = $sourceModels->diffUsing($destinationModels, $this->diffCallbackForCreateDelete());
 
         foreach ($createModels as $createModel) {
             $createResult = $destination->save($createModel);
@@ -254,7 +253,7 @@ trait ReconcilesRepositories
         Collection $sourceModels,
         Collection $destinationModels
     ) {
-        $deleteModels = $this->diffForCreateDelete($destinationModels, $sourceModels);
+        $deleteModels = $destinationModels->diffUsing($sourceModels, $this->diffCallbackForCreateDelete());
 
         foreach ($deleteModels as $deleteModel) {
             $deleteResult = $destination->delete($deleteModel);
@@ -269,15 +268,13 @@ trait ReconcilesRepositories
     }
 
     /**
-     * Perform set operation for update step.
+     * Callback for update set operation item comparison.
      *
-     * @param Collection $a
-     * @param Collection $b
-     * @return Collection
+     * @return Closure
      */
-    protected function diffForUpdate(Collection $a, Collection $b): Collection
+    protected function diffCallbackForUpdate(): Closure
     {
-        return Collection::make();
+        return fn () => 0;
     }
 
     /**
@@ -305,7 +302,7 @@ trait ReconcilesRepositories
         Collection $sourceModels,
         Collection $destinationModels
     ) {
-        $updatedModels = $this->diffForUpdate($destinationModels, $sourceModels);
+        $updatedModels = $destinationModels->diffUsing($sourceModels, $this->diffCallbackForUpdate());
 
         foreach ($updatedModels as $updatedModel) {
             $sourceModel = $this->resolveUpdatedModel($sourceModels, $updatedModel);

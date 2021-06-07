@@ -69,7 +69,7 @@ class TransparencyTest extends TestCase
     {
         Balance::factory()->create();
 
-        $date = Carbon::now()->subMonths($this->faker->randomDigitNotNull)->format(AllowedDateFormat::WITH_MONTH);
+        $date = Carbon::now()->subMonths($this->faker->randomDigitNotNull)->format(AllowedDateFormat::YM);
 
         $response = $this->get(route('transparency.show', ['date' => $date]));
 

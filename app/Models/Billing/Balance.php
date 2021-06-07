@@ -85,7 +85,7 @@ class Balance extends BaseModel
     {
         return Str::of($this->service->description)
             ->append(' ')
-            ->append($this->date->format(AllowedDateFormat::WITH_MONTH))
+            ->append($this->date->format(AllowedDateFormat::YM))
             ->__toString();
     }
 }
