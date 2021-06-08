@@ -20,6 +20,11 @@ class UpdatePasswordTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    /**
+     * Password can be updated.
+     *
+     * @return void
+     */
     public function testPasswordCanBeUpdated()
     {
         $this->actingAs($user = User::factory()->create());
@@ -37,6 +42,11 @@ class UpdatePasswordTest extends TestCase
         static::assertTrue(Hash::check($newPassword, $user->fresh()->password));
     }
 
+    /**
+     * Password must be correct.
+     *
+     * @return void
+     */
     public function testCurrentPasswordMustBeCorrect()
     {
         $this->actingAs($user = User::factory()->create());
@@ -55,6 +65,11 @@ class UpdatePasswordTest extends TestCase
         static::assertTrue(Hash::check('password', $user->fresh()->password));
     }
 
+    /**
+     * New passwords must match.
+     *
+     * @return void
+     */
     public function testNewPasswordsMustMatch()
     {
         $this->actingAs($user = User::factory()->create());

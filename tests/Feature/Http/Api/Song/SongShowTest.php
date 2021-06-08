@@ -7,7 +7,7 @@ namespace Http\Api\Song;
 use App\Enums\AnimeSeason;
 use App\Enums\ThemeType;
 use App\Http\Resources\SongResource;
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Song;

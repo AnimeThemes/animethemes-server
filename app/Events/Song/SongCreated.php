@@ -6,7 +6,7 @@ namespace App\Events\Song;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Discord\EmbedColor;
+use App\Enums\Services\Discord\EmbedColor;
 use App\Models\Artist;
 use App\Models\Entry;
 use App\Models\Theme;

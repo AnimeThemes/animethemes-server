@@ -6,7 +6,7 @@ namespace Http\Api\Synonym;
 
 use App\Enums\AnimeSeason;
 use App\Http\Resources\SynonymResource;
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 use App\Models\Anime;
 use App\Models\Synonym;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

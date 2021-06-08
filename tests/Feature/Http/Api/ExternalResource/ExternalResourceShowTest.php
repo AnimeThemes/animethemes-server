@@ -6,7 +6,7 @@ namespace Http\Api\ExternalResource;
 
 use App\Enums\AnimeSeason;
 use App\Http\Resources\ExternalResourceResource;
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\ExternalResource;

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
-use App\JsonApi\Filter\Base\CreatedAtFilter;
-use App\JsonApi\Filter\Base\DeletedAtFilter;
-use App\JsonApi\Filter\Base\TrashedFilter;
-use App\JsonApi\Filter\Base\UpdatedAtFilter;
-use App\JsonApi\Filter\Image\ImageFacetFilter;
+use App\Concerns\Http\Api\PerformsResourceCollectionQuery;
+use App\Http\Api\Filter\Base\CreatedAtFilter;
+use App\Http\Api\Filter\Base\DeletedAtFilter;
+use App\Http\Api\Filter\Base\TrashedFilter;
+use App\Http\Api\Filter\Base\UpdatedAtFilter;
+use App\Http\Api\Filter\Image\ImageFacetFilter;
 use Illuminate\Http\Request;
 
 /**

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace JsonApi\Filter;
 
-use App\JsonApi\Filter\Filter;
-use App\JsonApi\QueryParser;
+use App\Http\Api\Filter\Filter;
+use App\Http\Api\QueryParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 

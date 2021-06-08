@@ -7,7 +7,7 @@ namespace Http\Api\Anime;
 use App\Enums\AnimeSeason;
 use App\Http\Resources\AnimeCollection;
 use App\Http\Resources\AnimeResource;
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 use App\Models\Anime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

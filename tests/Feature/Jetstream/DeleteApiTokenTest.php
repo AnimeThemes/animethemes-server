@@ -19,6 +19,11 @@ class DeleteApiTokenTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * API tokens can be deleted.
+     *
+     * @return void
+     */
     public function testApiTokensCanBeDeleted()
     {
         if (! Features::hasApiFeatures()) {

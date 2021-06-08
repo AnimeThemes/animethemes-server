@@ -6,7 +6,7 @@ namespace Http\Api\Image;
 
 use App\Enums\AnimeSeason;
 use App\Http\Resources\ImageResource;
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Image;

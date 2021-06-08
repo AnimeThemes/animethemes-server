@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Http\Api\Billing\Transaction;
 
-use App\Enums\Filter\TrashedStatus;
+use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Http\Resources\Billing\TransactionCollection;
 use App\Http\Resources\Billing\TransactionResource;
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 use App\Models\Billing\Transaction;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;

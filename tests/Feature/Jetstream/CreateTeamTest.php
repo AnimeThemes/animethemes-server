@@ -17,6 +17,11 @@ class CreateTeamTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Teams cannot be created.
+     *
+     * @return void
+     */
     public function testTeamsCannotBeCreated()
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Http\Api\Announcement;
 
 use App\Http\Resources\AnnouncementResource;
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 use App\Models\Announcement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

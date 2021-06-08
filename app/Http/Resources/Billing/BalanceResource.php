@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Billing;
 
-use App\Concerns\JsonApi\PerformsResourceQuery;
+use App\Concerns\Http\Api\PerformsResourceQuery;
 use App\Http\Resources\BaseResource;
 use Illuminate\Http\Request;
 

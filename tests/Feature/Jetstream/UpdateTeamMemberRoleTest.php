@@ -17,6 +17,11 @@ class UpdateTeamMemberRoleTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Team member roles can be updated.
+     *
+     * @return void
+     */
     public function testTeamMemberRolesCanBeUpdated()
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
@@ -35,6 +40,11 @@ class UpdateTeamMemberRoleTest extends TestCase
         ));
     }
 
+    /**
+     * Only team owner can update team member roles.
+     *
+     * @return void
+     */
     public function testOnlyTeamOwnerCanUpdateTeamMemberRoles()
     {
         $user = User::factory()->withPersonalTeam()->create();

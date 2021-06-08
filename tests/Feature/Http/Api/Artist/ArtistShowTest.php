@@ -9,7 +9,7 @@ use App\Enums\ImageFacet;
 use App\Enums\ResourceSite;
 use App\Enums\ThemeType;
 use App\Http\Resources\ArtistResource;
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\ExternalResource;

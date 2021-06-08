@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Http\Api\Announcement;
 
-use App\Enums\Filter\TrashedStatus;
+use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Http\Resources\AnnouncementCollection;
 use App\Http\Resources\AnnouncementResource;
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 use App\Models\Announcement;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;

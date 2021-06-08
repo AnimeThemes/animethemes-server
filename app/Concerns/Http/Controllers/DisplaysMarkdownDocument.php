@@ -14,6 +14,8 @@ use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
 use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Trait DisplaysMarkdownDocument.
@@ -25,6 +27,8 @@ trait DisplaysMarkdownDocument
      *
      * @param string $docPath
      * @return View
+     * @throws HttpException
+     * @throws NotFoundHttpException
      */
     protected function displayMarkdownDocument(string $docPath): View
     {

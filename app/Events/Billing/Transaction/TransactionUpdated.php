@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Events\Billing\Transaction;
 
-use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
+use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Discord\EmbedColor;
+use App\Enums\Services\Discord\EmbedColor;
 use App\Models\Billing\Transaction;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;

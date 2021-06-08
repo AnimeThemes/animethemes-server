@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
-use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
-use App\JsonApi\Filter\Anime\AnimeSeasonFilter;
-use App\JsonApi\Filter\Anime\AnimeYearFilter;
-use App\JsonApi\Filter\Base\CreatedAtFilter;
-use App\JsonApi\Filter\Base\DeletedAtFilter;
-use App\JsonApi\Filter\Base\TrashedFilter;
-use App\JsonApi\Filter\Base\UpdatedAtFilter;
+use App\Concerns\Http\Api\PerformsResourceCollectionQuery;
+use App\Concerns\Http\Api\PerformsResourceCollectionSearch;
+use App\Http\Api\Filter\Anime\AnimeSeasonFilter;
+use App\Http\Api\Filter\Anime\AnimeYearFilter;
+use App\Http\Api\Filter\Base\CreatedAtFilter;
+use App\Http\Api\Filter\Base\DeletedAtFilter;
+use App\Http\Api\Filter\Base\TrashedFilter;
+use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use Illuminate\Http\Request;
 
 /**

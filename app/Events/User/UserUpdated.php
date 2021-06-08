@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Events\User;
 
-use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
+use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
-use App\Discord\DiscordEmbedField;
-use App\Enums\Discord\EmbedColor;
+use App\Services\Discord\DiscordEmbedField;
+use App\Enums\Services\Discord\EmbedColor;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Events\Dispatchable;

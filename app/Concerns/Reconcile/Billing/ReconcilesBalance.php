@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Concerns\Reconcile\Billing;
 
 use App\Concerns\Reconcile\ReconcilesRepositories;
-use App\Enums\Filter\AllowedDateFormat;
+use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Billing\Balance;
 use Closure;
 use Illuminate\Database\Eloquent\Model;

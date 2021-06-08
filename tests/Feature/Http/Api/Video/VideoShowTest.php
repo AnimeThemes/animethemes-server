@@ -7,7 +7,7 @@ namespace Http\Api\Video;
 use App\Enums\AnimeSeason;
 use App\Enums\ThemeType;
 use App\Http\Resources\VideoResource;
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\Theme;

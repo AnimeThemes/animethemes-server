@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 
 /**
  * @OA\Info(

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace JsonApi\Condition;
 
-use App\Enums\Filter\ComparisonOperator;
-use App\JsonApi\Condition\Condition;
-use App\JsonApi\Condition\TrashedCondition;
-use App\JsonApi\Condition\WhereCondition;
-use App\JsonApi\Condition\WhereInCondition;
-use App\JsonApi\QueryParser;
+use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Http\Api\Condition\Condition;
+use App\Http\Api\Condition\TrashedCondition;
+use App\Http\Api\Condition\WhereCondition;
+use App\Http\Api\Condition\WhereInCondition;
+use App\Http\Api\QueryParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;

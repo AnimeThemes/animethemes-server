@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\ArtistResource;
 
-use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
+use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Discord\EmbedColor;
+use App\Enums\Services\Discord\EmbedColor;
 use App\Pivots\ArtistResource;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;

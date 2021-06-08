@@ -10,7 +10,7 @@ use App\Enums\ThemeType;
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
 use App\Http\Resources\AnimeResource;
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\ExternalResource;
