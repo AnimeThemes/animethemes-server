@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Http\Api\Billing\Transaction;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
+use App\Http\Api\QueryParser;
 use App\Http\Resources\Billing\TransactionCollection;
 use App\Http\Resources\Billing\TransactionResource;
-use App\Http\Api\QueryParser;
 use App\Models\Billing\Transaction;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;

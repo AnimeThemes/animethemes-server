@@ -6,9 +6,9 @@ namespace App\Events\User;
 
 use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
-use App\Services\Discord\DiscordEmbedField;
 use App\Enums\Services\Discord\EmbedColor;
 use App\Models\User;
+use App\Services\Discord\DiscordEmbedField;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Collection;

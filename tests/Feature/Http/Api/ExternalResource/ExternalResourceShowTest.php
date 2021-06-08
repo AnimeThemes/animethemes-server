@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Http\Api\ExternalResource;
 
 use App\Enums\AnimeSeason;
-use App\Http\Resources\ExternalResourceResource;
 use App\Http\Api\QueryParser;
+use App\Http\Resources\ExternalResourceResource;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\ExternalResource;

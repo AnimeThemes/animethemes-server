@@ -6,9 +6,9 @@ namespace Http\Api\Series;
 
 use App\Enums\AnimeSeason;
 use App\Enums\Http\Api\Filter\TrashedStatus;
+use App\Http\Api\QueryParser;
 use App\Http\Resources\SeriesCollection;
 use App\Http\Resources\SeriesResource;
-use App\Http\Api\QueryParser;
 use App\Models\Anime;
 use App\Models\Series;
 use Carbon\Carbon;

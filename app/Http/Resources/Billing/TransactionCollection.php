@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Resources\Billing;
 
 use App\Concerns\Http\Api\PerformsResourceCollectionQuery;
-use App\Http\Resources\BaseCollection;
 use App\Http\Api\Filter\Base\CreatedAtFilter;
 use App\Http\Api\Filter\Base\DeletedAtFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Api\Filter\Billing\Transaction\TransactionDateFilter;
 use App\Http\Api\Filter\Billing\Transaction\TransactionServiceFilter;
+use App\Http\Resources\BaseCollection;
 use App\Models\Billing\Transaction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
