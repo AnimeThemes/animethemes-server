@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api;
 
+use App\Http\Api\QueryParser;
 use App\Http\Resources\AnimeCollection;
 use App\Http\Resources\ArtistCollection;
 use App\Http\Resources\EntryCollection;
@@ -13,7 +14,6 @@ use App\Http\Resources\SongCollection;
 use App\Http\Resources\SynonymCollection;
 use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\VideoCollection;
-use App\Http\Api\QueryParser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
