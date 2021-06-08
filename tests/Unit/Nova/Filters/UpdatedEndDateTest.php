@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nova\Filters;
 
-use App\Enums\Filter\ComparisonOperator;
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Models\Anime;
 use App\Nova\Filters\UpdatedEndDateFilter;
 use Carbon\Carbon;

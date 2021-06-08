@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Http\Api\Synonym;
 
 use App\Enums\AnimeSeason;
-use App\Enums\Filter\TrashedStatus;
+use App\Enums\Http\Api\Filter\TrashedStatus;
+use App\Http\Api\QueryParser;
 use App\Http\Resources\SynonymCollection;
 use App\Http\Resources\SynonymResource;
-use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Synonym;
 use Carbon\Carbon;

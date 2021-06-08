@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Http;
 
-use App\Enums\Filter\AllowedDateFormat;
+use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Billing\Balance;
 use App\Models\Billing\Transaction;
 use Carbon\Carbon;

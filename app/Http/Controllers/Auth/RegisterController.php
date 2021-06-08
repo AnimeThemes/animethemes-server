@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Concerns\Fortify\PasswordValidationRules;
+use App\Concerns\Actions\Fortify\PasswordValidationRules;
 use App\Enums\InvitationStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Invitation;

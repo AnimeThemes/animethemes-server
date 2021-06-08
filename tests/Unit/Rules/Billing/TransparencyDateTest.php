@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Rules\Billing;
 
-use App\Enums\Filter\AllowedDateFormat;
+use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Rules\Billing\TransparencyDateRule;
 use Carbon\Carbon;
 use DateTimeInterface;

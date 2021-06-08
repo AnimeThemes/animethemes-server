@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Http\Api\ExternalResource;
 
 use App\Enums\AnimeSeason;
-use App\Enums\Filter\TrashedStatus;
+use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\ResourceSite;
+use App\Http\Api\QueryParser;
 use App\Http\Resources\ExternalResourceCollection;
 use App\Http\Resources\ExternalResourceResource;
-use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\ExternalResource;

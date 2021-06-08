@@ -7,7 +7,7 @@ namespace App\Repositories\Service\Billing;
 use App\Contracts\Repositories\Repository;
 use App\Enums\Billing\Frequency;
 use App\Enums\Billing\Service;
-use App\Enums\Filter\AllowedDateFormat;
+use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Billing\Balance;
 use Carbon\Carbon;
 use GuzzleHttp\Client;

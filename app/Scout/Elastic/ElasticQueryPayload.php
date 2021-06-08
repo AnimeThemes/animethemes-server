@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scout\Elastic;
 
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
 /**

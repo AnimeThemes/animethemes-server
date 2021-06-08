@@ -24,8 +24,10 @@ None
 
 [/r/anime's Best Ending V](/event/best_ending_v)
 
+[/r/anime's Best Ending VI](/event/best_ending_vi)
+
 [/r/anime's Best Opening VII](/event/best_opening_vii)
 
 [/r/anime's Best Opening VIII](/event/best_opening_viii)
 
-[/r/anime's Best Ending VI](/event/best_ending_vi)
+[/r/anime's Best Opening IX](/event/best_opening_ix)

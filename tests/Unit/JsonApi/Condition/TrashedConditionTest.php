@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace JsonApi\Condition;
 
-use App\Enums\Filter\BinaryLogicalOperator;
-use App\Enums\Filter\ComparisonOperator;
-use App\JsonApi\Condition\Condition;
-use App\JsonApi\QueryParser;
+use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
+use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Http\Api\Condition\Condition;
+use App\Http\Api\QueryParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 

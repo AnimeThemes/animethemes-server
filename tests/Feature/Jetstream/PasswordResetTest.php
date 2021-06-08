@@ -20,6 +20,11 @@ class PasswordResetTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    /**
+     * Reset password link screen can be rendered.
+     *
+     * @return void
+     */
     public function testResetPasswordLinkScreenCanBeRendered()
     {
         if (! Features::enabled(Features::updatePasswords())) {
@@ -31,6 +36,11 @@ class PasswordResetTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     * Reset password link can be requested.
+     *
+     * @return void
+     */
     public function testResetPasswordLinkCanBeRequested()
     {
         if (! Features::enabled(Features::updatePasswords())) {
@@ -48,6 +58,11 @@ class PasswordResetTest extends TestCase
         Notification::assertSentTo($user, ResetPassword::class);
     }
 
+    /**
+     * Reset password screen can be rendered.
+     *
+     * @return void
+     */
     public function testResetPasswordScreenCanBeRendered()
     {
         if (! Features::enabled(Features::updatePasswords())) {
@@ -71,6 +86,11 @@ class PasswordResetTest extends TestCase
         });
     }
 
+    /**
+     * Password can be reset with valid token.
+     *
+     * @return void
+     */
     public function testPasswordCanBeResetWithValidToken()
     {
         if (! Features::enabled(Features::updatePasswords())) {

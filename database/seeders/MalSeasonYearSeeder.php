@@ -11,8 +11,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -106,7 +106,7 @@ class MalSeasonYearSeeder extends Seeder
     protected function getUnseededAnime(): Collection
     {
         return Anime::whereNull('season')
-            ->whereHas('externalResources', function (BelongsToMany $resourceQuery) {
+            ->whereHas('externalResources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::MAL);
             })
             ->get();

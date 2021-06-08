@@ -106,4 +106,16 @@ class EventSitemapTest extends TestCase
 
         $response->assertSee(route('event.show', ['docName' => 'best_opening_viii']));
     }
+
+    /**
+     * The event sitemap shall display the event best_opening_ix route.
+     *
+     * @return void
+     */
+    public function testBestOpeningIX()
+    {
+        $response = $this->get(route('sitemap.event'));
+
+        $response->assertSee(route('event.show', ['docName' => 'best_opening_ix']));
+    }
 }

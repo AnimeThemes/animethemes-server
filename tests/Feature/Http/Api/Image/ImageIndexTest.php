@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Http\Api\Image;
 
 use App\Enums\AnimeSeason;
-use App\Enums\Filter\TrashedStatus;
+use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\ImageFacet;
+use App\Http\Api\QueryParser;
 use App\Http\Resources\ImageCollection;
 use App\Http\Resources\ImageResource;
-use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Artist;
 use App\Models\Image;

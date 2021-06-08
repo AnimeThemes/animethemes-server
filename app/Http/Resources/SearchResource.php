@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Enums\JsonApi\PaginationStrategy;
-use App\JsonApi\QueryParser;
+use App\Enums\Http\Api\PaginationStrategy;
+use App\Http\Api\QueryParser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 

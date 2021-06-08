@@ -17,6 +17,11 @@ class LeaveTeamTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Users can leave teams.
+     *
+     * @return void
+     */
     public function testUsersCanLeaveTeams()
     {
         $user = User::factory()->withPersonalTeam()->create();
@@ -33,7 +38,12 @@ class LeaveTeamTest extends TestCase
         static::assertCount(0, $user->currentTeam->fresh()->users);
     }
 
-    public function testTeamOwnersCantLeaveTheirOwnTeam()
+    /**
+     * Team owners cannot leave their own team.
+     *
+     * @return void
+     */
+    public function testTeamOwnersCanNotLeaveTheirOwnTeam()
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
 

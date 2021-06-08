@@ -26,8 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         BalanceReconcileCommand::class,
-        TransactionReconcileCommand::class,
         DatabaseDumpCommand::class,
+        TransactionReconcileCommand::class,
         VideoReconcileCommand::class,
     ];
 

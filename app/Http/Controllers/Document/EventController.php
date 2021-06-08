@@ -7,6 +7,8 @@ namespace App\Http\Controllers\Document;
 use App\Concerns\Http\Controllers\DisplaysMarkdownDocument;
 use App\Http\Controllers\Controller;
 use Illuminate\View\View;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class EventController.
@@ -19,6 +21,8 @@ class EventController extends Controller
      * Display the Event Index document.
      *
      * @return View
+     * @throws HttpException
+     * @throws NotFoundHttpException
      */
     public function index(): View
     {
@@ -30,6 +34,8 @@ class EventController extends Controller
      *
      * @param string $docName
      * @return View
+     * @throws HttpException
+     * @throws NotFoundHttpException
      */
     public function show(string $docName): View
     {

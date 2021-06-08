@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace JsonApi\Filter;
 
-use App\JsonApi\Filter\EnumFilter;
-use App\JsonApi\QueryParser;
+use App\Http\Api\Filter\EnumFilter;
+use App\Http\Api\QueryParser;
 use BenSampo\Enum\Enum;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;

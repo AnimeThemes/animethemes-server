@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Http\Api\Anime;
 
 use App\Enums\AnimeSeason;
-use App\Enums\Filter\TrashedStatus;
+use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\ImageFacet;
 use App\Enums\ResourceSite;
 use App\Enums\ThemeType;
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
+use App\Http\Api\QueryParser;
 use App\Http\Resources\AnimeCollection;
 use App\Http\Resources\AnimeResource;
-use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\ExternalResource;

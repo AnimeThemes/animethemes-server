@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Http\Api\Series;
 
 use App\Enums\AnimeSeason;
+use App\Http\Api\QueryParser;
 use App\Http\Resources\SeriesResource;
-use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Series;
 use Illuminate\Database\Eloquent\Factories\Sequence;

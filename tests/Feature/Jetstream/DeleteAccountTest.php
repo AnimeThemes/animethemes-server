@@ -18,6 +18,11 @@ class DeleteAccountTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * User accounts can be deleted.
+     *
+     * @return void
+     */
     public function testUserAccountsCanBeDeleted()
     {
         if (! Features::hasAccountDeletionFeatures()) {
@@ -33,6 +38,11 @@ class DeleteAccountTest extends TestCase
         static::assertNull($user->fresh());
     }
 
+    /**
+     * Correct password must be provided before account can be deleted.
+     *
+     * @return void
+     */
     public function testCorrectPasswordMustBeProvidedBeforeAccountCanBeDeleted()
     {
         if (! Features::hasAccountDeletionFeatures()) {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\JsonApi\QueryParser;
+use App\Http\Api\QueryParser;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**

@@ -6,8 +6,8 @@ namespace Http\Api\Entry;
 
 use App\Enums\AnimeSeason;
 use App\Enums\ThemeType;
+use App\Http\Api\QueryParser;
 use App\Http\Resources\EntryResource;
-use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\Theme;

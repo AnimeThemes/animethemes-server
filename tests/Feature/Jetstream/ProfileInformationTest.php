@@ -17,6 +17,11 @@ class ProfileInformationTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Current profile information is available.
+     *
+     * @return void
+     */
     public function testCurrentProfileInformationIsAvailable()
     {
         $this->actingAs($user = User::factory()->create());
@@ -27,6 +32,11 @@ class ProfileInformationTest extends TestCase
         static::assertEquals($user->email, $component->state['email']);
     }
 
+    /**
+     * Profile information can be updated.
+     *
+     * @return void
+     */
     public function testProfileInformationCanBeUpdated()
     {
         $this->actingAs($user = User::factory()->create());

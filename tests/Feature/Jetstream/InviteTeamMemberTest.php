@@ -19,6 +19,11 @@ class InviteTeamMemberTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Team members can be invited to team.
+     *
+     * @return void
+     */
     public function testTeamMembersCanBeInvitedToTeam()
     {
         Mail::fake();
@@ -36,6 +41,11 @@ class InviteTeamMemberTest extends TestCase
         static::assertCount(1, $user->currentTeam->fresh()->teamInvitations);
     }
 
+    /**
+     * Team member invitations can be cancelled.
+     *
+     * @return void
+     */
     public function testTeamMemberInvitationsCanBeCancelled()
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());

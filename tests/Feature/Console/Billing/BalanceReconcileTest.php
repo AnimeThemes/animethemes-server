@@ -6,7 +6,7 @@ namespace Console\Billing;
 
 use App\Console\Commands\Billing\BalanceReconcileCommand;
 use App\Enums\Billing\Service;
-use App\Enums\Filter\AllowedDateFormat;
+use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Billing\Balance;
 use App\Repositories\Service\Billing\DigitalOceanBalanceRepository;
 use Carbon\Carbon;

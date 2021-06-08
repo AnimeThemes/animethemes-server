@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Discord;
 
-use App\Discord\DiscordEmbedField;
+use App\Services\Discord\DiscordEmbedField;
 use BenSampo\Enum\Enum;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Billing;
 
-use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
+use App\Concerns\Http\Api\PerformsResourceCollectionQuery;
+use App\Http\Api\Filter\Base\CreatedAtFilter;
+use App\Http\Api\Filter\Base\DeletedAtFilter;
+use App\Http\Api\Filter\Base\TrashedFilter;
+use App\Http\Api\Filter\Base\UpdatedAtFilter;
+use App\Http\Api\Filter\Billing\Transaction\TransactionDateFilter;
+use App\Http\Api\Filter\Billing\Transaction\TransactionServiceFilter;
 use App\Http\Resources\BaseCollection;
-use App\JsonApi\Filter\Base\CreatedAtFilter;
-use App\JsonApi\Filter\Base\DeletedAtFilter;
-use App\JsonApi\Filter\Base\TrashedFilter;
-use App\JsonApi\Filter\Base\UpdatedAtFilter;
-use App\JsonApi\Filter\Billing\Transaction\TransactionDateFilter;
-use App\JsonApi\Filter\Billing\Transaction\TransactionServiceFilter;
 use App\Models\Billing\Transaction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;

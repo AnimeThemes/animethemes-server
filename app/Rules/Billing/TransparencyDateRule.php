@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rules\Billing;
 
-use App\Enums\Filter\AllowedDateFormat;
+use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Collection;

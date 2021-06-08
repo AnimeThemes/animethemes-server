@@ -19,6 +19,11 @@ class ApiTokenPermissionsTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * API token permissions can be updated.
+     *
+     * @return void
+     */
     public function testApiTokenPermissionsCanBeUpdated()
     {
         if (! Features::hasApiFeatures()) {

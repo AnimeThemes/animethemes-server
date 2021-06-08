@@ -82,4 +82,16 @@ class EventShowTest extends TestCase
 
         $response->assertViewIs('document');
     }
+
+    /**
+     * Best Opening IX shall be displayed as a document.
+     *
+     * @return void
+     */
+    public function testBestOpeningIX()
+    {
+        $response = $this->get(route('event.show', ['docName' => 'best_opening_ix']));
+
+        $response->assertViewIs('document');
+    }
 }

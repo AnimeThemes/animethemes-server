@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Http\Api\Theme;
 
 use App\Enums\AnimeSeason;
-use App\Enums\Filter\TrashedStatus;
+use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\ImageFacet;
 use App\Enums\ThemeType;
 use App\Enums\VideoOverlap;
 use App\Enums\VideoSource;
+use App\Http\Api\QueryParser;
 use App\Http\Resources\ThemeCollection;
 use App\Http\Resources\ThemeResource;
-use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\Image;

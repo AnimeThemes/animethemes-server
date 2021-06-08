@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace JsonApi\Filter;
 
-use App\Enums\Filter\AllowedDateFormat;
-use App\JsonApi\Filter\DateFilter;
-use App\JsonApi\QueryParser;
+use App\Enums\Http\Api\Filter\AllowedDateFormat;
+use App\Http\Api\Filter\DateFilter;
+use App\Http\Api\QueryParser;
 use Carbon\Carbon;
 use DateTime;
 use DateTimeInterface;

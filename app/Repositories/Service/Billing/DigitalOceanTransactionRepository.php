@@ -6,7 +6,7 @@ namespace App\Repositories\Service\Billing;
 
 use App\Contracts\Repositories\Repository;
 use App\Enums\Billing\Service;
-use App\Enums\Filter\AllowedDateFormat;
+use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Billing\Transaction;
 use DateTime;
 use DateTimeInterface;

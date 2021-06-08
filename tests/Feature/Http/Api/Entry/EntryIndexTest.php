@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Http\Api\Entry;
 
 use App\Enums\AnimeSeason;
-use App\Enums\Filter\TrashedStatus;
+use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\ThemeType;
+use App\Http\Api\QueryParser;
 use App\Http\Resources\EntryCollection;
 use App\Http\Resources\EntryResource;
-use App\JsonApi\QueryParser;
 use App\Models\Anime;
 use App\Models\Entry;
 use App\Models\Theme;

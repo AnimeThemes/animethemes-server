@@ -6,7 +6,7 @@ namespace App\Events\Anime;
 
 use App\Contracts\Events\CascadesRestoresEvent;
 use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Discord\EmbedColor;
+use App\Enums\Services\Discord\EmbedColor;
 use App\Models\Entry;
 use App\Models\Synonym;
 use App\Models\Theme;

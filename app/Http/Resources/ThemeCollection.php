@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Concerns\JsonApi\PerformsResourceCollectionQuery;
-use App\Concerns\JsonApi\PerformsResourceCollectionSearch;
-use App\JsonApi\Filter\Base\CreatedAtFilter;
-use App\JsonApi\Filter\Base\DeletedAtFilter;
-use App\JsonApi\Filter\Base\TrashedFilter;
-use App\JsonApi\Filter\Base\UpdatedAtFilter;
-use App\JsonApi\Filter\Theme\ThemeGroupFilter;
-use App\JsonApi\Filter\Theme\ThemeSequenceFilter;
-use App\JsonApi\Filter\Theme\ThemeTypeFilter;
+use App\Concerns\Http\Api\PerformsResourceCollectionQuery;
+use App\Concerns\Http\Api\PerformsResourceCollectionSearch;
+use App\Http\Api\Filter\Base\CreatedAtFilter;
+use App\Http\Api\Filter\Base\DeletedAtFilter;
+use App\Http\Api\Filter\Base\TrashedFilter;
+use App\Http\Api\Filter\Base\UpdatedAtFilter;
+use App\Http\Api\Filter\Theme\ThemeGroupFilter;
+use App\Http\Api\Filter\Theme\ThemeSequenceFilter;
+use App\Http\Api\Filter\Theme\ThemeTypeFilter;
 use Illuminate\Http\Request;
 
 /**

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Http\Api\Billing\Transaction;
 
+use App\Http\Api\QueryParser;
 use App\Http\Resources\Billing\TransactionResource;
-use App\JsonApi\QueryParser;
 use App\Models\Billing\Transaction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

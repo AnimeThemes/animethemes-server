@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Events\Synonym;
 
-use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
+use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Discord\EmbedColor;
+use App\Enums\Services\Discord\EmbedColor;
 use App\Models\Entry;
 use App\Models\Synonym;
 use App\Models\Theme;

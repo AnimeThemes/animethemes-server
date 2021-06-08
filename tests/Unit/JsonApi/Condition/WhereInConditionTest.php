@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace JsonApi\Condition;
 
-use App\Enums\Filter\BinaryLogicalOperator;
-use App\Enums\Filter\UnaryLogicalOperator;
-use App\JsonApi\Condition\Condition;
-use App\JsonApi\QueryParser;
+use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
+use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
+use App\Http\Api\Condition\Condition;
+use App\Http\Api\QueryParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -159,7 +159,7 @@ class WhereInConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        static::assertFalse($condition->useNot());
+        static::assertFalse($condition->not());
     }
 
     /**
@@ -185,6 +185,6 @@ class WhereInConditionTest extends TestCase
 
         $condition = collect($parser->getConditions($field))->first();
 
-        static::assertTrue($condition->useNot());
+        static::assertTrue($condition->not());
     }
 }

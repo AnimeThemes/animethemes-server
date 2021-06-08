@@ -22,4 +22,7 @@
     <url>
         <loc>{{ route('event.show', ['docName' => 'best_opening_viii']) }}</loc>
     </url>
+    <url>
+        <loc>{{ route('event.show', ['docName' => 'best_opening_ix']) }}</loc>
+    </url>
 </sitemapindex>
