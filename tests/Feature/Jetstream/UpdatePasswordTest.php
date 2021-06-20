@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jetstream;
 
-use App\Models\User;
+use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;

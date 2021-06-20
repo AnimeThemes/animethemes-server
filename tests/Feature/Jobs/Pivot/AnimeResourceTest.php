@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jobs\Pivot;
 
-use App\Jobs\SendDiscordNotification;
-use App\Models\Anime;
-use App\Models\ExternalResource;
+use App\Jobs\SendDiscordNotificationJob;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
@@ -31,11 +31,11 @@ class AnimeResourceTest extends TestCase
         $resource = ExternalResource::factory()->create();
 
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
-        $anime->externalResources()->attach($resource);
+        $anime->resources()->attach($resource);
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -47,14 +47,14 @@ class AnimeResourceTest extends TestCase
     {
         $anime = Anime::factory()->create();
         $resource = ExternalResource::factory()->create();
-        $anime->externalResources()->attach($resource);
+        $anime->resources()->attach($resource);
 
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
-        $anime->externalResources()->detach($resource);
+        $anime->resources()->detach($resource);
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -78,11 +78,11 @@ class AnimeResourceTest extends TestCase
             ->make();
 
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
         $animeResource->fill($changes->getAttributes());
         $animeResource->save();
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 }

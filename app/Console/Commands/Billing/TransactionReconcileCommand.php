@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Billing;
 
-use App\Concerns\Reconcile\Billing\ReconcilesTransaction;
+use App\Concerns\Reconcile\Billing\ReconcilesTransactionRepositories;
 use App\Contracts\Repositories\Repository;
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\Service;
 use App\Models\BaseModel;
 use App\Repositories\Eloquent\Billing\DigitalOceanTransactionRepository as DigitalOceanDestinationRepository;
-use App\Repositories\Service\Billing\DigitalOceanTransactionRepository as DigitalOceanSourceRepository;
+use App\Repositories\Service\DigitalOcean\Billing\DigitalOceanTransactionRepository as DigitalOceanSourceRepository;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
@@ -21,7 +21,7 @@ use Illuminate\Support\Str;
  */
 class TransactionReconcileCommand extends Command
 {
-    use ReconcilesTransaction;
+    use ReconcilesTransactionRepositories;
 
     /**
      * The name and signature of the console command.

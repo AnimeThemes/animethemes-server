@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Nova\Actions;
 
-use App\Enums\ResourceSite;
-use App\Models\Anime;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Anime;
 use App\Nova\Actions\CreateExternalResourceSiteForAnimeAction;
-use App\Rules\ResourceSiteDomainRule;
+use App\Rules\Wiki\ResourceSiteDomainRule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -96,6 +96,6 @@ class CreateExternalResourceSiteForAnimeTest extends TestCase
 
         $action->handle(new ActionFields(collect($fields), collect()), $models);
 
-        static::assertEquals($models->count(), Anime::whereHas('externalResources')->count());
+        static::assertEquals($models->count(), Anime::whereHas('resources')->count());
     }
 }

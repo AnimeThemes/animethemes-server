@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\AnimeSeason;
-use App\Enums\ThemeType;
-use App\Models\Anime;
-use App\Models\Entry;
-use App\Models\Song;
-use App\Models\Synonym;
-use App\Models\Theme;
-use App\Models\Video;
+use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ThemeType;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Song;
+use App\Models\Wiki\Synonym;
+use App\Models\Wiki\Theme;
+use App\Models\Wiki\Video;
 use App\Pivots\VideoEntry;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;

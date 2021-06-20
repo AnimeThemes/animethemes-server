@@ -7,8 +7,8 @@ namespace Events\Pivot;
 use App\Events\Pivot\AnimeResource\AnimeResourceCreated;
 use App\Events\Pivot\AnimeResource\AnimeResourceDeleted;
 use App\Events\Pivot\AnimeResource\AnimeResourceUpdated;
-use App\Models\Anime;
-use App\Models\ExternalResource;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
@@ -33,7 +33,7 @@ class AnimeResourceTest extends TestCase
         $anime = Anime::factory()->create();
         $resource = ExternalResource::factory()->create();
 
-        $anime->externalResources()->attach($resource);
+        $anime->resources()->attach($resource);
 
         Event::assertDispatched(AnimeResourceCreated::class);
     }
@@ -50,8 +50,8 @@ class AnimeResourceTest extends TestCase
         $anime = Anime::factory()->create();
         $resource = ExternalResource::factory()->create();
 
-        $anime->externalResources()->attach($resource);
-        $anime->externalResources()->detach($resource);
+        $anime->resources()->attach($resource);
+        $anime->resources()->detach($resource);
 
         Event::assertDispatched(AnimeResourceDeleted::class);
     }

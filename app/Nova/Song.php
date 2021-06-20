@@ -23,7 +23,7 @@ class Song extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Song::class;
+    public static string $model = \App\Models\Wiki\Song::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

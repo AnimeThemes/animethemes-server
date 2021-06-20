@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Contracts\Events\DiscordMessageEvent;
-use App\Jobs\SendDiscordNotification as SendDiscordNotificationJob;
+use App\Jobs\SendDiscordNotificationJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Config;

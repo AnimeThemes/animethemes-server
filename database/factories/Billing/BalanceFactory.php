@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories\Billing;
 
-use App\Enums\Billing\Frequency;
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\BalanceFrequency;
+use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -31,7 +31,7 @@ class BalanceFactory extends Factory
         return [
             'date' => $this->faker->date(),
             'service' => Service::getRandomValue(),
-            'frequency' => Frequency::getRandomValue(),
+            'frequency' => BalanceFrequency::getRandomValue(),
             'usage' => $this->faker->randomFloat(2),
             'balance' => $this->faker->randomFloat(2),
         ];

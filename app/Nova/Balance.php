@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nova;
 
-use App\Enums\Billing\Frequency;
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\BalanceFrequency;
+use App\Enums\Models\Billing\Service;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
@@ -105,12 +105,12 @@ class Balance extends Resource
                 ->help(__('nova.billing_service_help')),
 
             Select::make(__('nova.frequency'), 'frequency')
-                ->options(Frequency::asSelectArray())
+                ->options(BalanceFrequency::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
                     return $enum ? $enum->description : null;
                 })
                 ->sortable()
-                ->rules('required', (new EnumValue(Frequency::class, false))->__toString())
+                ->rules('required', (new EnumValue(BalanceFrequency::class, false))->__toString())
                 ->help(__('nova.balance_frequency_help')),
 
             Currency::make(__('nova.usage'), 'usage')

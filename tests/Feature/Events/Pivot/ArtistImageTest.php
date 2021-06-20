@@ -6,8 +6,8 @@ namespace Events\Pivot;
 
 use App\Events\Pivot\ArtistImage\ArtistImageCreated;
 use App\Events\Pivot\ArtistImage\ArtistImageDeleted;
-use App\Models\Artist;
-use App\Models\Image;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;

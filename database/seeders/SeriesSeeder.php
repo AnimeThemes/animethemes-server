@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\Anime;
-use App\Models\Series;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Series;
 use App\Pivots\AnimeSeries;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;

@@ -23,7 +23,7 @@ class Series extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Series::class;
+    public static string $model = \App\Models\Wiki\Series::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

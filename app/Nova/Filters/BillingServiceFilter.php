@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Filters;
 
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\Service;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;

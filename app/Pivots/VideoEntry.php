@@ -42,7 +42,7 @@ class VideoEntry extends BasePivot
      */
     public function video(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Video', 'video_id', 'video_id');
+        return $this->belongsTo('App\Models\Wiki\Video', 'video_id', 'video_id');
     }
 
     /**
@@ -52,6 +52,6 @@ class VideoEntry extends BasePivot
      */
     public function entry(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Entry', 'entry_id', 'entry_id');
+        return $this->belongsTo('App\Models\Wiki\Entry', 'entry_id', 'entry_id');
     }
 }

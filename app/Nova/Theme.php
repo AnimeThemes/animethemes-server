@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova;
 
-use App\Enums\ThemeType;
+use App\Enums\Models\Wiki\ThemeType;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
@@ -28,7 +28,7 @@ class Theme extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Theme::class;
+    public static string $model = \App\Models\Wiki\Theme::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

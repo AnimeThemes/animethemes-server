@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\VideoEntry;
 
-use App\Models\Entry;
-use App\Models\Video;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Video;
 use App\Pivots\VideoEntry;
 
 /**

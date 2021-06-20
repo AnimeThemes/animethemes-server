@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\AnimeSeason;
-use App\Enums\ResourceSite;
-use App\Models\Anime;
+use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Anime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
@@ -56,7 +56,7 @@ class MalSeasonYearSeeder extends Seeder
         $animes = $this->getUnseededAnime();
 
         foreach ($animes as $anime) {
-            $malResource = $anime->externalResources()->firstWhere('site', ResourceSite::MAL);
+            $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
             if ($malResource !== null && $malResource->external_id !== null) {
 
                 // Try not to upset MAL
@@ -106,7 +106,7 @@ class MalSeasonYearSeeder extends Seeder
     protected function getUnseededAnime(): Collection
     {
         return Anime::whereNull('season')
-            ->whereHas('externalResources', function (Builder $resourceQuery) {
+            ->whereHas('resources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::MAL);
             })
             ->get();

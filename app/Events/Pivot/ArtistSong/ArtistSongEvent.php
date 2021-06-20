@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\ArtistSong;
 
-use App\Models\Artist;
-use App\Models\Song;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Song;
 use App\Pivots\ArtistSong;
 
 /**

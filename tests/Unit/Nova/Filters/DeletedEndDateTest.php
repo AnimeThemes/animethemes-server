@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Nova\Filters;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
-use App\Models\Anime;
+use App\Models\Wiki\Anime;
 use App\Nova\Filters\DeletedEndDateFilter;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;

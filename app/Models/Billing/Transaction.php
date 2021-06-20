@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Billing;
 
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\Service;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Events\Billing\Transaction\TransactionCreated;
 use App\Events\Billing\Transaction\TransactionDeleted;

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jobs\Pivot;
 
-use App\Jobs\SendDiscordNotification;
-use App\Models\Anime;
-use App\Models\Entry;
-use App\Models\Theme;
-use App\Models\Video;
+use App\Jobs\SendDiscordNotificationJob;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
+use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
@@ -34,11 +34,11 @@ class VideoEntryTest extends TestCase
             ->create();
 
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
         $video->entries()->attach($entry);
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -56,10 +56,10 @@ class VideoEntryTest extends TestCase
         $video->entries()->attach($entry);
 
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
         $video->entries()->detach($entry);
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 }

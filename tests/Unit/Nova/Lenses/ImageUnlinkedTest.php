@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Nova\Lenses;
 
-use App\Models\Anime;
-use App\Models\Artist;
-use App\Models\Image;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Image;
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;
 use App\Nova\Filters\DeletedEndDateFilter;

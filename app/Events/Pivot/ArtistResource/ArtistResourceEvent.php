@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\ArtistResource;
 
-use App\Models\Artist;
-use App\Models\ExternalResource;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\ExternalResource;
 use App\Pivots\ArtistResource;
 
 /**

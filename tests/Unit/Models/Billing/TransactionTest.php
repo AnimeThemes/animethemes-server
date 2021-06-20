@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Models\Billing;
 
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;

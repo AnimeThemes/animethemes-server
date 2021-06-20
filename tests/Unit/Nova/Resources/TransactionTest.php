@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nova\Resources;
 
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\Service;
 use App\Nova\Filters\BillingServiceFilter;
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;

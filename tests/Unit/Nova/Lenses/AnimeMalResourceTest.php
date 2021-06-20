@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Nova\Lenses;
 
-use App\Enums\ResourceSite;
-use App\Models\Anime;
-use App\Models\ExternalResource;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
 use App\Nova\Filters\AnimeSeasonFilter;
 use App\Nova\Filters\AnimeYearFilter;
 use App\Nova\Filters\CreatedEndDateFilter;
@@ -135,11 +135,11 @@ class AnimeMalResourceTest extends TestCase
     public function testQuery()
     {
         Anime::factory()
-            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull))
+            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull), 'resources')
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filteredAnimes = Anime::whereDoesntHave('externalResources', function (Builder $resourceQuery) {
+        $filteredAnimes = Anime::whereDoesntHave('resources', function (Builder $resourceQuery) {
             $resourceQuery->where('site', ResourceSite::MAL);
         })
         ->get();

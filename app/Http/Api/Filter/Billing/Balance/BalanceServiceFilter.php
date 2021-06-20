@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter\Billing\Balance;
 
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\Service;
 use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\QueryParser;
 

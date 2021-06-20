@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Concerns\Reconcile\ReconcilesVideo;
+use App\Concerns\Reconcile\Wiki\ReconcilesVideoRepositories;
 use App\Models\BaseModel;
-use App\Repositories\Eloquent\VideoRepository as VideoDestinationRepository;
-use App\Repositories\Service\VideoRepository as VideoSourceRepository;
+use App\Repositories\Eloquent\Wiki\VideoRepository as VideoDestinationRepository;
+use App\Repositories\Service\DigitalOcean\VideoRepository as VideoSourceRepository;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Log;
  */
 class VideoSeeder extends Seeder
 {
-    use ReconcilesVideo;
+    use ReconcilesVideoRepositories;
 
     /**
      * Run the database seeds.

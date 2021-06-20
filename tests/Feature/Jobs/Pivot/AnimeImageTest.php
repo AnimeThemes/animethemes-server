@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jobs\Pivot;
 
-use App\Jobs\SendDiscordNotification;
-use App\Models\Anime;
-use App\Models\Image;
+use App\Jobs\SendDiscordNotificationJob;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
@@ -30,11 +30,11 @@ class AnimeImageTest extends TestCase
         $image = Image::factory()->create();
 
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
         $anime->images()->attach($image);
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -49,10 +49,10 @@ class AnimeImageTest extends TestCase
         $anime->images()->attach($image);
 
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
         $anime->images()->detach($image);
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 }

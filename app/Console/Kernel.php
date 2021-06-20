@@ -6,9 +6,9 @@ namespace App\Console;
 
 use App\Console\Commands\Billing\BalanceReconcileCommand;
 use App\Console\Commands\Billing\TransactionReconcileCommand;
-use App\Console\Commands\DatabaseDumpCommand;
-use App\Console\Commands\VideoReconcileCommand;
-use App\Enums\Billing\Service;
+use App\Console\Commands\Wiki\DatabaseDumpCommand;
+use App\Console\Commands\Wiki\VideoReconcileCommand;
+use App\Enums\Models\Billing\Service;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Laravel\Horizon\Console\SnapshotCommand;

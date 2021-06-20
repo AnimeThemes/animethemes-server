@@ -6,8 +6,8 @@ namespace Events\Pivot;
 
 use App\Events\Pivot\AnimeImage\AnimeImageCreated;
 use App\Events\Pivot\AnimeImage\AnimeImageDeleted;
-use App\Models\Anime;
-use App\Models\Image;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Image;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies\Billing;
 
-use App\Models\User;
+use App\Models\Auth\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**

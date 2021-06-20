@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Pivots;
 
-use App\Models\Anime;
-use App\Models\ExternalResource;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;

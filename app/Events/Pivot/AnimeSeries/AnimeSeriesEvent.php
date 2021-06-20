@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\AnimeSeries;
 
-use App\Models\Anime;
-use App\Models\Series;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Series;
 use App\Pivots\AnimeSeries;
 
 /**

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scout\Elastic;
 
-use App\Models\Synonym;
+use App\Models\Wiki\Synonym;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;

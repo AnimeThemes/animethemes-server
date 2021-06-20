@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Nova\Filters;
 
-use App\Models\Anime;
-use App\Models\Entry;
-use App\Models\Theme;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Nova\Filters\EntryNsfwFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

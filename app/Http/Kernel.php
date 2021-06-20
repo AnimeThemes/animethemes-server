@@ -8,8 +8,8 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\HasInvitation;
 use App\Http\Middleware\IsVideoStreamingAllowed;
-use App\Http\Middleware\JsonMiddleware;
-use App\Http\Middleware\LoggerMiddleware;
+use App\Http\Middleware\SetAcceptJsonHeader;
+use App\Http\Middleware\LogRequest;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\ThrottleRequestsWithService;
@@ -72,14 +72,14 @@ class Kernel extends HttpKernel
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
-            LoggerMiddleware::class,
+            LogRequest::class,
         ],
 
         'api' => [
-            JsonMiddleware::class,
+            SetAcceptJsonHeader::class,
             'throttle:api',
             SubstituteBindings::class,
-            LoggerMiddleware::class,
+            LogRequest::class,
         ],
     ];
 

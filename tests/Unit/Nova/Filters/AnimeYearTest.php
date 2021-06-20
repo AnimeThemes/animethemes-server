@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nova\Filters;
 
-use App\Models\Anime;
+use App\Models\Wiki\Anime;
 use App\Nova\Filters\AnimeYearFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

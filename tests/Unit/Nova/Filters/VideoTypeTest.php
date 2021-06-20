@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nova\Filters;
 
-use App\Models\Video;
+use App\Models\Wiki\Video;
 use App\Nova\Filters\VideoTypeFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

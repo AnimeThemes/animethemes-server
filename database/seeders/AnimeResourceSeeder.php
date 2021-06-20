@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\ResourceSite;
-use App\Models\Anime;
-use App\Models\ExternalResource;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
@@ -62,7 +62,7 @@ class AnimeResourceSeeder extends Seeder
                     // This is not guaranteed as an Anime Name may be inconsistent between indices
                     $resourceAnime = Anime::where('name', $animeName)
                         ->whereIn('year', $years)
-                        ->whereDoesntHave('externalResources', function (Builder $resourceQuery) use ($resource) {
+                        ->whereDoesntHave('resources', function (Builder $resourceQuery) use ($resource) {
                             $resourceQuery->where('site', $resource->site->value)->where('link', $resource->link);
                         })
                         ->get();

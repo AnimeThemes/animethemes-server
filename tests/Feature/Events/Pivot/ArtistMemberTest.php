@@ -7,7 +7,7 @@ namespace Events\Pivot;
 use App\Events\Pivot\ArtistMember\ArtistMemberCreated;
 use App\Events\Pivot\ArtistMember\ArtistMemberDeleted;
 use App\Events\Pivot\ArtistMember\ArtistMemberUpdated;
-use App\Models\Artist;
+use App\Models\Wiki\Artist;
 use App\Pivots\ArtistMember;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;

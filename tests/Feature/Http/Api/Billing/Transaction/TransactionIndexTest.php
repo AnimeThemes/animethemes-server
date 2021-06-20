@@ -6,8 +6,8 @@ namespace Http\Api\Billing\Transaction;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Http\Api\QueryParser;
-use App\Http\Resources\Billing\TransactionCollection;
-use App\Http\Resources\Billing\TransactionResource;
+use App\Http\Resources\Billing\Collection\TransactionCollection;
+use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\Billing\Transaction;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;

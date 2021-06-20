@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\ThemeType;
-use App\Models\Anime;
-use App\Models\Artist;
-use App\Models\Theme;
+use App\Enums\Models\Wiki\ThemeType;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Theme;
 use App\Pivots\ArtistSong;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;

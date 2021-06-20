@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Models\Team;
-use App\Models\User;
+use App\Models\Auth\Team;
+use App\Models\Auth\User;
 use App\Nova\Metrics\AnimePerDay;
 use App\Nova\Metrics\ArtistsPerDay;
 use App\Nova\Metrics\NewAnime;

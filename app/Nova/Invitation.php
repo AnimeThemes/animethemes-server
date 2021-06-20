@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova;
 
-use App\Enums\InvitationStatus;
+use App\Enums\Models\Auth\InvitationStatus;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
@@ -25,7 +25,7 @@ class Invitation extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Invitation::class;
+    public static string $model = \App\Models\Auth\Invitation::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

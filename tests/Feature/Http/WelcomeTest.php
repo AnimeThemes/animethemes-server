@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Http;
 
-use App\Models\Announcement;
+use App\Models\Admin\Announcement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;

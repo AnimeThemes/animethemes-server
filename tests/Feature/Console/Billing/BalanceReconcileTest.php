@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Console\Billing;
 
 use App\Console\Commands\Billing\BalanceReconcileCommand;
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\Service;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Billing\Balance;
-use App\Repositories\Service\Billing\DigitalOceanBalanceRepository;
+use App\Repositories\Service\DigitalOcean\Billing\DigitalOceanBalanceRepository;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

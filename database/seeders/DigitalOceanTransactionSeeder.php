@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Concerns\Reconcile\Billing\ReconcilesTransaction;
+use App\Concerns\Reconcile\Billing\ReconcilesTransactionRepositories;
 use App\Models\BaseModel;
 use App\Repositories\Eloquent\Billing\DigitalOceanTransactionRepository as DigitalOceanDestinationRepository;
-use App\Repositories\Service\Billing\DigitalOceanTransactionRepository as DigitalOceanSourceRepository;
+use App\Repositories\Service\DigitalOcean\Billing\DigitalOceanTransactionRepository as DigitalOceanSourceRepository;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Log;
  */
 class DigitalOceanTransactionSeeder extends Seeder
 {
-    use ReconcilesTransaction;
+    use ReconcilesTransactionRepositories;
 
     /**
      * Run the database seeds.

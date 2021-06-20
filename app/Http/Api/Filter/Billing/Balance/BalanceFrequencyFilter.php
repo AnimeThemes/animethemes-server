@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter\Billing\Balance;
 
-use App\Enums\Billing\Frequency;
+use App\Enums\Models\Billing\BalanceFrequency;
 use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\QueryParser;
 
@@ -20,6 +20,6 @@ class BalanceFrequencyFilter extends EnumFilter
      */
     public function __construct(QueryParser $parser)
     {
-        parent::__construct($parser, 'frequency', Frequency::class);
+        parent::__construct($parser, 'frequency', BalanceFrequency::class);
     }
 }

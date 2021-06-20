@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Nova\Filters;
 
-use App\Enums\VideoSource;
-use App\Models\Video;
+use App\Enums\Models\Wiki\VideoSource;
+use App\Models\Wiki\Video;
 use App\Nova\Filters\VideoSourceFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

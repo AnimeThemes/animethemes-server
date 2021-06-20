@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scout\Elastic;
 
-use App\Models\Artist;
+use App\Models\Wiki\Artist;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;

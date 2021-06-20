@@ -248,7 +248,7 @@ trait ReconcilesRepositories
      * @param Collection $destinationModels
      * @return void
      */
-    public function deleteModelsFromDestination(
+    protected function deleteModelsFromDestination(
         Repository $destination,
         Collection $sourceModels,
         Collection $destinationModels
@@ -297,7 +297,7 @@ trait ReconcilesRepositories
      * @param Collection $destinationModels
      * @return void
      */
-    public function updateDestinationModels(
+    protected function updateDestinationModels(
         Repository $destination,
         Collection $sourceModels,
         Collection $destinationModels

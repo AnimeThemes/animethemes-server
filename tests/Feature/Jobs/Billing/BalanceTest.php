@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jobs\Billing;
 
-use App\Jobs\SendDiscordNotification;
+use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Billing\Balance;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
@@ -26,11 +26,11 @@ class BalanceTest extends TestCase
     public function testBalanceCreatedSendsDiscordNotification()
     {
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
         Balance::factory()->create();
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -43,11 +43,11 @@ class BalanceTest extends TestCase
         $balance = Balance::factory()->create();
 
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
         $balance->delete();
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -60,11 +60,11 @@ class BalanceTest extends TestCase
         $balance = Balance::factory()->create();
 
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
         $balance->restore();
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -77,13 +77,13 @@ class BalanceTest extends TestCase
         $balance = Balance::factory()->create();
 
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = Balance::factory()->make();
 
         $balance->fill($changes->getAttributes());
         $balance->save();
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 }

@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Api\AnimeController;
-use App\Http\Controllers\Api\AnnouncementController;
-use App\Http\Controllers\Api\ArtistController;
+use App\Http\Controllers\Api\Admin\AnnouncementController;
 use App\Http\Controllers\Api\Billing\BalanceController;
 use App\Http\Controllers\Api\Billing\TransactionController;
-use App\Http\Controllers\Api\EntryController;
-use App\Http\Controllers\Api\ExternalResourceController;
-use App\Http\Controllers\Api\ImageController;
-use App\Http\Controllers\Api\SearchController;
-use App\Http\Controllers\Api\SeriesController;
-use App\Http\Controllers\Api\SongController;
-use App\Http\Controllers\Api\SynonymController;
-use App\Http\Controllers\Api\ThemeController;
-use App\Http\Controllers\Api\VideoController;
-use App\Http\Controllers\Api\YearController;
+use App\Http\Controllers\Api\Wiki\AnimeController;
+use App\Http\Controllers\Api\Wiki\ArtistController;
+use App\Http\Controllers\Api\Wiki\EntryController;
+use App\Http\Controllers\Api\Wiki\ExternalResourceController;
+use App\Http\Controllers\Api\Wiki\ImageController;
+use App\Http\Controllers\Api\Wiki\SearchController;
+use App\Http\Controllers\Api\Wiki\SeriesController;
+use App\Http\Controllers\Api\Wiki\SongController;
+use App\Http\Controllers\Api\Wiki\SynonymController;
+use App\Http\Controllers\Api\Wiki\ThemeController;
+use App\Http\Controllers\Api\Wiki\VideoController;
+use App\Http\Controllers\Api\Wiki\YearController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,13 +35,15 @@ Route::group(['as' => 'api.'], function () {
     // Search Routes
     Route::get('search', [SearchController::class, 'index'])->name('search.index');
 
+    // Admin Resources
+    Route::apiResource('announcement', AnnouncementController::class)->only(['index', 'show']);
+
     // Billing Resources
     Route::apiResource('balance', BalanceController::class)->only(['index', 'show']);
     Route::apiResource('transaction', TransactionController::class)->only(['index', 'show']);
 
-    // Resource Routes
+    // Wiki Resources
     Route::apiResource('anime', AnimeController::class)->only(['index', 'show']);
-    Route::apiResource('announcement', AnnouncementController::class)->only(['index', 'show']);
     Route::apiResource('artist', ArtistController::class)->only(['index', 'show']);
     Route::apiResource('entry', EntryController::class)->only(['index', 'show']);
     Route::apiResource('image', ImageController::class)->only(['index', 'show']);

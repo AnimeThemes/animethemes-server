@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\ResourceSite;
-use App\Models\Artist;
-use App\Models\ExternalResource;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\ExternalResource;
 use App\Pivots\ArtistResource;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Nova\Filters;
 
-use App\Enums\ImageFacet;
-use App\Models\Image;
+use App\Enums\Models\Wiki\ImageFacet;
+use App\Models\Wiki\Image;
 use App\Nova\Filters\ImageFacetFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

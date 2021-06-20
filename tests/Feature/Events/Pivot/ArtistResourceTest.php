@@ -7,8 +7,8 @@ namespace Events\Pivot;
 use App\Events\Pivot\ArtistResource\ArtistResourceCreated;
 use App\Events\Pivot\ArtistResource\ArtistResourceDeleted;
 use App\Events\Pivot\ArtistResource\ArtistResourceUpdated;
-use App\Models\Artist;
-use App\Models\ExternalResource;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\ExternalResource;
 use App\Pivots\ArtistResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
@@ -33,7 +33,7 @@ class ArtistResourceTest extends TestCase
         $artist = Artist::factory()->create();
         $resource = ExternalResource::factory()->create();
 
-        $artist->externalResources()->attach($resource);
+        $artist->resources()->attach($resource);
 
         Event::assertDispatched(ArtistResourceCreated::class);
     }
@@ -50,8 +50,8 @@ class ArtistResourceTest extends TestCase
         $artist = Artist::factory()->create();
         $resource = ExternalResource::factory()->create();
 
-        $artist->externalResources()->attach($resource);
-        $artist->externalResources()->detach($resource);
+        $artist->resources()->attach($resource);
+        $artist->resources()->detach($resource);
 
         Event::assertDispatched(ArtistResourceDeleted::class);
     }

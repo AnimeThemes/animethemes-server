@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Pivots;
 
-use App\Models\Anime;
-use App\Models\Entry;
-use App\Models\Theme;
-use App\Models\Video;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
+use App\Models\Wiki\Video;
 use App\Pivots\VideoEntry;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;

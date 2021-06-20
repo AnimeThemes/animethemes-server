@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Console\Billing;
 
 use App\Console\Commands\Billing\TransactionReconcileCommand;
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction;
-use App\Repositories\Service\Billing\DigitalOceanTransactionRepository;
+use App\Repositories\Service\DigitalOcean\Billing\DigitalOceanTransactionRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;

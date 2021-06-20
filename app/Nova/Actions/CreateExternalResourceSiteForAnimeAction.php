@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Nova\Actions;
 
-use App\Enums\ResourceSite;
-use App\Models\ExternalResource;
-use App\Rules\ResourceSiteDomainRule;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\ExternalResource;
+use App\Rules\Wiki\ResourceSiteDomainRule;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
