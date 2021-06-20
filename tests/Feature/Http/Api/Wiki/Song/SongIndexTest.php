@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Http\Api\Wiki\Song;
 
-use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Http\Api\Filter\TrashedStatus;
+use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\QueryParser;
 use App\Http\Resources\Wiki\Collection\SongCollection;

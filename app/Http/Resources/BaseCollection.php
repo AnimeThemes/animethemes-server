@@ -6,7 +6,6 @@ namespace App\Http\Resources;
 
 use App\Concerns\Http\Resources\PerformsConstrainedEagerLoading;
 use App\Http\Api\QueryParser;
-use App\Services\Http\Resources\DiscoverRelationCollection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Resources\MissingValue;

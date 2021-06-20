@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Billing;
 
+use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
-use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Events\Billing\Balance\BalanceCreated;
 use App\Events\Billing\Balance\BalanceDeleted;
 use App\Events\Billing\Balance\BalanceRestored;

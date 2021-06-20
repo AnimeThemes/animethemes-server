@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Concerns\Http\Resources\PerformsResourceCollectionSearch;
-use App\Http\Api\Filter\Wiki\Anime\AnimeSeasonFilter;
-use App\Http\Api\Filter\Wiki\Anime\AnimeYearFilter;
 use App\Http\Api\Filter\Base\CreatedAtFilter;
 use App\Http\Api\Filter\Base\DeletedAtFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
+use App\Http\Api\Filter\Wiki\Anime\AnimeSeasonFilter;
+use App\Http\Api\Filter\Wiki\Anime\AnimeYearFilter;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;

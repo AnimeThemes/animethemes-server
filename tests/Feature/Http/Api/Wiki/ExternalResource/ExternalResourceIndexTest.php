@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Http\Api\Wiki\ExternalResource;
 
-use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Http\Api\Filter\TrashedStatus;
+use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\QueryParser;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;

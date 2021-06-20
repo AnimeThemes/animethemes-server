@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Policies\Wiki;
 
+use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
-use App\Models\Auth\User;
 use App\Pivots\ArtistImage;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

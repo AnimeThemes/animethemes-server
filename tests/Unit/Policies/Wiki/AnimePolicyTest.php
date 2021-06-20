@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Policies\Wiki;
 
+use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
-use App\Models\Auth\User;
 use App\Policies\Wiki\AnimePolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;

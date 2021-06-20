@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Policies\Wiki;
 
+use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
-use App\Models\Auth\User;
 use App\Pivots\AnimeSeries;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

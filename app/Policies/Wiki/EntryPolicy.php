@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Wiki;
 
-use App\Models\Wiki\Entry;
 use App\Models\Auth\User;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
 use App\Pivots\VideoEntry;
 use Illuminate\Auth\Access\HandlesAuthorization;
