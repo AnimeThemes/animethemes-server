@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Enums\InvitationStatus;
+use App\Enums\Models\Auth\InvitationStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

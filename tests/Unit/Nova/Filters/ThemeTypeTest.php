@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Nova\Filters;
 
-use App\Enums\ThemeType;
-use App\Models\Anime;
-use App\Models\Theme;
+use App\Enums\Models\Wiki\ThemeType;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Theme;
 use App\Nova\Filters\ThemeTypeFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

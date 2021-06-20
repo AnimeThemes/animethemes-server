@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Models\Billing;
 
-use App\Enums\Billing\Frequency;
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\BalanceFrequency;
+use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
@@ -43,7 +43,7 @@ class BalanceTest extends TestCase
 
         $frequency = $balance->frequency;
 
-        static::assertInstanceOf(Frequency::class, $frequency);
+        static::assertInstanceOf(BalanceFrequency::class, $frequency);
     }
 
     /**

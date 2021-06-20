@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Listeners;
 
 use App\Contracts\Events\DiscordMessageEvent;
-use App\Jobs\SendDiscordNotification as SendDiscordNotificationJob;
+use App\Jobs\SendDiscordNotificationJob;
 use App\Listeners\SendDiscordNotification;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Bus;

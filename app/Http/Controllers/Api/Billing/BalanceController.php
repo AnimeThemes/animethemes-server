@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Billing;
 
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Resources\Billing\BalanceCollection;
-use App\Http\Resources\Billing\BalanceResource;
+use App\Http\Resources\Billing\Collection\BalanceCollection;
+use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\Billing\Balance;
 use Illuminate\Http\JsonResponse;
 

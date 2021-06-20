@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jetstream;
 
-use App\Models\User;
+use App\Models\Auth\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

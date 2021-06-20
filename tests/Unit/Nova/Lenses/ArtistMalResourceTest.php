@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Nova\Lenses;
 
-use App\Enums\ResourceSite;
-use App\Models\Artist;
-use App\Models\ExternalResource;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\ExternalResource;
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;
 use App\Nova\Filters\DeletedEndDateFilter;
@@ -127,11 +127,11 @@ class ArtistMalResourceTest extends TestCase
     public function testQuery()
     {
         Artist::factory()
-            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull))
+            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull), 'resources')
             ->count($this->faker->randomDigitNotNull)
             ->create();
 
-        $filteredArtists = Artist::whereDoesntHave('externalResources', function (Builder $resourceQuery) {
+        $filteredArtists = Artist::whereDoesntHave('resources', function (Builder $resourceQuery) {
             $resourceQuery->where('site', ResourceSite::MAL);
         })
         ->get();

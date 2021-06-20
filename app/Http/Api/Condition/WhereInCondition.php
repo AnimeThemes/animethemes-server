@@ -118,7 +118,7 @@ class WhereInCondition extends Condition
     public function apply(Builder $builder, Filter $filter): Builder
     {
         return $builder->whereIn(
-            $filter->getScope().'.'.$this->getField(),
+            $builder->qualifyColumn($this->getField()),
             $filter->getFilterValues($this),
             $this->getLogicalOperator()->value,
             $this->not()

@@ -21,7 +21,7 @@ class Announcement extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Announcement::class;
+    public static string $model = \App\Models\Admin\Announcement::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

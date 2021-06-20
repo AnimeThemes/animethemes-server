@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jobs\Billing;
 
-use App\Jobs\SendDiscordNotification;
+use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Billing\Transaction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
@@ -26,11 +26,11 @@ class TransactionTest extends TestCase
     public function testTransactionCreatedSendsDiscordNotification()
     {
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
         Transaction::factory()->create();
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -43,11 +43,11 @@ class TransactionTest extends TestCase
         $transaction = Transaction::factory()->create();
 
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
         $transaction->delete();
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -60,11 +60,11 @@ class TransactionTest extends TestCase
         $transaction = Transaction::factory()->create();
 
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
         $transaction->restore();
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -77,13 +77,13 @@ class TransactionTest extends TestCase
         $transaction = Transaction::factory()->create();
 
         Config::set('app.allow_discord_notifications', true);
-        Bus::fake(SendDiscordNotification::class);
+        Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = Transaction::factory()->make();
 
         $transaction->fill($changes->getAttributes());
         $transaction->save();
 
-        Bus::assertDispatched(SendDiscordNotification::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Nova\Filters;
 
-use App\Enums\InvitationStatus;
-use App\Models\Invitation;
+use App\Enums\Models\Auth\InvitationStatus;
+use App\Models\Auth\Invitation;
 use App\Nova\Filters\InvitationStatusFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

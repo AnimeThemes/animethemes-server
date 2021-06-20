@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Enums\VideoOverlap;
+use App\Enums\Models\Wiki\VideoOverlap;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

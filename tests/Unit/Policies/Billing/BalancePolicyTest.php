@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Policies\Billing;
 
-use App\Models\User;
+use App\Models\Auth\User;
 use App\Policies\Billing\BalancePolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

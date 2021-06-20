@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Nova\Resources;
 
-use App\Enums\Billing\Frequency;
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\BalanceFrequency;
+use App\Enums\Models\Billing\Service;
 use App\Nova\Balance;
 use App\Nova\Filters\BillingServiceFilter;
 use App\Nova\Filters\CreatedEndDateFilter;
@@ -193,7 +193,7 @@ class BalanceTest extends TestCase
         $field = $balance->field(__('nova.frequency'));
 
         $field->assertHasRule('required');
-        $field->assertHasRule((new EnumValue(Frequency::class, false))->__toString());
+        $field->assertHasRule((new EnumValue(BalanceFrequency::class, false))->__toString());
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();

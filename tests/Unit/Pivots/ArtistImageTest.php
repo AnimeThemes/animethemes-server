@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Pivots;
 
-use App\Models\Artist;
-use App\Models\Image;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Image;
 use App\Pivots\ArtistImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;

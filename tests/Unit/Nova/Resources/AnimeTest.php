@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nova\Resources;
 
-use App\Enums\AnimeSeason;
+use App\Enums\Models\Wiki\AnimeSeason;
 use App\Nova\Anime;
 use App\Nova\Filters\AnimeSeasonFilter;
 use App\Nova\Filters\AnimeYearFilter;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nova\Actions;
 
-use App\Mail\InvitationEmail;
-use App\Models\Invitation;
+use App\Mail\InvitationMail;
+use App\Models\Auth\Invitation;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -52,7 +52,7 @@ class ResendInvitationAction extends Action
                 $model->save();
 
                 // Send replacement email
-                Mail::to($model->email)->queue(new InvitationEmail($model));
+                Mail::to($model->email)->queue(new InvitationMail($model));
                 array_push($resentInvitations, $model->name);
             }
         }

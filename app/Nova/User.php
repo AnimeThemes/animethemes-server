@@ -21,7 +21,7 @@ class User extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\User::class;
+    public static string $model = \App\Models\Auth\User::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

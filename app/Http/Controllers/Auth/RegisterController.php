@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Concerns\Actions\Fortify\PasswordValidationRules;
-use App\Enums\InvitationStatus;
+use App\Enums\Models\Auth\InvitationStatus;
 use App\Http\Controllers\Controller;
-use App\Models\Invitation;
-use App\Models\User;
+use App\Models\Auth\Invitation;
+use App\Models\Auth\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;

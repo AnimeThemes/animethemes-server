@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nova\Filters;
 
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
 use App\Nova\Filters\BillingServiceFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;

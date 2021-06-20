@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Announcement;
+use App\Models\Admin\Announcement;
 use Illuminate\View\View;
 
 /**

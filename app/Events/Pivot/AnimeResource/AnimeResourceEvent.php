@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\AnimeResource;
 
-use App\Models\Anime;
-use App\Models\ExternalResource;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
 
 /**

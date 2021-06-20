@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova;
 
-use App\Enums\AnimeSeason;
+use App\Enums\Models\Wiki\AnimeSeason;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
@@ -31,7 +31,7 @@ class Anime extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Anime::class;
+    public static string $model = \App\Models\Wiki\Anime::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -157,7 +157,7 @@ class Anime extends Resource
                     ];
                 }),
 
-            BelongsToMany::make(__('nova.external_resources'), 'ExternalResources', ExternalResource::class)
+            BelongsToMany::make(__('nova.external_resources'), 'Resources', ExternalResource::class)
                 ->searchable()
                 ->fields(function () {
                     return [

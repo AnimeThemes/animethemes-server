@@ -6,8 +6,8 @@ namespace Events\Pivot;
 
 use App\Events\Pivot\AnimeSeries\AnimeSeriesCreated;
 use App\Events\Pivot\AnimeSeries\AnimeSeriesDeleted;
-use App\Models\Anime;
-use App\Models\Series;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Series;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;

@@ -42,7 +42,7 @@ class AnimeSeries extends BasePivot
      */
     public function anime(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Anime', 'anime_id', 'anime_id');
+        return $this->belongsTo('App\Models\Wiki\Anime', 'anime_id', 'anime_id');
     }
 
     /**
@@ -52,6 +52,6 @@ class AnimeSeries extends BasePivot
      */
     public function series(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Series', 'series_id', 'series_id');
+        return $this->belongsTo('App\Models\Wiki\Series', 'series_id', 'series_id');
     }
 }

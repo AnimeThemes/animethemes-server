@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jetstream;
 
-use App\Models\Team;
-use App\Models\User;
+use App\Models\Auth\Team;
+use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Http\Livewire\DeleteTeamForm;
 use Livewire\Livewire;

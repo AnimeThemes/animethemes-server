@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Lenses;
 
-use App\Enums\ImageFacet;
+use App\Enums\Models\Wiki\ImageFacet;
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;
 use App\Nova\Filters\DeletedEndDateFilter;

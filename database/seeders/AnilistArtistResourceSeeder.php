@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\ResourceSite;
-use App\Models\Artist;
-use App\Models\ExternalResource;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\ExternalResource;
 use App\Pivots\ArtistResource;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -30,7 +30,7 @@ class AnilistArtistResourceSeeder extends Seeder
     public function run()
     {
         // Get artists that have MAL resource but do not have Anilist resource
-        $artists = Artist::whereDoesntHave('externalResources', function (Builder $resourceQuery) {
+        $artists = Artist::whereDoesntHave('resources', function (Builder $resourceQuery) {
             $resourceQuery->where('site', ResourceSite::ANILIST);
         })
         ->get();

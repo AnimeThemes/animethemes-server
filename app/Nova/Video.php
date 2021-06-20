@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nova;
 
-use App\Enums\VideoOverlap;
-use App\Enums\VideoSource;
+use App\Enums\Models\Wiki\VideoOverlap;
+use App\Enums\Models\Wiki\VideoSource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
@@ -29,7 +29,7 @@ class Video extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Video::class;
+    public static string $model = \App\Models\Wiki\Video::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

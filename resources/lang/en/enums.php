@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use App\Enums\AnimeSeason;
-use App\Enums\Billing\Frequency;
-use App\Enums\Billing\Service;
-use App\Enums\ImageFacet;
-use App\Enums\InvitationStatus;
-use App\Enums\ResourceSite;
-use App\Enums\ThemeType;
-use App\Enums\VideoOverlap;
-use App\Enums\VideoSource;
+use App\Enums\Models\Auth\InvitationStatus;
+use App\Enums\Models\Billing\BalanceFrequency;
+use App\Enums\Models\Billing\Service;
+use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ImageFacet;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Enums\Models\Wiki\ThemeType;
+use App\Enums\Models\Wiki\VideoOverlap;
+use App\Enums\Models\Wiki\VideoSource;
 
 return [
     AnimeSeason::class => [
@@ -19,12 +19,12 @@ return [
         AnimeSeason::SUMMER => 'Summer',
         AnimeSeason::FALL => 'Fall',
     ],
-    Frequency::class => [
-        Frequency::ONCE => 'Once',
-        Frequency::ANNUALLY => 'Annually',
-        Frequency::BIANNUALLY => 'Biannually',
-        Frequency::QUARTERLY => 'Quarterly',
-        Frequency::MONTHLY => 'Monthly',
+    BalanceFrequency::class => [
+        BalanceFrequency::ONCE => 'Once',
+        BalanceFrequency::ANNUALLY => 'Annually',
+        BalanceFrequency::BIANNUALLY => 'Biannually',
+        BalanceFrequency::QUARTERLY => 'Quarterly',
+        BalanceFrequency::MONTHLY => 'Monthly',
     ],
     ImageFacet::class => [
         ImageFacet::COVER_SMALL => 'Small Cover',

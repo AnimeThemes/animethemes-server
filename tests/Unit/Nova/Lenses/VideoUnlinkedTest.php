@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Nova\Lenses;
 
-use App\Models\Anime;
-use App\Models\Entry;
-use App\Models\Theme;
-use App\Models\Video;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
+use App\Models\Wiki\Video;
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;
 use App\Nova\Filters\DeletedEndDateFilter;

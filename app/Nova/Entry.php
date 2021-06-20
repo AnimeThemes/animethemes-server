@@ -25,7 +25,7 @@ class Entry extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Entry::class;
+    public static string $model = \App\Models\Wiki\Entry::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

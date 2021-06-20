@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\ArtistImage;
 
-use App\Models\Artist;
-use App\Models\Image;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Image;
 use App\Pivots\ArtistImage;
 
 /**

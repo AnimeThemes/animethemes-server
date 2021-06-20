@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova;
 
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\Service;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;

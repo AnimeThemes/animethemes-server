@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nova\Resources;
 
-use App\Enums\InvitationStatus;
+use App\Enums\Models\Auth\InvitationStatus;
 use App\Nova\Actions\ResendInvitationAction;
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;

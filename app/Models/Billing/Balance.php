@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Billing;
 
-use App\Enums\Billing\Frequency;
-use App\Enums\Billing\Service;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
+use App\Enums\Models\Billing\BalanceFrequency;
+use App\Enums\Models\Billing\Service;
 use App\Events\Billing\Balance\BalanceCreated;
 use App\Events\Billing\Balance\BalanceDeleted;
 use App\Events\Billing\Balance\BalanceRestored;
@@ -62,7 +62,7 @@ class Balance extends BaseModel
      */
     protected $enumCasts = [
         'service' => Service::class,
-        'frequency' => Frequency::class,
+        'frequency' => BalanceFrequency::class,
     ];
 
     /**

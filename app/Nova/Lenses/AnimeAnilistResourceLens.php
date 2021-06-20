@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nova\Lenses;
 
-use App\Enums\AnimeSeason;
-use App\Enums\ResourceSite;
+use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ResourceSite;
 use App\Nova\Actions\CreateExternalResourceSiteForAnimeAction;
 use App\Nova\Filters\AnimeSeasonFilter;
 use App\Nova\Filters\AnimeYearFilter;
@@ -50,7 +50,7 @@ class AnimeAnilistResourceLens extends Lens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave('externalResources', function (Builder $resourceQuery) {
+            $query->whereDoesntHave('resources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::ANILIST);
             })
         ));

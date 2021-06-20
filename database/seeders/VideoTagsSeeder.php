@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\VideoOverlap;
-use App\Enums\VideoSource;
-use App\Models\Video;
+use App\Enums\Models\Wiki\VideoOverlap;
+use App\Enums\Models\Wiki\VideoSource;
+use App\Models\Wiki\Video;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;

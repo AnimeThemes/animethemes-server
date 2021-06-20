@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Metrics;
 
-use App\Models\Anime;
+use App\Models\Wiki\Anime;
 use DateInterval;
 use DateTimeInterface;
 use Laravel\Nova\Http\Requests\NovaRequest;

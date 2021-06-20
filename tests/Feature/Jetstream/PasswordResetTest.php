@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jetstream;
 
-use App\Models\User;
+use App\Models\Auth\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

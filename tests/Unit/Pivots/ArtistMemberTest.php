@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pivots;
 
-use App\Models\Artist;
+use App\Models\Wiki\Artist;
 use App\Pivots\ArtistMember;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;

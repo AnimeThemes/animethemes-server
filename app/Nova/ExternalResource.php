@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nova;
 
-use App\Enums\ResourceSite;
-use App\Rules\ResourceSiteDomainRule;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Rules\Wiki\ResourceSiteDomainRule;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
@@ -29,7 +29,7 @@ class ExternalResource extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\ExternalResource::class;
+    public static string $model = \App\Models\Wiki\ExternalResource::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

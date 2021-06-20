@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories\Billing;
 
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

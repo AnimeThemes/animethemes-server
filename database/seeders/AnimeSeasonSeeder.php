@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\AnimeSeason;
-use App\Models\Anime;
+use App\Enums\Models\Wiki\AnimeSeason;
+use App\Models\Wiki\Anime;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;

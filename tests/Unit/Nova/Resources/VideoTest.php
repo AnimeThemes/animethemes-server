@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Nova\Resources;
 
-use App\Enums\VideoOverlap;
-use App\Enums\VideoSource;
+use App\Enums\Models\Wiki\VideoOverlap;
+use App\Enums\Models\Wiki\VideoSource;
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;
 use App\Nova\Filters\DeletedEndDateFilter;

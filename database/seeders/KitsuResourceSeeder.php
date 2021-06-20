@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\ResourceSite;
-use App\Models\Anime;
-use App\Models\ExternalResource;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -35,7 +35,7 @@ class KitsuResourceSeeder extends Seeder
         $animes = $this->getUnseededAnime();
 
         foreach ($animes as $anime) {
-            $malResource = $anime->externalResources()->firstWhere('site', ResourceSite::MAL);
+            $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
             if ($malResource !== null && $malResource->external_id !== null) {
 
                 // Try not to upset Kitsu
@@ -103,9 +103,9 @@ class KitsuResourceSeeder extends Seeder
     protected function getUnseededAnime(): Collection
     {
         return Anime::query()
-            ->whereHas('externalResources', function (Builder $resourceQuery) {
+            ->whereHas('resources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::MAL);
-            })->whereDoesntHave('externalResources', function (Builder $resourceQuery) {
+            })->whereDoesntHave('resources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::KITSU);
             })
             ->get();

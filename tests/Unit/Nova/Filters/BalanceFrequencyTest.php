@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nova\Filters;
 
-use App\Enums\Billing\Frequency;
+use App\Enums\Models\Billing\BalanceFrequency;
 use App\Models\Billing\Balance;
 use App\Nova\Filters\BalanceFrequencyFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -47,7 +47,7 @@ class BalanceFrequencyTest extends TestCase
     {
         $filter = static::novaFilter(BalanceFrequencyFilter::class);
 
-        foreach (Frequency::getInstances() as $frequency) {
+        foreach (BalanceFrequency::getInstances() as $frequency) {
             $filter->assertHasOption($frequency->description);
         }
     }
@@ -61,7 +61,7 @@ class BalanceFrequencyTest extends TestCase
      */
     public function testFilter()
     {
-        $frequency = Frequency::getRandomInstance();
+        $frequency = BalanceFrequency::getRandomInstance();
 
         Balance::factory()->count($this->faker->randomDigitNotNull)->create();
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Http\Auth;
 
-use App\Enums\InvitationStatus;
-use App\Models\Invitation;
-use App\Models\User;
+use App\Enums\Models\Auth\InvitationStatus;
+use App\Models\Auth\Invitation;
+use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;

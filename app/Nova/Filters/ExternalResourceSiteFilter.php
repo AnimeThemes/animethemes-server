@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Filters;
 
-use App\Enums\ResourceSite;
+use App\Enums\Models\Wiki\ResourceSite;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Nova\Lenses;
 
-use App\Enums\ImageFacet;
-use App\Models\Anime;
-use App\Models\Image;
+use App\Enums\Models\Wiki\ImageFacet;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Image;
 use App\Nova\Filters\AnimeSeasonFilter;
 use App\Nova\Filters\AnimeYearFilter;
 use App\Nova\Filters\CreatedEndDateFilter;

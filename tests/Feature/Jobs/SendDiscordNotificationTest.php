@@ -6,7 +6,7 @@ namespace Jobs;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\Middleware\RateLimited;
-use App\Jobs\SendDiscordNotification;
+use App\Jobs\SendDiscordNotificationJob;
 use App\Notifications\DiscordNotification;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Notifications\AnonymousNotifiable;
@@ -53,7 +53,7 @@ class SendDiscordNotificationTest extends TestCase
             }
         };
 
-        $job = new SendDiscordNotification($event);
+        $job = new SendDiscordNotificationJob($event);
 
         $job->handle();
 
@@ -95,7 +95,7 @@ class SendDiscordNotificationTest extends TestCase
             }
         };
 
-        $job = new SendDiscordNotification($event);
+        $job = new SendDiscordNotificationJob($event);
 
         $middleware = collect($job->middleware())->first();
 

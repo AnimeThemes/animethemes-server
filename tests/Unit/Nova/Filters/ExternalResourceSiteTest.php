@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Nova\Filters;
 
-use App\Enums\ResourceSite;
-use App\Models\ExternalResource;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\ExternalResource;
 use App\Nova\Filters\ExternalResourceSiteFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

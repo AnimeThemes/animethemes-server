@@ -3,21 +3,21 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Billing\TransparencyController;
 use App\Http\Controllers\Document\CommunityController;
 use App\Http\Controllers\Document\DonateController;
 use App\Http\Controllers\Document\EncodingController;
 use App\Http\Controllers\Document\EventController;
 use App\Http\Controllers\Document\FaqController;
 use App\Http\Controllers\Document\GuidelinesController;
-use App\Http\Controllers\ImageController;
 use App\Http\Controllers\Sitemap\CommunitySitemapController;
 use App\Http\Controllers\Sitemap\EncodingSitemapController;
 use App\Http\Controllers\Sitemap\EventSitemapController;
 use App\Http\Controllers\Sitemap\GuidelinesSitemapController;
 use App\Http\Controllers\Sitemap\SitemapController;
-use App\Http\Controllers\TransparencyController;
-use App\Http\Controllers\VideoController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\Wiki\ImageController;
+use App\Http\Controllers\Wiki\VideoController;
 use Illuminate\Support\Facades\Route;
 
 /*

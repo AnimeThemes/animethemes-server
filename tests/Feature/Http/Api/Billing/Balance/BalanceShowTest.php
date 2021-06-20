@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Http\Api\Billing\Balance;
 
 use App\Http\Api\QueryParser;
-use App\Http\Resources\Billing\BalanceResource;
+use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\Billing\Balance;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

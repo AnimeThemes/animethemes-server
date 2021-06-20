@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Nova\Lenses;
 
-use App\Enums\VideoSource;
-use App\Models\Video;
+use App\Enums\Models\Wiki\VideoSource;
+use App\Models\Wiki\Video;
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;
 use App\Nova\Filters\DeletedEndDateFilter;

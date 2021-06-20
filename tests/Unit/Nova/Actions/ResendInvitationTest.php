@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Nova\Actions;
 
-use App\Enums\InvitationStatus;
-use App\Mail\InvitationEmail;
-use App\Models\Invitation;
+use App\Enums\Models\Auth\InvitationStatus;
+use App\Mail\InvitationMail;
+use App\Models\Auth\Invitation;
 use App\Nova\Actions\ResendInvitationAction;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -112,7 +112,7 @@ class ResendInvitationTest extends TestCase
 
         $action->handle(new ActionFields(collect(), collect()), $invitations);
 
-        Mail::assertNotQueued(InvitationEmail::class);
+        Mail::assertNotQueued(InvitationMail::class);
     }
 
     /**
@@ -137,7 +137,7 @@ class ResendInvitationTest extends TestCase
 
         $action->handle(new ActionFields(collect(), collect()), $invitations);
 
-        Mail::assertQueued(InvitationEmail::class, $invitationCount);
+        Mail::assertQueued(InvitationMail::class, $invitationCount);
     }
 
     /**

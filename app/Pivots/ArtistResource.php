@@ -49,7 +49,7 @@ class ArtistResource extends BasePivot
      */
     public function artist(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Artist', 'artist_id', 'artist_id');
+        return $this->belongsTo('App\Models\Wiki\Artist', 'artist_id', 'artist_id');
     }
 
     /**
@@ -59,6 +59,6 @@ class ArtistResource extends BasePivot
      */
     public function resource(): BelongsTo
     {
-        return $this->belongsTo('App\Models\ExternalResource', 'resource_id', 'resource_id');
+        return $this->belongsTo('App\Models\Wiki\ExternalResource', 'resource_id', 'resource_id');
     }
 }

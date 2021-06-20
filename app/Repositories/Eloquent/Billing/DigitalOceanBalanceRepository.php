@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Eloquent\Billing;
 
-use App\Enums\Billing\Service;
+use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
 use App\Repositories\Eloquent\EloquentRepository;
 use Carbon\Carbon;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\ArtistMember;
 
-use App\Models\Artist;
+use App\Models\Wiki\Artist;
 use App\Pivots\ArtistMember;
 
 /**

@@ -6,8 +6,8 @@ namespace Http\Api\Billing\Balance;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Http\Api\QueryParser;
-use App\Http\Resources\Billing\BalanceCollection;
-use App\Http\Resources\Billing\BalanceResource;
+use App\Http\Resources\Billing\Collection\BalanceCollection;
+use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\Billing\Balance;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -1,0 +1,70 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Events\Wiki\Synonym;
+
+use App\Contracts\Events\DiscordMessageEvent;
+use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Enums\Services\Discord\EmbedColor;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
+use App\Models\Wiki\Video;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Support\Facades\Config;
+use NotificationChannels\Discord\DiscordMessage;
+
+/**
+ * Class SynonymDeleted.
+ */
+class SynonymDeleted extends SynonymEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
+{
+    use Dispatchable;
+
+    /**
+     * Get Discord message payload.
+     *
+     * @return DiscordMessage
+     */
+    public function getDiscordMessage(): DiscordMessage
+    {
+        $synonym = $this->getSynonym();
+        $anime = $this->getAnime();
+
+        return DiscordMessage::create('', [
+            'description' => "Synonym '**{$synonym->getName()}**' has been deleted for Anime '**{$anime->getName()}**'.",
+            'color' => EmbedColor::RED,
+        ]);
+    }
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel(): string
+    {
+        return Config::get('services.discord.db_updates_discord_channel');
+    }
+
+    /**
+     * Perform updates on related indices.
+     *
+     * @return void
+     */
+    public function updateRelatedIndices()
+    {
+        $anime = $this->getAnime()->load('themes.entries.videos');
+
+        $anime->searchable();
+        $anime->themes->each(function (Theme $theme) {
+            $theme->searchable();
+            $theme->entries->each(function (Entry $entry) {
+                $entry->searchable();
+                $entry->videos->each(function (Video $video) {
+                    $video->searchable();
+                });
+            });
+        });
+    }
+}

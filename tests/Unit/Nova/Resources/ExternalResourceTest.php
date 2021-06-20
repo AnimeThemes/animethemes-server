@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nova\Resources;
 
-use App\Enums\ResourceSite;
+use App\Enums\Models\Wiki\ResourceSite;
 use App\Nova\ExternalResource;
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;

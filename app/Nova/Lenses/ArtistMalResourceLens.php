@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Lenses;
 
-use App\Enums\ResourceSite;
+use App\Enums\Models\Wiki\ResourceSite;
 use App\Nova\Actions\CreateExternalResourceSiteForArtistAction;
 use App\Nova\Filters\CreatedEndDateFilter;
 use App\Nova\Filters\CreatedStartDateFilter;
@@ -44,7 +44,7 @@ class ArtistMalResourceLens extends Lens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave('externalResources', function (Builder $resourceQuery) {
+            $query->whereDoesntHave('resources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::MAL);
             })
         ));

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\ImageFacet;
-use App\Enums\ResourceSite;
-use App\Models\Artist;
-use App\Models\Image;
+use App\Enums\Models\Wiki\ImageFacet;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Image;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
@@ -38,7 +38,7 @@ class ArtistCoverSeeder extends Seeder
         $fs = Storage::disk('images');
 
         foreach ($artists as $artist) {
-            $anilistResource = $artist->externalResources()->firstWhere('site', ResourceSite::ANILIST);
+            $anilistResource = $artist->resources()->firstWhere('site', ResourceSite::ANILIST);
             if ($anilistResource !== null && $anilistResource->external_id !== null) {
                 $artistCoverLarge = $artist->images()->firstWhere('facet', ImageFacet::COVER_LARGE);
                 $artistCoverSmall = $artist->images()->firstWhere('facet', ImageFacet::COVER_SMALL);
@@ -134,7 +134,7 @@ class ArtistCoverSeeder extends Seeder
     protected function getUnseededArtists(): Collection
     {
         return Artist::query()
-            ->whereHas('externalResources', function (Builder $resourceQuery) {
+            ->whereHas('resources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::ANILIST);
             })->whereDoesntHave('images', function (Builder $imageQuery) {
                 $imageQuery->whereIn('facet', [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);

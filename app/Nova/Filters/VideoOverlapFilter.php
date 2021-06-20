@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Filters;
 
-use App\Enums\VideoOverlap;
+use App\Enums\Models\Wiki\VideoOverlap;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
