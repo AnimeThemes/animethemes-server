@@ -37,7 +37,7 @@ abstract class IntFilter extends Filter
             array_filter(
                 $filterValues,
                 function (string $filterValue) {
-                    return filter_var($filterValue, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+                    return filter_var($filterValue, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE) !== null;
                 }
             )
         );

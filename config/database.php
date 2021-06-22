@@ -47,6 +47,17 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
+            'read' => [
+                'host' => [
+                    env('DB_HOST_READ', '127.0.0.1'),
+                ],
+            ],
+            'write' => [
+                'host' => [
+                    env('DB_HOST_WRITE', '127.0.0.1'),
+                ],
+            ],
+            'sticky' => env('DB_STICKY', false),
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
@@ -67,6 +78,17 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
+            'read' => [
+                'host' => [
+                    env('DB_HOST_READ', '127.0.0.1'),
+                ],
+            ],
+            'write' => [
+                'host' => [
+                    env('DB_HOST_WRITE', '127.0.0.1'),
+                ],
+            ],
+            'sticky' => env('DB_STICKY', false),
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
@@ -82,6 +104,17 @@ return [
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
+            'read' => [
+                'host' => [
+                    env('DB_HOST_READ', '127.0.0.1'),
+                ],
+            ],
+            'write' => [
+                'host' => [
+                    env('DB_HOST_WRITE', '127.0.0.1'),
+                ],
+            ],
+            'sticky' => env('DB_STICKY', false),
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '1433'),
