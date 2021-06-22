@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter\Wiki\Entry;
 
-use App\Http\Api\Filter\Filter;
+use App\Http\Api\Filter\IntFilter;
 use App\Http\Api\QueryParser;
 
 /**
  * Class EntryVersionFilter.
  */
-class EntryVersionFilter extends Filter
+class EntryVersionFilter extends IntFilter
 {
     /**
      * Create a new filter instance.

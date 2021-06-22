@@ -15,8 +15,6 @@ The site sadly got taken down by its owner since maintaining it cost too much wo
 
 [catbox.moe](https://catbox.moe/)
 
-[safe.fiery.me](https://safe.fiery.me/)
-
 ## In Memoriam
 
 pomf.se
@@ -52,6 +50,8 @@ kyaa.sg
 aww.moe
 
 fuwafuwa.moe
+
+safe.fiery.me
 
 ## Resources
 
