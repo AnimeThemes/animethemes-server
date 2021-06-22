@@ -252,17 +252,6 @@ Juusenki L-Gaim|"Kaze no No Reply"|[OP2][480, Lyrics]|
 Kachou Ouji|"Yappa Onna hou ga Ii ya"|[ED][384]|
 Kachou Ouji|"Cautionary Warning"|[OP][384]|
 Kakegurui|"Koi no Russian Roulette"|[ED2]|
-Kami nomi zo Shiru Sekai Megami-hen|"Kizuna no Yukue feat. Jupiter Sisters"|[ED10][NC]|
-Kami nomi zo Shiru Sekai Megami-hen|"Kizuna no Yukue feat. Tenri Ayukawa"|[ED2][NC]|
-Kami nomi zo Shiru Sekai Megami-hen|"Hajimete Koi wo Shita Kioku"|[ED11][NC, Over]|
-Kami nomi zo Shiru Sekai Megami-hen|"Kizuna no Yukue feat. Tsukiyo Kujou"|[ED3][NC]|
-Kami nomi zo Shiru Sekai Megami-hen|"Kizuna no Yukue feat. Shiori Shinomiya"|[ED5][NC]|
-Kami nomi zo Shiru Sekai Megami-hen|"God only knows -Secrets of the Goddess-"|[OP][Lyrics]|
-Kami nomi zo Shiru Sekai Megami-hen|"Kizuna no Yukue feat. Ayumi Takahara"|[ED8][NC]|
-Kami nomi zo Shiru Sekai Megami-hen|"Kizuna no Yukue feat. Kanon Nakagawa"|[ED1][NC]|
-Kami nomi zo Shiru Sekai Megami-hen|"Kizuna no Yukue feat. Yui Goidou"|[ED4][NC]|
-Kami nomi zo Shiru Sekai Megami-hen|"With...you..."|[ED9][NC]|
-Kami nomi zo Shiru Sekai Megami-hen|"Hitomi kara Snow"|[ED7][NC]|
 Kanojo to Kanojo no Neko Everything Flows|"Sonata"|[ED]|
 Kanojo to Kanojo no Neko Everything Flows|"Garasu no Hitomi"|[OP V1]|
 Karneval (TV)|"REASON"|[ED][NC, BD]|
@@ -584,33 +573,6 @@ Tetsujin 28-gou (2004)|"Tetsujin 28-go"|[OP][480, Lyrics]|
 The Big O|"Big-O!"|[OP1]|
 The Big O|"And Forever..."|[ED]|
 The Big O|"Respect"|[OP2][NC]|
-The iDOLM@STER|"Aoi Tori"|[ED4][Trans]
-The iDOLM@STER|"Brand New Day!"|[ED16][NC, Lyrics, Trans]
-The iDOLM@STER|"Cheering Letter"|[ED17][NC, Lyrics, Trans]
-The iDOLM@STER|"Colorful Days"|[ED14][NC, Lyrics, Trans]
-The iDOLM@STER|"First Stage"|[ED3][Trans]
-The iDOLM@STER|"GO MY WAY!!"|[ED10][Trans]
-The iDOLM@STER|"Hanikami! First Bite"|[ED8][Trans]
-The iDOLM@STER|"Happy Christmas"|[ED22][NC, Lyrics, Trans]
-The iDOLM@STER|"i"|[ED13][NC, Lyrics, Trans]
-The iDOLM@STER|"Kazahana"|[ED19][NC, Lyrics, Trans]
-The iDOLM@STER|"Mahou wo Kakete!"|[ED18][NC, Lyrics, Trans]
-The iDOLM@STER|"Massugu"|[ED24][NC, Lyrics, Over]
-The iDOLM@STER|"MEGARE!"|[ED15][NC, Lyrics, Trans]
-The iDOLM@STER|"Mitsumete"|[ED23][NC, Lyrics, Over]
-The iDOLM@STER|"MOONY"|[ED5][Trans]
-The iDOLM@STER|"Ohayou!! Asagohan"|[ED7][Trans]
-The iDOLM@STER|"Positive!"|[ED2]
-The iDOLM@STER|"Reimei Starline"|[ED9][Trans]
-The iDOLM@STER|"Shocking na Kare!"|[ED12][Over]
-The iDOLM@STER|"Sora"|[ED21][NC, Lyrics, Trans]
-The iDOLM@STER|"START!!"|[ED11][Trans]
-The iDOLM@STER|"THE IDOLM@STER"|[ED6][Trans]
-The iDOLM@STER|"The world is all one!!"|[ED1][Over]
-The iDOLM@STER|"Watashi-tachi wa Zutto...Deshou"|[ED25][NC, Lyrics, Over]
-The iDOLM@STER|"Yakusoku"|[ED20][NC, Lyrics, Trans]
-The iDOLM@STER 765 Pro to Iu Monogatari|"my song"|[ED][NC, Lyrics]|
-The iDOLM@STER 765 Pro to Iu Monogatari|"my song"|[ED]|
 Toaru Hikuushi e no Koiuta|"Kaze ga Shitteru"|[ED1][NC, BD]|
 Toaru Hikuushi e no Koiuta|"azurite"|[OP][NC, BD]|
 Top wo Nerae! Gunbuster|"Active Heart"|[ED2][Over, BD, Lyrics]|
@@ -655,16 +617,6 @@ Yu☆Gi☆Oh! (1999)|"Kawaita Sakebi"|[OP][480, VHS, Lyrics, Over]|
 Yu☆Gi☆Oh! (1999)|"Ashita Moshi Kimi ga Kowaretemo"|[ED]|
 Yu☆Gi☆Oh! (1999)|"Kawaita Sakebi"|[OP]|
 Yumekui Merry|"Daydream Syndrome"|[OP]|
-Yuuki Yuuna wa Yuusha de Aru|"Inori no Uta (acoustic guitar ver.)"|[ED2 V1][Trans]|
-Yuuki Yuuna wa Yuusha de Aru|"Hoshi to Hana"|[OP V3]|
-Yuuki Yuuna wa Yuusha de Aru|"Aurora Days"|[ED1 V2]|
-Yuuki Yuuna wa Yuusha de Aru|"Aurora Days (Tougou ver.)"|[ED1 V3]|
-Yuuki Yuuna wa Yuusha de Aru|"Hoshi to Hana"|[OP V1][NC]|
-Yuuki Yuuna wa Yuusha de Aru|"Aurora Days (Yuuna ver.)"|[ED1 V4]|
-Yuuki Yuuna wa Yuusha de Aru|"Aurora Days"|[ED1 V1]|
-Yuuki Yuuna wa Yuusha de Aru|"Aurora Days"|[ED1 V5][Trans]|
-Yuuki Yuuna wa Yuusha de Aru|"Inori no Uta"|[ED2 V2][Trans]|
-Yuuki Yuuna wa Yuusha de Aru|"Hoshi to Hana"|[OP V2]|
 Yuuki Yuuna wa Yuusha de Aru Washio Sumi no Shou Movie 3 - Yakusoku|"Sakiwau Hana"|[OP][BD, 1080, Lyrics]|
 Yuusha Exkaiser|"Gatherway"|[OP][480, Lyrics]|
 Yuusha Keisatsu J-Decker|"Heart to Heart by Tsuru Yoshi"|[OP V1][480, Lyrics]|
