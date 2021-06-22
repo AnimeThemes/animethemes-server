@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\JsonApi\Filter;
+namespace JsonApi\Filter;
 
 use App\Http\Api\Filter\IntFilter;
 use App\Http\Api\QueryParser;
@@ -41,6 +41,11 @@ class IntFilterTest extends TestCase
         static::assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
     }
 
+    /**
+     * The boolean filter shall convert validated integer inputs to integer values.
+     *
+     * @return void
+     */
     public function testConvertsValidatedIntegers()
     {
         $filterField = $this->faker->word();
