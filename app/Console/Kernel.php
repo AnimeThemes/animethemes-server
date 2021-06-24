@@ -11,6 +11,7 @@ use App\Console\Commands\Wiki\VideoReconcileCommand;
 use App\Enums\Models\Billing\Service;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Queue\Console\PruneFailedJobsCommand;
 use Laravel\Horizon\Console\SnapshotCommand;
 use Laravel\Telescope\Console\PruneCommand;
 
@@ -42,6 +43,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(BalanceReconcileCommand::class, [Service::DIGITALOCEAN()->key])->dailyAt('07:00');
         $schedule->command(DatabaseDumpCommand::class)->daily();
         $schedule->command(PruneCommand::class)->daily();
+        $schedule->command(PruneFailedJobsCommand::class)->daily();
         $schedule->command(SnapshotCommand::class)->everyFiveMinutes();
         $schedule->command(TransactionReconcileCommand::class, [Service::DIGITALOCEAN()->key])->dailyAt('07:00');
         $schedule->command(VideoReconcileCommand::class)->hourly();
