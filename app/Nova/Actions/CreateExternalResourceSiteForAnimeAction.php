@@ -77,7 +77,7 @@ class CreateExternalResourceSiteForAnimeAction extends Action
     {
         return [
             Text::make(__('nova.link'), 'link')
-                ->rules('required', 'max:192', 'url', 'unique:resource,link', (new ResourceSiteDomainRule($this->site))->__toString())
+                ->rules('required', 'max:192', 'url', 'unique:resource,link', (new ResourceSiteDomainRule(intval($this->site)))->__toString())
                 ->help(__('nova.resource_link_help')),
         ];
     }

@@ -198,7 +198,7 @@ class SongPolicyTest extends TestCase
         $policy = new SongPolicy();
 
         static::assertFalse($policy->addTheme($viewer));
-        static::assertFalse($policy->addTheme($editor));
+        static::assertTrue($policy->addTheme($editor));
         static::assertTrue($policy->addTheme($admin));
     }
 

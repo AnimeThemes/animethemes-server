@@ -97,7 +97,7 @@ class SongPolicy
      */
     public function addTheme(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('songtheme:create');
+        return $user->hasCurrentTeamPermission('song:create');
     }
 
     /**
