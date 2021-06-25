@@ -2,18 +2,25 @@
 
 declare(strict_types=1);
 
-namespace App\Scout\Elastic;
+namespace App\Services\Models\Scout;
 
-use App\Models\Wiki\Series;
+use App\Models\Wiki\Synonym;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
 /**
- * Class SeriesQueryPayload.
+ * Class SynonymQueryPayload.
  */
-class SeriesQueryPayload extends ElasticQueryPayload
+class SynonymQueryPayload extends ElasticQueryPayload
 {
+    /**
+     * The model this payload is searching.
+     *
+     * @var string
+     */
+    public static string $model = Synonym::class;
+
     /**
      * Build Elasticsearch query.
      *
@@ -21,18 +28,18 @@ class SeriesQueryPayload extends ElasticQueryPayload
      */
     public function buildQuery(): SearchRequestBuilder
     {
-        return Series::boolSearch()
+        return Synonym::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
-                ->field('name')
+                ->field('text')
                 ->query($this->parser->getSearch())
             )
             ->should((new MatchQueryBuilder())
-                ->field('name')
+                ->field('text')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
             )
             ->should((new MatchQueryBuilder())
-                ->field('name')
+                ->field('text')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
                 ->lenient(true)
