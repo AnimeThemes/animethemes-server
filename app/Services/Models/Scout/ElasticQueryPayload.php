@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Scout\Elastic;
+namespace App\Services\Models\Scout;
 
 use App\Http\Api\QueryParser;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
@@ -18,6 +18,13 @@ abstract class ElasticQueryPayload
      * @var QueryParser
      */
     protected QueryParser $parser;
+
+    /**
+     * The model this payload is searching.
+     *
+     * @var string
+     */
+    public static string $model;
 
     /**
      * Create a new query payload instance.

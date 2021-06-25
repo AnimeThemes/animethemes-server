@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Scout\Elastic;
+namespace App\Services\Models\Scout;
 
 use App\Models\Wiki\Anime;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
@@ -15,6 +15,13 @@ use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
  */
 class AnimeQueryPayload extends ElasticQueryPayload
 {
+    /**
+     * The model this payload is searching.
+     *
+     * @var string
+     */
+    public static string $model = Anime::class;
+
     /**
      * Build Elasticsearch query.
      *

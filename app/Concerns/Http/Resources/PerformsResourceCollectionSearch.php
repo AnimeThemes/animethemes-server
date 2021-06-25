@@ -6,10 +6,13 @@ namespace App\Concerns\Http\Resources;
 
 use App\Enums\Http\Api\PaginationStrategy;
 use App\Http\Api\QueryParser;
-use App\Scout\Elastic\ElasticQueryPayload;
+use App\Services\Http\Resources\DiscoverElasticQueryPayload;
+use App\Services\Models\Scout\ElasticQueryPayload;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Exceptions\QueryBuilderException;
+use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
@@ -41,19 +44,24 @@ trait PerformsResourceCollectionSearch
     }
 
     /**
-     * Resolve Elasticsearch query builder from collection class name.
-     * We are assuming a convention of "{Model}Collection" to "{Model}QueryPayload".
+     * Resolve Elasticsearch query builder from collection collects property.
      *
      * @param QueryParser $parser
-     * @return ElasticQueryPayload
+     * @return ElasticQueryPayload|null
      */
-    protected static function elasticQueryPayload(QueryParser $parser): ElasticQueryPayload
+    protected static function elasticQueryPayload(QueryParser $parser): ?ElasticQueryPayload
     {
-        $model = Str::replaceLast('Collection', '', class_basename(static::class));
+        $collection = static::make(new MissingValue(), QueryParser::make());
 
-        $elasticQueryPayload = "\\App\\Scout\\Elastic\\{$model}QueryPayload";
+        $collectsClass = $collection->collects;
 
-        return $elasticQueryPayload::make($parser);
+        $elasticQueryPayload = DiscoverElasticQueryPayload::byModelClass($collectsClass);
+
+        if (! empty($elasticQueryPayload)) {
+            return $elasticQueryPayload::make($parser);
+        }
+
+        return null;
     }
 
     /**
@@ -68,6 +76,9 @@ trait PerformsResourceCollectionSearch
         PaginationStrategy $paginationStrategy
     ): static {
         $elasticQueryPayload = static::elasticQueryPayload($parser);
+        if ($elasticQueryPayload === null) {
+            return static::make(Collection::make(), $parser);
+        }
 
         // initialize builder with payload for matches
         $builder = $elasticQueryPayload->buildQuery();

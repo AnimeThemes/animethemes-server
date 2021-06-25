@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Scout\Elastic;
+namespace App\Services\Models\Scout;
 
 use App\Models\Wiki\Theme;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
@@ -15,6 +15,13 @@ use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
  */
 class ThemeQueryPayload extends ElasticQueryPayload
 {
+    /**
+     * The model this payload is searching.
+     *
+     * @var string
+     */
+    public static string $model = Theme::class;
+
     /**
      * Build Elasticsearch query.
      *
