@@ -11,15 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
- * @OA\Schema(
- *     title="Announcement",
- *     description="Announcement Resource",
- *     type="object",
- *     @OA\Property(property="id",type="integer",description="Primary Key",example=1),
- *     @OA\Property(property="content",type="string",description="The Announcement Text",example="There will be a period of scheduled downtime..."),
- *     @OA\Property(property="created_at",type="string",description="The Resource Creation Timestamp",example="2020-08-15T05:43:02.000000Z"),
- *     @OA\Property(property="updated_at",type="string",description="The Resource Last Updated Timestamp",example="2020-08-15T05:43:02.000000Z"),
- * )
+ * Class AnnouncementResource.
  */
 class AnnouncementResource extends BaseResource
 {

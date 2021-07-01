@@ -28,7 +28,7 @@
             <div class="w-full sm:max-w-md mx-6 px-6 p-4 space-y-6 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 <div class="font-bold text-lg text-center">{{ __('Browse our repository') }}</div>
                 <p>Search the <a class="font-bold hover:underline" href="{{ url('wiki') }}">wiki</a> for listings of themes by Year, Series, Artist and Anime.</p>
-                <p>Query the <a class="font-bold hover:underline" href="{{ route('l5-swagger.default.api') }}">API</a> for the scripting needs of your project.</p>
+                <p>Query the <a class="font-bold hover:underline" href="{{ url('api/docs') }}">API</a> for the scripting needs of your project.</p>
             </div>
             <div class="w-full sm:max-w-md mx-6 px-6 p-4 space-y-6 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 <div class="font-bold text-lg text-center">{{ __('Want to contribute?') }}</div>

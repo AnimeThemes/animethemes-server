@@ -7,12 +7,14 @@ namespace App\Console\Commands\Wiki;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
 use Spatie\DbDumper\Databases\Sqlite;
+use Spatie\DbDumper\DbDumper;
 
 /**
  * Class DatabaseDumpCommand.
@@ -24,7 +26,7 @@ class DatabaseDumpCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'db:dump';
+    protected $signature = 'db:dump {--C|create : Whether the dumper should include create table statements}';
 
     /**
      * The console command description.
@@ -66,48 +68,37 @@ class DatabaseDumpCommand extends Command
      */
     public function handle(): int
     {
-        try {
-            $dumpFile = $this->getDumpFile();
+        $create = $this->option('create');
 
-            // Specify the PDO connection type so that the correct utility is run
-            $dbConnection = DB::connection();
-            $connectionName = $dbConnection->getName();
-            switch ($connectionName) {
-                case 'sqlite':
-                    Sqlite::create()
-                        ->setDbName($dbConnection->getDatabaseName())
-                        ->setUserName(strval($dbConnection->getConfig('username')))
-                        ->setPassword(strval($dbConnection->getConfig('password')))
-                        ->includeTables($this->allowedTables)
-                        ->dumpToFile($dumpFile);
-                    break;
-                case 'mysql':
-                    MySql::create()
-                        ->doNotCreateTables()
-                        ->setDbName($dbConnection->getDatabaseName())
-                        ->setUserName(strval($dbConnection->getConfig('username')))
-                        ->setPassword(strval($dbConnection->getConfig('password')))
-                        ->setHost($dbConnection->getConfig('host'))
-                        ->setPort(intval($dbConnection->getConfig('port')))
-                        ->includeTables($this->allowedTables)
-                        ->dumpToFile($dumpFile);
-                    break;
-                case 'pgsql':
-                    PostgreSql::create()
-                        ->doNotCreateTables()
-                        ->setDbName($dbConnection->getDatabaseName())
-                        ->setUserName(strval($dbConnection->getConfig('username')))
-                        ->setPassword(strval($dbConnection->getConfig('password')))
-                        ->setHost($dbConnection->getConfig('host'))
-                        ->setPort(intval($dbConnection->getConfig('port')))
-                        ->includeTables($this->allowedTables)
-                        ->dumpToFile($dumpFile);
-                    break;
-                default:
-                    Log::error("Unrecognized connection '{$connectionName}'");
-                    $this->error("Unrecognized connection '{$connectionName}'");
-                    break;
+        try {
+            $connection = DB::connection();
+
+            $dumper = $this->getDumper($connection, $create);
+            if ($dumper === null) {
+                Log::error("Unrecognized connection '{$connection->getName()}'");
+                $this->error("Unrecognized connection '{$connection->getName()}'");
+
+                return 1;
             }
+
+            $dumper->setDbName($connection->getDatabaseName())
+                ->setUserName(strval($connection->getConfig('username')))
+                ->setPassword(strval($connection->getConfig('password')))
+                ->includeTables($this->allowedTables);
+
+            $host = $connection->getConfig('host');
+            if ($host !== null) {
+                $dumper->setHost(is_array($host) ? $host[0] : $host);
+            }
+
+            $port = $connection->getConfig('port');
+            if ($port !== null && is_int($port)) {
+                $dumper->setPort($port);
+            }
+
+            $dumpFile = $this->getDumpFile($create);
+
+            $dumper->dumpToFile($dumpFile);
 
             // Assume success if no exceptions were thrown
             // The library will check if the file exists and is not empty
@@ -127,17 +118,36 @@ class DatabaseDumpCommand extends Command
      * The target path for the database dump.
      * Pattern: "/path/to/project/storage/db-dumps/animethemes-db-dump-{year}-{month}-{day}.sql".
      *
+     * @param bool $create
      * @return string
      */
-    protected function getDumpFile(): string
+    protected function getDumpFile(bool $create): string
     {
         $dumpFile = Str::of('db-dumps')
             ->append(DIRECTORY_SEPARATOR)
             ->append('animethemes-db-dump-')
+            ->append($create ? 'create-' : '')
             ->append(Carbon::now()->toDateString())
             ->append('.sql')
             ->__toString();
 
         return storage_path($dumpFile);
+    }
+
+    /**
+     * Get the dumper for the database connection.
+     *
+     * @param ConnectionInterface $connection
+     * @param bool $create
+     * @return DbDumper|null
+     */
+    protected function getDumper(ConnectionInterface $connection, bool $create): ?DbDumper
+    {
+        return match ($connection->getName()) {
+            'sqlite' => Sqlite::create(),
+            'mysql' => $create ? MySql::create() : MySql::create()->doNotCreateTables(),
+            'pgsql' => $create ? PostgreSql::create() : PostgreSql::create()->doNotCreateTables(),
+            default => null,
+        };
     }
 }
