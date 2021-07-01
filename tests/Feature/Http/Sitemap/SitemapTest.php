@@ -48,18 +48,6 @@ class SitemapTest extends TestCase
     }
 
     /**
-     * The sitemap shall display the API Docs route.
-     *
-     * @return void
-     */
-    public function testApiDocs()
-    {
-        $response = $this->get(route('sitemap'));
-
-        $response->assertSee(route('l5-swagger.default.api'));
-    }
-
-    /**
      * The sitemap index shall display the policy route.
      *
      * @return void

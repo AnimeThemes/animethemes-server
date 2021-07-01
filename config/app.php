@@ -249,7 +249,6 @@ return [
         ElasticScoutDriver\ServiceProvider::class,
         ElasticScoutDriverPlus\ServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
-        L5Swagger\L5SwaggerServiceProvider::class,
         NotificationChannels\Discord\DiscordServiceProvider::class,
         SMartins\Exceptions\JsonHandlerServiceProvider::class,
         Spatie\JsonApiPaginate\JsonApiPaginateServiceProvider::class,

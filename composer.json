@@ -30,7 +30,6 @@
         "bensampo/laravel-enum": "^3.2",
         "bepsvpt/secure-headers": "^7.1",
         "cyrildewit/eloquent-viewable": "^6.0",
-        "darkaonline/l5-swagger": "^8.0.3",
         "david-griffiths/nova-dark-theme": "^1.0",
         "devpartners/auditable-log": "^1.0",
         "doctrine/dbal": "^2.12.1",

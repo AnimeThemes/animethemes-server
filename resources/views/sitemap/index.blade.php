@@ -8,9 +8,6 @@
         <loc>{{ route('faq.show') }}</loc>
     </url>
     <url>
-        <loc>{{ route('l5-swagger.default.api') }}</loc>
-    </url>
-    <url>
         <loc>{{ route('policy.show') }}</loc>
     </url>
     <url>
