@@ -42,6 +42,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command(BalanceReconcileCommand::class, [Service::DIGITALOCEAN()->key])->dailyAt('07:00');
         $schedule->command(DatabaseDumpCommand::class)->daily();
+        $schedule->command(DatabaseDumpCommand::class, ['--create'])->daily();
         $schedule->command(PruneCommand::class)->daily();
         $schedule->command(PruneFailedJobsCommand::class)->daily();
         $schedule->command(SnapshotCommand::class)->everyFiveMinutes();
