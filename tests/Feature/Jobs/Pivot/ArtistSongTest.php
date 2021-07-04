@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Pivot;
+namespace Tests\Feature\Jobs\Pivot;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Artist;
@@ -30,7 +30,7 @@ class ArtistSongTest extends TestCase
         $artist = Artist::factory()->create();
         $song = Song::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $artist->songs()->attach($song);
@@ -49,7 +49,7 @@ class ArtistSongTest extends TestCase
         $song = Song::factory()->create();
         $artist->songs()->attach($song);
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $artist->songs()->detach($song);
@@ -77,7 +77,7 @@ class ArtistSongTest extends TestCase
             ->for($song, 'song')
             ->make();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $artistSong->fill($changes->getAttributes());

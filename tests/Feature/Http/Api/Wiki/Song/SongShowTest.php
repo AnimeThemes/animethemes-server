@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Wiki\Song;
+namespace Tests\Feature\Http\Api\Wiki\Song;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;

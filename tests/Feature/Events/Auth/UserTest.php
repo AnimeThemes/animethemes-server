@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Events\Auth;
+namespace Tests\Feature\Events\Auth;
 
 use App\Events\Auth\User\UserCreated;
 use App\Events\Auth\User\UserDeleted;

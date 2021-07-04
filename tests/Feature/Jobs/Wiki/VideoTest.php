@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Wiki;
+namespace Tests\Feature\Jobs\Wiki;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Video;
@@ -25,7 +25,7 @@ class VideoTest extends TestCase
      */
     public function testVideoCreatedSendsDiscordNotification()
     {
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         Video::factory()->create();
@@ -42,7 +42,7 @@ class VideoTest extends TestCase
     {
         $video = Video::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $video->delete();
@@ -59,7 +59,7 @@ class VideoTest extends TestCase
     {
         $video = Video::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $video->restore();
@@ -76,7 +76,7 @@ class VideoTest extends TestCase
     {
         $video = Video::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = Video::factory()->make();

@@ -22,7 +22,7 @@ class IsVideoStreamingAllowed
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if (! Config::get('app.allow_video_streams', false)) {
+        if (! Config::get('flags.allow_video_streams', false)) {
             return redirect(route('welcome'));
         }
 

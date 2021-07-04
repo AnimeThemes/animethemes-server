@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Wiki\Synonym;
+namespace Tests\Feature\Http\Api\Wiki\Synonym;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\QueryParser;

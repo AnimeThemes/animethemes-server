@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Wiki;
+namespace Tests\Feature\Jobs\Wiki;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\ExternalResource;
@@ -25,7 +25,7 @@ class ExternalResourceTest extends TestCase
      */
     public function testResourceCreatedSendsDiscordNotification()
     {
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         ExternalResource::factory()->create();
@@ -42,7 +42,7 @@ class ExternalResourceTest extends TestCase
     {
         $resource = ExternalResource::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $resource->delete();
@@ -59,7 +59,7 @@ class ExternalResourceTest extends TestCase
     {
         $resource = ExternalResource::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $resource->restore();
@@ -76,7 +76,7 @@ class ExternalResourceTest extends TestCase
     {
         $resource = ExternalResource::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = ExternalResource::factory()->make();

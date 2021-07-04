@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Events;
+namespace Tests\Unit\Events;
 
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Listeners\UpdateRelatedIndices;

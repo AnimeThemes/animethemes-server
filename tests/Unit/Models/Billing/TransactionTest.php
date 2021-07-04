@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Models\Billing;
+namespace Tests\Unit\Models\Billing;
 
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction;

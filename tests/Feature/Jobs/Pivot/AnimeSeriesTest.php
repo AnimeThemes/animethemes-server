@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Pivot;
+namespace Tests\Feature\Jobs\Pivot;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
@@ -29,7 +29,7 @@ class AnimeSeriesTest extends TestCase
         $anime = Anime::factory()->create();
         $series = Series::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $anime->series()->attach($series);
@@ -48,7 +48,7 @@ class AnimeSeriesTest extends TestCase
         $series = Series::factory()->create();
         $anime->series()->attach($series);
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $anime->series()->detach($series);

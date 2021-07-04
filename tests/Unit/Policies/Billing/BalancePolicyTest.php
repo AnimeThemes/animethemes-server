@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Policies\Billing;
+namespace Tests\Unit\Policies\Billing;
 
 use App\Models\Auth\User;
 use App\Policies\Billing\BalancePolicy;

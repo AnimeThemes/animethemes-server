@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Policies\Wiki;
+namespace Tests\Unit\Policies\Wiki;
 
 use App\Models\Auth\User;
 use App\Policies\Wiki\ExternalResourcePolicy;

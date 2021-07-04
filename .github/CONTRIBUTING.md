@@ -44,7 +44,7 @@ Make changes in feature branch. Once completed, run tests.
 
 Execute static code analysis.
 
-`./vendor/bin/phpstan analyse --memory-limit=2G`
+`./vendor/bin/phpstan analyse --memory-limit=-1`
 
 Stage changes. Commit changes. Please include ticket ID's and use [Semantic Commit Messages](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716).
 

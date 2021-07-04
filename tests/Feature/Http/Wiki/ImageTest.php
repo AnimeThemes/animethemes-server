@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Wiki;
+namespace Tests\Feature\Http\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image;

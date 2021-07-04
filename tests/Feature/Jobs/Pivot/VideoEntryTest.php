@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Pivot;
+namespace Tests\Feature\Jobs\Pivot;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
@@ -33,7 +33,7 @@ class VideoEntryTest extends TestCase
             ->for(Theme::factory()->for(Anime::factory()))
             ->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $video->entries()->attach($entry);
@@ -55,7 +55,7 @@ class VideoEntryTest extends TestCase
 
         $video->entries()->attach($entry);
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $video->entries()->detach($entry);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Events\Pivot;
+namespace Tests\Feature\Events\Pivot;
 
 use App\Events\Pivot\VideoEntry\VideoEntryCreated;
 use App\Events\Pivot\VideoEntry\VideoEntryDeleted;

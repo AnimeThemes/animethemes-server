@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Pivot;
+namespace Tests\Feature\Jobs\Pivot;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
@@ -30,7 +30,7 @@ class AnimeResourceTest extends TestCase
         $anime = Anime::factory()->create();
         $resource = ExternalResource::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $anime->resources()->attach($resource);
@@ -49,7 +49,7 @@ class AnimeResourceTest extends TestCase
         $resource = ExternalResource::factory()->create();
         $anime->resources()->attach($resource);
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $anime->resources()->detach($resource);
@@ -77,7 +77,7 @@ class AnimeResourceTest extends TestCase
             ->for($resource, 'resource')
             ->make();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $animeResource->fill($changes->getAttributes());

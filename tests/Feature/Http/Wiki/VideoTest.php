@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Wiki;
+namespace Tests\Feature\Http\Wiki;
 
 use App\Models\Wiki\Video;
 use GuzzleHttp\Psr7\MimeType;
@@ -25,14 +25,14 @@ class VideoTest extends TestCase
     use WithoutEvents;
 
     /**
-     * If video streaming is disabled through the 'app.allow_video_streams' property,
+     * If video streaming is disabled through the 'flags.allow_video_streams' property,
      * the user shall be redirected to the Welcome Screen.
      *
      * @return void
      */
     public function testVideoStreamingNotAllowedRedirect()
     {
-        Config::set('app.allow_video_streams', false);
+        Config::set('flags.allow_video_streams', false);
 
         $video = Video::factory()->create();
 
@@ -48,7 +48,7 @@ class VideoTest extends TestCase
      */
     public function testSoftDeleteVideoStreamingRedirect()
     {
-        Config::set('app.allow_video_streams', true);
+        Config::set('flags.allow_video_streams', true);
 
         $video = Video::factory()->create();
 
@@ -66,7 +66,7 @@ class VideoTest extends TestCase
      */
     public function testVideoStreaming()
     {
-        Config::set('app.allow_video_streams', true);
+        Config::set('flags.allow_video_streams', true);
 
         $fs = Storage::fake('videos');
         $file = File::fake()->create($this->faker->word().'.webm');

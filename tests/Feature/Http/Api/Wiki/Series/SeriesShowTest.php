@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Wiki\Series;
+namespace Tests\Feature\Http\Api\Wiki\Series;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\QueryParser;

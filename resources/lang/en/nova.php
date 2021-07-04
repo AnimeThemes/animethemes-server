@@ -29,6 +29,7 @@ return [
     'artists' => 'Artists',
     'as_help' => 'Used in place of the Artist name if the performance is made as a character or group/unit member.',
     'as' => 'As',
+    'auth' => 'Auth',
     'balance_balance_help' => 'Current balance of the account with current usage',
     'balance_date_help' => 'The month and year for the balance that we are tracking',
     'balance_frequency_help' => 'The frequency that we are billed by the provider',

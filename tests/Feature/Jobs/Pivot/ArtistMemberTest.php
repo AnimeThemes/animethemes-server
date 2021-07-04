@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Pivot;
+namespace Tests\Feature\Jobs\Pivot;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Artist;
@@ -29,7 +29,7 @@ class ArtistMemberTest extends TestCase
         $artist = Artist::factory()->create();
         $member = Artist::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $artist->members()->attach($member);
@@ -48,7 +48,7 @@ class ArtistMemberTest extends TestCase
         $member = Artist::factory()->create();
         $artist->members()->attach($member);
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $artist->members()->detach($member);
@@ -76,7 +76,7 @@ class ArtistMemberTest extends TestCase
             ->for($member, 'member')
             ->make();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $artistMember->fill($changes->getAttributes());

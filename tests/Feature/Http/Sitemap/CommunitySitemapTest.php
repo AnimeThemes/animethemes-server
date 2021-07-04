@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Sitemap;
+namespace Tests\Feature\Http\Sitemap;
 
 use Tests\TestCase;
 

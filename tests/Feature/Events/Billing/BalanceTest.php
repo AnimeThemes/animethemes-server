@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Events\Billing;
+namespace Tests\Feature\Events\Billing;
 
 use App\Events\Billing\Balance\BalanceCreated;
 use App\Events\Billing\Balance\BalanceDeleted;

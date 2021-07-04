@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Events\Pivot;
+namespace Tests\Feature\Events\Pivot;
 
 use App\Events\Pivot\AnimeImage\AnimeImageCreated;
 use App\Events\Pivot\AnimeImage\AnimeImageDeleted;

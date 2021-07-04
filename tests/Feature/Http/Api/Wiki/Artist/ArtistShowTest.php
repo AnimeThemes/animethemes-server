@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Wiki\Artist;
+namespace Tests\Feature\Http\Api\Wiki\Artist;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;

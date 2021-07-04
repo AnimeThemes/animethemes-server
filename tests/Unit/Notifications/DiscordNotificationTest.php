@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Notifications;
+namespace Tests\Unit\Notifications;
 
 use App\Notifications\DiscordNotification;
 use Illuminate\Notifications\AnonymousNotifiable;

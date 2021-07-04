@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Billing;
+namespace Tests\Feature\Jobs\Billing;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Billing\Transaction;
@@ -25,7 +25,7 @@ class TransactionTest extends TestCase
      */
     public function testTransactionCreatedSendsDiscordNotification()
     {
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         Transaction::factory()->create();
@@ -42,7 +42,7 @@ class TransactionTest extends TestCase
     {
         $transaction = Transaction::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $transaction->delete();
@@ -59,7 +59,7 @@ class TransactionTest extends TestCase
     {
         $transaction = Transaction::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $transaction->restore();
@@ -76,7 +76,7 @@ class TransactionTest extends TestCase
     {
         $transaction = Transaction::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = Transaction::factory()->make();

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mail;
+namespace Tests\Unit\Mail;
 
 use App\Mail\InvitationMail;
 use App\Models\Auth\Invitation;

@@ -35,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
                 ->symbols();
         });
 
-        Gate::guessPolicyNamesUsing(function ($modelClass) {
+        Gate::guessPolicyNamesUsing(function (string $modelClass) {
             return Str::of($modelClass)
                 ->replace('Models', 'Policies')
                 ->append('Policy')
@@ -43,7 +43,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('viewNova', function (User $user) {
-            $novaTeam = Team::find(Config::get('nova.team'));
+            $novaTeam = Team::find(Config::get('teams.nova'));
 
             return $user->isCurrentTeam($novaTeam);
         });

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Auth;
+namespace Tests\Feature\Jobs\Auth;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Auth\Invitation;
@@ -25,7 +25,7 @@ class InvitationTest extends TestCase
      */
     public function testInvitationCreatedSendsDiscordNotification()
     {
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         Invitation::factory()->create();
@@ -42,7 +42,7 @@ class InvitationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $invitation->delete();
@@ -59,7 +59,7 @@ class InvitationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $invitation->restore();
@@ -76,7 +76,7 @@ class InvitationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = Invitation::factory()->make();

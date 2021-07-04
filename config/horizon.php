@@ -200,15 +200,4 @@ return [
         ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Horizon Team
-    |--------------------------------------------------------------------------
-    |
-    | This configuration option allows you to define the team that grants
-    | access to Horizon.
-    |
-    */
-
-    'team' => env('HORIZON_TEAM_ID'),
 ];

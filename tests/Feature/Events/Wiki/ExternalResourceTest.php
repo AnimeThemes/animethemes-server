@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Events\Wiki;
+namespace Tests\Feature\Events\Wiki;
 
 use App\Events\Wiki\ExternalResource\ExternalResourceCreated;
 use App\Events\Wiki\ExternalResource\ExternalResourceDeleted;

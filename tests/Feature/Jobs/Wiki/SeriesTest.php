@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Wiki;
+namespace Tests\Feature\Jobs\Wiki;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Series;
@@ -25,7 +25,7 @@ class SeriesTest extends TestCase
      */
     public function testSeriesCreatedSendsDiscordNotification()
     {
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         Series::factory()->create();
@@ -42,7 +42,7 @@ class SeriesTest extends TestCase
     {
         $series = Series::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $series->delete();
@@ -59,7 +59,7 @@ class SeriesTest extends TestCase
     {
         $series = Series::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $series->restore();
@@ -76,7 +76,7 @@ class SeriesTest extends TestCase
     {
         $series = Series::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = Series::factory()->make();

@@ -18,7 +18,7 @@ class SearchController extends BaseController
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function show(): JsonResponse
     {
         $resource = SearchResource::make($this->parser);
 

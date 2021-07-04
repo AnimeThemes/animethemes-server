@@ -33,12 +33,12 @@ class PersistentConfigServiceProvider extends AbstractPersistentConfigServicePro
     protected function items(): array
     {
         return [
-            'app.allow_video_streams' => [
+            'flags.allow_video_streams' => [
                 'label' => __('Allow Video Streams'),
                 'rules' => ['sometimes', 'required', 'boolean'],
                 'cast' => 'boolean',
             ],
-            'app.allow_discord_notifications' => [
+            'flags.allow_discord_notifications' => [
                 'label' => __('Allow Discord Notifications'),
                 'rules' => ['sometimes', 'required', 'boolean'],
                 'cast' => 'boolean',

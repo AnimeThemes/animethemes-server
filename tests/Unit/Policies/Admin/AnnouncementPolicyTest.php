@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Policies\Admin;
+namespace Tests\Unit\Policies\Admin;
 
 use App\Models\Auth\User;
 use App\Policies\Admin\AnnouncementPolicy;

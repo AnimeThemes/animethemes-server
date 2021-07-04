@@ -6,19 +6,19 @@ namespace App\Services\Http\Resources;
 
 use App\Http\Api\QueryParser;
 use App\Http\Resources\BaseCollection;
+use App\Services\DiscoverService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionException;
-use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
 /**
  * Class DiscoverRelationCollection.
  */
-class DiscoverRelationCollection
+class DiscoverRelationCollection extends DiscoverService
 {
     /**
      * Get the resource collection class by model.
@@ -28,7 +28,7 @@ class DiscoverRelationCollection
      */
     public static function byModel(Model $model): ?string
     {
-        $resources = (new Finder())->files()->in(static::resourcesPath());
+        $resources = (new Finder())->files()->in(static::getPath());
 
         foreach ($resources as $resource) {
             try {
@@ -67,28 +67,11 @@ class DiscoverRelationCollection
      *
      * @return string
      */
-    protected static function resourcesPath(): string
+    protected static function getPath(): string
     {
         return app()->path(Str::of('Http')
             ->append(DIRECTORY_SEPARATOR)
             ->append('Resources')
             ->__toString());
-    }
-
-    /**
-     * Extract the class name from the given file path.
-     *
-     * @param  SplFileInfo  $file
-     * @return string
-     */
-    protected static function classFromFile(SplFileInfo $file): string
-    {
-        $class = trim(Str::replaceFirst(base_path(), '', $file->getRealPath()), DIRECTORY_SEPARATOR);
-
-        return str_replace(
-            [DIRECTORY_SEPARATOR, ucfirst(basename(app()->path())).'\\'],
-            ['\\', app()->getNamespace()],
-            ucfirst(Str::replaceLast('.php', '', $class))
-        );
     }
 }
