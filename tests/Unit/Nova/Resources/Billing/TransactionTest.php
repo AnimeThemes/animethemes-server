@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Unit\Nova\Resources\Billing;
 
 use App\Enums\Models\Billing\Service;
-use App\Nova\Filters\Billing\ServiceFilter;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
 use App\Nova\Filters\Base\DeletedStartDateFilter;
 use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
+use App\Nova\Filters\Billing\ServiceFilter;
 use App\Nova\Resources\Billing\Transaction;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;

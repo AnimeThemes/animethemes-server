@@ -6,11 +6,11 @@ namespace Tests\Unit\Nova\Resources\Auth;
 
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Nova\Actions\Auth\ResendInvitationAction;
+use App\Nova\Filters\Auth\InvitationStatusFilter;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
 use App\Nova\Filters\Base\DeletedStartDateFilter;
-use App\Nova\Filters\Auth\InvitationStatusFilter;
 use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
 use App\Nova\Resources\Auth\Invitation;

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Nova\Resources\Wiki;
 
-use App\Nova\Resources\Wiki\Entry;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
 use App\Nova\Filters\Base\DeletedStartDateFilter;
-use App\Nova\Filters\Wiki\EntryNsfwFilter;
-use App\Nova\Filters\Wiki\EntrySpoilerFilter;
 use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
+use App\Nova\Filters\Wiki\EntryNsfwFilter;
+use App\Nova\Filters\Wiki\EntrySpoilerFilter;
+use App\Nova\Resources\Wiki\Entry;
 use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
 use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;

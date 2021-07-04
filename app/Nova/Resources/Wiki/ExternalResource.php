@@ -169,7 +169,7 @@ class ExternalResource extends Resource
     {
         return array_merge(
             [
-                new ExternalResourceSiteFilter()
+                new ExternalResourceSiteFilter(),
             ],
             parent::filters($request)
         );

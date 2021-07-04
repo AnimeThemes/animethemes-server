@@ -6,14 +6,14 @@ namespace App\Nova\Lenses;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
-use App\Nova\Filters\Wiki\AnimeSeasonFilter;
-use App\Nova\Filters\Wiki\AnimeYearFilter;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
 use App\Nova\Filters\Base\DeletedStartDateFilter;
 use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
+use App\Nova\Filters\Wiki\AnimeSeasonFilter;
+use App\Nova\Filters\Wiki\AnimeYearFilter;
 use BenSampo\Enum\Enum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
