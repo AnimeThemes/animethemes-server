@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Billing\Transaction;
+namespace Tests\Feature\Http\Api\Billing\Transaction;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Http\Api\QueryParser;

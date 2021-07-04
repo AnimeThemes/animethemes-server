@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Models\Auth;
+namespace Tests\Unit\Models\Auth;
 
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Mail\InvitationMail;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rules\Billing;
+namespace Tests\Unit\Rules\Billing;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Rules\Billing\TransparencyDateRule;

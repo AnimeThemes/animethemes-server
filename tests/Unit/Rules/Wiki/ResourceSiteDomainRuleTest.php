@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rules\Wiki;
+namespace Tests\Unit\Rules\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Rules\Wiki\ResourceSiteDomainRule;

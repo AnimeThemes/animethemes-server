@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Wiki;
+namespace Tests\Feature\Jobs\Wiki;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
@@ -28,7 +28,7 @@ class SynonymTest extends TestCase
     {
         $anime = Anime::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         Synonym::factory()->for($anime)->create();
@@ -47,7 +47,7 @@ class SynonymTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $synonym->delete();
@@ -66,7 +66,7 @@ class SynonymTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $synonym->restore();
@@ -89,7 +89,7 @@ class SynonymTest extends TestCase
             ->for(Anime::factory())
             ->make();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $synonym->fill($changes->getAttributes());

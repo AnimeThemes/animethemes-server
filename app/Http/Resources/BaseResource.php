@@ -38,19 +38,6 @@ abstract class BaseResource extends JsonResource
     }
 
     /**
-     * Set the parser.
-     *
-     * @param QueryParser $parser
-     * @return static
-     */
-    public function parser(QueryParser $parser): static
-    {
-        $this->parser = $parser;
-
-        return $this;
-    }
-
-    /**
      * Determine if field should be included in the response for this resource.
      *
      * @param string $field

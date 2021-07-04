@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Auth;
+namespace Tests\Feature\Http\Auth;
 
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Models\Auth\Invitation;

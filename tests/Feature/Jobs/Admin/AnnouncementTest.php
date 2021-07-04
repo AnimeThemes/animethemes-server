@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Admin;
+namespace Tests\Feature\Jobs\Admin;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Admin\Announcement;
@@ -25,7 +25,7 @@ class AnnouncementTest extends TestCase
      */
     public function testAnnouncementCreatedSendsDiscordNotification()
     {
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         Announcement::factory()->create();
@@ -42,7 +42,7 @@ class AnnouncementTest extends TestCase
     {
         $announcement = Announcement::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $announcement->delete();
@@ -59,7 +59,7 @@ class AnnouncementTest extends TestCase
     {
         $announcement = Announcement::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $announcement->restore();
@@ -76,7 +76,7 @@ class AnnouncementTest extends TestCase
     {
         $announcement = Announcement::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = Announcement::factory()->make();

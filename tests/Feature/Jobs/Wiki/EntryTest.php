@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Wiki;
+namespace Tests\Feature\Jobs\Wiki;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
@@ -31,7 +31,7 @@ class EntryTest extends TestCase
             ->for(Anime::factory())
             ->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         Entry::factory()->for($theme)->create();
@@ -50,7 +50,7 @@ class EntryTest extends TestCase
             ->for(Theme::factory()->for(Anime::factory()))
             ->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $entry->delete();
@@ -69,7 +69,7 @@ class EntryTest extends TestCase
             ->for(Theme::factory()->for(Anime::factory()))
             ->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $entry->restore();
@@ -92,7 +92,7 @@ class EntryTest extends TestCase
             ->for(Theme::factory()->for(Anime::factory()))
             ->make();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $entry->fill($changes->getAttributes());

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Listeners\Wiki;
+namespace Tests\Feature\Listeners\Wiki;
 
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Video;

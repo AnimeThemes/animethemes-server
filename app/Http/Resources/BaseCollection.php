@@ -37,10 +37,10 @@ abstract class BaseCollection extends ResourceCollection
      * Create a new resource instance.
      *
      * @param mixed $resource
-     * @param mixed $parser
+     * @param QueryParser $parser
      * @return void
      */
-    public function __construct(mixed $resource, mixed $parser)
+    public function __construct(mixed $resource, QueryParser $parser)
     {
         parent::__construct($resource);
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Document;
+namespace Tests\Feature\Http\Document;
 
 use Tests\TestCase;
 

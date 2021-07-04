@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Admin\Announcement;
+namespace Tests\Feature\Http\Api\Admin\Announcement;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Http\Api\QueryParser;

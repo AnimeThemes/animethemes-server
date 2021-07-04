@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Models\Wiki;
+namespace Tests\Unit\Models\Wiki;
 
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;

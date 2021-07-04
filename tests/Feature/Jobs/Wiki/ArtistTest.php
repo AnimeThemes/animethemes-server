@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Wiki;
+namespace Tests\Feature\Jobs\Wiki;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Artist;
@@ -25,7 +25,7 @@ class ArtistTest extends TestCase
      */
     public function testArtistCreatedSendsDiscordNotification()
     {
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         Artist::factory()->create();
@@ -42,7 +42,7 @@ class ArtistTest extends TestCase
     {
         $artist = Artist::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $artist->delete();
@@ -59,7 +59,7 @@ class ArtistTest extends TestCase
     {
         $artist = Artist::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $artist->restore();
@@ -76,7 +76,7 @@ class ArtistTest extends TestCase
     {
         $artist = Artist::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = Artist::factory()->make();

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api;
+namespace Tests\Feature\Http\Api;
 
 use Illuminate\Support\Str;
 use Tests\TestCase;

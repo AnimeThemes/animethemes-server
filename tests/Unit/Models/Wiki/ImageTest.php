@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Models\Wiki;
+namespace Tests\Unit\Models\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Anime;

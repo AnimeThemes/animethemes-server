@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http;
+namespace Tests\Feature\Http;
 
 use App\Models\Admin\Announcement;
 use Illuminate\Foundation\Testing\RefreshDatabase;

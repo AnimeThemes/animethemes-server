@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Billing;
+namespace Tests\Feature\Http\Billing;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Billing\Balance;

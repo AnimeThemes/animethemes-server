@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Listeners;
+namespace Tests\Feature\Listeners;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\SendDiscordNotificationJob;
@@ -19,14 +19,14 @@ use Tests\TestCase;
 class SendDiscordNotificationTest extends TestCase
 {
     /**
-     * If discord notifications are disabled through the 'app.allow_discord_notifications' property,
+     * If discord notifications are disabled through the 'flags.allow_discord_notifications' property,
      * discord notification jobs shall not be dispatched.
      *
      * @return void
      */
     public function testDiscordNotificationsNotAllowed()
     {
-        Config::set('app.allow_discord_notifications', false);
+        Config::set('flags.allow_discord_notifications', false);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $event = new class implements DiscordMessageEvent
@@ -62,14 +62,14 @@ class SendDiscordNotificationTest extends TestCase
     }
 
     /**
-     * If discord notifications are enabled through the 'app.allow_discord_notifications' property,
+     * If discord notifications are enabled through the 'flags.allow_discord_notifications' property,
      * discord notification jobs shall be dispatched.
      *
      * @return void
      */
     public function testDiscordNotificationsAllowed()
     {
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $event = new class implements DiscordMessageEvent

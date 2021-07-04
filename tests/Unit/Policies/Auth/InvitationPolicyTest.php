@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Policies\Auth;
+namespace Tests\Unit\Policies\Auth;
 
 use App\Models\Auth\User;
 use App\Policies\Auth\InvitationPolicy;

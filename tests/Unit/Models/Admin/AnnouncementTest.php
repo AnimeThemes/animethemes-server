@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Models\Admin;
+namespace Tests\Unit\Models\Admin;
 
 use App\Models\Admin\Announcement;
 use Illuminate\Foundation\Testing\RefreshDatabase;

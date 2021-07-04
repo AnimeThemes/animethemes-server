@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Pivot;
+namespace Tests\Feature\Jobs\Pivot;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
@@ -29,7 +29,7 @@ class AnimeImageTest extends TestCase
         $anime = Anime::factory()->create();
         $image = Image::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $anime->images()->attach($image);
@@ -48,7 +48,7 @@ class AnimeImageTest extends TestCase
         $image = Image::factory()->create();
         $anime->images()->attach($image);
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $anime->images()->detach($image);

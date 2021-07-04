@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Nova\Lenses;
+namespace Tests\Unit\Nova\Lenses;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
-use App\Nova\Filters\CreatedEndDateFilter;
-use App\Nova\Filters\CreatedStartDateFilter;
-use App\Nova\Filters\DeletedEndDateFilter;
-use App\Nova\Filters\DeletedStartDateFilter;
-use App\Nova\Filters\UpdatedEndDateFilter;
-use App\Nova\Filters\UpdatedStartDateFilter;
+use App\Nova\Filters\Base\CreatedEndDateFilter;
+use App\Nova\Filters\Base\CreatedStartDateFilter;
+use App\Nova\Filters\Base\DeletedEndDateFilter;
+use App\Nova\Filters\Base\DeletedStartDateFilter;
+use App\Nova\Filters\Base\UpdatedEndDateFilter;
+use App\Nova\Filters\Base\UpdatedStartDateFilter;
 use App\Nova\Lenses\ArtistAnilistResourceLens;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;

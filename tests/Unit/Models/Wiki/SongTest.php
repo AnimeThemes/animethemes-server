@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Models\Wiki;
+namespace Tests\Unit\Models\Wiki;
 
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;

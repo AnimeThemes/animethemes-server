@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pivots;
+namespace Tests\Unit\Pivots;
 
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;

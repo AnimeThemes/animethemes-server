@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Events\Admin;
+namespace Tests\Feature\Events\Admin;
 
 use App\Events\Admin\Announcement\AnnouncementCreated;
 use App\Events\Admin\Announcement\AnnouncementDeleted;

@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Nova\Lenses;
+namespace Tests\Unit\Nova\Lenses;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
-use App\Nova\Filters\AnimeSeasonFilter;
-use App\Nova\Filters\AnimeYearFilter;
-use App\Nova\Filters\CreatedEndDateFilter;
-use App\Nova\Filters\CreatedStartDateFilter;
-use App\Nova\Filters\DeletedEndDateFilter;
-use App\Nova\Filters\DeletedStartDateFilter;
-use App\Nova\Filters\UpdatedEndDateFilter;
-use App\Nova\Filters\UpdatedStartDateFilter;
+use App\Nova\Filters\Wiki\AnimeSeasonFilter;
+use App\Nova\Filters\Wiki\AnimeYearFilter;
+use App\Nova\Filters\Base\CreatedEndDateFilter;
+use App\Nova\Filters\Base\CreatedStartDateFilter;
+use App\Nova\Filters\Base\DeletedEndDateFilter;
+use App\Nova\Filters\Base\DeletedStartDateFilter;
+use App\Nova\Filters\Base\UpdatedEndDateFilter;
+use App\Nova\Filters\Base\UpdatedStartDateFilter;
 use App\Nova\Lenses\AnimeAnnResourceLens;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;

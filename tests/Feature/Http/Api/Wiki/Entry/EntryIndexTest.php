@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Wiki\Entry;
+namespace Tests\Feature\Http\Api\Wiki\Entry;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Models\Wiki\AnimeSeason;

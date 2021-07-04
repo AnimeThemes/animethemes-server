@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs;
+namespace Tests\Feature\Jobs;
 
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\Middleware\RateLimited;

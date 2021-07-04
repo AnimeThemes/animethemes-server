@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Wiki\Anime;
+namespace Tests\Feature\Http\Api\Wiki\Anime;
 
 use App\Models\Wiki\Anime;
 use Illuminate\Foundation\Testing\RefreshDatabase;

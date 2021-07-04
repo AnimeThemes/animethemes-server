@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Events\Wiki;
+namespace Tests\Feature\Events\Wiki;
 
 use App\Events\Wiki\Video\VideoCreated;
 use App\Events\Wiki\Video\VideoDeleted;

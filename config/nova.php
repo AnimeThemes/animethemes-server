@@ -149,16 +149,4 @@ return [
 
     'currency' => 'USD',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Nova Team
-    |--------------------------------------------------------------------------
-    |
-    | This configuration option allows you to define the team that grants
-    | access to Nova.
-    |
-    */
-
-    'team' => env('NOVA_TEAM_ID'),
-
 ];

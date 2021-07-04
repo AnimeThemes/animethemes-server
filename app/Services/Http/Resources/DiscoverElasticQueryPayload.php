@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Services\Http\Resources;
 
+use App\Services\DiscoverService;
 use App\Services\Models\Scout\ElasticQueryPayload;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionException;
-use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
 /**
  * Class DiscoverElasticQueryPayload.
  */
-class DiscoverElasticQueryPayload
+class DiscoverElasticQueryPayload extends DiscoverService
 {
     /**
      * Gets the Elasticsearch query payload class by model class.
@@ -25,7 +25,7 @@ class DiscoverElasticQueryPayload
      */
     public static function byModelClass(string $modelClass): ?string
     {
-        $payloads = (new Finder())->files()->in(static::payloadPath());
+        $payloads = (new Finder())->files()->in(static::getPath());
 
         foreach ($payloads as $payload) {
             try {
@@ -59,7 +59,7 @@ class DiscoverElasticQueryPayload
      *
      * @return string
      */
-    protected static function payloadPath(): string
+    protected static function getPath(): string
     {
         return app()->path(Str::of('Services')
             ->append(DIRECTORY_SEPARATOR)
@@ -67,22 +67,5 @@ class DiscoverElasticQueryPayload
             ->append(DIRECTORY_SEPARATOR)
             ->append('Scout')
             ->__toString());
-    }
-
-    /**
-     * Extract the class name from the given file path.
-     *
-     * @param  SplFileInfo  $file
-     * @return string
-     */
-    protected static function classFromFile(SplFileInfo $file): string
-    {
-        $class = trim(Str::replaceFirst(base_path(), '', $file->getRealPath()), DIRECTORY_SEPARATOR);
-
-        return str_replace(
-            [DIRECTORY_SEPARATOR, ucfirst(basename(app()->path())).'\\'],
-            ['\\', app()->getNamespace()],
-            ucfirst(Str::replaceLast('.php', '', $class))
-        );
     }
 }

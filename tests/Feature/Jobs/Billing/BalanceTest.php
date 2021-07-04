@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jobs\Billing;
+namespace Tests\Feature\Jobs\Billing;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Billing\Balance;
@@ -25,7 +25,7 @@ class BalanceTest extends TestCase
      */
     public function testBalanceCreatedSendsDiscordNotification()
     {
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         Balance::factory()->create();
@@ -42,7 +42,7 @@ class BalanceTest extends TestCase
     {
         $balance = Balance::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $balance->delete();
@@ -59,7 +59,7 @@ class BalanceTest extends TestCase
     {
         $balance = Balance::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $balance->restore();
@@ -76,7 +76,7 @@ class BalanceTest extends TestCase
     {
         $balance = Balance::factory()->create();
 
-        Config::set('app.allow_discord_notifications', true);
+        Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = Balance::factory()->make();
