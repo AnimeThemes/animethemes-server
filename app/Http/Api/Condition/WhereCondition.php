@@ -144,22 +144,41 @@ class WhereCondition extends Condition
      */
     protected function getElasticsearchClause(Filter $filter): AbstractParameterizedQueryBuilder
     {
+        $filterValue = $this->coerceFilterValue($filter);
+
         return match (optional($this->getComparisonOperator())->value) {
             ComparisonOperator::LT => (new RangeQueryBuilder())
                 ->field($filter->getKey())
-                ->lt(collect($filter->getFilterValues($this))->first()),
+                ->lt($filterValue),
             ComparisonOperator::GT => (new RangeQueryBuilder())
                 ->field($filter->getKey())
-                ->gt(collect($filter->getFilterValues($this))->first()),
+                ->gt($filterValue),
             ComparisonOperator::LTE => (new RangeQueryBuilder())
                 ->field($filter->getKey())
-                ->lte(collect($filter->getFilterValues($this))->first()),
+                ->lte($filterValue),
             ComparisonOperator::GTE => (new RangeQueryBuilder())
                 ->field($filter->getKey())
-                ->gte(collect($filter->getFilterValues($this))->first()),
+                ->gte($filterValue),
             default => (new TermQueryBuilder())
                 ->field($filter->getKey())
-                ->value(collect($filter->getFilterValues($this))->first()),
+                ->value($filterValue),
         };
+    }
+
+    /**
+     * Coerce filter value for elasticsearch range and term queries.
+     *
+     * @param Filter $filter
+     * @return string
+     */
+    protected function coerceFilterValue(Filter $filter): string
+    {
+        $filterValue = collect($filter->getFilterValues($this))->first();
+
+        if (is_bool($filterValue)) {
+            return $filterValue ? 'true' : 'false';
+        }
+
+        return strval($filterValue);
     }
 }
