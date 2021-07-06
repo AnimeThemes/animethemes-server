@@ -6,14 +6,18 @@
 <a href="https://twitter.com/AnimeThemesMoe"><img src="https://img.shields.io/twitter/follow/AnimeThemesMoe?style=social"></a>
 </p>
 
+[**AnimeThemes**](https://animethemes.moe/) is a simple and consistent repository of anime opening and ending themes. We provide direct links to high quality WebMs of your favorite OPs and EDs for your listening and discussion needs.
+
 This is the repository for the server application that is responsible for AnimeThemes.moe resource management, API, and other services related to serving the AnimeThemes database.
 
-# Staff
+## Installation
 
-* paranarimasu ([Github](https://github.com/paranarimasu))
-* ProWeebDev ([Github](https://github.com/ProWeebDev))
-* Gaporigo ([Github](https://github.com/Gaporigo))
+Please review the [**Installation Guide**](https://github.com/AnimeThemes/animethemes-server/wiki/Installation) in the wiki for detailed instructions.
 
-# Installation
+## Contributing
 
-Please review the [Installation Guide](https://github.com/AnimeThemes/animethemes-server/wiki/Installation) in the wiki for detailed instructions.
+Please review the [**Contributing Guide**](https://github.com/AnimeThemes/animethemes-server/wiki/Contributing) in the wiki for detailed instructions.
+
+## Resources
+
+Please make use of the #development channel in the [**Discord Server**](https://discordapp.com/invite/m9zbVyQ) for questions pertaining to the AnimeThemes database or API.
