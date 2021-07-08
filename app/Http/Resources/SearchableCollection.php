@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Concerns\Http\Resources;
+namespace App\Http\Resources;
 
 use App\Enums\Http\Api\PaginationStrategy;
 use App\Http\Api\QueryParser;
@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
 /**
- * Trait PerformsResourceCollectionSearch.
+ * Class SearchableCollection.
  */
-trait PerformsResourceCollectionSearch
+abstract class SearchableCollection extends BaseCollection
 {
     /**
      * Perform query to prepare models for resource collection.
@@ -96,6 +96,13 @@ trait PerformsResourceCollectionSearch
             $builder->filter($filterBuilder);
         } catch (QueryBuilderException) {
             // There doesn't appear to be a way to check if any filters have been set in the filter builder
+        }
+
+        // apply sorts
+        foreach ($parser->getSorts() as $field => $isAsc) {
+            if (in_array(Str::lower($field), static::allowedSortFields())) {
+                $builder = $builder->sort(Str::lower($field), $isAsc ? 'asc' : 'desc');
+            }
         }
 
         // limit page size

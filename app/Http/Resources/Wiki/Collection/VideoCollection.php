@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
-use App\Concerns\Http\Resources\PerformsResourceCollectionSearch;
 use App\Http\Api\Filter\Base\CreatedAtFilter;
 use App\Http\Api\Filter\Base\DeletedAtFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
@@ -16,7 +15,7 @@ use App\Http\Api\Filter\Wiki\Video\VideoResolutionFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoSourceFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoSubbedFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoUncenFilter;
-use App\Http\Resources\BaseCollection;
+use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
@@ -24,10 +23,8 @@ use Illuminate\Http\Request;
 /**
  * Class VideoCollection.
  */
-class VideoCollection extends BaseCollection
+class VideoCollection extends SearchableCollection
 {
-    use PerformsResourceCollectionSearch;
-
     /**
      * The "data" wrapper that should be applied.
      *
