@@ -12,6 +12,7 @@ use ElasticScoutDriverPlus\Builders\AbstractParameterizedQueryBuilder;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\RangeQueryBuilder;
 use ElasticScoutDriverPlus\Builders\TermQueryBuilder;
+use ElasticScoutDriverPlus\Builders\WildcardQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -144,23 +145,30 @@ class WhereCondition extends Condition
      */
     protected function getElasticsearchClause(Filter $filter): AbstractParameterizedQueryBuilder
     {
+        $field = $filter->getKey();
         $filterValue = $this->coerceFilterValue($filter);
 
         return match (optional($this->getComparisonOperator())->value) {
             ComparisonOperator::LT => (new RangeQueryBuilder())
-                ->field($filter->getKey())
+                ->field($field)
                 ->lt($filterValue),
             ComparisonOperator::GT => (new RangeQueryBuilder())
-                ->field($filter->getKey())
+                ->field($field)
                 ->gt($filterValue),
             ComparisonOperator::LTE => (new RangeQueryBuilder())
-                ->field($filter->getKey())
+                ->field($field)
                 ->lte($filterValue),
             ComparisonOperator::GTE => (new RangeQueryBuilder())
-                ->field($filter->getKey())
+                ->field($field)
                 ->gte($filterValue),
+            ComparisonOperator::LIKE => (new WildcardQueryBuilder())
+                ->field($field)
+                ->value(Str::replace(['%', '_'], ['*', '?'], $filterValue)),
+            ComparisonOperator::NOTLIKE => (new BoolQueryBuilder())->mustNot((new WildcardQueryBuilder())
+                ->field($field)
+                ->value(Str::replace(['%', '_'], ['*', '?'], $filterValue))),
             default => (new TermQueryBuilder())
-                ->field($filter->getKey())
+                ->field($field)
                 ->value($filterValue),
         };
     }
@@ -175,10 +183,12 @@ class WhereCondition extends Condition
     {
         $filterValue = collect($filter->getFilterValues($this))->first();
 
+        // Elasticsearch wants 'true' or 'false' for boolean fields
         if (is_bool($filterValue)) {
             return $filterValue ? 'true' : 'false';
         }
 
+        // The Elasticsearch driver wants a string for wildcard & term queries
         return strval($filterValue);
     }
 }
