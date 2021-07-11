@@ -30,7 +30,7 @@ class ThemeFactory extends Factory
         return [
             'group' => $this->faker->words(3, true),
             'type' => ThemeType::getRandomValue(),
-            'sequence' => $this->faker->randomDigitNotNull,
+            'sequence' => $this->faker->randomDigitNotNull(),
         ];
     }
 }

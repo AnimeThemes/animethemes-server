@@ -8,6 +8,7 @@ use App\Http\Api\Filter\Base\CreatedAtFilter;
 use App\Http\Api\Filter\Base\DeletedAtFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
+use App\Http\Api\Filter\Wiki\Synonym\SynonymTextFilter;
 use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Resource\SynonymResource;
 use App\Models\Wiki\Synonym;
@@ -82,6 +83,7 @@ class SynonymCollection extends SearchableCollection
     public static function filters(): array
     {
         return [
+            SynonymTextFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
             DeletedAtFilter::class,

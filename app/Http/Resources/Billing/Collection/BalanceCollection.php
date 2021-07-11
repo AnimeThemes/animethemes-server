@@ -11,6 +11,7 @@ use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Api\Filter\Billing\Balance\BalanceDateFilter;
 use App\Http\Api\Filter\Billing\Balance\BalanceFrequencyFilter;
 use App\Http\Api\Filter\Billing\Balance\BalanceServiceFilter;
+use App\Http\Api\Filter\Billing\Balance\BalanceUsageFilter;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\Billing\Balance;
@@ -77,8 +78,9 @@ class BalanceCollection extends BaseCollection
     {
         return [
             BalanceDateFilter::class,
-            BalanceFrequencyFilter::class,
             BalanceServiceFilter::class,
+            BalanceFrequencyFilter::class,
+            BalanceUsageFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
             DeletedAtFilter::class,

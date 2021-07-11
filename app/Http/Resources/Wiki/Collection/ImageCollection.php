@@ -9,6 +9,9 @@ use App\Http\Api\Filter\Base\DeletedAtFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Api\Filter\Wiki\Image\ImageFacetFilter;
+use App\Http\Api\Filter\Wiki\Image\ImageMimeTypeFilter;
+use App\Http\Api\Filter\Wiki\Image\ImagePathFilter;
+use App\Http\Api\Filter\Wiki\Image\ImageSizeFilter;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
@@ -86,6 +89,9 @@ class ImageCollection extends BaseCollection
     public static function filters(): array
     {
         return [
+            ImagePathFilter::class,
+            ImageSizeFilter::class,
+            ImageMimeTypeFilter::class,
             ImageFacetFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,

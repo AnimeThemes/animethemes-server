@@ -10,6 +10,7 @@ use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Api\Filter\Wiki\Theme\ThemeGroupFilter;
 use App\Http\Api\Filter\Wiki\Theme\ThemeSequenceFilter;
+use App\Http\Api\Filter\Wiki\Theme\ThemeSlugFilter;
 use App\Http\Api\Filter\Wiki\Theme\ThemeTypeFilter;
 use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Resource\ThemeResource;
@@ -94,9 +95,10 @@ class ThemeCollection extends SearchableCollection
     public static function filters(): array
     {
         return [
-            ThemeGroupFilter::class,
-            ThemeSequenceFilter::class,
             ThemeTypeFilter::class,
+            ThemeSequenceFilter::class,
+            ThemeGroupFilter::class,
+            ThemeSlugFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
             DeletedAtFilter::class,

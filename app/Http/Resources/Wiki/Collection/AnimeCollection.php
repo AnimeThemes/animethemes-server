@@ -8,7 +8,10 @@ use App\Http\Api\Filter\Base\CreatedAtFilter;
 use App\Http\Api\Filter\Base\DeletedAtFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
+use App\Http\Api\Filter\Wiki\Anime\AnimeNameFilter;
 use App\Http\Api\Filter\Wiki\Anime\AnimeSeasonFilter;
+use App\Http\Api\Filter\Wiki\Anime\AnimeSlugFilter;
+use App\Http\Api\Filter\Wiki\Anime\AnimeSynopsisFilter;
 use App\Http\Api\Filter\Wiki\Anime\AnimeYearFilter;
 use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
@@ -94,8 +97,11 @@ class AnimeCollection extends SearchableCollection
     public static function filters(): array
     {
         return [
-            AnimeSeasonFilter::class,
+            AnimeNameFilter::class,
+            AnimeSlugFilter::class,
             AnimeYearFilter::class,
+            AnimeSeasonFilter::class,
+            AnimeSynopsisFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
             DeletedAtFilter::class,

@@ -49,7 +49,7 @@ class VideoResource extends BaseResource
             'filename' => $this->when($this->isAllowedField('filename'), $this->filename),
             'path' => $this->when($this->isAllowedField('path'), $this->path),
             'size' => $this->when($this->isAllowedField('size'), $this->size),
-            'mimetype' => $this->when($this->isAllowedField('mimetype'), $this->path),
+            'mimetype' => $this->when($this->isAllowedField('mimetype'), $this->mimetype),
             'resolution' => $this->when($this->isAllowedField('resolution'), $this->resolution),
             'nc' => $this->when($this->isAllowedField('nc'), $this->nc),
             'subbed' => $this->when($this->isAllowedField('subbed'), $this->subbed),

@@ -8,6 +8,8 @@ use App\Http\Api\Filter\Base\CreatedAtFilter;
 use App\Http\Api\Filter\Base\DeletedAtFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
+use App\Http\Api\Filter\Wiki\Artist\ArtistNameFilter;
+use App\Http\Api\Filter\Wiki\Artist\ArtistSlugFilter;
 use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
@@ -88,6 +90,8 @@ class ArtistCollection extends SearchableCollection
     public static function filters(): array
     {
         return [
+            ArtistNameFilter::class,
+            ArtistSlugFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
             DeletedAtFilter::class,

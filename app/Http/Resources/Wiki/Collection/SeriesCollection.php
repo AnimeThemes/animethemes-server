@@ -8,6 +8,8 @@ use App\Http\Api\Filter\Base\CreatedAtFilter;
 use App\Http\Api\Filter\Base\DeletedAtFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
+use App\Http\Api\Filter\Wiki\Series\SeriesNameFilter;
+use App\Http\Api\Filter\Wiki\Series\SeriesSlugFilter;
 use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Resource\SeriesResource;
 use App\Models\Wiki\Series;
@@ -82,6 +84,8 @@ class SeriesCollection extends SearchableCollection
     public static function filters(): array
     {
         return [
+            SeriesNameFilter::class,
+            SeriesSlugFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
             DeletedAtFilter::class,
