@@ -29,7 +29,7 @@ class ExternalResourceFactory extends Factory
     {
         return [
             'site' => ResourceSite::getRandomValue(),
-            'link' => $this->faker->url,
+            'link' => $this->faker->url(),
             'external_id' => $this->faker->randomNumber(),
         ];
     }

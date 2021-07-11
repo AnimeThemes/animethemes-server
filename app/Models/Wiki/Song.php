@@ -68,7 +68,7 @@ class Song extends BaseModel
     public function getName(): string
     {
         if (empty($this->title)) {
-            return $this->song_id;
+            return strval($this->getKey());
         }
 
         return $this->title;

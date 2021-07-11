@@ -8,6 +8,8 @@ use App\Http\Api\Filter\Base\CreatedAtFilter;
 use App\Http\Api\Filter\Base\DeletedAtFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
+use App\Http\Api\Filter\Wiki\Entry\EntryEpisodesFilter;
+use App\Http\Api\Filter\Wiki\Entry\EntryNotesFilter;
 use App\Http\Api\Filter\Wiki\Entry\EntryNsfwFilter;
 use App\Http\Api\Filter\Wiki\Entry\EntrySpoilerFilter;
 use App\Http\Api\Filter\Wiki\Entry\EntryVersionFilter;
@@ -89,9 +91,11 @@ class EntryCollection extends SearchableCollection
     public static function filters(): array
     {
         return [
+            EntryVersionFilter::class,
+            EntryEpisodesFilter::class,
             EntryNsfwFilter::class,
             EntrySpoilerFilter::class,
-            EntryVersionFilter::class,
+            EntryNotesFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
             DeletedAtFilter::class,

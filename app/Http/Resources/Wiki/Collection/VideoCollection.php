@@ -8,10 +8,15 @@ use App\Http\Api\Filter\Base\CreatedAtFilter;
 use App\Http\Api\Filter\Base\DeletedAtFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
+use App\Http\Api\Filter\Wiki\Video\VideoBasenameFilter;
+use App\Http\Api\Filter\Wiki\Video\VideoFilenameFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoLyricsFilter;
+use App\Http\Api\Filter\Wiki\Video\VideoMimeTypeFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoNcFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoOverlapFilter;
+use App\Http\Api\Filter\Wiki\Video\VideoPathFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoResolutionFilter;
+use App\Http\Api\Filter\Wiki\Video\VideoSizeFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoSourceFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoSubbedFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoUncenFilter;
@@ -101,13 +106,18 @@ class VideoCollection extends SearchableCollection
     public static function filters(): array
     {
         return [
-            VideoLyricsFilter::class,
-            VideoNcFilter::class,
-            VideoOverlapFilter::class,
+            VideoBasenameFilter::class,
+            VideoFilenameFilter::class,
+            VideoPathFilter::class,
+            VideoSizeFilter::class,
+            VideoMimeTypeFilter::class,
             VideoResolutionFilter::class,
-            VideoSourceFilter::class,
+            VideoNcFilter::class,
             VideoSubbedFilter::class,
+            VideoLyricsFilter::class,
             VideoUncenFilter::class,
+            VideoSourceFilter::class,
+            VideoOverlapFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
             DeletedAtFilter::class,

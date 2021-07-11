@@ -27,11 +27,11 @@ class EntryFactory extends Factory
     public function definition(): array
     {
         return [
-            'version' => $this->faker->randomDigitNotNull,
-            'episodes' => $this->faker->word,
-            'nsfw' => $this->faker->boolean,
-            'spoiler' => $this->faker->boolean,
-            'notes' => $this->faker->word,
+            'version' => $this->faker->randomDigitNotNull(),
+            'episodes' => $this->faker->word(),
+            'nsfw' => $this->faker->boolean(),
+            'spoiler' => $this->faker->boolean(),
+            'notes' => $this->faker->word(),
         ];
     }
 }

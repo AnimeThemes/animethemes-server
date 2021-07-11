@@ -13,6 +13,8 @@ use BenSampo\Enum\Enum;
  * @method static static GT()
  * @method static static LTE()
  * @method static static GTE()
+ * @method static static LIKE()
+ * @method static static NOTLIKE()
  */
 final class ComparisonOperator extends Enum
 {
@@ -22,4 +24,6 @@ final class ComparisonOperator extends Enum
     public const GT = '>';
     public const LTE = '<=';
     public const GTE = '>=';
+    public const LIKE = 'like';
+    public const NOTLIKE = 'not like';
 }

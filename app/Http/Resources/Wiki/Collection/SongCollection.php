@@ -8,6 +8,7 @@ use App\Http\Api\Filter\Base\CreatedAtFilter;
 use App\Http\Api\Filter\Base\DeletedAtFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
+use App\Http\Api\Filter\Wiki\Song\SongTitleFilter;
 use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Song;
@@ -83,6 +84,7 @@ class SongCollection extends SearchableCollection
     public static function filters(): array
     {
         return [
+            SongTitleFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
             DeletedAtFilter::class,

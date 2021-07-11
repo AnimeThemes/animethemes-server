@@ -8,6 +8,8 @@ use App\Http\Api\Filter\Base\CreatedAtFilter;
 use App\Http\Api\Filter\Base\DeletedAtFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
+use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceExternalIdFilter;
+use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceLinkFilter;
 use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceSiteFilter;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
@@ -85,6 +87,8 @@ class ExternalResourceCollection extends BaseCollection
     public static function filters(): array
     {
         return [
+            ExternalResourceLinkFilter::class,
+            ExternalResourceExternalIdFilter::class,
             ExternalResourceSiteFilter::class,
             CreatedAtFilter::class,
             UpdatedAtFilter::class,
