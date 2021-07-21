@@ -7,17 +7,26 @@ namespace App\Pivots;
 use App\Events\Pivot\ArtistMember\ArtistMemberCreated;
 use App\Events\Pivot\ArtistMember\ArtistMemberDeleted;
 use App\Events\Pivot\ArtistMember\ArtistMemberUpdated;
+use App\Models\Wiki\Artist;
+use Database\Factories\Pivots\ArtistMemberFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class ArtistMember.
+ *
+ * @property string $as
+ * @property Artist $artist
+ * @property Artist $member
+ * @method static ArtistMemberFactory factory(...$parameters)
  */
 class ArtistMember extends BasePivot
 {
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
      * @var string[]
      */
     protected $fillable = ['as'];
@@ -34,7 +43,7 @@ class ArtistMember extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => ArtistMemberCreated::class,

@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Pivots;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * Class BasePivot.
+ *
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 abstract class BasePivot extends Pivot
 {

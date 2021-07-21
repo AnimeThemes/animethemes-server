@@ -50,14 +50,12 @@ class DatabaseDumpTest extends TestCase
      */
     protected function getDumpFile(): string
     {
-        $randomDate = Carbon::parse($this->faker->iso8601());
-
-        Carbon::setTestNow($randomDate);
+        Carbon::setTestNow($this->faker->iso8601());
 
         $dumpFile = Str::of('db-dumps')
             ->append(DIRECTORY_SEPARATOR)
             ->append('animethemes-db-dump-')
-            ->append($randomDate->toDateString())
+            ->append(Carbon::now()->toDateString())
             ->append('.sql')
             ->__toString();
 

@@ -18,12 +18,14 @@ class IntFilterTest extends TestCase
 
     /**
      * If values that are not mappable to integers are specified for the key, don't apply the filter.
+     *
+     * @return void
      */
     public function testShouldNotApplyIfNoIntegers()
     {
         $filterField = $this->faker->word();
 
-        $intValues = $this->faker->words($this->faker->randomDigitNotNull);
+        $intValues = $this->faker->words($this->faker->randomDigitNotNull());
 
         $parameters = [
             QueryParser::PARAM_FILTER => [

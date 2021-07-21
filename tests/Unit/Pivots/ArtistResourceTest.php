@@ -30,7 +30,7 @@ class ArtistResourceTest extends TestCase
         $artistResource = ArtistResource::factory()
             ->for(Artist::factory())
             ->for(ExternalResource::factory(), 'resource')
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $artistResource->artist());
         static::assertInstanceOf(Artist::class, $artistResource->artist()->first());
@@ -46,7 +46,7 @@ class ArtistResourceTest extends TestCase
         $artistResource = ArtistResource::factory()
             ->for(Artist::factory())
             ->for(ExternalResource::factory(), 'resource')
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $artistResource->resource());
         static::assertInstanceOf(ExternalResource::class, $artistResource->resource()->first());

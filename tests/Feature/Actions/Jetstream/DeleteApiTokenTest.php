@@ -31,9 +31,9 @@ class DeleteApiTokenTest extends TestCase
         }
 
         if (Features::hasTeamFeatures()) {
-            $this->actingAs($user = User::factory()->withPersonalTeam()->create());
+            $this->actingAs($user = User::factory()->withPersonalTeam()->createOne());
         } else {
-            $this->actingAs($user = User::factory()->create());
+            $this->actingAs($user = User::factory()->createOne());
         }
 
         $token = $user->tokens()->create([
@@ -43,7 +43,7 @@ class DeleteApiTokenTest extends TestCase
         ]);
 
         Livewire::test(ApiTokenManager::class)
-                    ->set(['apiTokenIdBeingDeleted' => $token->id])
+                    ->set(['apiTokenIdBeingDeleted' => $token->getKey()])
                     ->call('deleteApiToken');
 
         static::assertCount(0, $user->fresh()->tokens);

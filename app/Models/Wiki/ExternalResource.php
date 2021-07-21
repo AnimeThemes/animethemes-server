@@ -12,11 +12,24 @@ use App\Events\Wiki\ExternalResource\ExternalResourceUpdated;
 use App\Models\BaseModel;
 use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
+use App\Pivots\BasePivot;
+use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
+use Database\Factories\Wiki\ExternalResourceFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 
 /**
  * Class Resource.
+ *
+ * @property int $resource_id
+ * @property Enum|null $site
+ * @property string|null $link
+ * @property int|null $external_id
+ * @property Collection $anime
+ * @property Collection $artists
+ * @property BasePivot $pivot
+ * @method static ExternalResourceFactory factory(...$parameters)
  */
 class ExternalResource extends BaseModel
 {
@@ -34,7 +47,7 @@ class ExternalResource extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => ExternalResourceCreated::class,
@@ -60,7 +73,7 @@ class ExternalResource extends BaseModel
     /**
      * The attributes that should be cast to enum types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $enumCasts = [
         'site' => ResourceSite::class,
@@ -69,7 +82,7 @@ class ExternalResource extends BaseModel
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'site' => 'int',
@@ -83,7 +96,7 @@ class ExternalResource extends BaseModel
      */
     public function getName(): string
     {
-        return $this->link;
+        return strval($this->link);
     }
 
     /**

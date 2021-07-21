@@ -13,13 +13,15 @@ use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class VideoResource.
+ *
+ * @mixin Video
  */
 class VideoResource extends BaseResource
 {
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'video';
 
@@ -40,6 +42,8 @@ class VideoResource extends BaseResource
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
@@ -55,8 +59,8 @@ class VideoResource extends BaseResource
             'subbed' => $this->when($this->isAllowedField('subbed'), $this->subbed),
             'lyrics' => $this->when($this->isAllowedField('lyrics'), $this->lyrics),
             'uncen' => $this->when($this->isAllowedField('uncen'), $this->uncen),
-            'source' => $this->when($this->isAllowedField('source'), strval(optional($this->source)->description)),
-            'overlap' => $this->when($this->isAllowedField('overlap'), strval(optional($this->overlap)->description)),
+            'source' => $this->when($this->isAllowedField('source'), $this->source?->description),
+            'overlap' => $this->when($this->isAllowedField('overlap'), $this->overlap->description),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),

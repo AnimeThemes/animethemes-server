@@ -6,11 +6,18 @@ namespace App\Pivots;
 
 use App\Events\Pivot\ArtistImage\ArtistImageCreated;
 use App\Events\Pivot\ArtistImage\ArtistImageDeleted;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Image;
+use Database\Factories\Pivots\ArtistImageFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class ArtistImage.
+ *
+ * @property Artist $artist
+ * @property Image $image
+ * @method static ArtistImageFactory factory(...$parameters)
  */
 class ArtistImage extends BasePivot
 {
@@ -28,7 +35,7 @@ class ArtistImage extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => ArtistImageCreated::class,

@@ -32,7 +32,7 @@ class SynonymTest extends TestCase
 
         Synonym::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         Event::assertDispatched(SynonymCreated::class);
     }
@@ -48,7 +48,7 @@ class SynonymTest extends TestCase
 
         $synonym = Synonym::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         $synonym->delete();
 
@@ -66,7 +66,7 @@ class SynonymTest extends TestCase
 
         $synonym = Synonym::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         $synonym->restore();
 
@@ -84,10 +84,11 @@ class SynonymTest extends TestCase
 
         $synonym = Synonym::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
+
         $changes = Synonym::factory()
             ->for(Anime::factory())
-            ->create();
+            ->makeOne();
 
         $synonym->fill($changes->getAttributes());
         $synonym->save();

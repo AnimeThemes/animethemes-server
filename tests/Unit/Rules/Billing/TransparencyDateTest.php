@@ -73,7 +73,7 @@ class TransparencyDateTest extends TestCase
 
         $rule = new TransparencyDateRule($validDates);
 
-        $formattedDate = Carbon::now()->subMonths($this->faker->randomDigitNotNull)->format(AllowedDateFormat::YM);
+        $formattedDate = Carbon::now()->subMonths($this->faker->randomDigitNotNull())->format(AllowedDateFormat::YM);
 
         static::assertFalse($rule->passes($this->faker->word(), $formattedDate));
     }

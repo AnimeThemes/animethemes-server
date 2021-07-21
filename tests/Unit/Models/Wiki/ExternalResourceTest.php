@@ -31,7 +31,7 @@ class ExternalResourceTest extends TestCase
      */
     public function testCastsSeasonToEnum()
     {
-        $resource = ExternalResource::factory()->create();
+        $resource = ExternalResource::factory()->createOne();
 
         $site = $resource->site;
 
@@ -47,9 +47,9 @@ class ExternalResourceTest extends TestCase
     {
         Config::set('audit.console', true);
 
-        $resource = ExternalResource::factory()->create();
+        $resource = ExternalResource::factory()->createOne();
 
-        static::assertEquals(1, $resource->audits->count());
+        static::assertEquals(1, $resource->audits()->count());
     }
 
     /**
@@ -59,7 +59,7 @@ class ExternalResourceTest extends TestCase
      */
     public function testNameable()
     {
-        $resource = ExternalResource::factory()->create();
+        $resource = ExternalResource::factory()->createOne();
 
         static::assertIsString($resource->getName());
     }
@@ -71,11 +71,11 @@ class ExternalResourceTest extends TestCase
      */
     public function testAnime()
     {
-        $animeCount = $this->faker->randomDigitNotNull;
+        $animeCount = $this->faker->randomDigitNotNull();
 
         $resource = ExternalResource::factory()
             ->has(Anime::factory()->count($animeCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $resource->anime());
         static::assertEquals($animeCount, $resource->anime()->count());
@@ -90,11 +90,11 @@ class ExternalResourceTest extends TestCase
      */
     public function testArtists()
     {
-        $artistCount = $this->faker->randomDigitNotNull;
+        $artistCount = $this->faker->randomDigitNotNull();
 
         $resource = ExternalResource::factory()
             ->has(Artist::factory()->count($artistCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $resource->artists());
         static::assertEquals($artistCount, $resource->artists()->count());

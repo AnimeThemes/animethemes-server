@@ -14,15 +14,33 @@ use App\Models\BaseModel;
 use App\Pivots\AnimeImage;
 use App\Pivots\AnimeResource;
 use App\Pivots\AnimeSeries;
+use App\Pivots\BasePivot;
+use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
+use Database\Factories\Wiki\AnimeFactory;
 use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Laravel\Scout\Searchable;
 
 /**
  * Class Anime.
+ *
+ * @property int $anime_id
+ * @property string $slug
+ * @property string $name
+ * @property int|null $year
+ * @property Enum|null $season
+ * @property string|null $synopsis
+ * @property Collection $synonyms
+ * @property Collection $series
+ * @property Collection $themes
+ * @property Collection $resources
+ * @property Collection $images
+ * @property BasePivot $pivot
+ * @method static AnimeFactory factory(...$parameters)
  */
 class Anime extends BaseModel
 {
@@ -42,7 +60,7 @@ class Anime extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => AnimeCreated::class,
@@ -94,6 +112,8 @@ class Anime extends BaseModel
      * Get the route key for the model.
      *
      * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getRouteKeyName(): string
     {
@@ -103,7 +123,7 @@ class Anime extends BaseModel
     /**
      * The attributes that should be cast to enum types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $enumCasts = [
         'season' => AnimeSeason::class,
@@ -112,7 +132,7 @@ class Anime extends BaseModel
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'season' => 'int',

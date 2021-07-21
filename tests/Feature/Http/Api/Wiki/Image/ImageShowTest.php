@@ -90,8 +90,8 @@ class ImageShowTest extends TestCase
         ];
 
         Image::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
+            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(Artist::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
         $image = Image::with($includedPaths->all())->first();
@@ -169,7 +169,7 @@ class ImageShowTest extends TestCase
         ];
 
         Image::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
+            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
         $image = Image::with([
@@ -213,7 +213,7 @@ class ImageShowTest extends TestCase
         Image::factory()
             ->has(
                 Anime::factory()
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->state([
                     'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                 ])

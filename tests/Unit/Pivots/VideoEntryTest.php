@@ -30,7 +30,7 @@ class VideoEntryTest extends TestCase
         $videoEntry = VideoEntry::factory()
             ->for(Video::factory())
             ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $videoEntry->video());
         static::assertInstanceOf(Video::class, $videoEntry->video()->first());
@@ -46,7 +46,7 @@ class VideoEntryTest extends TestCase
         $videoEntry = VideoEntry::factory()
             ->for(Video::factory())
             ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $videoEntry->entry());
         static::assertInstanceOf(Entry::class, $videoEntry->entry()->first());

@@ -46,21 +46,26 @@ class DeletedEndDateTest extends TestCase
      */
     public function testFilter()
     {
-        $dateFilter = Carbon::now()->subDays($this->faker->randomDigitNotNull);
+        $dateFilter = Carbon::now()->subDays($this->faker->randomDigitNotNull());
 
-        Carbon::withTestNow(Carbon::now()->subMonths($this->faker->randomDigitNotNull), function () {
-            $anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow(Carbon::now()->subMonths($this->faker->randomDigitNotNull()), function () {
+            $anime = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
             $anime->each(function (Anime $item) {
                 $item->delete();
             });
         });
 
-        $anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        $anime = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
         $anime->each(function (Anime $item) {
             $item->delete();
         });
 
-        $response = new MockFilterQuery((new DeletedEndDateFilter())->apply(Request::createFromGlobals(), Anime::withTrashed(), $dateFilter));
+        $response = new MockFilterQuery(
+            (new DeletedEndDateFilter())->apply(Request::createFromGlobals(),
+                Anime::withTrashed(),
+                $dateFilter
+            )
+        );
 
         $filteredAnimes = Anime::withTrashed()->where('deleted_at', ComparisonOperator::LTE, $dateFilter)->get();
         foreach ($filteredAnimes as $filteredAnime) {

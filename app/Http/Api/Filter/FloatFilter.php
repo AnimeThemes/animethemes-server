@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter;
 
 /**
- * Class IntFilter.
+ * Class FloatFilter.
  */
 abstract class FloatFilter extends Filter
 {
@@ -41,5 +41,17 @@ abstract class FloatFilter extends Filter
                 }
             )
         );
+    }
+
+    /**
+     * Determine if all valid filter values have been specified.
+     * By default, this is false as we assume an unrestricted amount of valid values.
+     *
+     * @param array $filterValues
+     * @return bool
+     */
+    protected function isAllFilterValues(array $filterValues): bool
+    {
+        return false;
     }
 }

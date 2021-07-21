@@ -26,12 +26,12 @@ class SynonymTest extends TestCase
      */
     public function testSynonymCreatedSendsDiscordNotification()
     {
-        $anime = Anime::factory()->create();
+        $anime = Anime::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        Synonym::factory()->for($anime)->create();
+        Synonym::factory()->for($anime)->createOne();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
@@ -45,7 +45,7 @@ class SynonymTest extends TestCase
     {
         $synonym = Synonym::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -64,7 +64,7 @@ class SynonymTest extends TestCase
     {
         $synonym = Synonym::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -83,11 +83,11 @@ class SynonymTest extends TestCase
     {
         $synonym = Synonym::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         $changes = Synonym::factory()
             ->for(Anime::factory())
-            ->make();
+            ->makeOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);

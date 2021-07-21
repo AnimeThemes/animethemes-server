@@ -14,13 +14,15 @@ use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class ExternalResourceResource.
+ *
+ * @mixin ExternalResource
  */
 class ExternalResourceResource extends BaseResource
 {
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'resource';
 
@@ -41,18 +43,20 @@ class ExternalResourceResource extends BaseResource
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
         return [
             'id' => $this->when($this->isAllowedField('id'), $this->resource_id),
             'link' => $this->when($this->isAllowedField('link'), $this->link),
-            'external_id' => $this->when($this->isAllowedField('external_id'), $this->external_id === null ? '' : $this->external_id),
-            'site' => $this->when($this->isAllowedField('site'), strval(optional($this->site)->description)),
+            'external_id' => $this->when($this->isAllowedField('external_id'), $this->external_id),
+            'site' => $this->when($this->isAllowedField('site'), $this->site?->description),
             'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('anime_resource', function () {
-                return strval($this->pivot->as);
+                return $this->pivot->getAttribute('as');
             }, $this->whenPivotLoaded('artist_resource', function () {
-                return strval($this->pivot->as);
+                return $this->pivot->getAttribute('as');
             }))),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),

@@ -21,10 +21,12 @@ class ProfileInformationTest extends TestCase
      * Current profile information is available.
      *
      * @return void
+     *
+     * @noinspection PhpUndefinedFieldInspection
      */
     public function testCurrentProfileInformationIsAvailable()
     {
-        $this->actingAs($user = User::factory()->create());
+        $this->actingAs($user = User::factory()->createOne());
 
         $component = Livewire::test(UpdateProfileInformationForm::class);
 
@@ -39,7 +41,7 @@ class ProfileInformationTest extends TestCase
      */
     public function testProfileInformationCanBeUpdated()
     {
-        $this->actingAs($user = User::factory()->create());
+        $this->actingAs($user = User::factory()->createOne());
 
         Livewire::test(UpdateProfileInformationForm::class)
                 ->set('state', ['name' => 'Test Name', 'email' => 'test@example.com'])

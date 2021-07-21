@@ -7,6 +7,8 @@ namespace App\Enums\Http\Api\Filter;
 use BenSampo\Enum\Enum;
 
 /**
+ * Class BinaryLogicalOperator.
+ *
  * @method static static AND()
  * @method static static OR()
  */

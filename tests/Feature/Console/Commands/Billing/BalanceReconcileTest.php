@@ -14,6 +14,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
+use Mockery\MockInterface;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -55,16 +56,14 @@ class BalanceReconcileTest extends TestCase
      * If no changes are needed, the Reconcile Balance Command shall output 'No Balances created or deleted or updated'.
      *
      * @return void
+     *
+     * @psalm-suppress UndefinedMagicMethod
      */
     public function testNoResults()
     {
-        $mock = $this->mock(DigitalOceanBalanceRepository::class);
-
-        $mock->shouldReceive('all')
-            ->once()
-            ->andReturn(Collection::make());
-
-        $this->app->instance(DigitalOceanBalanceRepository::class, $mock);
+        $this->mock(DigitalOceanBalanceRepository::class, function (MockInterface $mock) {
+            $mock->shouldReceive('all')->once()->andReturn(Collection::make());
+        });
 
         $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput('No Balances created or deleted or updated');
     }
@@ -73,10 +72,12 @@ class BalanceReconcileTest extends TestCase
      * If balances are created, the Reconcile Balance Command shall output '{Created Count} Balances created, 0 Balances deleted, 0 Balances updated'.
      *
      * @return void
+     *
+     * @psalm-suppress UndefinedMagicMethod
      */
     public function testCreated()
     {
-        $createdBalanceCount = $this->faker->randomDigitNotNull;
+        $createdBalanceCount = $this->faker->randomDigitNotNull();
 
         $balances = Balance::factory()
             ->count($createdBalanceCount)
@@ -85,13 +86,9 @@ class BalanceReconcileTest extends TestCase
                 'service' => Service::DIGITALOCEAN,
             ]);
 
-        $mock = $this->mock(DigitalOceanBalanceRepository::class);
-
-        $mock->shouldReceive('all')
-            ->once()
-            ->andReturn($balances);
-
-        $this->app->instance(DigitalOceanBalanceRepository::class, $mock);
+        $this->mock(DigitalOceanBalanceRepository::class, function (MockInterface $mock) use ($balances) {
+            $mock->shouldReceive('all')->once()->andReturn($balances);
+        });
 
         $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("{$createdBalanceCount} Balances created, 0 Balances deleted, 0 Balances updated");
     }
@@ -100,10 +97,12 @@ class BalanceReconcileTest extends TestCase
      * If balances are deleted, the Reconcile Balance Command shall output '0 Balances created, {Deleted Count} Balances deleted, 0 Balances updated'.
      *
      * @return void
+     *
+     * @psalm-suppress UndefinedMagicMethod
      */
     public function testDeleted()
     {
-        $deletedBalanceCount = $this->faker->randomDigitNotNull;
+        $deletedBalanceCount = $this->faker->randomDigitNotNull();
 
         Balance::factory()
             ->count($deletedBalanceCount)
@@ -112,13 +111,9 @@ class BalanceReconcileTest extends TestCase
                 'service' => Service::DIGITALOCEAN,
             ]);
 
-        $mock = $this->mock(DigitalOceanBalanceRepository::class);
-
-        $mock->shouldReceive('all')
-            ->once()
-            ->andReturn(Collection::make());
-
-        $this->app->instance(DigitalOceanBalanceRepository::class, $mock);
+        $this->mock(DigitalOceanBalanceRepository::class, function (MockInterface $mock) {
+            $mock->shouldReceive('all')->once()->andReturn(Collection::make());
+        });
 
         $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Balances created, {$deletedBalanceCount} Balances deleted, 0 Balances updated");
     }
@@ -127,6 +122,8 @@ class BalanceReconcileTest extends TestCase
      * If balances are updated, the Reconcile Balance Command shall output '0 Balances created, 0 Balances deleted, {Updated Count} Balances updated'.
      *
      * @return void
+     *
+     * @psalm-suppress UndefinedMagicMethod
      */
     public function testUpdated()
     {
@@ -142,13 +139,9 @@ class BalanceReconcileTest extends TestCase
                 'service' => Service::DIGITALOCEAN,
             ]);
 
-        $mock = $this->mock(DigitalOceanBalanceRepository::class);
-
-        $mock->shouldReceive('all')
-            ->once()
-            ->andReturn(collect([$sourceBalances]));
-
-        $this->app->instance(DigitalOceanBalanceRepository::class, $mock);
+        $this->mock(DigitalOceanBalanceRepository::class, function (MockInterface $mock) use ($sourceBalances) {
+            $mock->shouldReceive('all')->once()->andReturn(collect([$sourceBalances]));
+        });
 
         $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput('0 Balances created, 0 Balances deleted, 1 Balances updated');
     }

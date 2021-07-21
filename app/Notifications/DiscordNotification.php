@@ -40,6 +40,8 @@ class DiscordNotification extends Notification implements ShouldQueue
      *
      * @param mixed $notifiable
      * @return array
+     *
+     * @noinspection PhpUnusedParameterInspection
      */
     public function via(mixed $notifiable): array
     {
@@ -51,6 +53,8 @@ class DiscordNotification extends Notification implements ShouldQueue
      *
      * @param mixed $notifiable
      * @return DiscordMessage
+     *
+     * @noinspection PhpUnusedParameterInspection
      */
     public function toDiscord(mixed $notifiable): DiscordMessage
     {

@@ -26,12 +26,12 @@ class ThemeTest extends TestCase
      */
     public function testThemeCreatedSendsDiscordNotification()
     {
-        $anime = Anime::factory()->create();
+        $anime = Anime::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        Theme::factory()->for($anime)->create();
+        Theme::factory()->for($anime)->createOne();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
@@ -45,7 +45,7 @@ class ThemeTest extends TestCase
     {
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -64,7 +64,7 @@ class ThemeTest extends TestCase
     {
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -83,11 +83,11 @@ class ThemeTest extends TestCase
     {
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         $changes = Theme::factory()
             ->for(Anime::factory())
-            ->make();
+            ->makeOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);

@@ -28,7 +28,7 @@ class TransactionTest extends TestCase
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        Transaction::factory()->create();
+        Transaction::factory()->createOne();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
@@ -40,7 +40,7 @@ class TransactionTest extends TestCase
      */
     public function testTransactionDeletedSendsDiscordNotification()
     {
-        $transaction = Transaction::factory()->create();
+        $transaction = Transaction::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -57,7 +57,7 @@ class TransactionTest extends TestCase
      */
     public function testTransactionRestoredSendsDiscordNotification()
     {
-        $transaction = Transaction::factory()->create();
+        $transaction = Transaction::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -74,12 +74,12 @@ class TransactionTest extends TestCase
      */
     public function testTransactionUpdatedSendsDiscordNotification()
     {
-        $transaction = Transaction::factory()->create();
+        $transaction = Transaction::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        $changes = Transaction::factory()->make();
+        $changes = Transaction::factory()->makeOne();
 
         $transaction->fill($changes->getAttributes());
         $transaction->save();

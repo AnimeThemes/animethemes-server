@@ -4,29 +4,34 @@ declare(strict_types=1);
 
 namespace App\Models\Auth;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Laravel\Jetstream\Jetstream;
+use Carbon\Carbon;
 use Laravel\Jetstream\TeamInvitation as JetstreamTeamInvitation;
 
 /**
+ *
  * Class TeamInvitation.
+ *
+ * @property int $id
+ * @property int $team_id
+ * @property string $email
+ * @property string|null $role
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Team $team
  */
 class TeamInvitation extends JetstreamTeamInvitation
 {
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var string[]
+     * @var string
      */
-    protected $fillable = ['email', 'role'];
+    protected $table = 'team_invitations';
 
     /**
-     * Get the team that the invitation belongs to.
+     * The storage format of the model's date columns.
      *
-     * @return BelongsTo
+     * @var string
      */
-    public function team(): BelongsTo
-    {
-        return $this->belongsTo(Jetstream::teamModel());
-    }
+    protected $dateFormat = 'Y-m-d\TH:i:s.u';
 }

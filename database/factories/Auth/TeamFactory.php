@@ -11,6 +11,9 @@ use Illuminate\Support\Str;
 
 /**
  * Class TeamFactory.
+ *
+ * @method Team createOne($attributes = [])
+ * @method Team makeOne($attributes = [])
  */
 class TeamFactory extends Factory
 {

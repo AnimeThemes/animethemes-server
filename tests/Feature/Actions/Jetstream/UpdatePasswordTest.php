@@ -27,7 +27,7 @@ class UpdatePasswordTest extends TestCase
      */
     public function testPasswordCanBeUpdated()
     {
-        $this->actingAs($user = User::factory()->create());
+        $this->actingAs($user = User::factory()->createOne());
 
         $newPassword = $this->faker->password(64, 128);
 
@@ -49,7 +49,7 @@ class UpdatePasswordTest extends TestCase
      */
     public function testCurrentPasswordMustBeCorrect()
     {
-        $this->actingAs($user = User::factory()->create());
+        $this->actingAs($user = User::factory()->createOne());
 
         $newPassword = $this->faker->password(64, 128);
 
@@ -72,7 +72,7 @@ class UpdatePasswordTest extends TestCase
      */
     public function testNewPasswordsMustMatch()
     {
-        $this->actingAs($user = User::factory()->create());
+        $this->actingAs($user = User::factory()->createOne());
 
         Livewire::test(UpdatePasswordForm::class)
                 ->set('state', [

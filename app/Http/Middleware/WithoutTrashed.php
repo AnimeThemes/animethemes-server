@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Models\BaseModel;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,7 @@ class WithoutTrashed
     {
         $model = $request->route($modelKey);
 
-        if ($model == null || $model->trashed()) {
+        if (! $model instanceof BaseModel || $model->trashed()) {
             return redirect(route('welcome'));
         }
 

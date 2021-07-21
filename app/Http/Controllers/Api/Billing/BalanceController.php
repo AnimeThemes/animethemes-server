@@ -9,6 +9,7 @@ use App\Http\Resources\Billing\Collection\BalanceCollection;
 use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\Billing\Balance;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class BalanceController.
@@ -18,23 +19,25 @@ class BalanceController extends BaseController
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return BalanceCollection::performQuery($this->parser)->toResponse(request());
+        return BalanceCollection::performQuery($this->parser)->toResponse($request);
     }
 
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param Balance $balance
      * @return JsonResponse
      */
-    public function show(Balance $balance): JsonResponse
+    public function show(Request $request, Balance $balance): JsonResponse
     {
         $resource = BalanceResource::performQuery($balance, $this->parser);
 
-        return $resource->toResponse(request());
+        return $resource->toResponse($request);
     }
 }

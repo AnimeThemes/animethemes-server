@@ -29,7 +29,7 @@ class SongTest extends TestCase
     {
         Event::fake();
 
-        Song::factory()->create();
+        Song::factory()->createOne();
 
         Event::assertDispatched(SongCreated::class);
     }
@@ -43,7 +43,7 @@ class SongTest extends TestCase
     {
         Event::fake();
 
-        $song = Song::factory()->create();
+        $song = Song::factory()->createOne();
 
         $song->delete();
 
@@ -59,7 +59,7 @@ class SongTest extends TestCase
     {
         Event::fake();
 
-        $song = Song::factory()->create();
+        $song = Song::factory()->createOne();
 
         $song->restore();
 
@@ -75,8 +75,8 @@ class SongTest extends TestCase
     {
         Event::fake();
 
-        $song = Song::factory()->create();
-        $changes = Song::factory()->make();
+        $song = Song::factory()->createOne();
+        $changes = Song::factory()->makeOne();
 
         $song->fill($changes->getAttributes());
         $song->save();

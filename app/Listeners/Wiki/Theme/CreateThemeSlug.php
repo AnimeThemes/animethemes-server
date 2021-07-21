@@ -21,7 +21,7 @@ class CreateThemeSlug
     {
         $theme = $event->getTheme();
 
-        $slug = $theme->type->key;
+        $slug = $theme->type?->key;
         if (! empty($theme->sequence)) {
             $slug .= $theme->sequence;
         }

@@ -32,7 +32,7 @@ class ThemeTest extends TestCase
 
         Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         Event::assertDispatched(ThemeCreated::class);
     }
@@ -48,7 +48,7 @@ class ThemeTest extends TestCase
 
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         $theme->delete();
 
@@ -66,7 +66,7 @@ class ThemeTest extends TestCase
 
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         $theme->restore();
 
@@ -84,10 +84,11 @@ class ThemeTest extends TestCase
 
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
+
         $changes = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->makeOne();
 
         $theme->fill($changes->getAttributes());
         $theme->save();

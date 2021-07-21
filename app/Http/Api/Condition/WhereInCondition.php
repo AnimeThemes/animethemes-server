@@ -61,6 +61,8 @@ class WhereInCondition extends Condition
      * @param string $filterParam
      * @param mixed $filterValues
      * @return Condition
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function make(string $filterParam, mixed $filterValues): Condition
     {
@@ -113,7 +115,7 @@ class WhereInCondition extends Condition
      *
      * @param Builder $builder
      * @param Filter $filter
-     * @return Builder $builder
+     * @return Builder
      */
     public function apply(Builder $builder, Filter $filter): Builder
     {
@@ -130,7 +132,7 @@ class WhereInCondition extends Condition
      *
      * @param BoolQueryBuilder $builder
      * @param Filter $filter
-     * @return BoolQueryBuilder $builder
+     * @return BoolQueryBuilder
      */
     public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter): BoolQueryBuilder
     {

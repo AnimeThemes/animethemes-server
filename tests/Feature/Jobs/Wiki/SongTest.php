@@ -28,7 +28,7 @@ class SongTest extends TestCase
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        Song::factory()->create();
+        Song::factory()->createOne();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
@@ -40,7 +40,7 @@ class SongTest extends TestCase
      */
     public function testSongDeletedSendsDiscordNotification()
     {
-        $song = Song::factory()->create();
+        $song = Song::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -57,7 +57,7 @@ class SongTest extends TestCase
      */
     public function testSongRestoredSendsDiscordNotification()
     {
-        $song = Song::factory()->create();
+        $song = Song::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -74,12 +74,12 @@ class SongTest extends TestCase
      */
     public function testSongUpdatedSendsDiscordNotification()
     {
-        $song = Song::factory()->create();
+        $song = Song::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        $changes = Song::factory()->make();
+        $changes = Song::factory()->makeOne();
 
         $song->fill($changes->getAttributes());
         $song->save();

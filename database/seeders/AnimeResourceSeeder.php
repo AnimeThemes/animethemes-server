@@ -37,7 +37,7 @@ class AnimeResourceSeeder extends Seeder
 
             // Match headers of Anime and links of Resources
             // Format: "###[{Anime Name}]({Resource Link})"
-            preg_match_all('/###\[(.*)\]\((https\:\/\/.*)\)/m', $yearWikiContents, $animeResourceWikiEntries, PREG_SET_ORDER);
+            preg_match_all('/###\[(.*)]\((https:\/\/.*)\)/m', $yearWikiContents, $animeResourceWikiEntries, PREG_SET_ORDER);
 
             foreach ($animeResourceWikiEntries as $animeResourceWikiEntry) {
                 $animeName = html_entity_decode($animeResourceWikiEntry[1]);
@@ -45,22 +45,26 @@ class AnimeResourceSeeder extends Seeder
                 preg_match('/([0-9]+)/', $resourceLink, $externalId);
 
                 // Create Resource Model with link and derived site if it doesn't already exist
-                $resource = ExternalResource::where('site', ResourceSite::valueOf($resourceLink))->where('link', $resourceLink)->first();
+                $resource = ExternalResource::query()
+                    ->where('site', ResourceSite::valueOf($resourceLink))
+                    ->where('link', $resourceLink)
+                    ->first();
+
                 if ($resource === null) {
                     Log::info("Creating resource '{$resourceLink}'");
-                    $resource = ExternalResource::create(
-                        [
-                            'site' => ResourceSite::valueOf($resourceLink),
-                            'link' => $resourceLink,
-                            'external_id' => intval($externalId[1]),
-                        ]
-                    );
+
+                    $resource = ExternalResource::factory()->createOne([
+                        'site' => ResourceSite::valueOf($resourceLink),
+                        'link' => $resourceLink,
+                        'external_id' => intval($externalId[1]),
+                    ]);
                 }
 
                 try {
                     // Attach Anime to Resource by Name if we have a definitive match
                     // This is not guaranteed as an Anime Name may be inconsistent between indices
-                    $resourceAnime = Anime::where('name', $animeName)
+                    $resourceAnime = Anime::query()
+                        ->where('name', $animeName)
                         ->whereIn('year', $years)
                         ->whereDoesntHave('resources', function (Builder $resourceQuery) use ($resource) {
                             $resourceQuery->where('site', $resource->site->value)->where('link', $resource->link);

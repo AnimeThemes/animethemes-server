@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Enums\Http\Api\PaginationStrategy;
+use App\Http\Api\Filter\Filter;
 use App\Http\Api\QueryParser;
 use App\Services\Http\Resources\DiscoverElasticQueryPayload;
 use App\Services\Models\Scout\ElasticQueryPayload;
@@ -58,7 +59,7 @@ abstract class SearchableCollection extends BaseCollection
         $elasticQueryPayload = DiscoverElasticQueryPayload::byModelClass($collectsClass);
 
         if (! empty($elasticQueryPayload)) {
-            return $elasticQueryPayload::make($parser);
+            return new $elasticQueryPayload($parser);
         }
 
         return null;
@@ -90,7 +91,10 @@ abstract class SearchableCollection extends BaseCollection
         $filterBuilder = new BoolQueryBuilder();
         foreach (static::filters() as $filterClass) {
             $filter = new $filterClass($parser);
-            $filterBuilder = $filter->scope(Str::singular(static::$wrap))->applyElasticsearchFilter($filterBuilder);
+            if ($filter instanceof Filter) {
+                $scope = Str::singular(static::$wrap);
+                $filterBuilder = $filter->scope($scope)->applyElasticsearchFilter($filterBuilder);
+            }
         }
         try {
             $builder->filter($filterBuilder);
@@ -112,8 +116,8 @@ abstract class SearchableCollection extends BaseCollection
 
         // paginate
         if (PaginationStrategy::OFFSET()->is($paginationStrategy)) {
-            $maxResults = $maxResults ?? Config::get('json-api-paginate.max_results');
-            $defaultSize = $defaultSize ?? Config::get('json-api-paginate.default_size');
+            $maxResults = intval(Config::get('json-api-paginate.max_results'));
+            $defaultSize = intval(Config::get('json-api-paginate.default_size'));
             $numberParameter = Config::get('json-api-paginate.number_parameter');
             $sizeParameter = Config::get('json-api-paginate.size_parameter');
             $paginationParameter = Config::get('json-api-paginate.pagination_parameter');

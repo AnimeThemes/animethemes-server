@@ -7,12 +7,12 @@ namespace Database\Seeders;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -53,11 +53,20 @@ class MalSeasonYearSeeder extends Seeder
         }
 
         // Get anime that have MAL resource but do not season
-        $animes = $this->getUnseededAnime();
+        $animes = Anime::query()
+            ->whereNull('season')
+            ->whereHas('resources', function (Builder $resourceQuery) {
+                $resourceQuery->where('site', ResourceSite::MAL);
+            })
+            ->get();
 
         foreach ($animes as $anime) {
+            if (! $anime instanceof Anime) {
+                continue;
+            }
+
             $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
-            if ($malResource !== null && $malResource->external_id !== null) {
+            if ($malResource instanceof ExternalResource && $malResource->external_id !== null) {
 
                 // Try not to upset MAL
                 sleep(rand(5, 15));
@@ -96,19 +105,5 @@ class MalSeasonYearSeeder extends Seeder
                 }
             }
         }
-    }
-
-    /**
-     * Get anime that have MAL resource but do not season.
-     *
-     * @return Collection
-     */
-    protected function getUnseededAnime(): Collection
-    {
-        return Anime::whereNull('season')
-            ->whereHas('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::MAL);
-            })
-            ->get();
     }
 }

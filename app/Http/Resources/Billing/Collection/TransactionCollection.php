@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Billing\Collection;
 
-use App\Http\Api\Filter\Base\CreatedAtFilter;
-use App\Http\Api\Filter\Base\DeletedAtFilter;
-use App\Http\Api\Filter\Base\TrashedFilter;
-use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Api\Filter\Billing\Transaction\TransactionAmountFilter;
 use App\Http\Api\Filter\Billing\Transaction\TransactionDateFilter;
 use App\Http\Api\Filter\Billing\Transaction\TransactionDescriptionFilter;
@@ -26,7 +22,7 @@ class TransactionCollection extends BaseCollection
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'transactions';
 
@@ -42,12 +38,24 @@ class TransactionCollection extends BaseCollection
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
         return $this->collection->map(function (Transaction $transaction) {
             return TransactionResource::make($transaction, $this->parser);
         })->all();
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return string[]
+     */
+    public static function allowedIncludePaths(): array
+    {
+        return [];
     }
 
     /**
@@ -77,16 +85,15 @@ class TransactionCollection extends BaseCollection
      */
     public static function filters(): array
     {
-        return [
-            TransactionDateFilter::class,
-            TransactionServiceFilter::class,
-            TransactionDescriptionFilter::class,
-            TransactionAmountFilter::class,
-            TransactionExternalIdFilter::class,
-            CreatedAtFilter::class,
-            UpdatedAtFilter::class,
-            DeletedAtFilter::class,
-            TrashedFilter::class,
-        ];
+        return array_merge(
+            parent::filters(),
+            [
+                TransactionDateFilter::class,
+                TransactionServiceFilter::class,
+                TransactionDescriptionFilter::class,
+                TransactionAmountFilter::class,
+                TransactionExternalIdFilter::class,
+            ]
+        );
     }
 }

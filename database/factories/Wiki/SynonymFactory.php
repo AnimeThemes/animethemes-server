@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class SynonymFactory.
+ *
+ * @method Synonym createOne($attributes = [])
+ * @method Synonym makeOne($attributes = [])
  */
 class SynonymFactory extends Factory
 {

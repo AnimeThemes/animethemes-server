@@ -9,6 +9,9 @@ use BenSampo\Enum\Enum;
 
 /**
  * Class InvitationStatus.
+ *
+ * @method static static OPEN()
+ * @method static static CLOSED()
  */
 final class InvitationStatus extends Enum implements LocalizedEnum
 {

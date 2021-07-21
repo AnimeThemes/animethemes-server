@@ -6,17 +6,17 @@ namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
-use App\Nova\Filters\Wiki\VideoLyricsFilter;
-use App\Nova\Filters\Wiki\VideoNcFilter;
-use App\Nova\Filters\Wiki\VideoOverlapFilter;
-use App\Nova\Filters\Wiki\VideoSourceFilter;
-use App\Nova\Filters\Wiki\VideoSubbedFilter;
-use App\Nova\Filters\Wiki\VideoTypeFilter;
-use App\Nova\Filters\Wiki\VideoUncenFilter;
-use App\Nova\Lenses\VideoSourceLens;
-use App\Nova\Lenses\VideoUnlinkedLens;
-use App\Nova\Metrics\NewVideos;
-use App\Nova\Metrics\VideosPerDay;
+use App\Nova\Filters\Wiki\Video\VideoLyricsFilter;
+use App\Nova\Filters\Wiki\Video\VideoNcFilter;
+use App\Nova\Filters\Wiki\Video\VideoOverlapFilter;
+use App\Nova\Filters\Wiki\Video\VideoSourceFilter;
+use App\Nova\Filters\Wiki\Video\VideoSubbedFilter;
+use App\Nova\Filters\Wiki\Video\VideoTypeFilter;
+use App\Nova\Filters\Wiki\Video\VideoUncenFilter;
+use App\Nova\Lenses\Video\VideoSourceLens;
+use App\Nova\Lenses\Video\VideoUnlinkedLens;
+use App\Nova\Metrics\Video\NewVideos;
+use App\Nova\Metrics\Video\VideosPerDay;
 use App\Nova\Resources\Resource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
@@ -53,9 +53,11 @@ class Video extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function group(): array | string | null
+    public static function group(): string
     {
         return __('nova.wiki');
     }
@@ -63,9 +65,11 @@ class Video extends Resource
     /**
      * Get the displayable label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function label(): array | string | null
+    public static function label(): string
     {
         return __('nova.videos');
     }
@@ -73,9 +77,11 @@ class Video extends Resource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function singularLabel(): array | string | null
+    public static function singularLabel(): string
     {
         return __('nova.video');
     }
@@ -83,7 +89,7 @@ class Video extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var string[]
+     * @var array
      */
     public static $search = [
         'filename',
@@ -103,60 +109,60 @@ class Video extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            new Panel(__('nova.file_properties'), $this->fileProperties()),
+            Panel::make(__('nova.file_properties'), $this->fileProperties()),
 
-            new Panel(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
 
             Number::make(__('nova.resolution'), 'resolution')
                 ->sortable()
                 ->min(360)
                 ->max(1080)
                 ->nullable()
-                ->rules('nullable', 'integer')
+                ->rules(['nullable', 'integer'])
                 ->help(__('nova.video_resolution_help')),
 
             Boolean::make(__('nova.nc'), 'nc')
                 ->sortable()
                 ->nullable()
-                ->rules('nullable', 'boolean')
+                ->rules(['nullable', 'boolean'])
                 ->help(__('nova.video_nc_help')),
 
             Boolean::make(__('nova.subbed'), 'subbed')
                 ->sortable()
                 ->nullable()
-                ->rules('nullable', 'boolean')
+                ->rules(['nullable', 'boolean'])
                 ->help(__('nova.video_subbed_help')),
 
             Boolean::make(__('nova.lyrics'), 'lyrics')
                 ->sortable()
                 ->nullable()
-                ->rules('nullable', 'boolean')
+                ->rules(['nullable', 'boolean'])
                 ->help(__('nova.video_lyrics_help')),
 
             Boolean::make(__('nova.uncen'), 'uncen')
                 ->sortable()
                 ->nullable()
-                ->rules('nullable', 'boolean')
+                ->rules(['nullable', 'boolean'])
                 ->help(__('nova.video_uncen_help')),
 
             Select::make(__('nova.overlap'), 'overlap')
                 ->options(VideoOverlap::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
-                    return $enum ? $enum->description : null;
+                    return $enum?->description;
                 })
                 ->nullable()
                 ->sortable()
-                ->rules('nullable', (new EnumValue(VideoOverlap::class, false))->__toString())
+                ->rules(['nullable', (new EnumValue(VideoOverlap::class, false))->__toString()])
                 ->help(__('nova.video_overlap_help')),
 
             Select::make(__('nova.source'), 'source')
                 ->options(VideoSource::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
-                    return $enum ? $enum->description : null;
+                    return $enum?->description;
                 })
                 ->nullable()
                 ->sortable()
-                ->rules('nullable', (new EnumValue(VideoSource::class, false))->__toString())
+                ->rules(['nullable', (new EnumValue(VideoSource::class, false))->__toString()])
                 ->help(__('nova.video_source_help')),
 
             BelongsToMany::make(__('nova.entries'), 'Entries', Entry::class)
@@ -218,10 +224,13 @@ class Video extends Resource
      */
     public function cards(Request $request): array
     {
-        return [
-            (new NewVideos())->width('1/2'),
-            (new VideosPerDay())->width('1/2'),
-        ];
+        return array_merge(
+            parent::cards($request),
+            [
+                (new NewVideos())->width('1/2'),
+                (new VideosPerDay())->width('1/2'),
+            ]
+        );
     }
 
     /**
@@ -254,9 +263,12 @@ class Video extends Resource
      */
     public function lenses(Request $request): array
     {
-        return [
-            new VideoSourceLens(),
-            new VideoUnlinkedLens(),
-        ];
+        return array_merge(
+            parent::lenses($request),
+            [
+                new VideoSourceLens(),
+                new VideoUnlinkedLens(),
+            ]
+        );
     }
 }

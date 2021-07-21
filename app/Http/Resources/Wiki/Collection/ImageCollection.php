@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
-use App\Http\Api\Filter\Base\CreatedAtFilter;
-use App\Http\Api\Filter\Base\DeletedAtFilter;
-use App\Http\Api\Filter\Base\TrashedFilter;
-use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Api\Filter\Wiki\Image\ImageFacetFilter;
 use App\Http\Api\Filter\Wiki\Image\ImageMimeTypeFilter;
 use App\Http\Api\Filter\Wiki\Image\ImagePathFilter;
@@ -25,7 +21,7 @@ class ImageCollection extends BaseCollection
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'images';
 
@@ -41,6 +37,8 @@ class ImageCollection extends BaseCollection
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
@@ -88,15 +86,14 @@ class ImageCollection extends BaseCollection
      */
     public static function filters(): array
     {
-        return [
-            ImagePathFilter::class,
-            ImageSizeFilter::class,
-            ImageMimeTypeFilter::class,
-            ImageFacetFilter::class,
-            CreatedAtFilter::class,
-            UpdatedAtFilter::class,
-            DeletedAtFilter::class,
-            TrashedFilter::class,
-        ];
+        return array_merge(
+            parent::filters(),
+            [
+                ImagePathFilter::class,
+                ImageSizeFilter::class,
+                ImageMimeTypeFilter::class,
+                ImageFacetFilter::class,
+            ]
+        );
     }
 }

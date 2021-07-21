@@ -30,8 +30,8 @@ class ArtistSongTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
-        $song = Song::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $song = Song::factory()->createOne();
 
         $artist->songs()->attach($song);
 
@@ -47,8 +47,8 @@ class ArtistSongTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
-        $song = Song::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $song = Song::factory()->createOne();
 
         $artist->songs()->attach($song);
         $artist->songs()->detach($song);
@@ -65,18 +65,18 @@ class ArtistSongTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
-        $song = Song::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $song = Song::factory()->createOne();
 
         $artistSong = ArtistSong::factory()
             ->for($artist, 'artist')
             ->for($song, 'song')
-            ->create();
+            ->createOne();
 
         $changes = ArtistSong::factory()
             ->for($artist, 'artist')
             ->for($song, 'song')
-            ->make();
+            ->makeOne();
 
         $artistSong->fill($changes->getAttributes());
         $artistSong->save();

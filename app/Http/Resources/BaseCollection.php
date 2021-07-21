@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Concerns\Http\Resources\PerformsConstrainedEagerLoading;
+use App\Http\Api\Filter\Base\CreatedAtFilter;
+use App\Http\Api\Filter\Base\DeletedAtFilter;
+use App\Http\Api\Filter\Base\TrashedFilter;
+use App\Http\Api\Filter\Base\UpdatedAtFilter;
+use App\Http\Api\Filter\Filter;
 use App\Http\Api\QueryParser;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Support\Collection;
@@ -52,20 +58,14 @@ abstract class BaseCollection extends ResourceCollection
      *
      * @return string[]
      */
-    public static function allowedIncludePaths(): array
-    {
-        return [];
-    }
+    abstract public static function allowedIncludePaths(): array;
 
     /**
      * The sort field names a client is allowed to request.
      *
      * @return string[]
      */
-    public static function allowedSortFields(): array
-    {
-        return [];
-    }
+    abstract public static function allowedSortFields(): array;
 
     /**
      * The filters that can be applied by the client for this resource.
@@ -74,7 +74,12 @@ abstract class BaseCollection extends ResourceCollection
      */
     public static function filters(): array
     {
-        return [];
+        return [
+            CreatedAtFilter::class,
+            UpdatedAtFilter::class,
+            DeletedAtFilter::class,
+            TrashedFilter::class,
+        ];
     }
 
     /**
@@ -88,7 +93,10 @@ abstract class BaseCollection extends ResourceCollection
         $collectsClass = $collection->collects;
 
         if (! empty($collectsClass)) {
-            return $collectsClass::query();
+            $collectsInstance = new $collectsClass();
+            if ($collectsInstance instanceof Model) {
+                return $collectsInstance::query();
+            }
         }
 
         return null;
@@ -114,7 +122,10 @@ abstract class BaseCollection extends ResourceCollection
         // apply filters
         foreach (static::filters() as $filterClass) {
             $filter = new $filterClass($parser);
-            $builder = $filter->scope(Str::singular(static::$wrap))->applyFilter($builder);
+            if ($filter instanceof Filter) {
+                $scope = Str::singular(static::$wrap);
+                $builder = $filter->scope($scope)->applyFilter($builder);
+            }
         }
 
         // apply sorts

@@ -28,7 +28,7 @@ class ExternalResourceTest extends TestCase
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        ExternalResource::factory()->create();
+        ExternalResource::factory()->createOne();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
@@ -40,7 +40,7 @@ class ExternalResourceTest extends TestCase
      */
     public function testResourceDeletedSendsDiscordNotification()
     {
-        $resource = ExternalResource::factory()->create();
+        $resource = ExternalResource::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -57,7 +57,7 @@ class ExternalResourceTest extends TestCase
      */
     public function testResourceRestoredSendsDiscordNotification()
     {
-        $resource = ExternalResource::factory()->create();
+        $resource = ExternalResource::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -74,12 +74,12 @@ class ExternalResourceTest extends TestCase
      */
     public function testResourceUpdatedSendsDiscordNotification()
     {
-        $resource = ExternalResource::factory()->create();
+        $resource = ExternalResource::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        $changes = ExternalResource::factory()->make();
+        $changes = ExternalResource::factory()->makeOne();
 
         $resource->fill($changes->getAttributes());
         $resource->save();

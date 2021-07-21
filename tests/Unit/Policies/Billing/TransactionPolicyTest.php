@@ -25,15 +25,15 @@ class TransactionPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new TransactionPolicy();
 
@@ -51,15 +51,15 @@ class TransactionPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new TransactionPolicy();
 
@@ -77,15 +77,15 @@ class TransactionPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new TransactionPolicy();
 
@@ -103,15 +103,15 @@ class TransactionPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new TransactionPolicy();
 
@@ -129,15 +129,15 @@ class TransactionPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new TransactionPolicy();
 
@@ -155,15 +155,15 @@ class TransactionPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new TransactionPolicy();
 
@@ -181,15 +181,15 @@ class TransactionPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new TransactionPolicy();
 

@@ -27,8 +27,8 @@ class ArtistResourceTest extends TestCase
      */
     public function testArtistResourceCreatedSendsDiscordNotification()
     {
-        $artist = Artist::factory()->create();
-        $resource = ExternalResource::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -45,8 +45,9 @@ class ArtistResourceTest extends TestCase
      */
     public function testArtistResourceDeletedSendsDiscordNotification()
     {
-        $artist = Artist::factory()->create();
-        $resource = ExternalResource::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
+
         $artist->resources()->attach($resource);
 
         Config::set('flags.allow_discord_notifications', true);
@@ -64,18 +65,18 @@ class ArtistResourceTest extends TestCase
      */
     public function testArtistResourceUpdatedSendsDiscordNotification()
     {
-        $artist = Artist::factory()->create();
-        $resource = ExternalResource::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
 
         $artistResource = ArtistResource::factory()
             ->for($artist, 'artist')
             ->for($resource, 'resource')
-            ->create();
+            ->createOne();
 
         $changes = ArtistResource::factory()
             ->for($artist, 'artist')
             ->for($resource, 'resource')
-            ->make();
+            ->makeOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);

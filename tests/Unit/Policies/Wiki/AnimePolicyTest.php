@@ -58,15 +58,15 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new AnimePolicy();
 
@@ -84,15 +84,15 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new AnimePolicy();
 
@@ -110,15 +110,15 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new AnimePolicy();
 
@@ -136,15 +136,15 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new AnimePolicy();
 
@@ -162,15 +162,15 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new AnimePolicy();
 
@@ -188,15 +188,15 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new AnimePolicy();
 
@@ -214,18 +214,18 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
-        $anime = Anime::factory()->create();
-        $series = Series::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $series = Series::factory()->createOne();
         $policy = new AnimePolicy();
 
         static::assertFalse($policy->attachSeries($viewer, $anime, $series));
@@ -242,18 +242,18 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
-        $anime = Anime::factory()->create();
-        $series = Series::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $series = Series::factory()->createOne();
         $anime->series()->attach($series);
         $policy = new AnimePolicy();
 
@@ -271,15 +271,15 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new AnimePolicy();
 
@@ -297,15 +297,15 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new AnimePolicy();
 
@@ -323,15 +323,15 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new AnimePolicy();
 
@@ -349,15 +349,15 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new AnimePolicy();
 
@@ -375,15 +375,15 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new AnimePolicy();
 
@@ -401,18 +401,18 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
-        $anime = Anime::factory()->create();
-        $image = Image::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $image = Image::factory()->createOne();
         $policy = new AnimePolicy();
 
         static::assertFalse($policy->attachImage($viewer, $anime, $image));
@@ -429,18 +429,18 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
-        $anime = Anime::factory()->create();
-        $image = Image::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $image = Image::factory()->createOne();
         $anime->images()->attach($image);
         $policy = new AnimePolicy();
 
@@ -458,15 +458,15 @@ class AnimePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new AnimePolicy();
 

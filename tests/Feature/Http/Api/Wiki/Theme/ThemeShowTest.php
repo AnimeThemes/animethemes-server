@@ -107,8 +107,8 @@ class ThemeShowTest extends TestCase
             ->for(Song::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
@@ -156,7 +156,7 @@ class ThemeShowTest extends TestCase
 
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->createOne();
 
         $theme->unsetRelations();
@@ -282,7 +282,7 @@ class ThemeShowTest extends TestCase
         Theme::factory()
             ->for(
                 Anime::factory()
-                    ->has(Image::factory()->count($this->faker->randomDigitNotNull))
+                    ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
@@ -325,7 +325,7 @@ class ThemeShowTest extends TestCase
 
         Theme::factory()
             ->for(Anime::factory())
-            ->has(Entry::factory()->count($this->faker->randomDigitNotNull))
+            ->has(Entry::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
         $theme = Theme::with([
@@ -367,7 +367,7 @@ class ThemeShowTest extends TestCase
 
         Theme::factory()
             ->for(Anime::factory())
-            ->has(Entry::factory()->count($this->faker->randomDigitNotNull))
+            ->has(Entry::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
         $theme = Theme::with([
@@ -398,7 +398,7 @@ class ThemeShowTest extends TestCase
      */
     public function testEntriesByVersion()
     {
-        $versionFilter = $this->faker->randomDigitNotNull;
+        $versionFilter = $this->faker->randomDigitNotNull();
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
@@ -412,7 +412,7 @@ class ThemeShowTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
                         ['version' => $versionFilter],
                         ['version' => $excludedVersion],
@@ -461,8 +461,8 @@ class ThemeShowTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
@@ -507,8 +507,8 @@ class ThemeShowTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
@@ -553,8 +553,8 @@ class ThemeShowTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
@@ -600,10 +600,10 @@ class ThemeShowTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->has(
                         Video::factory()
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->randomDigitNotNull())
                             ->state(new Sequence(
                                 ['resolution' => $resolutionFilter],
                                 ['resolution' => $excludedResolution],
@@ -653,8 +653,8 @@ class ThemeShowTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
@@ -699,8 +699,8 @@ class ThemeShowTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
@@ -745,8 +745,8 @@ class ThemeShowTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 

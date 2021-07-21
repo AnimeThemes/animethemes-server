@@ -36,11 +36,13 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      * This gate determines who can access Horizon in non-local environments.
      *
      * @return void
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function gate()
     {
         Gate::define('viewHorizon', function (User $user) {
-            $horizonTeam = Team::find(Config::get('teams.horizon'));
+            $horizonTeam = Team::query()->find(Config::get('teams.horizon'));
 
             return $user->isCurrentTeam($horizonTeam);
         });

@@ -21,6 +21,8 @@ class DigitalOceanTransactionRepository extends EloquentRepository
      */
     public function all(): Collection
     {
-        return Transaction::where('service', Service::DIGITALOCEAN)->get();
+        return Transaction::query()
+            ->where('service', Service::DIGITALOCEAN)
+            ->get();
     }
 }

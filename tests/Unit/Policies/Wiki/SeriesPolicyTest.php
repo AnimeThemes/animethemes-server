@@ -57,15 +57,15 @@ class SeriesPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new SeriesPolicy();
 
@@ -83,15 +83,15 @@ class SeriesPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new SeriesPolicy();
 
@@ -109,15 +109,15 @@ class SeriesPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new SeriesPolicy();
 
@@ -135,15 +135,15 @@ class SeriesPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new SeriesPolicy();
 
@@ -161,15 +161,15 @@ class SeriesPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new SeriesPolicy();
 
@@ -187,15 +187,15 @@ class SeriesPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new SeriesPolicy();
 
@@ -213,18 +213,18 @@ class SeriesPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
-        $series = Series::factory()->create();
-        $anime = Anime::factory()->create();
+        $series = Series::factory()->createOne();
+        $anime = Anime::factory()->createOne();
         $policy = new SeriesPolicy();
 
         static::assertFalse($policy->attachAnime($viewer, $series, $anime));
@@ -241,15 +241,15 @@ class SeriesPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new SeriesPolicy();
 

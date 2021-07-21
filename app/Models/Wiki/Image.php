@@ -14,11 +14,23 @@ use App\Events\Wiki\Image\ImageUpdated;
 use App\Models\BaseModel;
 use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
+use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
+use Database\Factories\Wiki\ImageFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 
 /**
  * Class Image.
+ *
+ * @property int $image_id
+ * @property string $path
+ * @property int $size
+ * @property string $mimetype
+ * @property Enum|null $facet
+ * @property Collection $anime
+ * @property Collection $artists
+ * @method static ImageFactory factory(...$parameters)
  */
 class Image extends BaseModel implements Streamable
 {
@@ -36,7 +48,7 @@ class Image extends BaseModel implements Streamable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => ImageCreated::class,
@@ -63,7 +75,7 @@ class Image extends BaseModel implements Streamable
     /**
      * The attributes that should be cast to enum types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $enumCasts = [
         'facet' => ImageFacet::class,
@@ -72,7 +84,7 @@ class Image extends BaseModel implements Streamable
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'facet' => 'int',

@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class VideoEntryFactory.
+ *
+ * @method VideoEntry createOne($attributes = [])
+ * @method VideoEntry makeOne($attributes = [])
  */
 class VideoEntryFactory extends Factory
 {

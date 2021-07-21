@@ -34,7 +34,7 @@ class EntryTest extends TestCase
     {
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         static::assertIsString($entry->searchableAs());
     }
@@ -48,7 +48,7 @@ class EntryTest extends TestCase
     {
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         static::assertIsArray($entry->toSearchableArray());
     }
@@ -64,9 +64,9 @@ class EntryTest extends TestCase
 
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
-        static::assertEquals(1, $entry->audits->count());
+        static::assertEquals(1, $entry->audits()->count());
     }
 
     /**
@@ -78,7 +78,7 @@ class EntryTest extends TestCase
     {
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         static::assertIsString($entry->getName());
     }
@@ -92,7 +92,7 @@ class EntryTest extends TestCase
     {
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $entry->theme());
         static::assertInstanceOf(Theme::class, $entry->theme()->first());
@@ -105,12 +105,12 @@ class EntryTest extends TestCase
      */
     public function testVideos()
     {
-        $videoCount = $this->faker->randomDigitNotNull;
+        $videoCount = $this->faker->randomDigitNotNull();
 
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
             ->has(Video::factory()->count($videoCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $entry->videos());
         static::assertEquals($videoCount, $entry->videos()->count());
@@ -127,7 +127,7 @@ class EntryTest extends TestCase
     {
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToThrough::class, $entry->anime());
         static::assertInstanceOf(Anime::class, $entry->anime()->first());

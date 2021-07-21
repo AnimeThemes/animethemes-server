@@ -115,7 +115,11 @@ class ImagePolicy
      */
     public function attachArtist(User $user, Image $image, Artist $artist): bool
     {
-        if (ArtistImage::where($artist->getKeyName(), $artist->getKey())->where($image->getKeyName(), $image->getKey())->exists()) {
+        if (ArtistImage::query()
+            ->where($artist->getKeyName(), $artist->getKey())
+            ->where($image->getKeyName(), $image->getKey())
+            ->exists()
+        ) {
             return false;
         }
 
@@ -154,7 +158,11 @@ class ImagePolicy
      */
     public function attachAnime(User $user, Image $image, Anime $anime): bool
     {
-        if (AnimeImage::where($anime->getKeyName(), $anime->getKey())->where($image->getKeyName(), $image->getKey())->exists()) {
+        if (AnimeImage::query()
+            ->where($anime->getKeyName(), $anime->getKey())
+            ->where($image->getKeyName(), $image->getKey())
+            ->exists()
+        ) {
             return false;
         }
 

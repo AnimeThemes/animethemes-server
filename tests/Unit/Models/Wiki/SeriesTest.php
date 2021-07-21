@@ -28,7 +28,7 @@ class SeriesTest extends TestCase
      */
     public function testSearchableAs()
     {
-        $series = Series::factory()->create();
+        $series = Series::factory()->createOne();
 
         static::assertIsString($series->searchableAs());
     }
@@ -40,7 +40,7 @@ class SeriesTest extends TestCase
      */
     public function testToSearchableArray()
     {
-        $series = Series::factory()->create();
+        $series = Series::factory()->createOne();
 
         static::assertIsArray($series->toSearchableArray());
     }
@@ -54,9 +54,9 @@ class SeriesTest extends TestCase
     {
         Config::set('audit.console', true);
 
-        $series = Series::factory()->create();
+        $series = Series::factory()->createOne();
 
-        static::assertEquals(1, $series->audits->count());
+        static::assertEquals(1, $series->audits()->count());
     }
 
     /**
@@ -66,7 +66,7 @@ class SeriesTest extends TestCase
      */
     public function testNameable()
     {
-        $series = Series::factory()->create();
+        $series = Series::factory()->createOne();
 
         static::assertIsString($series->getName());
     }
@@ -78,11 +78,11 @@ class SeriesTest extends TestCase
      */
     public function testAnime()
     {
-        $animeCount = $this->faker->randomDigitNotNull;
+        $animeCount = $this->faker->randomDigitNotNull();
 
         $series = Series::factory()
             ->has(Anime::factory()->count($animeCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $series->anime());
         static::assertEquals($animeCount, $series->anime()->count());

@@ -6,7 +6,8 @@ namespace App\Http\Controllers\Billing;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TransparencyRequest;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 /**
  * Class TransparencyController.
@@ -17,9 +18,9 @@ class TransparencyController extends Controller
      * Show the transparency for the application.
      *
      * @param TransparencyRequest $request
-     * @return View
+     * @return View | Factory
      */
-    public function show(TransparencyRequest $request): View
+    public function show(TransparencyRequest $request): View | Factory
     {
         return view('billing.transparency', [
             'balances' => $request->getBalances(),

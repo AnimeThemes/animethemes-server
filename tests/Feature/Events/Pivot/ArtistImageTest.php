@@ -28,8 +28,8 @@ class ArtistImageTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
-        $image = Image::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         $artist->images()->attach($image);
 
@@ -45,8 +45,8 @@ class ArtistImageTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
-        $image = Image::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         $artist->images()->attach($image);
         $artist->images()->detach($image);

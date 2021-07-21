@@ -56,9 +56,9 @@ class ResourceSiteDomainRule implements Rule
     /**
      * Get the validation error message.
      *
-     * @return array|string|null
+     * @return string|array
      */
-    public function message(): array | string | null
+    public function message(): string | array
     {
         return __('validation.resource_link_site_mismatch');
     }

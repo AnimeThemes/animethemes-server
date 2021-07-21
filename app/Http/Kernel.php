@@ -6,7 +6,7 @@ namespace App\Http;
 
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EncryptCookies;
-use App\Http\Middleware\HasInvitation;
+use App\Http\Middleware\HasOpenInvitation;
 use App\Http\Middleware\IsVideoStreamingAllowed;
 use App\Http\Middleware\LogRequest;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
@@ -45,7 +45,7 @@ class Kernel extends HttpKernel
      *
      * These middleware are run during every request to your application.
      *
-     * @var string[]
+     * @var array
      */
     protected $middleware = [
         TrustHosts::class,
@@ -100,7 +100,7 @@ class Kernel extends HttpKernel
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequestsWithService::class,
         'verified' => EnsureEmailIsVerified::class,
-        'has_invitation' => HasInvitation::class,
+        'has_open_invitation' => HasOpenInvitation::class,
         'is_video_streaming_allowed' => IsVideoStreamingAllowed::class,
         'without_trashed' => WithoutTrashed::class,
     ];

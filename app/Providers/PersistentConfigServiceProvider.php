@@ -28,7 +28,7 @@ class PersistentConfigServiceProvider extends AbstractPersistentConfigServicePro
     /**
      * Defines configuration items, which values should be placed in persistent storage.
      *
-     * @return array persistent config items.
+     * @return array
      */
     protected function items(): array
     {

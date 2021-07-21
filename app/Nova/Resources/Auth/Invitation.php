@@ -39,9 +39,11 @@ class Invitation extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function group(): array | string | null
+    public static function group(): string
     {
         return __('nova.auth');
     }
@@ -49,9 +51,11 @@ class Invitation extends Resource
     /**
      * Get the displayable label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function label(): array | string | null
+    public static function label(): string
     {
         return __('nova.invitations');
     }
@@ -59,9 +63,11 @@ class Invitation extends Resource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function singularLabel(): array | string | null
+    public static function singularLabel(): string
     {
         return __('nova.invitation');
     }
@@ -69,11 +75,23 @@ class Invitation extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var string[]
+     * @var array
      */
     public static $search = [
         'email',
     ];
+
+    /**
+     * Determine if this resource uses Laravel Scout.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function usesScout(): bool
+    {
+        return false;
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -89,15 +107,15 @@ class Invitation extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            new Panel(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
 
             Text::make(__('nova.name'), 'name')
                 ->sortable()
-                ->rules('required', 'max:192', 'alpha_dash'),
+                ->rules(['required', 'max:192', 'alpha_dash']),
 
             Text::make(__('nova.email'), 'email')
                 ->sortable()
-                ->rules('required', 'email', 'max:192')
+                ->rules(['required', 'email', 'max:192'])
                 ->creationRules('unique:invitation,email')
                 ->updateRules('unique:invitation,email,{{resourceId}},invitation_id'),
 
@@ -105,10 +123,10 @@ class Invitation extends Resource
                 ->hideWhenCreating()
                 ->options(InvitationStatus::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
-                    return $enum ? $enum->description : null;
+                    return $enum?->description;
                 })
                 ->sortable()
-                ->rules('required', (new EnumValue(InvitationStatus::class, false))->__toString()),
+                ->rules(['required', (new EnumValue(InvitationStatus::class, false))->__toString()]),
 
             AuditableLog::make(),
         ];
@@ -131,17 +149,6 @@ class Invitation extends Resource
     }
 
     /**
-     * Get the lenses available for the resource.
-     *
-     * @param Request $request
-     * @return array
-     */
-    public function lenses(Request $request): array
-    {
-        return [];
-    }
-
-    /**
      * Get the actions available for the resource.
      *
      * @param Request $request
@@ -149,11 +156,14 @@ class Invitation extends Resource
      */
     public function actions(Request $request): array
     {
-        return [
-            (new ResendInvitationAction())
-                ->confirmText(__('nova.resend_invitation_confirm_message'))
-                ->confirmButtonText(__('nova.resend'))
-                ->cancelButtonText(__('nova.cancel')),
-        ];
+        return array_merge(
+            parent::actions($request),
+            [
+                (new ResendInvitationAction())
+                    ->confirmText(__('nova.resend_invitation_confirm_message'))
+                    ->confirmButtonText(__('nova.resend'))
+                    ->cancelButtonText(__('nova.cancel')),
+            ]
+        );
     }
 }

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Document;
 
 use App\Http\Controllers\Controller;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Laravel\Jetstream\Jetstream;
 use League\CommonMark\Block\Element\FencedCode;
 use League\CommonMark\Block\Element\IndentedCode;
@@ -27,11 +28,11 @@ abstract class DocumentController extends Controller
      * Display markdown document.
      *
      * @param string $docPath
-     * @return View
+     * @return View|Factory
      * @throws HttpException
      * @throws NotFoundHttpException
      */
-    protected function displayMarkdownDocument(string $docPath): View
+    protected function displayMarkdownDocument(string $docPath): View | Factory
     {
         $document = Jetstream::localizedMarkdownPath($docPath.'.md');
 

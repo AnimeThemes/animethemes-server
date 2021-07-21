@@ -29,7 +29,7 @@ class AnimeSeeder extends Seeder
 
         // Match Anime Entries
         // Format: "[{Anime Name} ({Year})](/r/AnimeThemes/wiki/{year}#{anchor link})"
-        preg_match_all('/\[(.*)\s\((.*)\)\]\(\/r\/AnimeThemes\/wiki\/.*\)/m', $animeWikiContents, $animeWikiEntries, PREG_SET_ORDER);
+        preg_match_all('/\[(.*)\s\((.*)\)]\(\/r\/AnimeThemes\/wiki\/.*\)/m', $animeWikiContents, $animeWikiEntries, PREG_SET_ORDER);
 
         foreach ($animeWikiEntries as $animeWikiEntry) {
             $animeName = html_entity_decode($animeWikiEntry[1]);
@@ -38,7 +38,7 @@ class AnimeSeeder extends Seeder
             // Generate default slug
             // Fallback: append year if first attempt exists
             $slug = Str::slug($animeName, '_');
-            if (Anime::where('slug', $slug)->exists()) {
+            if (Anime::query()->where('slug', $slug)->exists()) {
                 $slug = Str::slug($animeName.' '.$animeYear, '_');
             }
 
@@ -47,12 +47,15 @@ class AnimeSeeder extends Seeder
             $animeYears = WikiPages::getAnimeIndexYears($animeYear);
 
             // Create Anime if it doesn't already exist
-            if (Anime::where('name', $animeName)->whereIn('year', $animeYears)->doesntExist()) {
+            if (Anime::query()->where('name', $animeName)->whereIn('year', $animeYears)->doesntExist()) {
                 Log::info("Creating anime '{$animeName}'");
-                Anime::create([
+
+                Anime::factory()->createOne([
                     'name' => $animeName,
                     'slug' => $slug,
                     'year' => $animeYears[0],
+                    'season' => null,
+                    'synopsis' => null,
                 ]);
             }
         }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Models\Scout;
 
 use App\Http\Api\QueryParser;
+use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
 /**
@@ -50,7 +51,7 @@ abstract class ElasticQueryPayload
     /**
      * Build Elasticsearch query.
      *
-     * @return SearchRequestBuilder
+     * @return SearchRequestBuilder|BoolQueryBuilder
      */
-    abstract public function buildQuery(): SearchRequestBuilder;
+    abstract public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder;
 }

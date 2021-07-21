@@ -12,6 +12,9 @@ use Illuminate\Support\Str;
 
 /**
  * Class VideoFactory.
+ *
+ * @method Video createOne($attributes = [])
+ * @method Video makeOne($attributes = [])
  */
 class VideoFactory extends Factory
 {

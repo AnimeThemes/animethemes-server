@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Billing\Collection;
 
-use App\Http\Api\Filter\Base\CreatedAtFilter;
-use App\Http\Api\Filter\Base\DeletedAtFilter;
-use App\Http\Api\Filter\Base\TrashedFilter;
-use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Api\Filter\Billing\Balance\BalanceDateFilter;
 use App\Http\Api\Filter\Billing\Balance\BalanceFrequencyFilter;
 use App\Http\Api\Filter\Billing\Balance\BalanceServiceFilter;
@@ -25,7 +21,7 @@ class BalanceCollection extends BaseCollection
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'balances';
 
@@ -41,12 +37,24 @@ class BalanceCollection extends BaseCollection
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
         return $this->collection->map(function (Balance $balance) {
             return BalanceResource::make($balance, $this->parser);
         })->all();
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return string[]
+     */
+    public static function allowedIncludePaths(): array
+    {
+        return [];
     }
 
     /**
@@ -76,15 +84,14 @@ class BalanceCollection extends BaseCollection
      */
     public static function filters(): array
     {
-        return [
-            BalanceDateFilter::class,
-            BalanceServiceFilter::class,
-            BalanceFrequencyFilter::class,
-            BalanceUsageFilter::class,
-            CreatedAtFilter::class,
-            UpdatedAtFilter::class,
-            DeletedAtFilter::class,
-            TrashedFilter::class,
-        ];
+        return array_merge(
+            parent::filters(),
+            [
+                BalanceDateFilter::class,
+                BalanceServiceFilter::class,
+                BalanceFrequencyFilter::class,
+                BalanceUsageFilter::class,
+            ]
+        );
     }
 }

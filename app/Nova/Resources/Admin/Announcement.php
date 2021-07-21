@@ -33,9 +33,11 @@ class Announcement extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function group(): array | string | null
+    public static function group(): string
     {
         return __('nova.admin');
     }
@@ -43,9 +45,11 @@ class Announcement extends Resource
     /**
      * Get the displayable label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function label(): array | string | null
+    public static function label(): string
     {
         return __('nova.announcements');
     }
@@ -53,9 +57,11 @@ class Announcement extends Resource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function singularLabel(): array | string | null
+    public static function singularLabel(): string
     {
         return __('nova.announcement');
     }
@@ -63,7 +69,7 @@ class Announcement extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var string[]
+     * @var array
      */
     public static $search = [
         'announcement_id',
@@ -75,6 +81,18 @@ class Announcement extends Resource
      * @var bool
      */
     public static $globallySearchable = false;
+
+    /**
+     * Determine if this resource uses Laravel Scout.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function usesScout(): bool
+    {
+        return false;
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -90,12 +108,12 @@ class Announcement extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            new Panel(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
 
             Code::make(__('nova.content'), 'content')
                 ->showOnIndex()
                 ->sortable()
-                ->rules('required', 'max:65535')
+                ->rules(['required', 'max:65535'])
                 ->options(['theme' => 'base16-light']),
 
             AuditableLog::make(),

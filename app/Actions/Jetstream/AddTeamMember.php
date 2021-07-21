@@ -9,6 +9,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Validator as IlluminateValidator;
 use Laravel\Jetstream\Contracts\AddsTeamMembers;
 use Laravel\Jetstream\Events\AddingTeamMember;
 use Laravel\Jetstream\Events\TeamMemberAdded;
@@ -42,7 +43,8 @@ class AddTeamMember implements AddsTeamMembers
         AddingTeamMember::dispatch($team, $newTeamMember);
 
         $team->users()->attach(
-            $newTeamMember, ['role' => $role]
+            $newTeamMember,
+            ['role' => $role]
         );
 
         TeamMemberAdded::dispatch($team, $newTeamMember);
@@ -93,7 +95,7 @@ class AddTeamMember implements AddsTeamMembers
      */
     protected function ensureUserIsNotAlreadyOnTeam(mixed $team, string $email): Closure
     {
-        return function ($validator) use ($team, $email) {
+        return function (IlluminateValidator $validator) use ($team, $email) {
             $validator->errors()->addIf(
                 $team->hasUserWithEmail($email),
                 'email',

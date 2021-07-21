@@ -26,8 +26,8 @@ class AnimeImageTest extends TestCase
      */
     public function testAnimeImageCreatedSendsDiscordNotification()
     {
-        $anime = Anime::factory()->create();
-        $image = Image::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -44,8 +44,9 @@ class AnimeImageTest extends TestCase
      */
     public function testAnimeImageDeletedSendsDiscordNotification()
     {
-        $anime = Anime::factory()->create();
-        $image = Image::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $image = Image::factory()->createOne();
+
         $anime->images()->attach($image);
 
         Config::set('flags.allow_discord_notifications', true);

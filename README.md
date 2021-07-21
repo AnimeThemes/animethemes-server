@@ -11,6 +11,8 @@
 
 This is the repository for the server application that is responsible for AnimeThemes.moe resource management, API, and other services related to serving the AnimeThemes database.
 
+This project is powered by [**Laravel**](https://laravel.com/), a PHP framework for web artisans.
+
 ## Installation
 
 Please review the [**Installation Guide**](https://github.com/AnimeThemes/animethemes-server/wiki/Installation) in the wiki for detailed instructions.

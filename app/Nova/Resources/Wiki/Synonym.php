@@ -41,9 +41,11 @@ class Synonym extends Resource
     /**
      * Get the displayable label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function label(): array | string | null
+    public static function label(): string
     {
         return __('nova.synonyms');
     }
@@ -51,9 +53,11 @@ class Synonym extends Resource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function singularLabel(): array | string | null
+    public static function singularLabel(): string
     {
         return __('nova.synonym');
     }
@@ -61,7 +65,7 @@ class Synonym extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var string[]
+     * @var array
      */
     public static $search = [
         'text',
@@ -91,11 +95,11 @@ class Synonym extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            new Panel(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
 
             Text::make(__('nova.text'), 'text')
                 ->sortable()
-                ->rules('required', 'max:192')
+                ->rules(['required', 'max:192'])
                 ->help(__('nova.synonym_text_help')),
 
             AuditableLog::make(),

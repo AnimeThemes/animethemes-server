@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class EntryFactory.
+ *
+ * @method Entry createOne($attributes = [])
+ * @method Entry makeOne($attributes = [])
  */
 class EntryFactory extends Factory
 {

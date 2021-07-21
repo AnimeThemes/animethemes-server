@@ -6,11 +6,18 @@ namespace App\Pivots;
 
 use App\Events\Pivot\AnimeImage\AnimeImageCreated;
 use App\Events\Pivot\AnimeImage\AnimeImageDeleted;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Image;
+use Database\Factories\Pivots\AnimeImageFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class AnimeImage.
+ *
+ * @property Anime $anime
+ * @property Image $image
+ * @method static AnimeImageFactory factory(...$parameters)
  */
 class AnimeImage extends BasePivot
 {
@@ -28,7 +35,7 @@ class AnimeImage extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => AnimeImageCreated::class,

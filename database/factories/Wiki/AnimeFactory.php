@@ -19,6 +19,9 @@ use Illuminate\Support\Str;
 
 /**
  * Class AnimeFactory.
+ *
+ * @method Anime createOne($attributes = [])
+ * @method Anime makeOne($attributes = [])
  */
 class AnimeFactory extends Factory
 {

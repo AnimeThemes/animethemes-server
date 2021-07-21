@@ -27,7 +27,7 @@ class YearIndexTest extends TestCase
     public function testDefault()
     {
         $anime = Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $response = $this->get(route('api.year.index'));

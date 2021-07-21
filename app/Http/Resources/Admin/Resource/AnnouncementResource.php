@@ -12,13 +12,15 @@ use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class AnnouncementResource.
+ *
+ * @mixin Announcement
  */
 class AnnouncementResource extends BaseResource
 {
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'announcement';
 
@@ -39,6 +41,8 @@ class AnnouncementResource extends BaseResource
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
@@ -49,5 +53,15 @@ class AnnouncementResource extends BaseResource
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
         ];
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return string[]
+     */
+    public static function allowedIncludePaths(): array
+    {
+        return [];
     }
 }

@@ -38,7 +38,7 @@ class SynonymIndexTest extends TestCase
     {
         Synonym::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $synonyms = Synonym::all();
@@ -66,7 +66,7 @@ class SynonymIndexTest extends TestCase
     {
         Synonym::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $response = $this->get(route('api.synonym.index'));
@@ -94,7 +94,7 @@ class SynonymIndexTest extends TestCase
 
         Synonym::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $synonyms = Synonym::with($includedPaths->all())->get();
@@ -138,7 +138,7 @@ class SynonymIndexTest extends TestCase
 
         Synonym::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $synonyms = Synonym::all();
@@ -183,7 +183,7 @@ class SynonymIndexTest extends TestCase
 
         Synonym::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $builder = Synonym::query();
@@ -225,21 +225,21 @@ class SynonymIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
+        Carbon::withTestNow($createdFilter, function () {
             Synonym::factory()
                 ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
+        Carbon::withTestNow($excludedDate, function () {
             Synonym::factory()
                 ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        $synonym = Synonym::where('created_at', $createdFilter)->get();
+        $synonym = Synonym::query()->where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.synonym.index', $parameters));
 
@@ -274,21 +274,21 @@ class SynonymIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
+        Carbon::withTestNow($updatedFilter, function () {
             Synonym::factory()
                 ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
+        Carbon::withTestNow($excludedDate, function () {
             Synonym::factory()
                 ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        $synonym = Synonym::where('updated_at', $updatedFilter)->get();
+        $synonym = Synonym::query()->where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.synonym.index', $parameters));
 
@@ -322,12 +322,12 @@ class SynonymIndexTest extends TestCase
 
         Synonym::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteSynonym = Synonym::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteSynonym->each(function (Synonym $synonym) {
@@ -368,12 +368,12 @@ class SynonymIndexTest extends TestCase
 
         Synonym::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteSynonym = Synonym::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteSynonym->each(function (Synonym $synonym) {
@@ -414,12 +414,12 @@ class SynonymIndexTest extends TestCase
 
         Synonym::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteSynonym = Synonym::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteSynonym->each(function (Synonym $synonym) {
@@ -462,17 +462,17 @@ class SynonymIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
+        Carbon::withTestNow($deletedFilter, function () {
             Synonym::factory()
                 ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
+        Carbon::withTestNow($excludedDate, function () {
             Synonym::factory()
                 ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
@@ -510,7 +510,7 @@ class SynonymIndexTest extends TestCase
 
         Synonym::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $synonyms = Synonym::with([
@@ -558,7 +558,7 @@ class SynonymIndexTest extends TestCase
                         'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                     ])
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $synonyms = Synonym::with([

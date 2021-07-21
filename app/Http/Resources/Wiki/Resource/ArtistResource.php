@@ -16,13 +16,15 @@ use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class ArtistResource.
+ *
+ * @mixin Artist
  */
 class ArtistResource extends BaseResource
 {
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'artist';
 
@@ -43,6 +45,8 @@ class ArtistResource extends BaseResource
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
@@ -51,11 +55,11 @@ class ArtistResource extends BaseResource
             'name' => $this->when($this->isAllowedField('name'), $this->name),
             'slug' => $this->when($this->isAllowedField('slug'), $this->slug),
             'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('artist_song', function () {
-                return strval($this->pivot->as);
+                return $this->pivot->getAttribute('as');
             }, $this->whenPivotLoaded('artist_member', function () {
-                return strval($this->pivot->as);
+                return $this->pivot->getAttribute('as');
             }, $this->whenPivotLoaded('artist_resource', function () {
-                return strval($this->pivot->as);
+                return $this->pivot->getAttribute('as');
             })))),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),

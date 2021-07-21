@@ -15,6 +15,8 @@ class EventServiceProvider extends ServiceProvider
      * Determine if events and listeners should be automatically discovered.
      *
      * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function shouldDiscoverEvents(): bool
     {

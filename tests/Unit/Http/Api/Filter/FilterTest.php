@@ -31,7 +31,39 @@ class FilterTest extends TestCase
 
         $filter = new class($parser, $filterField) extends Filter
         {
-            // We don't need to do any customization
+            /**
+             * Convert filter values to integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function convertFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Get only filter values that are integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function getValidFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Determine if all valid filter values have been specified.
+             * By default, this is false as we assume an unrestricted amount of valid values.
+             *
+             * @param array $filterValues
+             * @return bool
+             */
+            protected function isAllFilterValues(array $filterValues): bool
+            {
+                return false;
+            }
         };
 
         static::assertEquals($filterField, $filter->getKey());
@@ -46,7 +78,7 @@ class FilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $filterValues = $this->faker->words($this->faker->randomDigitNotNull);
+        $filterValues = $this->faker->words($this->faker->randomDigitNotNull());
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
@@ -58,7 +90,39 @@ class FilterTest extends TestCase
 
         $filter = new class($parser, $filterField) extends Filter
         {
-            // We don't need to do any customization
+            /**
+             * Convert filter values to integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function convertFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Get only filter values that are integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function getValidFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Determine if all valid filter values have been specified.
+             * By default, this is false as we assume an unrestricted amount of valid values.
+             *
+             * @param array $filterValues
+             * @return bool
+             */
+            protected function isAllFilterValues(array $filterValues): bool
+            {
+                return false;
+            }
         };
 
         $conditions = collect($filter->getConditions());
@@ -85,7 +149,39 @@ class FilterTest extends TestCase
 
         $filter = new class($parser, $filterField) extends Filter
         {
-            // We don't need to do any customization
+            /**
+             * Convert filter values to integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function convertFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Get only filter values that are integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function getValidFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Determine if all valid filter values have been specified.
+             * By default, this is false as we assume an unrestricted amount of valid values.
+             *
+             * @param array $filterValues
+             * @return bool
+             */
+            protected function isAllFilterValues(array $filterValues): bool
+            {
+                return false;
+            }
         };
 
         static::assertTrue($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
@@ -113,10 +209,44 @@ class FilterTest extends TestCase
 
         $filter = new class($parser, $filterField) extends Filter
         {
-            // We don't need to do any customization
+            /**
+             * Convert filter values to integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function convertFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Get only filter values that are integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function getValidFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Determine if all valid filter values have been specified.
+             * By default, this is false as we assume an unrestricted amount of valid values.
+             *
+             * @param array $filterValues
+             * @return bool
+             */
+            protected function isAllFilterValues(array $filterValues): bool
+            {
+                return false;
+            }
         };
 
-        static::assertFalse($filter->scope($this->faker->word())->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        $condition = $parser->getConditions($filterField)[0];
+
+        static::assertFalse($filter->scope($this->faker->word())->shouldApplyFilter($condition));
     }
 
     /**
@@ -141,7 +271,39 @@ class FilterTest extends TestCase
 
         $filter = new class($parser, $filterField) extends Filter
         {
-            // We don't need to do any customization
+            /**
+             * Convert filter values to integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function convertFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Get only filter values that are integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function getValidFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Determine if all valid filter values have been specified.
+             * By default, this is false as we assume an unrestricted amount of valid values.
+             *
+             * @param array $filterValues
+             * @return bool
+             */
+            protected function isAllFilterValues(array $filterValues): bool
+            {
+                return false;
+            }
         };
 
         static::assertTrue($filter->scope($scope)->shouldApplyFilter($parser->getConditions($filterField)[0]));
@@ -162,7 +324,39 @@ class FilterTest extends TestCase
 
         $filter = new class($parser, $filterField) extends Filter
         {
-            // We don't need to do any customization
+            /**
+             * Convert filter values to integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function convertFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Get only filter values that are integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function getValidFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Determine if all valid filter values have been specified.
+             * By default, this is false as we assume an unrestricted amount of valid values.
+             *
+             * @param array $filterValues
+             * @return bool
+             */
+            protected function isAllFilterValues(array $filterValues): bool
+            {
+                return false;
+            }
         };
 
         static::assertEmpty($filter->getScope());
@@ -184,7 +378,39 @@ class FilterTest extends TestCase
 
         $filter = new class($parser, $filterField) extends Filter
         {
-            // We don't need to do any customization
+            /**
+             * Convert filter values to integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function convertFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Get only filter values that are integers.
+             *
+             * @param array $filterValues
+             * @return array
+             */
+            protected function getValidFilterValues(array $filterValues): array
+            {
+                return $filterValues;
+            }
+
+            /**
+             * Determine if all valid filter values have been specified.
+             * By default, this is false as we assume an unrestricted amount of valid values.
+             *
+             * @param array $filterValues
+             * @return bool
+             */
+            protected function isAllFilterValues(array $filterValues): bool
+            {
+                return false;
+            }
         };
 
         $filter->scope($scope);

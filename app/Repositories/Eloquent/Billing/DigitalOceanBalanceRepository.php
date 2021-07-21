@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Eloquent\Billing;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
 use App\Repositories\Eloquent\EloquentRepository;
@@ -24,9 +25,10 @@ class DigitalOceanBalanceRepository extends EloquentRepository
     {
         $now = Carbon::now();
 
-        return Balance::where('service', Service::DIGITALOCEAN)
-            ->whereMonth('date', strval($now->month))
-            ->whereYear('date', strval($now->year))
+        return Balance::query()
+            ->where('service', Service::DIGITALOCEAN)
+            ->whereMonth('date', ComparisonOperator::EQ, $now)
+            ->whereYear('date', ComparisonOperator::EQ, $now)
             ->get();
     }
 }

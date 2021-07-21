@@ -11,6 +11,9 @@ use Illuminate\Support\Str;
 
 /**
  * Class ImageFactory.
+ *
+ * @method Image createOne($attributes = [])
+ * @method Image makeOne($attributes = [])
  */
 class ImageFactory extends Factory
 {

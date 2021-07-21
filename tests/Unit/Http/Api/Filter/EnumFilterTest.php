@@ -26,7 +26,7 @@ class EnumFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $enumValues = $this->faker->words($this->faker->randomDigitNotNull);
+        $enumValues = $this->faker->words($this->faker->randomDigitNotNull());
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
@@ -67,9 +67,7 @@ class EnumFilterTest extends TestCase
             public const TWO = 2;
         };
 
-        $enumClass = get_class($enum);
-
-        $enumValues = $enumClass::getValues();
+        $enumValues = $enum::getValues();
 
         $parameters = [
             QueryParser::PARAM_FILTER => [

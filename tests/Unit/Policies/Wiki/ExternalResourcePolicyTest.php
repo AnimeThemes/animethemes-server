@@ -55,15 +55,15 @@ class ExternalResourcePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ExternalResourcePolicy();
 
@@ -81,15 +81,15 @@ class ExternalResourcePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ExternalResourcePolicy();
 
@@ -107,15 +107,15 @@ class ExternalResourcePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ExternalResourcePolicy();
 
@@ -133,15 +133,15 @@ class ExternalResourcePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ExternalResourcePolicy();
 
@@ -159,15 +159,15 @@ class ExternalResourcePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ExternalResourcePolicy();
 
@@ -185,15 +185,15 @@ class ExternalResourcePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ExternalResourcePolicy();
 
@@ -211,15 +211,15 @@ class ExternalResourcePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ExternalResourcePolicy();
 
@@ -237,15 +237,15 @@ class ExternalResourcePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ExternalResourcePolicy();
 
@@ -263,15 +263,15 @@ class ExternalResourcePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ExternalResourcePolicy();
 
@@ -289,15 +289,15 @@ class ExternalResourcePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ExternalResourcePolicy();
 
@@ -315,15 +315,15 @@ class ExternalResourcePolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ExternalResourcePolicy();
 

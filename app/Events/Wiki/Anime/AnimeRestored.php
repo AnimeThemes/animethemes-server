@@ -11,6 +11,7 @@ use App\Models\Wiki\Entry;
 use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -58,18 +59,18 @@ class AnimeRestored extends AnimeEvent implements CascadesRestoresEvent, Discord
     {
         $anime = $this->getAnime();
 
-        $anime->synonyms()->withTrashed()->get()->each(function (Synonym $synonym) {
+        $anime->synonyms()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Synonym $synonym) {
             Synonym::withoutEvents(function () use ($synonym) {
                 $synonym->restore();
                 $synonym->searchable();
             });
         });
 
-        $anime->themes()->withTrashed()->get()->each(function (Theme $theme) {
+        $anime->themes()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Theme $theme) {
             Theme::withoutEvents(function () use ($theme) {
                 $theme->restore();
                 $theme->searchable();
-                $theme->entries()->withTrashed()->get()->each(function (Entry $entry) {
+                $theme->entries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Entry $entry) {
                     Entry::withoutEvents(function () use ($entry) {
                         $entry->restore();
                         $entry->searchable();

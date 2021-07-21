@@ -36,7 +36,7 @@ class AnimeTest extends TestCase
      */
     public function testCastsSeasonToEnum()
     {
-        $anime = Anime::factory()->create();
+        $anime = Anime::factory()->createOne();
 
         $season = $anime->season;
 
@@ -50,7 +50,7 @@ class AnimeTest extends TestCase
      */
     public function testSearchableAs()
     {
-        $anime = Anime::factory()->create();
+        $anime = Anime::factory()->createOne();
 
         static::assertIsString($anime->searchableAs());
     }
@@ -62,7 +62,7 @@ class AnimeTest extends TestCase
      */
     public function testToSearchableArray()
     {
-        $anime = Anime::factory()->create();
+        $anime = Anime::factory()->createOne();
 
         static::assertIsArray($anime->toSearchableArray());
     }
@@ -76,9 +76,9 @@ class AnimeTest extends TestCase
     {
         Config::set('audit.console', true);
 
-        $anime = Anime::factory()->create();
+        $anime = Anime::factory()->createOne();
 
-        static::assertEquals(1, $anime->audits->count());
+        static::assertEquals(1, $anime->audits()->count());
     }
 
     /**
@@ -88,7 +88,7 @@ class AnimeTest extends TestCase
      */
     public function testNameable()
     {
-        $anime = Anime::factory()->create();
+        $anime = Anime::factory()->createOne();
 
         static::assertIsString($anime->getName());
     }
@@ -100,11 +100,11 @@ class AnimeTest extends TestCase
      */
     public function testSynonyms()
     {
-        $synonymCount = $this->faker->randomDigitNotNull;
+        $synonymCount = $this->faker->randomDigitNotNull();
 
         $anime = Anime::factory()
             ->has(Synonym::factory()->count($synonymCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(HasMany::class, $anime->synonyms());
         static::assertEquals($synonymCount, $anime->synonyms()->count());
@@ -118,11 +118,11 @@ class AnimeTest extends TestCase
      */
     public function testSeries()
     {
-        $seriesCount = $this->faker->randomDigitNotNull;
+        $seriesCount = $this->faker->randomDigitNotNull();
 
         $anime = Anime::factory()
             ->has(Series::factory()->count($seriesCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $anime->series());
         static::assertEquals($seriesCount, $anime->series()->count());
@@ -137,11 +137,11 @@ class AnimeTest extends TestCase
      */
     public function testThemes()
     {
-        $themeCount = $this->faker->randomDigitNotNull;
+        $themeCount = $this->faker->randomDigitNotNull();
 
         $anime = Anime::factory()
             ->has(Theme::factory()->count($themeCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(HasMany::class, $anime->themes());
         static::assertEquals($themeCount, $anime->themes()->count());
@@ -155,11 +155,11 @@ class AnimeTest extends TestCase
      */
     public function testExternalResources()
     {
-        $resourceCount = $this->faker->randomDigitNotNull;
+        $resourceCount = $this->faker->randomDigitNotNull();
 
         $anime = Anime::factory()
             ->has(ExternalResource::factory()->count($resourceCount), 'resources')
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $anime->resources());
         static::assertEquals($resourceCount, $anime->resources()->count());
@@ -174,11 +174,11 @@ class AnimeTest extends TestCase
      */
     public function testImages()
     {
-        $imageCount = $this->faker->randomDigitNotNull;
+        $imageCount = $this->faker->randomDigitNotNull();
 
         $anime = Anime::factory()
             ->has(Image::factory()->count($imageCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $anime->images());
         static::assertEquals($imageCount, $anime->images()->count());

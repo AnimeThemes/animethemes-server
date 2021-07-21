@@ -11,17 +11,30 @@ use App\Events\Billing\Transaction\TransactionDeleted;
 use App\Events\Billing\Transaction\TransactionRestored;
 use App\Events\Billing\Transaction\TransactionUpdated;
 use App\Models\BaseModel;
+use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
+use Carbon\Carbon;
+use Database\Factories\Billing\TransactionFactory;
 use Illuminate\Support\Str;
 
 /**
  * Class Transaction.
+ *
+ * @property int $transaction_id
+ * @property Carbon $date
+ * @property Enum $service
+ * @property string $description
+ * @property float $amount
+ * @property int|null $external_id
+ * @method static TransactionFactory factory(...$parameters)
  */
 class Transaction extends BaseModel
 {
     use CastsEnums;
 
     /**
+     * The attributes that are mass assignable.
+     *
      * @var string[]
      */
     protected $fillable = ['date', 'service', 'description', 'amount', 'external_id'];
@@ -31,7 +44,7 @@ class Transaction extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => TransactionCreated::class,
@@ -57,7 +70,7 @@ class Transaction extends BaseModel
     /**
      * The attributes that should be cast to enum types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $enumCasts = [
         'service' => Service::class,
@@ -66,12 +79,13 @@ class Transaction extends BaseModel
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'service' => 'int',
-        'external_id' => 'int',
         'date' => 'date:Y-m-d',
+        'amount' => 'decimal:2',
+        'external_id' => 'int',
     ];
 
     /**

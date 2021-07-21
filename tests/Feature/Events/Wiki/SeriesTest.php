@@ -29,7 +29,7 @@ class SeriesTest extends TestCase
     {
         Event::fake();
 
-        Series::factory()->create();
+        Series::factory()->createOne();
 
         Event::assertDispatched(SeriesCreated::class);
     }
@@ -43,7 +43,7 @@ class SeriesTest extends TestCase
     {
         Event::fake();
 
-        $series = Series::factory()->create();
+        $series = Series::factory()->createOne();
 
         $series->delete();
 
@@ -59,7 +59,7 @@ class SeriesTest extends TestCase
     {
         Event::fake();
 
-        $series = Series::factory()->create();
+        $series = Series::factory()->createOne();
 
         $series->restore();
 
@@ -75,8 +75,8 @@ class SeriesTest extends TestCase
     {
         Event::fake();
 
-        $series = Series::factory()->create();
-        $changes = Series::factory()->make();
+        $series = Series::factory()->createOne();
+        $changes = Series::factory()->makeOne();
 
         $series->fill($changes->getAttributes());
         $series->save();

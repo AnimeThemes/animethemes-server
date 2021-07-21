@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class ArtistImageFactory.
+ *
+ * @method ArtistImage createOne($attributes = [])
+ * @method ArtistImage makeOne($attributes = [])
  */
 class ArtistImageFactory extends Factory
 {

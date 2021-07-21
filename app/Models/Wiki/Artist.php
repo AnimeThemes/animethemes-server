@@ -13,13 +13,27 @@ use App\Pivots\ArtistImage;
 use App\Pivots\ArtistMember;
 use App\Pivots\ArtistResource;
 use App\Pivots\ArtistSong;
+use App\Pivots\BasePivot;
+use Database\Factories\Wiki\ArtistFactory;
 use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Laravel\Scout\Searchable;
 
 /**
  * Class Artist.
+ *
+ * @property int $artist_id
+ * @property string $slug
+ * @property string $name
+ * @property Collection $songs
+ * @property Collection $resources
+ * @property Collection $members
+ * @property Collection $groups
+ * @property Collection $images
+ * @property BasePivot $pivot
+ * @method static ArtistFactory factory(...$parameters)
  */
 class Artist extends BaseModel
 {
@@ -38,7 +52,7 @@ class Artist extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => ArtistCreated::class,
@@ -89,6 +103,8 @@ class Artist extends BaseModel
      * Get the route key for the model.
      *
      * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getRouteKeyName(): string
     {

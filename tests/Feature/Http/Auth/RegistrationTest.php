@@ -9,6 +9,7 @@ use App\Models\Auth\Invitation;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 /**
@@ -20,35 +21,7 @@ class RegistrationTest extends TestCase
     use WithFaker;
 
     /**
-     * If the show registration form request does not have an invitation,
-     * the application shall redirect the user to the welcome screen.
-     *
-     * @return void
-     */
-    public function testHasNoInvitationForRegistrationForm()
-    {
-        $response = $this->get(route('register'));
-
-        $response->assertRedirect(route('welcome'));
-    }
-
-    /**
-     * If the show registration form request has a token that does not belong to an invitation,
-     * the application shall redirect the user to the welcome screen.
-     *
-     * @return void
-     */
-    public function testHasInvalidInvitationTokenForRegistrationForm()
-    {
-        $invitation = Invitation::factory()->make();
-
-        $response = $this->get(route('register', ['token' => $invitation->token]));
-
-        $response->assertRedirect(route('welcome'));
-    }
-
-    /**
-     * If the show registration form request uses a closed invitation token,
+     * If the show registration form request uses a closed invitation,
      * the application shall redirect the user to the welcome screen.
      *
      * @return void
@@ -59,13 +32,19 @@ class RegistrationTest extends TestCase
             'status' => InvitationStatus::CLOSED,
         ]);
 
-        $response = $this->get(route('register', ['token' => $invitation->token]));
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            ['invitation' => $invitation]
+        );
+
+        $response = $this->get($url);
 
         $response->assertRedirect(route('welcome'));
     }
 
     /**
-     * If the show registration form request uses a soft deleted invitation token,
+     * If the show registration form request uses a soft deleted invitation,
      * the application shall redirect the user to the welcome screen.
      *
      * @return void
@@ -76,13 +55,19 @@ class RegistrationTest extends TestCase
 
         $invitation->delete();
 
-        $response = $this->get(route('register', ['token' => $invitation->token]));
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            ['invitation' => $invitation]
+        );
+
+        $response = $this->get($url);
 
         $response->assertRedirect(route('welcome'));
     }
 
     /**
-     * If the show registration form request uses an open invitation token,
+     * If the show registration form request uses an open invitation,
      * the application shall display the registration form.
      *
      * @return void
@@ -91,41 +76,19 @@ class RegistrationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        $response = $this->get(route('register', ['token' => $invitation->token]));
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            ['invitation' => $invitation]
+        );
+
+        $response = $this->get($url);
 
         $response->assertViewIs('auth.register');
     }
 
     /**
-     * If the registration request does not have an invitation,
-     * the application shall redirect to the user to the welcome screen.
-     *
-     * @return void
-     */
-    public function testHasNoInvitationForRegistration()
-    {
-        $response = $this->post(route('register'));
-
-        $response->assertRedirect(route('welcome'));
-    }
-
-    /**
-     * If the registration request has a token that does not belong to an invitation,
-     * the application shall redirect the user to the welcome screen.
-     *
-     * @return void
-     */
-    public function testHasInvalidInvitationTokenForRegistration()
-    {
-        $invitation = Invitation::factory()->make();
-
-        $response = $this->post(route('register'), ['token' => $invitation->token]);
-
-        $response->assertRedirect(route('welcome'));
-    }
-
-    /**
-     * If the registration request uses a closed invitation token,
+     * If the registration request uses a closed invitation,
      * the application shall redirect the user to the welcome screen.
      *
      * @return void
@@ -136,13 +99,19 @@ class RegistrationTest extends TestCase
             'status' => InvitationStatus::CLOSED,
         ]);
 
-        $response = $this->post(route('register'), ['token' => $invitation->token]);
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            ['invitation' => $invitation]
+        );
+
+        $response = $this->post($url);
 
         $response->assertRedirect(route('welcome'));
     }
 
     /**
-     * If the registration request uses an open invitation token,
+     * If the registration request uses an open invitation,
      * the application shall process the validation.
      *
      * @return void
@@ -151,7 +120,13 @@ class RegistrationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        $response = $this->post(route('register'), ['token' => $invitation->token]);
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            ['invitation' => $invitation]
+        );
+
+        $response = $this->post($url);
 
         $response->assertSessionHasErrors('password');
     }
@@ -165,23 +140,15 @@ class RegistrationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        $response = $this->post(route('register'), ['token' => $invitation->token]);
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            ['invitation' => $invitation]
+        );
+
+        $response = $this->post($url);
 
         $response->assertSessionHasErrors(['password' => 'The password field is required.']);
-    }
-
-    /**
-     * The password field shall be a string for the registration request.
-     *
-     * @return void
-     */
-    public function testPasswordStringValidationForRegistration()
-    {
-        $invitation = Invitation::factory()->create();
-
-        $response = $this->post(route('register'), ['token' => $invitation->token, 'password' => true]);
-
-        $response->assertSessionHasErrors(['password' => 'The password must be a string.']);
     }
 
     /**
@@ -193,7 +160,13 @@ class RegistrationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        $response = $this->post(route('register'), ['token' => $invitation->token, 'password' => $this->faker->password(6, 7)]);
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            ['invitation' => $invitation, 'password' => $this->faker->password(6, 7)]
+        );
+
+        $response = $this->post($url);
 
         $response->assertSessionHasErrors(['password' => 'The password must be at least 8 characters.']);
     }
@@ -207,11 +180,18 @@ class RegistrationTest extends TestCase
     {
         $invitation = Invitation::factory()->create();
 
-        $response = $this->post(route('register'), ['token' => $invitation->token,
-            'password' => $this->faker->password(6, 7),
-            'password_confirmation' => $this->faker->password(8, 9),
-            'terms' => 'terms',
-        ]);
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            [
+                'invitation' => $invitation,
+                'password' => $this->faker->password(6, 7),
+                'password_confirmation' => $this->faker->password(8, 9),
+                'terms' => 'terms'
+            ]
+        );
+
+        $response = $this->post($url);
 
         $response->assertSessionHasErrors(['password' => 'The password confirmation does not match.']);
     }
@@ -226,11 +206,19 @@ class RegistrationTest extends TestCase
         $invitation = Invitation::factory()->create();
 
         $weakPassword = $this->faker->password(8, 8);
-        $response = $this->post(route('register'), ['token' => $invitation->token,
-            'password' => $weakPassword,
-            'password_confirmation' => $weakPassword,
-            'terms' => 'terms',
-        ]);
+
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            [
+                'invitation' => $invitation,
+                'password' => $weakPassword,
+                'password_confirmation' => $weakPassword,
+                'terms' => 'terms'
+            ]
+        );
+
+        $response = $this->post($url);
 
         $response->assertSessionHasErrors(['password' => 'Your password is not secure enough.']);
     }
@@ -245,10 +233,18 @@ class RegistrationTest extends TestCase
         $invitation = Invitation::factory()->create();
 
         $strongPassword = $this->faker->password(64, 128);
-        $response = $this->post(route('register'), ['token' => $invitation->token,
-            'password' => $strongPassword,
-            'password_confirmation' => $strongPassword,
-        ]);
+
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            [
+                'invitation' => $invitation,
+                'password' => $strongPassword,
+                'password_confirmation' => $strongPassword,
+            ]
+        );
+
+        $response = $this->post($url);
 
         $response->assertSessionHasErrors(['terms' => 'The terms field is required.']);
     }
@@ -263,11 +259,19 @@ class RegistrationTest extends TestCase
         $invitation = Invitation::factory()->create();
 
         $strongPassword = $this->faker->password(64, 128);
-        $response = $this->post(route('register'), ['token' => $invitation->token,
-            'password' => $strongPassword,
-            'password_confirmation' => $strongPassword,
-            'terms' => 'terms',
-        ]);
+
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            [
+                'invitation' => $invitation,
+                'password' => $strongPassword,
+                'password_confirmation' => $strongPassword,
+                'terms' => 'terms'
+            ]
+        );
+
+        $response = $this->post($url);
 
         $response->assertRedirect(route('dashboard'));
     }
@@ -279,16 +283,24 @@ class RegistrationTest extends TestCase
      */
     public function testUserCreatedForValidRegistration()
     {
-        $invitation = Invitation::factory()->create();
+        $invitation = Invitation::factory()->createOne();
 
         $strongPassword = $this->faker->password(64, 128);
-        $this->post(route('register'), ['token' => $invitation->token,
-            'password' => $strongPassword,
-            'password_confirmation' => $strongPassword,
-            'terms' => 'terms',
-        ]);
 
-        $user = User::where('name', $invitation->name)->where('email', $invitation->email)->first();
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            [
+                'invitation' => $invitation,
+                'password' => $strongPassword,
+                'password_confirmation' => $strongPassword,
+                'terms' => 'terms'
+            ]
+        );
+
+        $this->post($url);
+
+        $user = User::query()->where('name', $invitation->name)->where('email', $invitation->email)->first();
 
         static::assertNotNull($user);
     }
@@ -300,17 +312,23 @@ class RegistrationTest extends TestCase
      */
     public function testUserAuthenticatedForValidRegistration()
     {
-        $invitation = Invitation::factory()->create();
+        $invitation = Invitation::factory()->createOne();
 
         $strongPassword = $this->faker->password(64, 128);
-        $this->post(route('register'), ['token' => $invitation->token,
-            'password' => $strongPassword,
-            'password_confirmation' => $strongPassword,
-            'terms' => 'terms',
-        ]);
 
-        $user = User::where('name', $invitation->name)->where('email', $invitation->email)->first();
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            [
+                'invitation' => $invitation,
+                'password' => $strongPassword,
+                'password_confirmation' => $strongPassword,
+                'terms' => 'terms'
+            ]
+        );
 
-        $this->assertAuthenticatedAs($user);
+        $this->post($url);
+
+        $this->assertAuthenticated();
     }
 }

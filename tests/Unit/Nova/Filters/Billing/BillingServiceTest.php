@@ -63,13 +63,13 @@ class BillingServiceTest extends TestCase
     {
         $service = Service::getRandomInstance();
 
-        Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $filter = static::novaFilter(ServiceFilter::class);
 
         $response = $filter->apply(Balance::class, $service->value);
 
-        $filteredBalances = Balance::where('service', $service->value)->get();
+        $filteredBalances = Balance::query()->where('service', $service->value)->get();
         foreach ($filteredBalances as $filteredBalance) {
             $response->assertContains($filteredBalance);
         }

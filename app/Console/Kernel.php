@@ -23,7 +23,7 @@ class Kernel extends ConsoleKernel
     /**
      * The Artisan commands provided by your application.
      *
-     * @var string[]
+     * @var array
      */
     protected $commands = [
         BalanceReconcileCommand::class,
@@ -37,6 +37,8 @@ class Kernel extends ConsoleKernel
      *
      * @param Schedule $schedule
      * @return void
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function schedule(Schedule $schedule)
     {
@@ -54,6 +56,9 @@ class Kernel extends ConsoleKernel
      * Register the commands for the application.
      *
      * @return void
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     * @noinspection PhpIncludeInspection
      */
     protected function commands()
     {

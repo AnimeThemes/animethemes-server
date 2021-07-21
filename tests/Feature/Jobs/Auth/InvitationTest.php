@@ -28,7 +28,7 @@ class InvitationTest extends TestCase
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        Invitation::factory()->create();
+        Invitation::factory()->createOne();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
@@ -40,7 +40,7 @@ class InvitationTest extends TestCase
      */
     public function testInvitationDeletedSendsDiscordNotification()
     {
-        $invitation = Invitation::factory()->create();
+        $invitation = Invitation::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -57,7 +57,7 @@ class InvitationTest extends TestCase
      */
     public function testInvitationRestoredSendsDiscordNotification()
     {
-        $invitation = Invitation::factory()->create();
+        $invitation = Invitation::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -74,12 +74,12 @@ class InvitationTest extends TestCase
      */
     public function testInvitationUpdatedSendsDiscordNotification()
     {
-        $invitation = Invitation::factory()->create();
+        $invitation = Invitation::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        $changes = Invitation::factory()->make();
+        $changes = Invitation::factory()->makeOne();
 
         $invitation->fill($changes->getAttributes());
         $invitation->save();

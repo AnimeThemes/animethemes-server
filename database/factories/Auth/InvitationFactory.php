@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class InvitationFactory.
+ *
+ * @method Invitation createOne($attributes = [])
+ * @method Invitation makeOne($attributes = [])
  */
 class InvitationFactory extends Factory
 {

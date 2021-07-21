@@ -48,7 +48,7 @@ class ThemeIndexTest extends TestCase
         Theme::factory()
             ->for(Anime::factory())
             ->for(Song::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::all();
@@ -76,7 +76,7 @@ class ThemeIndexTest extends TestCase
     {
         Theme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $response = $this->get(route('api.theme.index'));
@@ -107,10 +107,10 @@ class ThemeIndexTest extends TestCase
             ->for(Song::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with($includedPaths->all())->get();
@@ -157,7 +157,7 @@ class ThemeIndexTest extends TestCase
 
         Theme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::all();
@@ -202,7 +202,7 @@ class ThemeIndexTest extends TestCase
 
         Theme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $builder = Theme::query();
@@ -244,21 +244,21 @@ class ThemeIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
+        Carbon::withTestNow($createdFilter, function () {
             Theme::factory()
                 ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
+        Carbon::withTestNow($excludedDate, function () {
             Theme::factory()
                 ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        $theme = Theme::where('created_at', $createdFilter)->get();
+        $theme = Theme::query()->where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.theme.index', $parameters));
 
@@ -293,21 +293,21 @@ class ThemeIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
+        Carbon::withTestNow($updatedFilter, function () {
             Theme::factory()
                 ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
+        Carbon::withTestNow($excludedDate, function () {
             Theme::factory()
                 ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        $theme = Theme::where('updated_at', $updatedFilter)->get();
+        $theme = Theme::query()->where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.theme.index', $parameters));
 
@@ -341,12 +341,12 @@ class ThemeIndexTest extends TestCase
 
         Theme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteTheme = Theme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteTheme->each(function (Theme $theme) {
@@ -387,12 +387,12 @@ class ThemeIndexTest extends TestCase
 
         Theme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteTheme = Theme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteTheme->each(function (Theme $theme) {
@@ -433,12 +433,12 @@ class ThemeIndexTest extends TestCase
 
         Theme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteTheme = Theme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteTheme->each(function (Theme $theme) {
@@ -481,17 +481,17 @@ class ThemeIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
+        Carbon::withTestNow($deletedFilter, function () {
             Theme::factory()
                 ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
+        Carbon::withTestNow($excludedDate, function () {
             Theme::factory()
                 ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
@@ -533,10 +533,10 @@ class ThemeIndexTest extends TestCase
                 ['group' => $groupFilter],
                 ['group' => $excludedGroup],
             ))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $themes = Theme::where('group', $groupFilter)->get();
+        $themes = Theme::query()->where('group', $groupFilter)->get();
 
         $response = $this->get(route('api.theme.index', $parameters));
 
@@ -559,7 +559,7 @@ class ThemeIndexTest extends TestCase
      */
     public function testSequenceFilter()
     {
-        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
@@ -574,10 +574,10 @@ class ThemeIndexTest extends TestCase
                 ['sequence' => $sequenceFilter],
                 ['sequence' => $excludedSequence],
             ))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $themes = Theme::where('sequence', $sequenceFilter)->get();
+        $themes = Theme::query()->where('sequence', $sequenceFilter)->get();
 
         $response = $this->get(route('api.theme.index', $parameters));
 
@@ -610,10 +610,10 @@ class ThemeIndexTest extends TestCase
 
         Theme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $themes = Theme::where('type', $typeFilter->value)->get();
+        $themes = Theme::query()->where('type', $typeFilter->value)->get();
 
         $response = $this->get(route('api.theme.index', $parameters));
 
@@ -647,7 +647,7 @@ class ThemeIndexTest extends TestCase
 
         Theme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with([
@@ -695,7 +695,7 @@ class ThemeIndexTest extends TestCase
                         'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                     ])
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with([
@@ -738,9 +738,9 @@ class ThemeIndexTest extends TestCase
         Theme::factory()
             ->for(
                 Anime::factory()
-                    ->has(Image::factory()->count($this->faker->randomDigitNotNull))
+                    ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with([
@@ -782,8 +782,8 @@ class ThemeIndexTest extends TestCase
 
         Theme::factory()
             ->for(Anime::factory())
-            ->has(Entry::factory()->count($this->faker->randomDigitNotNull))
-            ->count($this->faker->randomDigitNotNull)
+            ->has(Entry::factory()->count($this->faker->randomDigitNotNull()))
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with([
@@ -825,8 +825,8 @@ class ThemeIndexTest extends TestCase
 
         Theme::factory()
             ->for(Anime::factory())
-            ->has(Entry::factory()->count($this->faker->randomDigitNotNull))
-            ->count($this->faker->randomDigitNotNull)
+            ->has(Entry::factory()->count($this->faker->randomDigitNotNull()))
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with([
@@ -857,7 +857,7 @@ class ThemeIndexTest extends TestCase
      */
     public function testEntriesByVersion()
     {
-        $versionFilter = $this->faker->randomDigitNotNull;
+        $versionFilter = $this->faker->randomDigitNotNull();
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
@@ -871,13 +871,13 @@ class ThemeIndexTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
                         ['version' => $versionFilter],
                         ['version' => $excludedVersion],
                     ))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with([
@@ -921,10 +921,10 @@ class ThemeIndexTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with([
@@ -968,10 +968,10 @@ class ThemeIndexTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with([
@@ -1015,10 +1015,10 @@ class ThemeIndexTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with([
@@ -1063,17 +1063,17 @@ class ThemeIndexTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->has(
                         Video::factory()
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->randomDigitNotNull())
                             ->state(new Sequence(
                                 ['resolution' => $resolutionFilter],
                                 ['resolution' => $excludedResolution],
                             ))
                     )
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with([
@@ -1117,10 +1117,10 @@ class ThemeIndexTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with([
@@ -1164,10 +1164,10 @@ class ThemeIndexTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with([
@@ -1211,10 +1211,10 @@ class ThemeIndexTest extends TestCase
             ->for(Anime::factory())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = Theme::with([

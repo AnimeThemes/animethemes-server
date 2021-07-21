@@ -28,7 +28,7 @@ class UserTest extends TestCase
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        User::factory()->create();
+        User::factory()->createOne();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
@@ -40,7 +40,7 @@ class UserTest extends TestCase
      */
     public function testUserDeletedSendsDiscordNotification()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -57,7 +57,7 @@ class UserTest extends TestCase
      */
     public function testUserRestoredSendsDiscordNotification()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -74,12 +74,12 @@ class UserTest extends TestCase
      */
     public function testUserUpdatedSendsDiscordNotification()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        $changes = User::factory()->make();
+        $changes = User::factory()->makeOne();
 
         $user->fill($changes->getAttributes());
         $user->save();

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
-use App\Nova\Lenses\ArtistAniDbResourceLens;
-use App\Nova\Lenses\ArtistAnilistResourceLens;
-use App\Nova\Lenses\ArtistAnnResourceLens;
-use App\Nova\Lenses\ArtistCoverLargeLens;
-use App\Nova\Lenses\ArtistCoverSmallLens;
-use App\Nova\Lenses\ArtistMalResourceLens;
-use App\Nova\Lenses\ArtistSongLens;
-use App\Nova\Metrics\ArtistsPerDay;
-use App\Nova\Metrics\NewArtists;
+use App\Nova\Lenses\Artist\ArtistAniDbResourceLens;
+use App\Nova\Lenses\Artist\ArtistAnilistResourceLens;
+use App\Nova\Lenses\Artist\ArtistAnnResourceLens;
+use App\Nova\Lenses\Artist\ArtistCoverLargeLens;
+use App\Nova\Lenses\Artist\ArtistCoverSmallLens;
+use App\Nova\Lenses\Artist\ArtistMalResourceLens;
+use App\Nova\Lenses\Artist\ArtistSongLens;
+use App\Nova\Metrics\Artist\ArtistsPerDay;
+use App\Nova\Metrics\Artist\NewArtists;
 use App\Nova\Resources\Resource;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
@@ -45,9 +45,11 @@ class Artist extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function group(): array | string | null
+    public static function group(): string
     {
         return __('nova.wiki');
     }
@@ -55,9 +57,11 @@ class Artist extends Resource
     /**
      * Get the displayable label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function label(): array | string | null
+    public static function label(): string
     {
         return __('nova.artists');
     }
@@ -65,9 +69,11 @@ class Artist extends Resource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function singularLabel(): array | string | null
+    public static function singularLabel(): string
     {
         return __('nova.artist');
     }
@@ -75,7 +81,7 @@ class Artist extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var string[]
+     * @var array
      */
     public static $search = [
         'name',
@@ -95,18 +101,18 @@ class Artist extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            new Panel(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
 
             Text::make(__('nova.name'), 'name')
                 ->sortable()
-                ->rules('required', 'max:192')
+                ->rules(['required', 'max:192'])
                 ->help(__('nova.artist_name_help')),
 
             Slug::make(__('nova.slug'), 'slug')
                 ->from('name')
                 ->separator('_')
                 ->sortable()
-                ->rules('required', 'max:192', 'alpha_dash')
+                ->rules(['required', 'max:192', 'alpha_dash'])
                 ->updateRules('unique:artist,slug,{{resourceId}},artist_id')
                 ->help(__('nova.artist_slug_help')),
 
@@ -115,7 +121,7 @@ class Artist extends Resource
                 ->fields(function () {
                     return [
                         Text::make(__('nova.as'), 'as')
-                            ->rules('nullable', 'max:192')
+                            ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
                         DateTime::make(__('nova.created_at'), 'created_at')
@@ -133,7 +139,7 @@ class Artist extends Resource
                 ->fields(function () {
                     return [
                         Text::make(__('nova.as'), 'as')
-                            ->rules('nullable', 'max:192')
+                            ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
                         DateTime::make(__('nova.created_at'), 'created_at')
@@ -151,7 +157,7 @@ class Artist extends Resource
                 ->fields(function () {
                     return [
                         Text::make(__('nova.as'), 'as')
-                            ->rules('nullable', 'max:192')
+                            ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
                         DateTime::make(__('nova.created_at'), 'created_at')
@@ -169,7 +175,7 @@ class Artist extends Resource
                 ->fields(function () {
                     return [
                         Text::make(__('nova.as'), 'as')
-                            ->rules('nullable', 'max:192')
+                            ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
                         DateTime::make(__('nova.created_at'), 'created_at')
@@ -204,10 +210,13 @@ class Artist extends Resource
      */
     public function cards(Request $request): array
     {
-        return [
-            (new NewArtists())->width('1/2'),
-            (new ArtistsPerDay())->width('1/2'),
-        ];
+        return array_merge(
+            parent::cards($request),
+            [
+                (new NewArtists())->width('1/2'),
+                (new ArtistsPerDay())->width('1/2'),
+            ]
+        );
     }
 
     /**
@@ -218,14 +227,17 @@ class Artist extends Resource
      */
     public function lenses(Request $request): array
     {
-        return [
-            new ArtistAniDbResourceLens(),
-            new ArtistAnilistResourceLens(),
-            new ArtistAnnResourceLens(),
-            new ArtistCoverLargeLens(),
-            new ArtistCoverSmallLens(),
-            new ArtistMalResourceLens(),
-            new ArtistSongLens(),
-        ];
+        return array_merge(
+            parent::lenses($request),
+            [
+                new ArtistAniDbResourceLens(),
+                new ArtistAnilistResourceLens(),
+                new ArtistAnnResourceLens(),
+                new ArtistCoverLargeLens(),
+                new ArtistCoverSmallLens(),
+                new ArtistMalResourceLens(),
+                new ArtistSongLens(),
+            ]
+        );
     }
 }

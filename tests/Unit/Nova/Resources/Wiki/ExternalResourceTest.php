@@ -11,7 +11,7 @@ use App\Nova\Filters\Base\DeletedEndDateFilter;
 use App\Nova\Filters\Base\DeletedStartDateFilter;
 use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
-use App\Nova\Filters\Wiki\ExternalResourceSiteFilter;
+use App\Nova\Filters\Wiki\ExternalResource\ExternalResourceSiteFilter;
 use App\Nova\Resources\Wiki\ExternalResource;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;

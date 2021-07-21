@@ -15,6 +15,9 @@ use Illuminate\Support\Str;
 
 /**
  * Class ArtistFactory.
+ *
+ * @method Artist createOne($attributes = [])
+ * @method Artist makeOne($attributes = [])
  */
 class ArtistFactory extends Factory
 {
@@ -50,27 +53,27 @@ class ArtistFactory extends Factory
                 Song::factory()
                     ->hasAttached($artist)
                     ->has(Theme::factory()->for(Anime::factory()))
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->create();
 
                 Artist::factory()
                     ->hasAttached($artist, [], 'members')
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->create();
 
                 Artist::factory()
                     ->hasAttached($artist, [], 'groups')
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->create();
 
                 ExternalResource::factory()
                     ->hasAttached($artist)
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->create();
 
                 Image::factory()
                     ->hasAttached($artist)
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->create();
             }
         );

@@ -24,7 +24,7 @@ class CreateTeamTest extends TestCase
      */
     public function testTeamsCannotBeCreated()
     {
-        $this->actingAs($user = User::factory()->withPersonalTeam()->create());
+        $this->actingAs($user = User::factory()->withPersonalTeam()->createOne());
 
         Livewire::test(CreateTeamForm::class)
                     ->set(['state' => ['name' => 'Test Team']])

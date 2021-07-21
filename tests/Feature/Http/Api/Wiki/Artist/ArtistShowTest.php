@@ -180,11 +180,11 @@ class ArtistShowTest extends TestCase
         Artist::factory()
             ->has(
                 Song::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->has(
                         Theme::factory()
                             ->for(Anime::factory())
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->randomDigitNotNull())
                             ->state(new Sequence(
                                 ['group' => $groupFilter],
                                 ['group' => $excludedGroup],
@@ -221,7 +221,7 @@ class ArtistShowTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
@@ -234,11 +234,11 @@ class ArtistShowTest extends TestCase
         Artist::factory()
             ->has(
                 Song::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->has(
                         Theme::factory()
                             ->for(Anime::factory())
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->randomDigitNotNull())
                             ->state(new Sequence(
                                 ['sequence' => $sequenceFilter],
                                 ['sequence' => $excludedSequence],
@@ -287,11 +287,11 @@ class ArtistShowTest extends TestCase
         Artist::factory()
             ->has(
                 Song::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->has(
                         Theme::factory()
                             ->for(Anime::factory())
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->randomDigitNotNull())
                     )
             )
             ->create();
@@ -336,11 +336,11 @@ class ArtistShowTest extends TestCase
         Artist::factory()
             ->has(
                 Song::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->has(
                         Theme::factory()
                             ->for(Anime::factory())
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->randomDigitNotNull())
                     )
             )
             ->create();
@@ -386,7 +386,7 @@ class ArtistShowTest extends TestCase
         Artist::factory()
             ->has(
                 Song::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->has(
                         Theme::factory()
                             ->for(
@@ -395,7 +395,7 @@ class ArtistShowTest extends TestCase
                                         'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                                     ])
                             )
-                            ->count($this->faker->randomDigitNotNull)
+                            ->count($this->faker->randomDigitNotNull())
                     )
             )
             ->create();
@@ -440,7 +440,7 @@ class ArtistShowTest extends TestCase
         ];
 
         Artist::factory()
-            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull), 'resources')
+            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), 'resources')
             ->create();
 
         $artist = Artist::with([
@@ -483,7 +483,7 @@ class ArtistShowTest extends TestCase
         ];
 
         Artist::factory()
-            ->has(Image::factory()->count($this->faker->randomDigitNotNull))
+            ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
         $artist = Artist::with([

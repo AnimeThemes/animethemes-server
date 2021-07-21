@@ -7,13 +7,13 @@ namespace Database\Seeders;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Arr;
@@ -29,19 +29,31 @@ class ArtistCoverSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
+     *
+     * @psalm-suppress UndefinedInterfaceMethod
      */
     public function run()
     {
         // Get artists that have MAL resource but not both cover images
-        $artists = $this->getUnseededArtists();
+        $artists = Artist::query()
+            ->whereHas('resources', function (Builder $resourceQuery) {
+                $resourceQuery->where('site', ResourceSite::ANILIST);
+            })->whereDoesntHave('images', function (Builder $imageQuery) {
+                $imageQuery->whereIn('facet', [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
+            })
+            ->get();
 
         $fs = Storage::disk('images');
 
         foreach ($artists as $artist) {
+            if (! $artist instanceof Artist) {
+                continue;
+            }
+
             $anilistResource = $artist->resources()->firstWhere('site', ResourceSite::ANILIST);
-            if ($anilistResource !== null && $anilistResource->external_id !== null) {
-                $artistCoverLarge = $artist->images()->firstWhere('facet', ImageFacet::COVER_LARGE);
-                $artistCoverSmall = $artist->images()->firstWhere('facet', ImageFacet::COVER_SMALL);
+            if ($anilistResource instanceof ExternalResource && $anilistResource->external_id !== null) {
+                $artistCoverLarge = $artist->images()->where('facet', ImageFacet::COVER_LARGE)->first();
+                $artistCoverSmall = $artist->images()->where('facet', ImageFacet::COVER_SMALL)->first();
 
                 // Try not to upset Anilist
                 sleep(rand(5, 15));
@@ -83,7 +95,7 @@ class ArtistCoverSeeder extends Seeder
                         $coverFile = File::createWithContent(basename($anilistCoverLarge), $coverImage);
                         $coverLarge = $fs->putFile('', $coverFile);
 
-                        $coverLargeImage = Image::create([
+                        $coverLargeImage = Image::factory()->createOne([
                             'facet' => ImageFacet::COVER_LARGE,
                             'path' => $coverLarge,
                             'size' => $coverImageResponse->getHeader('Content-Length')[0],
@@ -102,7 +114,7 @@ class ArtistCoverSeeder extends Seeder
                         $coverFile = File::createWithContent(basename($anilistCoverSmall), $coverImage);
                         $coverSmall = $fs->putFile('', $coverFile);
 
-                        $coverSmallImage = Image::create([
+                        $coverSmallImage = Image::factory()->createOne([
                             'facet' => ImageFacet::COVER_SMALL,
                             'path' => $coverSmall,
                             'size' => $coverImageResponse->getHeader('Content-Length')[0],
@@ -124,21 +136,5 @@ class ArtistCoverSeeder extends Seeder
                 }
             }
         }
-    }
-
-    /**
-     * Get artists that have MAL resource but not both cover images.
-     *
-     * @return Collection
-     */
-    protected function getUnseededArtists(): Collection
-    {
-        return Artist::query()
-            ->whereHas('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::ANILIST);
-            })->whereDoesntHave('images', function (Builder $imageQuery) {
-                $imageQuery->whereIn('facet', [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
-            })
-            ->get();
     }
 }

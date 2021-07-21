@@ -28,7 +28,7 @@ class VideoTest extends TestCase
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        Video::factory()->create();
+        Video::factory()->createOne();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
@@ -40,7 +40,7 @@ class VideoTest extends TestCase
      */
     public function testVideoDeletedSendsDiscordNotification()
     {
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -57,7 +57,7 @@ class VideoTest extends TestCase
      */
     public function testVideoRestoredSendsDiscordNotification()
     {
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -74,12 +74,12 @@ class VideoTest extends TestCase
      */
     public function testVideoUpdatedSendsDiscordNotification()
     {
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        $changes = Video::factory()->make();
+        $changes = Video::factory()->makeOne();
 
         $video->fill($changes->getAttributes());
         $video->save();

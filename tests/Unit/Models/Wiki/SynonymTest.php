@@ -29,7 +29,7 @@ class SynonymTest extends TestCase
     {
         $synonym = Synonym::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         static::assertIsString($synonym->searchableAs());
     }
@@ -43,7 +43,7 @@ class SynonymTest extends TestCase
     {
         $synonym = Synonym::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         static::assertIsArray($synonym->toSearchableArray());
     }
@@ -59,9 +59,9 @@ class SynonymTest extends TestCase
 
         $synonym = Synonym::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
-        static::assertEquals(1, $synonym->audits->count());
+        static::assertEquals(1, $synonym->audits()->count());
     }
 
     /**
@@ -73,7 +73,7 @@ class SynonymTest extends TestCase
     {
         $synonym = Synonym::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         static::assertIsString($synonym->getName());
     }
@@ -87,7 +87,7 @@ class SynonymTest extends TestCase
     {
         $synonym = Synonym::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $synonym->anime());
         static::assertInstanceOf(Anime::class, $synonym->anime()->first());

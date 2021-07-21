@@ -12,6 +12,9 @@ use Laravel\Jetstream\Features;
 
 /**
  * Class UserFactory.
+ *
+ * @method User createOne($attributes = [])
+ * @method User makeOne($attributes = [])
  */
 class UserFactory extends Factory
 {
@@ -41,9 +44,9 @@ class UserFactory extends Factory
     /**
      * Indicate that the model's email address should be unverified.
      *
-     * @return Factory
+     * @return static
      */
-    public function unverified(): Factory
+    public function unverified(): static
     {
         return $this->state(function () {
             return [
@@ -76,9 +79,9 @@ class UserFactory extends Factory
      * Create and set current team for user with specified role.
      *
      * @param string $role
-     * @return Factory
+     * @return static
      */
-    public function withCurrentTeam(string $role): Factory
+    public function withCurrentTeam(string $role): static
     {
         return $this->afterCreating(
             function (User $user) use ($role) {

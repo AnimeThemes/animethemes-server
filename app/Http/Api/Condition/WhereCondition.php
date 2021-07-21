@@ -43,6 +43,8 @@ class WhereCondition extends Condition
      * @param string $filterParam
      * @param mixed $filterValues
      * @return Condition
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function make(string $filterParam, mixed $filterValues): Condition
     {
@@ -99,13 +101,13 @@ class WhereCondition extends Condition
      *
      * @param Builder $builder
      * @param Filter $filter
-     * @return Builder $builder
+     * @return Builder
      */
     public function apply(Builder $builder, Filter $filter): Builder
     {
         return $builder->where(
             $builder->qualifyColumn($this->getField()),
-            optional($this->getComparisonOperator())->value,
+            $this->getComparisonOperator()?->value,
             collect($filter->getFilterValues($this))->first(),
             $this->getLogicalOperator()->value
         );
@@ -116,7 +118,7 @@ class WhereCondition extends Condition
      *
      * @param BoolQueryBuilder $builder
      * @param Filter $filter
-     * @return BoolQueryBuilder $builder
+     * @return BoolQueryBuilder
      */
     public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter): BoolQueryBuilder
     {
@@ -148,7 +150,7 @@ class WhereCondition extends Condition
         $field = $filter->getKey();
         $filterValue = $this->coerceFilterValue($filter);
 
-        return match (optional($this->getComparisonOperator())->value) {
+        return match ($this->getComparisonOperator()?->value) {
             ComparisonOperator::LT => (new RangeQueryBuilder())
                 ->field($field)
                 ->lt($filterValue),

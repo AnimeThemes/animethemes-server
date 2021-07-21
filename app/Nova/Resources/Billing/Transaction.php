@@ -40,9 +40,11 @@ class Transaction extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function group(): array | string | null
+    public static function group(): string
     {
         return __('nova.billing');
     }
@@ -50,9 +52,11 @@ class Transaction extends Resource
     /**
      * Get the displayable label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function label(): array | string | null
+    public static function label(): string
     {
         return __('nova.transactions');
     }
@@ -60,9 +64,11 @@ class Transaction extends Resource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function singularLabel(): array | string | null
+    public static function singularLabel(): string
     {
         return __('nova.transaction');
     }
@@ -70,7 +76,7 @@ class Transaction extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var string[]
+     * @var array
      */
     public static $search = [
         'transaction_id',
@@ -90,7 +96,7 @@ class Transaction extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            new Panel(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
 
             Date::make(__('nova.date'), 'date')
                 ->sortable()
@@ -100,15 +106,15 @@ class Transaction extends Resource
             Select::make(__('nova.service'), 'service')
                 ->options(Service::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
-                    return $enum ? $enum->description : null;
+                    return $enum?->description;
                 })
                 ->sortable()
-                ->rules('required', (new EnumValue(Service::class, false))->__toString())
+                ->rules(['required', (new EnumValue(Service::class, false))->__toString()])
                 ->help(__('nova.billing_service_help')),
 
             Text::make(__('nova.description'), 'description')
                 ->sortable()
-                ->rules('required', 'max:192')
+                ->rules(['required', 'max:192'])
                 ->help(__('nova.transaction_description_help')),
 
             Currency::make(__('nova.amount'), 'amount')
@@ -119,7 +125,7 @@ class Transaction extends Resource
             Number::make(__('nova.external_id'), 'external_id')
                 ->nullable()
                 ->sortable()
-                ->rules('nullable', 'integer')
+                ->rules(['nullable', 'integer'])
                 ->help(__('nova.transaction_external_id_help')),
         ];
     }

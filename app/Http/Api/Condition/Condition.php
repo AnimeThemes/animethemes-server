@@ -79,7 +79,7 @@ abstract class Condition
     /**
      * Get the comparison operator.
      *
-     * @return ComparisonOperator|null $operator
+     * @return ComparisonOperator|null
      */
     public function getComparisonOperator(): ?ComparisonOperator
     {
@@ -121,7 +121,7 @@ abstract class Condition
      *
      * @param Builder $builder
      * @param Filter $filter
-     * @return Builder $builder
+     * @return Builder
      */
     abstract public function apply(Builder $builder, Filter $filter): Builder;
 
@@ -130,7 +130,7 @@ abstract class Condition
      *
      * @param BoolQueryBuilder $builder
      * @param Filter $filter
-     * @return BoolQueryBuilder $builder
+     * @return BoolQueryBuilder
      */
     abstract public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter): BoolQueryBuilder;
 

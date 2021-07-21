@@ -38,9 +38,9 @@ class WelcomeTest extends TestCase
      */
     public function testWelcomeAnnouncements()
     {
-        $announcements = Announcement::factory()
-            ->count($this->faker->randomDigitNotNull)
-            ->create();
+        $announcements = collect(Announcement::factory()
+            ->count($this->faker->randomDigitNotNull())
+            ->create());
 
         $response = $this->get(route('welcome'));
 

@@ -28,7 +28,7 @@ class InitializeVideoTags
         try {
             // Match Tags of filename
             // Format: "{Base Name}-{OP|ED}{Sequence}v{Version}-{Tags}"
-            preg_match('/^.*\-(?:OP|ED).*\-(.*)$/', $video->filename, $tagsMatch);
+            preg_match('/^.*-(?:OP|ED).*-(.*)$/', $video->filename, $tagsMatch);
 
             // Check if the filename has tags, which is not guaranteed
             if (! empty($tagsMatch)) {

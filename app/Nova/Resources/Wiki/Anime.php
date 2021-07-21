@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\Nova\Filters\Wiki\AnimeSeasonFilter;
-use App\Nova\Filters\Wiki\AnimeYearFilter;
-use App\Nova\Lenses\AnimeAniDbResourceLens;
-use App\Nova\Lenses\AnimeAnilistResourceLens;
-use App\Nova\Lenses\AnimeAnnResourceLens;
-use App\Nova\Lenses\AnimeCoverLargeLens;
-use App\Nova\Lenses\AnimeCoverSmallLens;
-use App\Nova\Lenses\AnimeKitsuResourceLens;
-use App\Nova\Lenses\AnimeMalResourceLens;
-use App\Nova\Lenses\AnimePlanetResourceLens;
-use App\Nova\Metrics\AnimePerDay;
-use App\Nova\Metrics\NewAnime;
+use App\Nova\Filters\Wiki\Anime\AnimeSeasonFilter;
+use App\Nova\Filters\Wiki\Anime\AnimeYearFilter;
+use App\Nova\Lenses\Anime\AnimeAniDbResourceLens;
+use App\Nova\Lenses\Anime\AnimeAnilistResourceLens;
+use App\Nova\Lenses\Anime\AnimeAnnResourceLens;
+use App\Nova\Lenses\Anime\AnimeCoverLargeLens;
+use App\Nova\Lenses\Anime\AnimeCoverSmallLens;
+use App\Nova\Lenses\Anime\AnimeKitsuResourceLens;
+use App\Nova\Lenses\Anime\AnimeMalResourceLens;
+use App\Nova\Lenses\Anime\AnimePlanetResourceLens;
+use App\Nova\Metrics\Anime\AnimePerDay;
+use App\Nova\Metrics\Anime\NewAnime;
 use App\Nova\Resources\Resource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
@@ -56,9 +56,11 @@ class Anime extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function group(): array | string | null
+    public static function group(): string
     {
         return __('nova.wiki');
     }
@@ -66,9 +68,11 @@ class Anime extends Resource
     /**
      * Get the displayable label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function label(): array | string | null
+    public static function label(): string
     {
         return __('nova.anime');
     }
@@ -76,9 +80,11 @@ class Anime extends Resource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function singularLabel(): array | string | null
+    public static function singularLabel(): string
     {
         return __('nova.anime');
     }
@@ -87,6 +93,8 @@ class Anime extends Resource
      * Get the URI key for the resource.
      *
      * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function uriKey(): string
     {
@@ -96,7 +104,7 @@ class Anime extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var string[]
+     * @var array
      */
     public static $search = [
         'name',
@@ -116,18 +124,18 @@ class Anime extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            new Panel(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
 
             Text::make(__('nova.name'), 'name')
                 ->sortable()
-                ->rules('required', 'max:192')
+                ->rules(['required', 'max:192'])
                 ->help(__('nova.anime_name_help')),
 
             Slug::make(__('nova.slug'), 'slug')
                 ->from('name')
                 ->separator('_')
                 ->sortable()
-                ->rules('required', 'max:192', 'alpha_dash')
+                ->rules(['required', 'max:192', 'alpha_dash'])
                 ->updateRules('unique:anime,slug,{{resourceId}},anime_id')
                 ->help(__('nova.anime_slug_help')),
 
@@ -135,16 +143,16 @@ class Anime extends Resource
                 ->sortable()
                 ->min(1960)
                 ->max(intval(date('Y')) + 1)
-                ->rules('required', 'digits:4', 'integer')
+                ->rules(['required', 'digits:4', 'integer'])
                 ->help(__('nova.anime_year_help')),
 
             Select::make(__('nova.season'), 'season')
                 ->options(AnimeSeason::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
-                    return $enum ? $enum->description : null;
+                    return $enum?->description;
                 })
                 ->sortable()
-                ->rules('required', (new EnumValue(AnimeSeason::class, false))->__toString())
+                ->rules(['required', (new EnumValue(AnimeSeason::class, false))->__toString()])
                 ->help(__('nova.anime_season_help')),
 
             Textarea::make(__('nova.synopsis'), 'synopsis')
@@ -175,7 +183,7 @@ class Anime extends Resource
                 ->fields(function () {
                     return [
                         Text::make(__('nova.as'), 'as')
-                            ->rules('nullable', 'max:192')
+                            ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
                         DateTime::make(__('nova.created_at'), 'created_at')
@@ -214,10 +222,13 @@ class Anime extends Resource
      */
     public function cards(Request $request): array
     {
-        return [
-            (new NewAnime())->width('1/2'),
-            (new AnimePerDay())->width('1/2'),
-        ];
+        return array_merge(
+            parent::cards($request),
+            [
+                (new NewAnime())->width('1/2'),
+                (new AnimePerDay())->width('1/2'),
+            ]
+        );
     }
 
     /**
@@ -245,15 +256,18 @@ class Anime extends Resource
      */
     public function lenses(Request $request): array
     {
-        return [
-            new AnimeAniDbResourceLens(),
-            new AnimeAnilistResourceLens(),
-            new AnimeCoverLargeLens(),
-            new AnimeCoverSmallLens(),
-            new AnimePlanetResourceLens(),
-            new AnimeAnnResourceLens(),
-            new AnimeKitsuResourceLens(),
-            new AnimeMalResourceLens(),
-        ];
+        return array_merge(
+            parent::lenses($request),
+            [
+                new AnimeAniDbResourceLens(),
+                new AnimeAnilistResourceLens(),
+                new AnimeCoverLargeLens(),
+                new AnimeCoverSmallLens(),
+                new AnimePlanetResourceLens(),
+                new AnimeAnnResourceLens(),
+                new AnimeKitsuResourceLens(),
+                new AnimeMalResourceLens(),
+            ]
+        );
     }
 }

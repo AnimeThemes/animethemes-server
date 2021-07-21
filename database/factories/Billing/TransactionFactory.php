@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class TransactionFactory.
+ *
+ * @method Transaction createOne($attributes = [])
+ * @method Transaction makeOne($attributes = [])
  */
 class TransactionFactory extends Factory
 {

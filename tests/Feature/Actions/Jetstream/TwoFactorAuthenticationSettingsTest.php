@@ -24,7 +24,7 @@ class TwoFactorAuthenticationSettingsTest extends TestCase
      */
     public function testTwoFactorAuthenticationCanBeEnabled()
     {
-        $this->actingAs($user = User::factory()->create());
+        $this->actingAs($user = User::factory()->createOne());
 
         $this->withSession(['auth.password_confirmed_at' => time()]);
 
@@ -44,7 +44,7 @@ class TwoFactorAuthenticationSettingsTest extends TestCase
      */
     public function testRecoveryCodesCanBeRegenerated()
     {
-        $this->actingAs($user = User::factory()->create());
+        $this->actingAs($user = User::factory()->createOne());
 
         $this->withSession(['auth.password_confirmed_at' => time()]);
 
@@ -67,7 +67,7 @@ class TwoFactorAuthenticationSettingsTest extends TestCase
      */
     public function testTwoFactorAuthenticationCanBeDisabled()
     {
-        $this->actingAs($user = User::factory()->create());
+        $this->actingAs($user = User::factory()->createOne());
 
         $this->withSession(['auth.password_confirmed_at' => time()]);
 

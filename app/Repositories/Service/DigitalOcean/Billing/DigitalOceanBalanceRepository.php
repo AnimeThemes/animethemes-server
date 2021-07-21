@@ -52,15 +52,15 @@ class DigitalOceanBalanceRepository implements Repository
 
             $balanceJson = json_decode($response->getBody()->getContents(), true);
 
-            $balance = Balance::make([
+            $balance = Balance::factory()->makeOne([
                 'date' => Carbon::now()->firstOfMonth()->format(AllowedDateFormat::YMD),
                 'service' => Service::DIGITALOCEAN,
                 'frequency' => BalanceFrequency::MONTHLY,
                 'usage' => Arr::get($balanceJson, 'month_to_date_usage'),
-                'balance' => -1 * floatval(Arr::get($balanceJson, 'month_to_date_balance')),
+                'balance' => -1.0 * floatval(Arr::get($balanceJson, 'month_to_date_balance')),
             ]);
 
-            return collect([$balance]);
+            return collect($balance);
         } catch (ClientException | ServerException | GuzzleException $e) {
             Log::info($e->getMessage());
 

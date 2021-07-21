@@ -10,6 +10,9 @@ use Illuminate\Support\Str;
 
 /**
  * Class AnimeResourceFactory.
+ *
+ * @method AnimeResource createOne($attributes = [])
+ * @method AnimeResource makeOne($attributes = [])
  */
 class AnimeResourceFactory extends Factory
 {

@@ -182,7 +182,7 @@ class AnimeShowTest extends TestCase
         Anime::factory()
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
                         ['group' => $groupFilter],
                         ['group' => $excludedGroup],
@@ -218,7 +218,7 @@ class AnimeShowTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
@@ -231,7 +231,7 @@ class AnimeShowTest extends TestCase
         Anime::factory()
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
                         ['sequence' => $sequenceFilter],
                         ['sequence' => $excludedSequence],
@@ -277,7 +277,7 @@ class AnimeShowTest extends TestCase
         ];
 
         Anime::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull))
+            ->has(Theme::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
         $anime = Anime::with([
@@ -463,7 +463,7 @@ class AnimeShowTest extends TestCase
         ];
 
         Anime::factory()
-            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull), 'resources')
+            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), 'resources')
             ->create();
 
         $anime = Anime::with([
@@ -506,7 +506,7 @@ class AnimeShowTest extends TestCase
         ];
 
         Anime::factory()
-            ->has(Image::factory()->count($this->faker->randomDigitNotNull))
+            ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
         $anime = Anime::with([

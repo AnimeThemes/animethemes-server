@@ -26,6 +26,7 @@ class LogRequest
             'method' => $request->method(),
             'full-url' => $request->fullUrl(),
             'ip' => $request->ip(),
+            'parameters' => $request->all(),
             'headers' => $request->headers->all(),
         ]);
 

@@ -9,6 +9,10 @@ use BenSampo\Enum\Enum;
 
 /**
  * Class VideoOverlap.
+ *
+ * @method static static NONE()
+ * @method static static TRANS()
+ * @method static static OVER()
  */
 final class VideoOverlap extends Enum implements LocalizedEnum
 {

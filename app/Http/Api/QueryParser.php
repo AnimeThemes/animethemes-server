@@ -36,9 +36,9 @@ class QueryParser
     /**
      * The list of include paths per type.
      *
-     * @var array|null
+     * @var array
      */
-    protected ?array $includes;
+    protected array $includes;
 
     /**
      * The list of fields and direction to base sorting on.
@@ -67,6 +67,23 @@ class QueryParser
      * @var int
      */
     protected int $limit;
+
+    /**
+     * The list of parameters that the parser reads from.
+     *
+     * @return string[]
+     */
+    public static function parameters(): array
+    {
+        return [
+            QueryParser::PARAM_FIELDS,
+            QueryParser::PARAM_INCLUDE,
+            QueryParser::PARAM_SORT,
+            QueryParser::PARAM_FILTER,
+            QueryParser::PARAM_SEARCH,
+            QueryParser::PARAM_LIMIT,
+        ];
+    }
 
     /**
      * Create a new query parser instance.
@@ -132,11 +149,11 @@ class QueryParser
      * Parse includes from parameters.
      *
      * @param array $parameters
-     * @return array|null
+     * @return array
      */
-    protected function parseIncludes(array $parameters): ?array
+    protected function parseIncludes(array $parameters): array
     {
-        $includes = null;
+        $includes = [];
 
         if (Arr::exists($parameters, self::PARAM_INCLUDE)) {
             $includeParam = $parameters[self::PARAM_INCLUDE];

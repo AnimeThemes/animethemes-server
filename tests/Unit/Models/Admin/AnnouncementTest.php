@@ -25,9 +25,9 @@ class AnnouncementTest extends TestCase
     {
         Config::set('audit.console', true);
 
-        $announcement = Announcement::factory()->create();
+        $announcement = Announcement::factory()->createOne();
 
-        static::assertEquals(1, $announcement->audits->count());
+        static::assertEquals(1, $announcement->audits()->count());
     }
 
     /**
@@ -37,7 +37,7 @@ class AnnouncementTest extends TestCase
      */
     public function testNameable()
     {
-        $announcement = Announcement::factory()->create();
+        $announcement = Announcement::factory()->createOne();
 
         static::assertIsString($announcement->getName());
     }

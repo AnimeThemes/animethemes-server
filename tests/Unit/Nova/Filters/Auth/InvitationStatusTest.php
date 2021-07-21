@@ -61,13 +61,13 @@ class InvitationStatusTest extends TestCase
     {
         $status = InvitationStatus::getRandomInstance();
 
-        Invitation::factory()->count($this->faker->randomDigitNotNull)->create();
+        Invitation::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $filter = static::novaFilter(InvitationStatusFilter::class);
 
         $response = $filter->apply(Invitation::class, $status->value);
 
-        $filteredInvitations = Invitation::where('status', $status->value)->get();
+        $filteredInvitations = Invitation::query()->where('status', $status->value)->get();
         foreach ($filteredInvitations as $filteredInvitation) {
             $response->assertContains($filteredInvitation);
         }

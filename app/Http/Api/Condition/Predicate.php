@@ -62,7 +62,7 @@ class Predicate
     /**
      * Get the predicate operator.
      *
-     * @return ComparisonOperator|null $operator
+     * @return ComparisonOperator|null
      */
     public function getOperator(): ?ComparisonOperator
     {
@@ -72,7 +72,7 @@ class Predicate
     /**
      * Get the predicate expression.
      *
-     * @return Expression $expression
+     * @return Expression
      */
     public function getExpression(): Expression
     {

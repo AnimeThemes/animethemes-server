@@ -30,10 +30,10 @@ class VideoEntryTest extends TestCase
     {
         Event::fake(VideoEntryCreated::class);
 
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         $video->entries()->attach($entry);
 
@@ -49,10 +49,10 @@ class VideoEntryTest extends TestCase
     {
         Event::fake(VideoEntryDeleted::class);
 
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         $video->entries()->attach($entry);
         $video->entries()->detach($entry);

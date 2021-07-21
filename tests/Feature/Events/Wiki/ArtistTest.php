@@ -29,7 +29,7 @@ class ArtistTest extends TestCase
     {
         Event::fake();
 
-        Artist::factory()->create();
+        Artist::factory()->createOne();
 
         Event::assertDispatched(ArtistCreated::class);
     }
@@ -43,7 +43,7 @@ class ArtistTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
+        $artist = Artist::factory()->createOne();
 
         $artist->delete();
 
@@ -59,7 +59,7 @@ class ArtistTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
+        $artist = Artist::factory()->createOne();
 
         $artist->restore();
 
@@ -75,8 +75,8 @@ class ArtistTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
-        $changes = Artist::factory()->make();
+        $artist = Artist::factory()->createOne();
+        $changes = Artist::factory()->makeOne();
 
         $artist->fill($changes->getAttributes());
         $artist->save();

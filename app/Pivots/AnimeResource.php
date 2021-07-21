@@ -7,17 +7,27 @@ namespace App\Pivots;
 use App\Events\Pivot\AnimeResource\AnimeResourceCreated;
 use App\Events\Pivot\AnimeResource\AnimeResourceDeleted;
 use App\Events\Pivot\AnimeResource\AnimeResourceUpdated;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
+use Database\Factories\Pivots\AnimeResourceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class AnimeResource.
+ *
+ * @property string $as
+ * @property Anime $anime
+ * @property ExternalResource $resource
+ * @method static AnimeResourceFactory factory(...$parameters)
  */
 class AnimeResource extends BasePivot
 {
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
      * @var string[]
      */
     protected $fillable = ['as'];
@@ -34,7 +44,7 @@ class AnimeResource extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => AnimeResourceCreated::class,

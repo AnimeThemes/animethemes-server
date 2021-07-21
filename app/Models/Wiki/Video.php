@@ -14,16 +14,36 @@ use App\Events\Wiki\Video\VideoRestored;
 use App\Events\Wiki\Video\VideoUpdated;
 use App\Models\BaseModel;
 use App\Pivots\VideoEntry;
+use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
+use Database\Factories\Wiki\VideoFactory;
 use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Laravel\Scout\Searchable;
 
 /**
  * Class Video.
+ *
+ * @property int $video_id
+ * @property string $basename
+ * @property string $filename
+ * @property string $path
+ * @property int $size
+ * @property string $mimetype
+ * @property int|null $resolution
+ * @property bool $nc
+ * @property bool $subbed
+ * @property bool $lyrics
+ * @property bool $uncen
+ * @property Enum $overlap
+ * @property Enum|null $source
+ * @property string[] $tags
+ * @property Collection $entries
+ * @method static VideoFactory factory(...$parameters)
  */
 class Video extends BaseModel implements Streamable, Viewable
 {
@@ -44,7 +64,7 @@ class Video extends BaseModel implements Streamable, Viewable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => VideoCreated::class,
@@ -71,11 +91,13 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * The accessors to append to the model's array form.
      *
-     * @var string[]
+     * @var array
      */
     protected $appends = ['tags'];
 
     /**
+     * The array of tags used to uniquely identify the video within the context of a theme.
+     *
      * @return array
      */
     public function getTagsAttribute(): array
@@ -131,6 +153,8 @@ class Video extends BaseModel implements Streamable, Viewable
      * Get the route key for the model.
      *
      * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getRouteKeyName(): string
     {
@@ -140,7 +164,7 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * The attributes that should be cast to enum types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $enumCasts = [
         'overlap' => VideoOverlap::class,
@@ -150,7 +174,7 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'overlap' => 'int',
