@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Log;
 class LogRequest
 {
     /**
+     * The list of parameters to exclude from logging.
+     *
+     * @var array
+     */
+    protected array $hidden = [
+        'password',
+        'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
+        '_token',
+    ];
+
+    /**
      * Handle an incoming request.
      *
      * @param Request $request
@@ -26,7 +39,7 @@ class LogRequest
             'method' => $request->method(),
             'full-url' => $request->fullUrl(),
             'ip' => $request->ip(),
-            'parameters' => $request->all(),
+            'parameters' => $request->except($this->hidden),
             'headers' => $request->headers->all(),
         ]);
 
