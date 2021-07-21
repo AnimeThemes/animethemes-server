@@ -20,6 +20,8 @@ class LogRequest
      */
     protected array $hidden = [
         'password',
+        'current_password',
+        'password_confirmation',
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
