@@ -25,7 +25,7 @@ class BalanceTest extends TestCase
      */
     public function testCastsServiceToEnum()
     {
-        $balance = Balance::factory()->create();
+        $balance = Balance::factory()->createOne();
 
         $service = $balance->service;
 
@@ -39,7 +39,7 @@ class BalanceTest extends TestCase
      */
     public function testCastsFrequencyToEnum()
     {
-        $balance = Balance::factory()->create();
+        $balance = Balance::factory()->createOne();
 
         $frequency = $balance->frequency;
 
@@ -55,9 +55,9 @@ class BalanceTest extends TestCase
     {
         Config::set('audit.console', true);
 
-        $balance = Balance::factory()->create();
+        $balance = Balance::factory()->createOne();
 
-        static::assertEquals(1, $balance->audits->count());
+        static::assertEquals(1, $balance->audits()->count());
     }
 
     /**
@@ -67,7 +67,7 @@ class BalanceTest extends TestCase
      */
     public function testNameable()
     {
-        $balance = Balance::factory()->create();
+        $balance = Balance::factory()->createOne();
 
         static::assertIsString($balance->getName());
     }

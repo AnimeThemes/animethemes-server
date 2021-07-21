@@ -9,6 +9,7 @@ use App\Contracts\Events\DiscordMessageEvent;
 use App\Enums\Services\Discord\EmbedColor;
 use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -57,7 +58,7 @@ class ThemeRestored extends ThemeEvent implements CascadesRestoresEvent, Discord
     {
         $theme = $this->getTheme();
 
-        $theme->entries()->withTrashed()->get()->each(function (Entry $entry) {
+        $theme->entries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Entry $entry) {
             Entry::withoutEvents(function () use ($entry) {
                 $entry->restore();
                 $entry->searchable();

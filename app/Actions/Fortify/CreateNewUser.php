@@ -6,6 +6,7 @@ namespace App\Actions\Fortify;
 
 use App\Concerns\Actions\Fortify\PasswordValidationRules;
 use App\Models\Auth\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -35,10 +36,12 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required'] : '',
         ])->validate();
 
-        return User::create([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'password' => Hash::make($input['password']),
+        return User::factory()->createOne([
+            'name' => Arr::get($input, 'name'),
+            'email' => Arr::get($input, 'email'),
+            'email_verified_at' => null,
+            'password' => Hash::make(Arr::get($input, 'password')),
+            'remember_token' => null,
         ]);
     }
 }

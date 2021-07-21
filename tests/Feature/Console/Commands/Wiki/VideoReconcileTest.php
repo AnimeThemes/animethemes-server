@@ -6,13 +6,12 @@ namespace Tests\Feature\Console\Commands\Wiki;
 
 use App\Console\Commands\Wiki\VideoReconcileCommand;
 use App\Models\Wiki\Video;
-use GuzzleHttp\Psr7\MimeType;
+use App\Repositories\Service\DigitalOcean\VideoRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
-use Illuminate\Http\Testing\File;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 /**
@@ -31,38 +30,9 @@ class VideoReconcileTest extends TestCase
      */
     public function testNoResults()
     {
-        Storage::fake('videos');
-
-        $this->artisan(VideoReconcileCommand::class)->expectsOutput('No Videos created or deleted or updated');
-    }
-
-    /**
-     * The Reconcile Video Command shall filter objects for WebM metadata.
-     * Note: Here we are asserting that our file type filter is in place.
-     *
-     * @return void
-     */
-    public function testDirectoryNoResults()
-    {
-        $fs = Storage::fake('videos');
-
-        $fs->makeDirectory($this->faker->word());
-
-        $this->artisan(VideoReconcileCommand::class)->expectsOutput('No Videos created or deleted or updated');
-    }
-
-    /**
-     * The Reconcile Video Command shall filter objects for WebM metadata.
-     * Note: Here we are asserting that our file extension filter is in place.
-     *
-     * @return void
-     */
-    public function testExtensionNoResults()
-    {
-        $fs = Storage::fake('videos');
-
-        $file = File::fake()->image($this->faker->word());
-        $fs->putFile('', $file);
+        $this->mock(VideoRepository::class, function (MockInterface $mock) {
+            $mock->shouldReceive('all')->once()->andReturn(Collection::make());
+        });
 
         $this->artisan(VideoReconcileCommand::class)->expectsOutput('No Videos created or deleted or updated');
     }
@@ -74,13 +44,12 @@ class VideoReconcileTest extends TestCase
      */
     public function testCreated()
     {
-        $fs = Storage::fake('videos');
+        $createdVideoCount = $this->faker->randomDigitNotNull();
 
-        $createdVideoCount = $this->faker->randomDigitNotNull;
-        Collection::times($createdVideoCount)->each(function () use ($fs) {
-            $fileName = $this->faker->word();
-            $file = File::fake()->create($fileName.'.webm');
-            $fs->putFile('', $file);
+        $videos = Video::factory()->count($createdVideoCount)->make();
+
+        $this->mock(VideoRepository::class, function (MockInterface $mock) use ($videos) {
+            $mock->shouldReceive('all')->once()->andReturn($videos);
         });
 
         $this->artisan(VideoReconcileCommand::class)->expectsOutput("{$createdVideoCount} Videos created, 0 Videos deleted, 0 Videos updated");
@@ -93,10 +62,13 @@ class VideoReconcileTest extends TestCase
      */
     public function testDeleted()
     {
-        $deletedVideoCount = $this->faker->randomDigitNotNull;
+        $deletedVideoCount = $this->faker->randomDigitNotNull();
+
         Video::factory()->count($deletedVideoCount)->create();
 
-        Storage::fake('videos');
+        $this->mock(VideoRepository::class, function (MockInterface $mock) {
+            $mock->shouldReceive('all')->once()->andReturn(Collection::make());
+        });
 
         $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, {$deletedVideoCount} Videos deleted, 0 Videos updated");
     }
@@ -108,23 +80,22 @@ class VideoReconcileTest extends TestCase
      */
     public function testUpdated()
     {
-        $fs = Storage::fake('videos');
+        $updatedVideoCount = $this->faker->randomDigitNotNull();
 
-        $updatedVideoCount = $this->faker->randomDigitNotNull;
+        $basenames = collect($this->faker->words($updatedVideoCount));
 
-        Collection::times($updatedVideoCount)->each(function () use ($fs) {
-            $fileName = $this->faker->word();
-            $file = File::fake()->create($fileName.'.webm');
-            $fsFile = $fs->putFile('', $file);
-            $fsPathinfo = pathinfo(strval($fsFile));
+        Video::factory()
+            ->count($updatedVideoCount)
+            ->sequence(fn ($sequence) => ['basename' => $basenames->get($sequence->index)])
+            ->create();
 
-            Video::create([
-                'basename' => $fsPathinfo['basename'],
-                'filename' => $fsPathinfo['filename'],
-                'path' => $this->faker->word(),
-                'size' => $this->faker->randomNumber(),
-                'mimetype' => MimeType::fromFilename($fsPathinfo['basename']),
-            ]);
+        $sourceVideos = Video::factory()
+            ->count($updatedVideoCount)
+            ->sequence(fn ($sequence) => ['basename' => $basenames->get($sequence->index)])
+            ->create();
+
+        $this->mock(VideoRepository::class, function (MockInterface $mock) use ($sourceVideos) {
+            $mock->shouldReceive('all')->once()->andReturn($sourceVideos);
         });
 
         $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, 0 Videos deleted, {$updatedVideoCount} Videos updated");

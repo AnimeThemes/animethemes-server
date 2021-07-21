@@ -6,10 +6,8 @@
 
         <x-jet-validation-errors class="mb-4" />
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ url()->full() }}">
             @csrf
-
-            <input type="hidden" name="token" value="{{ $invitation->token }}">
 
             <div>
                 <x-jet-label value="{{ __('Name') }}" />

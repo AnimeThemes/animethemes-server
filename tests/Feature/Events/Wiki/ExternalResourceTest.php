@@ -29,7 +29,7 @@ class ExternalResourceTest extends TestCase
     {
         Event::fake();
 
-        ExternalResource::factory()->create();
+        ExternalResource::factory()->createOne();
 
         Event::assertDispatched(ExternalResourceCreated::class);
     }
@@ -43,7 +43,7 @@ class ExternalResourceTest extends TestCase
     {
         Event::fake();
 
-        $resource = ExternalResource::factory()->create();
+        $resource = ExternalResource::factory()->createOne();
 
         $resource->delete();
 
@@ -59,7 +59,7 @@ class ExternalResourceTest extends TestCase
     {
         Event::fake();
 
-        $resource = ExternalResource::factory()->create();
+        $resource = ExternalResource::factory()->createOne();
 
         $resource->restore();
 
@@ -75,8 +75,8 @@ class ExternalResourceTest extends TestCase
     {
         Event::fake();
 
-        $resource = ExternalResource::factory()->create();
-        $changes = ExternalResource::factory()->make();
+        $resource = ExternalResource::factory()->createOne();
+        $changes = ExternalResource::factory()->makeOne();
 
         $resource->fill($changes->getAttributes());
         $resource->save();

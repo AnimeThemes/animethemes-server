@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class BalanceFactory.
+ *
+ * @method Balance createOne($attributes = [])
+ * @method Balance makeOne($attributes = [])
  */
 class BalanceFactory extends Factory
 {

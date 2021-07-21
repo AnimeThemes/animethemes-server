@@ -53,17 +53,23 @@ class AnimeSeasonSeeder extends Seeder
 
                 // If Anime heading line, attempt to set Anime to current Season
                 // Format: "###[{Anime Name}]({Resource Link})"
-                if ($year !== null && $season !== null && preg_match('/###\[(.*)\]\(https\:\/\/.*\)/', $wikiEntryLine, $animeName)) {
+                if ($season !== null && preg_match('/###\[(.*)]\(https:\/\/.*\)/', $wikiEntryLine, $animeName)) {
                     try {
                         // Set season if we have a definitive match
                         // This is not guaranteed as an Anime Name may be inconsistent between indices
-                        $matchingAnime = Anime::where('name', html_entity_decode($animeName[1]))->where('year', $year);
+                        $matchingAnime = Anime::query()
+                            ->where('name', html_entity_decode($animeName[1]))
+                            ->where('year', $year)
+                            ->get();
+
                         if ($matchingAnime->count() === 1) {
                             $anime = $matchingAnime->first();
-                            $anime->season = $season;
-                            if ($anime->isDirty()) {
-                                Log::info("Setting season '{$season}' for anime '{$anime->name}'");
-                                $anime->save();
+                            if ($anime instanceof Anime) {
+                                $anime->season = $season;
+                                if ($anime->isDirty()) {
+                                    Log::info("Setting season '{$season}' for anime '{$anime->name}'");
+                                    $anime->save();
+                                }
                             }
                         }
                     } catch (Exception $e) {

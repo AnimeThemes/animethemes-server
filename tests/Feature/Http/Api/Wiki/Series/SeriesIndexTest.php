@@ -37,7 +37,7 @@ class SeriesIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        $series = Series::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.series.index'));
 
@@ -62,7 +62,7 @@ class SeriesIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        Series::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.series.index'));
 
@@ -88,8 +88,8 @@ class SeriesIndexTest extends TestCase
         ];
 
         Series::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->count($this->faker->randomDigitNotNull)
+            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $series = Series::with($includedPaths->all())->get();
@@ -135,7 +135,7 @@ class SeriesIndexTest extends TestCase
             ],
         ];
 
-        $series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        $series = Series::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.series.index', $parameters));
 
@@ -177,7 +177,7 @@ class SeriesIndexTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        Series::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = Series::query();
 
@@ -220,15 +220,15 @@ class SeriesIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
-            Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($createdFilter, function () {
+            Series::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Series::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $series = Series::where('created_at', $createdFilter)->get();
+        $series = Series::query()->where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.series.index', $parameters));
 
@@ -265,15 +265,15 @@ class SeriesIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
-            Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($updatedFilter, function () {
+            Series::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Series::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $series = Series::where('updated_at', $updatedFilter)->get();
+        $series = Series::query()->where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.series.index', $parameters));
 
@@ -307,9 +307,9 @@ class SeriesIndexTest extends TestCase
             ],
         ];
 
-        Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        Series::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteSeries->each(function (Series $series) {
             $series->delete();
         });
@@ -348,9 +348,9 @@ class SeriesIndexTest extends TestCase
             ],
         ];
 
-        Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        Series::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteSeries->each(function (Series $series) {
             $series->delete();
         });
@@ -389,9 +389,9 @@ class SeriesIndexTest extends TestCase
             ],
         ];
 
-        Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        Series::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteSeries->each(function (Series $series) {
             $series->delete();
         });
@@ -434,15 +434,15 @@ class SeriesIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($deletedFilter, function () {
+            $series = Series::factory()->count($this->faker->randomDigitNotNull())->create();
             $series->each(function (Series $item) {
                 $item->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $series = Series::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            $series = Series::factory()->count($this->faker->randomDigitNotNull())->create();
             $series->each(function (Series $item) {
                 $item->delete();
             });
@@ -483,8 +483,8 @@ class SeriesIndexTest extends TestCase
         ];
 
         Series::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->count($this->faker->randomDigitNotNull)
+            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $series = Series::with([
@@ -529,14 +529,14 @@ class SeriesIndexTest extends TestCase
         Series::factory()
             ->has(
                 Anime::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
                         ['year' => 2000],
                         ['year' => 2001],
                         ['year' => 2002],
                     ))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $series = Series::with([

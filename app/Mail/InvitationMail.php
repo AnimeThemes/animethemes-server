@@ -8,6 +8,7 @@ use App\Models\Auth\Invitation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\URL;
 
 /**
  * Class InvitationMail.
@@ -42,8 +43,14 @@ class InvitationMail extends Mailable
      */
     public function build(): static
     {
+        $url = URL::temporarySignedRoute(
+            'register.create',
+            now()->addMinutes(30),
+            ['invitation' => $this->invitation]
+        );
+
         return $this->subject(__('nova.invitation_subject'))
             ->markdown('mail.invitation')
-            ->with('url', route('register', ['token' => $this->invitation->token]));
+            ->with('url', $url);
     }
 }

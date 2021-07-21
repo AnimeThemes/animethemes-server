@@ -13,13 +13,15 @@ use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class EntryResource.
+ *
+ * @mixin Entry
  */
 class EntryResource extends BaseResource
 {
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'entry';
 
@@ -40,12 +42,14 @@ class EntryResource extends BaseResource
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
         return [
             'id' => $this->when($this->isAllowedField('id'), $this->entry_id),
-            'version' => $this->when($this->isAllowedField('version'), $this->version === null ? '' : $this->version),
+            'version' => $this->when($this->isAllowedField('version'), $this->version),
             'episodes' => $this->when($this->isAllowedField('episodes'), $this->episodes),
             'nsfw' => $this->when($this->isAllowedField('nsfw'), $this->nsfw),
             'spoiler' => $this->when($this->isAllowedField('spoiler'), $this->spoiler),

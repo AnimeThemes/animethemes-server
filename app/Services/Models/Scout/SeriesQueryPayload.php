@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Models\Scout;
 
 use App\Models\Wiki\Series;
+use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
@@ -24,9 +25,9 @@ class SeriesQueryPayload extends ElasticQueryPayload
     /**
      * Build Elasticsearch query.
      *
-     * @return SearchRequestBuilder
+     * @return SearchRequestBuilder|BoolQueryBuilder
      */
-    public function buildQuery(): SearchRequestBuilder
+    public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder
     {
         return Series::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

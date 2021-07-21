@@ -11,16 +11,30 @@ use App\Events\Wiki\Entry\EntryRestored;
 use App\Events\Wiki\Entry\EntryUpdated;
 use App\Models\BaseModel;
 use App\Pivots\VideoEntry;
+use Database\Factories\Wiki\EntryFactory;
 use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
 /**
  * Class Entry.
+ *
+ * @property int $entry_id
+ * @property int|null $version
+ * @property string|null $episodes
+ * @property bool $nsfw
+ * @property bool $spoiler
+ * @property string|null $notes
+ * @property int $theme_id
+ * @property Theme $theme
+ * @property Collection $videos
+ * @property Anime $anime
+ * @method static EntryFactory factory(...$parameters)
  */
 class Entry extends BaseModel
 {
@@ -40,7 +54,7 @@ class Entry extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => EntryCreated::class,
@@ -67,7 +81,7 @@ class Entry extends BaseModel
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'nsfw' => 'boolean',
@@ -98,7 +112,7 @@ class Entry extends BaseModel
 
         // Overwrite version with readable format "V{#}"
         if (! empty($this->version)) {
-            $array['version'] = Str::of($this->version)->trim()->prepend('V')->__toString();
+            $array['version'] = Str::of(strval($this->version))->trim()->prepend('V')->__toString();
         }
 
         return $array;
@@ -147,6 +161,12 @@ class Entry extends BaseModel
      */
     public function anime(): BelongsToThrough
     {
-        return $this->belongsToThrough('App\Models\Wiki\Anime', 'App\Models\Wiki\Theme', null, '', ['App\Models\Wiki\Anime' => 'anime_id', 'App\Models\Wiki\Theme' => 'theme_id']);
+        return $this->belongsToThrough(
+            'App\Models\Wiki\Anime',
+            'App\Models\Wiki\Theme',
+            null,
+            '',
+            ['App\Models\Wiki\Anime' => 'anime_id', 'App\Models\Wiki\Theme' => 'theme_id']
+        );
     }
 }

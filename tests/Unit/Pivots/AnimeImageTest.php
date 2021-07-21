@@ -30,7 +30,7 @@ class AnimeImageTest extends TestCase
         $animeImage = AnimeImage::factory()
             ->for(Anime::factory())
             ->for(Image::factory())
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $animeImage->anime());
         static::assertInstanceOf(Anime::class, $animeImage->anime()->first());
@@ -46,7 +46,7 @@ class AnimeImageTest extends TestCase
         $animeImage = AnimeImage::factory()
             ->for(Anime::factory())
             ->for(Image::factory())
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $animeImage->image());
         static::assertInstanceOf(Image::class, $animeImage->image()->first());

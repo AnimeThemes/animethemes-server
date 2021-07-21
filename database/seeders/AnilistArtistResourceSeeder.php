@@ -30,12 +30,17 @@ class AnilistArtistResourceSeeder extends Seeder
     public function run()
     {
         // Get artists that have MAL resource but do not have Anilist resource
-        $artists = Artist::whereDoesntHave('resources', function (Builder $resourceQuery) {
-            $resourceQuery->where('site', ResourceSite::ANILIST);
-        })
-        ->get();
+        $artists = Artist::query()
+            ->whereDoesntHave('resources', function (Builder $resourceQuery) {
+                $resourceQuery->where('site', ResourceSite::ANILIST);
+            })
+            ->get();
 
         foreach ($artists as $artist) {
+            if (! $artist instanceof Artist) {
+                continue;
+            }
+
             // Try not to upset Anilist
             sleep(rand(5, 15));
 
@@ -66,12 +71,16 @@ class AnilistArtistResourceSeeder extends Seeder
                 $anilistId = Arr::get($anilistResourceJson, 'data.Staff.id');
 
                 // Check if Anilist resource already exists
-                $anilistResource = ExternalResource::where('site', ResourceSite::ANILIST)->where('external_id', $anilistId)->first();
+                $anilistResource = ExternalResource::query()
+                    ->where('site', ResourceSite::ANILIST)
+                    ->where('external_id', $anilistId)
+                    ->first();
 
                 // Create Anilist resource if it doesn't already exist
                 if ($anilistResource === null) {
                     Log::info("Creating anilist resource '{$anilistId}' for artist '{$artist->name}'");
-                    $anilistResource = ExternalResource::create([
+
+                    $anilistResource = ExternalResource::factory()->createOne([
                         'site' => ResourceSite::ANILIST,
                         'link' => "https://anilist.co/staff/{$anilistId}/",
                         'external_id' => $anilistId,
@@ -79,7 +88,11 @@ class AnilistArtistResourceSeeder extends Seeder
                 }
 
                 // Attach Anilist resource to artist
-                if (ArtistResource::where($artist->getKeyName(), $artist->getKey())->where($anilistResource->getKeyName(), $anilistResource->getKey())->doesntExist()) {
+                if (ArtistResource::query()
+                    ->where($artist->getKeyName(), $artist->getKey())
+                    ->where($anilistResource->getKeyName(), $anilistResource->getKey())
+                    ->doesntExist()
+                ) {
                     Log::info("Attaching resource '{$anilistResource->link}' to artist '{$artist->name}'");
                     $anilistResource->artists()->attach($artist);
                 }

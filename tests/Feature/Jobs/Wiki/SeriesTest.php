@@ -28,7 +28,7 @@ class SeriesTest extends TestCase
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        Series::factory()->create();
+        Series::factory()->createOne();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
@@ -40,7 +40,7 @@ class SeriesTest extends TestCase
      */
     public function testSeriesDeletedSendsDiscordNotification()
     {
-        $series = Series::factory()->create();
+        $series = Series::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -57,7 +57,7 @@ class SeriesTest extends TestCase
      */
     public function testSeriesRestoredSendsDiscordNotification()
     {
-        $series = Series::factory()->create();
+        $series = Series::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -74,12 +74,12 @@ class SeriesTest extends TestCase
      */
     public function testSeriesUpdatedSendsDiscordNotification()
     {
-        $series = Series::factory()->create();
+        $series = Series::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        $changes = Series::factory()->make();
+        $changes = Series::factory()->makeOne();
 
         $series->fill($changes->getAttributes());
         $series->save();

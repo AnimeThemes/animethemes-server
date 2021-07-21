@@ -8,7 +8,6 @@ use App\Enums\Models\Auth\InvitationStatus;
 use App\Mail\InvitationMail;
 use App\Models\Auth\Invitation;
 use App\Nova\Actions\Auth\ResendInvitationAction;
-use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
@@ -61,7 +60,7 @@ class ResendInvitationTest extends TestCase
     public function testNoClosedInvitationsResent()
     {
         $invitations = Invitation::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create([
                 'status' => InvitationStatus::CLOSED,
             ]);
@@ -81,27 +80,28 @@ class ResendInvitationTest extends TestCase
     public function testOpenInvitationsResent()
     {
         $invitations = Invitation::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create([
                 'status' => InvitationStatus::OPEN,
             ]);
 
         $action = static::novaAction(ResendInvitationAction::class);
 
+        $users = $invitations->pluck('name')->join(',');
+
         $action->handle([], $invitations)
-            ->assertMessage(__('nova.resent_invitations_for_none', ['users' => $invitations->pluck('name')->join(',')]));
+            ->assertMessage(__('nova.resent_invitations_for_users', ['users' => $users]));
     }
 
     /**
      * The Resend Invitation Action shall not send emails for closed invitations.
      *
      * @return void
-     * @throws Exception
      */
     public function testNoMailSentForClosedInvitations()
     {
         $invitations = Invitation::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create([
                 'status' => InvitationStatus::CLOSED,
             ]);
@@ -119,11 +119,10 @@ class ResendInvitationTest extends TestCase
      * The Resend Invitation Action shall send emails for open invitations.
      *
      * @return void
-     * @throws Exception
      */
     public function testMailSentForOpenInvitations()
     {
-        $invitationCount = $this->faker->randomDigitNotNull;
+        $invitationCount = $this->faker->randomDigitNotNull();
 
         $invitations = Invitation::factory()
             ->count($invitationCount)
@@ -138,30 +137,5 @@ class ResendInvitationTest extends TestCase
         $action->handle(new ActionFields(collect(), collect()), $invitations);
 
         Mail::assertQueued(InvitationMail::class, $invitationCount);
-    }
-
-    /**
-     * The Resend Invitation Action shall change invitation tokens.
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testInvitationTokenChanged()
-    {
-        $invitations = Invitation::factory()
-            ->count($this->faker->randomDigitNotNull)
-            ->create([
-                'status' => InvitationStatus::OPEN,
-            ]);
-
-        $oldTokens = $invitations->pluck('token');
-
-        $action = ResendInvitationAction::make();
-
-        $action->handle(new ActionFields(collect(), collect()), $invitations);
-
-        foreach ($invitations as $invitation) {
-            static::assertNotContains($invitation->token, $oldTokens);
-        }
     }
 }

@@ -6,7 +6,7 @@ namespace App\Nova\Resources\Billing;
 
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
-use App\Nova\Filters\Billing\BalanceFrequencyFilter;
+use App\Nova\Filters\Billing\Balance\BalanceFrequencyFilter;
 use App\Nova\Filters\Billing\ServiceFilter;
 use App\Nova\Resources\Resource;
 use BenSampo\Enum\Enum;
@@ -40,9 +40,11 @@ class Balance extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function group(): array | string | null
+    public static function group(): string
     {
         return __('nova.billing');
     }
@@ -50,9 +52,11 @@ class Balance extends Resource
     /**
      * Get the displayable label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function label(): array | string | null
+    public static function label(): string
     {
         return __('nova.balances');
     }
@@ -60,9 +64,11 @@ class Balance extends Resource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function singularLabel(): array | string | null
+    public static function singularLabel(): string
     {
         return __('nova.balance');
     }
@@ -70,7 +76,7 @@ class Balance extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var string[]
+     * @var array
      */
     public static $search = [
         'balance_id',
@@ -82,6 +88,18 @@ class Balance extends Resource
      * @var bool
      */
     public static $globallySearchable = false;
+
+    /**
+     * Determine if this resource uses Laravel Scout.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function usesScout(): bool
+    {
+        return false;
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -97,7 +115,7 @@ class Balance extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            new Panel(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
 
             Date::make(__('nova.date'), 'date')
                 ->sortable()
@@ -107,19 +125,19 @@ class Balance extends Resource
             Select::make(__('nova.service'), 'service')
                 ->options(Service::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
-                    return $enum ? $enum->description : null;
+                    return $enum?->description;
                 })
                 ->sortable()
-                ->rules('required', (new EnumValue(Service::class, false))->__toString())
+                ->rules(['required', (new EnumValue(Service::class, false))->__toString()])
                 ->help(__('nova.billing_service_help')),
 
             Select::make(__('nova.frequency'), 'frequency')
                 ->options(BalanceFrequency::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
-                    return $enum ? $enum->description : null;
+                    return $enum?->description;
                 })
                 ->sortable()
-                ->rules('required', (new EnumValue(BalanceFrequency::class, false))->__toString())
+                ->rules(['required', (new EnumValue(BalanceFrequency::class, false))->__toString()])
                 ->help(__('nova.balance_frequency_help')),
 
             Currency::make(__('nova.usage'), 'usage')

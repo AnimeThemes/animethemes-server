@@ -6,11 +6,13 @@ namespace App\Actions\Jetstream;
 
 use Closure;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Validator as IlluminateValidator;
 use Laravel\Jetstream\Contracts\InvitesTeamMembers;
 use Laravel\Jetstream\Events\InvitingTeamMember;
 use Laravel\Jetstream\Jetstream;
@@ -79,9 +81,13 @@ class InviteTeamMember implements InvitesTeamMembers
     protected function rules(mixed $team): array
     {
         return array_filter([
-            'email' => ['required', 'email', Rule::unique('team_invitations')->where(function ($query) use ($team) {
-                $query->where('team_id', $team->id);
-            })],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('team_invitations')->where(function (Builder $query) use ($team) {
+                    $query->where('team_id', $team->id);
+                }),
+            ],
             'role' => Jetstream::hasRoles()
                             ? ['required', 'string', new Role()]
                             : null,
@@ -97,7 +103,7 @@ class InviteTeamMember implements InvitesTeamMembers
      */
     protected function ensureUserIsNotAlreadyOnTeam(mixed $team, string $email): Closure
     {
-        return function ($validator) use ($team, $email) {
+        return function (IlluminateValidator $validator) use ($team, $email) {
             $validator->errors()->addIf(
                 $team->hasUserWithEmail($email),
                 'email',

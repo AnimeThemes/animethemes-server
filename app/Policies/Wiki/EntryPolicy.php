@@ -113,7 +113,11 @@ class EntryPolicy
      */
     public function attachVideo(User $user, Entry $entry, Video $video): bool
     {
-        if (VideoEntry::where($entry->getKeyName(), $entry->getKey())->where($video->getKeyName(), $video->getKey())->exists()) {
+        if (VideoEntry::query()
+            ->where($entry->getKeyName(), $entry->getKey())
+            ->where($video->getKeyName(), $video->getKey())
+            ->exists()
+        ) {
             return false;
         }
 

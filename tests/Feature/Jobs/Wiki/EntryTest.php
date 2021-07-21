@@ -29,12 +29,12 @@ class EntryTest extends TestCase
     {
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        Entry::factory()->for($theme)->create();
+        Entry::factory()->for($theme)->createOne();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
@@ -48,7 +48,7 @@ class EntryTest extends TestCase
     {
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -67,7 +67,7 @@ class EntryTest extends TestCase
     {
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -86,11 +86,11 @@ class EntryTest extends TestCase
     {
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         $changes = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->make();
+            ->makeOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);

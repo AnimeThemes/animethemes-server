@@ -57,15 +57,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -83,15 +83,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -109,15 +109,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -135,15 +135,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -161,15 +161,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -187,15 +187,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -213,15 +213,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -239,15 +239,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -265,15 +265,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -291,15 +291,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -317,15 +317,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -343,15 +343,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -369,15 +369,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -395,15 +395,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -421,15 +421,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 
@@ -447,18 +447,18 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
-        $artist = Artist::factory()->create();
-        $image = Image::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $image = Image::factory()->createOne();
         $policy = new ArtistPolicy();
 
         static::assertFalse($policy->attachImage($viewer, $artist, $image));
@@ -475,18 +475,18 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
-        $artist = Artist::factory()->create();
-        $image = Image::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $image = Image::factory()->createOne();
         $artist->images()->attach($image);
         $policy = new ArtistPolicy();
 
@@ -504,15 +504,15 @@ class ArtistPolicyTest extends TestCase
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
-            ->create();
+            ->createOne();
 
         $editor = User::factory()
             ->withCurrentTeam('editor')
-            ->create();
+            ->createOne();
 
         $admin = User::factory()
             ->withCurrentTeam('admin')
-            ->create();
+            ->createOne();
 
         $policy = new ArtistPolicy();
 

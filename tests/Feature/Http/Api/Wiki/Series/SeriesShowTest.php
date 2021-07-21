@@ -92,7 +92,7 @@ class SeriesShowTest extends TestCase
         ];
 
         Series::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
+            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
         $series = Series::with($includedPaths->all())->first();
@@ -172,7 +172,7 @@ class SeriesShowTest extends TestCase
         ];
 
         Series::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
+            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
         $series = Series::with([
@@ -217,7 +217,7 @@ class SeriesShowTest extends TestCase
         Series::factory()
             ->has(
                 Anime::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
                         ['year' => 2000],
                         ['year' => 2001],

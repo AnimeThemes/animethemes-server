@@ -10,6 +10,7 @@ use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -25,26 +26,28 @@ class YearController extends BaseController
      */
     public function index(): JsonResponse
     {
-        return new JsonResponse(Anime::distinct('year')->orderBy('year')->pluck('year'));
+        return new JsonResponse(Anime::query()->distinct('year')->orderBy('year')->pluck('year'));
     }
 
     /**
      * Display a listing of anime of year by season.
      *
+     * @param Request $request
      * @param string $year
      * @return JsonResponse
      */
-    public function show(string $year): JsonResponse
+    public function show(Request $request, string $year): JsonResponse
     {
         $anime = AnimeCollection::make(
-            Anime::where('year', $year)
+            Anime::query()
+                ->where('year', $year)
                 ->with($this->parser->getIncludePaths(AnimeCollection::allowedIncludePaths()))
                 ->orderBy('name')
                 ->get(),
             $this->parser
         );
 
-        $anime = collect($anime->toArray(request()));
+        $anime = collect($anime->toArray($request));
 
         $anime = $anime->groupBy(function (AnimeResource $anime) {
             return Str::lower(AnimeSeason::getDescription($anime->season));

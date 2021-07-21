@@ -24,7 +24,7 @@ class TransactionTest extends TestCase
      */
     public function testCastsServiceToEnum()
     {
-        $transaction = Transaction::factory()->create();
+        $transaction = Transaction::factory()->createOne();
 
         $service = $transaction->service;
 
@@ -40,9 +40,9 @@ class TransactionTest extends TestCase
     {
         Config::set('audit.console', true);
 
-        $transaction = Transaction::factory()->create();
+        $transaction = Transaction::factory()->createOne();
 
-        static::assertEquals(1, $transaction->audits->count());
+        static::assertEquals(1, $transaction->audits()->count());
     }
 
     /**
@@ -52,7 +52,7 @@ class TransactionTest extends TestCase
      */
     public function testNameable()
     {
-        $transaction = Transaction::factory()->create();
+        $transaction = Transaction::factory()->createOne();
 
         static::assertIsString($transaction->getName());
     }

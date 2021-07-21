@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Nova\Filters\Wiki\ExternalResourceSiteFilter;
-use App\Nova\Lenses\ExternalResourceUnlinkedLens;
+use App\Nova\Filters\Wiki\ExternalResource\ExternalResourceSiteFilter;
+use App\Nova\Lenses\ExternalResource\ExternalResourceUnlinkedLens;
 use App\Nova\Resources\Resource;
 use App\Rules\Wiki\ResourceSiteDomainRule;
 use BenSampo\Enum\Enum;
@@ -44,9 +44,11 @@ class ExternalResource extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function group(): array | string | null
+    public static function group(): string
     {
         return __('nova.wiki');
     }
@@ -54,18 +56,32 @@ class ExternalResource extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var string[]
+     * @var array
      */
     public static $search = [
         'link',
     ];
 
     /**
+     * Determine if this resource uses Laravel Scout.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function usesScout(): bool
+    {
+        return false;
+    }
+
+    /**
      * Get the displayable label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function label(): array | string | null
+    public static function label(): string
     {
         return __('nova.external_resources');
     }
@@ -73,9 +89,11 @@ class ExternalResource extends Resource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function singularLabel(): array | string | null
+    public static function singularLabel(): string
     {
         return __('nova.external_resource');
     }
@@ -94,20 +112,20 @@ class ExternalResource extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            new Panel(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
 
             Select::make(__('nova.site'), 'site')
                 ->options(ResourceSite::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
-                    return $enum ? $enum->description : null;
+                    return $enum?->description;
                 })
                 ->sortable()
-                ->rules('required', (new EnumValue(ResourceSite::class, false))->__toString())
+                ->rules(['required', (new EnumValue(ResourceSite::class, false))->__toString()])
                 ->help(__('nova.resource_site_help')),
 
             Url::make(__('nova.link'), 'link')
                 ->sortable()
-                ->rules('required', 'max:192', 'url', new ResourceSiteDomainRule(intval($request->input('site'))))
+                ->rules(['required', 'max:192', 'url', new ResourceSiteDomainRule(intval($request->input('site')))])
                 ->creationRules('unique:resource,link')
                 ->updateRules('unique:resource,link,{{resourceId}},resource_id')
                 ->help(__('nova.resource_link_help'))
@@ -116,7 +134,7 @@ class ExternalResource extends Resource
             Number::make(__('nova.external_id'), 'external_id')
                 ->nullable()
                 ->sortable()
-                ->rules('nullable', 'integer')
+                ->rules(['nullable', 'integer'])
                 ->help(__('nova.resource_external_id_help')),
 
             BelongsToMany::make(__('nova.artists'), 'Artists', Artist::class)
@@ -124,7 +142,7 @@ class ExternalResource extends Resource
                 ->fields(function () {
                     return [
                         Text::make(__('nova.as'), 'as')
-                            ->rules('nullable', 'max:192')
+                            ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
                         DateTime::make(__('nova.created_at'), 'created_at')
@@ -142,7 +160,7 @@ class ExternalResource extends Resource
                 ->fields(function () {
                     return [
                         Text::make(__('nova.as'), 'as')
-                            ->rules('nullable', 'max:192')
+                            ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
                         DateTime::make(__('nova.created_at'), 'created_at')
@@ -183,8 +201,11 @@ class ExternalResource extends Resource
      */
     public function lenses(Request $request): array
     {
-        return [
-            new ExternalResourceUnlinkedLens(),
-        ];
+        return array_merge(
+            parent::lenses($request),
+            [
+                new ExternalResourceUnlinkedLens(),
+            ]
+        );
     }
 }

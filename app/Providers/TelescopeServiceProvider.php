@@ -21,6 +21,8 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      * Register any application services.
      *
      * @return void
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function register()
     {
@@ -67,11 +69,13 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      * This gate determines who can access Telescope in non-local environments.
      *
      * @return void
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function gate()
     {
         Gate::define('viewTelescope', function (User $user) {
-            $telescopeTeam = Team::find(Config::get('teams.telescope'));
+            $telescopeTeam = Team::query()->find(Config::get('teams.telescope'));
 
             return $user->isCurrentTeam($telescopeTeam);
         });

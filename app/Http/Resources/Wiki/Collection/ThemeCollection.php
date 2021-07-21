@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
-use App\Http\Api\Filter\Base\CreatedAtFilter;
-use App\Http\Api\Filter\Base\DeletedAtFilter;
-use App\Http\Api\Filter\Base\TrashedFilter;
-use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Api\Filter\Wiki\Theme\ThemeGroupFilter;
 use App\Http\Api\Filter\Wiki\Theme\ThemeSequenceFilter;
 use App\Http\Api\Filter\Wiki\Theme\ThemeSlugFilter;
@@ -25,7 +21,7 @@ class ThemeCollection extends SearchableCollection
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'themes';
 
@@ -41,6 +37,8 @@ class ThemeCollection extends SearchableCollection
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
@@ -94,15 +92,14 @@ class ThemeCollection extends SearchableCollection
      */
     public static function filters(): array
     {
-        return [
-            ThemeTypeFilter::class,
-            ThemeSequenceFilter::class,
-            ThemeGroupFilter::class,
-            ThemeSlugFilter::class,
-            CreatedAtFilter::class,
-            UpdatedAtFilter::class,
-            DeletedAtFilter::class,
-            TrashedFilter::class,
-        ];
+        return array_merge(
+            parent::filters(),
+            [
+                ThemeTypeFilter::class,
+                ThemeSequenceFilter::class,
+                ThemeGroupFilter::class,
+                ThemeSlugFilter::class,
+            ]
+        );
     }
 }

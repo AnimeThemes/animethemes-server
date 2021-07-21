@@ -6,11 +6,18 @@ namespace App\Pivots;
 
 use App\Events\Pivot\VideoEntry\VideoEntryCreated;
 use App\Events\Pivot\VideoEntry\VideoEntryDeleted;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Video;
+use Database\Factories\Pivots\VideoEntryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class VideoEntry.
+ *
+ * @property Video $video
+ * @property Entry $entry
+ * @method static VideoEntryFactory factory(...$parameters)
  */
 class VideoEntry extends BasePivot
 {
@@ -28,7 +35,7 @@ class VideoEntry extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => VideoEntryCreated::class,

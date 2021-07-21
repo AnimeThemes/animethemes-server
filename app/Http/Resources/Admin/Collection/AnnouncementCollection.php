@@ -5,10 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Resources\Admin\Collection;
 
 use App\Http\Api\Filter\Admin\Announcement\AnnouncementContentFilter;
-use App\Http\Api\Filter\Base\CreatedAtFilter;
-use App\Http\Api\Filter\Base\DeletedAtFilter;
-use App\Http\Api\Filter\Base\TrashedFilter;
-use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Http\Resources\BaseCollection;
 use App\Models\Admin\Announcement;
@@ -22,7 +18,7 @@ class AnnouncementCollection extends BaseCollection
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'announcements';
 
@@ -38,12 +34,24 @@ class AnnouncementCollection extends BaseCollection
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
         return $this->collection->map(function (Announcement $announcement) {
             return AnnouncementResource::make($announcement, $this->parser);
         })->all();
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return string[]
+     */
+    public static function allowedIncludePaths(): array
+    {
+        return [];
     }
 
     /**
@@ -68,12 +76,11 @@ class AnnouncementCollection extends BaseCollection
      */
     public static function filters(): array
     {
-        return [
-            AnnouncementContentFilter::class,
-            CreatedAtFilter::class,
-            UpdatedAtFilter::class,
-            DeletedAtFilter::class,
-            TrashedFilter::class,
-        ];
+        return array_merge(
+            parent::filters(),
+            [
+                AnnouncementContentFilter::class,
+            ]
+        );
     }
 }

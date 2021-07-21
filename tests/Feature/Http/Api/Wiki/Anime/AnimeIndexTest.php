@@ -72,7 +72,7 @@ class AnimeIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.anime.index'));
 
@@ -143,7 +143,7 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        $anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        $anime = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.anime.index', $parameters));
 
@@ -185,7 +185,7 @@ class AnimeIndexTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = Anime::query();
 
@@ -224,8 +224,8 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        Anime::factory()->count($this->faker->randomDigitNotNull)->create();
-        $anime = Anime::where('season', $seasonFilter->value)->get();
+        Anime::factory()->count($this->faker->randomDigitNotNull())->create();
+        $anime = Anime::query()->where('season', $seasonFilter->value)->get();
 
         $response = $this->get(route('api.anime.index', $parameters));
 
@@ -259,7 +259,7 @@ class AnimeIndexTest extends TestCase
         ];
 
         Anime::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->state(new Sequence(
                 ['year' => 2000],
                 ['year' => 2001],
@@ -267,7 +267,7 @@ class AnimeIndexTest extends TestCase
             ))
             ->create();
 
-        $anime = Anime::where('year', $yearFilter)->get();
+        $anime = Anime::query()->where('year', $yearFilter)->get();
 
         $response = $this->get(route('api.anime.index', $parameters));
 
@@ -304,15 +304,15 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
-            Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($createdFilter, function () {
+            Anime::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Anime::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $anime = Anime::where('created_at', $createdFilter)->get();
+        $anime = Anime::query()->where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.anime.index', $parameters));
 
@@ -349,15 +349,15 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
-            Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($updatedFilter, function () {
+            Anime::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Anime::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $anime = Anime::where('updated_at', $updatedFilter)->get();
+        $anime = Anime::query()->where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.anime.index', $parameters));
 
@@ -391,9 +391,9 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAnime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteAnime = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteAnime->each(function (Anime $anime) {
             $anime->delete();
         });
@@ -432,9 +432,9 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAnime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteAnime = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteAnime->each(function (Anime $anime) {
             $anime->delete();
         });
@@ -473,9 +473,9 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAnime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteAnime = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteAnime->each(function (Anime $anime) {
             $anime->delete();
         });
@@ -518,15 +518,15 @@ class AnimeIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($deletedFilter, function () {
+            $anime = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
             $anime->each(function (Anime $item) {
                 $item->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $anime = Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            $anime = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
             $anime->each(function (Anime $item) {
                 $item->delete();
             });
@@ -568,13 +568,13 @@ class AnimeIndexTest extends TestCase
         Anime::factory()
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
                         ['group' => $groupFilter],
                         ['group' => $excludedGroup],
                     ))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $anime = Anime::with([
@@ -605,7 +605,7 @@ class AnimeIndexTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
@@ -618,13 +618,13 @@ class AnimeIndexTest extends TestCase
         Anime::factory()
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
                         ['sequence' => $sequenceFilter],
                         ['sequence' => $excludedSequence],
                     ))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $anime = Anime::with([
@@ -665,8 +665,8 @@ class AnimeIndexTest extends TestCase
         ];
 
         Anime::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull))
-            ->count($this->faker->randomDigitNotNull)
+            ->has(Theme::factory()->count($this->faker->randomDigitNotNull()))
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $anime = Anime::with([
@@ -853,8 +853,8 @@ class AnimeIndexTest extends TestCase
         ];
 
         Anime::factory()
-            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull), 'resources')
-            ->count($this->faker->randomDigitNotNull)
+            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), 'resources')
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $anime = Anime::with([
@@ -895,8 +895,8 @@ class AnimeIndexTest extends TestCase
         ];
 
         Anime::factory()
-            ->has(Image::factory()->count($this->faker->randomDigitNotNull))
-            ->count($this->faker->randomDigitNotNull)
+            ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $anime = Anime::with([

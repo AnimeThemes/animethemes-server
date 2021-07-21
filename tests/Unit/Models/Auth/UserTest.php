@@ -30,7 +30,7 @@ class UserTest extends TestCase
      */
     public function testTokens()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->createOne();
 
         $user->createToken($this->faker->word());
 
@@ -48,7 +48,7 @@ class UserTest extends TestCase
     {
         Notification::fake();
 
-        $user = User::factory()->create();
+        $user = User::factory()->createOne();
 
         $user->sendEmailVerificationNotification();
 
@@ -62,7 +62,7 @@ class UserTest extends TestCase
      */
     public function testNameable()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->createOne();
 
         static::assertIsString($user->getName());
     }

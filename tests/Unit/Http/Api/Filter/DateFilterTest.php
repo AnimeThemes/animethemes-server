@@ -29,7 +29,7 @@ class DateFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $dateValues = $this->faker->words($this->faker->randomDigitNotNull);
+        $dateValues = $this->faker->words($this->faker->randomDigitNotNull());
 
         $parameters = [
             QueryParser::PARAM_FILTER => [
@@ -129,6 +129,9 @@ class DateFilterTest extends TestCase
 
         $filterValues = $filter->getFilterValues($parser->getConditions($filterField)[0]);
 
-        static::assertEquals(DateTime::createFromFormat('!'.$dateFormat, $dateFilter)->format(AllowedDateFormat::YMDHISU), $filterValues[0]);
+        static::assertEquals(
+            DateTime::createFromFormat('!'.$dateFormat, $dateFilter)->format(AllowedDateFormat::YMDHISU),
+            $filterValues[0]
+        );
     }
 }

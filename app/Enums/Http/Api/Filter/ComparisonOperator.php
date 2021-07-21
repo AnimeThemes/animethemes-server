@@ -7,6 +7,8 @@ namespace App\Enums\Http\Api\Filter;
 use BenSampo\Enum\Enum;
 
 /**
+ * Class ComparisonOperator.
+ *
  * @method static static EQ()
  * @method static static NE()
  * @method static static LT()

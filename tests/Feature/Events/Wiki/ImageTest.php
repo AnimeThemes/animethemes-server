@@ -29,7 +29,7 @@ class ImageTest extends TestCase
     {
         Event::fake();
 
-        Image::factory()->create();
+        Image::factory()->createOne();
 
         Event::assertDispatched(ImageCreated::class);
     }
@@ -43,7 +43,7 @@ class ImageTest extends TestCase
     {
         Event::fake();
 
-        $image = Image::factory()->create();
+        $image = Image::factory()->createOne();
 
         $image->delete();
 
@@ -59,7 +59,7 @@ class ImageTest extends TestCase
     {
         Event::fake();
 
-        $image = Image::factory()->create();
+        $image = Image::factory()->createOne();
 
         $image->restore();
 
@@ -75,8 +75,8 @@ class ImageTest extends TestCase
     {
         Event::fake();
 
-        $image = Image::factory()->create();
-        $changes = Image::factory()->make();
+        $image = Image::factory()->createOne();
+        $changes = Image::factory()->makeOne();
 
         $image->fill($changes->getAttributes());
         $image->save();

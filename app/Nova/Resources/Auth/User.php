@@ -35,6 +35,8 @@ class User extends Resource
      *
      * @param Request $request
      * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function availableForNavigation(Request $request): bool
     {
@@ -46,9 +48,11 @@ class User extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function group(): array | string | null
+    public static function group(): string
     {
         return __('nova.admin');
     }
@@ -56,9 +60,11 @@ class User extends Resource
     /**
      * Get the displayable label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function label(): array | string | null
+    public static function label(): string
     {
         return __('nova.users');
     }
@@ -66,9 +72,11 @@ class User extends Resource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function singularLabel(): array | string | null
+    public static function singularLabel(): string
     {
         return __('nova.user');
     }
@@ -76,7 +84,7 @@ class User extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var string[]
+     * @var array
      */
     public static $search = [
         'name',
@@ -96,17 +104,17 @@ class User extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            new Panel(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
 
             Gravatar::make()->maxWidth(50),
 
             Text::make(__('nova.name'), 'name')
                 ->sortable()
-                ->rules('required', 'max:192', 'alpha_dash'),
+                ->rules(['required', 'max:192', 'alpha_dash']),
 
             Text::make(__('nova.email'), 'email')
                 ->sortable()
-                ->rules('required', 'email', 'max:192')
+                ->rules(['required', 'email', 'max:192'])
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
         ];

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
-use App\Nova\Filters\Wiki\ImageFacetFilter;
-use App\Nova\Lenses\ImageUnlinkedLens;
+use App\Nova\Filters\Wiki\Image\ImageFacetFilter;
+use App\Nova\Lenses\Image\ImageUnlinkedLens;
 use App\Nova\Resources\Resource;
 use App\Services\Nova\Resources\StoreImage;
 use BenSampo\Enum\Enum;
@@ -44,9 +44,11 @@ class Image extends Resource
     /**
      * The logical group associated with the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function group(): array | string | null
+    public static function group(): string
     {
         return __('nova.wiki');
     }
@@ -54,18 +56,32 @@ class Image extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var string[]
+     * @var array
      */
     public static $search = [
         'image_id',
     ];
 
     /**
+     * Determine if this resource uses Laravel Scout.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function usesScout(): bool
+    {
+        return false;
+    }
+
+    /**
      * Get the displayable label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function label(): array | string | null
+    public static function label(): string
     {
         return __('nova.images');
     }
@@ -73,9 +89,11 @@ class Image extends Resource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function singularLabel(): array | string | null
+    public static function singularLabel(): string
     {
         return __('nova.image');
     }
@@ -94,17 +112,17 @@ class Image extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            new Panel(__('nova.file_properties'), $this->fileProperties()),
+            Panel::make(__('nova.file_properties'), $this->fileProperties()),
 
-            new Panel(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
 
             Select::make(__('nova.facet'), 'facet')
                 ->options(ImageFacet::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
-                    return $enum ? $enum->description : null;
+                    return $enum?->description;
                 })
                 ->sortable()
-                ->rules('required', (new EnumValue(ImageFacet::class, false))->__toString())
+                ->rules(['required', (new EnumValue(ImageFacet::class, false))->__toString()])
                 ->help(__('nova.image_facet_help')),
 
             NovaImage::make(__('nova.image'), 'path', 'images', new StoreImage())
@@ -189,8 +207,11 @@ class Image extends Resource
      */
     public function lenses(Request $request): array
     {
-        return [
-            new ImageUnlinkedLens(),
-        ];
+        return array_merge(
+            parent::lenses($request),
+            [
+                new ImageUnlinkedLens(),
+            ]
+        );
     }
 }

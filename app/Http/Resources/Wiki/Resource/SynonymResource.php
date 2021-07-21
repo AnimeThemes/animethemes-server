@@ -12,13 +12,15 @@ use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class SynonymResource.
+ *
+ * @mixin Synonym
  */
 class SynonymResource extends BaseResource
 {
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'synonym';
 
@@ -39,6 +41,8 @@ class SynonymResource extends BaseResource
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {

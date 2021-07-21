@@ -10,14 +10,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Auth\Invitation;
 use App\Models\Auth\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
 
 /**
  * Class RegisterController.
@@ -51,13 +54,11 @@ class RegisterController extends Controller
     /**
      * Show the application registration form.
      *
-     * @return View
+     * @param Invitation $invitation
+     * @return View|Factory
      */
-    public function showRegistrationForm(): View
+    public function showRegistrationForm(Invitation $invitation): View | Factory
     {
-        $token = request('token');
-        $invitation = Invitation::where('token', $token)->firstOrFail();
-
         return view('auth.register', [
             'invitation' => $invitation,
         ]);
@@ -67,13 +68,12 @@ class RegisterController extends Controller
      * Handle a registration request for the application.
      *
      * @param Request $request
-     * @return RedirectResponse|JsonResponse
+     * @param Invitation $invitation
+     * @return JsonResponse|RedirectResponse|Redirector
      * @throws ValidationException
      */
-    public function register(Request $request): JsonResponse | RedirectResponse
+    public function register(Request $request, Invitation $invitation): JsonResponse | RedirectResponse | Redirector
     {
-        $invitation = Invitation::where('token', $request->input('token'))->firstOrFail();
-
         $data = array_merge($request->all(), [
             'name' => $invitation->name,
             'email' => $invitation->email,
@@ -83,7 +83,7 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($data)));
 
-        $invitation->status = InvitationStatus::CLOSED;
+        $invitation->status = InvitationStatus::CLOSED();
         $invitation->save();
 
         $this->guard()->login($user);
@@ -121,10 +121,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data): User
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+        return User::factory()->createOne([
+            'name' => Arr::get($data, 'name'),
+            'email' => Arr::get($data, 'email'),
+            'email_verified_at' => null,
+            'password' => Hash::make(Arr::get($data, 'password')),
+            'remember_token' => null,
         ]);
     }
 }

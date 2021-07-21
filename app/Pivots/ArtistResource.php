@@ -7,17 +7,27 @@ namespace App\Pivots;
 use App\Events\Pivot\ArtistResource\ArtistResourceCreated;
 use App\Events\Pivot\ArtistResource\ArtistResourceDeleted;
 use App\Events\Pivot\ArtistResource\ArtistResourceUpdated;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\ExternalResource;
+use Database\Factories\Pivots\ArtistResourceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class ArtistResource.
+ *
+ * @property string $as
+ * @property Artist $artist
+ * @property ExternalResource $resource
+ * @method static ArtistResourceFactory factory(...$parameters)
  */
 class ArtistResource extends BasePivot
 {
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
      * @var string[]
      */
     protected $fillable = ['as'];
@@ -34,7 +44,7 @@ class ArtistResource extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => ArtistResourceCreated::class,

@@ -28,7 +28,7 @@ class ImageTest extends TestCase
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        Image::factory()->create();
+        Image::factory()->createOne();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
@@ -40,7 +40,7 @@ class ImageTest extends TestCase
      */
     public function testImageDeletedSendsDiscordNotification()
     {
-        $image = Image::factory()->create();
+        $image = Image::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -57,7 +57,7 @@ class ImageTest extends TestCase
      */
     public function testImageRestoredSendsDiscordNotification()
     {
-        $image = Image::factory()->create();
+        $image = Image::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -74,12 +74,12 @@ class ImageTest extends TestCase
      */
     public function testImageUpdatedSendsDiscordNotification()
     {
-        $image = Image::factory()->create();
+        $image = Image::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        $changes = Image::factory()->make();
+        $changes = Image::factory()->makeOne();
 
         $image->fill($changes->getAttributes());
         $image->save();

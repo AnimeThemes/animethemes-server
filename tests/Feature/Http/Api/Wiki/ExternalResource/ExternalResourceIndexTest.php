@@ -39,7 +39,7 @@ class ExternalResourceIndexTest extends TestCase
     public function testDefault()
     {
         $resources = ExternalResource::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $response = $this->get(route('api.resource.index'));
@@ -63,7 +63,7 @@ class ExternalResourceIndexTest extends TestCase
      */
     public function testPaginated()
     {
-        ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.resource.index'));
 
@@ -89,9 +89,9 @@ class ExternalResourceIndexTest extends TestCase
         ];
 
         ExternalResource::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
-            ->count($this->faker->randomDigitNotNull)
+            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(Artist::factory()->count($this->faker->randomDigitNotNull()))
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $resources = ExternalResource::with($includedPaths->all())->get();
@@ -137,7 +137,7 @@ class ExternalResourceIndexTest extends TestCase
         ];
 
         $resources = ExternalResource::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $response = $this->get(route('api.resource.index', $parameters));
@@ -178,7 +178,7 @@ class ExternalResourceIndexTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = ExternalResource::query();
 
@@ -219,15 +219,15 @@ class ExternalResourceIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
-            ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($createdFilter, function () {
+            ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $resource = ExternalResource::where('created_at', $createdFilter)->get();
+        $resource = ExternalResource::query()->where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.resource.index', $parameters));
 
@@ -262,15 +262,15 @@ class ExternalResourceIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
-            ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($updatedFilter, function () {
+            ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $resource = ExternalResource::where('updated_at', $updatedFilter)->get();
+        $resource = ExternalResource::query()->where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.resource.index', $parameters));
 
@@ -302,9 +302,9 @@ class ExternalResourceIndexTest extends TestCase
             ],
         ];
 
-        ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteResource->each(function (ExternalResource $resource) {
             $resource->delete();
         });
@@ -341,9 +341,9 @@ class ExternalResourceIndexTest extends TestCase
             ],
         ];
 
-        ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteResource->each(function (ExternalResource $resource) {
             $resource->delete();
         });
@@ -380,9 +380,9 @@ class ExternalResourceIndexTest extends TestCase
             ],
         ];
 
-        ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteResource->each(function (ExternalResource $resource) {
             $resource->delete();
         });
@@ -423,15 +423,15 @@ class ExternalResourceIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $resources = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($deletedFilter, function () {
+            $resources = ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
             $resources->each(function (ExternalResource $resource) {
                 $resource->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $resources = ExternalResource::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            $resources = ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
             $resources->each(function (ExternalResource $resource) {
                 $resource->delete();
             });
@@ -469,10 +469,10 @@ class ExternalResourceIndexTest extends TestCase
         ];
 
         ExternalResource::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $resources = ExternalResource::where('site', $siteFilter->value)->get();
+        $resources = ExternalResource::query()->where('site', $siteFilter->value)->get();
 
         $response = $this->get(route('api.resource.index', $parameters));
 
@@ -505,8 +505,8 @@ class ExternalResourceIndexTest extends TestCase
         ];
 
         ExternalResource::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->count($this->faker->randomDigitNotNull)
+            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $resources = ExternalResource::with([
@@ -550,12 +550,12 @@ class ExternalResourceIndexTest extends TestCase
         ExternalResource::factory()
             ->has(
                 Anime::factory()
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->state([
                     'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                 ])
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $resources = ExternalResource::with([

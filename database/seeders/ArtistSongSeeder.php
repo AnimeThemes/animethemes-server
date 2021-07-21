@@ -35,14 +35,14 @@ class ArtistSongSeeder extends Seeder
 
         // Match Artist Entries
         // Format: "[{Artist Name}](/r/AnimeThemes/wiki/artist/{Artist Slug}/)"
-        preg_match_all('/\[(.*)\]\(\/r\/AnimeThemes\/wiki\/artist\/(.*)\)/m', $artistWikiContents, $artistWikiEntries, PREG_SET_ORDER);
+        preg_match_all('/\[(.*)]\(\/r\/AnimeThemes\/wiki\/artist\/(.*)\)/m', $artistWikiContents, $artistWikiEntries, PREG_SET_ORDER);
 
         foreach ($artistWikiEntries as $artistWikiEntry) {
             $artistName = html_entity_decode($artistWikiEntry[1]);
             $artistSlug = html_entity_decode($artistWikiEntry[2]);
 
-            $artist = Artist::where('name', $artistName)->where('slug', $artistSlug)->first();
-            if ($artist === null) {
+            $artist = Artist::query()->where('name', $artistName)->where('slug', $artistSlug)->first();
+            if (! $artist instanceof Artist) {
                 continue;
             }
 
@@ -67,11 +67,11 @@ class ArtistSongSeeder extends Seeder
 
                 // If Anime heading line, attempt to set current
                 // Format: "###[{Anime Name}]({Resource Link})"
-                if (preg_match('/^###\[(.*)\]\(https\:\/\/.*\)(?:\\r)?$/', $wikiEntryLine, $animeName)) {
+                if (preg_match('/^###\[(.*)]\(https:\/\/.*\)(?:\\r)?$/', $wikiEntryLine, $animeName)) {
                     try {
                         // Set current Anime if we have a definitive match
                         // This is not guaranteed as an Anime Name may be inconsistent between indices
-                        $matchingAnime = Anime::where('name', html_entity_decode($animeName[1]));
+                        $matchingAnime = Anime::query()->where('name', html_entity_decode($animeName[1]));
                         if ($matchingAnime->count() === 1) {
                             $anime = $matchingAnime->first();
                             continue;
@@ -86,13 +86,14 @@ class ArtistSongSeeder extends Seeder
 
                 // If Theme line, attempt to load Theme and associate Song to Artist
                 // Format: "{OP|ED}{Sequence} V{Version} "{Song Title}" by {by}|[Webm {Tags}](https://animethemes.moe/video/{Video Basename})|{Episodes}|{Notes}"
-                if ($anime !== null && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\".*\|\[Webm.*\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wikiEntryLine, $themeMatch)) {
+                if ($anime instanceof Anime && preg_match('/^(OP|ED)(\d*)(?:\sV(\d*))?.*\"(.*)\".*\|\[Webm.*]\(https:\/\/animethemes\.moe\/video\/(.*)\)\|(.*)\|(.*)(?:\\r)?$/', $wikiEntryLine, $themeMatch)) {
                     $themeType = ThemeType::getValue(Str::upper($themeMatch[1]));
                     $sequence = is_numeric($themeMatch[2]) ? intval($themeMatch[2]) : null;
                     $version = is_numeric($themeMatch[3]) ? intval($themeMatch[3]) : null;
 
                     if ($version === null || $version === 1) {
-                        $matchingThemes = Theme::where('anime_id', $anime->anime_id)
+                        $matchingThemes = Theme::query()
+                            ->where('anime_id', $anime->anime_id)
                             ->where('type', $themeType)
                             ->where(function (Builder $query) use ($sequence) {
                                 if (intval($sequence) === 1) {
@@ -108,7 +109,11 @@ class ArtistSongSeeder extends Seeder
                             $theme = $matchingThemes->first();
                             $song = $theme->song;
 
-                            if ($song !== null && ArtistSong::where($artist->getKeyName(), $artist->getKey())->where($song->getKeyName(), $song->getKey())->doesntExist()) {
+                            if ($song !== null && ArtistSong::query()
+                                    ->where($artist->getKeyName(), $artist->getKey())
+                                    ->where($song->getKeyName(), $song->getKey())
+                                    ->doesntExist()
+                            ) {
                                 Log::info("Attaching song '{$song->title}' to artist '{$artist->name}'");
                                 $artist->songs()->attach($song);
                             }

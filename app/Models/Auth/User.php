@@ -9,17 +9,37 @@ use App\Events\Auth\User\UserCreated;
 use App\Events\Auth\User\UserDeleted;
 use App\Events\Auth\User\UserRestored;
 use App\Events\Auth\User\UserUpdated;
+use Carbon\Carbon;
+use Database\Factories\Auth\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
  * Class User.
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property Carbon|null $email_verified_at
+ * @property string $password
+ * @property string $remember_token
+ * @property string|null $current_team_id
+ * @property string|null $two_factor_secret
+ * @property string|null $two_factor_recovery_codes
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Collection $tokens
+ * @property Team|null $currentTeam
+ * @property Collection $ownedTeams
+ * @property Collection $teams
+ * @method static UserFactory factory(...$parameters)
  */
 class User extends Authenticatable implements MustVerifyEmail, Nameable
 {
@@ -42,7 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => UserCreated::class,
@@ -52,9 +72,16 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     ];
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
+
+    /**
      * The attributes that should be hidden for arrays.
      *
-     * @var string[]
+     * @var array
      */
     protected $hidden = ['password', 'remember_token', 'two_factor_recovery_codes', 'two_factor_secret'];
 
@@ -68,7 +95,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',

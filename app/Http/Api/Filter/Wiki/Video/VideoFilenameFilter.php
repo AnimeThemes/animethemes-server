@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter\Wiki\Video;
 
-use App\Http\Api\Filter\Filter;
+use App\Http\Api\Filter\StringFilter;
 use App\Http\Api\QueryParser;
 
 /**
  * Class VideoFilenameFilter.
  */
-class VideoFilenameFilter extends Filter
+class VideoFilenameFilter extends StringFilter
 {
     /**
      * Create a new filter instance.

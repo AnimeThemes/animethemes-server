@@ -30,7 +30,7 @@ class ArtistImageTest extends TestCase
         $artistImage = ArtistImage::factory()
             ->for(Artist::factory())
             ->for(Image::factory())
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $artistImage->artist());
         static::assertInstanceOf(Artist::class, $artistImage->artist()->first());
@@ -46,7 +46,7 @@ class ArtistImageTest extends TestCase
         $artistImage = ArtistImage::factory()
             ->for(Artist::factory())
             ->for(Image::factory())
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $artistImage->image());
         static::assertInstanceOf(Image::class, $artistImage->image()->first());

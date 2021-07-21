@@ -33,7 +33,7 @@ class AnnouncementIndexTest extends TestCase
      */
     public function testDefault()
     {
-        $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.announcement.index'));
 
@@ -56,7 +56,7 @@ class AnnouncementIndexTest extends TestCase
      */
     public function testPaginated()
     {
-        Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.announcement.index'));
 
@@ -81,7 +81,7 @@ class AnnouncementIndexTest extends TestCase
             QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
-        Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
         $announcements = Announcement::with($includedPaths->all())->get();
 
         $response = $this->get(route('api.announcement.index', $parameters));
@@ -121,7 +121,7 @@ class AnnouncementIndexTest extends TestCase
             ],
         ];
 
-        $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.announcement.index', $parameters));
 
@@ -161,7 +161,7 @@ class AnnouncementIndexTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = Announcement::query();
 
@@ -202,15 +202,15 @@ class AnnouncementIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
-            Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($createdFilter, function () {
+            Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $announcement = Announcement::where('created_at', $createdFilter)->get();
+        $announcement = Announcement::query()->where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.announcement.index', $parameters));
 
@@ -245,15 +245,15 @@ class AnnouncementIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
-            Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($updatedFilter, function () {
+            Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $announcement = Announcement::where('updated_at', $updatedFilter)->get();
+        $announcement = Announcement::query()->where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.announcement.index', $parameters));
 
@@ -285,9 +285,9 @@ class AnnouncementIndexTest extends TestCase
             ],
         ];
 
-        Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAnnouncement = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteAnnouncement = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteAnnouncement->each(function (Announcement $announcement) {
             $announcement->delete();
         });
@@ -324,9 +324,9 @@ class AnnouncementIndexTest extends TestCase
             ],
         ];
 
-        Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAnnouncement = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteAnnouncement = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteAnnouncement->each(function (Announcement $announcement) {
             $announcement->delete();
         });
@@ -363,9 +363,9 @@ class AnnouncementIndexTest extends TestCase
             ],
         ];
 
-        Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAnnouncement = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteAnnouncement = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteAnnouncement->each(function (Announcement $announcement) {
             $announcement->delete();
         });
@@ -406,15 +406,15 @@ class AnnouncementIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($deletedFilter, function () {
+            $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
             $announcements->each(function (Announcement $announcement) {
                 $announcement->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
             $announcements->each(function (Announcement $announcement) {
                 $announcement->delete();
             });

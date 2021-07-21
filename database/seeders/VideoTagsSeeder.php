@@ -37,15 +37,15 @@ class VideoTagsSeeder extends Seeder
 
             // Match Tags and basename of Videos
             // Format: "[Webm ({Tag 1, Tag 2, Tag 3...})]({Video Link})
-            preg_match_all('/\[Webm.*\((.*)\)\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)|\[Webm\]\(https\:\/\/animethemes\.moe\/video\/(.*)\)/m', $yearWikiContents, $videoWikiEntries, PREG_SET_ORDER);
+            preg_match_all('/\[Webm.*\((.*)\)]\(https:\/\/animethemes\.moe\/video\/(.*)\)|\[Webm]\(https:\/\/animethemes\.moe\/video\/(.*)\)/m', $yearWikiContents, $videoWikiEntries, PREG_SET_ORDER);
 
             foreach ($videoWikiEntries as $videoWikiEntry) {
                 // Video tags are potentially inconsistent so we make an effort for uniformity
                 $videoTags = explode(',', preg_replace('/\s+/', '', Str::upper($videoWikiEntry[1])));
                 $videoBasename = count($videoWikiEntry) === 3 ? $videoWikiEntry[2] : $videoWikiEntry[3];
 
-                $video = Video::where('basename', $videoBasename)->first();
-                if ($video === null) {
+                $video = Video::query()->where('basename', $videoBasename)->first();
+                if (! $video instanceof Video) {
                     continue;
                 }
 
@@ -75,12 +75,12 @@ class VideoTagsSeeder extends Seeder
                 // Set overlap type if we have a definitive match or default to 'None'
                 $hasTransTag = in_array(VideoOverlap::getKey(VideoOverlap::TRANS), $videoTags);
                 $hasOverTag = in_array(VideoOverlap::getKey(VideoOverlap::OVER), $videoTags);
-                $video->overlap = VideoOverlap::NONE;
+                $video->overlap = VideoOverlap::NONE();
                 if ($hasTransTag && ! $hasOverTag) {
-                    $video->overlap = VideoOverlap::TRANS;
+                    $video->overlap = VideoOverlap::TRANS();
                 }
                 if (! $hasTransTag && $hasOverTag) {
-                    $video->overlap = VideoOverlap::OVER;
+                    $video->overlap = VideoOverlap::OVER();
                 }
 
                 // Save changes if any to Video

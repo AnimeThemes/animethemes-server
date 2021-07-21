@@ -48,19 +48,19 @@ class UpdatedStartDateTest extends TestCase
      */
     public function testFilter()
     {
-        $dateFilter = Carbon::now()->subDays($this->faker->randomDigitNotNull);
+        $dateFilter = Carbon::now()->subDays($this->faker->randomDigitNotNull());
 
-        Carbon::withTestNow(Carbon::now()->subMonths($this->faker->randomDigitNotNull), function () {
-            Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow(Carbon::now()->subMonths($this->faker->randomDigitNotNull()), function () {
+            Anime::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Anime::factory()->count($this->faker->randomDigitNotNull)->create();
+        Anime::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $filter = static::novaFilter(UpdatedStartDateFilter::class);
 
         $response = $filter->apply(Anime::class, $dateFilter);
 
-        $filteredAnimes = Anime::where(Model::UPDATED_AT, ComparisonOperator::GTE, $dateFilter)->get();
+        $filteredAnimes = Anime::query()->where(Model::UPDATED_AT, ComparisonOperator::GTE, $dateFilter)->get();
         foreach ($filteredAnimes as $filteredAnime) {
             $response->assertContains($filteredAnime);
         }

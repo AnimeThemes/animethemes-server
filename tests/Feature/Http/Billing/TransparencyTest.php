@@ -69,7 +69,7 @@ class TransparencyTest extends TestCase
     {
         Balance::factory()->create();
 
-        $date = Carbon::now()->subMonths($this->faker->randomDigitNotNull)->format(AllowedDateFormat::YM);
+        $date = Carbon::now()->subMonths($this->faker->randomDigitNotNull())->format(AllowedDateFormat::YM);
 
         $response = $this->get(route('transparency.show', ['date' => $date]));
 
@@ -83,7 +83,7 @@ class TransparencyTest extends TestCase
      */
     public function testBalances()
     {
-        Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('transparency.show'));
 
@@ -97,7 +97,7 @@ class TransparencyTest extends TestCase
      */
     public function testTransactions()
     {
-        Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('transparency.show'));
 
@@ -111,7 +111,7 @@ class TransparencyTest extends TestCase
      */
     public function testFilterOptions()
     {
-        Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('transparency.show'));
 
@@ -125,7 +125,7 @@ class TransparencyTest extends TestCase
      */
     public function testSelectedDate()
     {
-        Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('transparency.show'));
 

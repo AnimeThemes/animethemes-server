@@ -30,7 +30,7 @@ class ArtistSongTest extends TestCase
         $artistSong = ArtistSong::factory()
             ->for(Artist::factory())
             ->for(Song::factory())
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $artistSong->artist());
         static::assertInstanceOf(Artist::class, $artistSong->artist()->first());
@@ -46,7 +46,7 @@ class ArtistSongTest extends TestCase
         $artistSong = ArtistSong::factory()
             ->for(Artist::factory())
             ->for(Song::factory())
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $artistSong->song());
         static::assertInstanceOf(Song::class, $artistSong->song()->first());

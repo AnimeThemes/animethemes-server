@@ -113,7 +113,11 @@ class SeriesPolicy
      */
     public function attachAnime(User $user, Series $series, Anime $anime): bool
     {
-        if (AnimeSeries::where($anime->getKeyName(), $anime->getKey())->where($series->getKeyName(), $series->getKey())->exists()) {
+        if (AnimeSeries::query()
+            ->where($anime->getKeyName(), $anime->getKey())
+            ->where($series->getKeyName(), $series->getKey())
+            ->exists()
+        ) {
             return false;
         }
 

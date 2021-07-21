@@ -25,7 +25,7 @@ class BooleanFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $booleanValues = $this->faker->words($this->faker->randomDigitNotNull);
+        $booleanValues = $this->faker->words($this->faker->randomDigitNotNull());
 
         $parameters = [
             QueryParser::PARAM_FILTER => [

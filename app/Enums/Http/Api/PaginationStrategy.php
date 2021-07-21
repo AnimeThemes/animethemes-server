@@ -7,6 +7,8 @@ namespace App\Enums\Http\Api;
 use BenSampo\Enum\Enum;
 
 /**
+ * Class PaginationStrategy.
+ *
  * @method static static NONE()
  * @method static static LIMIT()
  * @method static static OFFSET()

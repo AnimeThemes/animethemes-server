@@ -10,6 +10,9 @@ use Illuminate\Support\Str;
 
 /**
  * Class SeriesFactory.
+ *
+ * @method Series createOne($attributes = [])
+ * @method Series makeOne($attributes = [])
  */
 class SeriesFactory extends Factory
 {

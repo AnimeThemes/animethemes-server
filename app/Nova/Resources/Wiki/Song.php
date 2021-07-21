@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
-use App\Nova\Lenses\SongArtistLens;
+use App\Nova\Lenses\Song\SongArtistLens;
 use App\Nova\Resources\Resource;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
@@ -37,16 +37,18 @@ class Song extends Resource
     /**
      * The relationships that should be eager loaded on index queries.
      *
-     * @var string[]
+     * @var array
      */
     public static $with = ['artists'];
 
     /**
      * The logical group associated with the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function group(): array | string | null
+    public static function group(): string
     {
         return __('nova.wiki');
     }
@@ -54,9 +56,11 @@ class Song extends Resource
     /**
      * Get the displayable label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function label(): array | string | null
+    public static function label(): string
     {
         return __('nova.songs');
     }
@@ -64,9 +68,11 @@ class Song extends Resource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function singularLabel(): array | string | null
+    public static function singularLabel(): string
     {
         return __('nova.song');
     }
@@ -74,7 +80,7 @@ class Song extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var string[]
+     * @var array
      */
     public static $search = [
         'title',
@@ -94,12 +100,12 @@ class Song extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            new Panel(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
 
             Text::make(__('nova.title'), 'title')
                 ->sortable()
                 ->nullable()
-                ->rules('nullable', 'max:192')
+                ->rules(['nullable', 'max:192'])
                 ->help(__('nova.song_title_help')),
 
             BelongsToMany::make(__('nova.artists'), 'Artists', Artist::class)
@@ -107,7 +113,7 @@ class Song extends Resource
                 ->fields(function () {
                     return [
                         Text::make(__('nova.as'), 'as')
-                            ->rules('nullable', 'max:192')
+                            ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
                         DateTime::make(__('nova.created_at'), 'created_at')
@@ -134,8 +140,11 @@ class Song extends Resource
      */
     public function lenses(Request $request): array
     {
-        return [
-            new SongArtistLens(),
-        ];
+        return array_merge(
+            parent::lenses($request),
+            [
+                new SongArtistLens(),
+            ]
+        );
     }
 }

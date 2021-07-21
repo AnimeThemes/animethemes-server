@@ -23,7 +23,6 @@ class CreateInvitationsTable extends Migration
             $table->id('invitation_id');
             $table->timestamps(6);
             $table->softDeletes('deleted_at', 6);
-            $table->string('token');
             $table->string('name');
             $table->string('email');
             $table->integer('status')->default(InvitationStatus::OPEN);

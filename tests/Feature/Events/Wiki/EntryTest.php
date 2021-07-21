@@ -33,7 +33,7 @@ class EntryTest extends TestCase
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         Event::assertDispatched(EntryCreated::class);
     }
@@ -49,7 +49,7 @@ class EntryTest extends TestCase
 
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         $entry->delete();
 
@@ -67,7 +67,7 @@ class EntryTest extends TestCase
 
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         $entry->restore();
 
@@ -85,11 +85,11 @@ class EntryTest extends TestCase
 
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         $changes = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->make();
+            ->makeOne();
 
         $entry->fill($changes->getAttributes());
         $entry->save();

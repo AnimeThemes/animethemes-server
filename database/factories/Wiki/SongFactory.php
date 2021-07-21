@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class SongFactory.
+ *
+ * @method Song createOne($attributes = [])
+ * @method Song makeOne($attributes = [])
  */
 class SongFactory extends Factory
 {

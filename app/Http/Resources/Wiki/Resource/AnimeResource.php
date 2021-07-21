@@ -17,13 +17,15 @@ use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class AnimeResource.
+ *
+ * @mixin Anime
  */
 class AnimeResource extends BaseResource
 {
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'anime';
 
@@ -44,6 +46,8 @@ class AnimeResource extends BaseResource
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
@@ -52,8 +56,8 @@ class AnimeResource extends BaseResource
             'name' => $this->when($this->isAllowedField('name'), $this->name),
             'slug' => $this->when($this->isAllowedField('slug'), $this->slug),
             'year' => $this->when($this->isAllowedField('year'), $this->year),
-            'season' => $this->when($this->isAllowedField('season'), strval(optional($this->season)->description)),
-            'synopsis' => $this->when($this->isAllowedField('synopsis'), strval($this->synopsis)),
+            'season' => $this->when($this->isAllowedField('season'), $this->season?->description),
+            'synopsis' => $this->when($this->isAllowedField('synopsis'), $this->synopsis),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
@@ -62,7 +66,7 @@ class AnimeResource extends BaseResource
             'series' => SeriesCollection::make($this->whenLoaded('series'), $this->parser),
             'resources' => ExternalResourceCollection::make($this->whenLoaded('resources'), $this->parser),
             'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('anime_resource', function () {
-                return strval($this->pivot->as);
+                return $this->pivot->getAttribute('as');
             })),
             'images' => ImageCollection::make($this->whenLoaded('images'), $this->parser),
         ];

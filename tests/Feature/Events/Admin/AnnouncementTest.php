@@ -59,7 +59,7 @@ class AnnouncementTest extends TestCase
     {
         Event::fake();
 
-        $announcement = Announcement::factory()->create();
+        $announcement = Announcement::factory()->createOne();
 
         $announcement->restore();
 
@@ -75,8 +75,8 @@ class AnnouncementTest extends TestCase
     {
         Event::fake();
 
-        $announcement = Announcement::factory()->create();
-        $changes = Announcement::factory()->make();
+        $announcement = Announcement::factory()->createOne();
+        $changes = Announcement::factory()->makeOne();
 
         $announcement->fill($changes->getAttributes());
         $announcement->save();

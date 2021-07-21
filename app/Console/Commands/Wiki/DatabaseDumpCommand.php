@@ -7,7 +7,10 @@ namespace App\Console\Commands\Wiki;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Database\ConnectionInterface;
+use Illuminate\Database\Connection;
+use Illuminate\Database\MySqlConnection;
+use Illuminate\Database\PostgresConnection;
+use Illuminate\Database\SQLiteConnection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -72,6 +75,12 @@ class DatabaseDumpCommand extends Command
 
         try {
             $connection = DB::connection();
+            if (! $connection instanceof Connection) {
+                Log::error('Unexpected connection type');
+                $this->error('Unexpected connection type');
+
+                return 1;
+            }
 
             $dumper = $this->getDumper($connection, $create);
             if ($dumper === null) {
@@ -92,7 +101,7 @@ class DatabaseDumpCommand extends Command
             }
 
             $port = $connection->getConfig('port');
-            if ($port !== null && is_int($port)) {
+            if (is_int($port)) {
                 $dumper->setPort($port);
             }
 
@@ -116,7 +125,7 @@ class DatabaseDumpCommand extends Command
 
     /**
      * The target path for the database dump.
-     * Pattern: "/path/to/project/storage/db-dumps/animethemes-db-dump-{year}-{month}-{day}.sql".
+     * Pattern: "/path/to/project/storage/db-dumps/animethemes-db-dump-{create?}-{year}-{month}-{day}.sql".
      *
      * @param bool $create
      * @return string
@@ -137,16 +146,16 @@ class DatabaseDumpCommand extends Command
     /**
      * Get the dumper for the database connection.
      *
-     * @param ConnectionInterface $connection
+     * @param Connection $connection
      * @param bool $create
      * @return DbDumper|null
      */
-    protected function getDumper(ConnectionInterface $connection, bool $create): ?DbDumper
+    protected function getDumper(Connection $connection, bool $create): ?DbDumper
     {
-        return match ($connection->getName()) {
-            'sqlite' => Sqlite::create(),
-            'mysql' => $create ? MySql::create() : MySql::create()->doNotCreateTables(),
-            'pgsql' => $create ? PostgreSql::create() : PostgreSql::create()->doNotCreateTables(),
+        return match (get_class($connection)) {
+            SQLiteConnection::class => Sqlite::create(),
+            MySqlConnection::class => $create ? MySql::create() : MySql::create()->doNotCreateTables(),
+            PostgresConnection::class => $create ? PostgreSql::create() : PostgreSql::create()->doNotCreateTables(),
             default => null,
         };
     }

@@ -42,4 +42,16 @@ abstract class IntFilter extends Filter
             )
         );
     }
+
+    /**
+     * Determine if all valid filter values have been specified.
+     * By default, this is false as we assume an unrestricted amount of valid values.
+     *
+     * @param array $filterValues
+     * @return bool
+     */
+    protected function isAllFilterValues(array $filterValues): bool
+    {
+        return false;
+    }
 }

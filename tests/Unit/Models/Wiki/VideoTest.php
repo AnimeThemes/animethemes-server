@@ -34,7 +34,7 @@ class VideoTest extends TestCase
      */
     public function testCastsOverlapToEnum()
     {
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
         $overlap = $video->overlap;
 
@@ -48,7 +48,7 @@ class VideoTest extends TestCase
      */
     public function testCastsSourceToEnum()
     {
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
         $source = $video->source;
 
@@ -62,7 +62,7 @@ class VideoTest extends TestCase
      */
     public function testSearchableAs()
     {
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
         static::assertIsString($video->searchableAs());
     }
@@ -74,7 +74,7 @@ class VideoTest extends TestCase
      */
     public function testToSearchableArray()
     {
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
         static::assertIsArray($video->toSearchableArray());
     }
@@ -88,9 +88,9 @@ class VideoTest extends TestCase
     {
         Config::set('audit.console', true);
 
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
-        static::assertEquals(1, $video->audits->count());
+        static::assertEquals(1, $video->audits()->count());
     }
 
     /**
@@ -100,7 +100,7 @@ class VideoTest extends TestCase
      */
     public function testNameable()
     {
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
         static::assertIsString($video->getName());
     }
@@ -112,7 +112,7 @@ class VideoTest extends TestCase
      */
     public function testViews()
     {
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
         views($video)->record();
 
@@ -128,7 +128,7 @@ class VideoTest extends TestCase
      */
     public function testAppendsTags()
     {
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
         static::assertArrayHasKey('tags', $video);
     }
@@ -140,7 +140,7 @@ class VideoTest extends TestCase
      */
     public function testNcTag()
     {
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'nc' => true,
         ]);
 
@@ -154,7 +154,7 @@ class VideoTest extends TestCase
      */
     public function testNoNcTag()
     {
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'nc' => false,
         ]);
 
@@ -170,7 +170,7 @@ class VideoTest extends TestCase
     {
         $source = VideoSource::DVD;
 
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'source' => $source,
         ]);
 
@@ -186,7 +186,7 @@ class VideoTest extends TestCase
     {
         $source = VideoSource::BD;
 
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'source' => $source,
         ]);
 
@@ -201,14 +201,14 @@ class VideoTest extends TestCase
     public function testOtherSourceTag()
     {
         $source = null;
-        while ($source == null) {
+        while ($source === null) {
             $sourceCandidate = VideoSource::getRandomInstance();
             if (! $sourceCandidate->is(VideoSource::BD) && ! $sourceCandidate->is(VideoSource::DVD)) {
                 $source = $sourceCandidate->value;
             }
         }
 
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'source' => $source,
         ]);
 
@@ -222,7 +222,7 @@ class VideoTest extends TestCase
      */
     public function testResolutionTag()
     {
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
         static::assertContains(strval($video->resolution), $video->tags);
     }
@@ -234,7 +234,7 @@ class VideoTest extends TestCase
      */
     public function testNo720ResolutionTag()
     {
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'resolution' => 720,
         ]);
 
@@ -248,7 +248,7 @@ class VideoTest extends TestCase
      */
     public function testSubbedTag()
     {
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'subbed' => true,
         ]);
 
@@ -263,7 +263,7 @@ class VideoTest extends TestCase
      */
     public function testLyricsTag()
     {
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'subbed' => false,
             'lyrics' => true,
         ]);
@@ -279,11 +279,11 @@ class VideoTest extends TestCase
      */
     public function testEntries()
     {
-        $entryCount = $this->faker->randomDigitNotNull;
+        $entryCount = $this->faker->randomDigitNotNull();
 
         $video = Video::factory()
             ->has(Entry::factory()->for(Theme::factory()->for(Anime::factory()))->count($entryCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $video->entries());
         static::assertEquals($entryCount, $video->entries()->count());

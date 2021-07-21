@@ -96,7 +96,7 @@ class VideoShowTest extends TestCase
         Video::factory()
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Theme::factory()->for(Anime::factory()))
             )
             ->create();
@@ -190,7 +190,7 @@ class VideoShowTest extends TestCase
         Video::factory()
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Theme::factory()->for(Anime::factory()))
             )
             ->create();
@@ -235,7 +235,7 @@ class VideoShowTest extends TestCase
         Video::factory()
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Theme::factory()->for(Anime::factory()))
             )
             ->create();
@@ -268,7 +268,7 @@ class VideoShowTest extends TestCase
      */
     public function testEntriesByVersion()
     {
-        $versionFilter = $this->faker->randomDigitNotNull;
+        $versionFilter = $this->faker->randomDigitNotNull();
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
@@ -281,7 +281,7 @@ class VideoShowTest extends TestCase
         Video::factory()
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Theme::factory()->for(Anime::factory()))
                     ->state(new Sequence(
                         ['version' => $versionFilter],
@@ -331,7 +331,7 @@ class VideoShowTest extends TestCase
         Video::factory()
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(
                         Theme::factory()
                             ->for(Anime::factory())
@@ -370,7 +370,7 @@ class VideoShowTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
@@ -383,7 +383,7 @@ class VideoShowTest extends TestCase
         Video::factory()
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(
                         Theme::factory()
                             ->for(Anime::factory())
@@ -434,7 +434,7 @@ class VideoShowTest extends TestCase
         Video::factory()
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Theme::factory()->for(Anime::factory()))
             )
             ->create();
@@ -479,7 +479,7 @@ class VideoShowTest extends TestCase
         Video::factory()
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Theme::factory()->for(Anime::factory()))
             )
             ->create();
@@ -525,7 +525,7 @@ class VideoShowTest extends TestCase
         Video::factory()
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(
                         Theme::factory()
                             ->for(

@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
-use App\Http\Api\Filter\Base\CreatedAtFilter;
-use App\Http\Api\Filter\Base\DeletedAtFilter;
-use App\Http\Api\Filter\Base\TrashedFilter;
-use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Api\Filter\Wiki\Entry\EntryEpisodesFilter;
 use App\Http\Api\Filter\Wiki\Entry\EntryNotesFilter;
 use App\Http\Api\Filter\Wiki\Entry\EntryNsfwFilter;
@@ -26,7 +22,7 @@ class EntryCollection extends SearchableCollection
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'entries';
 
@@ -42,6 +38,8 @@ class EntryCollection extends SearchableCollection
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
@@ -67,7 +65,7 @@ class EntryCollection extends SearchableCollection
     /**
      * The sort field names a client is allowed to request.
      *
-     * @return array
+     * @return string[]
      */
     public static function allowedSortFields(): array
     {
@@ -90,16 +88,15 @@ class EntryCollection extends SearchableCollection
      */
     public static function filters(): array
     {
-        return [
-            EntryVersionFilter::class,
-            EntryEpisodesFilter::class,
-            EntryNsfwFilter::class,
-            EntrySpoilerFilter::class,
-            EntryNotesFilter::class,
-            CreatedAtFilter::class,
-            UpdatedAtFilter::class,
-            DeletedAtFilter::class,
-            TrashedFilter::class,
-        ];
+        return array_merge(
+            parent::filters(),
+            [
+                EntryVersionFilter::class,
+                EntryEpisodesFilter::class,
+                EntryNsfwFilter::class,
+                EntrySpoilerFilter::class,
+                EntryNotesFilter::class,
+            ]
+        );
     }
 }

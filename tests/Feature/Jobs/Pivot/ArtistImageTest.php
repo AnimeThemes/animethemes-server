@@ -26,8 +26,8 @@ class ArtistImageTest extends TestCase
      */
     public function testArtistImageCreatedSendsDiscordNotification()
     {
-        $artist = Artist::factory()->create();
-        $image = Image::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -44,8 +44,9 @@ class ArtistImageTest extends TestCase
      */
     public function testArtistImageDeletedSendsDiscordNotification()
     {
-        $artist = Artist::factory()->create();
-        $image = Image::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $image = Image::factory()->createOne();
+
         $artist->images()->attach($image);
 
         Config::set('flags.allow_discord_notifications', true);

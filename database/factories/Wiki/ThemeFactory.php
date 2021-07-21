@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class ThemeFactory.
+ *
+ * @method Theme createOne($attributes = [])
+ * @method Theme makeOne($attributes = [])
  */
 class ThemeFactory extends Factory
 {

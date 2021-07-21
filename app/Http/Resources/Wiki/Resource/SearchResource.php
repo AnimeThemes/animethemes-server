@@ -26,7 +26,7 @@ class SearchResource extends BaseResource
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'search';
 
@@ -46,6 +46,8 @@ class SearchResource extends BaseResource
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
@@ -83,5 +85,15 @@ class SearchResource extends BaseResource
                 VideoCollection::performSearch($this->parser, PaginationStrategy::LIMIT())
             ),
         ];
+    }
+
+    /**
+     * The include paths a client is allowed to request.
+     *
+     * @return string[]
+     */
+    public static function allowedIncludePaths(): array
+    {
+        return [];
     }
 }

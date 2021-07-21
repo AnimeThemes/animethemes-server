@@ -14,7 +14,7 @@ class TrimStrings extends Middleware
     /**
      * The names of the attributes that should not be trimmed.
      *
-     * @var string[]
+     * @var array
      */
     protected $except = [
         'current_password',

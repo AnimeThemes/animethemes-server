@@ -171,10 +171,7 @@ abstract class Filter
      * @param array $filterValues
      * @return array
      */
-    protected function convertFilterValues(array $filterValues): array
-    {
-        return $filterValues;
-    }
+    abstract protected function convertFilterValues(array $filterValues): array;
 
     /**
      * Get only filter values that are valid. By default, all values are valid.
@@ -182,10 +179,7 @@ abstract class Filter
      * @param array $filterValues
      * @return array
      */
-    protected function getValidFilterValues(array $filterValues): array
-    {
-        return $filterValues;
-    }
+    abstract protected function getValidFilterValues(array $filterValues): array;
 
     /**
      * Determine if all valid filter values have been specified.
@@ -194,10 +188,7 @@ abstract class Filter
      * @param array $filterValues
      * @return bool
      */
-    protected function isAllFilterValues(array $filterValues): bool
-    {
-        return false;
-    }
+    abstract protected function isAllFilterValues(array $filterValues): bool;
 
     /**
      * Set intended scope of query.

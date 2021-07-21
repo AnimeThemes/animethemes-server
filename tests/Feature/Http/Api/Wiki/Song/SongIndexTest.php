@@ -41,7 +41,7 @@ class SongIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $songs = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        $songs = Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.song.index'));
 
@@ -66,7 +66,7 @@ class SongIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.song.index'));
 
@@ -92,9 +92,9 @@ class SongIndexTest extends TestCase
         ];
 
         Song::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull)->for(Anime::factory()))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
-            ->count($this->faker->randomDigitNotNull)
+            ->has(Theme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
+            ->has(Artist::factory()->count($this->faker->randomDigitNotNull()))
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $songs = Song::with($includedPaths->all())->get();
@@ -139,7 +139,7 @@ class SongIndexTest extends TestCase
             ],
         ];
 
-        $songs = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        $songs = Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.song.index', $parameters));
 
@@ -179,7 +179,7 @@ class SongIndexTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = Song::query();
 
@@ -222,15 +222,15 @@ class SongIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
-            Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($createdFilter, function () {
+            Song::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Song::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $song = Song::where('created_at', $createdFilter)->get();
+        $song = Song::query()->where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.song.index', $parameters));
 
@@ -267,15 +267,15 @@ class SongIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
-            Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($updatedFilter, function () {
+            Song::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Song::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $song = Song::where('updated_at', $updatedFilter)->get();
+        $song = Song::query()->where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.song.index', $parameters));
 
@@ -309,9 +309,9 @@ class SongIndexTest extends TestCase
             ],
         ];
 
-        Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteSong = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteSong = Song::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteSong->each(function (Song $song) {
             $song->delete();
         });
@@ -350,9 +350,9 @@ class SongIndexTest extends TestCase
             ],
         ];
 
-        Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteSong = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteSong = Song::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteSong->each(function (Song $song) {
             $song->delete();
         });
@@ -391,9 +391,9 @@ class SongIndexTest extends TestCase
             ],
         ];
 
-        Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteSong = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteSong = Song::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteSong->each(function (Song $song) {
             $song->delete();
         });
@@ -436,15 +436,15 @@ class SongIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $songs = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($deletedFilter, function () {
+            $songs = Song::factory()->count($this->faker->randomDigitNotNull())->create();
             $songs->each(function (Song $song) {
                 $song->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $songs = Song::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            $songs = Song::factory()->count($this->faker->randomDigitNotNull())->create();
             $songs->each(function (Song $song) {
                 $song->delete();
             });
@@ -486,14 +486,14 @@ class SongIndexTest extends TestCase
         Song::factory()
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Anime::factory())
                     ->state(new Sequence(
                         ['group' => $groupFilter],
                         ['group' => $excludedGroup],
                     ))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $songs = Song::with([
@@ -524,7 +524,7 @@ class SongIndexTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
@@ -537,14 +537,14 @@ class SongIndexTest extends TestCase
         Song::factory()
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Anime::factory())
                     ->state(new Sequence(
                         ['sequence' => $sequenceFilter],
                         ['sequence' => $excludedSequence],
                     ))
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $songs = Song::with([
@@ -585,8 +585,8 @@ class SongIndexTest extends TestCase
         ];
 
         Song::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull)->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->has(Theme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $songs = Song::with([
@@ -627,8 +627,8 @@ class SongIndexTest extends TestCase
         ];
 
         Song::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull)->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->has(Theme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $songs = Song::with([
@@ -672,7 +672,7 @@ class SongIndexTest extends TestCase
         Song::factory()
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(
                         Anime::factory()
                             ->state([
@@ -680,7 +680,7 @@ class SongIndexTest extends TestCase
                             ])
                     )
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $songs = Song::with([

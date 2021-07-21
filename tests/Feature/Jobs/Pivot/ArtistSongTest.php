@@ -27,8 +27,8 @@ class ArtistSongTest extends TestCase
      */
     public function testArtistSongCreatedSendsDiscordNotification()
     {
-        $artist = Artist::factory()->create();
-        $song = Song::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $song = Song::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -45,8 +45,9 @@ class ArtistSongTest extends TestCase
      */
     public function testArtistSongDeletedSendsDiscordNotification()
     {
-        $artist = Artist::factory()->create();
-        $song = Song::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $song = Song::factory()->createOne();
+
         $artist->songs()->attach($song);
 
         Config::set('flags.allow_discord_notifications', true);
@@ -64,18 +65,18 @@ class ArtistSongTest extends TestCase
      */
     public function testArtistSongUpdatedSendsDiscordNotification()
     {
-        $artist = Artist::factory()->create();
-        $song = Song::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $song = Song::factory()->createOne();
 
         $artistSong = ArtistSong::factory()
             ->for($artist, 'artist')
             ->for($song, 'song')
-            ->create();
+            ->createOne();
 
         $changes = ArtistSong::factory()
             ->for($artist, 'artist')
             ->for($song, 'song')
-            ->make();
+            ->makeOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);

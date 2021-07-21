@@ -115,7 +115,11 @@ class AnimePolicy
      */
     public function attachSeries(User $user, Anime $anime, Series $series): bool
     {
-        if (AnimeSeries::where($anime->getKeyName(), $anime->getKey())->where($series->getKeyName(), $series->getKey())->exists()) {
+        if (AnimeSeries::query()
+            ->where($anime->getKeyName(), $anime->getKey())
+            ->where($series->getKeyName(), $series->getKey())
+            ->exists()
+        ) {
             return false;
         }
 
@@ -187,7 +191,11 @@ class AnimePolicy
      */
     public function attachImage(User $user, Anime $anime, Image $image): bool
     {
-        if (AnimeImage::where($anime->getKeyName(), $anime->getKey())->where($image->getKeyName(), $image->getKey())->exists()) {
+        if (AnimeImage::query()
+            ->where($anime->getKeyName(), $anime->getKey())
+            ->where($image->getKeyName(), $image->getKey())
+            ->exists()
+        ) {
             return false;
         }
 

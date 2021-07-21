@@ -29,7 +29,7 @@ class InvitationTest extends TestCase
     {
         Event::fake(InvitationCreated::class);
 
-        Invitation::factory()->create();
+        Invitation::factory()->createOne();
 
         Event::assertDispatched(InvitationCreated::class);
     }
@@ -43,7 +43,7 @@ class InvitationTest extends TestCase
     {
         Event::fake(InvitationDeleted::class);
 
-        $invitation = Invitation::factory()->create();
+        $invitation = Invitation::factory()->createOne();
 
         $invitation->delete();
 
@@ -59,7 +59,7 @@ class InvitationTest extends TestCase
     {
         Event::fake(InvitationRestored::class);
 
-        $invitation = Invitation::factory()->create();
+        $invitation = Invitation::factory()->createOne();
 
         $invitation->restore();
 
@@ -75,8 +75,8 @@ class InvitationTest extends TestCase
     {
         Event::fake(InvitationUpdated::class);
 
-        $invitation = Invitation::factory()->create();
-        $changes = Invitation::factory()->make();
+        $invitation = Invitation::factory()->createOne();
+        $changes = Invitation::factory()->makeOne();
 
         $invitation->fill($changes->getAttributes());
         $invitation->save();

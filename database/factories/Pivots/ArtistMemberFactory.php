@@ -10,6 +10,9 @@ use Illuminate\Support\Str;
 
 /**
  * Class ArtistMemberFactory.
+ *
+ * @method ArtistMember createOne($attributes = [])
+ * @method ArtistMember makeOne($attributes = [])
  */
 class ArtistMemberFactory extends Factory
 {

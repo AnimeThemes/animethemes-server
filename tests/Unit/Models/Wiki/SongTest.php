@@ -31,7 +31,7 @@ class SongTest extends TestCase
      */
     public function testSearchableAs()
     {
-        $song = Song::factory()->create();
+        $song = Song::factory()->createOne();
 
         static::assertIsString($song->searchableAs());
     }
@@ -43,7 +43,7 @@ class SongTest extends TestCase
      */
     public function testToSearchableArray()
     {
-        $song = Song::factory()->create();
+        $song = Song::factory()->createOne();
 
         static::assertIsArray($song->toSearchableArray());
     }
@@ -57,9 +57,9 @@ class SongTest extends TestCase
     {
         Config::set('audit.console', true);
 
-        $song = Song::factory()->create();
+        $song = Song::factory()->createOne();
 
-        static::assertEquals(1, $song->audits->count());
+        static::assertEquals(1, $song->audits()->count());
     }
 
     /**
@@ -69,7 +69,7 @@ class SongTest extends TestCase
      */
     public function testNameable()
     {
-        $song = Song::factory()->create();
+        $song = Song::factory()->createOne();
 
         static::assertIsString($song->getName());
     }
@@ -81,11 +81,11 @@ class SongTest extends TestCase
      */
     public function testThemes()
     {
-        $themeCount = $this->faker->randomDigitNotNull;
+        $themeCount = $this->faker->randomDigitNotNull();
 
         $song = Song::factory()
             ->has(Theme::factory()->for(Anime::factory())->count($themeCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(HasMany::class, $song->themes());
         static::assertEquals($themeCount, $song->themes()->count());
@@ -99,11 +99,11 @@ class SongTest extends TestCase
      */
     public function testArtists()
     {
-        $artistCount = $this->faker->randomDigitNotNull;
+        $artistCount = $this->faker->randomDigitNotNull();
 
         $song = Song::factory()
             ->has(Artist::factory()->count($artistCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $song->artists());
         static::assertEquals($artistCount, $song->artists()->count());

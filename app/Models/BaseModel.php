@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Contracts\Models\Nameable;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,6 +15,11 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class BaseModel.
+ *
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon $deleted_at
+ * @mixin Builder
  */
 abstract class BaseModel extends Model implements Auditable, Nameable
 {
@@ -33,6 +40,8 @@ abstract class BaseModel extends Model implements Auditable, Nameable
      * @param mixed $value
      * @param string|null $field
      * @return Model|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function resolveRouteBinding($value, $field = null): ?Model
     {

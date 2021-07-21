@@ -10,12 +10,20 @@ use App\Events\Wiki\Series\SeriesRestored;
 use App\Events\Wiki\Series\SeriesUpdated;
 use App\Models\BaseModel;
 use App\Pivots\AnimeSeries;
+use Database\Factories\Wiki\SeriesFactory;
 use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Laravel\Scout\Searchable;
 
 /**
  * Class Series.
+ *
+ * @property int $series_id
+ * @property string $slug
+ * @property string $name
+ * @property Collection $anime
+ * @method static SeriesFactory factory(...$parameters)
  */
 class Series extends BaseModel
 {
@@ -34,7 +42,7 @@ class Series extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => SeriesCreated::class,
@@ -61,6 +69,8 @@ class Series extends BaseModel
      * Get the route key for the model.
      *
      * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getRouteKeyName(): string
     {

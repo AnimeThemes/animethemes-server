@@ -30,8 +30,8 @@ class AnimeResourceTest extends TestCase
     {
         Event::fake();
 
-        $anime = Anime::factory()->create();
-        $resource = ExternalResource::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
 
         $anime->resources()->attach($resource);
 
@@ -47,8 +47,8 @@ class AnimeResourceTest extends TestCase
     {
         Event::fake();
 
-        $anime = Anime::factory()->create();
-        $resource = ExternalResource::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
 
         $anime->resources()->attach($resource);
         $anime->resources()->detach($resource);
@@ -65,18 +65,18 @@ class AnimeResourceTest extends TestCase
     {
         Event::fake();
 
-        $anime = Anime::factory()->create();
-        $resource = ExternalResource::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
 
         $animeResource = AnimeResource::factory()
             ->for($anime, 'anime')
             ->for($resource, 'resource')
-            ->create();
+            ->createOne();
 
         $changes = AnimeResource::factory()
             ->for($anime, 'anime')
             ->for($resource, 'resource')
-            ->make();
+            ->makeOne();
 
         $animeResource->fill($changes->getAttributes());
         $animeResource->save();

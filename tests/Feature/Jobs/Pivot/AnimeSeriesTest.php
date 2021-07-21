@@ -26,8 +26,8 @@ class AnimeSeriesTest extends TestCase
      */
     public function testAnimeSeriesCreatedSendsDiscordNotification()
     {
-        $anime = Anime::factory()->create();
-        $series = Series::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $series = Series::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -44,8 +44,9 @@ class AnimeSeriesTest extends TestCase
      */
     public function testAnimeSeriesDeletedSendsDiscordNotification()
     {
-        $anime = Anime::factory()->create();
-        $series = Series::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $series = Series::factory()->createOne();
+
         $anime->series()->attach($series);
 
         Config::set('flags.allow_discord_notifications', true);

@@ -96,7 +96,7 @@ class EntryShowTest extends TestCase
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+            ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
         $entry = Entry::with($includedPaths->all())->first();
@@ -305,7 +305,7 @@ class EntryShowTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [

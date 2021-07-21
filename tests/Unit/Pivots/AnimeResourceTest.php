@@ -30,7 +30,7 @@ class AnimeResourceTest extends TestCase
         $animeResource = AnimeResource::factory()
             ->for(Anime::factory())
             ->for(ExternalResource::factory(), 'resource')
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $animeResource->anime());
         static::assertInstanceOf(Anime::class, $animeResource->anime()->first());
@@ -46,7 +46,7 @@ class AnimeResourceTest extends TestCase
         $animeResource = AnimeResource::factory()
             ->for(Anime::factory())
             ->for(ExternalResource::factory(), 'resource')
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $animeResource->resource());
         static::assertInstanceOf(ExternalResource::class, $animeResource->resource()->first());

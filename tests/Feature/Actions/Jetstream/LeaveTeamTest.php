@@ -24,10 +24,10 @@ class LeaveTeamTest extends TestCase
      */
     public function testUsersCanLeaveTeams()
     {
-        $user = User::factory()->withPersonalTeam()->create();
+        $user = User::factory()->withPersonalTeam()->createOne();
 
         $user->currentTeam->users()->attach(
-            $otherUser = User::factory()->create(), ['role' => 'admin']
+            $otherUser = User::factory()->createOne(), ['role' => 'admin']
         );
 
         $this->actingAs($otherUser);
@@ -45,7 +45,7 @@ class LeaveTeamTest extends TestCase
      */
     public function testTeamOwnersCanNotLeaveTheirOwnTeam()
     {
-        $this->actingAs($user = User::factory()->withPersonalTeam()->create());
+        $this->actingAs($user = User::factory()->withPersonalTeam()->createOne());
 
         Livewire::test(TeamMemberManager::class, ['team' => $user->currentTeam])
             ->call('leaveTeam')

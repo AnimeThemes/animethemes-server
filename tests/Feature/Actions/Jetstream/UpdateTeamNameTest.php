@@ -24,7 +24,7 @@ class UpdateTeamNameTest extends TestCase
      */
     public function testTeamNamesCanBeUpdated()
     {
-        $this->actingAs($user = User::factory()->withPersonalTeam()->create());
+        $this->actingAs($user = User::factory()->withPersonalTeam()->createOne());
 
         Livewire::test(UpdateTeamNameForm::class, ['team' => $user->currentTeam])
                     ->set(['state' => ['name' => 'Test Team']])

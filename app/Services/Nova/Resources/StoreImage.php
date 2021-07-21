@@ -33,6 +33,10 @@ class StoreImage
     ): array {
         $file = $request->file($attribute);
 
+        if ($file === null) {
+            return [];
+        }
+
         return [
             'path' => $file->store($storagePath, $disk),
             'size' => $file->getSize(),

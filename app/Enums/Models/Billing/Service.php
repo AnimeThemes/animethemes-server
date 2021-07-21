@@ -8,6 +8,8 @@ use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
+ * Class Service.
+ *
  * @method static static OTHER()
  * @method static static DIGITALOCEAN()
  * @method static static AWS()

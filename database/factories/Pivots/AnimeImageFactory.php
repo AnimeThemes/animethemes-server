@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class AnimeImageFactory.
+ *
+ * @method AnimeImage createOne($attributes = [])
+ * @method AnimeImage makeOne($attributes = [])
  */
 class AnimeImageFactory extends Factory
 {

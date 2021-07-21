@@ -53,10 +53,7 @@ abstract class BaseResource extends JsonResource
      *
      * @return string[]
      */
-    public static function allowedIncludePaths(): array
-    {
-        return [];
-    }
+    abstract public static function allowedIncludePaths(): array;
 
     /**
      * Perform query to prepare model for resource.

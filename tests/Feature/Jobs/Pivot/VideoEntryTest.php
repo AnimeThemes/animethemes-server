@@ -28,10 +28,10 @@ class VideoEntryTest extends TestCase
      */
     public function testVideoEntryCreatedSendsDiscordNotification()
     {
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -48,10 +48,10 @@ class VideoEntryTest extends TestCase
      */
     public function testVideoEntryDeletedSendsDiscordNotification()
     {
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
         $entry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
         $video->entries()->attach($entry);
 

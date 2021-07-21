@@ -30,7 +30,7 @@ class AnimeSeriesTest extends TestCase
         $animeSeries = AnimeSeries::factory()
             ->for(Anime::factory())
             ->for(Series::factory())
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $animeSeries->anime());
         static::assertInstanceOf(Anime::class, $animeSeries->anime()->first());
@@ -46,7 +46,7 @@ class AnimeSeriesTest extends TestCase
         $animeSeries = AnimeSeries::factory()
             ->for(Anime::factory())
             ->for(Series::factory())
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $animeSeries->series());
         static::assertInstanceOf(Series::class, $animeSeries->series()->first());

@@ -33,7 +33,7 @@ class ThemeTest extends TestCase
     {
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         $type = $theme->type;
 
@@ -49,7 +49,7 @@ class ThemeTest extends TestCase
     {
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         static::assertIsString($theme->searchableAs());
     }
@@ -63,7 +63,7 @@ class ThemeTest extends TestCase
     {
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         static::assertIsArray($theme->toSearchableArray());
     }
@@ -79,9 +79,9 @@ class ThemeTest extends TestCase
 
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
-        static::assertEquals(1, $theme->audits->count());
+        static::assertEquals(1, $theme->audits()->count());
     }
 
     /**
@@ -93,7 +93,7 @@ class ThemeTest extends TestCase
     {
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         static::assertIsString($theme->getName());
     }
@@ -107,7 +107,7 @@ class ThemeTest extends TestCase
     {
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $theme->anime());
         static::assertInstanceOf(Anime::class, $theme->anime()->first());
@@ -123,7 +123,7 @@ class ThemeTest extends TestCase
         $theme = Theme::factory()
             ->for(Anime::factory())
             ->for(Song::factory())
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsTo::class, $theme->song());
         static::assertInstanceOf(Song::class, $theme->song()->first());
@@ -136,12 +136,12 @@ class ThemeTest extends TestCase
      */
     public function testEntries()
     {
-        $entryCount = $this->faker->randomDigitNotNull;
+        $entryCount = $this->faker->randomDigitNotNull();
 
         $theme = Theme::factory()
             ->for(Anime::factory())
             ->has(Entry::factory()->count($entryCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(HasMany::class, $theme->entries());
         static::assertEquals($entryCount, $theme->entries()->count());
@@ -157,7 +157,7 @@ class ThemeTest extends TestCase
     {
         $theme = Theme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
         static::assertArrayHasKey('slug', $theme);
     }

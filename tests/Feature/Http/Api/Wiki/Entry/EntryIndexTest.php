@@ -41,7 +41,7 @@ class EntryIndexTest extends TestCase
     {
         $entries = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $response = $this->get(route('api.entry.index'));
@@ -67,7 +67,7 @@ class EntryIndexTest extends TestCase
     {
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $response = $this->get(route('api.entry.index'));
@@ -95,8 +95,8 @@ class EntryIndexTest extends TestCase
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull))
+            ->count($this->faker->randomDigitNotNull())
+            ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
         $entries = Entry::with($includedPaths->all())->get();
@@ -144,7 +144,7 @@ class EntryIndexTest extends TestCase
 
         $entries = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $response = $this->get(route('api.entry.index', $parameters));
@@ -187,7 +187,7 @@ class EntryIndexTest extends TestCase
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $builder = Entry::query();
@@ -229,21 +229,21 @@ class EntryIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
+        Carbon::withTestNow($createdFilter, function () {
             Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
+        Carbon::withTestNow($excludedDate, function () {
             Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        $entry = Entry::where('entry.created_at', $createdFilter)->get();
+        $entry = Entry::query()->where('entry.created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.entry.index', $parameters));
 
@@ -278,21 +278,21 @@ class EntryIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
+        Carbon::withTestNow($updatedFilter, function () {
             Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
+        Carbon::withTestNow($excludedDate, function () {
             Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        $entry = Entry::where('updated_at', $updatedFilter)->get();
+        $entry = Entry::query()->where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.entry.index', $parameters));
 
@@ -326,12 +326,12 @@ class EntryIndexTest extends TestCase
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteEntry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteEntry->each(function (Entry $entry) {
@@ -372,12 +372,12 @@ class EntryIndexTest extends TestCase
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteEntry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteEntry->each(function (Entry $entry) {
@@ -418,12 +418,12 @@ class EntryIndexTest extends TestCase
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteEntry = Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $deleteEntry->each(function (Entry $entry) {
@@ -466,10 +466,10 @@ class EntryIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
+        Carbon::withTestNow($deletedFilter, function () {
             $entries = Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
 
             $entries->each(function (Entry $entry) {
@@ -477,10 +477,10 @@ class EntryIndexTest extends TestCase
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
+        Carbon::withTestNow($excludedDate, function () {
             $entries = Entry::factory()
                 ->for(Theme::factory()->for(Anime::factory()))
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->create();
 
             $entries->each(function (Entry $entry) {
@@ -521,10 +521,10 @@ class EntryIndexTest extends TestCase
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $entries = Entry::where('nsfw', $nsfwFilter)->get();
+        $entries = Entry::query()->where('nsfw', $nsfwFilter)->get();
 
         $response = $this->get(route('api.entry.index', $parameters));
 
@@ -557,10 +557,10 @@ class EntryIndexTest extends TestCase
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $entries = Entry::where('spoiler', $spoilerFilter)->get();
+        $entries = Entry::query()->where('spoiler', $spoilerFilter)->get();
 
         $response = $this->get(route('api.entry.index', $parameters));
 
@@ -583,7 +583,7 @@ class EntryIndexTest extends TestCase
      */
     public function testEntriesByVersion()
     {
-        $versionFilter = $this->faker->randomDigitNotNull;
+        $versionFilter = $this->faker->randomDigitNotNull();
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
@@ -594,14 +594,14 @@ class EntryIndexTest extends TestCase
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->state(new Sequence(
                 ['version' => $versionFilter],
                 ['version' => $excludedVersion],
             ))
             ->create();
 
-        $entries = Entry::where('version', $versionFilter)->get();
+        $entries = Entry::query()->where('version', $versionFilter)->get();
 
         $response = $this->get(route('api.entry.index', $parameters));
 
@@ -635,7 +635,7 @@ class EntryIndexTest extends TestCase
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $entries = Entry::with([
@@ -685,7 +685,7 @@ class EntryIndexTest extends TestCase
                         ])
                 )
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $entries = Entry::with([
@@ -734,7 +734,7 @@ class EntryIndexTest extends TestCase
                         'group' => $this->faker->boolean() ? $groupFilter : $excludedGroup,
                     ])
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $entries = Entry::with([
@@ -765,7 +765,7 @@ class EntryIndexTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
@@ -783,7 +783,7 @@ class EntryIndexTest extends TestCase
                         'sequence' => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
                     ])
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $entries = Entry::with([
@@ -825,7 +825,7 @@ class EntryIndexTest extends TestCase
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $entries = Entry::with([

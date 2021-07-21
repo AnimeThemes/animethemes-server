@@ -27,8 +27,8 @@ class AnimeResourceTest extends TestCase
      */
     public function testAnimeResourceCreatedSendsDiscordNotification()
     {
-        $anime = Anime::factory()->create();
-        $resource = ExternalResource::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -45,8 +45,9 @@ class AnimeResourceTest extends TestCase
      */
     public function testAnimeResourceDeletedSendsDiscordNotification()
     {
-        $anime = Anime::factory()->create();
-        $resource = ExternalResource::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
+
         $anime->resources()->attach($resource);
 
         Config::set('flags.allow_discord_notifications', true);
@@ -64,18 +65,18 @@ class AnimeResourceTest extends TestCase
      */
     public function testAnimeResourceUpdatedSendsDiscordNotification()
     {
-        $anime = Anime::factory()->create();
-        $resource = ExternalResource::factory()->create();
+        $anime = Anime::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
 
         $animeResource = AnimeResource::factory()
             ->for($anime, 'anime')
             ->for($resource, 'resource')
-            ->create();
+            ->createOne();
 
         $changes = AnimeResource::factory()
             ->for($anime, 'anime')
             ->for($resource, 'resource')
-            ->make();
+            ->makeOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);

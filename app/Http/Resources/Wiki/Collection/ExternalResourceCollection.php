@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
-use App\Http\Api\Filter\Base\CreatedAtFilter;
-use App\Http\Api\Filter\Base\DeletedAtFilter;
-use App\Http\Api\Filter\Base\TrashedFilter;
-use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceExternalIdFilter;
 use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceLinkFilter;
 use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceSiteFilter;
@@ -24,7 +20,7 @@ class ExternalResourceCollection extends BaseCollection
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'resources';
 
@@ -40,6 +36,8 @@ class ExternalResourceCollection extends BaseCollection
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
@@ -86,14 +84,13 @@ class ExternalResourceCollection extends BaseCollection
      */
     public static function filters(): array
     {
-        return [
-            ExternalResourceLinkFilter::class,
-            ExternalResourceExternalIdFilter::class,
-            ExternalResourceSiteFilter::class,
-            CreatedAtFilter::class,
-            UpdatedAtFilter::class,
-            DeletedAtFilter::class,
-            TrashedFilter::class,
-        ];
+        return array_merge(
+            parent::filters(),
+            [
+                ExternalResourceLinkFilter::class,
+                ExternalResourceExternalIdFilter::class,
+                ExternalResourceSiteFilter::class,
+            ]
+        );
     }
 }

@@ -12,15 +12,30 @@ use App\Events\Wiki\Theme\ThemeDeleting;
 use App\Events\Wiki\Theme\ThemeRestored;
 use App\Events\Wiki\Theme\ThemeUpdated;
 use App\Models\BaseModel;
+use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
+use Database\Factories\Wiki\ThemeFactory;
 use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Laravel\Scout\Searchable;
 
 /**
  * Class Theme.
+ *
+ * @property int $theme_id
+ * @property string|null $group
+ * @property Enum|null $type
+ * @property int|null $sequence
+ * @property string $slug
+ * @property int $anime_id
+ * @property int|null $song_id
+ * @property Anime $anime
+ * @property Song|null $song
+ * @property Collection $entries
+ * @method static ThemeFactory factory(...$parameters)
  */
 class Theme extends BaseModel
 {
@@ -29,6 +44,8 @@ class Theme extends BaseModel
     use Searchable;
 
     /**
+     * The attributes that are mass assignable.
+     *
      * @var string[]
      */
     protected $fillable = ['type', 'sequence', 'group'];
@@ -38,7 +55,7 @@ class Theme extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => ThemeCreated::class,
@@ -83,7 +100,7 @@ class Theme extends BaseModel
     {
         $array = $this->toArray();
         $array['anime'] = $this->anime->toSearchableArray();
-        $array['song'] = optional($this->song)->toSearchableArray();
+        $array['song'] = $this->song?->toSearchableArray();
 
         return $array;
     }
@@ -91,7 +108,7 @@ class Theme extends BaseModel
     /**
      * The attributes that should be cast to enum types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $enumCasts = [
         'type' => ThemeType::class,
@@ -100,7 +117,7 @@ class Theme extends BaseModel
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'type' => 'int',

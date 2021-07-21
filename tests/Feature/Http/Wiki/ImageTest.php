@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Wiki;
 
-use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image;
-use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
-use Illuminate\Http\Testing\File;
-use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
@@ -31,7 +27,7 @@ class ImageTest extends TestCase
      */
     public function testSoftDeleteImageStreamingRedirect()
     {
-        $image = Image::factory()->create();
+        $image = Image::factory()->createOne();
 
         $image->delete();
 
@@ -47,17 +43,7 @@ class ImageTest extends TestCase
      */
     public function testImageStreaming()
     {
-        $fs = Storage::fake('images');
-        $file = File::fake()->image($this->faker->word().'.jpg');
-        $fsFile = $fs->putFile('', $file);
-        $fsPathinfo = pathinfo(strval($fsFile));
-
-        $image = Image::create([
-            'path' => $fsFile,
-            'facet' => ImageFacet::getRandomValue(),
-            'size' => $this->faker->randomNumber(),
-            'mimetype' => MimeType::fromFilename($fsPathinfo['basename']),
-        ]);
+        $image = Image::factory()->createOne();
 
         $response = $this->get(route('image.show', ['image' => $image]));
 

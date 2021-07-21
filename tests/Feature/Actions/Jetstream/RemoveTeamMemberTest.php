@@ -24,10 +24,10 @@ class RemoveTeamMemberTest extends TestCase
      */
     public function testTeamMembersCanBeRemovedFromTeams()
     {
-        $this->actingAs($user = User::factory()->withPersonalTeam()->create());
+        $this->actingAs($user = User::factory()->withPersonalTeam()->createOne());
 
         $user->currentTeam->users()->attach(
-            $otherUser = User::factory()->create(), ['role' => 'admin']
+            $otherUser = User::factory()->createOne(), ['role' => 'admin']
         );
 
         Livewire::test(TeamMemberManager::class, ['team' => $user->currentTeam])
@@ -44,10 +44,10 @@ class RemoveTeamMemberTest extends TestCase
      */
     public function testOnlyTeamOwnerCanRemoveTeamMembers()
     {
-        $user = User::factory()->withPersonalTeam()->create();
+        $user = User::factory()->withPersonalTeam()->createOne();
 
         $user->currentTeam->users()->attach(
-            $otherUser = User::factory()->create(), ['role' => 'admin']
+            $otherUser = User::factory()->createOne(), ['role' => 'admin']
         );
 
         $this->actingAs($otherUser);

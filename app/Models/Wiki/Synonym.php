@@ -9,12 +9,19 @@ use App\Events\Wiki\Synonym\SynonymDeleted;
 use App\Events\Wiki\Synonym\SynonymRestored;
 use App\Events\Wiki\Synonym\SynonymUpdated;
 use App\Models\BaseModel;
+use Database\Factories\Wiki\SynonymFactory;
 use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Scout\Searchable;
 
 /**
  * Class Synonym.
+ *
+ * @property int $synonym_id
+ * @property string|null $text
+ * @property int $anime_id
+ * @property Anime $anime
+ * @method static SynonymFactory factory(...$parameters)
  */
 class Synonym extends BaseModel
 {
@@ -33,7 +40,7 @@ class Synonym extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => SynonymCreated::class,

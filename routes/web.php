@@ -38,8 +38,10 @@ Route::get('/', [WelcomeController::class, 'show'])->name('welcome');
 Route::get('transparency', [TransparencyController::class, 'show'])->name('transparency.show');
 
 // Content Streaming
-Route::resource('image', ImageController::class)->only('show')->middleware('without_trashed:image');
-Route::resource('video', VideoController::class)->only('show')->middleware(['is_video_streaming_allowed', 'without_trashed:video']);
+Route::resource('image', ImageController::class)->only('show')
+    ->middleware('without_trashed:image');
+Route::resource('video', VideoController::class)->only('show')
+    ->middleware(['is_video_streaming_allowed', 'without_trashed:video']);
 
 // Documents
 Route::get('donate', [DonateController::class, 'show'])->name('donate.show');
@@ -65,8 +67,12 @@ Route::get('/sitemap/event', [EventSitemapController::class, 'show'])->name('sit
 Route::get('/sitemap/guidelines', [GuidelinesSitemapController::class, 'show'])->name('sitemap.guidelines');
 
 // Auth
-Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register')->middleware(['guest', 'has_invitation']);
-Route::post('register', [RegisterController::class, 'register'])->middleware(['guest', 'has_invitation']);
+Route::get('register/{invitation}', [RegisterController::class, 'showRegistrationForm'])
+    ->name('register.create')
+    ->middleware(['guest', 'signed', 'has_open_invitation', 'without_trashed:invitation']);
+Route::post('register/{invitation}', [RegisterController::class, 'register'])
+    ->name('register.store')
+    ->middleware(['guest', 'signed', 'has_open_invitation', 'without_trashed:invitation']);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

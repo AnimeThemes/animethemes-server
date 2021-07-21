@@ -29,8 +29,8 @@ class ArtistMemberTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
-        $member = Artist::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $member = Artist::factory()->createOne();
 
         $artist->members()->attach($member);
 
@@ -46,8 +46,8 @@ class ArtistMemberTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
-        $member = Artist::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $member = Artist::factory()->createOne();
 
         $artist->members()->attach($member);
         $artist->members()->detach($member);
@@ -64,18 +64,18 @@ class ArtistMemberTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
-        $member = Artist::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $member = Artist::factory()->createOne();
 
         $artistMember = ArtistMember::factory()
             ->for($artist, 'artist')
             ->for($member, 'member')
-            ->create();
+            ->createOne();
 
         $changes = ArtistMember::factory()
             ->for($artist, 'artist')
             ->for($member, 'member')
-            ->make();
+            ->makeOne();
 
         $artistMember->fill($changes->getAttributes());
         $artistMember->save();

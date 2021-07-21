@@ -9,6 +9,7 @@ use App\Http\Resources\Billing\Collection\TransactionCollection;
 use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\Billing\Transaction;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class TransactionController.
@@ -18,23 +19,25 @@ class TransactionController extends BaseController
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return TransactionCollection::performQuery($this->parser)->toResponse(request());
+        return TransactionCollection::performQuery($this->parser)->toResponse($request);
     }
 
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param Transaction $transaction
      * @return JsonResponse
      */
-    public function show(Transaction $transaction): JsonResponse
+    public function show(Request $request, Transaction $transaction): JsonResponse
     {
         $resource = TransactionResource::performQuery($transaction, $this->parser);
 
-        return $resource->toResponse(request());
+        return $resource->toResponse($request);
     }
 }

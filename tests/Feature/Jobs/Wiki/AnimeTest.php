@@ -28,7 +28,7 @@ class AnimeTest extends TestCase
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        Anime::factory()->create();
+        Anime::factory()->createOne();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
@@ -40,7 +40,7 @@ class AnimeTest extends TestCase
      */
     public function testAnimeDeletedSendsDiscordNotification()
     {
-        $anime = Anime::factory()->create();
+        $anime = Anime::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -57,7 +57,7 @@ class AnimeTest extends TestCase
      */
     public function testAnimeRestoredSendsDiscordNotification()
     {
-        $anime = Anime::factory()->create();
+        $anime = Anime::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -74,12 +74,12 @@ class AnimeTest extends TestCase
      */
     public function testAnimeUpdatedSendsDiscordNotification()
     {
-        $anime = Anime::factory()->create();
+        $anime = Anime::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        $changes = Anime::factory()->make();
+        $changes = Anime::factory()->makeOne();
 
         $anime->fill($changes->getAttributes());
         $anime->save();

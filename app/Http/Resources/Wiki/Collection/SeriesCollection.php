@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
-use App\Http\Api\Filter\Base\CreatedAtFilter;
-use App\Http\Api\Filter\Base\DeletedAtFilter;
-use App\Http\Api\Filter\Base\TrashedFilter;
-use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Api\Filter\Wiki\Series\SeriesNameFilter;
 use App\Http\Api\Filter\Wiki\Series\SeriesSlugFilter;
 use App\Http\Resources\SearchableCollection;
@@ -23,7 +19,7 @@ class SeriesCollection extends SearchableCollection
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'series';
 
@@ -39,6 +35,8 @@ class SeriesCollection extends SearchableCollection
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
@@ -83,13 +81,12 @@ class SeriesCollection extends SearchableCollection
      */
     public static function filters(): array
     {
-        return [
-            SeriesNameFilter::class,
-            SeriesSlugFilter::class,
-            CreatedAtFilter::class,
-            UpdatedAtFilter::class,
-            DeletedAtFilter::class,
-            TrashedFilter::class,
-        ];
+        return array_merge(
+            parent::filters(),
+            [
+                SeriesNameFilter::class,
+                SeriesSlugFilter::class,
+            ]
+        );
     }
 }

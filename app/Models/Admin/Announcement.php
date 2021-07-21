@@ -9,9 +9,14 @@ use App\Events\Admin\Announcement\AnnouncementDeleted;
 use App\Events\Admin\Announcement\AnnouncementRestored;
 use App\Events\Admin\Announcement\AnnouncementUpdated;
 use App\Models\BaseModel;
+use Database\Factories\Admin\AnnouncementFactory;
 
 /**
  * Class Announcement.
+ *
+ * @property int $announcement_id
+ * @property string $content
+ * @method static AnnouncementFactory factory(...$parameters)
  */
 class Announcement extends BaseModel
 {
@@ -27,7 +32,7 @@ class Announcement extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => AnnouncementCreated::class,

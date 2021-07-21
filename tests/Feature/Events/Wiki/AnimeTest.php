@@ -29,7 +29,7 @@ class AnimeTest extends TestCase
     {
         Event::fake();
 
-        Anime::factory()->create();
+        Anime::factory()->createOne();
 
         Event::assertDispatched(AnimeCreated::class);
     }
@@ -43,7 +43,7 @@ class AnimeTest extends TestCase
     {
         Event::fake();
 
-        $anime = Anime::factory()->create();
+        $anime = Anime::factory()->createOne();
 
         $anime->delete();
 
@@ -59,7 +59,7 @@ class AnimeTest extends TestCase
     {
         Event::fake();
 
-        $anime = Anime::factory()->create();
+        $anime = Anime::factory()->createOne();
 
         $anime->restore();
 
@@ -75,8 +75,8 @@ class AnimeTest extends TestCase
     {
         Event::fake();
 
-        $anime = Anime::factory()->create();
-        $changes = Anime::factory()->make();
+        $anime = Anime::factory()->createOne();
+        $changes = Anime::factory()->makeOne();
 
         $anime->fill($changes->getAttributes());
         $anime->save();

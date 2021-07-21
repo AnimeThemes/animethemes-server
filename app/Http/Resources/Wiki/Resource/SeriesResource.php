@@ -13,13 +13,15 @@ use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class SeriesResource.
+ *
+ * @mixin Series
  */
 class SeriesResource extends BaseResource
 {
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'series';
 
@@ -40,6 +42,8 @@ class SeriesResource extends BaseResource
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {

@@ -6,11 +6,18 @@ namespace App\Pivots;
 
 use App\Events\Pivot\AnimeSeries\AnimeSeriesCreated;
 use App\Events\Pivot\AnimeSeries\AnimeSeriesDeleted;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Series;
+use Database\Factories\Pivots\AnimeSeriesFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class AnimeSeries.
+ *
+ * @property Anime $anime
+ * @property Series $series
+ * @method static AnimeSeriesFactory factory(...$parameters)
  */
 class AnimeSeries extends BasePivot
 {
@@ -28,7 +35,7 @@ class AnimeSeries extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => AnimeSeriesCreated::class,

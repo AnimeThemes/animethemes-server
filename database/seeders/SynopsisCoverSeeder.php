@@ -7,13 +7,13 @@ namespace Database\Seeders;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Arr;
@@ -33,15 +33,25 @@ class SynopsisCoverSeeder extends Seeder
     public function run()
     {
         // Get anime that have MAL resource but not both cover images
-        $animes = $this->getUnseededAnime();
+        $animes = Anime::query()
+            ->whereHas('resources', function (Builder $resourceQuery) {
+                $resourceQuery->where('site', ResourceSite::ANILIST);
+            })->whereDoesntHave('images', function (Builder $imageQuery) {
+                $imageQuery->whereIn('facet', [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
+            })
+            ->get();
 
         $fs = Storage::disk('images');
 
         foreach ($animes as $anime) {
+            if (! $anime instanceof Anime) {
+                continue;
+            }
+
             $anilistResource = $anime->resources()->firstWhere('site', ResourceSite::ANILIST);
-            if ($anilistResource !== null && $anilistResource->external_id !== null) {
-                $animeCoverLarge = $anime->images()->firstWhere('facet', ImageFacet::COVER_LARGE);
-                $animeCoverSmall = $anime->images()->firstWhere('facet', ImageFacet::COVER_SMALL);
+            if ($anilistResource instanceof ExternalResource && $anilistResource->external_id !== null) {
+                $animeCoverLarge = $anime->images()->where('facet', ImageFacet::COVER_LARGE)->first();
+                $animeCoverSmall = $anime->images()->where('facet', ImageFacet::COVER_SMALL)->first();
 
                 // Try not to upset Anilist
                 sleep(rand(5, 15));
@@ -92,7 +102,7 @@ class SynopsisCoverSeeder extends Seeder
                         $coverFile = File::createWithContent(basename($anilistCoverLarge), $coverImage);
                         $coverLarge = $fs->putFile('', $coverFile);
 
-                        $coverLargeImage = Image::create([
+                        $coverLargeImage = Image::factory()->createOne([
                             'facet' => ImageFacet::COVER_LARGE,
                             'path' => $coverLarge,
                             'size' => $coverImageResponse->getHeader('Content-Length')[0],
@@ -111,7 +121,7 @@ class SynopsisCoverSeeder extends Seeder
                         $coverFile = File::createWithContent(basename($anilistCoverSmall), $coverImage);
                         $coverSmall = $fs->putFile('', $coverFile);
 
-                        $coverSmallImage = Image::create([
+                        $coverSmallImage = Image::factory()->createOne([
                             'facet' => ImageFacet::COVER_SMALL,
                             'path' => $coverSmall,
                             'size' => $coverImageResponse->getHeader('Content-Length')[0],
@@ -133,21 +143,5 @@ class SynopsisCoverSeeder extends Seeder
                 }
             }
         }
-    }
-
-    /**
-     * Get anime that have MAL resource but not both cover images.
-     *
-     * @return Collection
-     */
-    protected function getUnseededAnime(): Collection
-    {
-        return Anime::query()
-            ->whereHas('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::ANILIST);
-            })->whereDoesntHave('images', function (Builder $imageQuery) {
-                $imageQuery->whereIn('facet', [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
-            })
-            ->get();
     }
 }

@@ -47,7 +47,7 @@ class ResourceSiteDomainRuleTest extends TestCase
 
         $rule = new ResourceSiteDomainRule($site);
 
-        static::assertTrue($rule->passes($this->faker->word(), $this->faker->url));
+        static::assertTrue($rule->passes($this->faker->word(), $this->faker->url()));
     }
 
     /**
@@ -68,6 +68,6 @@ class ResourceSiteDomainRuleTest extends TestCase
 
         $rule = new ResourceSiteDomainRule($site->value);
 
-        static::assertFalse($rule->passes($this->faker->word(), $this->faker->url));
+        static::assertFalse($rule->passes($this->faker->word(), $this->faker->url()));
     }
 }

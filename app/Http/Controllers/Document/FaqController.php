@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Document;
 
-use Illuminate\View\View;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -16,11 +17,11 @@ class FaqController extends DocumentController
     /**
      * Show the FAQ for the application.
      *
-     * @return View
+     * @return View|Factory
      * @throws HttpException
      * @throws NotFoundHttpException
      */
-    public function show(): View
+    public function show(): View | Factory
     {
         return $this->displayMarkdownDocument('faq');
     }

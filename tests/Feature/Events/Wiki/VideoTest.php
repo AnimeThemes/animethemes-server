@@ -29,7 +29,7 @@ class VideoTest extends TestCase
     {
         Event::fake();
 
-        Video::factory()->create();
+        Video::factory()->createOne();
 
         Event::assertDispatched(VideoCreated::class);
     }
@@ -43,7 +43,7 @@ class VideoTest extends TestCase
     {
         Event::fake();
 
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
         $video->delete();
 
@@ -59,7 +59,7 @@ class VideoTest extends TestCase
     {
         Event::fake();
 
-        $video = Video::factory()->create();
+        $video = Video::factory()->createOne();
 
         $video->restore();
 
@@ -75,8 +75,8 @@ class VideoTest extends TestCase
     {
         Event::fake();
 
-        $video = Video::factory()->create();
-        $changes = Video::factory()->make();
+        $video = Video::factory()->createOne();
+        $changes = Video::factory()->makeOne();
 
         $video->fill($changes->getAttributes());
         $video->save();

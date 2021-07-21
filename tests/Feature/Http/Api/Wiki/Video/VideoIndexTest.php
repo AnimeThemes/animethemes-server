@@ -44,7 +44,7 @@ class VideoIndexTest extends TestCase
         $this->withoutEvents();
 
         $videos = Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $response = $this->get(route('api.video.index'));
@@ -71,7 +71,7 @@ class VideoIndexTest extends TestCase
         $this->withoutEvents();
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $response = $this->get(route('api.video.index'));
@@ -98,10 +98,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Theme::factory()->for(Anime::factory()))
             )
             ->create();
@@ -161,7 +161,7 @@ class VideoIndexTest extends TestCase
         ];
 
         $videos = Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $response = $this->get(route('api.video.index', $parameters));
@@ -205,7 +205,7 @@ class VideoIndexTest extends TestCase
         $parser = QueryParser::make($parameters);
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $builder = Video::query();
@@ -249,15 +249,15 @@ class VideoIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
-            Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($createdFilter, function () {
+            Video::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Video::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $video = Video::where('created_at', $createdFilter)->get();
+        $video = Video::query()->where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -294,15 +294,15 @@ class VideoIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
-            Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($updatedFilter, function () {
+            Video::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Video::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $video = Video::where('updated_at', $updatedFilter)->get();
+        $video = Video::query()->where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -336,9 +336,9 @@ class VideoIndexTest extends TestCase
             ],
         ];
 
-        Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        Video::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteVideo->each(function (Video $video) {
             $video->delete();
         });
@@ -377,9 +377,9 @@ class VideoIndexTest extends TestCase
             ],
         ];
 
-        Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        Video::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteVideo->each(function (Video $video) {
             $video->delete();
         });
@@ -418,9 +418,9 @@ class VideoIndexTest extends TestCase
             ],
         ];
 
-        Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        Video::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteVideo->each(function (Video $video) {
             $video->delete();
         });
@@ -463,15 +463,15 @@ class VideoIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $videos = Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($deletedFilter, function () {
+            $videos = Video::factory()->count($this->faker->randomDigitNotNull())->create();
             $videos->each(function (Video $video) {
                 $video->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $videos = Video::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            $videos = Video::factory()->count($this->faker->randomDigitNotNull())->create();
             $videos->each(function (Video $video) {
                 $video->delete();
             });
@@ -511,10 +511,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $videos = Video::where('lyrics', $lyricsFilter)->get();
+        $videos = Video::query()->where('lyrics', $lyricsFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -548,10 +548,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $videos = Video::where('nc', $ncFilter)->get();
+        $videos = Video::query()->where('nc', $ncFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -585,10 +585,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $videos = Video::where('overlap', $overlapFilter->value)->get();
+        $videos = Video::query()->where('overlap', $overlapFilter->value)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -623,14 +623,14 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->state(new Sequence(
                 ['resolution' => $resolutionFilter],
                 ['resolution' => $excludedResolution],
             ))
             ->create();
 
-        $videos = Video::where('resolution', $resolutionFilter)->get();
+        $videos = Video::query()->where('resolution', $resolutionFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -664,10 +664,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $videos = Video::where('source', $sourceFilter->value)->get();
+        $videos = Video::query()->where('source', $sourceFilter->value)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -701,10 +701,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $videos = Video::where('subbed', $subbedFilter)->get();
+        $videos = Video::query()->where('subbed', $subbedFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -738,10 +738,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $videos = Video::where('uncen', $uncenFilter)->get();
+        $videos = Video::query()->where('uncen', $uncenFilter)->get();
 
         $response = $this->get(route('api.video.index', $parameters));
 
@@ -774,10 +774,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Theme::factory()->for(Anime::factory()))
             )
             ->create();
@@ -820,10 +820,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Theme::factory()->for(Anime::factory()))
             )
             ->create();
@@ -856,7 +856,7 @@ class VideoIndexTest extends TestCase
      */
     public function testEntriesByVersion()
     {
-        $versionFilter = $this->faker->randomDigitNotNull;
+        $versionFilter = $this->faker->randomDigitNotNull();
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
@@ -867,10 +867,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Theme::factory()->for(Anime::factory()))
                     ->state(new Sequence(
                         ['version' => $versionFilter],
@@ -918,10 +918,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(
                         Theme::factory()
                             ->for(Anime::factory())
@@ -960,7 +960,7 @@ class VideoIndexTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
@@ -971,10 +971,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(
                         Theme::factory()
                             ->for(Anime::factory())
@@ -1023,10 +1023,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Theme::factory()->for(Anime::factory()))
             )
             ->create();
@@ -1069,10 +1069,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Theme::factory()->for(Anime::factory()))
             )
             ->create();
@@ -1116,10 +1116,10 @@ class VideoIndexTest extends TestCase
         ];
 
         Video::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->has(
                 Entry::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(
                         Theme::factory()
                             ->for(

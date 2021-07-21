@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Repositories\Service\DigitalOcean;
 
 use App\Contracts\Repositories\Repository;
+use App\Enums\Models\Wiki\VideoOverlap;
 use App\Models\Wiki\Video;
 use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,22 +27,29 @@ class VideoRepository implements Repository
     {
         // Get metadata for all objects in storage
         $fs = Storage::disk('videos');
-        $fsVideos = collect($fs->listContents('', true));
+        $fsVideos = collect($fs->files('', true));
 
         // Filter all objects for WebM metadata
         // We don't want to filter on the remote filesystem for performance concerns
         $fsVideos = $fsVideos->filter(function (array $fsFile) {
-            return $fsFile['type'] === 'file' && $fsFile['extension'] === 'webm';
+            return Arr::get($fsFile, 'type') === 'file' && Arr::get($fsFile, 'extension') === 'webm';
         });
 
         // Create videos from metadata that we can later save if needed
         return $fsVideos->map(function (array $fsFile) {
-            return Video::make([
-                'basename' => $fsFile['basename'],
-                'filename' => $fsFile['filename'],
-                'path' => $fsFile['path'],
-                'size' => $fsFile['size'],
-                'mimetype' => MimeType::fromFilename($fsFile['basename']),
+            return Video::factory()->makeOne([
+                'basename' => Arr::get($fsFile, 'basename'),
+                'filename' => Arr::get($fsFile, 'filename'),
+                'path' => Arr::get($fsFile, 'path'),
+                'size' => Arr::get($fsFile, 'size'),
+                'mimetype' => MimeType::fromFilename(Arr::get($fsFile, 'basename')),
+                'resolution' => null,
+                'nc' => false,
+                'subbed' => false,
+                'lyrics' => false,
+                'uncen' => false,
+                'source' => null,
+                'overlap' => VideoOverlap::NONE,
             ]);
         });
     }

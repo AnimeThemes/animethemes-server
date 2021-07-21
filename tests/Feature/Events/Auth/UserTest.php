@@ -29,7 +29,7 @@ class UserTest extends TestCase
     {
         Event::fake();
 
-        User::factory()->create();
+        User::factory()->createOne();
 
         Event::assertDispatched(UserCreated::class);
     }
@@ -43,7 +43,7 @@ class UserTest extends TestCase
     {
         Event::fake();
 
-        $user = User::factory()->create();
+        $user = User::factory()->createOne();
 
         $user->delete();
 
@@ -59,7 +59,7 @@ class UserTest extends TestCase
     {
         Event::fake();
 
-        $user = User::factory()->create();
+        $user = User::factory()->createOne();
 
         $user->restore();
 
@@ -75,8 +75,8 @@ class UserTest extends TestCase
     {
         Event::fake();
 
-        $user = User::factory()->create();
-        $changes = User::factory()->make();
+        $user = User::factory()->createOne();
+        $changes = User::factory()->makeOne();
 
         $user->fill($changes->getAttributes());
         $user->save();

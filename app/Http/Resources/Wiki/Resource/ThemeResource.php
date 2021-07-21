@@ -13,13 +13,15 @@ use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class ThemeResource.
+ *
+ * @mixin Theme
  */
 class ThemeResource extends BaseResource
 {
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'theme';
 
@@ -40,15 +42,17 @@ class ThemeResource extends BaseResource
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
         return [
             'id' => $this->when($this->isAllowedField('id'), $this->theme_id),
-            'type' => $this->when($this->isAllowedField('type'), strval(optional($this->type)->description)),
-            'sequence' => $this->when($this->isAllowedField('sequence'), $this->sequence === null ? '' : $this->sequence),
-            'group' => $this->when($this->isAllowedField('group'), strval($this->group)),
-            'slug' => $this->when($this->isAllowedField('slug'), strval($this->slug)),
+            'type' => $this->when($this->isAllowedField('type'), $this->type?->description),
+            'sequence' => $this->when($this->isAllowedField('sequence'), $this->sequence),
+            'group' => $this->when($this->isAllowedField('group'), $this->group),
+            'slug' => $this->when($this->isAllowedField('slug'), $this->slug),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),

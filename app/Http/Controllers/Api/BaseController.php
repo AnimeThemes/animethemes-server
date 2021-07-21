@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Api\QueryParser;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 /**
  * Class BaseController.
@@ -24,8 +25,10 @@ abstract class BaseController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
-        $this->parser = QueryParser::make(request()->all());
+        $parameters = $request->only(QueryParser::parameters());
+
+        $this->parser = QueryParser::make($parameters);
     }
 }

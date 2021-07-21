@@ -28,7 +28,7 @@ class BalanceTest extends TestCase
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        Balance::factory()->create();
+        Balance::factory()->createOne();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
@@ -40,7 +40,7 @@ class BalanceTest extends TestCase
      */
     public function testBalanceDeletedSendsDiscordNotification()
     {
-        $balance = Balance::factory()->create();
+        $balance = Balance::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -57,7 +57,7 @@ class BalanceTest extends TestCase
      */
     public function testBalanceRestoredSendsDiscordNotification()
     {
-        $balance = Balance::factory()->create();
+        $balance = Balance::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -74,12 +74,12 @@ class BalanceTest extends TestCase
      */
     public function testBalanceUpdatedSendsDiscordNotification()
     {
-        $balance = Balance::factory()->create();
+        $balance = Balance::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
 
-        $changes = Balance::factory()->make();
+        $changes = Balance::factory()->makeOne();
 
         $balance->fill($changes->getAttributes());
         $balance->save();

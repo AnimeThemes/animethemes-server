@@ -33,7 +33,7 @@ class TransactionIndexTest extends TestCase
      */
     public function testDefault()
     {
-        $transactions = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        $transactions = Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.transaction.index'));
 
@@ -56,7 +56,7 @@ class TransactionIndexTest extends TestCase
      */
     public function testPaginated()
     {
-        Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.transaction.index'));
 
@@ -81,7 +81,7 @@ class TransactionIndexTest extends TestCase
             QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
-        Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
         $transactions = Transaction::with($includedPaths->all())->get();
 
         $response = $this->get(route('api.transaction.index', $parameters));
@@ -125,7 +125,7 @@ class TransactionIndexTest extends TestCase
             ],
         ];
 
-        $transactions = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        $transactions = Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.transaction.index', $parameters));
 
@@ -165,7 +165,7 @@ class TransactionIndexTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = Transaction::query();
 
@@ -206,15 +206,15 @@ class TransactionIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
-            Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($createdFilter, function () {
+            Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $transaction = Transaction::where('created_at', $createdFilter)->get();
+        $transaction = Transaction::query()->where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.transaction.index', $parameters));
 
@@ -249,15 +249,15 @@ class TransactionIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
-            Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($updatedFilter, function () {
+            Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $transaction = Transaction::where('updated_at', $updatedFilter)->get();
+        $transaction = Transaction::query()->where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.transaction.index', $parameters));
 
@@ -289,9 +289,9 @@ class TransactionIndexTest extends TestCase
             ],
         ];
 
-        Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteTransaction->each(function (Transaction $transaction) {
             $transaction->delete();
         });
@@ -328,9 +328,9 @@ class TransactionIndexTest extends TestCase
             ],
         ];
 
-        Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteTransaction->each(function (Transaction $transaction) {
             $transaction->delete();
         });
@@ -367,9 +367,9 @@ class TransactionIndexTest extends TestCase
             ],
         ];
 
-        Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteTransaction->each(function (Transaction $transaction) {
             $transaction->delete();
         });
@@ -410,15 +410,15 @@ class TransactionIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $transactions = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($deletedFilter, function () {
+            $transactions = Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
             $transactions->each(function (Transaction $transaction) {
                 $transaction->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $transactions = Transaction::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            $transactions = Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
             $transactions->each(function (Transaction $transaction) {
                 $transaction->delete();
             });

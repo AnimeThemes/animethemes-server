@@ -19,9 +19,11 @@ class UpdatedEndDateFilter extends DateFilter
     /**
      * Get the displayable name of the filter.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function name(): array | string | null
+    public function name(): string
     {
         return __('nova.updated_at_end');
     }

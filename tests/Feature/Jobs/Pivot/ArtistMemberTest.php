@@ -26,8 +26,8 @@ class ArtistMemberTest extends TestCase
      */
     public function testArtistMemberCreatedSendsDiscordNotification()
     {
-        $artist = Artist::factory()->create();
-        $member = Artist::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $member = Artist::factory()->createOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -44,8 +44,9 @@ class ArtistMemberTest extends TestCase
      */
     public function testArtistMemberDeletedSendsDiscordNotification()
     {
-        $artist = Artist::factory()->create();
-        $member = Artist::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $member = Artist::factory()->createOne();
+
         $artist->members()->attach($member);
 
         Config::set('flags.allow_discord_notifications', true);
@@ -63,18 +64,18 @@ class ArtistMemberTest extends TestCase
      */
     public function testArtistMemberUpdatedSendsDiscordNotification()
     {
-        $artist = Artist::factory()->create();
-        $member = Artist::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $member = Artist::factory()->createOne();
 
         $artistMember = ArtistMember::factory()
             ->for($artist, 'artist')
             ->for($member, 'member')
-            ->create();
+            ->createOne();
 
         $changes = ArtistMember::factory()
             ->for($artist, 'artist')
             ->for($member, 'member')
-            ->make();
+            ->makeOne();
 
         Config::set('flags.allow_discord_notifications', true);
         Bus::fake(SendDiscordNotificationJob::class);

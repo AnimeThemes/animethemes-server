@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ThemeType;
-use App\Nova\Filters\Wiki\ThemeTypeFilter;
+use App\Nova\Filters\Wiki\Theme\ThemeTypeFilter;
 use App\Nova\Resources\Resource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
@@ -41,9 +41,11 @@ class Theme extends Resource
     /**
      * Get the displayable label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function label(): array | string | null
+    public static function label(): string
     {
         return __('nova.themes');
     }
@@ -51,9 +53,11 @@ class Theme extends Resource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return array|string|null
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function singularLabel(): array | string | null
+    public static function singularLabel(): string
     {
         return __('nova.theme');
     }
@@ -61,7 +65,7 @@ class Theme extends Resource
     /**
      * The columns that should be searched.
      *
-     * @var string[]
+     * @var array
      */
     public static $search = [
         'slug',
@@ -98,33 +102,33 @@ class Theme extends Resource
             BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
                ->readonly(),
 
-            new Panel(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
 
             Select::make(__('nova.type'), 'type')
                 ->options(ThemeType::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
-                    return $enum ? $enum->description : null;
+                    return $enum?->description;
                 })
                 ->sortable()
-                ->rules('required', (new EnumValue(ThemeType::class, false))->__toString())
+                ->rules(['required', (new EnumValue(ThemeType::class, false))->__toString()])
                 ->help(__('nova.theme_type_help')),
 
             Number::make(__('nova.sequence'), 'sequence')
                 ->sortable()
                 ->nullable()
-                ->rules('nullable', 'integer')
+                ->rules(['nullable', 'integer'])
                 ->help(__('nova.theme_sequence_help')),
 
             Text::make(__('nova.group'), 'group')
                 ->sortable()
                 ->nullable()
-                ->rules('nullable', 'max:192')
+                ->rules(['nullable', 'max:192'])
                 ->help(__('nova.theme_group_help')),
 
             Text::make(__('nova.slug'), 'slug')
                 ->hideWhenCreating()
                 ->sortable()
-                ->rules('required', 'max:192', 'alpha_dash')
+                ->rules(['required', 'max:192', 'alpha_dash'])
                 ->help(__('nova.theme_slug_help')),
 
             BelongsTo::make(__('nova.song'), 'Song', Song::class)

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter\Wiki\Artist;
 
-use App\Http\Api\Filter\Filter;
+use App\Http\Api\Filter\StringFilter;
 use App\Http\Api\QueryParser;
 
 /**
  * Class ArtistNameFilter.
  */
-class ArtistNameFilter extends Filter
+class ArtistNameFilter extends StringFilter
 {
     /**
      * Create a new filter instance.

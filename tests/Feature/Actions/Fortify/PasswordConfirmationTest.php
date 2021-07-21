@@ -24,8 +24,8 @@ class PasswordConfirmationTest extends TestCase
     public function testConfirmPasswordScreenCanBeRendered()
     {
         $user = Features::hasTeamFeatures()
-                        ? User::factory()->withPersonalTeam()->create()
-                        : User::factory()->create();
+                        ? User::factory()->withPersonalTeam()->createOne()
+                        : User::factory()->createOne();
 
         $response = $this->actingAs($user)->get('/user/confirm-password');
 
@@ -39,7 +39,7 @@ class PasswordConfirmationTest extends TestCase
      */
     public function testPasswordCanBeConfirmed()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->createOne();
 
         $response = $this->actingAs($user)->post('/user/confirm-password', [
             'password' => 'password',
@@ -56,7 +56,7 @@ class PasswordConfirmationTest extends TestCase
      */
     public function testPasswordIsNotConfirmedWithInvalidPassword()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->createOne();
 
         $response = $this->actingAs($user)->post('/user/confirm-password', [
             'password' => 'wrong-password',

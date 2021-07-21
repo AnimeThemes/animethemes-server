@@ -12,17 +12,30 @@ use App\Events\Billing\Balance\BalanceDeleted;
 use App\Events\Billing\Balance\BalanceRestored;
 use App\Events\Billing\Balance\BalanceUpdated;
 use App\Models\BaseModel;
+use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
+use Carbon\Carbon;
+use Database\Factories\Billing\BalanceFactory;
 use Illuminate\Support\Str;
 
 /**
  * Class Balance.
+ *
+ * @property int $balance_id
+ * @property Carbon $date
+ * @property Enum $service
+ * @property Enum $frequency
+ * @property float $usage
+ * @property float $balance
+ * @method static BalanceFactory factory(...$parameters)
  */
 class Balance extends BaseModel
 {
     use CastsEnums;
 
     /**
+     * The attributes that are mass assignable.
+     *
      * @var string[]
      */
     protected $fillable = ['date', 'service', 'frequency', 'usage', 'balance'];
@@ -32,7 +45,7 @@ class Balance extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => BalanceCreated::class,
@@ -58,7 +71,7 @@ class Balance extends BaseModel
     /**
      * The attributes that should be cast to enum types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $enumCasts = [
         'service' => Service::class,
@@ -68,12 +81,13 @@ class Balance extends BaseModel
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'service' => 'int',
         'frequency' => 'int',
         'date' => 'date:Y-m-d',
+        'usage' => 'decimal:2',
     ];
 
     /**

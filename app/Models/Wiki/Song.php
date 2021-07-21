@@ -11,13 +11,23 @@ use App\Events\Wiki\Song\SongRestored;
 use App\Events\Wiki\Song\SongUpdated;
 use App\Models\BaseModel;
 use App\Pivots\ArtistSong;
+use App\Pivots\BasePivot;
+use Database\Factories\Wiki\SongFactory;
 use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Laravel\Scout\Searchable;
 
 /**
  * Class Song.
+ *
+ * @property int $song_id
+ * @property string|null $title
+ * @property Collection $themes
+ * @property Collection $artists
+ * @property BasePivot $pivot
+ * @method static SongFactory factory(...$parameters)
  */
 class Song extends BaseModel
 {
@@ -36,7 +46,7 @@ class Song extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => SongCreated::class,

@@ -96,8 +96,8 @@ class SongShowTest extends TestCase
         ];
 
         Song::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull)->for(Anime::factory()))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
+            ->has(Theme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
+            ->has(Artist::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
         $song = Song::with($includedPaths->all())->first();
@@ -178,7 +178,7 @@ class SongShowTest extends TestCase
         Song::factory()
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Anime::factory())
                     ->state(new Sequence(
                         ['group' => $groupFilter],
@@ -215,7 +215,7 @@ class SongShowTest extends TestCase
      */
     public function testThemesBySequence()
     {
-        $sequenceFilter = $this->faker->randomDigitNotNull;
+        $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
@@ -228,7 +228,7 @@ class SongShowTest extends TestCase
         Song::factory()
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(Anime::factory())
                     ->state(new Sequence(
                         ['sequence' => $sequenceFilter],
@@ -275,7 +275,7 @@ class SongShowTest extends TestCase
         ];
 
         Song::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull)->for(Anime::factory()))
+            ->has(Theme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
             ->create();
 
         $song = Song::with([
@@ -316,7 +316,7 @@ class SongShowTest extends TestCase
         ];
 
         Song::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull)->for(Anime::factory()))
+            ->has(Theme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
             ->create();
 
         $song = Song::with([
@@ -360,7 +360,7 @@ class SongShowTest extends TestCase
         Song::factory()
             ->has(
                 Theme::factory()
-                    ->count($this->faker->randomDigitNotNull)
+                    ->count($this->faker->randomDigitNotNull())
                     ->for(
                         Anime::factory()
                             ->state([

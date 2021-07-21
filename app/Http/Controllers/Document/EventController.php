@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Document;
 
-use Illuminate\View\View;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -16,11 +17,11 @@ class EventController extends DocumentController
     /**
      * Display the Event Index document.
      *
-     * @return View
+     * @return View|Factory
      * @throws HttpException
      * @throws NotFoundHttpException
      */
-    public function index(): View
+    public function index(): View | Factory
     {
         return $this->displayMarkdownDocument('event/index');
     }
@@ -29,11 +30,11 @@ class EventController extends DocumentController
      * Display the Event document.
      *
      * @param string $docName
-     * @return View
+     * @return View|Factory
      * @throws HttpException
      * @throws NotFoundHttpException
      */
-    public function show(string $docName): View
+    public function show(string $docName): View | Factory
     {
         return $this->displayMarkdownDocument('event/'.$docName);
     }

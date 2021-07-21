@@ -14,13 +14,15 @@ use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class ImageResource.
+ *
+ * @mixin Image
  */
 class ImageResource extends BaseResource
 {
     /**
      * The "data" wrapper that should be applied.
      *
-     * @var string
+     * @var string|null
      */
     public static $wrap = 'image';
 
@@ -41,6 +43,8 @@ class ImageResource extends BaseResource
      *
      * @param Request $request
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
@@ -49,7 +53,7 @@ class ImageResource extends BaseResource
             'path' => $this->when($this->isAllowedField('path'), $this->path),
             'size' => $this->when($this->isAllowedField('size'), $this->size),
             'mimetype' => $this->when($this->isAllowedField('mimetype'), $this->mimetype),
-            'facet' => $this->when($this->isAllowedField('facet'), strval(optional($this->facet)->description)),
+            'facet' => $this->when($this->isAllowedField('facet'), $this->facet?->description),
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),

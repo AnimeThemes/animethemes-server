@@ -39,7 +39,7 @@ class ImageIndexTest extends TestCase
     public function testDefault()
     {
         $images = Image::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $response = $this->get(route('api.image.index'));
@@ -63,7 +63,7 @@ class ImageIndexTest extends TestCase
      */
     public function testPaginated()
     {
-        Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        Image::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.image.index'));
 
@@ -89,9 +89,9 @@ class ImageIndexTest extends TestCase
         ];
 
         Image::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull))
-            ->count($this->faker->randomDigitNotNull)
+            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(Artist::factory()->count($this->faker->randomDigitNotNull()))
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $images = Image::with($includedPaths->all())->get();
@@ -137,7 +137,7 @@ class ImageIndexTest extends TestCase
         ];
 
         $images = Image::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $response = $this->get(route('api.image.index', $parameters));
@@ -178,7 +178,7 @@ class ImageIndexTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        Image::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = Image::query();
 
@@ -219,15 +219,15 @@ class ImageIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
-            Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($createdFilter, function () {
+            Image::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Image::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $image = Image::where('created_at', $createdFilter)->get();
+        $image = Image::query()->where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.image.index', $parameters));
 
@@ -262,15 +262,15 @@ class ImageIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
-            Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($updatedFilter, function () {
+            Image::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Image::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $image = Image::where('updated_at', $updatedFilter)->get();
+        $image = Image::query()->where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.image.index', $parameters));
 
@@ -302,9 +302,9 @@ class ImageIndexTest extends TestCase
             ],
         ];
 
-        Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        Image::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteImage->each(function (Image $image) {
             $image->delete();
         });
@@ -341,9 +341,9 @@ class ImageIndexTest extends TestCase
             ],
         ];
 
-        Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        Image::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteImage->each(function (Image $image) {
             $image->delete();
         });
@@ -380,9 +380,9 @@ class ImageIndexTest extends TestCase
             ],
         ];
 
-        Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        Image::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteImage->each(function (Image $image) {
             $image->delete();
         });
@@ -423,15 +423,15 @@ class ImageIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $images = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($deletedFilter, function () {
+            $images = Image::factory()->count($this->faker->randomDigitNotNull())->create();
             $images->each(function (Image $image) {
                 $image->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $images = Image::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            $images = Image::factory()->count($this->faker->randomDigitNotNull())->create();
             $images->each(function (Image $image) {
                 $image->delete();
             });
@@ -469,10 +469,10 @@ class ImageIndexTest extends TestCase
         ];
 
         Image::factory()
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $images = Image::where('facet', $facetFilter->value)->get();
+        $images = Image::query()->where('facet', $facetFilter->value)->get();
 
         $response = $this->get(route('api.image.index', $parameters));
 
@@ -505,8 +505,8 @@ class ImageIndexTest extends TestCase
         ];
 
         Image::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull))
-            ->count($this->faker->randomDigitNotNull)
+            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $images = Image::with([
@@ -550,12 +550,12 @@ class ImageIndexTest extends TestCase
         Image::factory()
             ->has(
                 Anime::factory()
-                ->count($this->faker->randomDigitNotNull)
+                ->count($this->faker->randomDigitNotNull())
                 ->state([
                     'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
                 ])
             )
-            ->count($this->faker->randomDigitNotNull)
+            ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $images = Image::with([

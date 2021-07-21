@@ -26,12 +26,12 @@ class InitializeVideoTagsTest extends TestCase
      */
     public function testNoTags()
     {
-        $filename = Str::of(Str::random($this->faker->randomDigitNotNull))
+        $filename = Str::of(Str::random($this->faker->randomDigitNotNull()))
             ->append('-')
             ->append($this->faker->boolean() ? 'OP' : 'ED')
             ->__toString();
 
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'filename' => $filename,
             'nc' => false,
             'subbed' => false,
@@ -54,14 +54,14 @@ class InitializeVideoTagsTest extends TestCase
      */
     public function testNcTag()
     {
-        $filename = Str::of(Str::random($this->faker->randomDigitNotNull))
+        $filename = Str::of(Str::random($this->faker->randomDigitNotNull()))
             ->append('-')
             ->append($this->faker->boolean() ? 'OP' : 'ED')
             ->append('-')
             ->append('NC')
             ->__toString();
 
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'filename' => $filename,
             'nc' => false,
             'subbed' => false,
@@ -80,14 +80,14 @@ class InitializeVideoTagsTest extends TestCase
      */
     public function testSubbedTag()
     {
-        $filename = Str::of(Str::random($this->faker->randomDigitNotNull))
+        $filename = Str::of(Str::random($this->faker->randomDigitNotNull()))
             ->append('-')
             ->append($this->faker->boolean() ? 'OP' : 'ED')
             ->append('-')
             ->append('Subbed')
             ->__toString();
 
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'filename' => $filename,
             'nc' => false,
             'subbed' => false,
@@ -106,14 +106,14 @@ class InitializeVideoTagsTest extends TestCase
      */
     public function testLyricsTag()
     {
-        $filename = Str::of(Str::random($this->faker->randomDigitNotNull))
+        $filename = Str::of(Str::random($this->faker->randomDigitNotNull()))
             ->append('-')
             ->append($this->faker->boolean() ? 'OP' : 'ED')
             ->append('-')
             ->append('Lyrics')
             ->__toString();
 
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'filename' => $filename,
             'nc' => false,
             'subbed' => false,
@@ -134,14 +134,14 @@ class InitializeVideoTagsTest extends TestCase
     {
         $resolution = $this->faker->randomNumber();
 
-        $filename = Str::of(Str::random($this->faker->randomDigitNotNull))
+        $filename = Str::of(Str::random($this->faker->randomDigitNotNull()))
             ->append('-')
             ->append($this->faker->boolean() ? 'OP' : 'ED')
             ->append('-')
             ->append($resolution)
             ->__toString();
 
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'filename' => $filename,
             'nc' => false,
             'subbed' => false,
@@ -160,14 +160,14 @@ class InitializeVideoTagsTest extends TestCase
      */
     public function testImplicitResolutionTag()
     {
-        $filename = Str::of(Str::random($this->faker->randomDigitNotNull))
+        $filename = Str::of(Str::random($this->faker->randomDigitNotNull()))
             ->append('-')
             ->append($this->faker->boolean() ? 'OP' : 'ED')
             ->append('-')
             ->append($this->faker->boolean() ? 'NCBD' : 'NCBDLyrics')
             ->__toString();
 
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'filename' => $filename,
             'nc' => false,
             'subbed' => false,
@@ -188,14 +188,14 @@ class InitializeVideoTagsTest extends TestCase
     {
         $source = VideoSource::getRandomInstance();
 
-        $filename = Str::of(Str::random($this->faker->randomDigitNotNull))
+        $filename = Str::of(Str::random($this->faker->randomDigitNotNull()))
             ->append('-')
             ->append($this->faker->boolean() ? 'OP' : 'ED')
             ->append('-')
             ->append($source->key)
             ->__toString();
 
-        $video = Video::factory()->create([
+        $video = Video::factory()->createOne([
             'filename' => $filename,
             'nc' => false,
             'subbed' => false,

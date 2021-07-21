@@ -4,6 +4,7 @@ includes:
 parameters:
     checkModelProperties: true
     checkOctaneCompatibility: true
+    checkMissingIterableValueType: false
 
     paths:
         - app
@@ -17,12 +18,7 @@ parameters:
 
     ignoreErrors:
         - '#Call to an undefined method ElasticScoutDriverPlus\\Builders\\SearchRequestBuilder::\w+\(\)#'
-        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::jsonApiResource\(\).#'
-        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::withCurrentTeam\(\).#'
-        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::withPersonalTeam\(\).#'
         - '#Call to an undefined method Mockery\\ExpectationInterface|Mockery\\HigherOrderMessage::once\(\).#'
         - '#Call to an undefined method Znck\\Eloquent\\Relations\\BelongsToThrough::where\(\).#'
 
     excludes_analyse:
-
-    checkMissingIterableValueType: false

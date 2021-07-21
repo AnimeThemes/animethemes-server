@@ -33,7 +33,7 @@ class ArtistTest extends TestCase
      */
     public function testSearchableAs()
     {
-        $artist = Artist::factory()->create();
+        $artist = Artist::factory()->createOne();
 
         static::assertIsString($artist->searchableAs());
     }
@@ -45,7 +45,7 @@ class ArtistTest extends TestCase
      */
     public function testToSearchableArray()
     {
-        $artist = Artist::factory()->create();
+        $artist = Artist::factory()->createOne();
 
         static::assertIsArray($artist->toSearchableArray());
     }
@@ -59,9 +59,9 @@ class ArtistTest extends TestCase
     {
         Config::set('audit.console', true);
 
-        $artist = Artist::factory()->create();
+        $artist = Artist::factory()->createOne();
 
-        static::assertEquals(1, $artist->audits->count());
+        static::assertEquals(1, $artist->audits()->count());
     }
 
     /**
@@ -71,7 +71,7 @@ class ArtistTest extends TestCase
      */
     public function testNameable()
     {
-        $artist = Artist::factory()->create();
+        $artist = Artist::factory()->createOne();
 
         static::assertIsString($artist->getName());
     }
@@ -83,11 +83,11 @@ class ArtistTest extends TestCase
      */
     public function testSongs()
     {
-        $songCount = $this->faker->randomDigitNotNull;
+        $songCount = $this->faker->randomDigitNotNull();
 
         $artist = Artist::factory()
             ->has(Song::factory()->count($songCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $artist->songs());
         static::assertEquals($songCount, $artist->songs()->count());
@@ -102,11 +102,11 @@ class ArtistTest extends TestCase
      */
     public function testExternalResources()
     {
-        $resourceCount = $this->faker->randomDigitNotNull;
+        $resourceCount = $this->faker->randomDigitNotNull();
 
         $artist = Artist::factory()
             ->has(ExternalResource::factory()->count($resourceCount), 'resources')
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $artist->resources());
         static::assertEquals($resourceCount, $artist->resources()->count());
@@ -121,11 +121,11 @@ class ArtistTest extends TestCase
      */
     public function testMembers()
     {
-        $memberCount = $this->faker->randomDigitNotNull;
+        $memberCount = $this->faker->randomDigitNotNull();
 
         $artist = Artist::factory()
             ->has(Artist::factory()->count($memberCount), 'members')
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $artist->members());
         static::assertEquals($memberCount, $artist->members()->count());
@@ -140,11 +140,11 @@ class ArtistTest extends TestCase
      */
     public function testGroups()
     {
-        $groupCount = $this->faker->randomDigitNotNull;
+        $groupCount = $this->faker->randomDigitNotNull();
 
         $artist = Artist::factory()
             ->has(Artist::factory()->count($groupCount), 'groups')
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $artist->groups());
         static::assertEquals($groupCount, $artist->groups()->count());
@@ -159,11 +159,11 @@ class ArtistTest extends TestCase
      */
     public function testImages()
     {
-        $imageCount = $this->faker->randomDigitNotNull;
+        $imageCount = $this->faker->randomDigitNotNull();
 
         $artist = Artist::factory()
             ->has(Image::factory()->count($imageCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $artist->images());
         static::assertEquals($imageCount, $artist->images()->count());

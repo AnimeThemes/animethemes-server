@@ -30,8 +30,8 @@ class ArtistResourceTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
-        $resource = ExternalResource::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
 
         $artist->resources()->attach($resource);
 
@@ -47,8 +47,8 @@ class ArtistResourceTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
-        $resource = ExternalResource::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
 
         $artist->resources()->attach($resource);
         $artist->resources()->detach($resource);
@@ -65,18 +65,18 @@ class ArtistResourceTest extends TestCase
     {
         Event::fake();
 
-        $artist = Artist::factory()->create();
-        $resource = ExternalResource::factory()->create();
+        $artist = Artist::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
 
         $artistResource = ArtistResource::factory()
             ->for($artist, 'artist')
             ->for($resource, 'resource')
-            ->create();
+            ->createOne();
 
         $changes = ArtistResource::factory()
             ->for($artist, 'artist')
             ->for($resource, 'resource')
-            ->make();
+            ->makeOne();
 
         $artistResource->fill($changes->getAttributes());
         $artistResource->save();

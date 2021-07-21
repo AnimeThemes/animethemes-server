@@ -6,17 +6,22 @@ namespace App\Models\Auth;
 
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Events\Auth\Invitation\InvitationCreated;
-use App\Events\Auth\Invitation\InvitationCreating;
 use App\Events\Auth\Invitation\InvitationDeleted;
 use App\Events\Auth\Invitation\InvitationRestored;
 use App\Events\Auth\Invitation\InvitationUpdated;
 use App\Models\BaseModel;
+use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
-use Exception;
-use ParagonIE\ConstantTime\Base32;
+use Database\Factories\Auth\InvitationFactory;
 
 /**
  * Class Invitation.
+ *
+ * @property int $invitation_id
+ * @property string $name
+ * @property string $email
+ * @property Enum $status
+ * @method static InvitationFactory factory(...$parameters)
  */
 class Invitation extends BaseModel
 {
@@ -34,11 +39,10 @@ class Invitation extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => InvitationCreated::class,
-        'creating' => InvitationCreating::class,
         'deleted' => InvitationDeleted::class,
         'restored' => InvitationRestored::class,
         'updated' => InvitationUpdated::class,
@@ -61,7 +65,7 @@ class Invitation extends BaseModel
     /**
      * The attributes that should be cast to enum types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $enumCasts = [
         'status' => InvitationStatus::class,
@@ -70,7 +74,7 @@ class Invitation extends BaseModel
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'status' => 'int',
@@ -94,16 +98,5 @@ class Invitation extends BaseModel
     public function isOpen(): bool
     {
         return $this->status->is(InvitationStatus::OPEN);
-    }
-
-    /**
-     * Generate token for invitation.
-     *
-     * @return string
-     * @throws Exception
-     */
-    public static function createToken(): string
-    {
-        return Base32::encodeUpper(random_bytes(rand(20, 100)));
     }
 }

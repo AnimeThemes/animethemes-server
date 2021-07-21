@@ -30,9 +30,9 @@ class CreateApiTokenTest extends TestCase
         }
 
         if (Features::hasTeamFeatures()) {
-            $this->actingAs($user = User::factory()->withPersonalTeam()->create());
+            $this->actingAs($user = User::factory()->withPersonalTeam()->createOne());
         } else {
-            $this->actingAs($user = User::factory()->create());
+            $this->actingAs($user = User::factory()->createOne());
         }
 
         Livewire::test(ApiTokenManager::class)

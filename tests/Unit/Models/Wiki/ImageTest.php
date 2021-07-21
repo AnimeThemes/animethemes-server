@@ -34,7 +34,7 @@ class ImageTest extends TestCase
      */
     public function testCastsFacetToEnum()
     {
-        $image = Image::factory()->create();
+        $image = Image::factory()->createOne();
 
         $facet = $image->facet;
 
@@ -50,9 +50,9 @@ class ImageTest extends TestCase
     {
         Config::set('audit.console', true);
 
-        $image = Image::factory()->create();
+        $image = Image::factory()->createOne();
 
-        static::assertEquals(1, $image->audits->count());
+        static::assertEquals(1, $image->audits()->count());
     }
 
     /**
@@ -62,7 +62,7 @@ class ImageTest extends TestCase
      */
     public function testNameable()
     {
-        $image = Image::factory()->create();
+        $image = Image::factory()->createOne();
 
         static::assertIsString($image->getName());
     }
@@ -74,11 +74,11 @@ class ImageTest extends TestCase
      */
     public function testAnime()
     {
-        $animeCount = $this->faker->randomDigitNotNull;
+        $animeCount = $this->faker->randomDigitNotNull();
 
         $image = Image::factory()
             ->has(Anime::factory()->count($animeCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $image->anime());
         static::assertEquals($animeCount, $image->anime()->count());
@@ -93,11 +93,11 @@ class ImageTest extends TestCase
      */
     public function testArtists()
     {
-        $artistCount = $this->faker->randomDigitNotNull;
+        $artistCount = $this->faker->randomDigitNotNull();
 
         $image = Image::factory()
             ->has(Artist::factory()->count($artistCount))
-            ->create();
+            ->createOne();
 
         static::assertInstanceOf(BelongsToMany::class, $image->artists());
         static::assertEquals($artistCount, $image->artists()->count());
@@ -117,7 +117,7 @@ class ImageTest extends TestCase
         $fsFile = $fs->putFile('', $file);
         $fsPathinfo = pathinfo(strval($fsFile));
 
-        $image = Image::create([
+        $image = Image::factory()->createOne([
             'path' => $fsFile,
             'facet' => ImageFacet::getRandomValue(),
             'size' => $this->faker->randomNumber(),
@@ -141,7 +141,7 @@ class ImageTest extends TestCase
         $fsFile = $fs->putFile('', $file);
         $fsPathinfo = pathinfo(strval($fsFile));
 
-        $image = Image::create([
+        $image = Image::factory()->createOne([
             'path' => $fsFile,
             'facet' => ImageFacet::getRandomValue(),
             'size' => $this->faker->randomNumber(),

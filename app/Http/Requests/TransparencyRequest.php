@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Models\Billing\Balance;
 use App\Models\Billing\Transaction;
 use App\Rules\Billing\TransparencyDateRule;
@@ -70,8 +71,8 @@ class TransparencyRequest extends FormRequest
      */
     protected function initializeValidDates(): Collection
     {
-        $balanceDates = Balance::distinct('date')->pluck('date');
-        $transactionDates = Transaction::distinct('date')->pluck('date');
+        $balanceDates = Balance::query()->distinct('date')->pluck('date');
+        $transactionDates = Transaction::query()->distinct('date')->pluck('date');
 
         $validDates = $balanceDates->concat($transactionDates);
 
@@ -121,8 +122,9 @@ class TransparencyRequest extends FormRequest
             return Collection::make();
         }
 
-        return Balance::whereMonth('date', strval($date->month))
-            ->whereYear('date', strval($date->year))
+        return Balance::query()
+            ->whereMonth('date', ComparisonOperator::EQ, $date)
+            ->whereYear('date', ComparisonOperator::EQ, $date)
             ->orderBy('usage', 'desc')
             ->get();
     }
@@ -140,8 +142,9 @@ class TransparencyRequest extends FormRequest
             return Collection::make();
         }
 
-        return Transaction::whereMonth('date', strval($date->month))
-            ->whereYear('date', strval($date->year))
+        return Transaction::query()
+            ->whereMonth('date', ComparisonOperator::EQ, $date)
+            ->whereYear('date', ComparisonOperator::EQ, $date)
             ->orderBy('date', 'desc')
             ->get();
     }

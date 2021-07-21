@@ -33,7 +33,7 @@ class BalanceIndexTest extends TestCase
      */
     public function testDefault()
     {
-        $balances = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        $balances = Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.balance.index'));
 
@@ -56,7 +56,7 @@ class BalanceIndexTest extends TestCase
      */
     public function testPaginated()
     {
-        Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.balance.index'));
 
@@ -81,7 +81,7 @@ class BalanceIndexTest extends TestCase
             QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
         ];
 
-        Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Balance::factory()->count($this->faker->randomDigitNotNull())->create();
         $balances = Balance::with($includedPaths->all())->get();
 
         $response = $this->get(route('api.balance.index', $parameters));
@@ -125,7 +125,7 @@ class BalanceIndexTest extends TestCase
             ],
         ];
 
-        $balances = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        $balances = Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.balance.index', $parameters));
 
@@ -165,7 +165,7 @@ class BalanceIndexTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = Balance::query();
 
@@ -206,15 +206,15 @@ class BalanceIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($createdFilter), function () {
-            Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($createdFilter, function () {
+            Balance::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Balance::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $balance = Balance::where('created_at', $createdFilter)->get();
+        $balance = Balance::query()->where('created_at', $createdFilter)->get();
 
         $response = $this->get(route('api.balance.index', $parameters));
 
@@ -249,15 +249,15 @@ class BalanceIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($updatedFilter), function () {
-            Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($updatedFilter, function () {
+            Balance::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            Balance::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $balance = Balance::where('updated_at', $updatedFilter)->get();
+        $balance = Balance::query()->where('updated_at', $updatedFilter)->get();
 
         $response = $this->get(route('api.balance.index', $parameters));
 
@@ -289,9 +289,9 @@ class BalanceIndexTest extends TestCase
             ],
         ];
 
-        Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteBalance = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteBalance = Balance::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteBalance->each(function (Balance $balance) {
             $balance->delete();
         });
@@ -328,9 +328,9 @@ class BalanceIndexTest extends TestCase
             ],
         ];
 
-        Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteBalance = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteBalance = Balance::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteBalance->each(function (Balance $balance) {
             $balance->delete();
         });
@@ -367,9 +367,9 @@ class BalanceIndexTest extends TestCase
             ],
         ];
 
-        Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteBalance = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        $deleteBalance = Balance::factory()->count($this->faker->randomDigitNotNull())->create();
         $deleteBalance->each(function (Balance $balance) {
             $balance->delete();
         });
@@ -410,15 +410,15 @@ class BalanceIndexTest extends TestCase
             ],
         ];
 
-        Carbon::withTestNow(Carbon::parse($deletedFilter), function () {
-            $balances = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($deletedFilter, function () {
+            $balances = Balance::factory()->count($this->faker->randomDigitNotNull())->create();
             $balances->each(function (Balance $balance) {
                 $balance->delete();
             });
         });
 
-        Carbon::withTestNow(Carbon::parse($excludedDate), function () {
-            $balances = Balance::factory()->count($this->faker->randomDigitNotNull)->create();
+        Carbon::withTestNow($excludedDate, function () {
+            $balances = Balance::factory()->count($this->faker->randomDigitNotNull())->create();
             $balances->each(function (Balance $balance) {
                 $balance->delete();
             });

@@ -212,7 +212,11 @@ class ArtistPolicy
      */
     public function attachImage(User $user, Artist $artist, Image $image): bool
     {
-        if (ArtistImage::where($artist->getKeyName(), $artist->getKey())->where($image->getKeyName(), $image->getKey())->exists()) {
+        if (ArtistImage::query()
+            ->where($artist->getKeyName(), $artist->getKey())
+            ->where($image->getKeyName(), $image->getKey())
+            ->exists()
+        ) {
             return false;
         }
 

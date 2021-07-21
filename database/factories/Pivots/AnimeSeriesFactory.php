@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class AnimeSeriesFactory.
+ *
+ * @method AnimeSeries createOne($attributes = [])
+ * @method AnimeSeries makeOne($attributes = [])
  */
 class AnimeSeriesFactory extends Factory
 {

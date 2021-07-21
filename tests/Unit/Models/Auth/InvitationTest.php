@@ -26,7 +26,7 @@ class InvitationTest extends TestCase
      */
     public function testCastsStatusToEnum()
     {
-        $invitation = Invitation::factory()->create();
+        $invitation = Invitation::factory()->createOne();
 
         $status = $invitation->status;
 
@@ -42,9 +42,9 @@ class InvitationTest extends TestCase
     {
         Config::set('audit.console', true);
 
-        $invitation = Invitation::factory()->create();
+        $invitation = Invitation::factory()->createOne();
 
-        static::assertEquals(1, $invitation->audits->count());
+        static::assertEquals(1, $invitation->audits()->count());
     }
 
     /**
@@ -54,7 +54,7 @@ class InvitationTest extends TestCase
      */
     public function testNameable()
     {
-        $invitation = Invitation::factory()->create();
+        $invitation = Invitation::factory()->createOne();
 
         static::assertIsString($invitation->getName());
     }
@@ -66,7 +66,7 @@ class InvitationTest extends TestCase
      */
     public function testInvitationIsOpen()
     {
-        $invitation = Invitation::factory()->create([
+        $invitation = Invitation::factory()->createOne([
             'status' => InvitationStatus::OPEN,
         ]);
 
@@ -80,23 +80,11 @@ class InvitationTest extends TestCase
      */
     public function testInvitationIsClosed()
     {
-        $invitation = Invitation::factory()->create([
+        $invitation = Invitation::factory()->createOne([
             'status' => InvitationStatus::CLOSED,
         ]);
 
         static::assertFalse($invitation->isOpen());
-    }
-
-    /**
-     * The Invitation shall have a generated token on creation.
-     *
-     * @return void
-     */
-    public function testInvitationCreatesToken()
-    {
-        $invitation = Invitation::factory()->create();
-
-        static::assertArrayHasKey('token', $invitation);
     }
 
     /**

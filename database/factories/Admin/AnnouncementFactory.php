@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Class AnnouncementFactory.
+ *
+ * @method Announcement createOne($attributes = [])
+ * @method Announcement makeOne($attributes = [])
  */
 class AnnouncementFactory extends Factory
 {

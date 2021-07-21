@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter\Wiki\Series;
 
-use App\Http\Api\Filter\Filter;
+use App\Http\Api\Filter\StringFilter;
 use App\Http\Api\QueryParser;
 
 /**
  * Class SeriesNameFilter.
  */
-class SeriesNameFilter extends Filter
+class SeriesNameFilter extends StringFilter
 {
     /**
      * Create a new filter instance.
