@@ -27,8 +27,6 @@ class VideoReconcileTest extends TestCase
      * If no changes are needed, the Reconcile Video Command shall output 'No Videos created or deleted or updated'.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedMagicMethod
      */
     public function testNoResults()
     {
@@ -43,8 +41,6 @@ class VideoReconcileTest extends TestCase
      * If videos are created, the Reconcile Video Command shall output '{Created Count} Videos created, 0 Videos deleted, 0 Videos updated'.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedMagicMethod
      */
     public function testCreated()
     {
@@ -63,8 +59,6 @@ class VideoReconcileTest extends TestCase
      * If videos are deleted, the Reconcile Video Command shall output '0 Videos created, {Deleted Count} Videos deleted, 0 Videos updated'.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedMagicMethod
      */
     public function testDeleted()
     {
@@ -83,8 +77,6 @@ class VideoReconcileTest extends TestCase
      * If videos are updated, the Reconcile Video Command shall output '0 Videos created, 0 Videos deleted, {Updated Count} Videos updated'.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedMagicMethod
      */
     public function testUpdated()
     {

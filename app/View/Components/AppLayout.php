@@ -18,9 +18,6 @@ class AppLayout extends Component
      * Get the view / contents that represents the component.
      *
      * @return View|Htmlable|Closure|string
-     *
-     * @psalm-suppress InvalidReturnType
-     * @psalm-suppress InvalidReturnStatement
      */
     public function render(): View | Htmlable | Closure | string
     {

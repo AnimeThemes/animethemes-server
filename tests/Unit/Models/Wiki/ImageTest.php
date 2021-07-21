@@ -109,8 +109,6 @@ class ImageTest extends TestCase
      * The image shall not be deleted from storage when the Image is deleted.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedInterfaceMethod
      */
     public function testImageStorageDeletion()
     {
@@ -135,8 +133,6 @@ class ImageTest extends TestCase
      * The image shall be deleted from storage when the Image is force deleted.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedInterfaceMethod
      */
     public function testImageStorageForceDeletion()
     {

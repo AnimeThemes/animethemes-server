@@ -25,8 +25,6 @@ class UpdateUserPassword implements UpdatesUserPasswords
      * @param array $input
      * @return void
      * @throws ValidationException
-     *
-     * @psalm-suppress UndefinedInterfaceMethod
      */
     public function update($user, array $input)
     {

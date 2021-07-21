@@ -29,8 +29,6 @@ class SynopsisCoverSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedInterfaceMethod
      */
     public function run()
     {

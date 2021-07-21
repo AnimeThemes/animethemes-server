@@ -56,8 +56,6 @@ class BalanceReconcileTest extends TestCase
      * If no changes are needed, the Reconcile Balance Command shall output 'No Balances created or deleted or updated'.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedMagicMethod
      */
     public function testNoResults()
     {
@@ -72,8 +70,6 @@ class BalanceReconcileTest extends TestCase
      * If balances are created, the Reconcile Balance Command shall output '{Created Count} Balances created, 0 Balances deleted, 0 Balances updated'.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedMagicMethod
      */
     public function testCreated()
     {
@@ -97,8 +93,6 @@ class BalanceReconcileTest extends TestCase
      * If balances are deleted, the Reconcile Balance Command shall output '0 Balances created, {Deleted Count} Balances deleted, 0 Balances updated'.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedMagicMethod
      */
     public function testDeleted()
     {
@@ -122,8 +116,6 @@ class BalanceReconcileTest extends TestCase
      * If balances are updated, the Reconcile Balance Command shall output '0 Balances created, 0 Balances deleted, {Updated Count} Balances updated'.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedMagicMethod
      */
     public function testUpdated()
     {

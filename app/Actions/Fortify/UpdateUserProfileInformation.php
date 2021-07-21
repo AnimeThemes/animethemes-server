@@ -22,8 +22,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      * @param array $input
      * @return void
      * @throws ValidationException
-     *
-     * @psalm-suppress UndefinedInterfaceMethod
      */
     public function update(mixed $user, array $input)
     {

@@ -54,8 +54,6 @@ class TransactionReconcileTest extends TestCase
      * If no changes are needed, the Reconcile Transaction Command shall output 'No Transactions created or deleted or updated'.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedMagicMethod
      */
     public function testNoResults()
     {
@@ -70,8 +68,6 @@ class TransactionReconcileTest extends TestCase
      * If transactions are created, the Reconcile Transaction Command shall output '{Created Count} Transactions created, 0 Transactions deleted, 0 Transactions updated'.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedMagicMethod
      */
     public function testCreated()
     {
@@ -94,8 +90,6 @@ class TransactionReconcileTest extends TestCase
      * If transactions are deleted, the Reconcile Transaction Command shall output '0 Transactions created, {Deleted Count} Transactions deleted, 0 Transactions updated'.
      *
      * @return void
-     *
-     * @psalm-suppress UndefinedMagicMethod
      */
     public function testDeleted()
     {
