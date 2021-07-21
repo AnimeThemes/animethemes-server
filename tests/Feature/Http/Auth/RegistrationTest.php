@@ -187,7 +187,7 @@ class RegistrationTest extends TestCase
                 'invitation' => $invitation,
                 'password' => $this->faker->password(6, 7),
                 'password_confirmation' => $this->faker->password(8, 9),
-                'terms' => 'terms'
+                'terms' => 'terms',
             ]
         );
 
@@ -214,7 +214,7 @@ class RegistrationTest extends TestCase
                 'invitation' => $invitation,
                 'password' => $weakPassword,
                 'password_confirmation' => $weakPassword,
-                'terms' => 'terms'
+                'terms' => 'terms',
             ]
         );
 
@@ -267,7 +267,7 @@ class RegistrationTest extends TestCase
                 'invitation' => $invitation,
                 'password' => $strongPassword,
                 'password_confirmation' => $strongPassword,
-                'terms' => 'terms'
+                'terms' => 'terms',
             ]
         );
 
@@ -294,7 +294,7 @@ class RegistrationTest extends TestCase
                 'invitation' => $invitation,
                 'password' => $strongPassword,
                 'password_confirmation' => $strongPassword,
-                'terms' => 'terms'
+                'terms' => 'terms',
             ]
         );
 
@@ -323,7 +323,7 @@ class RegistrationTest extends TestCase
                 'invitation' => $invitation,
                 'password' => $strongPassword,
                 'password_confirmation' => $strongPassword,
-                'terms' => 'terms'
+                'terms' => 'terms',
             ]
         );
 

@@ -75,7 +75,7 @@ class DatabaseDumpCommand extends Command
 
         try {
             $connection = DB::connection();
-            if (!$connection instanceof Connection) {
+            if (! $connection instanceof Connection) {
                 Log::error('Unexpected connection type');
                 $this->error('Unexpected connection type');
 

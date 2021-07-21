@@ -86,7 +86,7 @@ class InviteTeamMember implements InvitesTeamMembers
                 'email',
                 Rule::unique('team_invitations')->where(function (Builder $query) use ($team) {
                     $query->where('team_id', $team->id);
-                })
+                }),
             ],
             'role' => Jetstream::hasRoles()
                             ? ['required', 'string', new Role()]

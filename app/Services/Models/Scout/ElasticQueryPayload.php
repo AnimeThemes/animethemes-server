@@ -53,5 +53,5 @@ abstract class ElasticQueryPayload
      *
      * @return SearchRequestBuilder|BoolQueryBuilder
      */
-    abstract public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder;
+    abstract public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder;
 }

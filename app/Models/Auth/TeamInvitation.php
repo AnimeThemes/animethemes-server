@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use Laravel\Jetstream\TeamInvitation as JetstreamTeamInvitation;
 
 /**
- *
  * Class TeamInvitation.
  *
  * @property int $id

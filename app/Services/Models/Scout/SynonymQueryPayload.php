@@ -27,7 +27,7 @@ class SynonymQueryPayload extends ElasticQueryPayload
      *
      * @return SearchRequestBuilder|BoolQueryBuilder
      */
-    public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder
+    public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder
     {
         return Synonym::boolSearch()
             ->should((new MatchPhraseQueryBuilder())

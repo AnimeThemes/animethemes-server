@@ -28,7 +28,7 @@ class ArtistQueryPayload extends ElasticQueryPayload
      *
      * @return SearchRequestBuilder|BoolQueryBuilder
      */
-    public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder
+    public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder
     {
         return Artist::boolSearch()
             ->should((new MatchPhraseQueryBuilder())
