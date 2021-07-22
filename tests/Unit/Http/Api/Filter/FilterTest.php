@@ -29,7 +29,8 @@ class FilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends Filter {
+        $filter = new class($parser, $filterField) extends Filter
+        {
             /**
              * Convert filter values to integers.
              *
@@ -87,7 +88,8 @@ class FilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends Filter {
+        $filter = new class($parser, $filterField) extends Filter
+        {
             /**
              * Convert filter values to integers.
              *
@@ -145,7 +147,8 @@ class FilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends Filter {
+        $filter = new class($parser, $filterField) extends Filter
+        {
             /**
              * Convert filter values to integers.
              *
@@ -204,7 +207,8 @@ class FilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends Filter {
+        $filter = new class($parser, $filterField) extends Filter
+        {
             /**
              * Convert filter values to integers.
              *
@@ -265,7 +269,8 @@ class FilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends Filter {
+        $filter = new class($parser, $filterField) extends Filter
+        {
             /**
              * Convert filter values to integers.
              *
@@ -317,7 +322,8 @@ class FilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends Filter {
+        $filter = new class($parser, $filterField) extends Filter
+        {
             /**
              * Convert filter values to integers.
              *
@@ -370,7 +376,8 @@ class FilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends Filter {
+        $filter = new class($parser, $filterField) extends Filter
+        {
             /**
              * Convert filter values to integers.
              *

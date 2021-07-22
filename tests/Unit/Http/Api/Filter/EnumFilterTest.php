@@ -36,13 +36,15 @@ class EnumFilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum {
+        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
+        {
             public const ZERO = 0;
             public const ONE = 1;
             public const TWO = 2;
         };
 
-        $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter {
+        $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter
+        {
             // We don't need to do any customization
         };
 
@@ -58,7 +60,8 @@ class EnumFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum {
+        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
+        {
             public const ZERO = 0;
             public const ONE = 1;
             public const TWO = 2;
@@ -74,7 +77,8 @@ class EnumFilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter {
+        $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter
+        {
             // We don't need to do any customization
         };
 
@@ -90,7 +94,8 @@ class EnumFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum {
+        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
+        {
             public const ZERO = 0;
             public const ONE = 1;
             public const TWO = 2;
@@ -104,7 +109,8 @@ class EnumFilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter {
+        $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter
+        {
             // We don't need to do any customization
         };
 
