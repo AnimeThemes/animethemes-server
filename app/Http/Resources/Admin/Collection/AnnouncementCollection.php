@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Admin\Collection;
 
 use App\Http\Api\Filter\Admin\Announcement\AnnouncementContentFilter;
+use App\Http\Api\Filter\Admin\Announcement\AnnouncementIdFilter;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Http\Resources\BaseCollection;
 use App\Models\Admin\Announcement;
@@ -79,6 +80,7 @@ class AnnouncementCollection extends BaseCollection
         return array_merge(
             parent::filters(),
             [
+                AnnouncementIdFilter::class,
                 AnnouncementContentFilter::class,
             ]
         );

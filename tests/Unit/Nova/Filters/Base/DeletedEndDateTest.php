@@ -61,7 +61,8 @@ class DeletedEndDateTest extends TestCase
         });
 
         $response = new MockFilterQuery(
-            (new DeletedEndDateFilter())->apply(Request::createFromGlobals(),
+            (new DeletedEndDateFilter())->apply(
+                Request::createFromGlobals(),
                 Anime::withTrashed(),
                 $dateFilter
             )

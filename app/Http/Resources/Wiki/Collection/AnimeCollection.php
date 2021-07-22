@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
+use App\Http\Api\Filter\Wiki\Anime\AnimeIdFilter;
 use App\Http\Api\Filter\Wiki\Anime\AnimeNameFilter;
 use App\Http\Api\Filter\Wiki\Anime\AnimeSeasonFilter;
 use App\Http\Api\Filter\Wiki\Anime\AnimeSlugFilter;
@@ -97,6 +98,7 @@ class AnimeCollection extends SearchableCollection
         return array_merge(
             parent::filters(),
             [
+                AnimeIdFilter::class,
                 AnimeNameFilter::class,
                 AnimeSlugFilter::class,
                 AnimeYearFilter::class,

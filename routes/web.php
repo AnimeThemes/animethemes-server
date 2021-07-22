@@ -68,10 +68,9 @@ Route::get('/sitemap/guidelines', [GuidelinesSitemapController::class, 'show'])-
 
 // Auth
 Route::get('register/{invitation}', [RegisterController::class, 'showRegistrationForm'])
-    ->name('register.create')
+    ->name('register')
     ->middleware(['guest', 'signed', 'has_open_invitation', 'without_trashed:invitation']);
 Route::post('register/{invitation}', [RegisterController::class, 'register'])
-    ->name('register.store')
     ->middleware(['guest', 'signed', 'has_open_invitation', 'without_trashed:invitation']);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

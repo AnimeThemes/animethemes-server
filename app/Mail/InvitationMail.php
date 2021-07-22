@@ -44,7 +44,7 @@ class InvitationMail extends Mailable
     public function build(): static
     {
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             ['invitation' => $this->invitation]
         );

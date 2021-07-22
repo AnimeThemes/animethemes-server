@@ -6,7 +6,6 @@ namespace App\Http\Api\Condition;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
-use App\Http\Api\Filter\Filter;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use ElasticScoutDriverPlus\Builders\AbstractParameterizedQueryBuilder;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
@@ -97,18 +96,19 @@ class WhereCondition extends Condition
     }
 
     /**
-     * Apply condition to builder through filter.
+     * Apply condition to builder.
      *
      * @param Builder $builder
-     * @param Filter $filter
+     * @param string $column
+     * @param array $filterValues
      * @return Builder
      */
-    public function apply(Builder $builder, Filter $filter): Builder
+    public function apply(Builder $builder, string $column, array $filterValues): Builder
     {
         return $builder->where(
-            $builder->qualifyColumn($this->getField()),
+            $builder->qualifyColumn($column),
             $this->getComparisonOperator()?->value,
-            collect($filter->getFilterValues($this))->first(),
+            collect($filterValues)->first(),
             $this->getLogicalOperator()->value
         );
     }
@@ -117,12 +117,16 @@ class WhereCondition extends Condition
      * Apply condition to builder through filter.
      *
      * @param BoolQueryBuilder $builder
-     * @param Filter $filter
+     * @param string $column
+     * @param array $filterValues
      * @return BoolQueryBuilder
      */
-    public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter): BoolQueryBuilder
-    {
-        $clause = $this->getElasticsearchClause($filter);
+    public function applyElasticsearchFilter(
+        BoolQueryBuilder $builder,
+        string $column,
+        array $filterValues
+    ): BoolQueryBuilder {
+        $clause = $this->getElasticsearchClause($column, $filterValues);
 
         if (BinaryLogicalOperator::OR()->is($this->getLogicalOperator())) {
             if (ComparisonOperator::NE()->is($this->getComparisonOperator())) {
@@ -142,35 +146,35 @@ class WhereCondition extends Condition
     /**
      * Build clause for Elasticsearch filter based on comparison operator.
      *
-     * @param Filter $filter
+     * @param string $column
+     * @param array $filterValues
      * @return AbstractParameterizedQueryBuilder
      */
-    protected function getElasticsearchClause(Filter $filter): AbstractParameterizedQueryBuilder
+    protected function getElasticsearchClause(string $column, array $filterValues): AbstractParameterizedQueryBuilder
     {
-        $field = $filter->getKey();
-        $filterValue = $this->coerceFilterValue($filter);
+        $filterValue = $this->coerceFilterValue($filterValues);
 
         return match ($this->getComparisonOperator()?->value) {
             ComparisonOperator::LT => (new RangeQueryBuilder())
-                ->field($field)
+                ->field($column)
                 ->lt($filterValue),
             ComparisonOperator::GT => (new RangeQueryBuilder())
-                ->field($field)
+                ->field($column)
                 ->gt($filterValue),
             ComparisonOperator::LTE => (new RangeQueryBuilder())
-                ->field($field)
+                ->field($column)
                 ->lte($filterValue),
             ComparisonOperator::GTE => (new RangeQueryBuilder())
-                ->field($field)
+                ->field($column)
                 ->gte($filterValue),
             ComparisonOperator::LIKE => (new WildcardQueryBuilder())
-                ->field($field)
+                ->field($column)
                 ->value(Str::replace(['%', '_'], ['*', '?'], $filterValue)),
             ComparisonOperator::NOTLIKE => (new BoolQueryBuilder())->mustNot((new WildcardQueryBuilder())
-                ->field($field)
+                ->field($column)
                 ->value(Str::replace(['%', '_'], ['*', '?'], $filterValue))),
             default => (new TermQueryBuilder())
-                ->field($field)
+                ->field($column)
                 ->value($filterValue),
         };
     }
@@ -178,12 +182,12 @@ class WhereCondition extends Condition
     /**
      * Coerce filter value for elasticsearch range and term queries.
      *
-     * @param Filter $filter
+     * @param array $filterValues
      * @return string
      */
-    protected function coerceFilterValue(Filter $filter): string
+    protected function coerceFilterValue(array $filterValues): string
     {
-        $filterValue = collect($filter->getFilterValues($this))->first();
+        $filterValue = collect($filterValues)->first();
 
         // Elasticsearch wants 'true' or 'false' for boolean fields
         if (is_bool($filterValue)) {

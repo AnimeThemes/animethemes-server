@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
+use App\Http\Api\Filter\Wiki\Artist\ArtistIdFilter;
 use App\Http\Api\Filter\Wiki\Artist\ArtistNameFilter;
 use App\Http\Api\Filter\Wiki\Artist\ArtistSlugFilter;
 use App\Http\Resources\SearchableCollection;
@@ -90,6 +91,7 @@ class ArtistCollection extends SearchableCollection
         return array_merge(
             parent::filters(),
             [
+                ArtistIdFilter::class,
                 ArtistNameFilter::class,
                 ArtistSlugFilter::class,
             ]

@@ -31,48 +31,60 @@ class ArtistQueryPayload extends ElasticQueryPayload
     public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder
     {
         return Artist::boolSearch()
-            ->should((new MatchPhraseQueryBuilder())
+            ->should(
+                (new MatchPhraseQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
             )
-            ->should((new MatchQueryBuilder())
+            ->should(
+                (new MatchQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
             )
-            ->should((new MatchQueryBuilder())
+            ->should(
+                (new MatchQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
             )
-            ->should((new NestedQueryBuilder())
+            ->should(
+                (new NestedQueryBuilder())
                 ->path('songs')
-                ->query((new NestedQueryBuilder())
+                ->query(
+                    (new NestedQueryBuilder())
                     ->path('songs.pivot')
-                    ->query((new MatchPhraseQueryBuilder())
+                    ->query(
+                        (new MatchPhraseQueryBuilder())
                         ->field('songs.pivot.as')
                         ->query($this->parser->getSearch())
                     )
                 )
             )
-            ->should((new NestedQueryBuilder())
+            ->should(
+                (new NestedQueryBuilder())
                 ->path('songs')
-                ->query((new NestedQueryBuilder())
+                ->query(
+                    (new NestedQueryBuilder())
                     ->path('songs.pivot')
-                    ->query((new MatchQueryBuilder())
+                    ->query(
+                        (new MatchQueryBuilder())
                         ->field('songs.pivot.as')
                         ->query($this->parser->getSearch())
                         ->operator('AND')
                     )
                 )
             )
-            ->should((new NestedQueryBuilder())
+            ->should(
+                (new NestedQueryBuilder())
                 ->path('songs')
-                ->query((new NestedQueryBuilder())
+                ->query(
+                    (new NestedQueryBuilder())
                     ->path('songs.pivot')
-                    ->query((new MatchQueryBuilder())
+                    ->query(
+                        (new MatchQueryBuilder())
                         ->field('songs.pivot.as')
                         ->query($this->parser->getSearch())
                         ->operator('AND')

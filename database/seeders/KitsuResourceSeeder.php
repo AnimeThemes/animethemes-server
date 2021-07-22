@@ -46,7 +46,6 @@ class KitsuResourceSeeder extends Seeder
 
             $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
             if ($malResource instanceof ExternalResource && $malResource->external_id !== null) {
-
                 // Try not to upset Kitsu
                 sleep(rand(5, 15));
 

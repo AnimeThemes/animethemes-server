@@ -6,7 +6,6 @@ namespace App\Http\Api\Condition;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
-use App\Http\Api\Filter\Filter;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -117,22 +116,28 @@ abstract class Condition
     }
 
     /**
-     * Apply condition to builder through filter.
+     * Apply condition to builder.
      *
      * @param Builder $builder
-     * @param Filter $filter
+     * @param string $column
+     * @param array $filterValues
      * @return Builder
      */
-    abstract public function apply(Builder $builder, Filter $filter): Builder;
+    abstract public function apply(Builder $builder, string $column, array $filterValues): Builder;
 
     /**
-     * Apply condition to builder through filter.
+     * Apply condition to builder.
      *
      * @param BoolQueryBuilder $builder
-     * @param Filter $filter
+     * @param string $column
+     * @param array $filterValues
      * @return BoolQueryBuilder
      */
-    abstract public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter): BoolQueryBuilder;
+    abstract public function applyElasticsearchFilter(
+        BoolQueryBuilder $builder,
+        string $column,
+        array $filterValues
+    ): BoolQueryBuilder;
 
     /**
      * Create a new condition instance from query string.

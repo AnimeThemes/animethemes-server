@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Api\Filter\Wiki\Entry\EntryEpisodesFilter;
+use App\Http\Api\Filter\Wiki\Entry\EntryIdFilter;
 use App\Http\Api\Filter\Wiki\Entry\EntryNotesFilter;
 use App\Http\Api\Filter\Wiki\Entry\EntryNsfwFilter;
 use App\Http\Api\Filter\Wiki\Entry\EntrySpoilerFilter;
@@ -91,6 +92,7 @@ class EntryCollection extends SearchableCollection
         return array_merge(
             parent::filters(),
             [
+                EntryIdFilter::class,
                 EntryVersionFilter::class,
                 EntryEpisodesFilter::class,
                 EntryNsfwFilter::class,

@@ -6,7 +6,6 @@ namespace App\Http\Api\Condition;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
-use App\Http\Api\Filter\Filter;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\TermsQueryBuilder;
@@ -111,32 +110,37 @@ class WhereInCondition extends Condition
     }
 
     /**
-     * Apply condition to builder through filter.
+     * Apply condition to builder.
      *
      * @param Builder $builder
-     * @param Filter $filter
+     * @param string $column
+     * @param array $filterValues
      * @return Builder
      */
-    public function apply(Builder $builder, Filter $filter): Builder
+    public function apply(Builder $builder, string $column, array $filterValues): Builder
     {
         return $builder->whereIn(
-            $builder->qualifyColumn($this->getField()),
-            $filter->getFilterValues($this),
+            $builder->qualifyColumn($column),
+            $filterValues,
             $this->getLogicalOperator()->value,
             $this->not()
         );
     }
 
     /**
-     * Apply condition to builder through filter.
+     * Apply condition to builder.
      *
      * @param BoolQueryBuilder $builder
-     * @param Filter $filter
+     * @param string $column
+     * @param array $filterValues
      * @return BoolQueryBuilder
      */
-    public function applyElasticsearchFilter(BoolQueryBuilder $builder, Filter $filter): BoolQueryBuilder
-    {
-        $clause = (new TermsQueryBuilder())->terms($filter->getKey(), $filter->getFilterValues($this));
+    public function applyElasticsearchFilter(
+        BoolQueryBuilder $builder,
+        string $column,
+        array $filterValues
+    ): BoolQueryBuilder {
+        $clause = (new TermsQueryBuilder())->terms($column, $filterValues);
 
         if (BinaryLogicalOperator::OR()->is($this->getLogicalOperator())) {
             if ($this->not()) {

@@ -30,7 +30,12 @@ class SeriesSeeder extends Seeder
 
         // Match Series Entries
         // Format: "[{Series Name}](/r/AnimeThemes/wiki/series/{Series Slug}/)
-        preg_match_all('/\[(.*)]\(\/r\/AnimeThemes\/wiki\/series\/(.*)\)/m', $seriesWikiContents, $seriesWikiEntries, PREG_SET_ORDER);
+        preg_match_all(
+            '/\[(.*)]\(\/r\/AnimeThemes\/wiki\/series\/(.*)\)/m',
+            $seriesWikiContents,
+            $seriesWikiEntries,
+            PREG_SET_ORDER
+        );
 
         foreach ($seriesWikiEntries as $seriesWikiEntry) {
             $seriesName = html_entity_decode($seriesWikiEntry[1]);
@@ -59,13 +64,20 @@ class SeriesSeeder extends Seeder
 
             // Match headers of Anime in Series Entry page
             // Format: "###[{Anime Name}]({Resource Link})"
-            preg_match_all('/###\[(.*)]\(https:\/\/.*\)/m', $seriesAnimeWikiContents, $seriesAnimeWikiEntries, PREG_PATTERN_ORDER);
+            preg_match_all(
+                '/###\[(.*)]\(https:\/\/.*\)/m',
+                $seriesAnimeWikiContents,
+                $seriesAnimeWikiEntries,
+                PREG_PATTERN_ORDER
+            );
+
             $seriesAnimeNames = array_map(function (string $seriesAnimeWikiEntry) {
                 return html_entity_decode($seriesAnimeWikiEntry);
             }, $seriesAnimeWikiEntries[1]);
 
             // Attach Anime to Series by Name
-            // Note: We are not concerned about Name collision here. It's more likely that collisions are within a series.
+            // Note: We are not concerned about Name collision here.
+            // It's more likely that collisions occur within a series.
             $animes = Anime::query()->whereIn('name', $seriesAnimeNames)->get();
             foreach ($animes as $anime) {
                 if ($anime instanceof Anime

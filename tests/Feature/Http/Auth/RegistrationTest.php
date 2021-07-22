@@ -33,7 +33,7 @@ class RegistrationTest extends TestCase
         ]);
 
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             ['invitation' => $invitation]
         );
@@ -56,7 +56,7 @@ class RegistrationTest extends TestCase
         $invitation->delete();
 
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             ['invitation' => $invitation]
         );
@@ -77,7 +77,7 @@ class RegistrationTest extends TestCase
         $invitation = Invitation::factory()->create();
 
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             ['invitation' => $invitation]
         );
@@ -100,7 +100,7 @@ class RegistrationTest extends TestCase
         ]);
 
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             ['invitation' => $invitation]
         );
@@ -121,7 +121,7 @@ class RegistrationTest extends TestCase
         $invitation = Invitation::factory()->create();
 
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             ['invitation' => $invitation]
         );
@@ -141,7 +141,7 @@ class RegistrationTest extends TestCase
         $invitation = Invitation::factory()->create();
 
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             ['invitation' => $invitation]
         );
@@ -161,7 +161,7 @@ class RegistrationTest extends TestCase
         $invitation = Invitation::factory()->create();
 
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             ['invitation' => $invitation, 'password' => $this->faker->password(6, 7)]
         );
@@ -181,7 +181,7 @@ class RegistrationTest extends TestCase
         $invitation = Invitation::factory()->create();
 
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             [
                 'invitation' => $invitation,
@@ -208,7 +208,7 @@ class RegistrationTest extends TestCase
         $weakPassword = $this->faker->password(8, 8);
 
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             [
                 'invitation' => $invitation,
@@ -235,7 +235,7 @@ class RegistrationTest extends TestCase
         $strongPassword = $this->faker->password(64, 128);
 
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             [
                 'invitation' => $invitation,
@@ -261,7 +261,7 @@ class RegistrationTest extends TestCase
         $strongPassword = $this->faker->password(64, 128);
 
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             [
                 'invitation' => $invitation,
@@ -288,7 +288,7 @@ class RegistrationTest extends TestCase
         $strongPassword = $this->faker->password(64, 128);
 
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             [
                 'invitation' => $invitation,
@@ -317,7 +317,7 @@ class RegistrationTest extends TestCase
         $strongPassword = $this->faker->password(64, 128);
 
         $url = URL::temporarySignedRoute(
-            'register.create',
+            'register',
             now()->addMinutes(30),
             [
                 'invitation' => $invitation,

@@ -67,7 +67,6 @@ class MalSeasonYearSeeder extends Seeder
 
             $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
             if ($malResource instanceof ExternalResource && $malResource->external_id !== null) {
-
                 // Try not to upset MAL
                 sleep(rand(5, 15));
 

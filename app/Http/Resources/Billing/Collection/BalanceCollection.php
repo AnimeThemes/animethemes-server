@@ -6,6 +6,8 @@ namespace App\Http\Resources\Billing\Collection;
 
 use App\Http\Api\Filter\Billing\Balance\BalanceDateFilter;
 use App\Http\Api\Filter\Billing\Balance\BalanceFrequencyFilter;
+use App\Http\Api\Filter\Billing\Balance\BalanceIdFilter;
+use App\Http\Api\Filter\Billing\Balance\BalanceMonthToDateFilter;
 use App\Http\Api\Filter\Billing\Balance\BalanceServiceFilter;
 use App\Http\Api\Filter\Billing\Balance\BalanceUsageFilter;
 use App\Http\Resources\BaseCollection;
@@ -87,10 +89,12 @@ class BalanceCollection extends BaseCollection
         return array_merge(
             parent::filters(),
             [
+                BalanceIdFilter::class,
                 BalanceDateFilter::class,
                 BalanceServiceFilter::class,
                 BalanceFrequencyFilter::class,
                 BalanceUsageFilter::class,
+                BalanceMonthToDateFilter::class,
             ]
         );
     }

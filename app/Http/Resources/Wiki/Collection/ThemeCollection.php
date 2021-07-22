@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Api\Filter\Wiki\Theme\ThemeGroupFilter;
+use App\Http\Api\Filter\Wiki\Theme\ThemeIdFilter;
 use App\Http\Api\Filter\Wiki\Theme\ThemeSequenceFilter;
 use App\Http\Api\Filter\Wiki\Theme\ThemeSlugFilter;
 use App\Http\Api\Filter\Wiki\Theme\ThemeTypeFilter;
@@ -95,6 +96,7 @@ class ThemeCollection extends SearchableCollection
         return array_merge(
             parent::filters(),
             [
+                ThemeIdFilter::class,
                 ThemeTypeFilter::class,
                 ThemeSequenceFilter::class,
                 ThemeGroupFilter::class,

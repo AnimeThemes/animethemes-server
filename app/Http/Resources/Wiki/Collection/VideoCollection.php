@@ -6,6 +6,7 @@ namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Api\Filter\Wiki\Video\VideoBasenameFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoFilenameFilter;
+use App\Http\Api\Filter\Wiki\Video\VideoIdFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoLyricsFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoMimeTypeFilter;
 use App\Http\Api\Filter\Wiki\Video\VideoNcFilter;
@@ -106,6 +107,7 @@ class VideoCollection extends SearchableCollection
         return array_merge(
             parent::filters(),
             [
+                VideoIdFilter::class,
                 VideoBasenameFilter::class,
                 VideoFilenameFilter::class,
                 VideoPathFilter::class,

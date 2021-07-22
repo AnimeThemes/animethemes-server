@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
+use App\Http\Api\Filter\Wiki\Synonym\SynonymIdFilter;
 use App\Http\Api\Filter\Wiki\Synonym\SynonymTextFilter;
 use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Resource\SynonymResource;
@@ -83,6 +84,7 @@ class SynonymCollection extends SearchableCollection
         return array_merge(
             parent::filters(),
             [
+                SynonymIdFilter::class,
                 SynonymTextFilter::class,
             ]
         );

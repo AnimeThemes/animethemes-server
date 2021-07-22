@@ -8,7 +8,7 @@ use App\Http\Api\Filter\StringFilter;
 use App\Http\Api\QueryParser;
 
 /**
- * Class EntryNsfwFilter.
+ * Class EntryNotesFilter.
  */
 class EntryNotesFilter extends StringFilter
 {

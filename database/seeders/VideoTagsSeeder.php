@@ -25,7 +25,6 @@ class VideoTagsSeeder extends Seeder
     {
         $videoPages = collect(WikiPages::YEAR_MAP)->keys()->push(WikiPages::MISC_INDEX);
         foreach ($videoPages as $videoPage) {
-
             // Try not to upset Reddit
             sleep(rand(5, 15));
 
@@ -37,7 +36,12 @@ class VideoTagsSeeder extends Seeder
 
             // Match Tags and basename of Videos
             // Format: "[Webm ({Tag 1, Tag 2, Tag 3...})]({Video Link})
-            preg_match_all('/\[Webm.*\((.*)\)]\(https:\/\/animethemes\.moe\/video\/(.*)\)|\[Webm]\(https:\/\/animethemes\.moe\/video\/(.*)\)/m', $yearWikiContents, $videoWikiEntries, PREG_SET_ORDER);
+            preg_match_all(
+                '/\[Webm.*\((.*)\)]\(https:\/\/animethemes\.moe\/video\/(.*)\)|\[Webm]\(https:\/\/animethemes\.moe\/video\/(.*)\)/m',
+                $yearWikiContents,
+                $videoWikiEntries,
+                PREG_SET_ORDER
+            );
 
             foreach ($videoWikiEntries as $videoWikiEntry) {
                 // Video tags are potentially inconsistent so we make an effort for uniformity
