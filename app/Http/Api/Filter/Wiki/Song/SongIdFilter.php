@@ -9,7 +9,7 @@ use App\Http\Api\QueryParser;
 use App\Models\Wiki\Song;
 
 /**
- * Class AnimeYearFilter.
+ * Class SongIdFilter.
  */
 class SongIdFilter extends IntFilter
 {
