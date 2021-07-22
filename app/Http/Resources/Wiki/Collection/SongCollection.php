@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
+use App\Http\Api\Filter\Wiki\Song\SongIdFilter;
 use App\Http\Api\Filter\Wiki\Song\SongTitleFilter;
 use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Resource\SongResource;
@@ -84,6 +85,7 @@ class SongCollection extends SearchableCollection
         return array_merge(
             parent::filters(),
             [
+                SongIdFilter::class,
                 SongTitleFilter::class,
             ]
         );

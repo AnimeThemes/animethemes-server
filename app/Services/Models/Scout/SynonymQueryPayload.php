@@ -30,16 +30,19 @@ class SynonymQueryPayload extends ElasticQueryPayload
     public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder
     {
         return Synonym::boolSearch()
-            ->should((new MatchPhraseQueryBuilder())
+            ->should(
+                (new MatchPhraseQueryBuilder())
                 ->field('text')
                 ->query($this->parser->getSearch())
             )
-            ->should((new MatchQueryBuilder())
+            ->should(
+                (new MatchQueryBuilder())
                 ->field('text')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
             )
-            ->should((new MatchQueryBuilder())
+            ->should(
+                (new MatchQueryBuilder())
                 ->field('text')
                 ->query($this->parser->getSearch())
                 ->operator('AND')

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
+use App\Http\Api\Filter\Wiki\Series\SeriesIdFilter;
 use App\Http\Api\Filter\Wiki\Series\SeriesNameFilter;
 use App\Http\Api\Filter\Wiki\Series\SeriesSlugFilter;
 use App\Http\Resources\SearchableCollection;
@@ -84,6 +85,7 @@ class SeriesCollection extends SearchableCollection
         return array_merge(
             parent::filters(),
             [
+                SeriesIdFilter::class,
                 SeriesNameFilter::class,
                 SeriesSlugFilter::class,
             ]

@@ -45,7 +45,6 @@ class AniDbResourceSeeder extends Seeder
 
             $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
             if ($malResource instanceof ExternalResource && $malResource->external_id !== null) {
-
                 // Try not to upset Yuna
                 sleep(rand(5, 15));
 
@@ -59,7 +58,6 @@ class AniDbResourceSeeder extends Seeder
 
                     // Only proceed if we have a match
                     if ($anidbId !== null) {
-
                         // Check if AniDB resource already exists
                         $anidbResource = ExternalResource::query()
                             ->where('site', ResourceSite::ANIDB)

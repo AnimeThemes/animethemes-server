@@ -28,8 +28,7 @@ class SendDiscordNotificationTest extends TestCase
     {
         Notification::fake();
 
-        $event = new class implements DiscordMessageEvent
-        {
+        $event = new class implements DiscordMessageEvent {
             use Dispatchable;
 
             /**
@@ -70,8 +69,7 @@ class SendDiscordNotificationTest extends TestCase
      */
     public function testRateLimited()
     {
-        $event = new class implements DiscordMessageEvent
-        {
+        $event = new class implements DiscordMessageEvent {
             use Dispatchable;
 
             /**

@@ -61,9 +61,11 @@ class DeletedStartDateTest extends TestCase
         });
 
         $response = new MockFilterQuery(
-            (new DeletedStartDateFilter())->apply(Request::createFromGlobals(),
+            (new DeletedStartDateFilter())->apply(
+                Request::createFromGlobals(),
                 Anime::withTrashed(),
-                $dateFilter)
+                $dateFilter
+            )
         );
 
         $filteredAnimes = Anime::withTrashed()->where('deleted_at', ComparisonOperator::GTE, $dateFilter)->get();

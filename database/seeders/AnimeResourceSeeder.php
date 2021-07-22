@@ -25,7 +25,6 @@ class AnimeResourceSeeder extends Seeder
     public function run()
     {
         foreach (WikiPages::YEAR_MAP as $yearPage => $years) {
-
             // Try not to upset Reddit
             sleep(rand(5, 15));
 
@@ -37,7 +36,12 @@ class AnimeResourceSeeder extends Seeder
 
             // Match headers of Anime and links of Resources
             // Format: "###[{Anime Name}]({Resource Link})"
-            preg_match_all('/###\[(.*)]\((https:\/\/.*)\)/m', $yearWikiContents, $animeResourceWikiEntries, PREG_SET_ORDER);
+            preg_match_all(
+                '/###\[(.*)]\((https:\/\/.*)\)/m',
+                $yearWikiContents,
+                $animeResourceWikiEntries,
+                PREG_SET_ORDER
+            );
 
             foreach ($animeResourceWikiEntries as $animeResourceWikiEntry) {
                 $animeName = html_entity_decode($animeResourceWikiEntry[1]);

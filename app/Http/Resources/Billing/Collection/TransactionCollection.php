@@ -8,6 +8,7 @@ use App\Http\Api\Filter\Billing\Transaction\TransactionAmountFilter;
 use App\Http\Api\Filter\Billing\Transaction\TransactionDateFilter;
 use App\Http\Api\Filter\Billing\Transaction\TransactionDescriptionFilter;
 use App\Http\Api\Filter\Billing\Transaction\TransactionExternalIdFilter;
+use App\Http\Api\Filter\Billing\Transaction\TransactionIdFilter;
 use App\Http\Api\Filter\Billing\Transaction\TransactionServiceFilter;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\Billing\Resource\TransactionResource;
@@ -88,6 +89,7 @@ class TransactionCollection extends BaseCollection
         return array_merge(
             parent::filters(),
             [
+                TransactionIdFilter::class,
                 TransactionDateFilter::class,
                 TransactionServiceFilter::class,
                 TransactionDescriptionFilter::class,

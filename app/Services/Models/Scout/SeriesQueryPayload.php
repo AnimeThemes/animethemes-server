@@ -30,16 +30,19 @@ class SeriesQueryPayload extends ElasticQueryPayload
     public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder
     {
         return Series::boolSearch()
-            ->should((new MatchPhraseQueryBuilder())
+            ->should(
+                (new MatchPhraseQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
             )
-            ->should((new MatchQueryBuilder())
+            ->should(
+                (new MatchQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
             )
-            ->should((new MatchQueryBuilder())
+            ->should(
+                (new MatchQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
                 ->operator('AND')

@@ -31,40 +31,49 @@ class AnimeQueryPayload extends ElasticQueryPayload
     public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder
     {
         return Anime::boolSearch()
-            ->should((new MatchPhraseQueryBuilder())
+            ->should(
+                (new MatchPhraseQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
             )
-            ->should((new MatchQueryBuilder())
+            ->should(
+                (new MatchQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
             )
-            ->should((new MatchQueryBuilder())
+            ->should(
+                (new MatchQueryBuilder())
                 ->field('name')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
             )
-            ->should((new NestedQueryBuilder())
+            ->should(
+                (new NestedQueryBuilder())
                 ->path('synonyms')
-                ->query((new MatchPhraseQueryBuilder())
+                ->query(
+                    (new MatchPhraseQueryBuilder())
                     ->field('synonyms.text')
                     ->query($this->parser->getSearch())
                 )
             )
-            ->should((new NestedQueryBuilder())
+            ->should(
+                (new NestedQueryBuilder())
                 ->path('synonyms')
-                ->query((new MatchQueryBuilder())
+                ->query(
+                    (new MatchQueryBuilder())
                     ->field('synonyms.text')
                     ->query($this->parser->getSearch())
                     ->operator('AND')
                 )
             )
-            ->should((new NestedQueryBuilder())
+            ->should(
+                (new NestedQueryBuilder())
                 ->path('synonyms')
-                ->query((new MatchQueryBuilder())
+                ->query(
+                    (new MatchQueryBuilder())
                     ->field('synonyms.text')
                     ->query($this->parser->getSearch())
                     ->operator('AND')

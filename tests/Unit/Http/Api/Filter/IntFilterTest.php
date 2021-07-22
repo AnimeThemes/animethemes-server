@@ -35,8 +35,7 @@ class IntFilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends IntFilter
-        {
+        $filter = new class($parser, $filterField) extends IntFilter {
             // We don't need to do any customization
         };
 
@@ -62,8 +61,7 @@ class IntFilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends IntFilter
-        {
+        $filter = new class($parser, $filterField) extends IntFilter {
             // We don't need to do any customization
         };
 

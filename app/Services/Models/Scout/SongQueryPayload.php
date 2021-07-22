@@ -30,16 +30,19 @@ class SongQueryPayload extends ElasticQueryPayload
     public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder
     {
         return Song::boolSearch()
-            ->should((new MatchPhraseQueryBuilder())
+            ->should(
+                (new MatchPhraseQueryBuilder())
                 ->field('title')
                 ->query($this->parser->getSearch())
             )
-            ->should((new MatchQueryBuilder())
+            ->should(
+                (new MatchQueryBuilder())
                 ->field('title')
                 ->query($this->parser->getSearch())
                 ->operator('AND')
             )
-            ->should((new MatchQueryBuilder())
+            ->should(
+                (new MatchQueryBuilder())
                 ->field('title')
                 ->query($this->parser->getSearch())
                 ->operator('AND')

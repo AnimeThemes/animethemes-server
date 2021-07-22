@@ -29,7 +29,12 @@ class AnimeSeeder extends Seeder
 
         // Match Anime Entries
         // Format: "[{Anime Name} ({Year})](/r/AnimeThemes/wiki/{year}#{anchor link})"
-        preg_match_all('/\[(.*)\s\((.*)\)]\(\/r\/AnimeThemes\/wiki\/.*\)/m', $animeWikiContents, $animeWikiEntries, PREG_SET_ORDER);
+        preg_match_all(
+            '/\[(.*)\s\((.*)\)]\(\/r\/AnimeThemes\/wiki\/.*\)/m',
+            $animeWikiContents,
+            $animeWikiEntries,
+            PREG_SET_ORDER
+        );
 
         foreach ($animeWikiEntries as $animeWikiEntry) {
             $animeName = html_entity_decode($animeWikiEntry[1]);

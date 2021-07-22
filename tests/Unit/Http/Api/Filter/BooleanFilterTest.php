@@ -35,8 +35,7 @@ class BooleanFilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends BooleanFilter
-        {
+        $filter = new class($parser, $filterField) extends BooleanFilter {
             // We don't need to do any customization
         };
 
@@ -62,8 +61,7 @@ class BooleanFilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends BooleanFilter
-        {
+        $filter = new class($parser, $filterField) extends BooleanFilter {
             // We don't need to do any customization
         };
 
@@ -89,8 +87,7 @@ class BooleanFilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends BooleanFilter
-        {
+        $filter = new class($parser, $filterField) extends BooleanFilter {
             // We don't need to do any customization
         };
 

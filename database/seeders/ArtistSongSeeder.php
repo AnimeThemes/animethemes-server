@@ -35,7 +35,12 @@ class ArtistSongSeeder extends Seeder
 
         // Match Artist Entries
         // Format: "[{Artist Name}](/r/AnimeThemes/wiki/artist/{Artist Slug}/)"
-        preg_match_all('/\[(.*)]\(\/r\/AnimeThemes\/wiki\/artist\/(.*)\)/m', $artistWikiContents, $artistWikiEntries, PREG_SET_ORDER);
+        preg_match_all(
+            '/\[(.*)]\(\/r\/AnimeThemes\/wiki\/artist\/(.*)\)/m',
+            $artistWikiContents,
+            $artistWikiEntries,
+            PREG_SET_ORDER
+        );
 
         foreach ($artistWikiEntries as $artistWikiEntry) {
             $artistName = html_entity_decode($artistWikiEntry[1]);

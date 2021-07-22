@@ -39,8 +39,7 @@ class DateFilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends DateFilter
-        {
+        $filter = new class($parser, $filterField) extends DateFilter {
             // We don't need to do any customization
         };
 
@@ -66,8 +65,7 @@ class DateFilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends DateFilter
-        {
+        $filter = new class($parser, $filterField) extends DateFilter {
             // We don't need to do any customization
         };
 
@@ -93,8 +91,7 @@ class DateFilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends DateFilter
-        {
+        $filter = new class($parser, $filterField) extends DateFilter {
             // We don't need to do any customization
         };
 
@@ -122,8 +119,7 @@ class DateFilterTest extends TestCase
 
         $parser = QueryParser::make($parameters);
 
-        $filter = new class($parser, $filterField) extends DateFilter
-        {
+        $filter = new class($parser, $filterField) extends DateFilter {
             // We don't need to do any customization
         };
 

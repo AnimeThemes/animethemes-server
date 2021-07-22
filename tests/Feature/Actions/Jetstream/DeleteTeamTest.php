@@ -32,7 +32,8 @@ class DeleteTeamTest extends TestCase
         ]));
 
         $team->users()->attach(
-            $otherUser = User::factory()->createOne(), ['role' => 'test-role']
+            $otherUser = User::factory()->createOne(),
+            ['role' => 'test-role']
         );
 
         Livewire::test(DeleteTeamForm::class, ['team' => $team->fresh()])

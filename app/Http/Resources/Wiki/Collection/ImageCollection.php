@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Api\Filter\Wiki\Image\ImageFacetFilter;
+use App\Http\Api\Filter\Wiki\Image\ImageIdFilter;
 use App\Http\Api\Filter\Wiki\Image\ImageMimeTypeFilter;
 use App\Http\Api\Filter\Wiki\Image\ImagePathFilter;
 use App\Http\Api\Filter\Wiki\Image\ImageSizeFilter;
@@ -89,6 +90,7 @@ class ImageCollection extends BaseCollection
         return array_merge(
             parent::filters(),
             [
+                ImageIdFilter::class,
                 ImagePathFilter::class,
                 ImageSizeFilter::class,
                 ImageMimeTypeFilter::class,

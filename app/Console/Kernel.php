@@ -58,7 +58,6 @@ class Kernel extends ConsoleKernel
      * @return void
      *
      * @noinspection PhpMissingParentCallCommonInspection
-     * @noinspection PhpIncludeInspection
      */
     protected function commands()
     {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceExternalIdFilter;
+use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceIdFilter;
 use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceLinkFilter;
 use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceSiteFilter;
 use App\Http\Resources\BaseCollection;
@@ -87,6 +88,7 @@ class ExternalResourceCollection extends BaseCollection
         return array_merge(
             parent::filters(),
             [
+                ExternalResourceIdFilter::class,
                 ExternalResourceLinkFilter::class,
                 ExternalResourceExternalIdFilter::class,
                 ExternalResourceSiteFilter::class,

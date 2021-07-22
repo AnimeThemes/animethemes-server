@@ -20,7 +20,8 @@ class InitializeVideoTagsTest extends TestCase
     use WithFaker;
 
     /**
-     * When a video is created, if the filename does not contain tags, the tag attributes shall retain their default values.
+     * When a video is created, if the filename does not contain tags,
+     * the tag attributes shall retain their default values.
      *
      * @return void
      */

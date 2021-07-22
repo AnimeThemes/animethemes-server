@@ -60,6 +60,16 @@ abstract class Filter
     }
 
     /**
+     * Get filter column.
+     *
+     * @return string
+     */
+    public function getColumn(): string
+    {
+        return $this->getKey();
+    }
+
+    /**
      * Modify query builder with filter criteria.
      *
      * @param Builder $builder
@@ -69,7 +79,9 @@ abstract class Filter
     {
         foreach ($this->getConditions() as $condition) {
             if ($this->shouldApplyFilter($condition)) {
-                $builder = $condition->apply($builder, $this);
+                $column = $this->getColumn();
+                $filterValues = $this->getFilterValues($condition);
+                $builder = $condition->apply($builder, $column, $filterValues);
             }
         }
 
@@ -86,7 +98,9 @@ abstract class Filter
     {
         foreach ($this->getConditions() as $condition) {
             if ($this->shouldApplyFilter($condition)) {
-                $builder = $condition->applyElasticsearchFilter($builder, $this);
+                $column = $this->getColumn();
+                $filterValues = $this->getFilterValues($condition);
+                $builder = $condition->applyElasticsearchFilter($builder, $column, $filterValues);
             }
         }
 

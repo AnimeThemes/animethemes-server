@@ -8,7 +8,7 @@ use App\Http\Api\Filter\FloatFilter;
 use App\Http\Api\QueryParser;
 
 /**
- * Class BalanceServiceFilter.
+ * Class BalanceUsageFilter.
  */
 class BalanceUsageFilter extends FloatFilter
 {
