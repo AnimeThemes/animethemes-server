@@ -9,6 +9,7 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Models\Wiki\Video;
 use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -27,7 +28,13 @@ class VideoRepository implements Repository
     {
         // Get metadata for all objects in storage
         $fs = Storage::disk('videos');
-        $fsVideos = collect($fs->files('', true));
+
+        // We are assuming an s3 filesystem is used to host video
+        if (! $fs instanceof FilesystemAdapter) {
+            return Collection::make();
+        }
+
+        $fsVideos = collect($fs->listContents('', true));
 
         // Filter all objects for WebM metadata
         // We don't want to filter on the remote filesystem for performance concerns
