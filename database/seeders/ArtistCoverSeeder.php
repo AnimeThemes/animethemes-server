@@ -74,9 +74,9 @@ class ArtistCoverSeeder extends Seeder
                 // Anilist graphql api call
                 try {
                     $response = Http::post('https://graphql.anilist.co', [
-                            'query' => $query,
-                            'variables' => $variables,
-                        ])
+                        'query' => $query,
+                        'variables' => $variables,
+                    ])
                         ->throw()
                         ->json();
 
