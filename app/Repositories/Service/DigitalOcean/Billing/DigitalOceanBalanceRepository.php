@@ -10,14 +10,12 @@ use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\ServerException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -41,27 +39,22 @@ class DigitalOceanBalanceRepository implements Repository
         }
 
         try {
-            $client = new Client();
-
-            $response = $client->get('https://api.digitalocean.com/v2/customers/my/balance', [
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer '.$doBearerToken,
-                ],
-            ]);
-
-            $balanceJson = json_decode($response->getBody()->getContents(), true);
+            $response = Http::withToken($doBearerToken)
+                ->contentType('application/json')
+                ->get('https://api.digitalocean.com/v2/customers/my/balance')
+                ->throw()
+                ->json();
 
             $balance = Balance::factory()->makeOne([
                 'date' => Carbon::now()->firstOfMonth()->format(AllowedDateFormat::YMD),
                 'service' => Service::DIGITALOCEAN,
                 'frequency' => BalanceFrequency::MONTHLY,
-                'usage' => Arr::get($balanceJson, 'month_to_date_usage'),
-                'balance' => -1.0 * floatval(Arr::get($balanceJson, 'month_to_date_balance')),
+                'usage' => Arr::get($response, 'month_to_date_usage'),
+                'balance' => -1.0 * floatval(Arr::get($response, 'month_to_date_balance')),
             ]);
 
-            return collect($balance);
-        } catch (ClientException | ServerException | GuzzleException $e) {
+            return collect([$balance]);
+        } catch (RequestException $e) {
             Log::info($e->getMessage());
 
             return Collection::make();

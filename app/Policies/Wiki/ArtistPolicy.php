@@ -212,15 +212,12 @@ class ArtistPolicy
      */
     public function attachImage(User $user, Artist $artist, Image $image): bool
     {
-        if (ArtistImage::query()
+        $attached = ArtistImage::query()
             ->where($artist->getKeyName(), $artist->getKey())
             ->where($image->getKeyName(), $image->getKey())
-            ->exists()
-        ) {
-            return false;
-        }
+            ->exists();
 
-        return $user->hasCurrentTeamPermission('artist:update');
+        return ! $attached && $user->hasCurrentTeamPermission('artist:update');
     }
 
     /**

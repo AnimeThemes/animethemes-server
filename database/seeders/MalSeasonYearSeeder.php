@@ -8,14 +8,12 @@ use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\ServerException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -40,19 +38,16 @@ class MalSeasonYearSeeder extends Seeder
         }
 
         try {
-            $client = new Client();
-            $client->get('https://api.myanimelist.net/v2/users/@me', [
-                'headers' => [
-                    'Authorization' => 'Bearer '.$malBearerToken,
-                ],
-            ]);
-        } catch (ClientException | ServerException | GuzzleException $e) {
+            Http::withToken($malBearerToken)
+                ->get('https://api.myanimelist.net/v2/users/@me')
+                ->throw();
+        } catch (RequestException $e) {
             Log::info($e->getMessage());
 
             return;
         }
 
-        // Get anime that have MAL resource but do not season
+        // Get anime that have MAL resource but do not have the season attribute set
         $animes = Anime::query()
             ->whereNull('season')
             ->whereHas('resources', function (Builder $resourceQuery) {
@@ -68,19 +63,18 @@ class MalSeasonYearSeeder extends Seeder
             $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
             if ($malResource instanceof ExternalResource && $malResource->external_id !== null) {
                 // Try not to upset MAL
-                sleep(rand(5, 15));
+                sleep(rand(2, 5));
 
                 try {
-                    $client = new Client();
-                    $response = $client->get("https://api.myanimelist.net/v2/anime/{$malResource->external_id}?fields=start_season", [
-                        'headers' => [
-                            'Authorization' => 'Bearer '.$malBearerToken,
-                        ],
-                    ]);
-                    $malResourceJson = json_decode($response->getBody()->getContents(), true);
+                    $response = Http::withToken($malBearerToken)
+                        ->get("https://api.myanimelist.net/v2/anime/{$malResource->external_id}", [
+                            'fields' => 'start_season',
+                        ])
+                        ->throw()
+                        ->json();
 
-                    $season = Arr::get($malResourceJson, 'start_season.season');
-                    $year = Arr::get($malResourceJson, 'start_season.year');
+                    $season = Arr::get($response, 'start_season.season');
+                    $year = Arr::get($response, 'start_season.year');
 
                     if (AnimeSeason::hasKey(Str::upper($season))) {
                         $season = AnimeSeason::getValue(Str::upper($season));
@@ -94,13 +88,8 @@ class MalSeasonYearSeeder extends Seeder
                     if ($anime->isDirty()) {
                         $anime->save();
                     }
-                } catch (ClientException $e) {
+                } catch (RequestException $e) {
                     Log::info($e->getMessage());
-                } catch (ServerException | GuzzleException $e) {
-                    // We may have upset MAL, try again later
-                    Log::info($e->getMessage());
-
-                    return;
                 }
             }
         }

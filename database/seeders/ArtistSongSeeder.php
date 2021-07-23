@@ -52,7 +52,7 @@ class ArtistSongSeeder extends Seeder
             }
 
             // Try not to upset Reddit
-            sleep(rand(5, 15));
+            sleep(rand(2, 5));
 
             // Get JSON of Artist Entry page content
             $artistLink = WikiPages::getArtistPage($artistSlug);

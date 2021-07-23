@@ -46,11 +46,7 @@ class ResourceSiteDomainRule implements Rule
     {
         $domain = ResourceSite::getDomain($this->site);
 
-        if (! empty($domain)) {
-            return $domain === parse_url($value, PHP_URL_HOST);
-        }
-
-        return true;
+        return empty($domain) || $domain === parse_url($value, PHP_URL_HOST);
     }
 
     /**

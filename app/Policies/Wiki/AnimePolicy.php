@@ -115,15 +115,12 @@ class AnimePolicy
      */
     public function attachSeries(User $user, Anime $anime, Series $series): bool
     {
-        if (AnimeSeries::query()
+        $attached = AnimeSeries::query()
             ->where($anime->getKeyName(), $anime->getKey())
             ->where($series->getKeyName(), $series->getKey())
-            ->exists()
-        ) {
-            return false;
-        }
+            ->exists();
 
-        return $user->hasCurrentTeamPermission('anime:update');
+        return ! $attached && $user->hasCurrentTeamPermission('anime:update');
     }
 
     /**
@@ -191,15 +188,12 @@ class AnimePolicy
      */
     public function attachImage(User $user, Anime $anime, Image $image): bool
     {
-        if (AnimeImage::query()
+        $attached = AnimeImage::query()
             ->where($anime->getKeyName(), $anime->getKey())
             ->where($image->getKeyName(), $image->getKey())
-            ->exists()
-        ) {
-            return false;
-        }
+            ->exists();
 
-        return $user->hasCurrentTeamPermission('anime:update');
+        return ! $attached && $user->hasCurrentTeamPermission('anime:update');
     }
 
     /**

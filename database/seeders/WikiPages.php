@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\ServerException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -108,14 +106,12 @@ class WikiPages
     public static function getPageContents(string $page): mixed
     {
         try {
-            $client = new Client();
+            $response = Http::get($page)
+                ->throw()
+                ->json();
 
-            $response = $client->get($page);
-
-            $contents = json_decode($response->getBody()->getContents(), true);
-
-            return Arr::get($contents, 'data.content_md');
-        } catch (ClientException | ServerException | GuzzleException $e) {
+            return Arr::get($response, 'data.content_md');
+        } catch (RequestException $e) {
             Log::info($e->getMessage());
 
             return null;

@@ -26,7 +26,7 @@ class VideoTagsSeeder extends Seeder
         $videoPages = collect(WikiPages::YEAR_MAP)->keys()->push(WikiPages::MISC_INDEX);
         foreach ($videoPages as $videoPage) {
             // Try not to upset Reddit
-            sleep(rand(5, 15));
+            sleep(rand(2, 5));
 
             // Get JSON of Year page content
             $yearWikiContents = WikiPages::getPageContents($videoPage);

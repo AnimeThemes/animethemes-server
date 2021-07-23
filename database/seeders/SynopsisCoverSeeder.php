@@ -9,14 +9,12 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\ServerException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -54,7 +52,7 @@ class SynopsisCoverSeeder extends Seeder
                 $animeCoverSmall = $anime->images()->where('facet', ImageFacet::COVER_SMALL)->first();
 
                 // Try not to upset Anilist
-                sleep(rand(5, 15));
+                sleep(rand(2, 5));
 
                 // Anilist graphql query
                 $query = '
@@ -76,17 +74,16 @@ class SynopsisCoverSeeder extends Seeder
 
                 // Anilist graphql api call
                 try {
-                    $client = new Client();
-                    $response = $client->post('https://graphql.anilist.co', [
-                        'json' => [
-                            'query' => $query,
-                            'variables' => $variables,
-                        ],
-                    ]);
-                    $anilistResourceJson = json_decode($response->getBody()->getContents(), true);
-                    $anilistSynopsis = Arr::get($anilistResourceJson, 'data.Media.description');
-                    $anilistCoverLarge = Arr::get($anilistResourceJson, 'data.Media.coverImage.extraLarge');
-                    $anilistCoverSmall = Arr::get($anilistResourceJson, 'data.Media.coverImage.medium');
+                    $response = Http::post('https://graphql.anilist.co', [
+                        'query' => $query,
+                        'variables' => $variables,
+                    ])
+                        ->throw()
+                        ->json();
+
+                    $anilistSynopsis = Arr::get($response, 'data.Media.description');
+                    $anilistCoverLarge = Arr::get($response, 'data.Media.coverImage.extraLarge');
+                    $anilistCoverSmall = Arr::get($response, 'data.Media.coverImage.medium');
 
                     // Set Anime synopsis
                     if ($anilistSynopsis !== null && $anime->synopsis === null) {
@@ -97,16 +94,16 @@ class SynopsisCoverSeeder extends Seeder
 
                     // Create large cover image
                     if ($anilistCoverLarge !== null && $animeCoverLarge === null) {
-                        $coverImageResponse = $client->get($anilistCoverLarge);
-                        $coverImage = $coverImageResponse->getBody()->getContents();
+                        $coverImageResponse = Http::get($anilistCoverLarge);
+                        $coverImage = $coverImageResponse->body();
                         $coverFile = File::createWithContent(basename($anilistCoverLarge), $coverImage);
                         $coverLarge = $fs->putFile('', $coverFile);
 
                         $coverLargeImage = Image::factory()->createOne([
                             'facet' => ImageFacet::COVER_LARGE,
                             'path' => $coverLarge,
-                            'size' => $coverImageResponse->getHeader('Content-Length')[0],
-                            'mimetype' => $coverImageResponse->getHeader('Content-Type')[0],
+                            'size' => $coverImageResponse->header('Content-Length'),
+                            'mimetype' => $coverImageResponse->header('Content-Type'),
                         ]);
 
                         // Attach large cover to anime
@@ -116,30 +113,24 @@ class SynopsisCoverSeeder extends Seeder
 
                     // Create small cover image
                     if ($anilistCoverSmall !== null && $animeCoverSmall === null) {
-                        $coverImageResponse = $client->get($anilistCoverSmall);
-                        $coverImage = $coverImageResponse->getBody()->getContents();
+                        $coverImageResponse = Http::get($anilistCoverSmall);
+                        $coverImage = $coverImageResponse->body();
                         $coverFile = File::createWithContent(basename($anilistCoverSmall), $coverImage);
                         $coverSmall = $fs->putFile('', $coverFile);
 
                         $coverSmallImage = Image::factory()->createOne([
                             'facet' => ImageFacet::COVER_SMALL,
                             'path' => $coverSmall,
-                            'size' => $coverImageResponse->getHeader('Content-Length')[0],
-                            'mimetype' => $coverImageResponse->getHeader('Content-Type')[0],
+                            'size' => $coverImageResponse->header('Content-Length'),
+                            'mimetype' => $coverImageResponse->header('Content-Type'),
                         ]);
 
                         // Attach large cover to anime
                         Log::info("Attaching image '{$coverSmallImage->path}' to anime '{$anime->name}'");
                         $coverSmallImage->anime()->attach($anime);
                     }
-                } catch (ClientException $e) {
-                    // We may not have a match for this MAL resource
+                } catch (RequestException $e) {
                     Log::info($e->getMessage());
-                } catch (ServerException | GuzzleException $e) {
-                    // We may have upset Anilist, try again later
-                    Log::info($e->getMessage());
-
-                    return;
                 }
             }
         }

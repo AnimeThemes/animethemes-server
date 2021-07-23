@@ -8,13 +8,11 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\ArtistResource;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\ServerException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -42,7 +40,7 @@ class AnilistArtistResourceSeeder extends Seeder
             }
 
             // Try not to upset Anilist
-            sleep(rand(5, 15));
+            sleep(rand(2, 5));
 
             // Anilist graphql query
             $query = '
@@ -60,15 +58,14 @@ class AnilistArtistResourceSeeder extends Seeder
 
             // Anilist graphql api call
             try {
-                $client = new Client();
-                $response = $client->post('https://graphql.anilist.co', [
-                    'json' => [
-                        'query' => $query,
-                        'variables' => $variables,
-                    ],
-                ]);
-                $anilistResourceJson = json_decode($response->getBody()->getContents(), true);
-                $anilistId = Arr::get($anilistResourceJson, 'data.Staff.id');
+                $response = Http::post('https://graphql.anilist.co', [
+                    'query' => $query,
+                    'variables' => $variables,
+                ])
+                    ->throw()
+                    ->json();
+
+                $anilistId = Arr::get($response, 'data.Staff.id');
 
                 // Check if Anilist resource already exists
                 $anilistResource = ExternalResource::query()
@@ -88,19 +85,16 @@ class AnilistArtistResourceSeeder extends Seeder
                 }
 
                 // Attach Anilist resource to artist
-                if (ArtistResource::query()
-                    ->where($artist->getKeyName(), $artist->getKey())
-                    ->where($anilistResource->getKeyName(), $anilistResource->getKey())
-                    ->doesntExist()
+                if (
+                    ArtistResource::query()
+                        ->where($artist->getKeyName(), $artist->getKey())
+                        ->where($anilistResource->getKeyName(), $anilistResource->getKey())
+                        ->doesntExist()
                 ) {
                     Log::info("Attaching resource '{$anilistResource->link}' to artist '{$artist->name}'");
                     $anilistResource->artists()->attach($artist);
                 }
-            } catch (ClientException $e) {
-                // We may not have a match for this MAL resource
-                Log::info($e->getMessage());
-            } catch (ServerException | GuzzleException $e) {
-                // We may have upset Anilist, try again later
+            } catch (RequestException $e) {
                 Log::info($e->getMessage());
 
                 return;

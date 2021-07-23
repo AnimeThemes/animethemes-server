@@ -10,14 +10,12 @@ use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction;
 use DateTime;
 use DateTimeInterface;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\ServerException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -43,23 +41,16 @@ class DigitalOceanTransactionRepository implements Repository
         $sourceTransactions = [];
 
         try {
-            $client = new Client();
+            $request = Http::withToken($doBearerToken)->contentType('application/json');
 
             $nextBillingHistory = 'https://api.digitalocean.com/v2/customers/my/billing_history?per_page=200';
             while (! empty($nextBillingHistory)) {
                 // Try not to upset DO
-                sleep(rand(5, 15));
+                sleep(rand(2, 5));
 
-                $response = $client->get($nextBillingHistory, [
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer '.$doBearerToken,
-                    ],
-                ]);
+                $response = $request->get($nextBillingHistory)->throw()->json();
 
-                $billingHistoryJson = json_decode($response->getBody()->getContents(), true);
-
-                $billingHistory = Arr::get($billingHistoryJson, 'billing_history', []);
+                $billingHistory = Arr::get($response, 'billing_history', []);
                 foreach ($billingHistory as $sourceTransaction) {
                     $date = DateTime::createFromFormat(
                         '!'.DateTimeInterface::RFC3339,
@@ -75,9 +66,9 @@ class DigitalOceanTransactionRepository implements Repository
                     ]);
                 }
 
-                $nextBillingHistory = Arr::get($billingHistoryJson, 'links.pages.next');
+                $nextBillingHistory = Arr::get($response, 'links.pages.next');
             }
-        } catch (ClientException | ServerException | GuzzleException $e) {
+        } catch (RequestException $e) {
             Log::info($e->getMessage());
 
             return Collection::make();

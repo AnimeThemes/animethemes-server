@@ -53,7 +53,7 @@ class SeriesSeeder extends Seeder
             }
 
             // Try not to upset Reddit
-            sleep(rand(5, 15));
+            sleep(rand(2, 5));
 
             // Get JSON of Series Entry page content
             $seriesLink = WikiPages::getSeriesPage($seriesSlug);

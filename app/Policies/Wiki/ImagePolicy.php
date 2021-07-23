@@ -115,15 +115,12 @@ class ImagePolicy
      */
     public function attachArtist(User $user, Image $image, Artist $artist): bool
     {
-        if (ArtistImage::query()
+        $attached = ArtistImage::query()
             ->where($artist->getKeyName(), $artist->getKey())
             ->where($image->getKeyName(), $image->getKey())
-            ->exists()
-        ) {
-            return false;
-        }
+            ->exists();
 
-        return $user->hasCurrentTeamPermission('image:update');
+        return ! $attached && $user->hasCurrentTeamPermission('image:update');
     }
 
     /**
@@ -158,15 +155,12 @@ class ImagePolicy
      */
     public function attachAnime(User $user, Image $image, Anime $anime): bool
     {
-        if (AnimeImage::query()
+        $attached = AnimeImage::query()
             ->where($anime->getKeyName(), $anime->getKey())
             ->where($image->getKeyName(), $image->getKey())
-            ->exists()
-        ) {
-            return false;
-        }
+            ->exists();
 
-        return $user->hasCurrentTeamPermission('image:update');
+        return ! $attached && $user->hasCurrentTeamPermission('image:update');
     }
 
     /**

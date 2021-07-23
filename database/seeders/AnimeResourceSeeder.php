@@ -26,7 +26,7 @@ class AnimeResourceSeeder extends Seeder
     {
         foreach (WikiPages::YEAR_MAP as $yearPage => $years) {
             // Try not to upset Reddit
-            sleep(rand(5, 15));
+            sleep(rand(2, 5));
 
             // Get JSON of Year page content
             $yearWikiContents = WikiPages::getPageContents($yearPage);

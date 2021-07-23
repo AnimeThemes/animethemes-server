@@ -8,15 +8,12 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\ServerException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class KitsuResourceSeeder.
@@ -47,21 +44,24 @@ class KitsuResourceSeeder extends Seeder
             $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
             if ($malResource instanceof ExternalResource && $malResource->external_id !== null) {
                 // Try not to upset Kitsu
-                sleep(rand(5, 15));
+                sleep(rand(2, 5));
 
                 // Kitsu api call
                 try {
-                    $client = new Client();
-                    $response = $client->get("https://kitsu.io/api/edge/mappings?filter[externalSite]=myanimelist/anime&include=item&filter[externalId]={$malResource->external_id}", [
-                        'headers' => [
-                            'Accept' => 'application/vnd.api+json',
-                            'Content-Type' => 'application/vnd.api+json',
-                        ],
-                    ]);
-                    $kitsuResourceJson = json_decode($response->getBody()->getContents(), true);
+                    $response = Http::contentType('application/vnd.api+json')
+                        ->accept('application/vnd.api+json')
+                        ->get('https://kitsu.io/api/edge/mappings', [
+                            'include' => 'item',
+                            'filter' => [
+                                'externalSite' => 'myanimelist/anime',
+                                'externalId' => $malResource->external_id,
+                            ],
+                        ])
+                        ->throw()
+                        ->json();
 
-                    $kitsuResourceData = Arr::get($kitsuResourceJson, 'data', []);
-                    $kitsuResourceIncluded = Arr::get($kitsuResourceJson, 'included', []);
+                    $kitsuResourceData = Arr::get($response, 'data', []);
+                    $kitsuResourceIncluded = Arr::get($response, 'included', []);
 
                     // Only proceed if we have a single match
                     if (count($kitsuResourceData) === 1 && count($kitsuResourceIncluded) === 1) {
@@ -95,17 +95,8 @@ class KitsuResourceSeeder extends Seeder
                             $kitsuResource->anime()->attach($anime);
                         }
                     }
-                } catch (HttpException $e) {
-                    // There was some issue with the request
+                } catch (RequestException $e) {
                     Log::info($e->getMessage());
-                } catch (ClientException $e) {
-                    // We may not have a match for this MAL resource
-                    Log::info($e->getMessage());
-                } catch (ServerException | GuzzleException $e) {
-                    // We may have upset Kitsu, try again later
-                    Log::info($e->getMessage());
-
-                    return;
                 }
             }
         }

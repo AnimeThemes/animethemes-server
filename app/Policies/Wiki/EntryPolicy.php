@@ -113,15 +113,12 @@ class EntryPolicy
      */
     public function attachVideo(User $user, Entry $entry, Video $video): bool
     {
-        if (VideoEntry::query()
+        $attached = VideoEntry::query()
             ->where($entry->getKeyName(), $entry->getKey())
             ->where($video->getKeyName(), $video->getKey())
-            ->exists()
-        ) {
-            return false;
-        }
+            ->exists();
 
-        return $user->hasCurrentTeamPermission('entry:update');
+        return ! $attached && $user->hasCurrentTeamPermission('entry:update');
     }
 
     /**
