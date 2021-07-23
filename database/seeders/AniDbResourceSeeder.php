@@ -8,13 +8,11 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\ServerException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -46,15 +44,18 @@ class AniDbResourceSeeder extends Seeder
             $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
             if ($malResource instanceof ExternalResource && $malResource->external_id !== null) {
                 // Try not to upset Yuna
-                sleep(rand(5, 15));
+                sleep(rand(2, 5));
 
                 // Yuna api call
                 try {
-                    $client = new Client();
-                    $response = $client->get("https://relations.yuna.moe/api/ids?source=myanimelist&id={$malResource->external_id}");
+                    $response = Http::get('https://relations.yuna.moe/api/ids', [
+                        'source' => 'myanimelist',
+                        'id' => $malResource->external_id,
+                    ])
+                    ->throw()
+                    ->json();
 
-                    $anidbResourceJson = json_decode($response->getBody()->getContents(), true);
-                    $anidbId = Arr::get($anidbResourceJson, 'anidb');
+                    $anidbId = Arr::get($response, 'anidb');
 
                     // Only proceed if we have a match
                     if ($anidbId !== null) {
@@ -85,14 +86,8 @@ class AniDbResourceSeeder extends Seeder
                             $anidbResource->anime()->attach($anime);
                         }
                     }
-                } catch (ClientException $e) {
-                    // We may not have a match for this MAL resource
+                } catch (RequestException $e) {
                     Log::info($e->getMessage());
-                } catch (ServerException | GuzzleException $e) {
-                    // We may have upset Yuna, try again later
-                    Log::info($e->getMessage());
-
-                    return;
                 }
             }
         }

@@ -177,12 +177,6 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
      */
     public function hasCurrentTeamPermission(string $permission): bool
     {
-        $currentTeam = $this->currentTeam;
-
-        if ($currentTeam === null) {
-            return false;
-        }
-
-        return $this->hasTeamPermission($currentTeam, $permission);
+        return $this->currentTeam !== null && $this->hasTeamPermission($this->currentTeam, $permission);
     }
 }

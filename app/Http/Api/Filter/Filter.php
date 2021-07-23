@@ -122,12 +122,8 @@ abstract class Filter
 
         $filterValues = $this->getFilterValues($condition);
 
-        // Don't apply filter if there is not a subset of valid values specified
-        if (empty($filterValues) || $this->isAllFilterValues($filterValues)) {
-            return false;
-        }
-
-        return true;
+        // Apply filter if we have a subset of valid values specified
+        return ! empty($filterValues) && ! $this->isAllFilterValues($filterValues);
     }
 
     /**
