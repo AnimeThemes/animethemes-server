@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
@@ -122,10 +121,10 @@ class Transaction extends Resource
                 ->rules('required')
                 ->help(__('nova.transaction_amount_help')),
 
-            Number::make(__('nova.external_id'), 'external_id')
+            Text::make(__('nova.external_id'), 'external_id')
                 ->nullable()
                 ->sortable()
-                ->rules(['nullable', 'integer'])
+                ->rules(['nullable', 'max:192'])
                 ->help(__('nova.transaction_external_id_help')),
         ];
     }

@@ -88,6 +88,7 @@ class Balance extends BaseModel
         'frequency' => 'int',
         'date' => 'date:Y-m-d',
         'usage' => 'decimal:2',
+        'balance' => 'decimal:2',
     ];
 
     /**

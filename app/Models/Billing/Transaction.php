@@ -25,7 +25,7 @@ use Illuminate\Support\Str;
  * @property Enum $service
  * @property string $description
  * @property float $amount
- * @property int|null $external_id
+ * @property string|null $external_id
  * @method static TransactionFactory factory(...$parameters)
  */
 class Transaction extends BaseModel
@@ -85,7 +85,6 @@ class Transaction extends BaseModel
         'service' => 'int',
         'date' => 'date:Y-m-d',
         'amount' => 'decimal:2',
-        'external_id' => 'int',
     ];
 
     /**
