@@ -26,7 +26,7 @@ class CreateTransactionsTable extends Migration
             $table->integer('service');
             $table->string('description');
             $table->decimal('amount');
-            $table->integer('external_id')->nullable();
+            $table->string('external_id')->nullable();
         });
     }
 

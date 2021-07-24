@@ -20,7 +20,7 @@ abstract class StreamableController extends Controller
      * @param Streamable $streamable
      * @return StreamedResponse
      */
-    public function streamContent(Streamable $streamable): StreamedResponse
+    protected function streamContent(Streamable $streamable): StreamedResponse
     {
         $response = new StreamedResponse();
 

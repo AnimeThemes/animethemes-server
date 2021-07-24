@@ -35,7 +35,7 @@ class TransactionFactory extends Factory
             'service' => Service::getRandomValue(),
             'description' => $this->faker->sentence(),
             'amount' => $this->faker->randomFloat(2),
-            'external_id' => $this->faker->randomNumber(),
+            'external_id' => $this->faker->uuid(),
         ];
     }
 }

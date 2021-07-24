@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter\Billing\Transaction;
 
-use App\Http\Api\Filter\IntFilter;
+use App\Http\Api\Filter\StringFilter;
 use App\Http\Api\QueryParser;
 
 /**
  * Class TransactionExternalIdFilter.
  */
-class TransactionExternalIdFilter extends IntFilter
+class TransactionExternalIdFilter extends StringFilter
 {
     /**
      * Create a new filter instance.
