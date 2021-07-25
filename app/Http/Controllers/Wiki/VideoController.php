@@ -20,10 +20,6 @@ class VideoController extends StreamableController
      */
     public function show(Video $video): StreamedResponse
     {
-        views($video)
-            ->cooldown(now()->addMinutes(5))
-            ->record();
-
         return $this->streamContent($video);
     }
 }

@@ -41,7 +41,7 @@ Route::get('transparency', [TransparencyController::class, 'show'])->name('trans
 Route::resource('image', ImageController::class)->only('show')
     ->middleware('without_trashed:image');
 Route::resource('video', VideoController::class)->only('show')
-    ->middleware(['is_video_streaming_allowed', 'without_trashed:video']);
+    ->middleware(['is_video_streaming_allowed', 'without_trashed:video', 'record_view:video']);
 
 // Documents
 Route::get('donate', [DonateController::class, 'show'])->name('donate.show');

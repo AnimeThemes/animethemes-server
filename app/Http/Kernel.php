@@ -10,6 +10,7 @@ use App\Http\Middleware\HasOpenInvitation;
 use App\Http\Middleware\IsVideoStreamingAllowed;
 use App\Http\Middleware\LogRequest;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
+use App\Http\Middleware\RecordView;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\SetAcceptJsonHeader;
 use App\Http\Middleware\ThrottleRequestsWithService;
@@ -103,5 +104,6 @@ class Kernel extends HttpKernel
         'has_open_invitation' => HasOpenInvitation::class,
         'is_video_streaming_allowed' => IsVideoStreamingAllowed::class,
         'without_trashed' => WithoutTrashed::class,
+        'record_view' => RecordView::class,
     ];
 }
