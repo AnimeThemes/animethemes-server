@@ -43,6 +43,11 @@ class PersistentConfigServiceProvider extends AbstractPersistentConfigServicePro
                 'rules' => ['sometimes', 'required', 'boolean'],
                 'cast' => 'boolean',
             ],
+            'flags.allow_view_recording' => [
+                'label' => __('Allow View Recording'),
+                'rules' => ['sometimes', 'required', 'boolean'],
+                'cast' => 'boolean',
+            ],
         ];
     }
 }

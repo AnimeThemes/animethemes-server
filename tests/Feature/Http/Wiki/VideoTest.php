@@ -8,6 +8,7 @@ use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
@@ -70,5 +71,58 @@ class VideoTest extends TestCase
         $response = $this->get(route('video.show', ['video' => $video]));
 
         static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
+    }
+
+    /**
+     * If view recording is disabled, the video show route shall not record a view for the video.
+     *
+     * @return void
+     */
+    public function testViewRecordingNotAllowed()
+    {
+        Config::set('flags.allow_video_streams', true);
+        Config::set('flags.allow_view_recording', false);
+
+        $video = Video::factory()->createOne();
+
+        $this->get(route('video.show', ['video' => $video]));
+
+        static::assertEquals(0, $video->views()->count());
+    }
+
+    /**
+     * If view recording is enabled, the video show route shall record a view for the video.
+     *
+     * @return void
+     */
+    public function testViewRecordingIsAllowed()
+    {
+        Config::set('flags.allow_video_streams', true);
+        Config::set('flags.allow_view_recording', true);
+
+        $video = Video::factory()->createOne();
+
+        $this->get(route('video.show', ['video' => $video]));
+
+        static::assertEquals(1, $video->views()->count());
+    }
+
+    /**
+     * If view recording is enabled, the video show route shall record a view for the video.
+     *
+     * @return void
+     */
+    public function testViewRecordingCooldown()
+    {
+        Config::set('flags.allow_video_streams', true);
+        Config::set('flags.allow_view_recording', true);
+
+        $video = Video::factory()->createOne();
+
+        Collection::times($this->faker->randomDigitNotNull(), function () use ($video) {
+            $this->get(route('video.show', ['video' => $video]));
+        });
+
+        static::assertEquals(1, $video->views()->count());
     }
 }

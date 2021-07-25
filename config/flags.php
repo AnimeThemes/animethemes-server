@@ -30,4 +30,17 @@ return [
     */
 
     'allow_discord_notifications' => (bool) env('ALLOW_DISCORD_NOTIFICATIONS', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Allow View Recording
+    |--------------------------------------------------------------------------
+    |
+    | When set to true, a view will be created for the viewable model in the show
+    | action of the resource controller. When set to false, a view will not be
+    | recorded.
+    |
+    */
+
+    'allow_view_recording' => (bool) env('ALLOW_VIEW_RECORDING', false),
 ];
