@@ -68,6 +68,10 @@ return [
             'visibility' => env('VIDEO_VISIBILITY'),
         ],
 
+        'db-dumps' => [
+            'driver' => 'local',
+            'root' => storage_path('db-dumps'),
+        ],
     ],
 
     /*
