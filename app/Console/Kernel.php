@@ -7,6 +7,7 @@ namespace App\Console;
 use App\Console\Commands\Billing\BalanceReconcileCommand;
 use App\Console\Commands\Billing\TransactionReconcileCommand;
 use App\Console\Commands\Wiki\DatabaseDumpCommand;
+use App\Console\Commands\Wiki\PruneDatabaseDumpsCommand;
 use App\Console\Commands\Wiki\VideoReconcileCommand;
 use App\Enums\Models\Billing\Service;
 use Illuminate\Console\Scheduling\Schedule;
@@ -28,6 +29,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         BalanceReconcileCommand::class,
         DatabaseDumpCommand::class,
+        PruneDatabaseDumpsCommand::class,
         TransactionReconcileCommand::class,
         VideoReconcileCommand::class,
     ];
@@ -46,6 +48,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(DatabaseDumpCommand::class)->daily();
         $schedule->command(DatabaseDumpCommand::class, ['--create'])->daily();
         $schedule->command(PruneCommand::class)->daily();
+        $schedule->command(PruneDatabaseDumpsCommand::class)->dailyAt('00:15');
         $schedule->command(PruneFailedJobsCommand::class)->daily();
         $schedule->command(SnapshotCommand::class)->everyFiveMinutes();
         $schedule->command(TransactionReconcileCommand::class, [Service::DIGITALOCEAN()->key])->dailyAt('07:00');

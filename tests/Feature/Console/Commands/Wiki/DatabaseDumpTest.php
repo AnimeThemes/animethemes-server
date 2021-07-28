@@ -7,6 +7,7 @@ namespace Tests\Feature\Console\Commands\Wiki;
 use App\Console\Commands\Wiki\DatabaseDumpCommand;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -24,9 +25,20 @@ class DatabaseDumpTest extends TestCase
      */
     public function testDataBaseDumpOutput()
     {
-        $dumpFile = $this->getDumpFile();
+        Storage::fake('db-dumps');
 
-        $this->artisan(DatabaseDumpCommand::class)->expectsOutput("Database dump '{$dumpFile}' has been created");
+        $create = $this->faker->boolean();
+
+        $command = Str::of('db:dump');
+        if ($create) {
+            $command = $command->append(' --create');
+        }
+
+        Carbon::setTestNow($this->faker->iso8601());
+
+        $dumpFile = DatabaseDumpCommand::getDumpFile($create);
+
+        $this->artisan($command->__toString())->expectsOutput("Database dump '{$dumpFile}' has been created");
     }
 
     /**
@@ -36,29 +48,21 @@ class DatabaseDumpTest extends TestCase
      */
     public function testDataBaseDumpFile()
     {
-        $dumpFile = $this->getDumpFile();
+        Storage::fake('db-dumps');
 
-        $this->artisan(DatabaseDumpCommand::class)->run();
+        $create = $this->faker->boolean();
 
-        static::assertFileExists($dumpFile);
-    }
+        $command = Str::of('db:dump');
+        if ($create) {
+            $command = $command->append(' --create');
+        }
 
-    /**
-     * The target path for the database dump.
-     *
-     * @return string
-     */
-    protected function getDumpFile(): string
-    {
         Carbon::setTestNow($this->faker->iso8601());
 
-        $dumpFile = Str::of('db-dumps')
-            ->append(DIRECTORY_SEPARATOR)
-            ->append('animethemes-db-dump-')
-            ->append(Carbon::now()->toDateString())
-            ->append('.sql')
-            ->__toString();
+        $dumpFile = DatabaseDumpCommand::getDumpFile($create);
 
-        return storage_path($dumpFile);
+        $this->artisan($command->__toString())->run();
+
+        static::assertFileExists($dumpFile);
     }
 }

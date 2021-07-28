@@ -13,6 +13,7 @@ use Illuminate\Database\PostgresConnection;
 use Illuminate\Database\SQLiteConnection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
@@ -105,7 +106,7 @@ class DatabaseDumpCommand extends Command
                 $dumper->setPort($port);
             }
 
-            $dumpFile = $this->getDumpFile($create);
+            $dumpFile = static::getDumpFile($create);
 
             $dumper->dumpToFile($dumpFile);
 
@@ -130,17 +131,16 @@ class DatabaseDumpCommand extends Command
      * @param bool $create
      * @return string
      */
-    protected function getDumpFile(bool $create): string
+    public static function getDumpFile(bool $create = false): string
     {
-        $dumpFile = Str::of('db-dumps')
-            ->append(DIRECTORY_SEPARATOR)
+        $fs = Storage::disk('db-dumps');
+
+        return Str::of($fs->path(''))
             ->append('animethemes-db-dump-')
             ->append($create ? 'create-' : '')
             ->append(Carbon::now()->toDateString())
             ->append('.sql')
             ->__toString();
-
-        return storage_path($dumpFile);
     }
 
     /**
