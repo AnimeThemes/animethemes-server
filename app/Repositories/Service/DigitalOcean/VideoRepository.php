@@ -7,9 +7,9 @@ namespace App\Repositories\Service\DigitalOcean;
 use App\Contracts\Repositories\Repository;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Models\Wiki\Video;
-use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -49,7 +49,7 @@ class VideoRepository implements Repository
                 'filename' => Arr::get($fsFile, 'filename'),
                 'path' => Arr::get($fsFile, 'path'),
                 'size' => Arr::get($fsFile, 'size'),
-                'mimetype' => MimeType::fromFilename(Arr::get($fsFile, 'basename')),
+                'mimetype' => MimeType::from(Arr::get($fsFile, 'basename')),
                 'resolution' => null,
                 'nc' => false,
                 'subbed' => false,
