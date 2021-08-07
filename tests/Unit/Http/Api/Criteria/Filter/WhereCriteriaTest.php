@@ -61,7 +61,7 @@ class WhereCriteriaTest extends TestCase
     }
 
     /**
-     * By default, the Where Criteria shall use the EQ comparison operator
+     * By default, the Where Criteria shall use the EQ comparison operator.
      *
      * @return void
      */
@@ -73,7 +73,7 @@ class WhereCriteriaTest extends TestCase
     }
 
     /**
-     * The Where Criteria shall parse the comparison operator
+     * The Where Criteria shall parse the comparison operator.
      *
      * @return void
      */

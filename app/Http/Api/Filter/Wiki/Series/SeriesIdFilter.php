@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter\Wiki\Series;
 
 use App\Http\Api\Filter\IntFilter;
-use Illuminate\Support\Collection;
 use App\Models\Wiki\Series;
+use Illuminate\Support\Collection;
 
 /**
  * Class SeriesIdFilter.

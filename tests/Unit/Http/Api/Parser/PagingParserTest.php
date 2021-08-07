@@ -47,7 +47,7 @@ class PagingParserTest extends TestCase
         $parameters = [
             PagingParser::$param => [
                 LimitCriteria::PARAM => $limit,
-            ]
+            ],
         ];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
@@ -72,7 +72,7 @@ class PagingParserTest extends TestCase
         $parameters = [
             PagingParser::$param => [
                 LimitCriteria::PARAM => $limit,
-            ]
+            ],
         ];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
@@ -113,7 +113,7 @@ class PagingParserTest extends TestCase
         $parameters = [
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => $size,
-            ]
+            ],
         ];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
@@ -138,7 +138,7 @@ class PagingParserTest extends TestCase
         $parameters = [
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => $size,
-            ]
+            ],
         ];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {

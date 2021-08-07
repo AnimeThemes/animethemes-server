@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter\Wiki\Song;
 
 use App\Http\Api\Filter\IntFilter;
-use Illuminate\Support\Collection;
 use App\Models\Wiki\Song;
+use Illuminate\Support\Collection;
 
 /**
  * Class SongIdFilter.

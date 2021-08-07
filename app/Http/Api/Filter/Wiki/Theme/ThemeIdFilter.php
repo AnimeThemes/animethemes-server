@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter\Wiki\Theme;
 
 use App\Http\Api\Filter\IntFilter;
-use Illuminate\Support\Collection;
 use App\Models\Wiki\Theme;
+use Illuminate\Support\Collection;
 
 /**
  * Class ThemeIdFilter.

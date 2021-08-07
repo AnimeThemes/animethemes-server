@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter\Admin\Announcement;
 
 use App\Http\Api\Filter\IntFilter;
-use Illuminate\Support\Collection;
 use App\Models\Admin\Announcement;
+use Illuminate\Support\Collection;
 
 /**
  * Class AnnouncementIdFilter.

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter\Billing\Balance;
 
 use App\Http\Api\Filter\IntFilter;
-use Illuminate\Support\Collection;
 use App\Models\Billing\Balance;
+use Illuminate\Support\Collection;
 
 /**
  * Class BalanceIdFilter.

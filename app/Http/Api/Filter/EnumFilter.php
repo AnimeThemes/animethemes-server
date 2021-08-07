@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter;
 
-use Illuminate\Support\Collection;
 use BenSampo\Enum\Enum;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**

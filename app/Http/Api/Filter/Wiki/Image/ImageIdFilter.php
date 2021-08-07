@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter\Wiki\Image;
 
 use App\Http\Api\Filter\IntFilter;
-use Illuminate\Support\Collection;
 use App\Models\Wiki\Image;
+use Illuminate\Support\Collection;
 
 /**
  * Class ImageIdFilter.

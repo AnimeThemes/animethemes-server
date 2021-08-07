@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter\Wiki\Entry;
 
 use App\Http\Api\Filter\IntFilter;
-use Illuminate\Support\Collection;
 use App\Models\Wiki\Entry;
+use Illuminate\Support\Collection;
 
 /**
  * Class EntryIdFilter.

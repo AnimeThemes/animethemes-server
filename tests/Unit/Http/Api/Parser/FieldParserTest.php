@@ -40,7 +40,7 @@ class FieldParserTest extends TestCase
         $parameters = [
             FieldParser::$param => [
                 $this->faker->word() => $fields->join(','),
-            ]
+            ],
         ];
 
         $criteria = FieldParser::parse($parameters)[0];
@@ -62,7 +62,7 @@ class FieldParserTest extends TestCase
         $parameters = [
             FieldParser::$param => [
                 $type => $fields->join(','),
-            ]
+            ],
         ];
 
         $criteria = FieldParser::parse($parameters)[0];
@@ -82,7 +82,7 @@ class FieldParserTest extends TestCase
         $parameters = [
             FieldParser::$param => [
                 $this->faker->word() => collect($fields)->join(','),
-            ]
+            ],
         ];
 
         $criteria = FieldParser::parse($parameters)[0];

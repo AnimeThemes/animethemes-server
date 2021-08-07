@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Api\Sort\Wiki\Anime;
 
 use App\Http\Api\Sort\Sort;
-use Illuminate\Support\Collection;
 use App\Models\Wiki\Anime;
+use Illuminate\Support\Collection;
 
 /**
  * Class AnimeIdSort.

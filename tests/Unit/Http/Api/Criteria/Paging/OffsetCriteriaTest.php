@@ -18,7 +18,6 @@ class OffsetCriteriaTest extends TestCase
 
     /**
      * By default, the Offset Criteria shall return the provided size.
-     *
      */
     public function testDefaultSize()
     {

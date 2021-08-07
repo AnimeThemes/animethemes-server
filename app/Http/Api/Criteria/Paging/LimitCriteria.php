@@ -34,7 +34,7 @@ class LimitCriteria extends Criteria
      * @param Builder $builder
      * @return Collection|Paginator
      */
-    public function apply(Builder $builder): Collection|Paginator
+    public function apply(Builder $builder): Collection | Paginator
     {
         return $builder->take($this->getResultSize())->get();
     }
@@ -45,7 +45,7 @@ class LimitCriteria extends Criteria
      * @param SearchRequestBuilder $builder
      * @return Collection|ElasticsearchPaginator
      */
-    public function applyElasticsearch(SearchRequestBuilder $builder): Collection|ElasticsearchPaginator
+    public function applyElasticsearch(SearchRequestBuilder $builder): Collection | ElasticsearchPaginator
     {
         return $builder
             ->size($this->getResultSize())

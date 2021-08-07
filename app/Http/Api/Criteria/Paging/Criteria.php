@@ -65,7 +65,7 @@ abstract class Criteria
      * @param Builder $builder
      * @return Collection|EloquentPaginator
      */
-    abstract public function apply(Builder $builder): Collection|EloquentPaginator;
+    abstract public function apply(Builder $builder): Collection | EloquentPaginator;
 
     /**
      * Paginate the search query.
@@ -73,5 +73,5 @@ abstract class Criteria
      * @param SearchRequestBuilder $builder
      * @return Collection|ElasticsearchPaginator
      */
-    abstract public function applyElasticsearch(SearchRequestBuilder $builder): Collection|ElasticsearchPaginator;
+    abstract public function applyElasticsearch(SearchRequestBuilder $builder): Collection | ElasticsearchPaginator;
 }

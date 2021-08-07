@@ -38,7 +38,7 @@ class QueryTest extends TestCase
         $parameters = [
             FieldParser::$param => [
                 $type => $this->faker->word(),
-            ]
+            ],
         ];
 
         $query = Query::make($parameters);
@@ -74,7 +74,7 @@ class QueryTest extends TestCase
         $parameters = [
             IncludeParser::$param => [
                 $type => $this->faker->word(),
-            ]
+            ],
         ];
 
         $query = Query::make($parameters);

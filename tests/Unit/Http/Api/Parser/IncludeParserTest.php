@@ -77,7 +77,7 @@ class IncludeParserTest extends TestCase
         $parameters = [
             IncludeParser::$param => [
                 $this->faker->word() => $fields->join(','),
-            ]
+            ],
         ];
 
         $criteria = IncludeParser::parse($parameters)[0];
@@ -99,7 +99,7 @@ class IncludeParserTest extends TestCase
         $parameters = [
             IncludeParser::$param => [
                 $type => $fields->join(','),
-            ]
+            ],
         ];
 
         $criteria = IncludeParser::parse($parameters)[0];
@@ -122,7 +122,7 @@ class IncludeParserTest extends TestCase
         $parameters = [
             IncludeParser::$param => [
                 $this->faker->word() => collect($fields)->join(','),
-            ]
+            ],
         ];
 
         $criteria = IncludeParser::parse($parameters)[0];
