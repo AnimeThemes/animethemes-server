@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\EntryCollection;
 use App\Models\Wiki\Theme;
@@ -29,12 +29,12 @@ class ThemeResource extends BaseResource
      * Create a new resource instance.
      *
      * @param Theme | MissingValue | null $theme
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(Theme | MissingValue | null $theme, QueryParser $parser)
+    public function __construct(Theme | MissingValue | null $theme, Query $query)
     {
-        parent::__construct($theme, $parser);
+        parent::__construct($theme, $query);
     }
 
     /**
@@ -56,9 +56,9 @@ class ThemeResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->parser),
-            'song' => SongResource::make($this->whenLoaded('song'), $this->parser),
-            'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->parser),
+            'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->query),
+            'song' => SongResource::make($this->whenLoaded('song'), $this->query),
+            'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->query),
         ];
     }
 

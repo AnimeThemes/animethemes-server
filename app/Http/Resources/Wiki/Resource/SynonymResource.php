@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Models\Wiki\Synonym;
 use Illuminate\Http\Request;
@@ -28,12 +28,12 @@ class SynonymResource extends BaseResource
      * Create a new resource instance.
      *
      * @param Synonym | MissingValue | null $synonym
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(Synonym | MissingValue | null $synonym, QueryParser $parser)
+    public function __construct(Synonym | MissingValue | null $synonym, Query $query)
     {
-        parent::__construct($synonym, $parser);
+        parent::__construct($synonym, $query);
     }
 
     /**
@@ -52,7 +52,7 @@ class SynonymResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->parser),
+            'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->query),
         ];
     }
 

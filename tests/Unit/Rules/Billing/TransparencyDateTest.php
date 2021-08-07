@@ -6,9 +6,9 @@ namespace Tests\Unit\Rules\Billing;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Rules\Billing\TransparencyDateRule;
-use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
 
 /**
@@ -25,7 +25,7 @@ class TransparencyDateTest extends TestCase
      */
     public function testStringInvalid()
     {
-        $validDates = collect([Carbon::now()]);
+        $validDates = collect([Date::now()]);
 
         $rule = new TransparencyDateRule($validDates);
 
@@ -39,7 +39,7 @@ class TransparencyDateTest extends TestCase
      */
     public function testIntInvalid()
     {
-        $validDates = collect([Carbon::now()]);
+        $validDates = collect([Date::now()]);
 
         $rule = new TransparencyDateRule($validDates);
 
@@ -53,11 +53,11 @@ class TransparencyDateTest extends TestCase
      */
     public function testInvalidDateFormat()
     {
-        $validDates = collect([Carbon::now()]);
+        $validDates = collect([Date::now()]);
 
         $rule = new TransparencyDateRule($validDates);
 
-        $formattedDate = Carbon::now()->format(DateTimeInterface::RFC822);
+        $formattedDate = Date::now()->format(DateTimeInterface::RFC822);
 
         static::assertFalse($rule->passes($this->faker->word(), $formattedDate));
     }
@@ -69,11 +69,11 @@ class TransparencyDateTest extends TestCase
      */
     public function testInvalidDateOption()
     {
-        $validDates = collect([Carbon::now()]);
+        $validDates = collect([Date::now()]);
 
         $rule = new TransparencyDateRule($validDates);
 
-        $formattedDate = Carbon::now()->subMonths($this->faker->randomDigitNotNull())->format(AllowedDateFormat::YM);
+        $formattedDate = Date::now()->subMonths($this->faker->randomDigitNotNull())->format(AllowedDateFormat::YM);
 
         static::assertFalse($rule->passes($this->faker->word(), $formattedDate));
     }
@@ -85,11 +85,11 @@ class TransparencyDateTest extends TestCase
      */
     public function testValidDateOption()
     {
-        $validDates = collect([Carbon::now()]);
+        $validDates = collect([Date::now()]);
 
         $rule = new TransparencyDateRule($validDates);
 
-        $formattedDate = Carbon::now()->format(AllowedDateFormat::YM);
+        $formattedDate = Date::now()->format(AllowedDateFormat::YM);
 
         static::assertTrue($rule->passes($this->faker->word(), $formattedDate));
     }

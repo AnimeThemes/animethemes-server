@@ -6,7 +6,7 @@ namespace App\Http\Api\Filter\Billing\Balance;
 
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Http\Api\Filter\EnumFilter;
-use App\Http\Api\QueryParser;
+use Illuminate\Support\Collection;
 
 /**
  * Class BalanceFrequencyFilter.
@@ -16,10 +16,10 @@ class BalanceFrequencyFilter extends EnumFilter
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection $criteria
      */
-    public function __construct(QueryParser $parser)
+    public function __construct(Collection $criteria)
     {
-        parent::__construct($parser, 'frequency', BalanceFrequency::class);
+        parent::__construct($criteria, 'frequency', BalanceFrequency::class);
     }
 }

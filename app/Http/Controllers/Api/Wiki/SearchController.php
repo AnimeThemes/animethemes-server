@@ -22,7 +22,7 @@ class SearchController extends BaseController
      */
     public function show(Request $request): JsonResponse
     {
-        $resource = SearchResource::make($this->parser);
+        $resource = SearchResource::make($this->query);
 
         return $resource->toResponse($request);
     }

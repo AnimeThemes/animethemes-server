@@ -30,8 +30,6 @@ class SeriesPolicyTest extends TestCase
         $policy = new SeriesPolicy();
 
         static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -43,8 +41,6 @@ class SeriesPolicyTest extends TestCase
     {
         $policy = new SeriesPolicy();
 
-        static::assertTrue($policy->view());
-        static::assertTrue($policy->view());
         static::assertTrue($policy->view());
     }
 

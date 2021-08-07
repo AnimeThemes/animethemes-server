@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Billing\Transaction;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\Billing\Transaction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -35,7 +37,7 @@ class TransactionShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionResource::make($transaction, QueryParser::make())
+                    TransactionResource::make($transaction, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -62,7 +64,7 @@ class TransactionShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionResource::make($transaction, QueryParser::make())
+                    TransactionResource::make($transaction, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -82,7 +84,7 @@ class TransactionShowTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Transaction::factory()->create();
@@ -93,7 +95,7 @@ class TransactionShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionResource::make($transaction, QueryParser::make($parameters))
+                    TransactionResource::make($transaction, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -124,7 +126,7 @@ class TransactionShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 TransactionResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -136,7 +138,7 @@ class TransactionShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionResource::make($transaction, QueryParser::make($parameters))
+                    TransactionResource::make($transaction, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

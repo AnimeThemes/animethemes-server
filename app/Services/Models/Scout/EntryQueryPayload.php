@@ -34,18 +34,18 @@ class EntryQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('version')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('version')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('version')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -53,18 +53,18 @@ class EntryQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('version_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('version_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('version_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -72,18 +72,18 @@ class EntryQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('anime_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('anime_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('anime_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -91,18 +91,18 @@ class EntryQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('synonym_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('synonym_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('synonym_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -116,7 +116,7 @@ class EntryQueryPayload extends ElasticQueryPayload
                     ->query(
                         (new MatchPhraseQueryBuilder())
                         ->field('theme.anime.name')
-                        ->query($this->parser->getSearch())
+                        ->query($this->criteria->getTerm())
                     )
                 )
             )
@@ -129,7 +129,7 @@ class EntryQueryPayload extends ElasticQueryPayload
                     ->query(
                         (new MatchQueryBuilder())
                         ->field('theme.anime.name')
-                        ->query($this->parser->getSearch())
+                        ->query($this->criteria->getTerm())
                         ->operator('AND')
                     )
                 )
@@ -143,7 +143,7 @@ class EntryQueryPayload extends ElasticQueryPayload
                     ->query(
                         (new MatchQueryBuilder())
                         ->field('theme.anime.name')
-                        ->query($this->parser->getSearch())
+                        ->query($this->criteria->getTerm())
                         ->operator('AND')
                         ->lenient(true)
                         ->fuzziness('AUTO')
@@ -162,7 +162,7 @@ class EntryQueryPayload extends ElasticQueryPayload
                         ->query(
                             (new MatchPhraseQueryBuilder())
                             ->field('theme.anime.synonyms.text')
-                            ->query($this->parser->getSearch())
+                            ->query($this->criteria->getTerm())
                         )
                     )
                 )
@@ -179,7 +179,7 @@ class EntryQueryPayload extends ElasticQueryPayload
                         ->query(
                             (new MatchQueryBuilder())
                             ->field('theme.anime.synonyms.text')
-                            ->query($this->parser->getSearch())
+                            ->query($this->criteria->getTerm())
                             ->operator('AND')
                         )
                     )
@@ -197,7 +197,7 @@ class EntryQueryPayload extends ElasticQueryPayload
                         ->query(
                             (new MatchQueryBuilder())
                             ->field('theme.anime.synonyms.text')
-                            ->query($this->parser->getSearch())
+                            ->query($this->criteria->getTerm())
                             ->operator('AND')
                             ->lenient(true)
                             ->fuzziness('AUTO')
@@ -214,7 +214,7 @@ class EntryQueryPayload extends ElasticQueryPayload
                     ->query(
                         (new MatchPhraseQueryBuilder())
                         ->field('theme.song.title')
-                        ->query($this->parser->getSearch())
+                        ->query($this->criteria->getTerm())
                     )
                 )
             )
@@ -227,7 +227,7 @@ class EntryQueryPayload extends ElasticQueryPayload
                     ->query(
                         (new MatchQueryBuilder())
                         ->field('theme.song.title')
-                        ->query($this->parser->getSearch())
+                        ->query($this->criteria->getTerm())
                         ->operator('AND')
                     )
                 )
@@ -241,7 +241,7 @@ class EntryQueryPayload extends ElasticQueryPayload
                     ->query(
                         (new MatchQueryBuilder())
                         ->field('theme.song.title')
-                        ->query($this->parser->getSearch())
+                        ->query($this->criteria->getTerm())
                         ->operator('AND')
                         ->lenient(true)
                         ->fuzziness('AUTO')

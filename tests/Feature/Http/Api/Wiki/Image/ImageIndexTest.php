@@ -7,7 +7,14 @@ namespace Tests\Feature\Http\Api\Wiki\Image;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Criteria\Paging\Criteria;
+use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Parser\PagingParser;
+use App\Http\Api\Parser\SortParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Collection\ImageCollection;
 use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Anime;
@@ -18,7 +25,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -47,7 +53,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, QueryParser::make())
+                    ImageCollection::make($images, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -85,7 +91,7 @@ class ImageIndexTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Image::factory()
@@ -101,7 +107,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, QueryParser::make($parameters))
+                    ImageCollection::make($images, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -118,7 +124,7 @@ class ImageIndexTest extends TestCase
     public function testSparseFieldsets()
     {
         $fields = collect([
-            'image_id',
+            'id',
             'created_at',
             'updated_at',
             'deleted_at',
@@ -131,7 +137,7 @@ class ImageIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 ImageResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -145,7 +151,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, QueryParser::make($parameters))
+                    ImageCollection::make($images, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -161,8 +167,20 @@ class ImageIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowedSorts = collect(ImageCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
+        $allowedSorts = collect([
+            'id',
+            'created_at',
+            'updated_at',
+            'deleted_at',
+            'path',
+            'size',
+            'mimetype',
+            'facet',
+        ]);
+
+        $sortCount = $this->faker->numberBetween(1, count($allowedSorts));
+
+        $includedSorts = $allowedSorts->random($sortCount)->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -173,17 +191,17 @@ class ImageIndexTest extends TestCase
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $includedSorts->join(','),
+            SortParser::$param => $includedSorts->join(','),
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
         Image::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = Image::query();
 
-        foreach ($parser->getSorts() as $field => $isAsc) {
-            $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+        foreach (ImageCollection::sorts($query->getSortCriteria()) as $sort) {
+            $builder = $sort->applySort($builder);
         }
 
         $response = $this->get(route('api.image.index', $parameters));
@@ -191,7 +209,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($builder->get(), QueryParser::make($parameters))
+                    ImageCollection::make($builder->get(), Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -211,11 +229,11 @@ class ImageIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'created_at' => $createdFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -234,7 +252,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, QueryParser::make($parameters))
+                    ImageCollection::make($image, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -254,11 +272,11 @@ class ImageIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'updated_at' => $updatedFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -277,7 +295,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, QueryParser::make($parameters))
+                    ImageCollection::make($image, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -294,11 +312,11 @@ class ImageIndexTest extends TestCase
     public function testWithoutTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITHOUT,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -316,7 +334,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, QueryParser::make($parameters))
+                    ImageCollection::make($image, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -333,11 +351,11 @@ class ImageIndexTest extends TestCase
     public function testWithTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -355,7 +373,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, QueryParser::make($parameters))
+                    ImageCollection::make($image, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -372,11 +390,11 @@ class ImageIndexTest extends TestCase
     public function testOnlyTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::ONLY,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -394,7 +412,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, QueryParser::make($parameters))
+                    ImageCollection::make($image, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -414,12 +432,12 @@ class ImageIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -444,7 +462,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, QueryParser::make($parameters))
+                    ImageCollection::make($image, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -463,7 +481,7 @@ class ImageIndexTest extends TestCase
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'facet' => $facetFilter->key,
             ],
         ];
@@ -479,7 +497,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, QueryParser::make($parameters))
+                    ImageCollection::make($images, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -498,10 +516,10 @@ class ImageIndexTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'season' => $seasonFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Image::factory()
@@ -521,7 +539,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, QueryParser::make($parameters))
+                    ImageCollection::make($images, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -541,10 +559,10 @@ class ImageIndexTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Image::factory()
@@ -570,7 +588,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, QueryParser::make($parameters))
+                    ImageCollection::make($images, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

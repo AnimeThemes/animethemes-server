@@ -28,8 +28,6 @@ class SynonymPolicyTest extends TestCase
         $policy = new SynonymPolicy();
 
         static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -41,8 +39,6 @@ class SynonymPolicyTest extends TestCase
     {
         $policy = new SynonymPolicy();
 
-        static::assertTrue($policy->view());
-        static::assertTrue($policy->view());
         static::assertTrue($policy->view());
     }
 

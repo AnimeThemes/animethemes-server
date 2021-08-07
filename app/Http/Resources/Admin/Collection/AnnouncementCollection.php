@@ -4,12 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Admin\Collection;
 
+use App\Http\Api\Criteria\Filter\Criteria as FilterCriteria;
+use App\Http\Api\Criteria\Sort\Criteria;
 use App\Http\Api\Filter\Admin\Announcement\AnnouncementContentFilter;
 use App\Http\Api\Filter\Admin\Announcement\AnnouncementIdFilter;
+use App\Http\Api\Filter\Filter;
+use App\Http\Api\Sort\Admin\Announcement\AnnouncementContentSort;
+use App\Http\Api\Sort\Admin\Announcement\AnnouncementIdSort;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Http\Resources\BaseCollection;
 use App\Models\Admin\Announcement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  * Class AnnouncementCollection.
@@ -41,7 +48,7 @@ class AnnouncementCollection extends BaseCollection
     public function toArray($request): array
     {
         return $this->collection->map(function (Announcement $announcement) {
-            return AnnouncementResource::make($announcement, $this->parser);
+            return AnnouncementResource::make($announcement, $this->query);
         })->all();
     }
 
@@ -56,32 +63,35 @@ class AnnouncementCollection extends BaseCollection
     }
 
     /**
-     * The sort field names a client is allowed to request.
+     * The sorts that can be applied by the client for this resource.
      *
-     * @return string[]
+     * @param Collection<Criteria> $sortCriteria
+     * @return Sort[]
      */
-    public static function allowedSortFields(): array
+    public static function sorts(Collection $sortCriteria): array
     {
-        return [
-            'announcement_id',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ];
+        return array_merge(
+            parent::sorts($sortCriteria),
+            [
+                new AnnouncementIdSort($sortCriteria),
+                new AnnouncementContentSort($sortCriteria),
+            ]
+        );
     }
 
     /**
      * The filters that can be applied by the client for this resource.
      *
-     * @return string[]
+     * @param Collection<FilterCriteria> $filterCriteria
+     * @return Filter[]
      */
-    public static function filters(): array
+    public static function filters(Collection $filterCriteria): array
     {
         return array_merge(
-            parent::filters(),
+            parent::filters($filterCriteria),
             [
-                AnnouncementIdFilter::class,
-                AnnouncementContentFilter::class,
+                new AnnouncementIdFilter($filterCriteria),
+                new AnnouncementContentFilter($filterCriteria),
             ]
         );
     }

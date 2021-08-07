@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
-use App\Enums\Http\Api\PaginationStrategy;
+use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
 use App\Http\Resources\Wiki\Resource\VideoResource;
@@ -25,11 +25,11 @@ class VideoController extends BaseController
      */
     public function index(Request $request): JsonResponse
     {
-        if ($this->parser->hasSearch()) {
-            return VideoCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse($request);
+        if ($this->query->hasSearchCriteria()) {
+            return VideoCollection::performSearch($this->query, PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return VideoCollection::performQuery($this->parser)->toResponse($request);
+        return VideoCollection::performQuery($this->query)->toResponse($request);
     }
 
     /**
@@ -41,7 +41,7 @@ class VideoController extends BaseController
      */
     public function show(Request $request, Video $video): JsonResponse
     {
-        $resource = VideoResource::performQuery($video, $this->parser);
+        $resource = VideoResource::performQuery($video, $this->query);
 
         return $resource->toResponse($request);
     }

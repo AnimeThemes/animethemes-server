@@ -24,7 +24,7 @@ class ExternalResourceController extends BaseController
      */
     public function index(Request $request): JsonResponse
     {
-        $resources = ExternalResourceCollection::performQuery($this->parser);
+        $resources = ExternalResourceCollection::performQuery($this->query);
 
         return $resources->toResponse($request);
     }
@@ -38,7 +38,7 @@ class ExternalResourceController extends BaseController
      */
     public function show(Request $request, ExternalResource $resource): JsonResponse
     {
-        $resource = ExternalResourceResource::performQuery($resource, $this->parser);
+        $resource = ExternalResourceResource::performQuery($resource, $this->query);
 
         return $resource->toResponse($request);
     }

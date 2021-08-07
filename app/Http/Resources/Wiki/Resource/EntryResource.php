@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
 use App\Models\Wiki\Entry;
@@ -29,12 +29,12 @@ class EntryResource extends BaseResource
      * Create a new resource instance.
      *
      * @param Entry | MissingValue | null $entry
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(Entry | MissingValue | null $entry, QueryParser $parser)
+    public function __construct(Entry | MissingValue | null $entry, Query $query)
     {
-        parent::__construct($entry, $parser);
+        parent::__construct($entry, $query);
     }
 
     /**
@@ -57,8 +57,8 @@ class EntryResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'theme' => ThemeResource::make($this->whenLoaded('theme'), $this->parser),
-            'videos' => VideoCollection::make($this->whenLoaded('videos'), $this->parser),
+            'theme' => ThemeResource::make($this->whenLoaded('theme'), $this->query),
+            'videos' => VideoCollection::make($this->whenLoaded('videos'), $this->query),
         ];
     }
 

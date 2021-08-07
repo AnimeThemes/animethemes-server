@@ -6,7 +6,7 @@ namespace App\Http\Api\Filter\Wiki\Video;
 
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Http\Api\Filter\EnumFilter;
-use App\Http\Api\QueryParser;
+use Illuminate\Support\Collection;
 
 /**
  * Class VideoOverlapFilter.
@@ -16,10 +16,10 @@ class VideoOverlapFilter extends EnumFilter
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection $criteria
      */
-    public function __construct(QueryParser $parser)
+    public function __construct(Collection $criteria)
     {
-        parent::__construct($parser, 'overlap', VideoOverlap::class);
+        parent::__construct($criteria, 'overlap', VideoOverlap::class);
     }
 }

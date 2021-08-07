@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Synonym;
 
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Resource\SynonymResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Synonym;
@@ -40,7 +43,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, QueryParser::make())
+                    SynonymResource::make($synonym, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -67,7 +70,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, QueryParser::make())
+                    SynonymResource::make($synonym, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -87,7 +90,7 @@ class SynonymShowTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Synonym::factory()->for(Anime::factory())->create();
@@ -99,7 +102,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, QueryParser::make($parameters))
+                    SynonymResource::make($synonym, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -126,7 +129,7 @@ class SynonymShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 SynonymResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -140,7 +143,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, QueryParser::make($parameters))
+                    SynonymResource::make($synonym, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -159,10 +162,10 @@ class SynonymShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'season' => $seasonFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Synonym::factory()->for(Anime::factory())->create();
@@ -179,7 +182,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, QueryParser::make($parameters))
+                    SynonymResource::make($synonym, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -199,10 +202,10 @@ class SynonymShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Synonym::factory()
@@ -226,7 +229,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, QueryParser::make($parameters))
+                    SynonymResource::make($synonym, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

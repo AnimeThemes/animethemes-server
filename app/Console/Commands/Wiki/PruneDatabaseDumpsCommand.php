@@ -7,6 +7,7 @@ namespace App\Console\Commands\Wiki;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -61,7 +62,7 @@ class PruneDatabaseDumpsCommand extends Command
 
         $this->prune(
             Storage::disk('db-dumps'),
-            Carbon::now()->subHours(intval($hours))
+            Date::now()->subHours(intval($hours))
         );
 
         $this->printResults();
@@ -72,16 +73,16 @@ class PruneDatabaseDumpsCommand extends Command
     /**
      * Prune database dumps in filesystem against date.
      *
-     * @param Filesystem $fs
+     * @param Filesystem $filesystem
      * @param Carbon $pruneDate
      * @return void
      */
-    protected function prune(Filesystem $fs, Carbon $pruneDate)
+    protected function prune(Filesystem $filesystem, Carbon $pruneDate)
     {
-        foreach ($fs->allFiles() as $path) {
-            $lastModified = Carbon::createFromTimestamp($fs->lastModified($path));
+        foreach ($filesystem->allFiles() as $path) {
+            $lastModified = Date::createFromTimestamp($filesystem->lastModified($path));
             if (Str::contains($path, 'animethemes-db-dump') && $lastModified->isBefore($pruneDate)) {
-                $result = $fs->delete($path);
+                $result = $filesystem->delete($path);
                 if ($result) {
                     $this->deleted++;
                     Log::info("Deleted database dump '{$path}'");

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Http\Api\Filter;
 
 use App\Http\Api\Filter\Filter;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Query;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -17,19 +18,19 @@ class FilterTest extends TestCase
     use WithFaker;
 
     /**
-     * The filter key shall be accessible.
+     * By default, the filter column shall be derived from the filter key.
      *
      * @return void
      */
-    public function testGetKey()
+    public function testDefaultColumn()
     {
         $filterField = $this->faker->word();
 
         $parameters = [];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
-        $filter = new class($parser, $filterField) extends Filter
+        $filter = new class($query->getFilterCriteria(), $filterField) extends Filter
         {
             /**
              * Convert filter values to integers.
@@ -66,68 +67,7 @@ class FilterTest extends TestCase
             }
         };
 
-        static::assertEquals($filterField, $filter->getKey());
-    }
-
-    /**
-     * The filter values shall be accessible through conditions.
-     *
-     * @return void
-     */
-    public function testGetValues()
-    {
-        $filterField = $this->faker->word();
-
-        $filterValues = $this->faker->words($this->faker->randomDigitNotNull());
-
-        $parameters = [
-            QueryParser::PARAM_FILTER => [
-                $filterField => implode(',', $filterValues),
-            ],
-        ];
-
-        $parser = QueryParser::make($parameters);
-
-        $filter = new class($parser, $filterField) extends Filter
-        {
-            /**
-             * Convert filter values to integers.
-             *
-             * @param array $filterValues
-             * @return array
-             */
-            protected function convertFilterValues(array $filterValues): array
-            {
-                return $filterValues;
-            }
-
-            /**
-             * Get only filter values that are integers.
-             *
-             * @param array $filterValues
-             * @return array
-             */
-            protected function getValidFilterValues(array $filterValues): array
-            {
-                return $filterValues;
-            }
-
-            /**
-             * Determine if all valid filter values have been specified.
-             * By default, this is false as we assume an unrestricted amount of valid values.
-             *
-             * @param array $filterValues
-             * @return bool
-             */
-            protected function isAllFilterValues(array $filterValues): bool
-            {
-                return false;
-            }
-        };
-
-        $conditions = collect($filter->getConditions());
-
-        static::assertEmpty(array_diff($filterValues, $filter->getFilterValues($conditions->first())));
+        static::assertEquals($filter->getKey(), $filter->getColumn());
     }
 
     /**
@@ -140,14 +80,14 @@ class FilterTest extends TestCase
         $filterField = $this->faker->word();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 $filterField => $this->faker->word(),
             ],
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
-        $filter = new class($parser, $filterField) extends Filter
+        $filter = new class($query->getFilterCriteria(), $filterField) extends Filter
         {
             /**
              * Convert filter values to integers.
@@ -184,7 +124,9 @@ class FilterTest extends TestCase
             }
         };
 
-        static::assertTrue($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        $criteria = $query->getFilterCriteria()->first();
+
+        static::assertTrue($filter->shouldApplyFilter($criteria));
     }
 
     /**
@@ -198,16 +140,16 @@ class FilterTest extends TestCase
         $filterField = $this->faker->word();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 $scope => [
                     $filterField => $this->faker->word(),
                 ],
             ],
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
-        $filter = new class($parser, $filterField) extends Filter
+        $filter = new class($query->getFilterCriteria(), $filterField) extends Filter
         {
             /**
              * Convert filter values to integers.
@@ -244,9 +186,9 @@ class FilterTest extends TestCase
             }
         };
 
-        $condition = $parser->getConditions($filterField)[0];
+        $criteria = $query->getFilterCriteria()->first();
 
-        static::assertFalse($filter->scope($this->faker->word())->shouldApplyFilter($condition));
+        static::assertFalse($filter->scope($this->faker->word())->shouldApplyFilter($criteria));
     }
 
     /**
@@ -260,16 +202,16 @@ class FilterTest extends TestCase
         $filterField = $this->faker->word();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 $scope => [
                     $filterField => $this->faker->word(),
                 ],
             ],
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
-        $filter = new class($parser, $filterField) extends Filter
+        $filter = new class($query->getFilterCriteria(), $filterField) extends Filter
         {
             /**
              * Convert filter values to integers.
@@ -306,7 +248,9 @@ class FilterTest extends TestCase
             }
         };
 
-        static::assertTrue($filter->scope($scope)->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        $criteria = $query->getFilterCriteria()->first();
+
+        static::assertTrue($filter->scope($scope)->shouldApplyFilter($criteria));
     }
 
     /**
@@ -320,9 +264,9 @@ class FilterTest extends TestCase
 
         $parameters = [];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
-        $filter = new class($parser, $filterField) extends Filter
+        $filter = new class($query->getFilterCriteria(), $filterField) extends Filter
         {
             /**
              * Convert filter values to integers.
@@ -374,9 +318,9 @@ class FilterTest extends TestCase
 
         $parameters = [];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
-        $filter = new class($parser, $filterField) extends Filter
+        $filter = new class($query->getFilterCriteria(), $filterField) extends Filter
         {
             /**
              * Convert filter values to integers.

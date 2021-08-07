@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Anime;
 
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
@@ -41,7 +43,7 @@ class YearShowTest extends TestCase
             ]);
 
         $winterAnime = Anime::query()->where('season', AnimeSeason::WINTER)->get();
-        $winterResources = AnimeCollection::make($winterAnime->sortBy('name')->values(), QueryParser::make());
+        $winterResources = AnimeCollection::make($winterAnime->sortBy('name')->values(), Query::make());
 
         Anime::factory()
             ->count($this->faker->numberBetween(1, 3))
@@ -51,7 +53,7 @@ class YearShowTest extends TestCase
             ]);
 
         $springAnime = Anime::query()->where('season', AnimeSeason::SPRING)->get();
-        $springResources = AnimeCollection::make($springAnime->sortBy('name')->values(), QueryParser::make());
+        $springResources = AnimeCollection::make($springAnime->sortBy('name')->values(), Query::make());
 
         Anime::factory()
             ->count($this->faker->numberBetween(1, 3))
@@ -61,7 +63,7 @@ class YearShowTest extends TestCase
             ]);
 
         $summerAnime = Anime::query()->where('season', AnimeSeason::SUMMER)->get();
-        $summerResources = AnimeCollection::make($summerAnime->sortBy('name')->values(), QueryParser::make());
+        $summerResources = AnimeCollection::make($summerAnime->sortBy('name')->values(), Query::make());
 
         Anime::factory()
             ->count($this->faker->numberBetween(1, 3))
@@ -71,7 +73,7 @@ class YearShowTest extends TestCase
             ]);
 
         $fallAnime = Anime::query()->where('season', AnimeSeason::FALL)->get();
-        $fallResources = AnimeCollection::make($fallAnime->sortBy('name')->values(), QueryParser::make());
+        $fallResources = AnimeCollection::make($fallAnime->sortBy('name')->values(), Query::make());
 
         $response = $this->get(route('api.year.show', ['year' => $year]));
 
@@ -96,7 +98,7 @@ class YearShowTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Anime::factory()
@@ -108,7 +110,7 @@ class YearShowTest extends TestCase
             ]);
 
         $winterAnime = Anime::query()->where('season', AnimeSeason::WINTER)->with($includedPaths->all())->get();
-        $winterResources = AnimeCollection::make($winterAnime->sortBy('name')->values(), QueryParser::make($parameters));
+        $winterResources = AnimeCollection::make($winterAnime->sortBy('name')->values(), Query::make($parameters));
 
         Anime::factory()
             ->count($this->faker->numberBetween(1, 3))
@@ -119,7 +121,7 @@ class YearShowTest extends TestCase
             ]);
 
         $springAnime = Anime::query()->where('season', AnimeSeason::SPRING)->with($includedPaths->all())->get();
-        $springResources = AnimeCollection::make($springAnime->sortBy('name')->values(), QueryParser::make($parameters));
+        $springResources = AnimeCollection::make($springAnime->sortBy('name')->values(), Query::make($parameters));
 
         Anime::factory()
             ->count($this->faker->numberBetween(1, 3))
@@ -130,7 +132,7 @@ class YearShowTest extends TestCase
             ]);
 
         $summerAnime = Anime::query()->where('season', AnimeSeason::SUMMER)->with($includedPaths->all())->get();
-        $summerResources = AnimeCollection::make($summerAnime->sortBy('name')->values(), QueryParser::make($parameters));
+        $summerResources = AnimeCollection::make($summerAnime->sortBy('name')->values(), Query::make($parameters));
 
         Anime::factory()
             ->count($this->faker->numberBetween(1, 3))
@@ -141,7 +143,7 @@ class YearShowTest extends TestCase
             ]);
 
         $fallAnime = Anime::query()->where('season', AnimeSeason::FALL)->with($includedPaths->all())->get();
-        $fallResources = AnimeCollection::make($fallAnime->sortBy('name')->values(), QueryParser::make($parameters));
+        $fallResources = AnimeCollection::make($fallAnime->sortBy('name')->values(), Query::make($parameters));
 
         $response = $this->get(route('api.year.show', ['year' => $year] + $parameters));
 
@@ -179,7 +181,7 @@ class YearShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 AnimeResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -192,7 +194,7 @@ class YearShowTest extends TestCase
             ]);
 
         $winterAnime = Anime::query()->where('season', AnimeSeason::WINTER)->get();
-        $winterResources = AnimeCollection::make($winterAnime->sortBy('name')->values(), QueryParser::make($parameters));
+        $winterResources = AnimeCollection::make($winterAnime->sortBy('name')->values(), Query::make($parameters));
 
         Anime::factory()
             ->count($this->faker->numberBetween(1, 3))
@@ -202,7 +204,7 @@ class YearShowTest extends TestCase
             ]);
 
         $springAnime = Anime::query()->where('season', AnimeSeason::SPRING)->get();
-        $springResources = AnimeCollection::make($springAnime->sortBy('name')->values(), QueryParser::make($parameters));
+        $springResources = AnimeCollection::make($springAnime->sortBy('name')->values(), Query::make($parameters));
 
         Anime::factory()
             ->count($this->faker->numberBetween(1, 3))
@@ -212,7 +214,7 @@ class YearShowTest extends TestCase
             ]);
 
         $summerAnime = Anime::query()->where('season', AnimeSeason::SUMMER)->get();
-        $summerResources = AnimeCollection::make($summerAnime->sortBy('name')->values(), QueryParser::make($parameters));
+        $summerResources = AnimeCollection::make($summerAnime->sortBy('name')->values(), Query::make($parameters));
 
         Anime::factory()
             ->count($this->faker->numberBetween(1, 3))
@@ -222,7 +224,7 @@ class YearShowTest extends TestCase
             ]);
 
         $fallAnime = Anime::query()->where('season', AnimeSeason::FALL)->get();
-        $fallResources = AnimeCollection::make($fallAnime->sortBy('name')->values(), QueryParser::make($parameters));
+        $fallResources = AnimeCollection::make($fallAnime->sortBy('name')->values(), Query::make($parameters));
 
         $response = $this->get(route('api.year.show', ['year' => $year]));
 

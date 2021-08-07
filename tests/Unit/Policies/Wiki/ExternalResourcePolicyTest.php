@@ -28,8 +28,6 @@ class ExternalResourcePolicyTest extends TestCase
         $policy = new ExternalResourcePolicy();
 
         static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -41,8 +39,6 @@ class ExternalResourcePolicyTest extends TestCase
     {
         $policy = new ExternalResourcePolicy();
 
-        static::assertTrue($policy->view());
-        static::assertTrue($policy->view());
         static::assertTrue($policy->view());
     }
 

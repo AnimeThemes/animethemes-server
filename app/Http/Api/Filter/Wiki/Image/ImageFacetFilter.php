@@ -6,7 +6,7 @@ namespace App\Http\Api\Filter\Wiki\Image;
 
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Http\Api\Filter\EnumFilter;
-use App\Http\Api\QueryParser;
+use Illuminate\Support\Collection;
 
 /**
  * Class ImageFacetFilter.
@@ -16,10 +16,10 @@ class ImageFacetFilter extends EnumFilter
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection $criteria
      */
-    public function __construct(QueryParser $parser)
+    public function __construct(Collection $criteria)
     {
-        parent::__construct($parser, 'facet', ImageFacet::class);
+        parent::__construct($criteria, 'facet', ImageFacet::class);
     }
 }

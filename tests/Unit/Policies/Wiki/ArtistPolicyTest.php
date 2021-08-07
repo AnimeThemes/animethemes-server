@@ -30,8 +30,6 @@ class ArtistPolicyTest extends TestCase
         $policy = new ArtistPolicy();
 
         static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -43,8 +41,6 @@ class ArtistPolicyTest extends TestCase
     {
         $policy = new ArtistPolicy();
 
-        static::assertTrue($policy->view());
-        static::assertTrue($policy->view());
         static::assertTrue($policy->view());
     }
 

@@ -34,18 +34,18 @@ class ThemeQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -53,18 +53,18 @@ class ThemeQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('anime_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('anime_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('anime_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -72,18 +72,18 @@ class ThemeQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('synonym_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('synonym_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('synonym_slug')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -94,7 +94,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
                 ->query(
                     (new MatchPhraseQueryBuilder())
                     ->field('anime.name')
-                    ->query($this->parser->getSearch())
+                    ->query($this->criteria->getTerm())
                 )
             )
             ->should(
@@ -103,7 +103,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
                 ->query(
                     (new MatchQueryBuilder())
                     ->field('anime.name')
-                    ->query($this->parser->getSearch())
+                    ->query($this->criteria->getTerm())
                     ->operator('AND')
                 )
             )
@@ -113,7 +113,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
                 ->query(
                     (new MatchQueryBuilder())
                     ->field('anime.name')
-                    ->query($this->parser->getSearch())
+                    ->query($this->criteria->getTerm())
                     ->operator('AND')
                     ->lenient(true)
                     ->fuzziness('AUTO')
@@ -128,7 +128,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
                     ->query(
                         (new MatchPhraseQueryBuilder())
                         ->field('anime.synonyms.text')
-                        ->query($this->parser->getSearch())
+                        ->query($this->criteria->getTerm())
                     )
                 )
             )
@@ -141,7 +141,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
                     ->query(
                         (new MatchQueryBuilder())
                         ->field('anime.synonyms.text')
-                        ->query($this->parser->getSearch())
+                        ->query($this->criteria->getTerm())
                         ->operator('AND')
                     )
                 )
@@ -155,7 +155,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
                     ->query(
                         (new MatchQueryBuilder())
                         ->field('anime.synonyms.text')
-                        ->query($this->parser->getSearch())
+                        ->query($this->criteria->getTerm())
                         ->operator('AND')
                         ->lenient(true)
                         ->fuzziness('AUTO')
@@ -168,7 +168,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
                 ->query(
                     (new MatchPhraseQueryBuilder())
                     ->field('song.title')
-                    ->query($this->parser->getSearch())
+                    ->query($this->criteria->getTerm())
                 )
             )
             ->should(
@@ -177,7 +177,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
                 ->query(
                     (new MatchQueryBuilder())
                     ->field('song.title')
-                    ->query($this->parser->getSearch())
+                    ->query($this->criteria->getTerm())
                     ->operator('AND')
                 )
             )
@@ -187,7 +187,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
                 ->query(
                     (new MatchQueryBuilder())
                     ->field('song.title')
-                    ->query($this->parser->getSearch())
+                    ->query($this->criteria->getTerm())
                     ->operator('AND')
                     ->lenient(true)
                     ->fuzziness('AUTO')

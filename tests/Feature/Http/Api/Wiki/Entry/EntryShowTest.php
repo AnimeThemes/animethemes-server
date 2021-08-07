@@ -6,7 +6,10 @@ namespace Tests\Feature\Http\Api\Wiki\Entry;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Resource\EntryResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Entry;
@@ -42,7 +45,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, QueryParser::make())
+                    EntryResource::make($entry, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -71,7 +74,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, QueryParser::make())
+                    EntryResource::make($entry, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -91,7 +94,7 @@ class EntryShowTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Entry::factory()
@@ -106,7 +109,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, QueryParser::make($parameters))
+                    EntryResource::make($entry, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -137,7 +140,7 @@ class EntryShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 EntryResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -151,7 +154,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, QueryParser::make($parameters))
+                    EntryResource::make($entry, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -170,10 +173,10 @@ class EntryShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'season' => $seasonFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Entry::factory()
@@ -192,7 +195,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, QueryParser::make($parameters))
+                    EntryResource::make($entry, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -212,10 +215,10 @@ class EntryShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Entry::factory()
@@ -241,7 +244,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, QueryParser::make($parameters))
+                    EntryResource::make($entry, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -261,10 +264,10 @@ class EntryShowTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'group' => $groupFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'theme',
+            IncludeParser::$param => 'theme',
         ];
 
         Entry::factory()
@@ -289,7 +292,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, QueryParser::make($parameters))
+                    EntryResource::make($entry, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -309,10 +312,10 @@ class EntryShowTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'theme',
+            IncludeParser::$param => 'theme',
         ];
 
         Entry::factory()
@@ -337,7 +340,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, QueryParser::make($parameters))
+                    EntryResource::make($entry, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -356,10 +359,10 @@ class EntryShowTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'type' => $typeFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'theme',
+            IncludeParser::$param => 'theme',
         ];
 
         Entry::factory()
@@ -378,7 +381,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, QueryParser::make($parameters))
+                    EntryResource::make($entry, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Models\Scout;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Criteria\Search\Criteria;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
@@ -16,9 +16,9 @@ abstract class ElasticQueryPayload
     /**
      * Filter set specified by the client.
      *
-     * @var QueryParser
+     * @var Criteria
      */
-    protected QueryParser $parser;
+    protected Criteria $criteria;
 
     /**
      * The model this payload is searching.
@@ -30,11 +30,11 @@ abstract class ElasticQueryPayload
     /**
      * Create a new query payload instance.
      *
-     * @param QueryParser $parser
+     * @param Criteria $criteria
      */
-    final public function __construct(QueryParser $parser)
+    final public function __construct(Criteria $criteria)
     {
-        $this->parser = $parser;
+        $this->criteria = $criteria;
     }
 
     /**

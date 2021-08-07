@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
 use App\Http\Resources\Wiki\Collection\ImageCollection;
@@ -33,12 +33,12 @@ class AnimeResource extends BaseResource
      * Create a new resource instance.
      *
      * @param Anime | MissingValue | null $anime
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(Anime | MissingValue | null $anime, QueryParser $parser)
+    public function __construct(Anime | MissingValue | null $anime, Query $query)
     {
-        parent::__construct($anime, $parser);
+        parent::__construct($anime, $query);
     }
 
     /**
@@ -61,14 +61,14 @@ class AnimeResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'synonyms' => SynonymCollection::make($this->whenLoaded('synonyms'), $this->parser),
-            'themes' => ThemeCollection::make($this->whenLoaded('themes'), $this->parser),
-            'series' => SeriesCollection::make($this->whenLoaded('series'), $this->parser),
-            'resources' => ExternalResourceCollection::make($this->whenLoaded('resources'), $this->parser),
+            'synonyms' => SynonymCollection::make($this->whenLoaded('synonyms'), $this->query),
+            'themes' => ThemeCollection::make($this->whenLoaded('themes'), $this->query),
+            'series' => SeriesCollection::make($this->whenLoaded('series'), $this->query),
+            'resources' => ExternalResourceCollection::make($this->whenLoaded('resources'), $this->query),
             'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('anime_resource', function () {
                 return $this->pivot->getAttribute('as');
             })),
-            'images' => ImageCollection::make($this->whenLoaded('images'), $this->parser),
+            'images' => ImageCollection::make($this->whenLoaded('images'), $this->query),
         ];
     }
 

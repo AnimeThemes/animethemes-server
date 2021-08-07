@@ -57,7 +57,6 @@
         "sfelix-martins/json-exception-handler": "^2.3",
         "spatie/commonmark-highlighter": "^2.1",
         "spatie/db-dumper": "^3.0",
-        "spatie/laravel-json-api-paginate": "^1.10",
         "staudenmeir/belongs-to-through": "^2.11.1"
     },
     "require-dev": {

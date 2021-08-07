@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Series;
 
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Resource\SeriesResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
@@ -39,7 +42,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, QueryParser::make())
+                    SeriesResource::make($series, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -68,7 +71,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, QueryParser::make())
+                    SeriesResource::make($series, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -88,7 +91,7 @@ class SeriesShowTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Series::factory()
@@ -102,7 +105,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, QueryParser::make($parameters))
+                    SeriesResource::make($series, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -132,7 +135,7 @@ class SeriesShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 SeriesResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -144,7 +147,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, QueryParser::make($parameters))
+                    SeriesResource::make($series, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -165,10 +168,10 @@ class SeriesShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'season' => $seasonFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Series::factory()
@@ -187,7 +190,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, QueryParser::make($parameters))
+                    SeriesResource::make($series, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -208,10 +211,10 @@ class SeriesShowTest extends TestCase
         $yearFilter = $this->faker->numberBetween(2000, 2002);
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Series::factory()
@@ -238,7 +241,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, QueryParser::make($parameters))
+                    SeriesResource::make($series, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

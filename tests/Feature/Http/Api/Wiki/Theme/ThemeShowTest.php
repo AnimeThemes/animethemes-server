@@ -8,7 +8,10 @@ use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Resource\ThemeResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Entry;
@@ -50,7 +53,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make())
+                    ThemeResource::make($theme, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -79,7 +82,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make())
+                    ThemeResource::make($theme, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -99,7 +102,7 @@ class ThemeShowTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Theme::factory()
@@ -119,7 +122,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -149,7 +152,7 @@ class ThemeShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 ThemeResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -166,7 +169,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -185,10 +188,10 @@ class ThemeShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'season' => $seasonFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Theme::factory()
@@ -207,7 +210,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -227,10 +230,10 @@ class ThemeShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Theme::factory()
@@ -254,7 +257,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -273,10 +276,10 @@ class ThemeShowTest extends TestCase
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'facet' => $facetFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime.images',
+            IncludeParser::$param => 'anime.images',
         ];
 
         Theme::factory()
@@ -298,7 +301,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -317,10 +320,10 @@ class ThemeShowTest extends TestCase
         $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'nsfw' => $nsfwFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries',
+            IncludeParser::$param => 'entries',
         ];
 
         Theme::factory()
@@ -340,7 +343,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -359,10 +362,10 @@ class ThemeShowTest extends TestCase
         $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'spoiler' => $spoilerFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries',
+            IncludeParser::$param => 'entries',
         ];
 
         Theme::factory()
@@ -382,7 +385,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -402,10 +405,10 @@ class ThemeShowTest extends TestCase
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'version' => $versionFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries',
+            IncludeParser::$param => 'entries',
         ];
 
         Theme::factory()
@@ -432,7 +435,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -451,10 +454,10 @@ class ThemeShowTest extends TestCase
         $lyricsFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'lyrics' => $lyricsFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -478,7 +481,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -497,10 +500,10 @@ class ThemeShowTest extends TestCase
         $ncFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'nc' => $ncFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -524,7 +527,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -543,10 +546,10 @@ class ThemeShowTest extends TestCase
         $overlapFilter = VideoOverlap::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'overlap' => $overlapFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -570,7 +573,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -590,10 +593,10 @@ class ThemeShowTest extends TestCase
         $excludedResolution = $resolutionFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'resolution' => $resolutionFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -624,7 +627,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -643,10 +646,10 @@ class ThemeShowTest extends TestCase
         $sourceFilter = VideoSource::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'source' => $sourceFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -670,7 +673,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -689,10 +692,10 @@ class ThemeShowTest extends TestCase
         $subbedFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'subbed' => $subbedFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -716,7 +719,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -735,10 +738,10 @@ class ThemeShowTest extends TestCase
         $uncenFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'uncen' => $uncenFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -762,7 +765,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, QueryParser::make($parameters))
+                    ThemeResource::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

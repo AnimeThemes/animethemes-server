@@ -24,7 +24,7 @@ class AnnouncementController extends BaseController
      */
     public function index(Request $request): JsonResponse
     {
-        $announcements = AnnouncementCollection::performQuery($this->parser);
+        $announcements = AnnouncementCollection::performQuery($this->query);
 
         return $announcements->toResponse($request);
     }
@@ -38,7 +38,7 @@ class AnnouncementController extends BaseController
      */
     public function show(Request $request, Announcement $announcement): JsonResponse
     {
-        $resource = AnnouncementResource::performQuery($announcement, $this->parser);
+        $resource = AnnouncementResource::performQuery($announcement, $this->query);
 
         return $resource->toResponse($request);
     }

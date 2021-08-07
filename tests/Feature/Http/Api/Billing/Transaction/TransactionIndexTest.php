@@ -5,7 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Billing\Transaction;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Criteria\Paging\Criteria;
+use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Parser\PagingParser;
+use App\Http\Api\Parser\SortParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Billing\Collection\TransactionCollection;
 use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\Billing\Transaction;
@@ -13,7 +20,6 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -40,7 +46,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transactions, QueryParser::make())
+                    TransactionCollection::make($transactions, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -78,7 +84,7 @@ class TransactionIndexTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
@@ -89,7 +95,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transactions, QueryParser::make($parameters))
+                    TransactionCollection::make($transactions, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -106,7 +112,7 @@ class TransactionIndexTest extends TestCase
     public function testSparseFieldsets()
     {
         $fields = collect([
-            'transaction_id',
+            'id',
             'created_at',
             'updated_at',
             'deleted_at',
@@ -120,7 +126,7 @@ class TransactionIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 TransactionResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -132,7 +138,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transactions, QueryParser::make($parameters))
+                    TransactionCollection::make($transactions, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -148,8 +154,21 @@ class TransactionIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowedSorts = collect(TransactionCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
+        $allowedSorts = collect([
+            'id',
+            'created_at',
+            'updated_at',
+            'deleted_at',
+            'date',
+            'service',
+            'description',
+            'amount',
+            'external_id',
+        ]);
+
+        $sortCount = $this->faker->numberBetween(1, count($allowedSorts));
+
+        $includedSorts = $allowedSorts->random($sortCount)->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -160,17 +179,17 @@ class TransactionIndexTest extends TestCase
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $includedSorts->join(','),
+            SortParser::$param => $includedSorts->join(','),
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
         Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = Transaction::query();
 
-        foreach ($parser->getSorts() as $field => $isAsc) {
-            $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+        foreach (TransactionCollection::sorts($query->getSortCriteria()) as $sort) {
+            $builder = $sort->applySort($builder);
         }
 
         $response = $this->get(route('api.transaction.index', $parameters));
@@ -178,7 +197,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($builder->get(), QueryParser::make($parameters))
+                    TransactionCollection::make($builder->get(), Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -198,11 +217,11 @@ class TransactionIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'created_at' => $createdFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -221,7 +240,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, QueryParser::make($parameters))
+                    TransactionCollection::make($transaction, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -241,11 +260,11 @@ class TransactionIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'updated_at' => $updatedFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -264,7 +283,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, QueryParser::make($parameters))
+                    TransactionCollection::make($transaction, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -281,11 +300,11 @@ class TransactionIndexTest extends TestCase
     public function testWithoutTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITHOUT,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -303,7 +322,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, QueryParser::make($parameters))
+                    TransactionCollection::make($transaction, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -320,11 +339,11 @@ class TransactionIndexTest extends TestCase
     public function testWithTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -342,7 +361,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, QueryParser::make($parameters))
+                    TransactionCollection::make($transaction, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -359,11 +378,11 @@ class TransactionIndexTest extends TestCase
     public function testOnlyTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::ONLY,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -381,7 +400,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, QueryParser::make($parameters))
+                    TransactionCollection::make($transaction, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -401,12 +420,12 @@ class TransactionIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -431,7 +450,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, QueryParser::make($parameters))
+                    TransactionCollection::make($transaction, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

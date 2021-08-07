@@ -7,7 +7,14 @@ namespace Tests\Feature\Http\Api\Wiki\Song;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Criteria\Paging\Criteria;
+use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Parser\PagingParser;
+use App\Http\Api\Parser\SortParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Collection\SongCollection;
 use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Anime;
@@ -20,7 +27,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -48,7 +54,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, QueryParser::make())
+                    SongCollection::make($songs, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -88,7 +94,7 @@ class SongIndexTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Song::factory()
@@ -104,7 +110,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, QueryParser::make($parameters))
+                    SongCollection::make($songs, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -134,7 +140,7 @@ class SongIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 SongResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -146,7 +152,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, QueryParser::make($parameters))
+                    SongCollection::make($songs, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -162,8 +168,18 @@ class SongIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowedSorts = collect(SongCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
+        $allowedSorts = collect([
+            'id',
+            'title',
+            'as',
+            'created_at',
+            'updated_at',
+            'deleted_at',
+        ]);
+
+        $sortCount = $this->faker->numberBetween(1, count($allowedSorts));
+
+        $includedSorts = $allowedSorts->random($sortCount)->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -174,17 +190,17 @@ class SongIndexTest extends TestCase
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $includedSorts->join(','),
+            SortParser::$param => $includedSorts->join(','),
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
         Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = Song::query();
 
-        foreach ($parser->getSorts() as $field => $isAsc) {
-            $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+        foreach (SongCollection::sorts($query->getSortCriteria()) as $sort) {
+            $builder = $sort->applySort($builder);
         }
 
         $response = $this->get(route('api.song.index', $parameters));
@@ -192,7 +208,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($builder->get(), QueryParser::make($parameters))
+                    SongCollection::make($builder->get(), Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -214,11 +230,11 @@ class SongIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'created_at' => $createdFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -237,7 +253,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($song, QueryParser::make($parameters))
+                    SongCollection::make($song, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -259,11 +275,11 @@ class SongIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'updated_at' => $updatedFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -282,7 +298,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($song, QueryParser::make($parameters))
+                    SongCollection::make($song, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -301,11 +317,11 @@ class SongIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITHOUT,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -323,7 +339,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($song, QueryParser::make($parameters))
+                    SongCollection::make($song, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -342,11 +358,11 @@ class SongIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -364,7 +380,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($song, QueryParser::make($parameters))
+                    SongCollection::make($song, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -383,11 +399,11 @@ class SongIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::ONLY,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -405,7 +421,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($song, QueryParser::make($parameters))
+                    SongCollection::make($song, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -427,12 +443,12 @@ class SongIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -457,7 +473,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, QueryParser::make($parameters))
+                    SongCollection::make($songs, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -477,10 +493,10 @@ class SongIndexTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'group' => $groupFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes',
+            IncludeParser::$param => 'themes',
         ];
 
         Song::factory()
@@ -508,7 +524,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, QueryParser::make($parameters))
+                    SongCollection::make($songs, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -528,10 +544,10 @@ class SongIndexTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes',
+            IncludeParser::$param => 'themes',
         ];
 
         Song::factory()
@@ -559,7 +575,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, QueryParser::make($parameters))
+                    SongCollection::make($songs, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -578,10 +594,10 @@ class SongIndexTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'type' => $typeFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes',
+            IncludeParser::$param => 'themes',
         ];
 
         Song::factory()
@@ -601,7 +617,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, QueryParser::make($parameters))
+                    SongCollection::make($songs, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -620,10 +636,10 @@ class SongIndexTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'season' => $seasonFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.anime',
+            IncludeParser::$param => 'themes.anime',
         ];
 
         Song::factory()
@@ -643,7 +659,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, QueryParser::make($parameters))
+                    SongCollection::make($songs, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -663,10 +679,10 @@ class SongIndexTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.anime',
+            IncludeParser::$param => 'themes.anime',
         ];
 
         Song::factory()
@@ -695,7 +711,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, QueryParser::make($parameters))
+                    SongCollection::make($songs, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

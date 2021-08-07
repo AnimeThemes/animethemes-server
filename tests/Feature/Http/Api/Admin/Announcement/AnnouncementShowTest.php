@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Admin\Announcement;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -35,7 +37,7 @@ class AnnouncementShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementResource::make($announcement, QueryParser::make())
+                    AnnouncementResource::make($announcement, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -62,7 +64,7 @@ class AnnouncementShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementResource::make($announcement, QueryParser::make())
+                    AnnouncementResource::make($announcement, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -82,7 +84,7 @@ class AnnouncementShowTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Announcement::factory()->create();
@@ -93,7 +95,7 @@ class AnnouncementShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementResource::make($announcement, QueryParser::make($parameters))
+                    AnnouncementResource::make($announcement, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -120,7 +122,7 @@ class AnnouncementShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 AnnouncementResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -132,7 +134,7 @@ class AnnouncementShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementResource::make($announcement, QueryParser::make($parameters))
+                    AnnouncementResource::make($announcement, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

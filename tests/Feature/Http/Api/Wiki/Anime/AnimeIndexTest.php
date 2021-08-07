@@ -11,7 +11,14 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Criteria\Paging\Criteria;
+use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Parser\PagingParser;
+use App\Http\Api\Parser\SortParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
@@ -26,7 +33,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -54,7 +60,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make())
+                    AnimeCollection::make($anime, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -94,7 +100,7 @@ class AnimeIndexTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
@@ -105,7 +111,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -138,7 +144,7 @@ class AnimeIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 AnimeResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -150,7 +156,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -168,8 +174,21 @@ class AnimeIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $allowedSorts = collect(AnimeCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
+        $allowedSorts = collect([
+            'id',
+            'name',
+            'slug',
+            'year',
+            'season',
+            'synopsis',
+            'created_at',
+            'updated_at',
+            'deleted_at',
+        ]);
+
+        $sortCount = $this->faker->numberBetween(1, count($allowedSorts));
+
+        $includedSorts = $allowedSorts->random($sortCount)->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -180,17 +199,17 @@ class AnimeIndexTest extends TestCase
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $includedSorts->join(','),
+            SortParser::$param => $includedSorts->join(','),
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
         Anime::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = Anime::query();
 
-        foreach ($parser->getSorts() as $field => $isAsc) {
-            $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+        foreach (AnimeCollection::sorts($query->getSortCriteria()) as $sort) {
+            $builder = $sort->applySort($builder);
         }
 
         $response = $this->get(route('api.anime.index', $parameters));
@@ -198,7 +217,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($builder->get(), QueryParser::make($parameters))
+                    AnimeCollection::make($builder->get(), Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -219,7 +238,7 @@ class AnimeIndexTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'season' => $seasonFilter->key,
             ],
         ];
@@ -232,7 +251,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -253,7 +272,7 @@ class AnimeIndexTest extends TestCase
         $yearFilter = $this->faker->numberBetween(2000, 2002);
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'year' => $yearFilter,
             ],
         ];
@@ -274,7 +293,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -296,11 +315,11 @@ class AnimeIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'created_at' => $createdFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -319,7 +338,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -341,11 +360,11 @@ class AnimeIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'updated_at' => $updatedFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -364,7 +383,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -383,11 +402,11 @@ class AnimeIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITHOUT,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -405,7 +424,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -424,11 +443,11 @@ class AnimeIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -446,7 +465,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -465,11 +484,11 @@ class AnimeIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::ONLY,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -487,7 +506,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -509,12 +528,12 @@ class AnimeIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -539,7 +558,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -559,10 +578,10 @@ class AnimeIndexTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'group' => $groupFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes',
+            IncludeParser::$param => 'themes',
         ];
 
         Anime::factory()
@@ -589,7 +608,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -609,10 +628,10 @@ class AnimeIndexTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes',
+            IncludeParser::$param => 'themes',
         ];
 
         Anime::factory()
@@ -639,7 +658,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -658,10 +677,10 @@ class AnimeIndexTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'type' => $typeFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes',
+            IncludeParser::$param => 'themes',
         ];
 
         Anime::factory()
@@ -681,7 +700,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -700,10 +719,10 @@ class AnimeIndexTest extends TestCase
         $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'nsfw' => $nsfwFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.entries',
+            IncludeParser::$param => 'themes.entries',
         ];
 
         Anime::factory()
@@ -727,7 +746,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -746,10 +765,10 @@ class AnimeIndexTest extends TestCase
         $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'spoiler' => $spoilerFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.entries',
+            IncludeParser::$param => 'themes.entries',
         ];
 
         Anime::factory()
@@ -773,7 +792,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -793,10 +812,10 @@ class AnimeIndexTest extends TestCase
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'version' => $versionFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.entries',
+            IncludeParser::$param => 'themes.entries',
         ];
 
         Anime::factory()
@@ -827,7 +846,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -846,10 +865,10 @@ class AnimeIndexTest extends TestCase
         $siteFilter = ResourceSite::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'site' => $siteFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'resources',
+            IncludeParser::$param => 'resources',
         ];
 
         Anime::factory()
@@ -869,7 +888,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -888,10 +907,10 @@ class AnimeIndexTest extends TestCase
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'facet' => $facetFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'images',
+            IncludeParser::$param => 'images',
         ];
 
         Anime::factory()
@@ -911,7 +930,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -930,10 +949,10 @@ class AnimeIndexTest extends TestCase
         $lyricsFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'lyrics' => $lyricsFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
+            IncludeParser::$param => 'themes.entries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
@@ -950,7 +969,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -969,10 +988,10 @@ class AnimeIndexTest extends TestCase
         $ncFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'nc' => $ncFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
+            IncludeParser::$param => 'themes.entries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
@@ -989,7 +1008,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1008,10 +1027,10 @@ class AnimeIndexTest extends TestCase
         $overlapFilter = VideoOverlap::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'overlap' => $overlapFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
+            IncludeParser::$param => 'themes.entries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
@@ -1028,7 +1047,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1048,10 +1067,10 @@ class AnimeIndexTest extends TestCase
         $excludedResolution = $resolutionFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'resolution' => $resolutionFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
+            IncludeParser::$param => 'themes.entries.videos',
         ];
 
         Anime::factory()
@@ -1086,7 +1105,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1105,10 +1124,10 @@ class AnimeIndexTest extends TestCase
         $sourceFilter = VideoSource::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'source' => $sourceFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
+            IncludeParser::$param => 'themes.entries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
@@ -1125,7 +1144,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1144,10 +1163,10 @@ class AnimeIndexTest extends TestCase
         $subbedFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'subbed' => $subbedFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
+            IncludeParser::$param => 'themes.entries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
@@ -1164,7 +1183,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1183,10 +1202,10 @@ class AnimeIndexTest extends TestCase
         $uncenFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'uncen' => $uncenFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.entries.videos',
+            IncludeParser::$param => 'themes.entries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->count($this->faker->numberBetween(1, 3))->create();
@@ -1203,7 +1222,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, QueryParser::make($parameters))
+                    AnimeCollection::make($anime, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

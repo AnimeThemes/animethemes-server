@@ -6,7 +6,7 @@ namespace App\Http\Api\Filter\Wiki\ExternalResource;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Filter\EnumFilter;
-use App\Http\Api\QueryParser;
+use Illuminate\Support\Collection;
 
 /**
  * Class ExternalResourceSiteFilter.
@@ -16,10 +16,10 @@ class ExternalResourceSiteFilter extends EnumFilter
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection $criteria
      */
-    public function __construct(QueryParser $parser)
+    public function __construct(Collection $criteria)
     {
-        parent::__construct($parser, 'site', ResourceSite::class);
+        parent::__construct($criteria, 'site', ResourceSite::class);
     }
 }

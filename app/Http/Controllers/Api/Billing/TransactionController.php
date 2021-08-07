@@ -24,7 +24,7 @@ class TransactionController extends BaseController
      */
     public function index(Request $request): JsonResponse
     {
-        return TransactionCollection::performQuery($this->parser)->toResponse($request);
+        return TransactionCollection::performQuery($this->query)->toResponse($request);
     }
 
     /**
@@ -36,7 +36,7 @@ class TransactionController extends BaseController
      */
     public function show(Request $request, Transaction $transaction): JsonResponse
     {
-        $resource = TransactionResource::performQuery($transaction, $this->parser);
+        $resource = TransactionResource::performQuery($transaction, $this->query);
 
         return $resource->toResponse($request);
     }

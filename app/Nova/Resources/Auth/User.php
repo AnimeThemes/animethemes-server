@@ -54,7 +54,7 @@ class User extends Resource
      */
     public static function group(): string
     {
-        return __('nova.admin');
+        return __('nova.auth');
     }
 
     /**

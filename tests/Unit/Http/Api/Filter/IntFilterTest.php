@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Http\Api\Filter;
 
 use App\Http\Api\Filter\IntFilter;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Query;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -28,23 +29,25 @@ class IntFilterTest extends TestCase
         $intValues = $this->faker->words($this->faker->randomDigitNotNull());
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 $filterField => implode(',', $intValues),
             ],
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
-        $filter = new class($parser, $filterField) extends IntFilter
+        $filter = new class($query->getFilterCriteria(), $filterField) extends IntFilter
         {
             // We don't need to do any customization
         };
 
-        static::assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        $criteria = $query->getFilterCriteria()->first();
+
+        static::assertFalse($filter->shouldApplyFilter($criteria));
     }
 
     /**
-     * The boolean filter shall convert validated integer inputs to integer values.
+     * The int filter shall convert validated integer inputs to integer values.
      *
      * @return void
      */
@@ -55,19 +58,19 @@ class IntFilterTest extends TestCase
         $intValue = $this->faker->year();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 $filterField => $intValue,
             ],
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
-        $filter = new class($parser, $filterField) extends IntFilter
+        $filter = new class($query->getFilterCriteria(), $filterField) extends IntFilter
         {
             // We don't need to do any customization
         };
 
-        $filterValues = $filter->getFilterValues($parser->getConditions($filterField)[0]);
+        $filterValues = $filter->getFilterValues($query->getFilterCriteria()->first());
 
         static::assertEquals(intval($intValue), $filterValues[0]);
     }

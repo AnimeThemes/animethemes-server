@@ -7,7 +7,14 @@ namespace Tests\Feature\Http\Api\Wiki\Entry;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Criteria\Paging\Criteria;
+use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Parser\PagingParser;
+use App\Http\Api\Parser\SortParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Collection\EntryCollection;
 use App\Http\Resources\Wiki\Resource\EntryResource;
 use App\Models\Wiki\Anime;
@@ -19,7 +26,6 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 use Znck\Eloquent\Relations\BelongsToThrough;
@@ -49,7 +55,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entries, QueryParser::make())
+                    EntryCollection::make($entries, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -90,7 +96,7 @@ class EntryIndexTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Entry::factory()
@@ -106,7 +112,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entries, QueryParser::make($parameters))
+                    EntryCollection::make($entries, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -137,7 +143,7 @@ class EntryIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 EntryResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -152,7 +158,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entries, QueryParser::make($parameters))
+                    EntryCollection::make($entries, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -168,8 +174,21 @@ class EntryIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowedSorts = collect(EntryCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
+        $allowedSorts = collect([
+            'id',
+            'version',
+            'episodes',
+            'nsfw',
+            'spoiler',
+            'notes',
+            'created_at',
+            'updated_at',
+            'deleted_at',
+        ]);
+
+        $sortCount = $this->faker->numberBetween(1, count($allowedSorts));
+
+        $includedSorts = $allowedSorts->random($sortCount)->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -180,10 +199,10 @@ class EntryIndexTest extends TestCase
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $includedSorts->join(','),
+            SortParser::$param => $includedSorts->join(','),
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
         Entry::factory()
             ->for(Theme::factory()->for(Anime::factory()))
@@ -192,8 +211,8 @@ class EntryIndexTest extends TestCase
 
         $builder = Entry::query();
 
-        foreach ($parser->getSorts() as $field => $isAsc) {
-            $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+        foreach (EntryCollection::sorts($query->getSortCriteria()) as $sort) {
+            $builder = $sort->applySort($builder);
         }
 
         $response = $this->get(route('api.entry.index', $parameters));
@@ -201,7 +220,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($builder->get(), QueryParser::make($parameters))
+                    EntryCollection::make($builder->get(), Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -221,11 +240,11 @@ class EntryIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'created_at' => $createdFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -250,7 +269,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entry, QueryParser::make($parameters))
+                    EntryCollection::make($entry, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -270,11 +289,11 @@ class EntryIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'updated_at' => $updatedFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -299,7 +318,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entry, QueryParser::make($parameters))
+                    EntryCollection::make($entry, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -316,11 +335,11 @@ class EntryIndexTest extends TestCase
     public function testWithoutTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITHOUT,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -345,7 +364,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entry, QueryParser::make($parameters))
+                    EntryCollection::make($entry, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -362,11 +381,11 @@ class EntryIndexTest extends TestCase
     public function testWithTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -391,7 +410,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entry, QueryParser::make($parameters))
+                    EntryCollection::make($entry, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -408,11 +427,11 @@ class EntryIndexTest extends TestCase
     public function testOnlyTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::ONLY,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -437,7 +456,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entry, QueryParser::make($parameters))
+                    EntryCollection::make($entry, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -457,12 +476,12 @@ class EntryIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -495,7 +514,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entry, QueryParser::make($parameters))
+                    EntryCollection::make($entry, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -514,7 +533,7 @@ class EntryIndexTest extends TestCase
         $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'nsfw' => $nsfwFilter,
             ],
         ];
@@ -531,7 +550,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entries, QueryParser::make($parameters))
+                    EntryCollection::make($entries, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -550,7 +569,7 @@ class EntryIndexTest extends TestCase
         $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'spoiler' => $spoilerFilter,
             ],
         ];
@@ -567,7 +586,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entries, QueryParser::make($parameters))
+                    EntryCollection::make($entries, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -587,7 +606,7 @@ class EntryIndexTest extends TestCase
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'version' => $versionFilter,
             ],
         ];
@@ -608,7 +627,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entries, QueryParser::make($parameters))
+                    EntryCollection::make($entries, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -627,10 +646,10 @@ class EntryIndexTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'season' => $seasonFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Entry::factory()
@@ -650,7 +669,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entries, QueryParser::make($parameters))
+                    EntryCollection::make($entries, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -670,10 +689,10 @@ class EntryIndexTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Entry::factory()
@@ -700,7 +719,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entries, QueryParser::make($parameters))
+                    EntryCollection::make($entries, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -720,10 +739,10 @@ class EntryIndexTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'group' => $groupFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'theme',
+            IncludeParser::$param => 'theme',
         ];
 
         Entry::factory()
@@ -749,7 +768,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entries, QueryParser::make($parameters))
+                    EntryCollection::make($entries, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -769,10 +788,10 @@ class EntryIndexTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'theme',
+            IncludeParser::$param => 'theme',
         ];
 
         Entry::factory()
@@ -798,7 +817,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entries, QueryParser::make($parameters))
+                    EntryCollection::make($entries, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -817,10 +836,10 @@ class EntryIndexTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'type' => $typeFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'theme',
+            IncludeParser::$param => 'theme',
         ];
 
         Entry::factory()
@@ -840,7 +859,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryCollection::make($entries, QueryParser::make($parameters))
+                    EntryCollection::make($entries, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

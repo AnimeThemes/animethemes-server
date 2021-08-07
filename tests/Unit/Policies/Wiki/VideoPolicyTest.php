@@ -26,8 +26,6 @@ class VideoPolicyTest extends TestCase
         $policy = new VideoPolicy();
 
         static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -39,8 +37,6 @@ class VideoPolicyTest extends TestCase
     {
         $policy = new VideoPolicy();
 
-        static::assertTrue($policy->view());
-        static::assertTrue($policy->view());
         static::assertTrue($policy->view());
     }
 

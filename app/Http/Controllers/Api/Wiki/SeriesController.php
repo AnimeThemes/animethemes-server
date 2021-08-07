@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
-use App\Enums\Http\Api\PaginationStrategy;
+use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\Wiki\Collection\SeriesCollection;
 use App\Http\Resources\Wiki\Resource\SeriesResource;
@@ -25,11 +25,11 @@ class SeriesController extends BaseController
      */
     public function index(Request $request): JsonResponse
     {
-        if ($this->parser->hasSearch()) {
-            return SeriesCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse($request);
+        if ($this->query->hasSearchCriteria()) {
+            return SeriesCollection::performSearch($this->query, PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return SeriesCollection::performQuery($this->parser)->toResponse($request);
+        return SeriesCollection::performQuery($this->query)->toResponse($request);
     }
 
     /**
@@ -41,7 +41,7 @@ class SeriesController extends BaseController
      */
     public function show(Request $request, Series $series): JsonResponse
     {
-        $resource = SeriesResource::performQuery($series, $this->parser);
+        $resource = SeriesResource::performQuery($series, $this->query);
 
         return $resource->toResponse($request);
     }

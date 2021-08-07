@@ -6,7 +6,7 @@ namespace App\Http\Api\Filter\Wiki\Anime;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\Filter\EnumFilter;
-use App\Http\Api\QueryParser;
+use Illuminate\Support\Collection;
 
 /**
  * Class AnimeSeasonFilter.
@@ -16,10 +16,10 @@ class AnimeSeasonFilter extends EnumFilter
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection $criteria
      */
-    public function __construct(QueryParser $parser)
+    public function __construct(Collection $criteria)
     {
-        parent::__construct($parser, 'season', AnimeSeason::class);
+        parent::__construct($criteria, 'season', AnimeSeason::class);
     }
 }

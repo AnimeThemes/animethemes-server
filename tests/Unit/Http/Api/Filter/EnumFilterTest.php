@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Http\Api\Filter;
 
 use App\Http\Api\Filter\EnumFilter;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Query;
 use BenSampo\Enum\Enum;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -29,12 +30,12 @@ class EnumFilterTest extends TestCase
         $enumValues = $this->faker->words($this->faker->randomDigitNotNull());
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 $filterField => implode(',', $enumValues),
             ],
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
         $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
         {
@@ -43,12 +44,14 @@ class EnumFilterTest extends TestCase
             public const TWO = 2;
         };
 
-        $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter
+        $filter = new class($query->getFilterCriteria(), $filterField, get_class($enum)) extends EnumFilter
         {
             // We don't need to do any customization
         };
 
-        static::assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        $criteria = $query->getFilterCriteria()->first();
+
+        static::assertFalse($filter->shouldApplyFilter($criteria));
     }
 
     /**
@@ -70,19 +73,21 @@ class EnumFilterTest extends TestCase
         $enumValues = $enum::getValues();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 $filterField => implode(',', $enumValues),
             ],
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
-        $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter
+        $filter = new class($query->getFilterCriteria(), $filterField, get_class($enum)) extends EnumFilter
         {
             // We don't need to do any customization
         };
 
-        static::assertFalse($filter->shouldApplyFilter($parser->getConditions($filterField)[0]));
+        $criteria = $query->getFilterCriteria()->first();
+
+        static::assertFalse($filter->shouldApplyFilter($criteria));
     }
 
     /**
@@ -102,19 +107,19 @@ class EnumFilterTest extends TestCase
         };
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 $filterField => $enum->key,
             ],
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
-        $filter = new class($parser, $filterField, get_class($enum)) extends EnumFilter
+        $filter = new class($query->getFilterCriteria(), $filterField, get_class($enum)) extends EnumFilter
         {
             // We don't need to do any customization
         };
 
-        $filterValues = $filter->getFilterValues($parser->getConditions($filterField)[0]);
+        $filterValues = $filter->getFilterValues($query->getFilterCriteria()->first());
 
         static::assertEquals($enum->value, $filterValues[0]);
     }

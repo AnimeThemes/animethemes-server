@@ -9,7 +9,14 @@ use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Criteria\Paging\Criteria;
+use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Parser\PagingParser;
+use App\Http\Api\Parser\SortParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Anime;
@@ -25,7 +32,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -53,7 +59,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, QueryParser::make())
+                    ArtistCollection::make($artists, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -93,9 +99,9 @@ class ArtistIndexTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            IncludeParser::$param => $includedPaths->join(','),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -107,7 +113,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, QueryParser::make($parameters))
+                    ArtistCollection::make($artists, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -138,7 +144,7 @@ class ArtistIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 ArtistResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -150,7 +156,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, QueryParser::make($parameters))
+                    ArtistCollection::make($artists, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -168,8 +174,19 @@ class ArtistIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $allowedSorts = collect(ArtistCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
+        $allowedSorts = collect([
+            'id',
+            'name',
+            'slug',
+            'as',
+            'created_at',
+            'updated_at',
+            'deleted_at',
+        ]);
+
+        $sortCount = $this->faker->numberBetween(1, count($allowedSorts));
+
+        $includedSorts = $allowedSorts->random($sortCount)->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -180,17 +197,17 @@ class ArtistIndexTest extends TestCase
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $includedSorts->join(','),
+            SortParser::$param => $includedSorts->join(','),
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
         Artist::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = Artist::query();
 
-        foreach ($parser->getSorts() as $field => $isAsc) {
-            $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+        foreach (ArtistCollection::sorts($query->getSortCriteria()) as $sort) {
+            $builder = $sort->applySort($builder);
         }
 
         $response = $this->get(route('api.artist.index', $parameters));
@@ -198,7 +215,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($builder->get(), QueryParser::make($parameters))
+                    ArtistCollection::make($builder->get(), Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -220,11 +237,11 @@ class ArtistIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'created_at' => $createdFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -243,7 +260,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artist, QueryParser::make($parameters))
+                    ArtistCollection::make($artist, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -265,11 +282,11 @@ class ArtistIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'updated_at' => $updatedFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -288,7 +305,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artist, QueryParser::make($parameters))
+                    ArtistCollection::make($artist, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -307,11 +324,11 @@ class ArtistIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITHOUT,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -329,7 +346,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artist, QueryParser::make($parameters))
+                    ArtistCollection::make($artist, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -348,11 +365,11 @@ class ArtistIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -370,7 +387,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artist, QueryParser::make($parameters))
+                    ArtistCollection::make($artist, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -389,11 +406,11 @@ class ArtistIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::ONLY,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -411,7 +428,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artist, QueryParser::make($parameters))
+                    ArtistCollection::make($artist, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -433,12 +450,12 @@ class ArtistIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -463,7 +480,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artist, QueryParser::make($parameters))
+                    ArtistCollection::make($artist, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -483,10 +500,10 @@ class ArtistIndexTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'group' => $groupFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'songs.themes',
+            IncludeParser::$param => 'songs.themes',
         ];
 
         Artist::factory()
@@ -518,7 +535,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, QueryParser::make($parameters))
+                    ArtistCollection::make($artists, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -538,10 +555,10 @@ class ArtistIndexTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'songs.themes',
+            IncludeParser::$param => 'songs.themes',
         ];
 
         Artist::factory()
@@ -573,7 +590,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, QueryParser::make($parameters))
+                    ArtistCollection::make($artists, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -592,10 +609,10 @@ class ArtistIndexTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'type' => $typeFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'songs.themes',
+            IncludeParser::$param => 'songs.themes',
         ];
 
         Artist::factory()
@@ -623,7 +640,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, QueryParser::make($parameters))
+                    ArtistCollection::make($artists, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -642,10 +659,10 @@ class ArtistIndexTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'season' => $seasonFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'songs.themes.anime',
+            IncludeParser::$param => 'songs.themes.anime',
         ];
 
         Artist::factory()
@@ -673,7 +690,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, QueryParser::make($parameters))
+                    ArtistCollection::make($artists, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -693,10 +710,10 @@ class ArtistIndexTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'songs.themes.anime',
+            IncludeParser::$param => 'songs.themes.anime',
         ];
 
         Artist::factory()
@@ -729,7 +746,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, QueryParser::make($parameters))
+                    ArtistCollection::make($artists, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -750,10 +767,10 @@ class ArtistIndexTest extends TestCase
         $siteFilter = ResourceSite::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'site' => $siteFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'resources',
+            IncludeParser::$param => 'resources',
         ];
 
         Artist::factory()
@@ -773,7 +790,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, QueryParser::make($parameters))
+                    ArtistCollection::make($artists, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -794,10 +811,10 @@ class ArtistIndexTest extends TestCase
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'facet' => $facetFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'images',
+            IncludeParser::$param => 'images',
         ];
 
         Artist::factory()
@@ -817,7 +834,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, QueryParser::make($parameters))
+                    ArtistCollection::make($artists, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

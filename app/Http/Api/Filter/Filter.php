@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter;
 
-use App\Http\Api\Condition\Condition;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Criteria\Filter\Criteria;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 /**
  * Class Filter.
@@ -15,11 +15,11 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class Filter
 {
     /**
-     * Filters specified by the client.
+     * Criteria that may be applied to the builder.
      *
-     * @var QueryParser
+     * @var Collection<Criteria>
      */
-    protected QueryParser $parser;
+    protected Collection $criteria;
 
     /**
      * Filter key value.
@@ -38,13 +38,13 @@ abstract class Filter
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection<Criteria> $criteria
      * @param string $key
      * @param string $scope
      */
-    public function __construct(QueryParser $parser, string $key, string $scope = '')
+    public function __construct(Collection $criteria, string $key, string $scope = '')
     {
-        $this->parser = $parser;
+        $this->criteria = $criteria;
         $this->key = $key;
         $this->scope = $scope;
     }
@@ -77,11 +77,9 @@ abstract class Filter
      */
     public function applyFilter(Builder $builder): Builder
     {
-        foreach ($this->getConditions() as $condition) {
-            if ($this->shouldApplyFilter($condition)) {
-                $column = $this->getColumn();
-                $filterValues = $this->getFilterValues($condition);
-                $builder = $condition->apply($builder, $column, $filterValues);
+        foreach ($this->getCriteria() as $criterion) {
+            if ($this->shouldApplyFilter($criterion)) {
+                $builder = $criterion->apply($builder, $this->getColumn(), $this->getFilterValues($criterion));
             }
         }
 
@@ -96,11 +94,13 @@ abstract class Filter
      */
     public function applyElasticsearchFilter(BoolQueryBuilder $builder): BoolQueryBuilder
     {
-        foreach ($this->getConditions() as $condition) {
-            if ($this->shouldApplyFilter($condition)) {
-                $column = $this->getColumn();
-                $filterValues = $this->getFilterValues($condition);
-                $builder = $condition->applyElasticsearchFilter($builder, $column, $filterValues);
+        foreach ($this->getCriteria() as $criterion) {
+            if ($this->shouldApplyFilter($criterion)) {
+                $builder = $criterion->applyElasticsearchFilter(
+                    $builder,
+                    $this->getColumn(),
+                    $this->getFilterValues($criterion)
+                );
             }
         }
 
@@ -110,55 +110,57 @@ abstract class Filter
     /**
      * Determine if this filter should be applied.
      *
-     * @param Condition $condition
+     * @param Criteria $criteria
      * @return bool
      */
-    public function shouldApplyFilter(Condition $condition): bool
+    public function shouldApplyFilter(Criteria $criteria): bool
     {
         // Don't apply filter if scope does not match
-        if (! $this->isMatchingScope($condition)) {
+        if (! $this->isMatchingScope($criteria)) {
             return false;
         }
 
-        $filterValues = $this->getFilterValues($condition);
+        $filterValues = $this->getFilterValues($criteria);
 
         // Apply filter if we have a subset of valid values specified
         return ! empty($filterValues) && ! $this->isAllFilterValues($filterValues);
     }
 
     /**
-     * Determine if the scope of this condition matches the intended scope.
+     * Determine if the scope of this criterion matches the intended scope.
      *
-     * @param Condition $condition
+     * @param Criteria $criteria
      * @return bool
      */
-    protected function isMatchingScope(Condition $condition): bool
+    protected function isMatchingScope(Criteria $criteria): bool
     {
-        return empty($condition->getScope()) || strcasecmp($condition->getScope(), $this->getScope()) === 0;
+        return empty($criteria->getScope()) || strcasecmp($criteria->getScope(), $this->getScope()) === 0;
     }
 
     /**
-     * Get the underlying query conditions.
+     * Get the filter criteria that match the filter key.
      *
-     * @return Condition[]
+     * @return Collection<Criteria>
      */
-    public function getConditions(): array
+    public function getCriteria(): Collection
     {
-        return $this->parser->getConditions($this->getKey());
+        return $this->criteria->filter(function (Criteria $criteria) {
+            return $criteria->getField() === $this->getKey();
+        });
     }
 
     /**
      * Get sanitized filter values.
      *
-     * @param Condition $condition
+     * @param Criteria $criteria
      * @return array
      */
-    public function getFilterValues(Condition $condition): array
+    public function getFilterValues(Criteria $criteria): array
     {
         return $this->getUniqueFilterValues(
             $this->convertFilterValues(
                 $this->getValidFilterValues(
-                    $condition->getFilterValues()
+                    $criteria->getFilterValues()
                 )
             )
         );
