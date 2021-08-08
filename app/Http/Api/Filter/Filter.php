@@ -79,7 +79,7 @@ abstract class Filter
     {
         foreach ($this->getCriteria() as $criterion) {
             if ($this->shouldApplyFilter($criterion)) {
-                $builder = $criterion->apply($builder, $this->getColumn(), $this->getFilterValues($criterion));
+                $builder = $criterion->applyFilter($builder, $this->getColumn(), $this->getFilterValues($criterion));
             }
         }
 

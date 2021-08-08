@@ -122,7 +122,7 @@ abstract class Criteria
      * @param array $filterValues
      * @return Builder
      */
-    abstract public function apply(Builder $builder, string $column, array $filterValues): Builder;
+    abstract public function applyFilter(Builder $builder, string $column, array $filterValues): Builder;
 
     /**
      * Apply criteria to builder.

@@ -40,7 +40,7 @@ class OffsetCriteria extends Criteria
      * @param Builder $builder
      * @return Collection|Paginator
      */
-    public function apply(Builder $builder): Collection | Paginator
+    public function applyPagination(Builder $builder): Collection | Paginator
     {
         $pageNameQuery = Str::of(PagingParser::$param)
             ->append('.')
@@ -70,7 +70,7 @@ class OffsetCriteria extends Criteria
      * @param SearchRequestBuilder $builder
      * @return Collection|ElasticsearchPaginator
      */
-    public function applyElasticsearch(SearchRequestBuilder $builder): Collection | ElasticsearchPaginator
+    public function applyElasticsearchPagination(SearchRequestBuilder $builder): Collection | ElasticsearchPaginator
     {
         $pageNameQuery = Str::of(PagingParser::$param)
             ->append('.')

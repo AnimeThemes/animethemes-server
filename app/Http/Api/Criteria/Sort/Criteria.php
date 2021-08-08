@@ -46,7 +46,7 @@ abstract class Criteria
      * @param string $column
      * @return Builder
      */
-    abstract public function apply(Builder $builder, string $column): Builder;
+    abstract public function applySort(Builder $builder, string $column): Builder;
 
     /**
      * Apply criteria to builder.
@@ -55,7 +55,7 @@ abstract class Criteria
      * @param string $column
      * @return SearchRequestBuilder
      */
-    abstract public function applyElasticsearchFilter(
+    abstract public function applyElasticsearchSort(
         SearchRequestBuilder $builder,
         string $column
     ): SearchRequestBuilder;

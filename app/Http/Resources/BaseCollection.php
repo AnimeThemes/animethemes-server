@@ -144,7 +144,7 @@ abstract class BaseCollection extends ResourceCollection
         // paginate
         $paginationCriteria = $query->getPagingCriteria(PaginationStrategy::OFFSET());
         $collection = $paginationCriteria !== null
-            ? $paginationCriteria->apply($builder)
+            ? $paginationCriteria->applyPagination($builder)
             : $builder->get();
 
         // return paginated resource collection

@@ -29,7 +29,7 @@ class RandomCriteria extends Criteria
      * @param string $column
      * @return Builder
      */
-    public function apply(Builder $builder, string $column): Builder
+    public function applySort(Builder $builder, string $column): Builder
     {
         return $builder->inRandomOrder();
     }
@@ -41,7 +41,7 @@ class RandomCriteria extends Criteria
      * @param string $column
      * @return SearchRequestBuilder
      */
-    public function applyElasticsearchFilter(SearchRequestBuilder $builder, string $column): SearchRequestBuilder
+    public function applyElasticsearchSort(SearchRequestBuilder $builder, string $column): SearchRequestBuilder
     {
         return $builder;
     }

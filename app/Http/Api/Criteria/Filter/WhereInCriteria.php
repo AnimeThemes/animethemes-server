@@ -115,7 +115,7 @@ class WhereInCriteria extends Criteria
      * @param array $filterValues
      * @return Builder
      */
-    public function apply(Builder $builder, string $column, array $filterValues): Builder
+    public function applyFilter(Builder $builder, string $column, array $filterValues): Builder
     {
         return $builder->whereIn(
             $builder->qualifyColumn($column),

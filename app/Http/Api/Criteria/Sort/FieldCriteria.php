@@ -50,7 +50,7 @@ class FieldCriteria extends Criteria
      * @param string $column
      * @return Builder
      */
-    public function apply(Builder $builder, string $column): Builder
+    public function applySort(Builder $builder, string $column): Builder
     {
         return $builder->orderBy($column, $this->direction->value);
     }
@@ -62,7 +62,7 @@ class FieldCriteria extends Criteria
      * @param string $column
      * @return SearchRequestBuilder
      */
-    public function applyElasticsearchFilter(SearchRequestBuilder $builder, string $column): SearchRequestBuilder
+    public function applyElasticsearchSort(SearchRequestBuilder $builder, string $column): SearchRequestBuilder
     {
         return $builder->sort($column, $this->direction->value);
     }

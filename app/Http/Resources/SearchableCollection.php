@@ -105,7 +105,7 @@ abstract class SearchableCollection extends BaseCollection
         // paginate
         $paginationCriteria = $query->getPagingCriteria($paginationStrategy);
         $collection = $paginationCriteria !== null
-            ? $paginationCriteria->applyElasticsearch($builder)
+            ? $paginationCriteria->applyElasticsearchPagination($builder)
             : $builder->execute()->models();
 
         return static::make($collection, $query);

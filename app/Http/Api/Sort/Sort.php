@@ -70,7 +70,7 @@ abstract class Sort
     {
         foreach ($this->getCriteria() as $criterion) {
             if ($this->shouldApplySort()) {
-                $builder = $criterion->apply($builder, $this->getColumn());
+                $builder = $criterion->applySort($builder, $this->getColumn());
             }
         }
 
@@ -87,7 +87,7 @@ abstract class Sort
     {
         foreach ($this->getCriteria() as $criterion) {
             if ($this->shouldApplySort()) {
-                $builder = $criterion->applyElasticsearchFilter($builder, $this->getColumn());
+                $builder = $criterion->applyElasticsearchSort($builder, $this->getColumn());
             }
         }
 

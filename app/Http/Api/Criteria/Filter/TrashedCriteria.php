@@ -76,7 +76,7 @@ class TrashedCriteria extends Criteria
      * @param array $filterValues
      * @return Builder
      */
-    public function apply(Builder $builder, string $column, array $filterValues): Builder
+    public function applyFilter(Builder $builder, string $column, array $filterValues): Builder
     {
         foreach ($filterValues as $filterValue) {
             $builder = match (Str::lower($filterValue)) {

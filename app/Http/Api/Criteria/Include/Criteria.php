@@ -46,6 +46,6 @@ class Criteria
      */
     public function getAllowedPaths(array $allowedIncludePaths): Collection
     {
-        return collect($this->paths)->intersect($allowedIncludePaths);
+        return $this->paths->intersect($allowedIncludePaths);
     }
 }
