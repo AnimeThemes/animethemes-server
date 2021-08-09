@@ -274,7 +274,7 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'type' => $typeFilter->key,
+                'type' => $typeFilter->description,
             ],
             IncludeParser::$param => 'themes',
         ];
@@ -460,7 +460,7 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'site' => $siteFilter->key,
+                'site' => $siteFilter->description,
             ],
             IncludeParser::$param => 'resources',
         ];
@@ -503,7 +503,7 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'facet' => $facetFilter->key,
+                'facet' => $facetFilter->description,
             ],
             IncludeParser::$param => 'images',
         ];
@@ -622,7 +622,7 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'overlap' => $overlapFilter->key,
+                'overlap' => $overlapFilter->description,
             ],
             IncludeParser::$param => 'themes.entries.videos',
         ];
@@ -718,7 +718,7 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'source' => $sourceFilter->key,
+                'source' => $sourceFilter->description,
             ],
             IncludeParser::$param => 'themes.entries.videos',
         ];

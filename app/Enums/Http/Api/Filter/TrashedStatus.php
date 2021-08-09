@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Filter;
 
-use BenSampo\Enum\Enum;
+use App\Enums\BaseEnum;
 
 /**
  * Class TrashedStatus.
  */
-final class TrashedStatus extends Enum
+final class TrashedStatus extends BaseEnum
 {
     public const WITH = 'with';
     public const WITHOUT = 'without';

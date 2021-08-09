@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Filter;
 
-use BenSampo\Enum\Enum;
+use App\Enums\BaseEnum;
 
 /**
  * Class ComparisonOperator.
@@ -18,7 +18,7 @@ use BenSampo\Enum\Enum;
  * @method static static LIKE()
  * @method static static NOTLIKE()
  */
-final class ComparisonOperator extends Enum
+final class ComparisonOperator extends BaseEnum
 {
     public const EQ = '=';
     public const NE = '<>';

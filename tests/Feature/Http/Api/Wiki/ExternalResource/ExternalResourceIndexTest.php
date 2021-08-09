@@ -482,7 +482,7 @@ class ExternalResourceIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'site' => $siteFilter->key,
+                'site' => $siteFilter->description,
             ],
         ];
 
@@ -517,7 +517,7 @@ class ExternalResourceIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->key,
+                'season' => $seasonFilter->description,
             ],
             IncludeParser::$param => 'anime',
         ];

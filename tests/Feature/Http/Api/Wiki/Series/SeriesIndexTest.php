@@ -494,7 +494,7 @@ class SeriesIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->key,
+                'season' => $seasonFilter->description,
             ],
             IncludeParser::$param => 'anime',
         ];

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Filter;
 
-use BenSampo\Enum\Enum;
+use App\Enums\BaseEnum;
 
 /**
  * Class AllowedDateFormat.
  */
-final class AllowedDateFormat extends Enum
+final class AllowedDateFormat extends BaseEnum
 {
     public const YMDHISU = 'Y-m-d\TH:i:s.u';
     public const YMDHIS = 'Y-m-d\TH:i:s';

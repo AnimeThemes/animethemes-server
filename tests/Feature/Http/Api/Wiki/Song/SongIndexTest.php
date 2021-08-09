@@ -595,7 +595,7 @@ class SongIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'type' => $typeFilter->key,
+                'type' => $typeFilter->description,
             ],
             IncludeParser::$param => 'themes',
         ];
@@ -637,7 +637,7 @@ class SongIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->key,
+                'season' => $seasonFilter->description,
             ],
             IncludeParser::$param => 'themes.anime',
         ];

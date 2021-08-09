@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Models\Wiki;
 
-use BenSampo\Enum\Contracts\LocalizedEnum;
-use BenSampo\Enum\Enum;
+use App\Enums\BaseEnum;
 
 /**
  * Class VideoSource.
  */
-final class VideoSource extends Enum implements LocalizedEnum
+final class VideoSource extends BaseEnum
 {
     public const WEB = 0;
     public const RAW = 1;

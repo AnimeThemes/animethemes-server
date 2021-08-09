@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums\Models\Auth;
 
-use BenSampo\Enum\Contracts\LocalizedEnum;
-use BenSampo\Enum\Enum;
+use App\Enums\BaseEnum;
 
 /**
  * Class InvitationStatus.
@@ -13,7 +12,7 @@ use BenSampo\Enum\Enum;
  * @method static static OPEN()
  * @method static static CLOSED()
  */
-final class InvitationStatus extends Enum implements LocalizedEnum
+final class InvitationStatus extends BaseEnum
 {
     public const OPEN = 0;
     public const CLOSED = 1;

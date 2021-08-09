@@ -608,7 +608,7 @@ class VideoIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'overlap' => $overlapFilter->key,
+                'overlap' => $overlapFilter->description,
             ],
         ];
 
@@ -687,7 +687,7 @@ class VideoIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'source' => $sourceFilter->key,
+                'source' => $sourceFilter->description,
             ],
         ];
 
@@ -1045,7 +1045,7 @@ class VideoIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'type' => $typeFilter->key,
+                'type' => $typeFilter->description,
             ],
             IncludeParser::$param => 'entries.theme',
         ];
@@ -1091,7 +1091,7 @@ class VideoIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->key,
+                'season' => $seasonFilter->description,
             ],
             IncludeParser::$param => 'entries.theme.anime',
         ];

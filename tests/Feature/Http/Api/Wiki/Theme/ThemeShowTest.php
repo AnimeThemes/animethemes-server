@@ -189,7 +189,7 @@ class ThemeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->key,
+                'season' => $seasonFilter->description,
             ],
             IncludeParser::$param => 'anime',
         ];
@@ -277,7 +277,7 @@ class ThemeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'facet' => $facetFilter->key,
+                'facet' => $facetFilter->description,
             ],
             IncludeParser::$param => 'anime.images',
         ];
@@ -547,7 +547,7 @@ class ThemeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'overlap' => $overlapFilter->key,
+                'overlap' => $overlapFilter->description,
             ],
             IncludeParser::$param => 'entries.videos',
         ];
@@ -647,7 +647,7 @@ class ThemeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'source' => $sourceFilter->key,
+                'source' => $sourceFilter->description,
             ],
             IncludeParser::$param => 'entries.videos',
         ];

@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Models\Wiki;
 
-use BenSampo\Enum\Contracts\LocalizedEnum;
-use BenSampo\Enum\Enum;
+use App\Enums\BaseEnum;
 
 /**
  * Class ResourceSite.
  */
-final class ResourceSite extends Enum implements LocalizedEnum
+final class ResourceSite extends BaseEnum
 {
     // Official Media
     public const OFFICIAL_SITE = 0;

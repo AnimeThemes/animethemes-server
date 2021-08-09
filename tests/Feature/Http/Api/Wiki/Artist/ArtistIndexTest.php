@@ -610,7 +610,7 @@ class ArtistIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'type' => $typeFilter->key,
+                'type' => $typeFilter->description,
             ],
             IncludeParser::$param => 'songs.themes',
         ];
@@ -660,7 +660,7 @@ class ArtistIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->key,
+                'season' => $seasonFilter->description,
             ],
             IncludeParser::$param => 'songs.themes.anime',
         ];
@@ -768,7 +768,7 @@ class ArtistIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'site' => $siteFilter->key,
+                'site' => $siteFilter->description,
             ],
             IncludeParser::$param => 'resources',
         ];
@@ -812,7 +812,7 @@ class ArtistIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'facet' => $facetFilter->key,
+                'facet' => $facetFilter->description,
             ],
             IncludeParser::$param => 'images',
         ];

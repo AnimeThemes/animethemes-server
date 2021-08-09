@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Paging;
 
-use BenSampo\Enum\Enum;
+use App\Enums\BaseEnum;
 
 /**
  * Class PaginationStrategy.
@@ -13,7 +13,7 @@ use BenSampo\Enum\Enum;
  * @method static static LIMIT()
  * @method static static OFFSET()
  */
-final class PaginationStrategy extends Enum
+final class PaginationStrategy extends BaseEnum
 {
     public const NONE = 0;
     public const LIMIT = 1;

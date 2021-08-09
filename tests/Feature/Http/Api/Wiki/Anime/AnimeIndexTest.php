@@ -239,7 +239,7 @@ class AnimeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->key,
+                'season' => $seasonFilter->description,
             ],
         ];
 
@@ -678,7 +678,7 @@ class AnimeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'type' => $typeFilter->key,
+                'type' => $typeFilter->description,
             ],
             IncludeParser::$param => 'themes',
         ];
@@ -866,7 +866,7 @@ class AnimeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'site' => $siteFilter->key,
+                'site' => $siteFilter->description,
             ],
             IncludeParser::$param => 'resources',
         ];
@@ -908,7 +908,7 @@ class AnimeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'facet' => $facetFilter->key,
+                'facet' => $facetFilter->description,
             ],
             IncludeParser::$param => 'images',
         ];
@@ -1028,7 +1028,7 @@ class AnimeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'overlap' => $overlapFilter->key,
+                'overlap' => $overlapFilter->description,
             ],
             IncludeParser::$param => 'themes.entries.videos',
         ];
@@ -1125,7 +1125,7 @@ class AnimeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'source' => $sourceFilter->key,
+                'source' => $sourceFilter->description,
             ],
             IncludeParser::$param => 'themes.entries.videos',
         ];
