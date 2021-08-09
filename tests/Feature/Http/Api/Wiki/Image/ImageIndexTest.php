@@ -482,7 +482,7 @@ class ImageIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'facet' => $facetFilter->key,
+                'facet' => $facetFilter->description,
             ],
         ];
 
@@ -517,7 +517,7 @@ class ImageIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->key,
+                'season' => $seasonFilter->description,
             ],
             IncludeParser::$param => 'anime',
         ];

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\Discord;
 
+use App\Enums\BaseEnum;
 use App\Services\Discord\DiscordEmbedField;
-use BenSampo\Enum\Enum;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use stdClass;
@@ -25,7 +25,7 @@ class DiscordEmbedFieldTest extends TestCase
      */
     public function testDiscordEmbedFormatEnum()
     {
-        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
+        $enum = new class($this->faker->numberBetween(0, 2)) extends BaseEnum
         {
             public const ZERO = 0;
             public const ONE = 1;

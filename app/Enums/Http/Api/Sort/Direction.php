@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Sort;
 
-use BenSampo\Enum\Enum;
+use App\Enums\BaseEnum;
 
 /**
  * Class Direction.
@@ -12,7 +12,7 @@ use BenSampo\Enum\Enum;
  * @method static static ASCENDING()
  * @method static static DESCENDING()
  */
-final class Direction extends Enum
+final class Direction extends BaseEnum
 {
     public const ASCENDING = 'asc';
     public const DESCENDING = 'desc';

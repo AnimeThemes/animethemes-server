@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums\Models\Wiki;
 
-use BenSampo\Enum\Contracts\LocalizedEnum;
-use BenSampo\Enum\Enum;
+use App\Enums\BaseEnum;
 
 /**
  * Class VideoOverlap.
@@ -14,7 +13,7 @@ use BenSampo\Enum\Enum;
  * @method static static TRANS()
  * @method static static OVER()
  */
-final class VideoOverlap extends Enum implements LocalizedEnum
+final class VideoOverlap extends BaseEnum
 {
     public const NONE = 0;
     public const TRANS = 1;

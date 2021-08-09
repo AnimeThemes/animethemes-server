@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Models\Billing;
 
-use BenSampo\Enum\Enum;
+use App\Enums\BaseEnum;
 
 /**
  * Class BalanceFrequency.
  */
-final class BalanceFrequency extends Enum
+final class BalanceFrequency extends BaseEnum
 {
     public const ONCE = 0;
     public const ANNUALLY = 1;

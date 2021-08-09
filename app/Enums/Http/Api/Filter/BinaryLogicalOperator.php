@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Filter;
 
-use BenSampo\Enum\Enum;
+use App\Enums\BaseEnum;
 
 /**
  * Class BinaryLogicalOperator.
@@ -12,7 +12,7 @@ use BenSampo\Enum\Enum;
  * @method static static AND()
  * @method static static OR()
  */
-final class BinaryLogicalOperator extends Enum
+final class BinaryLogicalOperator extends BaseEnum
 {
     public const AND = 'and';
     public const OR = 'or';

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Http\Api\Filter;
 
+use App\Enums\BaseEnum;
 use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Query;
-use BenSampo\Enum\Enum;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -37,7 +37,7 @@ class EnumFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
+        $enum = new class($this->faker->numberBetween(0, 2)) extends BaseEnum
         {
             public const ZERO = 0;
             public const ONE = 1;
@@ -63,7 +63,7 @@ class EnumFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
+        $enum = new class($this->faker->numberBetween(0, 2)) extends BaseEnum
         {
             public const ZERO = 0;
             public const ONE = 1;
@@ -99,7 +99,7 @@ class EnumFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $enum = new class($this->faker->numberBetween(0, 2)) extends Enum
+        $enum = new class($this->faker->numberBetween(0, 2)) extends BaseEnum
         {
             public const ZERO = 0;
             public const ONE = 1;
@@ -108,7 +108,7 @@ class EnumFilterTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                $filterField => $enum->key,
+                $filterField => $enum->description,
             ],
         ];
 

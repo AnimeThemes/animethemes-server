@@ -622,7 +622,7 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'type' => $typeFilter->key,
+                'type' => $typeFilter->description,
             ],
         ];
 
@@ -658,7 +658,7 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->key,
+                'season' => $seasonFilter->description,
             ],
             IncludeParser::$param => 'anime',
         ];
@@ -748,7 +748,7 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'facet' => $facetFilter->key,
+                'facet' => $facetFilter->description,
             ],
             IncludeParser::$param => 'anime.images',
         ];
@@ -1024,7 +1024,7 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'overlap' => $overlapFilter->key,
+                'overlap' => $overlapFilter->description,
             ],
             IncludeParser::$param => 'entries.videos',
         ];
@@ -1126,7 +1126,7 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'source' => $sourceFilter->key,
+                'source' => $sourceFilter->description,
             ],
             IncludeParser::$param => 'entries.videos',
         ];

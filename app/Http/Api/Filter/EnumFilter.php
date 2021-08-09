@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter;
 
-use BenSampo\Enum\Enum;
+use App\Enums\BaseEnum;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 
 /**
  * Class EnumFilter.
@@ -16,7 +15,7 @@ abstract class EnumFilter extends Filter
     /**
      * The Enum class string.
      *
-     * @var class-string<Enum>
+     * @var class-string<BaseEnum>
      */
     protected string $enumClass;
 
@@ -25,7 +24,7 @@ abstract class EnumFilter extends Filter
      *
      * @param Collection $criteria
      * @param string $key
-     * @param class-string<Enum> $enumClass
+     * @param class-string<BaseEnum> $enumClass
      */
     public function __construct(Collection $criteria, string $key, string $enumClass)
     {
@@ -43,7 +42,7 @@ abstract class EnumFilter extends Filter
     {
         return array_map(
             function (string $filterValue) {
-                return $this->enumClass::getValue(Str::upper($filterValue));
+                return $this->enumClass::fromDescription($filterValue)?->value;
             },
             $filterValues
         );
@@ -61,7 +60,7 @@ abstract class EnumFilter extends Filter
             array_filter(
                 $filterValues,
                 function (string $filterValue) {
-                    return $this->enumClass::hasKey(Str::upper($filterValue));
+                    return $this->enumClass::fromDescription($filterValue) !== null;
                 }
             )
         );
