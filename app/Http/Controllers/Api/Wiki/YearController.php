@@ -38,13 +38,17 @@ class YearController extends BaseController
      */
     public function show(Request $request, string $year): JsonResponse
     {
+        $includeCriteria = $this->query->getIncludeCriteria(AnimeCollection::$wrap);
+
+        $allowedIncludePaths = collect($includeCriteria?->getAllowedPaths(AnimeCollection::allowedIncludePaths()));
+
         $anime = AnimeCollection::make(
             Anime::query()
                 ->where('year', $year)
-                ->with($this->parser->getIncludePaths(AnimeCollection::allowedIncludePaths()))
+                ->with($allowedIncludePaths->all())
                 ->orderBy('name')
                 ->get(),
-            $this->parser
+            $this->query
         );
 
         $anime = collect($anime->toArray($request));

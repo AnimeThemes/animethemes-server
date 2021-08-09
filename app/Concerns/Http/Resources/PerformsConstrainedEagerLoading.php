@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Concerns\Http\Resources;
 
-use App\Http\Api\Filter\Filter;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseCollection;
 use App\Services\Http\Resources\DiscoverRelationCollection;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -20,27 +19,26 @@ trait PerformsConstrainedEagerLoading
     /**
      * Constrain eager loads by binding callbacks that filter on the relations.
      *
-     * @param QueryParser $parser
+     * @param Query $query
      * @return array
      */
-    protected static function performConstrainedEagerLoads(QueryParser $parser): array
+    protected static function performConstrainedEagerLoads(Query $query): array
     {
         $constrainedEagerLoads = [];
 
-        $allowedIncludePaths = $parser->getIncludePaths(static::allowedIncludePaths(), Str::singular(static::$wrap));
+        $includeCriteria = $query->getIncludeCriteria(Str::singular(static::$wrap));
+
+        $allowedIncludePaths = collect($includeCriteria?->getAllowedPaths(static::allowedIncludePaths()));
 
         foreach ($allowedIncludePaths as $allowedIncludePath) {
-            $constrainedEagerLoads[$allowedIncludePath] = function (Relation $query) use ($parser) {
-                $collectionClass = DiscoverRelationCollection::byModel($query->getQuery()->getModel());
+            $constrainedEagerLoads[$allowedIncludePath] = function (Relation $relation) use ($query) {
+                $collectionClass = DiscoverRelationCollection::byModel($relation->getQuery()->getModel());
                 if ($collectionClass !== null) {
-                    $collectionInstance = new $collectionClass(new MissingValue(), QueryParser::make());
+                    $collectionInstance = new $collectionClass(new MissingValue(), Query::make());
                     if ($collectionInstance instanceof BaseCollection) {
-                        foreach ($collectionInstance::filters() as $filterClass) {
-                            $filter = new $filterClass($parser);
-                            if ($filter instanceof Filter) {
-                                $scope = Str::singular($collectionInstance::$wrap);
-                                $filter->scope($scope)->applyFilter($query->getQuery());
-                            }
+                        foreach ($collectionInstance::filters($query->getFilterCriteria()) as $filter) {
+                            $scope = Str::singular($collectionInstance::$wrap);
+                            $filter->scope($scope)->applyFilter($relation->getQuery());
                         }
                     }
                 }

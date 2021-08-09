@@ -24,7 +24,7 @@ class ImageController extends BaseController
      */
     public function index(Request $request): JsonResponse
     {
-        $images = ImageCollection::performQuery($this->parser);
+        $images = ImageCollection::performQuery($this->query);
 
         return $images->toResponse($request);
     }
@@ -38,7 +38,7 @@ class ImageController extends BaseController
      */
     public function show(Request $request, Image $image): JsonResponse
     {
-        $resource = ImageResource::performQuery($image, $this->parser);
+        $resource = ImageResource::performQuery($image, $this->query);
 
         return $resource->toResponse($request);
     }

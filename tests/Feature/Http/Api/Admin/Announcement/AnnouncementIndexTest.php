@@ -5,7 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Admin\Announcement;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Criteria\Paging\Criteria;
+use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Parser\PagingParser;
+use App\Http\Api\Parser\SortParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Admin\Collection\AnnouncementCollection;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
@@ -13,7 +20,6 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -40,7 +46,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcements, QueryParser::make())
+                    AnnouncementCollection::make($announcements, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -78,7 +84,7 @@ class AnnouncementIndexTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
@@ -89,7 +95,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcements, QueryParser::make($parameters))
+                    AnnouncementCollection::make($announcements, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -116,7 +122,7 @@ class AnnouncementIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 AnnouncementResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -128,7 +134,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcements, QueryParser::make($parameters))
+                    AnnouncementCollection::make($announcements, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -144,8 +150,17 @@ class AnnouncementIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowedSorts = collect(AnnouncementCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
+        $allowedSorts = collect([
+            'id',
+            'content',
+            'created_at',
+            'updated_at',
+            'deleted_at',
+        ]);
+
+        $sortCount = $this->faker->numberBetween(1, count($allowedSorts));
+
+        $includedSorts = $allowedSorts->random($sortCount)->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -156,17 +171,17 @@ class AnnouncementIndexTest extends TestCase
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $includedSorts->join(','),
+            SortParser::$param => $includedSorts->join(','),
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
         Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $builder = Announcement::query();
 
-        foreach ($parser->getSorts() as $field => $isAsc) {
-            $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+        foreach (AnnouncementCollection::sorts($query->getSortCriteria()) as $sort) {
+            $builder = $sort->applySort($builder);
         }
 
         $response = $this->get(route('api.announcement.index', $parameters));
@@ -174,7 +189,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($builder->get(), QueryParser::make($parameters))
+                    AnnouncementCollection::make($builder->get(), Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -194,11 +209,11 @@ class AnnouncementIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'created_at' => $createdFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -217,7 +232,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, QueryParser::make($parameters))
+                    AnnouncementCollection::make($announcement, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -237,11 +252,11 @@ class AnnouncementIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'updated_at' => $updatedFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -260,7 +275,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, QueryParser::make($parameters))
+                    AnnouncementCollection::make($announcement, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -277,11 +292,11 @@ class AnnouncementIndexTest extends TestCase
     public function testWithoutTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITHOUT,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -299,7 +314,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, QueryParser::make($parameters))
+                    AnnouncementCollection::make($announcement, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -316,11 +331,11 @@ class AnnouncementIndexTest extends TestCase
     public function testWithTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -338,7 +353,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, QueryParser::make($parameters))
+                    AnnouncementCollection::make($announcement, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -355,11 +370,11 @@ class AnnouncementIndexTest extends TestCase
     public function testOnlyTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::ONLY,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -377,7 +392,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, QueryParser::make($parameters))
+                    AnnouncementCollection::make($announcement, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -397,12 +412,12 @@ class AnnouncementIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -427,7 +442,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, QueryParser::make($parameters))
+                    AnnouncementCollection::make($announcement, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

@@ -4,16 +4,27 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
+use App\Http\Api\Criteria\Filter\Criteria as FilterCriteria;
+use App\Http\Api\Criteria\Sort\Criteria;
+use App\Http\Api\Filter\Filter;
 use App\Http\Api\Filter\Wiki\Anime\AnimeIdFilter;
 use App\Http\Api\Filter\Wiki\Anime\AnimeNameFilter;
 use App\Http\Api\Filter\Wiki\Anime\AnimeSeasonFilter;
 use App\Http\Api\Filter\Wiki\Anime\AnimeSlugFilter;
 use App\Http\Api\Filter\Wiki\Anime\AnimeSynopsisFilter;
 use App\Http\Api\Filter\Wiki\Anime\AnimeYearFilter;
+use App\Http\Api\Sort\Sort;
+use App\Http\Api\Sort\Wiki\Anime\AnimeIdSort;
+use App\Http\Api\Sort\Wiki\Anime\AnimeNameSort;
+use App\Http\Api\Sort\Wiki\Anime\AnimeSeasonSort;
+use App\Http\Api\Sort\Wiki\Anime\AnimeSlugSort;
+use App\Http\Api\Sort\Wiki\Anime\AnimeSynopsisSort;
+use App\Http\Api\Sort\Wiki\Anime\AnimeYearSort;
 use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  * Class AnimeCollection.
@@ -45,7 +56,7 @@ class AnimeCollection extends SearchableCollection
     public function toArray($request): array
     {
         return $this->collection->map(function (Anime $anime) {
-            return AnimeResource::make($anime, $this->parser);
+            return AnimeResource::make($anime, $this->query);
         })->all();
     }
 
@@ -70,40 +81,43 @@ class AnimeCollection extends SearchableCollection
     }
 
     /**
-     * The sort field names a client is allowed to request.
+     * The sorts that can be applied by the client for this resource.
      *
-     * @return string[]
+     * @param Collection<Criteria> $sortCriteria
+     * @return Sort[]
      */
-    public static function allowedSortFields(): array
+    public static function sorts(Collection $sortCriteria): array
     {
-        return [
-            'anime_id',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-            'slug',
-            'name',
-            'year',
-            'season',
-        ];
+        return array_merge(
+            parent::sorts($sortCriteria),
+            [
+                new AnimeIdSort($sortCriteria),
+                new AnimeNameSort($sortCriteria),
+                new AnimeSlugSort($sortCriteria),
+                new AnimeYearSort($sortCriteria),
+                new AnimeSeasonSort($sortCriteria),
+                new AnimeSynopsisSort($sortCriteria),
+            ]
+        );
     }
 
     /**
      * The filters that can be applied by the client for this resource.
      *
-     * @return string[]
+     * @param Collection<FilterCriteria> $filterCriteria
+     * @return Filter[]
      */
-    public static function filters(): array
+    public static function filters(Collection $filterCriteria): array
     {
         return array_merge(
-            parent::filters(),
+            parent::filters($filterCriteria),
             [
-                AnimeIdFilter::class,
-                AnimeNameFilter::class,
-                AnimeSlugFilter::class,
-                AnimeYearFilter::class,
-                AnimeSeasonFilter::class,
-                AnimeSynopsisFilter::class,
+                new AnimeIdFilter($filterCriteria),
+                new AnimeNameFilter($filterCriteria),
+                new AnimeSlugFilter($filterCriteria),
+                new AnimeYearFilter($filterCriteria),
+                new AnimeSeasonFilter($filterCriteria),
+                new AnimeSynopsisFilter($filterCriteria),
             ]
         );
     }

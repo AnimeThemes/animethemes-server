@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter\Wiki\Image;
 
 use App\Http\Api\Filter\IntFilter;
-use App\Http\Api\QueryParser;
 use App\Models\Wiki\Image;
+use Illuminate\Support\Collection;
 
 /**
  * Class ImageIdFilter.
@@ -16,11 +16,11 @@ class ImageIdFilter extends IntFilter
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection $criteria
      */
-    public function __construct(QueryParser $parser)
+    public function __construct(Collection $criteria)
     {
-        parent::__construct($parser, 'id');
+        parent::__construct($criteria, 'id');
     }
 
     /**

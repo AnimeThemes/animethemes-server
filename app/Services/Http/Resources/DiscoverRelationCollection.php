@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Http\Resources;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseCollection;
 use App\Services\DiscoverService;
 use Illuminate\Database\Eloquent\Model;
@@ -48,7 +48,7 @@ class DiscoverRelationCollection extends DiscoverService
 
             if ($resource->hasProperty('collects')) {
                 try {
-                    $resourceInstance = $resource->newInstance(new MissingValue(), QueryParser::make());
+                    $resourceInstance = $resource->newInstance(new MissingValue(), Query::make());
                     $collects = $resource->getProperty('collects')->getValue($resourceInstance);
                     if (get_class($model) === $collects) {
                         return $resource->getName();

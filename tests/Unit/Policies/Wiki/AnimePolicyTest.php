@@ -31,8 +31,6 @@ class AnimePolicyTest extends TestCase
         $policy = new AnimePolicy();
 
         static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -44,8 +42,6 @@ class AnimePolicyTest extends TestCase
     {
         $policy = new AnimePolicy();
 
-        static::assertTrue($policy->view());
-        static::assertTrue($policy->view());
         static::assertTrue($policy->view());
     }
 

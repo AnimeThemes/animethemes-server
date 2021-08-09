@@ -33,18 +33,18 @@ class SeriesQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('name')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('name')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('name')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')

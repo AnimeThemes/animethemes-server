@@ -10,7 +10,14 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Criteria\Paging\Criteria;
+use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Parser\PagingParser;
+use App\Http\Api\Parser\SortParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Resource\ThemeResource;
 use App\Models\Wiki\Anime;
@@ -26,7 +33,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -58,7 +64,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make())
+                    ThemeCollection::make($themes, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -99,7 +105,7 @@ class ThemeIndexTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Theme::factory()
@@ -120,7 +126,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -150,7 +156,7 @@ class ThemeIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 ThemeResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -167,7 +173,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -183,8 +189,20 @@ class ThemeIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowedSorts = collect(ThemeCollection::allowedSortFields());
-        $includedSorts = $allowedSorts->random($this->faker->numberBetween(1, count($allowedSorts)))->map(function (string $includedSort) {
+        $allowedSorts = collect([
+            'id',
+            'type',
+            'sequence',
+            'group',
+            'slug',
+            'created_at',
+            'updated_at',
+            'deleted_at',
+        ]);
+
+        $sortCount = $this->faker->numberBetween(1, count($allowedSorts));
+
+        $includedSorts = $allowedSorts->random($sortCount)->map(function (string $includedSort) {
             if ($this->faker->boolean()) {
                 return Str::of('-')
                     ->append($includedSort)
@@ -195,10 +213,10 @@ class ThemeIndexTest extends TestCase
         });
 
         $parameters = [
-            QueryParser::PARAM_SORT => $includedSorts->join(','),
+            SortParser::$param => $includedSorts->join(','),
         ];
 
-        $parser = QueryParser::make($parameters);
+        $query = Query::make($parameters);
 
         Theme::factory()
             ->for(Anime::factory())
@@ -207,8 +225,8 @@ class ThemeIndexTest extends TestCase
 
         $builder = Theme::query();
 
-        foreach ($parser->getSorts() as $field => $isAsc) {
-            $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
+        foreach (ThemeCollection::sorts($query->getSortCriteria()) as $sort) {
+            $builder = $sort->applySort($builder);
         }
 
         $response = $this->get(route('api.theme.index', $parameters));
@@ -216,7 +234,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($builder->get(), QueryParser::make($parameters))
+                    ThemeCollection::make($builder->get(), Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -236,11 +254,11 @@ class ThemeIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'created_at' => $createdFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -265,7 +283,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($theme, QueryParser::make($parameters))
+                    ThemeCollection::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -285,11 +303,11 @@ class ThemeIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'updated_at' => $updatedFilter,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -314,7 +332,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($theme, QueryParser::make($parameters))
+                    ThemeCollection::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -331,11 +349,11 @@ class ThemeIndexTest extends TestCase
     public function testWithoutTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITHOUT,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -360,7 +378,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($theme, QueryParser::make($parameters))
+                    ThemeCollection::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -377,11 +395,11 @@ class ThemeIndexTest extends TestCase
     public function testWithTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -406,7 +424,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($theme, QueryParser::make($parameters))
+                    ThemeCollection::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -423,11 +441,11 @@ class ThemeIndexTest extends TestCase
     public function testOnlyTrashedFilter()
     {
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'trashed' => TrashedStatus::ONLY,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -452,7 +470,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($theme, QueryParser::make($parameters))
+                    ThemeCollection::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -472,12 +490,12 @@ class ThemeIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'deleted_at' => $deletedFilter,
                 'trashed' => TrashedStatus::WITH,
             ],
-            Config::get('json-api-paginate.pagination_parameter') => [
-                Config::get('json-api-paginate.size_parameter') => Config::get('json-api-paginate.max_results'),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
 
@@ -502,7 +520,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($theme, QueryParser::make($parameters))
+                    ThemeCollection::make($theme, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -522,7 +540,7 @@ class ThemeIndexTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'group' => $groupFilter,
             ],
         ];
@@ -543,7 +561,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -563,7 +581,7 @@ class ThemeIndexTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
         ];
@@ -584,7 +602,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -603,7 +621,7 @@ class ThemeIndexTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'type' => $typeFilter->key,
             ],
         ];
@@ -620,7 +638,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -639,10 +657,10 @@ class ThemeIndexTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'season' => $seasonFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Theme::factory()
@@ -662,7 +680,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -682,10 +700,10 @@ class ThemeIndexTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         Theme::factory()
@@ -710,7 +728,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -729,10 +747,10 @@ class ThemeIndexTest extends TestCase
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'facet' => $facetFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime.images',
+            IncludeParser::$param => 'anime.images',
         ];
 
         Theme::factory()
@@ -755,7 +773,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -774,10 +792,10 @@ class ThemeIndexTest extends TestCase
         $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'nsfw' => $nsfwFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries',
+            IncludeParser::$param => 'entries',
         ];
 
         Theme::factory()
@@ -798,7 +816,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -817,10 +835,10 @@ class ThemeIndexTest extends TestCase
         $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'spoiler' => $spoilerFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries',
+            IncludeParser::$param => 'entries',
         ];
 
         Theme::factory()
@@ -841,7 +859,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -861,10 +879,10 @@ class ThemeIndexTest extends TestCase
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'version' => $versionFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries',
+            IncludeParser::$param => 'entries',
         ];
 
         Theme::factory()
@@ -892,7 +910,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -911,10 +929,10 @@ class ThemeIndexTest extends TestCase
         $lyricsFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'lyrics' => $lyricsFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -939,7 +957,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -958,10 +976,10 @@ class ThemeIndexTest extends TestCase
         $ncFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'nc' => $ncFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -986,7 +1004,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1005,10 +1023,10 @@ class ThemeIndexTest extends TestCase
         $overlapFilter = VideoOverlap::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'overlap' => $overlapFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -1033,7 +1051,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1053,10 +1071,10 @@ class ThemeIndexTest extends TestCase
         $excludedResolution = $resolutionFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'resolution' => $resolutionFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -1088,7 +1106,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1107,10 +1125,10 @@ class ThemeIndexTest extends TestCase
         $sourceFilter = VideoSource::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'source' => $sourceFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -1135,7 +1153,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1154,10 +1172,10 @@ class ThemeIndexTest extends TestCase
         $subbedFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'subbed' => $subbedFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -1182,7 +1200,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1201,10 +1219,10 @@ class ThemeIndexTest extends TestCase
         $uncenFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'uncen' => $uncenFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.videos',
+            IncludeParser::$param => 'entries.videos',
         ];
 
         Theme::factory()
@@ -1229,7 +1247,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, QueryParser::make($parameters))
+                    ThemeCollection::make($themes, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

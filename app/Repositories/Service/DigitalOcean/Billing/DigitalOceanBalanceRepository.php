@@ -9,12 +9,12 @@ use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -46,7 +46,7 @@ class DigitalOceanBalanceRepository implements Repository
                 ->json();
 
             $balance = Balance::factory()->makeOne([
-                'date' => Carbon::now()->firstOfMonth()->format(AllowedDateFormat::YMD),
+                'date' => Date::now()->firstOfMonth()->format(AllowedDateFormat::YMD),
                 'service' => Service::DIGITALOCEAN,
                 'frequency' => BalanceFrequency::MONTHLY,
                 'usage' => Arr::get($response, 'month_to_date_usage'),

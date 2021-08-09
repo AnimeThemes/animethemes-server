@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Console\Commands\Wiki;
 
 use App\Console\Commands\Wiki\DatabaseDumpCommand;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -34,7 +34,7 @@ class DatabaseDumpTest extends TestCase
             $command = $command->append(' --create');
         }
 
-        Carbon::setTestNow($this->faker->iso8601());
+        Date::setTestNow($this->faker->iso8601());
 
         $dumpFile = DatabaseDumpCommand::getDumpFile($create);
 
@@ -57,7 +57,7 @@ class DatabaseDumpTest extends TestCase
             $command = $command->append(' --create');
         }
 
-        Carbon::setTestNow($this->faker->iso8601());
+        Date::setTestNow($this->faker->iso8601());
 
         $dumpFile = DatabaseDumpCommand::getDumpFile($create);
 

@@ -31,8 +31,6 @@ class ImagePolicyTest extends TestCase
         $policy = new ImagePolicy();
 
         static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -44,8 +42,6 @@ class ImagePolicyTest extends TestCase
     {
         $policy = new ImagePolicy();
 
-        static::assertTrue($policy->view());
-        static::assertTrue($policy->view());
         static::assertTrue($policy->view());
     }
 

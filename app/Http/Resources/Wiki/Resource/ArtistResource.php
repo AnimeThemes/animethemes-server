@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
@@ -32,12 +32,12 @@ class ArtistResource extends BaseResource
      * Create a new resource instance.
      *
      * @param Artist | MissingValue | null $artist
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(Artist | MissingValue | null $artist, QueryParser $parser)
+    public function __construct(Artist | MissingValue | null $artist, Query $query)
     {
-        parent::__construct($artist, $parser);
+        parent::__construct($artist, $query);
     }
 
     /**
@@ -64,11 +64,11 @@ class ArtistResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'songs' => SongCollection::make($this->whenLoaded('songs'), $this->parser),
-            'members' => ArtistCollection::make($this->whenLoaded('members'), $this->parser),
-            'groups' => ArtistCollection::make($this->whenLoaded('groups'), $this->parser),
-            'resources' => ExternalResourceCollection::make($this->whenLoaded('resources'), $this->parser),
-            'images' => ImageCollection::make($this->whenLoaded('images'), $this->parser),
+            'songs' => SongCollection::make($this->whenLoaded('songs'), $this->query),
+            'members' => ArtistCollection::make($this->whenLoaded('members'), $this->query),
+            'groups' => ArtistCollection::make($this->whenLoaded('groups'), $this->query),
+            'resources' => ExternalResourceCollection::make($this->whenLoaded('resources'), $this->query),
+            'images' => ImageCollection::make($this->whenLoaded('images'), $this->query),
         ];
     }
 

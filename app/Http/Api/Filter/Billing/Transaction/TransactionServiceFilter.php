@@ -6,7 +6,7 @@ namespace App\Http\Api\Filter\Billing\Transaction;
 
 use App\Enums\Models\Billing\Service;
 use App\Http\Api\Filter\EnumFilter;
-use App\Http\Api\QueryParser;
+use Illuminate\Support\Collection;
 
 /**
  * Class TransactionServiceFilter.
@@ -16,10 +16,10 @@ class TransactionServiceFilter extends EnumFilter
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection $criteria
      */
-    public function __construct(QueryParser $parser)
+    public function __construct(Collection $criteria)
     {
-        parent::__construct($parser, 'service', Service::class);
+        parent::__construct($criteria, 'service', Service::class);
     }
 }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter;
 
-use App\Http\Api\QueryParser;
+use BenSampo\Enum\Enum;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
@@ -15,20 +16,20 @@ abstract class EnumFilter extends Filter
     /**
      * The Enum class string.
      *
-     * @var string
+     * @var class-string<Enum>
      */
     protected string $enumClass;
 
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection $criteria
      * @param string $key
-     * @param string $enumClass
+     * @param class-string<Enum> $enumClass
      */
-    public function __construct(QueryParser $parser, string $key, string $enumClass)
+    public function __construct(Collection $criteria, string $key, string $enumClass)
     {
-        parent::__construct($parser, $key);
+        parent::__construct($criteria, $key);
         $this->enumClass = $enumClass;
     }
 

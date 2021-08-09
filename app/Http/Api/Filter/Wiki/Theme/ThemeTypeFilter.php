@@ -6,7 +6,7 @@ namespace App\Http\Api\Filter\Wiki\Theme;
 
 use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\Filter\EnumFilter;
-use App\Http\Api\QueryParser;
+use Illuminate\Support\Collection;
 
 /**
  * Class ThemeTypeFilter.
@@ -16,10 +16,10 @@ class ThemeTypeFilter extends EnumFilter
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection $criteria
      */
-    public function __construct(QueryParser $parser)
+    public function __construct(Collection $criteria)
     {
-        parent::__construct($parser, 'type', ThemeType::class);
+        parent::__construct($criteria, 'type', ThemeType::class);
     }
 }

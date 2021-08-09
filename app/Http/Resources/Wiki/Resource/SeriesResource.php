@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Models\Wiki\Series;
@@ -29,12 +29,12 @@ class SeriesResource extends BaseResource
      * Create a new resource instance.
      *
      * @param Series | MissingValue | null $series
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(Series | MissingValue | null $series, QueryParser $parser)
+    public function __construct(Series | MissingValue | null $series, Query $query)
     {
-        parent::__construct($series, $parser);
+        parent::__construct($series, $query);
     }
 
     /**
@@ -54,7 +54,7 @@ class SeriesResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->parser),
+            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->query),
         ];
     }
 

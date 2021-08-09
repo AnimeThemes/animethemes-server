@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter\Base;
 
 use App\Http\Api\Filter\DateFilter;
-use App\Http\Api\QueryParser;
+use Illuminate\Support\Collection;
 
 /**
  * Class DeletedAtFilter.
@@ -15,10 +15,10 @@ class DeletedAtFilter extends DateFilter
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection $criteria
      */
-    public function __construct(QueryParser $parser)
+    public function __construct(Collection $criteria)
     {
-        parent::__construct($parser, 'deleted_at');
+        parent::__construct($criteria, 'deleted_at');
     }
 }

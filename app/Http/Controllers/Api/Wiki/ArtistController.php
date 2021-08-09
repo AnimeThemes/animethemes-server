@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
-use App\Enums\Http\Api\PaginationStrategy;
+use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
@@ -25,11 +25,11 @@ class ArtistController extends BaseController
      */
     public function index(Request $request): JsonResponse
     {
-        if ($this->parser->hasSearch()) {
-            return ArtistCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse($request);
+        if ($this->query->hasSearchCriteria()) {
+            return ArtistCollection::performSearch($this->query, PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return ArtistCollection::performQuery($this->parser)->toResponse($request);
+        return ArtistCollection::performQuery($this->query)->toResponse($request);
     }
 
     /**
@@ -41,7 +41,7 @@ class ArtistController extends BaseController
      */
     public function show(Request $request, Artist $artist): JsonResponse
     {
-        $resource = ArtistResource::performQuery($artist, $this->parser);
+        $resource = ArtistResource::performQuery($artist, $this->query);
 
         return $resource->toResponse($request);
     }

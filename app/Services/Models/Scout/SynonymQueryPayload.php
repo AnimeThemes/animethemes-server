@@ -33,18 +33,18 @@ class SynonymQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('text')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('text')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('text')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')

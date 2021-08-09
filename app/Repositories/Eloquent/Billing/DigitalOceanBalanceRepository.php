@@ -8,8 +8,8 @@ use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
 use App\Repositories\Eloquent\EloquentRepository;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 
 /**
  * Class DigitalOceanBalanceRepository.
@@ -23,7 +23,7 @@ class DigitalOceanBalanceRepository extends EloquentRepository
      */
     public function all(): Collection
     {
-        $now = Carbon::now();
+        $now = Date::now();
 
         return Balance::query()
             ->where('service', Service::DIGITALOCEAN)

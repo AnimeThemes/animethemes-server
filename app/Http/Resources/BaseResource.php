@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Concerns\Http\Resources\PerformsConstrainedEagerLoading;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,22 +19,22 @@ abstract class BaseResource extends JsonResource
     /**
      * Sparse field set specified by the client.
      *
-     * @var QueryParser
+     * @var Query
      */
-    protected QueryParser $parser;
+    protected Query $query;
 
     /**
      * Create a new resource instance.
      *
      * @param mixed $resource
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(mixed $resource, QueryParser $parser)
+    public function __construct(mixed $resource, Query $query)
     {
         parent::__construct($resource);
 
-        $this->parser = $parser;
+        $this->query = $query;
     }
 
     /**
@@ -45,7 +45,9 @@ abstract class BaseResource extends JsonResource
      */
     protected function isAllowedField(string $field): bool
     {
-        return $this->parser->isAllowedField(static::$wrap, $field);
+        $criteria = $this->query->getFieldCriteria(static::$wrap);
+
+        return $criteria === null || $criteria->isAllowedField($field);
     }
 
     /**
@@ -59,11 +61,11 @@ abstract class BaseResource extends JsonResource
      * Perform query to prepare model for resource.
      *
      * @param Model $model
-     * @param QueryParser $parser
+     * @param Query $query
      * @return static
      */
-    public static function performQuery(Model $model, QueryParser $parser): static
+    public static function performQuery(Model $model, Query $query): static
     {
-        return static::make($model->load(static::performConstrainedEagerLoads($parser)), $parser);
+        return static::make($model->load(static::performConstrainedEagerLoads($query)), $query);
     }
 }

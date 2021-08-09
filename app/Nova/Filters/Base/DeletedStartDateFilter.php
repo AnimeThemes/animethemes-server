@@ -7,7 +7,7 @@ namespace App\Nova\Filters\Base;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use Laravel\Nova\Filters\DateFilter;
 
 /**
@@ -37,7 +37,7 @@ class DeletedStartDateFilter extends DateFilter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        $value = Carbon::parse($value);
+        $value = Date::parse($value);
 
         return $query->where('deleted_at', ComparisonOperator::GTE, $value);
     }

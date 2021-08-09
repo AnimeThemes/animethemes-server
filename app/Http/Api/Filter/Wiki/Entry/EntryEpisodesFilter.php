@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter\Wiki\Entry;
 
 use App\Http\Api\Filter\StringFilter;
-use App\Http\Api\QueryParser;
+use Illuminate\Support\Collection;
 
 /**
  * Class EntryEpisodesFilter.
@@ -15,10 +15,10 @@ class EntryEpisodesFilter extends StringFilter
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection $criteria
      */
-    public function __construct(QueryParser $parser)
+    public function __construct(Collection $criteria)
     {
-        parent::__construct($parser, 'episodes');
+        parent::__construct($criteria, 'episodes');
     }
 }

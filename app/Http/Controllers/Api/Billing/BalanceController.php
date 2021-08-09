@@ -24,7 +24,7 @@ class BalanceController extends BaseController
      */
     public function index(Request $request): JsonResponse
     {
-        return BalanceCollection::performQuery($this->parser)->toResponse($request);
+        return BalanceCollection::performQuery($this->query)->toResponse($request);
     }
 
     /**
@@ -36,7 +36,7 @@ class BalanceController extends BaseController
      */
     public function show(Request $request, Balance $balance): JsonResponse
     {
-        $resource = BalanceResource::performQuery($balance, $this->parser);
+        $resource = BalanceResource::performQuery($balance, $this->query);
 
         return $resource->toResponse($request);
     }

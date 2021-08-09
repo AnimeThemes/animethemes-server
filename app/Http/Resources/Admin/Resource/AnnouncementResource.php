@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Admin\Resource;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Models\Admin\Announcement;
 use Illuminate\Http\Request;
@@ -28,12 +28,12 @@ class AnnouncementResource extends BaseResource
      * Create a new resource instance.
      *
      * @param Announcement | MissingValue | null $announcement
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(Announcement | MissingValue | null $announcement, QueryParser $parser)
+    public function __construct(Announcement | MissingValue | null $announcement, Query $query)
     {
-        parent::__construct($announcement, $parser);
+        parent::__construct($announcement, $query);
     }
 
     /**

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Enums\Http\Api\PaginationStrategy;
-use App\Http\Api\QueryParser;
+use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
@@ -33,12 +33,12 @@ class SearchResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(QueryParser $parser)
+    public function __construct(Query $query)
     {
-        parent::__construct(new MissingValue(), $parser);
+        parent::__construct(new MissingValue(), $query);
     }
 
     /**
@@ -54,35 +54,35 @@ class SearchResource extends BaseResource
         return [
             AnimeCollection::$wrap => $this->when(
                 $this->isAllowedField(AnimeCollection::$wrap),
-                AnimeCollection::performSearch($this->parser, PaginationStrategy::LIMIT())
+                AnimeCollection::performSearch($this->query, PaginationStrategy::LIMIT())
             ),
             ArtistCollection::$wrap => $this->when(
                 $this->isAllowedField(ArtistCollection::$wrap),
-                ArtistCollection::performSearch($this->parser, PaginationStrategy::LIMIT())
+                ArtistCollection::performSearch($this->query, PaginationStrategy::LIMIT())
             ),
             EntryCollection::$wrap => $this->when(
                 $this->isAllowedField(EntryCollection::$wrap),
-                EntryCollection::performSearch($this->parser, PaginationStrategy::LIMIT())
+                EntryCollection::performSearch($this->query, PaginationStrategy::LIMIT())
             ),
             SeriesCollection::$wrap => $this->when(
                 $this->isAllowedField(SeriesCollection::$wrap),
-                SeriesCollection::performSearch($this->parser, PaginationStrategy::LIMIT())
+                SeriesCollection::performSearch($this->query, PaginationStrategy::LIMIT())
             ),
             SongCollection::$wrap => $this->when(
                 $this->isAllowedField(SongCollection::$wrap),
-                SongCollection::performSearch($this->parser, PaginationStrategy::LIMIT())
+                SongCollection::performSearch($this->query, PaginationStrategy::LIMIT())
             ),
             SynonymCollection::$wrap => $this->when(
                 $this->isAllowedField(SynonymCollection::$wrap),
-                SynonymCollection::performSearch($this->parser, PaginationStrategy::LIMIT())
+                SynonymCollection::performSearch($this->query, PaginationStrategy::LIMIT())
             ),
             ThemeCollection::$wrap => $this->when(
                 $this->isAllowedField(ThemeCollection::$wrap),
-                ThemeCollection::performSearch($this->parser, PaginationStrategy::LIMIT())
+                ThemeCollection::performSearch($this->query, PaginationStrategy::LIMIT())
             ),
             VideoCollection::$wrap => $this->when(
                 $this->isAllowedField(VideoCollection::$wrap),
-                VideoCollection::performSearch($this->parser, PaginationStrategy::LIMIT())
+                VideoCollection::performSearch($this->query, PaginationStrategy::LIMIT())
             ),
         ];
     }

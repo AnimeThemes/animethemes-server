@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\ExternalResource;
 
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
@@ -39,7 +42,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, QueryParser::make())
+                    ExternalResourceResource::make($resource, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -66,7 +69,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, QueryParser::make())
+                    ExternalResourceResource::make($resource, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -86,7 +89,7 @@ class ExternalResourceShowTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         ExternalResource::factory()
@@ -101,7 +104,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, QueryParser::make($parameters))
+                    ExternalResourceResource::make($resource, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -131,7 +134,7 @@ class ExternalResourceShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 ExternalResourceResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -143,7 +146,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, QueryParser::make($parameters))
+                    ExternalResourceResource::make($resource, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -162,10 +165,10 @@ class ExternalResourceShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'season' => $seasonFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         ExternalResource::factory()
@@ -184,7 +187,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, QueryParser::make($parameters))
+                    ExternalResourceResource::make($resource, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -204,10 +207,10 @@ class ExternalResourceShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'anime',
+            IncludeParser::$param => 'anime',
         ];
 
         ExternalResource::factory()
@@ -232,7 +235,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, QueryParser::make($parameters))
+                    ExternalResourceResource::make($resource, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

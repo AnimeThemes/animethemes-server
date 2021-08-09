@@ -34,18 +34,18 @@ class ArtistQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('name')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('name')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('name')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -59,7 +59,7 @@ class ArtistQueryPayload extends ElasticQueryPayload
                     ->query(
                         (new MatchPhraseQueryBuilder())
                         ->field('songs.pivot.as')
-                        ->query($this->parser->getSearch())
+                        ->query($this->criteria->getTerm())
                     )
                 )
             )
@@ -72,7 +72,7 @@ class ArtistQueryPayload extends ElasticQueryPayload
                     ->query(
                         (new MatchQueryBuilder())
                         ->field('songs.pivot.as')
-                        ->query($this->parser->getSearch())
+                        ->query($this->criteria->getTerm())
                         ->operator('AND')
                     )
                 )
@@ -86,7 +86,7 @@ class ArtistQueryPayload extends ElasticQueryPayload
                     ->query(
                         (new MatchQueryBuilder())
                         ->field('songs.pivot.as')
-                        ->query($this->parser->getSearch())
+                        ->query($this->criteria->getTerm())
                         ->operator('AND')
                         ->lenient(true)
                         ->fuzziness('AUTO')

@@ -7,10 +7,10 @@ namespace Tests\Feature\Http\Billing;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Billing\Balance;
 use App\Models\Billing\Transaction;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
 
 /**
@@ -69,7 +69,7 @@ class TransparencyTest extends TestCase
     {
         Balance::factory()->create();
 
-        $date = Carbon::now()->subMonths($this->faker->randomDigitNotNull())->format(AllowedDateFormat::YM);
+        $date = Date::now()->subMonths($this->faker->randomDigitNotNull())->format(AllowedDateFormat::YM);
 
         $response = $this->get(route('transparency.show', ['date' => $date]));
 

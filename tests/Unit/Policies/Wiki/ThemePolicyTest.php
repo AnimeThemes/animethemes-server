@@ -26,8 +26,6 @@ class ThemePolicyTest extends TestCase
         $policy = new ThemePolicy();
 
         static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
-        static::assertTrue($policy->viewAny());
     }
 
     /**
@@ -39,8 +37,6 @@ class ThemePolicyTest extends TestCase
     {
         $policy = new ThemePolicy();
 
-        static::assertTrue($policy->view());
-        static::assertTrue($policy->view());
         static::assertTrue($policy->view());
     }
 

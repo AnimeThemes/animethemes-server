@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Wiki;
 
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\PostgresConnection;
 use Illuminate\Database\SQLiteConnection;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -133,12 +133,12 @@ class DatabaseDumpCommand extends Command
      */
     public static function getDumpFile(bool $create = false): string
     {
-        $fs = Storage::disk('db-dumps');
+        $filesystem = Storage::disk('db-dumps');
 
-        return Str::of($fs->path(''))
+        return Str::of($filesystem->path(''))
             ->append('animethemes-db-dump-')
             ->append($create ? 'create-' : '')
-            ->append(Carbon::now()->toDateString())
+            ->append(Date::now()->toDateString())
             ->append('.sql')
             ->__toString();
     }

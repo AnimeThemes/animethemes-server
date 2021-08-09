@@ -34,18 +34,18 @@ class AnimeQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('name')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('name')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('name')
-                ->query($this->parser->getSearch())
+                ->query($this->criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -56,7 +56,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
                 ->query(
                     (new MatchPhraseQueryBuilder())
                     ->field('synonyms.text')
-                    ->query($this->parser->getSearch())
+                    ->query($this->criteria->getTerm())
                 )
             )
             ->should(
@@ -65,7 +65,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
                 ->query(
                     (new MatchQueryBuilder())
                     ->field('synonyms.text')
-                    ->query($this->parser->getSearch())
+                    ->query($this->criteria->getTerm())
                     ->operator('AND')
                 )
             )
@@ -75,7 +75,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
                 ->query(
                     (new MatchQueryBuilder())
                     ->field('synonyms.text')
-                    ->query($this->parser->getSearch())
+                    ->query($this->criteria->getTerm())
                     ->operator('AND')
                     ->lenient(true)
                     ->fuzziness('AUTO')

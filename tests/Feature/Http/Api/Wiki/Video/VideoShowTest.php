@@ -6,7 +6,10 @@ namespace Tests\Feature\Http\Api\Wiki\Video;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Entry;
@@ -43,7 +46,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, QueryParser::make())
+                    VideoResource::make($video, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -70,7 +73,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, QueryParser::make())
+                    VideoResource::make($video, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -90,7 +93,7 @@ class VideoShowTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Video::factory()
@@ -108,7 +111,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, QueryParser::make($parameters))
+                    VideoResource::make($video, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -150,7 +153,7 @@ class VideoShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 VideoResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -162,7 +165,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, QueryParser::make($parameters))
+                    VideoResource::make($video, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -181,10 +184,10 @@ class VideoShowTest extends TestCase
         $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'nsfw' => $nsfwFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries',
+            IncludeParser::$param => 'entries',
         ];
 
         Video::factory()
@@ -207,7 +210,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, QueryParser::make($parameters))
+                    VideoResource::make($video, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -226,10 +229,10 @@ class VideoShowTest extends TestCase
         $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'spoiler' => $spoilerFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries',
+            IncludeParser::$param => 'entries',
         ];
 
         Video::factory()
@@ -252,7 +255,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, QueryParser::make($parameters))
+                    VideoResource::make($video, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -272,10 +275,10 @@ class VideoShowTest extends TestCase
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'version' => $versionFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries',
+            IncludeParser::$param => 'entries',
         ];
 
         Video::factory()
@@ -302,7 +305,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, QueryParser::make($parameters))
+                    VideoResource::make($video, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -322,10 +325,10 @@ class VideoShowTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'group' => $groupFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.theme',
+            IncludeParser::$param => 'entries.theme',
         ];
 
         Video::factory()
@@ -354,7 +357,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, QueryParser::make($parameters))
+                    VideoResource::make($video, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -374,10 +377,10 @@ class VideoShowTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.theme',
+            IncludeParser::$param => 'entries.theme',
         ];
 
         Video::factory()
@@ -406,7 +409,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, QueryParser::make($parameters))
+                    VideoResource::make($video, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -425,10 +428,10 @@ class VideoShowTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'type' => $typeFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.theme',
+            IncludeParser::$param => 'entries.theme',
         ];
 
         Video::factory()
@@ -451,7 +454,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, QueryParser::make($parameters))
+                    VideoResource::make($video, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -470,10 +473,10 @@ class VideoShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'season' => $seasonFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.theme.anime',
+            IncludeParser::$param => 'entries.theme.anime',
         ];
 
         Video::factory()
@@ -496,7 +499,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, QueryParser::make($parameters))
+                    VideoResource::make($video, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -516,10 +519,10 @@ class VideoShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'entries.theme.anime',
+            IncludeParser::$param => 'entries.theme.anime',
         ];
 
         Video::factory()
@@ -550,7 +553,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, QueryParser::make($parameters))
+                    VideoResource::make($video, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

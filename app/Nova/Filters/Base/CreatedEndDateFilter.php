@@ -8,7 +8,7 @@ use App\Enums\Http\Api\Filter\ComparisonOperator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use Laravel\Nova\Filters\DateFilter;
 
 /**
@@ -38,7 +38,7 @@ class CreatedEndDateFilter extends DateFilter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        $value = Carbon::parse($value);
+        $value = Date::parse($value);
 
         return $query->where(Model::CREATED_AT, ComparisonOperator::LTE, $value);
     }

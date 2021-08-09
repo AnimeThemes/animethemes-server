@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Billing\Resource;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Models\Billing\Transaction;
 use Illuminate\Http\Request;
@@ -28,12 +28,12 @@ class TransactionResource extends BaseResource
      * Create a new resource instance.
      *
      * @param Transaction | MissingValue | null $transaction
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(Transaction | MissingValue | null $transaction, QueryParser $parser)
+    public function __construct(Transaction | MissingValue | null $transaction, Query $query)
     {
-        parent::__construct($transaction, $parser);
+        parent::__construct($transaction, $query);
     }
 
     /**

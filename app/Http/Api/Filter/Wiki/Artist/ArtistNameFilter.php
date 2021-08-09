@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter\Wiki\Artist;
 
 use App\Http\Api\Filter\StringFilter;
-use App\Http\Api\QueryParser;
+use Illuminate\Support\Collection;
 
 /**
  * Class ArtistNameFilter.
@@ -15,10 +15,10 @@ class ArtistNameFilter extends StringFilter
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection $criteria
      */
-    public function __construct(QueryParser $parser)
+    public function __construct(Collection $criteria)
     {
-        parent::__construct($parser, 'name');
+        parent::__construct($criteria, 'name');
     }
 }

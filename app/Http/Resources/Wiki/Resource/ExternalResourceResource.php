@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
@@ -30,12 +30,12 @@ class ExternalResourceResource extends BaseResource
      * Create a new resource instance.
      *
      * @param ExternalResource | MissingValue | null $resource
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(ExternalResource | MissingValue | null $resource, QueryParser $parser)
+    public function __construct(ExternalResource | MissingValue | null $resource, Query $query)
     {
-        parent::__construct($resource, $parser);
+        parent::__construct($resource, $query);
     }
 
     /**
@@ -61,8 +61,8 @@ class ExternalResourceResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->parser),
-            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->parser),
+            'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->query),
+            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->query),
         ];
     }
 

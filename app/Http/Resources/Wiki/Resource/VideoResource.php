@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\EntryCollection;
 use App\Models\Wiki\Video;
@@ -29,12 +29,12 @@ class VideoResource extends BaseResource
      * Create a new resource instance.
      *
      * @param Video | MissingValue | null $video
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(Video | MissingValue | null $video, QueryParser $parser)
+    public function __construct(Video | MissingValue | null $video, Query $query)
     {
-        parent::__construct($video, $parser);
+        parent::__construct($video, $query);
     }
 
     /**
@@ -66,7 +66,7 @@ class VideoResource extends BaseResource
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
             'tags' => $this->when($this->isAllowedField('tags'), implode('', $this->tags)),
             'link' => $this->when($this->isAllowedField('link'), route('video.show', $this)),
-            'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->parser),
+            'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->query),
         ];
     }
 

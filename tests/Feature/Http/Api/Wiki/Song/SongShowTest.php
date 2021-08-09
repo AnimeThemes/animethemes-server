@@ -6,7 +6,10 @@ namespace Tests\Feature\Http\Api\Wiki\Song;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
@@ -43,7 +46,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, QueryParser::make())
+                    SongResource::make($song, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -72,7 +75,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, QueryParser::make())
+                    SongResource::make($song, Query::make())
                         ->response()
                         ->getData()
                 ),
@@ -92,7 +95,7 @@ class SongShowTest extends TestCase
         $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
 
         $parameters = [
-            QueryParser::PARAM_INCLUDE => $includedPaths->join(','),
+            IncludeParser::$param => $includedPaths->join(','),
         ];
 
         Song::factory()
@@ -107,7 +110,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, QueryParser::make($parameters))
+                    SongResource::make($song, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -137,7 +140,7 @@ class SongShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
 
         $parameters = [
-            QueryParser::PARAM_FIELDS => [
+            FieldParser::$param => [
                 SongResource::$wrap => $includedFields->join(','),
             ],
         ];
@@ -149,7 +152,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, QueryParser::make($parameters))
+                    SongResource::make($song, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -169,10 +172,10 @@ class SongShowTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'group' => $groupFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes',
+            IncludeParser::$param => 'themes',
         ];
 
         Song::factory()
@@ -199,7 +202,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, QueryParser::make($parameters))
+                    SongResource::make($song, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -219,10 +222,10 @@ class SongShowTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes',
+            IncludeParser::$param => 'themes',
         ];
 
         Song::factory()
@@ -249,7 +252,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, QueryParser::make($parameters))
+                    SongResource::make($song, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -268,10 +271,10 @@ class SongShowTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'type' => $typeFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes',
+            IncludeParser::$param => 'themes',
         ];
 
         Song::factory()
@@ -290,7 +293,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, QueryParser::make($parameters))
+                    SongResource::make($song, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -309,10 +312,10 @@ class SongShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'season' => $seasonFilter->key,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.anime',
+            IncludeParser::$param => 'themes.anime',
         ];
 
         Song::factory()
@@ -331,7 +334,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, QueryParser::make($parameters))
+                    SongResource::make($song, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -351,10 +354,10 @@ class SongShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            QueryParser::PARAM_FILTER => [
+            FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            QueryParser::PARAM_INCLUDE => 'themes.anime',
+            IncludeParser::$param => 'themes.anime',
         ];
 
         Song::factory()
@@ -382,7 +385,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, QueryParser::make($parameters))
+                    SongResource::make($song, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

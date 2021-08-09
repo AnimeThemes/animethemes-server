@@ -4,14 +4,23 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
+use App\Http\Api\Criteria\Filter\Criteria as FilterCriteria;
+use App\Http\Api\Criteria\Sort\Criteria;
+use App\Http\Api\Filter\Filter;
 use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceExternalIdFilter;
 use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceIdFilter;
 use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceLinkFilter;
 use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceSiteFilter;
+use App\Http\Api\Sort\Sort;
+use App\Http\Api\Sort\Wiki\ExternalResource\ExternalResourceExternalIdSort;
+use App\Http\Api\Sort\Wiki\ExternalResource\ExternalResourceIdSort;
+use App\Http\Api\Sort\Wiki\ExternalResource\ExternalResourceLinkSort;
+use App\Http\Api\Sort\Wiki\ExternalResource\ExternalResourceSiteSort;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  * Class ExternalResourceCollection.
@@ -43,7 +52,7 @@ class ExternalResourceCollection extends BaseCollection
     public function toArray($request): array
     {
         return $this->collection->map(function (ExternalResource $resource) {
-            return ExternalResourceResource::make($resource, $this->parser);
+            return ExternalResourceResource::make($resource, $this->query);
         })->all();
     }
 
@@ -61,37 +70,39 @@ class ExternalResourceCollection extends BaseCollection
     }
 
     /**
-     * The sort field names a client is allowed to request.
+     * The sorts that can be applied by the client for this resource.
      *
-     * @return string[]
+     * @param Collection<Criteria> $sortCriteria
+     * @return Sort[]
      */
-    public static function allowedSortFields(): array
+    public static function sorts(Collection $sortCriteria): array
     {
-        return [
-            'resource_id',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-            'site',
-            'link',
-            'external_id',
-        ];
+        return array_merge(
+            parent::sorts($sortCriteria),
+            [
+                new ExternalResourceIdSort($sortCriteria),
+                new ExternalResourceLinkSort($sortCriteria),
+                new ExternalResourceExternalIdSort($sortCriteria),
+                new ExternalResourceSiteSort($sortCriteria),
+            ]
+        );
     }
 
     /**
      * The filters that can be applied by the client for this resource.
      *
-     * @return string[]
+     * @param Collection<FilterCriteria> $filterCriteria
+     * @return Filter[]
      */
-    public static function filters(): array
+    public static function filters(Collection $filterCriteria): array
     {
         return array_merge(
-            parent::filters(),
+            parent::filters($filterCriteria),
             [
-                ExternalResourceIdFilter::class,
-                ExternalResourceLinkFilter::class,
-                ExternalResourceExternalIdFilter::class,
-                ExternalResourceSiteFilter::class,
+                new ExternalResourceIdFilter($filterCriteria),
+                new ExternalResourceLinkFilter($filterCriteria),
+                new ExternalResourceExternalIdFilter($filterCriteria),
+                new ExternalResourceSiteFilter($filterCriteria),
             ]
         );
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
-use App\Enums\Http\Api\PaginationStrategy;
+use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\Wiki\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Resource\ThemeResource;
@@ -25,11 +25,11 @@ class ThemeController extends BaseController
      */
     public function index(Request $request): JsonResponse
     {
-        if ($this->parser->hasSearch()) {
-            return ThemeCollection::performSearch($this->parser, PaginationStrategy::OFFSET())->toResponse($request);
+        if ($this->query->hasSearchCriteria()) {
+            return ThemeCollection::performSearch($this->query, PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return ThemeCollection::performQuery($this->parser)->toResponse($request);
+        return ThemeCollection::performQuery($this->query)->toResponse($request);
     }
 
     /**
@@ -41,7 +41,7 @@ class ThemeController extends BaseController
      */
     public function show(Request $request, Theme $theme): JsonResponse
     {
-        $resource = ThemeResource::performQuery($theme, $this->parser);
+        $resource = ThemeResource::performQuery($theme, $this->query);
 
         return $resource->toResponse($request);
     }

@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Enums\Http\Api\PaginationStrategy;
-use App\Http\Api\Filter\Filter;
-use App\Http\Api\QueryParser;
+use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Http\Api\Query;
 use App\Services\Http\Resources\DiscoverElasticQueryPayload;
 use App\Services\Models\Scout\ElasticQueryPayload;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Exceptions\QueryBuilderException;
 use Illuminate\Http\Resources\MissingValue;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
@@ -25,41 +23,41 @@ abstract class SearchableCollection extends BaseCollection
     /**
      * Perform query to prepare models for resource collection.
      *
-     * @param QueryParser $parser
+     * @param Query $query
      * @param PaginationStrategy $paginationStrategy
      * @return static
      */
     public static function performSearch(
-        QueryParser $parser,
+        Query $query,
         PaginationStrategy $paginationStrategy
     ): static {
         $driver = Config::get('scout.driver');
 
         // Perform Elasticsearch search
-        if ($parser->hasSearch() && $driver === 'elastic') {
-            return static::performElasticSearch($parser, $paginationStrategy);
+        if ($query->hasSearchCriteria() && $driver === 'elastic') {
+            return static::performElasticSearch($query, $paginationStrategy);
         }
 
         // If we don't have a driver or search term, return an empty collection
-        return static::make([], $parser);
+        return static::make([], $query);
     }
 
     /**
      * Resolve Elasticsearch query builder from collection collects property.
      *
-     * @param QueryParser $parser
+     * @param Query $query
      * @return ElasticQueryPayload|null
      */
-    protected static function elasticQueryPayload(QueryParser $parser): ?ElasticQueryPayload
+    protected static function elasticQueryPayload(Query $query): ?ElasticQueryPayload
     {
-        $collection = static::make(new MissingValue(), QueryParser::make());
+        $collection = static::make(new MissingValue(), Query::make());
 
         $collectsClass = $collection->collects;
 
         $elasticQueryPayload = DiscoverElasticQueryPayload::byModelClass($collectsClass);
 
         if (! empty($elasticQueryPayload)) {
-            return new $elasticQueryPayload($parser);
+            return new $elasticQueryPayload($query->getSearchCriteria());
         }
 
         return null;
@@ -68,33 +66,30 @@ abstract class SearchableCollection extends BaseCollection
     /**
      * Execute Elasticsearch query with resolved payload builder.
      *
-     * @param QueryParser $parser
+     * @param Query $query
      * @param PaginationStrategy $paginationStrategy
      * @return static
      */
     protected static function performElasticSearch(
-        QueryParser $parser,
+        Query $query,
         PaginationStrategy $paginationStrategy
     ): static {
-        $elasticQueryPayload = static::elasticQueryPayload($parser);
+        $elasticQueryPayload = static::elasticQueryPayload($query);
         if ($elasticQueryPayload === null) {
-            return static::make(Collection::make(), $parser);
+            return static::make(Collection::make(), $query);
         }
 
         // initialize builder with payload for matches
         $builder = $elasticQueryPayload->buildQuery();
 
         // eager load relations with constraints
-        $builder = $builder->load(static::performConstrainedEagerLoads($parser));
+        $builder = $builder->load(static::performConstrainedEagerLoads($query));
 
         // apply filters
         $filterBuilder = new BoolQueryBuilder();
-        foreach (static::filters() as $filterClass) {
-            $filter = new $filterClass($parser);
-            if ($filter instanceof Filter) {
-                $scope = Str::singular(static::$wrap);
-                $filterBuilder = $filter->scope($scope)->applyElasticsearchFilter($filterBuilder);
-            }
+        foreach (static::filters($query->getFilterCriteria()) as $filter) {
+            $scope = Str::singular(static::$wrap);
+            $filterBuilder = $filter->scope($scope)->applyElasticsearchFilter($filterBuilder);
         }
         try {
             $builder->filter($filterBuilder);
@@ -103,38 +98,16 @@ abstract class SearchableCollection extends BaseCollection
         }
 
         // apply sorts
-        foreach ($parser->getSorts() as $field => $isAsc) {
-            if (in_array(Str::lower($field), static::allowedSortFields())) {
-                $builder = $builder->sort(Str::lower($field), $isAsc ? 'asc' : 'desc');
-            }
-        }
-
-        // limit page size
-        if (PaginationStrategy::LIMIT()->is($paginationStrategy)) {
-            $builder = $builder->size($parser->getLimit());
+        foreach (static::sorts($query->getSortCriteria()) as $sort) {
+            $builder = $sort->applyElasticsearchSort($builder);
         }
 
         // paginate
-        if (PaginationStrategy::OFFSET()->is($paginationStrategy)) {
-            $maxResults = intval(Config::get('json-api-paginate.max_results'));
-            $defaultSize = intval(Config::get('json-api-paginate.default_size'));
-            $numberParameter = Config::get('json-api-paginate.number_parameter');
-            $sizeParameter = Config::get('json-api-paginate.size_parameter');
-            $paginationParameter = Config::get('json-api-paginate.pagination_parameter');
+        $paginationCriteria = $query->getPagingCriteria($paginationStrategy);
+        $collection = $paginationCriteria !== null
+            ? $paginationCriteria->applyElasticsearchPagination($builder)
+            : $builder->execute()->models();
 
-            $size = (int) request()->input($paginationParameter.'.'.$sizeParameter, $defaultSize);
-
-            $size = $size > $maxResults ? $maxResults : $size;
-
-            $paginator = $builder->paginate($size, $paginationParameter.'.'.$numberParameter)
-                ->setPageName($paginationParameter.'['.$numberParameter.']')
-                ->appends(Arr::except(request()->input(), $paginationParameter.'.'.$numberParameter));
-
-            $paginator->setCollection($paginator->models());
-
-            return static::make($paginator, $parser);
-        }
-
-        return static::make($builder->execute()->models(), $parser);
+        return static::make($collection, $query);
     }
 }

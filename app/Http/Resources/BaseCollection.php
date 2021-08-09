@@ -5,12 +5,20 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Concerns\Http\Resources\PerformsConstrainedEagerLoading;
+use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Http\Api\Criteria\Filter\Criteria as FilterCriteria;
+use App\Http\Api\Criteria\Sort\Criteria as SortCriteria;
 use App\Http\Api\Filter\Base\CreatedAtFilter;
 use App\Http\Api\Filter\Base\DeletedAtFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Api\Filter\Filter;
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
+use App\Http\Api\Sort\Base\CreatedAtSort;
+use App\Http\Api\Sort\Base\DeletedAtSort;
+use App\Http\Api\Sort\Base\UpdatedAtSort;
+use App\Http\Api\Sort\RandomSort;
+use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -28,29 +36,22 @@ abstract class BaseCollection extends ResourceCollection
     /**
      * Sparse field set specified by the client.
      *
-     * @var QueryParser
+     * @var Query
      */
-    protected QueryParser $parser;
-
-    /**
-     * Indicates if all existing request query parameters should be added to pagination links.
-     *
-     * @var bool
-     */
-    protected $preserveAllQueryParameters = true;
+    protected Query $query;
 
     /**
      * Create a new resource instance.
      *
      * @param mixed $resource
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(mixed $resource, QueryParser $parser)
+    public function __construct(mixed $resource, Query $query)
     {
         parent::__construct($resource);
 
-        $this->parser = $parser;
+        $this->query = $query;
     }
 
     /**
@@ -61,24 +62,34 @@ abstract class BaseCollection extends ResourceCollection
     abstract public static function allowedIncludePaths(): array;
 
     /**
-     * The sort field names a client is allowed to request.
+     * The sorts that can be applied by the client for this resource.
      *
-     * @return string[]
+     * @param Collection<SortCriteria> $sortCriteria
+     * @return Sort[]
      */
-    abstract public static function allowedSortFields(): array;
+    public static function sorts(Collection $sortCriteria): array
+    {
+        return [
+            new CreatedAtSort($sortCriteria),
+            new UpdatedAtSort($sortCriteria),
+            new DeletedAtSort($sortCriteria),
+            new RandomSort($sortCriteria),
+        ];
+    }
 
     /**
      * The filters that can be applied by the client for this resource.
      *
-     * @return string[]
+     * @param Collection<FilterCriteria> $filterCriteria
+     * @return Filter[]
      */
-    public static function filters(): array
+    public static function filters(Collection $filterCriteria): array
     {
         return [
-            CreatedAtFilter::class,
-            UpdatedAtFilter::class,
-            DeletedAtFilter::class,
-            TrashedFilter::class,
+            new CreatedAtFilter($filterCriteria),
+            new UpdatedAtFilter($filterCriteria),
+            new DeletedAtFilter($filterCriteria),
+            new TrashedFilter($filterCriteria),
         ];
     }
 
@@ -89,7 +100,7 @@ abstract class BaseCollection extends ResourceCollection
      */
     protected static function queryBuilder(): ?Builder
     {
-        $collection = static::make(new MissingValue(), QueryParser::make());
+        $collection = static::make(new MissingValue(), Query::make());
         $collectsClass = $collection->collects;
 
         if (! empty($collectsClass)) {
@@ -105,40 +116,38 @@ abstract class BaseCollection extends ResourceCollection
     /**
      * Perform query to prepare models for resource collection.
      *
-     * @param QueryParser $parser
+     * @param Query $query
      * @return static
      */
-    public static function performQuery(QueryParser $parser): static
+    public static function performQuery(Query $query): static
     {
         // initialize builder, returning early if not resolved
         $builder = static::queryBuilder();
         if ($builder === null) {
-            return static::make(Collection::make(), $parser);
+            return static::make(Collection::make(), $query);
         }
 
         // eager load relations with constraints
-        $builder = $builder->with(static::performConstrainedEagerLoads($parser));
+        $builder = $builder->with(static::performConstrainedEagerLoads($query));
 
         // apply filters
-        foreach (static::filters() as $filterClass) {
-            $filter = new $filterClass($parser);
-            if ($filter instanceof Filter) {
-                $scope = Str::singular(static::$wrap);
-                $builder = $filter->scope($scope)->applyFilter($builder);
-            }
+        foreach (static::filters($query->getFilterCriteria()) as $filter) {
+            $scope = Str::singular(static::$wrap);
+            $builder = $filter->scope($scope)->applyFilter($builder);
         }
 
         // apply sorts
-        foreach ($parser->getSorts() as $field => $isAsc) {
-            if (in_array(Str::lower($field), static::allowedSortFields())) {
-                $builder = $builder->orderBy(Str::lower($field), $isAsc ? 'asc' : 'desc');
-            }
+        foreach (static::sorts($query->getSortCriteria()) as $sort) {
+            $builder = $sort->applySort($builder);
         }
 
         // paginate
-        $collection = $builder->jsonPaginate();
+        $paginationCriteria = $query->getPagingCriteria(PaginationStrategy::OFFSET());
+        $collection = $paginationCriteria !== null
+            ? $paginationCriteria->applyPagination($builder)
+            : $builder->get();
 
         // return paginated resource collection
-        return static::make($collection, $parser);
+        return static::make($collection, $query);
     }
 }

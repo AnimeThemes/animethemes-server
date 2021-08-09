@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -16,9 +16,9 @@ abstract class BaseController extends Controller
     /**
      * Resolves include paths and field sets.
      *
-     * @var QueryParser
+     * @var Query
      */
-    protected QueryParser $parser;
+    protected Query $query;
 
     /**
      * Create a new controller instance.
@@ -27,8 +27,8 @@ abstract class BaseController extends Controller
      */
     public function __construct(Request $request)
     {
-        $parameters = $request->only(QueryParser::parameters());
+        $parameters = $request->only(Query::parameters());
 
-        $this->parser = QueryParser::make($parameters);
+        $this->query = Query::make($parameters);
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter\Billing\Balance;
 
 use App\Http\Api\Filter\FloatFilter;
-use App\Http\Api\QueryParser;
+use Illuminate\Support\Collection;
 
 /**
  * Class BalanceUsageFilter.
@@ -15,10 +15,10 @@ class BalanceUsageFilter extends FloatFilter
     /**
      * Create a new filter instance.
      *
-     * @param QueryParser $parser
+     * @param Collection $criteria
      */
-    public function __construct(QueryParser $parser)
+    public function __construct(Collection $criteria)
     {
-        parent::__construct($parser, 'usage');
+        parent::__construct($criteria, 'usage');
     }
 }

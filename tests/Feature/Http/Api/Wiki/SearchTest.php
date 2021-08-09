@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\SearchParser;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Collection\EntryCollection;
@@ -49,7 +50,7 @@ class SearchTest extends TestCase
         $q = $this->faker->word();
 
         $parameters = [
-            QueryParser::PARAM_SEARCH => $q,
+            SearchParser::$param => $q,
         ];
 
         $response = $this->get(route('api.search.show', $parameters));
@@ -91,8 +92,8 @@ class SearchTest extends TestCase
         $q = $this->faker->word();
 
         $parameters = [
-            QueryParser::PARAM_SEARCH => $q,
-            QueryParser::PARAM_FIELDS => [
+            SearchParser::$param => $q,
+            FieldParser::$param => [
                 SearchResource::$wrap => implode(',', $includedFields),
             ],
         ];

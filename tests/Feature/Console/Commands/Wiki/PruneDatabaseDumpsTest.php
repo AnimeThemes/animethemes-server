@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Feature\Console\Commands\Wiki;
 
 use App\Console\Commands\Wiki\DatabaseDumpCommand;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -42,12 +42,12 @@ class PruneDatabaseDumpsTest extends TestCase
         $deletedCount = $this->faker->randomDigitNotNull();
 
         Collection::times($deletedCount, function () {
-            Carbon::setTestNow($this->faker->iso8601());
+            Date::setTestNow($this->faker->iso8601());
 
             $this->artisan(DatabaseDumpCommand::class)->run();
         });
 
-        Carbon::setTestNow();
+        Date::setTestNow();
 
         $this->artisan('db:prune-dumps --hours=-1')->expectsOutput("{$deletedCount} database dumps deleted");
     }

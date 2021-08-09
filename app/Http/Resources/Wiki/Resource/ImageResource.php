@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\QueryParser;
+use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
@@ -30,12 +30,12 @@ class ImageResource extends BaseResource
      * Create a new resource instance.
      *
      * @param Image | MissingValue | null $image
-     * @param QueryParser $parser
+     * @param Query $query
      * @return void
      */
-    public function __construct(Image | MissingValue | null $image, QueryParser $parser)
+    public function __construct(Image | MissingValue | null $image, Query $query)
     {
-        parent::__construct($image, $parser);
+        parent::__construct($image, $query);
     }
 
     /**
@@ -58,8 +58,8 @@ class ImageResource extends BaseResource
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
             'link' =>  $this->when($this->isAllowedField('link'), route('image.show', $this)),
-            'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->parser),
-            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->parser),
+            'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->query),
+            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->query),
         ];
     }
 
