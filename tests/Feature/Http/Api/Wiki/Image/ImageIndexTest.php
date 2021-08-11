@@ -200,8 +200,10 @@ class ImageIndexTest extends TestCase
 
         $builder = Image::query();
 
-        foreach (ImageCollection::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applySort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (ImageCollection::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applySort($builder);
+            }
         }
 
         $response = $this->get(route('api.image.index', $parameters));

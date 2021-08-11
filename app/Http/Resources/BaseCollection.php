@@ -137,8 +137,10 @@ abstract class BaseCollection extends ResourceCollection
         }
 
         // apply sorts
-        foreach (static::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applySort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (static::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applySort($builder);
+            }
         }
 
         // paginate

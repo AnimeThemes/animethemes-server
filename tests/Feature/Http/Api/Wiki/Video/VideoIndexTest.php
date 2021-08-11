@@ -238,8 +238,10 @@ class VideoIndexTest extends TestCase
 
         $builder = Video::query();
 
-        foreach (VideoCollection::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applySort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (VideoCollection::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applySort($builder);
+            }
         }
 
         $response = $this->get(route('api.video.index', $parameters));

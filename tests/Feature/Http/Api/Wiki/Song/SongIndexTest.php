@@ -199,8 +199,10 @@ class SongIndexTest extends TestCase
 
         $builder = Song::query();
 
-        foreach (SongCollection::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applySort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (SongCollection::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applySort($builder);
+            }
         }
 
         $response = $this->get(route('api.song.index', $parameters));

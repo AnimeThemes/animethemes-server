@@ -180,8 +180,10 @@ class AnnouncementIndexTest extends TestCase
 
         $builder = Announcement::query();
 
-        foreach (AnnouncementCollection::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applySort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (AnnouncementCollection::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applySort($builder);
+            }
         }
 
         $response = $this->get(route('api.announcement.index', $parameters));

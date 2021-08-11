@@ -198,8 +198,10 @@ class SeriesIndexTest extends TestCase
 
         $builder = Series::query();
 
-        foreach (SeriesCollection::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applySort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (SeriesCollection::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applySort($builder);
+            }
         }
 
         $response = $this->get(route('api.series.index', $parameters));

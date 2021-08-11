@@ -200,8 +200,10 @@ class ExternalResourceIndexTest extends TestCase
 
         $builder = ExternalResource::query();
 
-        foreach (ExternalResourceCollection::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applySort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (ExternalResourceCollection::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applySort($builder);
+            }
         }
 
         $response = $this->get(route('api.resource.index', $parameters));

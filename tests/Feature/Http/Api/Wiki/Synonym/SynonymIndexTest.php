@@ -203,8 +203,10 @@ class SynonymIndexTest extends TestCase
 
         $builder = Synonym::query();
 
-        foreach (SynonymCollection::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applySort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (SynonymCollection::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applySort($builder);
+            }
         }
 
         $response = $this->get(route('api.synonym.index', $parameters));
