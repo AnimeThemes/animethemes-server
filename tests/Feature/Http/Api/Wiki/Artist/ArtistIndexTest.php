@@ -206,8 +206,10 @@ class ArtistIndexTest extends TestCase
 
         $builder = Artist::query();
 
-        foreach (ArtistCollection::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applySort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (ArtistCollection::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applySort($builder);
+            }
         }
 
         $response = $this->get(route('api.artist.index', $parameters));

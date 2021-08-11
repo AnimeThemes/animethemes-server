@@ -208,8 +208,10 @@ class AnimeIndexTest extends TestCase
 
         $builder = Anime::query();
 
-        foreach (AnimeCollection::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applySort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (AnimeCollection::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applySort($builder);
+            }
         }
 
         $response = $this->get(route('api.anime.index', $parameters));

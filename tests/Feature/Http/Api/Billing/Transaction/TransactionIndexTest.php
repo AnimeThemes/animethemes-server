@@ -188,8 +188,10 @@ class TransactionIndexTest extends TestCase
 
         $builder = Transaction::query();
 
-        foreach (TransactionCollection::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applySort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (TransactionCollection::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applySort($builder);
+            }
         }
 
         $response = $this->get(route('api.transaction.index', $parameters));

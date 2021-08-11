@@ -98,8 +98,10 @@ abstract class SearchableCollection extends BaseCollection
         }
 
         // apply sorts
-        foreach (static::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applyElasticsearchSort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (static::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applyElasticsearchSort($builder);
+            }
         }
 
         // paginate

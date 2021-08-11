@@ -225,8 +225,10 @@ class ThemeIndexTest extends TestCase
 
         $builder = Theme::query();
 
-        foreach (ThemeCollection::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applySort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (ThemeCollection::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applySort($builder);
+            }
         }
 
         $response = $this->get(route('api.theme.index', $parameters));

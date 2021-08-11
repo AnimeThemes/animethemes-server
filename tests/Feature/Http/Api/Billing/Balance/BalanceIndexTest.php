@@ -188,8 +188,10 @@ class BalanceIndexTest extends TestCase
 
         $builder = Balance::query();
 
-        foreach (BalanceCollection::sorts($query->getSortCriteria()) as $sort) {
-            $builder = $sort->applySort($builder);
+        foreach ($query->getSortCriteria() as $sortCriterion) {
+            foreach (BalanceCollection::sorts(collect([$sortCriterion])) as $sort) {
+                $builder = $sort->applySort($builder);
+            }
         }
 
         $response = $this->get(route('api.balance.index', $parameters));
