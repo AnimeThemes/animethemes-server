@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Api\Filter;
+namespace Tests\Unit\Http\Api\Parser;
 
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Sort\FieldCriteria;
