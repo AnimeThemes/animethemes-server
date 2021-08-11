@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Api\Filter;
+namespace Tests\Unit\Http\Api\Parser;
 
 use App\Http\Api\Criteria\Search\Criteria;
 use App\Http\Api\Parser\SearchParser;
