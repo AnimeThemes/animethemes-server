@@ -111,9 +111,7 @@ class Entry extends BaseModel
         $array['theme'] = $this->theme->toSearchableArray();
 
         // Overwrite version with readable format "V{#}"
-        if (! empty($this->version)) {
-            $array['version'] = Str::of(strval($this->version))->trim()->prepend('V')->__toString();
-        }
+        $array['version'] = Str::of(empty($this->version) ? 1 : $this->version)->prepend('V')->__toString();
 
         return $array;
     }
