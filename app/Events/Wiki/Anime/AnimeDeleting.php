@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Anime;
 
 use App\Contracts\Events\CascadesDeletesEvent;
-use App\Events\Wiki\Theme\ThemeDeleting;
-use App\Models\Wiki\Synonym;
-use App\Models\Wiki\Theme;
+use App\Events\Wiki\Anime\Theme\ThemeDeleting;
+use App\Models\Wiki\Anime\Synonym;
+use App\Models\Wiki\Anime\Theme;
 use Illuminate\Support\Facades\Event;
 
 /**

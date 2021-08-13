@@ -6,6 +6,7 @@ namespace App\Nova\Resources\Wiki;
 
 use App\Nova\Lenses\Song\SongArtistLens;
 use App\Nova\Resources\Resource;
+use App\Nova\Resources\Wiki\Anime\Theme;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;

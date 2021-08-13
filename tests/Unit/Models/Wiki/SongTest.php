@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Wiki;
 
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\Theme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Theme;
 use App\Pivots\ArtistSong;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;

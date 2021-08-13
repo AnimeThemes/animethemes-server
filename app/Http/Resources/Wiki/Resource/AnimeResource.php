@@ -6,11 +6,11 @@ namespace App\Http\Resources\Wiki\Resource;
 
 use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
+use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
+use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
 use App\Http\Resources\Wiki\Collection\ImageCollection;
 use App\Http\Resources\Wiki\Collection\SeriesCollection;
-use App\Http\Resources\Wiki\Collection\SynonymCollection;
-use App\Http\Resources\Wiki\Collection\ThemeCollection;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;

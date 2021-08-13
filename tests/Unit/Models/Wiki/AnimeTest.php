@@ -6,11 +6,11 @@ namespace Tests\Unit\Models\Wiki;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\Synonym;
+use App\Models\Wiki\Anime\Theme;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
-use App\Models\Wiki\Synonym;
-use App\Models\Wiki\Theme;
 use App\Pivots\AnimeImage;
 use App\Pivots\AnimeResource;
 use App\Pivots\AnimeSeries;

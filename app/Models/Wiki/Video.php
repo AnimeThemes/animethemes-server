@@ -13,6 +13,7 @@ use App\Events\Wiki\Video\VideoDeleted;
 use App\Events\Wiki\Video\VideoRestored;
 use App\Events\Wiki\Video\VideoUpdated;
 use App\Models\BaseModel;
+use App\Models\Wiki\Anime\Theme\Entry;
 use App\Pivots\VideoEntry;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
@@ -243,7 +244,7 @@ class Video extends BaseModel implements Streamable, Viewable
      */
     public function entries(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Entry', 'entry_video', 'video_id', 'entry_id')
+        return $this->belongsToMany('App\Models\Wiki\Anime\Theme\Entry', 'entry_video', 'video_id', 'entry_id')
             ->using(VideoEntry::class)
             ->withTimestamps();
     }

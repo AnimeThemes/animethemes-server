@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Song;
 
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\Theme\Entry;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Entry;
-use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 
 /**

@@ -6,7 +6,7 @@ namespace App\Pivots;
 
 use App\Events\Pivot\VideoEntry\VideoEntryCreated;
 use App\Events\Pivot\VideoEntry\VideoEntryDeleted;
-use App\Models\Wiki\Entry;
+use App\Models\Wiki\Anime\Theme\Entry;
 use App\Models\Wiki\Video;
 use Database\Factories\Pivots\VideoEntryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -59,6 +59,6 @@ class VideoEntry extends BasePivot
      */
     public function entry(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Entry', 'entry_id', 'entry_id');
+        return $this->belongsTo('App\Models\Wiki\Anime\Theme\Entry', 'entry_id', 'entry_id');
     }
 }

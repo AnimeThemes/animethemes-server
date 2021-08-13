@@ -6,7 +6,7 @@ namespace App\Http\Resources\Wiki\Resource;
 
 use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
-use App\Http\Resources\Wiki\Collection\EntryCollection;
+use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
