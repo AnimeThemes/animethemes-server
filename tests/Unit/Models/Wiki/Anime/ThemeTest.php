@@ -6,9 +6,9 @@ namespace Tests\Unit\Models\Wiki\Anime;
 
 use App\Enums\Models\Wiki\Anime\ThemeType;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\Theme;
 use App\Models\Wiki\Anime\Theme\Entry;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Anime\Theme;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;

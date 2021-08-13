@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime;
 
+use App\Enums\Models\Wiki\Anime\ThemeType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Enums\Models\Wiki\Anime\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Http\Api\Parser\FieldParser;
@@ -15,10 +15,10 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\Theme;
 use App\Models\Wiki\Anime\Theme\Entry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
-use App\Models\Wiki\Anime\Theme;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

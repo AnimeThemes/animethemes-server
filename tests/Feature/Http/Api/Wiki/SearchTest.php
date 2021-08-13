@@ -6,13 +6,13 @@ namespace Tests\Feature\Http\Api\Wiki;
 
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\SearchParser;
+use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
+use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Collection\SeriesCollection;
 use App\Http\Resources\Wiki\Collection\SongCollection;
-use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
-use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
 use App\Http\Resources\Wiki\Resource\SearchResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;

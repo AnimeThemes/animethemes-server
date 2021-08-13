@@ -6,13 +6,13 @@ namespace Database\Factories\Wiki;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\Synonym;
+use App\Models\Wiki\Anime\Theme;
 use App\Models\Wiki\Anime\Theme\Entry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Anime\Synonym;
-use App\Models\Wiki\Anime\Theme;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;

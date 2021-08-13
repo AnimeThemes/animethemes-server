@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Nova\Lenses\Video;
 
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme\Entry;
 use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\Theme\Entry;
 use App\Models\Wiki\Video;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;

@@ -6,8 +6,8 @@ namespace Tests\Unit\Policies\Wiki\Anime\Theme;
 
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme\Entry;
 use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\Theme\Entry;
 use App\Models\Wiki\Video;
 use App\Policies\Wiki\Anime\Theme\EntryPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -6,8 +6,8 @@ namespace Database\Seeders;
 
 use App\Enums\Models\Wiki\Anime\ThemeType;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Artist;
 use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Artist;
 use App\Pivots\ArtistSong;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;

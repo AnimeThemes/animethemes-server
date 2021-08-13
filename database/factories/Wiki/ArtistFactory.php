@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Database\Factories\Wiki;
 
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\Theme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Anime\Theme;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

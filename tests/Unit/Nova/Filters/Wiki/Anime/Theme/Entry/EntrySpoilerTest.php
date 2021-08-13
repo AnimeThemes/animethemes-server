@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Nova\Filters\Wiki\Anime\Theme\Entry;
 
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme\Entry;
 use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\Theme\Entry;
 use App\Nova\Filters\Wiki\Anime\Theme\Entry\EntrySpoilerFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
