@@ -6,7 +6,7 @@ namespace Tests\Feature\Jobs\Wiki;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Synonym;
+use App\Models\Wiki\Anime\Synonym;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;

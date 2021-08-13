@@ -6,8 +6,8 @@ namespace Tests\Feature\Jobs\Pivot;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Entry;
-use App\Models\Wiki\Theme;
+use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\Theme;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;

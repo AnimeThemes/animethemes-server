@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Api\Wiki\Song;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\Enums\Models\Wiki\ThemeType;
+use App\Enums\Models\Wiki\Anime\ThemeType;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Parser\FieldParser;
@@ -20,7 +20,7 @@ use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Theme;
+use App\Models\Wiki\Anime\Theme;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

@@ -156,7 +156,7 @@ class Anime extends BaseModel
      */
     public function synonyms(): HasMany
     {
-        return $this->hasMany('App\Models\Wiki\Synonym', 'anime_id', 'anime_id');
+        return $this->hasMany('App\Models\Wiki\Anime\Synonym', 'anime_id', 'anime_id');
     }
 
     /**
@@ -178,7 +178,7 @@ class Anime extends BaseModel
      */
     public function themes(): HasMany
     {
-        return $this->hasMany('App\Models\Wiki\Theme', 'anime_id', 'anime_id');
+        return $this->hasMany('App\Models\Wiki\Anime\Theme', 'anime_id', 'anime_id');
     }
 
     /**

@@ -18,6 +18,8 @@ use App\Nova\Lenses\Anime\AnimePlanetResourceLens;
 use App\Nova\Metrics\Anime\AnimePerDay;
 use App\Nova\Metrics\Anime\NewAnime;
 use App\Nova\Resources\Resource;
+use App\Nova\Resources\Wiki\Anime\Synonym;
+use App\Nova\Resources\Wiki\Anime\Theme;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\VideoEntry;
 
-use App\Models\Wiki\Entry;
+use App\Models\Wiki\Anime\Theme\Entry;
 use App\Models\Wiki\Video;
 use App\Pivots\VideoEntry;
 

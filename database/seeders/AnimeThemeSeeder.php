@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\Enums\Models\Wiki\ThemeType;
+use App\Enums\Models\Wiki\Anime\ThemeType;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Entry;
+use App\Models\Wiki\Anime\Theme\Entry;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Synonym;
-use App\Models\Wiki\Theme;
+use App\Models\Wiki\Anime\Synonym;
+use App\Models\Wiki\Anime\Theme;
 use App\Models\Wiki\Video;
 use App\Pivots\VideoEntry;
 use Exception;

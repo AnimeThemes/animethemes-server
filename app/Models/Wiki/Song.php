@@ -91,7 +91,7 @@ class Song extends BaseModel
      */
     public function themes(): HasMany
     {
-        return $this->hasMany('App\Models\Wiki\Theme', 'song_id', 'song_id');
+        return $this->hasMany('App\Models\Wiki\Anime\Theme', 'song_id', 'song_id');
     }
 
     /**

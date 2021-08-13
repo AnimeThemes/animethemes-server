@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Pivots;
 
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Entry;
-use App\Models\Wiki\Theme;
+use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\Theme;
 use App\Models\Wiki\Video;
 use App\Pivots\VideoEntry;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

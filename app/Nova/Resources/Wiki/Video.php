@@ -18,6 +18,7 @@ use App\Nova\Lenses\Video\VideoUnlinkedLens;
 use App\Nova\Metrics\Video\NewVideos;
 use App\Nova\Metrics\Video\VideosPerDay;
 use App\Nova\Resources\Resource;
+use App\Nova\Resources\Wiki\Anime\Theme\Entry;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
