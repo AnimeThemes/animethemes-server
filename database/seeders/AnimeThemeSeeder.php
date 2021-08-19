@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;

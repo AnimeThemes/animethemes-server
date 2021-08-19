@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Artist;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
-use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Parser\FieldParser;

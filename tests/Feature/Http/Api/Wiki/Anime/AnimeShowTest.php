@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime;
 
-use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Http\Api\Parser\FieldParser;

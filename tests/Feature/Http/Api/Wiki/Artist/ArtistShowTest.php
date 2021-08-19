@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Artist;
 
-use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
