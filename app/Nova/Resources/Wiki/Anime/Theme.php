@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki\Anime;
 
-use App\Enums\Models\Wiki\Anime\ThemeType;
+use App\Enums\Models\Wiki\ThemeType;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Nova\Filters\Wiki\Anime\Theme\ThemeTypeFilter;
 use App\Nova\Resources\Resource;
 use App\Nova\Resources\Wiki\Anime;
@@ -32,7 +33,7 @@ class Theme extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Wiki\Anime\Theme::class;
+    public static string $model = AnimeTheme::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -63,6 +64,18 @@ class Theme extends Resource
     public static function singularLabel(): string
     {
         return __('nova.theme');
+    }
+
+    /**
+     * Get the URI key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function uriKey(): string
+    {
+        return 'anime-themes';
     }
 
     /**
@@ -140,7 +153,7 @@ class Theme extends Resource
                 ->nullable()
                 ->showCreateRelationButton(),
 
-            HasMany::make(__('nova.entries'), 'Entries', Entry::class),
+            HasMany::make(__('nova.entries'), 'AnimeThemeEntries', Entry::class),
 
             AuditableLog::make(),
         ];

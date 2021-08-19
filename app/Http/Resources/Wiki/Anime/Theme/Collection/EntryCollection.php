@@ -22,7 +22,7 @@ use App\Http\Api\Sort\Wiki\Anime\Theme\Entry\EntrySpoilerSort;
 use App\Http\Api\Sort\Wiki\Anime\Theme\Entry\EntryVersionSort;
 use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -36,14 +36,14 @@ class EntryCollection extends SearchableCollection
      *
      * @var string|null
      */
-    public static $wrap = 'entries';
+    public static $wrap = 'animethemeentries';
 
     /**
      * The resource that this resource collects.
      *
      * @var string
      */
-    public $collects = Entry::class;
+    public $collects = AnimeThemeEntry::class;
 
     /**
      * Transform the resource into a JSON array.
@@ -55,7 +55,7 @@ class EntryCollection extends SearchableCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (Entry $entry) {
+        return $this->collection->map(function (AnimeThemeEntry $entry) {
             return EntryResource::make($entry, $this->query);
         })->all();
     }
@@ -68,8 +68,8 @@ class EntryCollection extends SearchableCollection
     public static function allowedIncludePaths(): array
     {
         return [
-            'theme',
-            'theme.anime',
+            'animetheme',
+            'animetheme.anime',
             'videos',
         ];
     }

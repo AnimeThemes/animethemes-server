@@ -7,9 +7,7 @@ namespace App\Http\Resources\Wiki\Resource;
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
-use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
-use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Collection\SeriesCollection;
@@ -56,13 +54,13 @@ class SearchResource extends BaseResource
                 $this->isAllowedField(AnimeCollection::$wrap),
                 AnimeCollection::performSearch($this->query, PaginationStrategy::LIMIT())
             ),
+            ThemeCollection::$wrap => $this->when(
+                $this->isAllowedField(ThemeCollection::$wrap),
+                ThemeCollection::performSearch($this->query, PaginationStrategy::LIMIT())
+            ),
             ArtistCollection::$wrap => $this->when(
                 $this->isAllowedField(ArtistCollection::$wrap),
                 ArtistCollection::performSearch($this->query, PaginationStrategy::LIMIT())
-            ),
-            EntryCollection::$wrap => $this->when(
-                $this->isAllowedField(EntryCollection::$wrap),
-                EntryCollection::performSearch($this->query, PaginationStrategy::LIMIT())
             ),
             SeriesCollection::$wrap => $this->when(
                 $this->isAllowedField(SeriesCollection::$wrap),
@@ -71,14 +69,6 @@ class SearchResource extends BaseResource
             SongCollection::$wrap => $this->when(
                 $this->isAllowedField(SongCollection::$wrap),
                 SongCollection::performSearch($this->query, PaginationStrategy::LIMIT())
-            ),
-            SynonymCollection::$wrap => $this->when(
-                $this->isAllowedField(SynonymCollection::$wrap),
-                SynonymCollection::performSearch($this->query, PaginationStrategy::LIMIT())
-            ),
-            ThemeCollection::$wrap => $this->when(
-                $this->isAllowedField(ThemeCollection::$wrap),
-                ThemeCollection::performSearch($this->query, PaginationStrategy::LIMIT())
             ),
             VideoCollection::$wrap => $this->when(
                 $this->isAllowedField(VideoCollection::$wrap),

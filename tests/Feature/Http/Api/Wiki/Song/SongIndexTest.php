@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Song;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
-use App\Enums\Models\Wiki\Anime\ThemeType;
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Parser\FieldParser;
@@ -18,7 +18,7 @@ use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Collection\SongCollection;
 use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use Carbon\Carbon;
@@ -98,7 +98,7 @@ class SongIndexTest extends TestCase
         ];
 
         Song::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
+            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
             ->has(Artist::factory()->count($this->faker->randomDigitNotNull()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
@@ -498,12 +498,12 @@ class SongIndexTest extends TestCase
             FilterParser::$param => [
                 'group' => $groupFilter,
             ],
-            IncludeParser::$param => 'themes',
+            IncludeParser::$param => 'animethemes',
         ];
 
         Song::factory()
             ->has(
-                Theme::factory()
+                AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->for(Anime::factory())
                     ->state(new Sequence(
@@ -515,7 +515,7 @@ class SongIndexTest extends TestCase
             ->create();
 
         $songs = Song::with([
-            'themes' => function (HasMany $query) use ($groupFilter) {
+            'animethemes' => function (HasMany $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -549,12 +549,12 @@ class SongIndexTest extends TestCase
             FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
-            IncludeParser::$param => 'themes',
+            IncludeParser::$param => 'animethemes',
         ];
 
         Song::factory()
             ->has(
-                Theme::factory()
+                AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->for(Anime::factory())
                     ->state(new Sequence(
@@ -566,7 +566,7 @@ class SongIndexTest extends TestCase
             ->create();
 
         $songs = Song::with([
-            'themes' => function (HasMany $query) use ($sequenceFilter) {
+            'animethemes' => function (HasMany $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -599,16 +599,16 @@ class SongIndexTest extends TestCase
             FilterParser::$param => [
                 'type' => $typeFilter->description,
             ],
-            IncludeParser::$param => 'themes',
+            IncludeParser::$param => 'animethemes',
         ];
 
         Song::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
+            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $songs = Song::with([
-            'themes' => function (HasMany $query) use ($typeFilter) {
+            'animethemes' => function (HasMany $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
@@ -641,16 +641,16 @@ class SongIndexTest extends TestCase
             FilterParser::$param => [
                 'season' => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'themes.anime',
+            IncludeParser::$param => 'animethemes.anime',
         ];
 
         Song::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
+            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $songs = Song::with([
-            'themes.anime' => function (BelongsTo $query) use ($seasonFilter) {
+            'animethemes.anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -684,12 +684,12 @@ class SongIndexTest extends TestCase
             FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            IncludeParser::$param => 'themes.anime',
+            IncludeParser::$param => 'animethemes.anime',
         ];
 
         Song::factory()
             ->has(
-                Theme::factory()
+                AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->for(
                         Anime::factory()
@@ -702,7 +702,7 @@ class SongIndexTest extends TestCase
             ->create();
 
         $songs = Song::with([
-            'themes.anime' => function (BelongsTo $query) use ($yearFilter) {
+            'animethemes.anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

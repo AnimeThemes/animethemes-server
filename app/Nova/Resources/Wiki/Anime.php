@@ -24,7 +24,6 @@ use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
@@ -100,7 +99,7 @@ class Anime extends Resource
      */
     public static function uriKey(): string
     {
-        return Str::kebab(class_basename(get_called_class()));
+        return 'anime';
     }
 
     /**
@@ -162,9 +161,9 @@ class Anime extends Resource
                 ->nullable()
                 ->help(__('nova.anime_synopsis_help')),
 
-            HasMany::make(__('nova.synonyms'), 'Synonyms', Synonym::class),
+            HasMany::make(__('nova.synonyms'), 'AnimeSynonyms', Synonym::class),
 
-            HasMany::make(__('nova.themes'), 'Themes', Theme::class),
+            HasMany::make(__('nova.themes'), 'animethemes', Theme::class),
 
             BelongsToMany::make(__('nova.series'), 'Series', Series::class)
                 ->searchable()

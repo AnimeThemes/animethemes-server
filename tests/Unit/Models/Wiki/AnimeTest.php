@@ -6,8 +6,8 @@ namespace Tests\Unit\Models\Wiki;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Synonym;
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeSynonym;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
@@ -103,12 +103,12 @@ class AnimeTest extends TestCase
         $synonymCount = $this->faker->randomDigitNotNull();
 
         $anime = Anime::factory()
-            ->has(Synonym::factory()->count($synonymCount))
+            ->has(AnimeSynonym::factory()->count($synonymCount), 'animesynonyms')
             ->createOne();
 
-        static::assertInstanceOf(HasMany::class, $anime->synonyms());
-        static::assertEquals($synonymCount, $anime->synonyms()->count());
-        static::assertInstanceOf(Synonym::class, $anime->synonyms()->first());
+        static::assertInstanceOf(HasMany::class, $anime->animesynonyms());
+        static::assertEquals($synonymCount, $anime->animesynonyms()->count());
+        static::assertInstanceOf(AnimeSynonym::class, $anime->animesynonyms()->first());
     }
 
     /**
@@ -140,12 +140,12 @@ class AnimeTest extends TestCase
         $themeCount = $this->faker->randomDigitNotNull();
 
         $anime = Anime::factory()
-            ->has(Theme::factory()->count($themeCount))
+            ->has(AnimeTheme::factory()->count($themeCount))
             ->createOne();
 
-        static::assertInstanceOf(HasMany::class, $anime->themes());
-        static::assertEquals($themeCount, $anime->themes()->count());
-        static::assertInstanceOf(Theme::class, $anime->themes()->first());
+        static::assertInstanceOf(HasMany::class, $anime->animethemes());
+        static::assertEquals($themeCount, $anime->animethemes()->count());
+        static::assertInstanceOf(AnimeTheme::class, $anime->animethemes()->first());
     }
 
     /**

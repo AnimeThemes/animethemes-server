@@ -8,7 +8,7 @@ use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -36,10 +36,10 @@ class EntryController extends BaseController
      * Display the specified resource.
      *
      * @param Request $request
-     * @param Entry $entry
+     * @param AnimeThemeEntry $entry
      * @return JsonResponse
      */
-    public function show(Request $request, Entry $entry): JsonResponse
+    public function show(Request $request, AnimeThemeEntry $entry): JsonResponse
     {
         $resource = EntryResource::performQuery($entry, $this->query);
 

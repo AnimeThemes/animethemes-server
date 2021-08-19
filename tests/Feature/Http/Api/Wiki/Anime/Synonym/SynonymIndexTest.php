@@ -17,7 +17,7 @@ use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
 use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Synonym;
+use App\Models\Wiki\Anime\AnimeSynonym;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -42,14 +42,14 @@ class SynonymIndexTest extends TestCase
      */
     public function testDefault()
     {
-        Synonym::factory()
+        AnimeSynonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $synonyms = Synonym::all();
+        $synonyms = AnimeSynonym::all();
 
-        $response = $this->get(route('api.synonym.index'));
+        $response = $this->get(route('api.animesynonym.index'));
 
         $response->assertJson(
             json_decode(
@@ -70,12 +70,12 @@ class SynonymIndexTest extends TestCase
      */
     public function testPaginated()
     {
-        Synonym::factory()
+        AnimeSynonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $response = $this->get(route('api.synonym.index'));
+        $response = $this->get(route('api.animesynonym.index'));
 
         $response->assertJsonStructure([
             SynonymCollection::$wrap,
@@ -98,14 +98,14 @@ class SynonymIndexTest extends TestCase
             IncludeParser::$param => $includedPaths->join(','),
         ];
 
-        Synonym::factory()
+        AnimeSynonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $synonyms = Synonym::with($includedPaths->all())->get();
+        $synonyms = AnimeSynonym::with($includedPaths->all())->get();
 
-        $response = $this->get(route('api.synonym.index', $parameters));
+        $response = $this->get(route('api.animesynonym.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -142,14 +142,14 @@ class SynonymIndexTest extends TestCase
             ],
         ];
 
-        Synonym::factory()
+        AnimeSynonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $synonyms = Synonym::all();
+        $synonyms = AnimeSynonym::all();
 
-        $response = $this->get(route('api.synonym.index', $parameters));
+        $response = $this->get(route('api.animesynonym.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -196,12 +196,12 @@ class SynonymIndexTest extends TestCase
 
         $query = Query::make($parameters);
 
-        Synonym::factory()
+        AnimeSynonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $builder = Synonym::query();
+        $builder = AnimeSynonym::query();
 
         foreach ($query->getSortCriteria() as $sortCriterion) {
             foreach (SynonymCollection::sorts(collect([$sortCriterion])) as $sort) {
@@ -209,7 +209,7 @@ class SynonymIndexTest extends TestCase
             }
         }
 
-        $response = $this->get(route('api.synonym.index', $parameters));
+        $response = $this->get(route('api.animesynonym.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -243,22 +243,22 @@ class SynonymIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($createdFilter, function () {
-            Synonym::factory()
+            AnimeSynonym::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            Synonym::factory()
+            AnimeSynonym::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        $synonym = Synonym::query()->where('created_at', $createdFilter)->get();
+        $synonym = AnimeSynonym::query()->where('created_at', $createdFilter)->get();
 
-        $response = $this->get(route('api.synonym.index', $parameters));
+        $response = $this->get(route('api.animesynonym.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -292,22 +292,22 @@ class SynonymIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($updatedFilter, function () {
-            Synonym::factory()
+            AnimeSynonym::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            Synonym::factory()
+            AnimeSynonym::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        $synonym = Synonym::query()->where('updated_at', $updatedFilter)->get();
+        $synonym = AnimeSynonym::query()->where('updated_at', $updatedFilter)->get();
 
-        $response = $this->get(route('api.synonym.index', $parameters));
+        $response = $this->get(route('api.animesynonym.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -337,23 +337,23 @@ class SynonymIndexTest extends TestCase
             ],
         ];
 
-        Synonym::factory()
+        AnimeSynonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteSynonym = Synonym::factory()
+        $deleteSynonym = AnimeSynonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteSynonym->each(function (Synonym $synonym) {
+        $deleteSynonym->each(function (AnimeSynonym $synonym) {
             $synonym->delete();
         });
 
-        $synonym = Synonym::withoutTrashed()->get();
+        $synonym = AnimeSynonym::withoutTrashed()->get();
 
-        $response = $this->get(route('api.synonym.index', $parameters));
+        $response = $this->get(route('api.animesynonym.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -383,23 +383,23 @@ class SynonymIndexTest extends TestCase
             ],
         ];
 
-        Synonym::factory()
+        AnimeSynonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteSynonym = Synonym::factory()
+        $deleteSynonym = AnimeSynonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteSynonym->each(function (Synonym $synonym) {
+        $deleteSynonym->each(function (AnimeSynonym $synonym) {
             $synonym->delete();
         });
 
-        $synonym = Synonym::withTrashed()->get();
+        $synonym = AnimeSynonym::withTrashed()->get();
 
-        $response = $this->get(route('api.synonym.index', $parameters));
+        $response = $this->get(route('api.animesynonym.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -429,23 +429,23 @@ class SynonymIndexTest extends TestCase
             ],
         ];
 
-        Synonym::factory()
+        AnimeSynonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteSynonym = Synonym::factory()
+        $deleteSynonym = AnimeSynonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteSynonym->each(function (Synonym $synonym) {
+        $deleteSynonym->each(function (AnimeSynonym $synonym) {
             $synonym->delete();
         });
 
-        $synonym = Synonym::onlyTrashed()->get();
+        $synonym = AnimeSynonym::onlyTrashed()->get();
 
-        $response = $this->get(route('api.synonym.index', $parameters));
+        $response = $this->get(route('api.animesynonym.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -480,22 +480,22 @@ class SynonymIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            Synonym::factory()
+            AnimeSynonym::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            Synonym::factory()
+            AnimeSynonym::factory()
                 ->for(Anime::factory())
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        $synonym = Synonym::withTrashed()->where('deleted_at', $deletedFilter)->get();
+        $synonym = AnimeSynonym::withTrashed()->where('deleted_at', $deletedFilter)->get();
 
-        $response = $this->get(route('api.synonym.index', $parameters));
+        $response = $this->get(route('api.animesynonym.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -525,19 +525,19 @@ class SynonymIndexTest extends TestCase
             IncludeParser::$param => 'anime',
         ];
 
-        Synonym::factory()
+        AnimeSynonym::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $synonyms = Synonym::with([
+        $synonyms = AnimeSynonym::with([
             'anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
         ->get();
 
-        $response = $this->get(route('api.synonym.index', $parameters));
+        $response = $this->get(route('api.animesynonym.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -568,7 +568,7 @@ class SynonymIndexTest extends TestCase
             IncludeParser::$param => 'anime',
         ];
 
-        Synonym::factory()
+        AnimeSynonym::factory()
             ->for(
                 Anime::factory()
                     ->state([
@@ -578,14 +578,14 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $synonyms = Synonym::with([
+        $synonyms = AnimeSynonym::with([
             'anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])
         ->get();
 
-        $response = $this->get(route('api.synonym.index', $parameters));
+        $response = $this->get(route('api.animesynonym.index', $parameters));
 
         $response->assertJson(
             json_decode(

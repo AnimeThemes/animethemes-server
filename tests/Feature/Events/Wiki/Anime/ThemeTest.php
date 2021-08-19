@@ -9,7 +9,7 @@ use App\Events\Wiki\Anime\Theme\ThemeDeleted;
 use App\Events\Wiki\Anime\Theme\ThemeRestored;
 use App\Events\Wiki\Anime\Theme\ThemeUpdated;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
@@ -30,7 +30,7 @@ class ThemeTest extends TestCase
     {
         Event::fake(ThemeCreated::class);
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
             ->createOne();
 
@@ -46,7 +46,7 @@ class ThemeTest extends TestCase
     {
         Event::fake(ThemeDeleted::class);
 
-        $theme = Theme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->createOne();
 
@@ -64,7 +64,7 @@ class ThemeTest extends TestCase
     {
         Event::fake(ThemeRestored::class);
 
-        $theme = Theme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->createOne();
 
@@ -82,11 +82,11 @@ class ThemeTest extends TestCase
     {
         Event::fake(ThemeUpdated::class);
 
-        $theme = Theme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->createOne();
 
-        $changes = Theme::factory()
+        $changes = AnimeTheme::factory()
             ->for(Anime::factory())
             ->makeOne();
 

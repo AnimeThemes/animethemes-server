@@ -8,7 +8,7 @@ use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -36,10 +36,10 @@ class ThemeController extends BaseController
      * Display the specified resource.
      *
      * @param Request $request
-     * @param Theme $theme
+     * @param AnimeTheme $theme
      * @return JsonResponse
      */
-    public function show(Request $request, Theme $theme): JsonResponse
+    public function show(Request $request, AnimeTheme $theme): JsonResponse
     {
         $resource = ThemeResource::performQuery($theme, $this->query);
 

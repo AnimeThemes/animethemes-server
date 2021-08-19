@@ -21,9 +21,9 @@ class CreateArtistSong extends Migration
         Schema::create('artist_song', function (Blueprint $table) {
             $table->timestamps(6);
             $table->unsignedBigInteger('artist_id');
-            $table->foreign('artist_id')->references('artist_id')->on('artist')->onDelete('cascade');
+            $table->foreign('artist_id')->references('artist_id')->on('artists')->onDelete('cascade');
             $table->unsignedBigInteger('song_id');
-            $table->foreign('song_id')->references('song_id')->on('song')->onDelete('cascade');
+            $table->foreign('song_id')->references('song_id')->on('songs')->onDelete('cascade');
             $table->primary(['artist_id', 'song_id']);
             $table->string('as')->nullable();
         });

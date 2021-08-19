@@ -18,7 +18,7 @@ class CreateAnnouncementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('announcement', function (Blueprint $table) {
+        Schema::create('announcements', function (Blueprint $table) {
             $table->id('announcement_id');
             $table->timestamps(6);
             $table->softDeletes('deleted_at', 6);
@@ -33,6 +33,6 @@ class CreateAnnouncementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('announcement');
+        Schema::dropIfExists('announcements');
     }
 }

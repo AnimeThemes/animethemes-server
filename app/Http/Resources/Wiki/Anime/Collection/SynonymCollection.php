@@ -14,7 +14,7 @@ use App\Http\Api\Sort\Wiki\Anime\Synonym\SynonymIdSort;
 use App\Http\Api\Sort\Wiki\Anime\Synonym\SynonymTextSort;
 use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
-use App\Models\Wiki\Anime\Synonym;
+use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -28,14 +28,14 @@ class SynonymCollection extends SearchableCollection
      *
      * @var string|null
      */
-    public static $wrap = 'synonyms';
+    public static $wrap = 'animesynonyms';
 
     /**
      * The resource that this resource collects.
      *
      * @var string
      */
-    public $collects = Synonym::class;
+    public $collects = AnimeSynonym::class;
 
     /**
      * Transform the resource into a JSON array.
@@ -47,7 +47,7 @@ class SynonymCollection extends SearchableCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (Synonym $synonym) {
+        return $this->collection->map(function (AnimeSynonym $synonym) {
             return SynonymResource::make($synonym, $this->query);
         })->all();
     }

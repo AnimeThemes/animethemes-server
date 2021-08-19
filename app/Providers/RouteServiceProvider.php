@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Wiki\Anime\AnimeSynonym;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -44,6 +47,13 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
+
+        // Anime Resources
+        Route::model('animesynonym', AnimeSynonym::class);
+        Route::model('animetheme', AnimeTheme::class);
+
+        // Anime Theme Resources
+        Route::model('animethemeentry', AnimeThemeEntry::class);
 
         $this->routes(function () {
             Route::middleware('web')

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme\Entry;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
-use App\Enums\Models\Wiki\Anime\ThemeType;
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Parser\FieldParser;
@@ -18,8 +18,8 @@ use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -45,12 +45,12 @@ class EntryIndexTest extends TestCase
      */
     public function testDefault()
     {
-        $entries = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        $entries = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $response = $this->get(route('api.entry.index'));
+        $response = $this->get(route('api.animethemeentry.index'));
 
         $response->assertJson(
             json_decode(
@@ -71,12 +71,12 @@ class EntryIndexTest extends TestCase
      */
     public function testPaginated()
     {
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $response = $this->get(route('api.entry.index'));
+        $response = $this->get(route('api.animethemeentry.index'));
 
         $response->assertJsonStructure([
             EntryCollection::$wrap,
@@ -99,15 +99,15 @@ class EntryIndexTest extends TestCase
             IncludeParser::$param => $includedPaths->join(','),
         ];
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
-        $entries = Entry::with($includedPaths->all())->get();
+        $entries = AnimeThemeEntry::with($includedPaths->all())->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -148,12 +148,12 @@ class EntryIndexTest extends TestCase
             ],
         ];
 
-        $entries = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        $entries = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -204,12 +204,12 @@ class EntryIndexTest extends TestCase
 
         $query = Query::make($parameters);
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $builder = Entry::query();
+        $builder = AnimeThemeEntry::query();
 
         foreach ($query->getSortCriteria() as $sortCriterion) {
             foreach (EntryCollection::sorts(collect([$sortCriterion])) as $sort) {
@@ -217,7 +217,7 @@ class EntryIndexTest extends TestCase
             }
         }
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -251,22 +251,22 @@ class EntryIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($createdFilter, function () {
-            Entry::factory()
-                ->for(Theme::factory()->for(Anime::factory()))
+            AnimeThemeEntry::factory()
+                ->for(AnimeTheme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            Entry::factory()
-                ->for(Theme::factory()->for(Anime::factory()))
+            AnimeThemeEntry::factory()
+                ->for(AnimeTheme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        $entry = Entry::query()->where('entry.created_at', $createdFilter)->get();
+        $entry = AnimeThemeEntry::query()->where('created_at', $createdFilter)->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -300,22 +300,22 @@ class EntryIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($updatedFilter, function () {
-            Entry::factory()
-                ->for(Theme::factory()->for(Anime::factory()))
+            AnimeThemeEntry::factory()
+                ->for(AnimeTheme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            Entry::factory()
-                ->for(Theme::factory()->for(Anime::factory()))
+            AnimeThemeEntry::factory()
+                ->for(AnimeTheme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
         });
 
-        $entry = Entry::query()->where('updated_at', $updatedFilter)->get();
+        $entry = AnimeThemeEntry::query()->where('updated_at', $updatedFilter)->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -345,23 +345,23 @@ class EntryIndexTest extends TestCase
             ],
         ];
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteEntry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        $deleteEntry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteEntry->each(function (Entry $entry) {
+        $deleteEntry->each(function (AnimeThemeEntry $entry) {
             $entry->delete();
         });
 
-        $entry = Entry::withoutTrashed()->get();
+        $entry = AnimeThemeEntry::withoutTrashed()->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -391,23 +391,23 @@ class EntryIndexTest extends TestCase
             ],
         ];
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteEntry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        $deleteEntry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteEntry->each(function (Entry $entry) {
+        $deleteEntry->each(function (AnimeThemeEntry $entry) {
             $entry->delete();
         });
 
-        $entry = Entry::withTrashed()->get();
+        $entry = AnimeThemeEntry::withTrashed()->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -437,23 +437,23 @@ class EntryIndexTest extends TestCase
             ],
         ];
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteEntry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        $deleteEntry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteEntry->each(function (Entry $entry) {
+        $deleteEntry->each(function (AnimeThemeEntry $entry) {
             $entry->delete();
         });
 
-        $entry = Entry::onlyTrashed()->get();
+        $entry = AnimeThemeEntry::onlyTrashed()->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -488,30 +488,30 @@ class EntryIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $entries = Entry::factory()
-                ->for(Theme::factory()->for(Anime::factory()))
+            $entries = AnimeThemeEntry::factory()
+                ->for(AnimeTheme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
 
-            $entries->each(function (Entry $entry) {
+            $entries->each(function (AnimeThemeEntry $entry) {
                 $entry->delete();
             });
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $entries = Entry::factory()
-                ->for(Theme::factory()->for(Anime::factory()))
+            $entries = AnimeThemeEntry::factory()
+                ->for(AnimeTheme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
 
-            $entries->each(function (Entry $entry) {
+            $entries->each(function (AnimeThemeEntry $entry) {
                 $entry->delete();
             });
         });
 
-        $entry = Entry::withTrashed()->where('deleted_at', $deletedFilter)->get();
+        $entry = AnimeThemeEntry::withTrashed()->where('deleted_at', $deletedFilter)->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -540,14 +540,14 @@ class EntryIndexTest extends TestCase
             ],
         ];
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $entries = Entry::query()->where('nsfw', $nsfwFilter)->get();
+        $entries = AnimeThemeEntry::query()->where('nsfw', $nsfwFilter)->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -576,14 +576,14 @@ class EntryIndexTest extends TestCase
             ],
         ];
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $entries = Entry::query()->where('spoiler', $spoilerFilter)->get();
+        $entries = AnimeThemeEntry::query()->where('spoiler', $spoilerFilter)->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -613,8 +613,8 @@ class EntryIndexTest extends TestCase
             ],
         ];
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->state(new Sequence(
                 ['version' => $versionFilter],
@@ -622,9 +622,9 @@ class EntryIndexTest extends TestCase
             ))
             ->create();
 
-        $entries = Entry::query()->where('version', $versionFilter)->get();
+        $entries = AnimeThemeEntry::query()->where('version', $versionFilter)->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -654,19 +654,19 @@ class EntryIndexTest extends TestCase
             IncludeParser::$param => 'anime',
         ];
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $entries = Entry::with([
+        $entries = AnimeThemeEntry::with([
             'anime' => function (BelongsToThrough $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
         ->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -697,9 +697,9 @@ class EntryIndexTest extends TestCase
             IncludeParser::$param => 'anime',
         ];
 
-        Entry::factory()
+        AnimeThemeEntry::factory()
             ->for(
-                Theme::factory()->for(
+                AnimeTheme::factory()->for(
                     Anime::factory()
                         ->state([
                             'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
@@ -709,14 +709,14 @@ class EntryIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $entries = Entry::with([
+        $entries = AnimeThemeEntry::with([
             'anime' => function (BelongsToThrough $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])
         ->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -744,12 +744,12 @@ class EntryIndexTest extends TestCase
             FilterParser::$param => [
                 'group' => $groupFilter,
             ],
-            IncludeParser::$param => 'theme',
+            IncludeParser::$param => 'animetheme',
         ];
 
-        Entry::factory()
+        AnimeThemeEntry::factory()
             ->for(
-                Theme::factory()
+                AnimeTheme::factory()
                     ->for(Anime::factory())
                     ->state([
                         'group' => $this->faker->boolean() ? $groupFilter : $excludedGroup,
@@ -758,14 +758,14 @@ class EntryIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $entries = Entry::with([
-            'theme' => function (BelongsTo $query) use ($groupFilter) {
+        $entries = AnimeThemeEntry::with([
+            'animetheme' => function (BelongsTo $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
         ->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -793,12 +793,12 @@ class EntryIndexTest extends TestCase
             FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
-            IncludeParser::$param => 'theme',
+            IncludeParser::$param => 'animetheme',
         ];
 
-        Entry::factory()
+        AnimeThemeEntry::factory()
             ->for(
-                Theme::factory()
+                AnimeTheme::factory()
                     ->for(Anime::factory())
                     ->state([
                         'sequence' => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
@@ -807,14 +807,14 @@ class EntryIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $entries = Entry::with([
-            'theme' => function (BelongsTo $query) use ($sequenceFilter) {
+        $entries = AnimeThemeEntry::with([
+            'animetheme' => function (BelongsTo $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
         ->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(
@@ -841,22 +841,22 @@ class EntryIndexTest extends TestCase
             FilterParser::$param => [
                 'type' => $typeFilter->description,
             ],
-            IncludeParser::$param => 'theme',
+            IncludeParser::$param => 'animetheme',
         ];
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $entries = Entry::with([
-            'theme' => function (BelongsTo $query) use ($typeFilter) {
+        $entries = AnimeThemeEntry::with([
+            'animetheme' => function (BelongsTo $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
         ->get();
 
-        $response = $this->get(route('api.entry.index', $parameters));
+        $response = $this->get(route('api.animethemeentry.index', $parameters));
 
         $response->assertJson(
             json_decode(

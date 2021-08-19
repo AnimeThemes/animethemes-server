@@ -61,7 +61,7 @@ class ExternalResource extends BaseModel
      *
      * @var string
      */
-    protected $table = 'resource';
+    protected $table = 'resources';
 
     /**
      * The primary key associated with the table.

@@ -81,8 +81,8 @@ class ArtistResource extends BaseResource
     {
         return [
             'songs',
-            'songs.themes',
-            'songs.themes.anime',
+            'songs.animethemes',
+            'songs.animethemes.anime',
             'members',
             'groups',
             'resources',

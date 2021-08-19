@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Models\Scout\Anime;
 
-use App\Models\Wiki\Anime\Synonym;
+use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Services\Models\Scout\ElasticQueryPayload;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
@@ -21,7 +21,7 @@ class SynonymQueryPayload extends ElasticQueryPayload
      *
      * @var string
      */
-    public static string $model = Synonym::class;
+    public static string $model = AnimeSynonym::class;
 
     /**
      * Build Elasticsearch query.
@@ -30,7 +30,7 @@ class SynonymQueryPayload extends ElasticQueryPayload
      */
     public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder
     {
-        return Synonym::boolSearch()
+        return AnimeSynonym::boolSearch()
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('text')

@@ -46,7 +46,7 @@ class Announcement extends BaseModel
      *
      * @var string
      */
-    protected $table = 'announcement';
+    protected $table = 'announcements';
 
     /**
      * The primary key associated with the table.

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Nova\Filters\Wiki\Anime\Theme;
 
-use App\Enums\Models\Wiki\Anime\ThemeType;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Nova\Filters\Wiki\Anime\Theme\ThemeTypeFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -62,16 +62,16 @@ class ThemeTypeTest extends TestCase
     {
         $type = ThemeType::getRandomInstance();
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $filter = static::novaFilter(ThemeTypeFilter::class);
 
-        $response = $filter->apply(Theme::class, $type->value);
+        $response = $filter->apply(AnimeTheme::class, $type->value);
 
-        $filteredThemes = Theme::query()->where('type', $type->value)->get();
+        $filteredThemes = AnimeTheme::query()->where('type', $type->value)->get();
         foreach ($filteredThemes as $filteredTheme) {
             $response->assertContains($filteredTheme);
         }

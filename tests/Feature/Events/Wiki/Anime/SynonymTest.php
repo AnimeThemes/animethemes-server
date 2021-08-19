@@ -9,7 +9,7 @@ use App\Events\Wiki\Anime\Synonym\SynonymDeleted;
 use App\Events\Wiki\Anime\Synonym\SynonymRestored;
 use App\Events\Wiki\Anime\Synonym\SynonymUpdated;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Synonym;
+use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
@@ -30,7 +30,7 @@ class SynonymTest extends TestCase
     {
         Event::fake();
 
-        Synonym::factory()
+        AnimeSynonym::factory()
             ->for(Anime::factory())
             ->createOne();
 
@@ -46,7 +46,7 @@ class SynonymTest extends TestCase
     {
         Event::fake();
 
-        $synonym = Synonym::factory()
+        $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
             ->createOne();
 
@@ -64,7 +64,7 @@ class SynonymTest extends TestCase
     {
         Event::fake();
 
-        $synonym = Synonym::factory()
+        $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
             ->createOne();
 
@@ -82,11 +82,11 @@ class SynonymTest extends TestCase
     {
         Event::fake();
 
-        $synonym = Synonym::factory()
+        $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
             ->createOne();
 
-        $changes = Synonym::factory()
+        $changes = AnimeSynonym::factory()
             ->for(Anime::factory())
             ->makeOne();
 

@@ -8,7 +8,7 @@ use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
 use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
-use App\Models\Wiki\Anime\Synonym;
+use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -36,10 +36,10 @@ class SynonymController extends BaseController
      * Display the specified resource.
      *
      * @param Request $request
-     * @param Synonym $synonym
+     * @param AnimeSynonym $synonym
      * @return JsonResponse
      */
-    public function show(Request $request, Synonym $synonym): JsonResponse
+    public function show(Request $request, AnimeSynonym $synonym): JsonResponse
     {
         $resource = SynonymResource::performQuery($synonym, $this->query);
 

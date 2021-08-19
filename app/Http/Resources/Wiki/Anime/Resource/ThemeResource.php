@@ -9,14 +9,14 @@ use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Http\Resources\Wiki\Resource\SongResource;
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class ThemeResource.
  *
- * @mixin Theme
+ * @mixin AnimeTheme
  */
 class ThemeResource extends BaseResource
 {
@@ -25,16 +25,16 @@ class ThemeResource extends BaseResource
      *
      * @var string|null
      */
-    public static $wrap = 'theme';
+    public static $wrap = 'animetheme';
 
     /**
      * Create a new resource instance.
      *
-     * @param Theme | MissingValue | null $theme
+     * @param AnimeTheme | MissingValue | null $theme
      * @param Query $query
      * @return void
      */
-    public function __construct(Theme | MissingValue | null $theme, Query $query)
+    public function __construct(AnimeTheme | MissingValue | null $theme, Query $query)
     {
         parent::__construct($theme, $query);
     }
@@ -60,7 +60,7 @@ class ThemeResource extends BaseResource
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
             'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->query),
             'song' => SongResource::make($this->whenLoaded('song'), $this->query),
-            'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->query),
+            'animethemeentries' => EntryCollection::make($this->whenLoaded('animethemeentries'), $this->query),
         ];
     }
 
@@ -74,8 +74,8 @@ class ThemeResource extends BaseResource
         return [
             'anime',
             'anime.images',
-            'entries',
-            'entries.videos',
+            'animethemeentries',
+            'animethemeentries.videos',
             'song',
             'song.artists',
         ];

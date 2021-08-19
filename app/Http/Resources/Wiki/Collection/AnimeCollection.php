@@ -68,13 +68,13 @@ class AnimeCollection extends SearchableCollection
     public static function allowedIncludePaths(): array
     {
         return [
-            'synonyms',
+            'animesynonyms',
             'series',
-            'themes',
-            'themes.entries',
-            'themes.entries.videos',
-            'themes.song',
-            'themes.song.artists',
+            'animethemes',
+            'animethemes.animethemeentries',
+            'animethemes.animethemeentries.videos',
+            'animethemes.song',
+            'animethemes.song.artists',
             'resources',
             'images',
         ];

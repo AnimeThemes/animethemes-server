@@ -8,8 +8,8 @@ use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Enums\Services\Discord\EmbedColor;
-use App\Models\Wiki\Anime\Theme;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
@@ -26,10 +26,10 @@ class ThemeUpdated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
     /**
      * Create a new event instance.
      *
-     * @param Theme $theme
+     * @param AnimeTheme $theme
      * @return void
      */
-    public function __construct(Theme $theme)
+    public function __construct(AnimeTheme $theme)
     {
         parent::__construct($theme);
         $this->initializeEmbedFields($theme);
@@ -69,9 +69,9 @@ class ThemeUpdated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
      */
     public function updateRelatedIndices()
     {
-        $theme = $this->getTheme()->load('entries.videos');
+        $theme = $this->getTheme()->load('animethemeentries.videos');
 
-        $theme->entries->each(function (Entry $entry) {
+        $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
             $entry->searchable();
             $entry->videos->each(function (Video $video) {
                 $video->searchable();

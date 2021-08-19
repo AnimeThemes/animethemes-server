@@ -7,7 +7,7 @@ namespace App\Events\Wiki\Anime\Theme;
 use App\Contracts\Events\CascadesRestoresEvent;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Enums\Services\Discord\EmbedColor;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -58,8 +58,8 @@ class ThemeRestored extends ThemeEvent implements CascadesRestoresEvent, Discord
     {
         $theme = $this->getTheme();
 
-        $theme->entries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Entry $entry) {
-            Entry::withoutEvents(function () use ($entry) {
+        $theme->animethemeentries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeThemeEntry $entry) {
+            AnimeThemeEntry::withoutEvents(function () use ($entry) {
                 $entry->restore();
                 $entry->searchable();
                 $entry->videos->each(function (Video $video) {

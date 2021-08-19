@@ -21,9 +21,9 @@ class CreateArtistImage extends Migration
         Schema::create('artist_image', function (Blueprint $table) {
             $table->timestamps(6);
             $table->unsignedBigInteger('artist_id');
-            $table->foreign('artist_id')->references('artist_id')->on('artist')->onDelete('cascade');
+            $table->foreign('artist_id')->references('artist_id')->on('artists')->onDelete('cascade');
             $table->unsignedBigInteger('image_id');
-            $table->foreign('image_id')->references('image_id')->on('image')->onDelete('cascade');
+            $table->foreign('image_id')->references('image_id')->on('images')->onDelete('cascade');
             $table->primary(['artist_id', 'image_id']);
         });
     }

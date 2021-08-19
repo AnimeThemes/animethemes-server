@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Anime\Theme;
 
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeTheme;
 
 /**
  * Class ThemeEvent.
@@ -15,9 +15,9 @@ abstract class ThemeEvent
     /**
      * The theme that has fired this event.
      *
-     * @var Theme
+     * @var AnimeTheme
      */
-    protected Theme $theme;
+    protected AnimeTheme $theme;
 
     /**
      * The anime that the theme belongs to.
@@ -29,10 +29,10 @@ abstract class ThemeEvent
     /**
      * Create a new event instance.
      *
-     * @param Theme $theme
+     * @param AnimeTheme $theme
      * @return void
      */
-    public function __construct(Theme $theme)
+    public function __construct(AnimeTheme $theme)
     {
         $this->theme = $theme;
         $this->anime = $theme->anime;
@@ -41,9 +41,9 @@ abstract class ThemeEvent
     /**
      * Get the theme that has fired this event.
      *
-     * @return Theme
+     * @return AnimeTheme
      */
-    public function getTheme(): Theme
+    public function getTheme(): AnimeTheme
     {
         return $this->theme;
     }

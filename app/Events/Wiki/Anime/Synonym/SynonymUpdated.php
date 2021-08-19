@@ -8,9 +8,9 @@ use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Enums\Services\Discord\EmbedColor;
-use App\Models\Wiki\Anime\Synonym;
-use App\Models\Wiki\Anime\Theme;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\AnimeSynonym;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
@@ -27,10 +27,10 @@ class SynonymUpdated extends SynonymEvent implements DiscordMessageEvent, Update
     /**
      * Create a new event instance.
      *
-     * @param Synonym $synonym
+     * @param AnimeSynonym $synonym
      * @return void
      */
-    public function __construct(Synonym $synonym)
+    public function __construct(AnimeSynonym $synonym)
     {
         parent::__construct($synonym);
         $this->initializeEmbedFields($synonym);
@@ -70,12 +70,12 @@ class SynonymUpdated extends SynonymEvent implements DiscordMessageEvent, Update
      */
     public function updateRelatedIndices()
     {
-        $synonym = $this->getSynonym()->load('anime.themes.entries.videos');
+        $synonym = $this->getSynonym()->load('anime.animethemes.animethemeentries.videos');
 
         $synonym->anime->searchable();
-        $synonym->anime->themes->each(function (Theme $theme) {
+        $synonym->anime->animethemes->each(function (AnimeTheme $theme) {
             $theme->searchable();
-            $theme->entries->each(function (Entry $entry) {
+            $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
                 $entry->searchable();
                 $entry->videos->each(function (Video $video) {
                     $video->searchable();

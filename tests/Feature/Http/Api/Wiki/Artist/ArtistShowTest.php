@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Artist;
 
-use App\Enums\Models\Wiki\Anime\ThemeType;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
@@ -177,7 +177,7 @@ class ArtistShowTest extends TestCase
             FilterParser::$param => [
                 'group' => $groupFilter,
             ],
-            IncludeParser::$param => 'songs.themes',
+            IncludeParser::$param => 'songs.animethemes',
         ];
 
         Artist::factory()
@@ -185,7 +185,7 @@ class ArtistShowTest extends TestCase
                 Song::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(
-                        Theme::factory()
+                        AnimeTheme::factory()
                             ->for(Anime::factory())
                             ->count($this->faker->randomDigitNotNull())
                             ->state(new Sequence(
@@ -197,7 +197,7 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'songs.themes' => function (HasMany $query) use ($groupFilter) {
+            'songs.animethemes' => function (HasMany $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -231,7 +231,7 @@ class ArtistShowTest extends TestCase
             FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
-            IncludeParser::$param => 'songs.themes',
+            IncludeParser::$param => 'songs.animethemes',
         ];
 
         Artist::factory()
@@ -239,7 +239,7 @@ class ArtistShowTest extends TestCase
                 Song::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(
-                        Theme::factory()
+                        AnimeTheme::factory()
                             ->for(Anime::factory())
                             ->count($this->faker->randomDigitNotNull())
                             ->state(new Sequence(
@@ -251,7 +251,7 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'songs.themes' => function (HasMany $query) use ($sequenceFilter) {
+            'songs.animethemes' => function (HasMany $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -284,7 +284,7 @@ class ArtistShowTest extends TestCase
             FilterParser::$param => [
                 'type' => $typeFilter->description,
             ],
-            IncludeParser::$param => 'songs.themes',
+            IncludeParser::$param => 'songs.animethemes',
         ];
 
         Artist::factory()
@@ -292,7 +292,7 @@ class ArtistShowTest extends TestCase
                 Song::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(
-                        Theme::factory()
+                        AnimeTheme::factory()
                             ->for(Anime::factory())
                             ->count($this->faker->randomDigitNotNull())
                     )
@@ -300,7 +300,7 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'songs.themes' => function (HasMany $query) use ($typeFilter) {
+            'songs.animethemes' => function (HasMany $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
@@ -333,7 +333,7 @@ class ArtistShowTest extends TestCase
             FilterParser::$param => [
                 'season' => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'songs.themes.anime',
+            IncludeParser::$param => 'songs.animethemes.anime',
         ];
 
         Artist::factory()
@@ -341,7 +341,7 @@ class ArtistShowTest extends TestCase
                 Song::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(
-                        Theme::factory()
+                        AnimeTheme::factory()
                             ->for(Anime::factory())
                             ->count($this->faker->randomDigitNotNull())
                     )
@@ -349,7 +349,7 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'songs.themes.anime' => function (BelongsTo $query) use ($seasonFilter) {
+            'songs.animethemes.anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -383,7 +383,7 @@ class ArtistShowTest extends TestCase
             FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            IncludeParser::$param => 'songs.themes.anime',
+            IncludeParser::$param => 'songs.animethemes.anime',
         ];
 
         Artist::factory()
@@ -391,7 +391,7 @@ class ArtistShowTest extends TestCase
                 Song::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(
-                        Theme::factory()
+                        AnimeTheme::factory()
                             ->for(
                                 Anime::factory()
                                     ->state([
@@ -404,7 +404,7 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'songs.themes.anime' => function (BelongsTo $query) use ($yearFilter) {
+            'songs.animethemes.anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])

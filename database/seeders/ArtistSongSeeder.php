@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\Models\Wiki\Anime\ThemeType;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Pivots\ArtistSong;
 use Exception;
@@ -97,7 +97,7 @@ class ArtistSongSeeder extends Seeder
                     $version = is_numeric($themeMatch[3]) ? intval($themeMatch[3]) : null;
 
                     if ($version === null || $version === 1) {
-                        $matchingThemes = Theme::query()
+                        $matchingThemes = AnimeTheme::query()
                             ->where('anime_id', $anime->anime_id)
                             ->where('type', $themeType)
                             ->where(function (Builder $query) use ($sequence) {

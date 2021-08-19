@@ -66,7 +66,7 @@ class VideoResource extends BaseResource
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
             'tags' => $this->when($this->isAllowedField('tags'), implode('', $this->tags)),
             'link' => $this->when($this->isAllowedField('link'), route('video.show', $this)),
-            'entries' => EntryCollection::make($this->whenLoaded('entries'), $this->query),
+            'animethemeentries' => EntryCollection::make($this->whenLoaded('animethemeentries'), $this->query),
         ];
     }
 
@@ -78,9 +78,9 @@ class VideoResource extends BaseResource
     public static function allowedIncludePaths(): array
     {
         return [
-            'entries',
-            'entries.theme',
-            'entries.theme.anime',
+            'animethemeentries',
+            'animethemeentries.animetheme',
+            'animethemeentries.animetheme.anime',
         ];
     }
 }

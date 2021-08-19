@@ -8,14 +8,14 @@ use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class EntryResource.
  *
- * @mixin Entry
+ * @mixin AnimeThemeEntry
  */
 class EntryResource extends BaseResource
 {
@@ -24,16 +24,16 @@ class EntryResource extends BaseResource
      *
      * @var string|null
      */
-    public static $wrap = 'entry';
+    public static $wrap = 'animethemeentry';
 
     /**
      * Create a new resource instance.
      *
-     * @param Entry | MissingValue | null $entry
+     * @param AnimeThemeEntry | MissingValue | null $entry
      * @param Query $query
      * @return void
      */
-    public function __construct(Entry | MissingValue | null $entry, Query $query)
+    public function __construct(AnimeThemeEntry | MissingValue | null $entry, Query $query)
     {
         parent::__construct($entry, $query);
     }
@@ -58,7 +58,7 @@ class EntryResource extends BaseResource
             'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
             'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
             'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'theme' => ThemeResource::make($this->whenLoaded('theme'), $this->query),
+            'animetheme' => ThemeResource::make($this->whenLoaded('animetheme'), $this->query),
             'videos' => VideoCollection::make($this->whenLoaded('videos'), $this->query),
         ];
     }
@@ -71,8 +71,8 @@ class EntryResource extends BaseResource
     public static function allowedIncludePaths(): array
     {
         return [
-            'theme',
-            'theme.anime',
+            'animetheme',
+            'animetheme.anime',
             'videos',
         ];
     }

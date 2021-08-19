@@ -63,7 +63,7 @@ class Image extends BaseModel implements Streamable
      *
      * @var string
      */
-    protected $table = 'image';
+    protected $table = 'images';
 
     /**
      * The primary key associated with the table.

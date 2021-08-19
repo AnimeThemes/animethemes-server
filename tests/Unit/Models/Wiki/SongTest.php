@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Wiki;
 
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\ArtistSong;
@@ -84,12 +84,12 @@ class SongTest extends TestCase
         $themeCount = $this->faker->randomDigitNotNull();
 
         $song = Song::factory()
-            ->has(Theme::factory()->for(Anime::factory())->count($themeCount))
+            ->has(AnimeTheme::factory()->for(Anime::factory())->count($themeCount))
             ->createOne();
 
-        static::assertInstanceOf(HasMany::class, $song->themes());
-        static::assertEquals($themeCount, $song->themes()->count());
-        static::assertInstanceOf(Theme::class, $song->themes()->first());
+        static::assertInstanceOf(HasMany::class, $song->animethemes());
+        static::assertEquals($themeCount, $song->animethemes()->count());
+        static::assertInstanceOf(AnimeTheme::class, $song->animethemes()->first());
     }
 
     /**

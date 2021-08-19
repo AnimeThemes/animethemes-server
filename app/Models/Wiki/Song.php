@@ -24,7 +24,7 @@ use Laravel\Scout\Searchable;
  *
  * @property int $song_id
  * @property string|null $title
- * @property Collection $themes
+ * @property Collection $animethemes
  * @property Collection $artists
  * @property BasePivot $pivot
  * @method static SongFactory factory(...$parameters)
@@ -61,7 +61,7 @@ class Song extends BaseModel
      *
      * @var string
      */
-    protected $table = 'song';
+    protected $table = 'songs';
 
     /**
      * The primary key associated with the table.
@@ -85,13 +85,13 @@ class Song extends BaseModel
     }
 
     /**
-     * Get the themes that use this song.
+     * Get the anime themes that use this song.
      *
      * @return HasMany
      */
-    public function themes(): HasMany
+    public function animethemes(): HasMany
     {
-        return $this->hasMany('App\Models\Wiki\Anime\Theme', 'song_id', 'song_id');
+        return $this->hasMany('App\Models\Wiki\Anime\AnimeTheme', 'song_id', 'song_id');
     }
 
     /**

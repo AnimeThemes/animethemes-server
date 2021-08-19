@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Anime\Theme;
 
 use App\Contracts\Events\CascadesDeletesEvent;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
@@ -20,10 +20,10 @@ class ThemeDeleting extends ThemeEvent implements CascadesDeletesEvent
      */
     public function cascadeDeletes()
     {
-        $theme = $this->getTheme()->load('entries.videos');
+        $theme = $this->getTheme()->load('animethemeentries.videos');
 
-        $theme->entries->each(function (Entry $entry) {
-            Entry::withoutEvents(function () use ($entry) {
+        $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
+            AnimeThemeEntry::withoutEvents(function () use ($entry) {
                 $entry->unsearchable();
                 $entry->delete();
 

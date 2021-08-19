@@ -21,22 +21,22 @@ class WikiDeseeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-        DB::table('entry_video')->truncate();
-        DB::table('entry')->truncate();
-        DB::table('theme')->truncate();
-        DB::table('synonym')->truncate();
+        DB::table('anime_theme_entry_video')->truncate();
+        DB::table('anime_theme_entries')->truncate();
+        DB::table('anime_themes')->truncate();
+        DB::table('anime_synonyms')->truncate();
         DB::table('anime_resource')->truncate();
         DB::table('anime_series')->truncate();
         DB::table('anime')->truncate();
 
         DB::table('artist_resource')->truncate();
         DB::table('artist_song')->truncate();
-        DB::table('artist')->truncate();
+        DB::table('artists')->truncate();
 
-        DB::table('resource')->truncate();
+        DB::table('resources')->truncate();
         DB::table('series')->truncate();
-        DB::table('song')->truncate();
-        DB::table('video')->truncate();
+        DB::table('songs')->truncate();
+        DB::table('videos')->truncate();
 
         DB::table('audits')->truncate();
 

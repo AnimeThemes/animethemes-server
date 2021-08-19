@@ -34,9 +34,9 @@ use Laravel\Scout\Searchable;
  * @property int|null $year
  * @property Enum|null $season
  * @property string|null $synopsis
- * @property Collection $synonyms
+ * @property Collection $animesynonyms
  * @property Collection $series
- * @property Collection $themes
+ * @property Collection $animethemes
  * @property Collection $resources
  * @property Collection $images
  * @property BasePivot $pivot
@@ -92,7 +92,7 @@ class Anime extends BaseModel
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
-        return $query->with('synonyms');
+        return $query->with('animesynonyms');
     }
 
     /**
@@ -103,7 +103,7 @@ class Anime extends BaseModel
     public function toSearchableArray(): array
     {
         $array = $this->toArray();
-        $array['synonyms'] = $this->synonyms->toArray();
+        $array['synonyms'] = $this->animesynonyms->toArray();
 
         return $array;
     }
@@ -154,9 +154,9 @@ class Anime extends BaseModel
      *
      * @return HasMany
      */
-    public function synonyms(): HasMany
+    public function animesynonyms(): HasMany
     {
-        return $this->hasMany('App\Models\Wiki\Anime\Synonym', 'anime_id', 'anime_id');
+        return $this->hasMany('App\Models\Wiki\Anime\AnimeSynonym', 'anime_id', 'anime_id');
     }
 
     /**
@@ -176,9 +176,9 @@ class Anime extends BaseModel
      *
      * @return HasMany
      */
-    public function themes(): HasMany
+    public function animethemes(): HasMany
     {
-        return $this->hasMany('App\Models\Wiki\Anime\Theme', 'anime_id', 'anime_id');
+        return $this->hasMany('App\Models\Wiki\Anime\AnimeTheme', 'anime_id', 'anime_id');
     }
 
     /**

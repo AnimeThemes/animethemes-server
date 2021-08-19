@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\Models\Wiki\Anime\ThemeType;
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Synonym;
-use App\Models\Wiki\Anime\Theme;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\AnimeSynonym;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
-use App\Pivots\VideoEntry;
+use App\Pivots\AnimeThemeEntryVideo;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
@@ -104,13 +104,13 @@ class AnimeThemeSeeder extends Seeder
                     foreach ($synonymList as $synonym) {
                         // Create Synonym if it doesn't already exist
                         $text = $synonym[1];
-                        if (Synonym::query()
+                        if (AnimeSynonym::query()
                             ->where('anime_id', $anime->anime_id)
                             ->where('text', $text)
                             ->doesntExist()
                         ) {
                             Log::info("Creating synonym '{$text}' for anime '{$anime->name}'");
-                            $anime->synonyms()->create([
+                            $anime->animesynonyms()->create([
                                 'text' => $text,
                             ]);
                         }
@@ -147,7 +147,7 @@ class AnimeThemeSeeder extends Seeder
                     // Create/Update Theme if no version or V1
                     if ($version === null || $version === 1) {
                         // Create Theme if it doesn't exist
-                        $theme = Theme::query()
+                        $theme = AnimeTheme::query()
                             ->where('anime_id', $anime->anime_id)
                             ->where('group', $group)
                             ->where('type', $themeType)
@@ -161,9 +161,9 @@ class AnimeThemeSeeder extends Seeder
                             })
                             ->first();
 
-                        if (! $theme instanceof Theme) {
+                        if (! $theme instanceof AnimeTheme) {
                             Log::info("Creating theme for anime '{$anime->name}'");
-                            $theme = Theme::factory()
+                            $theme = AnimeTheme::factory()
                                 ->for($anime)
                                 ->createOne([
                                     'group' => $group,
@@ -189,7 +189,7 @@ class AnimeThemeSeeder extends Seeder
                                 ->createOne([
                                     'title' => $songTitle,
                                 ]);
-                            $song->themes()->save($theme);
+                            $song->animethemes()->save($theme);
                         } else {
                             $song->title = $songTitle;
 
@@ -234,17 +234,17 @@ class AnimeThemeSeeder extends Seeder
      * @param int|null $version
      * @param string $episodes
      * @param string $notes
-     * @param Theme $theme
-     * @return Entry
+     * @param AnimeTheme $theme
+     * @return AnimeThemeEntry
      */
     protected static function createEntry(
         ?int $version,
         string $episodes,
         string $notes,
-        Theme $theme
-    ): Entry {
+        AnimeTheme $theme
+    ): AnimeThemeEntry {
         // Create Entry if it doesn't exist
-        $entry = Entry::query()
+        $entry = AnimeThemeEntry::query()
             ->where('theme_id', $theme->theme_id)
             ->where(function (Builder $query) use ($version) {
                 if (intval($version) === 1) {
@@ -256,9 +256,9 @@ class AnimeThemeSeeder extends Seeder
             })
             ->first();
 
-        if (! $entry instanceof Entry) {
+        if (! $entry instanceof AnimeThemeEntry) {
             Log::info("Creating entry for theme '{$theme->slug}' for anime '{$theme->anime->name}'");
-            $entry = Entry::factory()
+            $entry = AnimeThemeEntry::factory()
                 ->for($theme)
                 ->createOne([
                     'version' => $version,
@@ -289,13 +289,13 @@ class AnimeThemeSeeder extends Seeder
      * Attach video to entry.
      *
      * @param string $videoBasename
-     * @param Entry $entry
+     * @param AnimeThemeEntry $entry
      * @return void
      */
-    protected static function attachVideoToEntry(string $videoBasename, Entry $entry)
+    protected static function attachVideoToEntry(string $videoBasename, AnimeThemeEntry $entry)
     {
         $video = Video::query()->where('basename', $videoBasename)->first();
-        if ($video instanceof Video && VideoEntry::query()
+        if ($video instanceof Video && AnimeThemeEntryVideo::query()
                 ->where($entry->getKeyName(), $entry->getKey())
                 ->where($video->getKeyName(), $video->getKey())
                 ->doesntExist()

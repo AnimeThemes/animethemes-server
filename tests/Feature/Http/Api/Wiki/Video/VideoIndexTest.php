@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Video;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
-use App\Enums\Models\Wiki\Anime\ThemeType;
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Http\Api\Criteria\Paging\Criteria;
@@ -20,8 +20,8 @@ use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
 use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -106,9 +106,9 @@ class VideoIndexTest extends TestCase
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
-                    ->for(Theme::factory()->for(Anime::factory()))
+                    ->for(AnimeTheme::factory()->for(Anime::factory()))
             )
             ->create();
 
@@ -800,20 +800,20 @@ class VideoIndexTest extends TestCase
             FilterParser::$param => [
                 'nsfw' => $nsfwFilter,
             ],
-            IncludeParser::$param => 'entries',
+            IncludeParser::$param => 'animethemeentries',
         ];
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
-                    ->for(Theme::factory()->for(Anime::factory()))
+                    ->for(AnimeTheme::factory()->for(Anime::factory()))
             )
             ->create();
 
         $videos = Video::with([
-            'entries' => function (BelongsToMany $query) use ($nsfwFilter) {
+            'animethemeentries' => function (BelongsToMany $query) use ($nsfwFilter) {
                 $query->where('nsfw', $nsfwFilter);
             },
         ])
@@ -846,20 +846,20 @@ class VideoIndexTest extends TestCase
             FilterParser::$param => [
                 'spoiler' => $spoilerFilter,
             ],
-            IncludeParser::$param => 'entries',
+            IncludeParser::$param => 'animethemeentries',
         ];
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
-                    ->for(Theme::factory()->for(Anime::factory()))
+                    ->for(AnimeTheme::factory()->for(Anime::factory()))
             )
             ->create();
 
         $videos = Video::with([
-            'entries' => function (BelongsToMany $query) use ($spoilerFilter) {
+            'animethemeentries' => function (BelongsToMany $query) use ($spoilerFilter) {
                 $query->where('spoiler', $spoilerFilter);
             },
         ])
@@ -893,15 +893,15 @@ class VideoIndexTest extends TestCase
             FilterParser::$param => [
                 'version' => $versionFilter,
             ],
-            IncludeParser::$param => 'entries',
+            IncludeParser::$param => 'animethemeentries',
         ];
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
-                    ->for(Theme::factory()->for(Anime::factory()))
+                    ->for(AnimeTheme::factory()->for(Anime::factory()))
                     ->state(new Sequence(
                         ['version' => $versionFilter],
                         ['version' => $excludedVersion],
@@ -910,7 +910,7 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries' => function (BelongsToMany $query) use ($versionFilter) {
+            'animethemeentries' => function (BelongsToMany $query) use ($versionFilter) {
                 $query->where('version', $versionFilter);
             },
         ])
@@ -944,16 +944,16 @@ class VideoIndexTest extends TestCase
             FilterParser::$param => [
                 'group' => $groupFilter,
             ],
-            IncludeParser::$param => 'entries.theme',
+            IncludeParser::$param => 'animethemeentries.animetheme',
         ];
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->for(
-                        Theme::factory()
+                        AnimeTheme::factory()
                             ->for(Anime::factory())
                             ->state([
                                 'group' => $this->faker->boolean() ? $groupFilter : $excludedGroup,
@@ -963,7 +963,7 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries.theme' => function (BelongsTo $query) use ($groupFilter) {
+            'animethemeentries.animetheme' => function (BelongsTo $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -997,16 +997,16 @@ class VideoIndexTest extends TestCase
             FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
-            IncludeParser::$param => 'entries.theme',
+            IncludeParser::$param => 'animethemeentries.animetheme',
         ];
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->for(
-                        Theme::factory()
+                        AnimeTheme::factory()
                             ->for(Anime::factory())
                             ->state([
                                 'sequence' => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
@@ -1016,7 +1016,7 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries.theme' => function (BelongsTo $query) use ($sequenceFilter) {
+            'animethemeentries.animetheme' => function (BelongsTo $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -1049,20 +1049,20 @@ class VideoIndexTest extends TestCase
             FilterParser::$param => [
                 'type' => $typeFilter->description,
             ],
-            IncludeParser::$param => 'entries.theme',
+            IncludeParser::$param => 'animethemeentries.animetheme',
         ];
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
-                    ->for(Theme::factory()->for(Anime::factory()))
+                    ->for(AnimeTheme::factory()->for(Anime::factory()))
             )
             ->create();
 
         $videos = Video::with([
-            'entries.theme' => function (BelongsTo $query) use ($typeFilter) {
+            'animethemeentries.animetheme' => function (BelongsTo $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
@@ -1095,20 +1095,20 @@ class VideoIndexTest extends TestCase
             FilterParser::$param => [
                 'season' => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'entries.theme.anime',
+            IncludeParser::$param => 'animethemeentries.animetheme.anime',
         ];
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
-                    ->for(Theme::factory()->for(Anime::factory()))
+                    ->for(AnimeTheme::factory()->for(Anime::factory()))
             )
             ->create();
 
         $videos = Video::with([
-            'entries.theme.anime' => function (BelongsTo $query) use ($seasonFilter) {
+            'animethemeentries.animetheme.anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
@@ -1142,16 +1142,16 @@ class VideoIndexTest extends TestCase
             FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            IncludeParser::$param => 'entries.theme.anime',
+            IncludeParser::$param => 'animethemeentries.animetheme.anime',
         ];
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->for(
-                        Theme::factory()
+                        AnimeTheme::factory()
                             ->for(
                                 Anime::factory()
                                     ->state([
@@ -1163,7 +1163,7 @@ class VideoIndexTest extends TestCase
             ->create();
 
         $videos = Video::with([
-            'entries.theme.anime' => function (BelongsTo $query) use ($yearFilter) {
+            'animethemeentries.animetheme.anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])
