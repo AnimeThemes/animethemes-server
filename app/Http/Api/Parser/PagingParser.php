@@ -48,7 +48,9 @@ class PagingParser extends Parser
     {
         $limit = Arr::get($pagingParam, LimitCriteria::PARAM);
 
-        if (! is_int($limit)) {
+        $limit = filter_var($limit, FILTER_VALIDATE_INT);
+
+        if ($limit === false) {
             $limit = Criteria::DEFAULT_SIZE;
         }
 
