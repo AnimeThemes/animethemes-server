@@ -16,7 +16,7 @@ final class CreateVideoIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('video', function (Mapping $mapping) {
+        Index::create('videos', function (Mapping $mapping) {
             $mapping->text('anime_slug');
             $mapping->text('basename');
             $mapping->date('created_at');
@@ -194,6 +194,6 @@ final class CreateVideoIndex implements MigrationInterface
      */
     public function down(): void
     {
-        Index::dropIfExists('video');
+        Index::dropIfExists('videos');
     }
 }
