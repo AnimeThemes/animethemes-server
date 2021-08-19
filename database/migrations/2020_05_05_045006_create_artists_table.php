@@ -18,7 +18,7 @@ class CreateArtistsTable extends Migration
      */
     public function up()
     {
-        Schema::create('artist', function (Blueprint $table) {
+        Schema::create('artists', function (Blueprint $table) {
             $table->id('artist_id');
             $table->timestamps(6);
             $table->softDeletes('deleted_at', 6);
@@ -34,6 +34,6 @@ class CreateArtistsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('artist');
+        Schema::dropIfExists('artists');
     }
 }

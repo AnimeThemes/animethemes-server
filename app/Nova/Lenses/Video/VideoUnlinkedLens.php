@@ -47,7 +47,7 @@ class VideoUnlinkedLens extends Lens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave('entries')
+            $query->whereDoesntHave('animethemeentries')
         ));
     }
 

@@ -14,8 +14,8 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
@@ -42,13 +42,13 @@ class ThemeShowTest extends TestCase
      */
     public function testDefault()
     {
-        $theme = Theme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->createOne();
 
         $theme->unsetRelations();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme]));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme]));
 
         $response->assertJson(
             json_decode(
@@ -69,7 +69,7 @@ class ThemeShowTest extends TestCase
      */
     public function testSoftDelete()
     {
-        $theme = Theme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->createOne();
 
@@ -77,7 +77,7 @@ class ThemeShowTest extends TestCase
 
         $theme->unsetRelations();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme]));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme]));
 
         $response->assertJson(
             json_decode(
@@ -105,19 +105,19 @@ class ThemeShowTest extends TestCase
             IncludeParser::$param => $includedPaths->join(','),
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
             ->for(Song::factory())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
-        $theme = Theme::with($includedPaths->all())->first();
+        $theme = AnimeTheme::with($includedPaths->all())->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -157,14 +157,14 @@ class ThemeShowTest extends TestCase
             ],
         ];
 
-        $theme = Theme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->createOne();
 
         $theme->unsetRelations();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -194,18 +194,18 @@ class ThemeShowTest extends TestCase
             IncludeParser::$param => 'anime',
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
             ->create();
 
-        $theme = Theme::with([
+        $theme = AnimeTheme::with([
             'anime' => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -236,7 +236,7 @@ class ThemeShowTest extends TestCase
             IncludeParser::$param => 'anime',
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(
                 Anime::factory()
                     ->state([
@@ -245,14 +245,14 @@ class ThemeShowTest extends TestCase
             )
             ->create();
 
-        $theme = Theme::with([
+        $theme = AnimeTheme::with([
             'anime' => function (BelongsTo $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -282,21 +282,21 @@ class ThemeShowTest extends TestCase
             IncludeParser::$param => 'anime.images',
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(
                 Anime::factory()
                     ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
-        $theme = Theme::with([
+        $theme = AnimeTheme::with([
             'anime.images' => function (BelongsToMany $query) use ($facetFilter) {
                 $query->where('facet', $facetFilter->value);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -323,22 +323,22 @@ class ThemeShowTest extends TestCase
             FilterParser::$param => [
                 'nsfw' => $nsfwFilter,
             ],
-            IncludeParser::$param => 'entries',
+            IncludeParser::$param => 'animethemeentries',
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
-            ->has(Entry::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(AnimeThemeEntry::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
-        $theme = Theme::with([
-            'entries' => function (HasMany $query) use ($nsfwFilter) {
+        $theme = AnimeTheme::with([
+            'animethemeentries' => function (HasMany $query) use ($nsfwFilter) {
                 $query->where('nsfw', $nsfwFilter);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -365,22 +365,22 @@ class ThemeShowTest extends TestCase
             FilterParser::$param => [
                 'spoiler' => $spoilerFilter,
             ],
-            IncludeParser::$param => 'entries',
+            IncludeParser::$param => 'animethemeentries',
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
-            ->has(Entry::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(AnimeThemeEntry::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
-        $theme = Theme::with([
-            'entries' => function (HasMany $query) use ($spoilerFilter) {
+        $theme = AnimeTheme::with([
+            'animethemeentries' => function (HasMany $query) use ($spoilerFilter) {
                 $query->where('spoiler', $spoilerFilter);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -408,13 +408,13 @@ class ThemeShowTest extends TestCase
             FilterParser::$param => [
                 'version' => $versionFilter,
             ],
-            IncludeParser::$param => 'entries',
+            IncludeParser::$param => 'animethemeentries',
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
                         ['version' => $versionFilter],
@@ -423,14 +423,14 @@ class ThemeShowTest extends TestCase
             )
             ->create();
 
-        $theme = Theme::with([
-            'entries' => function (HasMany $query) use ($versionFilter) {
+        $theme = AnimeTheme::with([
+            'animethemeentries' => function (HasMany $query) use ($versionFilter) {
                 $query->where('version', $versionFilter);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -457,26 +457,26 @@ class ThemeShowTest extends TestCase
             FilterParser::$param => [
                 'lyrics' => $lyricsFilter,
             ],
-            IncludeParser::$param => 'entries.videos',
+            IncludeParser::$param => 'animethemeentries.videos',
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
-        $theme = Theme::with([
-            'entries.videos' => function (BelongsToMany $query) use ($lyricsFilter) {
+        $theme = AnimeTheme::with([
+            'animethemeentries.videos' => function (BelongsToMany $query) use ($lyricsFilter) {
                 $query->where('lyrics', $lyricsFilter);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -503,26 +503,26 @@ class ThemeShowTest extends TestCase
             FilterParser::$param => [
                 'nc' => $ncFilter,
             ],
-            IncludeParser::$param => 'entries.videos',
+            IncludeParser::$param => 'animethemeentries.videos',
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
-        $theme = Theme::with([
-            'entries.videos' => function (BelongsToMany $query) use ($ncFilter) {
+        $theme = AnimeTheme::with([
+            'animethemeentries.videos' => function (BelongsToMany $query) use ($ncFilter) {
                 $query->where('nc', $ncFilter);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -549,26 +549,26 @@ class ThemeShowTest extends TestCase
             FilterParser::$param => [
                 'overlap' => $overlapFilter->description,
             ],
-            IncludeParser::$param => 'entries.videos',
+            IncludeParser::$param => 'animethemeentries.videos',
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
-        $theme = Theme::with([
-            'entries.videos' => function (BelongsToMany $query) use ($overlapFilter) {
+        $theme = AnimeTheme::with([
+            'animethemeentries.videos' => function (BelongsToMany $query) use ($overlapFilter) {
                 $query->where('overlap', $overlapFilter->value);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -596,13 +596,13 @@ class ThemeShowTest extends TestCase
             FilterParser::$param => [
                 'resolution' => $resolutionFilter,
             ],
-            IncludeParser::$param => 'entries.videos',
+            IncludeParser::$param => 'animethemeentries.videos',
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(
                         Video::factory()
@@ -615,14 +615,14 @@ class ThemeShowTest extends TestCase
             )
             ->create();
 
-        $theme = Theme::with([
-            'entries.videos' => function (BelongsToMany $query) use ($resolutionFilter) {
+        $theme = AnimeTheme::with([
+            'animethemeentries.videos' => function (BelongsToMany $query) use ($resolutionFilter) {
                 $query->where('resolution', $resolutionFilter);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -649,26 +649,26 @@ class ThemeShowTest extends TestCase
             FilterParser::$param => [
                 'source' => $sourceFilter->description,
             ],
-            IncludeParser::$param => 'entries.videos',
+            IncludeParser::$param => 'animethemeentries.videos',
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
-        $theme = Theme::with([
-            'entries.videos' => function (BelongsToMany $query) use ($sourceFilter) {
+        $theme = AnimeTheme::with([
+            'animethemeentries.videos' => function (BelongsToMany $query) use ($sourceFilter) {
                 $query->where('source', $sourceFilter->value);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -695,26 +695,26 @@ class ThemeShowTest extends TestCase
             FilterParser::$param => [
                 'subbed' => $subbedFilter,
             ],
-            IncludeParser::$param => 'entries.videos',
+            IncludeParser::$param => 'animethemeentries.videos',
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
-        $theme = Theme::with([
-            'entries.videos' => function (BelongsToMany $query) use ($subbedFilter) {
+        $theme = AnimeTheme::with([
+            'animethemeentries.videos' => function (BelongsToMany $query) use ($subbedFilter) {
                 $query->where('subbed', $subbedFilter);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -741,26 +741,26 @@ class ThemeShowTest extends TestCase
             FilterParser::$param => [
                 'uncen' => $uncenFilter,
             ],
-            IncludeParser::$param => 'entries.videos',
+            IncludeParser::$param => 'animethemeentries.videos',
         ];
 
-        Theme::factory()
+        AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
             ->create();
 
-        $theme = Theme::with([
-            'entries.videos' => function (BelongsToMany $query) use ($uncenFilter) {
+        $theme = AnimeTheme::with([
+            'animethemeentries.videos' => function (BelongsToMany $query) use ($uncenFilter) {
                 $query->where('uncen', $uncenFilter);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.theme.show', ['theme' => $theme] + $parameters));
+        $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Models\Scout\Anime;
 
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Services\Models\Scout\ElasticQueryPayload;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
@@ -22,7 +22,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
      *
      * @var string
      */
-    public static string $model = Theme::class;
+    public static string $model = AnimeTheme::class;
 
     /**
      * Build Elasticsearch query.
@@ -31,7 +31,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
      */
     public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder
     {
-        return Theme::boolSearch()
+        return AnimeTheme::boolSearch()
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('slug')

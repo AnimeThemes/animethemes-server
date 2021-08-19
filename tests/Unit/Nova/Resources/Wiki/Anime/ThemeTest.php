@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Nova\Resources\Wiki\Anime;
 
-use App\Enums\Models\Wiki\Anime\ThemeType;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;

@@ -66,7 +66,7 @@ class Artist extends BaseModel
      *
      * @var string
      */
-    protected $table = 'artist';
+    protected $table = 'artists';
 
     /**
      * The primary key associated with the table.

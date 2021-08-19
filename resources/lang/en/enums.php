@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
-use App\Enums\Models\Wiki\Anime\ThemeType;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;

@@ -9,8 +9,8 @@ use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
 use App\Events\Wiki\Anime\Theme\Entry\EntryRestored;
 use App\Events\Wiki\Anime\Theme\Entry\EntryUpdated;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
@@ -31,8 +31,8 @@ class EntryTest extends TestCase
     {
         Event::fake(EntryCreated::class);
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
         Event::assertDispatched(EntryCreated::class);
@@ -47,8 +47,8 @@ class EntryTest extends TestCase
     {
         Event::fake(EntryDeleted::class);
 
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
         $entry->delete();
@@ -65,8 +65,8 @@ class EntryTest extends TestCase
     {
         Event::fake(EntryRestored::class);
 
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
         $entry->restore();
@@ -83,12 +83,12 @@ class EntryTest extends TestCase
     {
         Event::fake(EntryUpdated::class);
 
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
-        $changes = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        $changes = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->makeOne();
 
         $entry->fill($changes->getAttributes());

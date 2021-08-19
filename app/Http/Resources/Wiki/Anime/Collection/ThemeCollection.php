@@ -20,7 +20,7 @@ use App\Http\Api\Sort\Wiki\Anime\Theme\ThemeSlugSort;
 use App\Http\Api\Sort\Wiki\Anime\Theme\ThemeTypeSort;
 use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -34,14 +34,14 @@ class ThemeCollection extends SearchableCollection
      *
      * @var string|null
      */
-    public static $wrap = 'themes';
+    public static $wrap = 'animethemes';
 
     /**
      * The resource that this resource collects.
      *
      * @var string
      */
-    public $collects = Theme::class;
+    public $collects = AnimeTheme::class;
 
     /**
      * Transform the resource into a JSON array.
@@ -53,7 +53,7 @@ class ThemeCollection extends SearchableCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (Theme $theme) {
+        return $this->collection->map(function (AnimeTheme $theme) {
             return ThemeResource::make($theme, $this->query);
         })->all();
     }
@@ -68,8 +68,8 @@ class ThemeCollection extends SearchableCollection
         return [
             'anime',
             'anime.images',
-            'entries',
-            'entries.videos',
+            'animethemeentries',
+            'animethemeentries.videos',
             'song',
             'song.artists',
         ];

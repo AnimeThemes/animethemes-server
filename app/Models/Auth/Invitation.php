@@ -53,7 +53,7 @@ class Invitation extends BaseModel
      *
      * @var string
      */
-    protected $table = 'invitation';
+    protected $table = 'invitations';
 
     /**
      * The primary key associated with the table.

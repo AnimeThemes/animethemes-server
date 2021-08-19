@@ -23,7 +23,7 @@ class CreateAnimeResource extends Migration
             $table->unsignedBigInteger('anime_id');
             $table->foreign('anime_id')->references('anime_id')->on('anime')->onDelete('cascade');
             $table->unsignedBigInteger('resource_id');
-            $table->foreign('resource_id')->references('resource_id')->on('resource')->onDelete('cascade');
+            $table->foreign('resource_id')->references('resource_id')->on('resources')->onDelete('cascade');
             $table->primary(['anime_id', 'resource_id']);
             $table->string('as')->nullable();
         });

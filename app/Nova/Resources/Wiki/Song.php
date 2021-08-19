@@ -127,7 +127,7 @@ class Song extends Resource
                     ];
                 }),
 
-            HasMany::make(__('nova.themes'), 'Themes', Theme::class),
+            HasMany::make(__('nova.themes'), 'AnimeThemes', Theme::class),
 
             AuditableLog::make(),
         ];

@@ -59,7 +59,7 @@ class Balance extends BaseModel
      *
      * @var string
      */
-    protected $table = 'balance';
+    protected $table = 'balances';
 
     /**
      * The primary key associated with the table.

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Sort\Wiki\Anime\Theme;
 
 use App\Http\Api\Sort\Sort;
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Support\Collection;
 
 /**
@@ -32,6 +32,6 @@ class ThemeIdSort extends Sort
      */
     public function getColumn(): string
     {
-        return (new Theme())->getKeyName();
+        return (new AnimeTheme())->getKeyName();
     }
 }

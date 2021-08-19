@@ -8,7 +8,7 @@ use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Enums\Services\Discord\EmbedColor;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
@@ -25,10 +25,10 @@ class EntryUpdated extends EntryEvent implements DiscordMessageEvent, UpdateRela
     /**
      * Create a new event instance.
      *
-     * @param Entry $entry
+     * @param AnimeThemeEntry $entry
      * @return void
      */
-    public function __construct(Entry $entry)
+    public function __construct(AnimeThemeEntry $entry)
     {
         parent::__construct($entry);
         $this->initializeEmbedFields($entry);

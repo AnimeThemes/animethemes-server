@@ -75,7 +75,7 @@ class YearShowTest extends TestCase
         $fallAnime = Anime::query()->where('season', AnimeSeason::FALL)->get();
         $fallResources = AnimeCollection::make($fallAnime->sortBy('name')->values(), Query::make());
 
-        $response = $this->get(route('api.year.show', ['year' => $year]));
+        $response = $this->get(route('api.animeyear.show', ['year' => $year]));
 
         $response->assertJson([
             Str::lower(AnimeSeason::getDescription(AnimeSeason::WINTER)) => json_decode(json_encode($winterResources->response()->getData()->anime), true),
@@ -145,7 +145,7 @@ class YearShowTest extends TestCase
         $fallAnime = Anime::query()->where('season', AnimeSeason::FALL)->with($includedPaths->all())->get();
         $fallResources = AnimeCollection::make($fallAnime->sortBy('name')->values(), Query::make($parameters));
 
-        $response = $this->get(route('api.year.show', ['year' => $year] + $parameters));
+        $response = $this->get(route('api.animeyear.show', ['year' => $year] + $parameters));
 
         $response->assertJson([
             Str::lower(AnimeSeason::getDescription(AnimeSeason::WINTER)) => json_decode(json_encode($winterResources->response()->getData()->anime), true),
@@ -226,7 +226,7 @@ class YearShowTest extends TestCase
         $fallAnime = Anime::query()->where('season', AnimeSeason::FALL)->get();
         $fallResources = AnimeCollection::make($fallAnime->sortBy('name')->values(), Query::make($parameters));
 
-        $response = $this->get(route('api.year.show', ['year' => $year]));
+        $response = $this->get(route('api.animeyear.show', ['year' => $year]));
 
         $response->assertJson([
             Str::lower(AnimeSeason::getDescription(AnimeSeason::WINTER)) => json_decode(json_encode($winterResources->response()->getData()->anime), true),

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki\Anime;
 
+use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Nova\Resources\Resource;
 use App\Nova\Resources\Wiki\Anime;
 use Devpartners\AuditableLog\AuditableLog;
@@ -23,7 +24,7 @@ class Synonym extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Wiki\Anime\Synonym::class;
+    public static string $model = AnimeSynonym::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -61,6 +62,18 @@ class Synonym extends Resource
     public static function singularLabel(): string
     {
         return __('nova.synonym');
+    }
+
+    /**
+     * Get the URI key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function uriKey(): string
+    {
+        return 'anime-synonyms';
     }
 
     /**

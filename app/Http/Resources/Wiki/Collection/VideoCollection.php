@@ -82,9 +82,9 @@ class VideoCollection extends SearchableCollection
     public static function allowedIncludePaths(): array
     {
         return [
-            'entries',
-            'entries.theme',
-            'entries.theme.anime',
+            'animethemeentries',
+            'animethemeentries.animetheme',
+            'animethemeentries.animetheme.anime',
         ];
     }
 

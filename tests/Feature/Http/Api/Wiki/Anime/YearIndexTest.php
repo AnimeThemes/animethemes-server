@@ -30,7 +30,7 @@ class YearIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $response = $this->get(route('api.year.index'));
+        $response = $this->get(route('api.animeyear.index'));
 
         $response->assertJson(
             $anime->unique('year')->sortBy('year')->pluck('year')->all(),

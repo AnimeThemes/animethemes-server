@@ -63,8 +63,8 @@ class ArtistCollection extends SearchableCollection
     {
         return [
             'songs',
-            'songs.themes',
-            'songs.themes.anime',
+            'songs.animethemes',
+            'songs.animethemes.anime',
             'members',
             'groups',
             'resources',

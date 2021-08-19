@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki\Anime\Theme;
 
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Nova\Filters\Wiki\Anime\Theme\Entry\EntryNsfwFilter;
 use App\Nova\Filters\Wiki\Anime\Theme\Entry\EntrySpoilerFilter;
 use App\Nova\Resources\Resource;
@@ -32,7 +33,7 @@ class Entry extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Wiki\Anime\Theme\Entry::class;
+    public static string $model = AnimeThemeEntry::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -73,6 +74,18 @@ class Entry extends Resource
     }
 
     /**
+     * Get the URI key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function uriKey(): string
+    {
+        return 'anime-theme-entries';
+    }
+
+    /**
      * The columns that should be searched.
      *
      * @var array
@@ -103,7 +116,7 @@ class Entry extends Resource
                 })
                 ->readonly(),
 
-            BelongsTo::make(__('nova.theme'), 'Theme', Theme::class)
+            BelongsTo::make(__('nova.theme'), 'AnimeTheme', Theme::class)
                 ->readonly(),
 
             ID::make(__('nova.id'), 'entry_id')

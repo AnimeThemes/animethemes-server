@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\Wiki;
 
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
@@ -52,7 +52,7 @@ class ArtistFactory extends Factory
             function (Artist $artist) {
                 Song::factory()
                     ->hasAttached($artist)
-                    ->has(Theme::factory()->for(Anime::factory()))
+                    ->has(AnimeTheme::factory()->for(Anime::factory()))
                     ->count($this->faker->randomDigitNotNull())
                     ->create();
 

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Nova\Lenses\Video;
 
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
@@ -165,13 +165,13 @@ class VideoUnlinkedTest extends TestCase
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->has(
-                Entry::factory()
+                AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
-                    ->for(Theme::factory()->for(Anime::factory()))
+                    ->for(AnimeTheme::factory()->for(Anime::factory()))
             )
             ->create();
 
-        $filteredVideos = Video::query()->whereDoesntHave('entries')->get();
+        $filteredVideos = Video::query()->whereDoesntHave('animethemeentries')->get();
 
         $lens = static::novaLens(VideoUnlinkedLens::class);
 

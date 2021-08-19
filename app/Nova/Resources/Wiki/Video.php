@@ -166,7 +166,7 @@ class Video extends Resource
                 ->rules(['nullable', (new EnumValue(VideoSource::class, false))->__toString()])
                 ->help(__('nova.video_source_help')),
 
-            BelongsToMany::make(__('nova.entries'), 'Entries', Entry::class)
+            BelongsToMany::make(__('nova.entries'), 'AnimeThemeEntries', Entry::class)
                 ->searchable()
                 ->fields(function () {
                     return [

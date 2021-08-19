@@ -52,15 +52,15 @@ Route::group(['as' => 'api.'], function () {
     Route::apiResource('video', VideoController::class)->only(['index', 'show']);
 
     // Anime Resources
-    Route::apiResource('synonym', SynonymController::class)->only(['index', 'show']);
-    Route::apiResource('theme', ThemeController::class)->only(['index', 'show']);
-
-    // Anime Theme Resources
-    Route::apiResource('entry', EntryController::class)->only(['index', 'show']);
+    Route::apiResource('animesynonym', SynonymController::class)->only(['index', 'show']);
+    Route::apiResource('animetheme', ThemeController::class)->only(['index', 'show']);
 
     // Anime Year Routes
-    Route::get('year', [YearController::class, 'index'])->name('year.index');
-    Route::get('year/{year}', [YearController::class, 'show'])->name('year.show');
+    Route::get('animeyear', [YearController::class, 'index'])->name('animeyear.index');
+    Route::get('animeyear/{year}', [YearController::class, 'show'])->name('animeyear.show');
+
+    // Anime Theme Resources
+    Route::apiResource('animethemeentry', EntryController::class)->only(['index', 'show']);
 });
 
 Route::fallback(function () {

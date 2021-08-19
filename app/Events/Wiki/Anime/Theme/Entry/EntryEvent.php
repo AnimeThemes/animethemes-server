@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Anime\Theme\Entry;
 
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
 /**
  * Class EntryEvent.
@@ -14,17 +14,17 @@ abstract class EntryEvent
     /**
      * The entry that has fired this event.
      *
-     * @var Entry
+     * @var AnimeThemeEntry
      */
-    protected Entry $entry;
+    protected AnimeThemeEntry $entry;
 
     /**
      * Create a new event instance.
      *
-     * @param Entry $entry
+     * @param AnimeThemeEntry $entry
      * @return void
      */
-    public function __construct(Entry $entry)
+    public function __construct(AnimeThemeEntry $entry)
     {
         $this->entry = $entry;
     }
@@ -32,9 +32,9 @@ abstract class EntryEvent
     /**
      * Get the entry that has fired this event.
      *
-     * @return Entry
+     * @return AnimeThemeEntry
      */
-    public function getEntry(): Entry
+    public function getEntry(): AnimeThemeEntry
     {
         return $this->entry;
     }

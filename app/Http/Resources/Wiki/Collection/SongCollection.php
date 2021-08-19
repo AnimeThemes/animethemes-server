@@ -60,8 +60,8 @@ class SongCollection extends SearchableCollection
     public static function allowedIncludePaths(): array
     {
         return [
-            'themes',
-            'themes.anime',
+            'animethemes',
+            'animethemes.anime',
             'artists',
         ];
     }

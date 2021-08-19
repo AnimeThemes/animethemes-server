@@ -19,7 +19,7 @@ class CreateInvitationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('invitation', function (Blueprint $table) {
+        Schema::create('invitations', function (Blueprint $table) {
             $table->id('invitation_id');
             $table->timestamps(6);
             $table->softDeletes('deleted_at', 6);
@@ -36,6 +36,6 @@ class CreateInvitationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invitation');
+        Schema::dropIfExists('invitations');
     }
 }

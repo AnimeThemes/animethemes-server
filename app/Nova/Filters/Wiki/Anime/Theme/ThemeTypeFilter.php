@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Filters\Wiki\Anime\Theme;
 
-use App\Enums\Models\Wiki\Anime\ThemeType;
+use App\Enums\Models\Wiki\ThemeType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;

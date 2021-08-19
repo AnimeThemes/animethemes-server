@@ -21,9 +21,9 @@ class CreateArtistResource extends Migration
         Schema::create('artist_resource', function (Blueprint $table) {
             $table->timestamps(6);
             $table->unsignedBigInteger('artist_id');
-            $table->foreign('artist_id')->references('artist_id')->on('artist')->onDelete('cascade');
+            $table->foreign('artist_id')->references('artist_id')->on('artists')->onDelete('cascade');
             $table->unsignedBigInteger('resource_id');
-            $table->foreign('resource_id')->references('resource_id')->on('resource')->onDelete('cascade');
+            $table->foreign('resource_id')->references('resource_id')->on('resources')->onDelete('cascade');
             $table->primary(['artist_id', 'resource_id']);
             $table->string('as')->nullable();
         });

@@ -19,7 +19,7 @@ class CreateVideosTable extends Migration
      */
     public function up()
     {
-        Schema::create('video', function (Blueprint $table) {
+        Schema::create('videos', function (Blueprint $table) {
             $table->id('video_id');
             $table->timestamps(6);
             $table->softDeletes('deleted_at', 6);
@@ -45,6 +45,6 @@ class CreateVideosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('video');
+        Schema::dropIfExists('videos');
     }
 }

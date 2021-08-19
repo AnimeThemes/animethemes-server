@@ -20,5 +20,3 @@ parameters:
         - '#Call to an undefined method ElasticScoutDriverPlus\\Builders\\SearchRequestBuilder::\w+\(\)#'
         - '#Call to an undefined method Mockery\\ExpectationInterface|Mockery\\HigherOrderMessage::once\(\).#'
         - '#Call to an undefined method Znck\\Eloquent\\Relations\\BelongsToThrough::where\(\).#'
-
-    excludes_analyse:

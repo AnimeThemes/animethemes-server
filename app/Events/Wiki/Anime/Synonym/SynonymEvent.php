@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Anime\Synonym;
 
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Synonym;
+use App\Models\Wiki\Anime\AnimeSynonym;
 
 /**
  * Class SynonymEvent.
@@ -15,9 +15,9 @@ abstract class SynonymEvent
     /**
      * The synonym that has fired this event.
      *
-     * @var Synonym
+     * @var AnimeSynonym
      */
-    protected Synonym $synonym;
+    protected AnimeSynonym $synonym;
 
     /**
      * The anime that the synonym belongs to.
@@ -29,10 +29,10 @@ abstract class SynonymEvent
     /**
      * Create a new event instance.
      *
-     * @param Synonym $synonym
+     * @param AnimeSynonym $synonym
      * @return void
      */
-    public function __construct(Synonym $synonym)
+    public function __construct(AnimeSynonym $synonym)
     {
         $this->synonym = $synonym;
         $this->anime = $synonym->anime;
@@ -41,9 +41,9 @@ abstract class SynonymEvent
     /**
      * Get the synonym that has fired this event.
      *
-     * @return Synonym
+     * @return AnimeSynonym
      */
-    public function getSynonym(): Synonym
+    public function getSynonym(): AnimeSynonym
     {
         return $this->synonym;
     }

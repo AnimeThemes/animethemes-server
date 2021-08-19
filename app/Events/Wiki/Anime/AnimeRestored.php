@@ -7,9 +7,9 @@ namespace App\Events\Wiki\Anime;
 use App\Contracts\Events\CascadesRestoresEvent;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Enums\Services\Discord\EmbedColor;
-use App\Models\Wiki\Anime\Synonym;
-use App\Models\Wiki\Anime\Theme;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\AnimeSynonym;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -59,19 +59,19 @@ class AnimeRestored extends AnimeEvent implements CascadesRestoresEvent, Discord
     {
         $anime = $this->getAnime();
 
-        $anime->synonyms()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Synonym $synonym) {
-            Synonym::withoutEvents(function () use ($synonym) {
+        $anime->animesynonyms()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeSynonym $synonym) {
+            AnimeSynonym::withoutEvents(function () use ($synonym) {
                 $synonym->restore();
                 $synonym->searchable();
             });
         });
 
-        $anime->themes()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Theme $theme) {
-            Theme::withoutEvents(function () use ($theme) {
+        $anime->animethemes()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeTheme $theme) {
+            AnimeTheme::withoutEvents(function () use ($theme) {
                 $theme->restore();
                 $theme->searchable();
-                $theme->entries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Entry $entry) {
-                    Entry::withoutEvents(function () use ($entry) {
+                $theme->animethemeentries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeThemeEntry $entry) {
+                    AnimeThemeEntry::withoutEvents(function () use ($entry) {
                         $entry->restore();
                         $entry->searchable();
                         $entry->videos->each(function (Video $video) {

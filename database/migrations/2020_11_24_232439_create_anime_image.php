@@ -23,7 +23,7 @@ class CreateAnimeImage extends Migration
             $table->unsignedBigInteger('anime_id');
             $table->foreign('anime_id')->references('anime_id')->on('anime')->onDelete('cascade');
             $table->unsignedBigInteger('image_id');
-            $table->foreign('image_id')->references('image_id')->on('image')->onDelete('cascade');
+            $table->foreign('image_id')->references('image_id')->on('images')->onDelete('cascade');
             $table->primary(['anime_id', 'image_id']);
         });
     }

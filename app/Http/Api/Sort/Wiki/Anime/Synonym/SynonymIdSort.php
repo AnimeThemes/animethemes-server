@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Sort\Wiki\Anime\Synonym;
 
 use App\Http\Api\Sort\Sort;
-use App\Models\Wiki\Anime\Synonym;
+use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Support\Collection;
 
 /**
@@ -32,6 +32,6 @@ class SynonymIdSort extends Sort
      */
     public function getColumn(): string
     {
-        return (new Synonym())->getKeyName();
+        return (new AnimeSynonym())->getKeyName();
     }
 }

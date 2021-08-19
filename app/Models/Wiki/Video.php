@@ -13,8 +13,8 @@ use App\Events\Wiki\Video\VideoDeleted;
 use App\Events\Wiki\Video\VideoRestored;
 use App\Events\Wiki\Video\VideoUpdated;
 use App\Models\BaseModel;
-use App\Models\Wiki\Anime\Theme\Entry;
-use App\Pivots\VideoEntry;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Pivots\AnimeThemeEntryVideo;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
@@ -43,7 +43,7 @@ use Laravel\Scout\Searchable;
  * @property Enum $overlap
  * @property Enum|null $source
  * @property string[] $tags
- * @property Collection $entries
+ * @property Collection $animethemeentries
  * @method static VideoFactory factory(...$parameters)
  */
 class Video extends BaseModel implements Streamable, Viewable
@@ -80,7 +80,7 @@ class Video extends BaseModel implements Streamable, Viewable
      *
      * @var string
      */
-    protected $table = 'video';
+    protected $table = 'videos';
 
     /**
      * The primary key associated with the table.
@@ -132,7 +132,7 @@ class Video extends BaseModel implements Streamable, Viewable
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
-        return $query->with(['entries.theme.anime.synonyms', 'entries.theme.song']);
+        return $query->with(['animethemeentries.animetheme.anime.animesynonyms', 'animethemeentries.animetheme.song']);
     }
 
     /**
@@ -143,7 +143,7 @@ class Video extends BaseModel implements Streamable, Viewable
     public function toSearchableArray(): array
     {
         $array = $this->toArray();
-        $array['entries'] = $this->entries->map(function (Entry $entry) {
+        $array['entries'] = $this->animethemeentries->map(function (AnimeThemeEntry $entry) {
             return $entry->toSearchableArray();
         })->toArray();
 
@@ -242,10 +242,10 @@ class Video extends BaseModel implements Streamable, Viewable
      *
      * @return BelongsToMany
      */
-    public function entries(): BelongsToMany
+    public function animethemeentries(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Anime\Theme\Entry', 'entry_video', 'video_id', 'entry_id')
-            ->using(VideoEntry::class)
+        return $this->belongsToMany('App\Models\Wiki\Anime\Theme\AnimeThemeEntry', 'anime_theme_entry_video', 'video_id', 'entry_id')
+            ->using(AnimeThemeEntryVideo::class)
             ->withTimestamps();
     }
 }

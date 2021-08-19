@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter\Wiki\Anime\Theme;
 
-use App\Enums\Models\Wiki\Anime\ThemeType;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\Filter\EnumFilter;
 use Illuminate\Support\Collection;
 

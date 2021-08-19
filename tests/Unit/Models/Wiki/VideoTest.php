@@ -7,10 +7,10 @@ namespace Tests\Unit\Models\Wiki;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
-use App\Pivots\VideoEntry;
+use App\Pivots\AnimeThemeEntryVideo;
 use CyrildeWit\EloquentViewable\View;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -282,12 +282,12 @@ class VideoTest extends TestCase
         $entryCount = $this->faker->randomDigitNotNull();
 
         $video = Video::factory()
-            ->has(Entry::factory()->for(Theme::factory()->for(Anime::factory()))->count($entryCount))
+            ->has(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory()))->count($entryCount))
             ->createOne();
 
-        static::assertInstanceOf(BelongsToMany::class, $video->entries());
-        static::assertEquals($entryCount, $video->entries()->count());
-        static::assertInstanceOf(Entry::class, $video->entries()->first());
-        static::assertEquals(VideoEntry::class, $video->entries()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $video->animethemeentries());
+        static::assertEquals($entryCount, $video->animethemeentries()->count());
+        static::assertInstanceOf(AnimeThemeEntry::class, $video->animethemeentries()->first());
+        static::assertEquals(AnimeThemeEntryVideo::class, $video->animethemeentries()->getPivotClass());
     }
 }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Nova\Filters\Wiki\Anime\Theme\Entry;
 
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Nova\Filters\Wiki\Anime\Theme\Entry\EntrySpoilerFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -61,16 +61,16 @@ class EntrySpoilerTest extends TestCase
     {
         $spoilerFilter = $this->faker->boolean();
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $filter = static::novaFilter(EntrySpoilerFilter::class);
 
-        $response = $filter->apply(Entry::class, $spoilerFilter);
+        $response = $filter->apply(AnimeThemeEntry::class, $spoilerFilter);
 
-        $filteredEntries = Entry::query()->where('spoiler', $spoilerFilter)->get();
+        $filteredEntries = AnimeThemeEntry::query()->where('spoiler', $spoilerFilter)->get();
         foreach ($filteredEntries as $filteredEntry) {
             $response->assertContains($filteredEntry);
         }

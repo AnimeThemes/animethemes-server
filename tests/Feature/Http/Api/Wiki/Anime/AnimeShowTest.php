@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime;
 
-use App\Enums\Models\Wiki\Anime\ThemeType;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\VideoOverlap;
@@ -15,8 +15,8 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Video;
@@ -179,12 +179,12 @@ class AnimeShowTest extends TestCase
             FilterParser::$param => [
                 'group' => $groupFilter,
             ],
-            IncludeParser::$param => 'themes',
+            IncludeParser::$param => 'animethemes',
         ];
 
         Anime::factory()
             ->has(
-                Theme::factory()
+                AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
                         ['group' => $groupFilter],
@@ -194,7 +194,7 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes' => function (HasMany $query) use ($groupFilter) {
+            'animethemes' => function (HasMany $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
@@ -228,12 +228,12 @@ class AnimeShowTest extends TestCase
             FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
-            IncludeParser::$param => 'themes',
+            IncludeParser::$param => 'animethemes',
         ];
 
         Anime::factory()
             ->has(
-                Theme::factory()
+                AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
                         ['sequence' => $sequenceFilter],
@@ -243,7 +243,7 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes' => function (HasMany $query) use ($sequenceFilter) {
+            'animethemes' => function (HasMany $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
@@ -276,15 +276,15 @@ class AnimeShowTest extends TestCase
             FilterParser::$param => [
                 'type' => $typeFilter->description,
             ],
-            IncludeParser::$param => 'themes',
+            IncludeParser::$param => 'animethemes',
         ];
 
         Anime::factory()
-            ->has(Theme::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
         $anime = Anime::with([
-            'themes' => function (HasMany $query) use ($typeFilter) {
+            'animethemes' => function (HasMany $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
@@ -317,19 +317,19 @@ class AnimeShowTest extends TestCase
             FilterParser::$param => [
                 'nsfw' => $nsfwFilter,
             ],
-            IncludeParser::$param => 'themes.entries',
+            IncludeParser::$param => 'animethemes.animethemeentries',
         ];
 
         Anime::factory()
             ->has(
-                Theme::factory()
-                    ->has(Entry::factory()->count($this->faker->numberBetween(1, 3)))
+                AnimeTheme::factory()
+                    ->has(AnimeThemeEntry::factory()->count($this->faker->numberBetween(1, 3)))
                     ->count($this->faker->numberBetween(1, 3))
             )
             ->create();
 
         $anime = Anime::with([
-            'themes.entries' => function (HasMany $query) use ($nsfwFilter) {
+            'animethemes.animethemeentries' => function (HasMany $query) use ($nsfwFilter) {
                 $query->where('nsfw', $nsfwFilter);
             },
         ])
@@ -362,19 +362,19 @@ class AnimeShowTest extends TestCase
             FilterParser::$param => [
                 'spoiler' => $spoilerFilter,
             ],
-            IncludeParser::$param => 'themes.entries',
+            IncludeParser::$param => 'animethemes.animethemeentries',
         ];
 
         Anime::factory()
             ->has(
-                Theme::factory()
-                    ->has(Entry::factory()->count($this->faker->numberBetween(1, 3)))
+                AnimeTheme::factory()
+                    ->has(AnimeThemeEntry::factory()->count($this->faker->numberBetween(1, 3)))
                     ->count($this->faker->numberBetween(1, 3))
             )
             ->create();
 
         $anime = Anime::with([
-            'themes.entries' => function (HasMany $query) use ($spoilerFilter) {
+            'animethemes.animethemeentries' => function (HasMany $query) use ($spoilerFilter) {
                 $query->where('spoiler', $spoilerFilter);
             },
         ])
@@ -408,15 +408,15 @@ class AnimeShowTest extends TestCase
             FilterParser::$param => [
                 'version' => $versionFilter,
             ],
-            IncludeParser::$param => 'themes.entries',
+            IncludeParser::$param => 'animethemes.animethemeentries',
         ];
 
         Anime::factory()
             ->has(
-                Theme::factory()
+                AnimeTheme::factory()
                     ->count($this->faker->numberBetween(1, 3))
                     ->has(
-                        Entry::factory()
+                        AnimeThemeEntry::factory()
                             ->count($this->faker->numberBetween(1, 3))
                             ->state(new Sequence(
                                 ['version' => $versionFilter],
@@ -427,7 +427,7 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes.entries' => function (HasMany $query) use ($versionFilter) {
+            'animethemes.animethemeentries' => function (HasMany $query) use ($versionFilter) {
                 $query->where('version', $versionFilter);
             },
         ])
@@ -546,13 +546,13 @@ class AnimeShowTest extends TestCase
             FilterParser::$param => [
                 'lyrics' => $lyricsFilter,
             ],
-            IncludeParser::$param => 'themes.entries.videos',
+            IncludeParser::$param => 'animethemes.animethemeentries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function (BelongsToMany $query) use ($lyricsFilter) {
+            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($lyricsFilter) {
                 $query->where('lyrics', $lyricsFilter);
             },
         ])
@@ -585,13 +585,13 @@ class AnimeShowTest extends TestCase
             FilterParser::$param => [
                 'nc' => $ncFilter,
             ],
-            IncludeParser::$param => 'themes.entries.videos',
+            IncludeParser::$param => 'animethemes.animethemeentries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function (BelongsToMany $query) use ($ncFilter) {
+            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($ncFilter) {
                 $query->where('nc', $ncFilter);
             },
         ])
@@ -624,13 +624,13 @@ class AnimeShowTest extends TestCase
             FilterParser::$param => [
                 'overlap' => $overlapFilter->description,
             ],
-            IncludeParser::$param => 'themes.entries.videos',
+            IncludeParser::$param => 'animethemes.animethemeentries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function (BelongsToMany $query) use ($overlapFilter) {
+            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($overlapFilter) {
                 $query->where('overlap', $overlapFilter->value);
             },
         ])
@@ -664,15 +664,15 @@ class AnimeShowTest extends TestCase
             FilterParser::$param => [
                 'resolution' => $resolutionFilter,
             ],
-            IncludeParser::$param => 'themes.entries.videos',
+            IncludeParser::$param => 'animethemes.animethemeentries.videos',
         ];
 
         Anime::factory()
             ->has(
-                Theme::factory()
+                AnimeTheme::factory()
                     ->count($this->faker->numberBetween(1, 3))
                     ->has(
-                        Entry::factory()
+                        AnimeThemeEntry::factory()
                             ->count($this->faker->numberBetween(1, 3))
                             ->has(
                                 Video::factory()
@@ -687,7 +687,7 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function (BelongsToMany $query) use ($resolutionFilter) {
+            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($resolutionFilter) {
                 $query->where('resolution', $resolutionFilter);
             },
         ])
@@ -720,13 +720,13 @@ class AnimeShowTest extends TestCase
             FilterParser::$param => [
                 'source' => $sourceFilter->description,
             ],
-            IncludeParser::$param => 'themes.entries.videos',
+            IncludeParser::$param => 'animethemes.animethemeentries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function (BelongsToMany $query) use ($sourceFilter) {
+            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($sourceFilter) {
                 $query->where('source', $sourceFilter->value);
             },
         ])
@@ -759,13 +759,13 @@ class AnimeShowTest extends TestCase
             FilterParser::$param => [
                 'subbed' => $subbedFilter,
             ],
-            IncludeParser::$param => 'themes.entries.videos',
+            IncludeParser::$param => 'animethemes.animethemeentries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function (BelongsToMany $query) use ($subbedFilter) {
+            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($subbedFilter) {
                 $query->where('subbed', $subbedFilter);
             },
         ])
@@ -798,13 +798,13 @@ class AnimeShowTest extends TestCase
             FilterParser::$param => [
                 'uncen' => $uncenFilter,
             ],
-            IncludeParser::$param => 'themes.entries.videos',
+            IncludeParser::$param => 'animethemes.animethemeentries.videos',
         ];
 
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'themes.entries.videos' => function (BelongsToMany $query) use ($uncenFilter) {
+            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($uncenFilter) {
                 $query->where('uncen', $uncenFilter);
             },
         ])

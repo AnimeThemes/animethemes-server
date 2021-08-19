@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme\Entry;
 
-use App\Enums\Models\Wiki\Anime\ThemeType;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
@@ -12,8 +12,8 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme;
-use App\Models\Wiki\Anime\Theme\Entry;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -36,11 +36,11 @@ class EntryShowTest extends TestCase
      */
     public function testDefault()
     {
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->create();
 
-        $response = $this->get(route('api.entry.show', ['entry' => $entry]));
+        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry]));
 
         $response->assertJson(
             json_decode(
@@ -61,15 +61,15 @@ class EntryShowTest extends TestCase
      */
     public function testSoftDelete()
     {
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
         $entry->delete();
 
         $entry->unsetRelations();
 
-        $response = $this->get(route('api.entry.show', ['entry' => $entry]));
+        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry]));
 
         $response->assertJson(
             json_decode(
@@ -97,14 +97,14 @@ class EntryShowTest extends TestCase
             IncludeParser::$param => $includedPaths->join(','),
         ];
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
-        $entry = Entry::with($includedPaths->all())->first();
+        $entry = AnimeThemeEntry::with($includedPaths->all())->first();
 
-        $response = $this->get(route('api.entry.show', ['entry' => $entry] + $parameters));
+        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -145,11 +145,11 @@ class EntryShowTest extends TestCase
             ],
         ];
 
-        $entry = Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->create();
 
-        $response = $this->get(route('api.entry.show', ['entry' => $entry] + $parameters));
+        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -179,18 +179,18 @@ class EntryShowTest extends TestCase
             IncludeParser::$param => 'anime',
         ];
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->create();
 
-        $entry = Entry::with([
+        $entry = AnimeThemeEntry::with([
             'anime' => function (BelongsToThrough $query) use ($seasonFilter) {
                 $query->where('season', $seasonFilter->value);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.entry.show', ['entry' => $entry] + $parameters));
+        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -221,9 +221,9 @@ class EntryShowTest extends TestCase
             IncludeParser::$param => 'anime',
         ];
 
-        Entry::factory()
+        AnimeThemeEntry::factory()
             ->for(
-                Theme::factory()->for(
+                AnimeTheme::factory()->for(
                     Anime::factory()
                         ->state([
                             'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
@@ -232,14 +232,14 @@ class EntryShowTest extends TestCase
             )
             ->create();
 
-        $entry = Entry::with([
+        $entry = AnimeThemeEntry::with([
             'anime' => function (BelongsToThrough $query) use ($yearFilter) {
                 $query->where('year', $yearFilter);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.entry.show', ['entry' => $entry] + $parameters));
+        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -267,12 +267,12 @@ class EntryShowTest extends TestCase
             FilterParser::$param => [
                 'group' => $groupFilter,
             ],
-            IncludeParser::$param => 'theme',
+            IncludeParser::$param => 'animetheme',
         ];
 
-        Entry::factory()
+        AnimeThemeEntry::factory()
             ->for(
-                Theme::factory()
+                AnimeTheme::factory()
                     ->for(Anime::factory())
                     ->state([
                         'group' => $this->faker->boolean() ? $groupFilter : $excludedGroup,
@@ -280,14 +280,14 @@ class EntryShowTest extends TestCase
             )
             ->create();
 
-        $entry = Entry::with([
-            'theme' => function (BelongsTo $query) use ($groupFilter) {
+        $entry = AnimeThemeEntry::with([
+            'animetheme' => function (BelongsTo $query) use ($groupFilter) {
                 $query->where('group', $groupFilter);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.entry.show', ['entry' => $entry] + $parameters));
+        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -315,12 +315,12 @@ class EntryShowTest extends TestCase
             FilterParser::$param => [
                 'sequence' => $sequenceFilter,
             ],
-            IncludeParser::$param => 'theme',
+            IncludeParser::$param => 'animetheme',
         ];
 
-        Entry::factory()
+        AnimeThemeEntry::factory()
             ->for(
-                Theme::factory()
+                AnimeTheme::factory()
                     ->for(Anime::factory())
                     ->state([
                         'sequence' => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
@@ -328,14 +328,14 @@ class EntryShowTest extends TestCase
             )
             ->create();
 
-        $entry = Entry::with([
-            'theme' => function (BelongsTo $query) use ($sequenceFilter) {
+        $entry = AnimeThemeEntry::with([
+            'animetheme' => function (BelongsTo $query) use ($sequenceFilter) {
                 $query->where('sequence', $sequenceFilter);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.entry.show', ['entry' => $entry] + $parameters));
+        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -362,21 +362,21 @@ class EntryShowTest extends TestCase
             FilterParser::$param => [
                 'type' => $typeFilter->description,
             ],
-            IncludeParser::$param => 'theme',
+            IncludeParser::$param => 'animetheme',
         ];
 
-        Entry::factory()
-            ->for(Theme::factory()->for(Anime::factory()))
+        AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->create();
 
-        $entry = Entry::with([
-            'theme' => function (BelongsTo $query) use ($typeFilter) {
+        $entry = AnimeThemeEntry::with([
+            'animetheme' => function (BelongsTo $query) use ($typeFilter) {
                 $query->where('type', $typeFilter->value);
             },
         ])
         ->first();
 
-        $response = $this->get(route('api.entry.show', ['entry' => $entry] + $parameters));
+        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
         $response->assertJson(
             json_decode(

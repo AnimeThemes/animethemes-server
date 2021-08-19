@@ -7,14 +7,14 @@ namespace App\Http\Resources\Wiki\Anime\Resource;
 use App\Http\Api\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
-use App\Models\Wiki\Anime\Synonym;
+use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class SynonymResource.
  *
- * @mixin Synonym
+ * @mixin AnimeSynonym
  */
 class SynonymResource extends BaseResource
 {
@@ -23,16 +23,16 @@ class SynonymResource extends BaseResource
      *
      * @var string|null
      */
-    public static $wrap = 'synonym';
+    public static $wrap = 'animesynonym';
 
     /**
      * Create a new resource instance.
      *
-     * @param Synonym | MissingValue | null $synonym
+     * @param AnimeSynonym | MissingValue | null $synonym
      * @param Query $query
      * @return void
      */
-    public function __construct(Synonym | MissingValue | null $synonym, Query $query)
+    public function __construct(AnimeSynonym | MissingValue | null $synonym, Query $query)
     {
         parent::__construct($synonym, $query);
     }
