@@ -16,7 +16,7 @@ final class CreateThemeIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('theme', function (Mapping $mapping) {
+        Index::create('anime_themes', function (Mapping $mapping) {
             $mapping->nested('anime', [
                 'properties' => [
                     'anime_id' => [
@@ -107,6 +107,6 @@ final class CreateThemeIndex implements MigrationInterface
      */
     public function down(): void
     {
-        Index::dropIfExists('theme');
+        Index::dropIfExists('anime_themes');
     }
 }

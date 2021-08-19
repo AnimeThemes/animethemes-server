@@ -16,7 +16,7 @@ final class CreateEntryIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('entry', function (Mapping $mapping) {
+        Index::create('anime_theme_entries', function (Mapping $mapping) {
             $mapping->text('anime_slug');
             $mapping->date('created_at');
             $mapping->long('entry_id');
@@ -147,6 +147,6 @@ final class CreateEntryIndex implements MigrationInterface
      */
     public function down(): void
     {
-        Index::dropIfExists('entry');
+        Index::dropIfExists('anime_theme_entries');
     }
 }

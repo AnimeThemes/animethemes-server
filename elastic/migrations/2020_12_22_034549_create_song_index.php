@@ -16,7 +16,7 @@ final class CreateSongIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('song', function (Mapping $mapping) {
+        Index::create('songs', function (Mapping $mapping) {
             $mapping->date('created_at');
             $mapping->long('song_id');
             $mapping->text('title');
@@ -29,6 +29,6 @@ final class CreateSongIndex implements MigrationInterface
      */
     public function down(): void
     {
-        Index::dropIfExists('song');
+        Index::dropIfExists('songs');
     }
 }

@@ -16,7 +16,7 @@ final class CreateSynonymIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('synonym', function (Mapping $mapping) {
+        Index::create('anime_synonyms', function (Mapping $mapping) {
             $mapping->nested('anime', [
                 'properties' => [
                     'anime_id' => [
@@ -58,6 +58,6 @@ final class CreateSynonymIndex implements MigrationInterface
      */
     public function down(): void
     {
-        Index::dropIfExists('synonym');
+        Index::dropIfExists('anime_synonyms');
     }
 }

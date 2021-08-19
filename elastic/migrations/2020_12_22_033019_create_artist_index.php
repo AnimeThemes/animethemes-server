@@ -16,7 +16,7 @@ final class CreateArtistIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('artist', function (Mapping $mapping) {
+        Index::create('artists', function (Mapping $mapping) {
             $mapping->long('artist_id');
             $mapping->date('created_at');
             $mapping->text('name');
@@ -60,6 +60,6 @@ final class CreateArtistIndex implements MigrationInterface
      */
     public function down(): void
     {
-        Index::dropIfExists('artist');
+        Index::dropIfExists('artists');
     }
 }
