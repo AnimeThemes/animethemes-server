@@ -24,9 +24,9 @@ class DiscoverRelationCollection extends DiscoverService
      * Get the resource collection class by model.
      *
      * @param Model $model
-     * @return string|null
+     * @return BaseCollection|null
      */
-    public static function byModel(Model $model): ?string
+    public static function byModel(Model $model): ?BaseCollection
     {
         $resources = (new Finder())->files()->in(static::getPath());
 
@@ -51,7 +51,10 @@ class DiscoverRelationCollection extends DiscoverService
                     $resourceInstance = $resource->newInstance(new MissingValue(), Query::make());
                     $collects = $resource->getProperty('collects')->getValue($resourceInstance);
                     if (get_class($model) === $collects) {
-                        return $resource->getName();
+                        $baseCollectionInstance = $resource->newInstance(new MissingValue(), Query::make());
+                        if ($baseCollectionInstance instanceof BaseCollection) {
+                            return $baseCollectionInstance;
+                        }
                     }
                 } catch (ReflectionException $e) {
                     Log::error($e->getMessage());

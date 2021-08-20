@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Concerns\Http\Resources;
 
 use App\Http\Api\Query;
-use App\Http\Resources\BaseCollection;
 use App\Services\Http\Resources\DiscoverRelationCollection;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Support\Str;
 
 /**
@@ -22,7 +20,7 @@ trait PerformsConstrainedEagerLoading
      * @param Query $query
      * @return array
      */
-    protected static function performConstrainedEagerLoads(Query $query): array
+    public static function performConstrainedEagerLoads(Query $query): array
     {
         $constrainedEagerLoads = [];
 
@@ -32,14 +30,11 @@ trait PerformsConstrainedEagerLoading
 
         foreach ($allowedIncludePaths as $allowedIncludePath) {
             $constrainedEagerLoads[$allowedIncludePath] = function (Relation $relation) use ($query) {
-                $collectionClass = DiscoverRelationCollection::byModel($relation->getQuery()->getModel());
-                if ($collectionClass !== null) {
-                    $collectionInstance = new $collectionClass(new MissingValue(), Query::make());
-                    if ($collectionInstance instanceof BaseCollection) {
-                        foreach ($collectionInstance::filters($query->getFilterCriteria()) as $filter) {
-                            $scope = Str::singular($collectionInstance::$wrap);
-                            $filter->scope($scope)->applyFilter($relation->getQuery());
-                        }
+                $collectionInstance = DiscoverRelationCollection::byModel($relation->getQuery()->getModel());
+                if ($collectionInstance !== null) {
+                    foreach ($collectionInstance::filters($query->getFilterCriteria()) as $filter) {
+                        $scope = Str::singular($collectionInstance::$wrap);
+                        $filter->scope($scope)->applyFilter($relation->getQuery());
                     }
                 }
             };

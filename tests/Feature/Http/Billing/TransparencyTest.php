@@ -57,7 +57,7 @@ class TransparencyTest extends TestCase
 
         $response = $this->get(route('transparency.show', ['date' => $date]));
 
-        $response->assertSessionHasErrors(['date' => 'The date does not match the format Y-m.']);
+        $response->assertInvalid(['date' => 'The date does not match the format Y-m.']);
     }
 
     /**
@@ -73,7 +73,7 @@ class TransparencyTest extends TestCase
 
         $response = $this->get(route('transparency.show', ['date' => $date]));
 
-        $response->assertSessionHasErrors(['date' => 'The selected month is not valid.']);
+        $response->assertInvalid(['date' => 'The selected month is not valid.']);
     }
 
     /**

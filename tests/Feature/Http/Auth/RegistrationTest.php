@@ -128,7 +128,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->post($url);
 
-        $response->assertSessionHasErrors('password');
+        $response->assertInvalid(['password']);
     }
 
     /**
@@ -148,7 +148,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->post($url);
 
-        $response->assertSessionHasErrors(['password' => 'The password field is required.']);
+        $response->assertInvalid(['password' => 'The password field is required.']);
     }
 
     /**
@@ -168,7 +168,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->post($url);
 
-        $response->assertSessionHasErrors(['password' => 'The password must be at least 8 characters.']);
+        $response->assertInvalid(['password' => 'The password must be at least 8 characters.']);
     }
 
     /**
@@ -193,7 +193,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->post($url);
 
-        $response->assertSessionHasErrors(['password' => 'The password confirmation does not match.']);
+        $response->assertInvalid(['password' => 'The password confirmation does not match.']);
     }
 
     /**
@@ -220,7 +220,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->post($url);
 
-        $response->assertSessionHasErrors(['password' => 'Your password is not secure enough.']);
+        $response->assertInvalid(['password' => 'Your password is not secure enough.']);
     }
 
     /**
@@ -246,7 +246,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->post($url);
 
-        $response->assertSessionHasErrors(['terms' => 'The terms field is required.']);
+        $response->assertInvalid(['terms' => 'The terms field is required.']);
     }
 
     /**

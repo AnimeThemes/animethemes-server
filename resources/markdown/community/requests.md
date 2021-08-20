@@ -169,18 +169,6 @@ Theme title|Links|Episodes|Notes
 OP "Y'Know"|[Webm]()||
 ED "Waiting for You"|[Webm]()||
 
-### [Captain Tsubasa: Road to 2002](https://myanimelist.net/anime/1614/)
-**Captain Tsubasa (2001)**
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-OP1 "Dragon Screamer"|[Webm]()|1-37|
-OP2 "Our Relation"|[Webm]()|38-52|
-ED1 "Feel So Right"|[Webm]()|1-13|
-ED2 "Katsu"|[Webm]()|14-26|
-ED3 "Keep On Going"|[Webm]()|27-39|
-ED4 "Break Off!"|[Webm]()|40-52|
-
 ### [Choboraunyopomi Gekijou Dai Ni Maku Ai Mai Mii: Mousou Catastrophe](https://myanimelist.net/anime/23551/)
 **Ai-Mai-Mi Mousou Catastrophe**
 
@@ -196,20 +184,6 @@ Theme title|Links|Episodes|Notes
 OP2 "Honto no Kiss wo Okaeshi ni"|[Webm]()||
 ED1 "Burning Love"|[Webm]()||
 ED2 "Shadowy Dream"|[Webm]()||
-
-### [City Hunter 3](https://myanimelist.net/anime/1472/)
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-OP "Running To Horizon"|[Webm]()||
-ED "Atsuku Naretara"|[Webm]()||
-
-### [Cobra The Animation](https://myanimelist.net/anime/5032/)
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-OP "Cobra the Space Pirate"|[Webm]()||
-ED "Kimi no Uta"|[Webm]()||
 
 ### [Corpse Party: Tortured Souls - Bougyakusareta Tamashii no Jukyou](https://myanimelist.net/anime/15037/)
 **Corpse Party: Tortured Souls - Bougyakusareta Tamashii no Jukyou**
@@ -314,14 +288,6 @@ Theme title|Links|Episodes|Notes
 -|-|-|-
 OP ""|[Webm]()||
 ED ""|[Webm]()||
-
-### [Donten ni Warau](https://myanimelist.net/anime/21743/)
-**Laughing Under the Clouds, Cloudy Laugh**
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-OP2 "Ryuuten no Hi"|[Webm]()|8-11|
-ED "ATTITUDE TO LIFE"|[Webm]()||
 
 ### [Doraemon](https://myanimelist.net/anime/2471/)
 
@@ -526,13 +492,6 @@ Theme title|Links|Episodes|Notes
 -|-|-|-
 OP "Akatsuki"|[Webm]()||
 ED "Ikuoku no Chandelier"|[Webm]()||
-
-### [Girls Bravo: Second Season](https://myanimelist.net/anime/487/)
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-OP "Ever After"|[Webm]()||  
-ED "And then"|[Webm]()||  
 
 ### [Golgo 13](https://myanimelist.net/anime/4039/)
 
@@ -907,26 +866,6 @@ OP2 "Kurenai Sanshirou" by Columbia Yurikago Kai & Mitsuko Horie|[Webm]()||
 ED1 "Otoko no Arano"|[Webm]()||
 ED2 "Sekiyou no Otoko"|[Webm]()||
 
-### [Kuroko no Basket](https://myanimelist.net/anime/11771/)
-**Kuroko's Basketball, Kuroko no Basuke**
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-OP1 "Can Do"|[Webm (NC, BD, 1080)]()|1-13|
-OP2 "RIMFIRE"|[Webm (NC, BD, 1080)]()|14-25|
-ED1 "Start it right away"|[Webm (NC, BD, 1080)]()|1-13|
-ED2 "Catal Rhythm"|[Webm (NC, BD, 1080)]()|14-25|
-
-### [Kuroko no Basket 2nd Season](https://myanimelist.net/anime/16894/)
-**Kuroko's Basketball 2, Kuroko no Basuke 2nd Season**
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-OP1 "The Other Self"|[Webm (NC, BD, 1080)]()|1-13|
-OP2 "Hengen Jizai no Magical Star"|[Webm (NC, BD, 1080)]()|14-24|
-ED1 "WALK"|[Webm (NC, BD, 1080)]()|1-13|
-ED2 "FANTASTIC TUNE"|[Webm (NC, BD, 1080)]()|14-24|
-
 ### [Kuroshitsuji Movie: Book of the Atlantic](https://myanimelist.net/anime/31812/)
 
 Theme title|Links|Episodes|Notes
@@ -1106,13 +1045,6 @@ Theme title|Links|Episodes|Notes
 -|-|-|-
 OP "Main Theme"|[Webm]()||
 ED "Scarecrow"|[Webm]()||
-
-### [Motto! Ojamajo Doremi](https://myanimelist.net/anime/352/)
-**More! Useless Witch Doremi**
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-ED "Takaramono"|[Webm]()||
 
 ### [Muumin](https://myanimelist.net/anime/8234/)
 **Moomin**
@@ -1372,22 +1304,6 @@ OP2 "Shimajirou to Ikou yo"|[Webm]()||
 ED1 "Tomodachi no Wow!"|[Webm]()||
 ED2 "Okinawa wa wa wa!"|[Webm]()||
 
-### [Shin Getter Robo tai Neo Getter Robo](https://myanimelist.net/anime/938/)
-**Shin Getter Robo vs. Neo Getter Robo**
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-OP "Storm"|[Webm]()||
-ED1 "Rising"|[Webm]()|1-3|
-ED2 "Yeah! Yeah! Yeah!"|4|
-
-### [Shoujo Shuumatsu Ryokou](https://myanimelist.net/anime/35838/)
-**Girls' Last Tour, The End Girl Trip**
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-ED1 "More One Night"|[Webm (Lyrics)]()|2-4, 6-7, 10-11|
-
 ### [Shuumatsu no Izetta](https://myanimelist.net/anime/33433/)
 **Izetta, the Last Witch, Izetta, Die Letzte Hexe**
 
@@ -1494,16 +1410,6 @@ OP2 "Setsujou - Hyakka Ryouran"|[Webm]()|13-22|
 ED1 "NO ROCK NO LIFE"|[Webm]()||
 ED2 "Mousou Break"|[Webm]()||
 ED3 "GOOD LUCK"|[Webm]()|15|
-
-### [Sunabouzu](https://myanimelist.net/anime/25/)
-**Desert Punk**
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-OP1 "Sand Mission"|[Webm]()|1-12, 24|
-OP2 "DESTINY OF THE DESERT"|[Webm]()|13-23|
-ED1 "Sunabouzu Ekaki Uta"|[Webm]()|1-12|
-ED2 "Shinkirou"|[Webm]()|12-24|
 
 ### [Taiyou no Kiba Dagram](https://myanimelist.net/anime/2257/)
 **Fang of the Sun Dagram, Fang of the Sun Dougram**
@@ -1624,22 +1530,6 @@ OP1 "The dice are cast"|[Webm]()|1|
 OP2 "Shine"|[Webm]()|2-13|
 ED1 "Maji Love Revolutions"|[Webm]()|2-11|
 ED2 "Evolution Eve"|[Webm]()|12|
-
-### [Vandread](https://myanimelist.net/anime/180/)
-**Vandread Stage One, Vandread First Stage**
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-OP "TRUST"|[Webm]()||
-ED "himegoto"|[Webm]()||
-
-### [Vandread: The Second Stage](https://myanimelist.net/anime/181/)
-
-Theme title|Links|Episodes|Notes
--|-|-|-
-OP "JUSTICE"|[Webm]()||
-ED1 "YES TOGETHER"|[Webm]()|1-12|
-ED2 "TRUST"|[Webm]()|13|
 
 ### [Viewtiful Joe](https://myanimelist.net/anime/278/)
 **Beautiful Joe**
