@@ -26,14 +26,18 @@ class WikiDeseeder extends Seeder
         DB::table('anime_themes')->truncate();
         DB::table('anime_synonyms')->truncate();
         DB::table('anime_resource')->truncate();
+        DB::table('anime_image')->truncate();
         DB::table('anime_series')->truncate();
         DB::table('anime')->truncate();
 
         DB::table('artist_resource')->truncate();
+        DB::table('artist_image')->truncate();
         DB::table('artist_song')->truncate();
+        DB::table('artist_member')->truncate();
         DB::table('artists')->truncate();
 
         DB::table('resources')->truncate();
+        DB::table('images')->truncate();
         DB::table('series')->truncate();
         DB::table('songs')->truncate();
         DB::table('videos')->truncate();

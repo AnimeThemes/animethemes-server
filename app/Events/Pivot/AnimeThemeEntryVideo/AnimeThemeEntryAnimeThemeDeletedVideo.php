@@ -15,7 +15,9 @@ use NotificationChannels\Discord\DiscordMessage;
 /**
  * Class AnimeThemeEntryAnimeThemeDeletedVideo.
  */
-class AnimeThemeEntryAnimeThemeDeletedVideo extends AnimeThemeEntryVideoEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
+class AnimeThemeEntryAnimeThemeDeletedVideo extends AnimeThemeEntryVideoEvent implements
+    DiscordMessageEvent,
+    UpdateRelatedIndicesEvent
 {
     use Dispatchable;
     use SerializesModels;

@@ -10,11 +10,11 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
-use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
+use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -121,7 +121,7 @@ class ImageTest extends TestCase
             'path' => $fsFile,
             'facet' => ImageFacet::getRandomValue(),
             'size' => $this->faker->randomNumber(),
-            'mimetype' => MimeType::fromFilename($fsPathinfo['basename']),
+            'mimetype' => MimeType::from($fsPathinfo['basename']),
         ]);
 
         $image->delete();
@@ -145,7 +145,7 @@ class ImageTest extends TestCase
             'path' => $fsFile,
             'facet' => ImageFacet::getRandomValue(),
             'size' => $this->faker->randomNumber(),
-            'mimetype' => MimeType::fromFilename($fsPathinfo['basename']),
+            'mimetype' => MimeType::from($fsPathinfo['basename']),
         ]);
 
         $image->forceDelete();

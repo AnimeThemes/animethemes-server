@@ -2,7 +2,7 @@
 
 ## Why does AnimeThemes need your help?
 
-AnimeThemes is a hobby project run out of pocket by a team of volunteers. AnimeThemes requires the use of commercial infrastructure and incurs nontrivial bandwidth overages in order to serve video to the wider anime community. The site is free to use does not run ads. While para, the site creator, has covered the costs at first, we will need your support to keep this service up going forward. 
+AnimeThemes is a hobby project run out of pocket by a team of volunteers. AnimeThemes requires the use of commercial infrastructure and incurs nontrivial bandwidth overages in order to serve video to the wider anime community. The site is free to use and does not run ads. While para, the site creator, has covered the costs at first, we will need your support to keep this service up going forward. 
 
 Donations made to us will go to covering costs and allow us to keep running this site into the future and growing it out into something greater and greater!
 

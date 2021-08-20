@@ -116,8 +116,6 @@ Chou Denji Machine Voltes V|"Voltes V no Uta"|[OP][480]|
 Chou Denji Robo Combattler V|"Combattler V no Theme"|[OP][480]|
 Choujigen Game Neptune The Animation|"Ito"|[ED3][NC, 1080, Trans]|
 Choujuu Kishin Dancougar|"Ai yo Faraway"|[OP1][BD, Lyrics]|
-Chuunibyou demo Koi ga Shitai! Ren|"VOICE"|[OP]|
-Chuunibyou demo Koi ga Shitai! Ren|"Van!shment Th!s World"|[ED]|
 Coppelion|"Tooku Made"|[ED1]|
 Coppelion|"ANGEL"|[OP]|
 Coppelion|"ANGEL"|[OP][Lyrics]|
@@ -146,7 +144,6 @@ Diamond no Ace Second Season|"HEROES"|[OP4]|
 Diamond no Ace Second Season|"Go EXCEED!!"|[OP1]|
 Diamond no Ace Second Season|"Glory!"|[ED1]|
 Diamond no Ace Second Season|"KIMERO!!"|[ED4]|
-Donten ni Warau|"Biran no Kaze"|[OP1]|
 Dororon Enma-kun Meeramera|"Tama Mera Mera Icchou Celsius!"|[OP][Lyrics]|
 Dragon Ball Kai|"Dragon Soul"|[OP V1][Lyrics]|
 Dragon Ball Kai (2014)|"Kuu-Zen-Zetsu-Go"|[OP][Lyrics]|
@@ -177,14 +174,7 @@ Eyeshield 21|"Song of Power"|[ED7][480]
 Fantasista Doll|"DAY by DAY"|[ED][NC, BD]|
 Fantasista Doll|"Ima yo! Fantasista Doll"|[OP][NC, BD]|
 Fate Grand Order|"Shikisai"|[OP][1080]|
-Fate hollow ataraxia (PS Vita version)|"holLow wORlD"|[OP]|
-Fate hollow ataraxia (PS Vita version)|"broKen NIGHT"|[OP]|
-Fate kaleid liner Prisma Illya 2wei!|"TWO BY TWO"|[ED V1][NC]|
-Fate kaleid liner Prisma☆Illya 2wei Herz!|"Wonder Stella"|[OP]|
-Fate kaleid liner Prisma☆Illya 2wei Herz!|"Happening☆diary"|[ED1]|
 Fate stay night [Réalta Nua] (PS Vita version)|"Another Heaven"|[OP][60FPS]|
-Fate Zero 2nd Season|"Manten"|[ED2]|
-Flying Witch Petit|"Ashita mo Ashita"|[ED]|
 Frame Arms Girl|"Aogeba Itoshii Furufuru Days"|[ED12][Over]|
 Fukumenkei Noise|"Noise"|[OP4][Over, Subbed, Lyrics]|
 Future Card Buddyfight 100|"Luminize"|[OP1]|
@@ -267,9 +257,6 @@ Koutetsu Jeeg|"Hiroshi no Theme"|[ED][480, Lyrics]|
 Koutetsu Jeeg|"Kotetsu Zieg no Uta"|[OP][480, Lyrics]|
 Koutetsushin Jeeg|"HEAVEN"|[ED][Lyrics]|
 Koutetsushin Jeeg|"Stormbringer"|[OP][Lyrics]|
-Kuroko no Basket|"Can Do"|[OP1][1080]|
-Kuroko no Basket|"Can Do"|[OP1]|
-Kuroko no Basket|"RIMFIRE"|[OP2]|
 Kuromukuro|"Eien Loop"|[ED3 V1]|
 Kuromukuro|"Chou Onsoku Destiny"|[OP2]|
 Kuuchuu Buranko|"Shangri-La (Y.Sunahara 2009 Remodel)"|[ED V4][NC, BD, 1080, Over]|
@@ -430,9 +417,6 @@ Osomatsu-san|"Zenryoku Batankyū"|[OP2]|
 Osomatsu-san|"SIX SAME FACES ~Konya wa Saikou!!!!!!~"|[ED1 V10]|
 Ougon Yuusha Goldran|"Bokura no Adventure"|[OP][480, Lyrics]|
 Outbreak Company|"Univer Page"|[OP][NC]|
-Phantasy Star Online 2 The Animation|"Zessei Stargate"|[OP V2]|
-Phantasy Star Online 2 The Animation|"Zessei Stargate"|[OP V1]|
-Phantasy Star Online 2 The Animation|"Rare Drop☆KOI☆Koi! One More!"|[ED]|
 Pokemon|"Lapras ni Notte"|[ED6][480]|
 Pokemon Advanced Generation|"Ippai Summer"|[ED4][480]|
 Pokemon Advanced Generation|"I Won't Lose! Haruka's Theme"|[ED7][DVD, 540]|
@@ -479,8 +463,6 @@ Sakurasou no Pet na Kanojo|"Kyou no Hi wa Sayounara"|[ED3][Over]|
 Sakurasou no Pet na Kanojo|"Kyou no Hi wa Sayounara"|[ED3]|
 Sakurasou no Pet na Kanojo|"I call your name again"|[OP3]|
 Schoolgirl Strikers Animation Channel|"Mirai-kei Strikers"|[OP][1080]|
-Seikimatsu Occult Gakuin|"Flying Humanoid"|[OP][NC, BD]|
-Seikimatsu Occult Gakuin|"Kimi ga Iru Basho"|[ED][NC, BD]|
 Seisen Cerberus Ryuukoku no Fatalités|"Resonant Heart"|[ED1]|
 Senjou no Valkyria|"Ano Kaze ni Notte"|[ED1][NC, BD]|
 Senjou no Valkyria|"Asu he no KIZUNA"|[OP1][NC, BD]|
@@ -617,7 +599,6 @@ Yu☆Gi☆Oh! (1999)|"Kawaita Sakebi"|[OP][480, VHS, Lyrics, Over]|
 Yu☆Gi☆Oh! (1999)|"Ashita Moshi Kimi ga Kowaretemo"|[ED]|
 Yu☆Gi☆Oh! (1999)|"Kawaita Sakebi"|[OP]|
 Yumekui Merry|"Daydream Syndrome"|[OP]|
-Yuuki Yuuna wa Yuusha de Aru Washio Sumi no Shou Movie 3 - Yakusoku|"Sakiwau Hana"|[OP][BD, 1080, Lyrics]|
 Yuusha Exkaiser|"Gatherway"|[OP][480, Lyrics]|
 Yuusha Keisatsu J-Decker|"Heart to Heart by Tsuru Yoshi"|[OP V1][480, Lyrics]|
 Yuusha Tokkyuu Might Gaine|"Arashi no Yuusha"|[OP][480]|
