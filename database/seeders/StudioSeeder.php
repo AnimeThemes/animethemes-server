@@ -85,8 +85,8 @@ class StudioSeeder extends Seeder
                             Log::info("Creating studio '{$name}'");
 
                             $studio = Studio::factory()->createOne([
-                               'name' => $name,
-                               'slug' => Str::slug($name, '_'),
+                                'name' => $name,
+                                'slug' => Str::slug($name, '_'),
                             ]);
                         }
 
