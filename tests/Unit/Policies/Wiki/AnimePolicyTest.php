@@ -8,6 +8,7 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
+use App\Models\Wiki\Studio;
 use App\Policies\Wiki\AnimePolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -469,5 +470,114 @@ class AnimePolicyTest extends TestCase
         static::assertFalse($policy->detachImage($viewer));
         static::assertTrue($policy->detachImage($editor));
         static::assertTrue($policy->detachImage($admin));
+    }
+
+    /**
+     * A contributor or admin may attach any studio to an anime.
+     *
+     * @return void
+     */
+    public function testAttachAnyStudio()
+    {
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->createOne();
+
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->createOne();
+
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->createOne();
+
+        $policy = new AnimePolicy();
+
+        static::assertFalse($policy->attachAnyStudio($viewer));
+        static::assertTrue($policy->attachAnyStudio($editor));
+        static::assertTrue($policy->attachAnyStudio($admin));
+    }
+
+    /**
+     * A contributor or admin may attach a studio to an anime if not already attached.
+     *
+     * @return void
+     */
+    public function testAttachNewStudio()
+    {
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->createOne();
+
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->createOne();
+
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->createOne();
+
+        $anime = Anime::factory()->createOne();
+        $studio = Studio::factory()->createOne();
+        $policy = new AnimePolicy();
+
+        static::assertFalse($policy->attachStudio($viewer, $anime, $studio));
+        static::assertTrue($policy->attachStudio($editor, $anime, $studio));
+        static::assertTrue($policy->attachStudio($admin, $anime, $studio));
+    }
+
+    /**
+     * If a studio is already attached to an anime, no role may attach it.
+     *
+     * @return void
+     */
+    public function testAttachExistingStudio()
+    {
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->createOne();
+
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->createOne();
+
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->createOne();
+
+        $anime = Anime::factory()->createOne();
+        $studio = Studio::factory()->createOne();
+        $anime->studios()->attach($studio);
+        $policy = new AnimePolicy();
+
+        static::assertFalse($policy->attachStudio($viewer, $anime, $studio));
+        static::assertFalse($policy->attachStudio($editor, $anime, $studio));
+        static::assertFalse($policy->attachStudio($admin, $anime, $studio));
+    }
+
+    /**
+     * A contributor or admin may detach a studio from an anime.
+     *
+     * @return void
+     */
+    public function testDetachStudio()
+    {
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->createOne();
+
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->createOne();
+
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->createOne();
+
+        $policy = new AnimePolicy();
+
+        static::assertFalse($policy->detachStudio($viewer));
+        static::assertTrue($policy->detachStudio($editor));
+        static::assertTrue($policy->detachStudio($admin));
     }
 }

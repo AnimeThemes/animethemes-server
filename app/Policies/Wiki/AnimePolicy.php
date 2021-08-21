@@ -8,8 +8,10 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
+use App\Models\Wiki\Studio;
 use App\Pivots\AnimeImage;
 use App\Pivots\AnimeSeries;
+use App\Pivots\AnimeStudio;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
@@ -203,6 +205,46 @@ class AnimePolicy
      * @return bool
      */
     public function detachImage(User $user): bool
+    {
+        return $user->hasCurrentTeamPermission('anime:update');
+    }
+
+    /**
+     * Determine whether the user can attach any studio to the anime.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function attachAnyStudio(User $user): bool
+    {
+        return $user->hasCurrentTeamPermission('anime:update');
+    }
+
+    /**
+     * Determine whether the user can attach a studio to the anime.
+     *
+     * @param User $user
+     * @param Anime $anime
+     * @param Studio $studio
+     * @return bool
+     */
+    public function attachStudio(User $user, Anime $anime, Studio $studio): bool
+    {
+        $attached = AnimeStudio::query()
+            ->where($anime->getKeyName(), $anime->getKey())
+            ->where($studio->getKeyName(), $studio->getKey())
+            ->exists();
+
+        return ! $attached && $user->hasCurrentTeamPermission('anime:update');
+    }
+
+    /**
+     * Determine whether the user can detach a studio from the anime.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function detachStudio(User $user): bool
     {
         return $user->hasCurrentTeamPermission('anime:update');
     }

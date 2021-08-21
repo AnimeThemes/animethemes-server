@@ -10,7 +10,6 @@ use App\Events\Pivot\ArtistSong\ArtistSongUpdated;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use Database\Factories\Pivots\ArtistSongFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -23,8 +22,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ArtistSong extends BasePivot
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *

@@ -15,6 +15,7 @@ use App\Nova\Lenses\Anime\AnimeCoverSmallLens;
 use App\Nova\Lenses\Anime\AnimeKitsuResourceLens;
 use App\Nova\Lenses\Anime\AnimeMalResourceLens;
 use App\Nova\Lenses\Anime\AnimePlanetResourceLens;
+use App\Nova\Lenses\Anime\AnimeStudioLens;
 use App\Nova\Metrics\Anime\AnimePerDay;
 use App\Nova\Metrics\Anime\NewAnime;
 use App\Nova\Resources\Resource;
@@ -211,6 +212,20 @@ class Anime extends Resource
                     ];
                 }),
 
+            BelongsToMany::make(__('nova.studios'), 'Studios', Studio::class)
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        DateTime::make(__('nova.created_at'), 'created_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
+
+                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                            ->readonly()
+                            ->hideWhenCreating(),
+                    ];
+                }),
+
             AuditableLog::make(),
         ];
     }
@@ -268,6 +283,7 @@ class Anime extends Resource
                 new AnimeAnnResourceLens(),
                 new AnimeKitsuResourceLens(),
                 new AnimeMalResourceLens(),
+                new AnimeStudioLens(),
             ]
         );
     }

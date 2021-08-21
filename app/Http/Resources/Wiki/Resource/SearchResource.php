@@ -12,6 +12,7 @@ use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Collection\SeriesCollection;
 use App\Http\Resources\Wiki\Collection\SongCollection;
+use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
@@ -69,6 +70,10 @@ class SearchResource extends BaseResource
             SongCollection::$wrap => $this->when(
                 $this->isAllowedField(SongCollection::$wrap),
                 SongCollection::performSearch($this->query, PaginationStrategy::LIMIT())
+            ),
+            StudioCollection::$wrap => $this->when(
+                $this->isAllowedField(StudioCollection::$wrap),
+                StudioCollection::performSearch($this->query, PaginationStrategy::LIMIT()),
             ),
             VideoCollection::$wrap => $this->when(
                 $this->isAllowedField(VideoCollection::$wrap),

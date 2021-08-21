@@ -10,7 +10,6 @@ use App\Events\Pivot\ArtistResource\ArtistResourceUpdated;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use Database\Factories\Pivots\ArtistResourceFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -23,8 +22,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ArtistResource extends BasePivot
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *

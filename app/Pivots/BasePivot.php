@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Pivots;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
@@ -15,6 +16,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  */
 abstract class BasePivot extends Pivot
 {
+    use HasFactory;
+
     /**
      * The storage format of the model's date columns.
      *

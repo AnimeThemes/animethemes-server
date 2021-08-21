@@ -77,6 +77,7 @@ class AnimeCollection extends SearchableCollection
             'animethemes.song.artists',
             'resources',
             'images',
+            'studios',
         ];
     }
 

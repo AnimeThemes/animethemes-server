@@ -14,6 +14,7 @@ use App\Models\BaseModel;
 use App\Pivots\AnimeImage;
 use App\Pivots\AnimeResource;
 use App\Pivots\AnimeSeries;
+use App\Pivots\AnimeStudio;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
@@ -39,6 +40,7 @@ use Laravel\Scout\Searchable;
  * @property Collection $animethemes
  * @property Collection $resources
  * @property Collection $images
+ * @property Collection $studios
  * @property BasePivot $pivot
  * @method static AnimeFactory factory(...$parameters)
  */
@@ -203,6 +205,18 @@ class Anime extends BaseModel
     {
         return $this->belongsToMany('App\Models\Wiki\Image', 'anime_image', 'anime_id', 'image_id')
             ->using(AnimeImage::class)
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the studios that produced the anime.
+     *
+     * @return BelongsToMany
+     */
+    public function studios(): BelongsToMany
+    {
+        return $this->belongsToMany('App\Models\Wiki\Studio', 'anime_studio', 'anime_id', 'studio_id')
+            ->using(AnimeStudio::class)
             ->withTimestamps();
     }
 }
