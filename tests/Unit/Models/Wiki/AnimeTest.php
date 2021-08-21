@@ -11,9 +11,11 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
+use App\Models\Wiki\Studio;
 use App\Pivots\AnimeImage;
 use App\Pivots\AnimeResource;
 use App\Pivots\AnimeSeries;
+use App\Pivots\AnimeStudio;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -184,5 +186,24 @@ class AnimeTest extends TestCase
         static::assertEquals($imageCount, $anime->images()->count());
         static::assertInstanceOf(Image::class, $anime->images()->first());
         static::assertEquals(AnimeImage::class, $anime->images()->getPivotClass());
+    }
+
+    /**
+     * Anime shall have a many-to-many relationship with the type Studio.
+     *
+     * @return void
+     */
+    public function testStudios()
+    {
+        $studioCount = $this->faker->randomDigitNotNull();
+
+        $anime = Anime::factory()
+            ->has(Studio::factory()->count($studioCount))
+            ->createOne();
+
+        static::assertInstanceOf(BelongsToMany::class, $anime->studios());
+        static::assertEquals($studioCount, $anime->studios()->count());
+        static::assertInstanceOf(Studio::class, $anime->studios()->first());
+        static::assertEquals(AnimeStudio::class, $anime->studios()->getPivotClass());
     }
 }

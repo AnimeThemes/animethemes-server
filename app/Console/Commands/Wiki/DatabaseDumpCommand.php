@@ -49,6 +49,7 @@ class DatabaseDumpCommand extends Command
         'anime_image',
         'anime_resource',
         'anime_series',
+        'anime_studio',
         'anime_synonyms',
         'anime_themes',
         'anime_theme_entries',
@@ -62,6 +63,7 @@ class DatabaseDumpCommand extends Command
         'resources',
         'series',
         'songs',
+        'studios',
         'videos',
     ];
 

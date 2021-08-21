@@ -10,7 +10,6 @@ use App\Events\Pivot\AnimeResource\AnimeResourceUpdated;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Database\Factories\Pivots\AnimeResourceFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -23,8 +22,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class AnimeResource extends BasePivot
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *

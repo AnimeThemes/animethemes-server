@@ -9,7 +9,6 @@ use App\Events\Pivot\AnimeImage\AnimeImageDeleted;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use Database\Factories\Pivots\AnimeImageFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -21,8 +20,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class AnimeImage extends BasePivot
 {
-    use HasFactory;
-
     /**
      * The table associated with the model.
      *

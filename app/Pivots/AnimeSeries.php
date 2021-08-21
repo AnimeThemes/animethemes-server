@@ -9,7 +9,6 @@ use App\Events\Pivot\AnimeSeries\AnimeSeriesDeleted;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use Database\Factories\Pivots\AnimeSeriesFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -21,8 +20,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class AnimeSeries extends BasePivot
 {
-    use HasFactory;
-
     /**
      * The table associated with the model.
      *

@@ -11,6 +11,7 @@ use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Collection\SeriesCollection;
 use App\Http\Resources\Wiki\Collection\SongCollection;
+use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
 use App\Http\Resources\Wiki\Resource\SearchResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -60,6 +61,7 @@ class SearchTest extends TestCase
                 ArtistCollection::$wrap => [],
                 SeriesCollection::$wrap => [],
                 SongCollection::$wrap => [],
+                StudioCollection::$wrap => [],
                 VideoCollection::$wrap => [],
             ],
         ]);
@@ -78,6 +80,7 @@ class SearchTest extends TestCase
             ArtistCollection::$wrap,
             SeriesCollection::$wrap,
             SongCollection::$wrap,
+            StudioCollection::$wrap,
             VideoCollection::$wrap,
         ];
 

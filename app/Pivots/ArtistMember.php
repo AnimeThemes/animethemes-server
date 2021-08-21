@@ -9,7 +9,6 @@ use App\Events\Pivot\ArtistMember\ArtistMemberDeleted;
 use App\Events\Pivot\ArtistMember\ArtistMemberUpdated;
 use App\Models\Wiki\Artist;
 use Database\Factories\Pivots\ArtistMemberFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -22,8 +21,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ArtistMember extends BasePivot
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *

@@ -201,11 +201,11 @@ class SeriesPolicyTest extends TestCase
     }
 
     /**
-     * A contributor or admin may attach an anime to a series.
+     * A contributor or admin may attach a series to an anime if not already attached.
      *
      * @return void
      */
-    public function testAttachAnime()
+    public function testAttachNewAnime()
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -226,6 +226,35 @@ class SeriesPolicyTest extends TestCase
         static::assertFalse($policy->attachAnime($viewer, $series, $anime));
         static::assertTrue($policy->attachAnime($editor, $series, $anime));
         static::assertTrue($policy->attachAnime($admin, $series, $anime));
+    }
+
+    /**
+     * If a series is already attached to an anime, no role may attach it.
+     *
+     * @return void
+     */
+    public function testAttachExistingAnime()
+    {
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->createOne();
+
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->createOne();
+
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->createOne();
+
+        $series = Series::factory()->createOne();
+        $anime = Anime::factory()->createOne();
+        $anime->series()->attach($series);
+        $policy = new SeriesPolicy();
+
+        static::assertFalse($policy->attachAnime($viewer, $series, $anime));
+        static::assertFalse($policy->attachAnime($editor, $series, $anime));
+        static::assertFalse($policy->attachAnime($admin, $series, $anime));
     }
 
     /**

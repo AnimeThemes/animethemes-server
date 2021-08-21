@@ -9,7 +9,6 @@ use App\Events\Pivot\ArtistImage\ArtistImageDeleted;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use Database\Factories\Pivots\ArtistImageFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -21,8 +20,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ArtistImage extends BasePivot
 {
-    use HasFactory;
-
     /**
      * The table associated with the model.
      *

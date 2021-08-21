@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\Wiki\ImageController;
 use App\Http\Controllers\Api\Wiki\SearchController;
 use App\Http\Controllers\Api\Wiki\SeriesController;
 use App\Http\Controllers\Api\Wiki\SongController;
+use App\Http\Controllers\Api\Wiki\StudioController;
 use App\Http\Controllers\Api\Wiki\VideoController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +50,7 @@ Route::group(['as' => 'api.'], function () {
     Route::apiResource('resource', ExternalResourceController::class)->only(['index', 'show']);
     Route::apiResource('series', SeriesController::class)->only(['index', 'show']);
     Route::apiResource('song', SongController::class)->only(['index', 'show']);
+    Route::apiResource('studio', StudioController::class)->only(['index', 'show']);
     Route::apiResource('video', VideoController::class)->only(['index', 'show']);
 
     // Anime Resources

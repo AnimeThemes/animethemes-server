@@ -34,5 +34,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AnilistArtistResourceSeeder::class);
         $this->call(ArtistCoverSeeder::class);
         $this->call(KitsuResourceSeeder::class);
+        $this->call(StudioSeeder::class);
     }
 }

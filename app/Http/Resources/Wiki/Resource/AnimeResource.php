@@ -11,6 +11,7 @@ use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
 use App\Http\Resources\Wiki\Collection\ImageCollection;
 use App\Http\Resources\Wiki\Collection\SeriesCollection;
+use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
@@ -69,6 +70,7 @@ class AnimeResource extends BaseResource
                 return $this->pivot->getAttribute('as');
             })),
             'images' => ImageCollection::make($this->whenLoaded('images'), $this->query),
+            'studios' => StudioCollection::make($this->whenLoaded('studios'), $this->query),
         ];
     }
 
@@ -89,6 +91,7 @@ class AnimeResource extends BaseResource
             'animethemes.song.artists',
             'resources',
             'images',
+            'studios',
         ];
     }
 }
