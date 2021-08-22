@@ -30,7 +30,7 @@ class StudioCollection extends SearchableCollection
      *
      * @var string|null
      */
-    public static $wrap = 'studio';
+    public static $wrap = 'studios';
 
     /**
      * The resource that this resource collects.
