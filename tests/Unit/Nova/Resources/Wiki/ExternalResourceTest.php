@@ -170,8 +170,8 @@ class ExternalResourceTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('max:192');
         $field->assertHasRule('url');
-        $field->assertHasCreationRule('unique:resource,link');
-        $field->assertHasUpdateRule('unique:resource,link,{{resourceId}},resource_id');
+        $field->assertHasCreationRule('unique:resources,link');
+        $field->assertHasUpdateRule('unique:resources,link,{{resourceId}},resource_id');
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();

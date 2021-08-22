@@ -166,7 +166,7 @@ class ArtistTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('max:192');
         $field->assertHasRule('alpha_dash');
-        $field->assertHasUpdateRule('unique:artist,slug,{{resourceId}},artist_id');
+        $field->assertHasUpdateRule('unique:artists,slug,{{resourceId}},artist_id');
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();

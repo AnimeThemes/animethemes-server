@@ -126,8 +126,8 @@ class ExternalResource extends Resource
             Url::make(__('nova.link'), 'link')
                 ->sortable()
                 ->rules(['required', 'max:192', 'url', new ResourceSiteDomainRule(intval($request->input('site')))])
-                ->creationRules('unique:resource,link')
-                ->updateRules('unique:resource,link,{{resourceId}},resource_id')
+                ->creationRules('unique:resources,link')
+                ->updateRules('unique:resources,link,{{resourceId}},resource_id')
                 ->help(__('nova.resource_link_help'))
                 ->alwaysClickable(),
 
