@@ -116,8 +116,8 @@ class Invitation extends Resource
             Text::make(__('nova.email'), 'email')
                 ->sortable()
                 ->rules(['required', 'email', 'max:192'])
-                ->creationRules('unique:invitation,email')
-                ->updateRules('unique:invitation,email,{{resourceId}},invitation_id'),
+                ->creationRules('unique:invitations,email')
+                ->updateRules('unique:invitations,email,{{resourceId}},invitation_id'),
 
             Select::make(__('nova.status'), 'status')
                 ->hideWhenCreating()

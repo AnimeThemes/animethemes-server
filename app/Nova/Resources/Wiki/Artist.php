@@ -113,7 +113,7 @@ class Artist extends Resource
                 ->separator('_')
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
-                ->updateRules('unique:artist,slug,{{resourceId}},artist_id')
+                ->updateRules('unique:artists,slug,{{resourceId}},artist_id')
                 ->help(__('nova.artist_slug_help')),
 
             BelongsToMany::make(__('nova.songs'), 'Songs', Song::class)

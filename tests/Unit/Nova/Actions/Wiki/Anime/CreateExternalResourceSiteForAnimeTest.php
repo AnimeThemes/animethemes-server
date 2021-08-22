@@ -56,7 +56,7 @@ class CreateExternalResourceSiteForAnimeTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('max:192');
         $field->assertHasRule('url');
-        $field->assertHasRule('unique:resource,link');
+        $field->assertHasRule('unique:resources,link');
         $field->assertHasRule((new ResourceSiteDomainRule($site))->__toString());
     }
 

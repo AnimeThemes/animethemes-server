@@ -169,8 +169,8 @@ class InvitationTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('email');
         $field->assertHasRule('max:192');
-        $field->assertHasCreationRule('unique:invitation,email');
-        $field->assertHasUpdateRule('unique:invitation,email,{{resourceId}},invitation_id');
+        $field->assertHasCreationRule('unique:invitations,email');
+        $field->assertHasUpdateRule('unique:invitations,email,{{resourceId}},invitation_id');
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();
