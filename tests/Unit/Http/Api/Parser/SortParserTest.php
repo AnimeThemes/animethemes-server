@@ -7,6 +7,7 @@ namespace Tests\Unit\Http\Api\Parser;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Sort\FieldCriteria;
 use App\Http\Api\Criteria\Sort\RandomCriteria;
+use App\Http\Api\Criteria\Sort\RelationCriteria;
 use App\Http\Api\Parser\SortParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
@@ -45,6 +46,22 @@ class SortParserTest extends TestCase
         $criteria = SortParser::parse($parameters)[0];
 
         static::assertInstanceOf(RandomCriteria::class, $criteria);
+    }
+
+    /**
+     * The Sort Parser shall parse Relation Criteria.
+     *
+     * @return void
+     */
+    public function testParseRelationCriteria()
+    {
+        $parameters = [
+            SortParser::$param => collect($this->faker->words())->join('.'),
+        ];
+
+        $criteria = SortParser::parse($parameters)[0];
+
+        static::assertInstanceOf(RelationCriteria::class, $criteria);
     }
 
     /**
