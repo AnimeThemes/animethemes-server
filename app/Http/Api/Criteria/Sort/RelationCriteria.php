@@ -51,9 +51,9 @@ class RelationCriteria extends FieldCriteria
                     'order' => $this->direction->value,
                     'nested' => [
                         'path' => Str::beforeLast($this->field, '.'),
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ]);
     }
 }
