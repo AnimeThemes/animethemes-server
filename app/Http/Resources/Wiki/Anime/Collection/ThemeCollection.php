@@ -13,10 +13,13 @@ use App\Http\Api\Filter\Wiki\Anime\Theme\ThemeSequenceFilter;
 use App\Http\Api\Filter\Wiki\Anime\Theme\ThemeSlugFilter;
 use App\Http\Api\Filter\Wiki\Anime\Theme\ThemeTypeFilter;
 use App\Http\Api\Sort\Sort;
+use App\Http\Api\Sort\Wiki\Anime\Theme\ThemeAnimeSeasonSort;
+use App\Http\Api\Sort\Wiki\Anime\Theme\ThemeAnimeYearSort;
 use App\Http\Api\Sort\Wiki\Anime\Theme\ThemeGroupSort;
 use App\Http\Api\Sort\Wiki\Anime\Theme\ThemeIdSort;
 use App\Http\Api\Sort\Wiki\Anime\Theme\ThemeSequenceSort;
 use App\Http\Api\Sort\Wiki\Anime\Theme\ThemeSlugSort;
+use App\Http\Api\Sort\Wiki\Anime\Theme\ThemeSongTitleSort;
 use App\Http\Api\Sort\Wiki\Anime\Theme\ThemeTypeSort;
 use App\Http\Resources\SearchableCollection;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
@@ -91,6 +94,9 @@ class ThemeCollection extends SearchableCollection
                 new ThemeSequenceSort($sortCriteria),
                 new ThemeGroupSort($sortCriteria),
                 new ThemeSlugSort($sortCriteria),
+                new ThemeSongTitleSort($sortCriteria),
+                new ThemeAnimeYearSort($sortCriteria),
+                new ThemeAnimeSeasonSort($sortCriteria),
             ]
         );
     }
