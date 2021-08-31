@@ -10,10 +10,12 @@ use App\Http\Api\Criteria\Filter\Criteria as FilterCriteria;
 use App\Http\Api\Criteria\Sort\Criteria as SortCriteria;
 use App\Http\Api\Filter\Base\CreatedAtFilter;
 use App\Http\Api\Filter\Base\DeletedAtFilter;
+use App\Http\Api\Filter\Base\HasFilter;
 use App\Http\Api\Filter\Base\TrashedFilter;
 use App\Http\Api\Filter\Base\UpdatedAtFilter;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query;
+use App\Http\Api\Scope\ScopeParser;
 use App\Http\Api\Sort\Base\CreatedAtSort;
 use App\Http\Api\Sort\Base\DeletedAtSort;
 use App\Http\Api\Sort\Base\UpdatedAtSort;
@@ -24,7 +26,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 
 /**
  * Class BaseCollection.
@@ -131,9 +132,15 @@ abstract class BaseCollection extends ResourceCollection
         $builder = $builder->with(static::performConstrainedEagerLoads($query));
 
         // apply filters
+        $scope = ScopeParser::parse(static::$wrap);
         foreach (static::filters($query->getFilterCriteria()) as $filter) {
-            $scope = Str::singular(static::$wrap);
-            $builder = $filter->scope($scope)->applyFilter($builder);
+            $builder = $filter->applyFilter($builder, $scope);
+        }
+
+        // special case: only apply has filter to top-level models
+        if (! empty(static::allowedIncludePaths())) {
+            $hasFilter = new HasFilter($query->getFilterCriteria(), static::allowedIncludePaths());
+            $hasFilter->applyFilter($builder, $scope);
         }
 
         // apply sorts

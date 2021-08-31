@@ -7,6 +7,7 @@ namespace Tests\Unit\Http\Api\Filter;
 use App\Http\Api\Filter\BooleanFilter;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Query;
+use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -43,7 +44,7 @@ class BooleanFilterTest extends TestCase
 
         $criteria = $query->getFilterCriteria()->first();
 
-        static::assertFalse($filter->shouldApplyFilter($criteria));
+        static::assertFalse($filter->shouldApplyFilter($criteria, new GlobalScope()));
     }
 
     /**
@@ -72,7 +73,7 @@ class BooleanFilterTest extends TestCase
 
         $criteria = $query->getFilterCriteria()->first();
 
-        static::assertFalse($filter->shouldApplyFilter($criteria));
+        static::assertFalse($filter->shouldApplyFilter($criteria, new GlobalScope()));
     }
 
     /**

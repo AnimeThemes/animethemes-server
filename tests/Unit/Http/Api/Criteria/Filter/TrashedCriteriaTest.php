@@ -7,6 +7,8 @@ namespace Tests\Unit\Http\Api\Criteria\Filter;
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Criteria\Filter\TrashedCriteria;
+use App\Http\Api\Scope\GlobalScope;
+use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -27,7 +29,7 @@ class TrashedCriteriaTest extends TestCase
     {
         $criteria = TrashedCriteria::make(TrashedCriteria::PARAM_VALUE, $this->faker->word());
 
-        static::assertEmpty($criteria->getScope());
+        static::assertInstanceOf(GlobalScope::class, $criteria->getScope());
     }
 
     /**
@@ -37,13 +39,15 @@ class TrashedCriteriaTest extends TestCase
      */
     public function testScope()
     {
-        $scope = $this->faker->word();
+        $type = Str::singular($this->faker->word());
 
-        $filterParam = Str::of($scope)->append('.')->append(TrashedCriteria::PARAM_VALUE)->__toString();
+        $filterParam = Str::of($type)->append('.')->append(TrashedCriteria::PARAM_VALUE)->__toString();
 
         $criteria = TrashedCriteria::make($filterParam, $this->faker->word());
 
-        static::assertEquals($scope, $criteria->getScope());
+        $scope = $criteria->getScope();
+
+        static::assertTrue($scope instanceof TypeScope && $scope->getType() === $type);
     }
 
     /**

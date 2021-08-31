@@ -6,8 +6,11 @@ namespace App\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\TrashedStatus;
+use App\Http\Api\Scope\Scope;
+use App\Http\Api\Scope\ScopeParser;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
@@ -22,12 +25,12 @@ class TrashedCriteria extends Criteria
      *
      * @param Predicate $predicate
      * @param BinaryLogicalOperator $operator
-     * @param string $scope
+     * @param Scope $scope
      */
     final public function __construct(
         Predicate $predicate,
         BinaryLogicalOperator $operator,
-        string $scope = ''
+        Scope $scope
     ) {
         parent::__construct($predicate, $operator, $scope);
     }
@@ -41,7 +44,7 @@ class TrashedCriteria extends Criteria
      */
     public static function make(string $filterParam, mixed $filterValues): static
     {
-        $scope = '';
+        $scope = collect();
         $field = '';
         $logicalOperator = BinaryLogicalOperator::AND();
 
@@ -50,22 +53,24 @@ class TrashedCriteria extends Criteria
             $filterPart = $filterParts->pop();
 
             // Set field
-            if (empty($scope) && empty($field) && $filterPart === TrashedCriteria::PARAM_VALUE) {
-                $field = Str::lower($filterPart);
+            if ($scope->isEmpty() && empty($field) && $filterPart === TrashedCriteria::PARAM_VALUE) {
+                $field = $filterPart;
                 continue;
             }
 
             // Set scope
-            if (empty($scope) && ! empty($field)) {
-                $scope = Str::lower($filterPart);
+            if (! empty($field)) {
+                $scope->prepend(Str::lower($filterPart));
             }
         }
 
         $expression = new Expression(Str::of($filterValues)->explode(','));
 
-        $predicate = new Predicate($field, null, $expression);
-
-        return new static($predicate, $logicalOperator, $scope);
+        return new static(
+            new Predicate($field, null, $expression),
+            $logicalOperator,
+            ScopeParser::parse($scope->join('.'))
+        );
     }
 
     /**
@@ -74,10 +79,15 @@ class TrashedCriteria extends Criteria
      * @param Builder $builder
      * @param string $column
      * @param array $filterValues
+     * @param Collection $filterCriteria
      * @return Builder
      */
-    public function applyFilter(Builder $builder, string $column, array $filterValues): Builder
-    {
+    public function applyFilter(
+        Builder $builder,
+        string $column,
+        array $filterValues,
+        Collection $filterCriteria
+    ): Builder {
         foreach ($filterValues as $filterValue) {
             $builder = match (Str::lower($filterValue)) {
                 TrashedStatus::WITH => $builder->withTrashed(),

@@ -8,6 +8,7 @@ use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Http\Api\Filter\DateFilter;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Query;
+use App\Http\Api\Scope\GlobalScope;
 use DateTime;
 use DateTimeInterface;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -47,7 +48,7 @@ class DateFilterTest extends TestCase
 
         $criteria = $query->getFilterCriteria()->first();
 
-        static::assertFalse($filter->shouldApplyFilter($criteria));
+        static::assertFalse($filter->shouldApplyFilter($criteria, new GlobalScope()));
     }
 
     /**
@@ -76,7 +77,7 @@ class DateFilterTest extends TestCase
 
         $criteria = $query->getFilterCriteria()->first();
 
-        static::assertFalse($filter->shouldApplyFilter($criteria));
+        static::assertFalse($filter->shouldApplyFilter($criteria, new GlobalScope()));
     }
 
     /**
@@ -105,7 +106,7 @@ class DateFilterTest extends TestCase
 
         $criteria = $query->getFilterCriteria()->first();
 
-        static::assertTrue($filter->shouldApplyFilter($criteria));
+        static::assertTrue($filter->shouldApplyFilter($criteria, new GlobalScope()));
     }
 
     /**

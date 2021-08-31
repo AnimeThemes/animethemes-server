@@ -6,10 +6,13 @@ namespace App\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
+use App\Http\Api\Scope\Scope;
+use App\Http\Api\Scope\ScopeParser;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\TermsQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -31,13 +34,13 @@ class WhereInCriteria extends Criteria
      * @param Predicate $predicate
      * @param BinaryLogicalOperator $operator
      * @param bool $not
-     * @param string $scope
+     * @param Scope $scope
      */
     final public function __construct(
         Predicate $predicate,
         BinaryLogicalOperator $operator,
-        bool $not = false,
-        string $scope = ''
+        bool $not,
+        Scope $scope
     ) {
         parent::__construct($predicate, $operator, $scope);
 
@@ -63,7 +66,7 @@ class WhereInCriteria extends Criteria
      */
     public static function make(string $filterParam, mixed $filterValues): static
     {
-        $scope = '';
+        $scope = collect();
         $field = '';
         $operator = BinaryLogicalOperator::AND();
         $not = false;
@@ -73,13 +76,13 @@ class WhereInCriteria extends Criteria
             $filterPart = $filterParts->pop();
 
             // Set Not
-            if (empty($scope) && empty($field) && UnaryLogicalOperator::hasKey(Str::upper($filterPart))) {
+            if ($scope->isEmpty() && empty($field) && UnaryLogicalOperator::hasKey(Str::upper($filterPart))) {
                 $not = true;
                 continue;
             }
 
             // Set operator
-            if (empty($scope) && empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
+            if ($scope->isEmpty() && empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
                 try {
                     $operator = BinaryLogicalOperator::fromKey(Str::upper($filterPart));
                 } catch (InvalidEnumKeyException $e) {
@@ -89,14 +92,14 @@ class WhereInCriteria extends Criteria
             }
 
             // Set field
-            if (empty($scope) && empty($field)) {
+            if ($scope->isEmpty() && empty($field)) {
                 $field = Str::lower($filterPart);
                 continue;
             }
 
             // Set scope
-            if (empty($scope) && ! empty($field)) {
-                $scope = Str::lower($filterPart);
+            if (! empty($field)) {
+                $scope->prepend(Str::lower($filterPart));
             }
         }
 
@@ -104,7 +107,12 @@ class WhereInCriteria extends Criteria
 
         $predicate = new Predicate($field, null, $expression);
 
-        return new static($predicate, $operator, $not, $scope);
+        return new static(
+            $predicate,
+            $operator,
+            $not,
+            ScopeParser::parse($scope->join('.'))
+        );
     }
 
     /**
@@ -113,10 +121,15 @@ class WhereInCriteria extends Criteria
      * @param Builder $builder
      * @param string $column
      * @param array $filterValues
+     * @param Collection $filterCriteria
      * @return Builder
      */
-    public function applyFilter(Builder $builder, string $column, array $filterValues): Builder
-    {
+    public function applyFilter(
+        Builder $builder,
+        string $column,
+        array $filterValues,
+        Collection $filterCriteria
+    ): Builder {
         return $builder->whereIn(
             $builder->qualifyColumn($column),
             $filterValues,

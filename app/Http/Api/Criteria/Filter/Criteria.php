@@ -6,8 +6,10 @@ namespace App\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Http\Api\Scope\Scope;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 /**
@@ -16,12 +18,11 @@ use Illuminate\Support\Collection;
 abstract class Criteria
 {
     /**
-     * The type for which the criteria is scoped.
-     * If not set, the criteria is globally scoped for all types.
+     * The scope of the criteria.
      *
-     * @var string
+     * @var Scope
      */
-    protected string $scope;
+    protected Scope $scope;
 
     /**
      * The predicate of the criteria.
@@ -42,12 +43,12 @@ abstract class Criteria
      *
      * @param Predicate $predicate
      * @param BinaryLogicalOperator $operator
-     * @param string $scope
+     * @param Scope $scope
      */
     public function __construct(
         Predicate $predicate,
         BinaryLogicalOperator $operator,
-        string $scope = ''
+        Scope $scope
     ) {
         $this->predicate = $predicate;
         $this->operator = $operator;
@@ -57,9 +58,9 @@ abstract class Criteria
     /**
      * Get the scope of the criteria.
      *
-     * @return string
+     * @return Scope
      */
-    public function getScope(): string
+    public function getScope(): Scope
     {
         return $this->scope;
     }
@@ -103,15 +104,11 @@ abstract class Criteria
     {
         $value = $this->predicate->getExpression()->getValue();
 
-        if (is_scalar($value)) {
-            return [$value];
-        }
-
         if ($value instanceof Collection) {
             return $value->all();
         }
 
-        return (array) $value;
+        return Arr::wrap($value);
     }
 
     /**
@@ -120,9 +117,15 @@ abstract class Criteria
      * @param Builder $builder
      * @param string $column
      * @param array $filterValues
+     * @param Collection $filterCriteria
      * @return Builder
      */
-    abstract public function applyFilter(Builder $builder, string $column, array $filterValues): Builder;
+    abstract public function applyFilter(
+        Builder $builder,
+        string $column,
+        array $filterValues,
+        Collection $filterCriteria
+    ): Builder;
 
     /**
      * Apply criteria to builder.

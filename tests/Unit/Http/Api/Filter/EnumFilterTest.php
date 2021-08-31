@@ -8,6 +8,7 @@ use App\Enums\BaseEnum;
 use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Query;
+use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -51,7 +52,7 @@ class EnumFilterTest extends TestCase
 
         $criteria = $query->getFilterCriteria()->first();
 
-        static::assertFalse($filter->shouldApplyFilter($criteria));
+        static::assertFalse($filter->shouldApplyFilter($criteria, new GlobalScope()));
     }
 
     /**
@@ -87,7 +88,7 @@ class EnumFilterTest extends TestCase
 
         $criteria = $query->getFilterCriteria()->first();
 
-        static::assertFalse($filter->shouldApplyFilter($criteria));
+        static::assertFalse($filter->shouldApplyFilter($criteria, new GlobalScope()));
     }
 
     /**

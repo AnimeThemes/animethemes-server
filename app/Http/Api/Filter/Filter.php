@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter;
 
 use App\Http\Api\Criteria\Filter\Criteria;
+use App\Http\Api\Scope\Scope;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -29,24 +30,15 @@ abstract class Filter
     protected string $key;
 
     /**
-     * Filter scope.
-     *
-     * @var string
-     */
-    protected string $scope;
-
-    /**
      * Create a new filter instance.
      *
      * @param Collection<Criteria> $criteria
      * @param string $key
-     * @param string $scope
      */
-    public function __construct(Collection $criteria, string $key, string $scope = '')
+    public function __construct(Collection $criteria, string $key)
     {
         $this->criteria = $criteria;
         $this->key = $key;
-        $this->scope = $scope;
     }
 
     /**
@@ -73,13 +65,19 @@ abstract class Filter
      * Modify query builder with filter criteria.
      *
      * @param Builder $builder
+     * @param Scope $scope
      * @return Builder
      */
-    public function applyFilter(Builder $builder): Builder
+    public function applyFilter(Builder $builder, Scope $scope): Builder
     {
         foreach ($this->getCriteria() as $criterion) {
-            if ($this->shouldApplyFilter($criterion)) {
-                $builder = $criterion->applyFilter($builder, $this->getColumn(), $this->getFilterValues($criterion));
+            if ($this->shouldApplyFilter($criterion, $scope)) {
+                $builder = $criterion->applyFilter(
+                    $builder,
+                    $this->getColumn(),
+                    $this->getFilterValues($criterion),
+                    $this->criteria
+                );
             }
         }
 
@@ -90,12 +88,13 @@ abstract class Filter
      * Modify search request builder with filter criteria.
      *
      * @param BoolQueryBuilder $builder
+     * @param Scope $scope
      * @return BoolQueryBuilder
      */
-    public function applyElasticsearchFilter(BoolQueryBuilder $builder): BoolQueryBuilder
+    public function applyElasticsearchFilter(BoolQueryBuilder $builder, Scope $scope): BoolQueryBuilder
     {
         foreach ($this->getCriteria() as $criterion) {
-            if ($this->shouldApplyFilter($criterion)) {
+            if ($this->shouldApplyFilter($criterion, $scope)) {
                 $builder = $criterion->applyElasticsearchFilter(
                     $builder,
                     $this->getColumn(),
@@ -111,12 +110,13 @@ abstract class Filter
      * Determine if this filter should be applied.
      *
      * @param Criteria $criteria
+     * @param Scope $scope
      * @return bool
      */
-    public function shouldApplyFilter(Criteria $criteria): bool
+    public function shouldApplyFilter(Criteria $criteria, Scope $scope): bool
     {
         // Don't apply filter if scope does not match
-        if (! $this->isMatchingScope($criteria)) {
+        if (! $criteria->getScope()->isWithinScope($scope)) {
             return false;
         }
 
@@ -124,17 +124,6 @@ abstract class Filter
 
         // Apply filter if we have a subset of valid values specified
         return ! empty($filterValues) && ! $this->isAllFilterValues($filterValues);
-    }
-
-    /**
-     * Determine if the scope of this criterion matches the intended scope.
-     *
-     * @param Criteria $criteria
-     * @return bool
-     */
-    protected function isMatchingScope(Criteria $criteria): bool
-    {
-        return empty($criteria->getScope()) || strcasecmp($criteria->getScope(), $this->getScope()) === 0;
     }
 
     /**
@@ -201,27 +190,4 @@ abstract class Filter
      * @return bool
      */
     abstract protected function isAllFilterValues(array $filterValues): bool;
-
-    /**
-     * Set intended scope of query.
-     *
-     * @param string $scope
-     * @return $this
-     */
-    public function scope(string $scope): static
-    {
-        $this->scope = $scope;
-
-        return $this;
-    }
-
-    /**
-     * Get intended scope of query.
-     *
-     * @return string
-     */
-    public function getScope(): string
-    {
-        return $this->scope;
-    }
 }

@@ -77,7 +77,7 @@ class Transaction extends BaseModel
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be cast.
      *
      * @var array
      */

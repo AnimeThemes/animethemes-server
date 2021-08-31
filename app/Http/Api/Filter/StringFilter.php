@@ -10,7 +10,7 @@ namespace App\Http\Api\Filter;
 abstract class StringFilter extends Filter
 {
     /**
-     * Convert filter values to integers.
+     * Convert filter values to strings.
      *
      * @param array $filterValues
      * @return array
@@ -21,7 +21,7 @@ abstract class StringFilter extends Filter
     }
 
     /**
-     * Get only filter values that are integers.
+     * Get only filter values that are strings.
      *
      * @param array $filterValues
      * @return array

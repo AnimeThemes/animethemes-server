@@ -8,6 +8,8 @@ use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
 use App\Http\Api\Criteria\Filter\WhereInCriteria;
+use App\Http\Api\Scope\GlobalScope;
+use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -28,7 +30,7 @@ class WhereInCriteriaTest extends TestCase
     {
         $criteria = WhereInCriteria::make($this->faker->word(), $this->faker->word());
 
-        static::assertEmpty($criteria->getScope());
+        static::assertInstanceOf(GlobalScope::class, $criteria->getScope());
     }
 
     /**
@@ -38,13 +40,15 @@ class WhereInCriteriaTest extends TestCase
      */
     public function testScope()
     {
-        $scope = $this->faker->word();
+        $type = Str::singular($this->faker->word());
 
-        $filterParam = Str::of($scope)->append('.')->append($this->faker->word())->__toString();
+        $filterParam = Str::of($type)->append('.')->append($this->faker->word())->__toString();
 
         $criteria = WhereInCriteria::make($filterParam, $this->faker->word());
 
-        static::assertEquals($scope, $criteria->getScope());
+        $scope = $criteria->getScope();
+
+        static::assertTrue($scope instanceof TypeScope && $scope->getType() === $type);
     }
 
     /**
