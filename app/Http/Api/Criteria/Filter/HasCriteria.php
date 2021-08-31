@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class HasCriteria
+ * Class HasCriteria.
  */
 class HasCriteria extends Criteria
 {
@@ -179,8 +179,7 @@ class HasCriteria extends Criteria
         BoolQueryBuilder $builder,
         string $column,
         array $filterValues
-    ): BoolQueryBuilder
-    {
+    ): BoolQueryBuilder {
         return $builder;
     }
 }

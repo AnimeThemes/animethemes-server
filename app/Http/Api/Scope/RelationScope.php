@@ -35,7 +35,7 @@ class RelationScope extends Scope
      */
     public function getRelation(): string
     {
-       return $this->relation;
+        return $this->relation;
     }
 
     /**

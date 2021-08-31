@@ -9,7 +9,7 @@ use App\Http\Api\Filter\Filter;
 use Illuminate\Support\Collection;
 
 /**
- * Class HasFilter
+ * Class HasFilter.
  */
 class HasFilter extends Filter
 {
