@@ -17,9 +17,9 @@
         "lodash": "^4.17.21",
         "postcss-import": "^14.0.2",
         "resolve-url-loader": "^4.0.0",
-        "sass": "^1.38.0",
+        "sass": "^1.38.2",
         "sass-loader": "^12.1.0",
-        "tailwindcss": "^2.2.7",
+        "tailwindcss": "^2.2.8",
         "vue-template-compiler": "^2.6.14"
     },
     "dependencies": {

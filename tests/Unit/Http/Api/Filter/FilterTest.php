@@ -7,6 +7,8 @@ namespace Tests\Unit\Http\Api\Filter;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Query;
+use App\Http\Api\Scope\GlobalScope;
+use App\Http\Api\Scope\ScopeParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -126,7 +128,7 @@ class FilterTest extends TestCase
 
         $criteria = $query->getFilterCriteria()->first();
 
-        static::assertTrue($filter->shouldApplyFilter($criteria));
+        static::assertTrue($filter->shouldApplyFilter($criteria, new GlobalScope()));
     }
 
     /**
@@ -136,12 +138,11 @@ class FilterTest extends TestCase
      */
     public function testShouldNotApplyIfScopeDoesNotMatch()
     {
-        $scope = $this->faker->word();
         $filterField = $this->faker->word();
 
         $parameters = [
             FilterParser::$param => [
-                $scope => [
+                $this->faker->word() => [
                     $filterField => $this->faker->word(),
                 ],
             ],
@@ -188,7 +189,7 @@ class FilterTest extends TestCase
 
         $criteria = $query->getFilterCriteria()->first();
 
-        static::assertFalse($filter->scope($this->faker->word())->shouldApplyFilter($criteria));
+        static::assertFalse($filter->shouldApplyFilter($criteria, ScopeParser::parse($this->faker->word())));
     }
 
     /**
@@ -198,12 +199,13 @@ class FilterTest extends TestCase
      */
     public function testShouldApplyIfScopeMatches()
     {
-        $scope = $this->faker->word();
+        $scopeType = $this->faker->word();
+        $scope = ScopeParser::parse($scopeType);
         $filterField = $this->faker->word();
 
         $parameters = [
             FilterParser::$param => [
-                $scope => [
+                $scopeType => [
                     $filterField => $this->faker->word(),
                 ],
             ],
@@ -250,115 +252,6 @@ class FilterTest extends TestCase
 
         $criteria = $query->getFilterCriteria()->first();
 
-        static::assertTrue($filter->scope($scope)->shouldApplyFilter($criteria));
-    }
-
-    /**
-     * By default, the scope of the filter shall be global.
-     *
-     * @return void
-     */
-    public function testDefaultScope()
-    {
-        $filterField = $this->faker->word();
-
-        $parameters = [];
-
-        $query = Query::make($parameters);
-
-        $filter = new class($query->getFilterCriteria(), $filterField) extends Filter
-        {
-            /**
-             * Convert filter values to integers.
-             *
-             * @param array $filterValues
-             * @return array
-             */
-            protected function convertFilterValues(array $filterValues): array
-            {
-                return $filterValues;
-            }
-
-            /**
-             * Get only filter values that are integers.
-             *
-             * @param array $filterValues
-             * @return array
-             */
-            protected function getValidFilterValues(array $filterValues): array
-            {
-                return $filterValues;
-            }
-
-            /**
-             * Determine if all valid filter values have been specified.
-             * By default, this is false as we assume an unrestricted amount of valid values.
-             *
-             * @param array $filterValues
-             * @return bool
-             */
-            protected function isAllFilterValues(array $filterValues): bool
-            {
-                return false;
-            }
-        };
-
-        static::assertEmpty($filter->getScope());
-    }
-
-    /**
-     * The filter's scope shall be modifiable.
-     *
-     * @return void
-     */
-    public function testSetScope()
-    {
-        $scope = $this->faker->word();
-        $filterField = $this->faker->word();
-
-        $parameters = [];
-
-        $query = Query::make($parameters);
-
-        $filter = new class($query->getFilterCriteria(), $filterField) extends Filter
-        {
-            /**
-             * Convert filter values to integers.
-             *
-             * @param array $filterValues
-             * @return array
-             */
-            protected function convertFilterValues(array $filterValues): array
-            {
-                return $filterValues;
-            }
-
-            /**
-             * Get only filter values that are integers.
-             *
-             * @param array $filterValues
-             * @return array
-             */
-            protected function getValidFilterValues(array $filterValues): array
-            {
-                return $filterValues;
-            }
-
-            /**
-             * Determine if all valid filter values have been specified.
-             * By default, this is false as we assume an unrestricted amount of valid values.
-             *
-             * @param array $filterValues
-             * @return bool
-             */
-            protected function isAllFilterValues(array $filterValues): bool
-            {
-                return false;
-            }
-        };
-
-        $filter->scope($scope);
-
-        static::assertEquals($scope, $filter->getScope());
+        static::assertTrue($filter->shouldApplyFilter($criteria, $scope));
     }
 }

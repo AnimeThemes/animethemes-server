@@ -173,7 +173,7 @@ class Video extends BaseModel implements Streamable, Viewable
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be cast.
      *
      * @var array
      */

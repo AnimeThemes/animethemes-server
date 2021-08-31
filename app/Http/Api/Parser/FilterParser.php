@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Parser;
 
 use App\Http\Api\Criteria\Filter\Criteria;
+use App\Http\Api\Criteria\Filter\HasCriteria;
 use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Filter\WhereCriteria;
 use App\Http\Api\Criteria\Filter\WhereInCriteria;
@@ -60,6 +61,10 @@ class FilterParser extends Parser
 
         if (Str::of($param)->explode('.')->contains(TrashedCriteria::PARAM_VALUE)) {
             return TrashedCriteria::make($param, $filterValues);
+        }
+
+        if (Str::of($param)->explode('.')->contains(HasCriteria::PARAM_VALUE)) {
+            return HasCriteria::make($filterParam, $filterValues);
         }
 
         if (Str::contains($filterValues, ',')) {

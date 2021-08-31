@@ -6,6 +6,8 @@ namespace App\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Http\Api\Scope\Scope;
+use App\Http\Api\Scope\ScopeParser;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use ElasticScoutDriverPlus\Builders\AbstractParameterizedQueryBuilder;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
@@ -13,6 +15,7 @@ use ElasticScoutDriverPlus\Builders\RangeQueryBuilder;
 use ElasticScoutDriverPlus\Builders\TermQueryBuilder;
 use ElasticScoutDriverPlus\Builders\WildcardQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -26,12 +29,12 @@ class WhereCriteria extends Criteria
      *
      * @param Predicate $predicate
      * @param BinaryLogicalOperator $operator
-     * @param string $scope
+     * @param Scope $scope
      */
     final public function __construct(
         Predicate $predicate,
         BinaryLogicalOperator $operator,
-        string $scope = ''
+        Scope $scope
     ) {
         parent::__construct($predicate, $operator, $scope);
     }
@@ -45,7 +48,7 @@ class WhereCriteria extends Criteria
      */
     public static function make(string $filterParam, mixed $filterValues): static
     {
-        $scope = '';
+        $scope = collect();
         $field = '';
         $comparisonOperator = ComparisonOperator::EQ();
         $logicalOperator = BinaryLogicalOperator::AND();
@@ -55,42 +58,44 @@ class WhereCriteria extends Criteria
             $filterPart = $filterParts->pop();
 
             // Set logical operator
-            if (empty($scope) && empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
+            if ($scope->isEmpty() && empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
                 try {
                     $logicalOperator = BinaryLogicalOperator::fromKey(Str::upper($filterPart));
                 } catch (InvalidEnumKeyException $e) {
-                    Log::info($e->getMessage());
+                    Log::error($e->getMessage());
                 }
                 continue;
             }
 
             // Set comparison operator
-            if (empty($scope) && empty($field) && ComparisonOperator::hasKey(Str::upper($filterPart))) {
+            if ($scope->isEmpty() && empty($field) && ComparisonOperator::hasKey(Str::upper($filterPart))) {
                 try {
                     $comparisonOperator = ComparisonOperator::fromKey(Str::upper($filterPart));
                 } catch (InvalidEnumKeyException $e) {
-                    Log::info($e->getMessage());
+                    Log::error($e->getMessage());
                 }
                 continue;
             }
 
             // Set field
-            if (empty($scope) && empty($field)) {
+            if ($scope->isEmpty() && empty($field)) {
                 $field = Str::lower($filterPart);
                 continue;
             }
 
             // Set scope
-            if (empty($scope) && ! empty($field)) {
-                $scope = Str::lower($filterPart);
+            if (! empty($field)) {
+                $scope->prepend(Str::lower($filterPart));
             }
         }
 
         $expression = new Expression($filterValues);
 
-        $predicate = new Predicate($field, $comparisonOperator, $expression);
-
-        return new static($predicate, $logicalOperator, $scope);
+        return new static(
+            new Predicate($field, $comparisonOperator, $expression),
+            $logicalOperator,
+            ScopeParser::parse($scope->join('.'))
+        );
     }
 
     /**
@@ -99,10 +104,15 @@ class WhereCriteria extends Criteria
      * @param Builder $builder
      * @param string $column
      * @param array $filterValues
+     * @param Collection $filterCriteria
      * @return Builder
      */
-    public function applyFilter(Builder $builder, string $column, array $filterValues): Builder
-    {
+    public function applyFilter(
+        Builder $builder,
+        string $column,
+        array $filterValues,
+        Collection $filterCriteria
+    ): Builder {
         return $builder->where(
             $builder->qualifyColumn($column),
             $this->getComparisonOperator()?->value,

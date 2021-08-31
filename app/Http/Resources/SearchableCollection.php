@@ -6,6 +6,7 @@ namespace App\Http\Resources;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Query;
+use App\Http\Api\Scope\ScopeParser;
 use App\Services\Http\Resources\DiscoverElasticQueryPayload;
 use App\Services\Models\Scout\ElasticQueryPayload;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
@@ -13,7 +14,6 @@ use ElasticScoutDriverPlus\Exceptions\QueryBuilderException;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Str;
 
 /**
  * Class SearchableCollection.
@@ -87,9 +87,9 @@ abstract class SearchableCollection extends BaseCollection
 
         // apply filters
         $filterBuilder = new BoolQueryBuilder();
+        $scope = ScopeParser::parse(static::$wrap);
         foreach (static::filters($query->getFilterCriteria()) as $filter) {
-            $scope = Str::singular(static::$wrap);
-            $filterBuilder = $filter->scope($scope)->applyElasticsearchFilter($filterBuilder);
+            $filterBuilder = $filter->applyElasticsearchFilter($filterBuilder, $scope);
         }
         try {
             $builder->filter($filterBuilder);

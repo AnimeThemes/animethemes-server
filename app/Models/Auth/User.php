@@ -79,7 +79,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     protected $table = 'users';
 
     /**
-     * The attributes that should be hidden for arrays.
+     * The attributes that should be hidden for serialization.
      *
      * @var array
      */
@@ -93,7 +93,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be cast.
      *
      * @var array
      */

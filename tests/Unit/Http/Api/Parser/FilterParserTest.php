@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Http\Api\Parser;
 
+use App\Http\Api\Criteria\Filter\HasCriteria;
 use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Filter\WhereCriteria;
 use App\Http\Api\Criteria\Filter\WhereInCriteria;
@@ -66,6 +67,24 @@ class FilterParserTest extends TestCase
         $criteria = FilterParser::parse($parameters)[0];
 
         static::assertInstanceOf(WhereInCriteria::class, $criteria);
+    }
+
+    /**
+     * The Filter Parser shall parse Has Criteria.
+     *
+     * @return void
+     */
+    public function testParseHasCriteria()
+    {
+        $parameters = [
+            FilterParser::$param => [
+                HasCriteria::PARAM_VALUE => $this->faker->word(),
+            ],
+        ];
+
+        $criteria = FilterParser::parse($parameters)[0];
+
+        static::assertInstanceOf(HasCriteria::class, $criteria);
     }
 
     /**

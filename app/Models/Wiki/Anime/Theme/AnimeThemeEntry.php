@@ -81,7 +81,7 @@ class AnimeThemeEntry extends BaseModel
     protected $primaryKey = 'entry_id';
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be cast.
      *
      * @var array
      */

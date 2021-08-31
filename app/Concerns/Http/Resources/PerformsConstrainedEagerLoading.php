@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Concerns\Http\Resources;
 
 use App\Http\Api\Query;
+use App\Http\Api\Scope\ScopeParser;
 use App\Services\Http\Resources\DiscoverRelationCollection;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
@@ -29,12 +30,12 @@ trait PerformsConstrainedEagerLoading
         $allowedIncludePaths = collect($includeCriteria?->getAllowedPaths(static::allowedIncludePaths()));
 
         foreach ($allowedIncludePaths as $allowedIncludePath) {
-            $constrainedEagerLoads[$allowedIncludePath] = function (Relation $relation) use ($query) {
+            $scope = ScopeParser::parse($allowedIncludePath);
+            $constrainedEagerLoads[$allowedIncludePath] = function (Relation $relation) use ($query, $scope) {
                 $collectionInstance = DiscoverRelationCollection::byModel($relation->getQuery()->getModel());
                 if ($collectionInstance !== null) {
                     foreach ($collectionInstance::filters($query->getFilterCriteria()) as $filter) {
-                        $scope = Str::singular($collectionInstance::$wrap);
-                        $filter->scope($scope)->applyFilter($relation->getQuery());
+                        $filter->applyFilter($relation->getQuery(), $scope);
                     }
                 }
             };
