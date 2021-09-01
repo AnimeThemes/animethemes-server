@@ -19,13 +19,15 @@ class DigitalOceanBalanceRepository extends EloquentRepository
     /**
      * Get all models from the repository.
      *
+     * @param array $columns
      * @return Collection
      */
-    public function all(): Collection
+    public function all(array $columns = ['*']): Collection
     {
         $now = Date::now();
 
         return Balance::query()
+            ->select($columns)
             ->where('service', Service::DIGITALOCEAN)
             ->whereMonth('date', ComparisonOperator::EQ, $now)
             ->whereYear('date', ComparisonOperator::EQ, $now)

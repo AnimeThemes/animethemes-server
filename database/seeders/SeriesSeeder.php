@@ -42,7 +42,12 @@ class SeriesSeeder extends Seeder
             $seriesSlug = $seriesWikiEntry[2];
 
             // Create series if it doesn't already exist
-            $series = Series::query()->where('name', $seriesName)->where('slug', $seriesSlug)->first();
+            $series = Series::query()
+                ->select(['series_id', 'name'])
+                ->where('name', $seriesName)
+                ->where('slug', $seriesSlug)
+                ->first();
+
             if ($series === null) {
                 Log::info("Creating series with name '{$seriesName}' and slug '{$seriesSlug}'");
 
@@ -78,7 +83,11 @@ class SeriesSeeder extends Seeder
             // Attach Anime to Series by Name
             // Note: We are not concerned about Name collision here.
             // It's more likely that collisions occur within a series.
-            $animes = Anime::query()->whereIn('name', $seriesAnimeNames)->get();
+            $animes = Anime::query()
+                ->select(['anime_id', 'name'])
+                ->whereIn('name', $seriesAnimeNames)
+                ->get();
+
             foreach ($animes as $anime) {
                 if ($anime instanceof Anime
                     && AnimeSeries::query()

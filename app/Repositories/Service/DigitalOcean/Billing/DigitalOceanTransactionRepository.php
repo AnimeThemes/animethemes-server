@@ -26,9 +26,10 @@ class DigitalOceanTransactionRepository implements Repository
     /**
      * Get all models from the repository.
      *
+     * @param array $columns
      * @return Collection
      */
-    public function all(): Collection
+    public function all(array $columns = ['*']): Collection
     {
         // Do not proceed if we do not have authorization to the DO API
         $doBearerToken = Config::get('services.do.token');

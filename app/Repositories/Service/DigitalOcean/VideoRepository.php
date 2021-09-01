@@ -22,9 +22,10 @@ class VideoRepository implements Repository
     /**
      * Get all models from the repository.
      *
+     * @param array $columns
      * @return Collection
      */
-    public function all(): Collection
+    public function all(array $columns = ['*']): Collection
     {
         // Get metadata for all objects in storage
         $fs = Storage::disk('videos');

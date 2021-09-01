@@ -64,16 +64,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.191.7",
+            "version": "3.191.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "c8f220112b64fbd089efead939d4fc70e794616c"
+                "reference": "67a1a0814a8e38c89d834d6cf9379752795c68fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c8f220112b64fbd089efead939d4fc70e794616c",
-                "reference": "c8f220112b64fbd089efead939d4fc70e794616c",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/67a1a0814a8e38c89d834d6cf9379752795c68fe",
+                "reference": "67a1a0814a8e38c89d834d6cf9379752795c68fe",
                 "shasum": ""
             },
             "require": {
@@ -148,9 +148,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.191.7"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.191.9"
             },
-            "time": "2021-08-30T18:41:03+00:00"
+            "time": "2021-09-01T18:19:52+00:00"
         },
         {
             "name": "babenkoivan/elastic-adapter",
@@ -4052,16 +4052,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.57.0",
+            "version": "v8.58.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "6de01746680d7bc7e239b20ec5cdfe70ce586235"
+                "reference": "1b819bf99d87bd543a4d4895e5b3350f61ea7a23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/6de01746680d7bc7e239b20ec5cdfe70ce586235",
-                "reference": "6de01746680d7bc7e239b20ec5cdfe70ce586235",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/1b819bf99d87bd543a4d4895e5b3350f61ea7a23",
+                "reference": "1b819bf99d87bd543a4d4895e5b3350f61ea7a23",
                 "shasum": ""
             },
             "require": {
@@ -4216,20 +4216,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-08-27T13:34:11+00:00"
+            "time": "2021-08-31T13:55:57+00:00"
         },
         {
             "name": "laravel/horizon",
-            "version": "v5.7.11",
+            "version": "v5.7.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/horizon.git",
-                "reference": "d0a7fd91f26e95b1b941b33af36a736b70a29505"
+                "reference": "98e2a6efac1a79ae08a9cce84bef32f236f6f800"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/horizon/zipball/d0a7fd91f26e95b1b941b33af36a736b70a29505",
-                "reference": "d0a7fd91f26e95b1b941b33af36a736b70a29505",
+                "url": "https://api.github.com/repos/laravel/horizon/zipball/98e2a6efac1a79ae08a9cce84bef32f236f6f800",
+                "reference": "98e2a6efac1a79ae08a9cce84bef32f236f6f800",
                 "shasum": ""
             },
             "require": {
@@ -4291,22 +4291,22 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/horizon/issues",
-                "source": "https://github.com/laravel/horizon/tree/v5.7.11"
+                "source": "https://github.com/laravel/horizon/tree/v5.7.12"
             },
-            "time": "2021-08-17T15:30:59+00:00"
+            "time": "2021-08-31T14:56:54+00:00"
         },
         {
             "name": "laravel/jetstream",
-            "version": "v2.3.15",
+            "version": "v2.3.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/jetstream.git",
-                "reference": "6318fc4a734ef894f38d0298f2dee42f7ee0e90c"
+                "reference": "c4bdd9939c18785a03627e7bab540c5acd588602"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/jetstream/zipball/6318fc4a734ef894f38d0298f2dee42f7ee0e90c",
-                "reference": "6318fc4a734ef894f38d0298f2dee42f7ee0e90c",
+                "url": "https://api.github.com/repos/laravel/jetstream/zipball/c4bdd9939c18785a03627e7bab540c5acd588602",
+                "reference": "c4bdd9939c18785a03627e7bab540c5acd588602",
                 "shasum": ""
             },
             "require": {
@@ -4359,7 +4359,7 @@
                 "issues": "https://github.com/laravel/jetstream/issues",
                 "source": "https://github.com/laravel/jetstream"
             },
-            "time": "2021-08-17T15:53:22+00:00"
+            "time": "2021-08-31T15:00:06+00:00"
         },
         {
             "name": "laravel/nova",
@@ -4522,16 +4522,16 @@
         },
         {
             "name": "laravel/scout",
-            "version": "v9.2.7",
+            "version": "v9.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/scout.git",
-                "reference": "0c2e25a431113cc0510ddc9680cdec6ef115be4e"
+                "reference": "0db23cc68de62b3b25b909c0d57b33c4ed585af4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/scout/zipball/0c2e25a431113cc0510ddc9680cdec6ef115be4e",
-                "reference": "0c2e25a431113cc0510ddc9680cdec6ef115be4e",
+                "url": "https://api.github.com/repos/laravel/scout/zipball/0db23cc68de62b3b25b909c0d57b33c4ed585af4",
+                "reference": "0db23cc68de62b3b25b909c0d57b33c4ed585af4",
                 "shasum": ""
             },
             "require": {
@@ -4545,7 +4545,7 @@
                 "php": "^7.3|^8.0"
             },
             "require-dev": {
-                "meilisearch/meilisearch-php": "^0.17",
+                "meilisearch/meilisearch-php": "^0.19",
                 "mockery/mockery": "^1.0",
                 "orchestra/testbench": "^6.17",
                 "phpunit/phpunit": "^9.3"
@@ -4590,7 +4590,7 @@
                 "issues": "https://github.com/laravel/scout/issues",
                 "source": "https://github.com/laravel/scout"
             },
-            "time": "2021-08-24T12:57:33+00:00"
+            "time": "2021-08-31T15:13:52+00:00"
         },
         {
             "name": "laravel/telescope",
@@ -6568,16 +6568,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.96",
+            "version": "0.12.97",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "a98bdc51318f20fcae8c953d266f81a70254917f"
+                "reference": "a8867e63a00e606589faf8d3613164f20722c4ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a98bdc51318f20fcae8c953d266f81a70254917f",
-                "reference": "a98bdc51318f20fcae8c953d266f81a70254917f",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a8867e63a00e606589faf8d3613164f20722c4ee",
+                "reference": "a8867e63a00e606589faf8d3613164f20722c4ee",
                 "shasum": ""
             },
             "require": {
@@ -6608,7 +6608,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.96"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.97"
             },
             "funding": [
                 {
@@ -6628,7 +6628,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-21T11:55:13+00:00"
+            "time": "2021-09-01T10:51:52+00:00"
         },
         {
             "name": "pragmarx/google2fa",
@@ -11983,16 +11983,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.8",
+            "version": "9.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "191768ccd5c85513b4068bdbe99bb6390c7d54fb"
+                "reference": "ea8c2dfb1065eb35a79b3681eee6e6fb0a6f273b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/191768ccd5c85513b4068bdbe99bb6390c7d54fb",
-                "reference": "191768ccd5c85513b4068bdbe99bb6390c7d54fb",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ea8c2dfb1065eb35a79b3681eee6e6fb0a6f273b",
+                "reference": "ea8c2dfb1065eb35a79b3681eee6e6fb0a6f273b",
                 "shasum": ""
             },
             "require": {
@@ -12070,7 +12070,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.8"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.9"
             },
             "funding": [
                 {
@@ -12082,7 +12082,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-07-31T15:17:34+00:00"
+            "time": "2021-08-31T06:47:40+00:00"
         },
         {
             "name": "predis/predis",

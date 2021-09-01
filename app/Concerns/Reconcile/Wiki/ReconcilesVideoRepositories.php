@@ -18,6 +18,16 @@ trait ReconcilesVideoRepositories
     use ReconcilesRepositories;
 
     /**
+     * The columns used for create and delete set operations.
+     *
+     * @return array
+     */
+    protected function columnsForCreateDelete(): array
+    {
+        return ['video_id', 'basename'];
+    }
+
+    /**
      * Callback for create and delete set operation item comparison.
      *
      * @return Closure
@@ -25,6 +35,16 @@ trait ReconcilesVideoRepositories
     protected function diffCallbackForCreateDelete(): Closure
     {
         return fn (Video $first, Video $second) => $first->basename <=> $second->basename;
+    }
+
+    /**
+     * The columns used for update set operation.
+     *
+     * @return array
+     */
+    protected function columnsForUpdate(): array
+    {
+        return ['video_id', 'basename', 'path', 'size'];
     }
 
     /**

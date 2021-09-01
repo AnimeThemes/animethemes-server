@@ -29,6 +29,7 @@ class AniDbResourceSeeder extends Seeder
     {
         // Get anime that have MAL resource but do not have AniDB resource
         $animes = Anime::query()
+            ->select(['anime_id', 'name'])
             ->whereHas('resources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::MAL);
             })->whereDoesntHave('resources', function (Builder $resourceQuery) {
@@ -61,6 +62,7 @@ class AniDbResourceSeeder extends Seeder
                     if ($anidbId !== null) {
                         // Check if AniDB resource already exists
                         $anidbResource = ExternalResource::query()
+                            ->select(['resource_id', 'link'])
                             ->where('site', ResourceSite::ANIDB)
                             ->where('external_id', $anidbId)
                             ->first();

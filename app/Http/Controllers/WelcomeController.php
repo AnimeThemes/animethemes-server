@@ -21,7 +21,7 @@ class WelcomeController extends Controller
     public function show(): View | Factory
     {
         return view('welcome', [
-            'announcements' => Announcement::all(),
+            'announcements' => Announcement::all(['content']),
         ]);
     }
 }

@@ -29,6 +29,7 @@ class AnilistArtistResourceSeeder extends Seeder
     {
         // Get artists that have MAL resource but do not have Anilist resource
         $artists = Artist::query()
+            ->select(['artist_id', 'name'])
             ->whereDoesntHave('resources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::ANILIST);
             })
@@ -69,6 +70,7 @@ class AnilistArtistResourceSeeder extends Seeder
 
                 // Check if Anilist resource already exists
                 $anilistResource = ExternalResource::query()
+                    ->select(['resource_id', 'link'])
                     ->where('site', ResourceSite::ANILIST)
                     ->where('external_id', $anilistId)
                     ->first();

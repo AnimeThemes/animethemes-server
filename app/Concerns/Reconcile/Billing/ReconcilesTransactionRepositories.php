@@ -17,6 +17,16 @@ trait ReconcilesTransactionRepositories
     use ReconcilesRepositories;
 
     /**
+     * The columns used for create and delete set operations.
+     *
+     * @return array
+     */
+    protected function columnsForCreateDelete(): array
+    {
+        return ['transaction_id', 'external_id', 'date', 'amount', 'service'];
+    }
+
+    /**
      * Callback for create and delete set operation item comparison.
      *
      * @return Closure

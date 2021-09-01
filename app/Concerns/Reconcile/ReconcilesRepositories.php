@@ -187,13 +187,13 @@ trait ReconcilesRepositories
         try {
             $sourceModels = $source->all();
 
-            $destinationModels = $destination->all();
+            $destinationModels = $destination->all($this->columnsForCreateDelete());
 
             $this->createModelsFromSource($destination, $sourceModels, $destinationModels);
 
             $this->deleteModelsFromDestination($destination, $sourceModels, $destinationModels);
 
-            $destinationModels = $destination->all();
+            $destinationModels = $destination->all($this->columnsForUpdate());
 
             $this->updateDestinationModels($destination, $sourceModels, $destinationModels);
         } catch (Exception $exception) {
@@ -201,6 +201,16 @@ trait ReconcilesRepositories
         } finally {
             $this->postReconciliationTask();
         }
+    }
+
+    /**
+     * The columns used for create and delete set operations.
+     *
+     * @return array
+     */
+    protected function columnsForCreateDelete(): array
+    {
+        return ['*'];
     }
 
     /**
@@ -265,6 +275,16 @@ trait ReconcilesRepositories
                 $this->handleFailedDeletion($deleteModel);
             }
         }
+    }
+
+    /**
+     * The columns used for update set operation.
+     *
+     * @return array
+     */
+    protected function columnsForUpdate(): array
+    {
+        return ['*'];
     }
 
     /**
