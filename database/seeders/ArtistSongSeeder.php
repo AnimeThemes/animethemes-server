@@ -82,7 +82,7 @@ class ArtistSongSeeder extends Seeder
                         // Set current Anime if we have a definitive match
                         // This is not guaranteed as an Anime Name may be inconsistent between indices
                         $matchingAnime = Anime::query()
-                            ->select(['anime_id'])
+                            ->select(['anime_id', 'name'])
                             ->where('name', html_entity_decode($animeName[1]));
 
                         if ($matchingAnime->count() === 1) {
@@ -106,7 +106,7 @@ class ArtistSongSeeder extends Seeder
 
                     if ($version === null || $version === 1) {
                         $matchingThemes = AnimeTheme::query()
-                            ->select(['theme_id'])
+                            ->select(['theme_id', 'slug'])
                             ->where('anime_id', $anime->anime_id)
                             ->where('type', $themeType)
                             ->where(function (Builder $query) use ($sequence) {
