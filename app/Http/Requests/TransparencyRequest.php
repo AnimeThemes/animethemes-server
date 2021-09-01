@@ -123,6 +123,7 @@ class TransparencyRequest extends FormRequest
         }
 
         return Balance::query()
+            ->select(['service', 'frequency', 'usage', 'balance'])
             ->whereMonth('date', ComparisonOperator::EQ, $date)
             ->whereYear('date', ComparisonOperator::EQ, $date)
             ->orderBy('usage', 'desc')
@@ -143,6 +144,7 @@ class TransparencyRequest extends FormRequest
         }
 
         return Transaction::query()
+            ->select(['date', 'service', 'amount', 'description'])
             ->whereMonth('date', ComparisonOperator::EQ, $date)
             ->whereYear('date', ComparisonOperator::EQ, $date)
             ->orderBy('date', 'desc')

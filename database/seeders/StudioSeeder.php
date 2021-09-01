@@ -48,6 +48,7 @@ class StudioSeeder extends Seeder
         }
 
         $animes = Anime::query()
+            ->select(['anime_id', 'name'])
             ->whereDoesntHave('studios')
             ->whereHas('resources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::MAL);

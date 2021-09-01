@@ -57,6 +57,7 @@ class AnimeSeasonSeeder extends Seeder
                         // Set season if we have a definitive match
                         // This is not guaranteed as an Anime Name may be inconsistent between indices
                         $matchingAnime = Anime::query()
+                            ->select(['anime_id', 'season', 'name'])
                             ->where('name', html_entity_decode($animeName[1]))
                             ->where('year', $year)
                             ->get();

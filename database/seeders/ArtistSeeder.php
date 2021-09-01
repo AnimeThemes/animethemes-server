@@ -43,7 +43,12 @@ class ArtistSeeder extends Seeder
             $artistSlug = html_entity_decode($artistWikiEntry[2]);
 
             // Create artist if it doesn't already exist
-            $artist = Artist::query()->where('name', $artistName)->where('slug', $artistSlug)->first();
+            $artist = Artist::query()
+                ->select(['artist_id', 'name'])
+                ->where('name', $artistName)
+                ->where('slug', $artistSlug)
+                ->first();
+
             if ($artist === null) {
                 Log::info("Creating artist with name '{$artistName}' and slug '{$artistSlug}'");
 
@@ -72,6 +77,7 @@ class ArtistSeeder extends Seeder
 
             // Create Resource Model with link and derived site
             $resource = ExternalResource::query()
+                ->select(['resource_id', 'link'])
                 ->where('site', $resourceSite)
                 ->where('link', $artistResourceLink)
                 ->first();

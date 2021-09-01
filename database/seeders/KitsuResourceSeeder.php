@@ -29,6 +29,7 @@ class KitsuResourceSeeder extends Seeder
     {
         // Get anime that have MAL resource but do not have Kitsu resource
         $animes = Anime::query()
+            ->select(['anime_id', 'name'])
             ->whereHas('resources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::MAL);
             })->whereDoesntHave('resources', function (Builder $resourceQuery) {
@@ -70,6 +71,7 @@ class KitsuResourceSeeder extends Seeder
 
                         // Check if Kitsu resource already exists
                         $kitsuResource = ExternalResource::query()
+                            ->select(['resource_id', 'link'])
                             ->where('site', ResourceSite::KITSU)
                             ->where('external_id', $kitsuId)
                             ->first();

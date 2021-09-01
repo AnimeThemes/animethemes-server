@@ -19,6 +19,16 @@ trait ReconcilesBalanceRepositories
     use ReconcilesRepositories;
 
     /**
+     * The columns used for create and delete set operations.
+     *
+     * @return array
+     */
+    protected function columnsForCreateDelete(): array
+    {
+        return ['balance_id', 'date', 'service'];
+    }
+
+    /**
      * Callback for create and delete set operation item comparison.
      *
      * @return Closure
@@ -26,6 +36,16 @@ trait ReconcilesBalanceRepositories
     protected function diffCallbackForCreateDelete(): Closure
     {
         return fn (Balance $first, Balance $second) => $first->date->format(AllowedDateFormat::YM) <=> $second->date->format(AllowedDateFormat::YM);
+    }
+
+    /**
+     * The columns used for update set operation.
+     *
+     * @return array
+     */
+    protected function columnsForUpdate(): array
+    {
+        return ['balance_id', 'date', 'usage', 'balance', 'service'];
     }
 
     /**

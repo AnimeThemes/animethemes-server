@@ -32,6 +32,7 @@ class ArtistCoverSeeder extends Seeder
     {
         // Get artists that have MAL resource but not both cover images
         $artists = Artist::query()
+            ->select(['artist_id', 'name'])
             ->whereHas('resources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::ANILIST);
             })->whereDoesntHave('images', function (Builder $imageQuery) {

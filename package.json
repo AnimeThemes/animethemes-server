@@ -13,13 +13,13 @@
         "alpinejs": "^3.2.4",
         "axios": "^0.21.1",
         "cross-env": "^7.0.3",
-        "laravel-mix": "^6.0.28",
+        "laravel-mix": "^6.0.29",
         "lodash": "^4.17.21",
         "postcss-import": "^14.0.2",
         "resolve-url-loader": "^4.0.0",
         "sass": "^1.38.2",
         "sass-loader": "^12.1.0",
-        "tailwindcss": "^2.2.8",
+        "tailwindcss": "^2.2.9",
         "vue-template-compiler": "^2.6.14"
     },
     "dependencies": {

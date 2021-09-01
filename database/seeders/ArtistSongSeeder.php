@@ -46,7 +46,12 @@ class ArtistSongSeeder extends Seeder
             $artistName = html_entity_decode($artistWikiEntry[1]);
             $artistSlug = html_entity_decode($artistWikiEntry[2]);
 
-            $artist = Artist::query()->where('name', $artistName)->where('slug', $artistSlug)->first();
+            $artist = Artist::query()
+                ->select(['artist_id', 'name'])
+                ->where('name', $artistName)
+                ->where('slug', $artistSlug)
+                ->first();
+
             if (! $artist instanceof Artist) {
                 continue;
             }
@@ -76,7 +81,10 @@ class ArtistSongSeeder extends Seeder
                     try {
                         // Set current Anime if we have a definitive match
                         // This is not guaranteed as an Anime Name may be inconsistent between indices
-                        $matchingAnime = Anime::query()->where('name', html_entity_decode($animeName[1]));
+                        $matchingAnime = Anime::query()
+                            ->select(['anime_id'])
+                            ->where('name', html_entity_decode($animeName[1]));
+
                         if ($matchingAnime->count() === 1) {
                             $anime = $matchingAnime->first();
                             continue;
@@ -98,6 +106,7 @@ class ArtistSongSeeder extends Seeder
 
                     if ($version === null || $version === 1) {
                         $matchingThemes = AnimeTheme::query()
+                            ->select(['theme_id'])
                             ->where('anime_id', $anime->anime_id)
                             ->where('type', $themeType)
                             ->where(function (Builder $query) use ($sequence) {

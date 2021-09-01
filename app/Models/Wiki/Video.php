@@ -194,7 +194,7 @@ class Video extends BaseModel implements Streamable, Viewable
      */
     public function getName(): string
     {
-        return $this->filename;
+        return $this->basename;
     }
 
     /**

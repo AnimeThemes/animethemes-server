@@ -32,6 +32,7 @@ class SynopsisCoverSeeder extends Seeder
     {
         // Get anime that have MAL resource but not both cover images
         $animes = Anime::query()
+            ->select(['anime_id', 'name', 'synopsis'])
             ->whereHas('resources', function (Builder $resourceQuery) {
                 $resourceQuery->where('site', ResourceSite::ANILIST);
             })->whereDoesntHave('images', function (Builder $imageQuery) {

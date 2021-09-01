@@ -72,8 +72,10 @@ class AnimeThemeSeeder extends Seeder
                     try {
                         // Set current Anime if we have a definitive match
                         // This is not guaranteed as an Anime Name may be inconsistent between indices
-                        $matchingAnime = Anime::query()->where('name', html_entity_decode($animeName[1]));
-                        $matchingAnime = $matchingAnime->whereIn('year', $years);
+                        $matchingAnime = Anime::query()
+                            ->select(['anime_id', 'name'])
+                            ->where('name', html_entity_decode($animeName[1]))
+                            ->whereIn('year', $years);
                         if (is_int($season)) {
                             $matchingAnime = $matchingAnime->where('season', $season);
                         }
@@ -148,6 +150,7 @@ class AnimeThemeSeeder extends Seeder
                     if ($version === null || $version === 1) {
                         // Create Theme if it doesn't exist
                         $theme = AnimeTheme::query()
+                            ->select(['theme_id', 'sequence', 'slug'])
                             ->where('anime_id', $anime->anime_id)
                             ->where('group', $group)
                             ->where('type', $themeType)
