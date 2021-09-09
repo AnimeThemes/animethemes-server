@@ -6,11 +6,12 @@ namespace App\Http\Controllers\Api\Wiki;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\Api\Wiki\Anime\AnimeIndexRequest;
+use App\Http\Requests\Api\Wiki\Anime\AnimeShowRequest;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class AnimeController.
@@ -20,10 +21,10 @@ class AnimeController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
+     * @param AnimeIndexRequest $request
      * @return JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function index(AnimeIndexRequest $request): JsonResponse
     {
         if ($this->query->hasSearchCriteria()) {
             return AnimeCollection::performSearch($this->query, PaginationStrategy::OFFSET())->toResponse($request);
@@ -35,11 +36,11 @@ class AnimeController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param Request $request
+     * @param AnimeShowRequest $request
      * @param Anime $anime
      * @return JsonResponse
      */
-    public function show(Request $request, Anime $anime): JsonResponse
+    public function show(AnimeShowRequest $request, Anime $anime): JsonResponse
     {
         $resource = AnimeResource::performQuery($anime, $this->query);
 

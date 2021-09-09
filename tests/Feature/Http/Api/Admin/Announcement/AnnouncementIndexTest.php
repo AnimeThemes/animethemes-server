@@ -74,37 +74,6 @@ class AnnouncementIndexTest extends TestCase
     }
 
     /**
-     * The Announcement Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
-     */
-    public function testAllowedIncludePaths()
-    {
-        $allowedPaths = collect(AnnouncementCollection::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
-
-        $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
-        ];
-
-        Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
-        $announcements = Announcement::with($includedPaths->all())->get();
-
-        $response = $this->get(route('api.announcement.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    AnnouncementCollection::make($announcements, Query::make($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Announcement Index Endpoint shall implement sparse fieldsets.
      *
      * @return void

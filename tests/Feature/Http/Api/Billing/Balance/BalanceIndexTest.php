@@ -74,37 +74,6 @@ class BalanceIndexTest extends TestCase
     }
 
     /**
-     * The Balance Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
-     */
-    public function testAllowedIncludePaths()
-    {
-        $allowedPaths = collect(BalanceCollection::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
-
-        $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
-        ];
-
-        Balance::factory()->count($this->faker->randomDigitNotNull())->create();
-        $balances = Balance::with($includedPaths->all())->get();
-
-        $response = $this->get(route('api.balance.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    BalanceCollection::make($balances, Query::make($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Balance Index Endpoint shall implement sparse fieldsets.
      *
      * @return void

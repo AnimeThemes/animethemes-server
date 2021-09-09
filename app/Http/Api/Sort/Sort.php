@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Sort;
 
+use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Sort\Criteria;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 /**
  * Class Sort.
@@ -58,6 +60,20 @@ abstract class Sort
     public function getColumn(): string
     {
         return $this->getKey();
+    }
+
+    /**
+     * Format the sort based on direction.
+     *
+     * @param Direction $direction
+     * @return string
+     */
+    public function format(Direction $direction): string
+    {
+        return match ($direction->value) {
+            Direction::DESCENDING => Str::of('-')->append($this->getKey())->__toString(),
+            default => $this->getKey(),
+        };
     }
 
     /**

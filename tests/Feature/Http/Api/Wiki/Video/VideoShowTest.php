@@ -90,7 +90,7 @@ class VideoShowTest extends TestCase
     public function testAllowedIncludePaths()
     {
         $allowedPaths = collect(VideoResource::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),

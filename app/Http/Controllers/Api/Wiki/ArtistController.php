@@ -6,11 +6,12 @@ namespace App\Http\Controllers\Api\Wiki;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\Api\Wiki\Artist\ArtistIndexRequest;
+use App\Http\Requests\Api\Wiki\Artist\ArtistShowRequest;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class ArtistController.
@@ -20,10 +21,10 @@ class ArtistController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
+     * @param ArtistIndexRequest $request
      * @return JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function index(ArtistIndexRequest $request): JsonResponse
     {
         if ($this->query->hasSearchCriteria()) {
             return ArtistCollection::performSearch($this->query, PaginationStrategy::OFFSET())->toResponse($request);
@@ -35,11 +36,11 @@ class ArtistController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param Request $request
+     * @param ArtistShowRequest $request
      * @param Artist $artist
      * @return JsonResponse
      */
-    public function show(Request $request, Artist $artist): JsonResponse
+    public function show(ArtistShowRequest $request, Artist $artist): JsonResponse
     {
         $resource = ArtistResource::performQuery($artist, $this->query);
 

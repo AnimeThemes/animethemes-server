@@ -74,37 +74,6 @@ class TransactionIndexTest extends TestCase
     }
 
     /**
-     * The Transaction Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
-     */
-    public function testAllowedIncludePaths()
-    {
-        $allowedPaths = collect(TransactionCollection::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
-
-        $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
-        ];
-
-        Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
-        $transactions = Transaction::with($includedPaths->all())->get();
-
-        $response = $this->get(route('api.transaction.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    TransactionCollection::make($transactions, Query::make($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Transaction Index Endpoint shall implement sparse fieldsets.
      *
      * @return void

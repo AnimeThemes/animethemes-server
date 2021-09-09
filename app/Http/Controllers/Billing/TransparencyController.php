@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Billing;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TransparencyRequest;
+use App\Http\Requests\Billing\TransparencyRequest;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 

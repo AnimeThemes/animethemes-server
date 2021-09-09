@@ -74,37 +74,6 @@ class AnnouncementShowTest extends TestCase
     }
 
     /**
-     * The Announcement Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
-     */
-    public function testAllowedIncludePaths()
-    {
-        $allowedPaths = collect(AnnouncementResource::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
-
-        $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
-        ];
-
-        Announcement::factory()->create();
-        $announcement = Announcement::with($includedPaths->all())->first();
-
-        $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    AnnouncementResource::make($announcement, Query::make($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Announcement Show Endpoint shall implement sparse fieldsets.
      *
      * @return void

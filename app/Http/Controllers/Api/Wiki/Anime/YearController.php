@@ -6,11 +6,12 @@ namespace App\Http\Controllers\Api\Wiki\Anime;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\Api\Wiki\Anime\YearIndexRequest;
+use App\Http\Requests\Api\Wiki\Anime\YearShowRequest;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -22,9 +23,12 @@ class YearController extends BaseController
     /**
      * Display a listing of unique years of anime.
      *
+     * @param YearIndexRequest $request
      * @return JsonResponse
+     *
+     * @noinspection PhpUnusedParameterInspection
      */
-    public function index(): JsonResponse
+    public function index(YearIndexRequest $request): JsonResponse
     {
         return new JsonResponse(Anime::query()->distinct('year')->orderBy('year')->pluck('year'));
     }
@@ -32,11 +36,11 @@ class YearController extends BaseController
     /**
      * Display a listing of anime of year by season.
      *
-     * @param Request $request
+     * @param YearShowRequest $request
      * @param string $year
      * @return JsonResponse
      */
-    public function show(Request $request, string $year): JsonResponse
+    public function show(YearShowRequest $request, string $year): JsonResponse
     {
         $includeCriteria = $this->query->getIncludeCriteria(AnimeCollection::$wrap);
 

@@ -74,37 +74,6 @@ class BalanceShowTest extends TestCase
     }
 
     /**
-     * The Balance Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
-     */
-    public function testAllowedIncludePaths()
-    {
-        $allowedPaths = collect(BalanceResource::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
-
-        $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
-        ];
-
-        Balance::factory()->create();
-        $balance = Balance::with($includedPaths->all())->first();
-
-        $response = $this->get(route('api.balance.show', ['balance' => $balance]));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    BalanceResource::make($balance, Query::make($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Balance Show Endpoint shall implement sparse fieldsets.
      *
      * @return void

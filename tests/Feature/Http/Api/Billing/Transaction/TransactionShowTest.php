@@ -74,37 +74,6 @@ class TransactionShowTest extends TestCase
     }
 
     /**
-     * The Transaction Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
-     */
-    public function testAllowedIncludePaths()
-    {
-        $allowedPaths = collect(TransactionResource::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
-
-        $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
-        ];
-
-        Transaction::factory()->create();
-        $transaction = Transaction::with($includedPaths->all())->first();
-
-        $response = $this->get(route('api.transaction.show', ['transaction' => $transaction]));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    TransactionResource::make($transaction, Query::make($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Transaction Show Endpoint shall implement sparse fieldsets.
      *
      * @return void

@@ -88,7 +88,7 @@ class ExternalResourceIndexTest extends TestCase
     public function testAllowedIncludePaths()
     {
         $allowedPaths = collect(ExternalResourceCollection::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -172,7 +172,6 @@ class ExternalResourceIndexTest extends TestCase
             'link',
             'external_id',
             'site',
-            'as',
             'created_at',
             'updated_at',
             'deleted_at',

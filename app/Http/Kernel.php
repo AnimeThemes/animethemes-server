@@ -13,6 +13,7 @@ use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RecordView;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\SetAcceptJsonHeader;
+use App\Http\Middleware\SplitStrings;
 use App\Http\Middleware\ThrottleRequestsWithService;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustHosts;
@@ -79,6 +80,7 @@ class Kernel extends HttpKernel
         'api' => [
             SetAcceptJsonHeader::class,
             'throttle:api',
+            SplitStrings::class,
             SubstituteBindings::class,
             LogRequest::class,
         ],
