@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Billing\Transaction;
 
-use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Query;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Resources\BaseCollection;
@@ -24,19 +23,5 @@ class TransactionIndexRequest extends IndexRequest
     protected function getCollection(): BaseCollection
     {
         return TransactionCollection::make(new MissingValue(), Query::make());
-    }
-
-    /**
-     * Get the search validation rules.
-     *
-     * @return array
-     */
-    protected function getSearchRules(): array
-    {
-        return [
-            SearchParser::$param => [
-                'prohibited',
-            ],
-        ];
     }
 }

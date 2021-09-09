@@ -7,33 +7,18 @@ namespace App\Http\Requests\Api\Wiki\Anime;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
-use App\Http\Api\Query;
-use App\Http\Requests\Api\IndexRequest;
-use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Collection\AnimeCollection;
-use Illuminate\Http\Resources\MissingValue;
+use App\Http\Api\Parser\SortParser;
+use App\Http\Requests\Api\BaseRequest;
 
 /**
  * Class YearIndexRequest.
  */
-class YearIndexRequest extends IndexRequest
+class YearIndexRequest extends BaseRequest
 {
-    /**
-     * Get the underlying resource collection.
-     *
-     * @return BaseCollection
-     */
-    protected function getCollection(): BaseCollection
-    {
-        return AnimeCollection::make(new MissingValue(), Query::make());
-    }
-
     /**
      * Get the include validation rules.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function getIncludeRules(): array
     {
@@ -48,8 +33,6 @@ class YearIndexRequest extends IndexRequest
      * Get the paging validation rules.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function getPagingRules(): array
     {
@@ -64,13 +47,25 @@ class YearIndexRequest extends IndexRequest
      * Get the search validation rules.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function getSearchRules(): array
     {
         return [
             SearchParser::$param => [
+                'prohibited',
+            ],
+        ];
+    }
+
+    /**
+     * Get the sort validation rules.
+     *
+     * @return array
+     */
+    protected function getSortRules(): array
+    {
+        return [
+            SortParser::$param => [
                 'prohibited',
             ],
         ];

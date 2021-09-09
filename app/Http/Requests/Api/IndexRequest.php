@@ -10,8 +10,10 @@ use App\Http\Api\Criteria\Paging\LimitCriteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
+use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Resources\BaseCollection;
+use App\Http\Resources\SearchableCollection;
 use App\Rules\Api\DistinctIgnoringDirectionRule;
 use App\Rules\Api\RandomSoleRule;
 use Illuminate\Support\Collection;
@@ -102,6 +104,31 @@ abstract class IndexRequest extends BaseRequest
                     'min:1',
                     Str::of('max:')->append(PagingCriteria::MAX_RESULTS)->__toString(),
                 ],
+        ];
+    }
+
+    /**
+     * Get the search validation rules.
+     *
+     * @return array
+     */
+    protected function getSearchRules(): array
+    {
+        $collection = $this->getCollection();
+
+        if ($collection instanceof SearchableCollection) {
+            return [
+                SearchParser::$param => [
+                    'nullable',
+                    'string',
+                ],
+            ];
+        }
+
+        return [
+            SearchParser::$param => [
+                'prohibited',
+            ],
         ];
     }
 
