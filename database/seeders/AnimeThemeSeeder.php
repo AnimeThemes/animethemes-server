@@ -232,10 +232,10 @@ class AnimeThemeSeeder extends Seeder
     /**
      * Create Entry and associate to Theme.
      *
-     * @param int|null $version
-     * @param string $episodes
-     * @param string $notes
-     * @param AnimeTheme $theme
+     * @param  int|null  $version
+     * @param  string  $episodes
+     * @param  string  $notes
+     * @param  AnimeTheme  $theme
      * @return AnimeThemeEntry
      */
     protected static function createEntry(
@@ -289,8 +289,8 @@ class AnimeThemeSeeder extends Seeder
     /**
      * Attach video to entry.
      *
-     * @param string $videoBasename
-     * @param AnimeThemeEntry $entry
+     * @param  string  $videoBasename
+     * @param  AnimeThemeEntry  $entry
      * @return void
      */
     protected static function attachVideoToEntry(string $videoBasename, AnimeThemeEntry $entry)

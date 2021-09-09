@@ -75,7 +75,7 @@ class VideoReconcileCommand extends Command
     /**
      * Handler for successful video creation.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
@@ -87,7 +87,7 @@ class VideoReconcileCommand extends Command
     /**
      * Handler for failed video creation.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
@@ -99,7 +99,7 @@ class VideoReconcileCommand extends Command
     /**
      * Handler for successful video deletion.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
@@ -111,7 +111,7 @@ class VideoReconcileCommand extends Command
     /**
      * Handler for failed video deletion.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
@@ -123,7 +123,7 @@ class VideoReconcileCommand extends Command
     /**
      * Handler for successful video update.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
@@ -135,7 +135,7 @@ class VideoReconcileCommand extends Command
     /**
      * Handler for failed video update.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)
@@ -147,7 +147,7 @@ class VideoReconcileCommand extends Command
     /**
      * Handler for exception.
      *
-     * @param Exception $exception
+     * @param  Exception  $exception
      * @return void
      */
     protected function handleException(Exception $exception)

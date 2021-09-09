@@ -31,9 +31,9 @@ class UpdatedStartDateFilter extends DateFilter
     /**
      * Apply the filter to the given query.
      *
-     * @param Request $request
-     * @param Builder $query
-     * @param mixed $value
+     * @param  Request  $request
+     * @param  Builder  $query
+     * @param  mixed  $value
      * @return Builder
      */
     public function apply(Request $request, $query, $value): Builder

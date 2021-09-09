@@ -22,7 +22,7 @@ abstract class Criteria
     /**
      * Create a new criteria instance.
      *
-     * @param string $field
+     * @param  string  $field
      */
     public function __construct(string $field)
     {
@@ -42,8 +42,8 @@ abstract class Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param Builder $builder
-     * @param string $column
+     * @param  Builder  $builder
+     * @param  string  $column
      * @return Builder
      */
     abstract public function applySort(Builder $builder, string $column): Builder;
@@ -51,8 +51,8 @@ abstract class Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param SearchRequestBuilder $builder
-     * @param string $column
+     * @param  SearchRequestBuilder  $builder
+     * @param  string  $column
      * @return SearchRequestBuilder
      */
     abstract public function applyElasticsearchSort(

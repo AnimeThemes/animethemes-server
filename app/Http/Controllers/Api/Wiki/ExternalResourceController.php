@@ -20,7 +20,7 @@ class ExternalResourceController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param ExternalResourceIndexRequest $request
+     * @param  ExternalResourceIndexRequest  $request
      * @return JsonResponse
      */
     public function index(ExternalResourceIndexRequest $request): JsonResponse
@@ -33,8 +33,8 @@ class ExternalResourceController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param ExternalResourceShowRequest $request
-     * @param ExternalResource $resource
+     * @param  ExternalResourceShowRequest  $request
+     * @param  ExternalResource  $resource
      * @return JsonResponse
      */
     public function show(ExternalResourceShowRequest $request, ExternalResource $resource): JsonResponse

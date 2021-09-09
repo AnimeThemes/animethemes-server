@@ -56,7 +56,7 @@ class DigitalOceanTransactionSeeder extends Seeder
     /**
      * Handler for successful transaction creation.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
@@ -67,7 +67,7 @@ class DigitalOceanTransactionSeeder extends Seeder
     /**
      * Handler for failed transaction creation.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
@@ -78,7 +78,7 @@ class DigitalOceanTransactionSeeder extends Seeder
     /**
      * Handler for successful transaction deletion.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
@@ -89,7 +89,7 @@ class DigitalOceanTransactionSeeder extends Seeder
     /**
      * Handler for failed transaction deletion.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
@@ -100,7 +100,7 @@ class DigitalOceanTransactionSeeder extends Seeder
     /**
      * Handler for successful transaction update.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
@@ -111,7 +111,7 @@ class DigitalOceanTransactionSeeder extends Seeder
     /**
      * Handler for failed transaction update.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)
@@ -122,7 +122,7 @@ class DigitalOceanTransactionSeeder extends Seeder
     /**
      * Handler for exception.
      *
-     * @param Exception $exception
+     * @param  Exception  $exception
      * @return void
      */
     protected function handleException(Exception $exception)

@@ -55,7 +55,7 @@ class WikiPages
     /**
      * Get list of years that correspond to Anime Index Year Notation.
      *
-     * @param string $year
+     * @param  string  $year
      * @return array
      */
     public static function getAnimeIndexYears(string $year): array
@@ -72,7 +72,7 @@ class WikiPages
     /**
      * Get address of artist page.
      *
-     * @param string $slug
+     * @param  string  $slug
      * @return string
      */
     public static function getArtistPage(string $slug): string
@@ -86,7 +86,7 @@ class WikiPages
     /**
      * Get address of series page.
      *
-     * @param string $slug
+     * @param  string  $slug
      * @return string
      */
     public static function getSeriesPage(string $slug): string
@@ -100,7 +100,7 @@ class WikiPages
     /**
      * Get contents of reddit wiki page.
      *
-     * @param string $page
+     * @param  string  $page
      * @return mixed
      */
     public static function getPageContents(string $page): mixed

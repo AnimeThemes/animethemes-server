@@ -130,7 +130,7 @@ class DatabaseDumpCommand extends Command
      * The target path for the database dump.
      * Pattern: "/path/to/project/storage/db-dumps/animethemes-db-dump-{create?}-{year}-{month}-{day}.sql".
      *
-     * @param bool $create
+     * @param  bool  $create
      * @return string
      */
     public static function getDumpFile(bool $create = false): string
@@ -148,8 +148,8 @@ class DatabaseDumpCommand extends Command
     /**
      * Get the dumper for the database connection.
      *
-     * @param Connection $connection
-     * @param bool $create
+     * @param  Connection  $connection
+     * @param  bool  $create
      * @return DbDumper|null
      */
     protected function getDumper(Connection $connection, bool $create): ?DbDumper

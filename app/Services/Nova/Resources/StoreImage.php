@@ -15,12 +15,12 @@ class StoreImage
     /**
      * Store the incoming file upload.
      *
-     * @param Request $request
-     * @param Model $model
-     * @param string $attribute
-     * @param string $requestAttribute
-     * @param string $disk
-     * @param string $storagePath
+     * @param  Request  $request
+     * @param  Model  $model
+     * @param  string  $attribute
+     * @param  string  $requestAttribute
+     * @param  string  $disk
+     * @param  string  $storagePath
      * @return array
      */
     public function __invoke(

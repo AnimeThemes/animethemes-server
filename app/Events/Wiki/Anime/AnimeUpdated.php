@@ -27,7 +27,7 @@ class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
     /**
      * Create a new event instance.
      *
-     * @param Anime $anime
+     * @param  Anime  $anime
      * @return void
      */
     public function __construct(Anime $anime)

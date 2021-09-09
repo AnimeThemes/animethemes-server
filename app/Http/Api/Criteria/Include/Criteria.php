@@ -21,7 +21,7 @@ class Criteria
     /**
      * Create a new criteria instance.
      *
-     * @param Collection $paths
+     * @param  Collection  $paths
      */
     public function __construct(Collection $paths)
     {
@@ -41,7 +41,7 @@ class Criteria
     /**
      * Get the allowed include paths.
      *
-     * @param array $allowedIncludePaths
+     * @param  array  $allowedIncludePaths
      * @return Collection
      */
     public function getAllowedPaths(array $allowedIncludePaths): Collection

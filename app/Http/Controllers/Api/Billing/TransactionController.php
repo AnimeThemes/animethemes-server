@@ -20,7 +20,7 @@ class TransactionController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param TransactionIndexRequest $request
+     * @param  TransactionIndexRequest  $request
      * @return JsonResponse
      */
     public function index(TransactionIndexRequest $request): JsonResponse
@@ -31,8 +31,8 @@ class TransactionController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param TransactionShowRequest $request
-     * @param Transaction $transaction
+     * @param  TransactionShowRequest  $request
+     * @param  Transaction  $transaction
      * @return JsonResponse
      */
     public function show(TransactionShowRequest $request, Transaction $transaction): JsonResponse

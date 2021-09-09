@@ -12,7 +12,7 @@ abstract class BooleanFilter extends Filter
     /**
      * Convert filter values to booleans.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return array
      */
     protected function convertFilterValues(array $filterValues): array
@@ -30,7 +30,7 @@ abstract class BooleanFilter extends Filter
      * Accepted for true: "1", "true", "on" and "yes".
      * Accepted for false: "0", "false", "off" and "no.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return array
      */
     protected function getValidFilterValues(array $filterValues): array
@@ -48,7 +48,7 @@ abstract class BooleanFilter extends Filter
     /**
      * Determine if both true and false have been specified.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return bool
      */
     protected function isAllFilterValues(array $filterValues): bool

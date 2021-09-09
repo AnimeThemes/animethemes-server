@@ -21,7 +21,7 @@ class EntryController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param EntryIndexRequest $request
+     * @param  EntryIndexRequest  $request
      * @return JsonResponse
      */
     public function index(EntryIndexRequest $request): JsonResponse
@@ -36,8 +36,8 @@ class EntryController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param EntryShowRequest $request
-     * @param AnimeThemeEntry $entry
+     * @param  EntryShowRequest  $request
+     * @param  AnimeThemeEntry  $entry
      * @return JsonResponse
      */
     public function show(EntryShowRequest $request, AnimeThemeEntry $entry): JsonResponse

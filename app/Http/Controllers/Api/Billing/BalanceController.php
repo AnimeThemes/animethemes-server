@@ -20,7 +20,7 @@ class BalanceController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param BalanceIndexRequest $request
+     * @param  BalanceIndexRequest  $request
      * @return JsonResponse
      */
     public function index(BalanceIndexRequest $request): JsonResponse
@@ -31,8 +31,8 @@ class BalanceController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param BalanceShowRequest $request
-     * @param Balance $balance
+     * @param  BalanceShowRequest  $request
+     * @param  Balance  $balance
      * @return JsonResponse
      */
     public function show(BalanceShowRequest $request, Balance $balance): JsonResponse

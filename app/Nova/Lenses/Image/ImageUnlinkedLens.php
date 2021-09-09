@@ -41,8 +41,8 @@ class ImageUnlinkedLens extends Lens
     /**
      * Get the query builder / paginator for the lens.
      *
-     * @param LensRequest $request
-     * @param Builder $query
+     * @param  LensRequest  $request
+     * @param  Builder  $query
      * @return Builder
      */
     public static function query(LensRequest $request, $query): Builder
@@ -55,7 +55,7 @@ class ImageUnlinkedLens extends Lens
     /**
      * Get the fields available to the lens.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function fields(Request $request): array
@@ -79,7 +79,7 @@ class ImageUnlinkedLens extends Lens
     /**
      * Get the filters available for the lens.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function filters(Request $request): array
@@ -101,7 +101,7 @@ class ImageUnlinkedLens extends Lens
     /**
      * Get the actions available on the lens.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

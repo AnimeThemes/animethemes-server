@@ -29,11 +29,11 @@ class SongResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param Song | MissingValue | null $song
-     * @param Query $query
+     * @param  Song | MissingValue | null  $song
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(Song | MissingValue | null $song, Query $query)
+    public function __construct(Song|MissingValue|null $song, Query $query)
     {
         parent::__construct($song, $query);
     }
@@ -41,7 +41,7 @@ class SongResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

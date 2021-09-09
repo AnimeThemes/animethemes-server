@@ -21,7 +21,7 @@ class EventController extends DocumentController
      * @throws HttpException
      * @throws NotFoundHttpException
      */
-    public function index(): View | Factory
+    public function index(): View|Factory
     {
         return $this->displayMarkdownDocument('event/index');
     }
@@ -29,12 +29,12 @@ class EventController extends DocumentController
     /**
      * Display the Event document.
      *
-     * @param string $docName
+     * @param  string  $docName
      * @return View|Factory
      * @throws HttpException
      * @throws NotFoundHttpException
      */
-    public function show(string $docName): View | Factory
+    public function show(string $docName): View|Factory
     {
         return $this->displayMarkdownDocument('event/'.$docName);
     }

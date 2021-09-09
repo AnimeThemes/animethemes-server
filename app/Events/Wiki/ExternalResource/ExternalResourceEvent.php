@@ -21,7 +21,7 @@ class ExternalResourceEvent
     /**
      * Create a new event instance.
      *
-     * @param ExternalResource $resource
+     * @param  ExternalResource  $resource
      * @return void
      */
     public function __construct(ExternalResource $resource)

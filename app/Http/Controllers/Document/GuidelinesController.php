@@ -21,7 +21,7 @@ class GuidelinesController extends DocumentController
      * @throws HttpException
      * @throws NotFoundHttpException
      */
-    public function index(): View | Factory
+    public function index(): View|Factory
     {
         return $this->displayMarkdownDocument('guidelines/index');
     }
@@ -29,12 +29,12 @@ class GuidelinesController extends DocumentController
     /**
      * Display the Guidelines document.
      *
-     * @param string $docName
+     * @param  string  $docName
      * @return View|Factory
      * @throws HttpException
      * @throws NotFoundHttpException
      */
-    public function show(string $docName): View | Factory
+    public function show(string $docName): View|Factory
     {
         return $this->displayMarkdownDocument('guidelines/'.$docName);
     }

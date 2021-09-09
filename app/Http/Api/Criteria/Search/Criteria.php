@@ -19,7 +19,7 @@ class Criteria
     /**
      * Create a new criteria instance.
      *
-     * @param string $term
+     * @param  string  $term
      */
     public function __construct(string $term)
     {

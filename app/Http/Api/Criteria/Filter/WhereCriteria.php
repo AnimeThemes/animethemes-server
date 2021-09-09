@@ -27,9 +27,9 @@ class WhereCriteria extends Criteria
     /**
      * Create a new criteria instance.
      *
-     * @param Predicate $predicate
-     * @param BinaryLogicalOperator $operator
-     * @param Scope $scope
+     * @param  Predicate  $predicate
+     * @param  BinaryLogicalOperator  $operator
+     * @param  Scope  $scope
      */
     final public function __construct(
         Predicate $predicate,
@@ -42,8 +42,8 @@ class WhereCriteria extends Criteria
     /**
      * Create a new criteria instance from query string.
      *
-     * @param string $filterParam
-     * @param mixed $filterValues
+     * @param  string  $filterParam
+     * @param  mixed  $filterValues
      * @return static
      */
     public static function make(string $filterParam, mixed $filterValues): static
@@ -101,10 +101,10 @@ class WhereCriteria extends Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param Builder $builder
-     * @param string $column
-     * @param array $filterValues
-     * @param Collection $filterCriteria
+     * @param  Builder  $builder
+     * @param  string  $column
+     * @param  array  $filterValues
+     * @param  Collection  $filterCriteria
      * @return Builder
      */
     public function applyFilter(
@@ -124,9 +124,9 @@ class WhereCriteria extends Criteria
     /**
      * Apply criteria to builder through filter.
      *
-     * @param BoolQueryBuilder $builder
-     * @param string $column
-     * @param array $filterValues
+     * @param  BoolQueryBuilder  $builder
+     * @param  string  $column
+     * @param  array  $filterValues
      * @return BoolQueryBuilder
      */
     public function applyElasticsearchFilter(
@@ -154,8 +154,8 @@ class WhereCriteria extends Criteria
     /**
      * Build clause for Elasticsearch filter based on comparison operator.
      *
-     * @param string $column
-     * @param array $filterValues
+     * @param  string  $column
+     * @param  array  $filterValues
      * @return AbstractParameterizedQueryBuilder
      */
     protected function getElasticsearchClause(string $column, array $filterValues): AbstractParameterizedQueryBuilder
@@ -190,7 +190,7 @@ class WhereCriteria extends Criteria
     /**
      * Coerce filter value for elasticsearch range and term queries.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return string
      */
     protected function coerceFilterValue(array $filterValues): string

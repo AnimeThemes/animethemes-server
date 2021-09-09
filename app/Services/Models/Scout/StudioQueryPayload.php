@@ -27,7 +27,7 @@ class StudioQueryPayload extends ElasticQueryPayload
      *
      * @return SearchRequestBuilder|BoolQueryBuilder
      */
-    public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder
+    public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder
     {
         return Studio::boolSearch()
             ->should(

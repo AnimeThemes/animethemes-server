@@ -28,11 +28,11 @@ class VideoResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param Video | MissingValue | null $video
-     * @param Query $query
+     * @param  Video | MissingValue | null  $video
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(Video | MissingValue | null $video, Query $query)
+    public function __construct(Video|MissingValue|null $video, Query $query)
     {
         parent::__construct($video, $query);
     }
@@ -40,7 +40,7 @@ class VideoResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

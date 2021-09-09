@@ -21,7 +21,7 @@ class ArtistController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param ArtistIndexRequest $request
+     * @param  ArtistIndexRequest  $request
      * @return JsonResponse
      */
     public function index(ArtistIndexRequest $request): JsonResponse
@@ -36,8 +36,8 @@ class ArtistController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param ArtistShowRequest $request
-     * @param Artist $artist
+     * @param  ArtistShowRequest  $request
+     * @param  Artist  $artist
      * @return JsonResponse
      */
     public function show(ArtistShowRequest $request, Artist $artist): JsonResponse

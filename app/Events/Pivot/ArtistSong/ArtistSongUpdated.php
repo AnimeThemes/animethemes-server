@@ -24,7 +24,7 @@ class ArtistSongUpdated extends ArtistSongEvent implements DiscordMessageEvent, 
     /**
      * Create a new event instance.
      *
-     * @param ArtistSong $artistSong
+     * @param  ArtistSong  $artistSong
      * @return void
      */
     public function __construct(ArtistSong $artistSong)

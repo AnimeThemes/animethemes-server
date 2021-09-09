@@ -23,7 +23,7 @@ class VideoUpdated extends VideoEvent implements DiscordMessageEvent
     /**
      * Create a new event instance.
      *
-     * @param Video $video
+     * @param  Video  $video
      * @return void
      */
     public function __construct(Video $video)

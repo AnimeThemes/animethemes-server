@@ -23,7 +23,7 @@ class AnimeResourceUpdated extends AnimeResourceEvent implements DiscordMessageE
     /**
      * Create a new event instance.
      *
-     * @param AnimeResource $animeResource
+     * @param  AnimeResource  $animeResource
      * @return void
      */
     public function __construct(AnimeResource $animeResource)

@@ -32,8 +32,8 @@ abstract class Filter
     /**
      * Create a new filter instance.
      *
-     * @param Collection<Criteria> $criteria
-     * @param string $key
+     * @param  Collection<Criteria>  $criteria
+     * @param  string  $key
      */
     public function __construct(Collection $criteria, string $key)
     {
@@ -64,8 +64,8 @@ abstract class Filter
     /**
      * Modify query builder with filter criteria.
      *
-     * @param Builder $builder
-     * @param Scope $scope
+     * @param  Builder  $builder
+     * @param  Scope  $scope
      * @return Builder
      */
     public function applyFilter(Builder $builder, Scope $scope): Builder
@@ -87,8 +87,8 @@ abstract class Filter
     /**
      * Modify search request builder with filter criteria.
      *
-     * @param BoolQueryBuilder $builder
-     * @param Scope $scope
+     * @param  BoolQueryBuilder  $builder
+     * @param  Scope  $scope
      * @return BoolQueryBuilder
      */
     public function applyElasticsearchFilter(BoolQueryBuilder $builder, Scope $scope): BoolQueryBuilder
@@ -109,8 +109,8 @@ abstract class Filter
     /**
      * Determine if this filter should be applied.
      *
-     * @param Criteria $criteria
-     * @param Scope $scope
+     * @param  Criteria  $criteria
+     * @param  Scope  $scope
      * @return bool
      */
     public function shouldApplyFilter(Criteria $criteria, Scope $scope): bool
@@ -141,7 +141,7 @@ abstract class Filter
     /**
      * Get sanitized filter values.
      *
-     * @param Criteria $criteria
+     * @param  Criteria  $criteria
      * @return array
      */
     public function getFilterValues(Criteria $criteria): array
@@ -158,7 +158,7 @@ abstract class Filter
     /**
      * Get unique filter values.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return array
      */
     protected function getUniqueFilterValues(array $filterValues): array
@@ -169,7 +169,7 @@ abstract class Filter
     /**
      * Convert filter values if needed. By default, no conversion is needed.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return array
      */
     abstract protected function convertFilterValues(array $filterValues): array;
@@ -177,7 +177,7 @@ abstract class Filter
     /**
      * Get only filter values that are valid. By default, all values are valid.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return array
      */
     abstract protected function getValidFilterValues(array $filterValues): array;
@@ -186,7 +186,7 @@ abstract class Filter
      * Determine if all valid filter values have been specified.
      * By default, this is false as we assume an unrestricted amount of valid values.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return bool
      */
     abstract protected function isAllFilterValues(array $filterValues): bool;

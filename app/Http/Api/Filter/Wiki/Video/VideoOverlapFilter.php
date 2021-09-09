@@ -16,7 +16,7 @@ class VideoOverlapFilter extends EnumFilter
     /**
      * Create a new filter instance.
      *
-     * @param Collection $criteria
+     * @param  Collection  $criteria
      */
     public function __construct(Collection $criteria)
     {

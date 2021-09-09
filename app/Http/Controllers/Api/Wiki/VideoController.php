@@ -21,7 +21,7 @@ class VideoController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param VideoIndexRequest $request
+     * @param  VideoIndexRequest  $request
      * @return JsonResponse
      */
     public function index(VideoIndexRequest $request): JsonResponse
@@ -36,8 +36,8 @@ class VideoController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param VideoShowRequest $request
-     * @param Video $video
+     * @param  VideoShowRequest  $request
+     * @param  Video  $video
      * @return JsonResponse
      */
     public function show(VideoShowRequest $request, Video $video): JsonResponse

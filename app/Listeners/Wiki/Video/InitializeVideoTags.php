@@ -18,7 +18,7 @@ class InitializeVideoTags
     /**
      * Handle the event.
      *
-     * @param VideoCreating $event
+     * @param  VideoCreating  $event
      * @return void
      */
     public function handle(VideoCreating $event)

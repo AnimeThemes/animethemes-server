@@ -19,7 +19,7 @@ class RecordView
      *
      * @param  Request  $request
      * @param  Closure  $next
-     * @param string $modelKey
+     * @param  string  $modelKey
      * @return mixed
      */
     public function handle(Request $request, Closure $next, string $modelKey): mixed

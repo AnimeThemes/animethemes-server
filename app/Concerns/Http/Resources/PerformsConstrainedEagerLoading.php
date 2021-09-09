@@ -18,7 +18,7 @@ trait PerformsConstrainedEagerLoading
     /**
      * Constrain eager loads by binding callbacks that filter on the relations.
      *
-     * @param Query $query
+     * @param  Query  $query
      * @return array
      */
     public static function performConstrainedEagerLoads(Query $query): array

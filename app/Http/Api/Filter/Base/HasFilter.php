@@ -23,8 +23,8 @@ class HasFilter extends Filter
     /**
      * Create a new filter instance.
      *
-     * @param Collection $criteria
-     * @param array $allowedIncludePaths
+     * @param  Collection  $criteria
+     * @param  array  $allowedIncludePaths
      */
     public function __construct(Collection $criteria, array $allowedIncludePaths)
     {
@@ -36,7 +36,7 @@ class HasFilter extends Filter
     /**
      * Convert filter values to integers.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return array
      */
     protected function convertFilterValues(array $filterValues): array
@@ -47,7 +47,7 @@ class HasFilter extends Filter
     /**
      * Get only filter values that are strings.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return array
      */
     protected function getValidFilterValues(array $filterValues): array
@@ -66,7 +66,7 @@ class HasFilter extends Filter
      * Determine if all valid filter values have been specified.
      * By default, this is false as we assume an unrestricted amount of valid values.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return bool
      */
     protected function isAllFilterValues(array $filterValues): bool

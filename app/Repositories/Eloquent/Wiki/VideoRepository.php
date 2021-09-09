@@ -16,7 +16,7 @@ class VideoRepository extends EloquentRepository
     /**
      * Get all models from the repository.
      *
-     * @param array $columns
+     * @param  array  $columns
      * @return Collection
      */
     public function all(array $columns = ['*']): Collection

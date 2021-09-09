@@ -21,7 +21,7 @@ class FaqController extends DocumentController
      * @throws HttpException
      * @throws NotFoundHttpException
      */
-    public function show(): View | Factory
+    public function show(): View|Factory
     {
         return $this->displayMarkdownDocument('faq');
     }

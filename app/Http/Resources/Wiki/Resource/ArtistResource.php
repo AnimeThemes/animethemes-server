@@ -31,11 +31,11 @@ class ArtistResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param Artist | MissingValue | null $artist
-     * @param Query $query
+     * @param  Artist | MissingValue | null  $artist
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(Artist | MissingValue | null $artist, Query $query)
+    public function __construct(Artist|MissingValue|null $artist, Query $query)
     {
         parent::__construct($artist, $query);
     }
@@ -43,7 +43,7 @@ class ArtistResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

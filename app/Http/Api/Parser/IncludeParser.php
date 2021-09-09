@@ -24,7 +24,7 @@ class IncludeParser extends Parser
     /**
      * Parse includes from parameters.
      *
-     * @param array $parameters
+     * @param  array  $parameters
      * @return Criteria[]
      */
     public static function parse(array $parameters): array
@@ -51,7 +51,7 @@ class IncludeParser extends Parser
     /**
      * Parse criteria instance from query string.
      *
-     * @param string $includeParam
+     * @param  string  $includeParam
      * @return Criteria
      */
     protected static function parseCriteria(string $includeParam): Criteria
@@ -64,8 +64,8 @@ class IncludeParser extends Parser
     /**
      * Parse resource criteria instance from query string.
      *
-     * @param string $type
-     * @param string $includeParam
+     * @param  string  $type
+     * @param  string  $includeParam
      * @return ResourceCriteria
      */
     protected static function parseResourceCriteria(string $type, string $includeParam): ResourceCriteria

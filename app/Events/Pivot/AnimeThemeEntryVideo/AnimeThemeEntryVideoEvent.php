@@ -30,7 +30,7 @@ abstract class AnimeThemeEntryVideoEvent
     /**
      * Create a new event instance.
      *
-     * @param AnimeThemeEntryVideo $animeThemeEntryVideo
+     * @param  AnimeThemeEntryVideo  $animeThemeEntryVideo
      * @return void
      */
     public function __construct(AnimeThemeEntryVideo $animeThemeEntryVideo)

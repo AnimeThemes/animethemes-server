@@ -18,7 +18,7 @@ trait HasAttributeUpdateEmbedFields
     /**
      * Initialize embed fields with inline attribute changes.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return void
      */
     protected function initializeEmbedFields(Model $model)
@@ -33,7 +33,7 @@ trait HasAttributeUpdateEmbedFields
     /**
      * Get changed attributes.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return Collection
      */
     protected function getChangedAttributes(Model $model): Collection
@@ -47,9 +47,9 @@ trait HasAttributeUpdateEmbedFields
     /**
      * Add Embed Fields.
      *
-     * @param Model $original
-     * @param Model $changed
-     * @param Collection $changedAttributes
+     * @param  Model  $original
+     * @param  Model  $changed
+     * @param  Collection  $changedAttributes
      * @return void
      */
     protected function addEmbedFields(Model $original, Model $changed, Collection $changedAttributes)

@@ -15,7 +15,7 @@ class ImageController extends StreamableController
     /**
      * Stream image.
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return StreamedResponse
      */
     public function show(Image $image): StreamedResponse

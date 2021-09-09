@@ -27,7 +27,7 @@ class SortParser extends Parser
     /**
      * Parse sorts from parameters.
      *
-     * @param array $parameters
+     * @param  array  $parameters
      * @return Criteria[]
      */
     public static function parse(array $parameters): array
@@ -50,7 +50,7 @@ class SortParser extends Parser
     /**
      * Parse criteria instance from query string.
      *
-     * @param string $sortValue
+     * @param  string  $sortValue
      * @return Criteria
      */
     protected static function parseCriteria(string $sortValue): Criteria

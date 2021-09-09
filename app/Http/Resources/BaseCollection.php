@@ -44,8 +44,8 @@ abstract class BaseCollection extends ResourceCollection
     /**
      * Create a new resource instance.
      *
-     * @param mixed $resource
-     * @param Query $query
+     * @param  mixed  $resource
+     * @param  Query  $query
      * @return void
      */
     public function __construct(mixed $resource, Query $query)
@@ -65,7 +65,7 @@ abstract class BaseCollection extends ResourceCollection
     /**
      * The sorts that can be applied by the client for this resource.
      *
-     * @param Collection<SortCriteria> $sortCriteria
+     * @param  Collection<SortCriteria>  $sortCriteria
      * @return Sort[]
      */
     public static function sorts(Collection $sortCriteria): array
@@ -81,7 +81,7 @@ abstract class BaseCollection extends ResourceCollection
     /**
      * The filters that can be applied by the client for this resource.
      *
-     * @param Collection<FilterCriteria> $filterCriteria
+     * @param  Collection<FilterCriteria>  $filterCriteria
      * @return Filter[]
      */
     public static function filters(Collection $filterCriteria): array
@@ -117,7 +117,7 @@ abstract class BaseCollection extends ResourceCollection
     /**
      * Perform query to prepare models for resource collection.
      *
-     * @param Query $query
+     * @param  Query  $query
      * @return static
      */
     public static function performQuery(Query $query): static

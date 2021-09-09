@@ -33,10 +33,10 @@ class HasCriteria extends Criteria
     /**
      * Create a new criteria instance.
      *
-     * @param Predicate $predicate
-     * @param BinaryLogicalOperator $operator
-     * @param Scope $scope
-     * @param int $count
+     * @param  Predicate  $predicate
+     * @param  BinaryLogicalOperator  $operator
+     * @param  Scope  $scope
+     * @param  int  $count
      */
     final public function __construct(
         Predicate $predicate,
@@ -62,8 +62,8 @@ class HasCriteria extends Criteria
     /**
      * Create a new criteria instance from query string.
      *
-     * @param string $filterParam
-     * @param mixed $filterValues
+     * @param  string  $filterParam
+     * @param  mixed  $filterValues
      * @return static
      */
     public static function make(string $filterParam, mixed $filterValues): static
@@ -133,10 +133,10 @@ class HasCriteria extends Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param Builder $builder
-     * @param string $column
-     * @param array $filterValues
-     * @param Collection $filterCriteria
+     * @param  Builder  $builder
+     * @param  string  $column
+     * @param  array  $filterValues
+     * @param  Collection  $filterCriteria
      * @return Builder
      */
     public function applyFilter(
@@ -170,9 +170,9 @@ class HasCriteria extends Criteria
     /**
      * Apply criteria to builder through filter.
      *
-     * @param BoolQueryBuilder $builder
-     * @param string $column
-     * @param array $filterValues
+     * @param  BoolQueryBuilder  $builder
+     * @param  string  $column
+     * @param  array  $filterValues
      * @return BoolQueryBuilder
      */
     public function applyElasticsearchFilter(

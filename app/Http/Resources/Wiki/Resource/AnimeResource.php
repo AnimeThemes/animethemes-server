@@ -33,11 +33,11 @@ class AnimeResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param Anime | MissingValue | null $anime
-     * @param Query $query
+     * @param  Anime | MissingValue | null  $anime
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(Anime | MissingValue | null $anime, Query $query)
+    public function __construct(Anime|MissingValue|null $anime, Query $query)
     {
         parent::__construct($anime, $query);
     }
@@ -45,7 +45,7 @@ class AnimeResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

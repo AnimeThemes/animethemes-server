@@ -21,7 +21,7 @@ abstract class EntryEvent
     /**
      * Create a new event instance.
      *
-     * @param AnimeThemeEntry $entry
+     * @param  AnimeThemeEntry  $entry
      * @return void
      */
     public function __construct(AnimeThemeEntry $entry)

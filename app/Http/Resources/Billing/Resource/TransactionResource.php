@@ -27,11 +27,11 @@ class TransactionResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param Transaction | MissingValue | null $transaction
-     * @param Query $query
+     * @param  Transaction | MissingValue | null  $transaction
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(Transaction | MissingValue | null $transaction, Query $query)
+    public function __construct(Transaction|MissingValue|null $transaction, Query $query)
     {
         parent::__construct($transaction, $query);
     }
@@ -39,7 +39,7 @@ class TransactionResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

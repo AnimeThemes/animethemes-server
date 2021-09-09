@@ -52,8 +52,8 @@ abstract class ShowRequest extends BaseRequest
             Str::of(IncludeParser::$param)
                 ->append('.*')
                 ->__toString() => [
-                'distinct',
-            ],
+                    'distinct',
+                ],
         ];
     }
 

@@ -21,7 +21,7 @@ class ThemeController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param ThemeIndexRequest $request
+     * @param  ThemeIndexRequest  $request
      * @return JsonResponse
      */
     public function index(ThemeIndexRequest $request): JsonResponse
@@ -36,8 +36,8 @@ class ThemeController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param ThemeShowRequest $request
-     * @param AnimeTheme $theme
+     * @param  ThemeShowRequest  $request
+     * @param  AnimeTheme  $theme
      * @return JsonResponse
      */
     public function show(ThemeShowRequest $request, AnimeTheme $theme): JsonResponse

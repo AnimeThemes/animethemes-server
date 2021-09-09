@@ -28,7 +28,7 @@ class SongUpdated extends SongEvent implements DiscordMessageEvent, UpdateRelate
     /**
      * Create a new event instance.
      *
-     * @param Song $song
+     * @param  Song  $song
      * @return void
      */
     public function __construct(Song $song)

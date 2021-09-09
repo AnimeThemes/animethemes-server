@@ -17,10 +17,10 @@ class TransparencyController extends Controller
     /**
      * Show the transparency for the application.
      *
-     * @param TransparencyRequest $request
+     * @param  TransparencyRequest  $request
      * @return View | Factory
      */
-    public function show(TransparencyRequest $request): View | Factory
+    public function show(TransparencyRequest $request): View|Factory
     {
         return view('billing.transparency', [
             'balances' => $request->getBalances(),

@@ -21,7 +21,7 @@ class SynonymController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param SynonymIndexRequest $request
+     * @param  SynonymIndexRequest  $request
      * @return JsonResponse
      */
     public function index(SynonymIndexRequest $request): JsonResponse
@@ -36,8 +36,8 @@ class SynonymController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param SynonymShowRequest $request
-     * @param AnimeSynonym $synonym
+     * @param  SynonymShowRequest  $request
+     * @param  AnimeSynonym  $synonym
      * @return JsonResponse
      */
     public function show(SynonymShowRequest $request, AnimeSynonym $synonym): JsonResponse

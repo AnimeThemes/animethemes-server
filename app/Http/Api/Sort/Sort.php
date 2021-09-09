@@ -33,8 +33,8 @@ abstract class Sort
     /**
      * Create a new sort instance.
      *
-     * @param Collection<Criteria> $criteria
-     * @param string $key
+     * @param  Collection<Criteria>  $criteria
+     * @param  string  $key
      */
     public function __construct(Collection $criteria, string $key)
     {
@@ -65,7 +65,7 @@ abstract class Sort
     /**
      * Format the sort based on direction.
      *
-     * @param Direction $direction
+     * @param  Direction  $direction
      * @return string
      */
     public function format(Direction $direction): string
@@ -79,7 +79,7 @@ abstract class Sort
     /**
      * Modify query builder with sort criteria.
      *
-     * @param Builder $builder
+     * @param  Builder  $builder
      * @return Builder
      */
     public function applySort(Builder $builder): Builder
@@ -96,7 +96,7 @@ abstract class Sort
     /**
      * Modify search request builder with sort criteria.
      *
-     * @param SearchRequestBuilder $builder
+     * @param  SearchRequestBuilder  $builder
      * @return SearchRequestBuilder
      */
     public function applyElasticsearchSort(SearchRequestBuilder $builder): SearchRequestBuilder

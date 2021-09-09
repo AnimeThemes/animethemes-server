@@ -29,7 +29,7 @@ abstract class ThemeEvent
     /**
      * Create a new event instance.
      *
-     * @param AnimeTheme $theme
+     * @param  AnimeTheme  $theme
      * @return void
      */
     public function __construct(AnimeTheme $theme)

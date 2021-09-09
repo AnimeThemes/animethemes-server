@@ -16,9 +16,9 @@ class WelcomeController extends Controller
     /**
      * Displays home page.
      *
-     * @return  View|Factory
+     * @return View|Factory
      */
-    public function show(): View | Factory
+    public function show(): View|Factory
     {
         return view('welcome', [
             'announcements' => Announcement::all(['content']),

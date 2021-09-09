@@ -21,7 +21,7 @@ abstract class BalanceEvent
     /**
      * Create a new event instance.
      *
-     * @param Balance $balance
+     * @param  Balance  $balance
      * @return void
      */
     public function __construct(Balance $balance)

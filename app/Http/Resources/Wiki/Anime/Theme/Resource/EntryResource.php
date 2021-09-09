@@ -29,11 +29,11 @@ class EntryResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param AnimeThemeEntry | MissingValue | null $entry
-     * @param Query $query
+     * @param  AnimeThemeEntry | MissingValue | null  $entry
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(AnimeThemeEntry | MissingValue | null $entry, Query $query)
+    public function __construct(AnimeThemeEntry|MissingValue|null $entry, Query $query)
     {
         parent::__construct($entry, $query);
     }
@@ -41,7 +41,7 @@ class EntryResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

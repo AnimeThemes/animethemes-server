@@ -23,8 +23,8 @@ class FieldCriteria extends Criteria
     /**
      * Create a new criteria instance.
      *
-     * @param string $field
-     * @param Direction $direction
+     * @param  string  $field
+     * @param  Direction  $direction
      */
     public function __construct(string $field, Direction $direction)
     {
@@ -46,8 +46,8 @@ class FieldCriteria extends Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param Builder $builder
-     * @param string $column
+     * @param  Builder  $builder
+     * @param  string  $column
      * @return Builder
      */
     public function applySort(Builder $builder, string $column): Builder
@@ -58,8 +58,8 @@ class FieldCriteria extends Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param SearchRequestBuilder $builder
-     * @param string $column
+     * @param  SearchRequestBuilder  $builder
+     * @param  string  $column
      * @return SearchRequestBuilder
      */
     public function applyElasticsearchSort(SearchRequestBuilder $builder, string $column): SearchRequestBuilder

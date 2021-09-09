@@ -47,10 +47,10 @@ class RegisterController extends Controller
     /**
      * Show the application registration form.
      *
-     * @param Invitation $invitation
+     * @param  Invitation  $invitation
      * @return View|Factory
      */
-    public function showRegistrationForm(Invitation $invitation): View | Factory
+    public function showRegistrationForm(Invitation $invitation): View|Factory
     {
         return view('auth.register', [
             'invitation' => $invitation,
@@ -60,12 +60,12 @@ class RegisterController extends Controller
     /**
      * Handle a registration request for the application.
      *
-     * @param Request $request
-     * @param Invitation $invitation
+     * @param  Request  $request
+     * @param  Invitation  $invitation
      * @return JsonResponse|RedirectResponse|Redirector
      * @throws ValidationException
      */
-    public function register(Request $request, Invitation $invitation): JsonResponse | RedirectResponse | Redirector
+    public function register(Request $request, Invitation $invitation): JsonResponse|RedirectResponse|Redirector
     {
         $data = array_merge($request->all(), [
             'name' => $invitation->name,
@@ -93,7 +93,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param array $data
+     * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data): \Illuminate\Contracts\Validation\Validator
@@ -109,7 +109,7 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param array $data
+     * @param  array  $data
      * @return User
      */
     protected function create(array $data): User

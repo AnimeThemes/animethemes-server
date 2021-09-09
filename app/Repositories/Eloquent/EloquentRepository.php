@@ -15,7 +15,7 @@ abstract class EloquentRepository implements Repository
     /**
      * Save model to the repository.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return bool
      */
     public function save(Model $model): bool
@@ -26,7 +26,7 @@ abstract class EloquentRepository implements Repository
     /**
      * Delete model from the repository.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return bool
      */
     public function delete(Model $model): bool
@@ -37,8 +37,8 @@ abstract class EloquentRepository implements Repository
     /**
      * Update model in the repository.
      *
-     * @param Model $model
-     * @param array $attributes
+     * @param  Model  $model
+     * @param  array  $attributes
      * @return bool
      */
     public function update(Model $model, array $attributes): bool

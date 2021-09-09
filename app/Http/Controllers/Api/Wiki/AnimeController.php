@@ -21,7 +21,7 @@ class AnimeController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param AnimeIndexRequest $request
+     * @param  AnimeIndexRequest  $request
      * @return JsonResponse
      */
     public function index(AnimeIndexRequest $request): JsonResponse
@@ -36,8 +36,8 @@ class AnimeController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param AnimeShowRequest $request
-     * @param Anime $anime
+     * @param  AnimeShowRequest  $request
+     * @param  Anime  $anime
      * @return JsonResponse
      */
     public function show(AnimeShowRequest $request, Anime $anime): JsonResponse

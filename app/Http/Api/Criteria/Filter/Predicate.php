@@ -35,9 +35,9 @@ class Predicate
     /**
      * Create a new predicate.
      *
-     * @param string $column
-     * @param ComparisonOperator|null $operator
-     * @param Expression $expression
+     * @param  string  $column
+     * @param  ComparisonOperator|null  $operator
+     * @param  Expression  $expression
      */
     public function __construct(
         string $column,

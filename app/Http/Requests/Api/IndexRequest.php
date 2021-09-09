@@ -58,8 +58,8 @@ abstract class IndexRequest extends BaseRequest
             Str::of(IncludeParser::$param)
                 ->append('.*')
                 ->__toString() => [
-                'distinct',
-            ],
+                    'distinct',
+                ],
         ];
     }
 
@@ -83,25 +83,25 @@ abstract class IndexRequest extends BaseRequest
                 ->append('.')
                 ->append(LimitCriteria::PARAM)
                 ->__toString() => [
-                'prohibited',
-            ],
+                    'prohibited',
+                ],
             Str::of(PagingParser::$param)
                 ->append('.')
                 ->append(OffsetCriteria::NUMBER_PARAM)
                 ->__toString() => [
-                'nullable',
-                'integer',
-                'min:1',
-            ],
+                    'nullable',
+                    'integer',
+                    'min:1',
+                ],
             Str::of(PagingParser::$param)
                 ->append('.')
                 ->append(OffsetCriteria::SIZE_PARAM)
                 ->__toString() => [
-                'nullable',
-                'integer',
-                'min:1',
-                Str::of('max:')->append(PagingCriteria::MAX_RESULTS)->__toString(),
-            ],
+                    'nullable',
+                    'integer',
+                    'min:1',
+                    Str::of('max:')->append(PagingCriteria::MAX_RESULTS)->__toString(),
+                ],
         ];
     }
 
@@ -146,8 +146,8 @@ abstract class IndexRequest extends BaseRequest
             Str::of(SortParser::$param)
                 ->append('.*')
                 ->__toString() => [
-                'distinct',
-            ],
+                    'distinct',
+                ],
         ];
     }
 }

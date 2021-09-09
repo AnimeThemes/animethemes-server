@@ -23,7 +23,7 @@ class YearController extends BaseController
     /**
      * Display a listing of unique years of anime.
      *
-     * @param YearIndexRequest $request
+     * @param  YearIndexRequest  $request
      * @return JsonResponse
      *
      * @noinspection PhpUnusedParameterInspection
@@ -36,8 +36,8 @@ class YearController extends BaseController
     /**
      * Display a listing of anime of year by season.
      *
-     * @param YearShowRequest $request
-     * @param string $year
+     * @param  YearShowRequest  $request
+     * @param  string  $year
      * @return JsonResponse
      */
     public function show(YearShowRequest $request, string $year): JsonResponse

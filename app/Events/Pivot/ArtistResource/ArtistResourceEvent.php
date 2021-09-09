@@ -30,7 +30,7 @@ abstract class ArtistResourceEvent
     /**
      * Create a new event instance.
      *
-     * @param ArtistResource $artistResource
+     * @param  ArtistResource  $artistResource
      * @return void
      */
     public function __construct(ArtistResource $artistResource)

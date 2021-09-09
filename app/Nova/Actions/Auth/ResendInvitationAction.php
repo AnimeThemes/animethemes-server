@@ -36,8 +36,8 @@ class ResendInvitationAction extends Action
     /**
      * Perform the action on the given models.
      *
-     * @param ActionFields $fields
-     * @param Collection $models
+     * @param  ActionFields  $fields
+     * @param  Collection  $models
      * @return array
      *
      * @noinspection PhpUnusedParameterInspection

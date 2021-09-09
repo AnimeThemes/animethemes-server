@@ -21,7 +21,7 @@ class SongController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param SongIndexRequest $request
+     * @param  SongIndexRequest  $request
      * @return JsonResponse
      */
     public function index(SongIndexRequest $request): JsonResponse
@@ -36,8 +36,8 @@ class SongController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param SongShowRequest $request
-     * @param Song $song
+     * @param  SongShowRequest  $request
+     * @param  Song  $song
      * @return JsonResponse
      */
     public function show(SongShowRequest $request, Song $song): JsonResponse

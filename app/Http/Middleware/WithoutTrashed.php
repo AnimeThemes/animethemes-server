@@ -16,9 +16,9 @@ class WithoutTrashed
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param Closure $next
-     * @param string $modelKey
+     * @param  Request  $request
+     * @param  Closure  $next
+     * @param  string  $modelKey
      * @return mixed
      */
     public function handle(Request $request, Closure $next, string $modelKey): mixed

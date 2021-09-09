@@ -30,7 +30,7 @@ abstract class ArtistImageEvent
     /**
      * Create a new event instance.
      *
-     * @param ArtistImage $artistImage
+     * @param  ArtistImage  $artistImage
      * @return void
      */
     public function __construct(ArtistImage $artistImage)

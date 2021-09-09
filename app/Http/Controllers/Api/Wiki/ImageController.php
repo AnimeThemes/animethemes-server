@@ -20,7 +20,7 @@ class ImageController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param ImageIndexRequest $request
+     * @param  ImageIndexRequest  $request
      * @return JsonResponse
      */
     public function index(ImageIndexRequest $request): JsonResponse
@@ -33,8 +33,8 @@ class ImageController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param ImageShowRequest $request
-     * @param Image $image
+     * @param  ImageShowRequest  $request
+     * @param  Image  $image
      * @return JsonResponse
      */
     public function show(ImageShowRequest $request, Image $image): JsonResponse

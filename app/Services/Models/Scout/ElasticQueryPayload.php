@@ -30,7 +30,7 @@ abstract class ElasticQueryPayload
     /**
      * Create a new query payload instance.
      *
-     * @param Criteria $criteria
+     * @param  Criteria  $criteria
      */
     final public function __construct(Criteria $criteria)
     {
@@ -40,7 +40,7 @@ abstract class ElasticQueryPayload
     /**
      * Create a new query payload instance.
      *
-     * @param mixed ...$parameters
+     * @param  mixed  ...$parameters
      * @return static
      */
     public static function make(...$parameters): static
@@ -53,5 +53,5 @@ abstract class ElasticQueryPayload
      *
      * @return SearchRequestBuilder|BoolQueryBuilder
      */
-    abstract public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder;
+    abstract public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder;
 }

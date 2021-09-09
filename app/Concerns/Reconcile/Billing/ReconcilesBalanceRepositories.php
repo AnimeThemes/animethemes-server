@@ -62,8 +62,8 @@ trait ReconcilesBalanceRepositories
     /**
      * Get source model that has been updated for destination model.
      *
-     * @param Collection $sourceModels
-     * @param Model $destinationModel
+     * @param  Collection  $sourceModels
+     * @param  Model  $destinationModel
      * @return Model|null
      */
     protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model

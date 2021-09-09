@@ -21,7 +21,7 @@ abstract class StudioEvent
     /**
      * Create a new event instance.
      *
-     * @param Studio $studio
+     * @param  Studio  $studio
      * @return void
      */
     public function __construct(Studio $studio)

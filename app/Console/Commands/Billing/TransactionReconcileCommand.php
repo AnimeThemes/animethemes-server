@@ -100,7 +100,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for successful transaction creation.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
@@ -112,7 +112,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for failed transaction creation.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
@@ -124,7 +124,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for successful transaction deletion.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
@@ -136,7 +136,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for failed transaction deletion.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
@@ -148,7 +148,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for successful transaction update.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
@@ -160,7 +160,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for failed transaction update.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)
@@ -172,7 +172,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Handler for exception.
      *
-     * @param Exception $exception
+     * @param  Exception  $exception
      * @return void
      */
     protected function handleException(Exception $exception)
@@ -184,7 +184,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Get source repository for service.
      *
-     * @param Service $service
+     * @param  Service  $service
      * @return Repository|null
      */
     protected function getSourceRepository(Service $service): ?Repository
@@ -198,7 +198,7 @@ class TransactionReconcileCommand extends Command
     /**
      * Get destination repository for service.
      *
-     * @param Service $service
+     * @param  Service  $service
      * @return Repository|null
      */
     protected function getDestinationRepository(Service $service): ?Repository

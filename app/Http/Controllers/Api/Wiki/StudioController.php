@@ -21,7 +21,7 @@ class StudioController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param StudioIndexRequest $request
+     * @param  StudioIndexRequest  $request
      * @return JsonResponse
      */
     public function index(StudioIndexRequest $request): JsonResponse
@@ -36,8 +36,8 @@ class StudioController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param StudioShowRequest $request
-     * @param Studio $studio
+     * @param  StudioShowRequest  $request
+     * @param  Studio  $studio
      * @return JsonResponse
      */
     public function show(StudioShowRequest $request, Studio $studio): JsonResponse

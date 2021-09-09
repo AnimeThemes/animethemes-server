@@ -20,7 +20,7 @@ class AnnouncementController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param AnnouncementIndexRequest $request
+     * @param  AnnouncementIndexRequest  $request
      * @return JsonResponse
      */
     public function index(AnnouncementIndexRequest $request): JsonResponse
@@ -33,8 +33,8 @@ class AnnouncementController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param AnnouncementShowRequest $request
-     * @param Announcement $announcement
+     * @param  AnnouncementShowRequest  $request
+     * @param  Announcement  $announcement
      * @return JsonResponse
      */
     public function show(AnnouncementShowRequest $request, Announcement $announcement): JsonResponse

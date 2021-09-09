@@ -20,8 +20,8 @@ class CreateTeam implements CreatesTeams
     /**
      * Validate and create a new team for the given user.
      *
-     * @param mixed $user
-     * @param array $input
+     * @param  mixed  $user
+     * @param  array  $input
      * @return mixed
      * @throws ValidationException
      * @throws AuthorizationException

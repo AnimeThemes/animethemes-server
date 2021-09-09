@@ -15,7 +15,7 @@ class EntrySpoilerFilter extends BooleanFilter
     /**
      * Create a new filter instance.
      *
-     * @param Collection $criteria
+     * @param  Collection  $criteria
      */
     public function __construct(Collection $criteria)
     {

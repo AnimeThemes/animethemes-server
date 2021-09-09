@@ -24,10 +24,10 @@ class AddTeamMember implements AddsTeamMembers
     /**
      * Add a new team member to the given team.
      *
-     * @param mixed $user
-     * @param mixed $team
-     * @param string $email
-     * @param string|null $role
+     * @param  mixed  $user
+     * @param  mixed  $team
+     * @param  string  $email
+     * @param  string|null  $role
      * @return void
      * @throws AuthorizationException
      * @throws ValidationException
@@ -53,9 +53,9 @@ class AddTeamMember implements AddsTeamMembers
     /**
      * Validate the add member operation.
      *
-     * @param mixed $team
-     * @param string $email
-     * @param string|null $role
+     * @param  mixed  $team
+     * @param  string  $email
+     * @param  string|null  $role
      * @return void
      * @throws ValidationException
      */
@@ -89,8 +89,8 @@ class AddTeamMember implements AddsTeamMembers
     /**
      * Ensure that the user is not already on the team.
      *
-     * @param mixed $team
-     * @param string $email
+     * @param  mixed  $team
+     * @param  string  $email
      * @return Closure
      */
     protected function ensureUserIsNotAlreadyOnTeam(mixed $team, string $email): Closure

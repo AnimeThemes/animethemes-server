@@ -17,7 +17,7 @@ class RandomSort extends Sort
     /**
      * Create a new sort instance.
      *
-     * @param Collection<Criteria> $criteria
+     * @param  Collection<Criteria>  $criteria
      */
     public function __construct(Collection $criteria)
     {
@@ -27,7 +27,7 @@ class RandomSort extends Sort
     /**
      * Format the sort based on direction.
      *
-     * @param Direction $direction
+     * @param  Direction  $direction
      * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection

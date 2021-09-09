@@ -32,7 +32,7 @@ class SearchResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param Query $query
+     * @param  Query  $query
      * @return void
      */
     public function __construct(Query $query)
@@ -43,7 +43,7 @@ class SearchResource extends BaseResource
     /**
      * Transform the resource collection into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

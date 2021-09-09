@@ -19,7 +19,7 @@ class TypeScope extends Scope
     /**
      * Create a new scope instance.
      *
-     * @param string $type
+     * @param  string  $type
      */
     public function __construct(string $type)
     {
@@ -39,7 +39,7 @@ class TypeScope extends Scope
     /**
      * Determine if the provided scope is within this scope.
      *
-     * @param Scope $scope
+     * @param  Scope  $scope
      * @return bool
      */
     public function isWithinScope(Scope $scope): bool

@@ -29,7 +29,7 @@ final class ResourceSite extends BaseEnum
     /**
      * Get domain by resource site.
      *
-     * @param int|null $value the resource site key
+     * @param  int|null  $value  the resource site key
      * @return string|null
      */
     public static function getDomain(?int $value): ?string
@@ -50,7 +50,7 @@ final class ResourceSite extends BaseEnum
     /**
      * Get resource site by link, matching expected domain.
      *
-     * @param string $link the link to test
+     * @param  string  $link  the link to test
      * @return int|null
      */
     public static function valueOf(string $link): ?int

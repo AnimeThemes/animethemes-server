@@ -21,8 +21,8 @@ class ResourceCriteria extends Criteria
     /**
      * Create a new criteria instance.
      *
-     * @param string $type
-     * @param Collection $paths
+     * @param  string  $type
+     * @param  Collection  $paths
      */
     public function __construct(string $type, Collection $paths)
     {

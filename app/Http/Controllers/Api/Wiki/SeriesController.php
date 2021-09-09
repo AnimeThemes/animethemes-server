@@ -21,7 +21,7 @@ class SeriesController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param SeriesIndexRequest $request
+     * @param  SeriesIndexRequest  $request
      * @return JsonResponse
      */
     public function index(SeriesIndexRequest $request): JsonResponse
@@ -36,8 +36,8 @@ class SeriesController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param SeriesShowRequest $request
-     * @param Series $series
+     * @param  SeriesShowRequest  $request
+     * @param  Series  $series
      * @return JsonResponse
      */
     public function show(SeriesShowRequest $request, Series $series): JsonResponse

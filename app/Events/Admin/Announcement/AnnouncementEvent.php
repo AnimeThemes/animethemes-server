@@ -21,7 +21,7 @@ abstract class AnnouncementEvent
     /**
      * Create a new event instance.
      *
-     * @param Announcement $announcement
+     * @param  Announcement  $announcement
      * @return void
      */
     public function __construct(Announcement $announcement)
