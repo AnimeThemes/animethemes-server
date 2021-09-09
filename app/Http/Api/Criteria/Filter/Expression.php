@@ -19,7 +19,7 @@ class Expression
     /**
      * Create a new expression.
      *
-     * @param mixed $value
+     * @param  mixed  $value
      */
     public function __construct(mixed $value)
     {

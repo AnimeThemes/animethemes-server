@@ -28,8 +28,8 @@ class Criteria
     /**
      * Create a new criteria instance.
      *
-     * @param string $type
-     * @param Collection $fields
+     * @param  string  $type
+     * @param  Collection  $fields
      */
     public function __construct(string $type, Collection $fields)
     {
@@ -60,7 +60,7 @@ class Criteria
     /**
      * Is the field allowed?
      *
-     * @param string $field
+     * @param  string  $field
      * @return bool
      */
     public function isAllowedField(string $field): bool

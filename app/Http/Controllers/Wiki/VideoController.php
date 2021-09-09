@@ -15,7 +15,7 @@ class VideoController extends StreamableController
     /**
      * Stream video.
      *
-     * @param Video $video
+     * @param  Video  $video
      * @return StreamedResponse
      */
     public function show(Video $video): StreamedResponse

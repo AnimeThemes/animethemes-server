@@ -17,7 +17,7 @@ class SearchController extends BaseController
     /**
      * Search resource.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function show(Request $request): JsonResponse

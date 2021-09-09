@@ -23,7 +23,7 @@ class BalanceUpdated extends BalanceEvent implements DiscordMessageEvent
     /**
      * Create a new event instance.
      *
-     * @param Balance $balance
+     * @param  Balance  $balance
      * @return void
      */
     public function __construct(Balance $balance)

@@ -23,7 +23,7 @@ class InvitationUpdated extends InvitationEvent implements DiscordMessageEvent
     /**
      * Create a new event instance.
      *
-     * @param Invitation $invitation
+     * @param  Invitation  $invitation
      * @return void
      */
     public function __construct(Invitation $invitation)

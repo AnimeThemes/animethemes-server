@@ -41,9 +41,9 @@ abstract class Criteria
     /**
      * Create a new criteria instance.
      *
-     * @param Predicate $predicate
-     * @param BinaryLogicalOperator $operator
-     * @param Scope $scope
+     * @param  Predicate  $predicate
+     * @param  BinaryLogicalOperator  $operator
+     * @param  Scope  $scope
      */
     public function __construct(
         Predicate $predicate,
@@ -114,10 +114,10 @@ abstract class Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param Builder $builder
-     * @param string $column
-     * @param array $filterValues
-     * @param Collection $filterCriteria
+     * @param  Builder  $builder
+     * @param  string  $column
+     * @param  array  $filterValues
+     * @param  Collection  $filterCriteria
      * @return Builder
      */
     abstract public function applyFilter(
@@ -130,9 +130,9 @@ abstract class Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param BoolQueryBuilder $builder
-     * @param string $column
-     * @param array $filterValues
+     * @param  BoolQueryBuilder  $builder
+     * @param  string  $column
+     * @param  array  $filterValues
      * @return BoolQueryBuilder
      */
     abstract public function applyElasticsearchFilter(
@@ -144,8 +144,8 @@ abstract class Criteria
     /**
      * Create a new criteria instance from query string.
      *
-     * @param string $filterParam
-     * @param mixed $filterValues
+     * @param  string  $filterParam
+     * @param  mixed  $filterValues
      * @return static
      */
     abstract public static function make(string $filterParam, mixed $filterValues): static;

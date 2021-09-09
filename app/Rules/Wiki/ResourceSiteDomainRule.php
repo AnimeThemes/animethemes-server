@@ -27,7 +27,7 @@ class ResourceSiteDomainRule implements Rule
     /**
      * Create a new rule instance.
      *
-     * @param int|null $site
+     * @param  int|null  $site
      * @return void
      */
     public function __construct(?int $site)
@@ -38,8 +38,8 @@ class ResourceSiteDomainRule implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param string $attribute
-     * @param mixed $value
+     * @param  string  $attribute
+     * @param  mixed  $value
      * @return bool
      */
     public function passes($attribute, $value): bool
@@ -54,7 +54,7 @@ class ResourceSiteDomainRule implements Rule
      *
      * @return string|array
      */
-    public function message(): string | array
+    public function message(): string|array
     {
         return __('validation.resource_link_site_mismatch');
     }

@@ -78,7 +78,7 @@ class UserFactory extends Factory
     /**
      * Create and set current team for user with specified role.
      *
-     * @param string $role
+     * @param  string  $role
      * @return static
      */
     public function withCurrentTeam(string $role): static

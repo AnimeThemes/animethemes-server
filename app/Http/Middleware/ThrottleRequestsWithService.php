@@ -22,18 +22,18 @@ class ThrottleRequestsWithService
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param Closure $next
-     * @param int|string $maxAttempts
-     * @param float|int $decayMinutes
-     * @param string $prefix
+     * @param  Request  $request
+     * @param  Closure  $next
+     * @param  int|string  $maxAttempts
+     * @param  float|int  $decayMinutes
+     * @param  string  $prefix
      * @return mixed
      */
     public function handle(
         Request $request,
         Closure $next,
-        int | string $maxAttempts = 60,
-        float | int $decayMinutes = 1,
+        int|string $maxAttempts = 60,
+        float|int $decayMinutes = 1,
         string $prefix = ''
     ): mixed {
         // Throttle with Redis if configured, else use default throttling middleware

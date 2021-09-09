@@ -22,7 +22,7 @@ abstract class Resource extends NovaResource
     /**
      * Get the filters available for the resource.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function filters(Request $request): array

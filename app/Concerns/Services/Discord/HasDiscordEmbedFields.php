@@ -21,7 +21,7 @@ trait HasDiscordEmbedFields
     /**
      * Add discord embed field.
      *
-     * @param DiscordEmbedField $embedField
+     * @param  DiscordEmbedField  $embedField
      * @return void
      */
     protected function addEmbedField(DiscordEmbedField $embedField)

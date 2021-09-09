@@ -29,7 +29,7 @@ abstract class ArtistMemberEvent
     /**
      * Create a new event instance.
      *
-     * @param ArtistMember $artistMember
+     * @param  ArtistMember  $artistMember
      * @return void
      */
     public function __construct(ArtistMember $artistMember)

@@ -30,7 +30,7 @@ abstract class Criteria
     /**
      * Create a new criteria instance.
      *
-     * @param int $resultSize
+     * @param  int  $resultSize
      */
     public function __construct(int $resultSize)
     {
@@ -62,16 +62,16 @@ abstract class Criteria
     /**
      * Paginate the query.
      *
-     * @param Builder $builder
+     * @param  Builder  $builder
      * @return Collection|EloquentPaginator
      */
-    abstract public function applyPagination(Builder $builder): Collection | EloquentPaginator;
+    abstract public function applyPagination(Builder $builder): Collection|EloquentPaginator;
 
     /**
      * Paginate the search query.
      *
-     * @param SearchRequestBuilder $builder
+     * @param  SearchRequestBuilder  $builder
      * @return Collection|ElasticsearchPaginator
      */
-    abstract public function applyElasticsearchPagination(SearchRequestBuilder $builder): Collection | ElasticsearchPaginator;
+    abstract public function applyElasticsearchPagination(SearchRequestBuilder $builder): Collection|ElasticsearchPaginator;
 }

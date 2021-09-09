@@ -23,7 +23,7 @@ class SeriesUpdated extends SeriesEvent implements DiscordMessageEvent
     /**
      * Create a new event instance.
      *
-     * @param Series $series
+     * @param  Series  $series
      * @return void
      */
     public function __construct(Series $series)

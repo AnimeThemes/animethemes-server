@@ -73,8 +73,8 @@ class PruneDatabaseDumpsCommand extends Command
     /**
      * Prune database dumps in filesystem against date.
      *
-     * @param Filesystem $filesystem
-     * @param Carbon $pruneDate
+     * @param  Filesystem  $filesystem
+     * @param  Carbon  $pruneDate
      * @return void
      */
     protected function prune(Filesystem $filesystem, Carbon $pruneDate)

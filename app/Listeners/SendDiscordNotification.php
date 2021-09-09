@@ -20,7 +20,7 @@ class SendDiscordNotification implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param DiscordMessageEvent $event
+     * @param  DiscordMessageEvent  $event
      * @return void
      */
     public function handle(DiscordMessageEvent $event)

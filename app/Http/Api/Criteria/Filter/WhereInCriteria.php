@@ -31,10 +31,10 @@ class WhereInCriteria extends Criteria
     /**
      * Create a new criteria instance.
      *
-     * @param Predicate $predicate
-     * @param BinaryLogicalOperator $operator
-     * @param bool $not
-     * @param Scope $scope
+     * @param  Predicate  $predicate
+     * @param  BinaryLogicalOperator  $operator
+     * @param  bool  $not
+     * @param  Scope  $scope
      */
     final public function __construct(
         Predicate $predicate,
@@ -60,8 +60,8 @@ class WhereInCriteria extends Criteria
     /**
      * Create a new criteria instance from query string.
      *
-     * @param string $filterParam
-     * @param mixed $filterValues
+     * @param  string  $filterParam
+     * @param  mixed  $filterValues
      * @return static
      */
     public static function make(string $filterParam, mixed $filterValues): static
@@ -118,10 +118,10 @@ class WhereInCriteria extends Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param Builder $builder
-     * @param string $column
-     * @param array $filterValues
-     * @param Collection $filterCriteria
+     * @param  Builder  $builder
+     * @param  string  $column
+     * @param  array  $filterValues
+     * @param  Collection  $filterCriteria
      * @return Builder
      */
     public function applyFilter(
@@ -141,9 +141,9 @@ class WhereInCriteria extends Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param BoolQueryBuilder $builder
-     * @param string $column
-     * @param array $filterValues
+     * @param  BoolQueryBuilder  $builder
+     * @param  string  $column
+     * @param  array  $filterValues
      * @return BoolQueryBuilder
      */
     public function applyElasticsearchFilter(

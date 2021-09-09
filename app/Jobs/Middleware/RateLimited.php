@@ -18,8 +18,8 @@ class RateLimited
     /**
      * Process the queued job.
      *
-     * @param mixed $job
-     * @param callable $next
+     * @param  mixed  $job
+     * @param  callable  $next
      * @return void
      * @throws LimiterTimeoutException
      */

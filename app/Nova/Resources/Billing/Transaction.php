@@ -84,7 +84,7 @@ class Transaction extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function fields(Request $request): array
@@ -132,7 +132,7 @@ class Transaction extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function filters(Request $request): array

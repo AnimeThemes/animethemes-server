@@ -14,7 +14,7 @@ class CreateThemeSlug
     /**
      * Handle the event.
      *
-     * @param ThemeCreating $event
+     * @param  ThemeCreating  $event
      * @return void
      */
     public function handle(ThemeCreating $event)

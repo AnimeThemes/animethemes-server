@@ -87,7 +87,7 @@ class Query
     /**
      * Create a new query parser instance.
      *
-     * @param array $parameters
+     * @param  array  $parameters
      */
     final public function __construct(array $parameters = [])
     {
@@ -102,7 +102,7 @@ class Query
     /**
      * Create a new query parser instance.
      *
-     * @param mixed ...$parameters
+     * @param  mixed  ...$parameters
      * @return static
      */
     public static function make(...$parameters): static
@@ -113,7 +113,7 @@ class Query
     /**
      * Get the field criteria.
      *
-     * @param string $type
+     * @param  string  $type
      * @return FieldCriteria|null
      */
     public function getFieldCriteria(string $type): ?FieldCriteria
@@ -126,7 +126,7 @@ class Query
     /**
      * Get the include criteria.
      *
-     * @param string $type
+     * @param  string  $type
      * @return IncludeCriteria|null
      */
     public function getIncludeCriteria(string $type): ?IncludeCriteria
@@ -189,7 +189,7 @@ class Query
     /**
      * Get paging criteria that matches pagination strategy.
      *
-     * @param PaginationStrategy $strategy
+     * @param  PaginationStrategy  $strategy
      * @return PagingCriteria|null
      */
     public function getPagingCriteria(PaginationStrategy $strategy): ?PagingCriteria

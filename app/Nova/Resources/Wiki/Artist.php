@@ -90,7 +90,7 @@ class Artist extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function fields(Request $request): array
@@ -205,7 +205,7 @@ class Artist extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function cards(Request $request): array
@@ -222,7 +222,7 @@ class Artist extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function lenses(Request $request): array

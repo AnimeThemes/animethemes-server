@@ -61,7 +61,7 @@ trait ReconcilesRepositories
     /**
      * Callback for successful model creation.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleCreated(BaseModel $model)
@@ -72,7 +72,7 @@ trait ReconcilesRepositories
     /**
      * Callback for failed model creation.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model)
@@ -83,7 +83,7 @@ trait ReconcilesRepositories
     /**
      * Callback for successful model deletion.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model)
@@ -94,7 +94,7 @@ trait ReconcilesRepositories
     /**
      * Callback for failed model deletion.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model)
@@ -105,7 +105,7 @@ trait ReconcilesRepositories
     /**
      * Callback for successful model update.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model)
@@ -116,7 +116,7 @@ trait ReconcilesRepositories
     /**
      * Callback for failed model update.
      *
-     * @param BaseModel $model
+     * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model)
@@ -127,7 +127,7 @@ trait ReconcilesRepositories
     /**
      * Callback for exception.
      *
-     * @param Exception $exception
+     * @param  Exception  $exception
      * @return void
      */
     protected function handleException(Exception $exception)
@@ -178,8 +178,8 @@ trait ReconcilesRepositories
     /**
      * Perform set reconciliation between source and destination repositories.
      *
-     * @param Repository $source
-     * @param Repository $destination
+     * @param  Repository  $source
+     * @param  Repository  $destination
      * @return void
      */
     public function reconcileRepositories(Repository $source, Repository $destination)
@@ -226,9 +226,9 @@ trait ReconcilesRepositories
     /**
      * Create models that exist in source but not in destination.
      *
-     * @param Repository $destination
-     * @param Collection $sourceModels
-     * @param Collection $destinationModels
+     * @param  Repository  $destination
+     * @param  Collection  $sourceModels
+     * @param  Collection  $destinationModels
      * @return void
      */
     protected function createModelsFromSource(
@@ -253,9 +253,9 @@ trait ReconcilesRepositories
     /**
      * Delete models that exist in destination but not in source.
      *
-     * @param Repository $destination
-     * @param Collection $sourceModels
-     * @param Collection $destinationModels
+     * @param  Repository  $destination
+     * @param  Collection  $sourceModels
+     * @param  Collection  $destinationModels
      * @return void
      */
     protected function deleteModelsFromDestination(
@@ -300,8 +300,8 @@ trait ReconcilesRepositories
     /**
      * Get source model that has been updated for destination model.
      *
-     * @param Collection $sourceModels
-     * @param Model $destinationModel
+     * @param  Collection  $sourceModels
+     * @param  Model  $destinationModel
      * @return Model|null
      */
     protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model
@@ -312,9 +312,9 @@ trait ReconcilesRepositories
     /**
      * Update destination models that have changed in source.
      *
-     * @param Repository $destination
-     * @param Collection $sourceModels
-     * @param Collection $destinationModels
+     * @param  Repository  $destination
+     * @param  Collection  $sourceModels
+     * @param  Collection  $destinationModels
      * @return void
      */
     protected function updateDestinationModels(

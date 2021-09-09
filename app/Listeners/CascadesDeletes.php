@@ -14,7 +14,7 @@ class CascadesDeletes
     /**
      * Handle the event.
      *
-     * @param CascadesDeletesEvent $event
+     * @param  CascadesDeletesEvent  $event
      * @return void
      */
     public function handle(CascadesDeletesEvent $event)

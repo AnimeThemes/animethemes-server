@@ -23,7 +23,7 @@ class DiscoverRelationCollection extends DiscoverService
     /**
      * Get the resource collection class by model.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return BaseCollection|null
      */
     public static function byModel(Model $model): ?BaseCollection

@@ -28,7 +28,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
      *
      * @return SearchRequestBuilder|BoolQueryBuilder
      */
-    public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder
+    public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder
     {
         return Anime::boolSearch()
             ->should(

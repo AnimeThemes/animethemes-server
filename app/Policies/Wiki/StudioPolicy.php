@@ -40,7 +40,7 @@ class StudioPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function create(User $user): bool
@@ -51,7 +51,7 @@ class StudioPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function update(User $user): bool
@@ -62,7 +62,7 @@ class StudioPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function delete(User $user): bool
@@ -73,7 +73,7 @@ class StudioPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function restore(User $user): bool
@@ -84,7 +84,7 @@ class StudioPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function forceDelete(User $user): bool
@@ -95,7 +95,7 @@ class StudioPolicy
     /**
      * Determine whether the user can attach any anime to the studio.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function attachAnyAnime(User $user): bool
@@ -106,9 +106,9 @@ class StudioPolicy
     /**
      * Determine whether the user can attach an anime to the studio.
      *
-     * @param User $user
-     * @param Studio $studio
-     * @param Anime $anime
+     * @param  User  $user
+     * @param  Studio  $studio
+     * @param  Anime  $anime
      * @return bool
      */
     public function attachAnime(User $user, Studio $studio, Anime $anime): bool
@@ -124,7 +124,7 @@ class StudioPolicy
     /**
      * Determine whether the user can detach an anime from the studio.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function detachAnime(User $user): bool

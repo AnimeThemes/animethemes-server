@@ -27,7 +27,7 @@ class DiscordNotification extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param DiscordMessage $message
+     * @param  DiscordMessage  $message
      * @return void
      */
     public function __construct(DiscordMessage $message)
@@ -38,7 +38,7 @@ class DiscordNotification extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      *
      * @noinspection PhpUnusedParameterInspection
@@ -51,7 +51,7 @@ class DiscordNotification extends Notification implements ShouldQueue
     /**
      * Get the discord representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return DiscordMessage
      *
      * @noinspection PhpUnusedParameterInspection

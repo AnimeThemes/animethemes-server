@@ -18,7 +18,7 @@ class UpdateRelatedIndices implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param UpdateRelatedIndicesEvent $event
+     * @param  UpdateRelatedIndicesEvent  $event
      * @return void
      */
     public function handle(UpdateRelatedIndicesEvent $event)

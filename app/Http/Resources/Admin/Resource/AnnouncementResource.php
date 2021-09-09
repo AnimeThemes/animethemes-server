@@ -27,11 +27,11 @@ class AnnouncementResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param Announcement | MissingValue | null $announcement
-     * @param Query $query
+     * @param  Announcement | MissingValue | null  $announcement
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(Announcement | MissingValue | null $announcement, Query $query)
+    public function __construct(Announcement|MissingValue|null $announcement, Query $query)
     {
         parent::__construct($announcement, $query);
     }
@@ -39,7 +39,7 @@ class AnnouncementResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

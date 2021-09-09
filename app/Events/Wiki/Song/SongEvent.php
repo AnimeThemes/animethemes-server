@@ -21,7 +21,7 @@ abstract class SongEvent
     /**
      * Create a new event instance.
      *
-     * @param Song $song
+     * @param  Song  $song
      * @return void
      */
     public function __construct(Song $song)

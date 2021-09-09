@@ -15,7 +15,7 @@ class VideoUncenSort extends Sort
     /**
      * Create a new sort instance.
      *
-     * @param Collection $criteria
+     * @param  Collection  $criteria
      */
     public function __construct(Collection $criteria)
     {

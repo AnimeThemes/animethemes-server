@@ -16,7 +16,7 @@ abstract class BaseEnum extends Enum implements LocalizedEnum
     /**
      * Make a new instance from an enum description.
      *
-     * @param string $description
+     * @param  string  $description
      * @return static|null
      */
     public static function fromDescription(string $description): ?static

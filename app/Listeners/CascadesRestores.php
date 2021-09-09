@@ -14,7 +14,7 @@ class CascadesRestores
     /**
      * Handle the event.
      *
-     * @param CascadesRestoresEvent $event
+     * @param  CascadesRestoresEvent  $event
      * @return void
      */
     public function handle(CascadesRestoresEvent $event)

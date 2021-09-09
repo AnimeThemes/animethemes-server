@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Admin\Announcement;
 
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
@@ -65,37 +64,6 @@ class AnnouncementShowTest extends TestCase
             json_decode(
                 json_encode(
                     AnnouncementResource::make($announcement, Query::make())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Announcement Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
-     */
-    public function testAllowedIncludePaths()
-    {
-        $allowedPaths = collect(AnnouncementResource::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
-
-        $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
-        ];
-
-        Announcement::factory()->create();
-        $announcement = Announcement::with($includedPaths->all())->first();
-
-        $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    AnnouncementResource::make($announcement, Query::make($parameters))
                         ->response()
                         ->getData()
                 ),

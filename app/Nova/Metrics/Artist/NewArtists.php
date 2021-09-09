@@ -19,7 +19,7 @@ class NewArtists extends Value
     /**
      * Calculate the value of the metric.
      *
-     * @param NovaRequest $request
+     * @param  NovaRequest  $request
      * @return ValueResult
      */
     public function calculate(NovaRequest $request): ValueResult
@@ -50,11 +50,11 @@ class NewArtists extends Value
     /**
      * Determine for how many minutes the metric should be cached.
      *
-     * @return  DateTimeInterface|DateInterval|float|int
+     * @return DateTimeInterface|DateInterval|float|int
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function cacheFor(): DateInterval | float | DateTimeInterface | int
+    public function cacheFor(): DateInterval|float|DateTimeInterface|int
     {
         return now()->addMinutes(5);
     }

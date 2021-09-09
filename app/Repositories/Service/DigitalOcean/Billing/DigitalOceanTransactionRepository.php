@@ -26,7 +26,7 @@ class DigitalOceanTransactionRepository implements Repository
     /**
      * Get all models from the repository.
      *
-     * @param array $columns
+     * @param  array  $columns
      * @return Collection
      */
     public function all(array $columns = ['*']): Collection
@@ -81,7 +81,7 @@ class DigitalOceanTransactionRepository implements Repository
     /**
      * Save model to the repository.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return bool
      */
     public function save(Model $model): bool
@@ -93,7 +93,7 @@ class DigitalOceanTransactionRepository implements Repository
     /**
      * Delete model from the repository.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return bool
      */
     public function delete(Model $model): bool
@@ -105,8 +105,8 @@ class DigitalOceanTransactionRepository implements Repository
     /**
      * Update model in the repository.
      *
-     * @param Model $model
-     * @param array $attributes
+     * @param  Model  $model
+     * @param  array  $attributes
      * @return bool
      */
     public function update(Model $model, array $attributes): bool

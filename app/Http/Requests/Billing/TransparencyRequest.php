@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Billing;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Enums\Http\Api\Filter\ComparisonOperator;

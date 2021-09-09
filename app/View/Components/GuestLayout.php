@@ -19,7 +19,7 @@ class GuestLayout extends Component
      *
      * @return View|Htmlable|Closure|string
      */
-    public function render(): View | Htmlable | Closure | string
+    public function render(): View|Htmlable|Closure|string
     {
         return view('layouts.guest');
     }

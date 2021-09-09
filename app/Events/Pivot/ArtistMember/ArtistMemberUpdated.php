@@ -23,7 +23,7 @@ class ArtistMemberUpdated extends ArtistMemberEvent implements DiscordMessageEve
     /**
      * Create a new event instance.
      *
-     * @param ArtistMember $artistMember
+     * @param  ArtistMember  $artistMember
      * @return void
      */
     public function __construct(ArtistMember $artistMember)

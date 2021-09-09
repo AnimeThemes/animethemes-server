@@ -40,9 +40,9 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     /**
      * Create a new field instance.
      *
-     * @param string $name
-     * @param mixed $value
-     * @param bool $inline
+     * @param  string  $name
+     * @param  mixed  $value
+     * @param  bool  $inline
      */
     final public function __construct(string $name, mixed $value, bool $inline = false)
     {
@@ -54,7 +54,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     /**
      * Create a new field instance.
      *
-     * @param mixed ...$parameters
+     * @param  mixed  ...$parameters
      * @return static
      */
     public static function make(...$parameters): static
@@ -89,7 +89,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     /**
      * Format embed value to circumvent exceptions caused by empty or null values.
      *
-     * @param mixed $value
+     * @param  mixed  $value
      * @return string
      */
     protected function formatEmbedFieldValue(mixed $value): string

@@ -12,7 +12,7 @@ abstract class IntFilter extends Filter
     /**
      * Convert filter values to integers.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return array
      */
     protected function convertFilterValues(array $filterValues): array
@@ -28,7 +28,7 @@ abstract class IntFilter extends Filter
     /**
      * Get only filter values that are integers.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return array
      */
     protected function getValidFilterValues(array $filterValues): array
@@ -47,7 +47,7 @@ abstract class IntFilter extends Filter
      * Determine if all valid filter values have been specified.
      * By default, this is false as we assume an unrestricted amount of valid values.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return bool
      */
     protected function isAllFilterValues(array $filterValues): bool

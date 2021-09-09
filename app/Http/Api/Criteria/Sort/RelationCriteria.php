@@ -16,8 +16,8 @@ class RelationCriteria extends FieldCriteria
     /**
      * Apply criteria to builder.
      *
-     * @param Builder $builder
-     * @param string $column
+     * @param  Builder  $builder
+     * @param  string  $column
      * @return Builder
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -37,8 +37,8 @@ class RelationCriteria extends FieldCriteria
     /**
      * Apply criteria to builder.
      *
-     * @param SearchRequestBuilder $builder
-     * @param string $column
+     * @param  SearchRequestBuilder  $builder
+     * @param  string  $column
      * @return SearchRequestBuilder
      *
      * @noinspection PhpMissingParentCallCommonInspection

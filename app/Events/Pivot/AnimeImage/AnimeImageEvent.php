@@ -30,7 +30,7 @@ abstract class AnimeImageEvent
     /**
      * Create a new event instance.
      *
-     * @param AnimeImage $animeImage
+     * @param  AnimeImage  $animeImage
      * @return void
      */
     public function __construct(AnimeImage $animeImage)

@@ -22,9 +22,9 @@ abstract class EnumFilter extends Filter
     /**
      * Create a new filter instance.
      *
-     * @param Collection $criteria
-     * @param string $key
-     * @param class-string<BaseEnum> $enumClass
+     * @param  Collection  $criteria
+     * @param  string  $key
+     * @param  class-string<BaseEnum>  $enumClass
      */
     public function __construct(Collection $criteria, string $key, string $enumClass)
     {
@@ -35,7 +35,7 @@ abstract class EnumFilter extends Filter
     /**
      * Convert filter values to enum values from key.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return array
      */
     protected function convertFilterValues(array $filterValues): array
@@ -51,7 +51,7 @@ abstract class EnumFilter extends Filter
     /**
      * Get only filter values that are valid enum options.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return array
      */
     protected function getValidFilterValues(array $filterValues): array
@@ -69,7 +69,7 @@ abstract class EnumFilter extends Filter
     /**
      * Determine if all enum options have been specified.
      *
-     * @param array $filterValues
+     * @param  array  $filterValues
      * @return bool
      */
     protected function isAllFilterValues(array $filterValues): bool

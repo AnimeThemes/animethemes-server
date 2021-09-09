@@ -31,10 +31,10 @@ class LimitCriteria extends Criteria
     /**
      * Paginate the query.
      *
-     * @param Builder $builder
+     * @param  Builder  $builder
      * @return Collection|Paginator
      */
-    public function applyPagination(Builder $builder): Collection | Paginator
+    public function applyPagination(Builder $builder): Collection|Paginator
     {
         return $builder->take($this->getResultSize())->get();
     }
@@ -42,10 +42,10 @@ class LimitCriteria extends Criteria
     /**
      * Paginate the search query.
      *
-     * @param SearchRequestBuilder $builder
+     * @param  SearchRequestBuilder  $builder
      * @return Collection|ElasticsearchPaginator
      */
-    public function applyElasticsearchPagination(SearchRequestBuilder $builder): Collection | ElasticsearchPaginator
+    public function applyElasticsearchPagination(SearchRequestBuilder $builder): Collection|ElasticsearchPaginator
     {
         return $builder
             ->size($this->getResultSize())

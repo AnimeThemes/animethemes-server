@@ -29,11 +29,11 @@ class ImageResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param Image | MissingValue | null $image
-     * @param Query $query
+     * @param  Image | MissingValue | null  $image
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(Image | MissingValue | null $image, Query $query)
+    public function __construct(Image|MissingValue|null $image, Query $query)
     {
         parent::__construct($image, $query);
     }
@@ -41,7 +41,7 @@ class ImageResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

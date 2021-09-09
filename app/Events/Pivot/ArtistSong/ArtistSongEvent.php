@@ -30,7 +30,7 @@ abstract class ArtistSongEvent
     /**
      * Create a new event instance.
      *
-     * @param ArtistSong $artistSong
+     * @param  ArtistSong  $artistSong
      * @return void
      */
     public function __construct(ArtistSong $artistSong)

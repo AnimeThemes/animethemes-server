@@ -29,7 +29,7 @@ class TransparencyDateRule implements Rule
     /**
      * Create a new rule instance.
      *
-     * @param Collection $validDates
+     * @param  Collection  $validDates
      * @return void
      */
     public function __construct(Collection $validDates)
@@ -40,8 +40,8 @@ class TransparencyDateRule implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param string $attribute
-     * @param mixed $value
+     * @param  string  $attribute
+     * @param  mixed  $value
      * @return bool
      */
     public function passes($attribute, $value): bool

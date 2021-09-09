@@ -91,7 +91,7 @@ class EntryShowTest extends TestCase
     public function testAllowedIncludePaths()
     {
         $allowedPaths = collect(EntryResource::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -176,7 +176,7 @@ class EntryShowTest extends TestCase
             FilterParser::$param => [
                 'season' => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => 'animetheme.anime',
         ];
 
         AnimeThemeEntry::factory()
@@ -218,7 +218,7 @@ class EntryShowTest extends TestCase
             FilterParser::$param => [
                 'year' => $yearFilter,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => 'animetheme.anime',
         ];
 
         AnimeThemeEntry::factory()

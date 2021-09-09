@@ -27,11 +27,11 @@ class BalanceResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param Balance | MissingValue | null $balance
-     * @param Query $query
+     * @param  Balance | MissingValue | null  $balance
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(Balance | MissingValue | null $balance, Query $query)
+    public function __construct(Balance|MissingValue|null $balance, Query $query)
     {
         parent::__construct($balance, $query);
     }
@@ -39,7 +39,7 @@ class BalanceResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

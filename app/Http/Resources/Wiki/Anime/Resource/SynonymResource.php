@@ -28,11 +28,11 @@ class SynonymResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param AnimeSynonym | MissingValue | null $synonym
-     * @param Query $query
+     * @param  AnimeSynonym | MissingValue | null  $synonym
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(AnimeSynonym | MissingValue | null $synonym, Query $query)
+    public function __construct(AnimeSynonym|MissingValue|null $synonym, Query $query)
     {
         parent::__construct($synonym, $query);
     }
@@ -40,7 +40,7 @@ class SynonymResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

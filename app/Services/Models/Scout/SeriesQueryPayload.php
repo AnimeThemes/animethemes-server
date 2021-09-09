@@ -27,7 +27,7 @@ class SeriesQueryPayload extends ElasticQueryPayload
      *
      * @return SearchRequestBuilder|BoolQueryBuilder
      */
-    public function buildQuery(): SearchRequestBuilder | BoolQueryBuilder
+    public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder
     {
         return Series::boolSearch()
             ->should(

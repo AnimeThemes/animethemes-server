@@ -28,11 +28,11 @@ class SeriesResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param Series | MissingValue | null $series
-     * @param Query $query
+     * @param  Series | MissingValue | null  $series
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(Series | MissingValue | null $series, Query $query)
+    public function __construct(Series|MissingValue|null $series, Query $query)
     {
         parent::__construct($series, $query);
     }
@@ -40,7 +40,7 @@ class SeriesResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

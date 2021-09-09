@@ -23,8 +23,8 @@ abstract class SearchableCollection extends BaseCollection
     /**
      * Perform query to prepare models for resource collection.
      *
-     * @param Query $query
-     * @param PaginationStrategy $paginationStrategy
+     * @param  Query  $query
+     * @param  PaginationStrategy  $paginationStrategy
      * @return static
      */
     public static function performSearch(
@@ -45,7 +45,7 @@ abstract class SearchableCollection extends BaseCollection
     /**
      * Resolve Elasticsearch query builder from collection collects property.
      *
-     * @param Query $query
+     * @param  Query  $query
      * @return ElasticQueryPayload|null
      */
     protected static function elasticQueryPayload(Query $query): ?ElasticQueryPayload
@@ -66,8 +66,8 @@ abstract class SearchableCollection extends BaseCollection
     /**
      * Execute Elasticsearch query with resolved payload builder.
      *
-     * @param Query $query
-     * @param PaginationStrategy $paginationStrategy
+     * @param  Query  $query
+     * @param  PaginationStrategy  $paginationStrategy
      * @return static
      */
     protected static function performElasticSearch(

@@ -23,7 +23,7 @@ class TransactionUpdated extends TransactionEvent implements DiscordMessageEvent
     /**
      * Create a new event instance.
      *
-     * @param Transaction $transaction
+     * @param  Transaction  $transaction
      * @return void
      */
     public function __construct(Transaction $transaction)

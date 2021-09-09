@@ -28,12 +28,12 @@ abstract class DocumentController extends Controller
     /**
      * Display markdown document.
      *
-     * @param string $docPath
+     * @param  string  $docPath
      * @return View|Factory
      * @throws HttpException
      * @throws NotFoundHttpException
      */
-    protected function displayMarkdownDocument(string $docPath): View | Factory
+    protected function displayMarkdownDocument(string $docPath): View|Factory
     {
         $document = Jetstream::localizedMarkdownPath($docPath.'.md');
 

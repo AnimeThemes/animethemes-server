@@ -22,7 +22,7 @@ class SearchParser extends Parser
     /**
      * Parse search from parameters.
      *
-     * @param array $parameters
+     * @param  array  $parameters
      * @return Criteria[]
      */
     public static function parse(array $parameters): array
@@ -42,7 +42,7 @@ class SearchParser extends Parser
     /**
      * Parse criteria instance from query string.
      *
-     * @param string $searchParam
+     * @param  string  $searchParam
      * @return Criteria
      */
     protected static function parseCriteria(string $searchParam): Criteria

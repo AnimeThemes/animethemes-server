@@ -30,7 +30,7 @@ abstract class AnimeSeriesEvent
     /**
      * Create a new event instance.
      *
-     * @param AnimeSeries $animeSeries
+     * @param  AnimeSeries  $animeSeries
      * @return void
      */
     public function __construct(AnimeSeries $animeSeries)

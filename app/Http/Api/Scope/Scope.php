@@ -12,7 +12,7 @@ abstract class Scope
     /**
      * Determine if the provided scope is within this scope.
      *
-     * @param Scope $scope
+     * @param  Scope  $scope
      * @return bool
      */
     abstract public function isWithinScope(Scope $scope): bool;

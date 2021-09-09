@@ -20,7 +20,7 @@ class DiscoverElasticQueryPayload extends DiscoverService
     /**
      * Gets the Elasticsearch query payload class by model class.
      *
-     * @param string $modelClass
+     * @param  string  $modelClass
      * @return string|null
      */
     public static function byModelClass(string $modelClass): ?string

@@ -21,7 +21,7 @@ abstract class VideoEvent
     /**
      * Create a new event instance.
      *
-     * @param Video $video
+     * @param  Video  $video
      * @return void
      */
     public function __construct(Video $video)

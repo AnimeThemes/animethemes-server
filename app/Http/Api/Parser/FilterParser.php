@@ -27,7 +27,7 @@ class FilterParser extends Parser
     /**
      * Parse filter criteria from parameters.
      *
-     * @param array $parameters
+     * @param  array  $parameters
      * @return Criteria[]
      */
     public static function parse(array $parameters): array
@@ -51,8 +51,8 @@ class FilterParser extends Parser
     /**
      * Parse criteria instance from query string.
      *
-     * @param string $filterParam
-     * @param mixed $filterValues
+     * @param  string  $filterParam
+     * @param  mixed  $filterValues
      * @return Criteria
      */
     protected static function parseCriteria(string $filterParam, mixed $filterValues): Criteria

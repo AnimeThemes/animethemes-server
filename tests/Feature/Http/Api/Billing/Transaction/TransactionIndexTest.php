@@ -9,7 +9,6 @@ use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
-use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query;
@@ -71,37 +70,6 @@ class TransactionIndexTest extends TestCase
             'links',
             'meta',
         ]);
-    }
-
-    /**
-     * The Transaction Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
-     */
-    public function testAllowedIncludePaths()
-    {
-        $allowedPaths = collect(TransactionCollection::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
-
-        $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
-        ];
-
-        Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
-        $transactions = Transaction::with($includedPaths->all())->get();
-
-        $response = $this->get(route('api.transaction.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    TransactionCollection::make($transactions, Query::make($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
     }
 
     /**

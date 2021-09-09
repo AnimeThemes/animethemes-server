@@ -40,7 +40,7 @@ class SongCollection extends SearchableCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -69,7 +69,7 @@ class SongCollection extends SearchableCollection
     /**
      * The sorts that can be applied by the client for this resource.
      *
-     * @param Collection<Criteria> $sortCriteria
+     * @param  Collection<Criteria>  $sortCriteria
      * @return Sort[]
      */
     public static function sorts(Collection $sortCriteria): array
@@ -86,7 +86,7 @@ class SongCollection extends SearchableCollection
     /**
      * The filters that can be applied by the client for this resource.
      *
-     * @param Collection<FilterCriteria> $filterCriteria
+     * @param  Collection<FilterCriteria>  $filterCriteria
      * @return Filter[]
      */
     public static function filters(Collection $filterCriteria): array

@@ -19,7 +19,7 @@ class SeriesPerDay extends Trend
     /**
      * Calculate the value of the metric.
      *
-     * @param NovaRequest $request
+     * @param  NovaRequest  $request
      * @return TrendResult
      */
     public function calculate(NovaRequest $request): TrendResult
@@ -46,11 +46,11 @@ class SeriesPerDay extends Trend
     /**
      * Determine for how many minutes the metric should be cached.
      *
-     * @return  DateTimeInterface|DateInterval|float|int
+     * @return DateTimeInterface|DateInterval|float|int
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function cacheFor(): DateInterval | float | DateTimeInterface | int
+    public function cacheFor(): DateInterval|float|DateTimeInterface|int
     {
         return now()->addMinutes(5);
     }

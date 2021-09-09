@@ -26,7 +26,7 @@ class ThemeUpdated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
     /**
      * Create a new event instance.
      *
-     * @param AnimeTheme $theme
+     * @param  AnimeTheme  $theme
      * @return void
      */
     public function __construct(AnimeTheme $theme)

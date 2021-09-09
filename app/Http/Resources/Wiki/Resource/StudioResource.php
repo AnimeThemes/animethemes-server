@@ -28,11 +28,11 @@ class StudioResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param Studio | MissingValue | null $studio
-     * @param Query $query
+     * @param  Studio | MissingValue | null  $studio
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(Studio | MissingValue | null $studio, Query $query)
+    public function __construct(Studio|MissingValue|null $studio, Query $query)
     {
         parent::__construct($studio, $query);
     }
@@ -40,7 +40,7 @@ class StudioResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

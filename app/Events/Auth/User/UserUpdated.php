@@ -26,7 +26,7 @@ class UserUpdated extends UserEvent implements DiscordMessageEvent
     /**
      * Create a new event instance.
      *
-     * @param User $user
+     * @param  User  $user
      * @return void
      */
     public function __construct(User $user)
@@ -64,9 +64,9 @@ class UserUpdated extends UserEvent implements DiscordMessageEvent
     /**
      * Add Embed Fields.
      *
-     * @param Model $original
-     * @param Model $changed
-     * @param Collection $changedAttributes
+     * @param  Model  $original
+     * @param  Model  $changed
+     * @param  Collection  $changedAttributes
      * @return void
      */
     protected function addEmbedFields(Model $original, Model $changed, Collection $changedAttributes)

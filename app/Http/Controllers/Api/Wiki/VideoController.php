@@ -6,11 +6,12 @@ namespace App\Http\Controllers\Api\Wiki;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\Api\Wiki\Video\VideoIndexRequest;
+use App\Http\Requests\Api\Wiki\Video\VideoShowRequest;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
 use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Video;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class VideoController.
@@ -20,10 +21,10 @@ class VideoController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
+     * @param  VideoIndexRequest  $request
      * @return JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function index(VideoIndexRequest $request): JsonResponse
     {
         if ($this->query->hasSearchCriteria()) {
             return VideoCollection::performSearch($this->query, PaginationStrategy::OFFSET())->toResponse($request);
@@ -35,11 +36,11 @@ class VideoController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param Request $request
-     * @param Video $video
+     * @param  VideoShowRequest  $request
+     * @param  Video  $video
      * @return JsonResponse
      */
-    public function show(Request $request, Video $video): JsonResponse
+    public function show(VideoShowRequest $request, Video $video): JsonResponse
     {
         $resource = VideoResource::performQuery($video, $this->query);
 

@@ -96,7 +96,7 @@ class ArtistIndexTest extends TestCase
     public function testAllowedIncludePaths()
     {
         $allowedPaths = collect(ArtistCollection::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -178,7 +178,6 @@ class ArtistIndexTest extends TestCase
             'id',
             'name',
             'slug',
-            'as',
             'created_at',
             'updated_at',
             'deleted_at',

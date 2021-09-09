@@ -23,7 +23,7 @@ class FallbackTest extends TestCase
         $response = $this->get(url('api/'.Str::random()));
 
         $response->assertJsonStructure([
-            'errors',
+            'message',
         ]);
     }
 }

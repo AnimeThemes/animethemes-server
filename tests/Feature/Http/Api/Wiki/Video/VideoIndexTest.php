@@ -97,7 +97,7 @@ class VideoIndexTest extends TestCase
     public function testAllowedIncludePaths()
     {
         $allowedPaths = collect(VideoCollection::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(0, count($allowedPaths)));
+        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -210,8 +210,6 @@ class VideoIndexTest extends TestCase
             'created_at',
             'updated_at',
             'deleted_at',
-            'tags',
-            'link',
         ]);
 
         $sortCount = $this->faker->numberBetween(1, count($allowedSorts));

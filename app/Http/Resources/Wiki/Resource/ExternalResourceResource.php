@@ -29,11 +29,11 @@ class ExternalResourceResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param ExternalResource | MissingValue | null $resource
-     * @param Query $query
+     * @param  ExternalResource | MissingValue | null  $resource
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(ExternalResource | MissingValue | null $resource, Query $query)
+    public function __construct(ExternalResource|MissingValue|null $resource, Query $query)
     {
         parent::__construct($resource, $query);
     }
@@ -41,7 +41,7 @@ class ExternalResourceResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

@@ -17,7 +17,7 @@ abstract class StreamableController extends Controller
     /**
      * Stream content that the model represents.
      *
-     * @param Streamable $streamable
+     * @param  Streamable  $streamable
      * @return StreamedResponse
      */
     protected function streamContent(Streamable $streamable): StreamedResponse

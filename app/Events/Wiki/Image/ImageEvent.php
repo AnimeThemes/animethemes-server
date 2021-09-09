@@ -21,7 +21,7 @@ abstract class ImageEvent
     /**
      * Create a new event instance.
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return void
      */
     public function __construct(Image $image)

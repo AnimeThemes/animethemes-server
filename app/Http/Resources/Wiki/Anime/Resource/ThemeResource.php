@@ -30,11 +30,11 @@ class ThemeResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param AnimeTheme | MissingValue | null $theme
-     * @param Query $query
+     * @param  AnimeTheme | MissingValue | null  $theme
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(AnimeTheme | MissingValue | null $theme, Query $query)
+    public function __construct(AnimeTheme|MissingValue|null $theme, Query $query)
     {
         parent::__construct($theme, $query);
     }
@@ -42,7 +42,7 @@ class ThemeResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

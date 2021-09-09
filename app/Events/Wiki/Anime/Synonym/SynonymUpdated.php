@@ -27,7 +27,7 @@ class SynonymUpdated extends SynonymEvent implements DiscordMessageEvent, Update
     /**
      * Create a new event instance.
      *
-     * @param AnimeSynonym $synonym
+     * @param  AnimeSynonym  $synonym
      * @return void
      */
     public function __construct(AnimeSynonym $synonym)

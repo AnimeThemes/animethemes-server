@@ -26,8 +26,8 @@ abstract class BaseResource extends JsonResource
     /**
      * Create a new resource instance.
      *
-     * @param mixed $resource
-     * @param Query $query
+     * @param  mixed  $resource
+     * @param  Query  $query
      * @return void
      */
     public function __construct(mixed $resource, Query $query)
@@ -40,7 +40,7 @@ abstract class BaseResource extends JsonResource
     /**
      * Determine if field should be included in the response for this resource.
      *
-     * @param string $field
+     * @param  string  $field
      * @return bool
      */
     protected function isAllowedField(string $field): bool
@@ -60,8 +60,8 @@ abstract class BaseResource extends JsonResource
     /**
      * Perform query to prepare model for resource.
      *
-     * @param Model $model
-     * @param Query $query
+     * @param  Model  $model
+     * @param  Query  $query
      * @return static
      */
     public static function performQuery(Model $model, Query $query): static
