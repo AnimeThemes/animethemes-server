@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Resources\Admin\Resource;
 
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Admin\AnnouncementSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 use App\Models\Admin\Announcement;
+use App\Models\BaseModel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
@@ -47,21 +50,21 @@ class AnnouncementResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->when($this->isAllowedField('id'), $this->announcement_id),
-            'content' => $this->when($this->isAllowedField('content'), $this->content),
-            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
-            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
+            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
+            Announcement::ATTRIBUTE_CONTENT => $this->when($this->isAllowedField(Announcement::ATTRIBUTE_CONTENT), $this->content),
+            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
+            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
+            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
         ];
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    public static function allowedIncludePaths(): array
+    public static function schema(): Schema
     {
-        return [];
+        return new AnnouncementSchema();
     }
 }

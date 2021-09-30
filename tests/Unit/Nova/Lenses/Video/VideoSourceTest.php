@@ -151,7 +151,7 @@ class VideoSourceTest extends TestCase
                 'source' => $this->faker->boolean() ? VideoSource::getRandomValue() : null,
             ]);
 
-        $filteredVideos = Video::query()->whereNull('source')->get();
+        $filteredVideos = Video::query()->whereNull(Video::ATTRIBUTE_SOURCE)->get();
 
         $lens = static::novaLens(VideoSourceLens::class);
 

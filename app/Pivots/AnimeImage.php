@@ -20,12 +20,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class AnimeImage extends BasePivot
 {
+    public const TABLE = 'anime_image';
+
+    public const ATTRIBUTE_ANIME = 'anime_id';
+    public const ATTRIBUTE_IMAGE = 'image_id';
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'anime_image';
+    protected $table = AnimeImage::TABLE;
 
     /**
      * The event map for the model.
@@ -46,7 +51,7 @@ class AnimeImage extends BasePivot
      */
     public function anime(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Anime', 'anime_id', 'anime_id');
+        return $this->belongsTo(Anime::class, AnimeImage::ATTRIBUTE_ANIME);
     }
 
     /**
@@ -56,6 +61,6 @@ class AnimeImage extends BasePivot
      */
     public function image(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Image', 'image_id', 'image_id');
+        return $this->belongsTo(Image::class, AnimeImage::ATTRIBUTE_IMAGE);
     }
 }

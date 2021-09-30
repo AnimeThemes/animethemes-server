@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Lenses\Artist;
 
+use App\Models\Wiki\Artist;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -44,7 +45,7 @@ class ArtistSongLens extends Lens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave('songs')
+            $query->whereDoesntHave(Artist::RELATION_SONGS)
         ));
     }
 
@@ -57,13 +58,13 @@ class ArtistSongLens extends Lens
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'artist_id')
+            ID::make(__('nova.id'), Artist::ATTRIBUTE_ID)
                 ->sortable(),
 
-            Text::make(__('nova.name'), 'name')
+            Text::make(__('nova.name'), Artist::ATTRIBUTE_NAME)
                 ->sortable(),
 
-            Text::make(__('nova.slug'), 'slug')
+            Text::make(__('nova.slug'), Artist::ATTRIBUTE_SLUG)
                 ->sortable(),
         ];
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Fortify;
 
 use App\Concerns\Actions\Fortify\PasswordValidationRules;
+use App\Models\Auth\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -39,7 +40,7 @@ class UpdateUserPassword implements UpdatesUserPasswords
         })->validateWithBag('updatePassword');
 
         $user->forceFill([
-            'password' => Hash::make($input['password']),
+            User::ATTRIBUTE_PASSWORD => Hash::make($input['password']),
         ])->save();
     }
 }

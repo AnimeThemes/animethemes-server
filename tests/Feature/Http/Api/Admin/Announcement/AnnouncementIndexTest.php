@@ -5,21 +5,25 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Admin\Announcement;
 
 use App\Enums\Http\Api\Filter\TrashedStatus;
+use App\Enums\Http\Api\Sort\Direction;
+use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Resources\Admin\Collection\AnnouncementCollection;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
+use App\Models\BaseModel;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -79,19 +83,15 @@ class AnnouncementIndexTest extends TestCase
      */
     public function testSparseFieldsets()
     {
-        $fields = collect([
-            'id',
-            'content',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new AnnouncementSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                AnnouncementResource::$wrap => $includedFields->join(','),
+                AnnouncementResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
@@ -118,28 +118,14 @@ class AnnouncementIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowedSorts = collect([
-            'id',
-            'content',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new AnnouncementSchema();
 
-        $sortCount = $this->faker->numberBetween(1, count($allowedSorts));
+        $fields = $schema->fields();
 
-        $includedSorts = $allowedSorts->random($sortCount)->map(function (string $includedSort) {
-            if ($this->faker->boolean()) {
-                return Str::of('-')
-                    ->append($includedSort)
-                    ->__toString();
-            }
-
-            return $includedSort;
-        });
+        $field = $fields[array_rand($fields)];
 
         $parameters = [
-            SortParser::$param => $includedSorts->join(','),
+            SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
         $query = Query::make($parameters);
@@ -149,8 +135,8 @@ class AnnouncementIndexTest extends TestCase
         $builder = Announcement::query();
 
         foreach ($query->getSortCriteria() as $sortCriterion) {
-            foreach (AnnouncementCollection::sorts(collect([$sortCriterion])) as $sort) {
-                $builder = $sort->applySort($builder);
+            foreach ($schema->sorts() as $sort) {
+                $builder = $sort->applySort($sortCriterion, $builder);
             }
         }
 
@@ -180,7 +166,7 @@ class AnnouncementIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'created_at' => $createdFilter,
+                BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -195,7 +181,7 @@ class AnnouncementIndexTest extends TestCase
             Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $announcement = Announcement::query()->where('created_at', $createdFilter)->get();
+        $announcement = Announcement::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
         $response = $this->get(route('api.announcement.index', $parameters));
 
@@ -223,7 +209,7 @@ class AnnouncementIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'updated_at' => $updatedFilter,
+                BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -238,7 +224,7 @@ class AnnouncementIndexTest extends TestCase
             Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $announcement = Announcement::query()->where('updated_at', $updatedFilter)->get();
+        $announcement = Announcement::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
         $response = $this->get(route('api.announcement.index', $parameters));
 
@@ -263,7 +249,7 @@ class AnnouncementIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::WITHOUT,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -302,7 +288,7 @@ class AnnouncementIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::WITH,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -341,7 +327,7 @@ class AnnouncementIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::ONLY,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -383,8 +369,8 @@ class AnnouncementIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'deleted_at' => $deletedFilter,
-                'trashed' => TrashedStatus::WITH,
+                BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -405,7 +391,7 @@ class AnnouncementIndexTest extends TestCase
             });
         });
 
-        $announcement = Announcement::withTrashed()->where('deleted_at', $deletedFilter)->get();
+        $announcement = Announcement::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
         $response = $this->get(route('api.announcement.index', $parameters));
 

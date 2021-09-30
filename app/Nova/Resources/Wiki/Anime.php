@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Models\Wiki\Anime as AnimeModel;
 use App\Nova\Filters\Wiki\Anime\AnimeSeasonFilter;
 use App\Nova\Filters\Wiki\Anime\AnimeYearFilter;
 use App\Nova\Lenses\Anime\AnimeAniDbResourceLens;
@@ -21,10 +22,13 @@ use App\Nova\Metrics\Anime\NewAnime;
 use App\Nova\Resources\Resource;
 use App\Nova\Resources\Wiki\Anime\Synonym;
 use App\Nova\Resources\Wiki\Anime\Theme;
+use App\Pivots\AnimeResource;
+use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
@@ -46,14 +50,14 @@ class Anime extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Wiki\Anime::class;
+    public static string $model = AnimeModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = AnimeModel::ATTRIBUTE_NAME;
 
     /**
      * The logical group associated with the resource.
@@ -109,7 +113,7 @@ class Anime extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        AnimeModel::ATTRIBUTE_NAME,
     ];
 
     /**
@@ -121,34 +125,38 @@ class Anime extends Resource
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'anime_id')
+            ID::make(__('nova.id'), AnimeModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Text::make(__('nova.name'), 'name')
+            Text::make(__('nova.name'), AnimeModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.anime_name_help')),
 
-            Slug::make(__('nova.slug'), 'slug')
-                ->from('name')
+            Slug::make(__('nova.slug'), AnimeModel::ATTRIBUTE_SLUG)
+                ->from(AnimeModel::ATTRIBUTE_NAME)
                 ->separator('_')
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
-                ->updateRules('unique:anime,slug,{{resourceId}},anime_id')
+                ->updateRules(
+                    Rule::unique(AnimeModel::TABLE)
+                        ->ignore($request->resourceId, AnimeModel::ATTRIBUTE_ID)
+                        ->__toString()
+                )
                 ->help(__('nova.anime_slug_help')),
 
-            Number::make(__('nova.year'), 'year')
+            Number::make(__('nova.year'), AnimeModel::ATTRIBUTE_YEAR)
                 ->sortable()
                 ->min(1960)
                 ->max(intval(date('Y')) + 1)
                 ->rules(['required', 'digits:4', 'integer'])
                 ->help(__('nova.anime_year_help')),
 
-            Select::make(__('nova.season'), 'season')
+            Select::make(__('nova.season'), AnimeModel::ATTRIBUTE_SEASON)
                 ->options(AnimeSeason::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
                     return $enum?->description;
@@ -157,7 +165,7 @@ class Anime extends Resource
                 ->rules(['required', (new EnumValue(AnimeSeason::class, false))->__toString()])
                 ->help(__('nova.anime_season_help')),
 
-            Textarea::make(__('nova.synopsis'), 'synopsis')
+            Textarea::make(__('nova.synopsis'), AnimeModel::ATTRIBUTE_SYNOPSIS)
                 ->rules('max:65535')
                 ->nullable()
                 ->help(__('nova.anime_synopsis_help')),
@@ -170,11 +178,11 @@ class Anime extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
@@ -184,15 +192,15 @@ class Anime extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        Text::make(__('nova.as'), 'as')
+                        Text::make(__('nova.as'), AnimeResource::ATTRIBUTE_AS)
                             ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
@@ -202,11 +210,11 @@ class Anime extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
@@ -216,11 +224,11 @@ class Anime extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];

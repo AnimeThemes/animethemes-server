@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Wiki\Anime;
 
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Anime\YearIndexRequest;
 use App\Http\Requests\Api\Wiki\Anime\YearShowRequest;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
@@ -18,7 +18,7 @@ use Illuminate\Support\Str;
 /**
  * Class YearController.
  */
-class YearController extends BaseController
+class YearController extends Controller
 {
     /**
      * Display a listing of unique years of anime.
@@ -30,7 +30,12 @@ class YearController extends BaseController
      */
     public function index(YearIndexRequest $request): JsonResponse
     {
-        return new JsonResponse(Anime::query()->distinct('year')->orderBy('year')->pluck('year'));
+        return new JsonResponse(
+            Anime::query()
+                ->distinct(Anime::ATTRIBUTE_YEAR)
+                ->orderBy(Anime::ATTRIBUTE_YEAR)
+                ->pluck(Anime::ATTRIBUTE_YEAR)
+        );
     }
 
     /**
@@ -42,28 +47,26 @@ class YearController extends BaseController
      */
     public function show(YearShowRequest $request, string $year): JsonResponse
     {
-        $includeCriteria = $this->query->getIncludeCriteria(AnimeCollection::$wrap);
+        $includeCriteria = $request->getQuery()->getIncludeCriteria(AnimeCollection::$wrap);
 
-        $allowedIncludePaths = collect($includeCriteria?->getAllowedPaths(AnimeCollection::allowedIncludePaths()));
+        $allowedIncludePaths = collect($includeCriteria?->getPaths());
 
         $anime = AnimeCollection::make(
             Anime::query()
-                ->where('year', $year)
+                ->where(Anime::ATTRIBUTE_YEAR, $year)
                 ->with($allowedIncludePaths->all())
-                ->orderBy('name')
+                ->orderBy(Anime::ATTRIBUTE_NAME)
                 ->get(),
-            $this->query
+            $request->getQuery()
         );
 
         $anime = collect($anime->toArray($request));
 
-        $anime = $anime->groupBy(function (AnimeResource $anime) {
-            return Str::lower(AnimeSeason::getDescription($anime->season));
-        });
+        $anime = $anime->groupBy(fn (AnimeResource $anime) => Str::lower(AnimeSeason::getDescription($anime->season)));
 
-        $anime = $anime->sortBy(function (Collection $seasonAnime, string $seasonKey) {
-            return AnimeSeason::getValue(Str::upper($seasonKey));
-        });
+        $anime = $anime->sortBy(
+            fn (Collection $seasonAnime, string $seasonKey) => AnimeSeason::getValue(Str::upper($seasonKey))
+        );
 
         return new JsonResponse($anime);
     }

@@ -130,8 +130,8 @@ class ArtistAnilistResourceTest extends TestCase
             ->create();
 
         $filteredArtists = Artist::query()
-            ->whereDoesntHave('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::ANILIST);
+            ->whereDoesntHave(Artist::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
             })
             ->get();
 

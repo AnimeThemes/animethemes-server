@@ -7,7 +7,7 @@ namespace App\Http\Api\Filter;
 /**
  * Class IntFilter.
  */
-abstract class IntFilter extends Filter
+class IntFilter extends Filter
 {
     /**
      * Convert filter values to integers.

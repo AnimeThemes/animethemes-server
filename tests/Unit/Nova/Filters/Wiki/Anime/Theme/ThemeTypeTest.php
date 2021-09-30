@@ -71,7 +71,7 @@ class ThemeTypeTest extends TestCase
 
         $response = $filter->apply(AnimeTheme::class, $type->value);
 
-        $filteredThemes = AnimeTheme::query()->where('type', $type->value)->get();
+        $filteredThemes = AnimeTheme::query()->where(AnimeTheme::ATTRIBUTE_TYPE, $type->value)->get();
         foreach ($filteredThemes as $filteredTheme) {
             $response->assertContains($filteredTheme);
         }

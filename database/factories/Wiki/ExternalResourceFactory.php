@@ -31,9 +31,9 @@ class ExternalResourceFactory extends Factory
     public function definition(): array
     {
         return [
-            'site' => ResourceSite::getRandomValue(),
-            'link' => $this->faker->url(),
-            'external_id' => $this->faker->randomNumber(),
+            ExternalResource::ATTRIBUTE_EXTERNAL_ID => $this->faker->randomNumber(),
+            ExternalResource::ATTRIBUTE_LINK => $this->faker->url(),
+            ExternalResource::ATTRIBUTE_SITE => ResourceSite::getRandomValue(),
         ];
     }
 }

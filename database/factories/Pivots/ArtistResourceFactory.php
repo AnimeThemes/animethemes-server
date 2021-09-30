@@ -31,7 +31,7 @@ class ArtistResourceFactory extends Factory
     public function definition(): array
     {
         return [
-            'as' => Str::random(),
+            ArtistResource::ATTRIBUTE_AS => Str::random(),
         ];
     }
 }

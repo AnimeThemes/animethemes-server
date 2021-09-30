@@ -6,6 +6,7 @@ namespace App\Http\Requests\Billing;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Enums\Http\Api\Sort\Direction;
 use App\Models\Billing\Balance;
 use App\Models\Billing\Transaction;
 use App\Rules\Billing\TransparencyDateRule;
@@ -71,14 +72,17 @@ class TransparencyRequest extends FormRequest
      */
     protected function initializeValidDates(): Collection
     {
-        $balanceDates = Balance::query()->distinct('date')->pluck('date');
-        $transactionDates = Transaction::query()->distinct('date')->pluck('date');
+        $balanceDates = Balance::query()
+            ->distinct(Balance::ATTRIBUTE_DATE)
+            ->pluck(Balance::ATTRIBUTE_DATE);
+
+        $transactionDates = Transaction::query()
+            ->distinct(Transaction::ATTRIBUTE_DATE)
+            ->pluck(Transaction::ATTRIBUTE_DATE);
 
         $validDates = $balanceDates->concat($transactionDates);
 
-        $validDates = $validDates->unique(function (Carbon $date) {
-            return $date->format(AllowedDateFormat::YM);
-        });
+        $validDates = $validDates->unique(fn (Carbon $date) => $date->format(AllowedDateFormat::YM));
 
         return $validDates->sortDesc();
     }
@@ -123,10 +127,15 @@ class TransparencyRequest extends FormRequest
         }
 
         return Balance::query()
-            ->select(['service', 'frequency', 'usage', 'balance'])
-            ->whereMonth('date', ComparisonOperator::EQ, $date)
-            ->whereYear('date', ComparisonOperator::EQ, $date)
-            ->orderBy('usage', 'desc')
+            ->select([
+                Balance::ATTRIBUTE_BALANCE,
+                Balance::ATTRIBUTE_FREQUENCY,
+                Balance::ATTRIBUTE_SERVICE,
+                Balance::ATTRIBUTE_USAGE,
+            ])
+            ->whereMonth(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ, $date)
+            ->whereYear(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ, $date)
+            ->orderBy(Balance::ATTRIBUTE_USAGE, Direction::DESCENDING)
             ->get();
     }
 
@@ -144,10 +153,15 @@ class TransparencyRequest extends FormRequest
         }
 
         return Transaction::query()
-            ->select(['date', 'service', 'amount', 'description'])
-            ->whereMonth('date', ComparisonOperator::EQ, $date)
-            ->whereYear('date', ComparisonOperator::EQ, $date)
-            ->orderBy('date', 'desc')
+            ->select([
+                Transaction::ATTRIBUTE_AMOUNT,
+                Transaction::ATTRIBUTE_DATE,
+                Transaction::ATTRIBUTE_DESCRIPTION,
+                Transaction::ATTRIBUTE_SERVICE,
+            ])
+            ->whereMonth(Transaction::ATTRIBUTE_DATE, ComparisonOperator::EQ, $date)
+            ->whereYear(Transaction::ATTRIBUTE_DATE, ComparisonOperator::EQ, $date)
+            ->orderBy(Transaction::ATTRIBUTE_DATE, Direction::DESCENDING)
             ->get();
     }
 }

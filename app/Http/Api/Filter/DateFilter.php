@@ -10,7 +10,7 @@ use DateTime;
 /**
  * Class DateFilter.
  */
-abstract class DateFilter extends Filter
+class DateFilter extends Filter
 {
     /**
      * Convert filter values to booleans.

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Filters\Base;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
@@ -39,6 +40,6 @@ class DeletedEndDateFilter extends DateFilter
     {
         $value = Date::parse($value);
 
-        return $query->where('deleted_at', ComparisonOperator::LTE, $value);
+        return $query->where(BaseModel::ATTRIBUTE_DELETED_AT, ComparisonOperator::LTE, $value);
     }
 }

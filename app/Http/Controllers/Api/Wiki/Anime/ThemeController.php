@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Wiki\Anime;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
-use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeIndexRequest;
 use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeShowRequest;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
@@ -16,7 +16,7 @@ use Illuminate\Http\JsonResponse;
 /**
  * Class ThemeController.
  */
-class ThemeController extends BaseController
+class ThemeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,11 +26,13 @@ class ThemeController extends BaseController
      */
     public function index(ThemeIndexRequest $request): JsonResponse
     {
-        if ($this->query->hasSearchCriteria()) {
-            return ThemeCollection::performSearch($this->query, PaginationStrategy::OFFSET())->toResponse($request);
+        $query = $request->getQuery();
+
+        if ($query->hasSearchCriteria()) {
+            return ThemeCollection::performSearch($query, PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return ThemeCollection::performQuery($this->query)->toResponse($request);
+        return ThemeCollection::performQuery($query)->toResponse($request);
     }
 
     /**
@@ -42,7 +44,7 @@ class ThemeController extends BaseController
      */
     public function show(ThemeShowRequest $request, AnimeTheme $theme): JsonResponse
     {
-        $resource = ThemeResource::performQuery($theme, $this->query);
+        $resource = ThemeResource::performQuery($theme, $request->getQuery());
 
         return $resource->toResponse($request);
     }

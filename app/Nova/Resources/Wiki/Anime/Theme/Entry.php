@@ -11,6 +11,7 @@ use App\Nova\Resources\Resource;
 use App\Nova\Resources\Wiki\Anime;
 use App\Nova\Resources\Wiki\Anime\Theme;
 use App\Nova\Resources\Wiki\Video;
+use App\Pivots\BasePivot;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -40,7 +41,7 @@ class Entry extends Resource
      *
      * @var string
      */
-    public static $title = 'entry_id';
+    public static $title = AnimeThemeEntry::ATTRIBUTE_ID;
 
     /**
      * Indicates if the resource should be displayed in the sidebar.
@@ -91,7 +92,7 @@ class Entry extends Resource
      * @var array
      */
     public static $search = [
-        'entry_id',
+        AnimeThemeEntry::ATTRIBUTE_ID,
     ];
 
     /**
@@ -126,31 +127,31 @@ class Entry extends Resource
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Number::make(__('nova.version'), 'version')
+            Number::make(__('nova.version'), AnimeThemeEntry::ATTRIBUTE_VERSION)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'integer'])
                 ->help(__('nova.entry_version_help')),
 
-            Text::make(__('nova.episodes'), 'episodes')
+            Text::make(__('nova.episodes'), AnimeThemeEntry::ATTRIBUTE_EPISODES)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
                 ->help(__('nova.entry_episodes_help')),
 
-            Boolean::make(__('nova.nsfw'), 'nsfw')
+            Boolean::make(__('nova.nsfw'), AnimeThemeEntry::ATTRIBUTE_NSFW)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
                 ->help(__('nova.entry_nsfw_help')),
 
-            Boolean::make(__('nova.spoiler'), 'spoiler')
+            Boolean::make(__('nova.spoiler'), AnimeThemeEntry::ATTRIBUTE_SPOILER)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
                 ->help(__('nova.entry_spoiler_help')),
 
-            Text::make(__('nova.notes'), 'notes')
+            Text::make(__('nova.notes'), AnimeThemeEntry::ATTRIBUTE_NOTES)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
@@ -160,11 +161,11 @@ class Entry extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];

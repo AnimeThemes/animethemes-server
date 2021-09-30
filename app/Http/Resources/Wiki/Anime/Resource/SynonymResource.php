@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Anime\Resource;
 
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
+use App\Models\BaseModel;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
@@ -48,24 +51,22 @@ class SynonymResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->when($this->isAllowedField('id'), $this->synonym_id),
-            'text' => $this->when($this->isAllowedField('text'), $this->text),
-            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
-            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'anime' => AnimeResource::make($this->whenLoaded('anime'), $this->query),
+            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
+            AnimeSynonym::ATTRIBUTE_TEXT => $this->when($this->isAllowedField(AnimeSynonym::ATTRIBUTE_TEXT), $this->text),
+            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
+            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
+            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
+            AnimeSynonym::RELATION_ANIME => AnimeResource::make($this->whenLoaded(AnimeSynonym::RELATION_ANIME), $this->query),
         ];
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    public static function allowedIncludePaths(): array
+    public static function schema(): Schema
     {
-        return [
-            'anime',
-        ];
+        return new SynonymSchema();
     }
 }

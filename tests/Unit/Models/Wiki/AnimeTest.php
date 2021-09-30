@@ -105,7 +105,7 @@ class AnimeTest extends TestCase
         $synonymCount = $this->faker->randomDigitNotNull();
 
         $anime = Anime::factory()
-            ->has(AnimeSynonym::factory()->count($synonymCount), 'animesynonyms')
+            ->has(AnimeSynonym::factory()->count($synonymCount))
             ->createOne();
 
         static::assertInstanceOf(HasMany::class, $anime->animesynonyms());

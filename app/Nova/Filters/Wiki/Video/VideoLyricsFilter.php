@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Filters\Wiki\Video;
 
+use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
@@ -42,7 +43,7 @@ class VideoLyricsFilter extends Filter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        return $query->where('lyrics', $value);
+        return $query->where(Video::ATTRIBUTE_LYRICS, $value);
     }
 
     /**

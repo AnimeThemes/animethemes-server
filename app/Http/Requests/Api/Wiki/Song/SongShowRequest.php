@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Song;
 
-use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Requests\Api\ShowRequest;
-use App\Http\Resources\BaseResource;
-use App\Http\Resources\Wiki\Resource\SongResource;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class SongShowRequest.
@@ -16,12 +14,12 @@ use Illuminate\Http\Resources\MissingValue;
 class SongShowRequest extends ShowRequest
 {
     /**
-     * Get the underlying resource.
+     * Get the schema.
      *
-     * @return BaseResource
+     * @return Schema
      */
-    protected function getResource(): BaseResource
+    protected function getSchema(): Schema
     {
-        return SongResource::make(new MissingValue(), Query::make());
+        return new SongSchema();
     }
 }

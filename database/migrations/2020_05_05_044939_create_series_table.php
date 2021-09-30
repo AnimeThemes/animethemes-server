@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\BaseModel;
+use App\Models\Wiki\Series;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,12 +20,12 @@ class CreateSeriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('series', function (Blueprint $table) {
-            $table->id('series_id');
+        Schema::create(Series::TABLE, function (Blueprint $table) {
+            $table->id(Series::ATTRIBUTE_ID);
             $table->timestamps(6);
-            $table->softDeletes('deleted_at', 6);
-            $table->string('slug');
-            $table->string('name');
+            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+            $table->string(Series::ATTRIBUTE_SLUG);
+            $table->string(Series::ATTRIBUTE_NAME);
         });
     }
 
@@ -34,6 +36,6 @@ class CreateSeriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('series');
+        Schema::dropIfExists(Series::TABLE);
     }
 }

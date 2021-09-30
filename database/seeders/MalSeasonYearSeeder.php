@@ -49,10 +49,10 @@ class MalSeasonYearSeeder extends Seeder
 
         // Get anime that have MAL resource but do not have the season attribute set
         $animes = Anime::query()
-            ->select(['anime_id', 'name', 'year', 'season'])
-            ->whereNull('season')
-            ->whereHas('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::MAL);
+            ->select([Anime::ATTRIBUTE_ID, Anime::ATTRIBUTE_NAME, Anime::ATTRIBUTE_YEAR, Anime::ATTRIBUTE_SEASON])
+            ->whereNull(Anime::ATTRIBUTE_SEASON)
+            ->whereHas(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
             })
             ->get();
 
@@ -61,7 +61,7 @@ class MalSeasonYearSeeder extends Seeder
                 continue;
             }
 
-            $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
+            $malResource = $anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
             if ($malResource instanceof ExternalResource && $malResource->external_id !== null) {
                 // Try not to upset MAL
                 sleep(rand(2, 5));

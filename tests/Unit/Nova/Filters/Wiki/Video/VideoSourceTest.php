@@ -69,7 +69,7 @@ class VideoSourceTest extends TestCase
 
         $response = $filter->apply(Video::class, $source->value);
 
-        $filteredVideos = Video::query()->where('source', $source->value)->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_SOURCE, $source->value)->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }

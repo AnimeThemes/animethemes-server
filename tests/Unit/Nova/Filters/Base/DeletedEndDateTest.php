@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Nova\Filters\Base;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
 use Carbon\Carbon;
@@ -68,7 +69,7 @@ class DeletedEndDateTest extends TestCase
             )
         );
 
-        $filteredAnimes = Anime::withTrashed()->where('deleted_at', ComparisonOperator::LTE, $dateFilter)->get();
+        $filteredAnimes = Anime::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, ComparisonOperator::LTE, $dateFilter)->get();
         foreach ($filteredAnimes as $filteredAnime) {
             $response->assertContains($filteredAnime);
         }

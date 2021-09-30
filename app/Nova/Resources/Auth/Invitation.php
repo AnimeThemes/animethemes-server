@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Auth;
 
 use App\Enums\Models\Auth\InvitationStatus;
+use App\Models\Auth\Invitation as InvitationModel;
 use App\Nova\Actions\Auth\ResendInvitationAction;
 use App\Nova\Filters\Auth\InvitationStatusFilter;
 use App\Nova\Resources\Resource;
@@ -12,6 +13,7 @@ use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -27,14 +29,14 @@ class Invitation extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Auth\Invitation::class;
+    public static string $model = InvitationModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'email';
+    public static $title = InvitationModel::ATTRIBUTE_EMAIL;
 
     /**
      * The logical group associated with the resource.
@@ -78,7 +80,7 @@ class Invitation extends Resource
      * @var array
      */
     public static $search = [
-        'email',
+        InvitationModel::ATTRIBUTE_EMAIL,
     ];
 
     /**
@@ -102,24 +104,28 @@ class Invitation extends Resource
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'invitation_id')
+            ID::make(__('nova.id'), InvitationModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Text::make(__('nova.name'), 'name')
+            Text::make(__('nova.name'), InvitationModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash']),
 
-            Text::make(__('nova.email'), 'email')
+            Text::make(__('nova.email'), InvitationModel::ATTRIBUTE_EMAIL)
                 ->sortable()
                 ->rules(['required', 'email', 'max:192'])
-                ->creationRules('unique:invitations,email')
-                ->updateRules('unique:invitations,email,{{resourceId}},invitation_id'),
+                ->creationRules(Rule::unique(InvitationModel::TABLE)->__toString())
+                ->updateRules(
+                    Rule::unique(InvitationModel::TABLE)
+                        ->ignore($request->resourceId, InvitationModel::ATTRIBUTE_ID)
+                        ->__toString()
+                ),
 
-            Select::make(__('nova.status'), 'status')
+            Select::make(__('nova.status'), InvitationModel::ATTRIBUTE_STATUS)
                 ->hideWhenCreating()
                 ->options(InvitationStatus::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {

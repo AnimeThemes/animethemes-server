@@ -9,10 +9,13 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -96,8 +99,13 @@ class AnimeShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowedPaths = collect(AnimeResource::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
+        $schema = new AnimeSchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -129,23 +137,15 @@ class AnimeShowTest extends TestCase
     {
         $this->withoutEvents();
 
-        $fields = collect([
-            'id',
-            'name',
-            'slug',
-            'year',
-            'season',
-            'synopsis',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new AnimeSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                AnimeResource::$wrap => $includedFields->join(','),
+                AnimeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
@@ -177,9 +177,9 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'group' => $groupFilter,
+                AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => 'animethemes',
+            IncludeParser::$param => Anime::RELATION_THEMES,
         ];
 
         Anime::factory()
@@ -187,15 +187,15 @@ class AnimeShowTest extends TestCase
                 AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
-                        ['group' => $groupFilter],
-                        ['group' => $excludedGroup],
+                        [AnimeTheme::ATTRIBUTE_GROUP => $groupFilter],
+                        [AnimeTheme::ATTRIBUTE_GROUP => $excludedGroup],
                     ))
             )
             ->create();
 
         $anime = Anime::with([
-            'animethemes' => function (HasMany $query) use ($groupFilter) {
-                $query->where('group', $groupFilter);
+            Anime::RELATION_THEMES => function (HasMany $query) use ($groupFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
             },
         ])
         ->first();
@@ -226,9 +226,9 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'sequence' => $sequenceFilter,
+                AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => 'animethemes',
+            IncludeParser::$param => Anime::RELATION_THEMES,
         ];
 
         Anime::factory()
@@ -236,15 +236,15 @@ class AnimeShowTest extends TestCase
                 AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
-                        ['sequence' => $sequenceFilter],
-                        ['sequence' => $excludedSequence],
+                        [AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
+                        [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
                     ))
             )
             ->create();
 
         $anime = Anime::with([
-            'animethemes' => function (HasMany $query) use ($sequenceFilter) {
-                $query->where('sequence', $sequenceFilter);
+            Anime::RELATION_THEMES => function (HasMany $query) use ($sequenceFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
             },
         ])
         ->first();
@@ -274,9 +274,9 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'type' => $typeFilter->description,
+                AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => 'animethemes',
+            IncludeParser::$param => Anime::RELATION_THEMES,
         ];
 
         Anime::factory()
@@ -284,8 +284,8 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'animethemes' => function (HasMany $query) use ($typeFilter) {
-                $query->where('type', $typeFilter->value);
+            Anime::RELATION_THEMES => function (HasMany $query) use ($typeFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
             },
         ])
         ->first();
@@ -315,9 +315,9 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'nsfw' => $nsfwFilter,
+                AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
             ],
-            IncludeParser::$param => 'animethemes.animethemeentries',
+            IncludeParser::$param => Anime::RELATION_ENTRIES,
         ];
 
         Anime::factory()
@@ -329,8 +329,8 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'animethemes.animethemeentries' => function (HasMany $query) use ($nsfwFilter) {
-                $query->where('nsfw', $nsfwFilter);
+            Anime::RELATION_ENTRIES => function (HasMany $query) use ($nsfwFilter) {
+                $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter);
             },
         ])
         ->first();
@@ -360,9 +360,9 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'spoiler' => $spoilerFilter,
+                AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
             ],
-            IncludeParser::$param => 'animethemes.animethemeentries',
+            IncludeParser::$param => Anime::RELATION_ENTRIES,
         ];
 
         Anime::factory()
@@ -374,8 +374,8 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'animethemes.animethemeentries' => function (HasMany $query) use ($spoilerFilter) {
-                $query->where('spoiler', $spoilerFilter);
+            Anime::RELATION_ENTRIES => function (HasMany $query) use ($spoilerFilter) {
+                $query->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter);
             },
         ])
         ->first();
@@ -406,9 +406,9 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'version' => $versionFilter,
+                AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
             ],
-            IncludeParser::$param => 'animethemes.animethemeentries',
+            IncludeParser::$param => Anime::RELATION_ENTRIES,
         ];
 
         Anime::factory()
@@ -419,16 +419,16 @@ class AnimeShowTest extends TestCase
                         AnimeThemeEntry::factory()
                             ->count($this->faker->numberBetween(1, 3))
                             ->state(new Sequence(
-                                ['version' => $versionFilter],
-                                ['version' => $excludedVersion],
+                                [AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter],
+                                [AnimeThemeEntry::ATTRIBUTE_VERSION => $excludedVersion],
                             ))
                     )
             )
             ->create();
 
         $anime = Anime::with([
-            'animethemes.animethemeentries' => function (HasMany $query) use ($versionFilter) {
-                $query->where('version', $versionFilter);
+            Anime::RELATION_ENTRIES => function (HasMany $query) use ($versionFilter) {
+                $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter);
             },
         ])
         ->first();
@@ -460,18 +460,18 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'site' => $siteFilter->description,
+                ExternalResource::ATTRIBUTE_SITE => $siteFilter->description,
             ],
-            IncludeParser::$param => 'resources',
+            IncludeParser::$param => Anime::RELATION_RESOURCES,
         ];
 
         Anime::factory()
-            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), 'resources')
+            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), Anime::RELATION_RESOURCES)
             ->create();
 
         $anime = Anime::with([
-            'resources' => function (BelongsToMany $query) use ($siteFilter) {
-                $query->where('site', $siteFilter->value);
+            Anime::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter) {
+                $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
             },
         ])
         ->first();
@@ -503,9 +503,9 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'facet' => $facetFilter->description,
+                Image::ATTRIBUTE_FACET => $facetFilter->description,
             ],
-            IncludeParser::$param => 'images',
+            IncludeParser::$param => Anime::RELATION_IMAGES,
         ];
 
         Anime::factory()
@@ -513,8 +513,8 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'images' => function (BelongsToMany $query) use ($facetFilter) {
-                $query->where('facet', $facetFilter->value);
+            Anime::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
+                $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
             },
         ])
         ->first();
@@ -544,16 +544,16 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'lyrics' => $lyricsFilter,
+                Video::ATTRIBUTE_LYRICS => $lyricsFilter,
             ],
-            IncludeParser::$param => 'animethemes.animethemeentries.videos',
+            IncludeParser::$param => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($lyricsFilter) {
-                $query->where('lyrics', $lyricsFilter);
+            Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($lyricsFilter) {
+                $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
             },
         ])
         ->first();
@@ -583,16 +583,16 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'nc' => $ncFilter,
+                Video::ATTRIBUTE_NC => $ncFilter,
             ],
-            IncludeParser::$param => 'animethemes.animethemeentries.videos',
+            IncludeParser::$param => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($ncFilter) {
-                $query->where('nc', $ncFilter);
+            Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($ncFilter) {
+                $query->where(Video::ATTRIBUTE_NC, $ncFilter);
             },
         ])
         ->first();
@@ -622,16 +622,16 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'overlap' => $overlapFilter->description,
+                Video::ATTRIBUTE_OVERLAP => $overlapFilter->description,
             ],
-            IncludeParser::$param => 'animethemes.animethemeentries.videos',
+            IncludeParser::$param => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($overlapFilter) {
-                $query->where('overlap', $overlapFilter->value);
+            Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($overlapFilter) {
+                $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
             },
         ])
         ->first();
@@ -662,9 +662,9 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'resolution' => $resolutionFilter,
+                Video::ATTRIBUTE_RESOLUTION => $resolutionFilter,
             ],
-            IncludeParser::$param => 'animethemes.animethemeentries.videos',
+            IncludeParser::$param => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()
@@ -678,8 +678,8 @@ class AnimeShowTest extends TestCase
                                 Video::factory()
                                     ->count($this->faker->numberBetween(1, 3))
                                     ->state(new Sequence(
-                                        ['resolution' => $resolutionFilter],
-                                        ['resolution' => $excludedResolution],
+                                        [Video::ATTRIBUTE_RESOLUTION => $resolutionFilter],
+                                        [Video::ATTRIBUTE_RESOLUTION => $excludedResolution],
                                     ))
                             )
                     )
@@ -687,8 +687,8 @@ class AnimeShowTest extends TestCase
             ->create();
 
         $anime = Anime::with([
-            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($resolutionFilter) {
-                $query->where('resolution', $resolutionFilter);
+            Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($resolutionFilter) {
+                $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
             },
         ])
         ->first();
@@ -718,16 +718,16 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'source' => $sourceFilter->description,
+                Video::ATTRIBUTE_SOURCE => $sourceFilter->description,
             ],
-            IncludeParser::$param => 'animethemes.animethemeentries.videos',
+            IncludeParser::$param => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($sourceFilter) {
-                $query->where('source', $sourceFilter->value);
+            Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($sourceFilter) {
+                $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
             },
         ])
         ->first();
@@ -757,16 +757,16 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'subbed' => $subbedFilter,
+                Video::ATTRIBUTE_SUBBED => $subbedFilter,
             ],
-            IncludeParser::$param => 'animethemes.animethemeentries.videos',
+            IncludeParser::$param => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($subbedFilter) {
-                $query->where('subbed', $subbedFilter);
+            Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($subbedFilter) {
+                $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
             },
         ])
         ->first();
@@ -796,16 +796,16 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'uncen' => $uncenFilter,
+                Video::ATTRIBUTE_UNCEN => $uncenFilter,
             ],
-            IncludeParser::$param => 'animethemes.animethemeentries.videos',
+            IncludeParser::$param => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()->jsonApiResource()->create();
 
         $anime = Anime::with([
-            'animethemes.animethemeentries.videos' => function (BelongsToMany $query) use ($uncenFilter) {
-                $query->where('uncen', $uncenFilter);
+            Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($uncenFilter) {
+                $query->where(Video::ATTRIBUTE_UNCEN, $uncenFilter);
             },
         ])
         ->first();

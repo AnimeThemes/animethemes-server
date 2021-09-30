@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Studio;
+use App\Pivots\AnimeStudio;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,13 +21,13 @@ class CreateAnimeStudio extends Migration
      */
     public function up()
     {
-        Schema::create('anime_studio', function (Blueprint $table) {
+        Schema::create(AnimeStudio::TABLE, function (Blueprint $table) {
             $table->timestamps(6);
-            $table->unsignedBigInteger('anime_id');
-            $table->foreign('anime_id')->references('anime_id')->on('anime')->onDelete('cascade');
-            $table->unsignedBigInteger('studio_id');
-            $table->foreign('studio_id')->references('studio_id')->on('studios')->onDelete('cascade');
-            $table->primary(['anime_id', 'studio_id']);
+            $table->unsignedBigInteger(AnimeStudio::ATTRIBUTE_ANIME);
+            $table->foreign(AnimeStudio::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
+            $table->unsignedBigInteger(AnimeStudio::ATTRIBUTE_STUDIO);
+            $table->foreign(AnimeStudio::ATTRIBUTE_STUDIO)->references(Studio::ATTRIBUTE_ID)->on(Studio::TABLE)->cascadeOnDelete();
+            $table->primary([AnimeStudio::ATTRIBUTE_ANIME, AnimeStudio::ATTRIBUTE_STUDIO]);
         });
     }
 
@@ -35,6 +38,6 @@ class CreateAnimeStudio extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('anime_studio');
+        Schema::dropIfExists(AnimeStudio::TABLE);
     }
 }

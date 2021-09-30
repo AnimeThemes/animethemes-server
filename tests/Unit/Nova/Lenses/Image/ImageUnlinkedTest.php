@@ -157,8 +157,8 @@ class ImageUnlinkedTest extends TestCase
             ->create();
 
         $filteredImages = Image::query()
-            ->whereDoesntHave('anime')
-            ->whereDoesntHave('artists')
+            ->whereDoesntHave(Image::RELATION_ANIME)
+            ->whereDoesntHave(Image::RELATION_ARTISTS)
             ->get();
 
         $lens = static::novaLens(ImageUnlinkedLens::class);

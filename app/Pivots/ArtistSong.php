@@ -15,26 +15,34 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * Class ArtistSong.
  *
- * @property string $as
  * @property Artist $artist
+ * @property string $as
  * @property Song $song
  * @method static ArtistSongFactory factory(...$parameters)
  */
 class ArtistSong extends BasePivot
 {
+    public const TABLE = 'artist_song';
+
+    public const ATTRIBUTE_AS = 'as';
+    public const ATTRIBUTE_ARTIST = 'artist_id';
+    public const ATTRIBUTE_SONG = 'song_id';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['as'];
+    protected $fillable = [
+        ArtistSong::ATTRIBUTE_AS,
+    ];
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'artist_song';
+    protected $table = ArtistSong::TABLE;
 
     /**
      * The event map for the model.
@@ -56,7 +64,7 @@ class ArtistSong extends BasePivot
      */
     public function artist(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Artist', 'artist_id', 'artist_id');
+        return $this->belongsTo(Artist::class, ArtistSong::ATTRIBUTE_ARTIST);
     }
 
     /**
@@ -66,6 +74,6 @@ class ArtistSong extends BasePivot
      */
     public function song(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Song', 'song_id', 'song_id');
+        return $this->belongsTo(Song::class, ArtistSong::ATTRIBUTE_SONG);
     }
 }

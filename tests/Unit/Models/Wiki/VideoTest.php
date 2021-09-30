@@ -130,7 +130,7 @@ class VideoTest extends TestCase
     {
         $video = Video::factory()->createOne();
 
-        static::assertArrayHasKey('tags', $video);
+        static::assertArrayHasKey(Video::ATTRIBUTE_TAGS, $video);
     }
 
     /**
@@ -141,7 +141,7 @@ class VideoTest extends TestCase
     public function testNcTag()
     {
         $video = Video::factory()->createOne([
-            'nc' => true,
+            Video::ATTRIBUTE_NC => true,
         ]);
 
         static::assertContains('NC', $video->tags);
@@ -155,7 +155,7 @@ class VideoTest extends TestCase
     public function testNoNcTag()
     {
         $video = Video::factory()->createOne([
-            'nc' => false,
+            Video::ATTRIBUTE_NC => false,
         ]);
 
         static::assertNotContains('NC', $video->tags);
@@ -171,7 +171,7 @@ class VideoTest extends TestCase
         $source = VideoSource::DVD;
 
         $video = Video::factory()->createOne([
-            'source' => $source,
+            Video::ATTRIBUTE_SOURCE => $source,
         ]);
 
         static::assertContains(VideoSource::getDescription($source), $video->tags);
@@ -187,7 +187,7 @@ class VideoTest extends TestCase
         $source = VideoSource::BD;
 
         $video = Video::factory()->createOne([
-            'source' => $source,
+            Video::ATTRIBUTE_SOURCE => $source,
         ]);
 
         static::assertContains(VideoSource::getDescription($source), $video->tags);
@@ -209,7 +209,7 @@ class VideoTest extends TestCase
         }
 
         $video = Video::factory()->createOne([
-            'source' => $source,
+            Video::ATTRIBUTE_SOURCE => $source,
         ]);
 
         static::assertNotContains(VideoSource::getDescription($source), $video->tags);
@@ -235,7 +235,7 @@ class VideoTest extends TestCase
     public function testNo720ResolutionTag()
     {
         $video = Video::factory()->createOne([
-            'resolution' => 720,
+            Video::ATTRIBUTE_RESOLUTION => 720,
         ]);
 
         static::assertNotContains(strval($video->resolution), $video->tags);
@@ -249,7 +249,7 @@ class VideoTest extends TestCase
     public function testSubbedTag()
     {
         $video = Video::factory()->createOne([
-            'subbed' => true,
+            Video::ATTRIBUTE_SUBBED => true,
         ]);
 
         static::assertContains('Subbed', $video->tags);
@@ -264,8 +264,8 @@ class VideoTest extends TestCase
     public function testLyricsTag()
     {
         $video = Video::factory()->createOne([
-            'subbed' => false,
-            'lyrics' => true,
+            Video::ATTRIBUTE_SUBBED => false,
+            Video::ATTRIBUTE_LYRICS => true,
         ]);
 
         static::assertNotContains('Subbed', $video->tags);

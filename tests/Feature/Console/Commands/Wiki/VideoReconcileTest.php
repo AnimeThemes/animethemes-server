@@ -86,12 +86,12 @@ class VideoReconcileTest extends TestCase
 
         Video::factory()
             ->count($updatedVideoCount)
-            ->sequence(fn ($sequence) => ['basename' => $basenames->get($sequence->index)])
+            ->sequence(fn ($sequence) => [Video::ATTRIBUTE_BASENAME => $basenames->get($sequence->index)])
             ->create();
 
         $sourceVideos = Video::factory()
             ->count($updatedVideoCount)
-            ->sequence(fn ($sequence) => ['basename' => $basenames->get($sequence->index)])
+            ->sequence(fn ($sequence) => [Video::ATTRIBUTE_BASENAME => $basenames->get($sequence->index)])
             ->create();
 
         $this->mock(VideoRepository::class, function (MockInterface $mock) use ($sourceVideos) {

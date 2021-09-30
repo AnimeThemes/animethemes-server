@@ -7,7 +7,7 @@ namespace App\Http\Api\Filter;
 /**
  * Class BooleanFilter.
  */
-abstract class BooleanFilter extends Filter
+class BooleanFilter extends Filter
 {
     /**
      * Convert filter values to booleans.

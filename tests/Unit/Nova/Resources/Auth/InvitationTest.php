@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Nova\Resources\Auth;
 
 use App\Enums\Models\Auth\InvitationStatus;
+use App\Models\Auth\Invitation as InvitationModel;
 use App\Nova\Actions\Auth\ResendInvitationAction;
 use App\Nova\Filters\Auth\InvitationStatusFilter;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
@@ -15,6 +16,7 @@ use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
 use App\Nova\Resources\Auth\Invitation;
 use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Validation\Rule;
 use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
 use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
@@ -169,8 +171,8 @@ class InvitationTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('email');
         $field->assertHasRule('max:192');
-        $field->assertHasCreationRule('unique:invitations,email');
-        $field->assertHasUpdateRule('unique:invitations,email,{{resourceId}},invitation_id');
+        $field->assertHasCreationRule(Rule::unique(InvitationModel::TABLE)->__toString());
+        $field->assertHasUpdateRule(Rule::unique(InvitationModel::TABLE)->ignore(null, InvitationModel::ATTRIBUTE_ID)->__toString());
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();

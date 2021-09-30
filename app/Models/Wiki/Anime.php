@@ -11,6 +11,8 @@ use App\Events\Wiki\Anime\AnimeDeleting;
 use App\Events\Wiki\Anime\AnimeRestored;
 use App\Events\Wiki\Anime\AnimeUpdated;
 use App\Models\BaseModel;
+use App\Models\Wiki\Anime\AnimeSynonym;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Pivots\AnimeImage;
 use App\Pivots\AnimeResource;
 use App\Pivots\AnimeSeries;
@@ -30,18 +32,18 @@ use Laravel\Scout\Searchable;
  * Class Anime.
  *
  * @property int $anime_id
- * @property string $slug
- * @property string $name
- * @property int|null $year
- * @property Enum|null $season
- * @property string|null $synopsis
  * @property Collection $animesynonyms
- * @property Collection $series
  * @property Collection $animethemes
- * @property Collection $resources
  * @property Collection $images
- * @property Collection $studios
+ * @property string $name
  * @property BasePivot $pivot
+ * @property Collection $resources
+ * @property Enum|null $season
+ * @property Collection $series
+ * @property string $slug
+ * @property Collection $studios
+ * @property string|null $synopsis
+ * @property int|null $year
  * @method static AnimeFactory factory(...$parameters)
  */
 class Anime extends BaseModel
@@ -50,12 +52,38 @@ class Anime extends BaseModel
     use QueryDsl;
     use Searchable;
 
+    public const TABLE = 'anime';
+
+    public const ATTRIBUTE_ID = 'anime_id';
+    public const ATTRIBUTE_NAME = 'name';
+    public const ATTRIBUTE_SEASON = 'season';
+    public const ATTRIBUTE_SLUG = 'slug';
+    public const ATTRIBUTE_SYNOPSIS = 'synopsis';
+    public const ATTRIBUTE_YEAR = 'year';
+
+    public const RELATION_ARTISTS = 'animethemes.song.artists';
+    public const RELATION_ENTRIES = 'animethemes.animethemeentries';
+    public const RELATION_IMAGES = 'images';
+    public const RELATION_RESOURCES = 'resources';
+    public const RELATION_SERIES = 'series';
+    public const RELATION_SONG = 'animethemes.song';
+    public const RELATION_STUDIOS = 'studios';
+    public const RELATION_SYNONYMS = 'animesynonyms';
+    public const RELATION_THEMES = 'animethemes';
+    public const RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['slug', 'name', 'year', 'season', 'synopsis'];
+    protected $fillable = [
+        Anime::ATTRIBUTE_NAME,
+        Anime::ATTRIBUTE_SEASON,
+        Anime::ATTRIBUTE_SLUG,
+        Anime::ATTRIBUTE_SYNOPSIS,
+        Anime::ATTRIBUTE_YEAR,
+    ];
 
     /**
      * The event map for the model.
@@ -77,14 +105,14 @@ class Anime extends BaseModel
      *
      * @var string
      */
-    protected $table = 'anime';
+    protected $table = Anime::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'anime_id';
+    protected $primaryKey = Anime::ATTRIBUTE_ID;
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
@@ -94,7 +122,7 @@ class Anime extends BaseModel
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
-        return $query->with('animesynonyms');
+        return $query->with(Anime::RELATION_SYNONYMS);
     }
 
     /**
@@ -119,7 +147,7 @@ class Anime extends BaseModel
      */
     public function getRouteKeyName(): string
     {
-        return 'slug';
+        return Anime::ATTRIBUTE_SLUG;
     }
 
     /**
@@ -128,7 +156,7 @@ class Anime extends BaseModel
      * @var array
      */
     protected $enumCasts = [
-        'season' => AnimeSeason::class,
+        Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
     ];
 
     /**
@@ -137,8 +165,8 @@ class Anime extends BaseModel
      * @var array
      */
     protected $casts = [
-        'season' => 'int',
-        'year' => 'int',
+        Anime::ATTRIBUTE_SEASON => 'int',
+        Anime::ATTRIBUTE_YEAR => 'int',
     ];
 
     /**
@@ -158,7 +186,7 @@ class Anime extends BaseModel
      */
     public function animesynonyms(): HasMany
     {
-        return $this->hasMany('App\Models\Wiki\Anime\AnimeSynonym', 'anime_id', 'anime_id');
+        return $this->hasMany(AnimeSynonym::class, AnimeSynonym::ATTRIBUTE_ANIME);
     }
 
     /**
@@ -168,7 +196,7 @@ class Anime extends BaseModel
      */
     public function series(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Series', 'anime_series', 'anime_id', 'series_id')
+        return $this->belongsToMany(Series::class, AnimeSeries::TABLE, Anime::ATTRIBUTE_ID, Series::ATTRIBUTE_ID)
             ->using(AnimeSeries::class)
             ->withTimestamps();
     }
@@ -180,7 +208,7 @@ class Anime extends BaseModel
      */
     public function animethemes(): HasMany
     {
-        return $this->hasMany('App\Models\Wiki\Anime\AnimeTheme', 'anime_id', 'anime_id');
+        return $this->hasMany(AnimeTheme::class, AnimeTheme::ATTRIBUTE_ANIME);
     }
 
     /**
@@ -190,9 +218,9 @@ class Anime extends BaseModel
      */
     public function resources(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\ExternalResource', 'anime_resource', 'anime_id', 'resource_id')
+        return $this->belongsToMany(ExternalResource::class, AnimeResource::TABLE, Anime::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_ID)
             ->using(AnimeResource::class)
-            ->withPivot('as')
+            ->withPivot(AnimeResource::ATTRIBUTE_AS)
             ->withTimestamps();
     }
 
@@ -203,7 +231,7 @@ class Anime extends BaseModel
      */
     public function images(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Image', 'anime_image', 'anime_id', 'image_id')
+        return $this->belongsToMany(Image::class, AnimeImage::TABLE, Anime::ATTRIBUTE_ID, Image::ATTRIBUTE_ID)
             ->using(AnimeImage::class)
             ->withTimestamps();
     }
@@ -215,7 +243,7 @@ class Anime extends BaseModel
      */
     public function studios(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Studio', 'anime_studio', 'anime_id', 'studio_id')
+        return $this->belongsToMany(Studio::class, AnimeStudio::TABLE, Anime::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID)
             ->using(AnimeStudio::class)
             ->withTimestamps();
     }

@@ -10,22 +10,24 @@ use Laravel\Jetstream\TeamInvitation as JetstreamTeamInvitation;
 /**
  * Class TeamInvitation.
  *
- * @property int $id
- * @property int $team_id
- * @property string $email
- * @property string|null $role
  * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property string $email
+ * @property int $id
+ * @property string|null $role
  * @property Team $team
+ * @property int $team_id
+ * @property Carbon $updated_at
  */
 class TeamInvitation extends JetstreamTeamInvitation
 {
+    public const TABLE = 'team_invitations';
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'team_invitations';
+    protected $table = TeamInvitation::TABLE;
 
     /**
      * The storage format of the model's date columns.

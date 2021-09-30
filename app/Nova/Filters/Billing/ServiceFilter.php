@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Filters\Billing;
 
 use App\Enums\Models\Billing\Service;
+use App\Models\Billing\Balance;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
@@ -43,7 +44,7 @@ class ServiceFilter extends Filter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        return $query->where('service', $value);
+        return $query->where(Balance::ATTRIBUTE_SERVICE, $value);
     }
 
     /**

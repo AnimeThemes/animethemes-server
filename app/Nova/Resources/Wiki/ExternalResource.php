@@ -5,14 +5,19 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use App\Nova\Filters\Wiki\ExternalResource\ExternalResourceSiteFilter;
 use App\Nova\Lenses\ExternalResource\ExternalResourceUnlinkedLens;
 use App\Nova\Resources\Resource;
+use App\Pivots\AnimeResource;
+use App\Pivots\ArtistResource;
+use App\Pivots\BasePivot;
 use App\Rules\Wiki\ResourceSiteDomainRule;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inspheric\Fields\Url;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
@@ -32,14 +37,14 @@ class ExternalResource extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Wiki\ExternalResource::class;
+    public static string $model = ExternalResourceModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'link';
+    public static $title = ExternalResourceModel::ATTRIBUTE_LINK;
 
     /**
      * The logical group associated with the resource.
@@ -59,7 +64,7 @@ class ExternalResource extends Resource
      * @var array
      */
     public static $search = [
-        'link',
+        ExternalResourceModel::ATTRIBUTE_LINK,
     ];
 
     /**
@@ -107,14 +112,14 @@ class ExternalResource extends Resource
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'resource_id')
+            ID::make(__('nova.id'), ExternalResourceModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Select::make(__('nova.site'), 'site')
+            Select::make(__('nova.site'), ExternalResourceModel::ATTRIBUTE_SITE)
                 ->options(ResourceSite::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
                     return $enum?->description;
@@ -126,12 +131,16 @@ class ExternalResource extends Resource
             Url::make(__('nova.link'), 'link')
                 ->sortable()
                 ->rules(['required', 'max:192', 'url', new ResourceSiteDomainRule(intval($request->input('site')))])
-                ->creationRules('unique:resources,link')
-                ->updateRules('unique:resources,link,{{resourceId}},resource_id')
+                ->creationRules(Rule::unique(ExternalResourceModel::TABLE)->__toString())
+                ->updateRules(
+                    Rule::unique(ExternalResourceModel::TABLE)
+                        ->ignore($request->resourceId, ExternalResourceModel::ATTRIBUTE_ID)
+                        ->__toString()
+                )
                 ->help(__('nova.resource_link_help'))
                 ->alwaysClickable(),
 
-            Number::make(__('nova.external_id'), 'external_id')
+            Number::make(__('nova.external_id'), ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
                 ->nullable()
                 ->sortable()
                 ->rules(['nullable', 'integer'])
@@ -141,15 +150,15 @@ class ExternalResource extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        Text::make(__('nova.as'), 'as')
+                        Text::make(__('nova.as'), ArtistResource::ATTRIBUTE_AS)
                             ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
@@ -159,15 +168,15 @@ class ExternalResource extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        Text::make(__('nova.as'), 'as')
+                        Text::make(__('nova.as'), AnimeResource::ATTRIBUTE_AS)
                             ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];

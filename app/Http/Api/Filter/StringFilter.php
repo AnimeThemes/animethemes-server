@@ -7,7 +7,7 @@ namespace App\Http\Api\Filter;
 /**
  * Class StringFilter.
  */
-abstract class StringFilter extends Filter
+class StringFilter extends Filter
 {
     /**
      * Convert filter values to strings.

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
+use App\Models\Wiki\Song as SongModel;
 use App\Nova\Lenses\Song\SongArtistLens;
 use App\Nova\Resources\Resource;
 use App\Nova\Resources\Wiki\Anime\Theme;
+use App\Pivots\ArtistSong;
+use App\Pivots\BasePivot;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -26,21 +29,23 @@ class Song extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Wiki\Song::class;
+    public static string $model = SongModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'title';
+    public static $title = SongModel::ATTRIBUTE_TITLE;
 
     /**
      * The relationships that should be eager loaded on index queries.
      *
      * @var array
      */
-    public static $with = ['artists'];
+    public static $with = [
+        SongModel::RELATION_ARTISTS,
+    ];
 
     /**
      * The logical group associated with the resource.
@@ -84,7 +89,7 @@ class Song extends Resource
      * @var array
      */
     public static $search = [
-        'title',
+        SongModel::ATTRIBUTE_TITLE,
     ];
 
     /**
@@ -96,14 +101,14 @@ class Song extends Resource
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'song_id')
+            ID::make(__('nova.id'), SongModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Text::make(__('nova.title'), 'title')
+            Text::make(__('nova.title'), SongModel::ATTRIBUTE_TITLE)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
@@ -113,15 +118,15 @@ class Song extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        Text::make(__('nova.as'), 'as')
+                        Text::make(__('nova.as'), ArtistSong::ATTRIBUTE_AS)
                             ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];

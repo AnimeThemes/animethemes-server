@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit\Nova\Filters\Base;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +60,7 @@ class UpdatedEndDateTest extends TestCase
 
         $response = $filter->apply(Anime::class, $dateFilter);
 
-        $filteredAnimes = Anime::query()->where(Model::UPDATED_AT, ComparisonOperator::LTE, $dateFilter)->get();
+        $filteredAnimes = Anime::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, ComparisonOperator::LTE, $dateFilter)->get();
         foreach ($filteredAnimes as $filteredAnime) {
             $response->assertContains($filteredAnime);
         }

@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Image;
+use App\Pivots\AnimeImage;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,13 +21,13 @@ class CreateAnimeImage extends Migration
      */
     public function up()
     {
-        Schema::create('anime_image', function (Blueprint $table) {
+        Schema::create(AnimeImage::TABLE, function (Blueprint $table) {
             $table->timestamps(6);
-            $table->unsignedBigInteger('anime_id');
-            $table->foreign('anime_id')->references('anime_id')->on('anime')->onDelete('cascade');
-            $table->unsignedBigInteger('image_id');
-            $table->foreign('image_id')->references('image_id')->on('images')->onDelete('cascade');
-            $table->primary(['anime_id', 'image_id']);
+            $table->unsignedBigInteger(AnimeImage::ATTRIBUTE_ANIME);
+            $table->foreign(AnimeImage::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
+            $table->unsignedBigInteger(AnimeImage::ATTRIBUTE_IMAGE);
+            $table->foreign(AnimeImage::ATTRIBUTE_IMAGE)->references(Image::ATTRIBUTE_ID)->on(Image::TABLE)->cascadeOnDelete();
+            $table->primary([AnimeImage::ATTRIBUTE_ANIME, AnimeImage::ATTRIBUTE_IMAGE]);
         });
     }
 
@@ -35,6 +38,6 @@ class CreateAnimeImage extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('anime_image');
+        Schema::dropIfExists(AnimeImage::TABLE);
     }
 }

@@ -59,11 +59,11 @@ class DigitalOceanTransactionRepository implements Repository
                     );
 
                     $sourceTransactions[] = Transaction::factory()->makeOne([
-                        'date' => $date->format(AllowedDateFormat::YMD),
-                        'service' => Service::DIGITALOCEAN,
-                        'description' => Arr::get($sourceTransaction, 'description'),
-                        'amount' => Arr::get($sourceTransaction, 'amount'),
-                        'external_id' => Arr::get($sourceTransaction, 'invoice_id'),
+                        Transaction::ATTRIBUTE_AMOUNT => Arr::get($sourceTransaction, 'amount'),
+                        Transaction::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD),
+                        Transaction::ATTRIBUTE_DESCRIPTION => Arr::get($sourceTransaction, 'description'),
+                        Transaction::ATTRIBUTE_EXTERNAL_ID => Arr::get($sourceTransaction, 'invoice_id'),
+                        Transaction::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
                     ]);
                 }
 

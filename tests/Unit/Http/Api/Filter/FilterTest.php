@@ -26,13 +26,7 @@ class FilterTest extends TestCase
      */
     public function testDefaultColumn()
     {
-        $filterField = $this->faker->word();
-
-        $parameters = [];
-
-        $query = Query::make($parameters);
-
-        $filter = new class($query->getFilterCriteria(), $filterField) extends Filter
+        $filter = new class($this->faker->word()) extends Filter
         {
             /**
              * Convert filter values to integers.
@@ -89,7 +83,7 @@ class FilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends Filter
+        $filter = new class($filterField) extends Filter
         {
             /**
              * Convert filter values to integers.
@@ -150,7 +144,7 @@ class FilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends Filter
+        $filter = new class($filterField) extends Filter
         {
             /**
              * Convert filter values to integers.
@@ -213,7 +207,7 @@ class FilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends Filter
+        $filter = new class($filterField) extends Filter
         {
             /**
              * Convert filter values to integers.

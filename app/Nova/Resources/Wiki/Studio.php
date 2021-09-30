@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
+use App\Models\Wiki\Studio as StudioModel;
 use App\Nova\Lenses\Studio\StudioUnlinkedLens;
 use App\Nova\Resources\Resource;
+use App\Pivots\BasePivot;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -25,14 +28,14 @@ class Studio extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Wiki\Studio::class;
+    public static string $model = StudioModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = StudioModel::ATTRIBUTE_NAME;
 
     /**
      * The logical group associated with the resource.
@@ -76,7 +79,7 @@ class Studio extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        StudioModel::ATTRIBUTE_NAME,
     ];
 
     /**
@@ -88,35 +91,39 @@ class Studio extends Resource
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'studio_id')
+            ID::make(__('nova.id'), StudioModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Text::make(__('nova.name'), 'name')
+            Text::make(__('nova.name'), StudioModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.studio_name_help')),
 
-            Slug::make(__('nova.slug'), 'slug')
-                ->from('name')
+            Slug::make(__('nova.slug'), StudioModel::ATTRIBUTE_SLUG)
+                ->from(StudioModel::ATTRIBUTE_NAME)
                 ->separator('_')
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
-                ->updateRules('unique:studios,slug,{{resourceId}},studio_id')
+                ->updateRules(
+                    Rule::unique(StudioModel::TABLE)
+                        ->ignore($request->resourceId, StudioModel::ATTRIBUTE_ID)
+                        ->__toString()
+                )
                 ->help(__('nova.studio_slug_help')),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
                 ->searchable()
                 ->fields(function () {
                     return [
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];

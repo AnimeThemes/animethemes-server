@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Filters\Wiki\ExternalResource;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
@@ -43,7 +44,7 @@ class ExternalResourceSiteFilter extends Filter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        return $query->where('site', $value);
+        return $query->where(ExternalResource::ATTRIBUTE_SITE, $value);
     }
 
     /**

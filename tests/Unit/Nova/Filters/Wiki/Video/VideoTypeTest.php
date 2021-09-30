@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Nova\Filters\Wiki\Video;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Models\Wiki\Video;
 use App\Nova\Filters\Wiki\Video\VideoTypeFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -71,7 +72,7 @@ class VideoTypeTest extends TestCase
 
         $response = $filter->apply(Video::class, VideoTypeFilter::ANIME);
 
-        $filteredVideos = Video::query()->where('path', 'not like', 'misc%')->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_PATH, ComparisonOperator::NOTLIKE(), 'misc%')->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }
@@ -99,7 +100,7 @@ class VideoTypeTest extends TestCase
 
         $response = $filter->apply(Video::class, VideoTypeFilter::MISC);
 
-        $filteredVideos = Video::query()->where('path', 'like', 'misc%')->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_PATH, ComparisonOperator::LIKE(), 'misc%')->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }

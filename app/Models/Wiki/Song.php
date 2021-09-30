@@ -10,6 +10,7 @@ use App\Events\Wiki\Song\SongDeleting;
 use App\Events\Wiki\Song\SongRestored;
 use App\Events\Wiki\Song\SongUpdated;
 use App\Models\BaseModel;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Pivots\ArtistSong;
 use App\Pivots\BasePivot;
 use Database\Factories\Wiki\SongFactory;
@@ -22,11 +23,11 @@ use Laravel\Scout\Searchable;
 /**
  * Class Song.
  *
- * @property int $song_id
- * @property string|null $title
  * @property Collection $animethemes
  * @property Collection $artists
  * @property BasePivot $pivot
+ * @property int $song_id
+ * @property string|null $title
  * @method static SongFactory factory(...$parameters)
  */
 class Song extends BaseModel
@@ -34,12 +35,23 @@ class Song extends BaseModel
     use QueryDsl;
     use Searchable;
 
+    public const TABLE = 'songs';
+
+    public const ATTRIBUTE_ID = 'song_id';
+    public const ATTRIBUTE_TITLE = 'title';
+
+    public const RELATION_ANIME = 'animethemes.anime';
+    public const RELATION_ANIMETHEMES = 'animethemes';
+    public const RELATION_ARTISTS = 'artists';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['title'];
+    protected $fillable = [
+        Song::ATTRIBUTE_TITLE,
+    ];
 
     /**
      * The event map for the model.
@@ -61,14 +73,14 @@ class Song extends BaseModel
      *
      * @var string
      */
-    protected $table = 'songs';
+    protected $table = Song::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'song_id';
+    protected $primaryKey = Song::ATTRIBUTE_ID;
 
     /**
      * Get name.
@@ -91,7 +103,7 @@ class Song extends BaseModel
      */
     public function animethemes(): HasMany
     {
-        return $this->hasMany('App\Models\Wiki\Anime\AnimeTheme', 'song_id', 'song_id');
+        return $this->hasMany(AnimeTheme::class, AnimeTheme::ATTRIBUTE_SONG);
     }
 
     /**
@@ -101,9 +113,9 @@ class Song extends BaseModel
      */
     public function artists(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Artist', 'artist_song', 'song_id', 'artist_id')
+        return $this->belongsToMany(Artist::class, ArtistSong::TABLE, Song::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID)
             ->using(ArtistSong::class)
-            ->withPivot('as')
+            ->withPivot(ArtistSong::ATTRIBUTE_AS)
             ->withTimestamps();
     }
 }

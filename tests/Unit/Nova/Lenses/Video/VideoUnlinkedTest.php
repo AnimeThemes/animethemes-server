@@ -171,7 +171,7 @@ class VideoUnlinkedTest extends TestCase
             )
             ->create();
 
-        $filteredVideos = Video::query()->whereDoesntHave('animethemeentries')->get();
+        $filteredVideos = Video::query()->whereDoesntHave(Video::RELATION_ANIMETHEMEENTRIES)->get();
 
         $lens = static::novaLens(VideoUnlinkedLens::class);
 

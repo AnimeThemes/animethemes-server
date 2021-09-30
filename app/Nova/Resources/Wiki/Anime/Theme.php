@@ -40,7 +40,7 @@ class Theme extends Resource
      *
      * @var string
      */
-    public static $title = 'slug';
+    public static $title = AnimeTheme::ATTRIBUTE_SLUG;
 
     /**
      * Get the displayable label of the resource.
@@ -84,7 +84,7 @@ class Theme extends Resource
      * @var array
      */
     public static $search = [
-        'slug',
+        AnimeTheme::ATTRIBUTE_SLUG,
     ];
 
     /**
@@ -110,7 +110,7 @@ class Theme extends Resource
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'theme_id')
+            ID::make(__('nova.id'), AnimeTheme::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
@@ -120,7 +120,7 @@ class Theme extends Resource
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Select::make(__('nova.type'), 'type')
+            Select::make(__('nova.type'), AnimeTheme::ATTRIBUTE_TYPE)
                 ->options(ThemeType::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
                     return $enum?->description;
@@ -129,19 +129,19 @@ class Theme extends Resource
                 ->rules(['required', (new EnumValue(ThemeType::class, false))->__toString()])
                 ->help(__('nova.theme_type_help')),
 
-            Number::make(__('nova.sequence'), 'sequence')
+            Number::make(__('nova.sequence'), AnimeTheme::ATTRIBUTE_SEQUENCE)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'integer'])
                 ->help(__('nova.theme_sequence_help')),
 
-            Text::make(__('nova.group'), 'group')
+            Text::make(__('nova.group'), AnimeTheme::ATTRIBUTE_GROUP)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
                 ->help(__('nova.theme_group_help')),
 
-            Text::make(__('nova.slug'), 'slug')
+            Text::make(__('nova.slug'), AnimeTheme::ATTRIBUTE_SLUG)
                 ->hideWhenCreating()
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash'])

@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Resource;
 
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
+use App\Models\BaseModel;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
@@ -18,6 +21,8 @@ use Illuminate\Http\Resources\MissingValue;
  */
 class VideoResource extends BaseResource
 {
+    public const ATTRIBUTE_LINK = 'link';
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -48,39 +53,35 @@ class VideoResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->when($this->isAllowedField('id'), $this->video_id),
-            'basename' => $this->when($this->isAllowedField('basename'), $this->basename),
-            'filename' => $this->when($this->isAllowedField('filename'), $this->filename),
-            'path' => $this->when($this->isAllowedField('path'), $this->path),
-            'size' => $this->when($this->isAllowedField('size'), $this->size),
-            'mimetype' => $this->when($this->isAllowedField('mimetype'), $this->mimetype),
-            'resolution' => $this->when($this->isAllowedField('resolution'), $this->resolution),
-            'nc' => $this->when($this->isAllowedField('nc'), $this->nc),
-            'subbed' => $this->when($this->isAllowedField('subbed'), $this->subbed),
-            'lyrics' => $this->when($this->isAllowedField('lyrics'), $this->lyrics),
-            'uncen' => $this->when($this->isAllowedField('uncen'), $this->uncen),
-            'source' => $this->when($this->isAllowedField('source'), $this->source?->description),
-            'overlap' => $this->when($this->isAllowedField('overlap'), $this->overlap->description),
-            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
-            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'tags' => $this->when($this->isAllowedField('tags'), implode('', $this->tags)),
-            'link' => $this->when($this->isAllowedField('link'), route('video.show', $this)),
-            'animethemeentries' => EntryCollection::make($this->whenLoaded('animethemeentries'), $this->query),
+            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
+            Video::ATTRIBUTE_BASENAME => $this->when($this->isAllowedField(Video::ATTRIBUTE_BASENAME), $this->basename),
+            Video::ATTRIBUTE_FILENAME => $this->when($this->isAllowedField(Video::ATTRIBUTE_FILENAME), $this->filename),
+            Video::ATTRIBUTE_PATH => $this->when($this->isAllowedField(Video::ATTRIBUTE_PATH), $this->path),
+            Video::ATTRIBUTE_SIZE => $this->when($this->isAllowedField(Video::ATTRIBUTE_SIZE), $this->size),
+            Video::ATTRIBUTE_MIMETYPE => $this->when($this->isAllowedField(Video::ATTRIBUTE_MIMETYPE), $this->mimetype),
+            Video::ATTRIBUTE_RESOLUTION => $this->when($this->isAllowedField(Video::ATTRIBUTE_RESOLUTION), $this->resolution),
+            Video::ATTRIBUTE_NC => $this->when($this->isAllowedField(Video::ATTRIBUTE_NC), $this->nc),
+            Video::ATTRIBUTE_SUBBED => $this->when($this->isAllowedField(Video::ATTRIBUTE_SUBBED), $this->subbed),
+            Video::ATTRIBUTE_LYRICS => $this->when($this->isAllowedField(Video::ATTRIBUTE_LYRICS), $this->lyrics),
+            Video::ATTRIBUTE_UNCEN => $this->when($this->isAllowedField(Video::ATTRIBUTE_UNCEN), $this->uncen),
+            Video::ATTRIBUTE_SOURCE => $this->when($this->isAllowedField(Video::ATTRIBUTE_SOURCE), $this->source?->description),
+            Video::ATTRIBUTE_OVERLAP => $this->when($this->isAllowedField(Video::ATTRIBUTE_OVERLAP), $this->overlap->description),
+            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
+            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
+            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
+            Video::ATTRIBUTE_TAGS => $this->when($this->isAllowedField(Video::ATTRIBUTE_TAGS), implode('', $this->tags)),
+            VideoResource::ATTRIBUTE_LINK => $this->when($this->isAllowedField(VideoResource::ATTRIBUTE_LINK), route('video.show', $this)),
+            Video::RELATION_ANIMETHEMEENTRIES => EntryCollection::make($this->whenLoaded(Video::RELATION_ANIMETHEMEENTRIES), $this->query),
         ];
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    public static function allowedIncludePaths(): array
+    public static function schema(): Schema
     {
-        return [
-            'animethemeentries',
-            'animethemeentries.animetheme',
-            'animethemeentries.animetheme.anime',
-        ];
+        return new VideoSchema();
     }
 }

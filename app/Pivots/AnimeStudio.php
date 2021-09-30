@@ -20,12 +20,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class AnimeStudio extends BasePivot
 {
+    public const TABLE = 'anime_studio';
+
+    public const ATTRIBUTE_ANIME = 'anime_id';
+    public const ATTRIBUTE_STUDIO = 'studio_id';
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'anime_studio';
+    protected $table = AnimeStudio::TABLE;
 
     /**
      * The event map for the model.
@@ -46,7 +51,7 @@ class AnimeStudio extends BasePivot
      */
     public function anime(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Anime', 'anime_id', 'anime_id');
+        return $this->belongsTo(Anime::class, AnimeStudio::ATTRIBUTE_ANIME);
     }
 
     /**
@@ -56,6 +61,6 @@ class AnimeStudio extends BasePivot
      */
     public function studio(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Studio', 'studio_id', 'studio_id');
+        return $this->belongsTo(Studio::class, AnimeStudio::ATTRIBUTE_STUDIO);
     }
 }

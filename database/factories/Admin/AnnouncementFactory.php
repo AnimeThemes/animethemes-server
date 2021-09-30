@@ -30,7 +30,7 @@ class AnnouncementFactory extends Factory
     public function definition(): array
     {
         return [
-            'content' => $this->faker->sentence(),
+            Announcement::ATTRIBUTE_CONTENT => $this->faker->sentence(),
         ];
     }
 }

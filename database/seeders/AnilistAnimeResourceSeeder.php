@@ -29,11 +29,11 @@ class AnilistAnimeResourceSeeder extends Seeder
     {
         // Get anime that have MAL resource but do not have Anilist resource
         $animes = Anime::query()
-            ->select(['anime_id', 'name'])
-            ->whereHas('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::MAL);
-            })->whereDoesntHave('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::ANILIST);
+            ->select([Anime::ATTRIBUTE_ID, Anime::ATTRIBUTE_NAME])
+            ->whereHas(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
+            })->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
             })
             ->get();
 
@@ -42,7 +42,7 @@ class AnilistAnimeResourceSeeder extends Seeder
                 continue;
             }
 
-            $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
+            $malResource = $anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
             if ($malResource instanceof ExternalResource && $malResource->external_id !== null) {
                 // Try not to upset Anilist
                 sleep(rand(2, 5));
@@ -74,9 +74,9 @@ class AnilistAnimeResourceSeeder extends Seeder
 
                     // Check if Anilist resource already exists
                     $anilistResource = ExternalResource::query()
-                        ->select(['resource_id', 'link'])
-                        ->where('site', ResourceSite::ANILIST)
-                        ->where('external_id', $anilistId)
+                        ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_LINK])
+                        ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST)
+                        ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $anilistId)
                         ->first();
 
                     // Create Anilist resource if it doesn't already exist
@@ -84,9 +84,9 @@ class AnilistAnimeResourceSeeder extends Seeder
                         Log::info("Creating anilist resource '{$anilistId}' for anime '{$anime->name}'");
 
                         $anilistResource = ExternalResource::factory()->createOne([
-                            'site' => ResourceSite::ANILIST,
-                            'link' => "https://anilist.co/anime/{$anilistId}/",
-                            'external_id' => $anilistId,
+                            ExternalResource::ATTRIBUTE_EXTERNAL_ID => $anilistId,
+                            ExternalResource::ATTRIBUTE_LINK => "https://anilist.co/anime/{$anilistId}/",
+                            ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANILIST,
                         ]);
                     }
 

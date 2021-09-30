@@ -144,7 +144,7 @@ class ArtistSongTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $filteredArtists = Artist::query()->whereDoesntHave('songs')->get();
+        $filteredArtists = Artist::query()->whereDoesntHave(Artist::RELATION_SONGS)->get();
 
         $lens = static::novaLens(ArtistSongLens::class);
 

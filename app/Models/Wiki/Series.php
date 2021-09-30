@@ -19,10 +19,10 @@ use Laravel\Scout\Searchable;
 /**
  * Class Series.
  *
+ * @property Collection $anime
+ * @property string $name
  * @property int $series_id
  * @property string $slug
- * @property string $name
- * @property Collection $anime
  * @method static SeriesFactory factory(...$parameters)
  */
 class Series extends BaseModel
@@ -30,12 +30,23 @@ class Series extends BaseModel
     use QueryDsl;
     use Searchable;
 
+    public const TABLE = 'series';
+
+    public const ATTRIBUTE_ID = 'series_id';
+    public const ATTRIBUTE_NAME = 'name';
+    public const ATTRIBUTE_SLUG = 'slug';
+
+    public const RELATION_ANIME = 'anime';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['slug', 'name'];
+    protected $fillable = [
+        Series::ATTRIBUTE_NAME,
+        Series::ATTRIBUTE_SLUG,
+    ];
 
     /**
      * The event map for the model.
@@ -56,14 +67,14 @@ class Series extends BaseModel
      *
      * @var string
      */
-    protected $table = 'series';
+    protected $table = Series::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'series_id';
+    protected $primaryKey = Series::ATTRIBUTE_ID;
 
     /**
      * Get the route key for the model.
@@ -74,7 +85,7 @@ class Series extends BaseModel
      */
     public function getRouteKeyName(): string
     {
-        return 'slug';
+        return Series::ATTRIBUTE_SLUG;
     }
 
     /**
@@ -94,7 +105,7 @@ class Series extends BaseModel
      */
     public function anime(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Anime', 'anime_series', 'series_id', 'anime_id')
+        return $this->belongsToMany(Anime::class, AnimeSeries::TABLE, Series::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID)
             ->using(AnimeSeries::class)
             ->withTimestamps();
     }

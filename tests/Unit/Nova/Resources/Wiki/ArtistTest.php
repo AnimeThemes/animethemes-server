@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Nova\Resources\Wiki;
 
+use App\Models\Wiki\Artist as ArtistModel;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -12,6 +13,7 @@ use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
 use App\Nova\Resources\Wiki\Artist;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Validation\Rule;
 use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
 use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
@@ -166,7 +168,7 @@ class ArtistTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('max:192');
         $field->assertHasRule('alpha_dash');
-        $field->assertHasUpdateRule('unique:artists,slug,{{resourceId}},artist_id');
+        $field->assertHasUpdateRule(Rule::unique(ArtistModel::TABLE)->ignore(null, ArtistModel::ATTRIBUTE_ID)->__toString());
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();

@@ -4,6 +4,26 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeSynonym;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Image;
+use App\Models\Wiki\Series;
+use App\Models\Wiki\Song;
+use App\Models\Wiki\Studio;
+use App\Models\Wiki\Video;
+use App\Pivots\AnimeImage;
+use App\Pivots\AnimeResource;
+use App\Pivots\AnimeSeries;
+use App\Pivots\AnimeStudio;
+use App\Pivots\AnimeThemeEntryVideo;
+use App\Pivots\ArtistImage;
+use App\Pivots\ArtistMember;
+use App\Pivots\ArtistResource;
+use App\Pivots\ArtistSong;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -21,26 +41,28 @@ class WikiDeseeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-        DB::table('anime_theme_entry_video')->truncate();
-        DB::table('anime_theme_entries')->truncate();
-        DB::table('anime_themes')->truncate();
-        DB::table('anime_synonyms')->truncate();
-        DB::table('anime_resource')->truncate();
-        DB::table('anime_image')->truncate();
-        DB::table('anime_series')->truncate();
-        DB::table('anime')->truncate();
+        DB::table(AnimeThemeEntryVideo::TABLE)->truncate();
+        DB::table(AnimeThemeEntry::TABLE)->truncate();
+        DB::table(AnimeTheme::TABLE)->truncate();
+        DB::table(AnimeSynonym::TABLE)->truncate();
+        DB::table(AnimeResource::TABLE)->truncate();
+        DB::table(AnimeImage::TABLE)->truncate();
+        DB::table(AnimeSeries::TABLE)->truncate();
+        DB::table(AnimeStudio::TABLE)->truncate();
+        DB::table(Anime::TABLE)->truncate();
 
-        DB::table('artist_resource')->truncate();
-        DB::table('artist_image')->truncate();
-        DB::table('artist_song')->truncate();
-        DB::table('artist_member')->truncate();
-        DB::table('artists')->truncate();
+        DB::table(ArtistResource::TABLE)->truncate();
+        DB::table(ArtistImage::TABLE)->truncate();
+        DB::table(ArtistSong::TABLE)->truncate();
+        DB::table(ArtistMember::TABLE)->truncate();
+        DB::table(Artist::TABLE)->truncate();
 
-        DB::table('resources')->truncate();
-        DB::table('images')->truncate();
-        DB::table('series')->truncate();
-        DB::table('songs')->truncate();
-        DB::table('videos')->truncate();
+        DB::table(ExternalResource::TABLE)->truncate();
+        DB::table(Image::TABLE)->truncate();
+        DB::table(Series::TABLE)->truncate();
+        DB::table(Studio::TABLE)->truncate();
+        DB::table(Song::TABLE)->truncate();
+        DB::table(Video::TABLE)->truncate();
 
         DB::table('audits')->truncate();
 

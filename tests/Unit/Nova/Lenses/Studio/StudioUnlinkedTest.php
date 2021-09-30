@@ -130,7 +130,7 @@ class StudioUnlinkedTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $filteredStudios = Studio::query()->whereDoesntHave('anime')->get();
+        $filteredStudios = Studio::query()->whereDoesntHave(Studio::RELATION_ANIME)->get();
 
         $lens = static::novaLens(StudioUnlinkedLens::class);
 

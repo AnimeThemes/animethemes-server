@@ -37,7 +37,7 @@ class BooleanFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends BooleanFilter
+        $filter = new class($filterField) extends BooleanFilter
         {
             // We don't need to do any customization
         };
@@ -66,7 +66,7 @@ class BooleanFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends BooleanFilter
+        $filter = new class($filterField) extends BooleanFilter
         {
             // We don't need to do any customization
         };
@@ -95,7 +95,7 @@ class BooleanFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends BooleanFilter
+        $filter = new class($filterField) extends BooleanFilter
         {
             // We don't need to do any customization
         };

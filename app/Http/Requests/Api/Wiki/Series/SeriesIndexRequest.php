@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\Wiki\Series;
 
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\SeriesSchema;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\Wiki\Collection\SeriesCollection;
@@ -23,5 +25,15 @@ class SeriesIndexRequest extends IndexRequest
     protected function getCollection(): BaseCollection
     {
         return SeriesCollection::make(new MissingValue(), Query::make());
+    }
+
+    /**
+     * Get the schema.
+     *
+     * @return Schema
+     */
+    protected function getSchema(): Schema
+    {
+        return new SeriesSchema();
     }
 }

@@ -69,7 +69,7 @@ class VideoLyricsTest extends TestCase
 
         $response = $filter->apply(Video::class, $lyricsFilter);
 
-        $filteredVideos = Video::query()->where('lyrics', $lyricsFilter)->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter)->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }

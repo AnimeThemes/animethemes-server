@@ -8,10 +8,13 @@ use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
+use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -96,8 +99,13 @@ class ArtistShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowedPaths = collect(ArtistResource::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
+        $schema = new ArtistSchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -129,21 +137,15 @@ class ArtistShowTest extends TestCase
     {
         $this->withoutEvents();
 
-        $fields = collect([
-            'id',
-            'name',
-            'slug',
-            'as',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new ArtistSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                ArtistResource::$wrap => $includedFields->join(','),
+                ArtistResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
@@ -175,9 +177,9 @@ class ArtistShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'group' => $groupFilter,
+                AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => 'songs.animethemes',
+            IncludeParser::$param => Artist::RELATION_ANIMETHEMES,
         ];
 
         Artist::factory()
@@ -189,16 +191,16 @@ class ArtistShowTest extends TestCase
                             ->for(Anime::factory())
                             ->count($this->faker->randomDigitNotNull())
                             ->state(new Sequence(
-                                ['group' => $groupFilter],
-                                ['group' => $excludedGroup],
+                                [AnimeTheme::ATTRIBUTE_GROUP => $groupFilter],
+                                [AnimeTheme::ATTRIBUTE_GROUP => $excludedGroup],
                             ))
                     )
             )
             ->create();
 
         $artist = Artist::with([
-            'songs.animethemes' => function (HasMany $query) use ($groupFilter) {
-                $query->where('group', $groupFilter);
+            Artist::RELATION_ANIMETHEMES => function (HasMany $query) use ($groupFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
             },
         ])
         ->first();
@@ -229,9 +231,9 @@ class ArtistShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'sequence' => $sequenceFilter,
+                AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => 'songs.animethemes',
+            IncludeParser::$param => Artist::RELATION_ANIMETHEMES,
         ];
 
         Artist::factory()
@@ -243,16 +245,16 @@ class ArtistShowTest extends TestCase
                             ->for(Anime::factory())
                             ->count($this->faker->randomDigitNotNull())
                             ->state(new Sequence(
-                                ['sequence' => $sequenceFilter],
-                                ['sequence' => $excludedSequence],
+                                [AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
+                                [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
                             ))
                     )
             )
             ->create();
 
         $artist = Artist::with([
-            'songs.animethemes' => function (HasMany $query) use ($sequenceFilter) {
-                $query->where('sequence', $sequenceFilter);
+            Artist::RELATION_ANIMETHEMES => function (HasMany $query) use ($sequenceFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
             },
         ])
         ->first();
@@ -282,9 +284,9 @@ class ArtistShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'type' => $typeFilter->description,
+                AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => 'songs.animethemes',
+            IncludeParser::$param => Artist::RELATION_ANIMETHEMES,
         ];
 
         Artist::factory()
@@ -300,8 +302,8 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'songs.animethemes' => function (HasMany $query) use ($typeFilter) {
-                $query->where('type', $typeFilter->value);
+            Artist::RELATION_ANIMETHEMES => function (HasMany $query) use ($typeFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
             },
         ])
         ->first();
@@ -331,9 +333,9 @@ class ArtistShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->description,
+                Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'songs.animethemes.anime',
+            IncludeParser::$param => Artist::RELATION_ANIME,
         ];
 
         Artist::factory()
@@ -349,8 +351,8 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'songs.animethemes.anime' => function (BelongsTo $query) use ($seasonFilter) {
-                $query->where('season', $seasonFilter->value);
+            Artist::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ])
         ->first();
@@ -381,9 +383,9 @@ class ArtistShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'year' => $yearFilter,
+                Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => 'songs.animethemes.anime',
+            IncludeParser::$param => Artist::RELATION_ANIME,
         ];
 
         Artist::factory()
@@ -395,7 +397,7 @@ class ArtistShowTest extends TestCase
                             ->for(
                                 Anime::factory()
                                     ->state([
-                                        'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
+                                        Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
                                     ])
                             )
                             ->count($this->faker->randomDigitNotNull())
@@ -404,8 +406,8 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'songs.animethemes.anime' => function (BelongsTo $query) use ($yearFilter) {
-                $query->where('year', $yearFilter);
+            Artist::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ])
         ->first();
@@ -437,18 +439,18 @@ class ArtistShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'site' => $siteFilter->description,
+                ExternalResource::ATTRIBUTE_SITE => $siteFilter->description,
             ],
-            IncludeParser::$param => 'resources',
+            IncludeParser::$param => Artist::RELATION_RESOURCES,
         ];
 
         Artist::factory()
-            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), 'resources')
+            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), Artist::RELATION_RESOURCES)
             ->create();
 
         $artist = Artist::with([
-            'resources' => function (BelongsToMany $query) use ($siteFilter) {
-                $query->where('site', $siteFilter->value);
+            Artist::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter) {
+                $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
             },
         ])
         ->first();
@@ -480,9 +482,9 @@ class ArtistShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'facet' => $facetFilter->description,
+                Image::ATTRIBUTE_FACET => $facetFilter->description,
             ],
-            IncludeParser::$param => 'images',
+            IncludeParser::$param => Artist::RELATION_IMAGES,
         ];
 
         Artist::factory()
@@ -490,8 +492,8 @@ class ArtistShowTest extends TestCase
             ->create();
 
         $artist = Artist::with([
-            'images' => function (BelongsToMany $query) use ($facetFilter) {
-                $query->where('facet', $facetFilter->value);
+            Artist::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
+                $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
             },
         ])
         ->first();

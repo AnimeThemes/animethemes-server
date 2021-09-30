@@ -76,7 +76,7 @@ class TransactionReconcileTest extends TestCase
         $transactions = Transaction::factory()
             ->count($createdTransactionCount)
             ->make([
-                'service' => Service::DIGITALOCEAN,
+                Transaction::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
         $this->mock(DigitalOceanTransactionRepository::class, function (MockInterface $mock) use ($transactions) {
@@ -98,7 +98,7 @@ class TransactionReconcileTest extends TestCase
         Transaction::factory()
             ->count($deletedTransactionCount)
             ->create([
-                'service' => Service::DIGITALOCEAN,
+                Transaction::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
         $this->mock(DigitalOceanTransactionRepository::class, function (MockInterface $mock) {

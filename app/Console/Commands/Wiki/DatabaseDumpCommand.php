@@ -4,6 +4,26 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Wiki;
 
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeSynonym;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Image;
+use App\Models\Wiki\Series;
+use App\Models\Wiki\Song;
+use App\Models\Wiki\Studio;
+use App\Models\Wiki\Video;
+use App\Pivots\AnimeImage;
+use App\Pivots\AnimeResource;
+use App\Pivots\AnimeSeries;
+use App\Pivots\AnimeStudio;
+use App\Pivots\AnimeThemeEntryVideo;
+use App\Pivots\ArtistImage;
+use App\Pivots\ArtistMember;
+use App\Pivots\ArtistResource;
+use App\Pivots\ArtistSong;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
@@ -45,26 +65,26 @@ class DatabaseDumpCommand extends Command
      * @var string[]
      */
     protected array $allowedTables = [
-        'anime',
-        'anime_image',
-        'anime_resource',
-        'anime_series',
-        'anime_studio',
-        'anime_synonyms',
-        'anime_themes',
-        'anime_theme_entries',
-        'anime_theme_entry_video',
-        'artists',
-        'artist_image',
-        'artist_member',
-        'artist_resource',
-        'artist_song',
-        'images',
-        'resources',
-        'series',
-        'songs',
-        'studios',
-        'videos',
+        Anime::TABLE,
+        AnimeImage::TABLE,
+        AnimeResource::TABLE,
+        AnimeSeries::TABLE,
+        AnimeStudio::TABLE,
+        AnimeSynonym::TABLE,
+        AnimeTheme::TABLE,
+        AnimeThemeEntry::TABLE,
+        AnimeThemeEntryVideo::TABLE,
+        Artist::TABLE,
+        ArtistImage::TABLE,
+        ArtistMember::TABLE,
+        ArtistResource::TABLE,
+        ArtistSong::TABLE,
+        Image::TABLE,
+        ExternalResource::TABLE,
+        Series::TABLE,
+        Song::TABLE,
+        Studio::TABLE,
+        Video::TABLE,
     ];
 
     /**

@@ -25,14 +25,14 @@ use Laravel\Scout\Searchable;
  * Class Artist.
  *
  * @property int $artist_id
- * @property string $slug
- * @property string $name
- * @property Collection $songs
- * @property Collection $resources
- * @property Collection $members
  * @property Collection $groups
  * @property Collection $images
+ * @property Collection $members
+ * @property string $name
  * @property BasePivot $pivot
+ * @property Collection $resources
+ * @property string $slug
+ * @property Collection $songs
  * @method static ArtistFactory factory(...$parameters)
  */
 class Artist extends BaseModel
@@ -40,12 +40,29 @@ class Artist extends BaseModel
     use QueryDsl;
     use Searchable;
 
+    public const TABLE = 'artists';
+
+    public const ATTRIBUTE_ID = 'artist_id';
+    public const ATTRIBUTE_NAME = 'name';
+    public const ATTRIBUTE_SLUG = 'slug';
+
+    public const RELATION_ANIME = 'songs.animethemes.anime';
+    public const RELATION_ANIMETHEMES = 'songs.animethemes';
+    public const RELATION_GROUPS = 'groups';
+    public const RELATION_IMAGES = 'images';
+    public const RELATION_MEMBERS = 'members';
+    public const RELATION_RESOURCES = 'resources';
+    public const RELATION_SONGS = 'songs';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['slug', 'name'];
+    protected $fillable = [
+        Artist::ATTRIBUTE_NAME,
+        Artist::ATTRIBUTE_SLUG,
+    ];
 
     /**
      * The event map for the model.
@@ -66,14 +83,14 @@ class Artist extends BaseModel
      *
      * @var string
      */
-    protected $table = 'artists';
+    protected $table = Artist::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'artist_id';
+    protected $primaryKey = Artist::ATTRIBUTE_ID;
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
@@ -83,7 +100,7 @@ class Artist extends BaseModel
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
-        return $query->with('songs');
+        return $query->with(Artist::RELATION_SONGS);
     }
 
     /**
@@ -108,7 +125,7 @@ class Artist extends BaseModel
      */
     public function getRouteKeyName(): string
     {
-        return 'slug';
+        return Artist::ATTRIBUTE_SLUG;
     }
 
     /**
@@ -128,9 +145,9 @@ class Artist extends BaseModel
      */
     public function songs(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Song', 'artist_song', 'artist_id', 'song_id')
+        return $this->belongsToMany(Song::class, ArtistSong::TABLE, Artist::ATTRIBUTE_ID, Song::ATTRIBUTE_ID)
             ->using(ArtistSong::class)
-            ->withPivot('as')
+            ->withPivot(ArtistSong::ATTRIBUTE_AS)
             ->withTimestamps();
     }
 
@@ -141,9 +158,9 @@ class Artist extends BaseModel
      */
     public function resources(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\ExternalResource', 'artist_resource', 'artist_id', 'resource_id')
+        return $this->belongsToMany(ExternalResource::class, ArtistResource::TABLE, Artist::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_ID)
             ->using(ArtistResource::class)
-            ->withPivot('as')
+            ->withPivot(ArtistResource::ATTRIBUTE_AS)
             ->withTimestamps();
     }
 
@@ -154,9 +171,9 @@ class Artist extends BaseModel
      */
     public function members(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Artist', 'artist_member', 'artist_id', 'member_id')
+        return $this->belongsToMany(Artist::class, ArtistMember::TABLE, Artist::ATTRIBUTE_ID, 'member_id')
             ->using(ArtistMember::class)
-            ->withPivot('as')
+            ->withPivot(ArtistMember::ATTRIBUTE_AS)
             ->withTimestamps();
     }
 
@@ -167,9 +184,9 @@ class Artist extends BaseModel
      */
     public function groups(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Artist', 'artist_member', 'member_id', 'artist_id')
+        return $this->belongsToMany(Artist::class, ArtistMember::TABLE, 'member_id', Artist::ATTRIBUTE_ID)
             ->using(ArtistMember::class)
-            ->withPivot('as')
+            ->withPivot(ArtistMember::ATTRIBUTE_AS)
             ->withTimestamps();
     }
 
@@ -180,7 +197,7 @@ class Artist extends BaseModel
      */
     public function images(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Image', 'artist_image', 'artist_id', 'image_id')
+        return $this->belongsToMany(Image::class, ArtistImage::TABLE, Artist::ATTRIBUTE_ID, Image::ATTRIBUTE_ID)
             ->using(ArtistImage::class)
             ->withTimestamps();
     }

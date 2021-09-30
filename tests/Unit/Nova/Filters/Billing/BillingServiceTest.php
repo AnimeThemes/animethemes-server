@@ -69,7 +69,7 @@ class BillingServiceTest extends TestCase
 
         $response = $filter->apply(Balance::class, $service->value);
 
-        $filteredBalances = Balance::query()->where('service', $service->value)->get();
+        $filteredBalances = Balance::query()->where(Balance::ATTRIBUTE_SERVICE, $service->value)->get();
         foreach ($filteredBalances as $filteredBalance) {
             $response->assertContains($filteredBalance);
         }

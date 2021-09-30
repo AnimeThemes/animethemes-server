@@ -29,11 +29,11 @@ class AniDbResourceSeeder extends Seeder
     {
         // Get anime that have MAL resource but do not have AniDB resource
         $animes = Anime::query()
-            ->select(['anime_id', 'name'])
-            ->whereHas('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::MAL);
-            })->whereDoesntHave('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::ANIDB);
+            ->select([Anime::ATTRIBUTE_ID, Anime::ATTRIBUTE_NAME])
+            ->whereHas(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
+            })->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB);
             })
             ->get();
 
@@ -42,7 +42,7 @@ class AniDbResourceSeeder extends Seeder
                 continue;
             }
 
-            $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
+            $malResource = $anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
             if ($malResource instanceof ExternalResource && $malResource->external_id !== null) {
                 // Try not to upset Yuna
                 sleep(rand(2, 5));
@@ -62,9 +62,9 @@ class AniDbResourceSeeder extends Seeder
                     if ($anidbId !== null) {
                         // Check if AniDB resource already exists
                         $anidbResource = ExternalResource::query()
-                            ->select(['resource_id', 'link'])
-                            ->where('site', ResourceSite::ANIDB)
-                            ->where('external_id', $anidbId)
+                            ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_LINK])
+                            ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB)
+                            ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $anidbId)
                             ->first();
 
                         // Create AniDB resource if it doesn't already exist
@@ -72,9 +72,9 @@ class AniDbResourceSeeder extends Seeder
                             Log::info("Creating anidb resource '{$anidbId}' for anime '{$anime->name}'");
 
                             $anidbResource = ExternalResource::factory()->createOne([
-                                'site' => ResourceSite::ANIDB,
-                                'link' => "https://anidb.net/anime/{$anidbId}",
-                                'external_id' => $anidbId,
+                                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $anidbId,
+                                ExternalResource::ATTRIBUTE_LINK => "https://anidb.net/anime/{$anidbId}",
+                                ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANIDB,
                             ]);
                         }
 

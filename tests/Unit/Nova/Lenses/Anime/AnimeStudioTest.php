@@ -139,7 +139,7 @@ class AnimeStudioTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $filteredAnimes = Anime::query()->whereDoesntHave('studios')->get();
+        $filteredAnimes = Anime::query()->whereDoesntHave(Anime::RELATION_STUDIOS)->get();
 
         $lens = static::novaLens(AnimeStudioLens::class);
 

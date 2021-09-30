@@ -69,7 +69,7 @@ class VideoSubbedTest extends TestCase
 
         $response = $filter->apply(Video::class, $subbedFilter);
 
-        $filteredVideos = Video::query()->where('subbed', $subbedFilter)->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_SUBBED, $subbedFilter)->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }

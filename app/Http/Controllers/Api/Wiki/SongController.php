@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Wiki;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
-use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Song\SongIndexRequest;
 use App\Http\Requests\Api\Wiki\Song\SongShowRequest;
 use App\Http\Resources\Wiki\Collection\SongCollection;
@@ -16,7 +16,7 @@ use Illuminate\Http\JsonResponse;
 /**
  * Class SongController.
  */
-class SongController extends BaseController
+class SongController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,11 +26,13 @@ class SongController extends BaseController
      */
     public function index(SongIndexRequest $request): JsonResponse
     {
-        if ($this->query->hasSearchCriteria()) {
-            return SongCollection::performSearch($this->query, PaginationStrategy::OFFSET())->toResponse($request);
+        $query = $request->getQuery();
+
+        if ($query->hasSearchCriteria()) {
+            return SongCollection::performSearch($query, PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return SongCollection::performQuery($this->query)->toResponse($request);
+        return SongCollection::performQuery($query)->toResponse($request);
     }
 
     /**
@@ -42,7 +44,7 @@ class SongController extends BaseController
      */
     public function show(SongShowRequest $request, Song $song): JsonResponse
     {
-        $resource = SongResource::performQuery($song, $this->query);
+        $resource = SongResource::performQuery($song, $request->getQuery());
 
         return $resource->toResponse($request);
     }

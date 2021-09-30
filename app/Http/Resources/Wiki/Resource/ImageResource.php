@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Resource;
 
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
+use App\Models\BaseModel;
 use App\Models\Wiki\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
@@ -19,6 +22,8 @@ use Illuminate\Http\Resources\MissingValue;
  */
 class ImageResource extends BaseResource
 {
+    public const ATTRIBUTE_LINK = 'link';
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -49,30 +54,27 @@ class ImageResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->when($this->isAllowedField('id'), $this->image_id),
-            'path' => $this->when($this->isAllowedField('path'), $this->path),
-            'size' => $this->when($this->isAllowedField('size'), $this->size),
-            'mimetype' => $this->when($this->isAllowedField('mimetype'), $this->mimetype),
-            'facet' => $this->when($this->isAllowedField('facet'), $this->facet?->description),
-            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
-            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'link' =>  $this->when($this->isAllowedField('link'), route('image.show', $this)),
-            'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->query),
-            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->query),
+            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
+            Image::ATTRIBUTE_PATH => $this->when($this->isAllowedField(Image::ATTRIBUTE_PATH), $this->path),
+            Image::ATTRIBUTE_SIZE => $this->when($this->isAllowedField(Image::ATTRIBUTE_SIZE), $this->size),
+            Image::ATTRIBUTE_MIMETYPE => $this->when($this->isAllowedField(Image::ATTRIBUTE_MIMETYPE), $this->mimetype),
+            Image::ATTRIBUTE_FACET => $this->when($this->isAllowedField(Image::ATTRIBUTE_FACET), $this->facet?->description),
+            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
+            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
+            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
+            ImageResource::ATTRIBUTE_LINK =>  $this->when($this->isAllowedField(ImageResource::ATTRIBUTE_LINK), route('image.show', $this)),
+            Image::RELATION_ARTISTS => ArtistCollection::make($this->whenLoaded(Image::RELATION_ARTISTS), $this->query),
+            Image::RELATION_ANIME => AnimeCollection::make($this->whenLoaded(Image::RELATION_ANIME), $this->query),
         ];
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    public static function allowedIncludePaths(): array
+    public static function schema(): Schema
     {
-        return [
-            'anime',
-            'artists',
-        ];
+        return new ImageSchema();
     }
 }

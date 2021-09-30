@@ -41,7 +41,7 @@ class DateFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends DateFilter
+        $filter = new class($filterField) extends DateFilter
         {
             // We don't need to do any customization
         };
@@ -70,7 +70,7 @@ class DateFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends DateFilter
+        $filter = new class($filterField) extends DateFilter
         {
             // We don't need to do any customization
         };
@@ -99,7 +99,7 @@ class DateFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends DateFilter
+        $filter = new class($filterField) extends DateFilter
         {
             // We don't need to do any customization
         };
@@ -130,7 +130,7 @@ class DateFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends DateFilter
+        $filter = new class($filterField) extends DateFilter
         {
             // We don't need to do any customization
         };

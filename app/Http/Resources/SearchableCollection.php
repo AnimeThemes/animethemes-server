@@ -88,8 +88,8 @@ abstract class SearchableCollection extends BaseCollection
         // apply filters
         $filterBuilder = new BoolQueryBuilder();
         $scope = ScopeParser::parse(static::$wrap);
-        foreach (static::filters($query->getFilterCriteria()) as $filter) {
-            $filterBuilder = $filter->applyElasticsearchFilter($filterBuilder, $scope);
+        foreach (static::schema()->filters() as $filter) {
+            $filterBuilder = $filter->applyElasticsearchFilter($query->getFilterCriteria(), $filterBuilder, $scope);
         }
         try {
             $builder->filter($filterBuilder);
@@ -99,8 +99,8 @@ abstract class SearchableCollection extends BaseCollection
 
         // apply sorts
         foreach ($query->getSortCriteria() as $sortCriterion) {
-            foreach (static::sorts(collect([$sortCriterion])) as $sort) {
-                $builder = $sort->applyElasticsearchSort($builder);
+            foreach (static::schema()->sorts() as $sort) {
+                $builder = $sort->applyElasticsearchSort($sortCriterion, $builder);
             }
         }
 

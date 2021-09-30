@@ -44,17 +44,17 @@ class ArtistSeeder extends Seeder
 
             // Create artist if it doesn't already exist
             $artist = Artist::query()
-                ->select(['artist_id', 'name'])
-                ->where('name', $artistName)
-                ->where('slug', $artistSlug)
+                ->select([Artist::ATTRIBUTE_ID, Artist::ATTRIBUTE_NAME])
+                ->where(Artist::ATTRIBUTE_NAME, $artistName)
+                ->where(Artist::ATTRIBUTE_SLUG, $artistSlug)
                 ->first();
 
             if ($artist === null) {
                 Log::info("Creating artist with name '{$artistName}' and slug '{$artistSlug}'");
 
                 $artist = Artist::factory()->createOne([
-                    'name' => $artistName,
-                    'slug' => $artistSlug,
+                    Artist::ATTRIBUTE_NAME => $artistName,
+                    Artist::ATTRIBUTE_SLUG => $artistSlug,
                 ]);
             }
 
@@ -77,18 +77,18 @@ class ArtistSeeder extends Seeder
 
             // Create Resource Model with link and derived site
             $resource = ExternalResource::query()
-                ->select(['resource_id', 'link'])
-                ->where('site', $resourceSite)
-                ->where('link', $artistResourceLink)
+                ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_LINK])
+                ->where(ExternalResource::ATTRIBUTE_SITE, $resourceSite)
+                ->where(ExternalResource::ATTRIBUTE_LINK, $artistResourceLink)
                 ->first();
 
             if ($resource === null) {
                 Log::info("Creating resource with site '{$resourceSite}' and link '{$artistResourceLink}'");
 
                 $resource = ExternalResource::factory()->createOne([
-                    'site' => $resourceSite,
-                    'link' => $artistResourceLink,
-                    'external_id' => intval($externalId[1]),
+                    ExternalResource::ATTRIBUTE_EXTERNAL_ID => intval($externalId[1]),
+                    ExternalResource::ATTRIBUTE_LINK => $artistResourceLink,
+                    ExternalResource::ATTRIBUTE_SITE => $resourceSite,
                 ]);
             }
 

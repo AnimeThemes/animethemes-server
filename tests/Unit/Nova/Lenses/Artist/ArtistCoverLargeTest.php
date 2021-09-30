@@ -143,8 +143,8 @@ class ArtistCoverLargeTest extends TestCase
             ->create();
 
         $filteredArtists = Artist::query()
-            ->whereDoesntHave('images', function (Builder $imageQuery) {
-                $imageQuery->where('facet', ImageFacet::COVER_LARGE);
+            ->whereDoesntHave(Artist::RELATION_IMAGES, function (Builder $imageQuery) {
+                $imageQuery->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE);
             })
             ->get();
 

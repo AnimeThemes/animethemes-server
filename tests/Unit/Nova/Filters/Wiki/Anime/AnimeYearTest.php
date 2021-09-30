@@ -71,7 +71,7 @@ class AnimeYearTest extends TestCase
 
         $response = $filter->apply(Anime::class, $filterYear);
 
-        $filteredAnimes = Anime::query()->where('year', $filterYear)->get();
+        $filteredAnimes = Anime::query()->where(Anime::ATTRIBUTE_YEAR, $filterYear)->get();
         foreach ($filteredAnimes as $filteredAnime) {
             $response->assertContains($filteredAnime);
         }

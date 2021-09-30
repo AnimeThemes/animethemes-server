@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Resource;
 
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
+use App\Models\BaseModel;
 use App\Models\Wiki\Song;
+use App\Pivots\ArtistSong;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
@@ -49,30 +53,27 @@ class SongResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->when($this->isAllowedField('id'), $this->song_id),
-            'title' => $this->when($this->isAllowedField('title'), $this->title),
-            'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('artist_song', function () {
-                return $this->pivot->getAttribute('as');
-            })),
-            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
-            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'animethemes' => ThemeCollection::make($this->whenLoaded('animethemes'), $this->query),
-            'artists' => ArtistCollection::make($this->whenLoaded('artists'), $this->query),
+            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
+            Song::ATTRIBUTE_TITLE => $this->when($this->isAllowedField(Song::ATTRIBUTE_TITLE), $this->title),
+            ArtistSong::ATTRIBUTE_AS => $this->when(
+                $this->isAllowedField(ArtistSong::ATTRIBUTE_AS),
+                $this->whenPivotLoaded(ArtistSong::TABLE, fn () => $this->pivot->getAttribute(ArtistSong::ATTRIBUTE_AS))
+            ),
+            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
+            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
+            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
+            Song::RELATION_ANIMETHEMES => ThemeCollection::make($this->whenLoaded(Song::RELATION_ANIMETHEMES), $this->query),
+            Song::RELATION_ARTISTS => ArtistCollection::make($this->whenLoaded(Song::RELATION_ARTISTS), $this->query),
         ];
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    public static function allowedIncludePaths(): array
+    public static function schema(): Schema
     {
-        return [
-            'animethemes',
-            'animethemes.anime',
-            'artists',
-        ];
+        return new SongSchema();
     }
 }

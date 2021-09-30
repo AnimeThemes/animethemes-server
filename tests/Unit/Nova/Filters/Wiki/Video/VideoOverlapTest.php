@@ -69,7 +69,7 @@ class VideoOverlapTest extends TestCase
 
         $response = $filter->apply(Video::class, $overlap->value);
 
-        $filteredVideos = Video::query()->where('overlap', $overlap->value)->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_OVERLAP, $overlap->value)->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }

@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Billing\Transaction;
 
-use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Billing\TransactionSchema;
 use App\Http\Requests\Api\ShowRequest;
-use App\Http\Resources\BaseResource;
-use App\Http\Resources\Billing\Resource\TransactionResource;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class TransactionShowRequest.
@@ -16,12 +14,12 @@ use Illuminate\Http\Resources\MissingValue;
 class TransactionShowRequest extends ShowRequest
 {
     /**
-     * Get the underlying resource.
+     * Get the schema.
      *
-     * @return BaseResource
+     * @return Schema
      */
-    protected function getResource(): BaseResource
+    protected function getSchema(): Schema
     {
-        return TransactionResource::make(new MissingValue(), Query::make());
+        return new TransactionSchema();
     }
 }

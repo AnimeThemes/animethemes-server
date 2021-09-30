@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\Wiki\Artist;
+use App\Pivots\ArtistMember;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,14 +20,14 @@ class CreateArtistMember extends Migration
      */
     public function up()
     {
-        Schema::create('artist_member', function (Blueprint $table) {
+        Schema::create(ArtistMember::TABLE, function (Blueprint $table) {
             $table->timestamps(6);
-            $table->unsignedBigInteger('artist_id');
-            $table->foreign('artist_id')->references('artist_id')->on('artists')->onDelete('cascade');
-            $table->unsignedBigInteger('member_id');
-            $table->foreign('member_id')->references('artist_id')->on('artists')->onDelete('cascade');
-            $table->primary(['artist_id', 'member_id']);
-            $table->string('as')->nullable();
+            $table->unsignedBigInteger(ArtistMember::ATTRIBUTE_ARTIST);
+            $table->foreign(ArtistMember::ATTRIBUTE_ARTIST)->references(Artist::ATTRIBUTE_ID)->on(Artist::TABLE)->cascadeOnDelete();
+            $table->unsignedBigInteger(ArtistMember::ATTRIBUTE_MEMBER);
+            $table->foreign(ArtistMember::ATTRIBUTE_MEMBER)->references(Artist::ATTRIBUTE_ID)->on(Artist::TABLE)->cascadeOnDelete();
+            $table->primary([ArtistMember::ATTRIBUTE_ARTIST, ArtistMember::ATTRIBUTE_MEMBER]);
+            $table->string(ArtistMember::ATTRIBUTE_AS)->nullable();
         });
     }
 
@@ -36,6 +38,6 @@ class CreateArtistMember extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('artist_member');
+        Schema::dropIfExists(ArtistMember::TABLE);
     }
 }

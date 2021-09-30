@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Models\Wiki\Image as ImageModel;
 use App\Nova\Filters\Wiki\Image\ImageFacetFilter;
 use App\Nova\Lenses\Image\ImageUnlinkedLens;
 use App\Nova\Resources\Resource;
+use App\Pivots\BasePivot;
 use App\Services\Nova\Resources\StoreImage;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
@@ -32,14 +34,14 @@ class Image extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Wiki\Image::class;
+    public static string $model = ImageModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'image_id';
+    public static $title = ImageModel::ATTRIBUTE_ID;
 
     /**
      * The logical group associated with the resource.
@@ -59,7 +61,7 @@ class Image extends Resource
      * @var array
      */
     public static $search = [
-        'image_id',
+        ImageModel::ATTRIBUTE_ID,
     ];
 
     /**
@@ -107,7 +109,7 @@ class Image extends Resource
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'image_id')
+            ID::make(__('nova.id'), ImageModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
@@ -116,7 +118,7 @@ class Image extends Resource
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Select::make(__('nova.facet'), 'facet')
+            Select::make(__('nova.facet'), ImageModel::ATTRIBUTE_FACET)
                 ->options(ImageFacet::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
                     return $enum?->description;
@@ -132,11 +134,11 @@ class Image extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
@@ -146,11 +148,11 @@ class Image extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
@@ -166,17 +168,17 @@ class Image extends Resource
     protected function fileProperties(): array
     {
         return [
-            Text::make(__('nova.path'), 'path')
+            Text::make(__('nova.path'), ImageModel::ATTRIBUTE_PATH)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->readonly(),
 
-            Number::make(__('nova.size'), 'size')
+            Number::make(__('nova.size'), ImageModel::ATTRIBUTE_SIZE)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->readonly(),
 
-            Text::make(__('nova.mimetype'), 'mimetype')
+            Text::make(__('nova.mimetype'), ImageModel::ATTRIBUTE_MIMETYPE)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->readonly(),

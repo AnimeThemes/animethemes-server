@@ -6,6 +6,7 @@ namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\Models\Wiki\Video as VideoModel;
 use App\Nova\Filters\Wiki\Video\VideoLyricsFilter;
 use App\Nova\Filters\Wiki\Video\VideoNcFilter;
 use App\Nova\Filters\Wiki\Video\VideoOverlapFilter;
@@ -19,6 +20,7 @@ use App\Nova\Metrics\Video\NewVideos;
 use App\Nova\Metrics\Video\VideosPerDay;
 use App\Nova\Resources\Resource;
 use App\Nova\Resources\Wiki\Anime\Theme\Entry;
+use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
@@ -42,14 +44,14 @@ class Video extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Wiki\Video::class;
+    public static string $model = VideoModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'filename';
+    public static $title = VideoModel::ATTRIBUTE_FILENAME;
 
     /**
      * The logical group associated with the resource.
@@ -93,7 +95,7 @@ class Video extends Resource
      * @var array
      */
     public static $search = [
-        'filename',
+        VideoModel::ATTRIBUTE_FILENAME,
     ];
 
     /**
@@ -105,7 +107,7 @@ class Video extends Resource
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'video_id')
+            ID::make(__('nova.id'), VideoModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
@@ -114,7 +116,7 @@ class Video extends Resource
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Number::make(__('nova.resolution'), 'resolution')
+            Number::make(__('nova.resolution'), VideoModel::ATTRIBUTE_RESOLUTION)
                 ->sortable()
                 ->min(360)
                 ->max(1080)
@@ -122,31 +124,31 @@ class Video extends Resource
                 ->rules(['nullable', 'integer'])
                 ->help(__('nova.video_resolution_help')),
 
-            Boolean::make(__('nova.nc'), 'nc')
+            Boolean::make(__('nova.nc'), VideoModel::ATTRIBUTE_NC)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
                 ->help(__('nova.video_nc_help')),
 
-            Boolean::make(__('nova.subbed'), 'subbed')
+            Boolean::make(__('nova.subbed'), VideoModel::ATTRIBUTE_SUBBED)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
                 ->help(__('nova.video_subbed_help')),
 
-            Boolean::make(__('nova.lyrics'), 'lyrics')
+            Boolean::make(__('nova.lyrics'), VideoModel::ATTRIBUTE_LYRICS)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
                 ->help(__('nova.video_lyrics_help')),
 
-            Boolean::make(__('nova.uncen'), 'uncen')
+            Boolean::make(__('nova.uncen'), VideoModel::ATTRIBUTE_UNCEN)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
                 ->help(__('nova.video_uncen_help')),
 
-            Select::make(__('nova.overlap'), 'overlap')
+            Select::make(__('nova.overlap'), VideoModel::ATTRIBUTE_OVERLAP)
                 ->options(VideoOverlap::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
                     return $enum?->description;
@@ -156,7 +158,7 @@ class Video extends Resource
                 ->rules(['nullable', (new EnumValue(VideoOverlap::class, false))->__toString()])
                 ->help(__('nova.video_overlap_help')),
 
-            Select::make(__('nova.source'), 'source')
+            Select::make(__('nova.source'), VideoModel::ATTRIBUTE_SOURCE)
                 ->options(VideoSource::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
                     return $enum?->description;
@@ -170,11 +172,11 @@ class Video extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
@@ -190,27 +192,27 @@ class Video extends Resource
     protected function fileProperties(): array
     {
         return [
-            Text::make(__('nova.basename'), 'basename')
+            Text::make(__('nova.basename'), VideoModel::ATTRIBUTE_BASENAME)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->readonly(),
 
-            Text::make(__('nova.filename'), 'filename')
+            Text::make(__('nova.filename'), VideoModel::ATTRIBUTE_FILENAME)
                 ->sortable()
                 ->hideWhenCreating()
                 ->readonly(),
 
-            Text::make(__('nova.path'), 'path')
+            Text::make(__('nova.path'), VideoModel::ATTRIBUTE_PATH)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->readonly(),
 
-            Number::make(__('nova.size'), 'size')
+            Number::make(__('nova.size'), VideoModel::ATTRIBUTE_SIZE)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->readonly(),
 
-            Text::make(__('nova.mimetype'), 'mimetype')
+            Text::make(__('nova.mimetype'), VideoModel::ATTRIBUTE_MIMETYPE)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->readonly(),

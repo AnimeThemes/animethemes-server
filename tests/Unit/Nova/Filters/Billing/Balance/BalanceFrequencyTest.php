@@ -69,7 +69,7 @@ class BalanceFrequencyTest extends TestCase
 
         $response = $filter->apply(Balance::class, $frequency->value);
 
-        $filteredBalances = Balance::query()->where('frequency', $frequency->value)->get();
+        $filteredBalances = Balance::query()->where(Balance::ATTRIBUTE_FREQUENCY, $frequency->value)->get();
         foreach ($filteredBalances as $filteredBalance) {
             $response->assertContains($filteredBalance);
         }

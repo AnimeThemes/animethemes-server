@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Anime\Theme;
 
-use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Requests\Api\ShowRequest;
-use App\Http\Resources\BaseResource;
-use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class ThemeShowRequest.
@@ -16,12 +14,12 @@ use Illuminate\Http\Resources\MissingValue;
 class ThemeShowRequest extends ShowRequest
 {
     /**
-     * Get the underlying resource.
+     * Get the schema.
      *
-     * @return BaseResource
+     * @return Schema
      */
-    protected function getResource(): BaseResource
+    protected function getSchema(): Schema
     {
-        return ThemeResource::make(new MissingValue(), Query::make());
+        return new ThemeSchema();
     }
 }

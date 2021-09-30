@@ -20,12 +20,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class AnimeSeries extends BasePivot
 {
+    public const TABLE = 'anime_series';
+
+    public const ATTRIBUTE_ANIME = 'anime_id';
+    public const ATTRIBUTE_SERIES = 'series_id';
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'anime_series';
+    protected $table = AnimeSeries::TABLE;
 
     /**
      * The event map for the model.
@@ -46,7 +51,7 @@ class AnimeSeries extends BasePivot
      */
     public function anime(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Anime', 'anime_id', 'anime_id');
+        return $this->belongsTo(Anime::class, AnimeSeries::ATTRIBUTE_ANIME);
     }
 
     /**
@@ -56,6 +61,6 @@ class AnimeSeries extends BasePivot
      */
     public function series(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Series', 'series_id', 'series_id');
+        return $this->belongsTo(Series::class, AnimeSeries::ATTRIBUTE_SERIES);
     }
 }

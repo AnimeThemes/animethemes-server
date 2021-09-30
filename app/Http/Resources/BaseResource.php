@@ -6,6 +6,7 @@ namespace App\Http\Resources;
 
 use App\Concerns\Http\Resources\PerformsConstrainedEagerLoading;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,6 +16,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 abstract class BaseResource extends JsonResource
 {
     use PerformsConstrainedEagerLoading;
+
+    public const ATTRIBUTE_ID = 'id';
 
     /**
      * Sparse field set specified by the client.
@@ -51,11 +54,11 @@ abstract class BaseResource extends JsonResource
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    abstract public static function allowedIncludePaths(): array;
+    abstract public static function schema(): Schema;
 
     /**
      * Perform query to prepare model for resource.

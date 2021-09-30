@@ -151,8 +151,8 @@ class AnimeCoverSmallTest extends TestCase
             ->create();
 
         $filteredAnimes = Anime::query()
-            ->whereDoesntHave('images', function (Builder $imageQuery) {
-                $imageQuery->where('facet', ImageFacet::COVER_SMALL);
+            ->whereDoesntHave(Anime::RELATION_IMAGES, function (Builder $imageQuery) {
+                $imageQuery->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_SMALL);
             })
             ->get();
 

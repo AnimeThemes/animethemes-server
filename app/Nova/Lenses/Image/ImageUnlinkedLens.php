@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Lenses\Image;
 
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Models\Wiki\Image;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -48,7 +49,7 @@ class ImageUnlinkedLens extends Lens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave('anime')->whereDoesntHave('artists')
+            $query->whereDoesntHave(Image::RELATION_ANIME)->whereDoesntHave(Image::RELATION_ARTISTS)
         ));
     }
 
@@ -61,17 +62,17 @@ class ImageUnlinkedLens extends Lens
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'image_id')
+            ID::make(__('nova.id'), Image::ATTRIBUTE_ID)
                 ->sortable(),
 
-            Select::make(__('nova.facet'), 'facet')
+            Select::make(__('nova.facet'), Image::ATTRIBUTE_FACET)
                 ->options(ImageFacet::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
                     return $enum?->description;
                 })
                 ->sortable(),
 
-            NovaImage::make(__('nova.image'), 'path')
+            NovaImage::make(__('nova.image'), Image::ATTRIBUTE_PATH)
                 ->disk('images'),
         ];
     }

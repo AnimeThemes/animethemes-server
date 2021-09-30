@@ -47,11 +47,11 @@ class DigitalOceanBalanceRepository implements Repository
                 ->json();
 
             $balance = Balance::factory()->makeOne([
-                'date' => Date::now()->firstOfMonth()->format(AllowedDateFormat::YMD),
-                'service' => Service::DIGITALOCEAN,
-                'frequency' => BalanceFrequency::MONTHLY,
-                'usage' => Arr::get($response, 'month_to_date_usage'),
-                'balance' => -1.0 * floatval(Arr::get($response, 'month_to_date_balance')),
+                Balance::ATTRIBUTE_BALANCE => -1.0 * floatval(Arr::get($response, 'month_to_date_balance')),
+                Balance::ATTRIBUTE_DATE => Date::now()->firstOfMonth()->format(AllowedDateFormat::YMD),
+                Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::MONTHLY,
+                Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
+                Balance::ATTRIBUTE_USAGE => Arr::get($response, 'month_to_date_usage'),
             ]);
 
             return collect([$balance]);

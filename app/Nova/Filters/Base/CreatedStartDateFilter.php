@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Nova\Filters\Base;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Laravel\Nova\Filters\DateFilter;
@@ -40,6 +40,6 @@ class CreatedStartDateFilter extends DateFilter
     {
         $value = Date::parse($value);
 
-        return $query->where(Model::CREATED_AT, ComparisonOperator::GTE, $value);
+        return $query->where(BaseModel::ATTRIBUTE_CREATED_AT, ComparisonOperator::GTE, $value);
     }
 }

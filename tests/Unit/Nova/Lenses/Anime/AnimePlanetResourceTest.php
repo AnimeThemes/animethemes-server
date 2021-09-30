@@ -138,8 +138,8 @@ class AnimePlanetResourceTest extends TestCase
             ->create();
 
         $filteredAnimes = Anime::query()
-            ->whereDoesntHave('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::ANIME_PLANET);
+            ->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIME_PLANET);
             })
             ->get();
 

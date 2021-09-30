@@ -15,26 +15,34 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * Class AnimeResource.
  *
- * @property string $as
  * @property Anime $anime
+ * @property string $as
  * @property ExternalResource $resource
  * @method static AnimeResourceFactory factory(...$parameters)
  */
 class AnimeResource extends BasePivot
 {
+    public const TABLE = 'anime_resource';
+
+    public const ATTRIBUTE_ANIME = 'anime_id';
+    public const ATTRIBUTE_AS = 'as';
+    public const ATTRIBUTE_RESOURCE = 'resource_id';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['as'];
+    protected $fillable = [
+        AnimeResource::ATTRIBUTE_AS,
+    ];
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'anime_resource';
+    protected $table = AnimeResource::TABLE;
 
     /**
      * The event map for the model.
@@ -56,7 +64,7 @@ class AnimeResource extends BasePivot
      */
     public function anime(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Anime', 'anime_id', 'anime_id');
+        return $this->belongsTo(Anime::class, AnimeResource::ATTRIBUTE_ANIME);
     }
 
     /**
@@ -66,6 +74,6 @@ class AnimeResource extends BasePivot
      */
     public function resource(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\ExternalResource', 'resource_id', 'resource_id');
+        return $this->belongsTo(ExternalResource::class, AnimeResource::ATTRIBUTE_RESOURCE);
     }
 }

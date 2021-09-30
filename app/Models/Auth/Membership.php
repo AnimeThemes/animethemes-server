@@ -10,12 +10,12 @@ use Laravel\Jetstream\Membership as JetstreamMembership;
 /**
  * Class Membership.
  *
- * @property int $id
- * @property int $team_id
- * @property int $user_id
- * @property string|null $role
  * @property Carbon $created_at
+ * @property int $id
+ * @property string|null $role
+ * @property int $team_id
  * @property Carbon $updated_at
+ * @property int $user_id
  */
 class Membership extends JetstreamMembership
 {

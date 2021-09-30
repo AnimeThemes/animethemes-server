@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Lenses\Studio;
 
+use App\Models\Wiki\Studio;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -44,7 +45,7 @@ class StudioUnlinkedLens extends Lens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave('anime')
+            $query->whereDoesntHave(Studio::RELATION_ANIME)
         ));
     }
 
@@ -57,13 +58,13 @@ class StudioUnlinkedLens extends Lens
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'anime_id')
+            ID::make(__('nova.id'), Studio::ATTRIBUTE_ID)
                 ->sortable(),
 
-            Text::make(__('nova.name'), 'name')
+            Text::make(__('nova.name'), Studio::ATTRIBUTE_NAME)
                 ->sortable(),
 
-            Text::make(__('nova.slug'), 'slug')
+            Text::make(__('nova.slug'), Studio::ATTRIBUTE_SLUG)
                 ->sortable(),
         ];
     }

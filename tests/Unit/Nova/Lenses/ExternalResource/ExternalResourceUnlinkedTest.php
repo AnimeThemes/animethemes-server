@@ -157,8 +157,8 @@ class ExternalResourceUnlinkedTest extends TestCase
             ->create();
 
         $filteredResources = ExternalResource::query()
-            ->whereDoesntHave('anime')
-            ->whereDoesntHave('artists')
+            ->whereDoesntHave(ExternalResource::RELATION_ANIME)
+            ->whereDoesntHave(ExternalResource::RELATION_ARTISTS)
             ->get();
 
         $lens = static::novaLens(ExternalResourceUnlinkedLens::class);

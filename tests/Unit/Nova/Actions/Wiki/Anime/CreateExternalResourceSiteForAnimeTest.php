@@ -6,11 +6,13 @@ namespace Tests\Unit\Nova\Actions\Wiki\Anime;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
 use App\Nova\Actions\Wiki\Anime\CreateExternalResourceSiteForAnimeAction;
 use App\Rules\Wiki\ResourceSiteDomainRule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Validation\Rule;
 use JoshGaber\NovaUnit\Actions\MockAction;
 use JoshGaber\NovaUnit\Actions\NovaActionTest;
 use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
@@ -56,7 +58,7 @@ class CreateExternalResourceSiteForAnimeTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('max:192');
         $field->assertHasRule('url');
-        $field->assertHasRule('unique:resources,link');
+        $field->assertHasRule(Rule::unique(ExternalResource::TABLE)->__toString());
         $field->assertHasRule((new ResourceSiteDomainRule($site))->__toString());
     }
 

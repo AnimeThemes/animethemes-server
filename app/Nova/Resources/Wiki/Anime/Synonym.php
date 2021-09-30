@@ -31,7 +31,7 @@ class Synonym extends Resource
      *
      * @var string
      */
-    public static $title = 'text';
+    public static $title = AnimeSynonym::ATTRIBUTE_TEXT;
 
     /**
      * Indicates if the resource should be displayed in the sidebar.
@@ -82,7 +82,7 @@ class Synonym extends Resource
      * @var array
      */
     public static $search = [
-        'text',
+        AnimeSynonym::ATTRIBUTE_TEXT,
     ];
 
     /**
@@ -104,14 +104,14 @@ class Synonym extends Resource
             BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
                 ->readonly(),
 
-            ID::make(__('nova.id'), 'synonym_id')
+            ID::make(__('nova.id'), AnimeSynonym::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Text::make(__('nova.text'), 'text')
+            Text::make(__('nova.text'), AnimeSynonym::ATTRIBUTE_TEXT)
                 ->sortable()
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.synonym_text_help')),

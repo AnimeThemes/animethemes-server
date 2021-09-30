@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\BaseModel;
+use App\Models\Wiki\Anime;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,15 +20,15 @@ class CreateAnimeTable extends Migration
      */
     public function up()
     {
-        Schema::create('anime', function (Blueprint $table) {
-            $table->id('anime_id');
+        Schema::create(Anime::TABLE, function (Blueprint $table) {
+            $table->id(Anime::ATTRIBUTE_ID);
             $table->timestamps(6);
-            $table->softDeletes('deleted_at', 6);
-            $table->string('slug');
-            $table->string('name');
-            $table->integer('year')->nullable();
-            $table->integer('season')->nullable();
-            $table->text('synopsis')->nullable();
+            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+            $table->string(Anime::ATTRIBUTE_SLUG);
+            $table->string(Anime::ATTRIBUTE_NAME);
+            $table->integer(Anime::ATTRIBUTE_YEAR)->nullable();
+            $table->integer(Anime::ATTRIBUTE_SEASON)->nullable();
+            $table->text(Anime::ATTRIBUTE_SYNOPSIS)->nullable();
         });
     }
 
@@ -37,6 +39,6 @@ class CreateAnimeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('anime');
+        Schema::dropIfExists(Anime::TABLE);
     }
 }

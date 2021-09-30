@@ -69,7 +69,7 @@ class VideoNcTest extends TestCase
 
         $response = $filter->apply(Video::class, $ncFilter);
 
-        $filteredVideos = Video::query()->where('nc', $ncFilter)->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_NC, $ncFilter)->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }

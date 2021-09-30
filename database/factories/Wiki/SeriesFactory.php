@@ -31,8 +31,8 @@ class SeriesFactory extends Factory
     public function definition(): array
     {
         return [
-            'slug' => Str::slug($this->faker->text(), '_'),
-            'name' => $this->faker->words(3, true),
+            Series::ATTRIBUTE_NAME => $this->faker->words(3, true),
+            Series::ATTRIBUTE_SLUG => Str::slug($this->faker->text(), '_'),
         ];
     }
 }

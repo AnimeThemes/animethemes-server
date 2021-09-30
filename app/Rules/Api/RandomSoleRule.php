@@ -6,6 +6,7 @@ namespace App\Rules\Api;
 
 use App\Http\Api\Criteria\Sort\RandomCriteria;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Str;
 
 /**
  * Class RandomSoleRule.
@@ -21,7 +22,7 @@ class RandomSoleRule implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        $values = collect($value);
+        $values = Str::of($value)->explode(',');
 
         return ! $values->contains(RandomCriteria::PARAM_VALUE) || $values->containsOneItem();
     }

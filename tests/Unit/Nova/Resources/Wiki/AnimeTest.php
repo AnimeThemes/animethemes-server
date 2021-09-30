@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Models\Wiki\Anime as AnimeModel;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -16,6 +17,7 @@ use App\Nova\Filters\Wiki\Anime\AnimeYearFilter;
 use App\Nova\Resources\Wiki\Anime;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Validation\Rule;
 use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
 use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
@@ -172,7 +174,7 @@ class AnimeTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('max:192');
         $field->assertHasRule('alpha_dash');
-        $field->assertHasUpdateRule('unique:anime,slug,{{resourceId}},anime_id');
+        $field->assertHasUpdateRule(Rule::unique(AnimeModel::TABLE)->ignore(null, AnimeModel::ATTRIBUTE_ID)->__toString());
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();

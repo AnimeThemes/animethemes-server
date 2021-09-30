@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Billing\Balance;
 
+use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Billing\BalanceSchema;
 use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\Billing\Balance;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -79,23 +81,15 @@ class BalanceShowTest extends TestCase
      */
     public function testSparseFieldsets()
     {
-        $fields = collect([
-            'id',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-            'date',
-            'service',
-            'frequency',
-            'usage',
-            'month_toDateBalance',
-        ]);
+        $schema = new BalanceSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                BalanceResource::$wrap => $includedFields->join(','),
+                BalanceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 

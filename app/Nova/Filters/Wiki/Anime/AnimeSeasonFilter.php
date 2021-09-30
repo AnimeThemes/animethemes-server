@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Filters\Wiki\Anime;
 
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Models\Wiki\Anime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
@@ -43,7 +44,7 @@ class AnimeSeasonFilter extends Filter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        return $query->where('season', $value);
+        return $query->where(Anime::ATTRIBUTE_SEASON, $value);
     }
 
     /**

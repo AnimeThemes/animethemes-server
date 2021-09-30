@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Video;
 
-use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Requests\Api\ShowRequest;
-use App\Http\Resources\BaseResource;
-use App\Http\Resources\Wiki\Resource\VideoResource;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class VideoShowRequest.
@@ -16,12 +14,12 @@ use Illuminate\Http\Resources\MissingValue;
 class VideoShowRequest extends ShowRequest
 {
     /**
-     * Get the underlying resource.
+     * Get the schema.
      *
-     * @return BaseResource
+     * @return Schema
      */
-    protected function getResource(): BaseResource
+    protected function getSchema(): Schema
     {
-        return VideoResource::make(new MissingValue(), Query::make());
+        return new VideoSchema();
     }
 }

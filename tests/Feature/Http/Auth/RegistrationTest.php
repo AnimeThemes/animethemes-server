@@ -29,7 +29,7 @@ class RegistrationTest extends TestCase
     public function testHasClosedInvitationForRegistrationForm()
     {
         $invitation = Invitation::factory()->create([
-            'status' => InvitationStatus::CLOSED,
+            Invitation::ATTRIBUTE_STATUS => InvitationStatus::CLOSED,
         ]);
 
         $url = URL::temporarySignedRoute(
@@ -96,7 +96,7 @@ class RegistrationTest extends TestCase
     public function testHasClosedInvitationForRegistration()
     {
         $invitation = Invitation::factory()->create([
-            'status' => InvitationStatus::CLOSED,
+            Invitation::ATTRIBUTE_STATUS => InvitationStatus::CLOSED,
         ]);
 
         $url = URL::temporarySignedRoute(
@@ -300,7 +300,10 @@ class RegistrationTest extends TestCase
 
         $this->post($url);
 
-        $user = User::query()->where('name', $invitation->name)->where('email', $invitation->email)->first();
+        $user = User::query()
+            ->where(Invitation::ATTRIBUTE_NAME, $invitation->name)
+            ->where(Invitation::ATTRIBUTE_EMAIL, $invitation->email)
+            ->first();
 
         static::assertNotNull($user);
     }

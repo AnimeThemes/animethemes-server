@@ -40,11 +40,11 @@ class AnimeFactory extends Factory
     public function definition(): array
     {
         return [
-            'slug' => Str::slug($this->faker->text(), '_'),
-            'name' => $this->faker->words(3, true),
-            'year' => intval($this->faker->year()),
-            'season' => AnimeSeason::getRandomValue(),
-            'synopsis' => $this->faker->text(),
+            Anime::ATTRIBUTE_NAME => $this->faker->words(3, true),
+            Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomValue(),
+            Anime::ATTRIBUTE_SLUG => Str::slug($this->faker->text(), '_'),
+            Anime::ATTRIBUTE_SYNOPSIS => $this->faker->text(),
+            Anime::ATTRIBUTE_YEAR => intval($this->faker->year()),
         ];
     }
 

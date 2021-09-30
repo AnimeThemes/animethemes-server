@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Resource;
 
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
+use App\Models\BaseModel;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
@@ -48,25 +51,23 @@ class StudioResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->when($this->isAllowedField('id'), $this->studio_id),
-            'name' => $this->when($this->isAllowedField('name'), $this->name),
-            'slug' => $this->when($this->isAllowedField('slug'), $this->slug),
-            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
-            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'anime' => AnimeCollection::make($this->whenLoaded('anime'), $this->query),
+            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
+            Studio::ATTRIBUTE_NAME => $this->when($this->isAllowedField(Studio::ATTRIBUTE_NAME), $this->name),
+            Studio::ATTRIBUTE_SLUG => $this->when($this->isAllowedField(Studio::ATTRIBUTE_SLUG), $this->slug),
+            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
+            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
+            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
+            Studio::RELATION_ANIME => AnimeCollection::make($this->whenLoaded(Studio::RELATION_ANIME), $this->query),
         ];
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    public static function allowedIncludePaths(): array
+    public static function schema(): Schema
     {
-        return [
-            'anime',
-        ];
+        return new StudioSchema();
     }
 }

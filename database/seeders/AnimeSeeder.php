@@ -43,7 +43,7 @@ class AnimeSeeder extends Seeder
             // Generate default slug
             // Fallback: append year if first attempt exists
             $slug = Str::slug($animeName, '_');
-            if (Anime::query()->where('slug', $slug)->exists()) {
+            if (Anime::query()->where(Anime::ATTRIBUTE_SLUG, $slug)->exists()) {
                 $slug = Str::slug($animeName.' '.$animeYear, '_');
             }
 
@@ -52,15 +52,20 @@ class AnimeSeeder extends Seeder
             $animeYears = WikiPages::getAnimeIndexYears($animeYear);
 
             // Create Anime if it doesn't already exist
-            if (Anime::query()->where('name', $animeName)->whereIn('year', $animeYears)->doesntExist()) {
+            if (
+                Anime::query()
+                    ->where(Anime::ATTRIBUTE_NAME, $animeName)
+                    ->whereIn(Anime::ATTRIBUTE_YEAR, $animeYears)
+                    ->doesntExist()
+            ) {
                 Log::info("Creating anime '{$animeName}'");
 
                 Anime::factory()->createOne([
-                    'name' => $animeName,
-                    'slug' => $slug,
-                    'year' => $animeYears[0],
-                    'season' => null,
-                    'synopsis' => null,
+                    Anime::ATTRIBUTE_NAME => $animeName,
+                    Anime::ATTRIBUTE_SEASON => null,
+                    Anime::ATTRIBUTE_SLUG => $slug,
+                    Anime::ATTRIBUTE_SYNOPSIS => null,
+                    Anime::ATTRIBUTE_YEAR => $animeYears[0],
                 ]);
             }
         }

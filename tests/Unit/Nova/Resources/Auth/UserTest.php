@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Nova\Resources\Auth;
 
+use App\Models\Auth\User as UserModel;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -12,6 +13,7 @@ use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
 use App\Nova\Resources\Auth\User;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Validation\Rule;
 use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
 use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
@@ -167,8 +169,8 @@ class UserTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('email');
         $field->assertHasRule('max:192');
-        $field->assertHasCreationRule('unique:users,email');
-        $field->assertHasUpdateRule('unique:users,email,{{resourceId}}');
+        $field->assertHasCreationRule(Rule::unique(UserModel::TABLE)->__toString());
+        $field->assertHasUpdateRule(Rule::unique(UserModel::TABLE)->ignore(null, UserModel::ATTRIBUTE_ID)->__toString());
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();

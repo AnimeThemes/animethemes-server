@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\Wiki\Studio;
 
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\Wiki\Collection\StudioCollection;
@@ -23,5 +25,15 @@ class StudioIndexRequest extends IndexRequest
     protected function getCollection(): BaseCollection
     {
         return StudioCollection::make(new MissingValue(), Query::make());
+    }
+
+    /**
+     * Get the schema.
+     *
+     * @return Schema
+     */
+    protected function getSchema(): Schema
+    {
+        return new StudioSchema();
     }
 }

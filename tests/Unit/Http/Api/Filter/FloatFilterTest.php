@@ -37,7 +37,7 @@ class FloatFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends FloatFilter
+        $filter = new class($filterField) extends FloatFilter
         {
             // We don't need to do any customization
         };
@@ -66,7 +66,7 @@ class FloatFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends FloatFilter
+        $filter = new class($filterField) extends FloatFilter
         {
             // We don't need to do any customization
         };

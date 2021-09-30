@@ -138,8 +138,8 @@ class AnimeMalResourceTest extends TestCase
             ->create();
 
         $filteredAnimes = Anime::query()
-            ->whereDoesntHave('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::MAL);
+            ->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
             })
             ->get();
 

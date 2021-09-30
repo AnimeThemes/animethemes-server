@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Nova\Resources;
 
+use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -38,9 +39,9 @@ class StoreImage
         }
 
         return [
-            'path' => $file->store($storagePath, $disk),
-            'size' => $file->getSize(),
-            'mimetype' => $file->getClientMimeType(),
+            Image::ATTRIBUTE_PATH => $file->store($storagePath, $disk),
+            Image::ATTRIBUTE_SIZE => $file->getSize(),
+            Image::ATTRIBUTE_MIMETYPE => $file->getClientMimeType(),
         ];
     }
 }

@@ -30,11 +30,11 @@ class AnimeThemeEntryFactory extends Factory
     public function definition(): array
     {
         return [
-            'version' => $this->faker->randomDigitNotNull(),
-            'episodes' => $this->faker->word(),
-            'nsfw' => $this->faker->boolean(),
-            'spoiler' => $this->faker->boolean(),
-            'notes' => $this->faker->word(),
+            AnimeThemeEntry::ATTRIBUTE_EPISODES => $this->faker->word(),
+            AnimeThemeEntry::ATTRIBUTE_NOTES => $this->faker->word(),
+            AnimeThemeEntry::ATTRIBUTE_NSFW => $this->faker->boolean(),
+            AnimeThemeEntry::ATTRIBUTE_SPOILER => $this->faker->boolean(),
+            AnimeThemeEntry::ATTRIBUTE_VERSION => $this->faker->randomDigitNotNull(),
         ];
     }
 }

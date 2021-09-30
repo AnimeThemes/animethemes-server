@@ -9,6 +9,7 @@ use App\Models\Auth\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
@@ -31,17 +32,17 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::TABLE)],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required'] : '',
         ])->validate();
 
         return User::factory()->createOne([
-            'name' => Arr::get($input, 'name'),
-            'email' => Arr::get($input, 'email'),
-            'email_verified_at' => null,
-            'password' => Hash::make(Arr::get($input, 'password')),
-            'remember_token' => null,
+            User::ATTRIBUTE_NAME => Arr::get($input, 'name'),
+            User::ATTRIBUTE_EMAIL => Arr::get($input, 'email'),
+            User::ATTRIBUTE_EMAIL_VERIFIED_AT => null,
+            User::ATTRIBUTE_PASSWORD => Hash::make(Arr::get($input, 'password')),
+            User::ATTRIBUTE_REMEMBER_TOKEN => null,
         ]);
     }
 }

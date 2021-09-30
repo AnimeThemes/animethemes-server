@@ -67,7 +67,7 @@ class InvitationStatusTest extends TestCase
 
         $response = $filter->apply(Invitation::class, $status->value);
 
-        $filteredInvitations = Invitation::query()->where('status', $status->value)->get();
+        $filteredInvitations = Invitation::query()->where(Invitation::ATTRIBUTE_STATUS, $status->value)->get();
         foreach ($filteredInvitations as $filteredInvitation) {
             $response->assertContains($filteredInvitation);
         }

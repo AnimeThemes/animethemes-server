@@ -69,7 +69,7 @@ class VideoUncenTest extends TestCase
 
         $response = $filter->apply(Video::class, $uncenFilter);
 
-        $filteredVideos = Video::query()->where('uncen', $uncenFilter)->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_UNCEN, $uncenFilter)->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }

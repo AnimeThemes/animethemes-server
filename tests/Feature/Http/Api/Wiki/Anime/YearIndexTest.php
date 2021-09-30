@@ -33,7 +33,7 @@ class YearIndexTest extends TestCase
         $response = $this->get(route('api.animeyear.index'));
 
         $response->assertJson(
-            $anime->unique('year')->sortBy('year')->pluck('year')->all(),
+            $anime->unique(Anime::ATTRIBUTE_YEAR)->sortBy(Anime::ATTRIBUTE_YEAR)->pluck(Anime::ATTRIBUTE_YEAR)->all(),
         );
     }
 }

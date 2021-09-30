@@ -62,7 +62,7 @@ class ResendInvitationTest extends TestCase
         $invitations = Invitation::factory()
             ->count($this->faker->randomDigitNotNull())
             ->create([
-                'status' => InvitationStatus::CLOSED,
+                Invitation::ATTRIBUTE_STATUS => InvitationStatus::CLOSED,
             ]);
 
         $action = static::novaAction(ResendInvitationAction::class);
@@ -82,12 +82,12 @@ class ResendInvitationTest extends TestCase
         $invitations = Invitation::factory()
             ->count($this->faker->randomDigitNotNull())
             ->create([
-                'status' => InvitationStatus::OPEN,
+                Invitation::ATTRIBUTE_STATUS => InvitationStatus::OPEN,
             ]);
 
         $action = static::novaAction(ResendInvitationAction::class);
 
-        $users = $invitations->pluck('name')->join(',');
+        $users = $invitations->pluck(Invitation::ATTRIBUTE_NAME)->join(',');
 
         $action->handle([], $invitations)
             ->assertMessage(__('nova.resent_invitations_for_users', ['users' => $users]));
@@ -103,7 +103,7 @@ class ResendInvitationTest extends TestCase
         $invitations = Invitation::factory()
             ->count($this->faker->randomDigitNotNull())
             ->create([
-                'status' => InvitationStatus::CLOSED,
+                Invitation::ATTRIBUTE_STATUS => InvitationStatus::CLOSED,
             ]);
 
         Mail::fake();
@@ -127,7 +127,7 @@ class ResendInvitationTest extends TestCase
         $invitations = Invitation::factory()
             ->count($invitationCount)
             ->create([
-                'status' => InvitationStatus::OPEN,
+                Invitation::ATTRIBUTE_STATUS => InvitationStatus::OPEN,
             ]);
 
         Mail::fake();

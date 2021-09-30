@@ -31,7 +31,7 @@ class ArtistSongFactory extends Factory
     public function definition(): array
     {
         return [
-            'as' => Str::random(),
+            ArtistSong::ATTRIBUTE_AS => Str::random(),
         ];
     }
 }

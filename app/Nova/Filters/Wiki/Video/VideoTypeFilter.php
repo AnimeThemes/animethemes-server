@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nova\Filters\Wiki\Video;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
@@ -46,8 +48,8 @@ class VideoTypeFilter extends Filter
     public function apply(Request $request, $query, $value): Builder
     {
         return match ($value) {
-            self::ANIME => $query->where('path', 'not like', 'misc%'),
-            self::MISC => $query->where('path', 'like', 'misc%'),
+            self::ANIME => $query->where(Video::ATTRIBUTE_PATH, ComparisonOperator::NOTLIKE, 'misc%'),
+            self::MISC => $query->where(Video::ATTRIBUTE_PATH, ComparisonOperator::LIKE, 'misc%'),
             default => $query,
         };
     }

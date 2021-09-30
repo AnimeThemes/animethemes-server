@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Admin\Announcement;
 
+use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -79,19 +81,15 @@ class AnnouncementShowTest extends TestCase
      */
     public function testSparseFieldsets()
     {
-        $fields = collect([
-            'id',
-            'content',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new AnnouncementSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                AnnouncementResource::$wrap => $includedFields->join(','),
+                AnnouncementResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 

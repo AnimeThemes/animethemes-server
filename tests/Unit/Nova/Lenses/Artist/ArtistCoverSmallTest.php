@@ -143,8 +143,8 @@ class ArtistCoverSmallTest extends TestCase
             ->create();
 
         $filteredArtists = Artist::query()
-            ->whereDoesntHave('images', function (Builder $imageQuery) {
-                $imageQuery->where('facet', ImageFacet::COVER_SMALL);
+            ->whereDoesntHave(Artist::RELATION_IMAGES, function (Builder $imageQuery) {
+                $imageQuery->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_SMALL);
             })
             ->get();
 

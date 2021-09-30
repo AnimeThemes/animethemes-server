@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Filters\Wiki\Anime\Theme\Entry;
 
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
@@ -42,7 +43,7 @@ class EntryNsfwFilter extends Filter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        return $query->where('nsfw', $value);
+        return $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $value);
     }
 
     /**

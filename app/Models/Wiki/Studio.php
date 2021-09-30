@@ -19,10 +19,10 @@ use Laravel\Scout\Searchable;
 /**
  * Class Studio.
  *
- * @property int $studio_id
- * @property string $slug
- * @property string $name
  * @property Collection $anime
+ * @property string $name
+ * @property string $slug
+ * @property int $studio_id
  * @method static StudioFactory factory(...$parameters)
  */
 class Studio extends BaseModel
@@ -30,12 +30,23 @@ class Studio extends BaseModel
     use QueryDsl;
     use Searchable;
 
+    public const TABLE = 'studios';
+
+    public const ATTRIBUTE_ID = 'studio_id';
+    public const ATTRIBUTE_NAME = 'name';
+    public const ATTRIBUTE_SLUG = 'slug';
+
+    public const RELATION_ANIME = 'anime';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['slug', 'name'];
+    protected $fillable = [
+        Studio::ATTRIBUTE_NAME,
+        Studio::ATTRIBUTE_SLUG,
+    ];
 
     /**
      * The event map for the model.
@@ -56,14 +67,14 @@ class Studio extends BaseModel
      *
      * @var string
      */
-    protected $table = 'studios';
+    protected $table = Studio::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'studio_id';
+    protected $primaryKey = Studio::ATTRIBUTE_ID;
 
     /**
      * Get the route key for the model.
@@ -74,7 +85,7 @@ class Studio extends BaseModel
      */
     public function getRouteKeyName(): string
     {
-        return 'slug';
+        return Studio::ATTRIBUTE_SLUG;
     }
 
     /**
@@ -94,7 +105,7 @@ class Studio extends BaseModel
      */
     public function anime(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Anime', 'anime_studio', 'studio_id', 'anime_id')
+        return $this->belongsToMany(Anime::class, AnimeStudio::TABLE, Studio::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID)
             ->using(AnimeStudio::class)
             ->withTimestamps();
     }

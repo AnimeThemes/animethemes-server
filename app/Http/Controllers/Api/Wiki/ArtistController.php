@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Wiki;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
-use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Artist\ArtistIndexRequest;
 use App\Http\Requests\Api\Wiki\Artist\ArtistShowRequest;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
@@ -16,7 +16,7 @@ use Illuminate\Http\JsonResponse;
 /**
  * Class ArtistController.
  */
-class ArtistController extends BaseController
+class ArtistController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,11 +26,13 @@ class ArtistController extends BaseController
      */
     public function index(ArtistIndexRequest $request): JsonResponse
     {
-        if ($this->query->hasSearchCriteria()) {
-            return ArtistCollection::performSearch($this->query, PaginationStrategy::OFFSET())->toResponse($request);
+        $query = $request->getQuery();
+
+        if ($query->hasSearchCriteria()) {
+            return ArtistCollection::performSearch($query, PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return ArtistCollection::performQuery($this->query)->toResponse($request);
+        return ArtistCollection::performQuery($query)->toResponse($request);
     }
 
     /**
@@ -42,7 +44,7 @@ class ArtistController extends BaseController
      */
     public function show(ArtistShowRequest $request, Artist $artist): JsonResponse
     {
-        $resource = ArtistResource::performQuery($artist, $this->query);
+        $resource = ArtistResource::performQuery($artist, $request->getQuery());
 
         return $resource->toResponse($request);
     }

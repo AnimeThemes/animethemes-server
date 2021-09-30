@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\BaseModel;
+use App\Models\Billing\Transaction;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,15 +20,15 @@ class CreateTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
-            $table->id('transaction_id');
+        Schema::create(Transaction::TABLE, function (Blueprint $table) {
+            $table->id(Transaction::ATTRIBUTE_ID);
             $table->timestamps(6);
-            $table->softDeletes('deleted_at', 6);
-            $table->date('date');
-            $table->integer('service');
-            $table->string('description');
-            $table->decimal('amount');
-            $table->string('external_id')->nullable();
+            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+            $table->date(Transaction::ATTRIBUTE_DATE);
+            $table->integer(Transaction::ATTRIBUTE_SERVICE);
+            $table->string(Transaction::ATTRIBUTE_DESCRIPTION);
+            $table->decimal(Transaction::ATTRIBUTE_AMOUNT);
+            $table->string(Transaction::ATTRIBUTE_EXTERNAL_ID)->nullable();
         });
     }
 
@@ -37,6 +39,6 @@ class CreateTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists(Transaction::TABLE);
     }
 }

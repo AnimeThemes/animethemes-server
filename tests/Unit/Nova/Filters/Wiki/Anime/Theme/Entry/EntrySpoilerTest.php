@@ -70,7 +70,7 @@ class EntrySpoilerTest extends TestCase
 
         $response = $filter->apply(AnimeThemeEntry::class, $spoilerFilter);
 
-        $filteredEntries = AnimeThemeEntry::query()->where('spoiler', $spoilerFilter)->get();
+        $filteredEntries = AnimeThemeEntry::query()->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter)->get();
         foreach ($filteredEntries as $filteredEntry) {
             $response->assertContains($filteredEntry);
         }

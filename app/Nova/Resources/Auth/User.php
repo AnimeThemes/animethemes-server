@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Auth;
 
+use App\Models\Auth\User as UserModel;
 use App\Nova\Resources\Resource;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -21,14 +23,14 @@ class User extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Auth\User::class;
+    public static string $model = UserModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = UserModel::ATTRIBUTE_NAME;
 
     /**
      * Determine if this resource is available for navigation.
@@ -87,7 +89,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        UserModel::ATTRIBUTE_NAME,
     ];
 
     /**
@@ -99,7 +101,7 @@ class User extends Resource
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'id')
+            ID::make(__('nova.id'), UserModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
@@ -108,15 +110,19 @@ class User extends Resource
 
             Gravatar::make()->maxWidth(50),
 
-            Text::make(__('nova.name'), 'name')
+            Text::make(__('nova.name'), UserModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash']),
 
-            Text::make(__('nova.email'), 'email')
+            Text::make(__('nova.email'), UserModel::ATTRIBUTE_EMAIL)
                 ->sortable()
                 ->rules(['required', 'email', 'max:192'])
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+                ->creationRules(Rule::unique(UserModel::TABLE)->__toString())
+                ->updateRules(
+                    Rule::unique(UserModel::TABLE)
+                        ->ignore($request->resourceId, UserModel::ATTRIBUTE_ID)
+                        ->__toString()
+                ),
         ];
     }
 }

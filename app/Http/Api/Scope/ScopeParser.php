@@ -27,9 +27,7 @@ class ScopeParser
             return new RelationScope(
                 Str::of($scope)
                 ->explode('.')
-                ->map(function (string $scopePart) {
-                    return Str::singular($scopePart);
-                })
+                ->map(fn (string $scopePart) => Str::singular($scopePart))
                 ->join('.')
             );
         }

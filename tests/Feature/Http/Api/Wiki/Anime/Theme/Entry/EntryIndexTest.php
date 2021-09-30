@@ -4,19 +4,26 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme\Entry;
 
+use App\Enums\Http\Api\Field\Category;
 use App\Enums\Http\Api\Filter\TrashedStatus;
+use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
+use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
+use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -26,9 +33,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Str;
 use Tests\TestCase;
-use Znck\Eloquent\Relations\BelongsToThrough;
 
 /**
  * Class EntryIndexTest.
@@ -92,8 +97,13 @@ class EntryIndexTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowedPaths = collect(EntryCollection::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
+        $schema = new EntrySchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -128,23 +138,15 @@ class EntryIndexTest extends TestCase
      */
     public function testSparseFieldsets()
     {
-        $fields = collect([
-            'id',
-            'version',
-            'episodes',
-            'nsfw',
-            'spoiler',
-            'notes',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new EntrySchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                EntryResource::$wrap => $includedFields->join(','),
+                EntryResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
@@ -174,32 +176,14 @@ class EntryIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowedSorts = collect([
-            'id',
-            'version',
-            'episodes',
-            'nsfw',
-            'spoiler',
-            'notes',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new EntrySchema();
 
-        $sortCount = $this->faker->numberBetween(1, count($allowedSorts));
-
-        $includedSorts = $allowedSorts->random($sortCount)->map(function (string $includedSort) {
-            if ($this->faker->boolean()) {
-                return Str::of('-')
-                    ->append($includedSort)
-                    ->__toString();
-            }
-
-            return $includedSort;
-        });
+        $field = collect($schema->fields())
+            ->filter(fn (Field $field) => $field->getCategory()->is(Category::ATTRIBUTE()))
+            ->random();
 
         $parameters = [
-            SortParser::$param => $includedSorts->join(','),
+            SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
         $query = Query::make($parameters);
@@ -212,8 +196,8 @@ class EntryIndexTest extends TestCase
         $builder = AnimeThemeEntry::query();
 
         foreach ($query->getSortCriteria() as $sortCriterion) {
-            foreach (EntryCollection::sorts(collect([$sortCriterion])) as $sort) {
-                $builder = $sort->applySort($builder);
+            foreach ($schema->sorts() as $sort) {
+                $builder = $sort->applySort($sortCriterion, $builder);
             }
         }
 
@@ -243,7 +227,7 @@ class EntryIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'created_at' => $createdFilter,
+                BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -264,7 +248,7 @@ class EntryIndexTest extends TestCase
                 ->create();
         });
 
-        $entry = AnimeThemeEntry::query()->where('created_at', $createdFilter)->get();
+        $entry = AnimeThemeEntry::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
         $response = $this->get(route('api.animethemeentry.index', $parameters));
 
@@ -292,7 +276,7 @@ class EntryIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'updated_at' => $updatedFilter,
+                BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -313,7 +297,7 @@ class EntryIndexTest extends TestCase
                 ->create();
         });
 
-        $entry = AnimeThemeEntry::query()->where('updated_at', $updatedFilter)->get();
+        $entry = AnimeThemeEntry::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
         $response = $this->get(route('api.animethemeentry.index', $parameters));
 
@@ -338,7 +322,7 @@ class EntryIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::WITHOUT,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -384,7 +368,7 @@ class EntryIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::WITH,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -430,7 +414,7 @@ class EntryIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::ONLY,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -479,8 +463,8 @@ class EntryIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'deleted_at' => $deletedFilter,
-                'trashed' => TrashedStatus::WITH,
+                BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -509,7 +493,7 @@ class EntryIndexTest extends TestCase
             });
         });
 
-        $entry = AnimeThemeEntry::withTrashed()->where('deleted_at', $deletedFilter)->get();
+        $entry = AnimeThemeEntry::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
         $response = $this->get(route('api.animethemeentry.index', $parameters));
 
@@ -536,7 +520,7 @@ class EntryIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'nsfw' => $nsfwFilter,
+                AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
             ],
         ];
 
@@ -545,7 +529,7 @@ class EntryIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $entries = AnimeThemeEntry::query()->where('nsfw', $nsfwFilter)->get();
+        $entries = AnimeThemeEntry::query()->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter)->get();
 
         $response = $this->get(route('api.animethemeentry.index', $parameters));
 
@@ -572,7 +556,7 @@ class EntryIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'spoiler' => $spoilerFilter,
+                AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
             ],
         ];
 
@@ -581,7 +565,7 @@ class EntryIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $entries = AnimeThemeEntry::query()->where('spoiler', $spoilerFilter)->get();
+        $entries = AnimeThemeEntry::query()->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter)->get();
 
         $response = $this->get(route('api.animethemeentry.index', $parameters));
 
@@ -609,7 +593,7 @@ class EntryIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'version' => $versionFilter,
+                AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
             ],
         ];
 
@@ -617,12 +601,12 @@ class EntryIndexTest extends TestCase
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->state(new Sequence(
-                ['version' => $versionFilter],
-                ['version' => $excludedVersion],
+                [AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter],
+                [AnimeThemeEntry::ATTRIBUTE_VERSION => $excludedVersion],
             ))
             ->create();
 
-        $entries = AnimeThemeEntry::query()->where('version', $versionFilter)->get();
+        $entries = AnimeThemeEntry::query()->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter)->get();
 
         $response = $this->get(route('api.animethemeentry.index', $parameters));
 
@@ -649,9 +633,9 @@ class EntryIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->description,
+                Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'animetheme.anime',
+            IncludeParser::$param => AnimeThemeEntry::RELATION_ANIME,
         ];
 
         AnimeThemeEntry::factory()
@@ -660,8 +644,8 @@ class EntryIndexTest extends TestCase
             ->create();
 
         $entries = AnimeThemeEntry::with([
-            'anime' => function (BelongsToThrough $query) use ($seasonFilter) {
-                $query->where('season', $seasonFilter->value);
+            AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ])
         ->get();
@@ -692,9 +676,9 @@ class EntryIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'year' => $yearFilter,
+                Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => 'animetheme.anime',
+            IncludeParser::$param => AnimeThemeEntry::RELATION_ANIME,
         ];
 
         AnimeThemeEntry::factory()
@@ -702,7 +686,7 @@ class EntryIndexTest extends TestCase
                 AnimeTheme::factory()->for(
                     Anime::factory()
                         ->state([
-                            'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
+                            Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
                         ])
                 )
             )
@@ -710,8 +694,8 @@ class EntryIndexTest extends TestCase
             ->create();
 
         $entries = AnimeThemeEntry::with([
-            'anime' => function (BelongsToThrough $query) use ($yearFilter) {
-                $query->where('year', $yearFilter);
+            AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ])
         ->get();
@@ -742,9 +726,9 @@ class EntryIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'group' => $groupFilter,
+                AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => 'animetheme',
+            IncludeParser::$param => AnimeThemeEntry::RELATION_THEME,
         ];
 
         AnimeThemeEntry::factory()
@@ -752,15 +736,15 @@ class EntryIndexTest extends TestCase
                 AnimeTheme::factory()
                     ->for(Anime::factory())
                     ->state([
-                        'group' => $this->faker->boolean() ? $groupFilter : $excludedGroup,
+                        AnimeTheme::ATTRIBUTE_GROUP => $this->faker->boolean() ? $groupFilter : $excludedGroup,
                     ])
             )
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $entries = AnimeThemeEntry::with([
-            'animetheme' => function (BelongsTo $query) use ($groupFilter) {
-                $query->where('group', $groupFilter);
+            AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($groupFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
             },
         ])
         ->get();
@@ -791,9 +775,9 @@ class EntryIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'sequence' => $sequenceFilter,
+                AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => 'animetheme',
+            IncludeParser::$param => AnimeThemeEntry::RELATION_THEME,
         ];
 
         AnimeThemeEntry::factory()
@@ -801,15 +785,15 @@ class EntryIndexTest extends TestCase
                 AnimeTheme::factory()
                     ->for(Anime::factory())
                     ->state([
-                        'sequence' => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
+                        AnimeTheme::ATTRIBUTE_SEQUENCE => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
                     ])
             )
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $entries = AnimeThemeEntry::with([
-            'animetheme' => function (BelongsTo $query) use ($sequenceFilter) {
-                $query->where('sequence', $sequenceFilter);
+            AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($sequenceFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
             },
         ])
         ->get();
@@ -839,9 +823,9 @@ class EntryIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'type' => $typeFilter->description,
+                AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => 'animetheme',
+            IncludeParser::$param => AnimeThemeEntry::RELATION_THEME,
         ];
 
         AnimeThemeEntry::factory()
@@ -850,8 +834,8 @@ class EntryIndexTest extends TestCase
             ->create();
 
         $entries = AnimeThemeEntry::with([
-            'animetheme' => function (BelongsTo $query) use ($typeFilter) {
-                $query->where('type', $typeFilter->value);
+            AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($typeFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
             },
         ])
         ->get();

@@ -70,7 +70,7 @@ class EntryNsfwTest extends TestCase
 
         $response = $filter->apply(AnimeThemeEntry::class, $nsfwFilter);
 
-        $filteredEntries = AnimeThemeEntry::query()->where('nsfw', $nsfwFilter)->get();
+        $filteredEntries = AnimeThemeEntry::query()->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter)->get();
         foreach ($filteredEntries as $filteredEntry) {
             $response->assertContains($filteredEntry);
         }

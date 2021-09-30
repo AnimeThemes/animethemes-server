@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Resources\Billing\Resource;
 
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Billing\TransactionSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
+use App\Models\BaseModel;
 use App\Models\Billing\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
@@ -47,25 +50,25 @@ class TransactionResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->when($this->isAllowedField('id'), $this->transaction_id),
-            'date' => $this->when($this->isAllowedField('date'), $this->date),
-            'service' => $this->when($this->isAllowedField('service'), $this->service->description),
-            'description' => $this->when($this->isAllowedField('description'), $this->description),
-            'amount' => $this->when($this->isAllowedField('amount'), $this->amount),
-            'external_id' => $this->when($this->isAllowedField('external_id'), $this->external_id),
-            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
-            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
+            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
+            Transaction::ATTRIBUTE_DATE => $this->when($this->isAllowedField(Transaction::ATTRIBUTE_DATE), $this->date),
+            Transaction::ATTRIBUTE_SERVICE => $this->when($this->isAllowedField(Transaction::ATTRIBUTE_SERVICE), $this->service->description),
+            Transaction::ATTRIBUTE_DESCRIPTION => $this->when($this->isAllowedField(Transaction::ATTRIBUTE_DESCRIPTION), $this->description),
+            Transaction::ATTRIBUTE_AMOUNT => $this->when($this->isAllowedField(Transaction::ATTRIBUTE_AMOUNT), $this->amount),
+            Transaction::ATTRIBUTE_EXTERNAL_ID => $this->when($this->isAllowedField(Transaction::ATTRIBUTE_EXTERNAL_ID), $this->external_id),
+            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
+            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
+            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
         ];
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    public static function allowedIncludePaths(): array
+    public static function schema(): Schema
     {
-        return [];
+        return new TransactionSchema();
     }
 }

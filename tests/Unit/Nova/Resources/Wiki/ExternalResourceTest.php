@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -15,6 +16,7 @@ use App\Nova\Filters\Wiki\ExternalResource\ExternalResourceSiteFilter;
 use App\Nova\Resources\Wiki\ExternalResource;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Validation\Rule;
 use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
 use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
@@ -170,8 +172,8 @@ class ExternalResourceTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('max:192');
         $field->assertHasRule('url');
-        $field->assertHasCreationRule('unique:resources,link');
-        $field->assertHasUpdateRule('unique:resources,link,{{resourceId}},resource_id');
+        $field->assertHasCreationRule(Rule::unique(ExternalResourceModel::TABLE)->__toString());
+        $field->assertHasUpdateRule(Rule::unique(ExternalResourceModel::TABLE)->ignore(null, ExternalResourceModel::ATTRIBUTE_ID)->__toString());
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();
