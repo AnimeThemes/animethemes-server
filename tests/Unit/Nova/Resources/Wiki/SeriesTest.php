@@ -31,6 +31,7 @@ class SeriesTest extends TestCase
      * The Series Resource shall contain Series Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFields()
@@ -49,6 +50,7 @@ class SeriesTest extends TestCase
      * The Series Resource shall contain an ID field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -70,6 +72,7 @@ class SeriesTest extends TestCase
      * The Series Resource shall contain a Created At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -91,6 +94,7 @@ class SeriesTest extends TestCase
      * The Series Resource shall contain an Updated At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -112,6 +116,7 @@ class SeriesTest extends TestCase
      * The Series Resource shall contain a Deleted At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -133,6 +138,7 @@ class SeriesTest extends TestCase
      * The Series Resource shall contain a Name field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -156,6 +162,7 @@ class SeriesTest extends TestCase
      * The Series Resource shall contain a Slug field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -181,6 +188,7 @@ class SeriesTest extends TestCase
      * The Series Resource shall contain Series Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFilters()
@@ -199,6 +207,7 @@ class SeriesTest extends TestCase
      * The Series Resource shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testActions()

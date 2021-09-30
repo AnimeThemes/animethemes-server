@@ -31,6 +31,7 @@ class UserTest extends TestCase
      * The User Resource shall contain User Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFields()
@@ -49,6 +50,7 @@ class UserTest extends TestCase
      * The User Resource shall contain an ID field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -70,6 +72,7 @@ class UserTest extends TestCase
      * The User Resource shall contain a Created At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -91,6 +94,7 @@ class UserTest extends TestCase
      * The User Resource shall contain an Updated At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -112,6 +116,7 @@ class UserTest extends TestCase
      * The User Resource shall contain a Deleted At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -133,6 +138,7 @@ class UserTest extends TestCase
      * The User Resource shall contain a Name field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -157,6 +163,7 @@ class UserTest extends TestCase
      * The User Resource shall contain a Email field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -183,6 +190,7 @@ class UserTest extends TestCase
      * The User Resource shall contain User Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFilters()
@@ -201,6 +209,7 @@ class UserTest extends TestCase
      * The User Resource shall contain User Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testActions()

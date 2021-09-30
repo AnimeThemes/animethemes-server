@@ -29,6 +29,7 @@ class BalanceFrequencyTest extends TestCase
      * The Balance Frequency Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -41,6 +42,7 @@ class BalanceFrequencyTest extends TestCase
      * The Balance Frequency Filter shall have an option for each Frequency instance.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -56,6 +58,7 @@ class BalanceFrequencyTest extends TestCase
      * The Balance Frequency Filter shall filter Balances By Frequency.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */

@@ -27,6 +27,7 @@ class InvitationStatusTest extends TestCase
      * The Invitation Status Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -39,6 +40,7 @@ class InvitationStatusTest extends TestCase
      * The Invitation Status Filter shall have an option for each InvitationStatus instance.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -54,6 +56,7 @@ class InvitationStatusTest extends TestCase
      * The Invitation Status Filter shall filter Invitations By Status.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */

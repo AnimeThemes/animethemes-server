@@ -35,6 +35,7 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain Anime Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFields()
@@ -55,6 +56,7 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain an ID field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -76,6 +78,7 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Created At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -97,6 +100,7 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain an Updated At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -118,6 +122,7 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Deleted At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -139,6 +144,7 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Name field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -162,6 +168,7 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Slug field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -187,6 +194,7 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Year field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -211,6 +219,7 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Season field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -234,6 +243,7 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain a Synopsis field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -255,6 +265,7 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain Anime Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFilters()
@@ -275,6 +286,7 @@ class AnimeTest extends TestCase
      * The Anime Resource shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testActions()

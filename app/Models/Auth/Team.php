@@ -25,6 +25,7 @@ use Laravel\Jetstream\Team as JetstreamTeam;
  * @property Carbon $updated_at
  * @property int $user_id
  * @property Collection $users
+ *
  * @method static TeamFactory factory(...$parameters)
  */
 class Team extends JetstreamTeam

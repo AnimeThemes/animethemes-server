@@ -16,6 +16,7 @@ use Database\Factories\Admin\AnnouncementFactory;
  *
  * @property int $announcement_id
  * @property string $content
+ *
  * @method static AnnouncementFactory factory(...$parameters)
  */
 class Announcement extends BaseModel

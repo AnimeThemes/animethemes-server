@@ -36,6 +36,7 @@ class ArtistSongTest extends TestCase
      * The Artist Song Lens shall contain Artist Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFields()
@@ -51,6 +52,7 @@ class ArtistSongTest extends TestCase
      * The Artist Song Lens fields shall be sortable.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
@@ -67,6 +69,7 @@ class ArtistSongTest extends TestCase
      * The Artist Song Lens shall contain Artist Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFilters()
@@ -85,6 +88,7 @@ class ArtistSongTest extends TestCase
      * The Artist Song Lens shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testActions()
@@ -98,6 +102,7 @@ class ArtistSongTest extends TestCase
      * The Artist Song Lens shall use the 'withFilters' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -114,6 +119,7 @@ class ArtistSongTest extends TestCase
      * The Artist Song Lens shall use the 'withOrdering' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -130,6 +136,7 @@ class ArtistSongTest extends TestCase
      * The Artist Song Lens shall filter Artist without Songs.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */

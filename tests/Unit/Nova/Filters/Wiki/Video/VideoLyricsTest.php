@@ -28,6 +28,7 @@ class VideoLyricsTest extends TestCase
      * The Video Lyrics Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -40,6 +41,7 @@ class VideoLyricsTest extends TestCase
      * The Video Lyrics Filter shall have Yes and No options.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -54,6 +56,7 @@ class VideoLyricsTest extends TestCase
      * The Video Lyrics Filter shall filter Videos By Lyrics.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */

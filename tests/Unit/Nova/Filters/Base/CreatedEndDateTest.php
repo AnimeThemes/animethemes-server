@@ -31,6 +31,7 @@ class CreatedEndDateTest extends TestCase
      * The Created End Date Filter shall be a date filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testDateFilter()
@@ -43,6 +44,7 @@ class CreatedEndDateTest extends TestCase
      * The Created End Date Filter shall filter Models By Create Date.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */

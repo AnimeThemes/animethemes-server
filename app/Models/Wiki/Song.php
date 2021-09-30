@@ -28,6 +28,7 @@ use Laravel\Scout\Searchable;
  * @property BasePivot $pivot
  * @property int $song_id
  * @property string|null $title
+ *
  * @method static SongFactory factory(...$parameters)
  */
 class Song extends BaseModel

@@ -29,6 +29,7 @@ class BillingServiceTest extends TestCase
      * The Balance Service Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -41,6 +42,7 @@ class BillingServiceTest extends TestCase
      * The Balance Service Filter shall have an option for each Service instance.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -56,6 +58,7 @@ class BillingServiceTest extends TestCase
      * The Balance Service Filter shall filter Balances By Service.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */

@@ -26,6 +26,7 @@ class CreateNewUser implements CreatesNewUsers
      *
      * @param  array  $input
      * @return User
+     *
      * @throws ValidationException
      */
     public function create(array $input): User

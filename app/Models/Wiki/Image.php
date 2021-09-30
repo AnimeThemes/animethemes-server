@@ -30,6 +30,7 @@ use Illuminate\Support\Collection;
  * @property string $mimetype
  * @property string $path
  * @property int $size
+ *
  * @method static ImageFactory factory(...$parameters)
  */
 class Image extends BaseModel implements Streamable

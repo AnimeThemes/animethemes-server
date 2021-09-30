@@ -513,7 +513,7 @@ class SynonymIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-               Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
+                Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
             IncludeParser::$param => AnimeSynonym::RELATION_ANIME,
         ];

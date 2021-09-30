@@ -22,6 +22,7 @@ use Laravel\Scout\Searchable;
  * @property int $anime_id
  * @property int $synonym_id
  * @property string|null $text
+ *
  * @method static AnimeSynonymFactory factory(...$parameters)
  */
 class AnimeSynonym extends BaseModel

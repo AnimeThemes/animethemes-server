@@ -40,6 +40,7 @@ class AnimeCoverLargeTest extends TestCase
      * The Anime Large Cover Lens shall contain Anime Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFields()
@@ -57,6 +58,7 @@ class AnimeCoverLargeTest extends TestCase
      * The Anime Large Cover Lens fields shall be sortable.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
@@ -75,6 +77,7 @@ class AnimeCoverLargeTest extends TestCase
      * The Anime Large Cover Lens shall contain Anime Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFilters()
@@ -95,6 +98,7 @@ class AnimeCoverLargeTest extends TestCase
      * The Anime Large Cover Lens shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testActions()
@@ -108,6 +112,7 @@ class AnimeCoverLargeTest extends TestCase
      * The Anime Large Cover Lens shall use the 'withFilters' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -124,6 +129,7 @@ class AnimeCoverLargeTest extends TestCase
      * The Anime Large Cover Lens shall use the 'withOrdering' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -140,6 +146,7 @@ class AnimeCoverLargeTest extends TestCase
      * The Anime Large Cover Lens shall filter Anime without a Large Cover image.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */

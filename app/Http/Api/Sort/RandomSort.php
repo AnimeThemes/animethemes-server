@@ -14,7 +14,6 @@ class RandomSort extends Sort
 {
     /**
      * Create a new sort instance.
-     *
      */
     public function __construct()
     {

@@ -21,6 +21,7 @@ use Database\Factories\Auth\InvitationFactory;
  * @property int $invitation_id
  * @property string $name
  * @property Enum $status
+ *
  * @method static InvitationFactory factory(...$parameters)
  */
 class Invitation extends BaseModel

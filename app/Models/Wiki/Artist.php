@@ -33,6 +33,7 @@ use Laravel\Scout\Searchable;
  * @property Collection $resources
  * @property string $slug
  * @property Collection $songs
+ *
  * @method static ArtistFactory factory(...$parameters)
  */
 class Artist extends BaseModel

@@ -83,7 +83,7 @@ abstract class BaseRequest extends FormRequest
     /**
      * Get the validation rules for the schema.
      *
-     * @param Schema $schema
+     * @param  Schema  $schema
      * @return array
      */
     protected function getSchemaFieldRules(Schema $schema): array
@@ -93,10 +93,10 @@ abstract class BaseRequest extends FormRequest
                 ->append('.')
                 ->append($schema->type())
                 ->__toString() => [
-                'sometimes',
-                'required',
-                new Delimited(Rule::in(collect($schema->fields())->map(fn (Field $field) => $field->getKey()))),
-            ],
+                    'sometimes',
+                    'required',
+                    new Delimited(Rule::in(collect($schema->fields())->map(fn (Field $field) => $field->getKey()))),
+                ],
         ];
     }
 
@@ -138,7 +138,7 @@ abstract class BaseRequest extends FormRequest
             IncludeParser::$param => [
                 'sometimes',
                 'required',
-                new Delimited(Rule::in($allowedIncludes->map(fn (AllowedInclude $include) => $include->path())))
+                new Delimited(Rule::in($allowedIncludes->map(fn (AllowedInclude $include) => $include->path()))),
             ],
         ];
     }

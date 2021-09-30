@@ -32,6 +32,7 @@ class InviteTeamMember implements InvitesTeamMembers
      * @param  string  $email
      * @param  string|null  $role
      * @return void
+     *
      * @throws AuthorizationException
      * @throws ValidationException
      */
@@ -58,6 +59,7 @@ class InviteTeamMember implements InvitesTeamMembers
      * @param  string  $email
      * @param  string|null  $role
      * @return void
+     *
      * @throws ValidationException
      */
     protected function validate(mixed $team, string $email, ?string $role)

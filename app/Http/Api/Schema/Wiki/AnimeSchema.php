@@ -72,7 +72,7 @@ class AnimeSchema extends Schema
                 new StringField(Anime::ATTRIBUTE_SLUG),
                 new StringField(Anime::ATTRIBUTE_SYNOPSIS),
                 new IntField(Anime::ATTRIBUTE_YEAR),
-                new StringField(AnimeResourcePivot::ATTRIBUTE_AS, null, Category::COMPUTED())
+                new StringField(AnimeResourcePivot::ATTRIBUTE_AS, null, Category::COMPUTED()),
             ],
         );
     }

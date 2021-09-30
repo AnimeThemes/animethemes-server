@@ -32,6 +32,7 @@ class DeletedStartDateTest extends TestCase
      * The Deleted Start Date Filter shall be a date filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testDateFilter()

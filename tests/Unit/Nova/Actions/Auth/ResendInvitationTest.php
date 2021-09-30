@@ -29,6 +29,7 @@ class ResendInvitationTest extends TestCase
      * The Resend Invitation Action shall have no fields.
      *
      * @return void
+     *
      * @throws InvalidNovaActionException
      */
     public function testHasNoFields()
@@ -41,6 +42,7 @@ class ResendInvitationTest extends TestCase
      * The Resend Invitation Action shall return a dangerous message if no invitations were resent.
      *
      * @return void
+     *
      * @throws InvalidNovaActionException
      */
     public function testNoInvitationsResent()
@@ -55,6 +57,7 @@ class ResendInvitationTest extends TestCase
      * The Resend Invitation Action shall return a dangerous message if no invitations were resent.
      *
      * @return void
+     *
      * @throws InvalidNovaActionException
      */
     public function testNoClosedInvitationsResent()
@@ -75,6 +78,7 @@ class ResendInvitationTest extends TestCase
      * The Resend Invitation Action shall return a dangerous message if no invitations were resent.
      *
      * @return void
+     *
      * @throws InvalidNovaActionException
      */
     public function testOpenInvitationsResent()

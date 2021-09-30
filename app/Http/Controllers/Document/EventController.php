@@ -18,6 +18,7 @@ class EventController extends DocumentController
      * Display the Event Index document.
      *
      * @return View|Factory
+     *
      * @throws HttpException
      * @throws NotFoundHttpException
      */
@@ -31,6 +32,7 @@ class EventController extends DocumentController
      *
      * @param  string  $docName
      * @return View|Factory
+     *
      * @throws HttpException
      * @throws NotFoundHttpException
      */

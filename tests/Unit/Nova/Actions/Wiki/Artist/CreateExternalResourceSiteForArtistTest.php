@@ -45,6 +45,7 @@ class CreateExternalResourceSiteForArtistTest extends TestCase
      * The Create Artist Resource Action shall have a link field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      */
     public function testLinkField()

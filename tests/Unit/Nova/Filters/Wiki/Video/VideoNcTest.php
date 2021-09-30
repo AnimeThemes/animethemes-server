@@ -28,6 +28,7 @@ class VideoNcTest extends TestCase
      * The Video Nc Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -40,6 +41,7 @@ class VideoNcTest extends TestCase
      * The Video Nc Filter shall have Yes and No options.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -54,6 +56,7 @@ class VideoNcTest extends TestCase
      * The Video Nc Filter shall filter Videos By Nc.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */

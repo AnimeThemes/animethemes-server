@@ -28,6 +28,7 @@ class VideoUncenTest extends TestCase
      * The Video Uncen Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -40,6 +41,7 @@ class VideoUncenTest extends TestCase
      * The Video Uncen Filter shall have Yes and No options.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -54,6 +56,7 @@ class VideoUncenTest extends TestCase
      * The Video Uncen Filter shall filter Videos By Uncen.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */

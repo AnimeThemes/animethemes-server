@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Billing\Balance;
 
-use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Billing\BalanceSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Requests\Api\ShowRequest;
 
 /**

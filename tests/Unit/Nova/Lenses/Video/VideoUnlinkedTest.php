@@ -37,6 +37,7 @@ class VideoUnlinkedTest extends TestCase
      * The Video Source Lens shall contain Video Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      * @throws InvalidNovaLensException
      */
@@ -59,6 +60,7 @@ class VideoUnlinkedTest extends TestCase
      * The Video Source Lens fields shall be sortable.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
@@ -81,6 +83,7 @@ class VideoUnlinkedTest extends TestCase
      * The Video Source Lens shall contain Video Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFilters()
@@ -102,6 +105,7 @@ class VideoUnlinkedTest extends TestCase
      * The Video Source Lens shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testActions()
@@ -117,6 +121,7 @@ class VideoUnlinkedTest extends TestCase
      * The Video Source Lens shall use the 'withFilters' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -135,6 +140,7 @@ class VideoUnlinkedTest extends TestCase
      * The Video Source Lens shall use the 'withOrdering' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -153,6 +159,7 @@ class VideoUnlinkedTest extends TestCase
      * The Video Source Lens shall filter Videos without Source.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */

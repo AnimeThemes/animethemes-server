@@ -23,6 +23,7 @@ use Laravel\Scout\Searchable;
  * @property string $name
  * @property int $series_id
  * @property string $slug
+ *
  * @method static SeriesFactory factory(...$parameters)
  */
 class Series extends BaseModel

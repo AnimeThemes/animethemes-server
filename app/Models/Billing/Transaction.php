@@ -26,6 +26,7 @@ use Illuminate\Support\Str;
  * @property string|null $external_id
  * @property Enum $service
  * @property int $transaction_id
+ *
  * @method static TransactionFactory factory(...$parameters)
  */
 class Transaction extends BaseModel

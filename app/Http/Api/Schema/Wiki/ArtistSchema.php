@@ -62,7 +62,7 @@ class ArtistSchema extends Schema
                 new IntField(BaseResource::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID),
                 new StringField(Artist::ATTRIBUTE_NAME),
                 new StringField(Artist::ATTRIBUTE_SLUG),
-                new StringField(ArtistResourcePivot::ATTRIBUTE_AS, null, Category::COMPUTED())
+                new StringField(ArtistResourcePivot::ATTRIBUTE_AS, null, Category::COMPUTED()),
             ],
         );
     }

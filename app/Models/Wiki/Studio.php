@@ -23,6 +23,7 @@ use Laravel\Scout\Searchable;
  * @property string $name
  * @property string $slug
  * @property int $studio_id
+ *
  * @method static StudioFactory factory(...$parameters)
  */
 class Studio extends BaseModel

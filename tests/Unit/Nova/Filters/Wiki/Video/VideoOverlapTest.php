@@ -29,6 +29,7 @@ class VideoOverlapTest extends TestCase
      * The Video Overlap Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -41,6 +42,7 @@ class VideoOverlapTest extends TestCase
      * The Video Overlap Filter shall have an option for each VideoOverlap instance.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -56,6 +58,7 @@ class VideoOverlapTest extends TestCase
      * The Video Overlap Filter shall filter Video By Overlap.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */

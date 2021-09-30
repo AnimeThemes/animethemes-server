@@ -38,6 +38,7 @@ class ArtistAnnResourceTest extends TestCase
      * The Artist Ann Resource Lens shall contain Artist Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFields()
@@ -53,6 +54,7 @@ class ArtistAnnResourceTest extends TestCase
      * The Artist Ann Resource Lens fields shall be sortable.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
@@ -69,6 +71,7 @@ class ArtistAnnResourceTest extends TestCase
      * The Artist Ann Resource Lens shall contain Artist Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFilters()
@@ -87,6 +90,7 @@ class ArtistAnnResourceTest extends TestCase
      * The Artist Ann Resource Lens shall use the 'withFilters' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -103,6 +107,7 @@ class ArtistAnnResourceTest extends TestCase
      * The Artist Ann Resource Lens shall use the 'withOrdering' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -119,6 +124,7 @@ class ArtistAnnResourceTest extends TestCase
      * The Artist Ann Resource Lens shall filter Artist without an ANN Resource.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */

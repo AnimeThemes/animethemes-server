@@ -18,6 +18,7 @@ class PersistentConfigServiceProvider extends AbstractPersistentConfigServicePro
      * Defines the storage for the persistent config.
      *
      * @return StorageContract
+     *
      * @throws BindingResolutionException
      */
     protected function storage(): StorageContract

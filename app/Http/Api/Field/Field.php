@@ -37,9 +37,9 @@ abstract class Field
     /**
      * Create a new field instance.
      *
-     * @param string $key
-     * @param string|null $column
-     * @param Category|null $category
+     * @param  string  $key
+     * @param  string|null  $column
+     * @param  Category|null  $category
      */
     public function __construct(string $key, ?string $column = null, ?Category $category = null)
     {

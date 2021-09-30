@@ -38,6 +38,7 @@ class ArtistCoverLargeTest extends TestCase
      * The Artist Large Cover Lens shall contain Artist Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFields()
@@ -53,6 +54,7 @@ class ArtistCoverLargeTest extends TestCase
      * The Artist Large Cover Lens fields shall be sortable.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
@@ -69,6 +71,7 @@ class ArtistCoverLargeTest extends TestCase
      * The Artist Large Cover Lens shall contain Artist Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFilters()
@@ -87,6 +90,7 @@ class ArtistCoverLargeTest extends TestCase
      * The Artist Large Cover Lens shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testActions()
@@ -100,6 +104,7 @@ class ArtistCoverLargeTest extends TestCase
      * The Artist Large Cover Lens shall use the 'withFilters' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -116,6 +121,7 @@ class ArtistCoverLargeTest extends TestCase
      * The Artist Large Cover Lens shall use the 'withOrdering' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -132,6 +138,7 @@ class ArtistCoverLargeTest extends TestCase
      * The Artist Large Cover Lens shall filter Artist without a Large Cover image.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */

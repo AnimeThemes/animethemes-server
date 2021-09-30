@@ -24,6 +24,7 @@ class CreateTeam implements CreatesTeams
      * @param  mixed  $user
      * @param  array  $input
      * @return mixed
+     *
      * @throws ValidationException
      * @throws AuthorizationException
      */

@@ -64,7 +64,7 @@ abstract class Filter
     /**
      * Modify query builder with filter criteria.
      *
-     * @param Collection $criteria
+     * @param  Collection  $criteria
      * @param  Builder  $builder
      * @param  Scope  $scope
      * @return Builder
@@ -88,7 +88,7 @@ abstract class Filter
     /**
      * Modify search request builder with filter criteria.
      *
-     * @param Collection $criteria
+     * @param  Collection  $criteria
      * @param  BoolQueryBuilder  $builder
      * @param  Scope  $scope
      * @return BoolQueryBuilder

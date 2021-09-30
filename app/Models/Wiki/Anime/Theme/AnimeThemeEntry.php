@@ -37,6 +37,7 @@ use Znck\Eloquent\Relations\BelongsToThrough;
  * @property int $theme_id
  * @property int|null $version
  * @property Collection $videos
+ *
  * @method static AnimeThemeEntryFactory factory(...$parameters)
  */
 class AnimeThemeEntry extends BaseModel
@@ -199,7 +200,7 @@ class AnimeThemeEntry extends BaseModel
             '',
             [
                 Anime::class => Anime::ATTRIBUTE_ID,
-                AnimeTheme::class => AnimeTheme::ATTRIBUTE_ID
+                AnimeTheme::class => AnimeTheme::ATTRIBUTE_ID,
             ]
         );
     }

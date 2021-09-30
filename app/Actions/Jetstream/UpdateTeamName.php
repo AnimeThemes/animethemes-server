@@ -23,6 +23,7 @@ class UpdateTeamName implements UpdatesTeamNames
      * @param  mixed  $team
      * @param  array  $input
      * @return void
+     *
      * @throws ValidationException
      * @throws AuthorizationException
      */

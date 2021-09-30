@@ -45,6 +45,7 @@ class CreateExternalResourceSiteForAnimeTest extends TestCase
      * The Create Anime Resource Action shall have a link field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      */
     public function testLinkField()

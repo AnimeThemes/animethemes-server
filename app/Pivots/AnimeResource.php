@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Anime $anime
  * @property string $as
  * @property ExternalResource $resource
+ *
  * @method static AnimeResourceFactory factory(...$parameters)
  */
 class AnimeResource extends BasePivot

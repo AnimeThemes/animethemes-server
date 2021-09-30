@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Artist $artist
  * @property string $as
  * @property ExternalResource $resource
+ *
  * @method static ArtistResourceFactory factory(...$parameters)
  */
 class ArtistResource extends BasePivot

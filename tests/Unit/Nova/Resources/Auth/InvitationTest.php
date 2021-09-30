@@ -33,6 +33,7 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain Invitation Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFields()
@@ -52,6 +53,7 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain an ID field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -73,6 +75,7 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain a Created At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -94,6 +97,7 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain an Updated At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -115,6 +119,7 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain a Deleted At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -136,6 +141,7 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain a Name field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -159,6 +165,7 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain a Email field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -185,6 +192,7 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain a Status field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -208,6 +216,7 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain Invitation Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFilters()
@@ -227,6 +236,7 @@ class InvitationTest extends TestCase
      * The Invitation Resource shall contain Invitation Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testActions()

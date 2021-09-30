@@ -31,6 +31,7 @@ class UpdatedStartDateTest extends TestCase
      * The Updated Start Date Filter shall be a date filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testDateFilter()
@@ -43,6 +44,7 @@ class UpdatedStartDateTest extends TestCase
      * The Updated Start Date Filter shall filter Models By Update Date.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */

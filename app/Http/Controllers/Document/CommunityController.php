@@ -18,6 +18,7 @@ class CommunityController extends DocumentController
      * Display the Community Index document.
      *
      * @return View|Factory
+     *
      * @throws HttpException
      * @throws NotFoundHttpException
      */
@@ -31,6 +32,7 @@ class CommunityController extends DocumentController
      *
      * @param  string  $docName
      * @return View|Factory
+     *
      * @throws HttpException
      * @throws NotFoundHttpException
      */

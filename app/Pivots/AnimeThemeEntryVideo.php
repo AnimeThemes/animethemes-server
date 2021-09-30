@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property AnimeThemeEntry $animethemeentry
  * @property Video $video
+ *
  * @method static AnimeThemeEntryVideoFactory factory(...$parameters)
  */
 class AnimeThemeEntryVideo extends BasePivot

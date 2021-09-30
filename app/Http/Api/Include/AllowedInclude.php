@@ -28,8 +28,8 @@ class AllowedInclude
     /**
      * Create a new AllowedIncludePath instance.
      *
-     * @param class-string<Schema> $schemaClass
-     * @param string $path
+     * @param  class-string<Schema>  $schemaClass
+     * @param  string  $path
      */
     final public function __construct(string $schemaClass, string $path)
     {

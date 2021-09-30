@@ -29,6 +29,7 @@ use Illuminate\Support\Collection;
  * @property BasePivot $pivot
  * @property int $resource_id
  * @property Enum|null $site
+ *
  * @method static ExternalResourceFactory factory(...$parameters)
  */
 class ExternalResource extends BaseModel

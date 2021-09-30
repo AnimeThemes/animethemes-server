@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property Anime $anime
  * @property Image $image
+ *
  * @method static AnimeImageFactory factory(...$parameters)
  */
 class AnimeImage extends BasePivot

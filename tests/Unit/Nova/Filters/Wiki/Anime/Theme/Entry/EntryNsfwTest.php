@@ -28,6 +28,7 @@ class EntryNsfwTest extends TestCase
      * The Entry Nsfw Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -40,6 +41,7 @@ class EntryNsfwTest extends TestCase
      * The Entry Nsfw Filter shall have Yes and No options.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -54,6 +56,7 @@ class EntryNsfwTest extends TestCase
      * The Entry Nsfw Filter shall filter Entries By NSFW.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */

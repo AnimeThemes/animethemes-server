@@ -29,6 +29,7 @@ class VideoTypeTest extends TestCase
      * The Video Type Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -41,6 +42,7 @@ class VideoTypeTest extends TestCase
      * The Video Type Filter shall have an Anime and Misc option.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -55,6 +57,7 @@ class VideoTypeTest extends TestCase
      * The Video Type Filter shall filter Videos By Path.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
@@ -83,6 +86,7 @@ class VideoTypeTest extends TestCase
      * The Video Type Filter shall filter Videos By Path.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */

@@ -44,6 +44,7 @@ use Laravel\Scout\Searchable;
  * @property string[] $tags
  * @property bool $uncen
  * @property int $video_id
+ *
  * @method static VideoFactory factory(...$parameters)
  */
 class Video extends BaseModel implements Streamable, Viewable

@@ -28,6 +28,7 @@ class AnimeYearTest extends TestCase
      * The Anime Year Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -40,6 +41,7 @@ class AnimeYearTest extends TestCase
      * The Anime Year Filter shall have an option for each year between 1960 and the future year.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -55,6 +57,7 @@ class AnimeYearTest extends TestCase
      * The Anime Year Filter shall filter Anime By Year.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */

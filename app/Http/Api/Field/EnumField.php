@@ -24,10 +24,10 @@ class EnumField extends Field
     /**
      * Create a new field instance.
      *
-     * @param string $key
+     * @param  string  $key
      * @param  class-string<BaseEnum>  $enumClass
-     * @param string|null $column
-     * @param Category|null $category
+     * @param  string|null  $column
+     * @param  Category|null  $category
      */
     public function __construct(string $key, string $enumClass, ?string $column = null, ?Category $category = null)
     {

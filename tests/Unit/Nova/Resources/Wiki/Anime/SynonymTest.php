@@ -29,6 +29,7 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain Synonym Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFields()
@@ -46,6 +47,7 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain an ID field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -67,6 +69,7 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain a Created At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -88,6 +91,7 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain an Updated At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -109,6 +113,7 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain a Deleted At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -130,6 +135,7 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain a Text field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -153,6 +159,7 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain Synonym Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFilters()
@@ -171,6 +178,7 @@ class SynonymTest extends TestCase
      * The Synonym Resource shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testActions()

@@ -38,6 +38,7 @@ use Laravel\Scout\Searchable;
  * @property int|null $song_id
  * @property int $theme_id
  * @property Enum|null $type
+ *
  * @method static AnimeThemeFactory factory(...$parameters)
  */
 class AnimeTheme extends BaseModel

@@ -78,7 +78,7 @@ class Sort
     /**
      * Modify query builder with sort criteria.
      *
-     * @param Criteria $criterion
+     * @param  Criteria  $criterion
      * @param  Builder  $builder
      * @return Builder
      */
@@ -94,7 +94,7 @@ class Sort
     /**
      * Modify search request builder with sort criteria.
      *
-     * @param Criteria $criterion
+     * @param  Criteria  $criterion
      * @param  SearchRequestBuilder  $builder
      * @return SearchRequestBuilder
      */

@@ -18,6 +18,7 @@ class EncodingController extends DocumentController
      * Display the Encoding Index document.
      *
      * @return View|Factory
+     *
      * @throws HttpException
      * @throws NotFoundHttpException
      */
@@ -31,6 +32,7 @@ class EncodingController extends DocumentController
      *
      * @param  string  $docName
      * @return View|Factory
+     *
      * @throws HttpException
      * @throws NotFoundHttpException
      */

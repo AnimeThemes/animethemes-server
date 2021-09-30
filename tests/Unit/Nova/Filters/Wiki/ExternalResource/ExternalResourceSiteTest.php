@@ -29,6 +29,7 @@ class ExternalResourceSiteTest extends TestCase
      * The Resource Site Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -41,6 +42,7 @@ class ExternalResourceSiteTest extends TestCase
      * The Resource Site Filter shall have an option for each ResourceSite instance.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -56,6 +58,7 @@ class ExternalResourceSiteTest extends TestCase
      * The Resource Site Filter shall filter Resources By Site.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */

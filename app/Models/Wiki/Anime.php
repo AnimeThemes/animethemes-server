@@ -44,6 +44,7 @@ use Laravel\Scout\Searchable;
  * @property Collection $studios
  * @property string|null $synopsis
  * @property int|null $year
+ *
  * @method static AnimeFactory factory(...$parameters)
  */
 class Anime extends BaseModel

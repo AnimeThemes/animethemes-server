@@ -37,6 +37,7 @@ class ExternalResourceUnlinkedTest extends TestCase
      * The Resource Unlinked Lens shall contain Resource Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFields()
@@ -52,6 +53,7 @@ class ExternalResourceUnlinkedTest extends TestCase
      * The Resource Unlinked Lens fields shall be sortable.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
@@ -68,6 +70,7 @@ class ExternalResourceUnlinkedTest extends TestCase
      * The Resource Unlinked Lens shall contain Resource Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFilters()
@@ -86,6 +89,7 @@ class ExternalResourceUnlinkedTest extends TestCase
      * The Resource Unlinked Lens shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testActions()
@@ -99,6 +103,7 @@ class ExternalResourceUnlinkedTest extends TestCase
      * The Resource Unlinked Lens shall use the 'withFilters' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -115,6 +120,7 @@ class ExternalResourceUnlinkedTest extends TestCase
      * The Resource Unlinked Lens shall use the 'withOrdering' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -131,6 +137,7 @@ class ExternalResourceUnlinkedTest extends TestCase
      * The Resource Unlinked Lens shall filter Resources without Anime or Artists.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */

@@ -39,6 +39,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain Video Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFields()
@@ -66,6 +67,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain an ID field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -87,6 +89,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Created At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -108,6 +111,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain an Updated At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -129,6 +133,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Deleted At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -150,6 +155,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Basename field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -171,6 +177,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Filename field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -192,6 +199,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Path field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -213,6 +221,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Size field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -234,6 +243,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Resolution field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -257,6 +267,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain an NC field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -280,6 +291,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Subbed field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -303,6 +315,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Lyrics field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -326,6 +339,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Uncen field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -349,6 +363,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain an Overlap field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -372,6 +387,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain a Source field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -395,6 +411,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain Video Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFilters()
@@ -420,6 +437,7 @@ class VideoTest extends TestCase
      * The Video Resource shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testActions()

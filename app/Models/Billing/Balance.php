@@ -27,6 +27,7 @@ use Illuminate\Support\Str;
  * @property Enum $frequency
  * @property Enum $service
  * @property float $usage
+ *
  * @method static BalanceFactory factory(...$parameters)
  */
 class Balance extends BaseModel

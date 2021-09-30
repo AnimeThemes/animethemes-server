@@ -30,6 +30,7 @@ abstract class DocumentController extends Controller
      *
      * @param  string  $docPath
      * @return View|Factory
+     *
      * @throws HttpException
      * @throws NotFoundHttpException
      */

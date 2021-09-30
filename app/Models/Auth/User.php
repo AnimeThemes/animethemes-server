@@ -39,6 +39,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string|null $two_factor_recovery_codes
  * @property string|null $two_factor_secret
  * @property Carbon $updated_at
+ *
  * @method static UserFactory factory(...$parameters)
  */
 class User extends Authenticatable implements MustVerifyEmail, Nameable
