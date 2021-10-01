@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Anime\Theme\Resource;
 
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
+use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
@@ -49,31 +52,27 @@ class EntryResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->when($this->isAllowedField('id'), $this->entry_id),
-            'version' => $this->when($this->isAllowedField('version'), $this->version),
-            'episodes' => $this->when($this->isAllowedField('episodes'), $this->episodes),
-            'nsfw' => $this->when($this->isAllowedField('nsfw'), $this->nsfw),
-            'spoiler' => $this->when($this->isAllowedField('spoiler'), $this->spoiler),
-            'notes' => $this->when($this->isAllowedField('notes'), $this->notes),
-            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
-            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'animetheme' => ThemeResource::make($this->whenLoaded('animetheme'), $this->query),
-            'videos' => VideoCollection::make($this->whenLoaded('videos'), $this->query),
+            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
+            AnimeThemeEntry::ATTRIBUTE_VERSION => $this->when($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_VERSION), $this->version),
+            AnimeThemeEntry::ATTRIBUTE_EPISODES => $this->when($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_EPISODES), $this->episodes),
+            AnimeThemeEntry::ATTRIBUTE_NSFW => $this->when($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_NSFW), $this->nsfw),
+            AnimeThemeEntry::ATTRIBUTE_SPOILER => $this->when($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_SPOILER), $this->spoiler),
+            AnimeThemeEntry::ATTRIBUTE_NOTES => $this->when($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_NOTES), $this->notes),
+            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
+            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
+            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
+            AnimeThemeEntry::RELATION_THEME => ThemeResource::make($this->whenLoaded(AnimeThemeEntry::RELATION_THEME), $this->query),
+            AnimeThemeEntry::RELATION_VIDEOS => VideoCollection::make($this->whenLoaded(AnimeThemeEntry::RELATION_VIDEOS), $this->query),
         ];
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    public static function allowedIncludePaths(): array
+    public static function schema(): Schema
     {
-        return [
-            'animetheme',
-            'animetheme.anime',
-            'videos',
-        ];
+        return new EntrySchema();
     }
 }

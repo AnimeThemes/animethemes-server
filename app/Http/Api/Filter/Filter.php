@@ -16,13 +16,6 @@ use Illuminate\Support\Collection;
 abstract class Filter
 {
     /**
-     * Criteria that may be applied to the builder.
-     *
-     * @var Collection<Criteria>
-     */
-    protected Collection $criteria;
-
-    /**
      * Filter key value.
      *
      * @var string
@@ -30,15 +23,22 @@ abstract class Filter
     protected string $key;
 
     /**
+     * Filter key value.
+     *
+     * @var string|null
+     */
+    protected ?string $column;
+
+    /**
      * Create a new filter instance.
      *
-     * @param  Collection<Criteria>  $criteria
      * @param  string  $key
+     * @param  string|null  $column
      */
-    public function __construct(Collection $criteria, string $key)
+    public function __construct(string $key, ?string $column = null)
     {
-        $this->criteria = $criteria;
         $this->key = $key;
+        $this->column = $column;
     }
 
     /**
@@ -58,25 +58,26 @@ abstract class Filter
      */
     public function getColumn(): string
     {
-        return $this->getKey();
+        return $this->column ?? $this->key;
     }
 
     /**
      * Modify query builder with filter criteria.
      *
+     * @param  Collection  $criteria
      * @param  Builder  $builder
      * @param  Scope  $scope
      * @return Builder
      */
-    public function applyFilter(Builder $builder, Scope $scope): Builder
+    public function applyFilter(Collection $criteria, Builder $builder, Scope $scope): Builder
     {
-        foreach ($this->getCriteria() as $criterion) {
+        foreach ($criteria as $criterion) {
             if ($this->shouldApplyFilter($criterion, $scope)) {
                 $builder = $criterion->applyFilter(
                     $builder,
                     $this->getColumn(),
                     $this->getFilterValues($criterion),
-                    $this->criteria
+                    $criteria
                 );
             }
         }
@@ -87,13 +88,17 @@ abstract class Filter
     /**
      * Modify search request builder with filter criteria.
      *
+     * @param  Collection  $criteria
      * @param  BoolQueryBuilder  $builder
      * @param  Scope  $scope
      * @return BoolQueryBuilder
      */
-    public function applyElasticsearchFilter(BoolQueryBuilder $builder, Scope $scope): BoolQueryBuilder
-    {
-        foreach ($this->getCriteria() as $criterion) {
+    public function applyElasticsearchFilter(
+        Collection $criteria,
+        BoolQueryBuilder $builder,
+        Scope $scope
+    ): BoolQueryBuilder {
+        foreach ($criteria as $criterion) {
             if ($this->shouldApplyFilter($criterion, $scope)) {
                 $builder = $criterion->applyElasticsearchFilter(
                     $builder,
@@ -115,6 +120,11 @@ abstract class Filter
      */
     public function shouldApplyFilter(Criteria $criteria, Scope $scope): bool
     {
+        // Don't apply filter if key does not match
+        if ($criteria->getField() !== $this->getKey()) {
+            return false;
+        }
+
         // Don't apply filter if scope does not match
         if (! $criteria->getScope()->isWithinScope($scope)) {
             return false;
@@ -124,18 +134,6 @@ abstract class Filter
 
         // Apply filter if we have a subset of valid values specified
         return ! empty($filterValues) && ! $this->isAllFilterValues($filterValues);
-    }
-
-    /**
-     * Get the filter criteria that match the filter key.
-     *
-     * @return Collection<Criteria>
-     */
-    public function getCriteria(): Collection
-    {
-        return $this->criteria->filter(function (Criteria $criteria) {
-            return $criteria->getField() === $this->getKey();
-        });
     }
 
     /**

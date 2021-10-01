@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\BaseModel;
+use App\Models\Wiki\Image;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,14 +20,14 @@ class CreateImageTable extends Migration
      */
     public function up()
     {
-        Schema::create('images', function (Blueprint $table) {
-            $table->id('image_id');
+        Schema::create(Image::TABLE, function (Blueprint $table) {
+            $table->id(Image::ATTRIBUTE_ID);
             $table->timestamps(6);
-            $table->softDeletes('deleted_at', 6);
-            $table->string('path');
-            $table->integer('size');
-            $table->string('mimetype');
-            $table->integer('facet')->nullable();
+            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+            $table->string(Image::ATTRIBUTE_PATH);
+            $table->integer(Image::ATTRIBUTE_SIZE);
+            $table->string(Image::ATTRIBUTE_MIMETYPE);
+            $table->integer(Image::ATTRIBUTE_FACET)->nullable();
         });
     }
 
@@ -36,6 +38,6 @@ class CreateImageTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('images');
+        Schema::dropIfExists(Image::TABLE);
     }
 }

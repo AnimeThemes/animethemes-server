@@ -6,10 +6,8 @@ namespace Tests\Unit\Http\Api\Sort;
 
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Sort\FieldCriteria;
-use App\Http\Api\Query;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 /**
@@ -26,13 +24,7 @@ class SortTest extends TestCase
      */
     public function testDefaultColumn()
     {
-        $sortField = $this->faker->word();
-
-        $parameters = [];
-
-        $query = Query::make($parameters);
-
-        $sort = new class($query->getSortCriteria(), $sortField) extends Sort
+        $sort = new class($this->faker->word()) extends Sort
         {
             // We don't need to do any customization
         };
@@ -49,22 +41,14 @@ class SortTest extends TestCase
     {
         $sortField = $this->faker->word();
 
-        $criteria = Collection::make();
-
-        Collection::times($this->faker->numberBetween(2, 9), function () use (&$criteria, $sortField) {
-            $criteria->push(new FieldCriteria($sortField, Direction::getRandomInstance()));
-        });
-
-        $parameters = [];
-
-        $query = Query::make($parameters);
-
-        $sort = new class($query->getSortCriteria(), $sortField) extends Sort
+        $sort = new class($sortField) extends Sort
         {
             // We don't need to do any customization
         };
 
-        static::assertFalse($sort->shouldApplySort());
+        $criteria = new FieldCriteria($this->faker->word(), Direction::getRandomInstance());
+
+        static::assertFalse($sort->shouldApplySort($criteria));
     }
 
     /**
@@ -76,19 +60,13 @@ class SortTest extends TestCase
     {
         $sortField = $this->faker->word();
 
-        $criteria = Collection::make();
-
-        $criteria->push(new FieldCriteria($sortField, Direction::getRandomInstance()));
-
-        $parameters = [];
-
-        $query = Query::make($parameters);
-
-        $sort = new class($query->getSortCriteria(), $sortField) extends Sort
+        $sort = new class($sortField) extends Sort
         {
             // We don't need to do any customization
         };
 
-        static::assertFalse($sort->shouldApplySort());
+        $criteria = new FieldCriteria($sortField, Direction::getRandomInstance());
+
+        static::assertTrue($sort->shouldApplySort($criteria));
     }
 }

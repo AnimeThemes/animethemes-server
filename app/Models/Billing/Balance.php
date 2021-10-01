@@ -21,24 +21,40 @@ use Illuminate\Support\Str;
 /**
  * Class Balance.
  *
+ * @property float $balance
  * @property int $balance_id
  * @property Carbon $date
- * @property Enum $service
  * @property Enum $frequency
+ * @property Enum $service
  * @property float $usage
- * @property float $balance
+ *
  * @method static BalanceFactory factory(...$parameters)
  */
 class Balance extends BaseModel
 {
     use CastsEnums;
 
+    public const TABLE = 'balances';
+
+    public const ATTRIBUTE_BALANCE = 'balance';
+    public const ATTRIBUTE_DATE = 'date';
+    public const ATTRIBUTE_FREQUENCY = 'frequency';
+    public const ATTRIBUTE_ID = 'balance_id';
+    public const ATTRIBUTE_SERVICE = 'service';
+    public const ATTRIBUTE_USAGE = 'usage';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['date', 'service', 'frequency', 'usage', 'balance'];
+    protected $fillable = [
+        Balance::ATTRIBUTE_BALANCE,
+        Balance::ATTRIBUTE_DATE,
+        Balance::ATTRIBUTE_FREQUENCY,
+        Balance::ATTRIBUTE_SERVICE,
+        Balance::ATTRIBUTE_USAGE,
+    ];
 
     /**
      * The event map for the model.
@@ -59,14 +75,14 @@ class Balance extends BaseModel
      *
      * @var string
      */
-    protected $table = 'balances';
+    protected $table = Balance::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'balance_id';
+    protected $primaryKey = Balance::ATTRIBUTE_ID;
 
     /**
      * The attributes that should be cast to enum types.
@@ -74,8 +90,8 @@ class Balance extends BaseModel
      * @var array
      */
     protected $enumCasts = [
-        'service' => Service::class,
-        'frequency' => BalanceFrequency::class,
+        Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::class,
+        Balance::ATTRIBUTE_SERVICE => Service::class,
     ];
 
     /**
@@ -84,11 +100,11 @@ class Balance extends BaseModel
      * @var array
      */
     protected $casts = [
-        'service' => 'int',
-        'frequency' => 'int',
-        'date' => 'date:Y-m-d',
-        'usage' => 'decimal:2',
-        'balance' => 'decimal:2',
+        Balance::ATTRIBUTE_BALANCE => 'decimal:2',
+        Balance::ATTRIBUTE_DATE => 'date:Y-m-d',
+        Balance::ATTRIBUTE_FREQUENCY => 'int',
+        Balance::ATTRIBUTE_SERVICE => 'int',
+        Balance::ATTRIBUTE_USAGE => 'decimal:2',
     ];
 
     /**

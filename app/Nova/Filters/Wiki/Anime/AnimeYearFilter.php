@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Filters\Wiki\Anime;
 
+use App\Models\Wiki\Anime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -43,7 +44,7 @@ class AnimeYearFilter extends Filter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        return $query->where('year', $value);
+        return $query->where(Anime::ATTRIBUTE_YEAR, $value);
     }
 
     /**

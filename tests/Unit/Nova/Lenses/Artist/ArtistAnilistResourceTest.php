@@ -38,6 +38,7 @@ class ArtistAnilistResourceTest extends TestCase
      * The Artist Anilist Resource Lens shall contain Artist Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFields()
@@ -53,6 +54,7 @@ class ArtistAnilistResourceTest extends TestCase
      * The Artist Anilist Resource Lens fields shall be sortable.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
@@ -69,6 +71,7 @@ class ArtistAnilistResourceTest extends TestCase
      * The Artist Anilist Resource Lens shall contain Artist Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFilters()
@@ -87,6 +90,7 @@ class ArtistAnilistResourceTest extends TestCase
      * The Artist Anilist Resource Lens shall use the 'withFilters' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -103,6 +107,7 @@ class ArtistAnilistResourceTest extends TestCase
      * The Artist Anilist Resource Lens shall use the 'withOrdering' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -119,6 +124,7 @@ class ArtistAnilistResourceTest extends TestCase
      * The Artist Anilist Resource Lens shall filter Artist without an Anilist Resource.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -130,8 +136,8 @@ class ArtistAnilistResourceTest extends TestCase
             ->create();
 
         $filteredArtists = Artist::query()
-            ->whereDoesntHave('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::ANILIST);
+            ->whereDoesntHave(Artist::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
             })
             ->get();
 

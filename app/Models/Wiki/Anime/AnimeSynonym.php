@@ -18,10 +18,11 @@ use Laravel\Scout\Searchable;
 /**
  * Class AnimeSynonym.
  *
+ * @property Anime $anime
+ * @property int $anime_id
  * @property int $synonym_id
  * @property string|null $text
- * @property int $anime_id
- * @property Anime $anime
+ *
  * @method static AnimeSynonymFactory factory(...$parameters)
  */
 class AnimeSynonym extends BaseModel
@@ -29,12 +30,22 @@ class AnimeSynonym extends BaseModel
     use QueryDsl;
     use Searchable;
 
+    public const TABLE = 'anime_synonyms';
+
+    public const ATTRIBUTE_ANIME = 'anime_id';
+    public const ATTRIBUTE_ID = 'synonym_id';
+    public const ATTRIBUTE_TEXT = 'text';
+
+    public const RELATION_ANIME = 'anime';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['text'];
+    protected $fillable = [
+        AnimeSynonym::ATTRIBUTE_TEXT,
+    ];
 
     /**
      * The event map for the model.
@@ -55,14 +66,14 @@ class AnimeSynonym extends BaseModel
      *
      * @var string
      */
-    protected $table = 'anime_synonyms';
+    protected $table = AnimeSynonym::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'synonym_id';
+    protected $primaryKey = AnimeSynonym::ATTRIBUTE_ID;
 
     /**
      * Get name.
@@ -81,6 +92,6 @@ class AnimeSynonym extends BaseModel
      */
     public function anime(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Anime', 'anime_id', 'anime_id');
+        return $this->belongsTo(Anime::class, AnimeSynonym::ATTRIBUTE_ANIME);
     }
 }

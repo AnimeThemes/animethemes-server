@@ -29,6 +29,7 @@ class VideoOverlapTest extends TestCase
      * The Video Overlap Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -41,6 +42,7 @@ class VideoOverlapTest extends TestCase
      * The Video Overlap Filter shall have an option for each VideoOverlap instance.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -56,6 +58,7 @@ class VideoOverlapTest extends TestCase
      * The Video Overlap Filter shall filter Video By Overlap.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
@@ -69,7 +72,7 @@ class VideoOverlapTest extends TestCase
 
         $response = $filter->apply(Video::class, $overlap->value);
 
-        $filteredVideos = Video::query()->where('overlap', $overlap->value)->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_OVERLAP, $overlap->value)->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }

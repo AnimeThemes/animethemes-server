@@ -36,6 +36,7 @@ class SongArtistTest extends TestCase
      * The Song Artist Lens shall contain Song Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFields()
@@ -50,6 +51,7 @@ class SongArtistTest extends TestCase
      * The Song Artist Lens fields shall be sortable.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
@@ -65,6 +67,7 @@ class SongArtistTest extends TestCase
      * The Song Artist Lens shall contain Song Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFilters()
@@ -83,6 +86,7 @@ class SongArtistTest extends TestCase
      * The Song Artist Lens shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testActions()
@@ -96,6 +100,7 @@ class SongArtistTest extends TestCase
      * The Song Artist Lens shall use the 'withFilters' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -112,6 +117,7 @@ class SongArtistTest extends TestCase
      * The Song Artist Lens shall use the 'withOrdering' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -128,6 +134,7 @@ class SongArtistTest extends TestCase
      * The Song Artist Lens shall filter Songs without Artists.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -140,7 +147,7 @@ class SongArtistTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $filteredSongs = Song::query()->whereDoesntHave('artists')->get();
+        $filteredSongs = Song::query()->whereDoesntHave(Song::RELATION_ARTISTS)->get();
 
         $lens = static::novaLens(SongArtistLens::class);
 

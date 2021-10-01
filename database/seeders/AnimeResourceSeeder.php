@@ -50,18 +50,18 @@ class AnimeResourceSeeder extends Seeder
 
                 // Create Resource Model with link and derived site if it doesn't already exist
                 $resource = ExternalResource::query()
-                    ->select(['resource_id', 'site', 'link'])
-                    ->where('site', ResourceSite::valueOf($resourceLink))
-                    ->where('link', $resourceLink)
+                    ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_SITE, ExternalResource::ATTRIBUTE_LINK])
+                    ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::valueOf($resourceLink))
+                    ->where(ExternalResource::ATTRIBUTE_LINK, $resourceLink)
                     ->first();
 
                 if ($resource === null) {
                     Log::info("Creating resource '{$resourceLink}'");
 
                     $resource = ExternalResource::factory()->createOne([
-                        'site' => ResourceSite::valueOf($resourceLink),
-                        'link' => $resourceLink,
-                        'external_id' => intval($externalId[1]),
+                        ExternalResource::ATTRIBUTE_SITE => ResourceSite::valueOf($resourceLink),
+                        ExternalResource::ATTRIBUTE_LINK => $resourceLink,
+                        ExternalResource::ATTRIBUTE_EXTERNAL_ID => intval($externalId[1]),
                     ]);
                 }
 
@@ -69,10 +69,11 @@ class AnimeResourceSeeder extends Seeder
                     // Attach Anime to Resource by Name if we have a definitive match
                     // This is not guaranteed as an Anime Name may be inconsistent between indices
                     $resourceAnime = Anime::query()
-                        ->where('name', $animeName)
-                        ->whereIn('year', $years)
-                        ->whereDoesntHave('resources', function (Builder $resourceQuery) use ($resource) {
-                            $resourceQuery->where('site', $resource->site->value)->where('link', $resource->link);
+                        ->where(Anime::ATTRIBUTE_NAME, $animeName)
+                        ->whereIn(Anime::ATTRIBUTE_YEAR, $years)
+                        ->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) use ($resource) {
+                            $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, $resource->site->value)
+                                ->where(ExternalResource::ATTRIBUTE_LINK, $resource->link);
                         })
                         ->get();
                     if ($resourceAnime->count() === 1) {

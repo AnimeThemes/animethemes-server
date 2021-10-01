@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Models\BaseModel;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Song;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,20 +22,20 @@ class CreateAnimeThemesTable extends Migration
      */
     public function up()
     {
-        Schema::create('anime_themes', function (Blueprint $table) {
-            $table->id('theme_id');
+        Schema::create(AnimeTheme::TABLE, function (Blueprint $table) {
+            $table->id(AnimeTheme::ATTRIBUTE_ID);
             $table->timestamps(6);
-            $table->softDeletes('deleted_at', 6);
-            $table->string('group')->nullable();
-            $table->integer('type')->nullable();
-            $table->integer('sequence')->nullable();
-            $table->string('slug');
+            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+            $table->string(AnimeTheme::ATTRIBUTE_GROUP)->nullable();
+            $table->integer(AnimeTheme::ATTRIBUTE_TYPE)->nullable();
+            $table->integer(AnimeTheme::ATTRIBUTE_SEQUENCE)->nullable();
+            $table->string(AnimeTheme::ATTRIBUTE_SLUG);
 
-            $table->unsignedBigInteger('anime_id');
-            $table->foreign('anime_id')->references('anime_id')->on('anime')->onDelete('cascade');
+            $table->unsignedBigInteger(AnimeTheme::ATTRIBUTE_ANIME);
+            $table->foreign(AnimeTheme::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
 
-            $table->unsignedBigInteger('song_id')->nullable();
-            $table->foreign('song_id')->references('song_id')->on('songs')->onDelete('set null');
+            $table->unsignedBigInteger(AnimeTheme::ATTRIBUTE_SONG)->nullable();
+            $table->foreign(AnimeTheme::ATTRIBUTE_SONG)->references(Song::ATTRIBUTE_ID)->on(Song::TABLE)->nullOnDelete();
         });
     }
 
@@ -42,6 +46,6 @@ class CreateAnimeThemesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('anime_themes');
+        Schema::dropIfExists(AnimeTheme::TABLE);
     }
 }

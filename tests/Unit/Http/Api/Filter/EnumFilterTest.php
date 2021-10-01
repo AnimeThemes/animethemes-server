@@ -45,7 +45,7 @@ class EnumFilterTest extends TestCase
             public const TWO = 2;
         };
 
-        $filter = new class($query->getFilterCriteria(), $filterField, get_class($enum)) extends EnumFilter
+        $filter = new class($filterField, get_class($enum)) extends EnumFilter
         {
             // We don't need to do any customization
         };
@@ -81,7 +81,7 @@ class EnumFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField, get_class($enum)) extends EnumFilter
+        $filter = new class($filterField, get_class($enum)) extends EnumFilter
         {
             // We don't need to do any customization
         };
@@ -115,7 +115,7 @@ class EnumFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField, get_class($enum)) extends EnumFilter
+        $filter = new class($filterField, get_class($enum)) extends EnumFilter
         {
             // We don't need to do any customization
         };

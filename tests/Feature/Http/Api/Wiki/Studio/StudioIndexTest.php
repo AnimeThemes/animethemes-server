@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Studio;
 
+use App\Enums\Http\Api\Field\Category;
 use App\Enums\Http\Api\Filter\TrashedStatus;
+use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Http\Resources\Wiki\Resource\StudioResource;
+use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
 use Carbon\Carbon;
@@ -23,7 +30,6 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -86,8 +92,13 @@ class StudioIndexTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowedPaths = collect(StudioCollection::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
+        $schema = new StudioSchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -123,20 +134,15 @@ class StudioIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $fields = collect([
-            'id',
-            'name',
-            'slug',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new StudioSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                StudioResource::$wrap => $includedFields->join(','),
+                StudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
@@ -165,29 +171,14 @@ class StudioIndexTest extends TestCase
     {
         $this->withoutEvents();
 
-        $allowedSorts = collect([
-            'id',
-            'name',
-            'slug',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new StudioSchema();
 
-        $sortCount = $this->faker->numberBetween(1, count($allowedSorts));
-
-        $includedSorts = $allowedSorts->random($sortCount)->map(function (string $includedSort) {
-            if ($this->faker->boolean()) {
-                return Str::of('-')
-                    ->append($includedSort)
-                    ->__toString();
-            }
-
-            return $includedSort;
-        });
+        $field = collect($schema->fields())
+            ->filter(fn (Field $field) => $field->getCategory()->is(Category::ATTRIBUTE()))
+            ->random();
 
         $parameters = [
-            SortParser::$param => $includedSorts->join(','),
+            SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
         $query = Query::make($parameters);
@@ -197,8 +188,8 @@ class StudioIndexTest extends TestCase
         $builder = Studio::query();
 
         foreach ($query->getSortCriteria() as $sortCriterion) {
-            foreach (StudioCollection::sorts(collect([$sortCriterion])) as $sort) {
-                $builder = $sort->applySort($builder);
+            foreach ($schema->sorts() as $sort) {
+                $builder = $sort->applySort($sortCriterion, $builder);
             }
         }
 
@@ -230,7 +221,7 @@ class StudioIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'created_at' => $createdFilter,
+                BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -245,7 +236,7 @@ class StudioIndexTest extends TestCase
             Studio::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $studio = Studio::query()->where('created_at', $createdFilter)->get();
+        $studio = Studio::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
         $response = $this->get(route('api.studio.index', $parameters));
 
@@ -275,7 +266,7 @@ class StudioIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'updated_at' => $updatedFilter,
+                BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -290,7 +281,7 @@ class StudioIndexTest extends TestCase
             Studio::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $studio = Studio::query()->where('updated_at', $updatedFilter)->get();
+        $studio = Studio::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
         $response = $this->get(route('api.studio.index', $parameters));
 
@@ -317,7 +308,7 @@ class StudioIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::WITHOUT,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -358,7 +349,7 @@ class StudioIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::WITH,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -399,7 +390,7 @@ class StudioIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::ONLY,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -443,8 +434,8 @@ class StudioIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'deleted_at' => $deletedFilter,
-                'trashed' => TrashedStatus::WITH,
+                BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -465,7 +456,7 @@ class StudioIndexTest extends TestCase
             });
         });
 
-        $studio = Studio::withTrashed()->where('deleted_at', $deletedFilter)->get();
+        $studio = Studio::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
         $response = $this->get(route('api.studio.index', $parameters));
 
@@ -494,9 +485,9 @@ class StudioIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->description,
+                Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => Studio::RELATION_ANIME,
         ];
 
         Studio::factory()
@@ -505,8 +496,8 @@ class StudioIndexTest extends TestCase
             ->create();
 
         $studio = Studio::with([
-            'anime' => function (BelongsToMany $query) use ($seasonFilter) {
-                $query->where('season', $seasonFilter->value);
+            Studio::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
+                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ])
         ->get();
@@ -538,9 +529,9 @@ class StudioIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'year' => $yearFilter,
+                Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => Studio::RELATION_ANIME,
         ];
 
         Studio::factory()
@@ -548,17 +539,17 @@ class StudioIndexTest extends TestCase
                 Anime::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
-                        ['year' => 2000],
-                        ['year' => 2001],
-                        ['year' => 2002],
+                        [Anime::ATTRIBUTE_YEAR => 2000],
+                        [Anime::ATTRIBUTE_YEAR => 2001],
+                        [Anime::ATTRIBUTE_YEAR => 2002],
                     ))
             )
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $studio = Studio::with([
-            'anime' => function (BelongsToMany $query) use ($yearFilter) {
-                $query->where('year', $yearFilter);
+            Studio::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
+                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ])
         ->get();

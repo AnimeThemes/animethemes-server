@@ -29,9 +29,9 @@ class AnilistArtistResourceSeeder extends Seeder
     {
         // Get artists that have MAL resource but do not have Anilist resource
         $artists = Artist::query()
-            ->select(['artist_id', 'name'])
-            ->whereDoesntHave('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::ANILIST);
+            ->select([Artist::ATTRIBUTE_ID, Artist::ATTRIBUTE_NAME])
+            ->whereDoesntHave(Artist::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
             })
             ->get();
 
@@ -70,9 +70,9 @@ class AnilistArtistResourceSeeder extends Seeder
 
                 // Check if Anilist resource already exists
                 $anilistResource = ExternalResource::query()
-                    ->select(['resource_id', 'link'])
-                    ->where('site', ResourceSite::ANILIST)
-                    ->where('external_id', $anilistId)
+                    ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_LINK])
+                    ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST)
+                    ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $anilistId)
                     ->first();
 
                 // Create Anilist resource if it doesn't already exist
@@ -80,9 +80,9 @@ class AnilistArtistResourceSeeder extends Seeder
                     Log::info("Creating anilist resource '{$anilistId}' for artist '{$artist->name}'");
 
                     $anilistResource = ExternalResource::factory()->createOne([
-                        'site' => ResourceSite::ANILIST,
-                        'link' => "https://anilist.co/staff/{$anilistId}/",
-                        'external_id' => $anilistId,
+                        ExternalResource::ATTRIBUTE_EXTERNAL_ID => $anilistId,
+                        ExternalResource::ATTRIBUTE_LINK => "https://anilist.co/staff/{$anilistId}/",
+                        ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANILIST,
                     ]);
                 }
 

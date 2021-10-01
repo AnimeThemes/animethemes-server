@@ -30,6 +30,7 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain Theme Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFields()
@@ -50,6 +51,7 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain an ID field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -71,6 +73,7 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain a Created At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -92,6 +95,7 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain an Updated At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -113,6 +117,7 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain a Deleted At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -134,6 +139,7 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain a Type field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -157,6 +163,7 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain a Sequence field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -180,6 +187,7 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain a Group field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -203,6 +211,7 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain a Slug field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -227,6 +236,7 @@ class ThemeTest extends TestCase
      * The Theme Resource shall contain Theme Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFilters()
@@ -246,6 +256,7 @@ class ThemeTest extends TestCase
      * The Entry Resource shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testActions()

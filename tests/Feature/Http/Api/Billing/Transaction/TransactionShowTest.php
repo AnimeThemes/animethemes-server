@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Billing\Transaction;
 
+use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Billing\TransactionSchema;
 use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\Billing\Transaction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -79,23 +81,15 @@ class TransactionShowTest extends TestCase
      */
     public function testSparseFieldsets()
     {
-        $fields = collect([
-            'transaction_id',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-            'date',
-            'service',
-            'description',
-            'amount',
-            'external_id',
-        ]);
+        $schema = new TransactionSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                TransactionResource::$wrap => $includedFields->join(','),
+                TransactionResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 

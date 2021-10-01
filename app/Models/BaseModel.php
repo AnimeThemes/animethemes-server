@@ -17,8 +17,8 @@ use OwenIt\Auditing\Contracts\Auditable;
  * Class BaseModel.
  *
  * @property Carbon $created_at
- * @property Carbon $updated_at
  * @property Carbon $deleted_at
+ * @property Carbon $updated_at
  * @mixin Builder
  */
 abstract class BaseModel extends Model implements Auditable, Nameable
@@ -33,6 +33,10 @@ abstract class BaseModel extends Model implements Auditable, Nameable
      * @var string
      */
     protected $dateFormat = 'Y-m-d\TH:i:s.u';
+
+    public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
+    public const ATTRIBUTE_DELETED_AT = 'deleted_at';
+    public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
 
     /**
      * Retrieve the model for a bound value.

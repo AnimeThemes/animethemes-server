@@ -32,6 +32,7 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain Transaction Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFields()
@@ -53,6 +54,7 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain an ID field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -74,6 +76,7 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain a Created At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -95,6 +98,7 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain an Updated At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -116,6 +120,7 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain a Deleted At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -137,6 +142,7 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain a Deleted At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -159,6 +165,7 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain a Service field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -182,6 +189,7 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain a Description field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -205,6 +213,7 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain an Amount field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -227,6 +236,7 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain Transaction Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFilters()
@@ -246,6 +256,7 @@ class TransactionTest extends TestCase
      * The Transaction Resource shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testActions()

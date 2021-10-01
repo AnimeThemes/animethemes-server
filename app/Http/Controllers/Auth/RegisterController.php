@@ -18,8 +18,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -63,6 +65,7 @@ class RegisterController extends Controller
      * @param  Request  $request
      * @param  Invitation  $invitation
      * @return JsonResponse|RedirectResponse|Redirector
+     *
      * @throws ValidationException
      */
     public function register(Request $request, Invitation $invitation): JsonResponse|RedirectResponse|Redirector
@@ -100,7 +103,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:192'],
-            'email' => ['required', 'string', 'email', 'max:192', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:192', Rule::unique(User::TABLE)],
             'password' => $this->passwordRules(),
             'terms' => ['required'],
         ]);
@@ -115,11 +118,11 @@ class RegisterController extends Controller
     protected function create(array $data): User
     {
         return User::factory()->createOne([
-            'name' => Arr::get($data, 'name'),
-            'email' => Arr::get($data, 'email'),
-            'email_verified_at' => null,
-            'password' => Hash::make(Arr::get($data, 'password')),
-            'remember_token' => null,
+            User::ATTRIBUTE_EMAIL => Arr::get($data, 'email'),
+            User::ATTRIBUTE_EMAIL_VERIFIED_AT => Date::now(),
+            User::ATTRIBUTE_NAME => Arr::get($data, 'name'),
+            User::ATTRIBUTE_PASSWORD => Hash::make(Arr::get($data, 'password')),
+            User::ATTRIBUTE_REMEMBER_TOKEN => null,
         ]);
     }
 }

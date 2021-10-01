@@ -7,7 +7,7 @@ namespace App\Http\Api\Filter;
 /**
  * Class FloatFilter.
  */
-abstract class FloatFilter extends Filter
+class FloatFilter extends Filter
 {
     /**
      * Convert filter values to floats.

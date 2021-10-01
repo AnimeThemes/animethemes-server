@@ -156,8 +156,8 @@ class HasCriteria extends Criteria
                 function (Builder $relationBuilder) use ($scope, $filterCriteria) {
                     $collectionInstance = DiscoverRelationCollection::byModel($relationBuilder->getModel());
                     if ($collectionInstance !== null) {
-                        foreach ($collectionInstance::filters($filterCriteria) as $filter) {
-                            $filter->applyFilter($relationBuilder, $scope);
+                        foreach ($collectionInstance::schema()->filters() as $filter) {
+                            $filter->applyFilter($filterCriteria, $relationBuilder, $scope);
                         }
                     }
                 }

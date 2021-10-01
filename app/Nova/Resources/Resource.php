@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources;
 
+use App\Models\BaseModel;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -48,17 +49,17 @@ abstract class Resource extends NovaResource
     protected function timestamps(): array
     {
         return [
-            DateTime::make(__('nova.created_at'), 'created_at')
+            DateTime::make(__('nova.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->readonly(),
 
-            DateTime::make(__('nova.updated_at'), 'updated_at')
+            DateTime::make(__('nova.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->readonly(),
 
-            DateTime::make(__('nova.deleted_at'), 'deleted_at')
+            DateTime::make(__('nova.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->readonly(),

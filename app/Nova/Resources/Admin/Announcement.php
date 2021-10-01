@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Admin;
 
+use App\Models\Admin\Announcement as AnnouncementModel;
 use App\Nova\Resources\Resource;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
@@ -21,14 +22,14 @@ class Announcement extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Admin\Announcement::class;
+    public static string $model = AnnouncementModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'announcement_id';
+    public static $title = AnnouncementModel::ATTRIBUTE_ID;
 
     /**
      * The logical group associated with the resource.
@@ -72,7 +73,7 @@ class Announcement extends Resource
      * @var array
      */
     public static $search = [
-        'announcement_id',
+        AnnouncementModel::ATTRIBUTE_ID,
     ];
 
     /**
@@ -103,14 +104,14 @@ class Announcement extends Resource
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'announcement_id')
+            ID::make(__('nova.id'), AnnouncementModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Code::make(__('nova.content'), 'content')
+            Code::make(__('nova.content'), AnnouncementModel::ATTRIBUTE_CONTENT)
                 ->showOnIndex()
                 ->sortable()
                 ->rules(['required', 'max:65535'])

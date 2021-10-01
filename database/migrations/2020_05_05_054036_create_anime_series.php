@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Series;
+use App\Pivots\AnimeSeries;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,13 +21,13 @@ class CreateAnimeSeries extends Migration
      */
     public function up()
     {
-        Schema::create('anime_series', function (Blueprint $table) {
+        Schema::create(AnimeSeries::TABLE, function (Blueprint $table) {
             $table->timestamps(6);
-            $table->unsignedBigInteger('anime_id');
-            $table->foreign('anime_id')->references('anime_id')->on('anime')->onDelete('cascade');
-            $table->unsignedBigInteger('series_id');
-            $table->foreign('series_id')->references('series_id')->on('series')->onDelete('cascade');
-            $table->primary(['anime_id', 'series_id']);
+            $table->unsignedBigInteger(AnimeSeries::ATTRIBUTE_ANIME);
+            $table->foreign(AnimeSeries::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
+            $table->unsignedBigInteger(AnimeSeries::ATTRIBUTE_SERIES);
+            $table->foreign(AnimeSeries::ATTRIBUTE_SERIES)->references(Series::ATTRIBUTE_ID)->on(Series::TABLE)->cascadeOnDelete();
+            $table->primary([AnimeSeries::ATTRIBUTE_ANIME, AnimeSeries::ATTRIBUTE_SERIES]);
         });
     }
 
@@ -35,6 +38,6 @@ class CreateAnimeSeries extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('anime_series');
+        Schema::dropIfExists(AnimeSeries::TABLE);
     }
 }

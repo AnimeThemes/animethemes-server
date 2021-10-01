@@ -18,6 +18,7 @@ class DonateController extends DocumentController
      * Show the donate document for the application.
      *
      * @return View|Factory
+     *
      * @throws HttpException
      * @throws NotFoundHttpException
      */

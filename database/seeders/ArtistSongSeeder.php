@@ -47,9 +47,9 @@ class ArtistSongSeeder extends Seeder
             $artistSlug = html_entity_decode($artistWikiEntry[2]);
 
             $artist = Artist::query()
-                ->select(['artist_id', 'name'])
-                ->where('name', $artistName)
-                ->where('slug', $artistSlug)
+                ->select([Artist::ATTRIBUTE_ID, Artist::ATTRIBUTE_NAME])
+                ->where(Artist::ATTRIBUTE_NAME, $artistName)
+                ->where(Artist::ATTRIBUTE_SLUG, $artistSlug)
                 ->first();
 
             if (! $artist instanceof Artist) {
@@ -82,8 +82,8 @@ class ArtistSongSeeder extends Seeder
                         // Set current Anime if we have a definitive match
                         // This is not guaranteed as an Anime Name may be inconsistent between indices
                         $matchingAnime = Anime::query()
-                            ->select(['anime_id', 'name'])
-                            ->where('name', html_entity_decode($animeName[1]));
+                            ->select([Anime::ATTRIBUTE_ID, Anime::ATTRIBUTE_NAME])
+                            ->where(Anime::ATTRIBUTE_NAME, html_entity_decode($animeName[1]));
 
                         if ($matchingAnime->count() === 1) {
                             $anime = $matchingAnime->first();
@@ -106,15 +106,15 @@ class ArtistSongSeeder extends Seeder
 
                     if ($version === null || $version === 1) {
                         $matchingThemes = AnimeTheme::query()
-                            ->select(['theme_id', 'slug'])
-                            ->where('anime_id', $anime->anime_id)
-                            ->where('type', $themeType)
+                            ->select([AnimeTheme::ATTRIBUTE_ID, AnimeTheme::ATTRIBUTE_SLUG])
+                            ->where(AnimeTheme::ATTRIBUTE_ANIME, $anime->anime_id)
+                            ->where(AnimeTheme::ATTRIBUTE_TYPE, $themeType)
                             ->where(function (Builder $query) use ($sequence) {
                                 if (intval($sequence) === 1) {
                                     // Edge Case: "OP|ED" has become "OP1|ED1"
-                                    $query->where('sequence', $sequence)->orWhereNull('sequence');
+                                    $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequence)->orWhereNull(AnimeTheme::ATTRIBUTE_SEQUENCE);
                                 } else {
-                                    $query->where('sequence', $sequence);
+                                    $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequence);
                                 }
                             })
                             ->get();

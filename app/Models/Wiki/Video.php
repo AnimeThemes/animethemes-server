@@ -29,21 +29,22 @@ use Laravel\Scout\Searchable;
 /**
  * Class Video.
  *
- * @property int $video_id
+ * @property Collection $animethemeentries
  * @property string $basename
  * @property string $filename
- * @property string $path
- * @property int $size
- * @property string $mimetype
- * @property int|null $resolution
- * @property bool $nc
- * @property bool $subbed
  * @property bool $lyrics
- * @property bool $uncen
+ * @property string $mimetype
+ * @property bool $nc
  * @property Enum $overlap
+ * @property string $path
+ * @property int|null $resolution
+ * @property int $size
  * @property Enum|null $source
+ * @property bool $subbed
  * @property string[] $tags
- * @property Collection $animethemeentries
+ * @property bool $uncen
+ * @property int $video_id
+ *
  * @method static VideoFactory factory(...$parameters)
  */
 class Video extends BaseModel implements Streamable, Viewable
@@ -53,12 +54,41 @@ class Video extends BaseModel implements Streamable, Viewable
     use QueryDsl;
     use Searchable;
 
+    public const TABLE = 'videos';
+
+    public const ATTRIBUTE_BASENAME = 'basename';
+    public const ATTRIBUTE_FILENAME = 'filename';
+    public const ATTRIBUTE_ID = 'video_id';
+    public const ATTRIBUTE_LYRICS = 'lyrics';
+    public const ATTRIBUTE_MIMETYPE = 'mimetype';
+    public const ATTRIBUTE_NC = 'nc';
+    public const ATTRIBUTE_OVERLAP = 'overlap';
+    public const ATTRIBUTE_PATH = 'path';
+    public const ATTRIBUTE_RESOLUTION = 'resolution';
+    public const ATTRIBUTE_SIZE = 'size';
+    public const ATTRIBUTE_SOURCE = 'source';
+    public const ATTRIBUTE_SUBBED = 'subbed';
+    public const ATTRIBUTE_TAGS = 'tags';
+    public const ATTRIBUTE_UNCEN = 'uncen';
+
+    public const RELATION_ANIME = 'animethemeentries.animetheme.anime';
+    public const RELATION_ANIMESYNONYMS = 'animethemeentries.animetheme.anime.animesynonyms';
+    public const RELATION_ANIMETHEME = 'animethemeentries.animetheme';
+    public const RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
+    public const RELATION_SONG = 'animethemeentries.animetheme.song';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['basename', 'filename', 'path', 'size', 'mimetype'];
+    protected $fillable = [
+        Video::ATTRIBUTE_BASENAME,
+        Video::ATTRIBUTE_FILENAME,
+        Video::ATTRIBUTE_MIMETYPE,
+        Video::ATTRIBUTE_PATH,
+        Video::ATTRIBUTE_SIZE,
+    ];
 
     /**
      * The event map for the model.
@@ -80,21 +110,23 @@ class Video extends BaseModel implements Streamable, Viewable
      *
      * @var string
      */
-    protected $table = 'videos';
+    protected $table = Video::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'video_id';
+    protected $primaryKey = Video::ATTRIBUTE_ID;
 
     /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
-    protected $appends = ['tags'];
+    protected $appends = [
+        Video::ATTRIBUTE_TAGS,
+    ];
 
     /**
      * The array of tags used to uniquely identify the video within the context of a theme.
@@ -106,19 +138,19 @@ class Video extends BaseModel implements Streamable, Viewable
         $tags = [];
 
         if ($this->nc) {
-            array_push($tags, 'NC');
+            $tags[] = 'NC';
         }
         if (! empty($this->source) && ($this->source->is(VideoSource::BD) || $this->source->is(VideoSource::DVD))) {
-            array_push($tags, $this->source->description);
+            $tags[] = $this->source->description;
         }
         if (! empty($this->resolution) && $this->resolution !== 720) {
-            array_push($tags, strval($this->resolution));
+            $tags[] = strval($this->resolution);
         }
 
         if ($this->subbed) {
-            array_push($tags, 'Subbed');
+            $tags[] = 'Subbed';
         } elseif ($this->lyrics) {
-            array_push($tags, 'Lyrics');
+            $tags[] = 'Lyrics';
         }
 
         return $tags;
@@ -132,7 +164,10 @@ class Video extends BaseModel implements Streamable, Viewable
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
-        return $query->with(['animethemeentries.animetheme.anime.animesynonyms', 'animethemeentries.animetheme.song']);
+        return $query->with([
+            Video::RELATION_SONG,
+            Video::RELATION_ANIMESYNONYMS,
+        ]);
     }
 
     /**
@@ -159,7 +194,7 @@ class Video extends BaseModel implements Streamable, Viewable
      */
     public function getRouteKeyName(): string
     {
-        return 'basename';
+        return Video::ATTRIBUTE_BASENAME;
     }
 
     /**
@@ -168,8 +203,8 @@ class Video extends BaseModel implements Streamable, Viewable
      * @var array
      */
     protected $enumCasts = [
-        'overlap' => VideoOverlap::class,
-        'source' => VideoSource::class,
+        Video::ATTRIBUTE_OVERLAP => VideoOverlap::class,
+        Video::ATTRIBUTE_SOURCE => VideoSource::class,
     ];
 
     /**
@@ -178,13 +213,13 @@ class Video extends BaseModel implements Streamable, Viewable
      * @var array
      */
     protected $casts = [
-        'overlap' => 'int',
-        'source' => 'int',
-        'size' => 'int',
-        'nc' => 'boolean',
-        'subbed' => 'boolean',
-        'lyrics' => 'boolean',
-        'uncen' => 'boolean',
+        Video::ATTRIBUTE_LYRICS => 'boolean',
+        Video::ATTRIBUTE_NC => 'boolean',
+        Video::ATTRIBUTE_OVERLAP => 'int',
+        Video::ATTRIBUTE_SIZE => 'int',
+        Video::ATTRIBUTE_SOURCE => 'int',
+        Video::ATTRIBUTE_SUBBED => 'boolean',
+        Video::ATTRIBUTE_UNCEN => 'boolean',
     ];
 
     /**
@@ -244,7 +279,7 @@ class Video extends BaseModel implements Streamable, Viewable
      */
     public function animethemeentries(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Anime\Theme\AnimeThemeEntry', 'anime_theme_entry_video', 'video_id', 'entry_id')
+        return $this->belongsToMany(AnimeThemeEntry::class, AnimeThemeEntryVideo::TABLE, Video::ATTRIBUTE_ID, AnimeThemeEntry::ATTRIBUTE_ID)
             ->using(AnimeThemeEntryVideo::class)
             ->withTimestamps();
     }

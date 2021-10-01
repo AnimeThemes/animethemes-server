@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\Wiki\Anime\Theme;
 
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
@@ -23,5 +25,15 @@ class ThemeIndexRequest extends IndexRequest
     protected function getCollection(): BaseCollection
     {
         return ThemeCollection::make(new MissingValue(), Query::make());
+    }
+
+    /**
+     * Get the schema.
+     *
+     * @return Schema
+     */
+    protected function getSchema(): Schema
+    {
+        return new ThemeSchema();
     }
 }

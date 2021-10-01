@@ -46,18 +46,18 @@ class VideoRepository implements Repository
         // Create videos from metadata that we can later save if needed
         return $fsVideos->map(function (array $fsFile) {
             return Video::factory()->makeOne([
-                'basename' => Arr::get($fsFile, 'basename'),
-                'filename' => Arr::get($fsFile, 'filename'),
-                'path' => Arr::get($fsFile, 'path'),
-                'size' => Arr::get($fsFile, 'size'),
-                'mimetype' => MimeType::from(Arr::get($fsFile, 'basename')),
-                'resolution' => null,
-                'nc' => false,
-                'subbed' => false,
-                'lyrics' => false,
-                'uncen' => false,
-                'source' => null,
-                'overlap' => VideoOverlap::NONE,
+                Video::ATTRIBUTE_BASENAME => Arr::get($fsFile, 'basename'),
+                Video::ATTRIBUTE_FILENAME => Arr::get($fsFile, 'filename'),
+                Video::ATTRIBUTE_LYRICS => false,
+                Video::ATTRIBUTE_MIMETYPE => MimeType::from(Arr::get($fsFile, 'basename')),
+                Video::ATTRIBUTE_NC => false,
+                Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
+                Video::ATTRIBUTE_PATH => Arr::get($fsFile, 'path'),
+                Video::ATTRIBUTE_RESOLUTION => null,
+                Video::ATTRIBUTE_SIZE => Arr::get($fsFile, 'size'),
+                Video::ATTRIBUTE_SOURCE => null,
+                Video::ATTRIBUTE_SUBBED => false,
+                Video::ATTRIBUTE_UNCEN => false,
             ]);
         });
     }

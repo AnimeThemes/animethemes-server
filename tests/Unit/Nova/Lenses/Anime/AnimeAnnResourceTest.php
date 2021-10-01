@@ -40,6 +40,7 @@ class AnimeAnnResourceTest extends TestCase
      * The Anime Ann Resource Lens shall contain Anime Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFields()
@@ -57,6 +58,7 @@ class AnimeAnnResourceTest extends TestCase
      * The Anime Ann Resource Lens fields shall be sortable.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
@@ -75,6 +77,7 @@ class AnimeAnnResourceTest extends TestCase
      * The Anime Ann Resource Lens shall contain Anime Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFilters()
@@ -95,6 +98,7 @@ class AnimeAnnResourceTest extends TestCase
      * The Anime Ann Resource Lens shall use the 'withFilters' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -111,6 +115,7 @@ class AnimeAnnResourceTest extends TestCase
      * The Anime Ann Resource Lens shall use the 'withOrdering' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -127,6 +132,7 @@ class AnimeAnnResourceTest extends TestCase
      * The Anime Ann Resource Lens shall filter Anime without an ANN Resource.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -138,8 +144,8 @@ class AnimeAnnResourceTest extends TestCase
             ->create();
 
         $filteredAnimes = Anime::query()
-            ->whereDoesntHave('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::ANN);
+            ->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN);
             })
             ->get();
 

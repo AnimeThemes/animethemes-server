@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Synonym;
 
+use App\Enums\Http\Api\Field\Category;
 use App\Enums\Http\Api\Filter\TrashedStatus;
+use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
 use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
+use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Carbon\Carbon;
@@ -23,7 +30,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -91,8 +97,13 @@ class SynonymIndexTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowedPaths = collect(SynonymCollection::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
+        $schema = new SynonymSchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -126,19 +137,15 @@ class SynonymIndexTest extends TestCase
      */
     public function testSparseFieldsets()
     {
-        $fields = collect([
-            'id',
-            'text',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new SynonymSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                SynonymResource::$wrap => $includedFields->join(','),
+                SynonymResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
@@ -170,28 +177,14 @@ class SynonymIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowedSorts = collect([
-            'id',
-            'text',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new SynonymSchema();
 
-        $sortCount = $this->faker->numberBetween(1, count($allowedSorts));
-
-        $includedSorts = $allowedSorts->random($sortCount)->map(function (string $includedSort) {
-            if ($this->faker->boolean()) {
-                return Str::of('-')
-                    ->append($includedSort)
-                    ->__toString();
-            }
-
-            return $includedSort;
-        });
+        $field = collect($schema->fields())
+            ->filter(fn (Field $field) => $field->getCategory()->is(Category::ATTRIBUTE()))
+            ->random();
 
         $parameters = [
-            SortParser::$param => $includedSorts->join(','),
+            SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
         $query = Query::make($parameters);
@@ -204,8 +197,8 @@ class SynonymIndexTest extends TestCase
         $builder = AnimeSynonym::query();
 
         foreach ($query->getSortCriteria() as $sortCriterion) {
-            foreach (SynonymCollection::sorts(collect([$sortCriterion])) as $sort) {
-                $builder = $sort->applySort($builder);
+            foreach ($schema->sorts() as $sort) {
+                $builder = $sort->applySort($sortCriterion, $builder);
             }
         }
 
@@ -235,7 +228,7 @@ class SynonymIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'created_at' => $createdFilter,
+                BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -256,7 +249,7 @@ class SynonymIndexTest extends TestCase
                 ->create();
         });
 
-        $synonym = AnimeSynonym::query()->where('created_at', $createdFilter)->get();
+        $synonym = AnimeSynonym::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
         $response = $this->get(route('api.animesynonym.index', $parameters));
 
@@ -284,7 +277,7 @@ class SynonymIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'updated_at' => $updatedFilter,
+                BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -305,7 +298,7 @@ class SynonymIndexTest extends TestCase
                 ->create();
         });
 
-        $synonym = AnimeSynonym::query()->where('updated_at', $updatedFilter)->get();
+        $synonym = AnimeSynonym::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
         $response = $this->get(route('api.animesynonym.index', $parameters));
 
@@ -330,7 +323,7 @@ class SynonymIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::WITHOUT,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -376,7 +369,7 @@ class SynonymIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::WITH,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -422,7 +415,7 @@ class SynonymIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::ONLY,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -471,8 +464,8 @@ class SynonymIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'deleted_at' => $deletedFilter,
-                'trashed' => TrashedStatus::WITH,
+                BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -493,7 +486,7 @@ class SynonymIndexTest extends TestCase
                 ->create();
         });
 
-        $synonym = AnimeSynonym::withTrashed()->where('deleted_at', $deletedFilter)->get();
+        $synonym = AnimeSynonym::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
         $response = $this->get(route('api.animesynonym.index', $parameters));
 
@@ -520,9 +513,9 @@ class SynonymIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->description,
+                Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => AnimeSynonym::RELATION_ANIME,
         ];
 
         AnimeSynonym::factory()
@@ -531,8 +524,8 @@ class SynonymIndexTest extends TestCase
             ->create();
 
         $synonyms = AnimeSynonym::with([
-            'anime' => function (BelongsTo $query) use ($seasonFilter) {
-                $query->where('season', $seasonFilter->value);
+            AnimeSynonym::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ])
         ->get();
@@ -563,24 +556,24 @@ class SynonymIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'year' => $yearFilter,
+                Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => AnimeSynonym::RELATION_ANIME,
         ];
 
         AnimeSynonym::factory()
             ->for(
                 Anime::factory()
                     ->state([
-                        'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
+                        Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
                     ])
             )
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $synonyms = AnimeSynonym::with([
-            'anime' => function (BelongsTo $query) use ($yearFilter) {
-                $query->where('year', $yearFilter);
+            AnimeSynonym::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ])
         ->get();

@@ -56,12 +56,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         });
 
         // Only admins can see audit logs
-        Gate::define('audit', function (User $user) {
-            return $user->hasCurrentTeamPermission('audit:read');
-        });
-        Gate::define('audit_restore', function (User $user) {
-            return $user->hasCurrentTeamPermission('audit:restore');
-        });
+        Gate::define('audit', fn (User $user) => $user->hasCurrentTeamPermission('audit:read'));
+        Gate::define('audit_restore', fn (User $user) => $user->hasCurrentTeamPermission('audit:restore'));
     }
 
     /**
@@ -98,9 +94,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             (new NovaConfig())
-                ->canSee(function (Request $request) {
-                    return $request->user()->hasCurrentTeamPermission('config:update');
-                }),
+                ->canSee(fn (Request $request) => $request->user()->hasCurrentTeamPermission('config:update')),
         ];
     }
 }

@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\ExternalResource;
 
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
@@ -85,8 +88,13 @@ class ExternalResourceShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowedPaths = collect(ExternalResourceResource::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
+        $schema = new ExternalResourceSchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -120,22 +128,15 @@ class ExternalResourceShowTest extends TestCase
      */
     public function testSparseFieldsets()
     {
-        $fields = collect([
-            'id',
-            'link',
-            'external_id',
-            'site',
-            'as',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new ExternalResourceSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                ExternalResourceResource::$wrap => $includedFields->join(','),
+                ExternalResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
@@ -166,9 +167,9 @@ class ExternalResourceShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->description,
+                Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => ExternalResource::RELATION_ANIME,
         ];
 
         ExternalResource::factory()
@@ -176,8 +177,8 @@ class ExternalResourceShowTest extends TestCase
             ->create();
 
         $resource = ExternalResource::with([
-            'anime' => function (BelongsToMany $query) use ($seasonFilter) {
-                $query->where('season', $seasonFilter->value);
+            ExternalResource::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
+                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ])
         ->first();
@@ -208,9 +209,9 @@ class ExternalResourceShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'year' => $yearFilter,
+                Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => ExternalResource::RELATION_ANIME,
         ];
 
         ExternalResource::factory()
@@ -218,14 +219,14 @@ class ExternalResourceShowTest extends TestCase
                 Anime::factory()
                 ->count($this->faker->randomDigitNotNull())
                 ->state([
-                    'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
+                    Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
                 ])
             )
             ->create();
 
         $resource = ExternalResource::with([
-            'anime' => function (BelongsToMany $query) use ($yearFilter) {
-                $query->where('year', $yearFilter);
+            ExternalResource::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
+                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ])
         ->first();

@@ -22,6 +22,7 @@ class RemoveTeamMember implements RemovesTeamMembers
      * @param  mixed  $team
      * @param  mixed  $teamMember
      * @return void
+     *
      * @throws ValidationException
      * @throws AuthorizationException
      */
@@ -43,6 +44,7 @@ class RemoveTeamMember implements RemovesTeamMembers
      * @param  mixed  $team
      * @param  mixed  $teamMember
      * @return void
+     *
      * @throws AuthorizationException
      */
     protected function authorize(mixed $user, mixed $team, mixed $teamMember)
@@ -61,6 +63,7 @@ class RemoveTeamMember implements RemovesTeamMembers
      * @param  mixed  $teamMember
      * @param  mixed  $team
      * @return void
+     *
      * @throws ValidationException
      */
     protected function ensureUserDoesNotOwnTeam(mixed $teamMember, mixed $team)

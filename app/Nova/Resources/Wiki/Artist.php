@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
+use App\Models\Wiki\Artist as ArtistModel;
 use App\Nova\Lenses\Artist\ArtistAniDbResourceLens;
 use App\Nova\Lenses\Artist\ArtistAnilistResourceLens;
 use App\Nova\Lenses\Artist\ArtistAnnResourceLens;
@@ -14,8 +15,13 @@ use App\Nova\Lenses\Artist\ArtistSongLens;
 use App\Nova\Metrics\Artist\ArtistsPerDay;
 use App\Nova\Metrics\Artist\NewArtists;
 use App\Nova\Resources\Resource;
+use App\Pivots\ArtistMember;
+use App\Pivots\ArtistResource;
+use App\Pivots\ArtistSong;
+use App\Pivots\BasePivot;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -33,14 +39,14 @@ class Artist extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Wiki\Artist::class;
+    public static string $model = ArtistModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = ArtistModel::ATTRIBUTE_NAME;
 
     /**
      * The logical group associated with the resource.
@@ -84,7 +90,7 @@ class Artist extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        ArtistModel::ATTRIBUTE_NAME,
     ];
 
     /**
@@ -96,39 +102,43 @@ class Artist extends Resource
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'artist_id')
+            ID::make(__('nova.id'), ArtistModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Text::make(__('nova.name'), 'name')
+            Text::make(__('nova.name'), ArtistModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.artist_name_help')),
 
-            Slug::make(__('nova.slug'), 'slug')
-                ->from('name')
+            Slug::make(__('nova.slug'), ArtistModel::ATTRIBUTE_SLUG)
+                ->from(ArtistModel::ATTRIBUTE_NAME)
                 ->separator('_')
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
-                ->updateRules('unique:artists,slug,{{resourceId}},artist_id')
+                ->updateRules(
+                    Rule::unique(ArtistModel::TABLE)
+                        ->ignore($request->resourceId, ArtistModel::ATTRIBUTE_ID)
+                        ->__toString()
+                )
                 ->help(__('nova.artist_slug_help')),
 
             BelongsToMany::make(__('nova.songs'), 'Songs', Song::class)
                 ->searchable()
                 ->fields(function () {
                     return [
-                        Text::make(__('nova.as'), 'as')
+                        Text::make(__('nova.as'), ArtistSong::ATTRIBUTE_AS)
                             ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
@@ -138,15 +148,15 @@ class Artist extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        Text::make(__('nova.as'), 'as')
+                        Text::make(__('nova.as'), ArtistResource::ATTRIBUTE_AS)
                             ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
@@ -156,15 +166,15 @@ class Artist extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        Text::make(__('nova.as'), 'as')
+                        Text::make(__('nova.as'), ArtistMember::ATTRIBUTE_AS)
                             ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
@@ -174,14 +184,14 @@ class Artist extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        Text::make(__('nova.as'), 'as')
+                        Text::make(__('nova.as'), ArtistMember::ATTRIBUTE_AS)
                             ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly(),
                     ];
                 }),
@@ -190,10 +200,10 @@ class Artist extends Resource
                 ->searchable()
                 ->fields(function () {
                     return [
-                        DateTime::make(__('nova.created_at'), 'created_at')
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly(),
 
-                        DateTime::make(__('nova.updated_at'), 'updated_at')
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly(),
                     ];
                 }),

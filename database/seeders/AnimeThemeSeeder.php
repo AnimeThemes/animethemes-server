@@ -73,10 +73,10 @@ class AnimeThemeSeeder extends Seeder
                         // Set current Anime if we have a definitive match
                         // This is not guaranteed as an Anime Name may be inconsistent between indices
                         $matchingAnime = Anime::query()
-                            ->where('name', html_entity_decode($animeName[1]))
-                            ->whereIn('year', $years);
+                            ->where(Anime::ATTRIBUTE_NAME, html_entity_decode($animeName[1]))
+                            ->whereIn(Anime::ATTRIBUTE_YEAR, $years);
                         if (is_int($season)) {
-                            $matchingAnime = $matchingAnime->where('season', $season);
+                            $matchingAnime = $matchingAnime->where(Anime::ATTRIBUTE_SEASON, $season);
                         }
                         if ($matchingAnime->count() === 1) {
                             $anime = $matchingAnime->first();
@@ -106,13 +106,13 @@ class AnimeThemeSeeder extends Seeder
                         // Create Synonym if it doesn't already exist
                         $text = $synonym[1];
                         if (AnimeSynonym::query()
-                            ->where('anime_id', $anime->anime_id)
-                            ->where('text', $text)
+                            ->where(AnimeSynonym::ATTRIBUTE_ANIME, $anime->anime_id)
+                            ->where(AnimeSynonym::ATTRIBUTE_TEXT, $text)
                             ->doesntExist()
                         ) {
                             Log::info("Creating synonym '{$text}' for anime '{$anime->name}'");
                             $anime->animesynonyms()->create([
-                                'text' => $text,
+                                AnimeSynonym::ATTRIBUTE_TEXT => $text,
                             ]);
                         }
                     }
@@ -149,15 +149,15 @@ class AnimeThemeSeeder extends Seeder
                     if ($version === null || $version === 1) {
                         // Create Theme if it doesn't exist
                         $theme = AnimeTheme::query()
-                            ->where('anime_id', $anime->anime_id)
-                            ->where('group', $group)
-                            ->where('type', $themeType)
+                            ->where(AnimeTheme::ATTRIBUTE_ANIME, $anime->anime_id)
+                            ->where(AnimeTheme::ATTRIBUTE_GROUP, $group)
+                            ->where(AnimeTheme::ATTRIBUTE_TYPE, $themeType)
                             ->where(function (Builder $query) use ($sequence) {
                                 if (intval($sequence) === 1) {
                                     // Edge Case: "OP|ED" has become "OP1|ED1"
-                                    $query->where('sequence', $sequence)->orWhereNull('sequence');
+                                    $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequence)->orWhereNull(AnimeTheme::ATTRIBUTE_SEQUENCE);
                                 } else {
-                                    $query->where('sequence', $sequence);
+                                    $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequence);
                                 }
                             })
                             ->first();
@@ -167,9 +167,9 @@ class AnimeThemeSeeder extends Seeder
                             $theme = AnimeTheme::factory()
                                 ->for($anime)
                                 ->createOne([
-                                    'group' => $group,
-                                    'type' => $themeType,
-                                    'sequence' => $sequence,
+                                    AnimeTheme::ATTRIBUTE_GROUP => $group,
+                                    AnimeTheme::ATTRIBUTE_TYPE => $themeType,
+                                    AnimeTheme::ATTRIBUTE_SEQUENCE => $sequence,
                                 ]);
                         } else {
                             $theme->sequence = $sequence;
@@ -188,7 +188,7 @@ class AnimeThemeSeeder extends Seeder
                             Log::info("Creating song for anime '{$anime->name}'");
                             $song = Song::factory()
                                 ->createOne([
-                                    'title' => $songTitle,
+                                    Song::ATTRIBUTE_TITLE => $songTitle,
                                 ]);
                             $song->animethemes()->save($theme);
                         } else {
@@ -246,13 +246,13 @@ class AnimeThemeSeeder extends Seeder
     ): AnimeThemeEntry {
         // Create Entry if it doesn't exist
         $entry = AnimeThemeEntry::query()
-            ->where('theme_id', $theme->theme_id)
+            ->where(AnimeThemeEntry::ATTRIBUTE_THEME, $theme->theme_id)
             ->where(function (Builder $query) use ($version) {
                 if (intval($version) === 1) {
                     // Edge Case: "OP#|ED#" has become "OP# V1|ED# V1"
-                    $query->where('version', $version)->orWhereNull('version');
+                    $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $version)->orWhereNull(AnimeThemeEntry::ATTRIBUTE_VERSION);
                 } else {
-                    $query->where('version', $version);
+                    $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $version);
                 }
             })
             ->first();
@@ -262,11 +262,11 @@ class AnimeThemeSeeder extends Seeder
             $entry = AnimeThemeEntry::factory()
                 ->for($theme)
                 ->createOne([
-                    'version' => $version,
-                    'episodes' => $episodes,
-                    'nsfw' => Str::contains(Str::upper($notes), 'NSFW'),
-                    'spoiler' => Str::contains(Str::upper($notes), 'SPOILER'),
-                    'notes' => preg_replace('/^(?:NSFW)?(?:,\s)?(?:Spoiler)?$/', '', $notes),
+                    AnimeThemeEntry::ATTRIBUTE_EPISODES => $episodes,
+                    AnimeThemeEntry::ATTRIBUTE_NOTES => preg_replace('/^(?:NSFW)?(?:,\s)?(?:Spoiler)?$/', '', $notes),
+                    AnimeThemeEntry::ATTRIBUTE_NSFW => Str::contains(Str::upper($notes), 'NSFW'),
+                    AnimeThemeEntry::ATTRIBUTE_SPOILER => Str::contains(Str::upper($notes), 'SPOILER'),
+                    AnimeThemeEntry::ATTRIBUTE_VERSION => $version,
                 ]);
         } else {
             $entry->version = $version;
@@ -295,7 +295,7 @@ class AnimeThemeSeeder extends Seeder
      */
     protected static function attachVideoToEntry(string $videoBasename, AnimeThemeEntry $entry)
     {
-        $video = Video::query()->where('basename', $videoBasename)->first();
+        $video = Video::query()->where(Video::ATTRIBUTE_BASENAME, $videoBasename)->first();
         if ($video instanceof Video && AnimeThemeEntryVideo::query()
                 ->where($entry->getKeyName(), $entry->getKey())
                 ->where($video->getKeyName(), $video->getKey())

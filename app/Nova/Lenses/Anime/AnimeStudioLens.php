@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Lenses\Anime;
 
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Models\Wiki\Anime;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -50,7 +51,7 @@ class AnimeStudioLens extends Lens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave('studios')
+            $query->whereDoesntHave(Anime::RELATION_STUDIOS)
         ));
     }
 
@@ -63,19 +64,19 @@ class AnimeStudioLens extends Lens
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'anime_id')
+            ID::make(__('nova.id'), Anime::ATTRIBUTE_ID)
                 ->sortable(),
 
-            Text::make(__('nova.name'), 'name')
+            Text::make(__('nova.name'), Anime::ATTRIBUTE_NAME)
                 ->sortable(),
 
-            Text::make(__('nova.slug'), 'slug')
+            Text::make(__('nova.slug'), Anime::ATTRIBUTE_SLUG)
                 ->sortable(),
 
-            Number::make(__('nova.year'), 'year')
+            Number::make(__('nova.year'), Anime::ATTRIBUTE_YEAR)
                 ->sortable(),
 
-            Select::make(__('nova.season'), 'season')
+            Select::make(__('nova.season'), Anime::ATTRIBUTE_SEASON)
                 ->options(AnimeSeason::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
                     return $enum?->description;

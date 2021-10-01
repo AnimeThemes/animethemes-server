@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\BaseModel;
+use App\Models\Wiki\Song;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,11 +20,11 @@ class CreateSongsTable extends Migration
      */
     public function up()
     {
-        Schema::create('songs', function (Blueprint $table) {
-            $table->id('song_id');
+        Schema::create(Song::TABLE, function (Blueprint $table) {
+            $table->id(Song::ATTRIBUTE_ID);
             $table->timestamps(6);
-            $table->softDeletes('deleted_at', 6);
-            $table->string('title')->nullable();
+            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+            $table->string(Song::ATTRIBUTE_TITLE)->nullable();
         });
     }
 
@@ -33,6 +35,6 @@ class CreateSongsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('songs');
+        Schema::dropIfExists(Song::TABLE);
     }
 }

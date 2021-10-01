@@ -22,25 +22,40 @@ use Illuminate\Support\Collection;
 /**
  * Class Resource.
  *
- * @property int $resource_id
- * @property Enum|null $site
- * @property string|null $link
- * @property int|null $external_id
  * @property Collection $anime
  * @property Collection $artists
+ * @property int|null $external_id
+ * @property string|null $link
  * @property BasePivot $pivot
+ * @property int $resource_id
+ * @property Enum|null $site
+ *
  * @method static ExternalResourceFactory factory(...$parameters)
  */
 class ExternalResource extends BaseModel
 {
     use CastsEnums;
 
+    public const TABLE = 'resources';
+
+    public const ATTRIBUTE_EXTERNAL_ID = 'external_id';
+    public const ATTRIBUTE_ID = 'resource_id';
+    public const ATTRIBUTE_LINK = 'link';
+    public const ATTRIBUTE_SITE = 'site';
+
+    public const RELATION_ANIME = 'anime';
+    public const RELATION_ARTISTS = 'artists';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['site', 'link', 'external_id'];
+    protected $fillable = [
+        ExternalResource::ATTRIBUTE_EXTERNAL_ID,
+        ExternalResource::ATTRIBUTE_LINK,
+        ExternalResource::ATTRIBUTE_SITE,
+    ];
 
     /**
      * The event map for the model.
@@ -61,14 +76,14 @@ class ExternalResource extends BaseModel
      *
      * @var string
      */
-    protected $table = 'resources';
+    protected $table = ExternalResource::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'resource_id';
+    protected $primaryKey = ExternalResource::ATTRIBUTE_ID;
 
     /**
      * The attributes that should be cast to enum types.
@@ -76,7 +91,7 @@ class ExternalResource extends BaseModel
      * @var array
      */
     protected $enumCasts = [
-        'site' => ResourceSite::class,
+        ExternalResource::ATTRIBUTE_SITE => ResourceSite::class,
     ];
 
     /**
@@ -85,8 +100,8 @@ class ExternalResource extends BaseModel
      * @var array
      */
     protected $casts = [
-        'site' => 'int',
-        'external_id' => 'int',
+        ExternalResource::ATTRIBUTE_EXTERNAL_ID => 'int',
+        ExternalResource::ATTRIBUTE_SITE => 'int',
     ];
 
     /**
@@ -106,9 +121,9 @@ class ExternalResource extends BaseModel
      */
     public function anime(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Anime', 'anime_resource', 'resource_id', 'anime_id')
+        return $this->belongsToMany(Anime::class, AnimeResource::TABLE, ExternalResource::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID)
             ->using(AnimeResource::class)
-            ->withPivot('as')
+            ->withPivot(AnimeResource::ATTRIBUTE_AS)
             ->withTimestamps();
     }
 
@@ -119,9 +134,9 @@ class ExternalResource extends BaseModel
      */
     public function artists(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Artist', 'artist_resource', 'resource_id', 'artist_id')
+        return $this->belongsToMany(Artist::class, ArtistResource::TABLE, ExternalResource::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID)
             ->using(ArtistResource::class)
-            ->withPivot('as')
+            ->withPivot(ArtistResource::ATTRIBUTE_AS)
             ->withTimestamps();
     }
 }

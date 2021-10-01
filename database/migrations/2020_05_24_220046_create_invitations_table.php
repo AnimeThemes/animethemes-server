@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Enums\Models\Auth\InvitationStatus;
+use App\Models\Auth\Invitation;
+use App\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,13 +21,13 @@ class CreateInvitationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('invitations', function (Blueprint $table) {
-            $table->id('invitation_id');
+        Schema::create(Invitation::TABLE, function (Blueprint $table) {
+            $table->id(Invitation::ATTRIBUTE_ID);
             $table->timestamps(6);
-            $table->softDeletes('deleted_at', 6);
-            $table->string('name');
-            $table->string('email');
-            $table->integer('status')->default(InvitationStatus::OPEN);
+            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+            $table->string(Invitation::ATTRIBUTE_NAME);
+            $table->string(Invitation::ATTRIBUTE_EMAIL);
+            $table->integer(Invitation::ATTRIBUTE_STATUS)->default(InvitationStatus::OPEN);
         });
     }
 
@@ -36,6 +38,6 @@ class CreateInvitationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invitations');
+        Schema::dropIfExists(Invitation::TABLE);
     }
 }

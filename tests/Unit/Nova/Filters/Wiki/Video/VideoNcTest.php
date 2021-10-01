@@ -28,6 +28,7 @@ class VideoNcTest extends TestCase
      * The Video Nc Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -40,6 +41,7 @@ class VideoNcTest extends TestCase
      * The Video Nc Filter shall have Yes and No options.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -54,6 +56,7 @@ class VideoNcTest extends TestCase
      * The Video Nc Filter shall filter Videos By Nc.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
@@ -69,7 +72,7 @@ class VideoNcTest extends TestCase
 
         $response = $filter->apply(Video::class, $ncFilter);
 
-        $filteredVideos = Video::query()->where('nc', $ncFilter)->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_NC, $ncFilter)->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }

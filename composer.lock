@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e85a21f7e436d8cc3573349c77c5cc0",
+    "content-hash": "dbed60ea3d9941f736b11c9f8c40be7c",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -7686,6 +7686,78 @@
                 }
             ],
             "time": "2021-04-01T07:28:47+00:00"
+        },
+        {
+            "name": "spatie/laravel-validation-rules",
+            "version": "3.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-validation-rules.git",
+                "reference": "3d3ab9a015094448c0900766eb0b37f36ecaebb3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-validation-rules/zipball/3d3ab9a015094448c0900766eb0b37f36ecaebb3",
+                "reference": "3d3ab9a015094448c0900766eb0b37f36ecaebb3",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^6.0|^7.0|^8.0",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "laravel/legacy-factories": "^1.0.4",
+                "league/iso3166": "^3.0",
+                "myclabs/php-enum": "^1.6",
+                "orchestra/testbench": "^4.5|^5.0|^6.0",
+                "phpunit/phpunit": "^9.3",
+                "spatie/enum": "^2.2|^3.0"
+            },
+            "suggest": {
+                "league/iso3166": "Needed for the CountryCode rule and Currency rule"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\ValidationRules\\ValidationRulesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ValidationRules\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A set of useful Laravel validation rules",
+            "homepage": "https://github.com/spatie/laravel-validation-rules",
+            "keywords": [
+                "laravel-validation-rules",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-validation-rules/issues",
+                "source": "https://github.com/spatie/laravel-validation-rules/tree/3.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-16T20:37:49+00:00"
         },
         {
             "name": "spatie/once",

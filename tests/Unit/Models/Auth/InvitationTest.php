@@ -67,7 +67,7 @@ class InvitationTest extends TestCase
     public function testInvitationIsOpen()
     {
         $invitation = Invitation::factory()->createOne([
-            'status' => InvitationStatus::OPEN,
+            Invitation::ATTRIBUTE_STATUS => InvitationStatus::OPEN,
         ]);
 
         static::assertTrue($invitation->isOpen());
@@ -81,7 +81,7 @@ class InvitationTest extends TestCase
     public function testInvitationIsClosed()
     {
         $invitation = Invitation::factory()->createOne([
-            'status' => InvitationStatus::CLOSED,
+            Invitation::ATTRIBUTE_STATUS => InvitationStatus::CLOSED,
         ]);
 
         static::assertFalse($invitation->isOpen());

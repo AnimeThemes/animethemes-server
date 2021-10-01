@@ -16,16 +16,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property Artist $artist
  * @property Image $image
+ *
  * @method static ArtistImageFactory factory(...$parameters)
  */
 class ArtistImage extends BasePivot
 {
+    public const TABLE = 'artist_image';
+
+    public const ATTRIBUTE_ARTIST = 'artist_id';
+    public const ATTRIBUTE_IMAGE = 'image_id';
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'artist_image';
+    protected $table = ArtistImage::TABLE;
 
     /**
      * The event map for the model.
@@ -46,7 +52,7 @@ class ArtistImage extends BasePivot
      */
     public function artist(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Artist', 'artist_id', 'artist_id');
+        return $this->belongsTo(Artist::class, ArtistImage::ATTRIBUTE_ARTIST);
     }
 
     /**
@@ -56,6 +62,6 @@ class ArtistImage extends BasePivot
      */
     public function image(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Image', 'image_id', 'image_id');
+        return $this->belongsTo(Image::class, ArtistImage::ATTRIBUTE_IMAGE);
     }
 }

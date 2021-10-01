@@ -29,6 +29,7 @@ class VideoSourceTest extends TestCase
      * The Video Source Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -41,6 +42,7 @@ class VideoSourceTest extends TestCase
      * The Video Source Filter shall have an option for each VideoSource instance.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -56,6 +58,7 @@ class VideoSourceTest extends TestCase
      * The Video Source Filter shall filter Video By Source.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
@@ -69,7 +72,7 @@ class VideoSourceTest extends TestCase
 
         $response = $filter->apply(Video::class, $source->value);
 
-        $filteredVideos = Video::query()->where('source', $source->value)->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_SOURCE, $source->value)->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }

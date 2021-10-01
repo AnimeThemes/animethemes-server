@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Filters\Wiki\Anime\Theme;
 
 use App\Enums\Models\Wiki\ThemeType;
+use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
@@ -43,7 +44,7 @@ class ThemeTypeFilter extends Filter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        return $query->where('type', $value);
+        return $query->where(AnimeTheme::ATTRIBUTE_TYPE, $value);
     }
 
     /**

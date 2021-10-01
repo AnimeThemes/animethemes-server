@@ -18,6 +18,7 @@ class FaqController extends DocumentController
      * Show the FAQ for the application.
      *
      * @return View|Factory
+     *
      * @throws HttpException
      * @throws NotFoundHttpException
      */

@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Studio;
 
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
@@ -87,8 +90,13 @@ class StudioShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowedPaths = collect(StudioResource::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
+        $schema = new StudioSchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -123,20 +131,15 @@ class StudioShowTest extends TestCase
     {
         $this->withoutEvents();
 
-        $fields = collect([
-            'id',
-            'name',
-            'slug',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new StudioSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                StudioResource::$wrap => $includedFields->join(','),
+                StudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
@@ -169,9 +172,9 @@ class StudioShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->description,
+                Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => Studio::RELATION_ANIME,
         ];
 
         Studio::factory()
@@ -179,8 +182,8 @@ class StudioShowTest extends TestCase
             ->create();
 
         $studio = Studio::with([
-            'anime' => function (BelongsToMany $query) use ($seasonFilter) {
-                $query->where('season', $seasonFilter->value);
+            Studio::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
+                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ])
         ->first();
@@ -212,9 +215,9 @@ class StudioShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'year' => $yearFilter,
+                Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => Studio::RELATION_ANIME,
         ];
 
         Studio::factory()
@@ -222,16 +225,16 @@ class StudioShowTest extends TestCase
                 Anime::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
-                        ['year' => 2000],
-                        ['year' => 2001],
-                        ['year' => 2002],
+                        [Anime::ATTRIBUTE_YEAR => 2000],
+                        [Anime::ATTRIBUTE_YEAR => 2001],
+                        [Anime::ATTRIBUTE_YEAR => 2002],
                     ))
             )
             ->create();
 
         $studio = Studio::with([
-            'anime' => function (BelongsToMany $query) use ($yearFilter) {
-                $query->where('year', $yearFilter);
+            Studio::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
+                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ])
         ->first();

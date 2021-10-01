@@ -97,7 +97,7 @@ class VideoPolicy
      */
     public function attachAnyEntry(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('AnimeThemeEntryVideo:create');
+        return $user->hasCurrentTeamPermission('animethemeentryvideo:create');
     }
 
     /**
@@ -108,7 +108,7 @@ class VideoPolicy
      */
     public function attachEntry(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('AnimeThemeEntryVideo:create');
+        return $user->hasCurrentTeamPermission('animethemeentryvideo:create');
     }
 
     /**
@@ -119,6 +119,6 @@ class VideoPolicy
      */
     public function detachEntry(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('AnimeThemeEntryVideo:delete');
+        return $user->hasCurrentTeamPermission('animethemeentryvideo:delete');
     }
 }

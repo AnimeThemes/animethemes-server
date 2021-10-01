@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
-use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Image\ImageIndexRequest;
 use App\Http\Requests\Api\Wiki\Image\ImageShowRequest;
 use App\Http\Resources\Wiki\Collection\ImageCollection;
@@ -15,7 +15,7 @@ use Illuminate\Http\JsonResponse;
 /**
  * Class ImageController.
  */
-class ImageController extends BaseController
+class ImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class ImageController extends BaseController
      */
     public function index(ImageIndexRequest $request): JsonResponse
     {
-        $images = ImageCollection::performQuery($this->query);
+        $images = ImageCollection::performQuery($request->getQuery());
 
         return $images->toResponse($request);
     }
@@ -39,7 +39,7 @@ class ImageController extends BaseController
      */
     public function show(ImageShowRequest $request, Image $image): JsonResponse
     {
-        $resource = ImageResource::performQuery($image, $this->query);
+        $resource = ImageResource::performQuery($image, $request->getQuery());
 
         return $resource->toResponse($request);
     }

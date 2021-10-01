@@ -43,17 +43,17 @@ class SeriesSeeder extends Seeder
 
             // Create series if it doesn't already exist
             $series = Series::query()
-                ->select(['series_id', 'name'])
-                ->where('name', $seriesName)
-                ->where('slug', $seriesSlug)
+                ->select([Series::ATTRIBUTE_ID, Series::ATTRIBUTE_NAME])
+                ->where(Series::ATTRIBUTE_NAME, $seriesName)
+                ->where(Series::ATTRIBUTE_SLUG, $seriesSlug)
                 ->first();
 
             if ($series === null) {
                 Log::info("Creating series with name '{$seriesName}' and slug '{$seriesSlug}'");
 
                 $series = Series::factory()->createOne([
-                    'name' => $seriesName,
-                    'slug' => $seriesSlug,
+                    Series::ATTRIBUTE_NAME => $seriesName,
+                    Series::ATTRIBUTE_SLUG => $seriesSlug,
                 ]);
             }
 
@@ -84,8 +84,8 @@ class SeriesSeeder extends Seeder
             // Note: We are not concerned about Name collision here.
             // It's more likely that collisions occur within a series.
             $animes = Anime::query()
-                ->select(['anime_id', 'name'])
-                ->whereIn('name', $seriesAnimeNames)
+                ->select([Anime::ATTRIBUTE_ID, Anime::ATTRIBUTE_NAME])
+                ->whereIn(Anime::ATTRIBUTE_NAME, $seriesAnimeNames)
                 ->get();
 
             foreach ($animes as $anime) {

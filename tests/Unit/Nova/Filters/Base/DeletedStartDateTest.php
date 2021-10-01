@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Nova\Filters\Base;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Nova\Filters\Base\DeletedStartDateFilter;
 use Carbon\Carbon;
@@ -31,6 +32,7 @@ class DeletedStartDateTest extends TestCase
      * The Deleted Start Date Filter shall be a date filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testDateFilter()
@@ -68,7 +70,7 @@ class DeletedStartDateTest extends TestCase
             )
         );
 
-        $filteredAnimes = Anime::withTrashed()->where('deleted_at', ComparisonOperator::GTE, $dateFilter)->get();
+        $filteredAnimes = Anime::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, ComparisonOperator::GTE, $dateFilter)->get();
         foreach ($filteredAnimes as $filteredAnime) {
             $response->assertContains($filteredAnime);
         }

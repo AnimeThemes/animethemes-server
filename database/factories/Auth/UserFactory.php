@@ -33,11 +33,11 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            User::ATTRIBUTE_NAME => $this->faker->name(),
+            User::ATTRIBUTE_EMAIL => $this->faker->safeEmail(),
+            User::ATTRIBUTE_EMAIL_VERIFIED_AT => now(),
+            User::ATTRIBUTE_PASSWORD => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            User::ATTRIBUTE_REMEMBER_TOKEN => Str::random(10),
         ];
     }
 
@@ -50,7 +50,7 @@ class UserFactory extends Factory
     {
         return $this->state(function () {
             return [
-                'email_verified_at' => null,
+                User::ATTRIBUTE_EMAIL_VERIFIED_AT => null,
             ];
         });
     }

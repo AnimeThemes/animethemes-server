@@ -24,7 +24,10 @@ trait ReconcilesVideoRepositories
      */
     protected function columnsForCreateDelete(): array
     {
-        return ['video_id', 'basename'];
+        return [
+            Video::ATTRIBUTE_BASENAME,
+            Video::ATTRIBUTE_ID,
+        ];
     }
 
     /**
@@ -44,7 +47,12 @@ trait ReconcilesVideoRepositories
      */
     protected function columnsForUpdate(): array
     {
-        return ['video_id', 'basename', 'path', 'size'];
+        return [
+            Video::ATTRIBUTE_BASENAME,
+            Video::ATTRIBUTE_ID,
+            Video::ATTRIBUTE_PATH,
+            Video::ATTRIBUTE_SIZE,
+        ];
     }
 
     /**
@@ -66,6 +74,9 @@ trait ReconcilesVideoRepositories
      */
     protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model
     {
-        return $sourceModels->firstWhere('basename', $destinationModel->getAttribute('basename'));
+        return $sourceModels->firstWhere(
+            Video::ATTRIBUTE_BASENAME,
+            $destinationModel->getAttribute(Video::ATTRIBUTE_BASENAME)
+        );
     }
 }

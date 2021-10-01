@@ -14,18 +14,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * Class AnimeThemeEntryVideo.
  *
- * @property Video $video
  * @property AnimeThemeEntry $animethemeentry
+ * @property Video $video
+ *
  * @method static AnimeThemeEntryVideoFactory factory(...$parameters)
  */
 class AnimeThemeEntryVideo extends BasePivot
 {
+    public const TABLE = 'anime_theme_entry_video';
+
+    public const ATTRIBUTE_ENTRY = 'entry_id';
+    public const ATTRIBUTE_VIDEO = 'video_id';
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'anime_theme_entry_video';
+    protected $table = AnimeThemeEntryVideo::TABLE;
 
     /**
      * The event map for the model.
@@ -46,7 +52,7 @@ class AnimeThemeEntryVideo extends BasePivot
      */
     public function video(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Video', 'video_id', 'video_id');
+        return $this->belongsTo(Video::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO);
     }
 
     /**
@@ -56,6 +62,6 @@ class AnimeThemeEntryVideo extends BasePivot
      */
     public function animethemeentry(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Anime\Theme\AnimeThemeEntry', 'entry_id', 'entry_id');
+        return $this->belongsTo(AnimeThemeEntry::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Nova\Resources\Wiki;
 
+use App\Models\Wiki\Studio as StudioModel;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -12,6 +13,7 @@ use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
 use App\Nova\Resources\Wiki\Studio;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Validation\Rule;
 use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
 use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
@@ -29,6 +31,7 @@ class StudioTest extends TestCase
      * The Studio Resource shall contain Studio Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFields()
@@ -47,6 +50,7 @@ class StudioTest extends TestCase
      * The Studio Resource shall contain an ID field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -68,6 +72,7 @@ class StudioTest extends TestCase
      * The Studio Resource shall contain a Created At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -89,6 +94,7 @@ class StudioTest extends TestCase
      * The Studio Resource shall contain an Updated At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -110,6 +116,7 @@ class StudioTest extends TestCase
      * The Studio Resource shall contain a Deleted At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -131,6 +138,7 @@ class StudioTest extends TestCase
      * The Studio Resource shall contain a Name field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -154,6 +162,7 @@ class StudioTest extends TestCase
      * The Studio Resource shall contain a Slug field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -166,7 +175,7 @@ class StudioTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('max:192');
         $field->assertHasRule('alpha_dash');
-        $field->assertHasUpdateRule('unique:studios,slug,{{resourceId}},studio_id');
+        $field->assertHasUpdateRule(Rule::unique(StudioModel::TABLE)->ignore(null, StudioModel::ATTRIBUTE_ID)->__toString());
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();
@@ -179,6 +188,7 @@ class StudioTest extends TestCase
      * The Studio Resource shall contain Studio Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFilters()
@@ -197,6 +207,7 @@ class StudioTest extends TestCase
      * The Studio Resource shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testActions()

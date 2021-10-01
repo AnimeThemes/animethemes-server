@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Resource;
 
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
@@ -12,7 +14,9 @@ use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
 use App\Http\Resources\Wiki\Collection\ImageCollection;
 use App\Http\Resources\Wiki\Collection\SeriesCollection;
 use App\Http\Resources\Wiki\Collection\StudioCollection;
+use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
+use App\Pivots\AnimeResource as AnimeResourcePivot;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
@@ -53,45 +57,35 @@ class AnimeResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->when($this->isAllowedField('id'), $this->anime_id),
-            'name' => $this->when($this->isAllowedField('name'), $this->name),
-            'slug' => $this->when($this->isAllowedField('slug'), $this->slug),
-            'year' => $this->when($this->isAllowedField('year'), $this->year),
-            'season' => $this->when($this->isAllowedField('season'), $this->season?->description),
-            'synopsis' => $this->when($this->isAllowedField('synopsis'), $this->synopsis),
-            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
-            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
-            'animesynonyms' => SynonymCollection::make($this->whenLoaded('animesynonyms'), $this->query),
-            'animethemes' => ThemeCollection::make($this->whenLoaded('animethemes'), $this->query),
-            'series' => SeriesCollection::make($this->whenLoaded('series'), $this->query),
-            'resources' => ExternalResourceCollection::make($this->whenLoaded('resources'), $this->query),
-            'as' => $this->when($this->isAllowedField('as'), $this->whenPivotLoaded('anime_resource', function () {
-                return $this->pivot->getAttribute('as');
-            })),
-            'images' => ImageCollection::make($this->whenLoaded('images'), $this->query),
-            'studios' => StudioCollection::make($this->whenLoaded('studios'), $this->query),
+            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
+            Anime::ATTRIBUTE_NAME => $this->when($this->isAllowedField(Anime::ATTRIBUTE_NAME), $this->name),
+            Anime::ATTRIBUTE_SLUG => $this->when($this->isAllowedField(Anime::ATTRIBUTE_SLUG), $this->slug),
+            Anime::ATTRIBUTE_YEAR => $this->when($this->isAllowedField(Anime::ATTRIBUTE_YEAR), $this->year),
+            Anime::ATTRIBUTE_SEASON => $this->when($this->isAllowedField(Anime::ATTRIBUTE_SEASON), $this->season?->description),
+            Anime::ATTRIBUTE_SYNOPSIS => $this->when($this->isAllowedField(Anime::ATTRIBUTE_SYNOPSIS), $this->synopsis),
+            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
+            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
+            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
+            Anime::RELATION_SYNONYMS => SynonymCollection::make($this->whenLoaded(Anime::RELATION_SYNONYMS), $this->query),
+            Anime::RELATION_THEMES => ThemeCollection::make($this->whenLoaded(Anime::RELATION_THEMES), $this->query),
+            Anime::RELATION_SERIES => SeriesCollection::make($this->whenLoaded(Anime::RELATION_SERIES), $this->query),
+            Anime::RELATION_RESOURCES => ExternalResourceCollection::make($this->whenLoaded(Anime::RELATION_RESOURCES), $this->query),
+            AnimeResourcePivot::ATTRIBUTE_AS => $this->when(
+                $this->isAllowedField(AnimeResourcePivot::ATTRIBUTE_AS),
+                $this->whenPivotLoaded(AnimeResourcePivot::TABLE, fn () => $this->pivot->getAttribute(AnimeResourcePivot::ATTRIBUTE_AS))
+            ),
+            Anime::RELATION_IMAGES => ImageCollection::make($this->whenLoaded(Anime::RELATION_IMAGES), $this->query),
+            Anime::RELATION_STUDIOS => StudioCollection::make($this->whenLoaded(Anime::RELATION_STUDIOS), $this->query),
         ];
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    public static function allowedIncludePaths(): array
+    public static function schema(): Schema
     {
-        return [
-            'animesynonyms',
-            'series',
-            'animethemes',
-            'animethemes.animethemeentries',
-            'animethemes.animethemeentries.videos',
-            'animethemes.song',
-            'animethemes.song.artists',
-            'resources',
-            'images',
-            'studios',
-        ];
+        return new AnimeSchema();
     }
 }

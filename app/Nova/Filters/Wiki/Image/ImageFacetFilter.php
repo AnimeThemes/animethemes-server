@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Filters\Wiki\Image;
 
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
@@ -43,7 +44,7 @@ class ImageFacetFilter extends Filter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        return $query->where('facet', $value);
+        return $query->where(Image::ATTRIBUTE_FACET, $value);
     }
 
     /**

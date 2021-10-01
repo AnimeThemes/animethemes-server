@@ -6,6 +6,8 @@ namespace App\Http\Resources\Wiki\Resource;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
@@ -83,12 +85,12 @@ class SearchResource extends BaseResource
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    public static function allowedIncludePaths(): array
+    public static function schema(): Schema
     {
-        return [];
+        return new AnimeSchema();
     }
 }

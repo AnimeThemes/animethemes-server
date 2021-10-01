@@ -28,6 +28,7 @@ class ThemeTypeTest extends TestCase
      * The Theme Status Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -40,6 +41,7 @@ class ThemeTypeTest extends TestCase
      * The Theme Status Filter shall have an option for each ThemeType instance.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -55,6 +57,7 @@ class ThemeTypeTest extends TestCase
      * The Theme Status Filter shall filter Themes By Status.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
@@ -71,7 +74,7 @@ class ThemeTypeTest extends TestCase
 
         $response = $filter->apply(AnimeTheme::class, $type->value);
 
-        $filteredThemes = AnimeTheme::query()->where('type', $type->value)->get();
+        $filteredThemes = AnimeTheme::query()->where(AnimeTheme::ATTRIBUTE_TYPE, $type->value)->get();
         foreach ($filteredThemes as $filteredTheme) {
             $response->assertContains($filteredTheme);
         }

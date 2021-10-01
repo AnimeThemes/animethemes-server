@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Jetstream;
 
+use App\Models\Auth\Team;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
@@ -23,6 +24,7 @@ class CreateTeam implements CreatesTeams
      * @param  mixed  $user
      * @param  array  $input
      * @return mixed
+     *
      * @throws ValidationException
      * @throws AuthorizationException
      */
@@ -37,8 +39,8 @@ class CreateTeam implements CreatesTeams
         AddingTeam::dispatch($user);
 
         $user->switchTeam($team = $user->ownedTeams()->create([
-            'name' => $input['name'],
-            'personal_team' => false,
+            Team::ATTRIBUTE_NAME => $input['name'],
+            Team::ATTRIBUTE_PERSONAL_TEAM => false,
         ]));
 
         return $team;

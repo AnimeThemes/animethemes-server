@@ -16,16 +16,24 @@ use Database\Factories\Admin\AnnouncementFactory;
  *
  * @property int $announcement_id
  * @property string $content
+ *
  * @method static AnnouncementFactory factory(...$parameters)
  */
 class Announcement extends BaseModel
 {
+    public const TABLE = 'announcements';
+
+    public const ATTRIBUTE_CONTENT = 'content';
+    public const ATTRIBUTE_ID = 'announcement_id';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['content'];
+    protected $fillable = [
+        Announcement::ATTRIBUTE_CONTENT,
+    ];
 
     /**
      * The event map for the model.
@@ -46,14 +54,14 @@ class Announcement extends BaseModel
      *
      * @var string
      */
-    protected $table = 'announcements';
+    protected $table = Announcement::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'announcement_id';
+    protected $primaryKey = Announcement::ATTRIBUTE_ID;
 
     /**
      * Get name.

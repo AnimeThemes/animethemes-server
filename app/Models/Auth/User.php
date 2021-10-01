@@ -24,21 +24,22 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * Class User.
  *
- * @property int $id
- * @property string $name
+ * @property Carbon $created_at
+ * @property string|null $current_team_id
+ * @property Team|null $currentTeam
  * @property string $email
  * @property Carbon|null $email_verified_at
+ * @property int $id
+ * @property string $name
+ * @property Collection $ownedTeams
  * @property string $password
  * @property string $remember_token
- * @property string|null $current_team_id
- * @property string|null $two_factor_secret
- * @property string|null $two_factor_recovery_codes
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * @property Collection $tokens
- * @property Team|null $currentTeam
- * @property Collection $ownedTeams
  * @property Collection $teams
+ * @property Collection $tokens
+ * @property string|null $two_factor_recovery_codes
+ * @property string|null $two_factor_secret
+ * @property Carbon $updated_at
+ *
  * @method static UserFactory factory(...$parameters)
  */
 class User extends Authenticatable implements MustVerifyEmail, Nameable
@@ -50,12 +51,29 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     use SoftDeletes;
     use TwoFactorAuthenticatable;
 
+    public const TABLE = 'users';
+
+    public const ATTRIBUTE_EMAIL = 'email';
+    public const ATTRIBUTE_CURRENT_TEAM = 'current_team_id';
+    public const ATTRIBUTE_DELETED_AT = 'deleted_at';
+    public const ATTRIBUTE_EMAIL_VERIFIED_AT = 'email_verified_at';
+    public const ATTRIBUTE_ID = 'id';
+    public const ATTRIBUTE_NAME = 'name';
+    public const ATTRIBUTE_PASSWORD = 'password';
+    public const ATTRIBUTE_REMEMBER_TOKEN = 'remember_token';
+    public const ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES = 'two_factor_recovery_codes';
+    public const ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = [
+        User::ATTRIBUTE_EMAIL,
+        User::ATTRIBUTE_NAME,
+        User::ATTRIBUTE_PASSWORD,
+    ];
 
     /**
      * The event map for the model.
@@ -76,14 +94,19 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
      *
      * @var string
      */
-    protected $table = 'users';
+    protected $table = User::TABLE;
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token', 'two_factor_recovery_codes', 'two_factor_secret'];
+    protected $hidden = [
+        User::ATTRIBUTE_PASSWORD,
+        User::ATTRIBUTE_REMEMBER_TOKEN,
+        User::ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES,
+        User::ATTRIBUTE_TWO_FACTOR_SECRET,
+    ];
 
     /**
      * The storage format of the model's date columns.
@@ -98,7 +121,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        User::ATTRIBUTE_EMAIL_VERIFIED_AT => 'datetime',
     ];
 
     /**

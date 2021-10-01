@@ -6,10 +6,13 @@ namespace Tests\Feature\Http\Api\Wiki\Anime\Theme\Entry;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
+use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -19,7 +22,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Znck\Eloquent\Relations\BelongsToThrough;
 
 /**
  * Class EntryShowTest.
@@ -90,8 +92,13 @@ class EntryShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowedPaths = collect(EntryResource::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
+        $schema = new EntrySchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -125,23 +132,15 @@ class EntryShowTest extends TestCase
      */
     public function testSparseFieldsets()
     {
-        $fields = collect([
-            'id',
-            'version',
-            'episodes',
-            'nsfw',
-            'spoiler',
-            'notes',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new EntrySchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                EntryResource::$wrap => $includedFields->join(','),
+                EntryResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
@@ -174,9 +173,9 @@ class EntryShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->description,
+                Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'animetheme.anime',
+            IncludeParser::$param => AnimeThemeEntry::RELATION_ANIME,
         ];
 
         AnimeThemeEntry::factory()
@@ -184,8 +183,8 @@ class EntryShowTest extends TestCase
             ->create();
 
         $entry = AnimeThemeEntry::with([
-            'anime' => function (BelongsToThrough $query) use ($seasonFilter) {
-                $query->where('season', $seasonFilter->value);
+            AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ])
         ->first();
@@ -216,9 +215,9 @@ class EntryShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'year' => $yearFilter,
+                Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => 'animetheme.anime',
+            IncludeParser::$param => AnimeThemeEntry::RELATION_ANIME,
         ];
 
         AnimeThemeEntry::factory()
@@ -226,15 +225,15 @@ class EntryShowTest extends TestCase
                 AnimeTheme::factory()->for(
                     Anime::factory()
                         ->state([
-                            'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
+                            Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
                         ])
                 )
             )
             ->create();
 
         $entry = AnimeThemeEntry::with([
-            'anime' => function (BelongsToThrough $query) use ($yearFilter) {
-                $query->where('year', $yearFilter);
+            AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ])
         ->first();
@@ -265,9 +264,9 @@ class EntryShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'group' => $groupFilter,
+                AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => 'animetheme',
+            IncludeParser::$param => AnimeThemeEntry::RELATION_THEME,
         ];
 
         AnimeThemeEntry::factory()
@@ -275,14 +274,14 @@ class EntryShowTest extends TestCase
                 AnimeTheme::factory()
                     ->for(Anime::factory())
                     ->state([
-                        'group' => $this->faker->boolean() ? $groupFilter : $excludedGroup,
+                        AnimeTheme::ATTRIBUTE_GROUP => $this->faker->boolean() ? $groupFilter : $excludedGroup,
                     ])
             )
             ->create();
 
         $entry = AnimeThemeEntry::with([
-            'animetheme' => function (BelongsTo $query) use ($groupFilter) {
-                $query->where('group', $groupFilter);
+            AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($groupFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
             },
         ])
         ->first();
@@ -313,9 +312,9 @@ class EntryShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'sequence' => $sequenceFilter,
+                AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => 'animetheme',
+            IncludeParser::$param => AnimeThemeEntry::RELATION_THEME,
         ];
 
         AnimeThemeEntry::factory()
@@ -323,14 +322,14 @@ class EntryShowTest extends TestCase
                 AnimeTheme::factory()
                     ->for(Anime::factory())
                     ->state([
-                        'sequence' => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
+                        AnimeTheme::ATTRIBUTE_SEQUENCE => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
                     ])
             )
             ->create();
 
         $entry = AnimeThemeEntry::with([
-            'animetheme' => function (BelongsTo $query) use ($sequenceFilter) {
-                $query->where('sequence', $sequenceFilter);
+            AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($sequenceFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
             },
         ])
         ->first();
@@ -360,9 +359,9 @@ class EntryShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'type' => $typeFilter->description,
+                AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => 'animetheme',
+            IncludeParser::$param => AnimeThemeEntry::RELATION_THEME,
         ];
 
         AnimeThemeEntry::factory()
@@ -370,8 +369,8 @@ class EntryShowTest extends TestCase
             ->create();
 
         $entry = AnimeThemeEntry::with([
-            'animetheme' => function (BelongsTo $query) use ($typeFilter) {
-                $query->where('type', $typeFilter->value);
+            AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($typeFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
             },
         ])
         ->first();

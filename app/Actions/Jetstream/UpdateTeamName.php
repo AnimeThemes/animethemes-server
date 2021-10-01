@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Jetstream;
 
+use App\Models\Auth\Team;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
@@ -22,6 +23,7 @@ class UpdateTeamName implements UpdatesTeamNames
      * @param  mixed  $team
      * @param  array  $input
      * @return void
+     *
      * @throws ValidationException
      * @throws AuthorizationException
      */
@@ -34,7 +36,7 @@ class UpdateTeamName implements UpdatesTeamNames
         ])->validateWithBag('updateTeamName');
 
         $team->forceFill([
-            'name' => $input['name'],
+            Team::ATTRIBUTE_NAME => $input['name'],
         ])->save();
     }
 }

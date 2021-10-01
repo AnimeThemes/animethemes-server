@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -15,6 +16,7 @@ use App\Nova\Filters\Wiki\ExternalResource\ExternalResourceSiteFilter;
 use App\Nova\Resources\Wiki\ExternalResource;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Validation\Rule;
 use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
 use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
@@ -32,6 +34,7 @@ class ExternalResourceTest extends TestCase
      * The External Resource shall contain Resource Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFields()
@@ -51,6 +54,7 @@ class ExternalResourceTest extends TestCase
      * The External Resource shall contain an ID field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -72,6 +76,7 @@ class ExternalResourceTest extends TestCase
      * The External Resource shall contain a Created At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -93,6 +98,7 @@ class ExternalResourceTest extends TestCase
      * The External Resource shall contain an Updated At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -114,6 +120,7 @@ class ExternalResourceTest extends TestCase
      * The External Resource shall contain a Deleted At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -135,6 +142,7 @@ class ExternalResourceTest extends TestCase
      * The External Resource shall contain a Site field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -158,6 +166,7 @@ class ExternalResourceTest extends TestCase
      * The External Resource shall contain a Link field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -170,8 +179,8 @@ class ExternalResourceTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('max:192');
         $field->assertHasRule('url');
-        $field->assertHasCreationRule('unique:resources,link');
-        $field->assertHasUpdateRule('unique:resources,link,{{resourceId}},resource_id');
+        $field->assertHasCreationRule(Rule::unique(ExternalResourceModel::TABLE)->__toString());
+        $field->assertHasUpdateRule(Rule::unique(ExternalResourceModel::TABLE)->ignore(null, ExternalResourceModel::ATTRIBUTE_ID)->__toString());
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();
@@ -184,6 +193,7 @@ class ExternalResourceTest extends TestCase
      * The External Resource shall contain an External Id field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -207,6 +217,7 @@ class ExternalResourceTest extends TestCase
      * The External Resource shall contain External Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFilters()
@@ -226,6 +237,7 @@ class ExternalResourceTest extends TestCase
      * The External Resource shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testActions()

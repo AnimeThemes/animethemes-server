@@ -28,6 +28,7 @@ class EntrySpoilerTest extends TestCase
      * The Entry Spoiler Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -40,6 +41,7 @@ class EntrySpoilerTest extends TestCase
      * The Entry Spoiler Filter shall have an option for each AnimeSeason instance.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -54,6 +56,7 @@ class EntrySpoilerTest extends TestCase
      * The Entry Spoiler Filter shall filter Entries By Spoiler.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
@@ -70,7 +73,7 @@ class EntrySpoilerTest extends TestCase
 
         $response = $filter->apply(AnimeThemeEntry::class, $spoilerFilter);
 
-        $filteredEntries = AnimeThemeEntry::query()->where('spoiler', $spoilerFilter)->get();
+        $filteredEntries = AnimeThemeEntry::query()->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter)->get();
         foreach ($filteredEntries as $filteredEntry) {
             $response->assertContains($filteredEntry);
         }

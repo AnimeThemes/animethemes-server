@@ -6,6 +6,7 @@ namespace App\Nova\Resources\Billing;
 
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
+use App\Models\Billing\Balance as BalanceModel;
 use App\Nova\Filters\Billing\Balance\BalanceFrequencyFilter;
 use App\Nova\Filters\Billing\ServiceFilter;
 use App\Nova\Resources\Resource;
@@ -28,14 +29,14 @@ class Balance extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Billing\Balance::class;
+    public static string $model = BalanceModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'balance_id';
+    public static $title = BalanceModel::ATTRIBUTE_ID;
 
     /**
      * The logical group associated with the resource.
@@ -79,7 +80,7 @@ class Balance extends Resource
      * @var array
      */
     public static $search = [
-        'balance_id',
+        BalanceModel::ATTRIBUTE_ID,
     ];
 
     /**
@@ -110,19 +111,19 @@ class Balance extends Resource
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'balance_id')
+            ID::make(__('nova.id'), BalanceModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Date::make(__('nova.date'), 'date')
+            Date::make(__('nova.date'), BalanceModel::ATTRIBUTE_DATE)
                 ->sortable()
                 ->rules('required')
                 ->help(__('nova.balance_date_help')),
 
-            Select::make(__('nova.service'), 'service')
+            Select::make(__('nova.service'), BalanceModel::ATTRIBUTE_SERVICE)
                 ->options(Service::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
                     return $enum?->description;
@@ -131,7 +132,7 @@ class Balance extends Resource
                 ->rules(['required', (new EnumValue(Service::class, false))->__toString()])
                 ->help(__('nova.billing_service_help')),
 
-            Select::make(__('nova.frequency'), 'frequency')
+            Select::make(__('nova.frequency'), BalanceModel::ATTRIBUTE_FREQUENCY)
                 ->options(BalanceFrequency::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
                     return $enum?->description;
@@ -140,12 +141,12 @@ class Balance extends Resource
                 ->rules(['required', (new EnumValue(BalanceFrequency::class, false))->__toString()])
                 ->help(__('nova.balance_frequency_help')),
 
-            Currency::make(__('nova.usage'), 'usage')
+            Currency::make(__('nova.usage'), BalanceModel::ATTRIBUTE_USAGE)
                 ->sortable()
                 ->rules('required')
                 ->help(__('nova.balance_usage_help')),
 
-            Currency::make(__('nova.balance'), 'balance')
+            Currency::make(__('nova.balance'), BalanceModel::ATTRIBUTE_BALANCE)
                 ->sortable()
                 ->rules('required')
                 ->help(__('nova.balance_balance_help')),

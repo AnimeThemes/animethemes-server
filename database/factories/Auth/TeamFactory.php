@@ -32,9 +32,9 @@ class TeamFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => Str::random(),
-            'user_id' => User::factory(),
-            'personal_team' => true,
+            Team::ATTRIBUTE_NAME => Str::random(),
+            Team::ATTRIBUTE_USER => User::factory(),
+            Team::ATTRIBUTE_PERSONAL_TEAM => true,
         ];
     }
 }

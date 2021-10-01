@@ -24,7 +24,7 @@ class DigitalOceanTransactionRepository extends EloquentRepository
     {
         return Transaction::query()
             ->select($columns)
-            ->where('service', Service::DIGITALOCEAN)
+            ->where(Transaction::ATTRIBUTE_SERVICE, Service::DIGITALOCEAN)
             ->get();
     }
 }

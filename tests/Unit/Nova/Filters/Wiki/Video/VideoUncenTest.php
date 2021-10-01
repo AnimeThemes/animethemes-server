@@ -28,6 +28,7 @@ class VideoUncenTest extends TestCase
      * The Video Uncen Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -40,6 +41,7 @@ class VideoUncenTest extends TestCase
      * The Video Uncen Filter shall have Yes and No options.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -54,6 +56,7 @@ class VideoUncenTest extends TestCase
      * The Video Uncen Filter shall filter Videos By Uncen.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
@@ -69,7 +72,7 @@ class VideoUncenTest extends TestCase
 
         $response = $filter->apply(Video::class, $uncenFilter);
 
-        $filteredVideos = Video::query()->where('uncen', $uncenFilter)->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_UNCEN, $uncenFilter)->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }

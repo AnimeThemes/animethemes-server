@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
-use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\ExternalResource\ExternalResourceIndexRequest;
 use App\Http\Requests\Api\Wiki\ExternalResource\ExternalResourceShowRequest;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
@@ -15,7 +15,7 @@ use Illuminate\Http\JsonResponse;
 /**
  * Class ExternalResourceController.
  */
-class ExternalResourceController extends BaseController
+class ExternalResourceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class ExternalResourceController extends BaseController
      */
     public function index(ExternalResourceIndexRequest $request): JsonResponse
     {
-        $resources = ExternalResourceCollection::performQuery($this->query);
+        $resources = ExternalResourceCollection::performQuery($request->getQuery());
 
         return $resources->toResponse($request);
     }
@@ -39,7 +39,7 @@ class ExternalResourceController extends BaseController
      */
     public function show(ExternalResourceShowRequest $request, ExternalResource $resource): JsonResponse
     {
-        $resource = ExternalResourceResource::performQuery($resource, $this->query);
+        $resource = ExternalResourceResource::performQuery($resource, $request->getQuery());
 
         return $resource->toResponse($request);
     }

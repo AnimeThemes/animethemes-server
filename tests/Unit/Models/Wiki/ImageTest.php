@@ -118,10 +118,10 @@ class ImageTest extends TestCase
         $fsPathinfo = pathinfo(strval($fsFile));
 
         $image = Image::factory()->createOne([
-            'path' => $fsFile,
-            'facet' => ImageFacet::getRandomValue(),
-            'size' => $this->faker->randomNumber(),
-            'mimetype' => MimeType::from($fsPathinfo['basename']),
+            Image::ATTRIBUTE_FACET => ImageFacet::getRandomValue(),
+            Image::ATTRIBUTE_MIMETYPE => MimeType::from($fsPathinfo['basename']),
+            Image::ATTRIBUTE_PATH => $fsFile,
+            Image::ATTRIBUTE_SIZE => $this->faker->randomNumber(),
         ]);
 
         $image->delete();
@@ -142,10 +142,10 @@ class ImageTest extends TestCase
         $fsPathinfo = pathinfo(strval($fsFile));
 
         $image = Image::factory()->createOne([
-            'path' => $fsFile,
-            'facet' => ImageFacet::getRandomValue(),
-            'size' => $this->faker->randomNumber(),
-            'mimetype' => MimeType::from($fsPathinfo['basename']),
+            Image::ATTRIBUTE_FACET => ImageFacet::getRandomValue(),
+            Image::ATTRIBUTE_MIMETYPE => MimeType::from($fsPathinfo['basename']),
+            Image::ATTRIBUTE_PATH => $fsFile,
+            Image::ATTRIBUTE_SIZE => $this->faker->randomNumber(),
         ]);
 
         $image->forceDelete();

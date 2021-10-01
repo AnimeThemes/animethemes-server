@@ -37,6 +37,7 @@ class ImageUnlinkedTest extends TestCase
      * The Image Unlinked Lens shall contain Image Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFields()
@@ -52,6 +53,7 @@ class ImageUnlinkedTest extends TestCase
      * The Image Unlinked Lens fields shall be sortable.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
@@ -68,6 +70,7 @@ class ImageUnlinkedTest extends TestCase
      * The Image Unlinked Lens shall contain Image Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFilters()
@@ -86,6 +89,7 @@ class ImageUnlinkedTest extends TestCase
      * The Image Unlinked Lens shall contain no Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testActions()
@@ -99,6 +103,7 @@ class ImageUnlinkedTest extends TestCase
      * The Image Unlinked Lens shall use the 'withFilters' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -115,6 +120,7 @@ class ImageUnlinkedTest extends TestCase
      * The Image Unlinked Lens shall use the 'withOrdering' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -131,6 +137,7 @@ class ImageUnlinkedTest extends TestCase
      * The Image Unlinked Lens shall filter Images without Anime or Artists.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -157,8 +164,8 @@ class ImageUnlinkedTest extends TestCase
             ->create();
 
         $filteredImages = Image::query()
-            ->whereDoesntHave('anime')
-            ->whereDoesntHave('artists')
+            ->whereDoesntHave(Image::RELATION_ANIME)
+            ->whereDoesntHave(Image::RELATION_ARTISTS)
             ->get();
 
         $lens = static::novaLens(ImageUnlinkedLens::class);

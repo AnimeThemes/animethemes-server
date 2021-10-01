@@ -48,7 +48,7 @@ class VideoTagsSeeder extends Seeder
                 $videoTags = explode(',', preg_replace('/\s+/', '', Str::upper($videoWikiEntry[1])));
                 $videoBasename = count($videoWikiEntry) === 3 ? $videoWikiEntry[2] : $videoWikiEntry[3];
 
-                $video = Video::query()->where('basename', $videoBasename)->first();
+                $video = Video::query()->where(Video::ATTRIBUTE_BASENAME, $videoBasename)->first();
                 if (! $video instanceof Video) {
                     continue;
                 }

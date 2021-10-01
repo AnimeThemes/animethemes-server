@@ -33,12 +33,12 @@ class InitializeVideoTagsTest extends TestCase
             ->__toString();
 
         $video = Video::factory()->createOne([
-            'filename' => $filename,
-            'nc' => false,
-            'subbed' => false,
-            'lyrics' => false,
-            'resolution' => null,
-            'source' => null,
+            Video::ATTRIBUTE_FILENAME => $filename,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_NC => false,
+            Video::ATTRIBUTE_RESOLUTION => null,
+            Video::ATTRIBUTE_SOURCE => null,
+            Video::ATTRIBUTE_SUBBED => false,
         ]);
 
         static::assertFalse($video->nc);
@@ -63,12 +63,12 @@ class InitializeVideoTagsTest extends TestCase
             ->__toString();
 
         $video = Video::factory()->createOne([
-            'filename' => $filename,
-            'nc' => false,
-            'subbed' => false,
-            'lyrics' => false,
-            'resolution' => null,
-            'source' => null,
+            Video::ATTRIBUTE_FILENAME => $filename,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_NC => false,
+            Video::ATTRIBUTE_RESOLUTION => null,
+            Video::ATTRIBUTE_SOURCE => null,
+            Video::ATTRIBUTE_SUBBED => false,
         ]);
 
         static::assertTrue($video->nc);
@@ -89,12 +89,12 @@ class InitializeVideoTagsTest extends TestCase
             ->__toString();
 
         $video = Video::factory()->createOne([
-            'filename' => $filename,
-            'nc' => false,
-            'subbed' => false,
-            'lyrics' => false,
-            'resolution' => null,
-            'source' => null,
+            Video::ATTRIBUTE_FILENAME => $filename,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_NC => false,
+            Video::ATTRIBUTE_RESOLUTION => null,
+            Video::ATTRIBUTE_SOURCE => null,
+            Video::ATTRIBUTE_SUBBED => false,
         ]);
 
         static::assertTrue($video->subbed);
@@ -115,12 +115,12 @@ class InitializeVideoTagsTest extends TestCase
             ->__toString();
 
         $video = Video::factory()->createOne([
-            'filename' => $filename,
-            'nc' => false,
-            'subbed' => false,
-            'lyrics' => false,
-            'resolution' => null,
-            'source' => null,
+            Video::ATTRIBUTE_FILENAME => $filename,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_NC => false,
+            Video::ATTRIBUTE_RESOLUTION => null,
+            Video::ATTRIBUTE_SOURCE => null,
+            Video::ATTRIBUTE_SUBBED => false,
         ]);
 
         static::assertTrue($video->lyrics);
@@ -143,12 +143,12 @@ class InitializeVideoTagsTest extends TestCase
             ->__toString();
 
         $video = Video::factory()->createOne([
-            'filename' => $filename,
-            'nc' => false,
-            'subbed' => false,
-            'lyrics' => false,
-            'resolution' => null,
-            'source' => null,
+            Video::ATTRIBUTE_FILENAME => $filename,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_NC => false,
+            Video::ATTRIBUTE_RESOLUTION => null,
+            Video::ATTRIBUTE_SOURCE => null,
+            Video::ATTRIBUTE_SUBBED => false,
         ]);
 
         static::assertEquals($resolution, $video->resolution);
@@ -169,12 +169,12 @@ class InitializeVideoTagsTest extends TestCase
             ->__toString();
 
         $video = Video::factory()->createOne([
-            'filename' => $filename,
-            'nc' => false,
-            'subbed' => false,
-            'lyrics' => false,
-            'resolution' => null,
-            'source' => null,
+            Video::ATTRIBUTE_FILENAME => $filename,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_NC => false,
+            Video::ATTRIBUTE_RESOLUTION => null,
+            Video::ATTRIBUTE_SOURCE => null,
+            Video::ATTRIBUTE_SUBBED => false,
         ]);
 
         static::assertEquals(720, $video->resolution);
@@ -197,12 +197,12 @@ class InitializeVideoTagsTest extends TestCase
             ->__toString();
 
         $video = Video::factory()->createOne([
-            'filename' => $filename,
-            'nc' => false,
-            'subbed' => false,
-            'lyrics' => false,
-            'resolution' => null,
-            'source' => null,
+            Video::ATTRIBUTE_FILENAME => $filename,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_NC => false,
+            Video::ATTRIBUTE_RESOLUTION => null,
+            Video::ATTRIBUTE_SOURCE => null,
+            Video::ATTRIBUTE_SUBBED => false,
         ]);
 
         static::assertEquals($source, $video->source);

@@ -12,6 +12,7 @@ use App\Events\Wiki\Anime\Theme\Entry\EntryUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Video;
 use App\Pivots\AnimeThemeEntryVideo;
 use Database\Factories\Wiki\Anime\Theme\AnimeThemeEntryFactory;
 use ElasticScoutDriverPlus\QueryDsl;
@@ -26,16 +27,17 @@ use Znck\Eloquent\Relations\BelongsToThrough;
 /**
  * Class AnimeThemeEntry.
  *
+ * @property Anime $anime
+ * @property AnimeTheme $animetheme
  * @property int $entry_id
- * @property int|null $version
  * @property string|null $episodes
+ * @property string|null $notes
  * @property bool $nsfw
  * @property bool $spoiler
- * @property string|null $notes
  * @property int $theme_id
- * @property AnimeTheme $animetheme
+ * @property int|null $version
  * @property Collection $videos
- * @property Anime $anime
+ *
  * @method static AnimeThemeEntryFactory factory(...$parameters)
  */
 class AnimeThemeEntry extends BaseModel
@@ -44,12 +46,34 @@ class AnimeThemeEntry extends BaseModel
     use Searchable;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 
+    public const TABLE = 'anime_theme_entries';
+
+    public const ATTRIBUTE_EPISODES = 'episodes';
+    public const ATTRIBUTE_ID = 'entry_id';
+    public const ATTRIBUTE_NOTES = 'notes';
+    public const ATTRIBUTE_NSFW = 'nsfw';
+    public const ATTRIBUTE_SPOILER = 'spoiler';
+    public const ATTRIBUTE_THEME = 'theme_id';
+    public const ATTRIBUTE_VERSION = 'version';
+
+    public const RELATION_ANIME = 'animetheme.anime';
+    public const RELATION_SONG = 'animetheme.song';
+    public const RELATION_SYNONYMS = 'animetheme.anime.animesynonyms';
+    public const RELATION_THEME = 'animetheme';
+    public const RELATION_VIDEOS = 'videos';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['version', 'episodes', 'nsfw', 'spoiler', 'notes'];
+    protected $fillable = [
+        AnimeThemeEntry::ATTRIBUTE_EPISODES,
+        AnimeThemeEntry::ATTRIBUTE_NOTES,
+        AnimeThemeEntry::ATTRIBUTE_NSFW,
+        AnimeThemeEntry::ATTRIBUTE_SPOILER,
+        AnimeThemeEntry::ATTRIBUTE_VERSION,
+    ];
 
     /**
      * The event map for the model.
@@ -71,14 +95,14 @@ class AnimeThemeEntry extends BaseModel
      *
      * @var string
      */
-    protected $table = 'anime_theme_entries';
+    protected $table = AnimeThemeEntry::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'entry_id';
+    protected $primaryKey = AnimeThemeEntry::ATTRIBUTE_ID;
 
     /**
      * The attributes that should be cast.
@@ -86,9 +110,9 @@ class AnimeThemeEntry extends BaseModel
      * @var array
      */
     protected $casts = [
-        'nsfw' => 'boolean',
-        'spoiler' => 'boolean',
-        'version' => 'int',
+        AnimeThemeEntry::ATTRIBUTE_NSFW => 'boolean',
+        AnimeThemeEntry::ATTRIBUTE_SPOILER => 'boolean',
+        AnimeThemeEntry::ATTRIBUTE_VERSION => 'int',
     ];
 
     /**
@@ -99,7 +123,10 @@ class AnimeThemeEntry extends BaseModel
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
-        return $query->with(['animetheme.anime.animesynonyms', 'animetheme.song']);
+        return $query->with([
+            AnimeThemeEntry::RELATION_SYNONYMS,
+            AnimeThemeEntry::RELATION_SONG,
+        ]);
     }
 
     /**
@@ -139,7 +166,7 @@ class AnimeThemeEntry extends BaseModel
      */
     public function animetheme(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Anime\AnimeTheme', 'theme_id', 'theme_id');
+        return $this->belongsTo(AnimeTheme::class, AnimeThemeEntry::ATTRIBUTE_THEME);
     }
 
     /**
@@ -149,7 +176,12 @@ class AnimeThemeEntry extends BaseModel
      */
     public function videos(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Video', 'anime_theme_entry_video', 'entry_id', 'video_id')
+        return $this->belongsToMany(
+            Video::class,
+            AnimeThemeEntryVideo::class,
+            AnimeThemeEntry::ATTRIBUTE_ID,
+            Video::ATTRIBUTE_ID
+        )
             ->using(AnimeThemeEntryVideo::class)
             ->withTimestamps();
     }
@@ -162,11 +194,14 @@ class AnimeThemeEntry extends BaseModel
     public function anime(): BelongsToThrough
     {
         return $this->belongsToThrough(
-            'App\Models\Wiki\Anime',
-            'App\Models\Wiki\Anime\AnimeTheme',
+            Anime::class,
+            AnimeTheme::class,
             null,
             '',
-            ['App\Models\Wiki\Anime' => 'anime_id', 'App\Models\Wiki\Anime\AnimeTheme' => 'theme_id']
+            [
+                Anime::class => Anime::ATTRIBUTE_ID,
+                AnimeTheme::class => AnimeTheme::ATTRIBUTE_ID,
+            ]
         );
     }
 }

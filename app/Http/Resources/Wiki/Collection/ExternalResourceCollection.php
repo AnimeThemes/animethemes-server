@@ -4,23 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
-use App\Http\Api\Criteria\Filter\Criteria as FilterCriteria;
-use App\Http\Api\Criteria\Sort\Criteria;
-use App\Http\Api\Filter\Filter;
-use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceExternalIdFilter;
-use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceIdFilter;
-use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceLinkFilter;
-use App\Http\Api\Filter\Wiki\ExternalResource\ExternalResourceSiteFilter;
-use App\Http\Api\Sort\Sort;
-use App\Http\Api\Sort\Wiki\ExternalResource\ExternalResourceExternalIdSort;
-use App\Http\Api\Sort\Wiki\ExternalResource\ExternalResourceIdSort;
-use App\Http\Api\Sort\Wiki\ExternalResource\ExternalResourceLinkSort;
-use App\Http\Api\Sort\Wiki\ExternalResource\ExternalResourceSiteSort;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 /**
  * Class ExternalResourceCollection.
@@ -57,53 +46,12 @@ class ExternalResourceCollection extends BaseCollection
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    public static function allowedIncludePaths(): array
+    public static function schema(): Schema
     {
-        return [
-            'anime',
-            'artists',
-        ];
-    }
-
-    /**
-     * The sorts that can be applied by the client for this resource.
-     *
-     * @param  Collection<Criteria>  $sortCriteria
-     * @return Sort[]
-     */
-    public static function sorts(Collection $sortCriteria): array
-    {
-        return array_merge(
-            parent::sorts($sortCriteria),
-            [
-                new ExternalResourceIdSort($sortCriteria),
-                new ExternalResourceLinkSort($sortCriteria),
-                new ExternalResourceExternalIdSort($sortCriteria),
-                new ExternalResourceSiteSort($sortCriteria),
-            ]
-        );
-    }
-
-    /**
-     * The filters that can be applied by the client for this resource.
-     *
-     * @param  Collection<FilterCriteria>  $filterCriteria
-     * @return Filter[]
-     */
-    public static function filters(Collection $filterCriteria): array
-    {
-        return array_merge(
-            parent::filters($filterCriteria),
-            [
-                new ExternalResourceIdFilter($filterCriteria),
-                new ExternalResourceLinkFilter($filterCriteria),
-                new ExternalResourceExternalIdFilter($filterCriteria),
-                new ExternalResourceSiteFilter($filterCriteria),
-            ]
-        );
+        return new ExternalResourceSchema();
     }
 }

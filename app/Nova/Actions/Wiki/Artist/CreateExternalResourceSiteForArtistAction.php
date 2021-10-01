@@ -10,6 +10,7 @@ use App\Rules\Wiki\ResourceSiteDomainRule;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Text;
@@ -60,9 +61,9 @@ class CreateExternalResourceSiteForArtistAction extends Action
     {
         // Create Resource Model with link and provided site
         $resource = ExternalResource::factory()->createOne([
-            'site' => $this->site,
-            'link' => $fields->get('link'),
-            'external_id' => null,
+            ExternalResource::ATTRIBUTE_EXTERNAL_ID => null,
+            ExternalResource::ATTRIBUTE_LINK => $fields->get('link'),
+            ExternalResource::ATTRIBUTE_SITE => $this->site,
         ]);
 
         // Attach Resource to Anime and provide success message
@@ -86,7 +87,7 @@ class CreateExternalResourceSiteForArtistAction extends Action
                         'required',
                         'max:192',
                         'url',
-                        'unique:resources,link',
+                        Rule::unique(ExternalResource::TABLE)->__toString(),
                         (new ResourceSiteDomainRule($this->site))->__toString(),
                     ])
                     ->help(__('nova.resource_link_help')),

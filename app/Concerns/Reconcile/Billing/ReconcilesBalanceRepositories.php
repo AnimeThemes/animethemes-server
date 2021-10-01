@@ -25,7 +25,11 @@ trait ReconcilesBalanceRepositories
      */
     protected function columnsForCreateDelete(): array
     {
-        return ['balance_id', 'date', 'service'];
+        return [
+            Balance::ATTRIBUTE_DATE,
+            Balance::ATTRIBUTE_ID,
+            Balance::ATTRIBUTE_SERVICE,
+        ];
     }
 
     /**
@@ -45,7 +49,13 @@ trait ReconcilesBalanceRepositories
      */
     protected function columnsForUpdate(): array
     {
-        return ['balance_id', 'date', 'usage', 'balance', 'service'];
+        return [
+            Balance::ATTRIBUTE_BALANCE,
+            Balance::ATTRIBUTE_DATE,
+            Balance::ATTRIBUTE_ID,
+            Balance::ATTRIBUTE_SERVICE,
+            Balance::ATTRIBUTE_USAGE,
+        ];
     }
 
     /**
@@ -68,7 +78,7 @@ trait ReconcilesBalanceRepositories
      */
     protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model
     {
-        $formattedDestinationDate = $destinationModel->getAttribute('date')->format(AllowedDateFormat::YM);
+        $formattedDestinationDate = $destinationModel->getAttribute(Balance::ATTRIBUTE_DATE)->format(AllowedDateFormat::YM);
 
         $filteredSourceModels = $sourceModels->filter(function (Balance $balance) use ($formattedDestinationDate) {
             return $balance->date->format(AllowedDateFormat::YM) === $formattedDestinationDate;

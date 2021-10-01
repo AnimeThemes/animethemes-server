@@ -31,9 +31,9 @@ class InvitationFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->safeEmail(),
-            'status' => InvitationStatus::OPEN,
+            Invitation::ATTRIBUTE_NAME => $this->faker->name(),
+            Invitation::ATTRIBUTE_EMAIL => $this->faker->safeEmail(),
+            Invitation::ATTRIBUTE_STATUS => InvitationStatus::OPEN,
         ];
     }
 }

@@ -21,6 +21,7 @@ class RateLimited
      * @param  mixed  $job
      * @param  callable  $next
      * @return void
+     *
      * @throws LimiterTimeoutException
      */
     public function handle(mixed $job, callable $next)

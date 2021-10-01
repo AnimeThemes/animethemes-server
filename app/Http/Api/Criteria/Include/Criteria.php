@@ -37,15 +37,4 @@ class Criteria
     {
         return $this->paths;
     }
-
-    /**
-     * Get the allowed include paths.
-     *
-     * @param  array  $allowedIncludePaths
-     * @return Collection
-     */
-    public function getAllowedPaths(array $allowedIncludePaths): Collection
-    {
-        return $this->paths->intersect($allowedIncludePaths);
-    }
 }

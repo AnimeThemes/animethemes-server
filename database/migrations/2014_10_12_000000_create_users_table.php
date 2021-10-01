@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\Auth\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,16 +19,16 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create(User::TABLE, function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string(User::ATTRIBUTE_NAME);
+            $table->string(User::ATTRIBUTE_EMAIL)->unique();
+            $table->timestamp(User::ATTRIBUTE_EMAIL_VERIFIED_AT)->nullable();
+            $table->string(User::ATTRIBUTE_PASSWORD);
             $table->rememberToken();
-            $table->string('current_team_id')->nullable();
+            $table->string(User::ATTRIBUTE_CURRENT_TEAM)->nullable();
             $table->timestamps(6);
-            $table->softDeletes('deleted_at', 6);
+            $table->softDeletes(User::ATTRIBUTE_DELETED_AT, 6);
         });
     }
 
@@ -38,6 +39,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists(User::TABLE);
     }
 }

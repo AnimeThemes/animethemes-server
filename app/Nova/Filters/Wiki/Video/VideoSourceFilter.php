@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Filters\Wiki\Video;
 
 use App\Enums\Models\Wiki\VideoSource;
+use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
@@ -43,7 +44,7 @@ class VideoSourceFilter extends Filter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        return $query->where('source', $value);
+        return $query->where(Video::ATTRIBUTE_SOURCE, $value);
     }
 
     /**

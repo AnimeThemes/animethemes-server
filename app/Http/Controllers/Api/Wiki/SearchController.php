@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
-use App\Http\Controllers\Api\BaseController;
+use App\Http\Api\Query;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Wiki\Resource\SearchResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ use Illuminate\Http\Request;
 /**
  * Class SearchController.
  */
-class SearchController extends BaseController
+class SearchController extends Controller
 {
     /**
      * Search resource.
@@ -22,7 +23,9 @@ class SearchController extends BaseController
      */
     public function show(Request $request): JsonResponse
     {
-        $resource = SearchResource::make($this->query);
+        $query = Query::make($request->only(Query::parameters()));
+
+        $resource = SearchResource::make($query);
 
         return $resource->toResponse($request);
     }

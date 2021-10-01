@@ -8,6 +8,8 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Requests\Api\BaseRequest;
 
 /**
@@ -19,6 +21,8 @@ class YearIndexRequest extends BaseRequest
      * Get the include validation rules.
      *
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function getIncludeRules(): array
     {
@@ -69,5 +73,15 @@ class YearIndexRequest extends BaseRequest
                 'prohibited',
             ],
         ];
+    }
+
+    /**
+     * Get the schema.
+     *
+     * @return Schema
+     */
+    protected function getSchema(): Schema
+    {
+        return new AnimeSchema();
     }
 }

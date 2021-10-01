@@ -48,10 +48,10 @@ class StudioSeeder extends Seeder
         }
 
         $animes = Anime::query()
-            ->select(['anime_id', 'name'])
-            ->whereDoesntHave('studios')
-            ->whereHas('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::MAL);
+            ->select([Anime::ATTRIBUTE_ID, Anime::ATTRIBUTE_NAME])
+            ->whereDoesntHave(Anime::RELATION_STUDIOS)
+            ->whereHas(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
             })
             ->get();
 
@@ -60,7 +60,7 @@ class StudioSeeder extends Seeder
                 continue;
             }
 
-            $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
+            $malResource = $anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
             if ($malResource instanceof ExternalResource && $malResource->external_id !== null) {
                 // Try not to upset MAL
                 sleep(rand(2, 5));
@@ -81,13 +81,13 @@ class StudioSeeder extends Seeder
                             continue;
                         }
 
-                        $studio = Studio::query()->firstWhere('name', $name);
+                        $studio = Studio::query()->firstWhere(Studio::ATTRIBUTE_NAME, $name);
                         if (! $studio instanceof Studio) {
                             Log::info("Creating studio '{$name}'");
 
                             $studio = Studio::factory()->createOne([
-                                'name' => $name,
-                                'slug' => Str::slug($name, '_'),
+                                Studio::ATTRIBUTE_NAME => $name,
+                                Studio::ATTRIBUTE_SLUG => Str::slug($name, '_'),
                             ]);
                         }
 

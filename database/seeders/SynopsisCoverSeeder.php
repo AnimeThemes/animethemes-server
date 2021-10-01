@@ -32,11 +32,11 @@ class SynopsisCoverSeeder extends Seeder
     {
         // Get anime that have MAL resource but not both cover images
         $animes = Anime::query()
-            ->select(['anime_id', 'name', 'synopsis'])
-            ->whereHas('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::ANILIST);
-            })->whereDoesntHave('images', function (Builder $imageQuery) {
-                $imageQuery->whereIn('facet', [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
+            ->select([Anime::ATTRIBUTE_ID, Anime::ATTRIBUTE_NAME, Anime::ATTRIBUTE_SYNOPSIS])
+            ->whereHas(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
+            })->whereDoesntHave(Anime::RELATION_IMAGES, function (Builder $imageQuery) {
+                $imageQuery->whereIn(Image::ATTRIBUTE_FACET, [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
             })
             ->get();
 
@@ -47,10 +47,10 @@ class SynopsisCoverSeeder extends Seeder
                 continue;
             }
 
-            $anilistResource = $anime->resources()->firstWhere('site', ResourceSite::ANILIST);
+            $anilistResource = $anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
             if ($anilistResource instanceof ExternalResource && $anilistResource->external_id !== null) {
-                $animeCoverLarge = $anime->images()->where('facet', ImageFacet::COVER_LARGE)->first();
-                $animeCoverSmall = $anime->images()->where('facet', ImageFacet::COVER_SMALL)->first();
+                $animeCoverLarge = $anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE)->first();
+                $animeCoverSmall = $anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_SMALL)->first();
 
                 // Try not to upset Anilist
                 sleep(rand(2, 5));
@@ -101,10 +101,10 @@ class SynopsisCoverSeeder extends Seeder
                         $coverLarge = $fs->putFile('', $coverFile);
 
                         $coverLargeImage = Image::factory()->createOne([
-                            'facet' => ImageFacet::COVER_LARGE,
-                            'path' => $coverLarge,
-                            'size' => $coverImageResponse->header('Content-Length'),
-                            'mimetype' => $coverImageResponse->header('Content-Type'),
+                            Image::ATTRIBUTE_FACET => ImageFacet::COVER_LARGE,
+                            Image::ATTRIBUTE_MIMETYPE => $coverImageResponse->header('Content-Type'),
+                            Image::ATTRIBUTE_PATH => $coverLarge,
+                            Image::ATTRIBUTE_SIZE => $coverImageResponse->header('Content-Length'),
                         ]);
 
                         // Attach large cover to anime
@@ -120,10 +120,10 @@ class SynopsisCoverSeeder extends Seeder
                         $coverSmall = $fs->putFile('', $coverFile);
 
                         $coverSmallImage = Image::factory()->createOne([
-                            'facet' => ImageFacet::COVER_SMALL,
-                            'path' => $coverSmall,
-                            'size' => $coverImageResponse->header('Content-Length'),
-                            'mimetype' => $coverImageResponse->header('Content-Type'),
+                            Image::ATTRIBUTE_FACET => ImageFacet::COVER_SMALL,
+                            Image::ATTRIBUTE_MIMETYPE => $coverImageResponse->header('Content-Type'),
+                            Image::ATTRIBUTE_PATH => $coverSmall,
+                            Image::ATTRIBUTE_SIZE => $coverImageResponse->header('Content-Length'),
                         ]);
 
                         // Attach large cover to anime

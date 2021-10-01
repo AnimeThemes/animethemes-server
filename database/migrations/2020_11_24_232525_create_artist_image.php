@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Image;
+use App\Pivots\ArtistImage;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,13 +21,13 @@ class CreateArtistImage extends Migration
      */
     public function up()
     {
-        Schema::create('artist_image', function (Blueprint $table) {
+        Schema::create(ArtistImage::TABLE, function (Blueprint $table) {
             $table->timestamps(6);
-            $table->unsignedBigInteger('artist_id');
-            $table->foreign('artist_id')->references('artist_id')->on('artists')->onDelete('cascade');
-            $table->unsignedBigInteger('image_id');
-            $table->foreign('image_id')->references('image_id')->on('images')->onDelete('cascade');
-            $table->primary(['artist_id', 'image_id']);
+            $table->unsignedBigInteger(ArtistImage::ATTRIBUTE_ARTIST);
+            $table->foreign(ArtistImage::ATTRIBUTE_ARTIST)->references(Artist::ATTRIBUTE_ID)->on(Artist::TABLE)->cascadeOnDelete();
+            $table->unsignedBigInteger(ArtistImage::ATTRIBUTE_IMAGE);
+            $table->foreign(ArtistImage::ATTRIBUTE_IMAGE)->references(Image::ATTRIBUTE_ID)->on(Image::TABLE)->cascadeOnDelete();
+            $table->primary([ArtistImage::ATTRIBUTE_ARTIST, ArtistImage::ATTRIBUTE_IMAGE]);
         });
     }
 
@@ -35,6 +38,6 @@ class CreateArtistImage extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('artist_image');
+        Schema::dropIfExists(ArtistImage::TABLE);
     }
 }

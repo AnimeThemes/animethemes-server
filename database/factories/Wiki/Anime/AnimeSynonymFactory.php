@@ -30,7 +30,7 @@ class AnimeSynonymFactory extends Factory
     public function definition(): array
     {
         return [
-            'text' => $this->faker->words(3, true),
+            AnimeSynonym::ATTRIBUTE_TEXT => $this->faker->words(3, true),
         ];
     }
 }

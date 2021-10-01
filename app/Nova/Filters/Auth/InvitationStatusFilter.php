@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Filters\Auth;
 
 use App\Enums\Models\Auth\InvitationStatus;
+use App\Models\Auth\Invitation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
@@ -43,7 +44,7 @@ class InvitationStatusFilter extends Filter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        return $query->where('status', $value);
+        return $query->where(Invitation::ATTRIBUTE_STATUS, $value);
     }
 
     /**

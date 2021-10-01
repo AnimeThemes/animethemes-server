@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Resources\Billing\Resource;
 
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Billing\BalanceSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
+use App\Models\BaseModel;
 use App\Models\Billing\Balance;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
@@ -17,6 +20,8 @@ use Illuminate\Http\Resources\MissingValue;
  */
 class BalanceResource extends BaseResource
 {
+    public const ATTRIBUTE_BALANCE = 'month_to_date_balance';
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -47,25 +52,25 @@ class BalanceResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->when($this->isAllowedField('id'), $this->balance_id),
-            'date' => $this->when($this->isAllowedField('date'), $this->date),
-            'service' => $this->when($this->isAllowedField('service'), $this->service->description),
-            'frequency' => $this->when($this->isAllowedField('frequency'), $this->frequency->description),
-            'usage' => $this->when($this->isAllowedField('usage'), $this->usage),
-            'month_to_date_balance' => $this->when($this->isAllowedField('month_to_date_balance'), $this->balance),
-            'created_at' => $this->when($this->isAllowedField('created_at'), $this->created_at),
-            'updated_at' => $this->when($this->isAllowedField('updated_at'), $this->updated_at),
-            'deleted_at' => $this->when($this->isAllowedField('deleted_at'), $this->deleted_at),
+            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
+            Balance::ATTRIBUTE_DATE => $this->when($this->isAllowedField(Balance::ATTRIBUTE_DATE), $this->date),
+            Balance::ATTRIBUTE_SERVICE => $this->when($this->isAllowedField(Balance::ATTRIBUTE_SERVICE), $this->service->description),
+            Balance::ATTRIBUTE_FREQUENCY => $this->when($this->isAllowedField(Balance::ATTRIBUTE_FREQUENCY), $this->frequency->description),
+            Balance::ATTRIBUTE_USAGE => $this->when($this->isAllowedField(Balance::ATTRIBUTE_USAGE), $this->usage),
+            BalanceResource::ATTRIBUTE_BALANCE => $this->when($this->isAllowedField(BalanceResource::ATTRIBUTE_BALANCE), $this->balance),
+            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
+            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
+            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
         ];
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    public static function allowedIncludePaths(): array
+    public static function schema(): Schema
     {
-        return [];
+        return new BalanceSchema();
     }
 }

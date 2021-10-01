@@ -32,11 +32,11 @@ class BalanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'date' => $this->faker->date(),
-            'service' => Service::getRandomValue(),
-            'frequency' => BalanceFrequency::getRandomValue(),
-            'usage' => $this->faker->randomFloat(2),
-            'balance' => $this->faker->randomFloat(2),
+            Balance::ATTRIBUTE_BALANCE => $this->faker->randomFloat(2),
+            Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::getRandomValue(),
+            Balance::ATTRIBUTE_DATE => $this->faker->date(),
+            Balance::ATTRIBUTE_SERVICE => Service::getRandomValue(),
+            Balance::ATTRIBUTE_USAGE => $this->faker->randomFloat(2),
         ];
     }
 }

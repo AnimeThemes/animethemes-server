@@ -51,7 +51,7 @@ class ResendInvitationAction extends Action
             if ($invitation->isOpen()) {
                 // Send replacement email
                 Mail::to($invitation->email)->queue(new InvitationMail($invitation));
-                array_push($resentInvitations, $invitation->name);
+                $resentInvitations[] = $invitation->name;
             }
         });
 

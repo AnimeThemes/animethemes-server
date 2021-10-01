@@ -18,6 +18,7 @@ class GuidelinesController extends DocumentController
      * Display the Guidelines Index document.
      *
      * @return View|Factory
+     *
      * @throws HttpException
      * @throws NotFoundHttpException
      */
@@ -31,6 +32,7 @@ class GuidelinesController extends DocumentController
      *
      * @param  string  $docName
      * @return View|Factory
+     *
      * @throws HttpException
      * @throws NotFoundHttpException
      */

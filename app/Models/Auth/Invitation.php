@@ -17,22 +17,34 @@ use Database\Factories\Auth\InvitationFactory;
 /**
  * Class Invitation.
  *
+ * @property string $email
  * @property int $invitation_id
  * @property string $name
- * @property string $email
  * @property Enum $status
+ *
  * @method static InvitationFactory factory(...$parameters)
  */
 class Invitation extends BaseModel
 {
     use CastsEnums;
 
+    public const TABLE = 'invitations';
+
+    public const ATTRIBUTE_EMAIL = 'email';
+    public const ATTRIBUTE_ID = 'invitation_id';
+    public const ATTRIBUTE_NAME = 'name';
+    public const ATTRIBUTE_STATUS = 'status';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['name', 'email', 'status'];
+    protected $fillable = [
+        Invitation::ATTRIBUTE_EMAIL,
+        Invitation::ATTRIBUTE_NAME,
+        Invitation::ATTRIBUTE_STATUS,
+    ];
 
     /**
      * The event map for the model.
@@ -53,14 +65,14 @@ class Invitation extends BaseModel
      *
      * @var string
      */
-    protected $table = 'invitations';
+    protected $table = Invitation::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'invitation_id';
+    protected $primaryKey = Invitation::ATTRIBUTE_ID;
 
     /**
      * The attributes that should be cast to enum types.
@@ -68,7 +80,7 @@ class Invitation extends BaseModel
      * @var array
      */
     protected $enumCasts = [
-        'status' => InvitationStatus::class,
+        Invitation::ATTRIBUTE_STATUS => InvitationStatus::class,
     ];
 
     /**
@@ -77,7 +89,7 @@ class Invitation extends BaseModel
      * @var array
      */
     protected $casts = [
-        'status' => 'int',
+        Invitation::ATTRIBUTE_STATUS => 'int',
     ];
 
     /**

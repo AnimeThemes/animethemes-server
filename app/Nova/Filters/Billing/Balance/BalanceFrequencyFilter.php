@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Filters\Billing\Balance;
 
 use App\Enums\Models\Billing\BalanceFrequency;
+use App\Models\Billing\Balance;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
@@ -43,7 +44,7 @@ class BalanceFrequencyFilter extends Filter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        return $query->where('frequency', $value);
+        return $query->where(Balance::ATTRIBUTE_FREQUENCY, $value);
     }
 
     /**

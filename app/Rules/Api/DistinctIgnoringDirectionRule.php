@@ -21,7 +21,9 @@ class DistinctIgnoringDirectionRule implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        $uniqueValues = collect($value)->unique(function ($sort) {
+        $values = Str::of($value)->explode(',');
+
+        $uniqueValues = $values->unique(function ($sort) {
             if (Str::startsWith($sort, '-')) {
                 return Str::replaceFirst('-', '', $sort);
             }
@@ -29,7 +31,7 @@ class DistinctIgnoringDirectionRule implements Rule
             return $sort;
         });
 
-        return collect($value)->diff($uniqueValues)->isEmpty();
+        return $values->diff($uniqueValues)->isEmpty();
     }
 
     /**

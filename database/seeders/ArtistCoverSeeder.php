@@ -32,11 +32,11 @@ class ArtistCoverSeeder extends Seeder
     {
         // Get artists that have MAL resource but not both cover images
         $artists = Artist::query()
-            ->select(['artist_id', 'name'])
-            ->whereHas('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::ANILIST);
-            })->whereDoesntHave('images', function (Builder $imageQuery) {
-                $imageQuery->whereIn('facet', [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
+            ->select([Artist::ATTRIBUTE_ID, Artist::ATTRIBUTE_NAME])
+            ->whereHas(Artist::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
+            })->whereDoesntHave(Artist::RELATION_IMAGES, function (Builder $imageQuery) {
+                $imageQuery->whereIn(Image::ATTRIBUTE_FACET, [ImageFacet::COVER_LARGE, ImageFacet::COVER_SMALL]);
             })
             ->get();
 
@@ -47,10 +47,10 @@ class ArtistCoverSeeder extends Seeder
                 continue;
             }
 
-            $anilistResource = $artist->resources()->firstWhere('site', ResourceSite::ANILIST);
+            $anilistResource = $artist->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
             if ($anilistResource instanceof ExternalResource && $anilistResource->external_id !== null) {
-                $artistCoverLarge = $artist->images()->where('facet', ImageFacet::COVER_LARGE)->first();
-                $artistCoverSmall = $artist->images()->where('facet', ImageFacet::COVER_SMALL)->first();
+                $artistCoverLarge = $artist->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE)->first();
+                $artistCoverSmall = $artist->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_SMALL)->first();
 
                 // Try not to upset Anilist
                 sleep(rand(2, 5));
@@ -92,10 +92,10 @@ class ArtistCoverSeeder extends Seeder
                         $coverLarge = $fs->putFile('', $coverFile);
 
                         $coverLargeImage = Image::factory()->createOne([
-                            'facet' => ImageFacet::COVER_LARGE,
-                            'path' => $coverLarge,
-                            'size' => $coverImageResponse->header('Content-Length'),
-                            'mimetype' => $coverImageResponse->header('Content-Type'),
+                            Image::ATTRIBUTE_FACET => ImageFacet::COVER_LARGE,
+                            Image::ATTRIBUTE_MIMETYPE => $coverImageResponse->header('Content-Type'),
+                            Image::ATTRIBUTE_PATH => $coverLarge,
+                            Image::ATTRIBUTE_SIZE => $coverImageResponse->header('Content-Length'),
                         ]);
 
                         // Attach large cover to artist
@@ -111,10 +111,10 @@ class ArtistCoverSeeder extends Seeder
                         $coverSmall = $fs->putFile('', $coverFile);
 
                         $coverSmallImage = Image::factory()->createOne([
-                            'facet' => ImageFacet::COVER_SMALL,
-                            'path' => $coverSmall,
-                            'size' => $coverImageResponse->header('Content-Length'),
-                            'mimetype' => $coverImageResponse->header('Content-Type'),
+                            Image::ATTRIBUTE_FACET => ImageFacet::COVER_SMALL,
+                            Image::ATTRIBUTE_MIMETYPE => $coverImageResponse->header('Content-Type'),
+                            Image::ATTRIBUTE_PATH => $coverSmall,
+                            Image::ATTRIBUTE_SIZE => $coverImageResponse->header('Content-Length'),
                         ]);
 
                         // Attach large cover to artist

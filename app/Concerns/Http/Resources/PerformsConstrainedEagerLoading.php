@@ -27,15 +27,15 @@ trait PerformsConstrainedEagerLoading
 
         $includeCriteria = $query->getIncludeCriteria(Str::singular(static::$wrap));
 
-        $allowedIncludePaths = collect($includeCriteria?->getAllowedPaths(static::allowedIncludePaths()));
+        $allowedIncludePaths = collect($includeCriteria?->getPaths());
 
         foreach ($allowedIncludePaths as $allowedIncludePath) {
             $scope = ScopeParser::parse($allowedIncludePath);
             $constrainedEagerLoads[$allowedIncludePath] = function (Relation $relation) use ($query, $scope) {
                 $collectionInstance = DiscoverRelationCollection::byModel($relation->getQuery()->getModel());
                 if ($collectionInstance !== null) {
-                    foreach ($collectionInstance::filters($query->getFilterCriteria()) as $filter) {
-                        $filter->applyFilter($relation->getQuery(), $scope);
+                    foreach ($collectionInstance::schema()->filters() as $filter) {
+                        $filter->applyFilter($query->getFilterCriteria(), $relation->getQuery(), $scope);
                     }
                 }
             };

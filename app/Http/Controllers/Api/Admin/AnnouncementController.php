@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Admin\AnnouncementIndexRequest;
 use App\Http\Requests\Api\Admin\AnnouncementShowRequest;
 use App\Http\Resources\Admin\Collection\AnnouncementCollection;
@@ -15,7 +15,7 @@ use Illuminate\Http\JsonResponse;
 /**
  * Class AnnouncementController.
  */
-class AnnouncementController extends BaseController
+class AnnouncementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class AnnouncementController extends BaseController
      */
     public function index(AnnouncementIndexRequest $request): JsonResponse
     {
-        $announcements = AnnouncementCollection::performQuery($this->query);
+        $announcements = AnnouncementCollection::performQuery($request->getQuery());
 
         return $announcements->toResponse($request);
     }
@@ -39,7 +39,7 @@ class AnnouncementController extends BaseController
      */
     public function show(AnnouncementShowRequest $request, Announcement $announcement): JsonResponse
     {
-        $resource = AnnouncementResource::performQuery($announcement, $this->query);
+        $resource = AnnouncementResource::performQuery($announcement, $request->getQuery());
 
         return $resource->toResponse($request);
     }

@@ -29,6 +29,7 @@ class AnimeSeasonTest extends TestCase
      * The Anime Season Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -41,6 +42,7 @@ class AnimeSeasonTest extends TestCase
      * The Anime Season Filter shall have an option for each AnimeSeason instance.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -56,6 +58,7 @@ class AnimeSeasonTest extends TestCase
      * The Anime Season Filter shall filter Anime By Season.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
@@ -69,7 +72,7 @@ class AnimeSeasonTest extends TestCase
 
         $response = $filter->apply(Anime::class, $season->value);
 
-        $filteredAnimes = Anime::query()->where('season', $season->value)->get();
+        $filteredAnimes = Anime::query()->where(Anime::ATTRIBUTE_SEASON, $season->value)->get();
         foreach ($filteredAnimes as $filteredAnime) {
             $response->assertContains($filteredAnime);
         }

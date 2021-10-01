@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Lenses\Video;
 
+use App\Models\Wiki\Video;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -47,7 +48,7 @@ class VideoSourceLens extends Lens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereNull('source')
+            $query->whereNull(Video::ATTRIBUTE_SOURCE)
         ));
     }
 
@@ -60,25 +61,25 @@ class VideoSourceLens extends Lens
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'video_id')
+            ID::make(__('nova.id'), Video::ATTRIBUTE_ID)
                 ->sortable(),
 
-            Text::make(__('nova.filename'), 'filename')
+            Text::make(__('nova.filename'), Video::ATTRIBUTE_FILENAME)
                 ->sortable(),
 
-            Number::make(__('nova.resolution'), 'resolution')
+            Number::make(__('nova.resolution'), Video::ATTRIBUTE_RESOLUTION)
                 ->sortable(),
 
-            Boolean::make(__('nova.nc'), 'nc')
+            Boolean::make(__('nova.nc'), Video::ATTRIBUTE_NC)
                 ->sortable(),
 
-            Boolean::make(__('nova.subbed'), 'subbed')
+            Boolean::make(__('nova.subbed'), Video::ATTRIBUTE_SUBBED)
                 ->sortable(),
 
-            Boolean::make(__('nova.lyrics'), 'lyrics')
+            Boolean::make(__('nova.lyrics'), Video::ATTRIBUTE_LYRICS)
                 ->sortable(),
 
-            Boolean::make(__('nova.uncen'), 'uncen')
+            Boolean::make(__('nova.uncen'), Video::ATTRIBUTE_UNCEN)
                 ->sortable(),
         ];
     }

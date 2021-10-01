@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Nova\Resources\Auth;
 
+use App\Models\Auth\User as UserModel;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -12,6 +13,7 @@ use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
 use App\Nova\Resources\Auth\User;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Validation\Rule;
 use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
 use JoshGaber\NovaUnit\Resources\InvalidNovaResourceException;
 use JoshGaber\NovaUnit\Resources\NovaResourceTest;
@@ -29,6 +31,7 @@ class UserTest extends TestCase
      * The User Resource shall contain User Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFields()
@@ -47,6 +50,7 @@ class UserTest extends TestCase
      * The User Resource shall contain an ID field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -68,6 +72,7 @@ class UserTest extends TestCase
      * The User Resource shall contain a Created At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -89,6 +94,7 @@ class UserTest extends TestCase
      * The User Resource shall contain an Updated At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -110,6 +116,7 @@ class UserTest extends TestCase
      * The User Resource shall contain a Deleted At field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -131,6 +138,7 @@ class UserTest extends TestCase
      * The User Resource shall contain a Name field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -155,6 +163,7 @@ class UserTest extends TestCase
      * The User Resource shall contain a Email field.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
@@ -167,8 +176,8 @@ class UserTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('email');
         $field->assertHasRule('max:192');
-        $field->assertHasCreationRule('unique:users,email');
-        $field->assertHasUpdateRule('unique:users,email,{{resourceId}}');
+        $field->assertHasCreationRule(Rule::unique(UserModel::TABLE)->__toString());
+        $field->assertHasUpdateRule(Rule::unique(UserModel::TABLE)->ignore(null, UserModel::ATTRIBUTE_ID)->__toString());
         $field->assertShownOnIndex();
         $field->assertShownOnDetail();
         $field->assertShownWhenCreating();
@@ -181,6 +190,7 @@ class UserTest extends TestCase
      * The User Resource shall contain User Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testFilters()
@@ -199,6 +209,7 @@ class UserTest extends TestCase
      * The User Resource shall contain User Actions.
      *
      * @return void
+     *
      * @throws InvalidNovaResourceException
      */
     public function testActions()

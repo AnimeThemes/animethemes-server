@@ -13,6 +13,7 @@ use App\Events\Wiki\Anime\Theme\ThemeRestored;
 use App\Events\Wiki\Anime\Theme\ThemeUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Song;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
@@ -27,16 +28,17 @@ use Laravel\Scout\Searchable;
 /**
  * Class AnimeTheme.
  *
- * @property int $theme_id
+ * @property Anime $anime
+ * @property int $anime_id
+ * @property Collection $animethemeentries
  * @property string|null $group
- * @property Enum|null $type
  * @property int|null $sequence
  * @property string $slug
- * @property int $anime_id
- * @property int|null $song_id
- * @property Anime $anime
  * @property Song|null $song
- * @property Collection $animethemeentries
+ * @property int|null $song_id
+ * @property int $theme_id
+ * @property Enum|null $type
+ *
  * @method static AnimeThemeFactory factory(...$parameters)
  */
 class AnimeTheme extends BaseModel
@@ -45,12 +47,34 @@ class AnimeTheme extends BaseModel
     use QueryDsl;
     use Searchable;
 
+    public const TABLE = 'anime_themes';
+
+    public const ATTRIBUTE_ANIME = 'anime_id';
+    public const ATTRIBUTE_GROUP = 'group';
+    public const ATTRIBUTE_ID = 'theme_id';
+    public const ATTRIBUTE_SEQUENCE = 'sequence';
+    public const ATTRIBUTE_SLUG = 'slug';
+    public const ATTRIBUTE_SONG = 'song_id';
+    public const ATTRIBUTE_TYPE = 'type';
+
+    public const RELATION_ANIME = 'anime';
+    public const RELATION_ARTISTS = 'song.artists';
+    public const RELATION_ENTRIES = 'animethemeentries';
+    public const RELATION_IMAGES = 'anime.images';
+    public const RELATION_SONG = 'song';
+    public const RELATION_SYNONYMS = 'anime.animesynonyms';
+    public const RELATION_VIDEOS = 'animethemeentries.videos';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['type', 'sequence', 'group'];
+    protected $fillable = [
+        AnimeTheme::ATTRIBUTE_GROUP,
+        AnimeTheme::ATTRIBUTE_SEQUENCE,
+        AnimeTheme::ATTRIBUTE_TYPE,
+    ];
 
     /**
      * The event map for the model.
@@ -73,14 +97,14 @@ class AnimeTheme extends BaseModel
      *
      * @var string
      */
-    protected $table = 'anime_themes';
+    protected $table = AnimeTheme::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'theme_id';
+    protected $primaryKey = AnimeTheme::ATTRIBUTE_ID;
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
@@ -90,7 +114,10 @@ class AnimeTheme extends BaseModel
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
-        return $query->with(['anime.animesynonyms', 'song']);
+        return $query->with([
+            AnimeTheme::RELATION_SYNONYMS,
+            AnimeTheme::RELATION_SONG,
+        ]);
     }
 
     /**
@@ -113,7 +140,7 @@ class AnimeTheme extends BaseModel
      * @var array
      */
     protected $enumCasts = [
-        'type' => ThemeType::class,
+        AnimeTheme::ATTRIBUTE_TYPE => ThemeType::class,
     ];
 
     /**
@@ -122,8 +149,8 @@ class AnimeTheme extends BaseModel
      * @var array
      */
     protected $casts = [
-        'type' => 'int',
-        'sequence' => 'int',
+        AnimeTheme::ATTRIBUTE_SEQUENCE => 'int',
+        AnimeTheme::ATTRIBUTE_TYPE => 'int',
     ];
 
     /**
@@ -143,7 +170,7 @@ class AnimeTheme extends BaseModel
      */
     public function anime(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Anime', 'anime_id', 'anime_id');
+        return $this->belongsTo(Anime::class, AnimeTheme::ATTRIBUTE_ANIME);
     }
 
     /**
@@ -153,7 +180,7 @@ class AnimeTheme extends BaseModel
      */
     public function song(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Wiki\Song', 'song_id', 'song_id');
+        return $this->belongsTo(Song::class, AnimeTheme::ATTRIBUTE_SONG);
     }
 
     /**
@@ -163,6 +190,6 @@ class AnimeTheme extends BaseModel
      */
     public function animethemeentries(): HasMany
     {
-        return $this->hasMany('App\Models\Wiki\Anime\Theme\AnimeThemeEntry', 'theme_id', 'theme_id');
+        return $this->hasMany(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_THEME);
     }
 }

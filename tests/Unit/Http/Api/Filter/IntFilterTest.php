@@ -37,7 +37,7 @@ class IntFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends IntFilter
+        $filter = new class($filterField) extends IntFilter
         {
             // We don't need to do any customization
         };
@@ -66,7 +66,7 @@ class IntFilterTest extends TestCase
 
         $query = Query::make($parameters);
 
-        $filter = new class($query->getFilterCriteria(), $filterField) extends IntFilter
+        $filter = new class($filterField) extends IntFilter
         {
             // We don't need to do any customization
         };

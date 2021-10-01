@@ -38,6 +38,7 @@ class AnimeStudioTest extends TestCase
      * The Anime Studio Resource Lens shall contain Anime Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFields()
@@ -55,6 +56,7 @@ class AnimeStudioTest extends TestCase
      * The Anime Studio Resource Lens fields shall be sortable.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
@@ -73,6 +75,7 @@ class AnimeStudioTest extends TestCase
      * The Anime Studio Resource Lens shall contain Anime Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFilters()
@@ -93,6 +96,7 @@ class AnimeStudioTest extends TestCase
      * The Anime Studio Resource Lens shall use the 'withFilters' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -109,6 +113,7 @@ class AnimeStudioTest extends TestCase
      * The Anime Studio Resource Lens shall use the 'withOrdering' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -125,6 +130,7 @@ class AnimeStudioTest extends TestCase
      * The Anime Studio Lens shall filter Anime without Studios.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -139,7 +145,7 @@ class AnimeStudioTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $filteredAnimes = Anime::query()->whereDoesntHave('studios')->get();
+        $filteredAnimes = Anime::query()->whereDoesntHave(Anime::RELATION_STUDIOS)->get();
 
         $lens = static::novaLens(AnimeStudioLens::class);
 

@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Enums\Models\Wiki\VideoOverlap;
+use App\Models\BaseModel;
+use App\Models\Wiki\Video;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,22 +21,22 @@ class CreateVideosTable extends Migration
      */
     public function up()
     {
-        Schema::create('videos', function (Blueprint $table) {
-            $table->id('video_id');
+        Schema::create(Video::TABLE, function (Blueprint $table) {
+            $table->id(Video::ATTRIBUTE_ID);
             $table->timestamps(6);
-            $table->softDeletes('deleted_at', 6);
-            $table->string('basename');
-            $table->string('filename');
-            $table->string('path');
-            $table->integer('size');
-            $table->string('mimetype');
-            $table->integer('resolution')->nullable();
-            $table->boolean('nc')->default(false);
-            $table->boolean('subbed')->default(false);
-            $table->boolean('lyrics')->default(false);
-            $table->boolean('uncen')->default(false);
-            $table->integer('overlap')->default(VideoOverlap::NONE);
-            $table->integer('source')->nullable();
+            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+            $table->string(Video::ATTRIBUTE_BASENAME);
+            $table->string(Video::ATTRIBUTE_FILENAME);
+            $table->string(Video::ATTRIBUTE_PATH);
+            $table->integer(Video::ATTRIBUTE_SIZE);
+            $table->string(Video::ATTRIBUTE_MIMETYPE);
+            $table->integer(Video::ATTRIBUTE_RESOLUTION)->nullable();
+            $table->boolean(Video::ATTRIBUTE_NC)->default(false);
+            $table->boolean(Video::ATTRIBUTE_SUBBED)->default(false);
+            $table->boolean(Video::ATTRIBUTE_LYRICS)->default(false);
+            $table->boolean(Video::ATTRIBUTE_UNCEN)->default(false);
+            $table->integer(Video::ATTRIBUTE_OVERLAP)->default(VideoOverlap::NONE);
+            $table->integer(Video::ATTRIBUTE_SOURCE)->nullable();
         });
     }
 
@@ -45,6 +47,6 @@ class CreateVideosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('videos');
+        Schema::dropIfExists(Video::TABLE);
     }
 }

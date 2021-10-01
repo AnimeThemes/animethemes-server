@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter;
 
 use App\Enums\BaseEnum;
-use Illuminate\Support\Collection;
 
 /**
  * Class EnumFilter.
  */
-abstract class EnumFilter extends Filter
+class EnumFilter extends Filter
 {
     /**
      * The Enum class string.
@@ -22,13 +21,13 @@ abstract class EnumFilter extends Filter
     /**
      * Create a new filter instance.
      *
-     * @param  Collection  $criteria
      * @param  string  $key
+     * @param  string|null  $column
      * @param  class-string<BaseEnum>  $enumClass
      */
-    public function __construct(Collection $criteria, string $key, string $enumClass)
+    public function __construct(string $key, string $enumClass, ?string $column = null)
     {
-        parent::__construct($criteria, $key);
+        parent::__construct($key, $column);
         $this->enumClass = $enumClass;
     }
 

@@ -29,11 +29,11 @@ class KitsuResourceSeeder extends Seeder
     {
         // Get anime that have MAL resource but do not have Kitsu resource
         $animes = Anime::query()
-            ->select(['anime_id', 'name'])
-            ->whereHas('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::MAL);
-            })->whereDoesntHave('resources', function (Builder $resourceQuery) {
-                $resourceQuery->where('site', ResourceSite::KITSU);
+            ->select([Anime::ATTRIBUTE_ID, Anime::ATTRIBUTE_NAME])
+            ->whereHas(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
+            })->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+                $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU);
             })
             ->get();
 
@@ -42,7 +42,7 @@ class KitsuResourceSeeder extends Seeder
                 continue;
             }
 
-            $malResource = $anime->resources()->firstWhere('site', ResourceSite::MAL);
+            $malResource = $anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
             if ($malResource instanceof ExternalResource && $malResource->external_id !== null) {
                 // Try not to upset Kitsu
                 sleep(rand(2, 5));
@@ -71,9 +71,9 @@ class KitsuResourceSeeder extends Seeder
 
                         // Check if Kitsu resource already exists
                         $kitsuResource = ExternalResource::query()
-                            ->select(['resource_id', 'link'])
-                            ->where('site', ResourceSite::KITSU)
-                            ->where('external_id', $kitsuId)
+                            ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_LINK])
+                            ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU)
+                            ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $kitsuId)
                             ->first();
 
                         // Create Kitsu resource if it doesn't already exist
@@ -81,9 +81,9 @@ class KitsuResourceSeeder extends Seeder
                             Log::info("Creating kitsu resource '{$kitsuId}' for anime '{$anime->name}'");
 
                             $kitsuResource = ExternalResource::factory()->createOne([
-                                'site' => ResourceSite::KITSU,
-                                'link' => "https://kitsu.io/anime/{$kitsuSlug}",
-                                'external_id' => $kitsuId,
+                                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $kitsuId,
+                                ExternalResource::ATTRIBUTE_LINK => "https://kitsu.io/anime/{$kitsuSlug}",
+                                ExternalResource::ATTRIBUTE_SITE => ResourceSite::KITSU,
                             ]);
                         }
 

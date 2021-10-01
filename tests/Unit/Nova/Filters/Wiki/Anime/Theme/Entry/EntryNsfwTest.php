@@ -28,6 +28,7 @@ class EntryNsfwTest extends TestCase
      * The Entry Nsfw Filter shall be a select filter.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testSelectFilter()
@@ -40,6 +41,7 @@ class EntryNsfwTest extends TestCase
      * The Entry Nsfw Filter shall have Yes and No options.
      *
      * @return void
+     *
      * @throws InvalidNovaFilterException
      */
     public function testOptions()
@@ -54,6 +56,7 @@ class EntryNsfwTest extends TestCase
      * The Entry Nsfw Filter shall filter Entries By NSFW.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
@@ -70,7 +73,7 @@ class EntryNsfwTest extends TestCase
 
         $response = $filter->apply(AnimeThemeEntry::class, $nsfwFilter);
 
-        $filteredEntries = AnimeThemeEntry::query()->where('nsfw', $nsfwFilter)->get();
+        $filteredEntries = AnimeThemeEntry::query()->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter)->get();
         foreach ($filteredEntries as $filteredEntry) {
             $response->assertContains($filteredEntry);
         }

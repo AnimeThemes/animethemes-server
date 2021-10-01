@@ -6,10 +6,13 @@ namespace Tests\Feature\Http\Api\Wiki\Video;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
+use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -89,8 +92,13 @@ class VideoShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowedPaths = collect(VideoResource::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
+        $schema = new VideoSchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -129,32 +137,15 @@ class VideoShowTest extends TestCase
     {
         $this->withoutEvents();
 
-        $fields = collect([
-            'id',
-            'basename',
-            'filename',
-            'path',
-            'size',
-            'mimetype',
-            'resolution',
-            'nc',
-            'subbed',
-            'lyrics',
-            'uncen',
-            'source',
-            'overlap',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-            'tags',
-            'link',
-        ]);
+        $schema = new VideoSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                VideoResource::$wrap => $includedFields->join(','),
+                VideoResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
@@ -185,9 +176,9 @@ class VideoShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'nsfw' => $nsfwFilter,
+                AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
             ],
-            IncludeParser::$param => 'animethemeentries',
+            IncludeParser::$param => Video::RELATION_ANIMETHEMEENTRIES,
         ];
 
         Video::factory()
@@ -199,8 +190,8 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'animethemeentries' => function (BelongsToMany $query) use ($nsfwFilter) {
-                $query->where('nsfw', $nsfwFilter);
+            Video::RELATION_ANIMETHEMEENTRIES => function (BelongsToMany $query) use ($nsfwFilter) {
+                $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter);
             },
         ])
         ->first();
@@ -230,9 +221,9 @@ class VideoShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'spoiler' => $spoilerFilter,
+                AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
             ],
-            IncludeParser::$param => 'animethemeentries',
+            IncludeParser::$param => Video::RELATION_ANIMETHEMEENTRIES,
         ];
 
         Video::factory()
@@ -244,8 +235,8 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'animethemeentries' => function (BelongsToMany $query) use ($spoilerFilter) {
-                $query->where('spoiler', $spoilerFilter);
+            Video::RELATION_ANIMETHEMEENTRIES => function (BelongsToMany $query) use ($spoilerFilter) {
+                $query->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter);
             },
         ])
         ->first();
@@ -276,9 +267,9 @@ class VideoShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'version' => $versionFilter,
+                AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
             ],
-            IncludeParser::$param => 'animethemeentries',
+            IncludeParser::$param => Video::RELATION_ANIMETHEMEENTRIES,
         ];
 
         Video::factory()
@@ -287,15 +278,15 @@ class VideoShowTest extends TestCase
                     ->count($this->faker->randomDigitNotNull())
                     ->for(AnimeTheme::factory()->for(Anime::factory()))
                     ->state(new Sequence(
-                        ['version' => $versionFilter],
-                        ['version' => $excludedVersion],
+                        [AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter],
+                        [AnimeThemeEntry::ATTRIBUTE_VERSION => $excludedVersion],
                     ))
             )
             ->create();
 
         $video = Video::with([
-            'animethemeentries' => function (BelongsToMany $query) use ($versionFilter) {
-                $query->where('version', $versionFilter);
+            Video::RELATION_ANIMETHEMEENTRIES => function (BelongsToMany $query) use ($versionFilter) {
+                $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter);
             },
         ])
         ->first();
@@ -326,9 +317,9 @@ class VideoShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'group' => $groupFilter,
+                AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => 'animethemeentries.animetheme',
+            IncludeParser::$param => Video::RELATION_ANIMETHEME,
         ];
 
         Video::factory()
@@ -339,15 +330,15 @@ class VideoShowTest extends TestCase
                         AnimeTheme::factory()
                             ->for(Anime::factory())
                             ->state([
-                                'group' => $this->faker->boolean() ? $groupFilter : $excludedGroup,
+                                AnimeTheme::ATTRIBUTE_GROUP => $this->faker->boolean() ? $groupFilter : $excludedGroup,
                             ])
                     )
             )
             ->create();
 
         $video = Video::with([
-            'animethemeentries.animetheme' => function (BelongsTo $query) use ($groupFilter) {
-                $query->where('group', $groupFilter);
+            Video::RELATION_ANIMETHEME => function (BelongsTo $query) use ($groupFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
             },
         ])
         ->first();
@@ -378,9 +369,9 @@ class VideoShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'sequence' => $sequenceFilter,
+                AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => 'animethemeentries.animetheme',
+            IncludeParser::$param => Video::RELATION_ANIMETHEME,
         ];
 
         Video::factory()
@@ -391,15 +382,15 @@ class VideoShowTest extends TestCase
                         AnimeTheme::factory()
                             ->for(Anime::factory())
                             ->state([
-                                'sequence' => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
+                                AnimeTheme::ATTRIBUTE_SEQUENCE => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
                             ])
                     )
             )
             ->create();
 
         $video = Video::with([
-            'animethemeentries.animetheme' => function (BelongsTo $query) use ($sequenceFilter) {
-                $query->where('sequence', $sequenceFilter);
+            Video::RELATION_ANIMETHEME => function (BelongsTo $query) use ($sequenceFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
             },
         ])
         ->first();
@@ -429,9 +420,9 @@ class VideoShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'type' => $typeFilter->description,
+                AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => 'animethemeentries.animetheme',
+            IncludeParser::$param => Video::RELATION_ANIMETHEME,
         ];
 
         Video::factory()
@@ -443,8 +434,8 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'animethemeentries.animetheme' => function (BelongsTo $query) use ($typeFilter) {
-                $query->where('type', $typeFilter->value);
+            Video::RELATION_ANIMETHEME => function (BelongsTo $query) use ($typeFilter) {
+                $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
             },
         ])
         ->first();
@@ -474,9 +465,9 @@ class VideoShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->description,
+                Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'animethemeentries.animetheme.anime',
+            IncludeParser::$param => Video::RELATION_ANIME,
         ];
 
         Video::factory()
@@ -488,8 +479,8 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'animethemeentries.animetheme.anime' => function (BelongsTo $query) use ($seasonFilter) {
-                $query->where('season', $seasonFilter->value);
+            Video::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ])
         ->first();
@@ -520,9 +511,9 @@ class VideoShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'year' => $yearFilter,
+                Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => 'animethemeentries.animetheme.anime',
+            IncludeParser::$param => Video::RELATION_ANIME,
         ];
 
         Video::factory()
@@ -534,7 +525,7 @@ class VideoShowTest extends TestCase
                             ->for(
                                 Anime::factory()
                                     ->state([
-                                        'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
+                                        Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
                                     ])
                             )
                     )
@@ -542,8 +533,8 @@ class VideoShowTest extends TestCase
             ->create();
 
         $video = Video::with([
-            'animethemeentries.animetheme.anime' => function (BelongsTo $query) use ($yearFilter) {
-                $query->where('year', $yearFilter);
+            Video::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ])
         ->first();

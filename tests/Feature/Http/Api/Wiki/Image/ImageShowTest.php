@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Image;
 
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
@@ -85,8 +88,13 @@ class ImageShowTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowedPaths = collect(ImageResource::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
+        $schema = new ImageSchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -120,22 +128,15 @@ class ImageShowTest extends TestCase
      */
     public function testSparseFieldsets()
     {
-        $fields = collect([
-            'image_id',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-            'path',
-            'size',
-            'mimetype',
-            'facet',
-        ]);
+        $schema = new ImageSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                ImageResource::$wrap => $includedFields->join(','),
+                ImageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
@@ -166,9 +167,9 @@ class ImageShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->description,
+                Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => Image::RELATION_ANIME,
         ];
 
         Image::factory()
@@ -176,8 +177,8 @@ class ImageShowTest extends TestCase
             ->create();
 
         $image = Image::with([
-            'anime' => function (BelongsToMany $query) use ($seasonFilter) {
-                $query->where('season', $seasonFilter->value);
+            Image::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
+                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ])
         ->first();
@@ -208,9 +209,9 @@ class ImageShowTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'year' => $yearFilter,
+                Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => Image::RELATION_ANIME,
         ];
 
         Image::factory()
@@ -218,14 +219,14 @@ class ImageShowTest extends TestCase
                 Anime::factory()
                 ->count($this->faker->randomDigitNotNull())
                 ->state([
-                    'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
+                    Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
                 ])
             )
             ->create();
 
         $image = Image::with([
-            'anime' => function (BelongsToMany $query) use ($yearFilter) {
-                $query->where('year', $yearFilter);
+            Image::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
+                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ])
         ->first();

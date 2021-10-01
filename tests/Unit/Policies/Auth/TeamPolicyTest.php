@@ -81,6 +81,7 @@ class TeamPolicyTest extends TestCase
      * A team can be updated by the owner.
      *
      * @return void
+     *
      * @throws AuthorizationException
      * @throws ValidationException
      */
@@ -106,6 +107,7 @@ class TeamPolicyTest extends TestCase
      * A team member can be added by the owner.
      *
      * @return void
+     *
      * @throws AuthorizationException
      * @throws ValidationException
      */
@@ -131,6 +133,7 @@ class TeamPolicyTest extends TestCase
      * A team member can be updated by the owner.
      *
      * @return void
+     *
      * @throws AuthorizationException
      * @throws ValidationException
      */
@@ -156,6 +159,7 @@ class TeamPolicyTest extends TestCase
      * A team member can be removed by the owner.
      *
      * @return void
+     *
      * @throws AuthorizationException
      * @throws ValidationException
      */
@@ -181,6 +185,7 @@ class TeamPolicyTest extends TestCase
      * A team can be deleted by the owner.
      *
      * @return void
+     *
      * @throws AuthorizationException
      * @throws ValidationException
      */

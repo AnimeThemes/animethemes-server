@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\BaseModel;
+use App\Models\Wiki\Artist;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,12 +20,12 @@ class CreateArtistsTable extends Migration
      */
     public function up()
     {
-        Schema::create('artists', function (Blueprint $table) {
-            $table->id('artist_id');
+        Schema::create(Artist::TABLE, function (Blueprint $table) {
+            $table->id(Artist::ATTRIBUTE_ID);
             $table->timestamps(6);
-            $table->softDeletes('deleted_at', 6);
-            $table->string('slug');
-            $table->string('name');
+            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+            $table->string(Artist::ATTRIBUTE_SLUG);
+            $table->string(Artist::ATTRIBUTE_NAME);
         });
     }
 
@@ -34,6 +36,6 @@ class CreateArtistsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('artists');
+        Schema::dropIfExists(Artist::TABLE);
     }
 }

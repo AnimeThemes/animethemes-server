@@ -23,7 +23,13 @@ trait ReconcilesTransactionRepositories
      */
     protected function columnsForCreateDelete(): array
     {
-        return ['transaction_id', 'external_id', 'date', 'amount', 'service'];
+        return [
+            Transaction::ATTRIBUTE_AMOUNT,
+            Transaction::ATTRIBUTE_DATE,
+            Transaction::ATTRIBUTE_EXTERNAL_ID,
+            Transaction::ATTRIBUTE_ID,
+            Transaction::ATTRIBUTE_SERVICE,
+        ];
     }
 
     /**

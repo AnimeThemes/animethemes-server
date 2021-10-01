@@ -33,18 +33,18 @@ class VideoFactory extends Factory
     public function definition(): array
     {
         return [
-            'basename' => Str::random(),
-            'filename' => Str::random(),
-            'path' => Str::random(),
-            'size' => $this->faker->randomDigitNotZero(),
-            'mimetype' => $this->faker->mimeType(),
-            'resolution' => $this->faker->randomDigitNotZero(),
-            'nc' => $this->faker->boolean(),
-            'subbed' => $this->faker->boolean(),
-            'lyrics' => $this->faker->boolean(),
-            'uncen' => $this->faker->boolean(),
-            'source' => VideoSource::getRandomValue(),
-            'overlap' => VideoOverlap::getRandomValue(),
+            Video::ATTRIBUTE_BASENAME => Str::random(),
+            Video::ATTRIBUTE_FILENAME => Str::random(),
+            Video::ATTRIBUTE_LYRICS => $this->faker->boolean(),
+            Video::ATTRIBUTE_MIMETYPE => $this->faker->mimeType(),
+            Video::ATTRIBUTE_NC => $this->faker->boolean(),
+            Video::ATTRIBUTE_OVERLAP => VideoOverlap::getRandomValue(),
+            Video::ATTRIBUTE_PATH => Str::random(),
+            Video::ATTRIBUTE_RESOLUTION => $this->faker->randomDigitNotZero(),
+            Video::ATTRIBUTE_SIZE => $this->faker->randomDigitNotZero(),
+            Video::ATTRIBUTE_SOURCE => VideoSource::getRandomValue(),
+            Video::ATTRIBUTE_SUBBED => $this->faker->boolean(),
+            Video::ATTRIBUTE_UNCEN => $this->faker->boolean(),
         ];
     }
 }

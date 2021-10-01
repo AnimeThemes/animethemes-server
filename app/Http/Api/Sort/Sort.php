@@ -8,21 +8,13 @@ use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Sort\Criteria;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
  * Class Sort.
  */
-abstract class Sort
+class Sort
 {
-    /**
-     * Criteria that may be applied to the builder.
-     *
-     * @var Collection<Criteria>
-     */
-    protected Collection $criteria;
-
     /**
      * Sort key value.
      *
@@ -31,15 +23,22 @@ abstract class Sort
     protected string $key;
 
     /**
+     * Sort key value.
+     *
+     * @var string|null
+     */
+    protected ?string $column;
+
+    /**
      * Create a new sort instance.
      *
-     * @param  Collection<Criteria>  $criteria
      * @param  string  $key
+     * @param  string|null  $column
      */
-    public function __construct(Collection $criteria, string $key)
+    public function __construct(string $key, ?string $column = null)
     {
-        $this->criteria = $criteria;
         $this->key = $key;
+        $this->column = $column;
     }
 
     /**
@@ -59,7 +58,7 @@ abstract class Sort
      */
     public function getColumn(): string
     {
-        return $this->getKey();
+        return $this->column ?? $this->key;
     }
 
     /**
@@ -79,15 +78,14 @@ abstract class Sort
     /**
      * Modify query builder with sort criteria.
      *
+     * @param  Criteria  $criterion
      * @param  Builder  $builder
      * @return Builder
      */
-    public function applySort(Builder $builder): Builder
+    public function applySort(Criteria $criterion, Builder $builder): Builder
     {
-        foreach ($this->getCriteria() as $criterion) {
-            if ($this->shouldApplySort()) {
-                $builder = $criterion->applySort($builder, $this->getColumn());
-            }
+        if ($this->shouldApplySort($criterion)) {
+            $builder = $criterion->applySort($builder, $this->getColumn());
         }
 
         return $builder;
@@ -96,15 +94,14 @@ abstract class Sort
     /**
      * Modify search request builder with sort criteria.
      *
+     * @param  Criteria  $criterion
      * @param  SearchRequestBuilder  $builder
      * @return SearchRequestBuilder
      */
-    public function applyElasticsearchSort(SearchRequestBuilder $builder): SearchRequestBuilder
+    public function applyElasticsearchSort(Criteria $criterion, SearchRequestBuilder $builder): SearchRequestBuilder
     {
-        foreach ($this->getCriteria() as $criterion) {
-            if ($this->shouldApplySort()) {
-                $builder = $criterion->applyElasticsearchSort($builder, $this->getColumn());
-            }
+        if ($this->shouldApplySort($criterion)) {
+            $builder = $criterion->applyElasticsearchSort($builder, $this->getColumn());
         }
 
         return $builder;
@@ -113,22 +110,12 @@ abstract class Sort
     /**
      * Determine if this sort should be applied.
      *
+     * @param  Criteria  $criteria
      * @return bool
      */
-    public function shouldApplySort(): bool
+    public function shouldApplySort(Criteria $criteria): bool
     {
-        return collect($this->getCriteria())->count() === 1;
-    }
-
-    /**
-     * Get the sort criteria that match the sort key.
-     *
-     * @return Criteria[]
-     */
-    public function getCriteria(): array
-    {
-        return $this->criteria->filter(function (Criteria $criteria) {
-            return $criteria->getField() === $this->getKey();
-        })->all();
+        // Apply sort if key matches
+        return $criteria->getField() === $this->getKey();
     }
 }

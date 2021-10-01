@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Lenses\ExternalResource;
 
+use App\Models\Wiki\ExternalResource;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -45,7 +46,8 @@ class ExternalResourceUnlinkedLens extends Lens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave('anime')->whereDoesntHave('artists')
+            $query->whereDoesntHave(ExternalResource::RELATION_ANIME)
+                ->whereDoesntHave(ExternalResource::RELATION_ARTISTS)
         ));
     }
 
@@ -58,13 +60,13 @@ class ExternalResourceUnlinkedLens extends Lens
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'resource_id')
+            ID::make(__('nova.id'), ExternalResource::ATTRIBUTE_ID)
                 ->sortable(),
 
-            Text::make(__('nova.link'), 'link')
+            Text::make(__('nova.link'), ExternalResource::ATTRIBUTE_LINK)
                 ->sortable(),
 
-            Number::make(__('nova.external_id'), 'external_id')
+            Number::make(__('nova.external_id'), ExternalResource::ATTRIBUTE_EXTERNAL_ID)
                 ->sortable(),
         ];
     }

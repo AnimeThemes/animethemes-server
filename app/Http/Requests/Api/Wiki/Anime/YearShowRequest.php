@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Anime;
 
-use App\Http\Api\Query;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Requests\Api\ShowRequest;
-use App\Http\Resources\BaseResource;
-use App\Http\Resources\Wiki\Resource\AnimeResource;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class YearShowRequest.
@@ -16,12 +14,12 @@ use Illuminate\Http\Resources\MissingValue;
 class YearShowRequest extends ShowRequest
 {
     /**
-     * Get the underlying resource.
+     * Get the schema.
      *
-     * @return BaseResource
+     * @return Schema
      */
-    protected function getResource(): BaseResource
+    protected function getSchema(): Schema
     {
-        return AnimeResource::make(new MissingValue(), Query::make());
+        return new AnimeSchema();
     }
 }

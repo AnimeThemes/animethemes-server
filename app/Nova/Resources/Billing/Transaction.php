@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Billing;
 
 use App\Enums\Models\Billing\Service;
+use App\Models\Billing\Transaction as TransactionModel;
 use App\Nova\Filters\Billing\ServiceFilter;
 use App\Nova\Resources\Resource;
 use BenSampo\Enum\Enum;
@@ -27,14 +28,14 @@ class Transaction extends Resource
      *
      * @var string
      */
-    public static string $model = \App\Models\Billing\Transaction::class;
+    public static string $model = TransactionModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'description';
+    public static $title = TransactionModel::ATTRIBUTE_DESCRIPTION;
 
     /**
      * The logical group associated with the resource.
@@ -78,7 +79,7 @@ class Transaction extends Resource
      * @var array
      */
     public static $search = [
-        'transaction_id',
+        TransactionModel::ATTRIBUTE_ID,
     ];
 
     /**
@@ -90,19 +91,19 @@ class Transaction extends Resource
     public function fields(Request $request): array
     {
         return [
-            ID::make(__('nova.id'), 'transaction_id')
+            ID::make(__('nova.id'), TransactionModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
 
-            Date::make(__('nova.date'), 'date')
+            Date::make(__('nova.date'), TransactionModel::ATTRIBUTE_DATE)
                 ->sortable()
                 ->rules('required')
                 ->help(__('nova.transaction_date_help')),
 
-            Select::make(__('nova.service'), 'service')
+            Select::make(__('nova.service'), TransactionModel::ATTRIBUTE_SERVICE)
                 ->options(Service::asSelectArray())
                 ->displayUsing(function (?Enum $enum) {
                     return $enum?->description;
@@ -111,17 +112,17 @@ class Transaction extends Resource
                 ->rules(['required', (new EnumValue(Service::class, false))->__toString()])
                 ->help(__('nova.billing_service_help')),
 
-            Text::make(__('nova.description'), 'description')
+            Text::make(__('nova.description'), TransactionModel::ATTRIBUTE_DESCRIPTION)
                 ->sortable()
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.transaction_description_help')),
 
-            Currency::make(__('nova.amount'), 'amount')
+            Currency::make(__('nova.amount'), TransactionModel::ATTRIBUTE_AMOUNT)
                 ->sortable()
                 ->rules('required')
                 ->help(__('nova.transaction_amount_help')),
 
-            Text::make(__('nova.external_id'), 'external_id')
+            Text::make(__('nova.external_id'), TransactionModel::ATTRIBUTE_EXTERNAL_ID)
                 ->nullable()
                 ->sortable()
                 ->rules(['nullable', 'max:192'])

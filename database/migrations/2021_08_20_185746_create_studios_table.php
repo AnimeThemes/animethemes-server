@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\BaseModel;
+use App\Models\Wiki\Studio;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,12 +20,12 @@ class CreateStudiosTable extends Migration
      */
     public function up()
     {
-        Schema::create('studios', function (Blueprint $table) {
-            $table->id('studio_id');
+        Schema::create(Studio::TABLE, function (Blueprint $table) {
+            $table->id(Studio::ATTRIBUTE_ID);
             $table->timestamps(6);
-            $table->softDeletes('deleted_at', 6);
-            $table->string('slug');
-            $table->string('name');
+            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+            $table->string(Studio::ATTRIBUTE_SLUG);
+            $table->string(Studio::ATTRIBUTE_NAME);
         });
     }
 
@@ -34,6 +36,6 @@ class CreateStudiosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('studios');
+        Schema::dropIfExists(Studio::TABLE);
     }
 }

@@ -23,25 +23,42 @@ use Illuminate\Support\Collection;
 /**
  * Class Image.
  *
- * @property int $image_id
- * @property string $path
- * @property int $size
- * @property string $mimetype
- * @property Enum|null $facet
  * @property Collection $anime
  * @property Collection $artists
+ * @property Enum|null $facet
+ * @property int $image_id
+ * @property string $mimetype
+ * @property string $path
+ * @property int $size
+ *
  * @method static ImageFactory factory(...$parameters)
  */
 class Image extends BaseModel implements Streamable
 {
     use CastsEnums;
 
+    public const TABLE = 'images';
+
+    public const ATTRIBUTE_FACET = 'facet';
+    public const ATTRIBUTE_ID = 'image_id';
+    public const ATTRIBUTE_MIMETYPE = 'mimetype';
+    public const ATTRIBUTE_PATH = 'path';
+    public const ATTRIBUTE_SIZE = 'size';
+
+    public const RELATION_ANIME = 'anime';
+    public const RELATION_ARTISTS = 'artists';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['path', 'facet', 'size', 'mimetype'];
+    protected $fillable = [
+        Image::ATTRIBUTE_FACET,
+        Image::ATTRIBUTE_MIMETYPE,
+        Image::ATTRIBUTE_PATH,
+        Image::ATTRIBUTE_SIZE,
+    ];
 
     /**
      * The event map for the model.
@@ -63,14 +80,14 @@ class Image extends BaseModel implements Streamable
      *
      * @var string
      */
-    protected $table = 'images';
+    protected $table = Image::TABLE;
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'image_id';
+    protected $primaryKey = Image::ATTRIBUTE_ID;
 
     /**
      * The attributes that should be cast to enum types.
@@ -78,7 +95,7 @@ class Image extends BaseModel implements Streamable
      * @var array
      */
     protected $enumCasts = [
-        'facet' => ImageFacet::class,
+        Image::ATTRIBUTE_FACET => ImageFacet::class,
     ];
 
     /**
@@ -87,8 +104,8 @@ class Image extends BaseModel implements Streamable
      * @var array
      */
     protected $casts = [
-        'facet' => 'int',
-        'size' => 'int',
+        Image::ATTRIBUTE_FACET => 'int',
+        Image::ATTRIBUTE_SIZE => 'int',
     ];
 
     /**
@@ -148,7 +165,7 @@ class Image extends BaseModel implements Streamable
      */
     public function anime(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Anime', 'anime_image', 'image_id', 'anime_id')
+        return $this->belongsToMany(Anime::class, AnimeImage::TABLE, Image::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID)
             ->using(AnimeImage::class)
             ->withTimestamps();
     }
@@ -160,7 +177,7 @@ class Image extends BaseModel implements Streamable
      */
     public function artists(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Wiki\Artist', 'artist_image', 'image_id', 'artist_id')
+        return $this->belongsToMany(Artist::class, ArtistImage::TABLE, Image::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID)
             ->using(ArtistImage::class)
             ->withTimestamps();
     }

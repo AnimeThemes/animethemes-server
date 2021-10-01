@@ -4,22 +4,29 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
 
+use App\Enums\Http\Api\Field\Category;
 use App\Enums\Http\Api\Filter\TrashedStatus;
+use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query;
+use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
+use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -33,7 +40,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -101,8 +107,13 @@ class ThemeIndexTest extends TestCase
      */
     public function testAllowedIncludePaths()
     {
-        $allowedPaths = collect(ThemeCollection::allowedIncludePaths());
-        $includedPaths = $allowedPaths->random($this->faker->numberBetween(1, count($allowedPaths)));
+        $schema = new ThemeSchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
@@ -142,22 +153,15 @@ class ThemeIndexTest extends TestCase
      */
     public function testSparseFieldsets()
     {
-        $fields = collect([
-            'id',
-            'type',
-            'sequence',
-            'group',
-            'slug',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new ThemeSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(0, count($fields)));
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
             FieldParser::$param => [
-                ThemeResource::$wrap => $includedFields->join(','),
+                ThemeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
@@ -189,31 +193,14 @@ class ThemeIndexTest extends TestCase
      */
     public function testSorts()
     {
-        $allowedSorts = collect([
-            'id',
-            'type',
-            'sequence',
-            'group',
-            'slug',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ]);
+        $schema = new ThemeSchema();
 
-        $sortCount = $this->faker->numberBetween(1, count($allowedSorts));
-
-        $includedSorts = $allowedSorts->random($sortCount)->map(function (string $includedSort) {
-            if ($this->faker->boolean()) {
-                return Str::of('-')
-                    ->append($includedSort)
-                    ->__toString();
-            }
-
-            return $includedSort;
-        });
+        $field = collect($schema->fields())
+            ->filter(fn (Field $field) => $field->getCategory()->is(Category::ATTRIBUTE()))
+            ->random();
 
         $parameters = [
-            SortParser::$param => $includedSorts->join(','),
+            SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
         $query = Query::make($parameters);
@@ -226,8 +213,8 @@ class ThemeIndexTest extends TestCase
         $builder = AnimeTheme::query();
 
         foreach ($query->getSortCriteria() as $sortCriterion) {
-            foreach (ThemeCollection::sorts(collect([$sortCriterion])) as $sort) {
-                $builder = $sort->applySort($builder);
+            foreach ($schema->sorts() as $sort) {
+                $builder = $sort->applySort($sortCriterion, $builder);
             }
         }
 
@@ -257,7 +244,7 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'created_at' => $createdFilter,
+                BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -278,7 +265,7 @@ class ThemeIndexTest extends TestCase
                 ->create();
         });
 
-        $theme = AnimeTheme::query()->where('created_at', $createdFilter)->get();
+        $theme = AnimeTheme::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
         $response = $this->get(route('api.animetheme.index', $parameters));
 
@@ -306,7 +293,7 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'updated_at' => $updatedFilter,
+                BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -327,7 +314,7 @@ class ThemeIndexTest extends TestCase
                 ->create();
         });
 
-        $theme = AnimeTheme::query()->where('updated_at', $updatedFilter)->get();
+        $theme = AnimeTheme::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
         $response = $this->get(route('api.animetheme.index', $parameters));
 
@@ -352,7 +339,7 @@ class ThemeIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::WITHOUT,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -398,7 +385,7 @@ class ThemeIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::WITH,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -444,7 +431,7 @@ class ThemeIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::$param => [
-                'trashed' => TrashedStatus::ONLY,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -493,8 +480,8 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'deleted_at' => $deletedFilter,
-                'trashed' => TrashedStatus::WITH,
+                BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
             PagingParser::$param => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -515,7 +502,7 @@ class ThemeIndexTest extends TestCase
                 ->create();
         });
 
-        $theme = AnimeTheme::withTrashed()->where('deleted_at', $deletedFilter)->get();
+        $theme = AnimeTheme::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
         $response = $this->get(route('api.animetheme.index', $parameters));
 
@@ -543,20 +530,20 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'group' => $groupFilter,
+                AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
         ];
 
         AnimeTheme::factory()
             ->for(Anime::factory())
             ->state(new Sequence(
-                ['group' => $groupFilter],
-                ['group' => $excludedGroup],
+                [AnimeTheme::ATTRIBUTE_GROUP => $groupFilter],
+                [AnimeTheme::ATTRIBUTE_GROUP => $excludedGroup],
             ))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $themes = AnimeTheme::query()->where('group', $groupFilter)->get();
+        $themes = AnimeTheme::query()->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter)->get();
 
         $response = $this->get(route('api.animetheme.index', $parameters));
 
@@ -584,20 +571,20 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'sequence' => $sequenceFilter,
+                AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
         ];
 
         AnimeTheme::factory()
             ->for(Anime::factory())
             ->state(new Sequence(
-                ['sequence' => $sequenceFilter],
-                ['sequence' => $excludedSequence],
+                [AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
+                [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
             ))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $themes = AnimeTheme::query()->where('sequence', $sequenceFilter)->get();
+        $themes = AnimeTheme::query()->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter)->get();
 
         $response = $this->get(route('api.animetheme.index', $parameters));
 
@@ -624,7 +611,7 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'type' => $typeFilter->description,
+                AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
         ];
 
@@ -633,7 +620,7 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $themes = AnimeTheme::query()->where('type', $typeFilter->value)->get();
+        $themes = AnimeTheme::query()->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value)->get();
 
         $response = $this->get(route('api.animetheme.index', $parameters));
 
@@ -660,9 +647,9 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'season' => $seasonFilter->description,
+                Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => AnimeTheme::RELATION_ANIME,
         ];
 
         AnimeTheme::factory()
@@ -671,8 +658,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = AnimeTheme::with([
-            'anime' => function (BelongsTo $query) use ($seasonFilter) {
-                $query->where('season', $seasonFilter->value);
+            AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ])
         ->get();
@@ -703,24 +690,24 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'year' => $yearFilter,
+                Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => 'anime',
+            IncludeParser::$param => AnimeTheme::RELATION_ANIME,
         ];
 
         AnimeTheme::factory()
             ->for(
                 Anime::factory()
                     ->state([
-                        'year' => $this->faker->boolean() ? $yearFilter : $excludedYear,
+                        Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
                     ])
             )
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = AnimeTheme::with([
-            'anime' => function (BelongsTo $query) use ($yearFilter) {
-                $query->where('year', $yearFilter);
+            AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ])
         ->get();
@@ -750,9 +737,9 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'facet' => $facetFilter->description,
+                Image::ATTRIBUTE_FACET => $facetFilter->description,
             ],
-            IncludeParser::$param => 'anime.images',
+            IncludeParser::$param => AnimeTheme::RELATION_IMAGES,
         ];
 
         AnimeTheme::factory()
@@ -764,8 +751,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = AnimeTheme::with([
-            'anime.images' => function (BelongsToMany $query) use ($facetFilter) {
-                $query->where('facet', $facetFilter->value);
+            AnimeTheme::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
+                $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
             },
         ])
         ->get();
@@ -795,9 +782,9 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'nsfw' => $nsfwFilter,
+                AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
             ],
-            IncludeParser::$param => 'animethemeentries',
+            IncludeParser::$param => AnimeTheme::RELATION_ENTRIES,
         ];
 
         AnimeTheme::factory()
@@ -807,8 +794,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = AnimeTheme::with([
-            'animethemeentries' => function (HasMany $query) use ($nsfwFilter) {
-                $query->where('nsfw', $nsfwFilter);
+            AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($nsfwFilter) {
+                $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter);
             },
         ])
         ->get();
@@ -838,9 +825,9 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'spoiler' => $spoilerFilter,
+                AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
             ],
-            IncludeParser::$param => 'animethemeentries',
+            IncludeParser::$param => AnimeTheme::RELATION_ENTRIES,
         ];
 
         AnimeTheme::factory()
@@ -850,8 +837,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = AnimeTheme::with([
-            'animethemeentries' => function (HasMany $query) use ($spoilerFilter) {
-                $query->where('spoiler', $spoilerFilter);
+            AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($spoilerFilter) {
+                $query->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter);
             },
         ])
         ->get();
@@ -882,9 +869,9 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'version' => $versionFilter,
+                AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
             ],
-            IncludeParser::$param => 'animethemeentries',
+            IncludeParser::$param => AnimeTheme::RELATION_ENTRIES,
         ];
 
         AnimeTheme::factory()
@@ -893,16 +880,16 @@ class ThemeIndexTest extends TestCase
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->state(new Sequence(
-                        ['version' => $versionFilter],
-                        ['version' => $excludedVersion],
+                        [AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter],
+                        [AnimeThemeEntry::ATTRIBUTE_VERSION => $excludedVersion],
                     ))
             )
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $themes = AnimeTheme::with([
-            'animethemeentries' => function (HasMany $query) use ($versionFilter) {
-                $query->where('version', $versionFilter);
+            AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($versionFilter) {
+                $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter);
             },
         ])
         ->get();
@@ -932,9 +919,9 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'lyrics' => $lyricsFilter,
+                Video::ATTRIBUTE_LYRICS => $lyricsFilter,
             ],
-            IncludeParser::$param => 'animethemeentries.videos',
+            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -948,8 +935,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = AnimeTheme::with([
-            'animethemeentries.videos' => function (BelongsToMany $query) use ($lyricsFilter) {
-                $query->where('lyrics', $lyricsFilter);
+            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($lyricsFilter) {
+                $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
             },
         ])
         ->get();
@@ -979,9 +966,9 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'nc' => $ncFilter,
+                Video::ATTRIBUTE_NC => $ncFilter,
             ],
-            IncludeParser::$param => 'animethemeentries.videos',
+            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -995,8 +982,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = AnimeTheme::with([
-            'animethemeentries.videos' => function (BelongsToMany $query) use ($ncFilter) {
-                $query->where('nc', $ncFilter);
+            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($ncFilter) {
+                $query->where(Video::ATTRIBUTE_NC, $ncFilter);
             },
         ])
         ->get();
@@ -1026,9 +1013,9 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'overlap' => $overlapFilter->description,
+                Video::ATTRIBUTE_OVERLAP => $overlapFilter->description,
             ],
-            IncludeParser::$param => 'animethemeentries.videos',
+            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -1042,8 +1029,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = AnimeTheme::with([
-            'animethemeentries.videos' => function (BelongsToMany $query) use ($overlapFilter) {
-                $query->where('overlap', $overlapFilter->value);
+            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($overlapFilter) {
+                $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
             },
         ])
         ->get();
@@ -1074,9 +1061,9 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'resolution' => $resolutionFilter,
+                Video::ATTRIBUTE_RESOLUTION => $resolutionFilter,
             ],
-            IncludeParser::$param => 'animethemeentries.videos',
+            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -1088,8 +1075,8 @@ class ThemeIndexTest extends TestCase
                         Video::factory()
                             ->count($this->faker->randomDigitNotNull())
                             ->state(new Sequence(
-                                ['resolution' => $resolutionFilter],
-                                ['resolution' => $excludedResolution],
+                                [Video::ATTRIBUTE_RESOLUTION => $resolutionFilter],
+                                [Video::ATTRIBUTE_RESOLUTION => $excludedResolution],
                             ))
                     )
             )
@@ -1097,8 +1084,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = AnimeTheme::with([
-            'animethemeentries.videos' => function (BelongsToMany $query) use ($resolutionFilter) {
-                $query->where('resolution', $resolutionFilter);
+            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($resolutionFilter) {
+                $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
             },
         ])
         ->get();
@@ -1128,9 +1115,9 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'source' => $sourceFilter->description,
+                Video::ATTRIBUTE_SOURCE => $sourceFilter->description,
             ],
-            IncludeParser::$param => 'animethemeentries.videos',
+            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -1144,8 +1131,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = AnimeTheme::with([
-            'animethemeentries.videos' => function (BelongsToMany $query) use ($sourceFilter) {
-                $query->where('source', $sourceFilter->value);
+            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($sourceFilter) {
+                $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
             },
         ])
         ->get();
@@ -1175,9 +1162,9 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'subbed' => $subbedFilter,
+                Video::ATTRIBUTE_SUBBED => $subbedFilter,
             ],
-            IncludeParser::$param => 'animethemeentries.videos',
+            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -1191,8 +1178,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = AnimeTheme::with([
-            'animethemeentries.videos' => function (BelongsToMany $query) use ($subbedFilter) {
-                $query->where('subbed', $subbedFilter);
+            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($subbedFilter) {
+                $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
             },
         ])
         ->get();
@@ -1222,9 +1209,9 @@ class ThemeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::$param => [
-                'uncen' => $uncenFilter,
+                Video::ATTRIBUTE_UNCEN => $uncenFilter,
             ],
-            IncludeParser::$param => 'animethemeentries.videos',
+            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -1238,8 +1225,8 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = AnimeTheme::with([
-            'animethemeentries.videos' => function (BelongsToMany $query) use ($uncenFilter) {
-                $query->where('uncen', $uncenFilter);
+            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($uncenFilter) {
+                $query->where(Video::ATTRIBUTE_UNCEN, $uncenFilter);
             },
         ])
         ->get();

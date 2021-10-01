@@ -4,19 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Admin\Collection;
 
-use App\Http\Api\Criteria\Filter\Criteria as FilterCriteria;
-use App\Http\Api\Criteria\Sort\Criteria;
-use App\Http\Api\Filter\Admin\Announcement\AnnouncementContentFilter;
-use App\Http\Api\Filter\Admin\Announcement\AnnouncementIdFilter;
-use App\Http\Api\Filter\Filter;
-use App\Http\Api\Sort\Admin\Announcement\AnnouncementContentSort;
-use App\Http\Api\Sort\Admin\Announcement\AnnouncementIdSort;
-use App\Http\Api\Sort\Sort;
+use App\Http\Api\Schema\Admin\AnnouncementSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Http\Resources\BaseCollection;
 use App\Models\Admin\Announcement;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 /**
  * Class AnnouncementCollection.
@@ -53,46 +46,12 @@ class AnnouncementCollection extends BaseCollection
     }
 
     /**
-     * The include paths a client is allowed to request.
+     * Get the resource schema.
      *
-     * @return string[]
+     * @return Schema
      */
-    public static function allowedIncludePaths(): array
+    public static function schema(): Schema
     {
-        return [];
-    }
-
-    /**
-     * The sorts that can be applied by the client for this resource.
-     *
-     * @param  Collection<Criteria>  $sortCriteria
-     * @return Sort[]
-     */
-    public static function sorts(Collection $sortCriteria): array
-    {
-        return array_merge(
-            parent::sorts($sortCriteria),
-            [
-                new AnnouncementIdSort($sortCriteria),
-                new AnnouncementContentSort($sortCriteria),
-            ]
-        );
-    }
-
-    /**
-     * The filters that can be applied by the client for this resource.
-     *
-     * @param  Collection<FilterCriteria>  $filterCriteria
-     * @return Filter[]
-     */
-    public static function filters(Collection $filterCriteria): array
-    {
-        return array_merge(
-            parent::filters($filterCriteria),
-            [
-                new AnnouncementIdFilter($filterCriteria),
-                new AnnouncementContentFilter($filterCriteria),
-            ]
-        );
+        return new AnnouncementSchema();
     }
 }

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\Auth\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,11 +19,11 @@ class CreateTeamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('teams', function (Blueprint $table) {
+        Schema::create(Team::TABLE, function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->index();
-            $table->string('name');
-            $table->boolean('personal_team');
+            $table->foreignId(Team::ATTRIBUTE_USER)->index();
+            $table->string(Team::ATTRIBUTE_NAME);
+            $table->boolean(Team::ATTRIBUTE_PERSONAL_TEAM);
             $table->timestamps();
         });
     }
@@ -34,6 +35,6 @@ class CreateTeamsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists(Team::TABLE);
     }
 }

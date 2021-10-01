@@ -78,8 +78,8 @@ class BalanceReconcileTest extends TestCase
         $balances = Balance::factory()
             ->count($createdBalanceCount)
             ->make([
-                'date' => Date::now()->format(AllowedDateFormat::YMD),
-                'service' => Service::DIGITALOCEAN,
+                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
         $this->mock(DigitalOceanBalanceRepository::class, function (MockInterface $mock) use ($balances) {
@@ -101,8 +101,8 @@ class BalanceReconcileTest extends TestCase
         Balance::factory()
             ->count($deletedBalanceCount)
             ->create([
-                'date' => Date::now()->format(AllowedDateFormat::YMD),
-                'service' => Service::DIGITALOCEAN,
+                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
         $this->mock(DigitalOceanBalanceRepository::class, function (MockInterface $mock) {
@@ -121,14 +121,14 @@ class BalanceReconcileTest extends TestCase
     {
         Balance::factory()
             ->create([
-                'date' => Date::now()->format(AllowedDateFormat::YMD),
-                'service' => Service::DIGITALOCEAN,
+                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
         $sourceBalances = Balance::factory()
             ->make([
-                'date' => Date::now()->format(AllowedDateFormat::YMD),
-                'service' => Service::DIGITALOCEAN,
+                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
         $this->mock(DigitalOceanBalanceRepository::class, function (MockInterface $mock) use ($sourceBalances) {

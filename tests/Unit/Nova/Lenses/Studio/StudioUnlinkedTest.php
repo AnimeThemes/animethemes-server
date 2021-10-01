@@ -35,6 +35,7 @@ class StudioUnlinkedTest extends TestCase
      * The Studio Unlinked Resource Lens shall contain Studio Fields.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFields()
@@ -50,6 +51,7 @@ class StudioUnlinkedTest extends TestCase
      * The Studio Unlinked Resource Lens fields shall be sortable.
      *
      * @return void
+     *
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
@@ -66,6 +68,7 @@ class StudioUnlinkedTest extends TestCase
      * The Studio Unlinked Resource Lens shall contain Studio Filters.
      *
      * @return void
+     *
      * @throws InvalidNovaLensException
      */
     public function testFilters()
@@ -84,6 +87,7 @@ class StudioUnlinkedTest extends TestCase
      * The Studio Unlinked Resource Lens shall use the 'withFilters' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -100,6 +104,7 @@ class StudioUnlinkedTest extends TestCase
      * The Studio Unlinked Resource Lens shall use the 'withOrdering' request.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -116,6 +121,7 @@ class StudioUnlinkedTest extends TestCase
      * The Studio Unlinked Lens shall filter Studios without Anime.
      *
      * @return void
+     *
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
@@ -130,7 +136,7 @@ class StudioUnlinkedTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $filteredStudios = Studio::query()->whereDoesntHave('anime')->get();
+        $filteredStudios = Studio::query()->whereDoesntHave(Studio::RELATION_ANIME)->get();
 
         $lens = static::novaLens(StudioUnlinkedLens::class);
 

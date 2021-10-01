@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Wiki\Anime;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
-use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Anime\Synonym\SynonymIndexRequest;
 use App\Http\Requests\Api\Wiki\Anime\Synonym\SynonymShowRequest;
 use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
@@ -16,7 +16,7 @@ use Illuminate\Http\JsonResponse;
 /**
  * Class SynonymController.
  */
-class SynonymController extends BaseController
+class SynonymController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,11 +26,13 @@ class SynonymController extends BaseController
      */
     public function index(SynonymIndexRequest $request): JsonResponse
     {
-        if ($this->query->hasSearchCriteria()) {
-            return SynonymCollection::performSearch($this->query, PaginationStrategy::OFFSET())->toResponse($request);
+        $query = $request->getQuery();
+
+        if ($query->hasSearchCriteria()) {
+            return SynonymCollection::performSearch($query, PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return SynonymCollection::performQuery($this->query)->toResponse($request);
+        return SynonymCollection::performQuery($query)->toResponse($request);
     }
 
     /**
@@ -42,7 +44,7 @@ class SynonymController extends BaseController
      */
     public function show(SynonymShowRequest $request, AnimeSynonym $synonym): JsonResponse
     {
-        $resource = SynonymResource::performQuery($synonym, $this->query);
+        $resource = SynonymResource::performQuery($synonym, $request->getQuery());
 
         return $resource->toResponse($request);
     }
