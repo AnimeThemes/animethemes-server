@@ -9,7 +9,7 @@ use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 use ElasticScoutDriverPlus\Paginator as ElasticsearchPaginator;
 use Illuminate\Contracts\Pagination\Paginator as EloquentPaginator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 /**
  * Class Criteria.

@@ -19,7 +19,7 @@ trait ReconcilesTransactionRepositories
     /**
      * The columns used for create and delete set operations.
      *
-     * @return array
+     * @return string[]
      */
     protected function columnsForCreateDelete(): array
     {

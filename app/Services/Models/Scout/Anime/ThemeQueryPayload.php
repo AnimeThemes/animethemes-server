@@ -6,11 +6,11 @@ namespace App\Services\Models\Scout\Anime;
 
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Services\Models\Scout\ElasticQueryPayload;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use ElasticScoutDriverPlus\Support\Query;
 
 /**
  * Class ThemeQueryPayload.
@@ -27,11 +27,11 @@ class ThemeQueryPayload extends ElasticQueryPayload
     /**
      * Build Elasticsearch query.
      *
-     * @return SearchRequestBuilder|BoolQueryBuilder
+     * @return SearchRequestBuilder
      */
-    public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder
+    public function buildQuery(): SearchRequestBuilder
     {
-        return AnimeTheme::boolSearch()
+        $query = Query::bool()
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('slug')
@@ -195,5 +195,7 @@ class ThemeQueryPayload extends ElasticQueryPayload
                 )
             )
             ->minimumShouldMatch(1);
+
+        return AnimeTheme::searchQuery($query);
     }
 }

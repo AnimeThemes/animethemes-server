@@ -206,7 +206,7 @@ trait ReconcilesRepositories
     /**
      * The columns used for create and delete set operations.
      *
-     * @return array
+     * @return string[]
      */
     protected function columnsForCreateDelete(): array
     {
@@ -280,7 +280,7 @@ trait ReconcilesRepositories
     /**
      * The columns used for update set operation.
      *
-     * @return array
+     * @return string[]
      */
     protected function columnsForUpdate(): array
     {

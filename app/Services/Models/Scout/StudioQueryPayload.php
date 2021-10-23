@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Services\Models\Scout;
 
 use App\Models\Wiki\Studio;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use ElasticScoutDriverPlus\Support\Query;
 
 /**
  * Class StudioQueryPayload.
@@ -25,11 +25,11 @@ class StudioQueryPayload extends ElasticQueryPayload
     /**
      * Build Elasticsearch query.
      *
-     * @return SearchRequestBuilder|BoolQueryBuilder
+     * @return SearchRequestBuilder
      */
-    public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder
+    public function buildQuery(): SearchRequestBuilder
     {
-        return Studio::boolSearch()
+        $query = Query::bool()
             ->should(
                 (new MatchPhraseQueryBuilder())
                     ->field('name')
@@ -50,5 +50,7 @@ class StudioQueryPayload extends ElasticQueryPayload
                     ->fuzziness('AUTO')
             )
             ->minimumShouldMatch(1);
+
+        return Studio::searchQuery($query);
     }
 }

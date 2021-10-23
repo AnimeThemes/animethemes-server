@@ -20,7 +20,6 @@ use BenSampo\Enum\Traits\CastsEnums;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\Wiki\VideoFactory;
-use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
@@ -50,8 +49,8 @@ use Laravel\Scout\Searchable;
 class Video extends BaseModel implements Streamable, Viewable
 {
     use CastsEnums;
+    use \ElasticScoutDriverPlus\Searchable;
     use InteractsWithViews;
-    use QueryDsl;
     use Searchable;
 
     public const TABLE = 'videos';

@@ -21,7 +21,6 @@ use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
 use Database\Factories\Wiki\AnimeFactory;
-use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -50,7 +49,7 @@ use Laravel\Scout\Searchable;
 class Anime extends BaseModel
 {
     use CastsEnums;
-    use QueryDsl;
+    use \ElasticScoutDriverPlus\Searchable;
     use Searchable;
 
     public const TABLE = 'anime';

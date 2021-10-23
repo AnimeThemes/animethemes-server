@@ -92,7 +92,7 @@ abstract class SearchableCollection extends BaseCollection
             $filterBuilder = $filter->applyElasticsearchFilter($query->getFilterCriteria(), $filterBuilder, $scope);
         }
         try {
-            $builder->filter($filterBuilder);
+            $builder->postFilter($filterBuilder);
         } catch (QueryBuilderException) {
             // There doesn't appear to be a way to check if any filters have been set in the filter builder
         }

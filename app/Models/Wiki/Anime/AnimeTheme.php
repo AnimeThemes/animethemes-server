@@ -18,7 +18,6 @@ use App\Models\Wiki\Song;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
 use Database\Factories\Wiki\Anime\AnimeThemeFactory;
-use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -44,7 +43,7 @@ use Laravel\Scout\Searchable;
 class AnimeTheme extends BaseModel
 {
     use CastsEnums;
-    use QueryDsl;
+    use \ElasticScoutDriverPlus\Searchable;
     use Searchable;
 
     public const TABLE = 'anime_themes';

@@ -24,7 +24,7 @@ class TransparencyRequest extends FormRequest
     /**
      * The list of valid transparency dates.
      *
-     * @var Collection
+     * @var Collection<Carbon>
      */
     protected Collection $validDates;
 
@@ -68,7 +68,7 @@ class TransparencyRequest extends FormRequest
     /**
      * Initialize list of year/month combinations for transparency filtering.
      *
-     * @return Collection
+     * @return Collection<Carbon>
      */
     protected function initializeValidDates(): Collection
     {
@@ -90,7 +90,7 @@ class TransparencyRequest extends FormRequest
     /**
      * Get the list of valid year/month combinations for transparency filtering.
      *
-     * @return Collection
+     * @return Collection<Carbon>
      */
     public function getValidDates(): Collection
     {

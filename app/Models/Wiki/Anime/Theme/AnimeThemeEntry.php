@@ -15,7 +15,6 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Video;
 use App\Pivots\AnimeThemeEntryVideo;
 use Database\Factories\Wiki\Anime\Theme\AnimeThemeEntryFactory;
-use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -42,7 +41,7 @@ use Znck\Eloquent\Relations\BelongsToThrough;
  */
 class AnimeThemeEntry extends BaseModel
 {
-    use QueryDsl;
+    use \ElasticScoutDriverPlus\Searchable;
     use Searchable;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 
