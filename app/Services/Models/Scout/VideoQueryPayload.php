@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Services\Models\Scout;
 
 use App\Models\Wiki\Video;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use ElasticScoutDriverPlus\Support\Query;
 
 /**
  * Class VideoQueryPayload.
@@ -26,11 +26,11 @@ class VideoQueryPayload extends ElasticQueryPayload
     /**
      * Build Elasticsearch query.
      *
-     * @return SearchRequestBuilder|BoolQueryBuilder
+     * @return SearchRequestBuilder
      */
-    public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder
+    public function buildQuery(): SearchRequestBuilder
     {
-        return Video::boolSearch()
+        $query = Query::bool()
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('filename')
@@ -323,5 +323,7 @@ class VideoQueryPayload extends ElasticQueryPayload
                 )
             )
             ->minimumShouldMatch(1);
+
+        return Video::searchQuery($query);
     }
 }

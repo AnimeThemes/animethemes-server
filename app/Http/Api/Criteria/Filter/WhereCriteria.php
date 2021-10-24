@@ -9,11 +9,9 @@ use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Scope\Scope;
 use App\Http\Api\Scope\ScopeParser;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
-use ElasticScoutDriverPlus\Builders\AbstractParameterizedQueryBuilder;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
-use ElasticScoutDriverPlus\Builders\RangeQueryBuilder;
-use ElasticScoutDriverPlus\Builders\TermQueryBuilder;
-use ElasticScoutDriverPlus\Builders\WildcardQueryBuilder;
+use ElasticScoutDriverPlus\Builders\QueryBuilderInterface;
+use ElasticScoutDriverPlus\Support\Query;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -156,34 +154,24 @@ class WhereCriteria extends Criteria
      *
      * @param  string  $column
      * @param  array  $filterValues
-     * @return AbstractParameterizedQueryBuilder
+     * @return QueryBuilderInterface
      */
-    protected function getElasticsearchClause(string $column, array $filterValues): AbstractParameterizedQueryBuilder
+    protected function getElasticsearchClause(string $column, array $filterValues): QueryBuilderInterface
     {
         $filterValue = $this->coerceFilterValue($filterValues);
 
         return match ($this->getComparisonOperator()?->value) {
-            ComparisonOperator::LT => (new RangeQueryBuilder())
-                ->field($column)
-                ->lt($filterValue),
-            ComparisonOperator::GT => (new RangeQueryBuilder())
-                ->field($column)
-                ->gt($filterValue),
-            ComparisonOperator::LTE => (new RangeQueryBuilder())
-                ->field($column)
-                ->lte($filterValue),
-            ComparisonOperator::GTE => (new RangeQueryBuilder())
-                ->field($column)
-                ->gte($filterValue),
-            ComparisonOperator::LIKE => (new WildcardQueryBuilder())
+            ComparisonOperator::LT => Query::range()->field($column)->lt($filterValue),
+            ComparisonOperator::GT => Query::range()->field($column)->gt($filterValue),
+            ComparisonOperator::LTE => Query::range()->field($column)->lte($filterValue),
+            ComparisonOperator::GTE => Query::range()->field($column)->gte($filterValue),
+            ComparisonOperator::LIKE => Query::wildcard()
                 ->field($column)
                 ->value(Str::replace(['%', '_'], ['*', '?'], $filterValue)),
-            ComparisonOperator::NOTLIKE => (new BoolQueryBuilder())->mustNot((new WildcardQueryBuilder())
-                ->field($column)
-                ->value(Str::replace(['%', '_'], ['*', '?'], $filterValue))),
-            default => (new TermQueryBuilder())
-                ->field($column)
-                ->value($filterValue),
+            ComparisonOperator::NOTLIKE => Query::bool()->mustNot(
+                Query::wildcard()->field($column)->value(Str::replace(['%', '_'], ['*', '?'], $filterValue))
+            ),
+            default => Query::term()->field($column)->value($filterValue),
         };
     }
 

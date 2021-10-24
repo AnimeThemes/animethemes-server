@@ -11,7 +11,6 @@ use App\Events\Wiki\Studio\StudioUpdated;
 use App\Models\BaseModel;
 use App\Pivots\AnimeStudio;
 use Database\Factories\Wiki\StudioFactory;
-use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Laravel\Scout\Searchable;
@@ -28,7 +27,7 @@ use Laravel\Scout\Searchable;
  */
 class Studio extends BaseModel
 {
-    use QueryDsl;
+    use \ElasticScoutDriverPlus\Searchable;
     use Searchable;
 
     public const TABLE = 'studios';

@@ -6,10 +6,10 @@ namespace App\Services\Models\Scout\Anime;
 
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Services\Models\Scout\ElasticQueryPayload;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use ElasticScoutDriverPlus\Support\Query;
 
 /**
  * Class SynonymQueryPayload.
@@ -26,11 +26,11 @@ class SynonymQueryPayload extends ElasticQueryPayload
     /**
      * Build Elasticsearch query.
      *
-     * @return SearchRequestBuilder|BoolQueryBuilder
+     * @return SearchRequestBuilder
      */
-    public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder
+    public function buildQuery(): SearchRequestBuilder
     {
-        return AnimeSynonym::boolSearch()
+        $query = Query::bool()
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('text')
@@ -51,5 +51,7 @@ class SynonymQueryPayload extends ElasticQueryPayload
                 ->fuzziness('AUTO')
             )
             ->minimumShouldMatch(1);
+
+        return AnimeSynonym::searchQuery($query);
     }
 }

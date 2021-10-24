@@ -7,6 +7,7 @@ namespace App\Concerns\Http\Resources;
 use App\Http\Api\Query;
 use App\Http\Api\Scope\ScopeParser;
 use App\Services\Http\Resources\DiscoverRelationCollection;
+use Closure;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 
@@ -19,7 +20,7 @@ trait PerformsConstrainedEagerLoading
      * Constrain eager loads by binding callbacks that filter on the relations.
      *
      * @param  Query  $query
-     * @return array
+     * @return array<string, Closure>
      */
     public static function performConstrainedEagerLoads(Query $query): array
     {

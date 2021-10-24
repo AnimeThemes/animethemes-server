@@ -21,7 +21,7 @@ class Criteria
     /**
      * Create a new criteria instance.
      *
-     * @param  Collection  $paths
+     * @param  Collection<string>  $paths
      */
     public function __construct(Collection $paths)
     {
@@ -31,7 +31,7 @@ class Criteria
     /**
      * Get the include paths.
      *
-     * @return Collection
+     * @return Collection<string>
      */
     public function getPaths(): Collection
     {

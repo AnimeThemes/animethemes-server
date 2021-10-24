@@ -12,21 +12,19 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-
-        <!-- Scripts -->
-        <script src="{{ mix('js/app.js') }}"></script>
-
-        <script type="text/javascript">
-            $(function () {
-                if (window.hljs) {
-                    hljs.highlightAll();
-                }
-            });
-        </script>
     </head>
     <body>
         <div class="font-sans text-gray-900 antialiased">
             {{ $slot }}
         </div>
+
+        <!-- Scripts -->
+        <script src="{{ mix('js/app.js') }}"></script>
+
+        <script type="text/javascript">
+            if (window.hljs) {
+                hljs.highlightAll();
+            }
+        </script>
     </body>
 </html>

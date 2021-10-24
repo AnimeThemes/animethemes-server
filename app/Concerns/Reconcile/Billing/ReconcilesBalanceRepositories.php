@@ -21,7 +21,7 @@ trait ReconcilesBalanceRepositories
     /**
      * The columns used for create and delete set operations.
      *
-     * @return array
+     * @return string[]
      */
     protected function columnsForCreateDelete(): array
     {
@@ -45,7 +45,7 @@ trait ReconcilesBalanceRepositories
     /**
      * The columns used for update set operation.
      *
-     * @return array
+     * @return string[]
      */
     protected function columnsForUpdate(): array
     {
@@ -80,10 +80,8 @@ trait ReconcilesBalanceRepositories
     {
         $formattedDestinationDate = $destinationModel->getAttribute(Balance::ATTRIBUTE_DATE)->format(AllowedDateFormat::YM);
 
-        $filteredSourceModels = $sourceModels->filter(function (Balance $balance) use ($formattedDestinationDate) {
-            return $balance->date->format(AllowedDateFormat::YM) === $formattedDestinationDate;
-        });
-
-        return $filteredSourceModels->first();
+        return $sourceModels->first(
+            fn (Balance $balance) => $balance->date->format(AllowedDateFormat::YM) === $formattedDestinationDate
+        );
     }
 }

@@ -11,7 +11,6 @@ use App\Events\Wiki\Series\SeriesUpdated;
 use App\Models\BaseModel;
 use App\Pivots\AnimeSeries;
 use Database\Factories\Wiki\SeriesFactory;
-use ElasticScoutDriverPlus\QueryDsl;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Laravel\Scout\Searchable;
@@ -28,7 +27,7 @@ use Laravel\Scout\Searchable;
  */
 class Series extends BaseModel
 {
-    use QueryDsl;
+    use \ElasticScoutDriverPlus\Searchable;
     use Searchable;
 
     public const TABLE = 'series';

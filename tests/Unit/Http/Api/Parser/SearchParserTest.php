@@ -44,6 +44,11 @@ class SearchParserTest extends TestCase
         static::assertInstanceOf(Criteria::class, $criteria);
     }
 
+    /**
+     * The Search parser shall parse the search term.
+     *
+     * @return void
+     */
     public function testParseSearchCriteriaTerm()
     {
         $term = $this->faker->word();

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Services\Models\Scout;
 
 use App\Models\Wiki\Artist;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use ElasticScoutDriverPlus\Support\Query;
 
 /**
  * Class ArtistQueryPayload.
@@ -26,11 +26,11 @@ class ArtistQueryPayload extends ElasticQueryPayload
     /**
      * Build Elasticsearch query.
      *
-     * @return SearchRequestBuilder|BoolQueryBuilder
+     * @return SearchRequestBuilder
      */
-    public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder
+    public function buildQuery(): SearchRequestBuilder
     {
-        return Artist::boolSearch()
+        $query = Query::bool()
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('name')
@@ -94,5 +94,7 @@ class ArtistQueryPayload extends ElasticQueryPayload
                 )
             )
             ->minimumShouldMatch(1);
+
+        return Artist::searchQuery($query);
     }
 }

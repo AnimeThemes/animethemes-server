@@ -10,12 +10,12 @@ parameters:
         - app
         - config
         - database
+        - elastic
         - routes
         - tests
 
     # The level 8 is the highest level
-    level: 5
+    level: 6
 
     ignoreErrors:
-        - '#Call to an undefined method ElasticScoutDriverPlus\\Builders\\SearchRequestBuilder::\w+\(\)#'
         - '#Call to an undefined method Mockery\\ExpectationInterface|Mockery\\HigherOrderMessage::once\(\).#'

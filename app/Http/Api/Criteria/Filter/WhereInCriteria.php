@@ -10,7 +10,7 @@ use App\Http\Api\Scope\Scope;
 use App\Http\Api\Scope\ScopeParser;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
-use ElasticScoutDriverPlus\Builders\TermsQueryBuilder;
+use ElasticScoutDriverPlus\Support\Query;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -151,7 +151,7 @@ class WhereInCriteria extends Criteria
         string $column,
         array $filterValues
     ): BoolQueryBuilder {
-        $clause = (new TermsQueryBuilder())->terms($column, $filterValues);
+        $clause = Query::terms()->field($column)->values($filterValues);
 
         if (BinaryLogicalOperator::OR()->is($this->getLogicalOperator())) {
             if ($this->not()) {

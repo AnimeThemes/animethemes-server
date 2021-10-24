@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Services\Models\Scout;
 
 use App\Models\Wiki\Song;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use ElasticScoutDriverPlus\Support\Query;
 
 /**
  * Class SongQueryPayload.
@@ -25,11 +25,11 @@ class SongQueryPayload extends ElasticQueryPayload
     /**
      * Build Elasticsearch query.
      *
-     * @return SearchRequestBuilder|BoolQueryBuilder
+     * @return SearchRequestBuilder
      */
-    public function buildQuery(): SearchRequestBuilder|BoolQueryBuilder
+    public function buildQuery(): SearchRequestBuilder
     {
-        return Song::boolSearch()
+        $query = Query::bool()
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('title')
@@ -50,5 +50,7 @@ class SongQueryPayload extends ElasticQueryPayload
                 ->fuzziness('AUTO')
             )
             ->minimumShouldMatch(1);
+
+        return Song::searchQuery($query);
     }
 }
