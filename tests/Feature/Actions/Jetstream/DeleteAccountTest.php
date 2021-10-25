@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Actions\Jetstream;
 
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Http\Livewire\DeleteUserForm;
 use Livewire\Livewire;
@@ -16,7 +15,6 @@ use Tests\TestCase;
  */
 class DeleteAccountTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * User accounts can be deleted.

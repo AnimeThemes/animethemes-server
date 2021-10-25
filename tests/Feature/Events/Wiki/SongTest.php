@@ -9,7 +9,6 @@ use App\Events\Wiki\Song\SongDeleted;
 use App\Events\Wiki\Song\SongRestored;
 use App\Events\Wiki\Song\SongUpdated;
 use App\Models\Wiki\Song;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class SongTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When a Song is created, a SongCreated event shall be dispatched.

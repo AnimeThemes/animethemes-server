@@ -8,7 +8,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Nova\Filters\Wiki\Anime\Theme\Entry\EntryNsfwFilter;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
 use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
@@ -21,7 +20,6 @@ use Tests\TestCase;
 class EntryNsfwTest extends TestCase
 {
     use NovaFilterTest;
-    use RefreshDatabase;
     use WithFaker;
 
     /**

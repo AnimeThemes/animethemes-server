@@ -10,7 +10,6 @@ use App\Events\Pivot\ArtistSong\ArtistSongUpdated;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\ArtistSong;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -19,7 +18,6 @@ use Tests\TestCase;
  */
 class ArtistSongTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When an Artist is attached to a Song or vice versa, an ArtistSongCreated event shall be dispatched.

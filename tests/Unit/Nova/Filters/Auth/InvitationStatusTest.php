@@ -7,7 +7,6 @@ namespace Tests\Unit\Nova\Filters\Auth;
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Models\Auth\Invitation;
 use App\Nova\Filters\Auth\InvitationStatusFilter;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
 use JoshGaber\NovaUnit\Filters\InvalidNovaFilterException;
@@ -20,7 +19,6 @@ use Tests\TestCase;
 class InvitationStatusTest extends TestCase
 {
     use NovaFilterTest;
-    use RefreshDatabase;
     use WithFaker;
 
     /**

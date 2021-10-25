@@ -7,7 +7,6 @@ namespace Tests\Feature\Console\Commands\Wiki;
 use App\Console\Commands\Wiki\VideoReconcileCommand;
 use App\Models\Wiki\Video;
 use App\Repositories\Service\DigitalOcean\VideoRepository;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
@@ -19,7 +18,6 @@ use Tests\TestCase;
  */
 class VideoReconcileTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 
@@ -44,6 +42,8 @@ class VideoReconcileTest extends TestCase
      */
     public function testCreated()
     {
+        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
+
         $createdVideoCount = $this->faker->randomDigitNotNull();
 
         $videos = Video::factory()->count($createdVideoCount)->make();

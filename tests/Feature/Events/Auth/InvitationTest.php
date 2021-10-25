@@ -9,7 +9,6 @@ use App\Events\Auth\Invitation\InvitationDeleted;
 use App\Events\Auth\Invitation\InvitationRestored;
 use App\Events\Auth\Invitation\InvitationUpdated;
 use App\Models\Auth\Invitation;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class InvitationTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When an Invitation is created, an InvitationCreated event shall be dispatched.

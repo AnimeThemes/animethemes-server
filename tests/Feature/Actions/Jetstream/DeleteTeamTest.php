@@ -6,7 +6,6 @@ namespace Tests\Feature\Actions\Jetstream;
 
 use App\Models\Auth\Team;
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Http\Livewire\DeleteTeamForm;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -16,7 +15,6 @@ use Tests\TestCase;
  */
 class DeleteTeamTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * Teams can be deleted.

@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Auth;
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Models\Auth\Invitation;
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class RegistrationTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

@@ -6,7 +6,6 @@ namespace Tests\Unit\Models\Billing;
 
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
@@ -15,7 +14,6 @@ use Tests\TestCase;
  */
 class TransactionTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * The service attribute of an transaction shall be cast to a Service enum instance.

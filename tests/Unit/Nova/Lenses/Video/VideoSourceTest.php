@@ -14,7 +14,6 @@ use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
 use App\Nova\Filters\Wiki\Video\VideoTypeFilter;
 use App\Nova\Lenses\Video\VideoSourceLens;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
@@ -29,7 +28,6 @@ use Tests\TestCase;
 class VideoSourceTest extends TestCase
 {
     use NovaLensTest;
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

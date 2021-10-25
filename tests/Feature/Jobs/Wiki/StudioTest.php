@@ -6,7 +6,6 @@ namespace Tests\Feature\Jobs\Wiki;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Studio;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -16,7 +15,6 @@ use Tests\TestCase;
  */
 class StudioTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When a studio is created, a SendDiscordNotification job shall be dispatched.

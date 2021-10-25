@@ -6,7 +6,6 @@ namespace Tests\Feature\Jobs\Admin;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Admin\Announcement;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -16,7 +15,6 @@ use Tests\TestCase;
  */
 class AnnouncementTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When an announcement is created, a SendDiscordNotification job shall be dispatched.

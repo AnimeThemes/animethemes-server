@@ -9,7 +9,6 @@ use App\Models\Auth\Team;
 use App\Models\Auth\User;
 use App\Policies\Auth\TeamPolicy;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
@@ -21,7 +20,6 @@ use Tests\TestCase;
  */
 class TeamPolicyTest extends TestCase
 {
-    use RefreshDatabase;
     use WithoutEvents;
     use WithFaker;
 

@@ -7,7 +7,6 @@ namespace Tests\Unit\Nova\Filters\Wiki\Image;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image;
 use App\Nova\Filters\Wiki\Image\ImageFacetFilter;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
@@ -21,7 +20,6 @@ use Tests\TestCase;
 class ImageFacetTest extends TestCase
 {
     use NovaFilterTest;
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

@@ -15,7 +15,6 @@ use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
 use App\Nova\Lenses\Artist\ArtistMalResourceLens;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
@@ -30,7 +29,6 @@ use Tests\TestCase;
 class ArtistMalResourceTest extends TestCase
 {
     use NovaLensTest;
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

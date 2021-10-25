@@ -6,7 +6,6 @@ namespace Tests\Unit\Policies\Wiki\Anime;
 
 use App\Models\Auth\User;
 use App\Policies\Wiki\Anime\AnimeThemePolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -14,7 +13,6 @@ use Tests\TestCase;
  */
 class AnimeThemePolicyTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * Any user regardless of role can view any theme.

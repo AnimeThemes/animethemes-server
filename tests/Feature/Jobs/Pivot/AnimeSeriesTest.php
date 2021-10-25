@@ -7,7 +7,6 @@ namespace Tests\Feature\Jobs\Pivot;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class AnimeSeriesTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When an Anime is attached to a Series or vice versa, a SendDiscordNotification job shall be dispatched.

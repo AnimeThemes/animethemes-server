@@ -16,7 +16,6 @@ use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
 use App\Nova\Filters\Wiki\Video\VideoTypeFilter;
 use App\Nova\Lenses\Video\VideoUnlinkedLens;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
 use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
@@ -30,7 +29,6 @@ use Tests\TestCase;
 class VideoUnlinkedTest extends TestCase
 {
     use NovaLensTest;
-    use RefreshDatabase;
     use WithFaker;
 
     /**

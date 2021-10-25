@@ -9,7 +9,6 @@ use App\Events\Pivot\ArtistMember\ArtistMemberDeleted;
 use App\Events\Pivot\ArtistMember\ArtistMemberUpdated;
 use App\Models\Wiki\Artist;
 use App\Pivots\ArtistMember;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class ArtistMemberTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When an Artist is attached to a Member or vice versa, an ArtistMemberCreated event shall be dispatched.

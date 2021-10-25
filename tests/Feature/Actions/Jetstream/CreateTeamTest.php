@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Actions\Jetstream;
 
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Http\Livewire\CreateTeamForm;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -15,7 +14,6 @@ use Tests\TestCase;
  */
 class CreateTeamTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * Teams cannot be created.

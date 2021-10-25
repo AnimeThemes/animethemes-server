@@ -9,7 +9,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Actions\Wiki\Artist\CreateExternalResourceSiteForArtistAction;
 use App\Rules\Wiki\ResourceSiteDomainRule;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Validation\Rule;
@@ -25,7 +24,6 @@ use Tests\TestCase;
 class CreateExternalResourceSiteForArtistTest extends TestCase
 {
     use NovaActionTest;
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

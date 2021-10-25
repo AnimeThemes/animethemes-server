@@ -9,7 +9,6 @@ use App\Events\Wiki\Series\SeriesDeleted;
 use App\Events\Wiki\Series\SeriesRestored;
 use App\Events\Wiki\Series\SeriesUpdated;
 use App\Models\Wiki\Series;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class SeriesTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When a Series is created, a SeriesCreated event shall be dispatched.

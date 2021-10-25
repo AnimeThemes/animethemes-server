@@ -6,7 +6,6 @@ namespace Tests\Feature\Listeners\Wiki;
 
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -16,7 +15,6 @@ use Tests\TestCase;
  */
 class InitializeVideoTagsTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

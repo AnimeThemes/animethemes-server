@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Wiki;
 
 use App\Models\Wiki\Image;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -16,7 +15,6 @@ use Tests\TestCase;
  */
 class ImageTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

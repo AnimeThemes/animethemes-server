@@ -9,7 +9,6 @@ use App\Events\Wiki\Studio\StudioDeleted;
 use App\Events\Wiki\Studio\StudioRestored;
 use App\Events\Wiki\Studio\StudioUpdated;
 use App\Models\Wiki\Studio;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class StudioTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When a Studio is created, a StudioCreated event shall be dispatched.

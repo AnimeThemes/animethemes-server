@@ -8,7 +8,6 @@ use App\Events\Pivot\AnimeStudio\AnimeStudioCreated;
 use App\Events\Pivot\AnimeStudio\AnimeStudioDeleted;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class AnimeStudioTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When an Anime is attached to a Studio or vice versa, an AnimeStudioCreated event shall be dispatched.

@@ -6,7 +6,6 @@ namespace Tests\Unit\Policies\Auth;
 
 use App\Models\Auth\User;
 use App\Policies\Auth\InvitationPolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -14,7 +13,6 @@ use Tests\TestCase;
  */
 class InvitationPolicyTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * An admin can view any invitation.

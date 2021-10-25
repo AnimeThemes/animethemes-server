@@ -9,7 +9,6 @@ use App\Events\Wiki\Video\VideoDeleted;
 use App\Events\Wiki\Video\VideoRestored;
 use App\Events\Wiki\Video\VideoUpdated;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class VideoTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When a Video is created, a VideoCreated event shall be dispatched.

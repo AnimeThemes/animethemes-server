@@ -9,7 +9,6 @@ use App\Events\Billing\Balance\BalanceDeleted;
 use App\Events\Billing\Balance\BalanceRestored;
 use App\Events\Billing\Balance\BalanceUpdated;
 use App\Models\Billing\Balance;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class BalanceTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When an Balance is created, an BalanceCreated event shall be dispatched.

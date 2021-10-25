@@ -8,7 +8,6 @@ use App\Console\Commands\Billing\TransactionReconcileCommand;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction;
 use App\Repositories\Service\DigitalOcean\Billing\DigitalOceanTransactionRepository;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
@@ -21,7 +20,6 @@ use Tests\TestCase;
  */
 class TransactionReconcileTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 
@@ -71,6 +69,8 @@ class TransactionReconcileTest extends TestCase
      */
     public function testCreated()
     {
+        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
+
         $createdTransactionCount = $this->faker->randomDigitNotNull();
 
         $transactions = Transaction::factory()

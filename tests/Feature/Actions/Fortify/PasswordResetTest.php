@@ -6,7 +6,6 @@ namespace Tests\Feature\Actions\Fortify;
 
 use App\Models\Auth\User;
 use Illuminate\Auth\Notifications\ResetPassword;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Fortify\Features;
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class PasswordResetTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

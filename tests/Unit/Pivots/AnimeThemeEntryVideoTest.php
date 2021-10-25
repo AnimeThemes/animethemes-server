@@ -10,7 +10,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class AnimeThemeEntryVideoTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * An AnimeThemeEntryVideo shall belong to a Video.

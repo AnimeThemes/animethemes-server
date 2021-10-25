@@ -6,7 +6,6 @@ namespace Tests\Unit\Policies\Billing;
 
 use App\Models\Auth\User;
 use App\Policies\Billing\BalancePolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -14,7 +13,6 @@ use Tests\TestCase;
  */
 class BalancePolicyTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * An admin can view any balance.

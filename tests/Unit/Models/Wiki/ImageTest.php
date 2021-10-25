@@ -11,7 +11,6 @@ use App\Models\Wiki\Image;
 use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Http\Testing\MimeType;
@@ -24,7 +23,6 @@ use Tests\TestCase;
  */
 class ImageTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

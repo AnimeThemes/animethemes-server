@@ -34,7 +34,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -43,7 +42,6 @@ use Tests\TestCase;
  */
 class VideoIndexTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

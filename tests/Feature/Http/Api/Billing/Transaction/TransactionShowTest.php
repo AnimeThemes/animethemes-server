@@ -10,7 +10,6 @@ use App\Http\Api\Query;
 use App\Http\Api\Schema\Billing\TransactionSchema;
 use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\Billing\Transaction;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
@@ -20,7 +19,6 @@ use Tests\TestCase;
  */
 class TransactionShowTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

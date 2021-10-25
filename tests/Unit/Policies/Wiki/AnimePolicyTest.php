@@ -10,7 +10,6 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Studio;
 use App\Policies\Wiki\AnimePolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
@@ -19,7 +18,6 @@ use Tests\TestCase;
  */
 class AnimePolicyTest extends TestCase
 {
-    use RefreshDatabase;
     use WithoutEvents;
 
     /**

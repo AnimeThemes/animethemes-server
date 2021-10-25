@@ -8,7 +8,6 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Policies\Wiki\ArtistPolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class ArtistPolicyTest extends TestCase
 {
-    use RefreshDatabase;
     use WithoutEvents;
 
     /**

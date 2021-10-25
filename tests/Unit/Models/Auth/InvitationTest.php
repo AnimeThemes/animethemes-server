@@ -7,7 +7,6 @@ namespace Tests\Unit\Models\Auth;
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Mail\InvitationMail;
 use App\Models\Auth\Invitation;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class InvitationTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * The status attribute of an invitation shall be cast to an InvitationStatus enum instance.

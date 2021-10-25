@@ -9,7 +9,6 @@ use App\Events\Admin\Announcement\AnnouncementDeleted;
 use App\Events\Admin\Announcement\AnnouncementRestored;
 use App\Events\Admin\Announcement\AnnouncementUpdated;
 use App\Models\Admin\Announcement;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class AnnouncementTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When an Announcement is created, an AnnouncementCreated event shall be dispatched.

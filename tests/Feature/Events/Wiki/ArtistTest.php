@@ -9,7 +9,6 @@ use App\Events\Wiki\Artist\ArtistDeleted;
 use App\Events\Wiki\Artist\ArtistRestored;
 use App\Events\Wiki\Artist\ArtistUpdated;
 use App\Models\Wiki\Artist;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class ArtistTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When an Artist is created, an ArtistCreated event shall be dispatched.

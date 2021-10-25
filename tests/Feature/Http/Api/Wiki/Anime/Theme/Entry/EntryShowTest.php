@@ -19,7 +19,6 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -28,7 +27,6 @@ use Tests\TestCase;
  */
 class EntryShowTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

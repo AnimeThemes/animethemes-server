@@ -6,7 +6,6 @@ namespace Tests\Unit\Policies\Auth;
 
 use App\Models\Auth\User;
 use App\Policies\Auth\UserPolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
@@ -15,7 +14,6 @@ use Tests\TestCase;
  */
 class UserPolicyTest extends TestCase
 {
-    use RefreshDatabase;
     use WithoutEvents;
 
     /**

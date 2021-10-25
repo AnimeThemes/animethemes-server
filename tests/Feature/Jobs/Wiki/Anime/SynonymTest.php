@@ -7,7 +7,6 @@ namespace Tests\Feature\Jobs\Wiki\Anime;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class SynonymTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When a synonym is created, a SendDiscordNotification job shall be dispatched.

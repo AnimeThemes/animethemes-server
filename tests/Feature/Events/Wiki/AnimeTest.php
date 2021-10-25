@@ -9,7 +9,6 @@ use App\Events\Wiki\Anime\AnimeDeleted;
 use App\Events\Wiki\Anime\AnimeRestored;
 use App\Events\Wiki\Anime\AnimeUpdated;
 use App\Models\Wiki\Anime;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class AnimeTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When an Anime is created, an AnimeCreated event shall be dispatched.

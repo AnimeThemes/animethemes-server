@@ -17,7 +17,6 @@ use App\Nova\Filters\Wiki\Anime\AnimeSeasonFilter;
 use App\Nova\Filters\Wiki\Anime\AnimeYearFilter;
 use App\Nova\Lenses\Anime\AnimePlanetResourceLens;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
@@ -32,7 +31,6 @@ use Tests\TestCase;
 class AnimePlanetResourceTest extends TestCase
 {
     use NovaLensTest;
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

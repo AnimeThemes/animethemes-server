@@ -9,7 +9,6 @@ use App\Events\Billing\Transaction\TransactionDeleted;
 use App\Events\Billing\Transaction\TransactionRestored;
 use App\Events\Billing\Transaction\TransactionUpdated;
 use App\Models\Billing\Transaction;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class TransactionTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When an Transaction is created, an TransactionCreated event shall be dispatched.

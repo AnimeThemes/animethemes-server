@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Actions\Fortify;
 
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Features;
 use Tests\TestCase;
 
@@ -14,7 +13,6 @@ use Tests\TestCase;
  */
 class PasswordConfirmationTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * Confirm password screen can be rendered.

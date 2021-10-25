@@ -17,7 +17,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -26,7 +25,6 @@ use Tests\TestCase;
  */
 class SeriesShowTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

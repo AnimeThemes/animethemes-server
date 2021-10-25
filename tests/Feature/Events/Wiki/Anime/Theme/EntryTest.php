@@ -11,7 +11,6 @@ use App\Events\Wiki\Anime\Theme\Entry\EntryUpdated;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -20,7 +19,6 @@ use Tests\TestCase;
  */
 class EntryTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * When an Entry is created, an EntryCreated event shall be dispatched.

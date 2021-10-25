@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Actions\Jetstream;
 
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Http\Livewire\TeamMemberManager;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -15,7 +14,6 @@ use Tests\TestCase;
  */
 class RemoveTeamMemberTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * Team members can be removed from teams.

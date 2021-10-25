@@ -8,7 +8,6 @@ use App\Enums\Models\Auth\InvitationStatus;
 use App\Mail\InvitationMail;
 use App\Models\Auth\Invitation;
 use App\Nova\Actions\Auth\ResendInvitationAction;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
 use JoshGaber\NovaUnit\Actions\InvalidNovaActionException;
@@ -22,7 +21,6 @@ use Tests\TestCase;
 class ResendInvitationTest extends TestCase
 {
     use NovaActionTest;
-    use RefreshDatabase;
     use WithFaker;
 
     /**

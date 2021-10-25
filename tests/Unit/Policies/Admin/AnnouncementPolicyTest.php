@@ -6,7 +6,6 @@ namespace Tests\Unit\Policies\Admin;
 
 use App\Models\Auth\User;
 use App\Policies\Admin\AnnouncementPolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
@@ -15,7 +14,6 @@ use Tests\TestCase;
  */
 class AnnouncementPolicyTest extends TestCase
 {
-    use RefreshDatabase;
     use WithoutEvents;
 
     /**

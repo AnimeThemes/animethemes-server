@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Actions\Jetstream;
 
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Http\Livewire\ApiTokenManager;
 use Livewire\Livewire;
@@ -16,7 +15,6 @@ use Tests\TestCase;
  */
 class CreateApiTokenTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * API tokens can be created.
