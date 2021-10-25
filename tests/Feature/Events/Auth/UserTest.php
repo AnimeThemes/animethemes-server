@@ -9,7 +9,6 @@ use App\Events\Auth\User\UserDeleted;
 use App\Events\Auth\User\UserRestored;
 use App\Events\Auth\User\UserUpdated;
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 class UserTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When a User is created, a UserCreated event shall be dispatched.
      *

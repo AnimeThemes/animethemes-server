@@ -21,7 +21,6 @@ use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\BaseModel;
 use App\Models\Billing\Transaction;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
@@ -31,7 +30,6 @@ use Tests\TestCase;
  */
 class TransactionIndexTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

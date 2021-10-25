@@ -9,7 +9,6 @@ use App\Events\Wiki\ExternalResource\ExternalResourceDeleted;
 use App\Events\Wiki\ExternalResource\ExternalResourceRestored;
 use App\Events\Wiki\ExternalResource\ExternalResourceUpdated;
 use App\Models\Wiki\ExternalResource;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 class ExternalResourceTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When a Resource is created, an ExternalResourceCreated event shall be dispatched.
      *

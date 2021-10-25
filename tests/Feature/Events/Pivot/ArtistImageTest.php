@@ -8,7 +8,6 @@ use App\Events\Pivot\ArtistImage\ArtistImageCreated;
 use App\Events\Pivot\ArtistImage\ArtistImageDeleted;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 class ArtistImageTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When an Artist is attached to an Image or vice versa, an ArtistImageCreated event shall be dispatched.
      *

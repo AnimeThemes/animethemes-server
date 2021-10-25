@@ -14,7 +14,6 @@ use App\Http\Resources\Wiki\Collection\SongCollection;
 use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
 use App\Http\Resources\Wiki\Resource\SearchResource;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
@@ -24,7 +23,6 @@ use Tests\TestCase;
  */
 class SearchTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

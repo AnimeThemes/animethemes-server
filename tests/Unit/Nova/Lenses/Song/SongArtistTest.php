@@ -13,7 +13,6 @@ use App\Nova\Filters\Base\DeletedStartDateFilter;
 use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
 use App\Nova\Lenses\Song\SongArtistLens;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
@@ -28,7 +27,6 @@ use Tests\TestCase;
 class SongArtistTest extends TestCase
 {
     use NovaLensTest;
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

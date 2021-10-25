@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Wiki;
 
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class VideoTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

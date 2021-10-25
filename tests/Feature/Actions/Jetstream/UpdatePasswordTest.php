@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Actions\Jetstream;
 
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Jetstream\Http\Livewire\UpdatePasswordForm;
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class UpdatePasswordTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

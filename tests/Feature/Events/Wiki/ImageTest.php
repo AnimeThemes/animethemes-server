@@ -9,7 +9,6 @@ use App\Events\Wiki\Image\ImageDeleted;
 use App\Events\Wiki\Image\ImageRestored;
 use App\Events\Wiki\Image\ImageUpdated;
 use App\Models\Wiki\Image;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 class ImageTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When an Image is created, an ImageCreated event shall be dispatched.
      *

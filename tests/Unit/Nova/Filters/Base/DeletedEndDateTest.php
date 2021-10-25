@@ -9,7 +9,6 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Http\Request;
@@ -24,7 +23,6 @@ use Tests\TestCase;
 class DeletedEndDateTest extends TestCase
 {
     use NovaFilterTest;
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

@@ -7,7 +7,6 @@ namespace Tests\Unit\Models\Wiki\Anime;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class AnimeSynonymTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

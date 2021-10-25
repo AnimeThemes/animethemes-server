@@ -21,7 +21,6 @@ use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\BaseModel;
 use App\Models\Billing\Balance;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
@@ -31,7 +30,6 @@ use Tests\TestCase;
  */
 class BalanceIndexTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

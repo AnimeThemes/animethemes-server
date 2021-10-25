@@ -6,7 +6,6 @@ namespace Tests\Feature\Jobs\Wiki;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\ExternalResource;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class ExternalResourceTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When a resource is created, a SendDiscordNotification job shall be dispatched.
      *

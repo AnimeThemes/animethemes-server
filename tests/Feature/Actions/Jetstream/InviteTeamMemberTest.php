@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Actions\Jetstream;
 
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Jetstream\Http\Livewire\TeamMemberManager;
 use Laravel\Jetstream\Mail\TeamInvitation;
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 class InviteTeamMemberTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Team members can be invited to team.
      *

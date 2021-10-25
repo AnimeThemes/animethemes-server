@@ -7,7 +7,6 @@ namespace Tests\Unit\Nova\Filters\Billing;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
 use App\Nova\Filters\Billing\ServiceFilter;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
@@ -21,7 +20,6 @@ use Tests\TestCase;
 class BillingServiceTest extends TestCase
 {
     use NovaFilterTest;
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

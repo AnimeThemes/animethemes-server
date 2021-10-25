@@ -10,7 +10,6 @@ use App\Events\Wiki\Anime\Synonym\SynonymRestored;
 use App\Events\Wiki\Anime\Synonym\SynonymUpdated;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -19,8 +18,6 @@ use Tests\TestCase;
  */
 class SynonymTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When a Synonym is created, a SynonymCreated event shall be dispatched.
      *

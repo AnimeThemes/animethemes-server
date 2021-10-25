@@ -10,7 +10,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -19,8 +18,6 @@ use Tests\TestCase;
  */
 class AnimeThemeEntryVideoTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When a Video is attached to an AnimeThemeEntry or vice versa, an AnimeThemeEntryVideoTest event shall be dispatched.
      *

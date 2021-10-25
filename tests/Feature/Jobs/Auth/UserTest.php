@@ -6,7 +6,6 @@ namespace Tests\Feature\Jobs\Auth;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class UserTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When a user is created, a SendDiscordNotification job shall be dispatched.
      *

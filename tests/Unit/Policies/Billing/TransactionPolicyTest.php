@@ -6,7 +6,6 @@ namespace Tests\Unit\Policies\Billing;
 
 use App\Models\Auth\User;
 use App\Policies\Billing\TransactionPolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -14,8 +13,6 @@ use Tests\TestCase;
  */
 class TransactionPolicyTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * An admin can view any transaction.
      *

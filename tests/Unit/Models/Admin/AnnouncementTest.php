@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Admin;
 
 use App\Models\Admin\Announcement;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
@@ -14,8 +13,6 @@ use Tests\TestCase;
  */
 class AnnouncementTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Announcement shall be auditable.
      *

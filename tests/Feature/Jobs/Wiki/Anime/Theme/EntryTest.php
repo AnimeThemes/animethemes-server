@@ -8,7 +8,6 @@ use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 class EntryTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When an entry is created, a SendDiscordNotification job shall be dispatched.
      *

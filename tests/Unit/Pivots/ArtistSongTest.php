@@ -8,7 +8,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\ArtistSong;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class ArtistSongTest extends TestCase
 {
-    use RefreshDatabase;
     use WithoutEvents;
 
     /**

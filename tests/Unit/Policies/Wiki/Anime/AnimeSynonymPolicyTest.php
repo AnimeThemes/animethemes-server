@@ -6,7 +6,6 @@ namespace Tests\Unit\Policies\Wiki\Anime;
 
 use App\Models\Auth\User;
 use App\Policies\Wiki\Anime\AnimeSynonymPolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
@@ -15,7 +14,6 @@ use Tests\TestCase;
  */
 class AnimeSynonymPolicyTest extends TestCase
 {
-    use RefreshDatabase;
     use WithoutEvents;
 
     /**

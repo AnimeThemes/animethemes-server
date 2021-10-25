@@ -10,7 +10,6 @@ use App\Events\Pivot\ArtistResource\ArtistResourceUpdated;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\ArtistResource;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -19,8 +18,6 @@ use Tests\TestCase;
  */
 class ArtistResourceTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When an Artist is attached to a Resource or vice versa, an ArtistResourceCreated event shall be dispatched.
      *

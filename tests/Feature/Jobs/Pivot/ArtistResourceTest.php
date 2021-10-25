@@ -8,7 +8,6 @@ use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\ArtistResource;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 class ArtistResourceTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When an Artist is attached to a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
      *

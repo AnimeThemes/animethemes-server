@@ -14,7 +14,6 @@ use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -24,7 +23,6 @@ use Tests\TestCase;
  */
 class YearShowTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

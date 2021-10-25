@@ -13,7 +13,6 @@ use App\Pivots\ArtistMember;
 use App\Pivots\ArtistResource;
 use App\Pivots\ArtistSong;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -23,7 +22,6 @@ use Tests\TestCase;
  */
 class ArtistTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

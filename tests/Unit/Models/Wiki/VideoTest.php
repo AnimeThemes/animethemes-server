@@ -14,7 +14,6 @@ use App\Pivots\AnimeThemeEntryVideo;
 use CyrildeWit\EloquentViewable\View;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -24,7 +23,6 @@ use Tests\TestCase;
  */
 class VideoTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

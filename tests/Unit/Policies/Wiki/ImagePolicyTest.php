@@ -9,7 +9,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Policies\Wiki\ImagePolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class ImagePolicyTest extends TestCase
 {
-    use RefreshDatabase;
     use WithoutEvents;
 
     /**

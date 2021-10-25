@@ -7,7 +7,6 @@ namespace Tests\Unit\Nova\Filters\Wiki\ExternalResource;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Filters\Wiki\ExternalResource\ExternalResourceSiteFilter;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
@@ -21,7 +20,6 @@ use Tests\TestCase;
 class ExternalResourceSiteTest extends TestCase
 {
     use NovaFilterTest;
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

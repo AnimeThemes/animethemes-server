@@ -10,7 +10,6 @@ use App\Http\Api\Query;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
@@ -20,7 +19,6 @@ use Tests\TestCase;
  */
 class AnnouncementShowTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

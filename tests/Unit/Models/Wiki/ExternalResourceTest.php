@@ -11,7 +11,6 @@ use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -21,7 +20,6 @@ use Tests\TestCase;
  */
 class ExternalResourceTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

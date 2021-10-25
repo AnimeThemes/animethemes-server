@@ -11,7 +11,6 @@ use App\Models\Wiki\Video;
 use App\Pivots\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -22,7 +21,6 @@ use Znck\Eloquent\Relations\BelongsToThrough;
  */
 class AnimeThemeEntryTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

@@ -8,7 +8,6 @@ use App\Events\Pivot\AnimeSeries\AnimeSeriesCreated;
 use App\Events\Pivot\AnimeSeries\AnimeSeriesDeleted;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 class AnimeSeriesTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When an Anime is attached to a Series or vice versa, an AnimeSeriesCreated event shall be dispatched.
      *

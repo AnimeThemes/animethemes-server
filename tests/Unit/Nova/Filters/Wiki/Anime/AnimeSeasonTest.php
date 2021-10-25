@@ -7,7 +7,6 @@ namespace Tests\Unit\Nova\Filters\Wiki\Anime;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime;
 use App\Nova\Filters\Wiki\Anime\AnimeSeasonFilter;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
@@ -21,7 +20,6 @@ use Tests\TestCase;
 class AnimeSeasonTest extends TestCase
 {
     use NovaFilterTest;
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

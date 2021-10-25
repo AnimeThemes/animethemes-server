@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Billing;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Billing\Balance;
 use App\Models\Billing\Transaction;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Date;
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class TransparencyTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

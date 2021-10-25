@@ -8,7 +8,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
 use App\Pivots\AnimeStudio;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 class StudioTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

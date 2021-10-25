@@ -12,7 +12,6 @@ use App\Nova\Filters\Base\DeletedEndDateFilter;
 use App\Nova\Filters\Base\DeletedStartDateFilter;
 use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Exceptions\InvalidModelException;
@@ -27,7 +26,6 @@ use Tests\TestCase;
 class StudioUnlinkedTest extends TestCase
 {
     use NovaLensTest;
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

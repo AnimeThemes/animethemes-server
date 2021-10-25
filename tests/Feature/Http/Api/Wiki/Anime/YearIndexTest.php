@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Anime;
 
 use App\Models\Wiki\Anime;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
@@ -15,7 +14,6 @@ use Tests\TestCase;
  */
 class YearIndexTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

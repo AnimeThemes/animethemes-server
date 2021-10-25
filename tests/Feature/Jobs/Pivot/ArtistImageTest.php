@@ -7,7 +7,6 @@ namespace Tests\Feature\Jobs\Pivot;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 class ArtistImageTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When an Artist is attached to an Image or vice versa, a SendDiscordNotification job shall be dispatched.
      *

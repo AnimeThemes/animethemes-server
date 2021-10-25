@@ -18,7 +18,6 @@ use App\Pivots\AnimeSeries;
 use App\Pivots\AnimeStudio;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -28,7 +27,6 @@ use Tests\TestCase;
  */
 class AnimeTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

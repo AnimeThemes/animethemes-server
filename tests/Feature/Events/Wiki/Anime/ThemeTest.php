@@ -10,7 +10,6 @@ use App\Events\Wiki\Anime\Theme\ThemeRestored;
 use App\Events\Wiki\Anime\Theme\ThemeUpdated;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -19,8 +18,6 @@ use Tests\TestCase;
  */
 class ThemeTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When a Theme is created, a ThemeCreated event shall be dispatched.
      *

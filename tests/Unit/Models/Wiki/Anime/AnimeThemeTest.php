@@ -11,7 +11,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Song;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -21,7 +20,6 @@ use Tests\TestCase;
  */
 class AnimeThemeTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

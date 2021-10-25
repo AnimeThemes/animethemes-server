@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Actions\Jetstream;
 
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Http\Livewire\TwoFactorAuthenticationForm;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -15,8 +14,6 @@ use Tests\TestCase;
  */
 class TwoFactorAuthenticationSettingsTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Two factor authentication can be enabled.
      *

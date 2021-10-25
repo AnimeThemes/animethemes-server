@@ -8,7 +8,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class AnimeResourceTest extends TestCase
 {
-    use RefreshDatabase;
     use WithoutEvents;
 
     /**

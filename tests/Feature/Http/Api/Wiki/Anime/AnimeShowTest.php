@@ -26,7 +26,6 @@ use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -35,7 +34,6 @@ use Tests\TestCase;
  */
 class AnimeShowTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

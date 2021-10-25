@@ -7,7 +7,6 @@ namespace Tests\Unit\Models\Billing;
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class BalanceTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * The service attribute of an balance shall be cast to a Service enum instance.
      *

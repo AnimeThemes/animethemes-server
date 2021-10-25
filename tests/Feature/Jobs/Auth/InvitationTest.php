@@ -6,7 +6,6 @@ namespace Tests\Feature\Jobs\Auth;
 
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Auth\Invitation;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class InvitationTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When an invitation is created, a SendDiscordNotification job shall be dispatched.
      *

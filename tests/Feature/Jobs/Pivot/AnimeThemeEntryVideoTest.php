@@ -9,7 +9,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -19,8 +18,6 @@ use Tests\TestCase;
  */
 class AnimeThemeEntryVideoTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When a Video is attached to an AnimeThemeEntry or vice versa, a SendDiscordNotification job shall be dispatched.
      *

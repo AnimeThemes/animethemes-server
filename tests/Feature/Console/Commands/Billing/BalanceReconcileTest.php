@@ -9,7 +9,6 @@ use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
 use App\Repositories\Service\DigitalOcean\Billing\DigitalOceanBalanceRepository;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
@@ -23,7 +22,6 @@ use Tests\TestCase;
  */
 class BalanceReconcileTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 
@@ -73,6 +71,8 @@ class BalanceReconcileTest extends TestCase
      */
     public function testCreated()
     {
+        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
+
         $createdBalanceCount = $this->faker->randomDigitNotNull();
 
         $balances = Balance::factory()

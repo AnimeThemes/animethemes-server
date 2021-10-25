@@ -7,7 +7,6 @@ namespace Tests\Unit\Pivots;
 use App\Models\Wiki\Artist;
 use App\Pivots\ArtistMember;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
@@ -16,7 +15,6 @@ use Tests\TestCase;
  */
 class ArtistMemberTest extends TestCase
 {
-    use RefreshDatabase;
     use WithoutEvents;
 
     /**

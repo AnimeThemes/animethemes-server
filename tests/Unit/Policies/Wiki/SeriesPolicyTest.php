@@ -8,7 +8,6 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use App\Policies\Wiki\SeriesPolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class SeriesPolicyTest extends TestCase
 {
-    use RefreshDatabase;
     use WithoutEvents;
 
     /**

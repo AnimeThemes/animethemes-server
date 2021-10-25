@@ -27,7 +27,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
@@ -37,7 +36,6 @@ use Tests\TestCase;
  */
 class SynonymIndexTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
     use WithoutEvents;
 

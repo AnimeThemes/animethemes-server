@@ -10,7 +10,6 @@ use App\Events\Pivot\AnimeResource\AnimeResourceUpdated;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -19,8 +18,6 @@ use Tests\TestCase;
  */
 class AnimeResourceTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * When an Anime is attached to a Resource or vice versa, an AnimeResourceCreated event shall be dispatched.
      *

@@ -10,7 +10,6 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Policies\Wiki\Anime\Theme\AnimeThemeEntryPolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 class AnimeThemeEntryPolicyTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Any user regardless of role can view any entry.
      *

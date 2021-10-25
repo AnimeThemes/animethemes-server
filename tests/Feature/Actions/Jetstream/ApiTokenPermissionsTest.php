@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Actions\Jetstream;
 
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Http\Livewire\ApiTokenManager;
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 class ApiTokenPermissionsTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * API token permissions can be updated.
      *
