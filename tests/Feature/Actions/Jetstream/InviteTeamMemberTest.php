@@ -16,7 +16,6 @@ use Tests\TestCase;
  */
 class InviteTeamMemberTest extends TestCase
 {
-
     /**
      * Team members can be invited to team.
      *

@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class DeleteAccountTest extends TestCase
 {
-
     /**
      * User accounts can be deleted.
      *

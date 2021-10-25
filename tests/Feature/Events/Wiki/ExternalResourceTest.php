@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class ExternalResourceTest extends TestCase
 {
-
     /**
      * When a Resource is created, an ExternalResourceCreated event shall be dispatched.
      *

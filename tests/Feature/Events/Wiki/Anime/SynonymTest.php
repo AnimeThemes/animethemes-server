@@ -18,7 +18,6 @@ use Tests\TestCase;
  */
 class SynonymTest extends TestCase
 {
-
     /**
      * When a Synonym is created, a SynonymCreated event shall be dispatched.
      *

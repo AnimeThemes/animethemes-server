@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class UserTest extends TestCase
 {
-
     /**
      * When a User is created, a UserCreated event shall be dispatched.
      *

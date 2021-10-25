@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class ArtistTest extends TestCase
 {
-
     /**
      * When an Artist is created, an ArtistCreated event shall be dispatched.
      *

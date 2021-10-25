@@ -16,7 +16,6 @@ use Tests\TestCase;
  */
 class DeleteApiTokenTest extends TestCase
 {
-
     /**
      * API tokens can be deleted.
      *

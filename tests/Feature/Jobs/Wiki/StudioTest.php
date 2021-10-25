@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class StudioTest extends TestCase
 {
-
     /**
      * When a studio is created, a SendDiscordNotification job shall be dispatched.
      *

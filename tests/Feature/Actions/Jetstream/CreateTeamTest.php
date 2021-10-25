@@ -14,7 +14,6 @@ use Tests\TestCase;
  */
 class CreateTeamTest extends TestCase
 {
-
     /**
      * Teams cannot be created.
      *

@@ -13,7 +13,6 @@ use Tests\TestCase;
  */
 class AuthenticationTest extends TestCase
 {
-
     /**
      * Login screen can be rendered.
      *

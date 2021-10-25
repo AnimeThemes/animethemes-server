@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class ImageTest extends TestCase
 {
-
     /**
      * When an Image is created, an ImageCreated event shall be dispatched.
      *

@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class ArtistSongTest extends TestCase
 {
-
     /**
      * When an Artist is attached to a Song or vice versa, a SendDiscordNotification job shall be dispatched.
      *

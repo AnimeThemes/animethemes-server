@@ -16,7 +16,6 @@ use Tests\TestCase;
  */
 class InvitationTest extends TestCase
 {
-
     /**
      * The status attribute of an invitation shall be cast to an InvitationStatus enum instance.
      *

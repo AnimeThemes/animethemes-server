@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class AnimeResourceTest extends TestCase
 {
-
     /**
      * When an Anime is attached to a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
      *

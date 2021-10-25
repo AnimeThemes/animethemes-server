@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class AnnouncementTest extends TestCase
 {
-
     /**
      * When an Announcement is created, an AnnouncementCreated event shall be dispatched.
      *

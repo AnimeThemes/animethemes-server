@@ -18,7 +18,6 @@ use Tests\TestCase;
  */
 class ThemeTest extends TestCase
 {
-
     /**
      * When a Theme is created, a ThemeCreated event shall be dispatched.
      *

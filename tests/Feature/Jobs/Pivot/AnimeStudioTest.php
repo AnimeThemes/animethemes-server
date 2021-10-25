@@ -16,7 +16,6 @@ use Tests\TestCase;
  */
 class AnimeStudioTest extends TestCase
 {
-
     /**
      * When an Anime is attached to a Studio or vice versa, a SendDiscordNotification job shall be dispatched.
      *

@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class VideoTest extends TestCase
 {
-
     /**
      * When a Video is created, a VideoCreated event shall be dispatched.
      *

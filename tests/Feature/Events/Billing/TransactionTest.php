@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class TransactionTest extends TestCase
 {
-
     /**
      * When an Transaction is created, an TransactionCreated event shall be dispatched.
      *

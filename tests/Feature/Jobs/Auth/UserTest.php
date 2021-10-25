@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class UserTest extends TestCase
 {
-
     /**
      * When a user is created, a SendDiscordNotification job shall be dispatched.
      *

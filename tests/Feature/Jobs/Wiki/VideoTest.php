@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class VideoTest extends TestCase
 {
-
     /**
      * When a video is created, a SendDiscordNotification job shall be dispatched.
      *

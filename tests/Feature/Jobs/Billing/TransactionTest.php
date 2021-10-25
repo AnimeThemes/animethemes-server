@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class TransactionTest extends TestCase
 {
-
     /**
      * When an transaction is created, a SendDiscordNotification job shall be dispatched.
      *

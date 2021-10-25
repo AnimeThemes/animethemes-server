@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class AnimeThemeEntryPolicyTest extends TestCase
 {
-
     /**
      * Any user regardless of role can view any entry.
      *

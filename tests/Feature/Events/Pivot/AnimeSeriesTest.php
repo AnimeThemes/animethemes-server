@@ -16,7 +16,6 @@ use Tests\TestCase;
  */
 class AnimeSeriesTest extends TestCase
 {
-
     /**
      * When an Anime is attached to a Series or vice versa, an AnimeSeriesCreated event shall be dispatched.
      *

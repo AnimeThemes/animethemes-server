@@ -14,7 +14,6 @@ use Tests\TestCase;
  */
 class UpdateTeamMemberRoleTest extends TestCase
 {
-
     /**
      * Team member roles can be updated.
      *

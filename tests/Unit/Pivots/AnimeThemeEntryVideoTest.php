@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class AnimeThemeEntryVideoTest extends TestCase
 {
-
     /**
      * An AnimeThemeEntryVideo shall belong to a Video.
      *

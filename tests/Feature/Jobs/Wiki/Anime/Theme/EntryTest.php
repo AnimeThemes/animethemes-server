@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class EntryTest extends TestCase
 {
-
     /**
      * When an entry is created, a SendDiscordNotification job shall be dispatched.
      *

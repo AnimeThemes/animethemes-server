@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class BalanceTest extends TestCase
 {
-
     /**
      * The service attribute of an balance shall be cast to a Service enum instance.
      *

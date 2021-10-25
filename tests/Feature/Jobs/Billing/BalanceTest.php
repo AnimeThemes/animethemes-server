@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class BalanceTest extends TestCase
 {
-
     /**
      * When an balance is created, a SendDiscordNotification job shall be dispatched.
      *

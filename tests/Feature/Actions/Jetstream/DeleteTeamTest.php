@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class DeleteTeamTest extends TestCase
 {
-
     /**
      * Teams can be deleted.
      *

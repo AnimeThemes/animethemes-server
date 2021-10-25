@@ -13,7 +13,6 @@ use Tests\TestCase;
  */
 class VideoPolicyTest extends TestCase
 {
-
     /**
      * Any user regardless of role can view any video.
      *

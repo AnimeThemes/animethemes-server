@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class ImageTest extends TestCase
 {
-
     /**
      * When an image is created, a SendDiscordNotification job shall be dispatched.
      *

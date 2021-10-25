@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class EmailVerificationTest extends TestCase
 {
-
     /**
      * Email verification screen can be rendered.
      *

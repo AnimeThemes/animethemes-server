@@ -13,7 +13,6 @@ use Tests\TestCase;
  */
 class AnimeThemePolicyTest extends TestCase
 {
-
     /**
      * Any user regardless of role can view any theme.
      *

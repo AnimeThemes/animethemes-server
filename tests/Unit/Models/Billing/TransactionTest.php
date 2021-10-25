@@ -14,7 +14,6 @@ use Tests\TestCase;
  */
 class TransactionTest extends TestCase
 {
-
     /**
      * The service attribute of an transaction shall be cast to a Service enum instance.
      *

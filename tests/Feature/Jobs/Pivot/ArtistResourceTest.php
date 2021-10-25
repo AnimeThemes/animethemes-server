@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class ArtistResourceTest extends TestCase
 {
-
     /**
      * When an Artist is attached to a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
      *

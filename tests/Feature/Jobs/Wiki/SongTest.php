@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class SongTest extends TestCase
 {
-
     /**
      * When a song is created, a SendDiscordNotification job shall be dispatched.
      *

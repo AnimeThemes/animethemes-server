@@ -14,7 +14,6 @@ use Tests\TestCase;
  */
 class BrowserSessionsTest extends TestCase
 {
-
     /**
      * Other browser sessions can be logged out.
      *

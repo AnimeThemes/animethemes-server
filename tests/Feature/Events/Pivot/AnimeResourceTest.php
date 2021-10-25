@@ -18,7 +18,6 @@ use Tests\TestCase;
  */
 class AnimeResourceTest extends TestCase
 {
-
     /**
      * When an Anime is attached to a Resource or vice versa, an AnimeResourceCreated event shall be dispatched.
      *

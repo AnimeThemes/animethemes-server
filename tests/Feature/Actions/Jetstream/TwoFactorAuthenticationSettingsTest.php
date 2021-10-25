@@ -14,7 +14,6 @@ use Tests\TestCase;
  */
 class TwoFactorAuthenticationSettingsTest extends TestCase
 {
-
     /**
      * Two factor authentication can be enabled.
      *

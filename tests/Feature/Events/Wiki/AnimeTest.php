@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class AnimeTest extends TestCase
 {
-
     /**
      * When an Anime is created, an AnimeCreated event shall be dispatched.
      *

@@ -16,7 +16,6 @@ use Tests\TestCase;
  */
 class ThemeTest extends TestCase
 {
-
     /**
      * When a theme is created, a SendDiscordNotification job shall be dispatched.
      *

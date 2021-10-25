@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class SongTest extends TestCase
 {
-
     /**
      * When a Song is created, a SongCreated event shall be dispatched.
      *

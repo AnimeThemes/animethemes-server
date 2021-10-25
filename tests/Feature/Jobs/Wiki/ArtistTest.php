@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class ArtistTest extends TestCase
 {
-
     /**
      * When an artist is created, a SendDiscordNotification job shall be dispatched.
      *

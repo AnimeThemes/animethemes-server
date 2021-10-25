@@ -13,7 +13,6 @@ use Tests\TestCase;
  */
 class InvitationPolicyTest extends TestCase
 {
-
     /**
      * An admin can view any invitation.
      *

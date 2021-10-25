@@ -13,7 +13,6 @@ use Tests\TestCase;
  */
 class AnnouncementTest extends TestCase
 {
-
     /**
      * Announcement shall be auditable.
      *

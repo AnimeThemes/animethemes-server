@@ -16,7 +16,6 @@ use Tests\TestCase;
  */
 class SynonymTest extends TestCase
 {
-
     /**
      * When a synonym is created, a SendDiscordNotification job shall be dispatched.
      *

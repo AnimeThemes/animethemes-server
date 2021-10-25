@@ -14,7 +14,6 @@ use Tests\TestCase;
  */
 class ProfileInformationTest extends TestCase
 {
-
     /**
      * Current profile information is available.
      *

@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class CreateApiTokenTest extends TestCase
 {
-
     /**
      * API tokens can be created.
      *

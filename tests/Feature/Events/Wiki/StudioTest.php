@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class StudioTest extends TestCase
 {
-
     /**
      * When a Studio is created, a StudioCreated event shall be dispatched.
      *

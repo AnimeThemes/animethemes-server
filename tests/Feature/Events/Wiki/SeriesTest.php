@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class SeriesTest extends TestCase
 {
-
     /**
      * When a Series is created, a SeriesCreated event shall be dispatched.
      *

@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class AnimeTest extends TestCase
 {
-
     /**
      * When an anime is created, a SendDiscordNotification job shall be dispatched.
      *

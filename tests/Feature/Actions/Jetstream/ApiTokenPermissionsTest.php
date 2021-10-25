@@ -16,7 +16,6 @@ use Tests\TestCase;
  */
 class ApiTokenPermissionsTest extends TestCase
 {
-
     /**
      * API token permissions can be updated.
      *

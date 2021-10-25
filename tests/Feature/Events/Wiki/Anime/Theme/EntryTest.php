@@ -19,7 +19,6 @@ use Tests\TestCase;
  */
 class EntryTest extends TestCase
 {
-
     /**
      * When an Entry is created, an EntryCreated event shall be dispatched.
      *

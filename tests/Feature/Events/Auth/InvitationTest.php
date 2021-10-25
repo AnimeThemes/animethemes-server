@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class InvitationTest extends TestCase
 {
-
     /**
      * When an Invitation is created, an InvitationCreated event shall be dispatched.
      *

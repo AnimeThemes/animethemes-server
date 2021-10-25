@@ -18,7 +18,6 @@ use Tests\TestCase;
  */
 class AnimeThemeEntryVideoTest extends TestCase
 {
-
     /**
      * When a Video is attached to an AnimeThemeEntry or vice versa, an AnimeThemeEntryVideoTest event shall be dispatched.
      *

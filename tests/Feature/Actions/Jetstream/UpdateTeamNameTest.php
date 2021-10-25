@@ -14,7 +14,6 @@ use Tests\TestCase;
  */
 class UpdateTeamNameTest extends TestCase
 {
-
     /**
      * Team names can be updated.
      *

@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class ExternalResourceTest extends TestCase
 {
-
     /**
      * When a resource is created, a SendDiscordNotification job shall be dispatched.
      *

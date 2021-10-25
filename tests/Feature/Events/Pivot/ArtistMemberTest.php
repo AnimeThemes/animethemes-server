@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class ArtistMemberTest extends TestCase
 {
-
     /**
      * When an Artist is attached to a Member or vice versa, an ArtistMemberCreated event shall be dispatched.
      *

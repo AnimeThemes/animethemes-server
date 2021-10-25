@@ -16,7 +16,6 @@ use Tests\TestCase;
  */
 class AnimeImageTest extends TestCase
 {
-
     /**
      * When an Anime is attached to an Image or vice versa, an AnimeImageCreated event shall be dispatched.
      *

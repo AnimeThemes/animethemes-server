@@ -14,7 +14,6 @@ use Tests\TestCase;
  */
 class RemoveTeamMemberTest extends TestCase
 {
-
     /**
      * Team members can be removed from teams.
      *

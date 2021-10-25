@@ -14,7 +14,6 @@ use Tests\TestCase;
  */
 class LeaveTeamTest extends TestCase
 {
-
     /**
      * Users can leave teams.
      *

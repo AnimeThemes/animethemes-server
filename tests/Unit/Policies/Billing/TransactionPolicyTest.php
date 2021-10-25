@@ -13,7 +13,6 @@ use Tests\TestCase;
  */
 class TransactionPolicyTest extends TestCase
 {
-
     /**
      * An admin can view any transaction.
      *

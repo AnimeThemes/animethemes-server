@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class SeriesTest extends TestCase
 {
-
     /**
      * When a series is created, a SendDiscordNotification job shall be dispatched.
      *

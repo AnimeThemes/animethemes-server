@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class InvitationTest extends TestCase
 {
-
     /**
      * When an invitation is created, a SendDiscordNotification job shall be dispatched.
      *

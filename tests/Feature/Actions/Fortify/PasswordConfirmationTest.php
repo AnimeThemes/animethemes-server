@@ -13,7 +13,6 @@ use Tests\TestCase;
  */
 class PasswordConfirmationTest extends TestCase
 {
-
     /**
      * Confirm password screen can be rendered.
      *

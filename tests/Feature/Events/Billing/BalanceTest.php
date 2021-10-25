@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class BalanceTest extends TestCase
 {
-
     /**
      * When an Balance is created, an BalanceCreated event shall be dispatched.
      *

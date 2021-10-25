@@ -15,7 +15,6 @@ use Tests\TestCase;
  */
 class AnnouncementTest extends TestCase
 {
-
     /**
      * When an announcement is created, a SendDiscordNotification job shall be dispatched.
      *

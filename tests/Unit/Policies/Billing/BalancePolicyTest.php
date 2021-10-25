@@ -13,7 +13,6 @@ use Tests\TestCase;
  */
 class BalancePolicyTest extends TestCase
 {
-
     /**
      * An admin can view any balance.
      *
