@@ -83,7 +83,11 @@ abstract class SearchableCollection extends BaseCollection
         $builder = $elasticQueryPayload->buildQuery();
 
         // eager load relations with constraints
-        $builder = $builder->load(static::performConstrainedEagerLoads($query));
+        $constrainedEagerLoads = static::performConstrainedEagerLoads(
+            $query->getResourceIncludeCriteria(static::$wrap),
+            $query->getFilterCriteria()
+        );
+        $builder = $builder->load($constrainedEagerLoads);
 
         // apply filters
         $filterBuilder = new BoolQueryBuilder();
