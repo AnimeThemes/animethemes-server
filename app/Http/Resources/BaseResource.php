@@ -69,6 +69,11 @@ abstract class BaseResource extends JsonResource
      */
     public static function performQuery(Model $model, Query $query): static
     {
-        return static::make($model->load(static::performConstrainedEagerLoads($query)), $query);
+        $constrainedEagerLoads = static::performConstrainedEagerLoads(
+            $query->getIncludeCriteria(static::$wrap),
+            $query->getFilterCriteria()
+        );
+
+        return static::make($model->load($constrainedEagerLoads), $query);
     }
 }

@@ -86,7 +86,11 @@ abstract class BaseCollection extends ResourceCollection
         }
 
         // eager load relations with constraints
-        $builder = $builder->with(static::performConstrainedEagerLoads($query));
+        $constrainedEagerLoads = static::performConstrainedEagerLoads(
+            $query->getIncludeCriteria(static::$wrap),
+            $query->getFilterCriteria()
+        );
+        $builder = $builder->with($constrainedEagerLoads);
 
         $schema = static::schema();
 
