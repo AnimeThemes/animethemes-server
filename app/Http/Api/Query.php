@@ -138,7 +138,7 @@ class Query
     /**
      * Get the resource include criteria.
      *
-     * @param string $type
+     * @param  string  $type
      * @return IncludeCriteria|null
      */
     public function getResourceIncludeCriteria(string $type): ?IncludeCriteria
