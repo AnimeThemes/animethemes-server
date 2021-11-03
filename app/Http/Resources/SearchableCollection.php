@@ -14,6 +14,7 @@ use ElasticScoutDriverPlus\Exceptions\QueryBuilderException;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 
 /**
  * Class SearchableCollection.
@@ -84,7 +85,7 @@ abstract class SearchableCollection extends BaseCollection
 
         // eager load relations with constraints
         $constrainedEagerLoads = static::performConstrainedEagerLoads(
-            $query->getIncludeCriteria(static::$wrap),
+            $query->getIncludeCriteria(Str::singular(static::$wrap)),
             $query->getFilterCriteria()
         );
         $builder = $builder->load($constrainedEagerLoads);
