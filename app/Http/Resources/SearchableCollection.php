@@ -84,7 +84,7 @@ abstract class SearchableCollection extends BaseCollection
 
         // eager load relations with constraints
         $constrainedEagerLoads = static::performConstrainedEagerLoads(
-            $query->getResourceIncludeCriteria(static::$wrap),
+            $query->getIncludeCriteria(static::$wrap),
             $query->getFilterCriteria()
         );
         $builder = $builder->load($constrainedEagerLoads);
