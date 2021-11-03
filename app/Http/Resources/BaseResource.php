@@ -9,6 +9,7 @@ use App\Http\Api\Query;
 use App\Http\Api\Schema\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 /**
  * Class BaseResource.
@@ -70,7 +71,7 @@ abstract class BaseResource extends JsonResource
     public static function performQuery(Model $model, Query $query): static
     {
         $constrainedEagerLoads = static::performConstrainedEagerLoads(
-            $query->getIncludeCriteria(static::$wrap),
+            $query->getIncludeCriteria(Str::singular(static::$wrap)),
             $query->getFilterCriteria()
         );
 
