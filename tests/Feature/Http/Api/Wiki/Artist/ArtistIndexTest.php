@@ -109,6 +109,9 @@ class ArtistIndexTest extends TestCase
 
         $parameters = [
             IncludeParser::$param => $includedPaths->join(','),
+            PagingParser::$param => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+            ],
         ];
 
         Artist::factory()->jsonApiResource()->create();
