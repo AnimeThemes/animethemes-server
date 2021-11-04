@@ -95,6 +95,7 @@ class ArtistIndexTest extends TestCase
     /**
      * The Artist Index Endpoint shall allow inclusion of related resources.
      *
+     * @return void
      */
     public function testAllowedIncludePaths()
     {
