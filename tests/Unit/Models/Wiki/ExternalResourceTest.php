@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
+use App\Models\Wiki\Studio;
+use App\Pivots\StudioResource;
 
 /**
  * Class ExternalResourceTest.
@@ -98,5 +100,24 @@ class ExternalResourceTest extends TestCase
         static::assertEquals($artistCount, $resource->artists()->count());
         static::assertInstanceOf(Artist::class, $resource->artists()->first());
         static::assertEquals(ArtistResource::class, $resource->artists()->getPivotClass());
+    }
+
+    /**
+     * Resource shall have a many-to-many relationshop with the type Studio.
+     * 
+     * @return void
+     */
+    public function testStudio()
+    {
+        $studioCount = $this->faker->randomDigitNotNull();
+
+        $resource = ExternalResource::factory()
+            ->has(Studio::factory()->count($studioCount))
+            ->createOne();
+
+        static::assertInstanceOf(BelongsToMany::class, $resource->studio());
+        static::assertEquals($studioCount, $resource->studio()->count());
+        static::assertInstanceOf(Studio::class, $resource->studio()->first());
+        static::assertEquals(StudioResource::class, $resource->studio()->getPivotClass());
     }
 }

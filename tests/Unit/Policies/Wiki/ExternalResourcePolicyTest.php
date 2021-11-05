@@ -325,4 +325,82 @@ class ExternalResourcePolicyTest extends TestCase
         static::assertTrue($policy->detachAnime($editor));
         static::assertTrue($policy->detachAnime($admin));
     }
+
+    /**
+     * A contributor or admin may attach any studio to a resource.
+     * 
+     * @return void
+     */
+    public function testAttachAnyStudio()
+    {
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->createOne();
+        
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->createOne();
+
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->createOne();
+
+        $policy = new ExternalResourcePolicy();
+
+        static::assertFalse($policy->attachAnyStudio($viewer));
+        static::assertTrue($policy->attachAnyStudio($editor));
+        static::assertTrue($policy->attachAnyStudio($admin));
+    }
+
+    /**
+     * A contributor or admin may attach a studio to a resource.
+     * 
+     * @return void
+     */
+    public function testAttachStudio()
+    {
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->createOne();
+        
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->createOne();
+
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->createOne();
+
+        $policy = new ExternalResourcePolicy();
+
+        static::assertFalse($policy->attachStudio($viewer));
+        static::assertTrue($policy->attachStudio($editor));
+        static::assertTrue($policy->attachStudio($admin));
+    }
+
+    /**
+     * A contributor or admin may detach a studio to a resource.
+     * 
+     * @return void
+     */
+    public function testDetachStudio()
+    {
+        $viewer = User::factory()
+            ->withCurrentTeam('viewer')
+            ->createOne();
+        
+        $editor = User::factory()
+            ->withCurrentTeam('editor')
+            ->createOne();
+
+        $admin = User::factory()
+            ->withCurrentTeam('admin')
+            ->createOne();
+
+        $policy = new ExternalResourcePolicy();
+
+        static::assertFalse($policy->detachStudio($viewer));
+        static::assertTrue($policy->detachStudio($editor));
+        static::assertTrue($policy->detachStudio($admin));
+    }
 }
