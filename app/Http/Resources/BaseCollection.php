@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 /**
  * Class BaseCollection.
@@ -86,7 +87,11 @@ abstract class BaseCollection extends ResourceCollection
         }
 
         // eager load relations with constraints
-        $builder = $builder->with(static::performConstrainedEagerLoads($query));
+        $constrainedEagerLoads = static::performConstrainedEagerLoads(
+            $query->getIncludeCriteria(Str::singular(static::$wrap)),
+            $query->getFilterCriteria()
+        );
+        $builder = $builder->with($constrainedEagerLoads);
 
         $schema = static::schema();
 

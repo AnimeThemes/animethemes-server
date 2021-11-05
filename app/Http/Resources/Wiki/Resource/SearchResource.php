@@ -18,6 +18,7 @@ use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
+use Illuminate\Support\Arr;
 
 /**
  * Class SearchResource.
@@ -52,36 +53,58 @@ class SearchResource extends BaseResource
      */
     public function toArray($request): array
     {
-        return [
-            AnimeCollection::$wrap => $this->when(
-                $this->isAllowedField(AnimeCollection::$wrap),
+        $result = [];
+
+        if ($this->isAllowedField(AnimeCollection::$wrap)) {
+            Arr::set($result,
+                AnimeCollection::$wrap,
                 AnimeCollection::performSearch($this->query, PaginationStrategy::LIMIT())
-            ),
-            ThemeCollection::$wrap => $this->when(
-                $this->isAllowedField(ThemeCollection::$wrap),
+            );
+        }
+
+        if ($this->isAllowedField(ThemeCollection::$wrap)) {
+            Arr::set($result,
+                ThemeCollection::$wrap,
                 ThemeCollection::performSearch($this->query, PaginationStrategy::LIMIT())
-            ),
-            ArtistCollection::$wrap => $this->when(
-                $this->isAllowedField(ArtistCollection::$wrap),
+            );
+        }
+
+        if ($this->isAllowedField(ArtistCollection::$wrap)) {
+            Arr::set($result,
+                ArtistCollection::$wrap,
                 ArtistCollection::performSearch($this->query, PaginationStrategy::LIMIT())
-            ),
-            SeriesCollection::$wrap => $this->when(
-                $this->isAllowedField(SeriesCollection::$wrap),
+            );
+        }
+
+        if ($this->isAllowedField(SeriesCollection::$wrap)) {
+            Arr::set($result,
+                SeriesCollection::$wrap,
                 SeriesCollection::performSearch($this->query, PaginationStrategy::LIMIT())
-            ),
-            SongCollection::$wrap => $this->when(
-                $this->isAllowedField(SongCollection::$wrap),
+            );
+        }
+
+        if ($this->isAllowedField(SongCollection::$wrap)) {
+            Arr::set($result,
+                SongCollection::$wrap,
                 SongCollection::performSearch($this->query, PaginationStrategy::LIMIT())
-            ),
-            StudioCollection::$wrap => $this->when(
-                $this->isAllowedField(StudioCollection::$wrap),
-                StudioCollection::performSearch($this->query, PaginationStrategy::LIMIT()),
-            ),
-            VideoCollection::$wrap => $this->when(
-                $this->isAllowedField(VideoCollection::$wrap),
+            );
+        }
+
+        if ($this->isAllowedField(StudioCollection::$wrap)) {
+            Arr::set($result,
+                StudioCollection::$wrap,
+                StudioCollection::performSearch($this->query, PaginationStrategy::LIMIT())
+            );
+        }
+
+        if ($this->isAllowedField(VideoCollection::$wrap)) {
+            Arr::set($result,
+                VideoCollection::$wrap,
                 VideoCollection::performSearch($this->query, PaginationStrategy::LIMIT())
-            ),
-        ];
+            );
+        }
+
+        return $result;
     }
 
     /**
@@ -91,6 +114,6 @@ class SearchResource extends BaseResource
      */
     public static function schema(): Schema
     {
-        return new AnimeSchema();
+        return new AnimeSchema(); // TODO: SearchSchema or don't inherit from BaseResource
     }
 }

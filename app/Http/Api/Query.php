@@ -118,9 +118,7 @@ class Query
      */
     public function getFieldCriteria(string $type): ?FieldCriteria
     {
-        return collect($this->fieldCriteria)->first(function (FieldCriteria $criteria) use ($type) {
-            return $criteria->getType() === $type;
-        });
+        return collect($this->fieldCriteria)->first(fn (FieldCriteria $criteria) => $criteria->getType() === $type);
     }
 
     /**
@@ -131,18 +129,23 @@ class Query
      */
     public function getIncludeCriteria(string $type): ?IncludeCriteria
     {
-        $criteria = collect($this->includeCriteria)->first(
-            function (IncludeCriteria $criteria) use ($type) {
-                return $criteria instanceof ResourceCriteria && $criteria->getType() === $type;
-            }
-        );
-
-        return $criteria ??
+        return $this->getResourceIncludeCriteria($type) ??
             collect($this->includeCriteria)->first(
-                function (IncludeCriteria $criteria) {
-                    return get_class($criteria) === IncludeCriteria::class;
-                }
+                fn (IncludeCriteria $criteria) => get_class($criteria) === IncludeCriteria::class
             );
+    }
+
+    /**
+     * Get the resource include criteria.
+     *
+     * @param  string  $type
+     * @return IncludeCriteria|null
+     */
+    public function getResourceIncludeCriteria(string $type): ?IncludeCriteria
+    {
+        return collect($this->includeCriteria)->first(
+            fn (IncludeCriteria $criteria) => $criteria instanceof ResourceCriteria && $criteria->getType() === $type
+        );
     }
 
     /**
@@ -195,9 +198,7 @@ class Query
     public function getPagingCriteria(PaginationStrategy $strategy): ?PagingCriteria
     {
         return collect($this->pagingCriteria)->first(
-            function (PagingCriteria $criteria) use ($strategy) {
-                return $strategy->is($criteria->getStrategy());
-            }
+            fn (PagingCriteria $criteria) => $strategy->is($criteria->getStrategy())
         );
     }
 }
