@@ -18,6 +18,7 @@ use BenSampo\Enum\Traits\CastsEnums;
 use Database\Factories\Wiki\ExternalResourceFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
+use App\Pivots\StudioResource;
 
 /**
  * Class Resource.
@@ -45,6 +46,7 @@ class ExternalResource extends BaseModel
 
     public const RELATION_ANIME = 'anime';
     public const RELATION_ARTISTS = 'artists';
+    public const RELATION_STUDIO = 'studio';
 
     /**
      * The attributes that are mass assignable.
@@ -138,5 +140,18 @@ class ExternalResource extends BaseModel
             ->using(ArtistResource::class)
             ->withPivot(ArtistResource::ATTRIBUTE_AS)
             ->withTimestamps();
+    }
+
+    /**
+     * Get the studio that references this resource.
+     * 
+     * @return BelongsToMany
+     */
+    public function studio(): BelongsToMany
+    {
+        return $this->belongsToMany(Studio::class, StudioResource::TABLE, ExternalResource::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID)
+        ->using(StudioResource::class)
+        ->withPivot(StudioResource::ATTRIBUTE_AS)
+        ->withTimestamps();
     }
 }
