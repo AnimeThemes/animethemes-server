@@ -24,6 +24,7 @@ use App\Pivots\ArtistImage;
 use App\Pivots\ArtistMember;
 use App\Pivots\ArtistResource;
 use App\Pivots\ArtistSong;
+use App\Pivots\StudioResource;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
@@ -85,6 +86,7 @@ class DatabaseDumpCommand extends Command
         Song::TABLE,
         Studio::TABLE,
         Video::TABLE,
+        StudioResource::TABLE,
     ];
 
     /**
