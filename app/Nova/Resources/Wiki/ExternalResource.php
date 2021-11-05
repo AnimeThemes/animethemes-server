@@ -26,6 +26,7 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
+use App\Pivots\StudioResource;
 
 /**
  * Class ExternalResource.
@@ -178,6 +179,24 @@ class ExternalResource extends Resource
 
                         DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
+                            ->hideWhenCreating(),
+                    ];
+                }),
+
+            BelongsToMany::make(__('nova.studio'), 'Studio', Studio::class)
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        Text::make(__('nova.as'), StudioResource::ATTRIBUTE_AS)
+                            ->rules(['nullable', 'max:192'])
+                            ->help(__('nova.resource_as_help')),
+                        
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                            ->readonly()
+                            ->hideWhenCreating(),
+
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                            ->readOnly()
                             ->hideWhenCreating(),
                     ];
                 }),

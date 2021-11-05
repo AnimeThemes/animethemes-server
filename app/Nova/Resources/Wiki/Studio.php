@@ -17,6 +17,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
+use App\Pivots\StudioResource;
 
 /**
  * Class Studio.
@@ -123,6 +124,22 @@ class Studio extends Resource
                             ->readonly()
                             ->hideWhenCreating(),
 
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                            ->readonly()
+                            ->hideWhenCreating(),
+                    ];
+                }),
+            
+            BelongsToMany::make(__('nova.external_resources', 'Resources', ExternalResource::class))
+                ->searchable()
+                ->fields(function() {
+                    return [
+                        Text::make(__('nova.as'), StudioResource::ATTRIBUTE_AS)
+                            ->rules(['nullable', 'max:192'],)
+                            ->help(__('nova.resource_as_help')),
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                            ->readonly()
+                            ->hideWhenCreating(),
                         DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),
