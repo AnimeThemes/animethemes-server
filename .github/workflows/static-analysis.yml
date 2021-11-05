@@ -1,9 +1,9 @@
-name: static-analysis
+name: Static Analysis
 
 on: push
 
 jobs:
-  test:
+  static-analysis:
 
     runs-on: ubuntu-latest
 
