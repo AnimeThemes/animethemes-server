@@ -16,6 +16,7 @@ use App\Pivots\AnimeResource as AnimeResourcePivot;
 use App\Pivots\ArtistResource as ArtistResourcePivot;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
+use App\Pivots\StudioResource as StudioResourcePivot;
 
 /**
  * Class ExternalResourceResource.
@@ -74,6 +75,13 @@ class ExternalResourceResource extends BaseResource
             BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
             ExternalResource::RELATION_ARTISTS => ArtistCollection::make($this->whenLoaded(ExternalResource::RELATION_ARTISTS), $this->query),
             ExternalResource::RELATION_ANIME => AnimeCollection::make($this->whenLoaded(ExternalResource::RELATION_ANIME), $this->query),
+            StudioResourcePivot::ATTRIBUTE_AS => $this->when(
+                $this->isAllowedField(StudioResourcePivot::ATTRIBUTE_AS),
+                $this->whenPivotLoaded(
+                    StudioResourcePivot::TABLE,
+                    fn() => $this->pivot->getAttribute(StudioResourcePivot::ATTRIBUTE_AS)
+                )
+            )
         ];
     }
 

@@ -13,6 +13,8 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
+use App\Pivots\StudioResource as StudioResourcePivot;
+use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
 
 /**
  * Class StudioResource.
@@ -58,6 +60,11 @@ class StudioResource extends BaseResource
             BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
             BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
             Studio::RELATION_ANIME => AnimeCollection::make($this->whenLoaded(Studio::RELATION_ANIME), $this->query),
+            Studio::RELATION_RESOURCES => ExternalResourceCollection::make($this->whenLoaded(Studio::RELATION_RESOURCES), $this->query),
+            StudioResourcePivot::ATTRIBUTE_AS => $this->when(
+                $this->isAllowedField(StudioResourcePivot::ATTRIBUTE_AS),
+                $this->whenPivotLoaded(StudioResourcePivot::TABLE, fn() => $this->pivot->getAttribute(StudioResourcePivot::ATTRIBUTE_AS))
+            ),
         ];
     }
 
