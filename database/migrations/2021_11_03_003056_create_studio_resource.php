@@ -1,8 +1,7 @@
 <?php
 
-
-use App\Models\Wiki\Studio;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Studio;
 use App\Pivots\StudioResource;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

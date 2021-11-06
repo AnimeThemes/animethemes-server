@@ -12,7 +12,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
-use App\Pivots\StudioResource as StudioResourcePivot;
 
 /**
  * Class StudioSchema.
@@ -38,7 +37,7 @@ class StudioSchema extends Schema
     {
         return [
             AllowedInclude::make(AnimeSchema::class, Studio::RELATION_ANIME),
-            AllowedInclude::make(ExternalResourcesSchema::class, Studio::RELATION_RESOURCES)
+            AllowedInclude::make(ExternalResourcesSchema::class, Studio::RELATION_RESOURCES),
         ];
     }
 

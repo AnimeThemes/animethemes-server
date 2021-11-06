@@ -7,14 +7,13 @@ namespace App\Pivots;
 use App\Events\Pivot\StudioResource\StudioResourceCreated;
 use App\Events\Pivot\StudioResource\StudioResourceDeleted;
 use App\Events\Pivot\StudioResource\StudioResourceUpdated;
-use App\Models\Wiki\Studio;
 use App\Models\Wiki\ExternalResource;
-use Database\Factories\Pivots\StudioResourceFactory;
+use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class StudioResource.
- * 
+ *
  * @property Studio $studio
  * @property string $as
  * @property ExternalResource $resource
@@ -23,13 +22,13 @@ class StudioResource extends BasePivot
 {
     public const TABLE = 'studio_resource';
 
-    public const ATTRIBUTE_STUDIO ='studio_id';
+    public const ATTRIBUTE_STUDIO = 'studio_id';
     public const ATTRIBUTE_AS = 'as';
-    public const ATTRIBUTE_RESOURCE ='resource_id';
+    public const ATTRIBUTE_RESOURCE = 'resource_id';
 
     /**
      * The attributes that are mass assignable.
-     * 
+     *
      * @var string[]
      */
     protected $fillable = [
@@ -38,19 +37,19 @@ class StudioResource extends BasePivot
 
     /**
      * The table associated with the model.
-     * 
+     *
      * @var string
      */
     protected $table = StudioResource::TABLE;
 
     /**
      * The event map for the model.
-     * 
+     *
      * Allows for object-based events for the native Eloquent events.
-     * 
+     *
      * @var array
      */
-    protected $dispatchesEvents= [
+    protected $dispatchesEvents = [
         'created' => StudioResourceCreated::class,
         'deleted' => StudioResourceDeleted::class,
         'updated' => StudioResourceUpdated::class,
@@ -58,7 +57,7 @@ class StudioResource extends BasePivot
 
     /**
      * Gets the studio that owns the studio resource.
-     * 
+     *
      * @return BelongsTo
      */
     public function studio(): BelongsTo
@@ -68,7 +67,7 @@ class StudioResource extends BasePivot
 
     /**
      * Gets the resource that owns the studio resource.
-     * 
+     *
      * @return BelongsTo
      */
     public function resource(): BelongsTo
@@ -76,5 +75,3 @@ class StudioResource extends BasePivot
         return $this->belongsTo(ExternalResource::class, StudioResource::ATTRIBUTE_RESOURCE);
     }
 }
-
-?>

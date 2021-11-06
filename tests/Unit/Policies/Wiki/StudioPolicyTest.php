@@ -283,7 +283,7 @@ class StudioPolicyTest extends TestCase
 
     /**
      * A contributor or admin may attach any resource to a studio.
-     * 
+     *
      * @return void
      */
     public function testAttachAnyResource()
@@ -291,7 +291,7 @@ class StudioPolicyTest extends TestCase
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
             ->createOne();
-        
+
         $editor = User::factory()
             ->withCurrentTeam('editor')
             ->createOne();
@@ -309,7 +309,7 @@ class StudioPolicyTest extends TestCase
 
     /**
      * A contributor or admin may attach a resource to a studio.
-     * 
+     *
      * @return void
      */
     public function testAttachResource()
@@ -317,7 +317,7 @@ class StudioPolicyTest extends TestCase
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
             ->createOne();
-        
+
         $editor = User::factory()
             ->withCurrentTeam('editor')
             ->createOne();
@@ -335,7 +335,7 @@ class StudioPolicyTest extends TestCase
 
     /**
      * A contributor or admin may detach a resource from a studio.
-     * 
+     *
      * @return void
      */
     public function testDetachResource()
@@ -343,7 +343,7 @@ class StudioPolicyTest extends TestCase
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
             ->createOne();
-        
+
         $editor = User::factory()
             ->withCurrentTeam('editor')
             ->createOne();
@@ -356,6 +356,6 @@ class StudioPolicyTest extends TestCase
 
         static::assertFalse($policy->detachExternalResource($viewer));
         static::assertTrue($policy->detachExternalResource($editor));
-        static::assertTrue($policy->detachExternalResource($admin)); 
+        static::assertTrue($policy->detachExternalResource($admin));
     }
 }

@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Jobs\Pivot;
 
 use App\Jobs\SendDiscordNotificationJob;
-use App\Models\Wiki\Studio;
 use App\Models\Wiki\ExternalResource;
-use App\Pivots\StudioResource;
+use App\Models\Wiki\Studio;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -19,7 +18,7 @@ class StudioResourceTest extends TestCase
 {
     /**
      * When a Studio is attached to a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
-     * 
+     *
      * @return void
      */
     public function testStudioResourceCreatedSendsDiscordNotification()

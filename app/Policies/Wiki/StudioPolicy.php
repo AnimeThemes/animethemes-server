@@ -134,8 +134,8 @@ class StudioPolicy
 
     /**
      * Determine whether the user can attach any resource to the studio.
-     * 
-     * @param User $user
+     *
+     * @param  User  $user
      * @return bool
      */
     public function attachAnyExternalResource(User $user): bool
@@ -145,8 +145,8 @@ class StudioPolicy
 
     /**
      * Determine whether the user can attach a resource to the studio.
-     * 
-     * @param User $user
+     *
+     * @param  User  $user
      * @return bool
      */
     public function attachExternalResource(User $user): bool
@@ -156,8 +156,8 @@ class StudioPolicy
 
     /**
      * Determine whether the user can detach a resource from the studio.
-     * 
-     * @param User $user
+     *
+     * @param  User  $user
      * @return bool
      */
     public function detachExternalResource(User $user): bool

@@ -16,7 +16,6 @@ use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
-use App\Pivots\StudioResource;
 
 /**
  * Class ExternalResourceSchema.
@@ -43,7 +42,7 @@ class ExternalResourceSchema extends Schema
         return [
             AllowedInclude::make(AnimeSchema::class, ExternalResource::RELATION_ANIME),
             AllowedInclude::make(ArtistSchema::class, ExternalResource::RELATION_ARTISTS),
-            AllowedInclude::make(StudioSchema::class, ExternalResource::RELATION_STUDIO)
+            AllowedInclude::make(StudioSchema::class, ExternalResource::RELATION_STUDIO),
         ];
     }
 
