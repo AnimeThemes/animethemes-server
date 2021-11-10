@@ -130,12 +130,12 @@ class Studio extends Resource
                     ];
                 }),
 
-            BelongsToMany::make(__('nova.external_resources', 'Resources', ExternalResource::class))
+            BelongsToMany::make(__('nova.external_resources'), 'Resources', ExternalResource::class)
                 ->searchable()
                 ->fields(function () {
                     return [
                         Text::make(__('nova.as'), StudioResource::ATTRIBUTE_AS)
-                            ->rules(['nullable', 'max:192'], )
+                            ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
                         DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->readonly()

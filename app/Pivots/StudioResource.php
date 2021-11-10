@@ -9,6 +9,7 @@ use App\Events\Pivot\StudioResource\StudioResourceDeleted;
 use App\Events\Pivot\StudioResource\StudioResourceUpdated;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
+use Database\Factories\Pivots\StudioResourceFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
