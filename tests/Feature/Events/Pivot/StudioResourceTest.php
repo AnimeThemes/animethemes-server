@@ -7,8 +7,8 @@ namespace Tests\Feature\Events\Pivot;
 use App\Events\Pivot\StudioResource\StudioResourceCreated;
 use App\Events\Pivot\StudioResource\StudioResourceDeleted;
 use App\Events\Pivot\StudioResource\StudioResourceUpdated;
-use App\Models\Wiki\Studio;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Studio;
 use App\Pivots\StudioResource;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
@@ -20,7 +20,7 @@ class StudioResourceTest extends TestCase
 {
     /**
      * When a Studio is attached to a Resource or vice versa, a StudioResourceCreated event shall be dispatched.
-     * 
+     *
      * @return void
      */
     public function testStudioResourceCreatedEventDispatched()
@@ -37,7 +37,7 @@ class StudioResourceTest extends TestCase
 
     /**
      * When a Studio is detached to a Resource or vice versa, a StudioResourceDeleted event shall be dispatched.
-     * 
+     *
      * @return void
      */
     public function testStudioResourceDeletedEventDispatched()
@@ -55,7 +55,7 @@ class StudioResourceTest extends TestCase
 
     /**
      * When a Studio Resource pivot is updated, a StudioResourceUpdated event shall be dispatched.
-     * 
+     *
      * @return void
      */
     public function testStudioResourceUpdatedEventDispatched()
@@ -69,7 +69,7 @@ class StudioResourceTest extends TestCase
             ->for($studio, 'studio')
             ->for($resource, 'resource')
             ->createOne();
-        
+
         $changes = StudioResource::factory()
             ->for($studio, 'studio')
             ->for($resource, 'resource')

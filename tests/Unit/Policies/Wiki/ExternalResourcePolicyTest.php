@@ -328,7 +328,7 @@ class ExternalResourcePolicyTest extends TestCase
 
     /**
      * A contributor or admin may attach any studio to a resource.
-     * 
+     *
      * @return void
      */
     public function testAttachAnyStudio()
@@ -336,7 +336,7 @@ class ExternalResourcePolicyTest extends TestCase
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
             ->createOne();
-        
+
         $editor = User::factory()
             ->withCurrentTeam('editor')
             ->createOne();
@@ -354,7 +354,7 @@ class ExternalResourcePolicyTest extends TestCase
 
     /**
      * A contributor or admin may attach a studio to a resource.
-     * 
+     *
      * @return void
      */
     public function testAttachStudio()
@@ -362,7 +362,7 @@ class ExternalResourcePolicyTest extends TestCase
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
             ->createOne();
-        
+
         $editor = User::factory()
             ->withCurrentTeam('editor')
             ->createOne();
@@ -380,7 +380,7 @@ class ExternalResourcePolicyTest extends TestCase
 
     /**
      * A contributor or admin may detach a studio to a resource.
-     * 
+     *
      * @return void
      */
     public function testDetachStudio()
@@ -388,7 +388,7 @@ class ExternalResourcePolicyTest extends TestCase
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
             ->createOne();
-        
+
         $editor = User::factory()
             ->withCurrentTeam('editor')
             ->createOne();

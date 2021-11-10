@@ -85,8 +85,8 @@ class DatabaseDumpCommand extends Command
         Series::TABLE,
         Song::TABLE,
         Studio::TABLE,
-        Video::TABLE,
         StudioResource::TABLE,
+        Video::TABLE,
     ];
 
     /**

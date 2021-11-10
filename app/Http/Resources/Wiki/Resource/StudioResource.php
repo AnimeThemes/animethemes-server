@@ -9,12 +9,12 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
+use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
 use App\Models\BaseModel;
 use App\Models\Wiki\Studio;
+use App\Pivots\StudioResource as StudioResourcePivot;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
-use App\Pivots\StudioResource as StudioResourcePivot;
-use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
 
 /**
  * Class StudioResource.
@@ -63,7 +63,7 @@ class StudioResource extends BaseResource
             Studio::RELATION_RESOURCES => ExternalResourceCollection::make($this->whenLoaded(Studio::RELATION_RESOURCES), $this->query),
             StudioResourcePivot::ATTRIBUTE_AS => $this->when(
                 $this->isAllowedField(StudioResourcePivot::ATTRIBUTE_AS),
-                $this->whenPivotLoaded(StudioResourcePivot::TABLE, fn() => $this->pivot->getAttribute(StudioResourcePivot::ATTRIBUTE_AS))
+                $this->whenPivotLoaded(StudioResourcePivot::TABLE, fn () => $this->pivot->getAttribute(StudioResourcePivot::ATTRIBUTE_AS))
             ),
         ];
     }

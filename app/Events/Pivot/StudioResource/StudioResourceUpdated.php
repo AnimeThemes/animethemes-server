@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Events\Pivot\StudioResource;
@@ -33,7 +34,7 @@ class StudioResourceUpdated extends StudioResourceEvent implements DiscordMessag
 
     /**
      * Get Discord message payload.
-     * 
+     *
      * @return DiscordMessage
      */
     public function getDiscordMessage(): DiscordMessage
@@ -50,7 +51,7 @@ class StudioResourceUpdated extends StudioResourceEvent implements DiscordMessag
 
     /**
      * Get Discord channel the message will be sent to.
-     * 
+     *
      * @return string
      */
     public function getDiscordChannel(): string
@@ -58,5 +59,3 @@ class StudioResourceUpdated extends StudioResourceEvent implements DiscordMessag
         return Config::get('services.discord.db_updates_discord_channel');
     }
 }
-
-?>

@@ -10,12 +10,11 @@ use App\Events\Wiki\Studio\StudioRestored;
 use App\Events\Wiki\Studio\StudioUpdated;
 use App\Models\BaseModel;
 use App\Pivots\AnimeStudio;
+use App\Pivots\StudioResource;
 use Database\Factories\Wiki\StudioFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Laravel\Scout\Searchable;
-use App\Pivots\BasePivot;
-use App\Pivots\StudioResource;
 
 /**
  * Class Studio.
@@ -116,7 +115,7 @@ class Studio extends BaseModel
 
     /**
      * Get the resources for the studio.
-     * 
+     *
      * @return BelongsToMany
      */
     public function resources(): BelongsToMany

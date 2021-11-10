@@ -13,12 +13,12 @@ use App\Models\BaseModel;
 use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
 use App\Pivots\BasePivot;
+use App\Pivots\StudioResource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Traits\CastsEnums;
 use Database\Factories\Wiki\ExternalResourceFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
-use App\Pivots\StudioResource;
 
 /**
  * Class Resource.

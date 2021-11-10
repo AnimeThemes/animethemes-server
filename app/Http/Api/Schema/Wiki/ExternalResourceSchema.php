@@ -16,7 +16,6 @@ use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
-use App\Pivots\StudioResource;
 
 /**
  * Class ExternalResourceSchema.

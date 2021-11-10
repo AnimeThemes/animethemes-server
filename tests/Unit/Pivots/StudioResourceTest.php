@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Unit\Pivots;
 
-use App\Models\Wiki\Studio;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Studio;
 use App\Pivots\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -19,7 +20,7 @@ class StudioResourceTest extends TestCase
 
     /**
      * A StudioResource shall belong to a Studio.
-     * 
+     *
      * @return void
      */
     public function testStudio()
@@ -35,7 +36,7 @@ class StudioResourceTest extends TestCase
 
     /**
      * A StudioResource shall belong to an ExternalResource.
-     * 
+     *
      * @return void
      */
     public function testResource()
@@ -49,4 +50,3 @@ class StudioResourceTest extends TestCase
         static::assertInstanceOf(ExternalResource::class, $studioResource->resource()->first());
     }
 }
-?>

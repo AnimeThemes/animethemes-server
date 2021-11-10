@@ -8,14 +8,14 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Studio;
 use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
+use App\Pivots\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
-use App\Models\Wiki\Studio;
-use App\Pivots\StudioResource;
 
 /**
  * Class ExternalResourceTest.
@@ -104,7 +104,7 @@ class ExternalResourceTest extends TestCase
 
     /**
      * Resource shall have a many-to-many relationshop with the type Studio.
-     * 
+     *
      * @return void
      */
     public function testStudio()

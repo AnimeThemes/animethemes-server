@@ -16,9 +16,9 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use App\Pivots\AnimeResource as AnimeResourcePivot;
 use App\Pivots\ArtistResource as ArtistResourcePivot;
+use App\Pivots\StudioResource as StudioResourcePivot;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
-use App\Pivots\StudioResource as StudioResourcePivot;
 
 /**
  * Class ExternalResourceResource.
