@@ -37,7 +37,7 @@ class StudioResourceTest extends TestCase
 
     /**
      * When a Studio is detached from a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
-     * 
+     *
      * @return void
      */
     public function testStudioResourceDeletedSendsDiscordNotification()
@@ -57,7 +57,7 @@ class StudioResourceTest extends TestCase
 
     /**
      * When a Studio Resource pivot is updated, a SendDiscordNotification job will be dispatched.
-     * 
+     *
      * @return void
      */
     public function testStudioResourceUpdatedSendsDiscordNotification()
