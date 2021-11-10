@@ -7,10 +7,10 @@ namespace Tests\Feature\Jobs\Pivot;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
+use App\Pivots\StudioResource;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
-use App\Pivots\StudioResource;
 
 /**
  * Class StudioResourceTest.

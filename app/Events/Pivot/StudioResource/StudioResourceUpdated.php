@@ -22,8 +22,8 @@ class StudioResourceUpdated extends StudioResourceEvent implements DiscordMessag
 
     /**
      * Create a new event instance.
-     * 
-     * @param StudioResource $studioResource
+     *
+     * @param  StudioResource  $studioResource
      * @return void
      */
     public function __construct(StudioResource $studioResource)

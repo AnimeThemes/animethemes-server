@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Studio $studio
  * @property string $as
  * @property ExternalResource $resource
- * 
+ *
  * @method static StudioResourceFactory factory(...$parameters)
  */
 class StudioResource extends BasePivot
