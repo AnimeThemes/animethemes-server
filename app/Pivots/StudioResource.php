@@ -24,8 +24,8 @@ class StudioResource extends BasePivot
 {
     public const TABLE = 'studio_resource';
 
-    public const ATTRIBUTE_STUDIO = 'studio_id';
     public const ATTRIBUTE_AS = 'as';
+    public const ATTRIBUTE_STUDIO = 'studio_id';
     public const ATTRIBUTE_RESOURCE = 'resource_id';
 
     /**
