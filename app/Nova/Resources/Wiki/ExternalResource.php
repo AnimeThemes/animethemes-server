@@ -196,7 +196,7 @@ class ExternalResource extends Resource
                             ->hideWhenCreating(),
 
                         DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
-                            ->readOnly()
+                            ->readonly()
                             ->hideWhenCreating(),
                     ];
                 }),

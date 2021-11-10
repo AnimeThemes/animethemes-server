@@ -24,6 +24,7 @@ use App\Pivots\StudioResource;
  * @property string $name
  * @property string $slug
  * @property int $studio_id
+ * @property BasePivot $pivot
  *
  * @method static StudioFactory factory(...$parameters)
  */
@@ -123,6 +124,6 @@ class Studio extends BaseModel
         return $this->belongsToMany(ExternalResource::class, StudioResource::TABLE, Studio::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_ID)
         ->using(StudioResource::class)
         ->withPivot(StudioResource::ATTRIBUTE_AS)
-        ->withTimeStamps();
+        ->withTimestamps();
     }
 }

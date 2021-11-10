@@ -115,9 +115,9 @@ class ExternalResourceTest extends TestCase
             ->has(Studio::factory()->count($studioCount))
             ->createOne();
 
-        static::assertInstanceOf(BelongsToMany::class, $resource->studio());
-        static::assertEquals($studioCount, $resource->studio()->count());
-        static::assertInstanceOf(Studio::class, $resource->studio()->first());
-        static::assertEquals(StudioResource::class, $resource->studio()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $resource->studios());
+        static::assertEquals($studioCount, $resource->studios()->count());
+        static::assertInstanceOf(Studio::class, $resource->studios()->first());
+        static::assertEquals(StudioResource::class, $resource->studios()->getPivotClass());
     }
 }

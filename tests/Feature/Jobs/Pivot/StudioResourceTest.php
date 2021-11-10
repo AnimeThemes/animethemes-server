@@ -52,4 +52,31 @@ class StudioResourceTest extends TestCase
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
+
+    /**
+     * When a Studio Resource pivot is updated, a SendDiscordNotification job will be dispatched.
+     */
+    public function testStudioResourceUpdatedSendsDiscordNotification()
+    {
+        $studio = Studio::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
+
+        $studioResource = StudioResource::factory()
+            ->for($studio, 'studio')
+            ->for($resource, 'resource')
+            ->createOne();
+
+        $changes = StudioResource::factory()
+            ->for($studio, 'studio')
+            ->for($resource, 'resource')
+            ->makeOne();
+
+        Config::set('flags.allow_discord_notifications', true);
+        Bus::fake(SendDiscordNotificationJob::class);
+
+        $studioResource->fill($changes->getAttributes());
+        $studioResource->save();
+
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
+    }
 }

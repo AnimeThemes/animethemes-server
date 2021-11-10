@@ -46,7 +46,7 @@ class ExternalResource extends BaseModel
 
     public const RELATION_ANIME = 'anime';
     public const RELATION_ARTISTS = 'artists';
-    public const RELATION_STUDIO = 'studio';
+    public const RELATION_STUDIOS = 'studios';
 
     /**
      * The attributes that are mass assignable.
@@ -143,11 +143,11 @@ class ExternalResource extends BaseModel
     }
 
     /**
-     * Get the studio that references this resource.
+     * Get the studios that references this resource.
      * 
      * @return BelongsToMany
      */
-    public function studio(): BelongsToMany
+    public function studios(): BelongsToMany
     {
         return $this->belongsToMany(Studio::class, StudioResource::TABLE, ExternalResource::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID)
         ->using(StudioResource::class)

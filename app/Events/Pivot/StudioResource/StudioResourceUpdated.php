@@ -22,13 +22,13 @@ class StudioResourceUpdated extends StudioResourceEvent implements DiscordMessag
     /**
      * Create a new event instance.
      * 
-     * @param StudioResource $animeResource
+     * @param StudioResource $studioResource
      * @return void
      */
     public function __construct(StudioResource $studioResource)
     {
         parent::__construct($studioResource);
-        $this->initializeEmbedFields($animeResource);
+        $this->initializeEmbedFields($studioResource);
     }
 
     /**

@@ -38,7 +38,7 @@ class StudioSchema extends Schema
     {
         return [
             AllowedInclude::make(AnimeSchema::class, Studio::RELATION_ANIME),
-            AllowedInclude::make(ExternalResourcesSchema::class, Studio::RELATION_RESOURCES)
+            AllowedInclude::make(ExternalResourceschema::class, Studio::RELATION_RESOURCES)
         ];
     }
 
