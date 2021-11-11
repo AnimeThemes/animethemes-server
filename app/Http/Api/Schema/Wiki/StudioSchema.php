@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
+use App\Enums\Http\Api\Field\Category;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\IntField;
 use App\Http\Api\Field\StringField;
@@ -12,6 +13,7 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
+use App\Pivots\StudioResource as StudioResourcePivot;
 
 /**
  * Class StudioSchema.
@@ -37,6 +39,7 @@ class StudioSchema extends Schema
     {
         return [
             AllowedInclude::make(AnimeSchema::class, Studio::RELATION_ANIME),
+            AllowedInclude::make(ExternalResourceSchema::class, Studio::RELATION_RESOURCES),
         ];
     }
 
@@ -53,6 +56,7 @@ class StudioSchema extends Schema
                 new IntField(BaseResource::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID),
                 new StringField(Studio::ATTRIBUTE_NAME),
                 new StringField(Studio::ATTRIBUTE_SLUG),
+                new StringField(StudioResourcePivot::ATTRIBUTE_AS, null, Category::COMPUTED()),
             ],
         );
     }

@@ -8,8 +8,10 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Studio;
 use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
+use App\Pivots\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
@@ -98,5 +100,24 @@ class ExternalResourceTest extends TestCase
         static::assertEquals($artistCount, $resource->artists()->count());
         static::assertInstanceOf(Artist::class, $resource->artists()->first());
         static::assertEquals(ArtistResource::class, $resource->artists()->getPivotClass());
+    }
+
+    /**
+     * Resource shall have a many-to-many relationshop with the type Studio.
+     *
+     * @return void
+     */
+    public function testStudio()
+    {
+        $studioCount = $this->faker->randomDigitNotNull();
+
+        $resource = ExternalResource::factory()
+            ->has(Studio::factory()->count($studioCount))
+            ->createOne();
+
+        static::assertInstanceOf(BelongsToMany::class, $resource->studios());
+        static::assertEquals($studioCount, $resource->studios()->count());
+        static::assertInstanceOf(Studio::class, $resource->studios()->first());
+        static::assertEquals(StudioResource::class, $resource->studios()->getPivotClass());
     }
 }

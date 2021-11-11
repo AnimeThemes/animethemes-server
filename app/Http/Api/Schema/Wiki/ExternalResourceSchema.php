@@ -42,6 +42,7 @@ class ExternalResourceSchema extends Schema
         return [
             AllowedInclude::make(AnimeSchema::class, ExternalResource::RELATION_ANIME),
             AllowedInclude::make(ArtistSchema::class, ExternalResource::RELATION_ARTISTS),
+            AllowedInclude::make(StudioSchema::class, ExternalResource::RELATION_STUDIOS),
         ];
     }
 

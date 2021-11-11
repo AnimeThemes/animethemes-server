@@ -10,6 +10,8 @@ use App\Events\Wiki\Studio\StudioRestored;
 use App\Events\Wiki\Studio\StudioUpdated;
 use App\Models\BaseModel;
 use App\Pivots\AnimeStudio;
+use App\Pivots\BasePivot;
+use App\Pivots\StudioResource;
 use Database\Factories\Wiki\StudioFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
@@ -22,6 +24,7 @@ use Laravel\Scout\Searchable;
  * @property string $name
  * @property string $slug
  * @property int $studio_id
+ * @property BasePivot $pivot
  *
  * @method static StudioFactory factory(...$parameters)
  */
@@ -37,6 +40,7 @@ class Studio extends BaseModel
     public const ATTRIBUTE_SLUG = 'slug';
 
     public const RELATION_ANIME = 'anime';
+    public const RELATION_RESOURCES = 'resources';
 
     /**
      * The attributes that are mass assignable.
@@ -108,5 +112,18 @@ class Studio extends BaseModel
         return $this->belongsToMany(Anime::class, AnimeStudio::TABLE, Studio::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID)
             ->using(AnimeStudio::class)
             ->withTimestamps();
+    }
+
+    /**
+     * Get the resources for the studio.
+     *
+     * @return BelongsToMany
+     */
+    public function resources(): BelongsToMany
+    {
+        return $this->belongsToMany(ExternalResource::class, StudioResource::TABLE, Studio::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_ID)
+        ->using(StudioResource::class)
+        ->withPivot(StudioResource::ATTRIBUTE_AS)
+        ->withTimestamps();
     }
 }

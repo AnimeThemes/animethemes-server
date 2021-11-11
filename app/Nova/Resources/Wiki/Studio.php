@@ -8,6 +8,7 @@ use App\Models\Wiki\Studio as StudioModel;
 use App\Nova\Lenses\Studio\StudioUnlinkedLens;
 use App\Nova\Resources\Resource;
 use App\Pivots\BasePivot;
+use App\Pivots\StudioResource;
 use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -123,6 +124,22 @@ class Studio extends Resource
                             ->readonly()
                             ->hideWhenCreating(),
 
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                            ->readonly()
+                            ->hideWhenCreating(),
+                    ];
+                }),
+
+            BelongsToMany::make(__('nova.external_resources'), 'Resources', ExternalResource::class)
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        Text::make(__('nova.as'), StudioResource::ATTRIBUTE_AS)
+                            ->rules(['nullable', 'max:192'])
+                            ->help(__('nova.resource_as_help')),
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                            ->readonly()
+                            ->hideWhenCreating(),
                         DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->readonly()
                             ->hideWhenCreating(),

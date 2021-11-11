@@ -15,3 +15,5 @@ yarn-error.log
 auth.json
 *.sqlite
 *.sqlite3
+public/css/app.css
+public/js/app.js

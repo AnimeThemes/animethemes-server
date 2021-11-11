@@ -12,6 +12,7 @@ use App\Nova\Resources\Resource;
 use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
 use App\Pivots\BasePivot;
+use App\Pivots\StudioResource;
 use App\Rules\Wiki\ResourceSiteDomainRule;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
@@ -169,6 +170,24 @@ class ExternalResource extends Resource
                 ->fields(function () {
                     return [
                         Text::make(__('nova.as'), AnimeResource::ATTRIBUTE_AS)
+                            ->rules(['nullable', 'max:192'])
+                            ->help(__('nova.resource_as_help')),
+
+                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                            ->readonly()
+                            ->hideWhenCreating(),
+
+                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                            ->readonly()
+                            ->hideWhenCreating(),
+                    ];
+                }),
+
+            BelongsToMany::make(__('nova.studios'), 'Studios', Studio::class)
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        Text::make(__('nova.as'), StudioResource::ATTRIBUTE_AS)
                             ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 
