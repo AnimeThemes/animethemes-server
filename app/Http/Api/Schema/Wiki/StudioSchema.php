@@ -56,7 +56,7 @@ class StudioSchema extends Schema
                 new IntField(BaseResource::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID),
                 new StringField(Studio::ATTRIBUTE_NAME),
                 new StringField(Studio::ATTRIBUTE_SLUG),
-                new StringField(StudioResourcePivot::ATTRIBUTE_AS, null, Category::COMPUTED())
+                new StringField(StudioResourcePivot::ATTRIBUTE_AS, null, Category::COMPUTED()),
             ],
         );
     }
