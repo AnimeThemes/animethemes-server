@@ -183,7 +183,7 @@ class ExternalResource extends Resource
                     ];
                 }),
 
-            BelongsToMany::make(__('nova.studio'), 'Studio', Studio::class)
+            BelongsToMany::make(__('nova.studios'), 'Studios', Studio::class)
                 ->searchable()
                 ->fields(function () {
                     return [
