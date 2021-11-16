@@ -48,6 +48,7 @@ class ExternalResourceUnlinkedLens extends Lens
         return $request->withOrdering($request->withFilters(
             $query->whereDoesntHave(ExternalResource::RELATION_ANIME)
                 ->whereDoesntHave(ExternalResource::RELATION_ARTISTS)
+                ->whereDoesntHave(ExternalResource::RELATION_STUDIOS)
         ));
     }
 

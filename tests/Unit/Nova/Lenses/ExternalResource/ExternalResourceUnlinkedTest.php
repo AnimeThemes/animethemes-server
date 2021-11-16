@@ -7,6 +7,7 @@ namespace Tests\Unit\Nova\Lenses\ExternalResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Studio;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
 use App\Nova\Filters\Base\DeletedEndDateFilter;
@@ -156,14 +157,14 @@ class ExternalResourceUnlinkedTest extends TestCase
             ->create();
 
         ExternalResource::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(Studio::factory()->count($this->faker->randomDigitNotNull()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
         $filteredResources = ExternalResource::query()
             ->whereDoesntHave(ExternalResource::RELATION_ANIME)
             ->whereDoesntHave(ExternalResource::RELATION_ARTISTS)
+            ->whereDoesntHave(ExternalResource::RELATION_STUDIOS)
             ->get();
 
         $lens = static::novaLens(ExternalResourceUnlinkedLens::class);
