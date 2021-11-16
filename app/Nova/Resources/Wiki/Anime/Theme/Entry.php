@@ -112,9 +112,7 @@ class Entry extends Resource
     {
         return [
             BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
-                ->hideFromIndex(function (ResourceIndexRequest $novaRequest) {
-                    return Video::class !== $novaRequest->viaResource();
-                })
+                ->hideFromIndex(fn (ResourceIndexRequest $novaRequest) => Video::class !== $novaRequest->viaResource())
                 ->readonly(),
 
             BelongsTo::make(__('nova.theme'), 'AnimeTheme', Theme::class)

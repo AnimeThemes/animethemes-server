@@ -76,9 +76,10 @@ class SeriesSeeder extends Seeder
                 PREG_PATTERN_ORDER
             );
 
-            $seriesAnimeNames = array_map(function (string $seriesAnimeWikiEntry) {
-                return html_entity_decode($seriesAnimeWikiEntry);
-            }, $seriesAnimeWikiEntries[1]);
+            $seriesAnimeNames = array_map(
+                fn (string $seriesAnimeWikiEntry) => html_entity_decode($seriesAnimeWikiEntry),
+                $seriesAnimeWikiEntries[1]
+            );
 
             // Attach Anime to Series by Name
             // Note: We are not concerned about Name collision here.

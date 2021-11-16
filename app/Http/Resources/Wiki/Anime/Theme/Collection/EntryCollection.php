@@ -40,9 +40,7 @@ class EntryCollection extends SearchableCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (AnimeThemeEntry $entry) {
-            return EntryResource::make($entry, $this->query);
-        })->all();
+        return $this->collection->map(fn (AnimeThemeEntry $entry) => EntryResource::make($entry, $this->query))->all();
     }
 
     /**

@@ -73,9 +73,7 @@ class ThemeUpdated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
 
         $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
             $entry->searchable();
-            $entry->videos->each(function (Video $video) {
-                $video->searchable();
-            });
+            $entry->videos->each(fn (Video $video) => $video->searchable());
         });
     }
 }

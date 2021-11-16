@@ -54,8 +54,6 @@ class EntryDeleted extends EntryEvent implements DiscordMessageEvent, UpdateRela
         $entry = $this->getEntry();
 
         $videos = $entry->videos;
-        $videos->each(function (Video $video) {
-            $video->searchable();
-        });
+        $videos->each(fn (Video $video) => $video->searchable());
     }
 }

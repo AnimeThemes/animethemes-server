@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Nova\Lenses\Studio;
+namespace Tests\Unit\Nova\Lenses\Studio;
 
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
@@ -12,6 +12,7 @@ use App\Nova\Filters\Base\DeletedEndDateFilter;
 use App\Nova\Filters\Base\DeletedStartDateFilter;
 use App\Nova\Filters\Base\UpdatedEndDateFilter;
 use App\Nova\Filters\Base\UpdatedStartDateFilter;
+use App\Nova\Lenses\Studio\StudioUnlinkedLens;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Exceptions\InvalidModelException;

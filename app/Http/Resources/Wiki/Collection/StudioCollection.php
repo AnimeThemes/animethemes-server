@@ -40,9 +40,7 @@ class StudioCollection extends SearchableCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (Studio $studio) {
-            return StudioResource::make($studio, $this->query);
-        })->all();
+        return $this->collection->map(fn (Studio $studio) => StudioResource::make($studio, $this->query))->all();
     }
 
     /**

@@ -55,8 +55,6 @@ class EntryCreated extends EntryEvent implements DiscordMessageEvent, UpdateRela
     {
         $entry = $this->getEntry();
 
-        $entry->videos->each(function (Video $video) {
-            $video->searchable();
-        });
+        $entry->videos->each(fn (Video $video) => $video->searchable());
     }
 }

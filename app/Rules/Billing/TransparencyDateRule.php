@@ -46,9 +46,9 @@ class TransparencyDateRule implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        return $this->validDates->contains(function (Carbon $validDate) use ($value) {
-            return $validDate->format(AllowedDateFormat::YM) === $value;
-        });
+        return $this->validDates->contains(
+            fn (Carbon $validDate) => $validDate->format(AllowedDateFormat::YM) === $value
+        );
     }
 
     /**

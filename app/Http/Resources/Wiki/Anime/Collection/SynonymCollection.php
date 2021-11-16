@@ -40,9 +40,9 @@ class SynonymCollection extends SearchableCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (AnimeSynonym $synonym) {
-            return SynonymResource::make($synonym, $this->query);
-        })->all();
+        return $this->collection->map(
+            fn (AnimeSynonym $synonym) => SynonymResource::make($synonym, $this->query)
+        )->all();
     }
 
     /**

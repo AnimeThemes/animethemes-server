@@ -16,7 +16,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Song;
 use BenSampo\Enum\Enum;
-use BenSampo\Enum\Traits\CastsEnums;
 use Database\Factories\Wiki\Anime\AnimeThemeFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -42,7 +41,6 @@ use Laravel\Scout\Searchable;
  */
 class AnimeTheme extends BaseModel
 {
-    use CastsEnums;
     use \ElasticScoutDriverPlus\Searchable;
     use Searchable;
 
@@ -134,22 +132,13 @@ class AnimeTheme extends BaseModel
     }
 
     /**
-     * The attributes that should be cast to enum types.
-     *
-     * @var array
-     */
-    protected $enumCasts = [
-        AnimeTheme::ATTRIBUTE_TYPE => ThemeType::class,
-    ];
-
-    /**
      * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
         AnimeTheme::ATTRIBUTE_SEQUENCE => 'int',
-        AnimeTheme::ATTRIBUTE_TYPE => 'int',
+        AnimeTheme::ATTRIBUTE_TYPE => ThemeType::class,
     ];
 
     /**

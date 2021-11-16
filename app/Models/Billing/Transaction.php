@@ -12,7 +12,6 @@ use App\Events\Billing\Transaction\TransactionRestored;
 use App\Events\Billing\Transaction\TransactionUpdated;
 use App\Models\BaseModel;
 use BenSampo\Enum\Enum;
-use BenSampo\Enum\Traits\CastsEnums;
 use Carbon\Carbon;
 use Database\Factories\Billing\TransactionFactory;
 use Illuminate\Support\Str;
@@ -31,8 +30,6 @@ use Illuminate\Support\Str;
  */
 class Transaction extends BaseModel
 {
-    use CastsEnums;
-
     public const TABLE = 'transactions';
 
     public const ATTRIBUTE_AMOUNT = 'amount';
@@ -84,15 +81,6 @@ class Transaction extends BaseModel
     protected $primaryKey = Transaction::ATTRIBUTE_ID;
 
     /**
-     * The attributes that should be cast to enum types.
-     *
-     * @var array
-     */
-    protected $enumCasts = [
-        Transaction::ATTRIBUTE_SERVICE => Service::class,
-    ];
-
-    /**
      * The attributes that should be cast.
      *
      * @var array
@@ -100,7 +88,7 @@ class Transaction extends BaseModel
     protected $casts = [
         Transaction::ATTRIBUTE_AMOUNT => 'decimal:2',
         Transaction::ATTRIBUTE_DATE => 'date:Y-m-d',
-        Transaction::ATTRIBUTE_SERVICE => 'int',
+        Transaction::ATTRIBUTE_SERVICE => Service::class,
     ];
 
     /**

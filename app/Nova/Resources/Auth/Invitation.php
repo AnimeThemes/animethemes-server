@@ -128,9 +128,7 @@ class Invitation extends Resource
             Select::make(__('nova.status'), InvitationModel::ATTRIBUTE_STATUS)
                 ->hideWhenCreating()
                 ->options(InvitationStatus::asSelectArray())
-                ->displayUsing(function (?Enum $enum) {
-                    return $enum?->description;
-                })
+                ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', (new EnumValue(InvitationStatus::class, false))->__toString()]),
 

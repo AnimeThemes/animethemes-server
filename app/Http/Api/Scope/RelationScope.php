@@ -56,10 +56,6 @@ class RelationScope extends Scope
      */
     public function isWithinScope(Scope $scope): bool
     {
-        if ($scope instanceof RelationScope) {
-            return $this->relation === $scope->getRelation();
-        }
-
-        return false;
+        return $scope instanceof RelationScope && $this->relation === $scope->getRelation();
     }
 }

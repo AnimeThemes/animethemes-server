@@ -158,9 +158,7 @@ class Anime extends Resource
 
             Select::make(__('nova.season'), AnimeModel::ATTRIBUTE_SEASON)
                 ->options(AnimeSeason::asSelectArray())
-                ->displayUsing(function (?Enum $enum) {
-                    return $enum?->description;
-                })
+                ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', (new EnumValue(AnimeSeason::class, false))->__toString()])
                 ->help(__('nova.anime_season_help')),

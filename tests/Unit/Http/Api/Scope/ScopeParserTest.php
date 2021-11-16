@@ -2,8 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Scope;
+namespace Tests\Unit\Http\Api\Scope;
 
+use App\Http\Api\Scope\GlobalScope;
+use App\Http\Api\Scope\RelationScope;
+use App\Http\Api\Scope\ScopeParser;
+use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 

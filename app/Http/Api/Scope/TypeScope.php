@@ -48,10 +48,6 @@ class TypeScope extends Scope
             return $this->type === $scope->getType();
         }
 
-        if ($scope instanceof RelationScope) {
-            return $this->type === $scope->getType();
-        }
-
-        return false;
+        return $scope instanceof RelationScope && $this->type === $scope->getType();
     }
 }

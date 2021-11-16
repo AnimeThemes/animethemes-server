@@ -72,17 +72,13 @@ class SongUpdated extends SongEvent implements DiscordMessageEvent, UpdateRelate
     {
         $song = $this->getSong()->load(['artists', 'animethemes.animethemeentries.videos']);
 
-        $song->artists->each(function (Artist $artist) {
-            $artist->searchable();
-        });
+        $song->artists->each(fn (Artist $artist) => $artist->searchable());
 
         $song->animethemes->each(function (AnimeTheme $theme) {
             $theme->searchable();
             $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
                 $entry->searchable();
-                $entry->videos->each(function (Video $video) {
-                    $video->searchable();
-                });
+                $entry->videos->each(fn (Video $video) => $video->searchable());
             });
         });
     }

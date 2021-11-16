@@ -74,9 +74,7 @@ class AnimeRestored extends AnimeEvent implements CascadesRestoresEvent, Discord
                     AnimeThemeEntry::withoutEvents(function () use ($entry) {
                         $entry->restore();
                         $entry->searchable();
-                        $entry->videos->each(function (Video $video) {
-                            $video->searchable();
-                        });
+                        $entry->videos->each(fn (Video $video) => $video->searchable());
                     });
                 });
             });

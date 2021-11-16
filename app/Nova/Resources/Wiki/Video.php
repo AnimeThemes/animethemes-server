@@ -150,9 +150,7 @@ class Video extends Resource
 
             Select::make(__('nova.overlap'), VideoModel::ATTRIBUTE_OVERLAP)
                 ->options(VideoOverlap::asSelectArray())
-                ->displayUsing(function (?Enum $enum) {
-                    return $enum?->description;
-                })
+                ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->nullable()
                 ->sortable()
                 ->rules(['nullable', (new EnumValue(VideoOverlap::class, false))->__toString()])
@@ -160,9 +158,7 @@ class Video extends Resource
 
             Select::make(__('nova.source'), VideoModel::ATTRIBUTE_SOURCE)
                 ->options(VideoSource::asSelectArray())
-                ->displayUsing(function (?Enum $enum) {
-                    return $enum?->description;
-                })
+                ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->nullable()
                 ->sortable()
                 ->rules(['nullable', (new EnumValue(VideoSource::class, false))->__toString()])

@@ -122,9 +122,7 @@ class Theme extends Resource
 
             Select::make(__('nova.type'), AnimeTheme::ATTRIBUTE_TYPE)
                 ->options(ThemeType::asSelectArray())
-                ->displayUsing(function (?Enum $enum) {
-                    return $enum?->description;
-                })
+                ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', (new EnumValue(ThemeType::class, false))->__toString()])
                 ->help(__('nova.theme_type_help')),

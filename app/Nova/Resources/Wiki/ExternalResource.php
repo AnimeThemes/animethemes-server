@@ -122,9 +122,7 @@ class ExternalResource extends Resource
 
             Select::make(__('nova.site'), ExternalResourceModel::ATTRIBUTE_SITE)
                 ->options(ResourceSite::asSelectArray())
-                ->displayUsing(function (?Enum $enum) {
-                    return $enum?->description;
-                })
+                ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', (new EnumValue(ResourceSite::class, false))->__toString()])
                 ->help(__('nova.resource_site_help')),

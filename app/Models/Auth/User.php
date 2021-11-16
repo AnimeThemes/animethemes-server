@@ -187,9 +187,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     public function belongsToTeam($team): bool
     {
         return $team !== null
-            && ($this->teams->contains(function (Team $t) use ($team) {
-                return $t->id === $team->id;
-            }) || $this->ownsTeam($team));
+            && ($this->teams->contains(fn (Team $t) => $t->id === $team->id) || $this->ownsTeam($team));
     }
 
     /**

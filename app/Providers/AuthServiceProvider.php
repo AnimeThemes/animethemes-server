@@ -26,21 +26,21 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Password::defaults(function () {
-            return Password::min(8)
+        Password::defaults(
+            fn () => Password::min(8)
                 ->uncompromised()
                 ->mixedCase()
                 ->letters()
                 ->numbers()
-                ->symbols();
-        });
+                ->symbols()
+        );
 
-        Gate::guessPolicyNamesUsing(function (string $modelClass) {
-            return Str::of($modelClass)
+        Gate::guessPolicyNamesUsing(
+            fn (string $modelClass) => Str::of($modelClass)
                 ->replace('Models', 'Policies')
                 ->append('Policy')
-                ->__toString();
-        });
+                ->__toString()
+        );
 
         Gate::define('viewNova', function (User $user) {
             $novaTeam = Team::query()->find(Config::get('teams.nova'));

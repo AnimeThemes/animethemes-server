@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Enums\Models\Wiki;
 
 use App\Enums\BaseEnum;
+use Illuminate\Support\Arr;
 
 /**
  * Class ResourceSite.
@@ -57,12 +58,9 @@ final class ResourceSite extends BaseEnum
     {
         $parsedHost = parse_url($link, PHP_URL_HOST);
 
-        foreach (ResourceSite::getValues() as $value) {
-            if ($parsedHost === ResourceSite::getDomain($value)) {
-                return $value;
-            }
-        }
-
-        return null;
+        return Arr::first(
+            ResourceSite::getInstances(),
+            fn (ResourceSite $site) => $parsedHost === ResourceSite::getDomain($site->value)
+        );
     }
 }

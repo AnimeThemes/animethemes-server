@@ -40,9 +40,7 @@ class ArtistCollection extends SearchableCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (Artist $artist) {
-            return ArtistResource::make($artist, $this->query);
-        })->all();
+        return $this->collection->map(fn (Artist $artist) => ArtistResource::make($artist, $this->query))->all();
     }
 
     /**

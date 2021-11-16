@@ -67,9 +67,7 @@ class ImageUnlinkedLens extends Lens
 
             Select::make(__('nova.facet'), Image::ATTRIBUTE_FACET)
                 ->options(ImageFacet::asSelectArray())
-                ->displayUsing(function (?Enum $enum) {
-                    return $enum?->description;
-                })
+                ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable(),
 
             NovaImage::make(__('nova.image'), Image::ATTRIBUTE_PATH)

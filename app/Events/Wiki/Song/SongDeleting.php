@@ -28,9 +28,7 @@ class SongDeleting extends SongEvent implements UpdateRelatedIndicesEvent
             // refresh artist documents by detaching song
             $artists = $song->artists;
             $song->artists()->detach();
-            $artists->each(function (Artist $artist) {
-                $artist->searchable();
-            });
+            $artists->each(fn (Artist $artist) => $artist->searchable());
 
             // refresh theme documents by dissociating song
             $song->animethemes->each(function (AnimeTheme $theme) {
@@ -41,9 +39,7 @@ class SongDeleting extends SongEvent implements UpdateRelatedIndicesEvent
                 $theme->searchable();
                 $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
                     $entry->searchable();
-                    $entry->videos->each(function (Video $video) {
-                        $video->searchable();
-                    });
+                    $entry->videos->each(fn (Video $video) => $video->searchable());
                 });
             });
         }

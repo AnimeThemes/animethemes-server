@@ -40,9 +40,7 @@ class ImageCollection extends BaseCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (Image $image) {
-            return ImageResource::make($image, $this->query);
-        })->all();
+        return $this->collection->map(fn (Image $image) => ImageResource::make($image, $this->query))->all();
     }
 
     /**

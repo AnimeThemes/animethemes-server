@@ -28,9 +28,7 @@ class ThemeDeleting extends ThemeEvent implements CascadesDeletesEvent
                 $entry->delete();
 
                 $videos = $entry->videos;
-                $videos->each(function (Video $video) {
-                    $video->searchable();
-                });
+                $videos->each(fn (Video $video) => $video->searchable());
             });
         });
     }

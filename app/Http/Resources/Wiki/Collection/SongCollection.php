@@ -40,9 +40,7 @@ class SongCollection extends SearchableCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (Song $song) {
-            return SongResource::make($song, $this->query);
-        })->all();
+        return $this->collection->map(fn (Song $song) => SongResource::make($song, $this->query))->all();
     }
 
     /**

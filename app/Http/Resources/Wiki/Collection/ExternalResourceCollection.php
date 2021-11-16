@@ -40,9 +40,9 @@ class ExternalResourceCollection extends BaseCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (ExternalResource $resource) {
-            return ExternalResourceResource::make($resource, $this->query);
-        })->all();
+        return $this->collection->map(
+            fn (ExternalResource $resource) => ExternalResourceResource::make($resource, $this->query)
+        )->all();
     }
 
     /**

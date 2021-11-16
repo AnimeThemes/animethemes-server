@@ -120,9 +120,7 @@ class Image extends Resource
 
             Select::make(__('nova.facet'), ImageModel::ATTRIBUTE_FACET)
                 ->options(ImageFacet::asSelectArray())
-                ->displayUsing(function (?Enum $enum) {
-                    return $enum?->description;
-                })
+                ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', (new EnumValue(ImageFacet::class, false))->__toString()])
                 ->help(__('nova.image_facet_help')),
