@@ -39,13 +39,13 @@ class VideoRepository implements Repository
 
         // Filter all objects for WebM metadata
         // We don't want to filter on the remote filesystem for performance concerns
-        $fsVideos = $fsVideos->filter(function (array $fsFile) {
-            return Arr::get($fsFile, 'type') === 'file' && Arr::get($fsFile, 'extension') === 'webm';
-        });
+        $fsVideos = $fsVideos->filter(
+            fn (array $fsFile) => Arr::get($fsFile, 'type') === 'file' && Arr::get($fsFile, 'extension') === 'webm'
+        );
 
         // Create videos from metadata that we can later save if needed
-        return $fsVideos->map(function (array $fsFile) {
-            return Video::factory()->makeOne([
+        return $fsVideos->map(
+            fn (array $fsFile) => Video::factory()->makeOne([
                 Video::ATTRIBUTE_BASENAME => Arr::get($fsFile, 'basename'),
                 Video::ATTRIBUTE_FILENAME => Arr::get($fsFile, 'filename'),
                 Video::ATTRIBUTE_LYRICS => false,
@@ -58,8 +58,8 @@ class VideoRepository implements Repository
                 Video::ATTRIBUTE_SOURCE => null,
                 Video::ATTRIBUTE_SUBBED => false,
                 Video::ATTRIBUTE_UNCEN => false,
-            ]);
-        });
+            ])
+        );
     }
 
     /**

@@ -83,9 +83,7 @@ class AnimeMalResourceLens extends Lens
 
             Select::make(__('nova.season'), Anime::ATTRIBUTE_SEASON)
                 ->options(AnimeSeason::asSelectArray())
-                ->displayUsing(function (?Enum $enum) {
-                    return $enum?->description;
-                })
+                ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable(),
         ];
     }

@@ -125,18 +125,14 @@ class Balance extends Resource
 
             Select::make(__('nova.service'), BalanceModel::ATTRIBUTE_SERVICE)
                 ->options(Service::asSelectArray())
-                ->displayUsing(function (?Enum $enum) {
-                    return $enum?->description;
-                })
+                ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', (new EnumValue(Service::class, false))->__toString()])
                 ->help(__('nova.billing_service_help')),
 
             Select::make(__('nova.frequency'), BalanceModel::ATTRIBUTE_FREQUENCY)
                 ->options(BalanceFrequency::asSelectArray())
-                ->displayUsing(function (?Enum $enum) {
-                    return $enum?->description;
-                })
+                ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', (new EnumValue(BalanceFrequency::class, false))->__toString()])
                 ->help(__('nova.balance_frequency_help')),

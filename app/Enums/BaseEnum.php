@@ -6,6 +6,7 @@ namespace App\Enums;
 
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -21,12 +22,9 @@ abstract class BaseEnum extends Enum implements LocalizedEnum
      */
     public static function fromDescription(string $description): ?static
     {
-        foreach (static::getInstances() as $instance) {
-            if (Str::lower($instance->description) === Str::lower($description)) {
-                return $instance;
-            }
-        }
-
-        return null;
+        return Arr::first(
+            static::getInstances(),
+            fn (BaseEnum $enum) => Str::lower($enum->description) === Str::lower($description)
+        );
     }
 }

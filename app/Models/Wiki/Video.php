@@ -16,7 +16,6 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Pivots\AnimeThemeEntryVideo;
 use BenSampo\Enum\Enum;
-use BenSampo\Enum\Traits\CastsEnums;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\Wiki\VideoFactory;
@@ -48,7 +47,6 @@ use Laravel\Scout\Searchable;
  */
 class Video extends BaseModel implements Streamable, Viewable
 {
-    use CastsEnums;
     use \ElasticScoutDriverPlus\Searchable;
     use InteractsWithViews;
     use Searchable;
@@ -177,9 +175,10 @@ class Video extends BaseModel implements Streamable, Viewable
     public function toSearchableArray(): array
     {
         $array = $this->toArray();
-        $array['entries'] = $this->animethemeentries->map(function (AnimeThemeEntry $entry) {
-            return $entry->toSearchableArray();
-        })->toArray();
+
+        $array['entries'] = $this->animethemeentries->map(
+            fn (AnimeThemeEntry $entry) => $entry->toSearchableArray()
+        )->toArray();
 
         return $array;
     }
@@ -197,16 +196,6 @@ class Video extends BaseModel implements Streamable, Viewable
     }
 
     /**
-     * The attributes that should be cast to enum types.
-     *
-     * @var array
-     */
-    protected $enumCasts = [
-        Video::ATTRIBUTE_OVERLAP => VideoOverlap::class,
-        Video::ATTRIBUTE_SOURCE => VideoSource::class,
-    ];
-
-    /**
      * The attributes that should be cast.
      *
      * @var array
@@ -214,9 +203,9 @@ class Video extends BaseModel implements Streamable, Viewable
     protected $casts = [
         Video::ATTRIBUTE_LYRICS => 'boolean',
         Video::ATTRIBUTE_NC => 'boolean',
-        Video::ATTRIBUTE_OVERLAP => 'int',
+        Video::ATTRIBUTE_OVERLAP => VideoOverlap::class,
         Video::ATTRIBUTE_SIZE => 'int',
-        Video::ATTRIBUTE_SOURCE => 'int',
+        Video::ATTRIBUTE_SOURCE => VideoSource::class,
         Video::ATTRIBUTE_SUBBED => 'boolean',
         Video::ATTRIBUTE_UNCEN => 'boolean',
     ];

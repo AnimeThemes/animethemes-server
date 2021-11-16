@@ -15,7 +15,6 @@ use App\Models\BaseModel;
 use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
 use BenSampo\Enum\Enum;
-use BenSampo\Enum\Traits\CastsEnums;
 use Database\Factories\Wiki\ImageFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
@@ -35,8 +34,6 @@ use Illuminate\Support\Collection;
  */
 class Image extends BaseModel implements Streamable
 {
-    use CastsEnums;
-
     public const TABLE = 'images';
 
     public const ATTRIBUTE_FACET = 'facet';
@@ -90,21 +87,12 @@ class Image extends BaseModel implements Streamable
     protected $primaryKey = Image::ATTRIBUTE_ID;
 
     /**
-     * The attributes that should be cast to enum types.
-     *
-     * @var array
-     */
-    protected $enumCasts = [
-        Image::ATTRIBUTE_FACET => ImageFacet::class,
-    ];
-
-    /**
      * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
-        Image::ATTRIBUTE_FACET => 'int',
+        Image::ATTRIBUTE_FACET => ImageFacet::class,
         Image::ATTRIBUTE_SIZE => 'int',
     ];
 

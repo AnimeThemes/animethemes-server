@@ -25,9 +25,7 @@ class EntryDeleting extends EntryEvent implements UpdateRelatedIndicesEvent
             // refresh video documents by detaching entry
             $videos = $entry->videos;
             $entry->videos()->detach();
-            $videos->each(function (Video $video) {
-                $video->searchable();
-            });
+            $videos->each(fn (Video $video) => $video->searchable());
         }
     }
 }

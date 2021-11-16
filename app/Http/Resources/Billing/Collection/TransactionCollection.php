@@ -40,9 +40,9 @@ class TransactionCollection extends BaseCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (Transaction $transaction) {
-            return TransactionResource::make($transaction, $this->query);
-        })->all();
+        return $this->collection->map(
+            fn (Transaction $transaction) => TransactionResource::make($transaction, $this->query)
+        )->all();
     }
 
     /**

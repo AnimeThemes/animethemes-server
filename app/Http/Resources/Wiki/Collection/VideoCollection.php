@@ -40,9 +40,7 @@ class VideoCollection extends SearchableCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (Video $video) {
-            return VideoResource::make($video, $this->query);
-        })->all();
+        return $this->collection->map(fn (Video $video) => VideoResource::make($video, $this->query))->all();
     }
 
     /**

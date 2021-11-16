@@ -40,9 +40,7 @@ class ThemeCollection extends SearchableCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (AnimeTheme $theme) {
-            return ThemeResource::make($theme, $this->query);
-        })->all();
+        return $this->collection->map(fn (AnimeTheme $theme) => ThemeResource::make($theme, $this->query))->all();
     }
 
     /**

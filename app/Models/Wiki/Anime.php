@@ -19,7 +19,6 @@ use App\Pivots\AnimeSeries;
 use App\Pivots\AnimeStudio;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
-use BenSampo\Enum\Traits\CastsEnums;
 use Database\Factories\Wiki\AnimeFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -48,7 +47,6 @@ use Laravel\Scout\Searchable;
  */
 class Anime extends BaseModel
 {
-    use CastsEnums;
     use \ElasticScoutDriverPlus\Searchable;
     use Searchable;
 
@@ -151,21 +149,12 @@ class Anime extends BaseModel
     }
 
     /**
-     * The attributes that should be cast to enum types.
-     *
-     * @var array
-     */
-    protected $enumCasts = [
-        Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
-    ];
-
-    /**
      * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
-        Anime::ATTRIBUTE_SEASON => 'int',
+        Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
         Anime::ATTRIBUTE_YEAR => 'int',
     ];
 

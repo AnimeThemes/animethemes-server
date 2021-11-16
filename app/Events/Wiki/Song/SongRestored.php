@@ -58,9 +58,7 @@ class SongRestored extends SongEvent implements DiscordMessageEvent, UpdateRelat
 
         // refresh artist documents by detaching song
         $artists = $song->artists;
-        $artists->each(function (Artist $artist) {
-            $artist->searchable();
-        });
+        $artists->each(fn (Artist $artist) => $artist->searchable());
 
         $song->animethemes->each(function (AnimeTheme $theme) {
             $theme->searchable();

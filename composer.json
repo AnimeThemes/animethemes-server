@@ -26,7 +26,7 @@
         "php": "^8.0",
         "babenkoivan/elastic-migrations": "^2.0",
         "babenkoivan/elastic-scout-driver-plus": "^3.0",
-        "bensampo/laravel-enum": "^3.2",
+        "bensampo/laravel-enum": "^4.0",
         "bepsvpt/secure-headers": "^7.1",
         "cyrildewit/eloquent-viewable": "^6.0",
         "david-griffiths/nova-dark-theme": "^1.0",

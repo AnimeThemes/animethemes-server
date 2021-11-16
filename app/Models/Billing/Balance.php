@@ -13,7 +13,6 @@ use App\Events\Billing\Balance\BalanceRestored;
 use App\Events\Billing\Balance\BalanceUpdated;
 use App\Models\BaseModel;
 use BenSampo\Enum\Enum;
-use BenSampo\Enum\Traits\CastsEnums;
 use Carbon\Carbon;
 use Database\Factories\Billing\BalanceFactory;
 use Illuminate\Support\Str;
@@ -32,8 +31,6 @@ use Illuminate\Support\Str;
  */
 class Balance extends BaseModel
 {
-    use CastsEnums;
-
     public const TABLE = 'balances';
 
     public const ATTRIBUTE_BALANCE = 'balance';
@@ -85,16 +82,6 @@ class Balance extends BaseModel
     protected $primaryKey = Balance::ATTRIBUTE_ID;
 
     /**
-     * The attributes that should be cast to enum types.
-     *
-     * @var array
-     */
-    protected $enumCasts = [
-        Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::class,
-        Balance::ATTRIBUTE_SERVICE => Service::class,
-    ];
-
-    /**
      * The attributes that should be cast.
      *
      * @var array
@@ -102,8 +89,8 @@ class Balance extends BaseModel
     protected $casts = [
         Balance::ATTRIBUTE_BALANCE => 'decimal:2',
         Balance::ATTRIBUTE_DATE => 'date:Y-m-d',
-        Balance::ATTRIBUTE_FREQUENCY => 'int',
-        Balance::ATTRIBUTE_SERVICE => 'int',
+        Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::class,
+        Balance::ATTRIBUTE_SERVICE => Service::class,
         Balance::ATTRIBUTE_USAGE => 'decimal:2',
     ];
 

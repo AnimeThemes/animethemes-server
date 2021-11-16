@@ -15,7 +15,6 @@ use App\Pivots\ArtistResource;
 use App\Pivots\BasePivot;
 use App\Pivots\StudioResource;
 use BenSampo\Enum\Enum;
-use BenSampo\Enum\Traits\CastsEnums;
 use Database\Factories\Wiki\ExternalResourceFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
@@ -35,8 +34,6 @@ use Illuminate\Support\Collection;
  */
 class ExternalResource extends BaseModel
 {
-    use CastsEnums;
-
     public const TABLE = 'resources';
 
     public const ATTRIBUTE_EXTERNAL_ID = 'external_id';
@@ -88,22 +85,13 @@ class ExternalResource extends BaseModel
     protected $primaryKey = ExternalResource::ATTRIBUTE_ID;
 
     /**
-     * The attributes that should be cast to enum types.
-     *
-     * @var array
-     */
-    protected $enumCasts = [
-        ExternalResource::ATTRIBUTE_SITE => ResourceSite::class,
-    ];
-
-    /**
      * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
         ExternalResource::ATTRIBUTE_EXTERNAL_ID => 'int',
-        ExternalResource::ATTRIBUTE_SITE => 'int',
+        ExternalResource::ATTRIBUTE_SITE => ResourceSite::class,
     ];
 
     /**

@@ -40,9 +40,7 @@ class AnimeCollection extends SearchableCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (Anime $anime) {
-            return AnimeResource::make($anime, $this->query);
-        })->all();
+        return $this->collection->map(fn (Anime $anime) => AnimeResource::make($anime, $this->query))->all();
     }
 
     /**

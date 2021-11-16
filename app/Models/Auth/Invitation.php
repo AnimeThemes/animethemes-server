@@ -11,7 +11,6 @@ use App\Events\Auth\Invitation\InvitationRestored;
 use App\Events\Auth\Invitation\InvitationUpdated;
 use App\Models\BaseModel;
 use BenSampo\Enum\Enum;
-use BenSampo\Enum\Traits\CastsEnums;
 use Database\Factories\Auth\InvitationFactory;
 
 /**
@@ -26,8 +25,6 @@ use Database\Factories\Auth\InvitationFactory;
  */
 class Invitation extends BaseModel
 {
-    use CastsEnums;
-
     public const TABLE = 'invitations';
 
     public const ATTRIBUTE_EMAIL = 'email';
@@ -75,21 +72,12 @@ class Invitation extends BaseModel
     protected $primaryKey = Invitation::ATTRIBUTE_ID;
 
     /**
-     * The attributes that should be cast to enum types.
-     *
-     * @var array
-     */
-    protected $enumCasts = [
-        Invitation::ATTRIBUTE_STATUS => InvitationStatus::class,
-    ];
-
-    /**
      * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
-        Invitation::ATTRIBUTE_STATUS => 'int',
+        Invitation::ATTRIBUTE_STATUS => InvitationStatus::class,
     ];
 
     /**

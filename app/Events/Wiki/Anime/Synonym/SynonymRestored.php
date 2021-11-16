@@ -63,9 +63,7 @@ class SynonymRestored extends SynonymEvent implements DiscordMessageEvent, Updat
             $theme->searchable();
             $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
                 $entry->searchable();
-                $entry->videos->each(function (Video $video) {
-                    $video->searchable();
-                });
+                $entry->videos->each(fn (Video $video) => $video->searchable());
             });
         });
     }

@@ -23,7 +23,7 @@ class DistinctIgnoringDirectionRule implements Rule
     {
         $values = Str::of($value)->explode(',');
 
-        $uniqueValues = $values->unique(function ($sort) {
+        $uniqueValues = $values->unique(function (string $sort) {
             if (Str::startsWith($sort, '-')) {
                 return Str::replaceFirst('-', '', $sort);
             }

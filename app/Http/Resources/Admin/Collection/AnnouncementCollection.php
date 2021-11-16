@@ -40,9 +40,9 @@ class AnnouncementCollection extends BaseCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(function (Announcement $announcement) {
-            return AnnouncementResource::make($announcement, $this->query);
-        })->all();
+        return $this->collection->map(
+            fn (Announcement $announcement) => AnnouncementResource::make($announcement, $this->query)
+        )->all();
     }
 
     /**

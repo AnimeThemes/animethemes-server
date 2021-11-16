@@ -48,11 +48,11 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(function () {
-            return [
+        return $this->state(
+            fn () => [
                 User::ATTRIBUTE_EMAIL_VERIFIED_AT => null,
-            ];
-        });
+            ]
+        );
     }
 
     /**
@@ -68,9 +68,13 @@ class UserFactory extends Factory
 
         return $this->has(
             Team::factory()
-                ->state(function (array $attributes, User $user) {
-                    return ['name' => $user->name.'\'s Team', 'user_id' => $user->id, 'personal_team' => true];
-                }),
+                ->state(
+                    fn (array $attributes, User $user) => [
+                        'name' => $user->name.'\'s Team',
+                        'user_id' => $user->id,
+                        'personal_team' => true,
+                    ]
+                ),
             'ownedTeams'
         );
     }
