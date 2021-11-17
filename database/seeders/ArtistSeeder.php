@@ -78,17 +78,17 @@ class ArtistSeeder extends Seeder
             // Create Resource Model with link and derived site
             $resource = ExternalResource::query()
                 ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_LINK])
-                ->where(ExternalResource::ATTRIBUTE_SITE, $resourceSite)
+                ->where(ExternalResource::ATTRIBUTE_SITE, $resourceSite?->value)
                 ->where(ExternalResource::ATTRIBUTE_LINK, $artistResourceLink)
                 ->first();
 
             if ($resource === null) {
-                Log::info("Creating resource with site '{$resourceSite}' and link '{$artistResourceLink}'");
+                Log::info("Creating resource with site '{$resourceSite?->description}' and link '{$artistResourceLink}'");
 
                 $resource = ExternalResource::factory()->createOne([
                     ExternalResource::ATTRIBUTE_EXTERNAL_ID => intval($externalId[1]),
                     ExternalResource::ATTRIBUTE_LINK => $artistResourceLink,
-                    ExternalResource::ATTRIBUTE_SITE => $resourceSite,
+                    ExternalResource::ATTRIBUTE_SITE => $resourceSite?->value,
                 ]);
             }
 

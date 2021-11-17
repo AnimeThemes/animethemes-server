@@ -24,6 +24,7 @@ use App\Pivots\ArtistImage;
 use App\Pivots\ArtistMember;
 use App\Pivots\ArtistResource;
 use App\Pivots\ArtistSong;
+use App\Pivots\StudioResource;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -56,6 +57,8 @@ class WikiDeseeder extends Seeder
         DB::table(ArtistSong::TABLE)->truncate();
         DB::table(ArtistMember::TABLE)->truncate();
         DB::table(Artist::TABLE)->truncate();
+
+        DB::table(StudioResource::TABLE)->truncate();
 
         DB::table(ExternalResource::TABLE)->truncate();
         DB::table(Image::TABLE)->truncate();

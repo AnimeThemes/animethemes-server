@@ -51,7 +51,7 @@ class AnimeResourceSeeder extends Seeder
                 // Create Resource Model with link and derived site if it doesn't already exist
                 $resource = ExternalResource::query()
                     ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_SITE, ExternalResource::ATTRIBUTE_LINK])
-                    ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::valueOf($resourceLink))
+                    ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::valueOf($resourceLink)?->value)
                     ->where(ExternalResource::ATTRIBUTE_LINK, $resourceLink)
                     ->first();
 
@@ -59,7 +59,7 @@ class AnimeResourceSeeder extends Seeder
                     Log::info("Creating resource '{$resourceLink}'");
 
                     $resource = ExternalResource::factory()->createOne([
-                        ExternalResource::ATTRIBUTE_SITE => ResourceSite::valueOf($resourceLink),
+                        ExternalResource::ATTRIBUTE_SITE => ResourceSite::valueOf($resourceLink)?->value,
                         ExternalResource::ATTRIBUTE_LINK => $resourceLink,
                         ExternalResource::ATTRIBUTE_EXTERNAL_ID => intval($externalId[1]),
                     ]);

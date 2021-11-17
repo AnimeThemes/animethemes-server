@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
+use App\Pivots\AnimeStudio;
+use App\Pivots\StudioResource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\Client\RequestException;
@@ -49,7 +52,6 @@ class StudioSeeder extends Seeder
 
         $animes = Anime::query()
             ->select([Anime::ATTRIBUTE_ID, Anime::ATTRIBUTE_NAME])
-            ->whereDoesntHave(Anime::RELATION_STUDIOS)
             ->whereHas(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
                 $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
             })
@@ -77,7 +79,8 @@ class StudioSeeder extends Seeder
 
                     foreach ($malStudios as $malStudio) {
                         $name = Arr::get($malStudio, 'name');
-                        if (empty($name)) {
+                        $id = Arr::get($malStudio, 'id');
+                        if (empty($name) || empty($id)) {
                             continue;
                         }
 
@@ -91,8 +94,39 @@ class StudioSeeder extends Seeder
                             ]);
                         }
 
-                        Log::info("Attaching studio '{$name}' to anime '{$anime->getName()}'");
-                        $anime->studios()->attach($studio);
+                        $studioResource = ExternalResource::query()
+                            ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL)
+                            ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $id)
+                            ->where(ExternalResource::ATTRIBUTE_LINK, ComparisonOperator::LIKE, 'https://myanimelist.net/anime/producer/%')
+                            ->first();
+
+                        if (! $studioResource instanceof ExternalResource) {
+                            Log::info("Creating studio resource with id '{$id}' and name '{$name}'");
+
+                            $studioResource = ExternalResource::factory()->createOne([
+                                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $id,
+                                ExternalResource::ATTRIBUTE_LINK => "https://myanimelist.net/anime/producer/{$id}/",
+                                ExternalResource::ATTRIBUTE_SITE => ResourceSite::MAL,
+                            ]);
+                        }
+
+                        if (StudioResource::query()
+                            ->where($studio->getKeyName(), $studio->getKey())
+                            ->where($studioResource->getKeyName(), $studioResource->getKey())
+                            ->doesntExist()
+                        ) {
+                            Log::info("Attaching resource '{$studioResource->link}' to studio '{$studio->getName()}'");
+                            $studioResource->studios()->attach($studio);
+                        }
+
+                        if (AnimeStudio::query()
+                            ->where($anime->getKeyName(), $anime->getKey())
+                            ->where($studio->getKeyName(), $studio->getKey())
+                            ->doesntExist()
+                        ) {
+                            Log::info("Attaching studio '{$name}' to anime '{$anime->getName()}'");
+                            $anime->studios()->attach($studio);
+                        }
                     }
                 } catch (RequestException $e) {
                     Log::info($e->getMessage());
