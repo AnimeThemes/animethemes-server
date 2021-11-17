@@ -52,9 +52,9 @@ final class ResourceSite extends BaseEnum
      * Get resource site by link, matching expected domain.
      *
      * @param  string  $link  the link to test
-     * @return int|null
+     * @return ResourceSite|null
      */
-    public static function valueOf(string $link): ?int
+    public static function valueOf(string $link): ?ResourceSite
     {
         $parsedHost = parse_url($link, PHP_URL_HOST);
 
