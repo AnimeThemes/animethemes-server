@@ -6,12 +6,9 @@ namespace Tests\Unit\Nova\Actions\Wiki\Artist;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\ExternalResource;
 use App\Nova\Actions\Wiki\Artist\CreateExternalResourceSiteForArtistAction;
-use App\Rules\Wiki\ResourceSiteDomainRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
-use Illuminate\Validation\Rule;
 use JoshGaber\NovaUnit\Actions\MockAction;
 use JoshGaber\NovaUnit\Actions\NovaActionTest;
 use JoshGaber\NovaUnit\Fields\FieldNotFoundException;
@@ -57,8 +54,6 @@ class CreateExternalResourceSiteForArtistTest extends TestCase
         $field->assertHasRule('required');
         $field->assertHasRule('max:192');
         $field->assertHasRule('url');
-        $field->assertHasRule(Rule::unique(ExternalResource::TABLE)->__toString());
-        $field->assertHasRule((new ResourceSiteDomainRule($site))->__toString());
     }
 
     /**
@@ -97,6 +92,6 @@ class CreateExternalResourceSiteForArtistTest extends TestCase
 
         $action->handle(new ActionFields(collect($fields), collect()), $models);
 
-        static::assertEquals($models->count(), Artist::query()->whereHas('resources')->count());
+        static::assertEquals($models->count(), Artist::query()->whereHas(Artist::RELATION_RESOURCES)->count());
     }
 }

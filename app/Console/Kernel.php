@@ -22,19 +22,6 @@ use Laravel\Telescope\Console\PruneCommand;
 class Kernel extends ConsoleKernel
 {
     /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
-    protected $commands = [
-        BalanceReconcileCommand::class,
-        DatabaseDumpCommand::class,
-        PruneDatabaseDumpsCommand::class,
-        TransactionReconcileCommand::class,
-        VideoReconcileCommand::class,
-    ];
-
-    /**
      * Define the application's command schedule.
      *
      * @param  Schedule  $schedule

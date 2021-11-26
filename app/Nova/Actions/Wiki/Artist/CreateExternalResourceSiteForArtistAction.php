@@ -87,8 +87,8 @@ class CreateExternalResourceSiteForArtistAction extends Action
                         'required',
                         'max:192',
                         'url',
-                        Rule::unique(ExternalResource::TABLE)->__toString(),
-                        (new ResourceSiteDomainRule($this->site))->__toString(),
+                        Rule::unique(ExternalResource::TABLE),
+                        new ResourceSiteDomainRule($this->site),
                     ])
                     ->help(__('nova.resource_link_help')),
             ]

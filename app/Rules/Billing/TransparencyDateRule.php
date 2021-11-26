@@ -15,11 +15,6 @@ use Illuminate\Support\Collection;
 class TransparencyDateRule implements Rule
 {
     /**
-     * The name of the rule.
-     */
-    protected string $rule = 'transparency_date';
-
-    /**
      * The list of valid transparency dates.
      *
      * @var Collection
@@ -59,17 +54,5 @@ class TransparencyDateRule implements Rule
     public function message(): string
     {
         return __('The selected month is not valid.');
-    }
-
-    /**
-     * Convert the rule to a validation string.
-     *
-     * @return string
-     *
-     * @see \Illuminate\Validation\ValidationRuleParser::parseParameters
-     */
-    public function __toString()
-    {
-        return "{$this->rule}";
     }
 }

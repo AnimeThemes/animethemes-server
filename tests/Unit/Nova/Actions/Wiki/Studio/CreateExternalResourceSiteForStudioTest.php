@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Nova\Actions\Wiki\Anime;
+namespace Tests\Unit\Nova\Actions\Wiki\Studio;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Wiki\Anime;
-use App\Nova\Actions\Wiki\Anime\CreateExternalResourceSiteForAnimeAction;
+use App\Models\Wiki\Studio;
+use App\Nova\Actions\Wiki\Studio\CreateExternalResourceSiteForStudioAction;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use JoshGaber\NovaUnit\Actions\MockAction;
@@ -16,28 +16,28 @@ use Laravel\Nova\Fields\ActionFields;
 use Tests\TestCase;
 
 /**
- * Class CreateExternalResourceSiteForAnimeTest.
+ * Class CreateExternalResourceSiteForStudioTest.
  */
-class CreateExternalResourceSiteForAnimeTest extends TestCase
+class CreateExternalResourceSiteForStudioTest extends TestCase
 {
     use NovaActionTest;
     use WithFaker;
     use WithoutEvents;
 
     /**
-     * The Create Anime Resource Action shall have a link field.
+     * The Create Studio Resource Action shall have a link field.
      *
      * @return void
      */
     public function testFields()
     {
-        $action = new MockAction(CreateExternalResourceSiteForAnimeAction::make(ResourceSite::getRandomValue()));
+        $action = new MockAction(CreateExternalResourceSiteForStudioAction::make(ResourceSite::getRandomValue()));
 
         $action->assertHasField(__('nova.link'));
     }
 
     /**
-     * The Create Anime Resource Action shall have a link field.
+     * The Create Studio Resource Action shall have a link field.
      *
      * @return void
      *
@@ -47,7 +47,7 @@ class CreateExternalResourceSiteForAnimeTest extends TestCase
     {
         $site = ResourceSite::getRandomValue();
 
-        $action = new MockAction(CreateExternalResourceSiteForAnimeAction::make($site));
+        $action = new MockAction(CreateExternalResourceSiteForStudioAction::make($site));
 
         $field = $action->field(__('nova.link'));
 
@@ -57,7 +57,7 @@ class CreateExternalResourceSiteForAnimeTest extends TestCase
     }
 
     /**
-     * The Create Anime Resource Action shall create a Resource.
+     * The Create Studio Resource Action shall create a Resource.
      *
      * @return void
      */
@@ -67,31 +67,31 @@ class CreateExternalResourceSiteForAnimeTest extends TestCase
 
         $fields = ['link' => $this->faker->url()];
 
-        $models = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
+        $models = Studio::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $action = new MockAction(CreateExternalResourceSiteForAnimeAction::make($site));
+        $action = new MockAction(CreateExternalResourceSiteForStudioAction::make($site));
 
         $action->handle($fields, $models)
-            ->assertMessage(__('nova.anime_create_resource_action_success'));
+            ->assertMessage(__('nova.studio_create_resource_action_success'));
     }
 
     /**
-     * The Create Anime Resource Action shall attach a Resource.
+     * The Create Studio Resource Action shall attach a Resource.
      *
      * @return void
      */
-    public function testAnimeHasResourceAttached()
+    public function testStudioHasResourceAttached()
     {
         $site = ResourceSite::OFFICIAL_SITE;
 
         $fields = ['link' => $this->faker->url()];
 
-        $models = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
+        $models = Studio::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $action = CreateExternalResourceSiteForAnimeAction::make($site);
+        $action = CreateExternalResourceSiteForStudioAction::make($site);
 
         $action->handle(new ActionFields(collect($fields), collect()), $models);
 
-        static::assertEquals($models->count(), Anime::query()->whereHas(Anime::RELATION_RESOURCES)->count());
+        static::assertEquals($models->count(), Studio::query()->whereHas(Studio::RELATION_RESOURCES)->count());
     }
 }

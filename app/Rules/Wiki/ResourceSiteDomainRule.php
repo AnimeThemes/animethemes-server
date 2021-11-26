@@ -13,11 +13,6 @@ use Illuminate\Contracts\Validation\Rule;
 class ResourceSiteDomainRule implements Rule
 {
     /**
-     * The name of the rule.
-     */
-    protected string $rule = 'resource_site';
-
-    /**
      * The resource site key.
      *
      * @var int|null
@@ -57,17 +52,5 @@ class ResourceSiteDomainRule implements Rule
     public function message(): string|array
     {
         return __('validation.resource_link_site_mismatch');
-    }
-
-    /**
-     * Convert the rule to a validation string.
-     *
-     * @return string
-     *
-     * @see \Illuminate\Validation\ValidationRuleParser::parseParameters
-     */
-    public function __toString()
-    {
-        return "{$this->rule}:{$this->site}";
     }
 }
