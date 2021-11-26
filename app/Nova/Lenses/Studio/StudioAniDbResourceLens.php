@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Nova\Lenses\Studio;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Wiki\Studio;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Studio;
 use App\Nova\Actions\Wiki\Studio\CreateExternalResourceSiteForStudioAction;
 use App\Nova\Filters\Base\CreatedEndDateFilter;
 use App\Nova\Filters\Base\CreatedStartDateFilter;
