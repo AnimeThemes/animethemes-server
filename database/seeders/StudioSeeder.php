@@ -52,6 +52,7 @@ class StudioSeeder extends Seeder
 
         $animes = Anime::query()
             ->select([Anime::ATTRIBUTE_ID, Anime::ATTRIBUTE_NAME])
+            ->whereDoesntHave(Anime::RELATION_STUDIOS)
             ->whereHas(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
                 $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
             })

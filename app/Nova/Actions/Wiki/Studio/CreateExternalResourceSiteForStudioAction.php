@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Nova\Actions\Wiki\Anime;
+namespace App\Nova\Actions\Wiki\Studio;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
@@ -16,9 +16,9 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Text;
 
 /**
- * Class CreateExternalResourceSiteForAnimeAction.
+ * Class CreateExternalResourceSiteForStudioAction.
  */
-class CreateExternalResourceSiteForAnimeAction extends Action
+class CreateExternalResourceSiteForStudioAction extends Action
 {
     use InteractsWithQueue;
     use Queueable;
@@ -47,7 +47,7 @@ class CreateExternalResourceSiteForAnimeAction extends Action
      */
     public function name(): string
     {
-        return __('nova.anime_create_resource_action', ['site' => ResourceSite::getDescription($this->site)]);
+        return __('nova.studio_create_resource_action', ['site' => ResourceSite::getDescription($this->site)]);
     }
 
     /**
@@ -66,10 +66,10 @@ class CreateExternalResourceSiteForAnimeAction extends Action
             ExternalResource::ATTRIBUTE_SITE => $this->site,
         ]);
 
-        // Attach Resource to Anime and provide success message
-        $resource->anime()->attach($models);
+        // Attach Resource to Studio and provide success message
+        $resource->studios()->attach($models);
 
-        return Action::message(__('nova.anime_create_resource_action_success'));
+        return Action::message(__('nova.studio_create_resource_action_success'));
     }
 
     /**

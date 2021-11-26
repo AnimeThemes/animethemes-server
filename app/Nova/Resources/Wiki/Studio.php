@@ -5,6 +5,11 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Models\Wiki\Studio as StudioModel;
+use App\Nova\Lenses\Studio\StudioAniDbResourceLens;
+use App\Nova\Lenses\Studio\StudioAnilistResourceLens;
+use App\Nova\Lenses\Studio\StudioAnimePlanetResourceLens;
+use App\Nova\Lenses\Studio\StudioAnnResourceLens;
+use App\Nova\Lenses\Studio\StudioMalResourceLens;
 use App\Nova\Lenses\Studio\StudioUnlinkedLens;
 use App\Nova\Resources\Resource;
 use App\Pivots\BasePivot;
@@ -161,6 +166,11 @@ class Studio extends Resource
         return array_merge(
             parent::lenses($request),
             [
+                new StudioAniDbResourceLens(),
+                new StudioAnilistResourceLens(),
+                new StudioAnimePlanetResourceLens(),
+                new StudioAnnResourceLens(),
+                new StudioMalResourceLens(),
                 new StudioUnlinkedLens(),
             ]
         );
