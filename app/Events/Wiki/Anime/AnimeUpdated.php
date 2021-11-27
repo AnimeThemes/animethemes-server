@@ -69,7 +69,7 @@ class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
      */
     public function updateRelatedIndices()
     {
-        $anime = $this->getAnime()->load('animethemes.animethemeentries.videos');
+        $anime = $this->getAnime()->load(Anime::RELATION_VIDEOS);
 
         $anime->animethemes->each(function (AnimeTheme $theme) {
             $theme->searchable();

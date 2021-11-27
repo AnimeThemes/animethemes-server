@@ -10,6 +10,7 @@ use App\Enums\Services\Discord\EmbedColor;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -56,7 +57,7 @@ class SongCreated extends SongEvent implements DiscordMessageEvent, UpdateRelate
      */
     public function updateRelatedIndices()
     {
-        $song = $this->getSong()->load(['artists', 'animethemes.animethemeentries.videos']);
+        $song = $this->getSong()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
 
         $song->artists->each(fn (Artist $artist) => $artist->searchable());
 

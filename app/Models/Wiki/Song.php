@@ -43,6 +43,7 @@ class Song extends BaseModel
     public const RELATION_ANIME = 'animethemes.anime';
     public const RELATION_ANIMETHEMES = 'animethemes';
     public const RELATION_ARTISTS = 'artists';
+    public const RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
     /**
      * The attributes that are mass assignable.
