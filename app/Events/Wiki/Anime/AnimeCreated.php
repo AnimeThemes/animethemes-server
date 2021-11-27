@@ -7,6 +7,7 @@ namespace App\Events\Wiki\Anime;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Enums\Services\Discord\EmbedColor;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
@@ -55,7 +56,7 @@ class AnimeCreated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
      */
     public function updateRelatedIndices()
     {
-        $anime = $this->getAnime()->load('animethemes.animethemeentries.videos');
+        $anime = $this->getAnime()->load(Anime::RELATION_VIDEOS);
 
         $anime->animethemes->each(function (AnimeTheme $theme) {
             $theme->searchable();

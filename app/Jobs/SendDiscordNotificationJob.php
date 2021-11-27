@@ -13,6 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Notification;
 
 /**
@@ -50,8 +51,10 @@ class SendDiscordNotificationJob implements ShouldQueue
      */
     public function handle()
     {
-        Notification::route('discord', $this->event->getDiscordChannel())
-            ->notify(new DiscordNotification($this->event->getDiscordMessage()));
+        if (Config::get('flags.allow_discord_notifications', false)) {
+            Notification::route('discord', $this->event->getDiscordChannel())
+                ->notify(new DiscordNotification($this->event->getDiscordMessage()));
+        }
     }
 
     /**

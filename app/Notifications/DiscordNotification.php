@@ -7,6 +7,7 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordChannel;
 use NotificationChannels\Discord\DiscordMessage;
 
@@ -59,5 +60,19 @@ class DiscordNotification extends Notification implements ShouldQueue
     public function toDiscord(mixed $notifiable): DiscordMessage
     {
         return $this->message;
+    }
+
+    /**
+     * Determines if the notification can be sent.
+     *
+     * @param  mixed  $notifiable
+     * @param  string  $channel
+     * @return mixed
+     *
+     * @noinspection PhpUnusedParameterInspection
+     */
+    public function shouldSend(mixed $notifiable, string $channel): mixed
+    {
+        return Config::get('flags.allow_discord_notifications', false);
     }
 }

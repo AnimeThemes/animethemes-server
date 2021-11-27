@@ -69,7 +69,7 @@ class ThemeUpdated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
      */
     public function updateRelatedIndices()
     {
-        $theme = $this->getTheme()->load('animethemeentries.videos');
+        $theme = $this->getTheme()->load(AnimeTheme::RELATION_VIDEOS);
 
         $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
             $entry->searchable();

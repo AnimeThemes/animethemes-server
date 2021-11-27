@@ -10,6 +10,7 @@ use App\Jobs\SendDiscordNotificationJob;
 use App\Notifications\DiscordNotification;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Notification;
 use NotificationChannels\Discord\DiscordMessage;
 use Tests\TestCase;
@@ -26,6 +27,7 @@ class SendDiscordNotificationTest extends TestCase
      */
     public function testSendDiscordNotificationJobSendsNotification()
     {
+        Config::set('flags.allow_discord_notifications', true);
         Notification::fake();
 
         $event = new class implements DiscordMessageEvent

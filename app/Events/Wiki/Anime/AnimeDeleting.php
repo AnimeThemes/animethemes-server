@@ -6,6 +6,7 @@ namespace App\Events\Wiki\Anime;
 
 use App\Contracts\Events\CascadesDeletesEvent;
 use App\Events\Wiki\Anime\Theme\ThemeDeleting;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Support\Facades\Event;
@@ -22,7 +23,7 @@ class AnimeDeleting extends AnimeEvent implements CascadesDeletesEvent
      */
     public function cascadeDeletes()
     {
-        $anime = $this->getAnime()->load(['animesynonyms', 'animethemes.animethemeentries.videos']);
+        $anime = $this->getAnime()->load([Anime::RELATION_SYNONYMS, Anime::RELATION_VIDEOS]);
 
         $anime->animesynonyms->each(function (AnimeSynonym $synonym) {
             AnimeSynonym::withoutEvents(function () use ($synonym) {

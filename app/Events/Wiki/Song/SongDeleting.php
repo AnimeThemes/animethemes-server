@@ -8,6 +8,7 @@ use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 
 /**
@@ -22,7 +23,7 @@ class SongDeleting extends SongEvent implements UpdateRelatedIndicesEvent
      */
     public function updateRelatedIndices()
     {
-        $song = $this->getSong()->load(['artists', 'animethemes.animethemeentries.videos']);
+        $song = $this->getSong()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
 
         if ($song->isForceDeleting()) {
             // refresh artist documents by detaching song

@@ -7,6 +7,7 @@ namespace App\Events\Wiki\Anime\Synonym;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Enums\Services\Discord\EmbedColor;
+use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
@@ -56,7 +57,7 @@ class SynonymCreated extends SynonymEvent implements DiscordMessageEvent, Update
      */
     public function updateRelatedIndices()
     {
-        $synonym = $this->getSynonym()->load('anime.animethemes.animethemeentries.videos');
+        $synonym = $this->getSynonym()->load(AnimeSynonym::RELATION_VIDEOS);
 
         $synonym->anime->searchable();
         $synonym->anime->animethemes->each(function (AnimeTheme $theme) {

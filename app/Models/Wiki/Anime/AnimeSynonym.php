@@ -36,6 +36,7 @@ class AnimeSynonym extends BaseModel
     public const ATTRIBUTE_TEXT = 'text';
 
     public const RELATION_ANIME = 'anime';
+    public const RELATION_VIDEOS = 'anime.animethemes.animethemeentries.videos';
 
     /**
      * The attributes that are mass assignable.
