@@ -65,8 +65,8 @@ class DiscordNotification extends Notification implements ShouldQueue
     /**
      * Determines if the notification can be sent.
      *
-     * @param mixed $notifiable
-     * @param string $channel
+     * @param  mixed  $notifiable
+     * @param  string  $channel
      * @return mixed
      *
      * @noinspection PhpUnusedParameterInspection
