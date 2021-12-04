@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Auth;
 
+use App\Constants\Config\FlagConstants;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Auth\User;
 use Illuminate\Support\Facades\Bus;
@@ -22,7 +23,7 @@ class UserTest extends TestCase
      */
     public function testUserCreatedSendsDiscordNotification()
     {
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         User::factory()->createOne();
@@ -39,7 +40,7 @@ class UserTest extends TestCase
     {
         $user = User::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $user->delete();
@@ -56,7 +57,7 @@ class UserTest extends TestCase
     {
         $user = User::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $user->restore();
@@ -73,7 +74,7 @@ class UserTest extends TestCase
     {
         $user = User::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = User::factory()->makeOne();

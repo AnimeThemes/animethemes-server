@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Wiki\Anime;
 
+use App\Constants\Config\FlagConstants;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -25,7 +26,7 @@ class SynonymTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         AnimeSynonym::factory()->for($anime)->createOne();
@@ -44,7 +45,7 @@ class SynonymTest extends TestCase
             ->for(Anime::factory())
             ->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $synonym->delete();
@@ -63,7 +64,7 @@ class SynonymTest extends TestCase
             ->for(Anime::factory())
             ->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $synonym->restore();
@@ -86,7 +87,7 @@ class SynonymTest extends TestCase
             ->for(Anime::factory())
             ->makeOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $synonym->fill($changes->getAttributes());

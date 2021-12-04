@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Pivot;
 
+use App\Constants\Config\FlagConstants;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
@@ -26,7 +27,7 @@ class AnimeImageTest extends TestCase
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $anime->images()->attach($image);
@@ -46,7 +47,7 @@ class AnimeImageTest extends TestCase
 
         $anime->images()->attach($image);
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $anime->images()->detach($image);

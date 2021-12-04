@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Billing;
 
+use App\Constants\Config\FlagConstants;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Billing\Transaction;
 use Illuminate\Support\Facades\Bus;
@@ -22,7 +23,7 @@ class TransactionTest extends TestCase
      */
     public function testTransactionCreatedSendsDiscordNotification()
     {
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         Transaction::factory()->createOne();
@@ -39,7 +40,7 @@ class TransactionTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $transaction->delete();
@@ -56,7 +57,7 @@ class TransactionTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $transaction->restore();
@@ -73,7 +74,7 @@ class TransactionTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = Transaction::factory()->makeOne();

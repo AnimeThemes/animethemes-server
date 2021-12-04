@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Http\Controllers\Api\Admin\AnnouncementController;
 use App\Http\Controllers\Api\Billing\BalanceController;
 use App\Http\Controllers\Api\Billing\TransactionController;
+use App\Http\Controllers\Api\Config\FlagsController;
+use App\Http\Controllers\Api\Config\WikiController;
 use App\Http\Controllers\Api\Wiki\Anime\SynonymController;
 use App\Http\Controllers\Api\Wiki\Anime\Theme\EntryController;
 use App\Http\Controllers\Api\Wiki\Anime\ThemeController;
@@ -38,6 +40,10 @@ Route::group(['as' => 'api.'], function () {
 
     // Admin Resources
     Route::apiResource('announcement', AnnouncementController::class)->only(['index', 'show']);
+
+    // Config Resources
+    Route::get('config/flags', [FlagsController::class, 'show'])->name('config.flags.show');
+    Route::get('config/wiki', [WikiController::class, 'show'])->name('config.wiki.show');
 
     // Billing Resources
     Route::apiResource('balance', BalanceController::class)->only(['index', 'show']);

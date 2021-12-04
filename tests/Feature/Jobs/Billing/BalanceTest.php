@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Billing;
 
+use App\Constants\Config\FlagConstants;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Billing\Balance;
 use Illuminate\Support\Facades\Bus;
@@ -22,7 +23,7 @@ class BalanceTest extends TestCase
      */
     public function testBalanceCreatedSendsDiscordNotification()
     {
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         Balance::factory()->createOne();
@@ -39,7 +40,7 @@ class BalanceTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $balance->delete();
@@ -56,7 +57,7 @@ class BalanceTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $balance->restore();
@@ -73,7 +74,7 @@ class BalanceTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = Balance::factory()->makeOne();

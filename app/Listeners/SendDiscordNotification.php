@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
+use App\Constants\Config\FlagConstants;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\SendDiscordNotificationJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Facades\Config;
 
 /**
  * Class SendDiscordNotification.
@@ -25,7 +25,7 @@ class SendDiscordNotification implements ShouldQueue
      */
     public function handle(DiscordMessageEvent $event)
     {
-        if (Config::get('flags.allow_discord_notifications', false)) {
+        if (config(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, false)) {
             SendDiscordNotificationJob::dispatch($event);
         }
     }

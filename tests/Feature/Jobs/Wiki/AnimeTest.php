@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Wiki;
 
+use App\Constants\Config\FlagConstants;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
 use Illuminate\Support\Facades\Bus;
@@ -22,7 +23,7 @@ class AnimeTest extends TestCase
      */
     public function testAnimeCreatedSendsDiscordNotification()
     {
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         Anime::factory()->createOne();
@@ -39,7 +40,7 @@ class AnimeTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $anime->delete();
@@ -56,7 +57,7 @@ class AnimeTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $anime->restore();
@@ -73,7 +74,7 @@ class AnimeTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $changes = Anime::factory()->makeOne();

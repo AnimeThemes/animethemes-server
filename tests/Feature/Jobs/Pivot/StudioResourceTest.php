@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Pivot;
 
+use App\Constants\Config\FlagConstants;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
@@ -27,7 +28,7 @@ class StudioResourceTest extends TestCase
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $studio->resources()->attach($resource);
@@ -47,7 +48,7 @@ class StudioResourceTest extends TestCase
 
         $studio->resources()->attach($resource);
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $studio->resources()->detach($resource);
@@ -75,7 +76,7 @@ class StudioResourceTest extends TestCase
             ->for($resource, 'resource')
             ->makeOne();
 
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $studioResource->fill($changes->getAttributes());
