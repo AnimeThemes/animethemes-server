@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Listeners;
 
+use App\Constants\Config\FlagConstants;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Listeners\SendDiscordNotification;
@@ -26,7 +27,7 @@ class SendDiscordNotificationTest extends TestCase
      */
     public function testDiscordNotificationsNotAllowed()
     {
-        Config::set('flags.allow_discord_notifications', false);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, false);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $event = new class implements DiscordMessageEvent
@@ -69,7 +70,7 @@ class SendDiscordNotificationTest extends TestCase
      */
     public function testDiscordNotificationsAllowed()
     {
-        Config::set('flags.allow_discord_notifications', true);
+        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $event = new class implements DiscordMessageEvent

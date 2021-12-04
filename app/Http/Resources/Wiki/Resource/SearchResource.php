@@ -53,6 +53,7 @@ class SearchResource extends BaseResource
      */
     public function toArray($request): array
     {
+        // Every search may raise a query on another machine, so we will proactively check sparse fieldsets.
         $result = [];
 
         if ($this->isAllowedField(AnimeCollection::$wrap)) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
+use App\Constants\Config\FlagConstants;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\Middleware\RateLimited;
 use App\Notifications\DiscordNotification;
@@ -13,7 +14,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Notification;
 
 /**
@@ -51,7 +51,7 @@ class SendDiscordNotificationJob implements ShouldQueue
      */
     public function handle()
     {
-        if (Config::get('flags.allow_discord_notifications', false)) {
+        if (config(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, false)) {
             Notification::route('discord', $this->event->getDiscordChannel())
                 ->notify(new DiscordNotification($this->event->getDiscordMessage()));
         }

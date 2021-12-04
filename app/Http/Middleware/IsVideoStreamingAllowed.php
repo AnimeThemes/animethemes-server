@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Constants\Config\FlagConstants;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 
 /**
  * Class IsVideoStreamingAllowed.
@@ -22,7 +22,7 @@ class IsVideoStreamingAllowed
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if (! Config::get('flags.allow_video_streams', false)) {
+        if (! config(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, false)) {
             return redirect(route('welcome'));
         }
 

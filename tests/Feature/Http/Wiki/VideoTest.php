@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Wiki;
 
+use App\Constants\Config\FlagConstants;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -28,7 +29,7 @@ class VideoTest extends TestCase
      */
     public function testVideoStreamingNotAllowedRedirect()
     {
-        Config::set('flags.allow_video_streams', false);
+        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, false);
 
         $video = Video::factory()->createOne();
 
@@ -44,7 +45,7 @@ class VideoTest extends TestCase
      */
     public function testSoftDeleteVideoStreamingRedirect()
     {
-        Config::set('flags.allow_video_streams', true);
+        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
 
         $video = Video::factory()->createOne();
 
@@ -62,7 +63,7 @@ class VideoTest extends TestCase
      */
     public function testVideoStreaming()
     {
-        Config::set('flags.allow_video_streams', true);
+        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
 
         $video = Video::factory()->createOne();
 
@@ -78,8 +79,8 @@ class VideoTest extends TestCase
      */
     public function testViewRecordingNotAllowed()
     {
-        Config::set('flags.allow_video_streams', true);
-        Config::set('flags.allow_view_recording', false);
+        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
+        Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, false);
 
         $video = Video::factory()->createOne();
 
@@ -95,8 +96,8 @@ class VideoTest extends TestCase
      */
     public function testViewRecordingIsAllowed()
     {
-        Config::set('flags.allow_video_streams', true);
-        Config::set('flags.allow_view_recording', true);
+        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
+        Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, true);
 
         $video = Video::factory()->createOne();
 
@@ -112,8 +113,8 @@ class VideoTest extends TestCase
      */
     public function testViewRecordingCooldown()
     {
-        Config::set('flags.allow_video_streams', true);
-        Config::set('flags.allow_view_recording', true);
+        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
+        Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, true);
 
         $video = Video::factory()->createOne();
 
