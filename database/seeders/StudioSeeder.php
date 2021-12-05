@@ -33,19 +33,9 @@ class StudioSeeder extends Seeder
     public function run()
     {
         // Do not proceed if we do not have authorization to the MAL API
-        $malBearerToken = Config::get('services.mal.token');
-        if ($malBearerToken === null) {
-            Log::error('MAL_BEARER_TOKEN must be configured in your env file.');
-
-            return;
-        }
-
-        try {
-            Http::withToken($malBearerToken)
-                ->get('https://api.myanimelist.net/v2/users/@me')
-                ->throw();
-        } catch (RequestException $e) {
-            Log::info($e->getMessage());
+        $malClientID = Config::get('services.mal.client');
+        if ($malClientID === null) {
+            Log::error('MAL_CLIENT_ID must be configured in your env file.');
 
             return;
         }
@@ -69,7 +59,7 @@ class StudioSeeder extends Seeder
                 sleep(rand(2, 5));
 
                 try {
-                    $response = Http::withToken($malBearerToken)
+                    $response = Http::withHeaders(['X-MAL-CLIENT-ID' => $malClientID])
                         ->get("https://api.myanimelist.net/v2/anime/{$malResource->external_id}", [
                             'fields' => 'studios',
                         ])

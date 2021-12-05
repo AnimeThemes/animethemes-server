@@ -39,7 +39,7 @@ return [
     ],
 
     'mal' => [
-        'token' => env('MAL_BEARER_TOKEN'),
+        'client' => env('MAL_CLIENT_ID'),
     ],
 
     'do' => [
