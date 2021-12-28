@@ -13,13 +13,6 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 abstract class SynonymEvent
 {
     /**
-     * The synonym that has fired this event.
-     *
-     * @var AnimeSynonym
-     */
-    protected AnimeSynonym $synonym;
-
-    /**
      * The anime that the synonym belongs to.
      *
      * @var Anime
@@ -32,9 +25,8 @@ abstract class SynonymEvent
      * @param  AnimeSynonym  $synonym
      * @return void
      */
-    public function __construct(AnimeSynonym $synonym)
+    public function __construct(protected AnimeSynonym $synonym)
     {
-        $this->synonym = $synonym;
         $this->anime = $synonym->anime;
     }
 

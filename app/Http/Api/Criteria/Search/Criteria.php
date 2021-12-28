@@ -10,21 +10,11 @@ namespace App\Http\Api\Criteria\Search;
 class Criteria
 {
     /**
-     * The search term.
-     *
-     * @var string
-     */
-    protected string $term;
-
-    /**
      * Create a new criteria instance.
      *
      * @param  string  $term
      */
-    public function __construct(string $term)
-    {
-        $this->term = $term;
-    }
+    public function __construct(protected string $term) {}
 
     /**
      * Get the search term.

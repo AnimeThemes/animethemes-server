@@ -12,22 +12,12 @@ use App\Models\Admin\Announcement;
 abstract class AnnouncementEvent
 {
     /**
-     * The announcement that has fired this event.
-     *
-     * @var Announcement
-     */
-    protected Announcement $announcement;
-
-    /**
      * Create a new event instance.
      *
      * @param  Announcement  $announcement
      * @return void
      */
-    public function __construct(Announcement $announcement)
-    {
-        $this->announcement = $announcement;
-    }
+    public function __construct(protected Announcement $announcement) {}
 
     /**
      * Get the announcement that has fired this event.

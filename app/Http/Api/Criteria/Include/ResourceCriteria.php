@@ -12,23 +12,14 @@ use Illuminate\Support\Collection;
 class ResourceCriteria extends Criteria
 {
     /**
-     * The type that these paths belong to.
-     *
-     * @var string
-     */
-    protected string $type;
-
-    /**
      * Create a new criteria instance.
      *
      * @param  string  $type
      * @param  Collection  $paths
      */
-    public function __construct(string $type, Collection $paths)
+    public function __construct(protected string $type, Collection $paths)
     {
         parent::__construct($paths);
-
-        $this->type = $type;
     }
 
     /**

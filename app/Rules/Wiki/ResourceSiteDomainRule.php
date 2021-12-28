@@ -13,22 +13,12 @@ use Illuminate\Contracts\Validation\Rule;
 class ResourceSiteDomainRule implements Rule
 {
     /**
-     * The resource site key.
-     *
-     * @var int|null
-     */
-    protected ?int $site;
-
-    /**
      * Create a new rule instance.
      *
      * @param  int|null  $site
      * @return void
      */
-    public function __construct(?int $site)
-    {
-        $this->site = $site;
-    }
+    public function __construct(protected ?int $site) {}
 
     /**
      * Determine if the validation rule passes.

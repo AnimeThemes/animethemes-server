@@ -19,22 +19,14 @@ class AllowedInclude
     protected Schema $schema;
 
     /**
-     * The path of the relation.
-     *
-     * @var string
-     */
-    protected string $path;
-
-    /**
      * Create a new AllowedIncludePath instance.
      *
      * @param  class-string<Schema>  $schemaClass
      * @param  string  $path
      */
-    final public function __construct(string $schemaClass, string $path)
+    final public function __construct(string $schemaClass, protected string $path)
     {
         $this->schema = new $schemaClass();
-        $this->path = $path;
     }
 
     /**

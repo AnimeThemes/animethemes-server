@@ -12,21 +12,11 @@ use Illuminate\Support\Collection;
 class Criteria
 {
     /**
-     * The include paths.
-     *
-     * @var Collection
-     */
-    protected Collection $paths;
-
-    /**
      * Create a new criteria instance.
      *
      * @param  Collection<string>  $paths
      */
-    public function __construct(Collection $paths)
-    {
-        $this->paths = $paths;
-    }
+    public function __construct(protected Collection $paths) {}
 
     /**
      * Get the include paths.

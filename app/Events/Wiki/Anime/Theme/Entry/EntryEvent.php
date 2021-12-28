@@ -12,22 +12,12 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 abstract class EntryEvent
 {
     /**
-     * The entry that has fired this event.
-     *
-     * @var AnimeThemeEntry
-     */
-    protected AnimeThemeEntry $entry;
-
-    /**
      * Create a new event instance.
      *
      * @param  AnimeThemeEntry  $entry
      * @return void
      */
-    public function __construct(AnimeThemeEntry $entry)
-    {
-        $this->entry = $entry;
-    }
+    public function __construct(protected AnimeThemeEntry $entry) {}
 
     /**
      * Get the entry that has fired this event.

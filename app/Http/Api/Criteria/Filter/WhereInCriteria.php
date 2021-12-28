@@ -22,13 +22,6 @@ use Illuminate\Support\Str;
 class WhereInCriteria extends Criteria
 {
     /**
-     * The flag to use the not operator in the criteria.
-     *
-     * @var bool
-     */
-    public bool $not;
-
-    /**
      * Create a new criteria instance.
      *
      * @param  Predicate  $predicate
@@ -39,12 +32,10 @@ class WhereInCriteria extends Criteria
     final public function __construct(
         Predicate $predicate,
         BinaryLogicalOperator $operator,
-        bool $not,
+        protected bool $not,
         Scope $scope
     ) {
         parent::__construct($predicate, $operator, $scope);
-
-        $this->not = $not;
     }
 
     /**

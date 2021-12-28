@@ -13,13 +13,6 @@ use App\Models\Wiki\Anime\AnimeTheme;
 abstract class ThemeEvent
 {
     /**
-     * The theme that has fired this event.
-     *
-     * @var AnimeTheme
-     */
-    protected AnimeTheme $theme;
-
-    /**
      * The anime that the theme belongs to.
      *
      * @var Anime
@@ -32,9 +25,8 @@ abstract class ThemeEvent
      * @param  AnimeTheme  $theme
      * @return void
      */
-    public function __construct(AnimeTheme $theme)
+    public function __construct(protected AnimeTheme $theme)
     {
-        $this->theme = $theme;
         $this->anime = $theme->anime;
     }
 

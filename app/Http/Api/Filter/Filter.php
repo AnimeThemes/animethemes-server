@@ -16,30 +16,12 @@ use Illuminate\Support\Collection;
 abstract class Filter
 {
     /**
-     * Filter key value.
-     *
-     * @var string
-     */
-    protected string $key;
-
-    /**
-     * Filter key value.
-     *
-     * @var string|null
-     */
-    protected ?string $column;
-
-    /**
      * Create a new filter instance.
      *
      * @param  string  $key
      * @param  string|null  $column
      */
-    public function __construct(string $key, ?string $column = null)
-    {
-        $this->key = $key;
-        $this->column = $column;
-    }
+    public function __construct(protected string $key, protected ?string $column = null) {}
 
     /**
      * Get filter key value.

@@ -12,22 +12,12 @@ use App\Models\Auth\Invitation;
 abstract class InvitationEvent
 {
     /**
-     * The invitation that has fired this event.
-     *
-     * @var Invitation
-     */
-    protected Invitation $invitation;
-
-    /**
      * Create a new event instance.
      *
      * @param  Invitation  $invitation
      * @return void
      */
-    public function __construct(Invitation $invitation)
-    {
-        $this->invitation = $invitation;
-    }
+    public function __construct(protected Invitation $invitation) {}
 
     /**
      * Get the invitation that has fired this event.

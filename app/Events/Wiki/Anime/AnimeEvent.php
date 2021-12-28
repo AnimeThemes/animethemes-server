@@ -12,22 +12,12 @@ use App\Models\Wiki\Anime;
 abstract class AnimeEvent
 {
     /**
-     * The anime that has fired this event.
-     *
-     * @var Anime
-     */
-    protected Anime $anime;
-
-    /**
      * Create a new event instance.
      *
      * @param  Anime  $anime
      * @return void
      */
-    public function __construct(Anime $anime)
-    {
-        $this->anime = $anime;
-    }
+    public function __construct(protected Anime $anime) {}
 
     /**
      * Get the anime that has fired this event.

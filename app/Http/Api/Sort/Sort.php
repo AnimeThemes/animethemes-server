@@ -16,30 +16,12 @@ use Illuminate\Support\Str;
 class Sort
 {
     /**
-     * Sort key value.
-     *
-     * @var string
-     */
-    protected string $key;
-
-    /**
-     * Sort key value.
-     *
-     * @var string|null
-     */
-    protected ?string $column;
-
-    /**
      * Create a new sort instance.
      *
      * @param  string  $key
      * @param  string|null  $column
      */
-    public function __construct(string $key, ?string $column = null)
-    {
-        $this->key = $key;
-        $this->column = $column;
-    }
+    public function __construct(protected string $key, protected ?string $column = null) {}
 
     /**
      * Get sort key value.

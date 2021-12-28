@@ -12,22 +12,12 @@ use App\Models\Billing\Transaction;
 abstract class TransactionEvent
 {
     /**
-     * The transaction that has fired this event.
-     *
-     * @var Transaction
-     */
-    protected Transaction $transaction;
-
-    /**
      * Create a new event instance.
      *
      * @param  Transaction  $transaction
      * @return void
      */
-    public function __construct(Transaction $transaction)
-    {
-        $this->transaction = $transaction;
-    }
+    public function __construct(protected Transaction $transaction) {}
 
     /**
      * Get the transaction that has fired this event.

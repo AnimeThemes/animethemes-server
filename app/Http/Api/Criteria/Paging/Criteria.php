@@ -21,21 +21,11 @@ abstract class Criteria
     public const DEFAULT_SIZE = 15;
 
     /**
-     * The requested result size.
-     *
-     * @var int
-     */
-    protected int $resultSize;
-
-    /**
      * Create a new criteria instance.
      *
      * @param  int  $resultSize
      */
-    public function __construct(int $resultSize)
-    {
-        $this->resultSize = $resultSize;
-    }
+    public function __construct(protected int $resultSize) {}
 
     /**
      * Get the validated result size.

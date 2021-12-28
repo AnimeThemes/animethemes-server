@@ -15,22 +15,12 @@ use Illuminate\Support\Collection;
 class TransparencyDateRule implements Rule
 {
     /**
-     * The list of valid transparency dates.
-     *
-     * @var Collection
-     */
-    protected Collection $validDates;
-
-    /**
      * Create a new rule instance.
      *
      * @param  Collection  $validDates
      * @return void
      */
-    public function __construct(Collection $validDates)
-    {
-        $this->validDates = $validDates;
-    }
+    public function __construct(protected Collection $validDates) {}
 
     /**
      * Determine if the validation rule passes.

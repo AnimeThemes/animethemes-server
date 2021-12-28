@@ -12,22 +12,12 @@ use App\Models\Wiki\Image;
 abstract class ImageEvent
 {
     /**
-     * The image that has fired this event.
-     *
-     * @var Image
-     */
-    protected Image $image;
-
-    /**
      * Create a new event instance.
      *
      * @param  Image  $image
      * @return void
      */
-    public function __construct(Image $image)
-    {
-        $this->image = $image;
-    }
+    public function __construct(protected Image $image) {}
 
     /**
      * Get the image that has fired this event.

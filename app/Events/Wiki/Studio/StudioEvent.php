@@ -12,22 +12,12 @@ use App\Models\Wiki\Studio;
 abstract class StudioEvent
 {
     /**
-     * The studio that has fired this event.
-     *
-     * @var Studio
-     */
-    protected Studio $studio;
-
-    /**
      * Create a new event instance.
      *
      * @param  Studio  $studio
      * @return void
      */
-    public function __construct(Studio $studio)
-    {
-        $this->studio = $studio;
-    }
+    public function __construct(protected Studio $studio) {}
 
     /**
      * Get the studio that has fired this event.

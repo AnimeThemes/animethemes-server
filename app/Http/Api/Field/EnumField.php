@@ -15,13 +15,6 @@ use App\Http\Api\Filter\Filter;
 class EnumField extends Field
 {
     /**
-     * The Enum class string.
-     *
-     * @var class-string<BaseEnum>
-     */
-    protected string $enumClass;
-
-    /**
      * Create a new field instance.
      *
      * @param  string  $key
@@ -29,11 +22,13 @@ class EnumField extends Field
      * @param  string|null  $column
      * @param  Category|null  $category
      */
-    public function __construct(string $key, string $enumClass, ?string $column = null, ?Category $category = null)
-    {
+    public function __construct(
+        string $key,
+        protected string $enumClass,
+        ?string $column = null,
+        ?Category $category = null
+    ) {
         parent::__construct($key, $column, $category);
-
-        $this->enumClass = $enumClass;
     }
 
     /**
