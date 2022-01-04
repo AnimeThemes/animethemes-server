@@ -25,24 +25,15 @@ abstract class BaseCollection extends ResourceCollection
     use PerformsConstrainedEagerLoading;
 
     /**
-     * Sparse field set specified by the client.
-     *
-     * @var Query
-     */
-    protected Query $query;
-
-    /**
      * Create a new resource instance.
      *
      * @param  mixed  $resource
      * @param  Query  $query
      * @return void
      */
-    public function __construct(mixed $resource, Query $query)
+    public function __construct(mixed $resource, protected Query $query)
     {
         parent::__construct($resource);
-
-        $this->query = $query;
     }
 
     /**

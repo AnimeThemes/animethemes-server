@@ -12,20 +12,12 @@ use Illuminate\Support\Str;
 class RelationScope extends Scope
 {
     /**
-     * The relation of the scope.
-     *
-     * @var string
-     */
-    protected string $relation;
-
-    /**
      * Create a new scope instance.
      *
      * @param  string  $relation
      */
-    public function __construct(string $relation)
+    public function __construct(protected string $relation)
     {
-        $this->relation = $relation;
     }
 
     /**

@@ -10,20 +10,12 @@ namespace App\Http\Api\Criteria\Filter;
 class Expression
 {
     /**
-     * The expression value.
-     *
-     * @var mixed
-     */
-    protected mixed $value;
-
-    /**
      * Create a new expression.
      *
      * @param  mixed  $value
      */
-    public function __construct(mixed $value)
+    public function __construct(protected mixed $value)
     {
-        $this->value = $value;
     }
 
     /**

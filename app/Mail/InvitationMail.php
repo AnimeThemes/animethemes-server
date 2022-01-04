@@ -19,21 +19,13 @@ class InvitationMail extends Mailable
     use SerializesModels;
 
     /**
-     * The invitation that grants access.
-     *
-     * @var Invitation
-     */
-    protected Invitation $invitation;
-
-    /**
      * Create a new message instance.
      *
      * @param  Invitation  $invitation
      * @return void
      */
-    public function __construct(Invitation $invitation)
+    public function __construct(protected Invitation $invitation)
     {
-        $this->invitation = $invitation;
     }
 
     /**

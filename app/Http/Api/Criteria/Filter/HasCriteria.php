@@ -24,13 +24,6 @@ class HasCriteria extends Criteria
     public const PARAM_VALUE = 'has';
 
     /**
-     * The number of matching rows that should exist for the relation.
-     *
-     * @var int
-     */
-    protected int $count;
-
-    /**
      * Create a new criteria instance.
      *
      * @param  Predicate  $predicate
@@ -42,11 +35,9 @@ class HasCriteria extends Criteria
         Predicate $predicate,
         BinaryLogicalOperator $operator,
         Scope $scope,
-        int $count = 1,
+        protected int $count = 1,
     ) {
         parent::__construct($predicate, $operator, $scope);
-
-        $this->count = $count;
     }
 
     /**

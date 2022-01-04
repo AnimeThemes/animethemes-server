@@ -18,27 +18,6 @@ use Illuminate\Support\Collection;
 abstract class Criteria
 {
     /**
-     * The scope of the criteria.
-     *
-     * @var Scope
-     */
-    protected Scope $scope;
-
-    /**
-     * The predicate of the criteria.
-     *
-     * @var Predicate
-     */
-    protected Predicate $predicate;
-
-    /**
-     * The logical operator of the criteria.
-     *
-     * @var BinaryLogicalOperator
-     */
-    protected BinaryLogicalOperator $operator;
-
-    /**
      * Create a new criteria instance.
      *
      * @param  Predicate  $predicate
@@ -46,13 +25,10 @@ abstract class Criteria
      * @param  Scope  $scope
      */
     public function __construct(
-        Predicate $predicate,
-        BinaryLogicalOperator $operator,
-        Scope $scope
+        protected Predicate $predicate,
+        protected BinaryLogicalOperator $operator,
+        protected Scope $scope
     ) {
-        $this->predicate = $predicate;
-        $this->operator = $operator;
-        $this->scope = $scope;
     }
 
     /**

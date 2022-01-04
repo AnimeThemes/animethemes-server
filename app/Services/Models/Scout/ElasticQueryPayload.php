@@ -13,13 +13,6 @@ use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 abstract class ElasticQueryPayload
 {
     /**
-     * Filter set specified by the client.
-     *
-     * @var Criteria
-     */
-    protected Criteria $criteria;
-
-    /**
      * The model this payload is searching.
      *
      * @var string
@@ -31,9 +24,8 @@ abstract class ElasticQueryPayload
      *
      * @param  Criteria  $criteria
      */
-    final public function __construct(Criteria $criteria)
+    final public function __construct(protected Criteria $criteria)
     {
-        $this->criteria = $criteria;
     }
 
     /**

@@ -14,23 +14,14 @@ use Illuminate\Database\Eloquent\Builder;
 class FieldCriteria extends Criteria
 {
     /**
-     * The direction of the sort.
-     *
-     * @var Direction
-     */
-    protected Direction $direction;
-
-    /**
      * Create a new criteria instance.
      *
      * @param  string  $field
      * @param  Direction  $direction
      */
-    public function __construct(string $field, Direction $direction)
+    public function __construct(string $field, protected Direction $direction)
     {
         parent::__construct($field);
-
-        $this->direction = $direction;
     }
 
     /**

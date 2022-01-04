@@ -13,20 +13,12 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class Criteria
 {
     /**
-     * The sort field.
-     *
-     * @var string
-     */
-    protected string $field;
-
-    /**
      * Create a new criteria instance.
      *
      * @param  string  $field
      */
-    public function __construct(string $field)
+    public function __construct(protected string $field)
     {
-        $this->field = $field;
     }
 
     /**

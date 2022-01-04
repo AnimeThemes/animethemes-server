@@ -12,21 +12,13 @@ use App\Models\Auth\User;
 abstract class UserEvent
 {
     /**
-     * The user that has fired this event.
-     *
-     * @var User
-     */
-    protected User $user;
-
-    /**
      * Create a new event instance.
      *
      * @param  User  $user
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(protected User $user)
     {
-        $this->user = $user;
     }
 
     /**

@@ -12,27 +12,6 @@ use App\Enums\Http\Api\Filter\ComparisonOperator;
 class Predicate
 {
     /**
-     * The predicate column.
-     *
-     * @var string
-     */
-    protected string $column;
-
-    /**
-     * The comparison operator of the predicate.
-     *
-     * @var ComparisonOperator|null
-     */
-    protected ?ComparisonOperator $operator;
-
-    /**
-     * The expression of the predicate.
-     *
-     * @var Expression
-     */
-    protected Expression $expression;
-
-    /**
      * Create a new predicate.
      *
      * @param  string  $column
@@ -40,13 +19,10 @@ class Predicate
      * @param  Expression  $expression
      */
     public function __construct(
-        string $column,
-        ?ComparisonOperator $operator,
-        Expression $expression
+        protected string $column,
+        protected ?ComparisonOperator $operator,
+        protected Expression $expression
     ) {
-        $this->column = $column;
-        $this->operator = $operator;
-        $this->expression = $expression;
     }
 
     /**

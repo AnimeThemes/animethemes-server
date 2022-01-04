@@ -19,21 +19,13 @@ class DiscordNotification extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * The Discord message payload.
-     *
-     * @var DiscordMessage
-     */
-    protected DiscordMessage $message;
-
-    /**
      * Create a new notification instance.
      *
      * @param  DiscordMessage  $message
      * @return void
      */
-    public function __construct(DiscordMessage $message)
+    public function __construct(protected DiscordMessage $message)
     {
-        $this->message = $message;
     }
 
     /**

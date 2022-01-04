@@ -14,38 +14,17 @@ use App\Http\Api\Sort\Sort;
 abstract class Field
 {
     /**
-     * The key for the field.
-     *
-     * @var string
-     */
-    protected string $key;
-
-    /**
-     * The key for the field.
-     *
-     * @var string|null
-     */
-    protected ?string $column;
-
-    /**
-     * The category for the field.
-     *
-     * @var Category|null
-     */
-    protected ?Category $category;
-
-    /**
      * Create a new field instance.
      *
      * @param  string  $key
      * @param  string|null  $column
      * @param  Category|null  $category
      */
-    public function __construct(string $key, ?string $column = null, ?Category $category = null)
-    {
-        $this->key = $key;
-        $this->category = $category;
-        $this->column = $column;
+    public function __construct(
+        protected string $key,
+        protected ?string $column = null,
+        protected ?Category $category = null
+    ) {
     }
 
     /**

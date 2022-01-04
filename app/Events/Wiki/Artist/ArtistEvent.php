@@ -12,21 +12,13 @@ use App\Models\Wiki\Artist;
 abstract class ArtistEvent
 {
     /**
-     * The artist that has fired this event.
-     *
-     * @var Artist
-     */
-    protected Artist $artist;
-
-    /**
      * Create a new event instance.
      *
      * @param  Artist  $artist
      * @return void
      */
-    public function __construct(Artist $artist)
+    public function __construct(protected Artist $artist)
     {
-        $this->artist = $artist;
     }
 
     /**

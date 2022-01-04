@@ -12,21 +12,13 @@ use App\Models\Billing\Balance;
 abstract class BalanceEvent
 {
     /**
-     * The balance that has fired this event.
-     *
-     * @var Balance
-     */
-    protected Balance $balance;
-
-    /**
      * Create a new event instance.
      *
      * @param  Balance  $balance
      * @return void
      */
-    public function __construct(Balance $balance)
+    public function __construct(protected Balance $balance)
     {
-        $this->balance = $balance;
     }
 
     /**

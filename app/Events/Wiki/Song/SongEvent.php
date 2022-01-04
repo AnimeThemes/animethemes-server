@@ -12,21 +12,13 @@ use App\Models\Wiki\Song;
 abstract class SongEvent
 {
     /**
-     * The song that has fired this event.
-     *
-     * @var Song
-     */
-    protected Song $song;
-
-    /**
      * Create a new event instance.
      *
      * @param  Song  $song
      * @return void
      */
-    public function __construct(Song $song)
+    public function __construct(protected Song $song)
     {
-        $this->song = $song;
     }
 
     /**

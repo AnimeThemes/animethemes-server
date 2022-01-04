@@ -12,23 +12,15 @@ use App\Enums\BaseEnum;
 class EnumFilter extends Filter
 {
     /**
-     * The Enum class string.
-     *
-     * @var class-string<BaseEnum>
-     */
-    protected string $enumClass;
-
-    /**
      * Create a new filter instance.
      *
      * @param  string  $key
      * @param  string|null  $column
      * @param  class-string<BaseEnum>  $enumClass
      */
-    public function __construct(string $key, string $enumClass, ?string $column = null)
+    public function __construct(string $key, protected string $enumClass, ?string $column = null)
     {
         parent::__construct($key, $column);
-        $this->enumClass = $enumClass;
     }
 
     /**

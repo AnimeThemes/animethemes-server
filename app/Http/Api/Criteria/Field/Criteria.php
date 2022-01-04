@@ -12,29 +12,13 @@ use Illuminate\Support\Collection;
 class Criteria
 {
     /**
-     * The type that this sparse fieldsets mapping belongs to.
-     *
-     * @var string
-     */
-    protected string $type;
-
-    /**
-     * The fields to include for the type.
-     *
-     * @var Collection<string>
-     */
-    protected Collection $fields;
-
-    /**
      * Create a new criteria instance.
      *
      * @param  string  $type
      * @param  Collection<string>  $fields
      */
-    public function __construct(string $type, Collection $fields)
+    public function __construct(protected string $type, protected Collection $fields)
     {
-        $this->type = $type;
-        $this->fields = $fields;
     }
 
     /**

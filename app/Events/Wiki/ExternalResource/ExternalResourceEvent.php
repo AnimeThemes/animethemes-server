@@ -12,21 +12,13 @@ use App\Models\Wiki\ExternalResource;
 class ExternalResourceEvent
 {
     /**
-     * The resource that has fired this event.
-     *
-     * @var ExternalResource
-     */
-    protected ExternalResource $resource;
-
-    /**
      * Create a new event instance.
      *
      * @param  ExternalResource  $resource
      * @return void
      */
-    public function __construct(ExternalResource $resource)
+    public function __construct(protected ExternalResource $resource)
     {
-        $this->resource = $resource;
     }
 
     /**

@@ -24,18 +24,10 @@ class CreateExternalResourceSiteForArtistAction extends Action
     use Queueable;
 
     /**
-     * The resource site key.
-     *
-     * @var int
-     */
-    protected int $site;
-
-    /**
      * @param  int  $site
      */
-    public function __construct(int $site)
+    public function __construct(protected int $site)
     {
-        $this->site = $site;
     }
 
     /**

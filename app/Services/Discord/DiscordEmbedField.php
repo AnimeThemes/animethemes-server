@@ -17,25 +17,11 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     public const DEFAULT_FIELD_VALUE = '-';
 
     /**
-     * The name of the field.
-     *
-     * @var string
-     */
-    protected string $name;
-
-    /**
      * The value of the field.
      *
      * @var string
      */
     protected string $value;
-
-    /**
-     * Whether or not this field should display inline.
-     *
-     * @var bool
-     */
-    protected bool $inline;
 
     /**
      * Create a new field instance.
@@ -44,11 +30,12 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      * @param  mixed  $value
      * @param  bool  $inline
      */
-    final public function __construct(string $name, mixed $value, bool $inline = false)
-    {
-        $this->name = $name;
+    final public function __construct(
+        protected string $name,
+        mixed $value,
+        protected bool $inline = false
+    ) {
         $this->value = $this->formatEmbedFieldValue($value);
-        $this->inline = $inline;
     }
 
     /**
@@ -65,7 +52,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     /**
      * Get the instance as an array.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray(): array
     {
@@ -79,7 +66,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     /**
      * Convert the object into something JSON serializable.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function jsonSerialize(): array
     {

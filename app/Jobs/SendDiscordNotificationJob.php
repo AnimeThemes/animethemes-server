@@ -27,21 +27,13 @@ class SendDiscordNotificationJob implements ShouldQueue
     use SerializesModels;
 
     /**
-     * The event.
-     *
-     * @var DiscordMessageEvent
-     */
-    protected DiscordMessageEvent $event;
-
-    /**
      * Create a new job instance.
      *
      * @param  DiscordMessageEvent  $event
      * @return void
      */
-    public function __construct(DiscordMessageEvent $event)
+    public function __construct(protected DiscordMessageEvent $event)
     {
-        $this->event = $event;
     }
 
     /**

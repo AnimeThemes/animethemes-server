@@ -12,21 +12,13 @@ use App\Models\Wiki\Video;
 abstract class VideoEvent
 {
     /**
-     * The video that has fired this event.
-     *
-     * @var Video
-     */
-    protected Video $video;
-
-    /**
      * Create a new event instance.
      *
      * @param  Video  $video
      * @return void
      */
-    public function __construct(Video $video)
+    public function __construct(protected Video $video)
     {
-        $this->video = $video;
     }
 
     /**

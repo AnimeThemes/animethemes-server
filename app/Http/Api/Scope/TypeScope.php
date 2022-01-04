@@ -10,20 +10,12 @@ namespace App\Http\Api\Scope;
 class TypeScope extends Scope
 {
     /**
-     * The type of the scope.
-     *
-     * @var string
-     */
-    protected string $type;
-
-    /**
      * Create a new scope instance.
      *
      * @param  string  $type
      */
-    public function __construct(string $type)
+    public function __construct(protected string $type)
     {
-        $this->type = $type;
     }
 
     /**
