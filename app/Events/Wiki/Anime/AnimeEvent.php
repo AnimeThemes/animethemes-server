@@ -17,7 +17,9 @@ abstract class AnimeEvent
      * @param  Anime  $anime
      * @return void
      */
-    public function __construct(protected Anime $anime) {}
+    public function __construct(protected Anime $anime)
+    {
+    }
 
     /**
      * Get the anime that has fired this event.

@@ -17,7 +17,9 @@ abstract class StudioEvent
      * @param  Studio  $studio
      * @return void
      */
-    public function __construct(protected Studio $studio) {}
+    public function __construct(protected Studio $studio)
+    {
+    }
 
     /**
      * Get the studio that has fired this event.

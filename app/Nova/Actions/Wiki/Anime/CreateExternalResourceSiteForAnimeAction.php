@@ -26,7 +26,9 @@ class CreateExternalResourceSiteForAnimeAction extends Action
     /**
      * @param  int  $site
      */
-    public function __construct(protected int $site) {}
+    public function __construct(protected int $site)
+    {
+    }
 
     /**
      * Get the displayable name of the action.

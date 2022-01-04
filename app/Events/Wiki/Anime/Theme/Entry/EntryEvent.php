@@ -17,7 +17,9 @@ abstract class EntryEvent
      * @param  AnimeThemeEntry  $entry
      * @return void
      */
-    public function __construct(protected AnimeThemeEntry $entry) {}
+    public function __construct(protected AnimeThemeEntry $entry)
+    {
+    }
 
     /**
      * Get the entry that has fired this event.

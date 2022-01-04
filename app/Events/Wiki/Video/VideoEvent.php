@@ -17,7 +17,9 @@ abstract class VideoEvent
      * @param  Video  $video
      * @return void
      */
-    public function __construct(protected Video $video) {}
+    public function __construct(protected Video $video)
+    {
+    }
 
     /**
      * Get the video that has fired this event.

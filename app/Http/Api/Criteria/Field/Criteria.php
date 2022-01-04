@@ -17,7 +17,9 @@ class Criteria
      * @param  string  $type
      * @param  Collection<string>  $fields
      */
-    public function __construct(protected string $type, protected Collection $fields) {}
+    public function __construct(protected string $type, protected Collection $fields)
+    {
+    }
 
     /**
      * Get the type that this sparse fieldsets mapping belongs to.

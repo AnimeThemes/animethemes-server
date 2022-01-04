@@ -17,7 +17,9 @@ abstract class ImageEvent
      * @param  Image  $image
      * @return void
      */
-    public function __construct(protected Image $image) {}
+    public function __construct(protected Image $image)
+    {
+    }
 
     /**
      * Get the image that has fired this event.

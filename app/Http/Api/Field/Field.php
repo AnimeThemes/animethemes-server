@@ -24,7 +24,8 @@ abstract class Field
         protected string $key,
         protected ?string $column = null,
         protected ?Category $category = null
-    ) {}
+    ) {
+    }
 
     /**
      * Get the field key.

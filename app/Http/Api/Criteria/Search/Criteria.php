@@ -14,7 +14,9 @@ class Criteria
      *
      * @param  string  $term
      */
-    public function __construct(protected string $term) {}
+    public function __construct(protected string $term)
+    {
+    }
 
     /**
      * Get the search term.

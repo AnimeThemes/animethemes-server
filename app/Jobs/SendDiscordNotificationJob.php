@@ -32,7 +32,9 @@ class SendDiscordNotificationJob implements ShouldQueue
      * @param  DiscordMessageEvent  $event
      * @return void
      */
-    public function __construct(protected DiscordMessageEvent $event) {}
+    public function __construct(protected DiscordMessageEvent $event)
+    {
+    }
 
     /**
      * Execute the job.

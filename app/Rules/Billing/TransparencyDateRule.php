@@ -20,7 +20,9 @@ class TransparencyDateRule implements Rule
      * @param  Collection  $validDates
      * @return void
      */
-    public function __construct(protected Collection $validDates) {}
+    public function __construct(protected Collection $validDates)
+    {
+    }
 
     /**
      * Determine if the validation rule passes.

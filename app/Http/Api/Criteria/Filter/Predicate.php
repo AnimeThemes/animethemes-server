@@ -22,7 +22,8 @@ class Predicate
         protected string $column,
         protected ?ComparisonOperator $operator,
         protected Expression $expression
-    ) {}
+    ) {
+    }
 
     /**
      * Get the predicate column.

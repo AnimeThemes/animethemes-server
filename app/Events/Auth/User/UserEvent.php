@@ -17,7 +17,9 @@ abstract class UserEvent
      * @param  User  $user
      * @return void
      */
-    public function __construct(protected User $user) {}
+    public function __construct(protected User $user)
+    {
+    }
 
     /**
      * Get the user that has fired this event.

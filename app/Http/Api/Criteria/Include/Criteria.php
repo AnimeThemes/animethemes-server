@@ -16,7 +16,9 @@ class Criteria
      *
      * @param  Collection<string>  $paths
      */
-    public function __construct(protected Collection $paths) {}
+    public function __construct(protected Collection $paths)
+    {
+    }
 
     /**
      * Get the include paths.

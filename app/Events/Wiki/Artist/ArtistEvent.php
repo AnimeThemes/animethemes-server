@@ -17,7 +17,9 @@ abstract class ArtistEvent
      * @param  Artist  $artist
      * @return void
      */
-    public function __construct(protected Artist $artist) {}
+    public function __construct(protected Artist $artist)
+    {
+    }
 
     /**
      * Get the artist that has fired this event.

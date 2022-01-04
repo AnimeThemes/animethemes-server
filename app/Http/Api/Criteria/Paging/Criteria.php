@@ -25,7 +25,9 @@ abstract class Criteria
      *
      * @param  int  $resultSize
      */
-    public function __construct(protected int $resultSize) {}
+    public function __construct(protected int $resultSize)
+    {
+    }
 
     /**
      * Get the validated result size.

@@ -16,7 +16,9 @@ class RelationScope extends Scope
      *
      * @param  string  $relation
      */
-    public function __construct(protected string $relation) {}
+    public function __construct(protected string $relation)
+    {
+    }
 
     /**
      * Get the relation of the scope.

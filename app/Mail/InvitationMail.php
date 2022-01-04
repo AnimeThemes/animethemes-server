@@ -24,7 +24,9 @@ class InvitationMail extends Mailable
      * @param  Invitation  $invitation
      * @return void
      */
-    public function __construct(protected Invitation $invitation) {}
+    public function __construct(protected Invitation $invitation)
+    {
+    }
 
     /**
      * Build the message.

@@ -24,7 +24,9 @@ abstract class ElasticQueryPayload
      *
      * @param  Criteria  $criteria
      */
-    final public function __construct(protected Criteria $criteria) {}
+    final public function __construct(protected Criteria $criteria)
+    {
+    }
 
     /**
      * Create a new query payload instance.

@@ -18,7 +18,9 @@ class ResourceSiteDomainRule implements Rule
      * @param  int|null  $site
      * @return void
      */
-    public function __construct(protected ?int $site) {}
+    public function __construct(protected ?int $site)
+    {
+    }
 
     /**
      * Determine if the validation rule passes.

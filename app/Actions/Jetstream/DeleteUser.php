@@ -20,7 +20,9 @@ class DeleteUser implements DeletesUsers
      * @param  DeletesTeams  $deletesTeams
      * @return void
      */
-    public function __construct(protected DeletesTeams $deletesTeams) {}
+    public function __construct(protected DeletesTeams $deletesTeams)
+    {
+    }
 
     /**
      * Delete the given user.

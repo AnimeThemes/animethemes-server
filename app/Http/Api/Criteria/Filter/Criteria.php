@@ -28,7 +28,8 @@ abstract class Criteria
         protected Predicate $predicate,
         protected BinaryLogicalOperator $operator,
         protected Scope $scope
-    ) {}
+    ) {
+    }
 
     /**
      * Get the scope of the criteria.

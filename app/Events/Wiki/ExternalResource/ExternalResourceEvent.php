@@ -17,7 +17,9 @@ class ExternalResourceEvent
      * @param  ExternalResource  $resource
      * @return void
      */
-    public function __construct(protected ExternalResource $resource) {}
+    public function __construct(protected ExternalResource $resource)
+    {
+    }
 
     /**
      * Get the resource that has fired this event.

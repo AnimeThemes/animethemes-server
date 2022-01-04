@@ -17,7 +17,9 @@ abstract class InvitationEvent
      * @param  Invitation  $invitation
      * @return void
      */
-    public function __construct(protected Invitation $invitation) {}
+    public function __construct(protected Invitation $invitation)
+    {
+    }
 
     /**
      * Get the invitation that has fired this event.

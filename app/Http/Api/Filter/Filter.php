@@ -21,7 +21,9 @@ abstract class Filter
      * @param  string  $key
      * @param  string|null  $column
      */
-    public function __construct(protected string $key, protected ?string $column = null) {}
+    public function __construct(protected string $key, protected ?string $column = null)
+    {
+    }
 
     /**
      * Get filter key value.

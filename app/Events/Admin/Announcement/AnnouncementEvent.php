@@ -17,7 +17,9 @@ abstract class AnnouncementEvent
      * @param  Announcement  $announcement
      * @return void
      */
-    public function __construct(protected Announcement $announcement) {}
+    public function __construct(protected Announcement $announcement)
+    {
+    }
 
     /**
      * Get the announcement that has fired this event.

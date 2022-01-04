@@ -17,7 +17,9 @@ abstract class TransactionEvent
      * @param  Transaction  $transaction
      * @return void
      */
-    public function __construct(protected Transaction $transaction) {}
+    public function __construct(protected Transaction $transaction)
+    {
+    }
 
     /**
      * Get the transaction that has fired this event.

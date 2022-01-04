@@ -17,7 +17,9 @@ abstract class SeriesEvent
      * @param  Series  $series
      * @return void
      */
-    public function __construct(protected Series $series) {}
+    public function __construct(protected Series $series)
+    {
+    }
 
     /**
      * Get the series that has fired this event.

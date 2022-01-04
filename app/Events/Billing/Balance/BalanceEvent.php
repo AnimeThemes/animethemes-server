@@ -17,7 +17,9 @@ abstract class BalanceEvent
      * @param  Balance  $balance
      * @return void
      */
-    public function __construct(protected Balance $balance) {}
+    public function __construct(protected Balance $balance)
+    {
+    }
 
     /**
      * Get the balance that has fired this event.

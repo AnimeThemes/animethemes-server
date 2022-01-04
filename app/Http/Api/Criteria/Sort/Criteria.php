@@ -17,7 +17,9 @@ abstract class Criteria
      *
      * @param  string  $field
      */
-    public function __construct(protected string $field) {}
+    public function __construct(protected string $field)
+    {
+    }
 
     /**
      * Get the criteria field.

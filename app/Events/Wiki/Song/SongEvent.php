@@ -17,7 +17,9 @@ abstract class SongEvent
      * @param  Song  $song
      * @return void
      */
-    public function __construct(protected Song $song) {}
+    public function __construct(protected Song $song)
+    {
+    }
 
     /**
      * Get the song that has fired this event.

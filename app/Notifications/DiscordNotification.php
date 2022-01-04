@@ -24,7 +24,9 @@ class DiscordNotification extends Notification implements ShouldQueue
      * @param  DiscordMessage  $message
      * @return void
      */
-    public function __construct(protected DiscordMessage $message) {}
+    public function __construct(protected DiscordMessage $message)
+    {
+    }
 
     /**
      * Get the notification's delivery channels.
