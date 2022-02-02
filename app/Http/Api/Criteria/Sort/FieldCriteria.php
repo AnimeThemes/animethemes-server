@@ -37,8 +37,8 @@ class FieldCriteria extends Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param Builder $builder
-     * @param Sort $sort
+     * @param  Builder  $builder
+     * @param  Sort  $sort
      * @return Builder
      */
     public function sort(Builder $builder, Sort $sort): Builder

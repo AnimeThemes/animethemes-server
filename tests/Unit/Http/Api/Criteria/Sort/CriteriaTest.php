@@ -29,8 +29,8 @@ class CriteriaTest extends TestCase
             /**
              * Apply criteria to builder.
              *
-             * @param Builder $builder
-             * @param Sort $sort
+             * @param  Builder  $builder
+             * @param  Sort  $sort
              * @return Builder
              */
             public function sort(Builder $builder, Sort $sort): Builder
@@ -58,8 +58,8 @@ class CriteriaTest extends TestCase
             /**
              * Apply criteria to builder.
              *
-             * @param Builder $builder
-             * @param Sort $sort
+             * @param  Builder  $builder
+             * @param  Sort  $sort
              * @return Builder
              */
             public function sort(Builder $builder, Sort $sort): Builder

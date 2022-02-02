@@ -81,7 +81,8 @@ class TrashedCriteria extends Criteria
      * @param  Query  $query
      * @return Builder
      */
-    public function filter(Builder $builder, Filter $filter, Query $query): Builder {
+    public function filter(Builder $builder, Filter $filter, Query $query): Builder
+    {
         $filterValues = $filter->getFilterValues($this->getFilterValues());
 
         foreach ($filterValues as $filterValue) {

@@ -70,7 +70,7 @@ class SearchQuery
     /**
      * Get the query by class.
      *
-     * @param string $queryClass
+     * @param  string  $queryClass
      * @return EloquentQuery|null
      */
     public function getQuery(string $queryClass): ?EloquentQuery

@@ -27,7 +27,7 @@ abstract class EloquentQuery extends Query
     /**
      * Prepare model for json resource.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return BaseResource
      */
     public function show(Model $model): BaseResource
@@ -107,7 +107,8 @@ abstract class EloquentQuery extends Query
      * @param  IncludeCriteria|null  $includeCriteria
      * @return array
      */
-    public function constrainEagerLoads(?IncludeCriteria $includeCriteria): array {
+    public function constrainEagerLoads(?IncludeCriteria $includeCriteria): array
+    {
         $constrainedEagerLoads = [];
 
         $allowedIncludePaths = collect($includeCriteria?->getPaths());

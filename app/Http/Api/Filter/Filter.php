@@ -42,7 +42,7 @@ abstract class Filter
     /**
      * Get sanitized filter values.
      *
-     * @param array $attemptedFilterValues
+     * @param  array  $attemptedFilterValues
      * @return array
      */
     public function getFilterValues(array $attemptedFilterValues): array

@@ -46,8 +46,8 @@ abstract class Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param Builder $builder
-     * @param Sort $sort
+     * @param  Builder  $builder
+     * @param  Sort  $sort
      * @return Builder
      */
     abstract public function sort(Builder $builder, Sort $sort): Builder;

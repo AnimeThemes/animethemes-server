@@ -110,10 +110,11 @@ class WhereInCriteria extends Criteria
      *
      * @param  Builder  $builder
      * @param  Filter  $filter
-     * @param Query $query
+     * @param  Query  $query
      * @return Builder
      */
-    public function filter(Builder $builder, Filter $filter, Query $query): Builder {
+    public function filter(Builder $builder, Filter $filter, Query $query): Builder
+    {
         return $builder->whereIn(
             $builder->qualifyColumn($filter->getColumn()),
             $filter->getFilterValues($this->getFilterValues()),

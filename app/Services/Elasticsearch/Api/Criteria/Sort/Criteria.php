@@ -25,8 +25,8 @@ abstract class Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param SearchRequestBuilder $builder
-     * @param Sort $sort
+     * @param  SearchRequestBuilder  $builder
+     * @param  Sort  $sort
      * @return SearchRequestBuilder
      */
     abstract public function sort(SearchRequestBuilder $builder, Sort $sort): SearchRequestBuilder;

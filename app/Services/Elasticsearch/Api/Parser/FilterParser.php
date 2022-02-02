@@ -19,7 +19,7 @@ class FilterParser
     /**
      * Parse Elasticsearch filter criteria from core filter criteria.
      *
-     * @param BaseCriteria $criteria
+     * @param  BaseCriteria  $criteria
      * @return Criteria|null
      */
     public static function parse(BaseCriteria $criteria): ?Criteria
@@ -35,4 +35,3 @@ class FilterParser
         return null;
     }
 }
-

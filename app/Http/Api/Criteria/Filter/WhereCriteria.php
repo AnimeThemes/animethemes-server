@@ -99,10 +99,11 @@ class WhereCriteria extends Criteria
      *
      * @param  Builder  $builder
      * @param  Filter  $filter
-     * @param Query $query
+     * @param  Query  $query
      * @return Builder
      */
-    public function filter(Builder $builder, Filter $filter, Query $query): Builder {
+    public function filter(Builder $builder, Filter $filter, Query $query): Builder
+    {
         return $builder->where(
             $builder->qualifyColumn($filter->getColumn()),
             $this->getComparisonOperator()?->value,

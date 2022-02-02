@@ -19,7 +19,7 @@ class PagingParser
     /**
      * Parse Elasticsearch paging criteria from core paging criteria.
      *
-     * @param BaseCriteria $criteria
+     * @param  BaseCriteria  $criteria
      * @return Criteria|null
      */
     public static function parse(BaseCriteria $criteria): ?Criteria

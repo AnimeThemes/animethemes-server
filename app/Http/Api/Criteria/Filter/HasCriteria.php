@@ -128,7 +128,8 @@ class HasCriteria extends Criteria
      * @param  Query  $query
      * @return Builder
      */
-    public function filter(Builder $builder, Filter $filter, Query $query): Builder {
+    public function filter(Builder $builder, Filter $filter, Query $query): Builder
+    {
         $schema = $query->schema();
         $filterValues = $filter->getFilterValues($this->getFilterValues());
 

@@ -99,7 +99,7 @@ abstract class Schema
     /**
      * Get the schema of the relation by path.
      *
-     * @param string $path
+     * @param  string  $path
      * @return Schema|null
      */
     public function relation(string $path): ?Schema

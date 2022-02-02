@@ -36,7 +36,7 @@ class Elasticsearch extends Search
     /**
      * Create a new search instance.
      *
-     * @param Client $client
+     * @param  Client  $client
      */
     public function __construct(Client $client)
     {
@@ -141,7 +141,7 @@ class Elasticsearch extends Search
     /**
      * Resolve Elasticsearch query builder from schema.
      *
-     * @param EloquentQuery $query
+     * @param  EloquentQuery  $query
      * @return ElasticQueryPayload|null
      */
     protected function elasticQueryPayload(EloquentQuery $query): ?ElasticQueryPayload
