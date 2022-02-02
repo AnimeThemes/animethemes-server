@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Concerns\Actions\Fortify\PasswordValidationRules;
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Auth\Invitation;
@@ -22,6 +21,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -33,7 +33,6 @@ use Illuminate\Validation\ValidationException;
  */
 class RegisterController extends Controller
 {
-    use PasswordValidationRules;
     use RegistersUsers;
 
     /**
@@ -104,7 +103,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:192'],
             'email' => ['required', 'string', 'email', 'max:192', Rule::unique(User::TABLE)],
-            'password' => $this->passwordRules(),
+            'password' => Password::required(),
             'terms' => ['required'],
         ]);
     }

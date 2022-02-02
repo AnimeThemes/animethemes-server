@@ -67,7 +67,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         User::ATTRIBUTE_EMAIL,
@@ -99,7 +99,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         User::ATTRIBUTE_PASSWORD,
@@ -118,7 +118,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         User::ATTRIBUTE_EMAIL_VERIFIED_AT => 'datetime',

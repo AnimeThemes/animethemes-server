@@ -4,29 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Artist;
 
-use App\Http\Api\Query;
+use App\Contracts\Http\Requests\Api\SearchableRequest;
+use App\Http\Api\Query\EloquentQuery;
+use App\Http\Api\Query\Wiki\ArtistQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
-use App\Http\Requests\Api\IndexRequest;
-use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Collection\ArtistCollection;
-use Illuminate\Http\Resources\MissingValue;
+use App\Http\Requests\Api\EloquentIndexRequest;
 
 /**
  * Class ArtistIndexRequest.
  */
-class ArtistIndexRequest extends IndexRequest
+class ArtistIndexRequest extends EloquentIndexRequest implements SearchableRequest
 {
-    /**
-     * Get the underlying resource collection.
-     *
-     * @return BaseCollection
-     */
-    protected function getCollection(): BaseCollection
-    {
-        return ArtistCollection::make(new MissingValue(), Query::make());
-    }
-
     /**
      * Get the schema.
      *
@@ -35,5 +24,15 @@ class ArtistIndexRequest extends IndexRequest
     protected function getSchema(): Schema
     {
         return new ArtistSchema();
+    }
+
+    /**
+     * Get the validation API Query.
+     *
+     * @return EloquentQuery
+     */
+    public function getQuery(): EloquentQuery
+    {
+        return ArtistQuery::make($this->validated());
     }
 }

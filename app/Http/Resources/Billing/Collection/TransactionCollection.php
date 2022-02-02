@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Billing\Collection;
 
-use App\Http\Api\Schema\Billing\TransactionSchema;
-use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\Billing\Transaction;
@@ -24,13 +22,6 @@ class TransactionCollection extends BaseCollection
     public static $wrap = 'transactions';
 
     /**
-     * The resource that this resource collects.
-     *
-     * @var string
-     */
-    public $collects = Transaction::class;
-
-    /**
      * Transform the resource collection into an array.
      *
      * @param  Request  $request
@@ -43,15 +34,5 @@ class TransactionCollection extends BaseCollection
         return $this->collection->map(
             fn (Transaction $transaction) => TransactionResource::make($transaction, $this->query)
         )->all();
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new TransactionSchema();
     }
 }

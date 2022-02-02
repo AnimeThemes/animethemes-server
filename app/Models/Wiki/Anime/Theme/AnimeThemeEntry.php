@@ -15,12 +15,12 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Video;
 use App\Pivots\AnimeThemeEntryVideo;
 use Database\Factories\Wiki\Anime\Theme\AnimeThemeEntryFactory;
+use ElasticScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Laravel\Scout\Searchable;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
 /**
@@ -41,7 +41,6 @@ use Znck\Eloquent\Relations\BelongsToThrough;
  */
 class AnimeThemeEntry extends BaseModel
 {
-    use \ElasticScoutDriverPlus\Searchable;
     use Searchable;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 

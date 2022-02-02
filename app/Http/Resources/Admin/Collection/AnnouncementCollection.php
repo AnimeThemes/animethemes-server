@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Admin\Collection;
 
-use App\Http\Api\Schema\Admin\AnnouncementSchema;
-use App\Http\Api\Schema\Schema;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Http\Resources\BaseCollection;
 use App\Models\Admin\Announcement;
@@ -24,13 +22,6 @@ class AnnouncementCollection extends BaseCollection
     public static $wrap = 'announcements';
 
     /**
-     * The resource that this resource collects.
-     *
-     * @var string
-     */
-    public $collects = Announcement::class;
-
-    /**
      * Transform the resource collection into an array.
      *
      * @param  Request  $request
@@ -43,15 +34,5 @@ class AnnouncementCollection extends BaseCollection
         return $this->collection->map(
             fn (Announcement $announcement) => AnnouncementResource::make($announcement, $this->query)
         )->all();
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new AnnouncementSchema();
     }
 }

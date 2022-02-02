@@ -8,8 +8,6 @@ use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Song\SongIndexRequest;
 use App\Http\Requests\Api\Wiki\Song\SongShowRequest;
-use App\Http\Resources\Wiki\Collection\SongCollection;
-use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Song;
 use Illuminate\Http\JsonResponse;
 
@@ -29,10 +27,10 @@ class SongController extends Controller
         $query = $request->getQuery();
 
         if ($query->hasSearchCriteria()) {
-            return SongCollection::performSearch($query, PaginationStrategy::OFFSET())->toResponse($request);
+            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return SongCollection::performQuery($query)->toResponse($request);
+        return $query->index()->toResponse($request);
     }
 
     /**
@@ -44,7 +42,7 @@ class SongController extends Controller
      */
     public function show(SongShowRequest $request, Song $song): JsonResponse
     {
-        $resource = SongResource::performQuery($song, $request->getQuery());
+        $resource = $request->getQuery()->show($song);
 
         return $resource->toResponse($request);
     }

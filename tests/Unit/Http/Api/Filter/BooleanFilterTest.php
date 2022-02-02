@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Tests\Unit\Http\Api\Filter;
 
 use App\Http\Api\Filter\BooleanFilter;
-use App\Http\Api\Parser\FilterParser;
-use App\Http\Api\Query;
-use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Tests\TestCase;
+use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
 /**
  * Class BooleanFilterTest.
@@ -27,24 +27,11 @@ class BooleanFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $booleanValues = $this->faker->words($this->faker->randomDigitNotNull());
+        $criteria = FakeCriteria::make($filterField, Str::random());
 
-        $parameters = [
-            FilterParser::$param => [
-                $filterField => implode(',', $booleanValues),
-            ],
-        ];
+        $filter = new BooleanFilter($filterField);
 
-        $query = Query::make($parameters);
-
-        $filter = new class($filterField) extends BooleanFilter
-        {
-            // We don't need to do any customization
-        };
-
-        $criteria = $query->getFilterCriteria()->first();
-
-        static::assertFalse($filter->shouldApplyFilter($criteria, new GlobalScope()));
+        static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
     }
 
     /**
@@ -56,24 +43,11 @@ class BooleanFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $booleanValues = [true, false];
+        $criteria = FakeCriteria::make($filterField, 'true,false');
 
-        $parameters = [
-            FilterParser::$param => [
-                $filterField => implode(',', $booleanValues),
-            ],
-        ];
+        $filter = new BooleanFilter($filterField);
 
-        $query = Query::make($parameters);
-
-        $filter = new class($filterField) extends BooleanFilter
-        {
-            // We don't need to do any customization
-        };
-
-        $criteria = $query->getFilterCriteria()->first();
-
-        static::assertFalse($filter->shouldApplyFilter($criteria, new GlobalScope()));
+        static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
     }
 
     /**
@@ -83,26 +57,11 @@ class BooleanFilterTest extends TestCase
      */
     public function testConvertsValidatedBoolean()
     {
-        $filterField = $this->faker->word();
-
         $booleanValue = $this->faker->boolean();
 
-        $parameters = [
-            FilterParser::$param => [
-                $filterField => $booleanValue ? 'true' : 'false',
-            ],
-        ];
+        $filter = new BooleanFilter($this->faker->word());
 
-        $query = Query::make($parameters);
-
-        $filter = new class($filterField) extends BooleanFilter
-        {
-            // We don't need to do any customization
-        };
-
-        $criteria = $query->getFilterCriteria()->first();
-
-        $filterValues = $filter->getFilterValues($criteria);
+        $filterValues = $filter->getFilterValues(Arr::wrap($booleanValue ? 'true' : 'false'));
 
         static::assertEquals($booleanValue, $filterValues[0]);
     }

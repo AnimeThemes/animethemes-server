@@ -4,29 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Anime\Theme\Entry;
 
-use App\Http\Api\Query;
+use App\Contracts\Http\Requests\Api\SearchableRequest;
+use App\Http\Api\Query\EloquentQuery;
+use App\Http\Api\Query\Wiki\Anime\Theme\EntryQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
-use App\Http\Requests\Api\IndexRequest;
-use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
-use Illuminate\Http\Resources\MissingValue;
+use App\Http\Requests\Api\EloquentIndexRequest;
 
 /**
  * Class EntryIndexRequest.
  */
-class EntryIndexRequest extends IndexRequest
+class EntryIndexRequest extends EloquentIndexRequest implements SearchableRequest
 {
-    /**
-     * Get the underlying resource collection.
-     *
-     * @return BaseCollection
-     */
-    protected function getCollection(): BaseCollection
-    {
-        return EntryCollection::make(new MissingValue(), Query::make());
-    }
-
     /**
      * Get the schema.
      *
@@ -35,5 +24,15 @@ class EntryIndexRequest extends IndexRequest
     protected function getSchema(): Schema
     {
         return new EntrySchema();
+    }
+
+    /**
+     * Get the validation API Query.
+     *
+     * @return EloquentQuery
+     */
+    public function getQuery(): EloquentQuery
+    {
+        return EntryQuery::make($this->validated());
     }
 }

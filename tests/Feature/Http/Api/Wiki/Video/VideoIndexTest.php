@@ -21,7 +21,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query;
+use App\Http\Api\Query\Wiki\VideoQuery;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
 use App\Http\Resources\Wiki\Resource\VideoResource;
@@ -62,7 +62,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make())
+                    VideoCollection::make($videos, VideoQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -128,7 +128,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -167,7 +167,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -195,26 +195,18 @@ class VideoIndexTest extends TestCase
             SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
-        $query = Query::make($parameters);
+        $query = VideoQuery::make($parameters);
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->create();
-
-        $builder = Video::query();
-
-        foreach ($query->getSortCriteria() as $sortCriterion) {
-            foreach ($schema->sorts() as $sort) {
-                $builder = $sort->applySort($sortCriterion, $builder);
-            }
-        }
 
         $response = $this->get(route('api.video.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($builder->get(), Query::make($parameters))
+                    $query->collection($query->index())
                         ->response()
                         ->getData()
                 ),
@@ -259,7 +251,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($video, Query::make($parameters))
+                    VideoCollection::make($video, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -304,7 +296,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($video, Query::make($parameters))
+                    VideoCollection::make($video, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -345,7 +337,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($video, Query::make($parameters))
+                    VideoCollection::make($video, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -386,7 +378,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($video, Query::make($parameters))
+                    VideoCollection::make($video, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -427,7 +419,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($video, Query::make($parameters))
+                    VideoCollection::make($video, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -479,7 +471,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($video, Query::make($parameters))
+                    VideoCollection::make($video, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -516,7 +508,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -553,7 +545,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -590,7 +582,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -632,7 +624,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -669,7 +661,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -706,7 +698,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -743,7 +735,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -789,7 +781,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -835,7 +827,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -886,7 +878,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -939,7 +931,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -992,7 +984,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1038,7 +1030,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1084,7 +1076,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1139,7 +1131,7 @@ class VideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoCollection::make($videos, Query::make($parameters))
+                    VideoCollection::make($videos, VideoQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),

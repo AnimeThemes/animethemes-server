@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Collection;
 
-use App\Http\Api\Schema\Schema;
-use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
@@ -24,13 +22,6 @@ class ExternalResourceCollection extends BaseCollection
     public static $wrap = 'resources';
 
     /**
-     * The resource that this resource collects.
-     *
-     * @var string
-     */
-    public $collects = ExternalResource::class;
-
-    /**
      * Transform the resource into a JSON array.
      *
      * @param  Request  $request
@@ -43,15 +34,5 @@ class ExternalResourceCollection extends BaseCollection
         return $this->collection->map(
             fn (ExternalResource $resource) => ExternalResourceResource::make($resource, $this->query)
         )->all();
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new ExternalResourceSchema();
     }
 }

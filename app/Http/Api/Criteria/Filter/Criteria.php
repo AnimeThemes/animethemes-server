@@ -6,8 +6,9 @@ namespace App\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Http\Api\Filter\Filter;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Scope\Scope;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -88,34 +89,39 @@ abstract class Criteria
     }
 
     /**
-     * Apply criteria to builder.
+     * Determine if this filter should be applied.
      *
-     * @param  Builder  $builder
-     * @param  string  $column
-     * @param  array  $filterValues
-     * @param  Collection  $filterCriteria
-     * @return Builder
+     * @param  Filter  $filter
+     * @param  Scope  $scope
+     * @return bool
      */
-    abstract public function applyFilter(
-        Builder $builder,
-        string $column,
-        array $filterValues,
-        Collection $filterCriteria
-    ): Builder;
+    public function shouldFilter(Filter $filter, Scope $scope): bool
+    {
+        // Don't apply filter if key does not match
+        if ($this->getField() !== $filter->getKey()) {
+            return false;
+        }
+
+        // Don't apply filter if scope does not match
+        if (! $this->getScope()->isWithinScope($scope)) {
+            return false;
+        }
+
+        $filterValues = $filter->getFilterValues($this->getFilterValues());
+
+        // Apply filter if we have a subset of valid values specified
+        return ! empty($filterValues) && ! $filter->isAllFilterValues($filterValues);
+    }
 
     /**
      * Apply criteria to builder.
      *
-     * @param  BoolQueryBuilder  $builder
-     * @param  string  $column
-     * @param  array  $filterValues
-     * @return BoolQueryBuilder
+     * @param  Builder  $builder
+     * @param  Filter  $filter
+     * @param  Query  $query
+     * @return Builder
      */
-    abstract public function applyElasticsearchFilter(
-        BoolQueryBuilder $builder,
-        string $column,
-        array $filterValues
-    ): BoolQueryBuilder;
+    abstract public function filter(Builder $builder, Filter $filter, Query $query): Builder;
 
     /**
      * Create a new criteria instance from query string.

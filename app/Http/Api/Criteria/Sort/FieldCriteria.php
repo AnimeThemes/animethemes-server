@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Criteria\Sort;
 
 use App\Enums\Http\Api\Sort\Direction;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -38,23 +38,11 @@ class FieldCriteria extends Criteria
      * Apply criteria to builder.
      *
      * @param  Builder  $builder
-     * @param  string  $column
+     * @param  Sort  $sort
      * @return Builder
      */
-    public function applySort(Builder $builder, string $column): Builder
+    public function sort(Builder $builder, Sort $sort): Builder
     {
-        return $builder->orderBy($column, $this->direction->value);
-    }
-
-    /**
-     * Apply criteria to builder.
-     *
-     * @param  SearchRequestBuilder  $builder
-     * @param  string  $column
-     * @return SearchRequestBuilder
-     */
-    public function applyElasticsearchSort(SearchRequestBuilder $builder, string $column): SearchRequestBuilder
-    {
-        return $builder->sort($column, $this->direction->value);
+        return $builder->orderBy($sort->getColumn(), $this->direction->value);
     }
 }

@@ -21,6 +21,13 @@ use App\Pivots\StudioResource as StudioResourcePivot;
 class StudioSchema extends Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = Studio::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

@@ -6,11 +6,11 @@ namespace App\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\TrashedStatus;
+use App\Http\Api\Filter\Filter;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Scope\Scope;
 use App\Http\Api\Scope\ScopeParser;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
@@ -77,17 +77,14 @@ class TrashedCriteria extends Criteria
      * Apply criteria to builder.
      *
      * @param  Builder  $builder
-     * @param  string  $column
-     * @param  array  $filterValues
-     * @param  Collection  $filterCriteria
+     * @param  Filter  $filter
+     * @param  Query  $query
      * @return Builder
      */
-    public function applyFilter(
-        Builder $builder,
-        string $column,
-        array $filterValues,
-        Collection $filterCriteria
-    ): Builder {
+    public function filter(Builder $builder, Filter $filter, Query $query): Builder
+    {
+        $filterValues = $filter->getFilterValues($this->getFilterValues());
+
         foreach ($filterValues as $filterValue) {
             $builder = match (Str::lower($filterValue)) {
                 TrashedStatus::WITH => $builder->withTrashed(),
@@ -97,22 +94,6 @@ class TrashedCriteria extends Criteria
             };
         }
 
-        return $builder;
-    }
-
-    /**
-     * Apply criteria to builder.
-     *
-     * @param  BoolQueryBuilder  $builder
-     * @param  string  $column
-     * @param  array  $filterValues
-     * @return BoolQueryBuilder
-     */
-    public function applyElasticsearchFilter(
-        BoolQueryBuilder $builder,
-        string $column,
-        array $filterValues
-    ): BoolQueryBuilder {
         return $builder;
     }
 }

@@ -39,7 +39,7 @@ class TrashedCriteriaTest extends TestCase
      */
     public function testScope()
     {
-        $type = Str::singular($this->faker->word());
+        $type = Str::of(Str::random())->lower()->singular()->__toString();
 
         $filterParam = Str::of($type)->append('.')->append(TrashedCriteria::PARAM_VALUE)->__toString();
 

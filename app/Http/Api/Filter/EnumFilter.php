@@ -63,7 +63,7 @@ class EnumFilter extends Filter
      * @param  array  $filterValues
      * @return bool
      */
-    protected function isAllFilterValues(array $filterValues): bool
+    public function isAllFilterValues(array $filterValues): bool
     {
         return count($filterValues) === count($this->enumClass::getInstances());
     }

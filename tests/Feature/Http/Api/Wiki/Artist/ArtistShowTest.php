@@ -13,7 +13,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query;
+use App\Http\Api\Query\Wiki\ArtistQuery;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Anime;
@@ -52,7 +52,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, Query::make())
+                    ArtistResource::make($artist, ArtistQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -81,7 +81,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, Query::make())
+                    ArtistResource::make($artist, ArtistQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -117,7 +117,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, Query::make($parameters))
+                    ArtistResource::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -154,7 +154,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, Query::make($parameters))
+                    ArtistResource::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -208,7 +208,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, Query::make($parameters))
+                    ArtistResource::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -262,7 +262,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, Query::make($parameters))
+                    ArtistResource::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -311,7 +311,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, Query::make($parameters))
+                    ArtistResource::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -360,7 +360,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, Query::make($parameters))
+                    ArtistResource::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -415,7 +415,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, Query::make($parameters))
+                    ArtistResource::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -458,7 +458,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, Query::make($parameters))
+                    ArtistResource::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -501,7 +501,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, Query::make($parameters))
+                    ArtistResource::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),

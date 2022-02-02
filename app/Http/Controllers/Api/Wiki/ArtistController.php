@@ -8,8 +8,6 @@ use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Artist\ArtistIndexRequest;
 use App\Http\Requests\Api\Wiki\Artist\ArtistShowRequest;
-use App\Http\Resources\Wiki\Collection\ArtistCollection;
-use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
 use Illuminate\Http\JsonResponse;
 
@@ -29,10 +27,10 @@ class ArtistController extends Controller
         $query = $request->getQuery();
 
         if ($query->hasSearchCriteria()) {
-            return ArtistCollection::performSearch($query, PaginationStrategy::OFFSET())->toResponse($request);
+            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return ArtistCollection::performQuery($query)->toResponse($request);
+        return $query->index()->toResponse($request);
     }
 
     /**
@@ -44,7 +42,7 @@ class ArtistController extends Controller
      */
     public function show(ArtistShowRequest $request, Artist $artist): JsonResponse
     {
-        $resource = ArtistResource::performQuery($artist, $request->getQuery());
+        $resource = $request->getQuery()->show($artist);
 
         return $resource->toResponse($request);
     }

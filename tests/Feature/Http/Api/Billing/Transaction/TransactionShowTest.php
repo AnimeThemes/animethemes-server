@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Api\Billing\Transaction;
 
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Query;
+use App\Http\Api\Query\Billing\TransactionQuery;
 use App\Http\Api\Schema\Billing\TransactionSchema;
 use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\Billing\Transaction;
@@ -36,7 +36,7 @@ class TransactionShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionResource::make($transaction, Query::make())
+                    TransactionResource::make($transaction, TransactionQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -63,7 +63,7 @@ class TransactionShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionResource::make($transaction, Query::make())
+                    TransactionResource::make($transaction, TransactionQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -98,7 +98,7 @@ class TransactionShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionResource::make($transaction, Query::make($parameters))
+                    TransactionResource::make($transaction, TransactionQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),

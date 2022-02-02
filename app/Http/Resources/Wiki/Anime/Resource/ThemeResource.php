@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Anime\Resource;
 
-use App\Http\Api\Query;
-use App\Http\Api\Schema\Schema;
-use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
@@ -65,15 +63,5 @@ class ThemeResource extends BaseResource
             AnimeTheme::RELATION_SONG => SongResource::make($this->whenLoaded(AnimeTheme::RELATION_SONG), $this->query),
             AnimeTheme::RELATION_ENTRIES => EntryCollection::make($this->whenLoaded(AnimeTheme::RELATION_ENTRIES), $this->query),
         ];
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new ThemeSchema();
     }
 }

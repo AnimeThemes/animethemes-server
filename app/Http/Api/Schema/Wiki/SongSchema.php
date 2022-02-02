@@ -22,6 +22,13 @@ use App\Pivots\ArtistSong;
 class SongSchema extends Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = Song::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

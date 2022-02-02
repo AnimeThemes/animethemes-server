@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Criteria\Paging;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
-use ElasticScoutDriverPlus\Paginator as ElasticsearchPaginator;
-use Illuminate\Contracts\Pagination\Paginator as EloquentPaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
@@ -55,15 +53,7 @@ abstract class Criteria
      * Paginate the query.
      *
      * @param  Builder  $builder
-     * @return Collection|EloquentPaginator
+     * @return Collection|Paginator
      */
-    abstract public function applyPagination(Builder $builder): Collection|EloquentPaginator;
-
-    /**
-     * Paginate the search query.
-     *
-     * @param  SearchRequestBuilder  $builder
-     * @return Collection|ElasticsearchPaginator
-     */
-    abstract public function applyElasticsearchPagination(SearchRequestBuilder $builder): Collection|ElasticsearchPaginator;
+    abstract public function paginate(Builder $builder): Collection|Paginator;
 }

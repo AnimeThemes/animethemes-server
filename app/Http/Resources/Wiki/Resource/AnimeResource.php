@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query;
-use App\Http\Api\Schema\Schema;
-use App\Http\Api\Schema\Wiki\AnimeSchema;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
@@ -77,15 +75,5 @@ class AnimeResource extends BaseResource
             Anime::RELATION_IMAGES => ImageCollection::make($this->whenLoaded(Anime::RELATION_IMAGES), $this->query),
             Anime::RELATION_STUDIOS => StudioCollection::make($this->whenLoaded(Anime::RELATION_STUDIOS), $this->query),
         ];
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new AnimeSchema();
     }
 }

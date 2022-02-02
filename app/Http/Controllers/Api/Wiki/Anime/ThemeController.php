@@ -8,8 +8,6 @@ use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeIndexRequest;
 use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeShowRequest;
-use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
-use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\JsonResponse;
 
@@ -29,10 +27,10 @@ class ThemeController extends Controller
         $query = $request->getQuery();
 
         if ($query->hasSearchCriteria()) {
-            return ThemeCollection::performSearch($query, PaginationStrategy::OFFSET())->toResponse($request);
+            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return ThemeCollection::performQuery($query)->toResponse($request);
+        return $query->index()->toResponse($request);
     }
 
     /**
@@ -44,7 +42,7 @@ class ThemeController extends Controller
      */
     public function show(ThemeShowRequest $request, AnimeTheme $theme): JsonResponse
     {
-        $resource = ThemeResource::performQuery($theme, $request->getQuery());
+        $resource = $request->getQuery()->show($theme);
 
         return $resource->toResponse($request);
     }

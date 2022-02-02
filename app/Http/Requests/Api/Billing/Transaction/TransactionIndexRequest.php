@@ -4,29 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Billing\Transaction;
 
-use App\Http\Api\Query;
+use App\Http\Api\Query\Billing\TransactionQuery;
+use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Schema\Billing\TransactionSchema;
 use App\Http\Api\Schema\Schema;
-use App\Http\Requests\Api\IndexRequest;
-use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Billing\Collection\TransactionCollection;
-use Illuminate\Http\Resources\MissingValue;
+use App\Http\Requests\Api\EloquentIndexRequest;
 
 /**
  * Class TransactionIndexRequest.
  */
-class TransactionIndexRequest extends IndexRequest
+class TransactionIndexRequest extends EloquentIndexRequest
 {
-    /**
-     * Get the underlying resource collection.
-     *
-     * @return BaseCollection
-     */
-    protected function getCollection(): BaseCollection
-    {
-        return TransactionCollection::make(new MissingValue(), Query::make());
-    }
-
     /**
      * Get the schema.
      *
@@ -35,5 +23,15 @@ class TransactionIndexRequest extends IndexRequest
     protected function getSchema(): Schema
     {
         return new TransactionSchema();
+    }
+
+    /**
+     * Get the validation API Query.
+     *
+     * @return EloquentQuery
+     */
+    public function getQuery(): EloquentQuery
+    {
+        return TransactionQuery::make($this->validated());
     }
 }

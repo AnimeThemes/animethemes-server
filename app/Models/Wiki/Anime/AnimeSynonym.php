@@ -11,8 +11,8 @@ use App\Events\Wiki\Anime\Synonym\SynonymUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use Database\Factories\Wiki\Anime\AnimeSynonymFactory;
+use ElasticScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Laravel\Scout\Searchable;
 
 /**
  * Class AnimeSynonym.
@@ -26,7 +26,6 @@ use Laravel\Scout\Searchable;
  */
 class AnimeSynonym extends BaseModel
 {
-    use \ElasticScoutDriverPlus\Searchable;
     use Searchable;
 
     public const TABLE = 'anime_synonyms';

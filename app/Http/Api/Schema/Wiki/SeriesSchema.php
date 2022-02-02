@@ -19,6 +19,13 @@ use App\Models\Wiki\Series;
 class SeriesSchema extends Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = Series::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

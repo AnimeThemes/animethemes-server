@@ -7,8 +7,6 @@ namespace App\Http\Controllers\Api\Billing;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Billing\Balance\BalanceIndexRequest;
 use App\Http\Requests\Api\Billing\Balance\BalanceShowRequest;
-use App\Http\Resources\Billing\Collection\BalanceCollection;
-use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\Billing\Balance;
 use Illuminate\Http\JsonResponse;
 
@@ -25,7 +23,9 @@ class BalanceController extends Controller
      */
     public function index(BalanceIndexRequest $request): JsonResponse
     {
-        return BalanceCollection::performQuery($request->getQuery())->toResponse($request);
+        $balances = $request->getQuery()->index();
+
+        return $balances->toResponse($request);
     }
 
     /**
@@ -37,7 +37,7 @@ class BalanceController extends Controller
      */
     public function show(BalanceShowRequest $request, Balance $balance): JsonResponse
     {
-        $resource = BalanceResource::performQuery($balance, $request->getQuery());
+        $resource = $request->getQuery()->show($balance);
 
         return $resource->toResponse($request);
     }

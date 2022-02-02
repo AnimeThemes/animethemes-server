@@ -9,7 +9,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
@@ -172,12 +172,9 @@ abstract class BaseRequest extends FormRequest
     abstract protected function getSchema(): Schema;
 
     /**
-     * Get the validated API Query.
+     * Get the validation API Query.
      *
      * @return Query
      */
-    public function getQuery(): Query
-    {
-        return Query::make($this->validated());
-    }
+    abstract public function getQuery(): Query;
 }

@@ -7,8 +7,6 @@ namespace App\Http\Controllers\Api\Billing;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Billing\Transaction\TransactionIndexRequest;
 use App\Http\Requests\Api\Billing\Transaction\TransactionShowRequest;
-use App\Http\Resources\Billing\Collection\TransactionCollection;
-use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\Billing\Transaction;
 use Illuminate\Http\JsonResponse;
 
@@ -25,7 +23,9 @@ class TransactionController extends Controller
      */
     public function index(TransactionIndexRequest $request): JsonResponse
     {
-        return TransactionCollection::performQuery($request->getQuery())->toResponse($request);
+        $transactions = $request->getQuery()->index();
+
+        return $transactions->toResponse($request);
     }
 
     /**
@@ -37,7 +37,7 @@ class TransactionController extends Controller
      */
     public function show(TransactionShowRequest $request, Transaction $transaction): JsonResponse
     {
-        $resource = TransactionResource::performQuery($transaction, $request->getQuery());
+        $resource = $request->getQuery()->show($transaction);
 
         return $resource->toResponse($request);
     }

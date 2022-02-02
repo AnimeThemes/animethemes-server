@@ -19,6 +19,13 @@ use App\Models\Admin\Announcement;
 class AnnouncementSchema extends Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = Announcement::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

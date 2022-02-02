@@ -8,8 +8,6 @@ use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Studio\StudioIndexRequest;
 use App\Http\Requests\Api\Wiki\Studio\StudioShowRequest;
-use App\Http\Resources\Wiki\Collection\StudioCollection;
-use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\JsonResponse;
 
@@ -29,10 +27,10 @@ class StudioController extends Controller
         $query = $request->getQuery();
 
         if ($query->hasSearchCriteria()) {
-            return StudioCollection::performSearch($query, PaginationStrategy::OFFSET())->toResponse($request);
+            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return StudioCollection::performQuery($query)->toResponse($request);
+        return $query->index()->toResponse($request);
     }
 
     /**
@@ -44,7 +42,7 @@ class StudioController extends Controller
      */
     public function show(StudioShowRequest $request, Studio $studio): JsonResponse
     {
-        $resource = StudioResource::performQuery($studio, $request->getQuery());
+        $resource = $request->getQuery()->show($studio);
 
         return $resource->toResponse($request);
     }

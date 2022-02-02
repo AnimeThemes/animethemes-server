@@ -6,14 +6,12 @@ namespace App\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Http\Api\Filter\Filter;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Scope\Scope;
 use App\Http\Api\Scope\ScopeParser;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
-use ElasticScoutDriverPlus\Builders\QueryBuilderInterface;
-use ElasticScoutDriverPlus\Support\Query;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -100,97 +98,17 @@ class WhereCriteria extends Criteria
      * Apply criteria to builder.
      *
      * @param  Builder  $builder
-     * @param  string  $column
-     * @param  array  $filterValues
-     * @param  Collection  $filterCriteria
+     * @param  Filter  $filter
+     * @param  Query  $query
      * @return Builder
      */
-    public function applyFilter(
-        Builder $builder,
-        string $column,
-        array $filterValues,
-        Collection $filterCriteria
-    ): Builder {
+    public function filter(Builder $builder, Filter $filter, Query $query): Builder
+    {
         return $builder->where(
-            $builder->qualifyColumn($column),
+            $builder->qualifyColumn($filter->getColumn()),
             $this->getComparisonOperator()?->value,
-            collect($filterValues)->first(),
+            collect($filter->getFilterValues($this->getFilterValues())),
             $this->getLogicalOperator()->value
         );
-    }
-
-    /**
-     * Apply criteria to builder through filter.
-     *
-     * @param  BoolQueryBuilder  $builder
-     * @param  string  $column
-     * @param  array  $filterValues
-     * @return BoolQueryBuilder
-     */
-    public function applyElasticsearchFilter(
-        BoolQueryBuilder $builder,
-        string $column,
-        array $filterValues
-    ): BoolQueryBuilder {
-        $clause = $this->getElasticsearchClause($column, $filterValues);
-
-        if (BinaryLogicalOperator::OR()->is($this->getLogicalOperator())) {
-            if (ComparisonOperator::NE()->is($this->getComparisonOperator())) {
-                return $builder->should((new BoolQueryBuilder())->mustNot($clause));
-            }
-
-            return $builder->should($clause);
-        }
-
-        if (ComparisonOperator::NE()->is($this->getComparisonOperator())) {
-            return $builder->mustNot($clause);
-        }
-
-        return $builder->must($clause);
-    }
-
-    /**
-     * Build clause for Elasticsearch filter based on comparison operator.
-     *
-     * @param  string  $column
-     * @param  array  $filterValues
-     * @return QueryBuilderInterface
-     */
-    protected function getElasticsearchClause(string $column, array $filterValues): QueryBuilderInterface
-    {
-        $filterValue = $this->coerceFilterValue($filterValues);
-
-        return match ($this->getComparisonOperator()?->value) {
-            ComparisonOperator::LT => Query::range()->field($column)->lt($filterValue),
-            ComparisonOperator::GT => Query::range()->field($column)->gt($filterValue),
-            ComparisonOperator::LTE => Query::range()->field($column)->lte($filterValue),
-            ComparisonOperator::GTE => Query::range()->field($column)->gte($filterValue),
-            ComparisonOperator::LIKE => Query::wildcard()
-                ->field($column)
-                ->value(Str::replace(['%', '_'], ['*', '?'], $filterValue)),
-            ComparisonOperator::NOTLIKE => Query::bool()->mustNot(
-                Query::wildcard()->field($column)->value(Str::replace(['%', '_'], ['*', '?'], $filterValue))
-            ),
-            default => Query::term()->field($column)->value($filterValue),
-        };
-    }
-
-    /**
-     * Coerce filter value for elasticsearch range and term queries.
-     *
-     * @param  array  $filterValues
-     * @return string
-     */
-    protected function coerceFilterValue(array $filterValues): string
-    {
-        $filterValue = collect($filterValues)->first();
-
-        // Elasticsearch wants 'true' or 'false' for boolean fields
-        if (is_bool($filterValue)) {
-            return $filterValue ? 'true' : 'false';
-        }
-
-        // The Elasticsearch driver wants a string for wildcard & term queries
-        return strval($filterValue);
     }
 }

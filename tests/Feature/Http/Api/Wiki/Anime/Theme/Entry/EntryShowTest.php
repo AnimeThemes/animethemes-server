@@ -11,7 +11,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query;
+use App\Http\Api\Query\Wiki\Anime\Theme\EntryQuery;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime;
@@ -45,7 +45,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, Query::make())
+                    EntryResource::make($entry, EntryQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -74,7 +74,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, Query::make())
+                    EntryResource::make($entry, EntryQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -114,7 +114,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, Query::make($parameters))
+                    EntryResource::make($entry, EntryQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -151,7 +151,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, Query::make($parameters))
+                    EntryResource::make($entry, EntryQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -192,7 +192,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, Query::make($parameters))
+                    EntryResource::make($entry, EntryQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -241,7 +241,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, Query::make($parameters))
+                    EntryResource::make($entry, EntryQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -289,7 +289,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, Query::make($parameters))
+                    EntryResource::make($entry, EntryQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -337,7 +337,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, Query::make($parameters))
+                    EntryResource::make($entry, EntryQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -378,7 +378,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, Query::make($parameters))
+                    EntryResource::make($entry, EntryQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),

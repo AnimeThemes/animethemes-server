@@ -6,8 +6,6 @@ namespace App\Http\Api\Criteria\Paging;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Parser\PagingParser;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
-use ElasticScoutDriverPlus\Paginator as ElasticsearchPaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\AbstractPaginator;
@@ -40,7 +38,7 @@ class OffsetCriteria extends Criteria
      * @param  Builder  $builder
      * @return Collection|Paginator
      */
-    public function applyPagination(Builder $builder): Collection|Paginator
+    public function paginate(Builder $builder): Collection|Paginator
     {
         $pageNameQuery = Str::of(PagingParser::$param)
             ->append('.')
@@ -60,34 +58,6 @@ class OffsetCriteria extends Criteria
 
             $paginator->appends(Request::except($pageNameQuery));
         }
-
-        return $paginator;
-    }
-
-    /**
-     * Paginate the search query.
-     *
-     * @param  SearchRequestBuilder  $builder
-     * @return Collection|ElasticsearchPaginator
-     */
-    public function applyElasticsearchPagination(SearchRequestBuilder $builder): Collection|ElasticsearchPaginator
-    {
-        $pageNameQuery = Str::of(PagingParser::$param)
-            ->append('.')
-            ->append(self::NUMBER_PARAM)
-            ->__toString();
-
-        $pageNameLink = Str::of(PagingParser::$param)
-            ->append('[')
-            ->append(self::NUMBER_PARAM)
-            ->append(']')
-            ->__toString();
-
-        $paginator = $builder->paginate($this->getResultSize(), $pageNameQuery)
-            ->setPageName($pageNameLink)
-            ->appends(Request::except($pageNameQuery));
-
-        $paginator->setCollection($paginator->models());
 
         return $paginator;
     }

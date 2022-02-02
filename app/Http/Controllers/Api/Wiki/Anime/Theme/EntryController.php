@@ -8,8 +8,6 @@ use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Anime\Theme\Entry\EntryIndexRequest;
 use App\Http\Requests\Api\Wiki\Anime\Theme\Entry\EntryShowRequest;
-use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
-use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\JsonResponse;
 
@@ -29,10 +27,10 @@ class EntryController extends Controller
         $query = $request->getQuery();
 
         if ($query->hasSearchCriteria()) {
-            return EntryCollection::performSearch($query, PaginationStrategy::OFFSET())->toResponse($request);
+            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return EntryCollection::performQuery($query)->toResponse($request);
+        return $query->index()->toResponse($request);
     }
 
     /**
@@ -44,7 +42,7 @@ class EntryController extends Controller
      */
     public function show(EntryShowRequest $request, AnimeThemeEntry $entry): JsonResponse
     {
-        $resource = EntryResource::performQuery($entry, $request->getQuery());
+        $resource = $request->getQuery()->show($entry);
 
         return $resource->toResponse($request);
     }

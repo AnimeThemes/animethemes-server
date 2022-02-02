@@ -67,7 +67,7 @@ class DateFilter extends Filter
      * @param  array  $filterValues
      * @return bool
      */
-    protected function isAllFilterValues(array $filterValues): bool
+    public function isAllFilterValues(array $filterValues): bool
     {
         return false;
     }

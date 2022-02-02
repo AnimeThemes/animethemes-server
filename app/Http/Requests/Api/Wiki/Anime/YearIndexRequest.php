@@ -8,6 +8,8 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
+use App\Http\Api\Query\Query;
+use App\Http\Api\Query\Wiki\AnimeQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Requests\Api\BaseRequest;
@@ -83,5 +85,15 @@ class YearIndexRequest extends BaseRequest
     protected function getSchema(): Schema
     {
         return new AnimeSchema();
+    }
+
+    /**
+     * Get the validation API Query.
+     *
+     * @return Query
+     */
+    public function getQuery(): Query
+    {
+        return AnimeQuery::make($this->validated());
     }
 }

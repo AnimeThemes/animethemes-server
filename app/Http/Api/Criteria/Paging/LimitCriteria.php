@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Api\Criteria\Paging;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
-use ElasticScoutDriverPlus\Paginator as ElasticsearchPaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -34,22 +32,8 @@ class LimitCriteria extends Criteria
      * @param  Builder  $builder
      * @return Collection|Paginator
      */
-    public function applyPagination(Builder $builder): Collection|Paginator
+    public function paginate(Builder $builder): Collection|Paginator
     {
         return $builder->take($this->getResultSize())->get();
-    }
-
-    /**
-     * Paginate the search query.
-     *
-     * @param  SearchRequestBuilder  $builder
-     * @return Collection|ElasticsearchPaginator
-     */
-    public function applyElasticsearchPagination(SearchRequestBuilder $builder): Collection|ElasticsearchPaginator
-    {
-        return $builder
-            ->size($this->getResultSize())
-            ->execute()
-            ->models();
     }
 }

@@ -51,7 +51,7 @@ class BooleanFilter extends Filter
      * @param  array  $filterValues
      * @return bool
      */
-    protected function isAllFilterValues(array $filterValues): bool
+    public function isAllFilterValues(array $filterValues): bool
     {
         return in_array(true, $filterValues) && in_array(false, $filterValues);
     }
