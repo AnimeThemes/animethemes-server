@@ -6,13 +6,12 @@ namespace App\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Http\Api\Filter\Filter;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Scope\Scope;
 use App\Http\Api\Scope\ScopeParser;
-use App\Services\Http\Resources\DiscoverRelationCollection;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -125,52 +124,37 @@ class HasCriteria extends Criteria
      * Apply criteria to builder.
      *
      * @param  Builder  $builder
-     * @param  string  $column
-     * @param  array  $filterValues
-     * @param  Collection  $filterCriteria
+     * @param  Filter  $filter
+     * @param  Query  $query
      * @return Builder
      */
-    public function applyFilter(
-        Builder $builder,
-        string $column,
-        array $filterValues,
-        Collection $filterCriteria
-    ): Builder {
+    public function filter(Builder $builder, Filter $filter, Query $query): Builder {
+        $schema = $query->schema();
+        $filterValues = $filter->getFilterValues($this->getFilterValues());
+
         foreach ($filterValues as $filterValue) {
             $scope = ScopeParser::parse($filterValue);
+            $relationSchema = $schema->relation($filterValue);
 
             $builder = $builder->has(
                 $filterValue,
                 $this->getComparisonOperator()?->value,
                 $this->count,
                 $this->getLogicalOperator()->value,
-                function (Builder $relationBuilder) use ($scope, $filterCriteria) {
-                    $collectionInstance = DiscoverRelationCollection::byModel($relationBuilder->getModel());
-                    if ($collectionInstance !== null) {
-                        foreach ($collectionInstance::schema()->filters() as $filter) {
-                            $filter->applyFilter($filterCriteria, $relationBuilder, $scope);
+                function (Builder $relationBuilder) use ($scope, $query, $relationSchema) {
+                    if ($relationSchema !== null) {
+                        foreach ($query->getFilterCriteria() as $criteria) {
+                            foreach ($relationSchema->filters() as $filter) {
+                                if ($criteria->shouldFilter($filter, $scope)) {
+                                    $criteria->filter($relationBuilder, $filter, $query);
+                                }
+                            }
                         }
                     }
                 }
             );
         }
 
-        return $builder;
-    }
-
-    /**
-     * Apply criteria to builder through filter.
-     *
-     * @param  BoolQueryBuilder  $builder
-     * @param  string  $column
-     * @param  array  $filterValues
-     * @return BoolQueryBuilder
-     */
-    public function applyElasticsearchFilter(
-        BoolQueryBuilder $builder,
-        string $column,
-        array $filterValues
-    ): BoolQueryBuilder {
         return $builder;
     }
 }

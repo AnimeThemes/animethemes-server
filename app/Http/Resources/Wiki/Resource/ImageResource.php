@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query;
-use App\Http\Api\Schema\Schema;
-use App\Http\Api\Schema\Wiki\ImageSchema;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
@@ -66,15 +64,5 @@ class ImageResource extends BaseResource
             Image::RELATION_ARTISTS => ArtistCollection::make($this->whenLoaded(Image::RELATION_ARTISTS), $this->query),
             Image::RELATION_ANIME => AnimeCollection::make($this->whenLoaded(Image::RELATION_ANIME), $this->query),
         ];
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new ImageSchema();
     }
 }

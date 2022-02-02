@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Anime\Theme\Resource;
 
-use App\Http\Api\Query;
-use App\Http\Api\Schema\Schema;
-use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
@@ -64,15 +62,5 @@ class EntryResource extends BaseResource
             AnimeThemeEntry::RELATION_THEME => ThemeResource::make($this->whenLoaded(AnimeThemeEntry::RELATION_THEME), $this->query),
             AnimeThemeEntry::RELATION_VIDEOS => VideoCollection::make($this->whenLoaded(AnimeThemeEntry::RELATION_VIDEOS), $this->query),
         ];
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new EntrySchema();
     }
 }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Criteria\Sort;
 
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class Sort.
+ * Class Criteria.
  */
 abstract class Criteria
 {
@@ -32,23 +32,23 @@ abstract class Criteria
     }
 
     /**
-     * Apply criteria to builder.
+     * Determine if this sort should be applied.
      *
-     * @param  Builder  $builder
-     * @param  string  $column
-     * @return Builder
+     * @param  Sort  $sort
+     * @return bool
      */
-    abstract public function applySort(Builder $builder, string $column): Builder;
+    public function shouldSort(Sort $sort): bool
+    {
+        // Apply sort if key matches
+        return $this->getField() === $sort->getKey();
+    }
 
     /**
      * Apply criteria to builder.
      *
-     * @param  SearchRequestBuilder  $builder
-     * @param  string  $column
-     * @return SearchRequestBuilder
+     * @param Builder $builder
+     * @param Sort $sort
+     * @return Builder
      */
-    abstract public function applyElasticsearchSort(
-        SearchRequestBuilder $builder,
-        string $column
-    ): SearchRequestBuilder;
+    abstract public function sort(Builder $builder, Sort $sort): Builder;
 }

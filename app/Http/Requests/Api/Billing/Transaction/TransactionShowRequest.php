@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Billing\Transaction;
 
+use App\Http\Api\Query\Billing\TransactionQuery;
+use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Schema\Billing\TransactionSchema;
 use App\Http\Api\Schema\Schema;
-use App\Http\Requests\Api\ShowRequest;
+use App\Http\Requests\Api\EloquentShowRequest;
 
 /**
  * Class TransactionShowRequest.
  */
-class TransactionShowRequest extends ShowRequest
+class TransactionShowRequest extends EloquentShowRequest
 {
     /**
      * Get the schema.
@@ -21,5 +23,15 @@ class TransactionShowRequest extends ShowRequest
     protected function getSchema(): Schema
     {
         return new TransactionSchema();
+    }
+
+    /**
+     * Get the validation API Query.
+     *
+     * @return EloquentQuery
+     */
+    public function getQuery(): EloquentQuery
+    {
+        return TransactionQuery::make($this->validated());
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api;
 
+use App\Contracts\Http\Requests\Api\SearchableRequest;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Paging\Criteria as PagingCriteria;
 use App\Http\Api\Criteria\Paging\LimitCriteria;
@@ -11,8 +12,6 @@ use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Resources\BaseCollection;
-use App\Http\Resources\SearchableCollection;
 use App\Rules\Api\DistinctIgnoringDirectionRule;
 use App\Rules\Api\RandomSoleRule;
 use Illuminate\Support\Str;
@@ -24,13 +23,6 @@ use Spatie\ValidationRules\Rules\Delimited;
  */
 abstract class IndexRequest extends BaseRequest
 {
-    /**
-     * Get the underlying resource collection.
-     *
-     * @return BaseCollection
-     */
-    abstract protected function getCollection(): BaseCollection;
-
     /**
      * Get the paging validation rules.
      *
@@ -83,9 +75,7 @@ abstract class IndexRequest extends BaseRequest
      */
     protected function getSearchRules(): array
     {
-        $collection = $this->getCollection();
-
-        if ($collection instanceof SearchableCollection) {
+        if ($this instanceof SearchableRequest) {
             return [
                 SearchParser::$param => [
                     'sometimes',

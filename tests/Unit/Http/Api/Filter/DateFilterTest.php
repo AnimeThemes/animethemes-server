@@ -6,14 +6,12 @@ namespace Tests\Unit\Http\Api\Filter;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Http\Api\Filter\DateFilter;
-use App\Http\Api\Parser\FilterParser;
-use App\Http\Api\Query;
-use App\Http\Api\Scope\GlobalScope;
 use DateTime;
 use DateTimeInterface;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
+use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
 /**
  * Class DateFilterTest.
@@ -31,24 +29,11 @@ class DateFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $dateValues = $this->faker->words($this->faker->randomDigitNotNull());
+        $criteria = FakeCriteria::make($filterField, $this->faker->words($this->faker->randomDigitNotNull()));
 
-        $parameters = [
-            FilterParser::$param => [
-                $filterField => implode(',', $dateValues),
-            ],
-        ];
+        $filter = new DateFilter($filterField);
 
-        $query = Query::make($parameters);
-
-        $filter = new class($filterField) extends DateFilter
-        {
-            // We don't need to do any customization
-        };
-
-        $criteria = $query->getFilterCriteria()->first();
-
-        static::assertFalse($filter->shouldApplyFilter($criteria, new GlobalScope()));
+        static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
     }
 
     /**
@@ -60,24 +45,11 @@ class DateFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $filterValue = Date::now()->format(DateTimeInterface::RFC1036);
+        $criteria = FakeCriteria::make($filterField, Date::now()->format(DateTimeInterface::RFC1036));
 
-        $parameters = [
-            FilterParser::$param => [
-                $filterField => $filterValue,
-            ],
-        ];
+        $filter = new DateFilter($filterField);
 
-        $query = Query::make($parameters);
-
-        $filter = new class($filterField) extends DateFilter
-        {
-            // We don't need to do any customization
-        };
-
-        $criteria = $query->getFilterCriteria()->first();
-
-        static::assertFalse($filter->shouldApplyFilter($criteria, new GlobalScope()));
+        static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
     }
 
     /**
@@ -89,24 +61,11 @@ class DateFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $filterValue = Date::now()->format(AllowedDateFormat::getRandomValue());
+        $criteria = FakeCriteria::make($filterField, Date::now()->format(AllowedDateFormat::getRandomValue()));
 
-        $parameters = [
-            FilterParser::$param => [
-                $filterField => $filterValue,
-            ],
-        ];
+        $filter = new DateFilter($filterField);
 
-        $query = Query::make($parameters);
-
-        $filter = new class($filterField) extends DateFilter
-        {
-            // We don't need to do any customization
-        };
-
-        $criteria = $query->getFilterCriteria()->first();
-
-        static::assertTrue($filter->shouldApplyFilter($criteria, new GlobalScope()));
+        static::assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
     }
 
     /**
@@ -122,20 +81,11 @@ class DateFilterTest extends TestCase
 
         $dateFilter = Date::now()->format($dateFormat);
 
-        $parameters = [
-            FilterParser::$param => [
-                $filterField => $dateFilter,
-            ],
-        ];
+        $criteria = FakeCriteria::make($filterField, $dateFilter);
 
-        $query = Query::make($parameters);
+        $filter = new DateFilter($filterField);
 
-        $filter = new class($filterField) extends DateFilter
-        {
-            // We don't need to do any customization
-        };
-
-        $filterValues = $filter->getFilterValues($query->getFilterCriteria()->first());
+        $filterValues = $filter->getFilterValues($criteria->getFilterValues());
 
         static::assertEquals(
             DateTime::createFromFormat('!'.$dateFormat, $dateFilter)->format(AllowedDateFormat::YMDHISU),

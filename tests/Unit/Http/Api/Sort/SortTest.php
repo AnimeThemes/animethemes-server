@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Http\Api\Sort;
 
 use App\Enums\Http\Api\Sort\Direction;
-use App\Http\Api\Criteria\Sort\FieldCriteria;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -24,49 +24,38 @@ class SortTest extends TestCase
      */
     public function testDefaultColumn()
     {
-        $sort = new class($this->faker->word()) extends Sort
-        {
-            // We don't need to do any customization
-        };
+        $sort = new Sort($this->faker->word());
 
         static::assertEquals($sort->getKey(), $sort->getColumn());
     }
 
     /**
-     * The sort should not be applied if there exists more than one criteria for the key.
+     * The Sort shall be formatted as "{key}" for the Ascending Direction.
      *
      * @return void
      */
-    public function testShouldNotApplySort()
+    public function testFormatAsc()
     {
         $sortField = $this->faker->word();
 
-        $sort = new class($sortField) extends Sort
-        {
-            // We don't need to do any customization
-        };
+        $sort = new Sort($sortField);
 
-        $criteria = new FieldCriteria($this->faker->word(), Direction::getRandomInstance());
-
-        static::assertFalse($sort->shouldApplySort($criteria));
+        static::assertEquals($sortField, $sort->format(Direction::ASCENDING()));
     }
 
     /**
-     * The sort should be applied if there exists more than one criteria for the key.
+     * The Sort shall be formatted as "-{key}" for the Descending Direction.
      *
      * @return void
      */
-    public function testShouldApplySort()
+    public function testFormatDesc()
     {
         $sortField = $this->faker->word();
 
-        $sort = new class($sortField) extends Sort
-        {
-            // We don't need to do any customization
-        };
+        $sort = new Sort($sortField);
 
-        $criteria = new FieldCriteria($sortField, Direction::getRandomInstance());
+        $descendingSortField = Str::of('-')->append($sortField)->__toString();
 
-        static::assertTrue($sort->shouldApplySort($criteria));
+        static::assertEquals($descendingSortField, $sort->format(Direction::DESCENDING()));
     }
 }

@@ -7,7 +7,7 @@ namespace Tests\Feature\Http\Api\Config;
 use App\Constants\Config\WikiConstants;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Query;
+use App\Http\Api\Query\Config\WikiQuery;
 use App\Http\Api\Schema\Config\WikiSchema;
 use App\Http\Resources\Config\Resource\WikiResource;
 use App\Models\Wiki\Video;
@@ -40,7 +40,7 @@ class WikiShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    WikiResource::make(Query::make())
+                    WikiResource::make(WikiQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -77,7 +77,7 @@ class WikiShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    WikiResource::make(Query::make($parameters))
+                    WikiResource::make(WikiQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),

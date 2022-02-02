@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Criteria\Sort;
 
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -25,24 +25,12 @@ class RandomCriteria extends Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param  Builder  $builder
-     * @param  string  $column
+     * @param Builder $builder
+     * @param Sort $sort
      * @return Builder
      */
-    public function applySort(Builder $builder, string $column): Builder
+    public function sort(Builder $builder, Sort $sort): Builder
     {
         return $builder->inRandomOrder();
-    }
-
-    /**
-     * Apply criteria to builder.
-     *
-     * @param  SearchRequestBuilder  $builder
-     * @param  string  $column
-     * @return SearchRequestBuilder
-     */
-    public function applyElasticsearchSort(SearchRequestBuilder $builder, string $column): SearchRequestBuilder
-    {
-        return $builder;
     }
 }

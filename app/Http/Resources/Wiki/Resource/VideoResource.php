@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query;
-use App\Http\Api\Schema\Schema;
-use App\Http\Api\Schema\Wiki\VideoSchema;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
 use App\Models\BaseModel;
@@ -73,15 +71,5 @@ class VideoResource extends BaseResource
             VideoResource::ATTRIBUTE_LINK => $this->when($this->isAllowedField(VideoResource::ATTRIBUTE_LINK), route('video.show', $this)),
             Video::RELATION_ANIMETHEMEENTRIES => EntryCollection::make($this->whenLoaded(Video::RELATION_ANIMETHEMEENTRIES), $this->query),
         ];
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new VideoSchema();
     }
 }

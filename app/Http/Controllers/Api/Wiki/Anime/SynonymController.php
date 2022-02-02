@@ -8,8 +8,6 @@ use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Anime\Synonym\SynonymIndexRequest;
 use App\Http\Requests\Api\Wiki\Anime\Synonym\SynonymShowRequest;
-use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
-use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\JsonResponse;
 
@@ -29,10 +27,10 @@ class SynonymController extends Controller
         $query = $request->getQuery();
 
         if ($query->hasSearchCriteria()) {
-            return SynonymCollection::performSearch($query, PaginationStrategy::OFFSET())->toResponse($request);
+            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return SynonymCollection::performQuery($query)->toResponse($request);
+        return $query->index()->toResponse($request);
     }
 
     /**
@@ -44,7 +42,7 @@ class SynonymController extends Controller
      */
     public function show(SynonymShowRequest $request, AnimeSynonym $synonym): JsonResponse
     {
-        $resource = SynonymResource::performQuery($synonym, $request->getQuery());
+        $resource = $request->getQuery()->show($synonym);
 
         return $resource->toResponse($request);
     }

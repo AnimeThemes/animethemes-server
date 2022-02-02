@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Config;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Config\WikiShowRequest;
+use App\Http\Requests\Api\Config\WikiRequest;
 use App\Http\Resources\Config\Resource\WikiResource;
 use Illuminate\Http\JsonResponse;
 
@@ -17,10 +17,10 @@ class WikiController extends Controller
     /**
      * Wiki resource.
      *
-     * @param  WikiShowRequest  $request
+     * @param  WikiRequest  $request
      * @return JsonResponse
      */
-    public function show(WikiShowRequest $request): JsonResponse
+    public function show(WikiRequest $request): JsonResponse
     {
         $resource = WikiResource::make($request->getQuery());
 

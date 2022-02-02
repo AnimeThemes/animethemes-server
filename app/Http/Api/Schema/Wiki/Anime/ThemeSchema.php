@@ -32,6 +32,13 @@ class ThemeSchema extends Schema
     public const SORT_YEAR = 'anime.year';
 
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = AnimeTheme::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

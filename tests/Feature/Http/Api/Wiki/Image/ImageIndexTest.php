@@ -19,7 +19,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query;
+use App\Http\Api\Query\Wiki\ImageQuery;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\Wiki\Collection\ImageCollection;
 use App\Http\Resources\Wiki\Resource\ImageResource;
@@ -57,7 +57,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, Query::make())
+                    ImageCollection::make($images, ImageQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -116,7 +116,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, Query::make($parameters))
+                    ImageCollection::make($images, ImageQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -153,7 +153,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, Query::make($parameters))
+                    ImageCollection::make($images, ImageQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -179,24 +179,16 @@ class ImageIndexTest extends TestCase
             SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
-        $query = Query::make($parameters);
+        $query = ImageQuery::make($parameters);
 
         Image::factory()->count($this->faker->randomDigitNotNull())->create();
-
-        $builder = Image::query();
-
-        foreach ($query->getSortCriteria() as $sortCriterion) {
-            foreach ($schema->sorts() as $sort) {
-                $builder = $sort->applySort($sortCriterion, $builder);
-            }
-        }
 
         $response = $this->get(route('api.image.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($builder->get(), Query::make($parameters))
+                    $query->collection($query->index())
                         ->response()
                         ->getData()
                 ),
@@ -239,7 +231,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, Query::make($parameters))
+                    ImageCollection::make($image, ImageQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -282,7 +274,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, Query::make($parameters))
+                    ImageCollection::make($image, ImageQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -321,7 +313,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, Query::make($parameters))
+                    ImageCollection::make($image, ImageQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -360,7 +352,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, Query::make($parameters))
+                    ImageCollection::make($image, ImageQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -399,7 +391,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, Query::make($parameters))
+                    ImageCollection::make($image, ImageQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -449,7 +441,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, Query::make($parameters))
+                    ImageCollection::make($image, ImageQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -484,7 +476,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, Query::make($parameters))
+                    ImageCollection::make($images, ImageQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -526,7 +518,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, Query::make($parameters))
+                    ImageCollection::make($images, ImageQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -575,7 +567,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, Query::make($parameters))
+                    ImageCollection::make($images, ImageQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),

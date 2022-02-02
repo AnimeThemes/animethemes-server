@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query;
-use App\Http\Api\Schema\Schema;
-use App\Http\Api\Schema\Wiki\SongSchema;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
@@ -65,15 +63,5 @@ class SongResource extends BaseResource
             Song::RELATION_ANIMETHEMES => ThemeCollection::make($this->whenLoaded(Song::RELATION_ANIMETHEMES), $this->query),
             Song::RELATION_ARTISTS => ArtistCollection::make($this->whenLoaded(Song::RELATION_ARTISTS), $this->query),
         ];
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new SongSchema();
     }
 }

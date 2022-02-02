@@ -93,6 +93,8 @@ return [
 
     'middleware' => ['web'],
 
+    'auth_middleware' => 'auth',
+
     /*
     |--------------------------------------------------------------------------
     | Rate Limiting

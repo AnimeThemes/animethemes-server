@@ -22,6 +22,13 @@ use App\Models\Wiki\Image;
 class ImageSchema extends Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = Image::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

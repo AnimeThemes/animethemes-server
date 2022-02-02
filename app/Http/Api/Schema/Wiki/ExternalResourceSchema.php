@@ -23,6 +23,13 @@ use App\Pivots\AnimeResource;
 class ExternalResourceSchema extends Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = ExternalResource::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

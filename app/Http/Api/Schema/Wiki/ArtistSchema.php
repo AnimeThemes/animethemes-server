@@ -22,6 +22,13 @@ use App\Pivots\ArtistResource as ArtistResourcePivot;
 class ArtistSchema extends Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = Artist::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Api\Billing\Balance;
 
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Query;
+use App\Http\Api\Query\Billing\BalanceQuery;
 use App\Http\Api\Schema\Billing\BalanceSchema;
 use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\Billing\Balance;
@@ -23,7 +23,7 @@ class BalanceShowTest extends TestCase
     use WithoutEvents;
 
     /**
-     * By default, the Annouc Show Endpoint shall return an Balance Resource.
+     * By default, the Balance Show Endpoint shall return a Balance Resource.
      *
      * @return void
      */
@@ -36,7 +36,7 @@ class BalanceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceResource::make($balance, Query::make())
+                    BalanceResource::make($balance, BalanceQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -63,7 +63,7 @@ class BalanceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceResource::make($balance, Query::make())
+                    BalanceResource::make($balance, BalanceQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -98,7 +98,7 @@ class BalanceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceResource::make($balance, Query::make($parameters))
+                    BalanceResource::make($balance, BalanceQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),

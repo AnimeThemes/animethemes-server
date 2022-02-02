@@ -10,7 +10,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query;
+use App\Http\Api\Query\Wiki\StudioQuery;
 use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Anime;
@@ -43,7 +43,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, Query::make())
+                    StudioResource::make($studio, StudioQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -72,7 +72,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, Query::make())
+                    StudioResource::make($studio, StudioQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -111,7 +111,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, Query::make($parameters))
+                    StudioResource::make($studio, StudioQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -148,7 +148,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, Query::make($parameters))
+                    StudioResource::make($studio, StudioQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -191,7 +191,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, Query::make($parameters))
+                    StudioResource::make($studio, StudioQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -242,7 +242,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, Query::make($parameters))
+                    StudioResource::make($studio, StudioQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),

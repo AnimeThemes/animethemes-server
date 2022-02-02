@@ -22,6 +22,13 @@ use App\Models\BaseModel;
 abstract class Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model;
+
+    /**
      * Get the type of the resource.
      *
      * @return string
@@ -87,5 +94,18 @@ abstract class Schema
         $sorts[] = new RandomSort();
 
         return $sorts;
+    }
+
+    /**
+     * Get the schema of the relation by path.
+     *
+     * @param string $path
+     * @return Schema|null
+     */
+    public function relation(string $path): ?Schema
+    {
+        $relationInclude = collect($this->allowedIncludes())->first(fn (AllowedInclude $include) => $include->path() === $path);
+
+        return $relationInclude?->schema();
     }
 }

@@ -40,9 +40,9 @@ class WhereInCriteriaTest extends TestCase
      */
     public function testScope()
     {
-        $type = Str::singular($this->faker->word());
+        $type = Str::of(Str::random())->lower()->singular()->__toString();
 
-        $filterParam = Str::of($type)->append('.')->append($this->faker->word())->__toString();
+        $filterParam = Str::of($type)->append('.')->append(Str::random())->__toString();
 
         $criteria = WhereInCriteria::make($filterParam, $this->faker->word());
 

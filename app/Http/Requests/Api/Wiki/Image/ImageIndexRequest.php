@@ -4,29 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Image;
 
-use App\Http\Api\Query;
+use App\Http\Api\Query\EloquentQuery;
+use App\Http\Api\Query\Wiki\ImageQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
-use App\Http\Requests\Api\IndexRequest;
-use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Collection\ImageCollection;
-use Illuminate\Http\Resources\MissingValue;
+use App\Http\Requests\Api\EloquentIndexRequest;
 
 /**
  * Class ImageIndexRequest.
  */
-class ImageIndexRequest extends IndexRequest
+class ImageIndexRequest extends EloquentIndexRequest
 {
-    /**
-     * Get the underlying resource collection.
-     *
-     * @return BaseCollection
-     */
-    protected function getCollection(): BaseCollection
-    {
-        return ImageCollection::make(new MissingValue(), Query::make());
-    }
-
     /**
      * Get the schema.
      *
@@ -35,5 +23,15 @@ class ImageIndexRequest extends IndexRequest
     protected function getSchema(): Schema
     {
         return new ImageSchema();
+    }
+
+    /**
+     * Get the validation API Query.
+     *
+     * @return EloquentQuery
+     */
+    public function getQuery(): EloquentQuery
+    {
+        return ImageQuery::make($this->validated());
     }
 }

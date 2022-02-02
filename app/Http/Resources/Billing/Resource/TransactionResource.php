@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Billing\Resource;
 
-use App\Http\Api\Query;
-use App\Http\Api\Schema\Billing\TransactionSchema;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
 use App\Models\BaseModel;
 use App\Models\Billing\Transaction;
@@ -60,15 +58,5 @@ class TransactionResource extends BaseResource
             BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
             BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
         ];
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new TransactionSchema();
     }
 }

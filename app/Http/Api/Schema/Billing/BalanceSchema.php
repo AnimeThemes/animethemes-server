@@ -23,6 +23,13 @@ use App\Models\Billing\Balance;
 class BalanceSchema extends Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = Balance::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

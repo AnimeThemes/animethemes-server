@@ -11,7 +11,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query;
+use App\Http\Api\Query\Wiki\SongQuery;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Anime;
@@ -47,7 +47,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, Query::make())
+                    SongResource::make($song, SongQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -76,7 +76,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, Query::make())
+                    SongResource::make($song, SongQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -116,7 +116,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, Query::make($parameters))
+                    SongResource::make($song, SongQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -153,7 +153,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, Query::make($parameters))
+                    SongResource::make($song, SongQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -203,7 +203,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, Query::make($parameters))
+                    SongResource::make($song, SongQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -253,7 +253,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, Query::make($parameters))
+                    SongResource::make($song, SongQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -294,7 +294,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, Query::make($parameters))
+                    SongResource::make($song, SongQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -335,7 +335,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, Query::make($parameters))
+                    SongResource::make($song, SongQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -386,7 +386,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, Query::make($parameters))
+                    SongResource::make($song, SongQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),

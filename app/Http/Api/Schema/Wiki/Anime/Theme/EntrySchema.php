@@ -23,6 +23,13 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 class EntrySchema extends Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = AnimeThemeEntry::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

@@ -33,6 +33,7 @@ class AuthServiceProvider extends ServiceProvider
                 ->letters()
                 ->numbers()
                 ->symbols()
+                ->rules(['confirmed', 'zxcvbn_min:3', 'zxcvbn_dictionary'])
         );
 
         Gate::guessPolicyNamesUsing(

@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query;
-use App\Http\Api\Schema\Schema;
-use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
@@ -82,15 +80,5 @@ class ExternalResourceResource extends BaseResource
             ExternalResource::RELATION_ANIME => AnimeCollection::make($this->whenLoaded(ExternalResource::RELATION_ANIME), $this->query),
             ExternalResource::RELATION_STUDIOS => StudioCollection::make($this->whenLoaded(ExternalResource::RELATION_STUDIOS), $this->query),
         ];
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new ExternalResourceSchema();
     }
 }

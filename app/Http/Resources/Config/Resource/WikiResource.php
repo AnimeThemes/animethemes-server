@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Config\Resource;
 
 use App\Constants\Config\WikiConstants;
-use App\Http\Api\Query;
-use App\Http\Api\Schema\Config\WikiSchema;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
@@ -62,15 +60,5 @@ class WikiResource extends BaseResource
         }
 
         return $result;
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new WikiSchema();
     }
 }

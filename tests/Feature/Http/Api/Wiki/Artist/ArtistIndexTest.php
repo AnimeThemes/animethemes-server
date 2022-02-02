@@ -21,7 +21,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query;
+use App\Http\Api\Query\Wiki\ArtistQuery;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
@@ -63,7 +63,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, Query::make())
+                    ArtistCollection::make($artists, ArtistQuery::make())
                         ->response()
                         ->getData()
                 ),
@@ -122,7 +122,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, Query::make($parameters))
+                    ArtistCollection::make($artists, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -159,7 +159,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, Query::make($parameters))
+                    ArtistCollection::make($artists, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -187,24 +187,16 @@ class ArtistIndexTest extends TestCase
             SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
-        $query = Query::make($parameters);
+        $query = ArtistQuery::make($parameters);
 
         Artist::factory()->count($this->faker->randomDigitNotNull())->create();
-
-        $builder = Artist::query();
-
-        foreach ($query->getSortCriteria() as $sortCriterion) {
-            foreach ($schema->sorts() as $sort) {
-                $builder = $sort->applySort($sortCriterion, $builder);
-            }
-        }
 
         $response = $this->get(route('api.artist.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($builder->get(), Query::make($parameters))
+                    $query->collection($query->index())
                         ->response()
                         ->getData()
                 ),
@@ -249,7 +241,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artist, Query::make($parameters))
+                    ArtistCollection::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -294,7 +286,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artist, Query::make($parameters))
+                    ArtistCollection::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -335,7 +327,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artist, Query::make($parameters))
+                    ArtistCollection::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -376,7 +368,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artist, Query::make($parameters))
+                    ArtistCollection::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -417,7 +409,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artist, Query::make($parameters))
+                    ArtistCollection::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -469,7 +461,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artist, Query::make($parameters))
+                    ArtistCollection::make($artist, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -524,7 +516,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, Query::make($parameters))
+                    ArtistCollection::make($artists, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -579,7 +571,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, Query::make($parameters))
+                    ArtistCollection::make($artists, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -629,7 +621,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, Query::make($parameters))
+                    ArtistCollection::make($artists, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -679,7 +671,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, Query::make($parameters))
+                    ArtistCollection::make($artists, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -735,7 +727,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, Query::make($parameters))
+                    ArtistCollection::make($artists, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -779,7 +771,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, Query::make($parameters))
+                    ArtistCollection::make($artists, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -823,7 +815,7 @@ class ArtistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistCollection::make($artists, Query::make($parameters))
+                    ArtistCollection::make($artists, ArtistQuery::make($parameters))
                         ->response()
                         ->getData()
                 ),

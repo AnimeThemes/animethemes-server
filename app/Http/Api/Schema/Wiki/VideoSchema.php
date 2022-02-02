@@ -26,6 +26,13 @@ use App\Models\Wiki\Video;
 class VideoSchema extends Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = Video::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

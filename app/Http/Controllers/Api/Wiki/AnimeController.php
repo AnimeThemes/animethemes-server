@@ -8,8 +8,6 @@ use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Anime\AnimeIndexRequest;
 use App\Http\Requests\Api\Wiki\Anime\AnimeShowRequest;
-use App\Http\Resources\Wiki\Collection\AnimeCollection;
-use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
 
@@ -29,10 +27,10 @@ class AnimeController extends Controller
         $query = $request->getQuery();
 
         if ($query->hasSearchCriteria()) {
-            return AnimeCollection::performSearch($query, PaginationStrategy::OFFSET())->toResponse($request);
+            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return AnimeCollection::performQuery($query)->toResponse($request);
+        return $query->index()->toResponse($request);
     }
 
     /**
@@ -44,7 +42,7 @@ class AnimeController extends Controller
      */
     public function show(AnimeShowRequest $request, Anime $anime): JsonResponse
     {
-        $resource = AnimeResource::performQuery($anime, $request->getQuery());
+        $resource = $request->getQuery()->show($anime);
 
         return $resource->toResponse($request);
     }

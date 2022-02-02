@@ -20,6 +20,13 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 class SynonymSchema extends Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = AnimeSynonym::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

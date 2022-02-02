@@ -8,8 +8,6 @@ use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Series\SeriesIndexRequest;
 use App\Http\Requests\Api\Wiki\Series\SeriesShowRequest;
-use App\Http\Resources\Wiki\Collection\SeriesCollection;
-use App\Http\Resources\Wiki\Resource\SeriesResource;
 use App\Models\Wiki\Series;
 use Illuminate\Http\JsonResponse;
 
@@ -29,10 +27,10 @@ class SeriesController extends Controller
         $query = $request->getQuery();
 
         if ($query->hasSearchCriteria()) {
-            return SeriesCollection::performSearch($query, PaginationStrategy::OFFSET())->toResponse($request);
+            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
         }
 
-        return SeriesCollection::performQuery($query)->toResponse($request);
+        return $query->index()->toResponse($request);
     }
 
     /**
@@ -44,7 +42,7 @@ class SeriesController extends Controller
      */
     public function show(SeriesShowRequest $request, Series $series): JsonResponse
     {
-        $resource = SeriesResource::performQuery($series, $request->getQuery());
+        $resource = $request->getQuery()->show($series);
 
         return $resource->toResponse($request);
     }

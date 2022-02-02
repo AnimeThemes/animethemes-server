@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Admin\Resource;
 
-use App\Http\Api\Query;
-use App\Http\Api\Schema\Admin\AnnouncementSchema;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
 use App\Models\Admin\Announcement;
 use App\Models\BaseModel;
@@ -56,15 +54,5 @@ class AnnouncementResource extends BaseResource
             BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
             BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
         ];
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new AnnouncementSchema();
     }
 }

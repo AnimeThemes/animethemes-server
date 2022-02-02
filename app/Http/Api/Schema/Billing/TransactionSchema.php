@@ -23,6 +23,13 @@ use App\Models\Billing\Transaction;
 class TransactionSchema extends Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = Transaction::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

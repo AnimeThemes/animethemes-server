@@ -26,6 +26,13 @@ use App\Pivots\AnimeResource as AnimeResourcePivot;
 class AnimeSchema extends Schema
 {
     /**
+     * The model this schema represents.
+     *
+     * @var string|null
+     */
+    public static ?string $model = Anime::class;
+
+    /**
      * Get the type of the resource.
      *
      * @return string

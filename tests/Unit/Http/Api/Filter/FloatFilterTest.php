@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Http\Api\Filter;
 
 use App\Http\Api\Filter\FloatFilter;
-use App\Http\Api\Parser\FilterParser;
-use App\Http\Api\Query;
-use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
 /**
  * Class FloatFilterTest.
@@ -27,24 +25,11 @@ class FloatFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $floatValues = $this->faker->words($this->faker->randomDigitNotNull());
+        $criteria = FakeCriteria::make($filterField, $this->faker->words($this->faker->randomDigitNotNull()));
 
-        $parameters = [
-            FilterParser::$param => [
-                $filterField => implode(',', $floatValues),
-            ],
-        ];
+        $filter = new FloatFilter($filterField);
 
-        $query = Query::make($parameters);
-
-        $filter = new class($filterField) extends FloatFilter
-        {
-            // We don't need to do any customization
-        };
-
-        $criteria = $query->getFilterCriteria()->first();
-
-        static::assertFalse($filter->shouldApplyFilter($criteria, new GlobalScope()));
+        static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
     }
 
     /**
@@ -58,20 +43,11 @@ class FloatFilterTest extends TestCase
 
         $floatValue = $this->faker->randomFloat();
 
-        $parameters = [
-            FilterParser::$param => [
-                $filterField => $floatValue,
-            ],
-        ];
+        $criteria = FakeCriteria::make($filterField, $floatValue);
 
-        $query = Query::make($parameters);
+        $filter = new FloatFilter($filterField);
 
-        $filter = new class($filterField) extends FloatFilter
-        {
-            // We don't need to do any customization
-        };
-
-        $filterValues = $filter->getFilterValues($query->getFilterCriteria()->first());
+        $filterValues = $filter->getFilterValues($criteria->getFilterValues());
 
         static::assertEqualsWithDelta($floatValue, $filterValues[0], 0.0001);
     }

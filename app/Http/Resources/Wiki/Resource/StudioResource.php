@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query;
-use App\Http\Api\Schema\Schema;
-use App\Http\Api\Schema\Wiki\StudioSchema;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
@@ -66,15 +64,5 @@ class StudioResource extends BaseResource
                 $this->whenPivotLoaded(StudioResourcePivot::TABLE, fn () => $this->pivot->getAttribute(StudioResourcePivot::ATTRIBUTE_AS))
             ),
         ];
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new StudioSchema();
     }
 }

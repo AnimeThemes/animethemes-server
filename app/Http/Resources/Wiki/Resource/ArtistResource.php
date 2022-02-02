@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query;
-use App\Http\Api\Schema\Schema;
-use App\Http\Api\Schema\Wiki\ArtistSchema;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
@@ -84,15 +82,5 @@ class ArtistResource extends BaseResource
             Artist::RELATION_RESOURCES => ExternalResourceCollection::make($this->whenLoaded(Artist::RELATION_RESOURCES), $this->query),
             Artist::RELATION_IMAGES => ImageCollection::make($this->whenLoaded(Artist::RELATION_IMAGES), $this->query),
         ];
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    public static function schema(): Schema
-    {
-        return new ArtistSchema();
     }
 }

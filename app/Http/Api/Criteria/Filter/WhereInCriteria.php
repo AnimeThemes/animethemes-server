@@ -6,13 +6,12 @@ namespace App\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
+use App\Http\Api\Filter\Filter;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Scope\Scope;
 use App\Http\Api\Scope\ScopeParser;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
-use ElasticScoutDriverPlus\Support\Query;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -110,52 +109,16 @@ class WhereInCriteria extends Criteria
      * Apply criteria to builder.
      *
      * @param  Builder  $builder
-     * @param  string  $column
-     * @param  array  $filterValues
-     * @param  Collection  $filterCriteria
+     * @param  Filter  $filter
+     * @param Query $query
      * @return Builder
      */
-    public function applyFilter(
-        Builder $builder,
-        string $column,
-        array $filterValues,
-        Collection $filterCriteria
-    ): Builder {
+    public function filter(Builder $builder, Filter $filter, Query $query): Builder {
         return $builder->whereIn(
-            $builder->qualifyColumn($column),
-            $filterValues,
+            $builder->qualifyColumn($filter->getColumn()),
+            $filter->getFilterValues($this->getFilterValues()),
             $this->getLogicalOperator()->value,
             $this->not()
         );
-    }
-
-    /**
-     * Apply criteria to builder.
-     *
-     * @param  BoolQueryBuilder  $builder
-     * @param  string  $column
-     * @param  array  $filterValues
-     * @return BoolQueryBuilder
-     */
-    public function applyElasticsearchFilter(
-        BoolQueryBuilder $builder,
-        string $column,
-        array $filterValues
-    ): BoolQueryBuilder {
-        $clause = Query::terms()->field($column)->values($filterValues);
-
-        if (BinaryLogicalOperator::OR()->is($this->getLogicalOperator())) {
-            if ($this->not()) {
-                return $builder->should((new BoolQueryBuilder())->mustNot($clause));
-            }
-
-            return $builder->should($clause);
-        }
-
-        if ($this->not()) {
-            return $builder->mustNot($clause);
-        }
-
-        return $builder->must($clause);
     }
 }

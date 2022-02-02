@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Http\Api\Filter;
 
 use App\Http\Api\Filter\IntFilter;
-use App\Http\Api\Parser\FilterParser;
-use App\Http\Api\Query;
-use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
 /**
  * Class IntFilterTest.
@@ -27,24 +25,11 @@ class IntFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $intValues = $this->faker->words($this->faker->randomDigitNotNull());
+        $criteria = FakeCriteria::make($filterField, $this->faker->words($this->faker->randomDigitNotNull()));
 
-        $parameters = [
-            FilterParser::$param => [
-                $filterField => implode(',', $intValues),
-            ],
-        ];
+        $filter = new IntFilter($filterField);
 
-        $query = Query::make($parameters);
-
-        $filter = new class($filterField) extends IntFilter
-        {
-            // We don't need to do any customization
-        };
-
-        $criteria = $query->getFilterCriteria()->first();
-
-        static::assertFalse($filter->shouldApplyFilter($criteria, new GlobalScope()));
+        static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
     }
 
     /**
@@ -58,20 +43,11 @@ class IntFilterTest extends TestCase
 
         $intValue = $this->faker->year();
 
-        $parameters = [
-            FilterParser::$param => [
-                $filterField => $intValue,
-            ],
-        ];
+        $criteria = FakeCriteria::make($filterField, $intValue);
 
-        $query = Query::make($parameters);
+        $filter = new IntFilter($filterField);
 
-        $filter = new class($filterField) extends IntFilter
-        {
-            // We don't need to do any customization
-        };
-
-        $filterValues = $filter->getFilterValues($query->getFilterCriteria()->first());
+        $filterValues = $filter->getFilterValues($criteria->getFilterValues());
 
         static::assertEquals(intval($intValue), $filterValues[0]);
     }

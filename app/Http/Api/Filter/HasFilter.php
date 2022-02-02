@@ -16,7 +16,7 @@ class HasFilter extends Filter
     /**
      * The list of allowed include paths that the filter can be applied to.
      *
-     * @var Collection<AllowedInclude>
+     * @var Collection
      */
     protected Collection $allowedIncludePaths;
 
@@ -70,7 +70,7 @@ class HasFilter extends Filter
      * @param  array  $filterValues
      * @return bool
      */
-    protected function isAllFilterValues(array $filterValues): bool
+    public function isAllFilterValues(array $filterValues): bool
     {
         return false;
     }
