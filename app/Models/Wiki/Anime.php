@@ -20,11 +20,11 @@ use App\Pivots\AnimeStudio;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use Database\Factories\Wiki\AnimeFactory;
+use ElasticScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
-use Laravel\Scout\Searchable;
 
 /**
  * Class Anime.
@@ -47,7 +47,6 @@ use Laravel\Scout\Searchable;
  */
 class Anime extends BaseModel
 {
-    use \ElasticScoutDriverPlus\Searchable;
     use Searchable;
 
     public const TABLE = 'anime';

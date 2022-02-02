@@ -15,10 +15,10 @@ use App\Pivots\ArtistResource;
 use App\Pivots\ArtistSong;
 use App\Pivots\BasePivot;
 use Database\Factories\Wiki\ArtistFactory;
+use ElasticScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
-use Laravel\Scout\Searchable;
 
 /**
  * Class Artist.
@@ -37,7 +37,6 @@ use Laravel\Scout\Searchable;
  */
 class Artist extends BaseModel
 {
-    use \ElasticScoutDriverPlus\Searchable;
     use Searchable;
 
     public const TABLE = 'artists';

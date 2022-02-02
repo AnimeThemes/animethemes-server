@@ -14,10 +14,10 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Pivots\ArtistSong;
 use App\Pivots\BasePivot;
 use Database\Factories\Wiki\SongFactory;
+use ElasticScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
-use Laravel\Scout\Searchable;
 
 /**
  * Class Song.
@@ -32,7 +32,6 @@ use Laravel\Scout\Searchable;
  */
 class Song extends BaseModel
 {
-    use \ElasticScoutDriverPlus\Searchable;
     use Searchable;
 
     public const TABLE = 'songs';

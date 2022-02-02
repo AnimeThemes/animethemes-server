@@ -13,9 +13,9 @@ use App\Pivots\AnimeStudio;
 use App\Pivots\BasePivot;
 use App\Pivots\StudioResource;
 use Database\Factories\Wiki\StudioFactory;
+use ElasticScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
-use Laravel\Scout\Searchable;
 
 /**
  * Class Studio.
@@ -30,7 +30,6 @@ use Laravel\Scout\Searchable;
  */
 class Studio extends BaseModel
 {
-    use \ElasticScoutDriverPlus\Searchable;
     use Searchable;
 
     public const TABLE = 'studios';
