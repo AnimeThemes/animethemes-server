@@ -64,6 +64,24 @@ class SongTest extends TestCase
     }
 
     /**
+     * When a Song is restored, a SongUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testSongRestoresQuietly()
+    {
+        Event::fake();
+
+        $song = Song::factory()->createOne();
+
+        $song->restore();
+
+        Event::assertNotDispatched(SongUpdated::class);
+    }
+
+    /**
      * When a Song is updated, a SongUpdated event shall be dispatched.
      *
      * @return void

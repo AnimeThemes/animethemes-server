@@ -64,6 +64,24 @@ class AnnouncementTest extends TestCase
     }
 
     /**
+     * When an Announcement is restored, an AnnouncementUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testAnnouncementRestoresQuietly()
+    {
+        Event::fake();
+
+        $announcement = Announcement::factory()->createOne();
+
+        $announcement->restore();
+
+        Event::assertNotDispatched(AnnouncementUpdated::class);
+    }
+
+    /**
      * When an Announcement is updated, an AnnouncementUpdated event shall be dispatched.
      *
      * @return void

@@ -71,6 +71,26 @@ class SynonymTest extends TestCase
     }
 
     /**
+     * When a Synonym is restored, a SynonymUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testSynonymRestoresQuietly()
+    {
+        Event::fake();
+
+        $synonym = AnimeSynonym::factory()
+            ->for(Anime::factory())
+            ->createOne();
+
+        $synonym->restore();
+
+        Event::assertNotDispatched(SynonymUpdated::class);
+    }
+
+    /**
      * When a Synonym is updated, a SynonymUpdated event shall be dispatched.
      *
      * @return void

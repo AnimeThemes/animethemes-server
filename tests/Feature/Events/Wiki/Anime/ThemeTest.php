@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Events\Wiki\Anime;
 
 use App\Events\Wiki\Anime\Theme\ThemeCreated;
+use App\Events\Wiki\Anime\Theme\ThemeCreating;
 use App\Events\Wiki\Anime\Theme\ThemeDeleted;
 use App\Events\Wiki\Anime\Theme\ThemeRestored;
 use App\Events\Wiki\Anime\Theme\ThemeUpdated;
@@ -25,7 +26,7 @@ class ThemeTest extends TestCase
      */
     public function testThemeCreatedEventDispatched()
     {
-        Event::fake(ThemeCreated::class);
+        Event::fakeExcept(ThemeCreating::class);
 
         AnimeTheme::factory()
             ->for(Anime::factory())
@@ -41,7 +42,7 @@ class ThemeTest extends TestCase
      */
     public function testThemeDeletedEventDispatched()
     {
-        Event::fake(ThemeDeleted::class);
+        Event::fakeExcept(ThemeCreating::class);
 
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -59,7 +60,7 @@ class ThemeTest extends TestCase
      */
     public function testThemeRestoredEventDispatched()
     {
-        Event::fake(ThemeRestored::class);
+        Event::fakeExcept(ThemeCreating::class);
 
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -71,13 +72,33 @@ class ThemeTest extends TestCase
     }
 
     /**
+     * When a Theme is restored, a ThemeUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testThemeRestoresQuietly()
+    {
+        Event::fakeExcept(ThemeCreating::class);
+
+        $theme = AnimeTheme::factory()
+            ->for(Anime::factory())
+            ->createOne();
+
+        $theme->restore();
+
+        Event::assertNotDispatched(ThemeUpdated::class);
+    }
+
+    /**
      * When a Theme is updated, a ThemeUpdated event shall be dispatched.
      *
      * @return void
      */
     public function testThemeUpdatedEventDispatched()
     {
-        Event::fake(ThemeUpdated::class);
+        Event::fakeExcept(ThemeCreating::class);
 
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())

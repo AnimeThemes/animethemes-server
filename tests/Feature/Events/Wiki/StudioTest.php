@@ -64,6 +64,24 @@ class StudioTest extends TestCase
     }
 
     /**
+     * When a Studio is restored, a StudioUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testStudioRestoresQuietly()
+    {
+        Event::fake();
+
+        $studio = Studio::factory()->createOne();
+
+        $studio->restore();
+
+        Event::assertNotDispatched(StudioUpdated::class);
+    }
+
+    /**
      * When a Studio is updated, a StudioUpdated event shall be dispatched.
      *
      * @return void

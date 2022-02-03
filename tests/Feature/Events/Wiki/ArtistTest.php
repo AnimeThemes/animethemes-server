@@ -64,6 +64,24 @@ class ArtistTest extends TestCase
     }
 
     /**
+     * When an Artist is restored, an ArtistUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testArtistRestoresQuietly()
+    {
+        Event::fake();
+
+        $artist = Artist::factory()->createOne();
+
+        $artist->restore();
+
+        Event::assertNotDispatched(ArtistUpdated::class);
+    }
+
+    /**
      * When an Artist is updated, an ArtistUpdated event shall be dispatched.
      *
      * @return void

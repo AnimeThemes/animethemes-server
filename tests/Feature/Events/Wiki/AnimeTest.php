@@ -64,6 +64,24 @@ class AnimeTest extends TestCase
     }
 
     /**
+     * When an Anime is restored, an AnimeUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testAnimeRestoresQuietly()
+    {
+        Event::fake();
+
+        $anime = Anime::factory()->createOne();
+
+        $anime->restore();
+
+        Event::assertNotDispatched(AnimeUpdated::class);
+    }
+
+    /**
      * When an Anime is updated, an AnimeUpdated event shall be dispatched.
      *
      * @return void

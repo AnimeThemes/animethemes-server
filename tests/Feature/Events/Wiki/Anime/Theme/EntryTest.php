@@ -8,6 +8,7 @@ use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
 use App\Events\Wiki\Anime\Theme\Entry\EntryRestored;
 use App\Events\Wiki\Anime\Theme\Entry\EntryUpdated;
+use App\Events\Wiki\Anime\Theme\ThemeCreating;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -26,7 +27,7 @@ class EntryTest extends TestCase
      */
     public function testEntryCreatedEventDispatched()
     {
-        Event::fake(EntryCreated::class);
+        Event::fakeExcept(ThemeCreating::class);
 
         AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -42,7 +43,7 @@ class EntryTest extends TestCase
      */
     public function testEntryDeletedEventDispatched()
     {
-        Event::fake(EntryDeleted::class);
+        Event::fakeExcept(ThemeCreating::class);
 
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -60,7 +61,7 @@ class EntryTest extends TestCase
      */
     public function testEntryRestoredEventDispatched()
     {
-        Event::fake(EntryRestored::class);
+        Event::fakeExcept(ThemeCreating::class);
 
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -72,13 +73,33 @@ class EntryTest extends TestCase
     }
 
     /**
+     * When an Entry is restored, an EntryUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testEntryRestoresQuietly()
+    {
+        Event::fakeExcept(ThemeCreating::class);
+
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        $entry->restore();
+
+        Event::assertNotDispatched(EntryUpdated::class);
+    }
+
+    /**
      * When an Entry is updated, an EntryUpdated event shall be dispatched.
      *
      * @return void
      */
     public function testEntryUpdatedEventDispatched()
     {
-        Event::fake(EntryUpdated::class);
+        Event::fakeExcept(ThemeCreating::class);
 
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
