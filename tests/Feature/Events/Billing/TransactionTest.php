@@ -64,6 +64,24 @@ class TransactionTest extends TestCase
     }
 
     /**
+     * When a Transaction is restored, a TransactionUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testTransactionRestoresQuietly()
+    {
+        Event::fake();
+
+        $transaction = Transaction::factory()->createOne();
+
+        $transaction->restore();
+
+        Event::assertNotDispatched(TransactionUpdated::class);
+    }
+
+    /**
      * When an Transaction is updated, an TransactionUpdated event shall be dispatched.
      *
      * @return void

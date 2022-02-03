@@ -64,6 +64,24 @@ class ImageTest extends TestCase
     }
 
     /**
+     * When an Image is restored, an ImageUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testImageRestoresQuietly()
+    {
+        Event::fake();
+
+        $image = Image::factory()->createOne();
+
+        $image->restore();
+
+        Event::assertNotDispatched(ImageUpdated::class);
+    }
+
+    /**
      * When an Image is updated, an ImageUpdated event shall be dispatched.
      *
      * @return void

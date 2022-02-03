@@ -61,7 +61,7 @@ abstract class DocumentController extends Controller
         $converter = new MarkdownConverter($environment);
 
         return view('document', [
-            'document' => $converter->convertToHtml(file_get_contents($document)),
+            'document' => $converter->convert(file_get_contents($document)),
         ]);
     }
 }

@@ -64,6 +64,24 @@ class VideoTest extends TestCase
     }
 
     /**
+     * When a Video is restored, a VideoUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testVideoRestoresQuietly()
+    {
+        Event::fake();
+
+        $video = Video::factory()->createOne();
+
+        $video->restore();
+
+        Event::assertNotDispatched(VideoUpdated::class);
+    }
+
+    /**
      * When a Video is updated, a VideoUpdated event shall be dispatched.
      *
      * @return void

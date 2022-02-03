@@ -64,6 +64,24 @@ class InvitationTest extends TestCase
     }
 
     /**
+     * When an Invitation is restored, an InvitationUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testInvitationRestoresQuietly()
+    {
+        Event::fake();
+
+        $invitation = Invitation::factory()->createOne();
+
+        $invitation->restore();
+
+        Event::assertNotDispatched(InvitationUpdated::class);
+    }
+
+    /**
      * When an Invitation is updated, an InvitationUpdated event shall be dispatched.
      *
      * @return void

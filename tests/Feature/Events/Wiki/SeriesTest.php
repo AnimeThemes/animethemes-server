@@ -64,6 +64,24 @@ class SeriesTest extends TestCase
     }
 
     /**
+     * When a Series is restored, a SeriesUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testSeriesRestoresQuietly()
+    {
+        Event::fake();
+
+        $series = Series::factory()->createOne();
+
+        $series->restore();
+
+        Event::assertNotDispatched(SeriesUpdated::class);
+    }
+
+    /**
      * When a Series is updated, a SeriesUpdated event shall be dispatched.
      *
      * @return void

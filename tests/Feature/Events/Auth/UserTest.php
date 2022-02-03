@@ -64,6 +64,24 @@ class UserTest extends TestCase
     }
 
     /**
+     * When a User is restored, a UserUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testUserRestoresQuietly()
+    {
+        Event::fake();
+
+        $user = User::factory()->createOne();
+
+        $user->restore();
+
+        Event::assertNotDispatched(UserUpdated::class);
+    }
+
+    /**
      * When a User is updated, a UserUpdated event shall be dispatched.
      *
      * @return void

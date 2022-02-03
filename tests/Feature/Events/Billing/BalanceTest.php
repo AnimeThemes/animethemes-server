@@ -64,6 +64,24 @@ class BalanceTest extends TestCase
     }
 
     /**
+     * When a Balance is restored, a BalanceUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testBalanceRestoresQuietly()
+    {
+        Event::fake();
+
+        $balance = Balance::factory()->createOne();
+
+        $balance->restore();
+
+        Event::assertNotDispatched(BalanceUpdated::class);
+    }
+
+    /**
      * When an Balance is updated, an BalanceUpdated event shall be dispatched.
      *
      * @return void

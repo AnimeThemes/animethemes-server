@@ -64,6 +64,24 @@ class ExternalResourceTest extends TestCase
     }
 
     /**
+     * When a Resource is restored, an ExternalResourceUpdated event shall not be dispatched.
+     * Note: This is a customization that overrides default framework behavior.
+     * An updated event is fired on restore.
+     *
+     * @return void
+     */
+    public function testExternalResourceRestoresQuietly()
+    {
+        Event::fake();
+
+        $resource = ExternalResource::factory()->createOne();
+
+        $resource->restore();
+
+        Event::assertNotDispatched(ExternalResourceUpdated::class);
+    }
+
+    /**
      * When an ExternalResource is updated, an ExternalResourceUpdated event shall be dispatched.
      *
      * @return void
