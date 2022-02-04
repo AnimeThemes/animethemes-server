@@ -64,8 +64,8 @@ class DistinctIgnoringDirectionTest extends TestCase
     {
         $rule = new DistinctIgnoringDirectionRule();
 
-        $sorts = $this->faker->words($this->faker->randomDigitNotNull());
+        $sorts = collect($this->faker->words($this->faker->randomDigitNotNull()))->unique();
 
-        static::assertTrue($rule->passes($this->faker->word(), implode(',', $sorts)));
+        static::assertTrue($rule->passes($this->faker->word(), $sorts->join(',')));
     }
 }
