@@ -36,6 +36,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use PDO;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
 use Spatie\DbDumper\Databases\Sqlite;
@@ -117,8 +118,11 @@ class DatabaseDumpCommand extends Command
 
             $dumper->setDbName($connection->getDatabaseName())
                 ->setUserName(strval($connection->getConfig('username')))
-                ->setPassword(strval($connection->getConfig('password')))
-                ->includeTables($this->allowedTables);
+                ->setPassword(strval($connection->getConfig('password')));
+
+            if ($this->canIncludeTables($connection)) {
+                $dumper->includeTables($this->allowedTables);
+            }
 
             $host = $connection->getConfig('host');
             if ($host !== null) {
@@ -136,8 +140,8 @@ class DatabaseDumpCommand extends Command
 
             // Assume success if no exceptions were thrown
             // The library will check if the file exists and is not empty
-            Log::info("Database dump '{$dumpFile}' has been created");
-            $this->info("Database dump '{$dumpFile}' has been created");
+            Log::info("Database dump '$dumpFile' has been created");
+            $this->info("Database dump '$dumpFile' has been created");
         } catch (Exception $e) {
             Log::error($e->getMessage());
             $this->error($e->getMessage());
@@ -182,5 +186,21 @@ class DatabaseDumpCommand extends Command
             PostgresConnection::class => $create ? PostgreSql::create() : PostgreSql::create()->doNotCreateTables(),
             default => null,
         };
+    }
+
+    /**
+     * Determine if the database connection supports table inclusion.
+     *
+     * @param  Connection  $connection
+     * @return bool
+     */
+    protected function canIncludeTables(Connection $connection): bool
+    {
+        // Sqlite version 3.32.0 is required when using the includeTables option
+        if ($connection instanceof SQLiteConnection) {
+            return version_compare($connection->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '3.32.0', '>=');
+        }
+
+        return true;
     }
 }
