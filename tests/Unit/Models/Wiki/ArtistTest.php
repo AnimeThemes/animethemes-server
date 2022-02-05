@@ -29,7 +29,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testSearchableAs()
+    public function testSearchableAs(): void
     {
         $artist = Artist::factory()->createOne();
 
@@ -41,7 +41,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testToSearchableArray()
+    public function testToSearchableArray(): void
     {
         $artist = Artist::factory()->createOne();
 
@@ -53,7 +53,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -67,7 +67,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $artist = Artist::factory()->createOne();
 
@@ -79,7 +79,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testSongs()
+    public function testSongs(): void
     {
         $songCount = $this->faker->randomDigitNotNull();
 
@@ -98,7 +98,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testExternalResources()
+    public function testExternalResources(): void
     {
         $resourceCount = $this->faker->randomDigitNotNull();
 
@@ -117,7 +117,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testMembers()
+    public function testMembers(): void
     {
         $memberCount = $this->faker->randomDigitNotNull();
 
@@ -136,7 +136,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testGroups()
+    public function testGroups(): void
     {
         $groupCount = $this->faker->randomDigitNotNull();
 
@@ -155,7 +155,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testImages()
+    public function testImages(): void
     {
         $imageCount = $this->faker->randomDigitNotNull();
 

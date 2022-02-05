@@ -22,7 +22,7 @@ class AnimeStudioTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeStudioCreatedSendsDiscordNotification()
+    public function testAnimeStudioCreatedSendsDiscordNotification(): void
     {
         $anime = Anime::factory()->createOne();
         $studio = Studio::factory()->createOne();
@@ -40,7 +40,7 @@ class AnimeStudioTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeStudioDeletedSendsDiscordNotification()
+    public function testAnimeStudioDeletedSendsDiscordNotification(): void
     {
         $anime = Anime::factory()->createOne();
         $studio = Studio::factory()->createOne();

@@ -29,7 +29,7 @@ class AnimeYearTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testSelectFilter()
+    public function testSelectFilter(): void
     {
         static::novaFilter(AnimeYearFilter::class)
             ->assertSelectFilter();
@@ -42,7 +42,7 @@ class AnimeYearTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testOptions()
+    public function testOptions(): void
     {
         $filter = static::novaFilter(AnimeYearFilter::class);
 
@@ -59,7 +59,7 @@ class AnimeYearTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
-    public function testFilter()
+    public function testFilter(): void
     {
         $filterYear = $this->faker->numberBetween(1960, date('Y'));
         $excludedYear = $filterYear + 1;

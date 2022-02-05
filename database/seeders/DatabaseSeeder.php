@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call(VideoSeeder::class);
         $this->call(VideoTagsSeeder::class);

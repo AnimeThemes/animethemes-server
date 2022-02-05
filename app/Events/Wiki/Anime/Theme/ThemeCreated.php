@@ -54,7 +54,7 @@ class ThemeCreated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
      *
      * @return void
      */
-    public function updateRelatedIndices()
+    public function updateRelatedIndices(): void
     {
         $theme = $this->getTheme()->load(AnimeTheme::RELATION_VIDEOS);
 

@@ -48,24 +48,24 @@ class TransactionReconcileCommand extends Command
         $service = Service::coerce(Str::upper($key));
 
         if ($service === null) {
-            Log::error("Invalid Service '{$key}'");
-            $this->error("Invalid Service '{$key}'");
+            Log::error("Invalid Service '$key'");
+            $this->error("Invalid Service '$key'");
 
             return 1;
         }
 
         $sourceRepository = $this->getSourceRepository($service);
         if ($sourceRepository === null) {
-            Log::error("No source repository implemented for Service '{$key}'");
-            $this->error("No source repository implemented for Service '{$key}'");
+            Log::error("No source repository implemented for Service '$key'");
+            $this->error("No source repository implemented for Service '$key'");
 
             return 1;
         }
 
         $destinationRepository = $this->getDestinationRepository($service);
         if ($destinationRepository === null) {
-            Log::error("No destination repository implemented for Service '{$key}'");
-            $this->error("No destination repository implemented for Service '{$key}'");
+            Log::error("No destination repository implemented for Service '$key'");
+            $this->error("No destination repository implemented for Service '$key'");
 
             return 1;
         }
@@ -80,16 +80,16 @@ class TransactionReconcileCommand extends Command
      *
      * @return void
      */
-    protected function postReconciliationTask()
+    protected function postReconciliationTask(): void
     {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
-                Log::info("{$this->created} Transactions created, {$this->deleted} Transactions deleted, {$this->updated} Transactions updated");
-                $this->info("{$this->created} Transactions created, {$this->deleted} Transactions deleted, {$this->updated} Transactions updated");
+                Log::info("$this->created Transactions created, $this->deleted Transactions deleted, $this->updated Transactions updated");
+                $this->info("$this->created Transactions created, $this->deleted Transactions deleted, $this->updated Transactions updated");
             }
             if ($this->hasFailures()) {
-                Log::error("Failed to create {$this->createdFailed} Transactions, delete {$this->deletedFailed} Transactions, update {$this->updatedFailed} Transactions");
-                $this->error("Failed to create {$this->createdFailed} Transactions, delete {$this->deletedFailed} Transactions, update {$this->updatedFailed} Transactions");
+                Log::error("Failed to create $this->createdFailed Transactions, delete $this->deletedFailed Transactions, update $this->updatedFailed Transactions");
+                $this->error("Failed to create $this->createdFailed Transactions, delete $this->deletedFailed Transactions, update $this->updatedFailed Transactions");
             }
         } else {
             Log::info('No Transactions created or deleted or updated');
@@ -103,7 +103,7 @@ class TransactionReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleCreated(BaseModel $model)
+    protected function handleCreated(BaseModel $model): void
     {
         Log::info("Transaction '{$model->getName()}' created");
         $this->info("Transaction '{$model->getName()}' created");
@@ -115,7 +115,7 @@ class TransactionReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedCreation(BaseModel $model)
+    protected function handleFailedCreation(BaseModel $model): void
     {
         Log::error("Transaction '{$model->getName()}' was not created");
         $this->error("Transaction '{$model->getName()}' was not created");
@@ -127,7 +127,7 @@ class TransactionReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleDeleted(BaseModel $model)
+    protected function handleDeleted(BaseModel $model): void
     {
         Log::info("Transaction '{$model->getName()}' deleted");
         $this->info("Transaction '{$model->getName()}' deleted");
@@ -139,7 +139,7 @@ class TransactionReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedDeletion(BaseModel $model)
+    protected function handleFailedDeletion(BaseModel $model): void
     {
         Log::error("Transaction '{$model->getName()}' was not deleted");
         $this->error("Transaction '{$model->getName()}' was not deleted");
@@ -151,7 +151,7 @@ class TransactionReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleUpdated(BaseModel $model)
+    protected function handleUpdated(BaseModel $model): void
     {
         Log::info("Transaction '{$model->getName()}' updated");
         $this->info("Transaction '{$model->getName()}' updated");
@@ -163,7 +163,7 @@ class TransactionReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedUpdate(BaseModel $model)
+    protected function handleFailedUpdate(BaseModel $model): void
     {
         Log::error("Transaction '{$model->getName()}' was not updated");
         $this->error("Transaction '{$model->getName()}' was not updated");
@@ -175,7 +175,7 @@ class TransactionReconcileCommand extends Command
      * @param  Exception  $exception
      * @return void
      */
-    protected function handleException(Exception $exception)
+    protected function handleException(Exception $exception): void
     {
         Log::error($exception->getMessage());
         $this->error($exception->getMessage());

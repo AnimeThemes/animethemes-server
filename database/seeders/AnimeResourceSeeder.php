@@ -22,7 +22,7 @@ class AnimeResourceSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         foreach (WikiPages::YEAR_MAP as $yearPage => $years) {
             // Try not to upset Reddit
@@ -46,7 +46,7 @@ class AnimeResourceSeeder extends Seeder
             foreach ($animeResourceWikiEntries as $animeResourceWikiEntry) {
                 $animeName = html_entity_decode($animeResourceWikiEntry[1]);
                 $resourceLink = html_entity_decode($animeResourceWikiEntry[2]);
-                preg_match('/([0-9]+)/', $resourceLink, $externalId);
+                preg_match('/(\d+)/', $resourceLink, $externalId);
 
                 // Create Resource Model with link and derived site if it doesn't already exist
                 $resource = ExternalResource::query()
@@ -56,7 +56,7 @@ class AnimeResourceSeeder extends Seeder
                     ->first();
 
                 if ($resource === null) {
-                    Log::info("Creating resource '{$resourceLink}'");
+                    Log::info("Creating resource '$resourceLink'");
 
                     $resource = ExternalResource::factory()->createOne([
                         ExternalResource::ATTRIBUTE_SITE => ResourceSite::valueOf($resourceLink)?->value,
@@ -77,7 +77,7 @@ class AnimeResourceSeeder extends Seeder
                         })
                         ->get();
                     if ($resourceAnime->count() === 1) {
-                        Log::info("Attaching resource '{$resourceLink}' to anime '{$animeName}'");
+                        Log::info("Attaching resource '$resourceLink' to anime '$animeName'");
                         $resource->anime()->attach($resourceAnime);
                     }
                 } catch (Exception $exception) {

@@ -23,7 +23,7 @@ class ArtistResourceTest extends TestCase
      *
      * @return void
      */
-    public function testArtistResourceCreatedEventDispatched()
+    public function testArtistResourceCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -40,7 +40,7 @@ class ArtistResourceTest extends TestCase
      *
      * @return void
      */
-    public function testArtistResourceDeletedEventDispatched()
+    public function testArtistResourceDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -58,7 +58,7 @@ class ArtistResourceTest extends TestCase
      *
      * @return void
      */
-    public function testArtistResourceUpdatedEventDispatched()
+    public function testArtistResourceUpdatedEventDispatched(): void
     {
         Event::fake();
 

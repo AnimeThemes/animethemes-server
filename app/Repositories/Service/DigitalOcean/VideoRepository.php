@@ -30,7 +30,7 @@ class VideoRepository implements Repository
         // Get metadata for all objects in storage
         $fs = Storage::disk('videos');
 
-        // We are assuming an s3 filesystem is used to host video
+        // We are assuming a s3 filesystem is used to host video
         if (! $fs instanceof FilesystemAdapter) {
             return Collection::make();
         }

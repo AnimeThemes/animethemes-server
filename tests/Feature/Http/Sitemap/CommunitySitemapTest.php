@@ -16,7 +16,7 @@ class CommunitySitemapTest extends TestCase
      *
      * @return void
      */
-    public function testSitemapIndex()
+    public function testSitemapIndex(): void
     {
         $response = $this->get(route('sitemap.community'));
 
@@ -28,7 +28,7 @@ class CommunitySitemapTest extends TestCase
      *
      * @return void
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $response = $this->get(route('sitemap.community'));
 
@@ -40,7 +40,7 @@ class CommunitySitemapTest extends TestCase
      *
      * @return void
      */
-    public function testBitrate()
+    public function testBitrate(): void
     {
         $response = $this->get(route('sitemap.community'));
 
@@ -52,7 +52,7 @@ class CommunitySitemapTest extends TestCase
      *
      * @return void
      */
-    public function testPixFmt()
+    public function testPixFmt(): void
     {
         $response = $this->get(route('sitemap.community'));
 
@@ -64,7 +64,7 @@ class CommunitySitemapTest extends TestCase
      *
      * @return void
      */
-    public function testRequests()
+    public function testRequests(): void
     {
         $response = $this->get(route('sitemap.community'));
 
@@ -76,7 +76,7 @@ class CommunitySitemapTest extends TestCase
      *
      * @return void
      */
-    public function testVP9()
+    public function testVP9(): void
     {
         $response = $this->get(route('sitemap.community'));
 

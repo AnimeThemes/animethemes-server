@@ -23,7 +23,7 @@ class SendInvitationMail implements ShouldQueue
      * @param  InvitationCreated  $event
      * @return void
      */
-    public function handle(InvitationCreated $event)
+    public function handle(InvitationCreated $event): void
     {
         $invitation = $event->getInvitation();
 

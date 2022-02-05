@@ -16,7 +16,7 @@ class GuidelinesSitemapTest extends TestCase
      *
      * @return void
      */
-    public function testSitemapIndex()
+    public function testSitemapIndex(): void
     {
         $response = $this->get(route('sitemap.guidelines'));
 
@@ -28,7 +28,7 @@ class GuidelinesSitemapTest extends TestCase
      *
      * @return void
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $response = $this->get(route('sitemap.guidelines'));
 
@@ -40,7 +40,7 @@ class GuidelinesSitemapTest extends TestCase
      *
      * @return void
      */
-    public function testApprovedHosts()
+    public function testApprovedHosts(): void
     {
         $response = $this->get(route('sitemap.guidelines'));
 
@@ -48,11 +48,11 @@ class GuidelinesSitemapTest extends TestCase
     }
 
     /**
-     * The guidelines sitemap shall display the guidelines submission_title_formatting route.
+     * The guidelines sitemap shall display the guideline submission_title_formatting route.
      *
      * @return void
      */
-    public function testSubmissionTitleFormatting()
+    public function testSubmissionTitleFormatting(): void
     {
         $response = $this->get(route('sitemap.guidelines'));
 

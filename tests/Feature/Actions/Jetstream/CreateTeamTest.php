@@ -19,7 +19,7 @@ class CreateTeamTest extends TestCase
      *
      * @return void
      */
-    public function testTeamsCannotBeCreated()
+    public function testTeamsCannotBeCreated(): void
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->createOne());
 

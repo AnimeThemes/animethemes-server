@@ -24,7 +24,7 @@ trait HasDiscordEmbedFields
      * @param  DiscordEmbedField  $embedField
      * @return void
      */
-    protected function addEmbedField(DiscordEmbedField $embedField)
+    protected function addEmbedField(DiscordEmbedField $embedField): void
     {
         $this->embedFields[] = $embedField;
     }

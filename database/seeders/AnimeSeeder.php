@@ -19,7 +19,7 @@ class AnimeSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Get JSON of Anime Index page content
         $animeWikiContents = WikiPages::getPageContents(WikiPages::ANIME_INDEX);
@@ -47,7 +47,7 @@ class AnimeSeeder extends Seeder
                 $slug = Str::slug($animeName.' '.$animeYear, '_');
             }
 
-            // Year expects a number but we group 60s, 70s, 80s & 90s
+            // Year expects a number, but we group 60s, 70s, 80s & 90s
             // Fallback: Change group values to 1960, 1970, 1980 & 1990 for later inspection
             $animeYears = WikiPages::getAnimeIndexYears($animeYear);
 
@@ -58,7 +58,7 @@ class AnimeSeeder extends Seeder
                     ->whereIn(Anime::ATTRIBUTE_YEAR, $animeYears)
                     ->doesntExist()
             ) {
-                Log::info("Creating anime '{$animeName}'");
+                Log::info("Creating anime '$animeName'");
 
                 Anime::factory()->createOne([
                     Anime::ATTRIBUTE_NAME => $animeName,

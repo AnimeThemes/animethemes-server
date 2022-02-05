@@ -26,7 +26,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function testRelationCriteria()
+    public function testRelationCriteria(): void
     {
         $criteria = new BaseRelationCriteria($this->faker->word(), Direction::getRandomInstance());
 
@@ -38,7 +38,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function testFieldCriteria()
+    public function testFieldCriteria(): void
     {
         $criteria = new BaseFieldCriteria($this->faker->word(), Direction::getRandomInstance());
 
@@ -50,7 +50,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function testRandomCriteria()
+    public function testRandomCriteria(): void
     {
         $criteria = new RandomCriteria();
 

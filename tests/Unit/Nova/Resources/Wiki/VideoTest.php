@@ -42,7 +42,7 @@ class VideoTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFields()
+    public function testFields(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -71,7 +71,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testIdField()
+    public function testIdField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -93,7 +93,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testCreatedAtField()
+    public function testCreatedAtField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -115,7 +115,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testUpdatedAtField()
+    public function testUpdatedAtField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -137,7 +137,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testDeletedAtField()
+    public function testDeletedAtField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -159,7 +159,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testBasenameField()
+    public function testBasenameField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -181,7 +181,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testFilenameField()
+    public function testFilenameField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -203,7 +203,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testPathField()
+    public function testPathField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -225,7 +225,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testSizeField()
+    public function testSizeField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -247,7 +247,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testResolutionField()
+    public function testResolutionField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -271,7 +271,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testNcField()
+    public function testNcField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -295,7 +295,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testSubbedField()
+    public function testSubbedField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -319,7 +319,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testLyricsField()
+    public function testLyricsField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -336,14 +336,14 @@ class VideoTest extends TestCase
     }
 
     /**
-     * The Video Resource shall contain a Uncen field.
+     * The Video Resource shall contain an Uncen field.
      *
      * @return void
      *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testUncenField()
+    public function testUncenField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -367,7 +367,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testOverlapField()
+    public function testOverlapField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -391,7 +391,7 @@ class VideoTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testSourceField()
+    public function testSourceField(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -414,7 +414,7 @@ class VideoTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFilters()
+    public function testFilters(): void
     {
         $resource = static::novaResource(Video::class);
 
@@ -440,7 +440,7 @@ class VideoTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testActions()
+    public function testActions(): void
     {
         $resource = static::novaResource(Video::class);
 

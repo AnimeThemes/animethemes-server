@@ -36,7 +36,7 @@ class BalanceTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFields()
+    public function testFields(): void
     {
         $balance = static::novaResource(Balance::class);
 
@@ -59,7 +59,7 @@ class BalanceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testIdField()
+    public function testIdField(): void
     {
         $balance = static::novaResource(Balance::class);
 
@@ -81,7 +81,7 @@ class BalanceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testCreatedAtField()
+    public function testCreatedAtField(): void
     {
         $balance = static::novaResource(Balance::class);
 
@@ -103,7 +103,7 @@ class BalanceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testUpdatedAtField()
+    public function testUpdatedAtField(): void
     {
         $balance = static::novaResource(Balance::class);
 
@@ -125,7 +125,7 @@ class BalanceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testDeletedAtField()
+    public function testDeletedAtField(): void
     {
         $balance = static::novaResource(Balance::class);
 
@@ -147,7 +147,7 @@ class BalanceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testDateField()
+    public function testDateField(): void
     {
         $balance = static::novaResource(Balance::class);
 
@@ -170,7 +170,7 @@ class BalanceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testServiceField()
+    public function testServiceField(): void
     {
         $balance = static::novaResource(Balance::class);
 
@@ -194,7 +194,7 @@ class BalanceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testFrequencyField()
+    public function testFrequencyField(): void
     {
         $balance = static::novaResource(Balance::class);
 
@@ -218,7 +218,7 @@ class BalanceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testUsageField()
+    public function testUsageField(): void
     {
         $balance = static::novaResource(Balance::class);
 
@@ -241,7 +241,7 @@ class BalanceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testBalanceField()
+    public function testBalanceField(): void
     {
         $balance = static::novaResource(Balance::class);
 
@@ -263,7 +263,7 @@ class BalanceTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFilters()
+    public function testFilters(): void
     {
         $resource = static::novaResource(Balance::class);
 
@@ -283,7 +283,7 @@ class BalanceTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testActions()
+    public function testActions(): void
     {
         $resource = static::novaResource(Balance::class);
 

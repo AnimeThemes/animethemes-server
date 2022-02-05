@@ -23,7 +23,7 @@ class ArtistResourceTest extends TestCase
      *
      * @return void
      */
-    public function testArtistResourceCreatedSendsDiscordNotification()
+    public function testArtistResourceCreatedSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -41,7 +41,7 @@ class ArtistResourceTest extends TestCase
      *
      * @return void
      */
-    public function testArtistResourceDeletedSendsDiscordNotification()
+    public function testArtistResourceDeletedSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -61,7 +61,7 @@ class ArtistResourceTest extends TestCase
      *
      * @return void
      */
-    public function testArtistResourceUpdatedSendsDiscordNotification()
+    public function testArtistResourceUpdatedSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();

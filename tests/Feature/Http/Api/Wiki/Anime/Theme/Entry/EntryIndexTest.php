@@ -46,7 +46,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $entries = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -72,7 +72,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPaginated()
+    public function testPaginated(): void
     {
         AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -93,7 +93,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths()
+    public function testAllowedIncludePaths(): void
     {
         $schema = new EntrySchema();
 
@@ -134,7 +134,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $schema = new EntrySchema();
 
@@ -172,7 +172,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSorts()
+    public function testSorts(): void
     {
         $schema = new EntrySchema();
 
@@ -210,7 +210,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedAtFilter()
+    public function testCreatedAtFilter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -259,7 +259,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testUpdatedAtFilter()
+    public function testUpdatedAtFilter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -308,7 +308,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testWithoutTrashedFilter()
+    public function testWithoutTrashedFilter(): void
     {
         $parameters = [
             FilterParser::$param => [
@@ -354,7 +354,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testWithTrashedFilter()
+    public function testWithTrashedFilter(): void
     {
         $parameters = [
             FilterParser::$param => [
@@ -400,7 +400,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testOnlyTrashedFilter()
+    public function testOnlyTrashedFilter(): void
     {
         $parameters = [
             FilterParser::$param => [
@@ -446,7 +446,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDeletedAtFilter()
+    public function testDeletedAtFilter(): void
     {
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -504,7 +504,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesByNsfw()
+    public function testEntriesByNsfw(): void
     {
         $nsfwFilter = $this->faker->boolean();
 
@@ -540,7 +540,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesBySpoiler()
+    public function testEntriesBySpoiler(): void
     {
         $spoilerFilter = $this->faker->boolean();
 
@@ -576,7 +576,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesByVersion()
+    public function testEntriesByVersion(): void
     {
         $versionFilter = $this->faker->randomDigitNotNull();
         $excludedVersion = $versionFilter + 1;
@@ -617,7 +617,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason()
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = AnimeSeason::getRandomInstance();
 
@@ -659,7 +659,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear()
+    public function testAnimeByYear(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;
@@ -709,7 +709,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testThemesByGroup()
+    public function testThemesByGroup(): void
     {
         $groupFilter = $this->faker->word();
         $excludedGroup = $this->faker->word();
@@ -758,7 +758,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testThemesBySequence()
+    public function testThemesBySequence(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -807,7 +807,7 @@ class EntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testThemesByType()
+    public function testThemesByType(): void
     {
         $typeFilter = ThemeType::getRandomInstance();
 

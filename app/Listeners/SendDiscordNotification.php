@@ -23,7 +23,7 @@ class SendDiscordNotification implements ShouldQueue
      * @param  DiscordMessageEvent  $event
      * @return void
      */
-    public function handle(DiscordMessageEvent $event)
+    public function handle(DiscordMessageEvent $event): void
     {
         if (config(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, false)) {
             SendDiscordNotificationJob::dispatch($event);

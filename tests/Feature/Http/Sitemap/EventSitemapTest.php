@@ -16,7 +16,7 @@ class EventSitemapTest extends TestCase
      *
      * @return void
      */
-    public function testSitemapIndex()
+    public function testSitemapIndex(): void
     {
         $response = $this->get(route('sitemap.event'));
 
@@ -28,7 +28,7 @@ class EventSitemapTest extends TestCase
      *
      * @return void
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $response = $this->get(route('sitemap.event'));
 
@@ -40,7 +40,7 @@ class EventSitemapTest extends TestCase
      *
      * @return void
      */
-    public function testBestEndingIII()
+    public function testBestEndingIII(): void
     {
         $response = $this->get(route('sitemap.event'));
 
@@ -52,7 +52,7 @@ class EventSitemapTest extends TestCase
      *
      * @return void
      */
-    public function testBestEndingIV()
+    public function testBestEndingIV(): void
     {
         $response = $this->get(route('sitemap.event'));
 
@@ -64,7 +64,7 @@ class EventSitemapTest extends TestCase
      *
      * @return void
      */
-    public function testBestEndingV()
+    public function testBestEndingV(): void
     {
         $response = $this->get(route('sitemap.event'));
 
@@ -76,7 +76,7 @@ class EventSitemapTest extends TestCase
      *
      * @return void
      */
-    public function testBestEndingVI()
+    public function testBestEndingVI(): void
     {
         $response = $this->get(route('sitemap.event'));
 
@@ -88,7 +88,7 @@ class EventSitemapTest extends TestCase
      *
      * @return void
      */
-    public function testBestOpeningVII()
+    public function testBestOpeningVII(): void
     {
         $response = $this->get(route('sitemap.event'));
 
@@ -100,7 +100,7 @@ class EventSitemapTest extends TestCase
      *
      * @return void
      */
-    public function testBestOpeningVIII()
+    public function testBestOpeningVIII(): void
     {
         $response = $this->get(route('sitemap.event'));
 
@@ -112,7 +112,7 @@ class EventSitemapTest extends TestCase
      *
      * @return void
      */
-    public function testBestOpeningIX()
+    public function testBestOpeningIX(): void
     {
         $response = $this->get(route('sitemap.event'));
 

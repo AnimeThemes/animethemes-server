@@ -74,7 +74,7 @@ class SearchRequest extends FormRequest
     }
 
     /**
-     * Get the include validation rules.
+     * Get include validation rules.
      *
      * @return array
      */

@@ -21,7 +21,7 @@ class AnimeStudioTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeStudioCreatedEventDispatched()
+    public function testAnimeStudioCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -38,7 +38,7 @@ class AnimeStudioTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeStudioDeletedEventDispatched()
+    public function testAnimeStudioDeletedEventDispatched(): void
     {
         Event::fake();
 

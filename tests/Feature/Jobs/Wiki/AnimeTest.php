@@ -21,7 +21,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeCreatedSendsDiscordNotification()
+    public function testAnimeCreatedSendsDiscordNotification(): void
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -36,7 +36,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeDeletedSendsDiscordNotification()
+    public function testAnimeDeletedSendsDiscordNotification(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -53,7 +53,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeRestoredSendsDiscordNotification()
+    public function testAnimeRestoredSendsDiscordNotification(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -70,7 +70,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeUpdatedSendsDiscordNotification()
+    public function testAnimeUpdatedSendsDiscordNotification(): void
     {
         $anime = Anime::factory()->createOne();
 

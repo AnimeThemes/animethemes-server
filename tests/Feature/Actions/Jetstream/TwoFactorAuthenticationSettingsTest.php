@@ -15,11 +15,11 @@ use Tests\TestCase;
 class TwoFactorAuthenticationSettingsTest extends TestCase
 {
     /**
-     * Two factor authentication can be enabled.
+     * Two-factor authentication can be enabled.
      *
      * @return void
      */
-    public function testTwoFactorAuthenticationCanBeEnabled()
+    public function testTwoFactorAuthenticationCanBeEnabled(): void
     {
         $this->actingAs($user = User::factory()->createOne());
 
@@ -39,7 +39,7 @@ class TwoFactorAuthenticationSettingsTest extends TestCase
      *
      * @return void
      */
-    public function testRecoveryCodesCanBeRegenerated()
+    public function testRecoveryCodesCanBeRegenerated(): void
     {
         $this->actingAs($user = User::factory()->createOne());
 
@@ -58,11 +58,11 @@ class TwoFactorAuthenticationSettingsTest extends TestCase
     }
 
     /**
-     * Two factor authentication can be disabled.
+     * Two-factor authentication can be disabled.
      *
      * @return void
      */
-    public function testTwoFactorAuthenticationCanBeDisabled()
+    public function testTwoFactorAuthenticationCanBeDisabled(): void
     {
         $this->actingAs($user = User::factory()->createOne());
 

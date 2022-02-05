@@ -18,7 +18,7 @@ class CreateArtistsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(Artist::TABLE, function (Blueprint $table) {
             $table->id(Artist::ATTRIBUTE_ID);
@@ -34,7 +34,7 @@ class CreateArtistsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(Artist::TABLE);
     }

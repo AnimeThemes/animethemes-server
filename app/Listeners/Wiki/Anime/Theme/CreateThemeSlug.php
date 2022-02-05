@@ -17,7 +17,7 @@ class CreateThemeSlug
      * @param  ThemeCreating  $event
      * @return void
      */
-    public function handle(ThemeCreating $event)
+    public function handle(ThemeCreating $event): void
     {
         $theme = $event->getTheme();
 

@@ -25,7 +25,7 @@ class TrashedCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testGlobalScope()
+    public function testGlobalScope(): void
     {
         $criteria = TrashedCriteria::make(TrashedCriteria::PARAM_VALUE, $this->faker->word());
 
@@ -37,7 +37,7 @@ class TrashedCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testScope()
+    public function testScope(): void
     {
         $type = Str::of(Str::random())->lower()->singular()->__toString();
 
@@ -55,7 +55,7 @@ class TrashedCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testField()
+    public function testField(): void
     {
         $criteria = TrashedCriteria::make(TrashedCriteria::PARAM_VALUE, $this->faker->word());
 
@@ -67,7 +67,7 @@ class TrashedCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testComparisonOperator()
+    public function testComparisonOperator(): void
     {
         $operator = ComparisonOperator::getRandomInstance();
 
@@ -88,7 +88,7 @@ class TrashedCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testLogicalOperator()
+    public function testLogicalOperator(): void
     {
         $operator = BinaryLogicalOperator::getRandomInstance();
         $default = BinaryLogicalOperator::AND();

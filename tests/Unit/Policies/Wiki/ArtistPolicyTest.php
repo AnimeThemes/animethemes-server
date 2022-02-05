@@ -23,7 +23,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testViewAny()
+    public function testViewAny(): void
     {
         $policy = new ArtistPolicy();
 
@@ -35,7 +35,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testView()
+    public function testView(): void
     {
         $policy = new ArtistPolicy();
 
@@ -47,7 +47,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -73,7 +73,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -99,7 +99,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -125,7 +125,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testRestore()
+    public function testRestore(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -151,7 +151,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testForceDelete()
+    public function testForceDelete(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -177,7 +177,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnyResource()
+    public function testAttachAnyResource(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -203,7 +203,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachResource()
+    public function testAttachResource(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -229,7 +229,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachResource()
+    public function testDetachResource(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -255,7 +255,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnySong()
+    public function testAttachAnySong(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -281,7 +281,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachSong()
+    public function testAttachSong(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -307,7 +307,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachSong()
+    public function testDetachSong(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -333,7 +333,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnyArtist()
+    public function testAttachAnyArtist(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -359,7 +359,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachArtist()
+    public function testAttachArtist(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -385,7 +385,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachArtist()
+    public function testDetachArtist(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -411,7 +411,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnyImage()
+    public function testAttachAnyImage(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -437,7 +437,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachNewImage()
+    public function testAttachNewImage(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -465,7 +465,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachExistingImage()
+    public function testAttachExistingImage(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -494,7 +494,7 @@ class ArtistPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachImage()
+    public function testDetachImage(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')

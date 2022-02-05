@@ -19,11 +19,11 @@ class ImageTest extends TestCase
     use WithoutEvents;
 
     /**
-     * If the image is soft deleted, the user shall be redirected to the Welcome Screen.
+     * If the image is soft-deleted, the user shall be redirected to the Welcome Screen.
      *
      * @return void
      */
-    public function testSoftDeleteImageStreamingRedirect()
+    public function testSoftDeleteImageStreamingRedirect(): void
     {
         $image = Image::factory()->createOne();
 
@@ -39,7 +39,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageStreaming()
+    public function testImageStreaming(): void
     {
         $image = Image::factory()->createOne();
 

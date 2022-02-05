@@ -23,7 +23,7 @@ class AnimeResourceTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeResourceCreatedEventDispatched()
+    public function testAnimeResourceCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -40,7 +40,7 @@ class AnimeResourceTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeResourceDeletedEventDispatched()
+    public function testAnimeResourceDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -58,7 +58,7 @@ class AnimeResourceTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeResourceUpdatedEventDispatched()
+    public function testAnimeResourceUpdatedEventDispatched(): void
     {
         Event::fake();
 

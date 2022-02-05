@@ -19,7 +19,7 @@ class LeaveTeamTest extends TestCase
      *
      * @return void
      */
-    public function testUsersCanLeaveTeams()
+    public function testUsersCanLeaveTeams(): void
     {
         $user = User::factory()->withPersonalTeam()->createOne();
 
@@ -41,7 +41,7 @@ class LeaveTeamTest extends TestCase
      *
      * @return void
      */
-    public function testTeamOwnersCanNotLeaveTheirOwnTeam()
+    public function testTeamOwnersCanNotLeaveTheirOwnTeam(): void
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->createOne());
 

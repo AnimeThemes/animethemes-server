@@ -33,7 +33,7 @@ class ThemeTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFields()
+    public function testFields(): void
     {
         $resource = static::novaResource(Theme::class);
 
@@ -55,7 +55,7 @@ class ThemeTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testIdField()
+    public function testIdField(): void
     {
         $resource = static::novaResource(Theme::class);
 
@@ -77,7 +77,7 @@ class ThemeTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testCreatedAtField()
+    public function testCreatedAtField(): void
     {
         $resource = static::novaResource(Theme::class);
 
@@ -99,7 +99,7 @@ class ThemeTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testUpdatedAtField()
+    public function testUpdatedAtField(): void
     {
         $resource = static::novaResource(Theme::class);
 
@@ -121,7 +121,7 @@ class ThemeTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testDeletedAtField()
+    public function testDeletedAtField(): void
     {
         $resource = static::novaResource(Theme::class);
 
@@ -143,7 +143,7 @@ class ThemeTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testTypeField()
+    public function testTypeField(): void
     {
         $resource = static::novaResource(Theme::class);
 
@@ -167,7 +167,7 @@ class ThemeTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testSequenceField()
+    public function testSequenceField(): void
     {
         $resource = static::novaResource(Theme::class);
 
@@ -191,7 +191,7 @@ class ThemeTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testGroupField()
+    public function testGroupField(): void
     {
         $resource = static::novaResource(Theme::class);
 
@@ -215,7 +215,7 @@ class ThemeTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testSlugField()
+    public function testSlugField(): void
     {
         $resource = static::novaResource(Theme::class);
 
@@ -239,7 +239,7 @@ class ThemeTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFilters()
+    public function testFilters(): void
     {
         $resource = static::novaResource(Theme::class);
 
@@ -259,7 +259,7 @@ class ThemeTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testActions()
+    public function testActions(): void
     {
         $resource = static::novaResource(Theme::class);
 

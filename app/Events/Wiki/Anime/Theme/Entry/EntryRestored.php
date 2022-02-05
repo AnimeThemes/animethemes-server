@@ -51,7 +51,7 @@ class EntryRestored extends EntryEvent implements DiscordMessageEvent, UpdateRel
      *
      * @return void
      */
-    public function updateRelatedIndices()
+    public function updateRelatedIndices(): void
     {
         $entry = $this->getEntry();
 

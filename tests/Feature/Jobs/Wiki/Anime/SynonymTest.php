@@ -22,7 +22,7 @@ class SynonymTest extends TestCase
      *
      * @return void
      */
-    public function testSynonymCreatedSendsDiscordNotification()
+    public function testSynonymCreatedSendsDiscordNotification(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -39,7 +39,7 @@ class SynonymTest extends TestCase
      *
      * @return void
      */
-    public function testSynonymDeletedSendsDiscordNotification()
+    public function testSynonymDeletedSendsDiscordNotification(): void
     {
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
@@ -58,7 +58,7 @@ class SynonymTest extends TestCase
      *
      * @return void
      */
-    public function testSynonymRestoredSendsDiscordNotification()
+    public function testSynonymRestoredSendsDiscordNotification(): void
     {
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
@@ -77,7 +77,7 @@ class SynonymTest extends TestCase
      *
      * @return void
      */
-    public function testSynonymUpdatedSendsDiscordNotification()
+    public function testSynonymUpdatedSendsDiscordNotification(): void
     {
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())

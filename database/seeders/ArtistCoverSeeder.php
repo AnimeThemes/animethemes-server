@@ -28,7 +28,7 @@ class ArtistCoverSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Get artists that have MAL resource but not both cover images
         $artists = Artist::query()
@@ -99,7 +99,7 @@ class ArtistCoverSeeder extends Seeder
                         ]);
 
                         // Attach large cover to artist
-                        Log::info("Attaching image '{$coverLargeImage->path}' to artist '{$artist->name}'");
+                        Log::info("Attaching image '$coverLargeImage->path' to artist '$artist->name'");
                         $coverLargeImage->artists()->attach($artist);
                     }
 
@@ -118,7 +118,7 @@ class ArtistCoverSeeder extends Seeder
                         ]);
 
                         // Attach large cover to artist
-                        Log::info("Attaching image '{$coverSmallImage->path}' to artist '{$artist->name}'");
+                        Log::info("Attaching image '$coverSmallImage->path' to artist '$artist->name'");
                         $coverSmallImage->artists()->attach($artist);
                     }
                 } catch (RequestException $e) {

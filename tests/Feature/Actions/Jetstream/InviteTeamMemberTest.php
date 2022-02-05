@@ -21,7 +21,7 @@ class InviteTeamMemberTest extends TestCase
      *
      * @return void
      */
-    public function testTeamMembersCanBeInvitedToTeam()
+    public function testTeamMembersCanBeInvitedToTeam(): void
     {
         Mail::fake();
 
@@ -43,7 +43,7 @@ class InviteTeamMemberTest extends TestCase
      *
      * @return void
      */
-    public function testTeamMemberInvitationsCanBeCancelled()
+    public function testTeamMemberInvitationsCanBeCancelled(): void
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->createOne());
 

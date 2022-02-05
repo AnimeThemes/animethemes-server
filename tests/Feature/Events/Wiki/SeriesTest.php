@@ -22,7 +22,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function testSeriesCreatedEventDispatched()
+    public function testSeriesCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -36,7 +36,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function testSeriesDeletedEventDispatched()
+    public function testSeriesDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -52,7 +52,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function testSeriesRestoredEventDispatched()
+    public function testSeriesRestoredEventDispatched(): void
     {
         Event::fake();
 
@@ -70,7 +70,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function testSeriesRestoresQuietly()
+    public function testSeriesRestoresQuietly(): void
     {
         Event::fake();
 
@@ -86,7 +86,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function testSeriesUpdatedEventDispatched()
+    public function testSeriesUpdatedEventDispatched(): void
     {
         Event::fake();
 

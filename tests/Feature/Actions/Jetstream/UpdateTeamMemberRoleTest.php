@@ -19,7 +19,7 @@ class UpdateTeamMemberRoleTest extends TestCase
      *
      * @return void
      */
-    public function testTeamMemberRolesCanBeUpdated()
+    public function testTeamMemberRolesCanBeUpdated(): void
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->createOne());
 
@@ -41,7 +41,7 @@ class UpdateTeamMemberRoleTest extends TestCase
      *
      * @return void
      */
-    public function testOnlyTeamOwnerCanUpdateTeamMemberRoles()
+    public function testOnlyTeamOwnerCanUpdateTeamMemberRoles(): void
     {
         $user = User::factory()->withPersonalTeam()->createOne();
 

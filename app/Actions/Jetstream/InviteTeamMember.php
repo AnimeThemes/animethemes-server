@@ -36,7 +36,7 @@ class InviteTeamMember implements InvitesTeamMembers
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    public function invite(mixed $user, mixed $team, string $email, string $role = null)
+    public function invite(mixed $user, mixed $team, string $email, string $role = null): void
     {
         Gate::forUser($user)->authorize('addTeamMember', $team);
 
@@ -62,7 +62,7 @@ class InviteTeamMember implements InvitesTeamMembers
      *
      * @throws ValidationException
      */
-    protected function validate(mixed $team, string $email, ?string $role)
+    protected function validate(mixed $team, string $email, ?string $role): void
     {
         Validator::make([
             'email' => $email,

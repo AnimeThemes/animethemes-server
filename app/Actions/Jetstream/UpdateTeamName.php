@@ -27,7 +27,7 @@ class UpdateTeamName implements UpdatesTeamNames
      * @throws ValidationException
      * @throws AuthorizationException
      */
-    public function update($user, $team, array $input)
+    public function update($user, $team, array $input): void
     {
         Gate::forUser($user)->authorize('update', $team);
 

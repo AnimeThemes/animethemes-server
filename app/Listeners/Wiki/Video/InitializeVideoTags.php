@@ -21,7 +21,7 @@ class InitializeVideoTags
      * @param  VideoCreating  $event
      * @return void
      */
-    public function handle(VideoCreating $event)
+    public function handle(VideoCreating $event): void
     {
         $video = $event->getVideo();
 

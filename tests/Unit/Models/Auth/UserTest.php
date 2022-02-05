@@ -26,7 +26,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testTokens()
+    public function testTokens(): void
     {
         $user = User::factory()->createOne();
 
@@ -42,7 +42,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testVerificationEmailNotification()
+    public function testVerificationEmailNotification(): void
     {
         Notification::fake();
 
@@ -58,7 +58,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $user = User::factory()->createOne();
 

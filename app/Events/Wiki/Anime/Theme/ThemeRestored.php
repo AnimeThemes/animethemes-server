@@ -54,7 +54,7 @@ class ThemeRestored extends ThemeEvent implements CascadesRestoresEvent, Discord
      *
      * @return void
      */
-    public function cascadeRestores()
+    public function cascadeRestores(): void
     {
         $theme = $this->getTheme();
 

@@ -16,7 +16,7 @@ class EncodingIndexTest extends TestCase
      *
      * @return void
      */
-    public function testView()
+    public function testView(): void
     {
         $response = $this->get(route('encoding.index'));
 

@@ -21,7 +21,7 @@ class SongDeleting extends SongEvent implements UpdateRelatedIndicesEvent
      *
      * @return void
      */
-    public function updateRelatedIndices()
+    public function updateRelatedIndices(): void
     {
         $song = $this->getSong()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
 

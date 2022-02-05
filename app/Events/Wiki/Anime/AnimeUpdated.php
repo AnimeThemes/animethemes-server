@@ -67,7 +67,7 @@ class AnimeUpdated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
      *
      * @return void
      */
-    public function updateRelatedIndices()
+    public function updateRelatedIndices(): void
     {
         $anime = $this->getAnime()->load(Anime::RELATION_VIDEOS);
 

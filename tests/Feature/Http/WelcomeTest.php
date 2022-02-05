@@ -22,7 +22,7 @@ class WelcomeTest extends TestCase
      *
      * @return void
      */
-    public function testWelcome()
+    public function testWelcome(): void
     {
         $response = $this->get(route('welcome'));
 
@@ -34,7 +34,7 @@ class WelcomeTest extends TestCase
      *
      * @return void
      */
-    public function testWelcomeAnnouncements()
+    public function testWelcomeAnnouncements(): void
     {
         $announcements = collect(Announcement::factory()
             ->count($this->faker->randomDigitNotNull())

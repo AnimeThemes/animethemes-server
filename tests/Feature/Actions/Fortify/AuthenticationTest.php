@@ -18,7 +18,7 @@ class AuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function testLoginScreenCanBeRendered()
+    public function testLoginScreenCanBeRendered(): void
     {
         $response = $this->get('/login');
 
@@ -30,7 +30,7 @@ class AuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function testUsersCanAuthenticateUsingTheLoginScreen()
+    public function testUsersCanAuthenticateUsingTheLoginScreen(): void
     {
         $user = User::factory()->createOne();
 
@@ -48,7 +48,7 @@ class AuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function testUsersCanNotAuthenticateWithInvalidPassword()
+    public function testUsersCanNotAuthenticateWithInvalidPassword(): void
     {
         $user = User::factory()->createOne();
 

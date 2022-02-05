@@ -18,7 +18,7 @@ class CreateStudiosTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(Studio::TABLE, function (Blueprint $table) {
             $table->id(Studio::ATTRIBUTE_ID);
@@ -34,7 +34,7 @@ class CreateStudiosTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(Studio::TABLE);
     }

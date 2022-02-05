@@ -27,7 +27,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoStreamingNotAllowedRedirect()
+    public function testVideoStreamingNotAllowedRedirect(): void
     {
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, false);
 
@@ -39,11 +39,11 @@ class VideoTest extends TestCase
     }
 
     /**
-     * If the video is soft deleted, the user shall be redirected to the Welcome Screen.
+     * If the video is soft-deleted, the user shall be redirected to the Welcome Screen.
      *
      * @return void
      */
-    public function testSoftDeleteVideoStreamingRedirect()
+    public function testSoftDeleteVideoStreamingRedirect(): void
     {
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
 
@@ -61,7 +61,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoStreaming()
+    public function testVideoStreaming(): void
     {
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
 
@@ -77,7 +77,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testViewRecordingNotAllowed()
+    public function testViewRecordingNotAllowed(): void
     {
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
         Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, false);
@@ -94,7 +94,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testViewRecordingIsAllowed()
+    public function testViewRecordingIsAllowed(): void
     {
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
         Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, true);
@@ -111,7 +111,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testViewRecordingCooldown()
+    public function testViewRecordingCooldown(): void
     {
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
         Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, true);

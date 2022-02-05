@@ -18,14 +18,14 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Model::preventLazyLoading();
 
         Model::handleLazyLoadingViolationUsing(function (Model $model, string $relation) {
             $class = get_class($model);
 
-            Log::info("Attempted to lazy load [{$relation}] on model [{$class}]");
+            Log::info("Attempted to lazy load [$relation] on model [$class]");
         });
     }
 }

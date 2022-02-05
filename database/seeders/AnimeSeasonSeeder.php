@@ -21,7 +21,7 @@ class AnimeSeasonSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         foreach (WikiPages::YEAR_MAP as $yearPage => $years) {
             // Try not to upset Reddit
@@ -67,7 +67,7 @@ class AnimeSeasonSeeder extends Seeder
                             if ($anime instanceof Anime) {
                                 $anime->season = $season;
                                 if ($anime->isDirty()) {
-                                    Log::info("Setting season '{$season}' for anime '{$anime->name}'");
+                                    Log::info("Setting season '$season' for anime '$anime->name'");
                                     $anime->save();
                                 }
                             }
@@ -77,7 +77,7 @@ class AnimeSeasonSeeder extends Seeder
                     }
                 }
 
-                // Otherwise just fall through to the next line
+                // Otherwise, just fall through to the next line
             }
         }
     }

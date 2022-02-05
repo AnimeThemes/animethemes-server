@@ -9,6 +9,9 @@ use App\Rules\Api\RandomSoleRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * Class RandomSoleTest.
+ */
 class RandomSoleTest extends TestCase
 {
     use WithFaker;
@@ -18,7 +21,7 @@ class RandomSoleTest extends TestCase
      *
      * @return void
      */
-    public function testFailsIfRandomIsNotSoleSort()
+    public function testFailsIfRandomIsNotSoleSort(): void
     {
         $sorts = $this->faker->words($this->faker->randomDigitNotNull());
 
@@ -34,7 +37,7 @@ class RandomSoleTest extends TestCase
      *
      * @return void
      */
-    public function testPassesIfRandomIsNotIncluded()
+    public function testPassesIfRandomIsNotIncluded(): void
     {
         $sorts = $this->faker->words($this->faker->randomDigitNotNull());
 
@@ -48,7 +51,7 @@ class RandomSoleTest extends TestCase
      *
      * @return void
      */
-    public function testPassesIfRandomIsSoleSort()
+    public function testPassesIfRandomIsSoleSort(): void
     {
         $rule = new RandomSoleRule();
 

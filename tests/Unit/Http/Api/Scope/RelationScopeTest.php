@@ -22,7 +22,7 @@ class RelationScopeTest extends TestCase
      *
      * @return void
      */
-    public function testGlobalScopeIsNotWithinScope()
+    public function testGlobalScopeIsNotWithinScope(): void
     {
         $scope = new RelationScope($this->faker->word());
 
@@ -36,7 +36,7 @@ class RelationScopeTest extends TestCase
      *
      * @return void
      */
-    public function testTypeScopeIsNotWithinScope()
+    public function testTypeScopeIsNotWithinScope(): void
     {
         $scope = new RelationScope($this->faker->word());
 
@@ -50,7 +50,7 @@ class RelationScopeTest extends TestCase
      *
      * @return void
      */
-    public function testUnequalRelationIsNotWithinScope()
+    public function testUnequalRelationIsNotWithinScope(): void
     {
         $scope = new RelationScope($this->faker->word());
 
@@ -64,7 +64,7 @@ class RelationScopeTest extends TestCase
      *
      * @return void
      */
-    public function testRelationIsWithinScope()
+    public function testRelationIsWithinScope(): void
     {
         $relation = $this->faker->word();
 

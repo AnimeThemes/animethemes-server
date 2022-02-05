@@ -144,7 +144,7 @@ class Anime extends Resource
                 ->rules(['required', 'max:192', 'alpha_dash'])
                 ->updateRules(
                     Rule::unique(AnimeModel::TABLE)
-                        ->ignore($request->resourceId, AnimeModel::ATTRIBUTE_ID)
+                        ->ignore($request->route('resourceId'), AnimeModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
                 ->help(__('nova.anime_slug_help')),

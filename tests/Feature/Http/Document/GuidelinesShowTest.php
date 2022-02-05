@@ -16,7 +16,7 @@ class GuidelinesShowTest extends TestCase
      *
      * @return void
      */
-    public function testApprovedHosts()
+    public function testApprovedHosts(): void
     {
         $response = $this->get(route('guidelines.show', ['docName' => 'approved_hosts']));
 
@@ -28,7 +28,7 @@ class GuidelinesShowTest extends TestCase
      *
      * @return void
      */
-    public function testSubmissionTitleFormatting()
+    public function testSubmissionTitleFormatting(): void
     {
         $response = $this->get(route('guidelines.show', ['docName' => 'submission_title_formatting']));
 

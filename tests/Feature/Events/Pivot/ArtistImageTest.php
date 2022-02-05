@@ -21,7 +21,7 @@ class ArtistImageTest extends TestCase
      *
      * @return void
      */
-    public function testArtistImageCreatedEventDispatched()
+    public function testArtistImageCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -38,7 +38,7 @@ class ArtistImageTest extends TestCase
      *
      * @return void
      */
-    public function testArtistImageDeletedEventDispatched()
+    public function testArtistImageDeletedEventDispatched(): void
     {
         Event::fake();
 

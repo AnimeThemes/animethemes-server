@@ -27,7 +27,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function testCastsTypeToEnum()
+    public function testCastsTypeToEnum(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -43,7 +43,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function testSearchableAs()
+    public function testSearchableAs(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -57,7 +57,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function testToSearchableArray()
+    public function testToSearchableArray(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -71,7 +71,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -87,7 +87,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -101,7 +101,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function testAnime()
+    public function testAnime(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -116,7 +116,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function testSong()
+    public function testSong(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -132,7 +132,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function testEntries()
+    public function testEntries(): void
     {
         $entryCount = $this->faker->randomDigitNotNull();
 
@@ -151,7 +151,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeCreatesSlug()
+    public function testThemeCreatesSlug(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())

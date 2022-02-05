@@ -39,7 +39,7 @@ class VideoUnlinkedTest extends TestCase
      * @throws InvalidNovaLensException
      * @throws InvalidNovaLensException
      */
-    public function testFields()
+    public function testFields(): void
     {
         $this->withoutEvents();
 
@@ -62,7 +62,7 @@ class VideoUnlinkedTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
-    public function testSortable()
+    public function testSortable(): void
     {
         $this->withoutEvents();
 
@@ -84,7 +84,7 @@ class VideoUnlinkedTest extends TestCase
      *
      * @throws InvalidNovaLensException
      */
-    public function testFilters()
+    public function testFilters(): void
     {
         $this->withoutEvents();
 
@@ -106,7 +106,7 @@ class VideoUnlinkedTest extends TestCase
      *
      * @throws InvalidNovaLensException
      */
-    public function testActions()
+    public function testActions(): void
     {
         $this->withoutEvents();
 
@@ -123,7 +123,7 @@ class VideoUnlinkedTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
-    public function testWithFilters()
+    public function testWithFilters(): void
     {
         $this->withoutEvents();
 
@@ -142,7 +142,7 @@ class VideoUnlinkedTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
-    public function testWithOrdering()
+    public function testWithOrdering(): void
     {
         $this->withoutEvents();
 
@@ -161,7 +161,7 @@ class VideoUnlinkedTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
-    public function testQuery()
+    public function testQuery(): void
     {
         Video::factory()
             ->count($this->faker->randomDigitNotNull())

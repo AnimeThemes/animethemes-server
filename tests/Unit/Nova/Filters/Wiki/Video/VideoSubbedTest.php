@@ -29,7 +29,7 @@ class VideoSubbedTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testSelectFilter()
+    public function testSelectFilter(): void
     {
         static::novaFilter(VideoSubbedFilter::class)
             ->assertSelectFilter();
@@ -42,7 +42,7 @@ class VideoSubbedTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testOptions()
+    public function testOptions(): void
     {
         $filter = static::novaFilter(VideoSubbedFilter::class);
 
@@ -58,7 +58,7 @@ class VideoSubbedTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
-    public function testFilter()
+    public function testFilter(): void
     {
         $subbedFilter = $this->faker->boolean();
 

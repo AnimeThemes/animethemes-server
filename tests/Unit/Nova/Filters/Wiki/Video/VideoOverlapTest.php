@@ -30,7 +30,7 @@ class VideoOverlapTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testSelectFilter()
+    public function testSelectFilter(): void
     {
         static::novaFilter(VideoOverlapFilter::class)
             ->assertSelectFilter();
@@ -43,7 +43,7 @@ class VideoOverlapTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testOptions()
+    public function testOptions(): void
     {
         $filter = static::novaFilter(VideoOverlapFilter::class);
 
@@ -60,7 +60,7 @@ class VideoOverlapTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
-    public function testFilter()
+    public function testFilter(): void
     {
         $overlap = VideoOverlap::getRandomInstance();
 

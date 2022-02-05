@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class DonateController extends DocumentController
 {
     /**
-     * Show the donate document for the application.
+     * Show donate document for the application.
      *
      * @return View|Factory
      *

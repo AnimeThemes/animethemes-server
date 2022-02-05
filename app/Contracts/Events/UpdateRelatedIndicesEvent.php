@@ -14,5 +14,5 @@ interface UpdateRelatedIndicesEvent
      *
      * @return void
      */
-    public function updateRelatedIndices();
+    public function updateRelatedIndices(): void;
 }

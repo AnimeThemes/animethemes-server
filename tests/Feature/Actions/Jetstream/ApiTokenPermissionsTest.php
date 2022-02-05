@@ -21,7 +21,7 @@ class ApiTokenPermissionsTest extends TestCase
      *
      * @return void
      */
-    public function testApiTokenPermissionsCanBeUpdated()
+    public function testApiTokenPermissionsCanBeUpdated(): void
     {
         if (! Features::hasApiFeatures()) {
             static::markTestSkipped('API support is not enabled.');

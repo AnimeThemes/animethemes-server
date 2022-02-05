@@ -55,7 +55,7 @@ class SongCreated extends SongEvent implements DiscordMessageEvent, UpdateRelate
      *
      * @return void
      */
-    public function updateRelatedIndices()
+    public function updateRelatedIndices(): void
     {
         $song = $this->getSong()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
 

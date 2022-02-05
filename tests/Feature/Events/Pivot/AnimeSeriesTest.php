@@ -21,7 +21,7 @@ class AnimeSeriesTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeSeriesCreatedEventDispatched()
+    public function testAnimeSeriesCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -38,7 +38,7 @@ class AnimeSeriesTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeSeriesDeletedEventDispatched()
+    public function testAnimeSeriesDeletedEventDispatched(): void
     {
         Event::fake();
 

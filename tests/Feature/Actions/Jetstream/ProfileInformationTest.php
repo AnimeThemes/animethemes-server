@@ -21,7 +21,7 @@ class ProfileInformationTest extends TestCase
      *
      * @noinspection PhpUndefinedFieldInspection
      */
-    public function testCurrentProfileInformationIsAvailable()
+    public function testCurrentProfileInformationIsAvailable(): void
     {
         $this->actingAs($user = User::factory()->createOne());
 
@@ -36,7 +36,7 @@ class ProfileInformationTest extends TestCase
      *
      * @return void
      */
-    public function testProfileInformationCanBeUpdated()
+    public function testProfileInformationCanBeUpdated(): void
     {
         $this->actingAs($user = User::factory()->createOne());
 

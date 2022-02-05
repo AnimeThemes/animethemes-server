@@ -36,7 +36,7 @@ class InvitationTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFields()
+    public function testFields(): void
     {
         $resource = static::novaResource(Invitation::class);
 
@@ -57,7 +57,7 @@ class InvitationTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testIdField()
+    public function testIdField(): void
     {
         $resource = static::novaResource(Invitation::class);
 
@@ -79,7 +79,7 @@ class InvitationTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testCreatedAtField()
+    public function testCreatedAtField(): void
     {
         $resource = static::novaResource(Invitation::class);
 
@@ -101,7 +101,7 @@ class InvitationTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testUpdatedAtField()
+    public function testUpdatedAtField(): void
     {
         $resource = static::novaResource(Invitation::class);
 
@@ -123,7 +123,7 @@ class InvitationTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testDeletedAtField()
+    public function testDeletedAtField(): void
     {
         $resource = static::novaResource(Invitation::class);
 
@@ -145,7 +145,7 @@ class InvitationTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testNameField()
+    public function testNameField(): void
     {
         $resource = static::novaResource(Invitation::class);
 
@@ -162,14 +162,14 @@ class InvitationTest extends TestCase
     }
 
     /**
-     * The Invitation Resource shall contain a Email field.
+     * The Invitation Resource shall contain an Email field.
      *
      * @return void
      *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testEmailField()
+    public function testEmailField(): void
     {
         $resource = static::novaResource(Invitation::class);
 
@@ -196,7 +196,7 @@ class InvitationTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testStatusField()
+    public function testStatusField(): void
     {
         $resource = static::novaResource(Invitation::class);
 
@@ -219,7 +219,7 @@ class InvitationTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFilters()
+    public function testFilters(): void
     {
         $resource = static::novaResource(Invitation::class);
 
@@ -239,7 +239,7 @@ class InvitationTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testActions()
+    public function testActions(): void
     {
         $resource = static::novaResource(Invitation::class);
 

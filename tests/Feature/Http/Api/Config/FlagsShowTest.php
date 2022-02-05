@@ -28,7 +28,7 @@ class FlagsShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, $this->faker->boolean());
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, $this->faker->boolean());
@@ -53,7 +53,7 @@ class FlagsShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, $this->faker->boolean());
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, $this->faker->boolean());

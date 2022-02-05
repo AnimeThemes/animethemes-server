@@ -25,7 +25,7 @@ class AnilistAnimeResourceSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Get anime that have MAL resource but do not have Anilist resource
         $animes = Anime::query()
@@ -81,11 +81,11 @@ class AnilistAnimeResourceSeeder extends Seeder
 
                     // Create Anilist resource if it doesn't already exist
                     if ($anilistResource === null) {
-                        Log::info("Creating anilist resource '{$anilistId}' for anime '{$anime->name}'");
+                        Log::info("Creating anilist resource '$anilistId' for anime '$anime->name'");
 
                         $anilistResource = ExternalResource::factory()->createOne([
                             ExternalResource::ATTRIBUTE_EXTERNAL_ID => $anilistId,
-                            ExternalResource::ATTRIBUTE_LINK => "https://anilist.co/anime/{$anilistId}/",
+                            ExternalResource::ATTRIBUTE_LINK => "https://anilist.co/anime/$anilistId/",
                             ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANILIST,
                         ]);
                     }
@@ -97,7 +97,7 @@ class AnilistAnimeResourceSeeder extends Seeder
                             ->where($anilistResource->getKeyName(), $anilistResource->getKey())
                             ->doesntExist()
                     ) {
-                        Log::info("Attaching resource '{$anilistResource->link}' to anime '{$anime->name}'");
+                        Log::info("Attaching resource '$anilistResource->link' to anime '$anime->name'");
                         $anilistResource->anime()->attach($anime);
                     }
                 } catch (RequestException $e) {

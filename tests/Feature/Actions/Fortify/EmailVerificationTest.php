@@ -22,7 +22,7 @@ class EmailVerificationTest extends TestCase
      *
      * @return void
      */
-    public function testEmailVerificationScreenCanBeRendered()
+    public function testEmailVerificationScreenCanBeRendered(): void
     {
         if (! Features::enabled(Features::emailVerification())) {
             static::markTestSkipped('Email verification not enabled.');
@@ -42,7 +42,7 @@ class EmailVerificationTest extends TestCase
      *
      * @return void
      */
-    public function testEmailCanBeVerified()
+    public function testEmailCanBeVerified(): void
     {
         if (! Features::enabled(Features::emailVerification())) {
             static::markTestSkipped('Email verification not enabled.');
@@ -73,7 +73,7 @@ class EmailVerificationTest extends TestCase
      *
      * @return void
      */
-    public function testEmailCanNotBeVerifiedWithInvalidHash()
+    public function testEmailCanNotBeVerifiedWithInvalidHash(): void
     {
         if (! Features::enabled(Features::emailVerification())) {
             static::markTestSkipped('Email verification not enabled.');

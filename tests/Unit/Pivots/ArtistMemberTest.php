@@ -22,7 +22,7 @@ class ArtistMemberTest extends TestCase
      *
      * @return void
      */
-    public function testArtist()
+    public function testArtist(): void
     {
         $artistMember = ArtistMember::factory()
             ->for(Artist::factory(), 'artist')
@@ -34,11 +34,11 @@ class ArtistMemberTest extends TestCase
     }
 
     /**
-     * An ArtistMember shall belong to an Member.
+     * An ArtistMember shall belong to a Member.
      *
      * @return void
      */
-    public function testMember()
+    public function testMember(): void
     {
         $artistMember = ArtistMember::factory()
             ->for(Artist::factory(), 'artist')

@@ -25,7 +25,7 @@ class ArtistSongSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Get JSON of Artist Index page content
         $artistWikiContents = WikiPages::getPageContents(WikiPages::ARTIST_INDEX);
@@ -128,7 +128,7 @@ class ArtistSongSeeder extends Seeder
                                     ->where($song->getKeyName(), $song->getKey())
                                     ->doesntExist()
                             ) {
-                                Log::info("Attaching song '{$song->title}' to artist '{$artist->name}'");
+                                Log::info("Attaching song '$song->title' to artist '$artist->name'");
                                 $artist->songs()->attach($song);
                             }
                         }

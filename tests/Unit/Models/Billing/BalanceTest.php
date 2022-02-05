@@ -16,11 +16,11 @@ use Tests\TestCase;
 class BalanceTest extends TestCase
 {
     /**
-     * The service attribute of an balance shall be cast to a Service enum instance.
+     * The service attribute of a balance shall be cast to a Service enum instance.
      *
      * @return void
      */
-    public function testCastsServiceToEnum()
+    public function testCastsServiceToEnum(): void
     {
         $balance = Balance::factory()->createOne();
 
@@ -30,11 +30,11 @@ class BalanceTest extends TestCase
     }
 
     /**
-     * The frequency attribute of an balance shall be cast to a Frequency enum instance.
+     * The frequency attribute of a balance shall be cast to a Frequency enum instance.
      *
      * @return void
      */
-    public function testCastsFrequencyToEnum()
+    public function testCastsFrequencyToEnum(): void
     {
         $balance = Balance::factory()->createOne();
 
@@ -48,7 +48,7 @@ class BalanceTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -62,7 +62,7 @@ class BalanceTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $balance = Balance::factory()->createOne();
 

@@ -133,7 +133,7 @@ class ExternalResource extends Resource
                 ->creationRules(Rule::unique(ExternalResourceModel::TABLE)->__toString())
                 ->updateRules(
                     Rule::unique(ExternalResourceModel::TABLE)
-                        ->ignore($request->resourceId, ExternalResourceModel::ATTRIBUTE_ID)
+                        ->ignore($request->route('resourceId'), ExternalResourceModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
                 ->help(__('nova.resource_link_help'))

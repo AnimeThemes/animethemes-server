@@ -22,7 +22,7 @@ class AnimeImageTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeImageCreatedSendsDiscordNotification()
+    public function testAnimeImageCreatedSendsDiscordNotification(): void
     {
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -40,7 +40,7 @@ class AnimeImageTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeImageDeletedSendsDiscordNotification()
+    public function testAnimeImageDeletedSendsDiscordNotification(): void
     {
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();

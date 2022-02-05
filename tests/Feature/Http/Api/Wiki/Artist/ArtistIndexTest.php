@@ -52,7 +52,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $this->withoutEvents();
 
@@ -77,7 +77,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPaginated()
+    public function testPaginated(): void
     {
         $this->withoutEvents();
 
@@ -97,7 +97,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths()
+    public function testAllowedIncludePaths(): void
     {
         $schema = new ArtistSchema();
 
@@ -136,7 +136,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $this->withoutEvents();
 
@@ -173,7 +173,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSorts()
+    public function testSorts(): void
     {
         $this->withoutEvents();
 
@@ -210,7 +210,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedAtFilter()
+    public function testCreatedAtFilter(): void
     {
         $this->withoutEvents();
 
@@ -255,7 +255,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testUpdatedAtFilter()
+    public function testUpdatedAtFilter(): void
     {
         $this->withoutEvents();
 
@@ -300,7 +300,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testWithoutTrashedFilter()
+    public function testWithoutTrashedFilter(): void
     {
         $this->withoutEvents();
 
@@ -341,7 +341,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testWithTrashedFilter()
+    public function testWithTrashedFilter(): void
     {
         $this->withoutEvents();
 
@@ -382,7 +382,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testOnlyTrashedFilter()
+    public function testOnlyTrashedFilter(): void
     {
         $this->withoutEvents();
 
@@ -423,7 +423,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDeletedAtFilter()
+    public function testDeletedAtFilter(): void
     {
         $this->withoutEvents();
 
@@ -475,7 +475,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testThemesByGroup()
+    public function testThemesByGroup(): void
     {
         $groupFilter = $this->faker->word();
         $excludedGroup = $this->faker->word();
@@ -530,7 +530,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testThemesBySequence()
+    public function testThemesBySequence(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -585,7 +585,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testThemesByType()
+    public function testThemesByType(): void
     {
         $typeFilter = ThemeType::getRandomInstance();
 
@@ -635,7 +635,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason()
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = AnimeSeason::getRandomInstance();
 
@@ -685,7 +685,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear()
+    public function testAnimeByYear(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;
@@ -741,7 +741,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testResourcesBySite()
+    public function testResourcesBySite(): void
     {
         $this->withoutEvents();
 
@@ -785,7 +785,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testImagesByFacet()
+    public function testImagesByFacet(): void
     {
         $this->withoutEvents();
 

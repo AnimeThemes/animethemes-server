@@ -25,7 +25,7 @@ class TransparencyTest extends TestCase
      *
      * @return void
      */
-    public function testView()
+    public function testView(): void
     {
         $response = $this->get(route('transparency.show'));
 
@@ -37,7 +37,7 @@ class TransparencyTest extends TestCase
      *
      * @return void
      */
-    public function testNullable()
+    public function testNullable(): void
     {
         $response = $this->get(route('transparency.show'));
 
@@ -49,7 +49,7 @@ class TransparencyTest extends TestCase
      *
      * @return void
      */
-    public function testDateFormatRule()
+    public function testDateFormatRule(): void
     {
         $date = $this->faker->word();
 
@@ -63,7 +63,7 @@ class TransparencyTest extends TestCase
      *
      * @return void
      */
-    public function testTransparencyDateRule()
+    public function testTransparencyDateRule(): void
     {
         Balance::factory()->create();
 
@@ -79,7 +79,7 @@ class TransparencyTest extends TestCase
      *
      * @return void
      */
-    public function testBalances()
+    public function testBalances(): void
     {
         Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -93,7 +93,7 @@ class TransparencyTest extends TestCase
      *
      * @return void
      */
-    public function testTransactions()
+    public function testTransactions(): void
     {
         Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -107,7 +107,7 @@ class TransparencyTest extends TestCase
      *
      * @return void
      */
-    public function testFilterOptions()
+    public function testFilterOptions(): void
     {
         Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -121,7 +121,7 @@ class TransparencyTest extends TestCase
      *
      * @return void
      */
-    public function testSelectedDate()
+    public function testSelectedDate(): void
     {
         Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 

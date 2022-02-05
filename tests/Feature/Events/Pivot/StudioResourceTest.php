@@ -23,7 +23,7 @@ class StudioResourceTest extends TestCase
      *
      * @return void
      */
-    public function testStudioResourceCreatedEventDispatched()
+    public function testStudioResourceCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -40,7 +40,7 @@ class StudioResourceTest extends TestCase
      *
      * @return void
      */
-    public function testStudioResourceDeletedEventDispatched()
+    public function testStudioResourceDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -58,7 +58,7 @@ class StudioResourceTest extends TestCase
      *
      * @return void
      */
-    public function testStudioResourceUpdatedEventDispatched()
+    public function testStudioResourceUpdatedEventDispatched(): void
     {
         Event::fake();
 

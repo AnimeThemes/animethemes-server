@@ -35,7 +35,7 @@ class TransactionTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFields()
+    public function testFields(): void
     {
         $transaction = static::novaResource(Transaction::class);
 
@@ -58,7 +58,7 @@ class TransactionTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testIdField()
+    public function testIdField(): void
     {
         $transaction = static::novaResource(Transaction::class);
 
@@ -80,7 +80,7 @@ class TransactionTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testCreatedAtField()
+    public function testCreatedAtField(): void
     {
         $transaction = static::novaResource(Transaction::class);
 
@@ -102,7 +102,7 @@ class TransactionTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testUpdatedAtField()
+    public function testUpdatedAtField(): void
     {
         $transaction = static::novaResource(Transaction::class);
 
@@ -124,7 +124,7 @@ class TransactionTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testDeletedAtField()
+    public function testDeletedAtField(): void
     {
         $transaction = static::novaResource(Transaction::class);
 
@@ -146,7 +146,7 @@ class TransactionTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testDateField()
+    public function testDateField(): void
     {
         $transaction = static::novaResource(Transaction::class);
 
@@ -169,7 +169,7 @@ class TransactionTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testServiceField()
+    public function testServiceField(): void
     {
         $transaction = static::novaResource(Transaction::class);
 
@@ -193,7 +193,7 @@ class TransactionTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testDescriptionField()
+    public function testDescriptionField(): void
     {
         $transaction = static::novaResource(Transaction::class);
 
@@ -217,7 +217,7 @@ class TransactionTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testAmountField()
+    public function testAmountField(): void
     {
         $transaction = static::novaResource(Transaction::class);
 
@@ -239,7 +239,7 @@ class TransactionTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFilters()
+    public function testFilters(): void
     {
         $resource = static::novaResource(Transaction::class);
 
@@ -259,7 +259,7 @@ class TransactionTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testActions()
+    public function testActions(): void
     {
         $resource = static::novaResource(Transaction::class);
 

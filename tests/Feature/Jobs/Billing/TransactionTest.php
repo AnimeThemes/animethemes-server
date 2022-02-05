@@ -17,11 +17,11 @@ use Tests\TestCase;
 class TransactionTest extends TestCase
 {
     /**
-     * When an transaction is created, a SendDiscordNotification job shall be dispatched.
+     * When a transaction is created, a SendDiscordNotification job shall be dispatched.
      *
      * @return void
      */
-    public function testTransactionCreatedSendsDiscordNotification()
+    public function testTransactionCreatedSendsDiscordNotification(): void
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -32,11 +32,11 @@ class TransactionTest extends TestCase
     }
 
     /**
-     * When an transaction is deleted, a SendDiscordNotification job shall be dispatched.
+     * When a transaction is deleted, a SendDiscordNotification job shall be dispatched.
      *
      * @return void
      */
-    public function testTransactionDeletedSendsDiscordNotification()
+    public function testTransactionDeletedSendsDiscordNotification(): void
     {
         $transaction = Transaction::factory()->createOne();
 
@@ -49,11 +49,11 @@ class TransactionTest extends TestCase
     }
 
     /**
-     * When an transaction is restored, a SendDiscordNotification job shall be dispatched.
+     * When a transaction is restored, a SendDiscordNotification job shall be dispatched.
      *
      * @return void
      */
-    public function testTransactionRestoredSendsDiscordNotification()
+    public function testTransactionRestoredSendsDiscordNotification(): void
     {
         $transaction = Transaction::factory()->createOne();
 
@@ -66,11 +66,11 @@ class TransactionTest extends TestCase
     }
 
     /**
-     * When an transaction is updated, a SendDiscordNotification job shall be dispatched.
+     * When a transaction is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void
      */
-    public function testTransactionUpdatedSendsDiscordNotification()
+    public function testTransactionUpdatedSendsDiscordNotification(): void
     {
         $transaction = Transaction::factory()->createOne();
 

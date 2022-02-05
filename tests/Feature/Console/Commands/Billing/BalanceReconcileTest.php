@@ -30,7 +30,7 @@ class BalanceReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testServiceArgumentRequired()
+    public function testServiceArgumentRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "service").');
@@ -43,11 +43,11 @@ class BalanceReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testOther()
+    public function testOther(): void
     {
         $other = Service::OTHER()->key;
 
-        $this->artisan(BalanceReconcileCommand::class, ['service' => $other])->expectsOutput("No source repository implemented for Service '{$other}'");
+        $this->artisan(BalanceReconcileCommand::class, ['service' => $other])->expectsOutput("No source repository implemented for Service '$other'");
     }
 
     /**
@@ -55,7 +55,7 @@ class BalanceReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testNoResults()
+    public function testNoResults(): void
     {
         $this->mock(DigitalOceanBalanceRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('all')->once()->andReturn(Collection::make());
@@ -69,7 +69,7 @@ class BalanceReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testCreated()
+    public function testCreated(): void
     {
         $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
 
@@ -86,7 +86,7 @@ class BalanceReconcileTest extends TestCase
             $mock->shouldReceive('all')->once()->andReturn($balances);
         });
 
-        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("{$createdBalanceCount} Balances created, 0 Balances deleted, 0 Balances updated");
+        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("$createdBalanceCount Balances created, 0 Balances deleted, 0 Balances updated");
     }
 
     /**
@@ -94,7 +94,7 @@ class BalanceReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted()
+    public function testDeleted(): void
     {
         $deletedBalanceCount = $this->faker->randomDigitNotNull();
 
@@ -109,7 +109,7 @@ class BalanceReconcileTest extends TestCase
             $mock->shouldReceive('all')->once()->andReturn(Collection::make());
         });
 
-        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Balances created, {$deletedBalanceCount} Balances deleted, 0 Balances updated");
+        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Balances created, $deletedBalanceCount Balances deleted, 0 Balances updated");
     }
 
     /**
@@ -117,7 +117,7 @@ class BalanceReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testUpdated()
+    public function testUpdated(): void
     {
         Balance::factory()
             ->create([

@@ -32,7 +32,7 @@ class SongTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFields()
+    public function testFields(): void
     {
         $resource = static::novaResource(Song::class);
 
@@ -51,7 +51,7 @@ class SongTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testIdField()
+    public function testIdField(): void
     {
         $resource = static::novaResource(Song::class);
 
@@ -73,7 +73,7 @@ class SongTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testCreatedAtField()
+    public function testCreatedAtField(): void
     {
         $resource = static::novaResource(Song::class);
 
@@ -95,7 +95,7 @@ class SongTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testUpdatedAtField()
+    public function testUpdatedAtField(): void
     {
         $resource = static::novaResource(Song::class);
 
@@ -117,7 +117,7 @@ class SongTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testDeletedAtField()
+    public function testDeletedAtField(): void
     {
         $resource = static::novaResource(Song::class);
 
@@ -139,7 +139,7 @@ class SongTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testTitleField()
+    public function testTitleField(): void
     {
         $resource = static::novaResource(Song::class);
 
@@ -162,7 +162,7 @@ class SongTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFilters()
+    public function testFilters(): void
     {
         $resource = static::novaResource(Song::class);
 
@@ -181,7 +181,7 @@ class SongTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testActions()
+    public function testActions(): void
     {
         $resource = static::novaResource(Song::class);
 

@@ -24,7 +24,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeCreatedEventDispatched()
+    public function testThemeCreatedEventDispatched(): void
     {
         Event::fakeExcept(ThemeCreating::class);
 
@@ -40,7 +40,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeDeletedEventDispatched()
+    public function testThemeDeletedEventDispatched(): void
     {
         Event::fakeExcept(ThemeCreating::class);
 
@@ -58,7 +58,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeRestoredEventDispatched()
+    public function testThemeRestoredEventDispatched(): void
     {
         Event::fakeExcept(ThemeCreating::class);
 
@@ -78,7 +78,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeRestoresQuietly()
+    public function testThemeRestoresQuietly(): void
     {
         Event::fakeExcept(ThemeCreating::class);
 
@@ -96,7 +96,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeUpdatedEventDispatched()
+    public function testThemeUpdatedEventDispatched(): void
     {
         Event::fakeExcept(ThemeCreating::class);
 

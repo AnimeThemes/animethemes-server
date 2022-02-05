@@ -65,7 +65,7 @@ class ArtistSongUpdated extends ArtistSongEvent implements DiscordMessageEvent, 
      *
      * @return void
      */
-    public function updateRelatedIndices()
+    public function updateRelatedIndices(): void
     {
         // refresh artist document
         $artist = $this->getArtist();

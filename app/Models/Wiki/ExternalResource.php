@@ -131,7 +131,7 @@ class ExternalResource extends BaseModel
     }
 
     /**
-     * Get the studios that references this resource.
+     * Get the studios that reference this resource.
      *
      * @return BelongsToMany
      */

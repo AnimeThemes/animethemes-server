@@ -29,7 +29,7 @@ class AnimeThemeSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         foreach (WikiPages::YEAR_MAP as $yearPage => $years) {
             // Try not to upset Reddit
@@ -110,7 +110,7 @@ class AnimeThemeSeeder extends Seeder
                             ->where(AnimeSynonym::ATTRIBUTE_TEXT, $text)
                             ->doesntExist()
                         ) {
-                            Log::info("Creating synonym '{$text}' for anime '{$anime->name}'");
+                            Log::info("Creating synonym '$text' for anime '$anime->name'");
                             $anime->animesynonyms()->create([
                                 AnimeSynonym::ATTRIBUTE_TEXT => $text,
                             ]);
@@ -163,7 +163,7 @@ class AnimeThemeSeeder extends Seeder
                             ->first();
 
                         if (! $theme instanceof AnimeTheme) {
-                            Log::info("Creating theme for anime '{$anime->name}'");
+                            Log::info("Creating theme for anime '$anime->name'");
                             $theme = AnimeTheme::factory()
                                 ->for($anime)
                                 ->createOne([
@@ -176,7 +176,7 @@ class AnimeThemeSeeder extends Seeder
 
                             // Save theme if needed
                             if ($theme->isDirty()) {
-                                Log::info("Saving theme {$theme->slug} for anime '{$anime->name}'");
+                                Log::info("Saving theme $theme->slug for anime '$anime->name'");
                                 Log::info(json_encode($theme->getDirty()));
                                 $theme->save();
                             }
@@ -185,7 +185,7 @@ class AnimeThemeSeeder extends Seeder
                         // Create Song if it doesn't exist
                         $song = $theme->song;
                         if ($song === null) {
-                            Log::info("Creating song for anime '{$anime->name}'");
+                            Log::info("Creating song for anime '$anime->name'");
                             $song = Song::factory()
                                 ->createOne([
                                     Song::ATTRIBUTE_TITLE => $songTitle,
@@ -196,7 +196,7 @@ class AnimeThemeSeeder extends Seeder
 
                             // Save song if needed
                             if ($song->isDirty()) {
-                                Log::info("Saving song for anime '{$anime->name}'");
+                                Log::info("Saving song for anime '$anime->name'");
                                 Log::info(json_encode($song->getDirty()));
                                 $song->save();
                             }
@@ -258,7 +258,7 @@ class AnimeThemeSeeder extends Seeder
             ->first();
 
         if (! $entry instanceof AnimeThemeEntry) {
-            Log::info("Creating entry for theme '{$theme->slug}' for anime '{$theme->anime->name}'");
+            Log::info("Creating entry for theme '$theme->slug' for anime '{$theme->anime->name}'");
             $entry = AnimeThemeEntry::factory()
                 ->for($theme)
                 ->createOne([
@@ -277,7 +277,7 @@ class AnimeThemeSeeder extends Seeder
 
             // Save entry if needed
             if ($entry->isDirty()) {
-                Log::info("Saving entry for theme '{$theme->slug}' for anime '{$theme->anime->name}'");
+                Log::info("Saving entry for theme '$theme->slug' for anime '{$theme->anime->name}'");
                 Log::info(json_encode($entry->getDirty()));
                 $entry->save();
             }
@@ -293,7 +293,7 @@ class AnimeThemeSeeder extends Seeder
      * @param  AnimeThemeEntry  $entry
      * @return void
      */
-    protected static function attachVideoToEntry(string $videoBasename, AnimeThemeEntry $entry)
+    protected static function attachVideoToEntry(string $videoBasename, AnimeThemeEntry $entry): void
     {
         $video = Video::query()->where(Video::ATTRIBUTE_BASENAME, $videoBasename)->first();
         if ($video instanceof Video && AnimeThemeEntryVideo::query()
@@ -301,7 +301,7 @@ class AnimeThemeSeeder extends Seeder
                 ->where($video->getKeyName(), $video->getKey())
                 ->doesntExist()
         ) {
-            Log::info("Attaching video '{$video->basename}' to entry '{$entry->getName()}'");
+            Log::info("Attaching video '$video->basename' to entry '{$entry->getName()}'");
             $entry->videos()->attach($video);
         }
     }

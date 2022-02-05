@@ -21,7 +21,7 @@ class SearchParserTest extends TestCase
      *
      * @return void
      */
-    public function testNoCriteriaByDefault()
+    public function testNoCriteriaByDefault(): void
     {
         $parameters = [];
 
@@ -33,7 +33,7 @@ class SearchParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseSearchCriteria()
+    public function testParseSearchCriteria(): void
     {
         $parameters = [
             SearchParser::$param => $this->faker->word(),
@@ -49,7 +49,7 @@ class SearchParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseSearchCriteriaTerm()
+    public function testParseSearchCriteriaTerm(): void
     {
         $term = $this->faker->word();
 

@@ -41,7 +41,7 @@ class ArtistShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $this->withoutEvents();
 
@@ -66,7 +66,7 @@ class ArtistShowTest extends TestCase
      *
      * @return void
      */
-    public function testSoftDelete()
+    public function testSoftDelete(): void
     {
         $this->withoutEvents();
 
@@ -95,7 +95,7 @@ class ArtistShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths()
+    public function testAllowedIncludePaths(): void
     {
         $schema = new ArtistSchema();
 
@@ -131,7 +131,7 @@ class ArtistShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $this->withoutEvents();
 
@@ -168,7 +168,7 @@ class ArtistShowTest extends TestCase
      *
      * @return void
      */
-    public function testThemesByGroup()
+    public function testThemesByGroup(): void
     {
         $groupFilter = $this->faker->word();
         $excludedGroup = $this->faker->word();
@@ -222,7 +222,7 @@ class ArtistShowTest extends TestCase
      *
      * @return void
      */
-    public function testThemesBySequence()
+    public function testThemesBySequence(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -276,7 +276,7 @@ class ArtistShowTest extends TestCase
      *
      * @return void
      */
-    public function testThemesByType()
+    public function testThemesByType(): void
     {
         $typeFilter = ThemeType::getRandomInstance();
 
@@ -325,7 +325,7 @@ class ArtistShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason()
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = AnimeSeason::getRandomInstance();
 
@@ -374,7 +374,7 @@ class ArtistShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear()
+    public function testAnimeByYear(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;
@@ -429,7 +429,7 @@ class ArtistShowTest extends TestCase
      *
      * @return void
      */
-    public function testResourcesBySite()
+    public function testResourcesBySite(): void
     {
         $this->withoutEvents();
 
@@ -472,7 +472,7 @@ class ArtistShowTest extends TestCase
      *
      * @return void
      */
-    public function testImagesByFacet()
+    public function testImagesByFacet(): void
     {
         $this->withoutEvents();
 

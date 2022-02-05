@@ -55,16 +55,16 @@ class VideoReconcileCommand extends Command
      *
      * @return void
      */
-    protected function postReconciliationTask()
+    protected function postReconciliationTask(): void
     {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
-                Log::info("{$this->created} Videos created, {$this->deleted} Videos deleted, {$this->updated} Videos updated");
-                $this->info("{$this->created} Videos created, {$this->deleted} Videos deleted, {$this->updated} Videos updated");
+                Log::info("$this->created Videos created, $this->deleted Videos deleted, $this->updated Videos updated");
+                $this->info("$this->created Videos created, $this->deleted Videos deleted, $this->updated Videos updated");
             }
             if ($this->hasFailures()) {
-                Log::error("Failed to create {$this->createdFailed} Videos, delete {$this->deletedFailed} Videos, update {$this->updatedFailed} Videos");
-                $this->error("Failed to create {$this->createdFailed} Videos, delete {$this->deletedFailed} Videos, update {$this->updatedFailed} Videos");
+                Log::error("Failed to create $this->createdFailed Videos, delete $this->deletedFailed Videos, update $this->updatedFailed Videos");
+                $this->error("Failed to create $this->createdFailed Videos, delete $this->deletedFailed Videos, update $this->updatedFailed Videos");
             }
         } else {
             Log::info('No Videos created or deleted or updated');
@@ -78,7 +78,7 @@ class VideoReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleCreated(BaseModel $model)
+    protected function handleCreated(BaseModel $model): void
     {
         Log::info("Video '{$model->getName()}' created");
         $this->info("Video '{$model->getName()}' created");
@@ -90,7 +90,7 @@ class VideoReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedCreation(BaseModel $model)
+    protected function handleFailedCreation(BaseModel $model): void
     {
         Log::error("Video '{$model->getName()}' was not created");
         $this->error("Video '{$model->getName()}' was not created");
@@ -102,7 +102,7 @@ class VideoReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleDeleted(BaseModel $model)
+    protected function handleDeleted(BaseModel $model): void
     {
         Log::info("Video '{$model->getName()}' deleted");
         $this->info("Video '{$model->getName()}' deleted");
@@ -114,7 +114,7 @@ class VideoReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedDeletion(BaseModel $model)
+    protected function handleFailedDeletion(BaseModel $model): void
     {
         Log::error("Video '{$model->getName()}' was not deleted");
         $this->error("Video '{$model->getName()}' was not deleted");
@@ -126,7 +126,7 @@ class VideoReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleUpdated(BaseModel $model)
+    protected function handleUpdated(BaseModel $model): void
     {
         Log::info("Video '{$model->getName()}' updated");
         $this->info("Video '{$model->getName()}' updated");
@@ -138,7 +138,7 @@ class VideoReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedUpdate(BaseModel $model)
+    protected function handleFailedUpdate(BaseModel $model): void
     {
         Log::error("Video '{$model->getName()}' was not updated");
         $this->error("Video '{$model->getName()}' was not updated");
@@ -150,7 +150,7 @@ class VideoReconcileCommand extends Command
      * @param  Exception  $exception
      * @return void
      */
-    protected function handleException(Exception $exception)
+    protected function handleException(Exception $exception): void
     {
         Log::error($exception->getMessage());
         $this->error($exception->getMessage());

@@ -16,7 +16,7 @@ class SitemapTest extends TestCase
      *
      * @return void
      */
-    public function testSitemapIndex()
+    public function testSitemapIndex(): void
     {
         $response = $this->get(route('sitemap'));
 
@@ -24,11 +24,11 @@ class SitemapTest extends TestCase
     }
 
     /**
-     * The sitemap index shall display the donate route.
+     * The sitemap index shall display donate route.
      *
      * @return void
      */
-    public function testDonate()
+    public function testDonate(): void
     {
         $response = $this->get(route('sitemap'));
 
@@ -40,7 +40,7 @@ class SitemapTest extends TestCase
      *
      * @return void
      */
-    public function testFaq()
+    public function testFaq(): void
     {
         $response = $this->get(route('sitemap'));
 
@@ -52,7 +52,7 @@ class SitemapTest extends TestCase
      *
      * @return void
      */
-    public function testPolicy()
+    public function testPolicy(): void
     {
         $response = $this->get(route('sitemap'));
 
@@ -64,7 +64,7 @@ class SitemapTest extends TestCase
      *
      * @return void
      */
-    public function testTerms()
+    public function testTerms(): void
     {
         $response = $this->get(route('sitemap'));
 
@@ -76,7 +76,7 @@ class SitemapTest extends TestCase
      *
      * @return void
      */
-    public function testTransparency()
+    public function testTransparency(): void
     {
         $response = $this->get(route('sitemap'));
 
@@ -88,7 +88,7 @@ class SitemapTest extends TestCase
      *
      * @return void
      */
-    public function testWelcome()
+    public function testWelcome(): void
     {
         $response = $this->get(route('sitemap'));
 
@@ -100,7 +100,7 @@ class SitemapTest extends TestCase
      *
      * @return void
      */
-    public function testWiki()
+    public function testWiki(): void
     {
         $response = $this->get(route('sitemap'));
 
@@ -112,7 +112,7 @@ class SitemapTest extends TestCase
      *
      * @return void
      */
-    public function testCommunitySitemap()
+    public function testCommunitySitemap(): void
     {
         $response = $this->get(route('sitemap'));
 
@@ -124,7 +124,7 @@ class SitemapTest extends TestCase
      *
      * @return void
      */
-    public function testEncodingSitemap()
+    public function testEncodingSitemap(): void
     {
         $response = $this->get(route('sitemap'));
 
@@ -136,7 +136,7 @@ class SitemapTest extends TestCase
      *
      * @return void
      */
-    public function testEventSitemap()
+    public function testEventSitemap(): void
     {
         $response = $this->get(route('sitemap'));
 
@@ -148,7 +148,7 @@ class SitemapTest extends TestCase
      *
      * @return void
      */
-    public function testGuidelinesSitemap()
+    public function testGuidelinesSitemap(): void
     {
         $response = $this->get(route('sitemap'));
 

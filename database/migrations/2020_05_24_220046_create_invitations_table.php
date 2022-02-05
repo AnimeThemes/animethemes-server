@@ -19,7 +19,7 @@ class CreateInvitationsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(Invitation::TABLE, function (Blueprint $table) {
             $table->id(Invitation::ATTRIBUTE_ID);
@@ -36,7 +36,7 @@ class CreateInvitationsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(Invitation::TABLE);
     }

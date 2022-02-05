@@ -21,7 +21,7 @@ class ArtistSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Get JSON of Artist Index page content
         $artistWikiContents = WikiPages::getPageContents(WikiPages::ARTIST_INDEX);
@@ -50,7 +50,7 @@ class ArtistSeeder extends Seeder
                 ->first();
 
             if ($artist === null) {
-                Log::info("Creating artist with name '{$artistName}' and slug '{$artistSlug}'");
+                Log::info("Creating artist with name '$artistName' and slug '$artistSlug'");
 
                 $artist = Artist::factory()->createOne([
                     Artist::ATTRIBUTE_NAME => $artistName,
@@ -72,7 +72,7 @@ class ArtistSeeder extends Seeder
             // Format: "##[{Artist Name}]({Resource Link})"
             preg_match('/##\[.*]\((https:\/\/.*)\)/m', $artistResourceWikiContents, $artistResourceEntry);
             $artistResourceLink = html_entity_decode($artistResourceEntry[1]);
-            preg_match('/([0-9]+)/', $artistResourceLink, $externalId);
+            preg_match('/(\d+)/', $artistResourceLink, $externalId);
             $resourceSite = ResourceSite::valueOf($artistResourceLink);
 
             // Create Resource Model with link and derived site
@@ -83,7 +83,7 @@ class ArtistSeeder extends Seeder
                 ->first();
 
             if ($resource === null) {
-                Log::info("Creating resource with site '{$resourceSite?->description}' and link '{$artistResourceLink}'");
+                Log::info("Creating resource with site '$resourceSite?->description' and link '$artistResourceLink'");
 
                 $resource = ExternalResource::factory()->createOne([
                     ExternalResource::ATTRIBUTE_EXTERNAL_ID => intval($externalId[1]),
@@ -98,7 +98,7 @@ class ArtistSeeder extends Seeder
                 ->where($resource->getKeyName(), $resource->getKey())
                 ->doesntExist()
             ) {
-                Log::info("Attaching resource '{$resource->link}' to artist '{$artist->name}'");
+                Log::info("Attaching resource '$resource->link' to artist '$artist->name'");
                 $resource->artists()->attach($artist);
             }
         }

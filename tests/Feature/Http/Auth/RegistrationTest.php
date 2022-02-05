@@ -24,7 +24,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function testHasClosedInvitationForRegistrationForm()
+    public function testHasClosedInvitationForRegistrationForm(): void
     {
         $invitation = Invitation::factory()->create([
             Invitation::ATTRIBUTE_STATUS => InvitationStatus::CLOSED,
@@ -47,7 +47,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function testHasSoftDeletedInvitationForRegistrationForm()
+    public function testHasSoftDeletedInvitationForRegistrationForm(): void
     {
         $invitation = Invitation::factory()->create();
 
@@ -70,7 +70,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function testHasInvitationForRegistrationForm()
+    public function testHasInvitationForRegistrationForm(): void
     {
         $invitation = Invitation::factory()->create();
 
@@ -91,7 +91,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function testHasClosedInvitationForRegistration()
+    public function testHasClosedInvitationForRegistration(): void
     {
         $invitation = Invitation::factory()->create([
             Invitation::ATTRIBUTE_STATUS => InvitationStatus::CLOSED,
@@ -114,7 +114,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function testHasInvitationForRegistration()
+    public function testHasInvitationForRegistration(): void
     {
         $invitation = Invitation::factory()->create();
 
@@ -134,7 +134,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function testPasswordRequiredValidationForRegistration()
+    public function testPasswordRequiredValidationForRegistration(): void
     {
         $invitation = Invitation::factory()->create();
 
@@ -154,7 +154,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function testPasswordLengthValidationForRegistration()
+    public function testPasswordLengthValidationForRegistration(): void
     {
         $invitation = Invitation::factory()->create();
 
@@ -174,7 +174,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function testPasswordConfirmationValidationForRegistration()
+    public function testPasswordConfirmationValidationForRegistration(): void
     {
         $invitation = Invitation::factory()->create();
 
@@ -199,7 +199,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function testPasswordStrengthValidationForRegistration()
+    public function testPasswordStrengthValidationForRegistration(): void
     {
         $invitation = Invitation::factory()->create();
 
@@ -226,7 +226,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function testTermAcceptanceRequiredForRegistration()
+    public function testTermAcceptanceRequiredForRegistration(): void
     {
         $invitation = Invitation::factory()->create();
 
@@ -252,7 +252,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function testRedirectToDashboardForValidRegistration()
+    public function testRedirectToDashboardForValidRegistration(): void
     {
         $invitation = Invitation::factory()->create();
 
@@ -279,7 +279,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function testUserCreatedForValidRegistration()
+    public function testUserCreatedForValidRegistration(): void
     {
         $invitation = Invitation::factory()->createOne();
 
@@ -311,7 +311,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function testUserAuthenticatedForValidRegistration()
+    public function testUserAuthenticatedForValidRegistration(): void
     {
         $invitation = Invitation::factory()->createOne();
 

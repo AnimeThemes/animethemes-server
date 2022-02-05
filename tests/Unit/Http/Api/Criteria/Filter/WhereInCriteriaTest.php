@@ -26,7 +26,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testGlobalScope()
+    public function testGlobalScope(): void
     {
         $criteria = WhereInCriteria::make($this->faker->word(), $this->faker->word());
 
@@ -38,7 +38,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testScope()
+    public function testScope(): void
     {
         $type = Str::of(Str::random())->lower()->singular()->__toString();
 
@@ -56,7 +56,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testField()
+    public function testField(): void
     {
         $field = $this->faker->word();
 
@@ -70,7 +70,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testComparisonOperator()
+    public function testComparisonOperator(): void
     {
         $operator = ComparisonOperator::getRandomInstance();
 
@@ -91,7 +91,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testDefaultLogicalOperator()
+    public function testDefaultLogicalOperator(): void
     {
         $criteria = WhereInCriteria::make($this->faker->word(), $this->faker->word());
 
@@ -103,7 +103,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testLogicalOperator()
+    public function testLogicalOperator(): void
     {
         $operator = BinaryLogicalOperator::getRandomInstance();
 
@@ -119,7 +119,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testDefaultUnaryOperator()
+    public function testDefaultUnaryOperator(): void
     {
         $criteria = WhereInCriteria::make($this->faker->word(), $this->faker->word());
 
@@ -131,7 +131,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testUnaryOperator()
+    public function testUnaryOperator(): void
     {
         $filterParam = Str::of($this->faker->word())
             ->append('.')

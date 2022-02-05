@@ -72,7 +72,7 @@ abstract class EloquentQuery extends Query
             }
         }
 
-        // special case: only apply has filter to top-level models
+        // special case: only apply HasFilter to top-level models
         if (! empty($schema->allowedIncludes())) {
             $hasFilter = new HasFilter($schema->allowedIncludes());
             foreach ($this->getFilterCriteria() as $criteria) {

@@ -30,7 +30,7 @@ class SearchTest extends TestCase
      *
      * @return void
      */
-    public function testNoSearchTerm()
+    public function testNoSearchTerm(): void
     {
         $response = $this->get(route('api.search.show'));
 
@@ -42,7 +42,7 @@ class SearchTest extends TestCase
      *
      * @return void
      */
-    public function testSearchAttributes()
+    public function testSearchAttributes(): void
     {
         $q = $this->faker->word();
 
@@ -70,7 +70,7 @@ class SearchTest extends TestCase
      *
      * @return void
      */
-    public function testSearchSparseFieldsets()
+    public function testSearchSparseFieldsets(): void
     {
         $fields = [
             AnimeCollection::$wrap,

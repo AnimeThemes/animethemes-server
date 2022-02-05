@@ -33,7 +33,7 @@ class AddTeamMember implements AddsTeamMembers
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    public function add(mixed $user, mixed $team, string $email, string $role = null)
+    public function add(mixed $user, mixed $team, string $email, string $role = null): void
     {
         Gate::forUser($user)->authorize('addTeamMember', $team);
 
@@ -61,7 +61,7 @@ class AddTeamMember implements AddsTeamMembers
      *
      * @throws ValidationException
      */
-    protected function validate(mixed $team, string $email, ?string $role)
+    protected function validate(mixed $team, string $email, ?string $role): void
     {
         Validator::make([
             'email' => $email,

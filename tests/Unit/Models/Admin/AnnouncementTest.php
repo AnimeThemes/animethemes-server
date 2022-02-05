@@ -18,7 +18,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -32,7 +32,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $announcement = Announcement::factory()->createOne();
 

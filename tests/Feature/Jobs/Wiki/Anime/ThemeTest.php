@@ -22,7 +22,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeCreatedSendsDiscordNotification()
+    public function testThemeCreatedSendsDiscordNotification(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -39,7 +39,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeDeletedSendsDiscordNotification()
+    public function testThemeDeletedSendsDiscordNotification(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -58,7 +58,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeRestoredSendsDiscordNotification()
+    public function testThemeRestoredSendsDiscordNotification(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -77,7 +77,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeUpdatedSendsDiscordNotification()
+    public function testThemeUpdatedSendsDiscordNotification(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())

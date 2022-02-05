@@ -29,7 +29,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testCastsSeasonToEnum()
+    public function testCastsSeasonToEnum(): void
     {
         $resource = ExternalResource::factory()->createOne();
 
@@ -43,7 +43,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -57,7 +57,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $resource = ExternalResource::factory()->createOne();
 
@@ -69,7 +69,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testAnime()
+    public function testAnime(): void
     {
         $animeCount = $this->faker->randomDigitNotNull();
 
@@ -88,7 +88,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testArtists()
+    public function testArtists(): void
     {
         $artistCount = $this->faker->randomDigitNotNull();
 
@@ -103,11 +103,11 @@ class ExternalResourceTest extends TestCase
     }
 
     /**
-     * Resource shall have a many-to-many relationshop with the type Studio.
+     * Resource shall have a many-to-many relationship with the type Studio.
      *
      * @return void
      */
-    public function testStudio()
+    public function testStudio(): void
     {
         $studioCount = $this->faker->randomDigitNotNull();
 

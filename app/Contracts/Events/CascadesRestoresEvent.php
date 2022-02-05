@@ -14,5 +14,5 @@ interface CascadesRestoresEvent
      *
      * @return void
      */
-    public function cascadeRestores();
+    public function cascadeRestores(): void;
 }

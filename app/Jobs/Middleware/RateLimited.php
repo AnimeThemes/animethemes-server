@@ -24,7 +24,7 @@ class RateLimited
      *
      * @throws LimiterTimeoutException
      */
-    public function handle(mixed $job, callable $next)
+    public function handle(mixed $job, callable $next): void
     {
         if ($this->appUsesRedis()) {
             Redis::throttle('key')

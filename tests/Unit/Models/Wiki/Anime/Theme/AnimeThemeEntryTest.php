@@ -28,7 +28,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testSearchableAs()
+    public function testSearchableAs(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -42,7 +42,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testToSearchableArray()
+    public function testToSearchableArray(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -56,7 +56,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -72,7 +72,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -86,7 +86,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testTheme()
+    public function testTheme(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -101,7 +101,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testVideos()
+    public function testVideos(): void
     {
         $videoCount = $this->faker->randomDigitNotNull();
 
@@ -121,7 +121,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testAnime()
+    public function testAnime(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))

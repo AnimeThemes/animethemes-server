@@ -53,7 +53,7 @@ class AnimeThemeEntryAnimeThemeDeletedVideo extends AnimeThemeEntryVideoEvent im
      *
      * @return void
      */
-    public function updateRelatedIndices()
+    public function updateRelatedIndices(): void
     {
         // refresh video document
         $video = $this->getVideo();

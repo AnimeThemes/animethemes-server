@@ -121,7 +121,7 @@ class Invitation extends Resource
                 ->creationRules(Rule::unique(InvitationModel::TABLE)->__toString())
                 ->updateRules(
                     Rule::unique(InvitationModel::TABLE)
-                        ->ignore($request->resourceId, InvitationModel::ATTRIBUTE_ID)
+                        ->ignore($request->get('resourceId'), InvitationModel::ATTRIBUTE_ID)
                         ->__toString()
                 ),
 

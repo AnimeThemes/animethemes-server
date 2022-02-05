@@ -20,7 +20,7 @@ class CreateApiTokenTest extends TestCase
      *
      * @return void
      */
-    public function testApiTokensCanBeCreated()
+    public function testApiTokensCanBeCreated(): void
     {
         if (! Features::hasApiFeatures()) {
             static::markTestSkipped('API support is not enabled.');

@@ -37,7 +37,7 @@ class ExternalResourceTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFields()
+    public function testFields(): void
     {
         $resource = static::novaResource(ExternalResource::class);
 
@@ -58,7 +58,7 @@ class ExternalResourceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testIdField()
+    public function testIdField(): void
     {
         $resource = static::novaResource(ExternalResource::class);
 
@@ -80,7 +80,7 @@ class ExternalResourceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testCreatedAtField()
+    public function testCreatedAtField(): void
     {
         $resource = static::novaResource(ExternalResource::class);
 
@@ -102,7 +102,7 @@ class ExternalResourceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testUpdatedAtField()
+    public function testUpdatedAtField(): void
     {
         $resource = static::novaResource(ExternalResource::class);
 
@@ -124,7 +124,7 @@ class ExternalResourceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testDeletedAtField()
+    public function testDeletedAtField(): void
     {
         $resource = static::novaResource(ExternalResource::class);
 
@@ -146,7 +146,7 @@ class ExternalResourceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testSiteField()
+    public function testSiteField(): void
     {
         $resource = static::novaResource(ExternalResource::class);
 
@@ -170,7 +170,7 @@ class ExternalResourceTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testLinkField()
+    public function testLinkField(): void
     {
         $resource = static::novaResource(ExternalResource::class);
 
@@ -190,14 +190,14 @@ class ExternalResourceTest extends TestCase
     }
 
     /**
-     * The External Resource shall contain an External Id field.
+     * The External Resource shall contain an External ID field.
      *
      * @return void
      *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testExternalIdField()
+    public function testExternalIdField(): void
     {
         $resource = static::novaResource(ExternalResource::class);
 
@@ -220,7 +220,7 @@ class ExternalResourceTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFilters()
+    public function testFilters(): void
     {
         $resource = static::novaResource(ExternalResource::class);
 
@@ -240,7 +240,7 @@ class ExternalResourceTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testActions()
+    public function testActions(): void
     {
         $resource = static::novaResource(ExternalResource::class);
 

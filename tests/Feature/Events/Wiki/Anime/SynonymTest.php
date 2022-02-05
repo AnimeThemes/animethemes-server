@@ -23,7 +23,7 @@ class SynonymTest extends TestCase
      *
      * @return void
      */
-    public function testSynonymCreatedEventDispatched()
+    public function testSynonymCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -39,7 +39,7 @@ class SynonymTest extends TestCase
      *
      * @return void
      */
-    public function testSynonymDeletedEventDispatched()
+    public function testSynonymDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -57,7 +57,7 @@ class SynonymTest extends TestCase
      *
      * @return void
      */
-    public function testSynonymRestoredEventDispatched()
+    public function testSynonymRestoredEventDispatched(): void
     {
         Event::fake();
 
@@ -77,7 +77,7 @@ class SynonymTest extends TestCase
      *
      * @return void
      */
-    public function testSynonymRestoresQuietly()
+    public function testSynonymRestoresQuietly(): void
     {
         Event::fake();
 
@@ -95,7 +95,7 @@ class SynonymTest extends TestCase
      *
      * @return void
      */
-    public function testSynonymUpdatedEventDispatched()
+    public function testSynonymUpdatedEventDispatched(): void
     {
         Event::fake();
 

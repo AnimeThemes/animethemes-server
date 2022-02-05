@@ -22,7 +22,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageCreatedEventDispatched()
+    public function testImageCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -36,7 +36,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageDeletedEventDispatched()
+    public function testImageDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -52,7 +52,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageRestoredEventDispatched()
+    public function testImageRestoredEventDispatched(): void
     {
         Event::fake();
 
@@ -70,7 +70,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageRestoresQuietly()
+    public function testImageRestoresQuietly(): void
     {
         Event::fake();
 
@@ -86,7 +86,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageUpdatedEventDispatched()
+    public function testImageUpdatedEventDispatched(): void
     {
         Event::fake();
 

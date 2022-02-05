@@ -33,7 +33,7 @@ class QueryTest extends TestCase
      *
      * @return void
      */
-    public function testGetFieldCriteria()
+    public function testGetFieldCriteria(): void
     {
         $type = $this->faker->word();
 
@@ -53,7 +53,7 @@ class QueryTest extends TestCase
      *
      * @return void
      */
-    public function testGetIncludeCriteria()
+    public function testGetIncludeCriteria(): void
     {
         $parameters = [
             IncludeParser::$param => $this->faker->word(),
@@ -69,7 +69,7 @@ class QueryTest extends TestCase
      *
      * @return void
      */
-    public function testGetIncludeResourceCriteria()
+    public function testGetIncludeResourceCriteria(): void
     {
         $type = $this->faker->word();
 
@@ -89,7 +89,7 @@ class QueryTest extends TestCase
      *
      * @return void
      */
-    public function testGetSortCriteria()
+    public function testGetSortCriteria(): void
     {
         $fields = collect($this->faker()->words($this->faker->randomDigitNotNull()));
 
@@ -107,7 +107,7 @@ class QueryTest extends TestCase
      *
      * @return void
      */
-    public function testGetFilterCriteria()
+    public function testGetFilterCriteria(): void
     {
         $filterCount = $this->faker->randomDigitNotNull();
 
@@ -126,7 +126,7 @@ class QueryTest extends TestCase
      *
      * @return void
      */
-    public function testDoesNotHaveSearch()
+    public function testDoesNotHaveSearch(): void
     {
         $parameters = [];
 
@@ -140,7 +140,7 @@ class QueryTest extends TestCase
      *
      * @return void
      */
-    public function testHasSearch()
+    public function testHasSearch(): void
     {
         $parameters = [
             SearchParser::$param => $this->faker->word(),
@@ -156,7 +156,7 @@ class QueryTest extends TestCase
      *
      * @return void
      */
-    public function testNullSearch()
+    public function testNullSearch(): void
     {
         $parameters = [];
 
@@ -170,7 +170,7 @@ class QueryTest extends TestCase
      *
      * @return void
      */
-    public function testGetSearch()
+    public function testGetSearch(): void
     {
         $parameters = [
             SearchParser::$param => $this->faker->word(),
@@ -186,7 +186,7 @@ class QueryTest extends TestCase
      *
      * @return void
      */
-    public function testGetLimitCriteria()
+    public function testGetLimitCriteria(): void
     {
         $parameters = [];
 
@@ -200,7 +200,7 @@ class QueryTest extends TestCase
      *
      * @return void
      */
-    public function testGetOffsetCriteria()
+    public function testGetOffsetCriteria(): void
     {
         $parameters = [];
 

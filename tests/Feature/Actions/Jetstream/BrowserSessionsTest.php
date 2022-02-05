@@ -19,7 +19,7 @@ class BrowserSessionsTest extends TestCase
      *
      * @return void
      */
-    public function testOtherBrowserSessionsCanBeLoggedOut()
+    public function testOtherBrowserSessionsCanBeLoggedOut(): void
     {
         $this->actingAs(User::factory()->createOne());
 

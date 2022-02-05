@@ -25,7 +25,7 @@ class VideoSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $sourceRepository = App::make(VideoSourceRepository::class);
 
@@ -39,14 +39,14 @@ class VideoSeeder extends Seeder
      *
      * @return void
      */
-    protected function postReconciliationTask()
+    protected function postReconciliationTask(): void
     {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
-                Log::info("{$this->created} Videos created, {$this->deleted} Videos deleted, {$this->updated} Videos updated");
+                Log::info("$this->created Videos created, $this->deleted Videos deleted, $this->updated Videos updated");
             }
             if ($this->hasFailures()) {
-                Log::error("Failed to create {$this->createdFailed} Videos, delete {$this->deletedFailed} Videos, update {$this->updatedFailed} Videos");
+                Log::error("Failed to create $this->createdFailed Videos, delete $this->deletedFailed Videos, update $this->updatedFailed Videos");
             }
         } else {
             Log::info('No Videos created or deleted or updated');
@@ -59,7 +59,7 @@ class VideoSeeder extends Seeder
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleCreated(BaseModel $model)
+    protected function handleCreated(BaseModel $model): void
     {
         Log::info("Video '{$model->getName()}' created");
     }
@@ -70,7 +70,7 @@ class VideoSeeder extends Seeder
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedCreation(BaseModel $model)
+    protected function handleFailedCreation(BaseModel $model): void
     {
         Log::error("Video '{$model->getName()}' was not created");
     }
@@ -81,7 +81,7 @@ class VideoSeeder extends Seeder
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleDeleted(BaseModel $model)
+    protected function handleDeleted(BaseModel $model): void
     {
         Log::info("Video '{$model->getName()}' deleted");
     }
@@ -92,7 +92,7 @@ class VideoSeeder extends Seeder
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedDeletion(BaseModel $model)
+    protected function handleFailedDeletion(BaseModel $model): void
     {
         Log::error("Video '{$model->getName()}' was not deleted");
     }
@@ -103,7 +103,7 @@ class VideoSeeder extends Seeder
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleUpdated(BaseModel $model)
+    protected function handleUpdated(BaseModel $model): void
     {
         Log::info("Video '{$model->getName()}' updated");
     }
@@ -114,7 +114,7 @@ class VideoSeeder extends Seeder
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedUpdate(BaseModel $model)
+    protected function handleFailedUpdate(BaseModel $model): void
     {
         Log::error("Video '{$model->getName()}' was not updated");
     }
@@ -125,7 +125,7 @@ class VideoSeeder extends Seeder
      * @param  Exception  $exception
      * @return void
      */
-    protected function handleException(Exception $exception)
+    protected function handleException(Exception $exception): void
     {
         Log::error($exception->getMessage());
     }

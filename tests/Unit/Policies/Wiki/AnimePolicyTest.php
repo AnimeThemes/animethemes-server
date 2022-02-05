@@ -25,7 +25,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testViewAny()
+    public function testViewAny(): void
     {
         $policy = new AnimePolicy();
 
@@ -37,7 +37,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testView()
+    public function testView(): void
     {
         $policy = new AnimePolicy();
 
@@ -49,7 +49,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -75,7 +75,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -101,7 +101,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -127,7 +127,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testRestore()
+    public function testRestore(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -153,7 +153,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testForceDelete()
+    public function testForceDelete(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -179,7 +179,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnySeries()
+    public function testAttachAnySeries(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -205,7 +205,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachNewSeries()
+    public function testAttachNewSeries(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -233,7 +233,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachExistingSeries()
+    public function testAttachExistingSeries(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -262,7 +262,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachSeries()
+    public function testDetachSeries(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -288,7 +288,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnyResource()
+    public function testAttachAnyResource(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -314,7 +314,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachResource()
+    public function testAttachResource(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -340,7 +340,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachResource()
+    public function testDetachResource(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -366,7 +366,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnyImage()
+    public function testAttachAnyImage(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -392,7 +392,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachNewImage()
+    public function testAttachNewImage(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -420,7 +420,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachExistingImage()
+    public function testAttachExistingImage(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -449,7 +449,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachImage()
+    public function testDetachImage(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -475,7 +475,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnyStudio()
+    public function testAttachAnyStudio(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -501,7 +501,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachNewStudio()
+    public function testAttachNewStudio(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -529,7 +529,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachExistingStudio()
+    public function testAttachExistingStudio(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -558,7 +558,7 @@ class AnimePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachStudio()
+    public function testDetachStudio(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')

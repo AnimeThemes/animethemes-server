@@ -23,11 +23,11 @@ class AnnouncementShowTest extends TestCase
     use WithoutEvents;
 
     /**
-     * By default, the Annouc Show Endpoint shall return an Announcement Resource.
+     * By default, the Announcement Show Endpoint shall return an Announcement Resource.
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $announcement = Announcement::factory()->create();
 
@@ -50,7 +50,7 @@ class AnnouncementShowTest extends TestCase
      *
      * @return void
      */
-    public function testSoftDelete()
+    public function testSoftDelete(): void
     {
         $announcement = Announcement::factory()->createOne();
 
@@ -77,7 +77,7 @@ class AnnouncementShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $schema = new AnnouncementSchema();
 

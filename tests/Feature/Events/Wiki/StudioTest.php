@@ -22,7 +22,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioCreatedEventDispatched()
+    public function testStudioCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -36,7 +36,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioDeletedEventDispatched()
+    public function testStudioDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -52,7 +52,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioRestoredEventDispatched()
+    public function testStudioRestoredEventDispatched(): void
     {
         Event::fake();
 
@@ -70,7 +70,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioRestoresQuietly()
+    public function testStudioRestoresQuietly(): void
     {
         Event::fake();
 
@@ -86,7 +86,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioUpdatedEventDispatched()
+    public function testStudioUpdatedEventDispatched(): void
     {
         Event::fake();
 

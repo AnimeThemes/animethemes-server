@@ -111,7 +111,7 @@ class Series extends Resource
                 ->rules(['required', 'max:192', 'alpha_dash'])
                 ->updateRules(
                     Rule::unique(SeriesModel::TABLE)
-                        ->ignore($request->resourceId, SeriesModel::ATTRIBUTE_ID)
+                        ->ignore($request->route('resourceId'), SeriesModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
                 ->help(__('nova.series_slug_help')),

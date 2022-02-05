@@ -23,7 +23,7 @@ class PasswordResetTest extends TestCase
      *
      * @return void
      */
-    public function testResetPasswordLinkScreenCanBeRendered()
+    public function testResetPasswordLinkScreenCanBeRendered(): void
     {
         if (! Features::enabled(Features::resetPasswords())) {
             static::markTestSkipped('Password resets are not enabled.');
@@ -39,7 +39,7 @@ class PasswordResetTest extends TestCase
      *
      * @return void
      */
-    public function testResetPasswordLinkCanBeRequested()
+    public function testResetPasswordLinkCanBeRequested(): void
     {
         if (! Features::enabled(Features::resetPasswords())) {
             static::markTestSkipped('Password resets are not enabled.');
@@ -61,7 +61,7 @@ class PasswordResetTest extends TestCase
      *
      * @return void
      */
-    public function testResetPasswordScreenCanBeRendered()
+    public function testResetPasswordScreenCanBeRendered(): void
     {
         if (! Features::enabled(Features::resetPasswords())) {
             static::markTestSkipped('Password resets are not enabled.');
@@ -89,7 +89,7 @@ class PasswordResetTest extends TestCase
      *
      * @return void
      */
-    public function testPasswordCanBeResetWithValidToken()
+    public function testPasswordCanBeResetWithValidToken(): void
     {
         if (! Features::enabled(Features::resetPasswords())) {
             static::markTestSkipped('Password resets are not enabled.');
