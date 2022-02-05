@@ -27,7 +27,7 @@ class BalanceShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $balance = Balance::factory()->create();
 
@@ -46,11 +46,11 @@ class BalanceShowTest extends TestCase
     }
 
     /**
-     * The Balance Show Endpoint shall return an Balance Resource for soft deleted images.
+     * The Balance Show Endpoint shall return a Balance Resource for soft deleted images.
      *
      * @return void
      */
-    public function testSoftDelete()
+    public function testSoftDelete(): void
     {
         $balance = Balance::factory()->createOne();
 
@@ -77,7 +77,7 @@ class BalanceShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $schema = new BalanceSchema();
 

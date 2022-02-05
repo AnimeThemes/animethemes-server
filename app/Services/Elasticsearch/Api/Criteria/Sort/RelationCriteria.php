@@ -8,6 +8,9 @@ use App\Http\Api\Sort\Sort;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 use Illuminate\Support\Str;
 
+/**
+ * Class RelationCriteria.
+ */
 class RelationCriteria extends FieldCriteria
 {
     /**
@@ -16,6 +19,8 @@ class RelationCriteria extends FieldCriteria
      * @param  SearchRequestBuilder  $builder
      * @param  Sort  $sort
      * @return SearchRequestBuilder
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function sort(SearchRequestBuilder $builder, Sort $sort): SearchRequestBuilder
     {

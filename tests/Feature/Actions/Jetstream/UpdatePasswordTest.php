@@ -23,7 +23,7 @@ class UpdatePasswordTest extends TestCase
      *
      * @return void
      */
-    public function testPasswordCanBeUpdated()
+    public function testPasswordCanBeUpdated(): void
     {
         $this->actingAs($user = User::factory()->createOne());
 
@@ -45,7 +45,7 @@ class UpdatePasswordTest extends TestCase
      *
      * @return void
      */
-    public function testCurrentPasswordMustBeCorrect()
+    public function testCurrentPasswordMustBeCorrect(): void
     {
         $this->actingAs($user = User::factory()->createOne());
 
@@ -68,7 +68,7 @@ class UpdatePasswordTest extends TestCase
      *
      * @return void
      */
-    public function testNewPasswordsMustMatch()
+    public function testNewPasswordsMustMatch(): void
     {
         $this->actingAs($user = User::factory()->createOne());
 

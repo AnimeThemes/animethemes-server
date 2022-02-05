@@ -17,7 +17,7 @@ class EntryDeleting extends EntryEvent implements UpdateRelatedIndicesEvent
      *
      * @return void
      */
-    public function updateRelatedIndices()
+    public function updateRelatedIndices(): void
     {
         $entry = $this->getEntry();
 

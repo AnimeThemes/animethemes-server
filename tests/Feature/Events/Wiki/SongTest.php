@@ -22,7 +22,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testSongCreatedEventDispatched()
+    public function testSongCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -36,7 +36,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testSongDeletedEventDispatched()
+    public function testSongDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -52,7 +52,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testSongRestoredEventDispatched()
+    public function testSongRestoredEventDispatched(): void
     {
         Event::fake();
 
@@ -70,7 +70,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testSongRestoresQuietly()
+    public function testSongRestoresQuietly(): void
     {
         Event::fake();
 
@@ -86,7 +86,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testSongUpdatedEventDispatched()
+    public function testSongUpdatedEventDispatched(): void
     {
         Event::fake();
 

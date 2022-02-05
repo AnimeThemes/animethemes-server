@@ -20,7 +20,7 @@ class DeleteAccountTest extends TestCase
      *
      * @return void
      */
-    public function testUserAccountsCanBeDeleted()
+    public function testUserAccountsCanBeDeleted(): void
     {
         if (! Features::hasAccountDeletionFeatures()) {
             static::markTestSkipped('Account deletion is not enabled.');
@@ -40,7 +40,7 @@ class DeleteAccountTest extends TestCase
      *
      * @return void
      */
-    public function testCorrectPasswordMustBeProvidedBeforeAccountCanBeDeleted()
+    public function testCorrectPasswordMustBeProvidedBeforeAccountCanBeDeleted(): void
     {
         if (! Features::hasAccountDeletionFeatures()) {
             static::markTestSkipped('Account deletion is not enabled.');

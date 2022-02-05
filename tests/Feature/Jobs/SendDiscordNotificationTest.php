@@ -26,7 +26,7 @@ class SendDiscordNotificationTest extends TestCase
      *
      * @return void
      */
-    public function testSendDiscordNotificationJobSendsNotification()
+    public function testSendDiscordNotificationJobSendsNotification(): void
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Notification::fake();
@@ -71,7 +71,7 @@ class SendDiscordNotificationTest extends TestCase
      *
      * @return void
      */
-    public function testRateLimited()
+    public function testRateLimited(): void
     {
         $event = new class implements DiscordMessageEvent
         {

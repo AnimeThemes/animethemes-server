@@ -69,7 +69,7 @@ class UserUpdated extends UserEvent implements DiscordMessageEvent
      * @param  Collection  $changedAttributes
      * @return void
      */
-    protected function addEmbedFields(Model $original, Model $changed, Collection $changedAttributes)
+    protected function addEmbedFields(Model $original, Model $changed, Collection $changedAttributes): void
     {
         foreach ($changedAttributes as $attribute) {
             $this->addEmbedField(DiscordEmbedField::make('Attribute', $attribute, true));

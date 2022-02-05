@@ -22,7 +22,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testExternalResourceCreatedEventDispatched()
+    public function testExternalResourceCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -36,7 +36,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testExternalResourceDeletedEventDispatched()
+    public function testExternalResourceDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -52,7 +52,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testExternalResourceRestoredEventDispatched()
+    public function testExternalResourceRestoredEventDispatched(): void
     {
         Event::fake();
 
@@ -70,7 +70,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testExternalResourceRestoresQuietly()
+    public function testExternalResourceRestoresQuietly(): void
     {
         Event::fake();
 
@@ -86,7 +86,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testExternalResourceUpdatedEventDispatched()
+    public function testExternalResourceUpdatedEventDispatched(): void
     {
         Event::fake();
 

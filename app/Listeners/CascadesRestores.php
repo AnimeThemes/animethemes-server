@@ -17,7 +17,7 @@ class CascadesRestores
      * @param  CascadesRestoresEvent  $event
      * @return void
      */
-    public function handle(CascadesRestoresEvent $event)
+    public function handle(CascadesRestoresEvent $event): void
     {
         $event->cascadeRestores();
     }

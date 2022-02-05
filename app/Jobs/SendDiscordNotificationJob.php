@@ -41,7 +41,7 @@ class SendDiscordNotificationJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         if (config(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, false)) {
             Notification::route('discord', $this->event->getDiscordChannel())
@@ -60,7 +60,7 @@ class SendDiscordNotificationJob implements ShouldQueue
     }
 
     /**
-     * Determine the time at which the job should timeout.
+     * Determine the time at which the job should time out.
      *
      * @return DateTime
      */

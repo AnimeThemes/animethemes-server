@@ -24,7 +24,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testNoCriteriaByDefault()
+    public function testNoCriteriaByDefault(): void
     {
         $parameters = [];
 
@@ -36,7 +36,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseTrashedCriteria()
+    public function testParseTrashedCriteria(): void
     {
         $parameters = [
             FilterParser::$param => [
@@ -54,7 +54,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseWhereInCriteria()
+    public function testParseWhereInCriteria(): void
     {
         $fields = collect($this->faker()->words());
 
@@ -74,7 +74,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseHasCriteria()
+    public function testParseHasCriteria(): void
     {
         $parameters = [
             FilterParser::$param => [
@@ -92,7 +92,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseWhereCriteria()
+    public function testParseWhereCriteria(): void
     {
         $parameters = [
             FilterParser::$param => [

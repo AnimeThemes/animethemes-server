@@ -18,7 +18,7 @@ class CreateAnnouncementsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(Announcement::TABLE, function (Blueprint $table) {
             $table->id(Announcement::ATTRIBUTE_ID);
@@ -33,7 +33,7 @@ class CreateAnnouncementsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(Announcement::TABLE);
     }

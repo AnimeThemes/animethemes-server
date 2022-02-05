@@ -20,7 +20,7 @@ use App\Http\Requests\Api\BaseRequest;
 class YearIndexRequest extends BaseRequest
 {
     /**
-     * Get the include validation rules.
+     * Get include validation rules.
      *
      * @return array
      *

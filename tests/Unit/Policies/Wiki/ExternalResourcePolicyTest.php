@@ -21,7 +21,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testViewAny()
+    public function testViewAny(): void
     {
         $policy = new ExternalResourcePolicy();
 
@@ -33,7 +33,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testView()
+    public function testView(): void
     {
         $policy = new ExternalResourcePolicy();
 
@@ -45,7 +45,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -71,7 +71,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -97,7 +97,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -123,7 +123,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testRestore()
+    public function testRestore(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -149,7 +149,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testForceDelete()
+    public function testForceDelete(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -175,7 +175,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnyArtist()
+    public function testAttachAnyArtist(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -201,7 +201,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachArtist()
+    public function testAttachArtist(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -227,7 +227,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachArtist()
+    public function testDetachArtist(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -253,7 +253,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnyAnime()
+    public function testAttachAnyAnime(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -279,7 +279,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnime()
+    public function testAttachAnime(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -305,7 +305,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachAnime()
+    public function testDetachAnime(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -331,7 +331,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnyStudio()
+    public function testAttachAnyStudio(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -357,7 +357,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachStudio()
+    public function testAttachStudio(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -383,7 +383,7 @@ class ExternalResourcePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachStudio()
+    public function testDetachStudio(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')

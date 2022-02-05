@@ -20,7 +20,7 @@ class CascadesDeletesTest extends TestCase
      *
      * @return void
      */
-    public function testListening()
+    public function testListening(): void
     {
         $fake = Event::fake();
 

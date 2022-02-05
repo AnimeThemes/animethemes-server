@@ -21,7 +21,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testArtistCreatedSendsDiscordNotification()
+    public function testArtistCreatedSendsDiscordNotification(): void
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -36,7 +36,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testArtistDeletedSendsDiscordNotification()
+    public function testArtistDeletedSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
 
@@ -53,7 +53,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testArtistRestoredSendsDiscordNotification()
+    public function testArtistRestoredSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
 
@@ -70,7 +70,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testArtistUpdatedSendsDiscordNotification()
+    public function testArtistUpdatedSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
 

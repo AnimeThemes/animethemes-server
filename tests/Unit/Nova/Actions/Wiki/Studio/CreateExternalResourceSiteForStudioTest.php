@@ -29,7 +29,7 @@ class CreateExternalResourceSiteForStudioTest extends TestCase
      *
      * @return void
      */
-    public function testFields()
+    public function testFields(): void
     {
         $action = new MockAction(CreateExternalResourceSiteForStudioAction::make(ResourceSite::getRandomValue()));
 
@@ -43,7 +43,7 @@ class CreateExternalResourceSiteForStudioTest extends TestCase
      *
      * @throws FieldNotFoundException
      */
-    public function testLinkField()
+    public function testLinkField(): void
     {
         $site = ResourceSite::getRandomValue();
 
@@ -61,7 +61,7 @@ class CreateExternalResourceSiteForStudioTest extends TestCase
      *
      * @return void
      */
-    public function testResourceCreated()
+    public function testResourceCreated(): void
     {
         $site = ResourceSite::OFFICIAL_SITE;
 
@@ -80,7 +80,7 @@ class CreateExternalResourceSiteForStudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioHasResourceAttached()
+    public function testStudioHasResourceAttached(): void
     {
         $site = ResourceSite::OFFICIAL_SITE;
 

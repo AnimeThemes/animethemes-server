@@ -29,7 +29,7 @@ class VideoLyricsTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testSelectFilter()
+    public function testSelectFilter(): void
     {
         static::novaFilter(VideoLyricsFilter::class)
             ->assertSelectFilter();
@@ -42,7 +42,7 @@ class VideoLyricsTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testOptions()
+    public function testOptions(): void
     {
         $filter = static::novaFilter(VideoLyricsFilter::class);
 
@@ -58,7 +58,7 @@ class VideoLyricsTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
-    public function testFilter()
+    public function testFilter(): void
     {
         $lyricsFilter = $this->faker->boolean();
 

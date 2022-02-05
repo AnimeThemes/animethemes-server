@@ -106,7 +106,7 @@ abstract class Query
     }
 
     /**
-     * Get the include criteria.
+     * Get include criteria.
      *
      * @param  string  $type
      * @return IncludeCriteria|null
@@ -191,5 +191,5 @@ abstract class Query
      *
      * @return Schema
      */
-    abstract public static function schema(): Schema;
+    abstract public function schema(): Schema;
 }

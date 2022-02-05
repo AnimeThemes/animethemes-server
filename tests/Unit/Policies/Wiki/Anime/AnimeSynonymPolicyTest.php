@@ -21,7 +21,7 @@ class AnimeSynonymPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testViewAny()
+    public function testViewAny(): void
     {
         $policy = new AnimeSynonymPolicy();
 
@@ -33,7 +33,7 @@ class AnimeSynonymPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testView()
+    public function testView(): void
     {
         $policy = new AnimeSynonymPolicy();
 
@@ -45,7 +45,7 @@ class AnimeSynonymPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -71,7 +71,7 @@ class AnimeSynonymPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -97,7 +97,7 @@ class AnimeSynonymPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -123,7 +123,7 @@ class AnimeSynonymPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testRestore()
+    public function testRestore(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -149,7 +149,7 @@ class AnimeSynonymPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testForceDelete()
+    public function testForceDelete(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')

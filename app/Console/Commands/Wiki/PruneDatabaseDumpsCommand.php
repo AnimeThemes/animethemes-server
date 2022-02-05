@@ -54,8 +54,8 @@ class PruneDatabaseDumpsCommand extends Command
     {
         $hours = $this->option('hours');
         if (! is_numeric($hours)) {
-            Log::error("Invalid hours value '{$hours}'");
-            $this->error("Invalid hours value '{$hours}'");
+            Log::error("Invalid hours value '$hours'");
+            $this->error("Invalid hours value '$hours'");
 
             return 1;
         }
@@ -77,7 +77,7 @@ class PruneDatabaseDumpsCommand extends Command
      * @param  Carbon  $pruneDate
      * @return void
      */
-    protected function prune(Filesystem $filesystem, Carbon $pruneDate)
+    protected function prune(Filesystem $filesystem, Carbon $pruneDate): void
     {
         foreach ($filesystem->allFiles() as $path) {
             $lastModified = Date::createFromTimestamp($filesystem->lastModified($path));
@@ -85,12 +85,12 @@ class PruneDatabaseDumpsCommand extends Command
                 $result = $filesystem->delete($path);
                 if ($result) {
                     $this->deleted++;
-                    Log::info("Deleted database dump '{$path}'");
-                    $this->info("Deleted database dump '{$path}'");
+                    Log::info("Deleted database dump '$path'");
+                    $this->info("Deleted database dump '$path'");
                 } else {
                     $this->deletedFailed++;
-                    Log::error("Failed to delete database dump '{$path}'");
-                    $this->error("Failed to delete database dump '{$path}'");
+                    Log::error("Failed to delete database dump '$path'");
+                    $this->error("Failed to delete database dump '$path'");
                 }
             }
         }
@@ -101,16 +101,16 @@ class PruneDatabaseDumpsCommand extends Command
      *
      * @return void
      */
-    protected function printResults()
+    protected function printResults(): void
     {
         if ($this->hasResults()) {
             if ($this->hasDeletions()) {
-                Log::info("{$this->deleted} database dumps deleted");
-                $this->info("{$this->deleted} database dumps deleted");
+                Log::info("$this->deleted database dumps deleted");
+                $this->info("$this->deleted database dumps deleted");
             }
             if ($this->hasFailures()) {
-                Log::error("Failed to delete {$this->deletedFailed} database dumps");
-                $this->error("Failed to delete {$this->deletedFailed} database dumps");
+                Log::error("Failed to delete $this->deletedFailed database dumps");
+                $this->error("Failed to delete $this->deletedFailed database dumps");
             }
         } else {
             Log::info('No database dumps deleted');

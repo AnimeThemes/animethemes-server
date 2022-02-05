@@ -22,7 +22,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoCreatedEventDispatched()
+    public function testVideoCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -36,7 +36,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoDeletedEventDispatched()
+    public function testVideoDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -52,7 +52,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoRestoredEventDispatched()
+    public function testVideoRestoredEventDispatched(): void
     {
         Event::fake();
 
@@ -70,7 +70,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoRestoresQuietly()
+    public function testVideoRestoresQuietly(): void
     {
         Event::fake();
 
@@ -86,7 +86,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoUpdatedEventDispatched()
+    public function testVideoUpdatedEventDispatched(): void
     {
         Event::fake();
 

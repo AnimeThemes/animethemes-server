@@ -18,7 +18,7 @@ class PasswordConfirmationTest extends TestCase
      *
      * @return void
      */
-    public function testConfirmPasswordScreenCanBeRendered()
+    public function testConfirmPasswordScreenCanBeRendered(): void
     {
         $user = Features::hasTeamFeatures()
                         ? User::factory()->withPersonalTeam()->createOne()
@@ -34,7 +34,7 @@ class PasswordConfirmationTest extends TestCase
      *
      * @return void
      */
-    public function testPasswordCanBeConfirmed()
+    public function testPasswordCanBeConfirmed(): void
     {
         $user = User::factory()->createOne();
 
@@ -51,7 +51,7 @@ class PasswordConfirmationTest extends TestCase
      *
      * @return void
      */
-    public function testPasswordIsNotConfirmedWithInvalidPassword()
+    public function testPasswordIsNotConfirmedWithInvalidPassword(): void
     {
         $user = User::factory()->createOne();
 

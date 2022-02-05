@@ -23,7 +23,7 @@ class InitializeVideoTagsTest extends TestCase
      *
      * @return void
      */
-    public function testNoTags()
+    public function testNoTags(): void
     {
         $filename = Str::of(Str::random($this->faker->randomDigitNotNull()))
             ->append('-')
@@ -51,7 +51,7 @@ class InitializeVideoTagsTest extends TestCase
      *
      * @return void
      */
-    public function testNcTag()
+    public function testNcTag(): void
     {
         $filename = Str::of(Str::random($this->faker->randomDigitNotNull()))
             ->append('-')
@@ -77,7 +77,7 @@ class InitializeVideoTagsTest extends TestCase
      *
      * @return void
      */
-    public function testSubbedTag()
+    public function testSubbedTag(): void
     {
         $filename = Str::of(Str::random($this->faker->randomDigitNotNull()))
             ->append('-')
@@ -103,7 +103,7 @@ class InitializeVideoTagsTest extends TestCase
      *
      * @return void
      */
-    public function testLyricsTag()
+    public function testLyricsTag(): void
     {
         $filename = Str::of(Str::random($this->faker->randomDigitNotNull()))
             ->append('-')
@@ -129,7 +129,7 @@ class InitializeVideoTagsTest extends TestCase
      *
      * @return void
      */
-    public function testResolutionTag()
+    public function testResolutionTag(): void
     {
         $resolution = $this->faker->randomNumber();
 
@@ -157,7 +157,7 @@ class InitializeVideoTagsTest extends TestCase
      *
      * @return void
      */
-    public function testImplicitResolutionTag()
+    public function testImplicitResolutionTag(): void
     {
         $filename = Str::of(Str::random($this->faker->randomDigitNotNull()))
             ->append('-')
@@ -183,7 +183,7 @@ class InitializeVideoTagsTest extends TestCase
      *
      * @return void
      */
-    public function testSourceTag()
+    public function testSourceTag(): void
     {
         $source = VideoSource::getRandomInstance();
 

@@ -18,7 +18,7 @@ class FallbackTest extends TestCase
      *
      * @return void
      */
-    public function testAbortJson()
+    public function testAbortJson(): void
     {
         $response = $this->get(url('api/'.Str::random()));
 

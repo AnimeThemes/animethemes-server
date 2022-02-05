@@ -28,7 +28,7 @@ class SynopsisCoverSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Get anime that have MAL resource but not both cover images
         $animes = Anime::query()
@@ -88,7 +88,7 @@ class SynopsisCoverSeeder extends Seeder
 
                     // Set Anime synopsis
                     if ($anilistSynopsis !== null && $anime->synopsis === null) {
-                        Log::info("Setting synopsis for anime '{$anime->name}'");
+                        Log::info("Setting synopsis for anime '$anime->name'");
                         $anime->synopsis = $anilistSynopsis;
                         $anime->save();
                     }
@@ -108,7 +108,7 @@ class SynopsisCoverSeeder extends Seeder
                         ]);
 
                         // Attach large cover to anime
-                        Log::info("Attaching image '{$coverLargeImage->path}' to anime '{$anime->name}'");
+                        Log::info("Attaching image '$coverLargeImage->path' to anime '$anime->name'");
                         $coverLargeImage->anime()->attach($anime);
                     }
 
@@ -127,7 +127,7 @@ class SynopsisCoverSeeder extends Seeder
                         ]);
 
                         // Attach large cover to anime
-                        Log::info("Attaching image '{$coverSmallImage->path}' to anime '{$anime->name}'");
+                        Log::info("Attaching image '$coverSmallImage->path' to anime '$anime->name'");
                         $coverSmallImage->anime()->attach($anime);
                     }
                 } catch (RequestException $e) {

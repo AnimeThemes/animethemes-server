@@ -121,7 +121,7 @@ class Artist extends Resource
                 ->rules(['required', 'max:192', 'alpha_dash'])
                 ->updateRules(
                     Rule::unique(ArtistModel::TABLE)
-                        ->ignore($request->resourceId, ArtistModel::ATTRIBUTE_ID)
+                        ->ignore($request->route('resourceId'), ArtistModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
                 ->help(__('nova.artist_slug_help')),

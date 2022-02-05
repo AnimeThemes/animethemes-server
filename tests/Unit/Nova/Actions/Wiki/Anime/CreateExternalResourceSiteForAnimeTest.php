@@ -29,7 +29,7 @@ class CreateExternalResourceSiteForAnimeTest extends TestCase
      *
      * @return void
      */
-    public function testFields()
+    public function testFields(): void
     {
         $action = new MockAction(CreateExternalResourceSiteForAnimeAction::make(ResourceSite::getRandomValue()));
 
@@ -43,7 +43,7 @@ class CreateExternalResourceSiteForAnimeTest extends TestCase
      *
      * @throws FieldNotFoundException
      */
-    public function testLinkField()
+    public function testLinkField(): void
     {
         $site = ResourceSite::getRandomValue();
 
@@ -61,7 +61,7 @@ class CreateExternalResourceSiteForAnimeTest extends TestCase
      *
      * @return void
      */
-    public function testResourceCreated()
+    public function testResourceCreated(): void
     {
         $site = ResourceSite::OFFICIAL_SITE;
 
@@ -80,7 +80,7 @@ class CreateExternalResourceSiteForAnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeHasResourceAttached()
+    public function testAnimeHasResourceAttached(): void
     {
         $site = ResourceSite::OFFICIAL_SITE;
 

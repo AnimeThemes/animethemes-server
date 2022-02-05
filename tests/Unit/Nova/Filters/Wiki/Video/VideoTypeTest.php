@@ -30,7 +30,7 @@ class VideoTypeTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testSelectFilter()
+    public function testSelectFilter(): void
     {
         static::novaFilter(VideoTypeFilter::class)
             ->assertSelectFilter();
@@ -43,7 +43,7 @@ class VideoTypeTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testOptions()
+    public function testOptions(): void
     {
         $filter = static::novaFilter(VideoTypeFilter::class);
 
@@ -59,7 +59,7 @@ class VideoTypeTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
-    public function testAnimeFilter()
+    public function testAnimeFilter(): void
     {
         Video::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -88,7 +88,7 @@ class VideoTypeTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
-    public function testMiscFilter()
+    public function testMiscFilter(): void
     {
         Video::factory()->count($this->faker->randomDigitNotNull())->create();
 

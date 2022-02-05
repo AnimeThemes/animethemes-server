@@ -25,7 +25,7 @@ class WhereCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testGlobalScope()
+    public function testGlobalScope(): void
     {
         $criteria = WhereCriteria::make($this->faker->word(), $this->faker->word());
 
@@ -37,7 +37,7 @@ class WhereCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testScope()
+    public function testScope(): void
     {
         $type = Str::of(Str::random())->lower()->singular()->__toString();
 
@@ -55,7 +55,7 @@ class WhereCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testField()
+    public function testField(): void
     {
         $field = $this->faker->word();
 
@@ -69,7 +69,7 @@ class WhereCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testDefaultComparisonOperator()
+    public function testDefaultComparisonOperator(): void
     {
         $criteria = WhereCriteria::make($this->faker->word(), $this->faker->word());
 
@@ -81,7 +81,7 @@ class WhereCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testComparisonOperator()
+    public function testComparisonOperator(): void
     {
         $operator = ComparisonOperator::getRandomInstance();
 
@@ -97,7 +97,7 @@ class WhereCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testDefaultLogicalOperator()
+    public function testDefaultLogicalOperator(): void
     {
         $criteria = WhereCriteria::make($this->faker->word(), $this->faker->word());
 
@@ -109,7 +109,7 @@ class WhereCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testLogicalOperator()
+    public function testLogicalOperator(): void
     {
         $operator = BinaryLogicalOperator::getRandomInstance();
 

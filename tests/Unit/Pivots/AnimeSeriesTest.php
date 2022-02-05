@@ -23,7 +23,7 @@ class AnimeSeriesTest extends TestCase
      *
      * @return void
      */
-    public function testAnime()
+    public function testAnime(): void
     {
         $animeSeries = AnimeSeries::factory()
             ->for(Anime::factory())
@@ -39,7 +39,7 @@ class AnimeSeriesTest extends TestCase
      *
      * @return void
      */
-    public function testSeries()
+    public function testSeries(): void
     {
         $animeSeries = AnimeSeries::factory()
             ->for(Anime::factory())

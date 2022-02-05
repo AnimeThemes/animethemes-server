@@ -21,7 +21,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageCreatedSendsDiscordNotification()
+    public function testImageCreatedSendsDiscordNotification(): void
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -36,7 +36,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageDeletedSendsDiscordNotification()
+    public function testImageDeletedSendsDiscordNotification(): void
     {
         $image = Image::factory()->createOne();
 
@@ -53,7 +53,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageRestoredSendsDiscordNotification()
+    public function testImageRestoredSendsDiscordNotification(): void
     {
         $image = Image::factory()->createOne();
 
@@ -70,7 +70,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageUpdatedSendsDiscordNotification()
+    public function testImageUpdatedSendsDiscordNotification(): void
     {
         $image = Image::factory()->createOne();
 

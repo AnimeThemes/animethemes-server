@@ -64,7 +64,7 @@ trait ReconcilesRepositories
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleCreated(BaseModel $model)
+    protected function handleCreated(BaseModel $model): void
     {
         //
     }
@@ -75,7 +75,7 @@ trait ReconcilesRepositories
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedCreation(BaseModel $model)
+    protected function handleFailedCreation(BaseModel $model): void
     {
         //
     }
@@ -86,7 +86,7 @@ trait ReconcilesRepositories
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleDeleted(BaseModel $model)
+    protected function handleDeleted(BaseModel $model): void
     {
         //
     }
@@ -97,7 +97,7 @@ trait ReconcilesRepositories
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedDeletion(BaseModel $model)
+    protected function handleFailedDeletion(BaseModel $model): void
     {
         //
     }
@@ -108,7 +108,7 @@ trait ReconcilesRepositories
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleUpdated(BaseModel $model)
+    protected function handleUpdated(BaseModel $model): void
     {
         //
     }
@@ -119,7 +119,7 @@ trait ReconcilesRepositories
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedUpdate(BaseModel $model)
+    protected function handleFailedUpdate(BaseModel $model): void
     {
         //
     }
@@ -130,7 +130,7 @@ trait ReconcilesRepositories
      * @param  Exception  $exception
      * @return void
      */
-    protected function handleException(Exception $exception)
+    protected function handleException(Exception $exception): void
     {
         //
     }
@@ -140,7 +140,7 @@ trait ReconcilesRepositories
      *
      * @return void
      */
-    protected function postReconciliationTask()
+    protected function postReconciliationTask(): void
     {
         //
     }
@@ -182,7 +182,7 @@ trait ReconcilesRepositories
      * @param  Repository  $destination
      * @return void
      */
-    public function reconcileRepositories(Repository $source, Repository $destination)
+    public function reconcileRepositories(Repository $source, Repository $destination): void
     {
         try {
             $sourceModels = $source->all();
@@ -235,7 +235,7 @@ trait ReconcilesRepositories
         Repository $destination,
         Collection $sourceModels,
         Collection $destinationModels
-    ) {
+    ): void {
         $createModels = $sourceModels->diffUsing($destinationModels, $this->diffCallbackForCreateDelete());
 
         foreach ($createModels as $createModel) {
@@ -262,7 +262,7 @@ trait ReconcilesRepositories
         Repository $destination,
         Collection $sourceModels,
         Collection $destinationModels
-    ) {
+    ): void {
         $deleteModels = $destinationModels->diffUsing($sourceModels, $this->diffCallbackForCreateDelete());
 
         foreach ($deleteModels as $deleteModel) {
@@ -321,7 +321,7 @@ trait ReconcilesRepositories
         Repository $destination,
         Collection $sourceModels,
         Collection $destinationModels
-    ) {
+    ): void {
         $updatedModels = $destinationModels->diffUsing($sourceModels, $this->diffCallbackForUpdate());
 
         foreach ($updatedModels as $updatedModel) {

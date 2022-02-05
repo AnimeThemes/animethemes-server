@@ -27,7 +27,7 @@ class MalSeasonYearSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Do not proceed if we do not have authorization to the MAL API
         $malClientID = Config::get('services.mal.client');
@@ -58,7 +58,7 @@ class MalSeasonYearSeeder extends Seeder
 
                 try {
                     $response = Http::withHeaders(['X-MAL-CLIENT-ID' => $malClientID])
-                        ->get("https://api.myanimelist.net/v2/anime/{$malResource->external_id}", [
+                        ->get("https://api.myanimelist.net/v2/anime/$malResource->external_id", [
                             'fields' => 'start_season',
                         ])
                         ->throw()
@@ -70,11 +70,11 @@ class MalSeasonYearSeeder extends Seeder
                     if (AnimeSeason::hasKey(Str::upper($season))) {
                         $season = AnimeSeason::getValue(Str::upper($season));
                         $anime->season = $season;
-                        Log::info("Setting season '{$season}' for anime '{$anime->name}'");
+                        Log::info("Setting season '$season' for anime '$anime->name'");
                     }
                     if (is_int($year)) {
                         $anime->year = $year;
-                        Log::info("Setting year '{$year}' for anime '{$anime->name}'");
+                        Log::info("Setting year '$year' for anime '$anime->name'");
                     }
                     if ($anime->isDirty()) {
                         $anime->save();

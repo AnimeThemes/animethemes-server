@@ -18,11 +18,11 @@ use Tests\TestCase;
 class BalanceTest extends TestCase
 {
     /**
-     * When an Balance is created, an BalanceCreated event shall be dispatched.
+     * When a Balance is created, an BalanceCreated event shall be dispatched.
      *
      * @return void
      */
-    public function testBalanceCreatedEventDispatched()
+    public function testBalanceCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -32,11 +32,11 @@ class BalanceTest extends TestCase
     }
 
     /**
-     * When an Balance is deleted, an BalanceDeleted event shall be dispatched.
+     * When a Balance is deleted, an BalanceDeleted event shall be dispatched.
      *
      * @return void
      */
-    public function testBalanceDeletedEventDispatched()
+    public function testBalanceDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -48,11 +48,11 @@ class BalanceTest extends TestCase
     }
 
     /**
-     * When an Balance is restored, an BalanceRestored event shall be dispatched.
+     * When a Balance is restored, an BalanceRestored event shall be dispatched.
      *
      * @return void
      */
-    public function testBalanceRestoredEventDispatched()
+    public function testBalanceRestoredEventDispatched(): void
     {
         Event::fake();
 
@@ -70,7 +70,7 @@ class BalanceTest extends TestCase
      *
      * @return void
      */
-    public function testBalanceRestoresQuietly()
+    public function testBalanceRestoresQuietly(): void
     {
         Event::fake();
 
@@ -82,11 +82,11 @@ class BalanceTest extends TestCase
     }
 
     /**
-     * When an Balance is updated, an BalanceUpdated event shall be dispatched.
+     * When a Balance is updated, an BalanceUpdated event shall be dispatched.
      *
      * @return void
      */
-    public function testBalanceUpdatedEventDispatched()
+    public function testBalanceUpdatedEventDispatched(): void
     {
         Event::fake();
 

@@ -37,7 +37,7 @@ class ArtistSongTest extends TestCase
      *
      * @throws InvalidNovaLensException
      */
-    public function testFields()
+    public function testFields(): void
     {
         $lens = static::novaLens(ArtistSongLens::class);
 
@@ -54,7 +54,7 @@ class ArtistSongTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaLensException
      */
-    public function testSortable()
+    public function testSortable(): void
     {
         $lens = static::novaLens(ArtistSongLens::class);
 
@@ -70,7 +70,7 @@ class ArtistSongTest extends TestCase
      *
      * @throws InvalidNovaLensException
      */
-    public function testFilters()
+    public function testFilters(): void
     {
         $lens = static::novaLens(ArtistSongLens::class);
 
@@ -89,7 +89,7 @@ class ArtistSongTest extends TestCase
      *
      * @throws InvalidNovaLensException
      */
-    public function testActions()
+    public function testActions(): void
     {
         $lens = static::novaLens(ArtistSongLens::class);
 
@@ -104,7 +104,7 @@ class ArtistSongTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
-    public function testWithFilters()
+    public function testWithFilters(): void
     {
         $lens = static::novaLens(ArtistSongLens::class);
 
@@ -121,7 +121,7 @@ class ArtistSongTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
-    public function testWithOrdering()
+    public function testWithOrdering(): void
     {
         $lens = static::novaLens(ArtistSongLens::class);
 
@@ -138,7 +138,7 @@ class ArtistSongTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaLensException
      */
-    public function testQuery()
+    public function testQuery(): void
     {
         Artist::factory()
             ->count($this->faker->randomDigitNotNull())

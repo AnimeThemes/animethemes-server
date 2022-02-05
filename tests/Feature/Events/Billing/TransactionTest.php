@@ -18,11 +18,11 @@ use Tests\TestCase;
 class TransactionTest extends TestCase
 {
     /**
-     * When an Transaction is created, an TransactionCreated event shall be dispatched.
+     * When a Transaction is created, an TransactionCreated event shall be dispatched.
      *
      * @return void
      */
-    public function testTransactionCreatedEventDispatched()
+    public function testTransactionCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -32,11 +32,11 @@ class TransactionTest extends TestCase
     }
 
     /**
-     * When an Transaction is deleted, an TransactionDeleted event shall be dispatched.
+     * When a Transaction is deleted, an TransactionDeleted event shall be dispatched.
      *
      * @return void
      */
-    public function testTransactionDeletedEventDispatched()
+    public function testTransactionDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -48,11 +48,11 @@ class TransactionTest extends TestCase
     }
 
     /**
-     * When an Transaction is restored, an TransactionRestored event shall be dispatched.
+     * When a Transaction is restored, an TransactionRestored event shall be dispatched.
      *
      * @return void
      */
-    public function testTransactionRestoredEventDispatched()
+    public function testTransactionRestoredEventDispatched(): void
     {
         Event::fake();
 
@@ -70,7 +70,7 @@ class TransactionTest extends TestCase
      *
      * @return void
      */
-    public function testTransactionRestoresQuietly()
+    public function testTransactionRestoresQuietly(): void
     {
         Event::fake();
 
@@ -82,11 +82,11 @@ class TransactionTest extends TestCase
     }
 
     /**
-     * When an Transaction is updated, an TransactionUpdated event shall be dispatched.
+     * When a Transaction is updated, an TransactionUpdated event shall be dispatched.
      *
      * @return void
      */
-    public function testTransactionUpdatedEventDispatched()
+    public function testTransactionUpdatedEventDispatched(): void
     {
         Event::fake();
 

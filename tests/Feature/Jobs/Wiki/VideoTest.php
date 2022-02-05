@@ -21,7 +21,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoCreatedSendsDiscordNotification()
+    public function testVideoCreatedSendsDiscordNotification(): void
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -36,7 +36,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoDeletedSendsDiscordNotification()
+    public function testVideoDeletedSendsDiscordNotification(): void
     {
         $video = Video::factory()->createOne();
 
@@ -53,7 +53,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoRestoredSendsDiscordNotification()
+    public function testVideoRestoredSendsDiscordNotification(): void
     {
         $video = Video::factory()->createOne();
 
@@ -70,7 +70,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoUpdatedSendsDiscordNotification()
+    public function testVideoUpdatedSendsDiscordNotification(): void
     {
         $video = Video::factory()->createOne();
 

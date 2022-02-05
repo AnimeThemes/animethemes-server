@@ -22,7 +22,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotSortIfKeyMismatch()
+    public function testShouldNotSortIfKeyMismatch(): void
     {
         $criteria = new class($this->faker->word()) extends Criteria
         {
@@ -41,7 +41,7 @@ class CriteriaTest extends TestCase
 
         $sort = new Sort($this->faker->word());
 
-        $this->assertFalse($criteria->shouldSort($sort));
+        static::assertFalse($criteria->shouldSort($sort));
     }
 
     /**
@@ -49,7 +49,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldSortIfKeyMatch()
+    public function testShouldSortIfKeyMatch(): void
     {
         $key = $this->faker->word();
 
@@ -70,6 +70,6 @@ class CriteriaTest extends TestCase
 
         $sort = new Sort($key);
 
-        $this->assertTrue($criteria->shouldSort($sort));
+        static::assertTrue($criteria->shouldSort($sort));
     }
 }

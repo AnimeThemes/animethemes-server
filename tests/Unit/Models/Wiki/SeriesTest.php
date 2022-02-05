@@ -24,7 +24,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function testSearchableAs()
+    public function testSearchableAs(): void
     {
         $series = Series::factory()->createOne();
 
@@ -36,7 +36,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function testToSearchableArray()
+    public function testToSearchableArray(): void
     {
         $series = Series::factory()->createOne();
 
@@ -48,7 +48,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -62,7 +62,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $series = Series::factory()->createOne();
 
@@ -74,7 +74,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function testAnime()
+    public function testAnime(): void
     {
         $animeCount = $this->faker->randomDigitNotNull();
 

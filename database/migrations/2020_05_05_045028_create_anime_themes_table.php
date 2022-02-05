@@ -20,7 +20,7 @@ class CreateAnimeThemesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(AnimeTheme::TABLE, function (Blueprint $table) {
             $table->id(AnimeTheme::ATTRIBUTE_ID);
@@ -44,7 +44,7 @@ class CreateAnimeThemesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(AnimeTheme::TABLE);
     }

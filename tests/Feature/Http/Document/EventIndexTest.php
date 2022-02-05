@@ -16,7 +16,7 @@ class EventIndexTest extends TestCase
      *
      * @return void
      */
-    public function testView()
+    public function testView(): void
     {
         $response = $this->get(route('event.index'));
 

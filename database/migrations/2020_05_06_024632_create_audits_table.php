@@ -16,7 +16,7 @@ class CreateAuditsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('audits', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -41,7 +41,7 @@ class CreateAuditsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::drop('audits');
     }

@@ -16,7 +16,7 @@ class CreateTeamUserTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('team_user', function (Blueprint $table) {
             $table->id();
@@ -34,7 +34,7 @@ class CreateTeamUserTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('team_user');
     }

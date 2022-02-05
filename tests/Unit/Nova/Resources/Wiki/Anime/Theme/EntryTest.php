@@ -32,7 +32,7 @@ class EntryTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFields()
+    public function testFields(): void
     {
         $resource = static::novaResource(Entry::class);
 
@@ -55,7 +55,7 @@ class EntryTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testIdField()
+    public function testIdField(): void
     {
         $resource = static::novaResource(Entry::class);
 
@@ -77,7 +77,7 @@ class EntryTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testCreatedAtField()
+    public function testCreatedAtField(): void
     {
         $resource = static::novaResource(Entry::class);
 
@@ -99,7 +99,7 @@ class EntryTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testUpdatedAtField()
+    public function testUpdatedAtField(): void
     {
         $resource = static::novaResource(Entry::class);
 
@@ -121,7 +121,7 @@ class EntryTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testDeletedAtField()
+    public function testDeletedAtField(): void
     {
         $resource = static::novaResource(Entry::class);
 
@@ -143,7 +143,7 @@ class EntryTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testVersionField()
+    public function testVersionField(): void
     {
         $resource = static::novaResource(Entry::class);
 
@@ -160,14 +160,14 @@ class EntryTest extends TestCase
     }
 
     /**
-     * The Entry Resource shall contain a Episodes field.
+     * The Entry Resource shall contain an Episodes field.
      *
      * @return void
      *
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testEpisodesField()
+    public function testEpisodesField(): void
     {
         $resource = static::novaResource(Entry::class);
 
@@ -191,7 +191,7 @@ class EntryTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testNsfwField()
+    public function testNsfwField(): void
     {
         $resource = static::novaResource(Entry::class);
 
@@ -215,7 +215,7 @@ class EntryTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testSpoilerField()
+    public function testSpoilerField(): void
     {
         $resource = static::novaResource(Entry::class);
 
@@ -239,7 +239,7 @@ class EntryTest extends TestCase
      * @throws FieldNotFoundException
      * @throws InvalidNovaResourceException
      */
-    public function testNotesField()
+    public function testNotesField(): void
     {
         $resource = static::novaResource(Entry::class);
 
@@ -262,7 +262,7 @@ class EntryTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testFilters()
+    public function testFilters(): void
     {
         $resource = static::novaResource(Entry::class);
 
@@ -283,7 +283,7 @@ class EntryTest extends TestCase
      *
      * @throws InvalidNovaResourceException
      */
-    public function testActions()
+    public function testActions(): void
     {
         $resource = static::novaResource(Entry::class);
 

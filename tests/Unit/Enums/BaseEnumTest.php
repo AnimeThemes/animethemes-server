@@ -21,7 +21,7 @@ class BaseEnumTest extends TestCase
      *
      * @return void
      */
-    public function testFromDescriptionInstance()
+    public function testFromDescriptionInstance(): void
     {
         $enum = new class($this->faker->numberBetween(0, 2)) extends BaseEnum
         {
@@ -40,7 +40,7 @@ class BaseEnumTest extends TestCase
      *
      * @return void
      */
-    public function testFromDescriptionNullable()
+    public function testFromDescriptionNullable(): void
     {
         $enum = new class($this->faker->numberBetween(0, 2)) extends BaseEnum
         {

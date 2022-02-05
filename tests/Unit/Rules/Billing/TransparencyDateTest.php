@@ -23,7 +23,7 @@ class TransparencyDateTest extends TestCase
      *
      * @return void
      */
-    public function testStringInvalid()
+    public function testStringInvalid(): void
     {
         $validDates = collect([Date::now()]);
 
@@ -37,7 +37,7 @@ class TransparencyDateTest extends TestCase
      *
      * @return void
      */
-    public function testIntInvalid()
+    public function testIntInvalid(): void
     {
         $validDates = collect([Date::now()]);
 
@@ -51,7 +51,7 @@ class TransparencyDateTest extends TestCase
      *
      * @return void
      */
-    public function testInvalidDateFormat()
+    public function testInvalidDateFormat(): void
     {
         $validDates = collect([Date::now()]);
 
@@ -67,7 +67,7 @@ class TransparencyDateTest extends TestCase
      *
      * @return void
      */
-    public function testInvalidDateOption()
+    public function testInvalidDateOption(): void
     {
         $validDates = collect([Date::now()]);
 
@@ -83,7 +83,7 @@ class TransparencyDateTest extends TestCase
      *
      * @return void
      */
-    public function testValidDateOption()
+    public function testValidDateOption(): void
     {
         $validDates = collect([Date::now()]);
 

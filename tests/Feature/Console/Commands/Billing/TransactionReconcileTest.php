@@ -28,7 +28,7 @@ class TransactionReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testServiceArgumentRequired()
+    public function testServiceArgumentRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "service").');
@@ -41,11 +41,11 @@ class TransactionReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testOther()
+    public function testOther(): void
     {
         $other = Service::OTHER()->key;
 
-        $this->artisan(TransactionReconcileCommand::class, ['service' => $other])->expectsOutput("No source repository implemented for Service '{$other}'");
+        $this->artisan(TransactionReconcileCommand::class, ['service' => $other])->expectsOutput("No source repository implemented for Service '$other'");
     }
 
     /**
@@ -53,7 +53,7 @@ class TransactionReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testNoResults()
+    public function testNoResults(): void
     {
         $this->mock(DigitalOceanTransactionRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('all')->once()->andReturn(Collection::make());
@@ -67,7 +67,7 @@ class TransactionReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testCreated()
+    public function testCreated(): void
     {
         $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
 
@@ -83,7 +83,7 @@ class TransactionReconcileTest extends TestCase
             $mock->shouldReceive('all')->once()->andReturn($transactions);
         });
 
-        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("{$createdTransactionCount} Transactions created, 0 Transactions deleted, 0 Transactions updated");
+        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("$createdTransactionCount Transactions created, 0 Transactions deleted, 0 Transactions updated");
     }
 
     /**
@@ -91,7 +91,7 @@ class TransactionReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted()
+    public function testDeleted(): void
     {
         $deletedTransactionCount = $this->faker->randomDigitNotNull();
 
@@ -105,6 +105,6 @@ class TransactionReconcileTest extends TestCase
             $mock->shouldReceive('all')->once()->andReturn(Collection::make());
         });
 
-        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Transactions created, {$deletedTransactionCount} Transactions deleted, 0 Transactions updated");
+        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Transactions created, $deletedTransactionCount Transactions deleted, 0 Transactions updated");
     }
 }

@@ -36,7 +36,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $this->withoutEvents();
 
@@ -57,11 +57,11 @@ class VideoShowTest extends TestCase
     }
 
     /**
-     * The Video Show Endpoint shall return an Video Video for soft deleted videos.
+     * The Video Show Endpoint shall return a Video Resource for soft deleted videos.
      *
      * @return void
      */
-    public function testSoftDelete()
+    public function testSoftDelete(): void
     {
         $this->withoutEvents();
 
@@ -88,7 +88,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths()
+    public function testAllowedIncludePaths(): void
     {
         $schema = new VideoSchema();
 
@@ -131,7 +131,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $this->withoutEvents();
 
@@ -168,7 +168,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesByNsfw()
+    public function testEntriesByNsfw(): void
     {
         $nsfwFilter = $this->faker->boolean();
 
@@ -213,7 +213,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesBySpoiler()
+    public function testEntriesBySpoiler(): void
     {
         $spoilerFilter = $this->faker->boolean();
 
@@ -258,7 +258,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesByVersion()
+    public function testEntriesByVersion(): void
     {
         $versionFilter = $this->faker->randomDigitNotNull();
         $excludedVersion = $versionFilter + 1;
@@ -308,7 +308,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function testThemesByGroup()
+    public function testThemesByGroup(): void
     {
         $groupFilter = $this->faker->word();
         $excludedGroup = $this->faker->word();
@@ -360,7 +360,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function testThemesBySequence()
+    public function testThemesBySequence(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -412,7 +412,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function testThemesByType()
+    public function testThemesByType(): void
     {
         $typeFilter = ThemeType::getRandomInstance();
 
@@ -457,7 +457,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason()
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = AnimeSeason::getRandomInstance();
 
@@ -502,7 +502,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear()
+    public function testAnimeByYear(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;

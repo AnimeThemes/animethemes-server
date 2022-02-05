@@ -23,7 +23,7 @@ class AnimeThemeEntryVideoTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeThemeEntryVideoCreatedEventDispatched()
+    public function testAnimeThemeEntryVideoCreatedEventDispatched(): void
     {
         Event::fake(AnimeThemeEntryAnimeThemeCreatedVideo::class);
 
@@ -42,7 +42,7 @@ class AnimeThemeEntryVideoTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeThemeEntryVideoDeletedEventDispatched()
+    public function testAnimeThemeEntryVideoDeletedEventDispatched(): void
     {
         Event::fake(AnimeThemeEntryAnimeThemeDeletedVideo::class);
 

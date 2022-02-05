@@ -18,7 +18,7 @@ class CreateSeriesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(Series::TABLE, function (Blueprint $table) {
             $table->id(Series::ATTRIBUTE_ID);
@@ -34,7 +34,7 @@ class CreateSeriesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(Series::TABLE);
     }

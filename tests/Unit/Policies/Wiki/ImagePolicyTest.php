@@ -24,7 +24,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testViewAny()
+    public function testViewAny(): void
     {
         $policy = new ImagePolicy();
 
@@ -36,7 +36,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testView()
+    public function testView(): void
     {
         $policy = new ImagePolicy();
 
@@ -48,7 +48,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -74,7 +74,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -100,7 +100,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -126,7 +126,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testRestore()
+    public function testRestore(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -152,7 +152,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testForceDelete()
+    public function testForceDelete(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -178,7 +178,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnyArtist()
+    public function testAttachAnyArtist(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -204,7 +204,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachNewArtist()
+    public function testAttachNewArtist(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -232,7 +232,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachExistingArtist()
+    public function testAttachExistingArtist(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -261,7 +261,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachArtist()
+    public function testDetachArtist(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -287,7 +287,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnyAnime()
+    public function testAttachAnyAnime(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -313,7 +313,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachNewAnime()
+    public function testAttachNewAnime(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -341,7 +341,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachExistingAnime()
+    public function testAttachExistingAnime(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -370,7 +370,7 @@ class ImagePolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachAnime()
+    public function testDetachAnime(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')

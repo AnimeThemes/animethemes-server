@@ -33,7 +33,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    protected function routes()
+    protected function routes(): void
     {
         Nova::routes()->register();
     }
@@ -47,7 +47,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    protected function gate()
+    protected function gate(): void
     {
         Gate::define('viewNova', function (User $user) {
             $novaTeam = Team::query()->find(Config::get('teams.nova'));

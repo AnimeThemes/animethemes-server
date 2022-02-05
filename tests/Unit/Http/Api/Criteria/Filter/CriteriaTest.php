@@ -27,7 +27,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotFilterIfKeyMismatch()
+    public function testShouldNotFilterIfKeyMismatch(): void
     {
         $expression = new Expression($this->faker->word());
         $predicate = new Predicate($this->faker->word(), ComparisonOperator::getRandomInstance(), $expression);
@@ -72,7 +72,7 @@ class CriteriaTest extends TestCase
             }
         };
 
-        $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+        static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
     }
 
     /**
@@ -80,7 +80,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldFilterIfKeyMatch()
+    public function testShouldFilterIfKeyMatch(): void
     {
         $key = $this->faker->word();
 
@@ -127,7 +127,7 @@ class CriteriaTest extends TestCase
             }
         };
 
-        $this->assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
+        static::assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
     }
 
     /**
@@ -135,7 +135,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotFilterIfNotWithinScope()
+    public function testShouldNotFilterIfNotWithinScope(): void
     {
         $key = $this->faker->word();
 
@@ -182,7 +182,7 @@ class CriteriaTest extends TestCase
             }
         };
 
-        $this->assertFalse($criteria->shouldFilter($filter, new GlobalScope()));
+        static::assertFalse($criteria->shouldFilter($filter, new GlobalScope()));
     }
 
     /**
@@ -190,7 +190,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldFilterIfWithinScope()
+    public function testShouldFilterIfWithinScope(): void
     {
         $key = $this->faker->word();
 
@@ -237,6 +237,6 @@ class CriteriaTest extends TestCase
             }
         };
 
-        $this->assertTrue($criteria->shouldFilter($filter, $scope));
+        static::assertTrue($criteria->shouldFilter($filter, $scope));
     }
 }

@@ -30,7 +30,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testCastsFacetToEnum()
+    public function testCastsFacetToEnum(): void
     {
         $image = Image::factory()->createOne();
 
@@ -44,7 +44,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -58,7 +58,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $image = Image::factory()->createOne();
 
@@ -70,7 +70,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testAnime()
+    public function testAnime(): void
     {
         $animeCount = $this->faker->randomDigitNotNull();
 
@@ -89,7 +89,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testArtists()
+    public function testArtists(): void
     {
         $artistCount = $this->faker->randomDigitNotNull();
 
@@ -108,7 +108,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageStorageDeletion()
+    public function testImageStorageDeletion(): void
     {
         $fs = Storage::fake('images');
         $file = File::fake()->image($this->faker->word().'.jpg');
@@ -132,7 +132,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageStorageForceDeletion()
+    public function testImageStorageForceDeletion(): void
     {
         $fs = Storage::fake('images');
         $file = File::fake()->image($this->faker->word().'.jpg');

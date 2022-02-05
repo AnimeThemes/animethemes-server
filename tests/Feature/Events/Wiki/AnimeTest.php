@@ -22,7 +22,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeCreatedEventDispatched()
+    public function testAnimeCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -36,7 +36,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeDeletedEventDispatched()
+    public function testAnimeDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -52,7 +52,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeRestoredEventDispatched()
+    public function testAnimeRestoredEventDispatched(): void
     {
         Event::fake();
 
@@ -70,7 +70,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeRestoresQuietly()
+    public function testAnimeRestoresQuietly(): void
     {
         Event::fake();
 
@@ -86,7 +86,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeUpdatedEventDispatched()
+    public function testAnimeUpdatedEventDispatched(): void
     {
         Event::fake();
 

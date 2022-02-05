@@ -44,7 +44,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function boot()
+    public function boot(): void
     {
         $this->configureRateLimiting();
 
@@ -70,7 +70,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configureRateLimiting()
+    protected function configureRateLimiting(): void
     {
         RateLimiter::for(
             'api',

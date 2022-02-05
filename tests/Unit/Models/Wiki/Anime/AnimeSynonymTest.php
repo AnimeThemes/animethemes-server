@@ -23,7 +23,7 @@ class AnimeSynonymTest extends TestCase
      *
      * @return void
      */
-    public function testSearchableAs()
+    public function testSearchableAs(): void
     {
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
@@ -37,7 +37,7 @@ class AnimeSynonymTest extends TestCase
      *
      * @return void
      */
-    public function testToSearchableArray()
+    public function testToSearchableArray(): void
     {
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
@@ -51,7 +51,7 @@ class AnimeSynonymTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -67,7 +67,7 @@ class AnimeSynonymTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
@@ -81,7 +81,7 @@ class AnimeSynonymTest extends TestCase
      *
      * @return void
      */
-    public function testAnime()
+    public function testAnime(): void
     {
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())

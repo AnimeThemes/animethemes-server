@@ -34,7 +34,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testCastsSeasonToEnum()
+    public function testCastsSeasonToEnum(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -48,7 +48,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testSearchableAs()
+    public function testSearchableAs(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -60,7 +60,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testToSearchableArray()
+    public function testToSearchableArray(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -72,7 +72,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -86,7 +86,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -98,7 +98,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testSynonyms()
+    public function testSynonyms(): void
     {
         $synonymCount = $this->faker->randomDigitNotNull();
 
@@ -116,7 +116,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testSeries()
+    public function testSeries(): void
     {
         $seriesCount = $this->faker->randomDigitNotNull();
 
@@ -135,7 +135,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testThemes()
+    public function testThemes(): void
     {
         $themeCount = $this->faker->randomDigitNotNull();
 
@@ -153,7 +153,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testExternalResources()
+    public function testExternalResources(): void
     {
         $resourceCount = $this->faker->randomDigitNotNull();
 
@@ -172,7 +172,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testImages()
+    public function testImages(): void
     {
         $imageCount = $this->faker->randomDigitNotNull();
 
@@ -191,7 +191,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testStudios()
+    public function testStudios(): void
     {
         $studioCount = $this->faker->randomDigitNotNull();
 

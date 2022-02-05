@@ -22,7 +22,7 @@ class ArtistMemberTest extends TestCase
      *
      * @return void
      */
-    public function testArtistMemberCreatedSendsDiscordNotification()
+    public function testArtistMemberCreatedSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();
@@ -40,7 +40,7 @@ class ArtistMemberTest extends TestCase
      *
      * @return void
      */
-    public function testArtistMemberDeletedSendsDiscordNotification()
+    public function testArtistMemberDeletedSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();
@@ -60,7 +60,7 @@ class ArtistMemberTest extends TestCase
      *
      * @return void
      */
-    public function testArtistMemberUpdatedSendsDiscordNotification()
+    public function testArtistMemberUpdatedSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();

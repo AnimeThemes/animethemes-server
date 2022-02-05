@@ -20,7 +20,7 @@ class SeriesSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Get JSON of Series Index page content
         $seriesWikiContents = WikiPages::getPageContents(WikiPages::SERIES_INDEX);
@@ -49,7 +49,7 @@ class SeriesSeeder extends Seeder
                 ->first();
 
             if ($series === null) {
-                Log::info("Creating series with name '{$seriesName}' and slug '{$seriesSlug}'");
+                Log::info("Creating series with name '$seriesName' and slug '$seriesSlug'");
 
                 $series = Series::factory()->createOne([
                     Series::ATTRIBUTE_NAME => $seriesName,
@@ -96,7 +96,7 @@ class SeriesSeeder extends Seeder
                         ->where($series->getKeyName(), $series->getKey())
                         ->doesntExist()
                 ) {
-                    Log::info("Attaching anime '{$anime->name}' to series '{$series->name}'");
+                    Log::info("Attaching anime '$anime->name' to series '$series->name'");
                     $series->anime()->attach($anime);
                 }
             }

@@ -26,7 +26,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testSearchableAs()
+    public function testSearchableAs(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -38,7 +38,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testToSearchableArray()
+    public function testToSearchableArray(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -50,7 +50,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -64,7 +64,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -76,7 +76,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testAnime()
+    public function testAnime(): void
     {
         $animeCount = $this->faker->randomDigitNotNull();
 
@@ -95,7 +95,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testExternalResources()
+    public function testExternalResources(): void
     {
         $resourceCount = $this->faker->randomDigitNotNull();
 

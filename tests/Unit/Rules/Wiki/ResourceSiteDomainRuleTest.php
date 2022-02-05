@@ -21,7 +21,7 @@ class ResourceSiteDomainRuleTest extends TestCase
      *
      * @return void
      */
-    public function testResourceSiteDomainRulePasses()
+    public function testResourceSiteDomainRulePasses(): void
     {
         $site = ResourceSite::getRandomInstance();
 
@@ -41,7 +41,7 @@ class ResourceSiteDomainRuleTest extends TestCase
      *
      * @return void
      */
-    public function testResourceSiteDomainRuleOfficialPasses()
+    public function testResourceSiteDomainRuleOfficialPasses(): void
     {
         $site = ResourceSite::OFFICIAL_SITE;
 
@@ -55,7 +55,7 @@ class ResourceSiteDomainRuleTest extends TestCase
      *
      * @return void
      */
-    public function testResourceSiteDomainRuleFails()
+    public function testResourceSiteDomainRuleFails(): void
     {
         $site = null;
 

@@ -20,7 +20,7 @@ class FakeQuery extends Query
      *
      * @return Schema
      */
-    public static function schema(): Schema
+    public function schema(): Schema
     {
         return new class() extends Schema
         {
@@ -48,6 +48,8 @@ class FakeQuery extends Query
              * Get the direct fields of the resource.
              *
              * @return Field[]
+             *
+             * @noinspection PhpMissingParentCallCommonInspection
              */
             public function fields(): array
             {

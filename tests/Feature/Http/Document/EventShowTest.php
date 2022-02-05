@@ -16,7 +16,7 @@ class EventShowTest extends TestCase
      *
      * @return void
      */
-    public function testBestEndingIII()
+    public function testBestEndingIII(): void
     {
         $response = $this->get(route('event.show', ['docName' => 'best_ending_iii']));
 
@@ -28,7 +28,7 @@ class EventShowTest extends TestCase
      *
      * @return void
      */
-    public function testBestEndingIV()
+    public function testBestEndingIV(): void
     {
         $response = $this->get(route('event.show', ['docName' => 'best_ending_iv']));
 
@@ -40,7 +40,7 @@ class EventShowTest extends TestCase
      *
      * @return void
      */
-    public function testBestEndingV()
+    public function testBestEndingV(): void
     {
         $response = $this->get(route('event.show', ['docName' => 'best_ending_v']));
 
@@ -52,7 +52,7 @@ class EventShowTest extends TestCase
      *
      * @return void
      */
-    public function testBestEndingVI()
+    public function testBestEndingVI(): void
     {
         $response = $this->get(route('event.show', ['docName' => 'best_ending_vi']));
 
@@ -64,7 +64,7 @@ class EventShowTest extends TestCase
      *
      * @return void
      */
-    public function testBestOpeningVII()
+    public function testBestOpeningVII(): void
     {
         $response = $this->get(route('event.show', ['docName' => 'best_opening_vii']));
 
@@ -76,7 +76,7 @@ class EventShowTest extends TestCase
      *
      * @return void
      */
-    public function testBestOpeningVIII()
+    public function testBestOpeningVIII(): void
     {
         $response = $this->get(route('event.show', ['docName' => 'best_opening_viii']));
 
@@ -88,7 +88,7 @@ class EventShowTest extends TestCase
      *
      * @return void
      */
-    public function testBestOpeningIX()
+    public function testBestOpeningIX(): void
     {
         $response = $this->get(route('event.show', ['docName' => 'best_opening_ix']));
 

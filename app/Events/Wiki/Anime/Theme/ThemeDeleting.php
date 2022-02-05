@@ -19,7 +19,7 @@ class ThemeDeleting extends ThemeEvent implements CascadesDeletesEvent
      *
      * @return void
      */
-    public function cascadeDeletes()
+    public function cascadeDeletes(): void
     {
         $theme = $this->getTheme()->load(AnimeTheme::RELATION_VIDEOS);
 

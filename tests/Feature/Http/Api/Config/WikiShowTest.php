@@ -29,7 +29,7 @@ class WikiShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $video = Video::factory()->createOne();
 
@@ -54,7 +54,7 @@ class WikiShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $video = Video::factory()->createOne();
 

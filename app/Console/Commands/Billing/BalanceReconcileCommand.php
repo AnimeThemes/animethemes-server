@@ -48,24 +48,24 @@ class BalanceReconcileCommand extends Command
         $service = Service::coerce(Str::upper($key));
 
         if ($service === null) {
-            Log::error("Invalid Service '{$key}'");
-            $this->error("Invalid Service '{$key}'");
+            Log::error("Invalid Service '$key'");
+            $this->error("Invalid Service '$key'");
 
             return 1;
         }
 
         $sourceRepository = $this->getSourceRepository($service);
         if ($sourceRepository === null) {
-            Log::error("No source repository implemented for Service '{$key}'");
-            $this->error("No source repository implemented for Service '{$key}'");
+            Log::error("No source repository implemented for Service '$key'");
+            $this->error("No source repository implemented for Service '$key'");
 
             return 1;
         }
 
         $destinationRepository = $this->getDestinationRepository($service);
         if ($destinationRepository === null) {
-            Log::error("No destination repository implemented for Service '{$key}'");
-            $this->error("No destination repository implemented for Service '{$key}'");
+            Log::error("No destination repository implemented for Service '$key'");
+            $this->error("No destination repository implemented for Service '$key'");
 
             return 1;
         }
@@ -80,16 +80,16 @@ class BalanceReconcileCommand extends Command
      *
      * @return void
      */
-    protected function postReconciliationTask()
+    protected function postReconciliationTask(): void
     {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
-                Log::info("{$this->created} Balances created, {$this->deleted} Balances deleted, {$this->updated} Balances updated");
-                $this->info("{$this->created} Balances created, {$this->deleted} Balances deleted, {$this->updated} Balances updated");
+                Log::info("$this->created Balances created, $this->deleted Balances deleted, $this->updated Balances updated");
+                $this->info("$this->created Balances created, $this->deleted Balances deleted, $this->updated Balances updated");
             }
             if ($this->hasFailures()) {
-                Log::error("Failed to create {$this->createdFailed} Balances, delete {$this->deletedFailed} Balances, update {$this->updatedFailed} Balances");
-                $this->error("Failed to create {$this->createdFailed} Balances, delete {$this->deletedFailed} Balances, update {$this->updatedFailed} Balances");
+                Log::error("Failed to create $this->createdFailed Balances, delete $this->deletedFailed Balances, update $this->updatedFailed Balances");
+                $this->error("Failed to create $this->createdFailed Balances, delete $this->deletedFailed Balances, update $this->updatedFailed Balances");
             }
         } else {
             Log::info('No Balances created or deleted or updated');
@@ -103,7 +103,7 @@ class BalanceReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleCreated(BaseModel $model)
+    protected function handleCreated(BaseModel $model): void
     {
         Log::info("Balance '{$model->getName()}' created");
         $this->info("Balance '{$model->getName()}' created");
@@ -115,7 +115,7 @@ class BalanceReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedCreation(BaseModel $model)
+    protected function handleFailedCreation(BaseModel $model): void
     {
         Log::error("Balance '{$model->getName()}' was not created");
         $this->error("Balance '{$model->getName()}' was not created");
@@ -127,7 +127,7 @@ class BalanceReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleDeleted(BaseModel $model)
+    protected function handleDeleted(BaseModel $model): void
     {
         Log::info("Balance '{$model->getName()}' deleted");
         $this->info("Balance '{$model->getName()}' deleted");
@@ -139,7 +139,7 @@ class BalanceReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedDeletion(BaseModel $model)
+    protected function handleFailedDeletion(BaseModel $model): void
     {
         Log::error("Balance '{$model->getName()}' was not deleted");
         $this->error("Balance '{$model->getName()}' was not deleted");
@@ -151,7 +151,7 @@ class BalanceReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleUpdated(BaseModel $model)
+    protected function handleUpdated(BaseModel $model): void
     {
         Log::info("Balance '{$model->getName()}' updated");
         $this->info("Balance '{$model->getName()}' updated");
@@ -163,7 +163,7 @@ class BalanceReconcileCommand extends Command
      * @param  BaseModel  $model
      * @return void
      */
-    protected function handleFailedUpdate(BaseModel $model)
+    protected function handleFailedUpdate(BaseModel $model): void
     {
         Log::error("Balance '{$model->getName()}' was not updated");
         $this->error("Balance '{$model->getName()}' was not updated");
@@ -175,7 +175,7 @@ class BalanceReconcileCommand extends Command
      * @param  Exception  $exception
      * @return void
      */
-    protected function handleException(Exception $exception)
+    protected function handleException(Exception $exception): void
     {
         Log::error($exception->getMessage());
         $this->error($exception->getMessage());

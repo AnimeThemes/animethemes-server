@@ -41,7 +41,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $this->withoutEvents();
 
@@ -66,7 +66,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testSoftDelete()
+    public function testSoftDelete(): void
     {
         $this->withoutEvents();
 
@@ -95,7 +95,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths()
+    public function testAllowedIncludePaths(): void
     {
         $schema = new AnimeSchema();
 
@@ -131,7 +131,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $this->withoutEvents();
 
@@ -168,7 +168,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testThemesByGroup()
+    public function testThemesByGroup(): void
     {
         $groupFilter = $this->faker->word();
         $excludedGroup = $this->faker->word();
@@ -217,7 +217,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testThemesBySequence()
+    public function testThemesBySequence(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -266,7 +266,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testThemesByType()
+    public function testThemesByType(): void
     {
         $typeFilter = ThemeType::getRandomInstance();
 
@@ -307,7 +307,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesByNsfw()
+    public function testEntriesByNsfw(): void
     {
         $nsfwFilter = $this->faker->boolean();
 
@@ -352,7 +352,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesBySpoiler()
+    public function testEntriesBySpoiler(): void
     {
         $spoilerFilter = $this->faker->boolean();
 
@@ -397,7 +397,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesByVersion()
+    public function testEntriesByVersion(): void
     {
         $versionFilter = $this->faker->numberBetween(1, 3);
         $excludedVersion = $versionFilter + 1;
@@ -450,7 +450,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testResourcesBySite()
+    public function testResourcesBySite(): void
     {
         $this->withoutEvents();
 
@@ -493,7 +493,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testImagesByFacet()
+    public function testImagesByFacet(): void
     {
         $this->withoutEvents();
 
@@ -536,7 +536,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByLyrics()
+    public function testVideosByLyrics(): void
     {
         $lyricsFilter = $this->faker->boolean();
 
@@ -575,7 +575,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByNc()
+    public function testVideosByNc(): void
     {
         $ncFilter = $this->faker->boolean();
 
@@ -614,7 +614,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByOverlap()
+    public function testVideosByOverlap(): void
     {
         $overlapFilter = VideoOverlap::getRandomInstance();
 
@@ -653,7 +653,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByResolution()
+    public function testVideosByResolution(): void
     {
         $resolutionFilter = $this->faker->randomNumber();
         $excludedResolution = $resolutionFilter + 1;
@@ -710,7 +710,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosBySource()
+    public function testVideosBySource(): void
     {
         $sourceFilter = VideoSource::getRandomInstance();
 
@@ -749,7 +749,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosBySubbed()
+    public function testVideosBySubbed(): void
     {
         $subbedFilter = $this->faker->boolean();
 
@@ -788,7 +788,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByUncen()
+    public function testVideosByUncen(): void
     {
         $uncenFilter = $this->faker->boolean();
 

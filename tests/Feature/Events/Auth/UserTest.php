@@ -22,7 +22,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testUserCreatedEventDispatched()
+    public function testUserCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -36,7 +36,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testUserDeletedEventDispatched()
+    public function testUserDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -52,7 +52,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testUserRestoredEventDispatched()
+    public function testUserRestoredEventDispatched(): void
     {
         Event::fake();
 
@@ -70,7 +70,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testUserRestoresQuietly()
+    public function testUserRestoresQuietly(): void
     {
         Event::fake();
 
@@ -86,7 +86,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testUserUpdatedEventDispatched()
+    public function testUserUpdatedEventDispatched(): void
     {
         Event::fake();
 

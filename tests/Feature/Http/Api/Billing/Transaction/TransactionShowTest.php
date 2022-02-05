@@ -23,11 +23,11 @@ class TransactionShowTest extends TestCase
     use WithoutEvents;
 
     /**
-     * By default, the Annouc Show Endpoint shall return an Transaction Resource.
+     * By default, the Transaction Show Endpoint shall return a Transaction Resource.
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $transaction = Transaction::factory()->create();
 
@@ -46,11 +46,11 @@ class TransactionShowTest extends TestCase
     }
 
     /**
-     * The Transaction Show Endpoint shall return an Transaction Resource for soft deleted images.
+     * The Transaction Show Endpoint shall return a Transaction Resource for soft deleted images.
      *
      * @return void
      */
-    public function testSoftDelete()
+    public function testSoftDelete(): void
     {
         $transaction = Transaction::factory()->createOne();
 
@@ -77,7 +77,7 @@ class TransactionShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $schema = new TransactionSchema();
 

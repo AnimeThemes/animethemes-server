@@ -26,7 +26,7 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testNoResults()
+    public function testNoResults(): void
     {
         $this->mock(VideoRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('all')->once()->andReturn(Collection::make());
@@ -40,7 +40,7 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testCreated()
+    public function testCreated(): void
     {
         $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
 
@@ -52,7 +52,7 @@ class VideoReconcileTest extends TestCase
             $mock->shouldReceive('all')->once()->andReturn($videos);
         });
 
-        $this->artisan(VideoReconcileCommand::class)->expectsOutput("{$createdVideoCount} Videos created, 0 Videos deleted, 0 Videos updated");
+        $this->artisan(VideoReconcileCommand::class)->expectsOutput("$createdVideoCount Videos created, 0 Videos deleted, 0 Videos updated");
     }
 
     /**
@@ -60,7 +60,7 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted()
+    public function testDeleted(): void
     {
         $deletedVideoCount = $this->faker->randomDigitNotNull();
 
@@ -70,7 +70,7 @@ class VideoReconcileTest extends TestCase
             $mock->shouldReceive('all')->once()->andReturn(Collection::make());
         });
 
-        $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, {$deletedVideoCount} Videos deleted, 0 Videos updated");
+        $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, $deletedVideoCount Videos deleted, 0 Videos updated");
     }
 
     /**
@@ -78,7 +78,7 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testUpdated()
+    public function testUpdated(): void
     {
         $updatedVideoCount = $this->faker->randomDigitNotNull();
 
@@ -98,6 +98,6 @@ class VideoReconcileTest extends TestCase
             $mock->shouldReceive('all')->once()->andReturn($sourceVideos);
         });
 
-        $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, 0 Videos deleted, {$updatedVideoCount} Videos updated");
+        $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, 0 Videos deleted, $updatedVideoCount Videos updated");
     }
 }

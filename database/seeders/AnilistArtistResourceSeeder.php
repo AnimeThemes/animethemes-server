@@ -25,7 +25,7 @@ class AnilistArtistResourceSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Get artists that have MAL resource but do not have Anilist resource
         $artists = Artist::query()
@@ -77,11 +77,11 @@ class AnilistArtistResourceSeeder extends Seeder
 
                 // Create Anilist resource if it doesn't already exist
                 if ($anilistResource === null) {
-                    Log::info("Creating anilist resource '{$anilistId}' for artist '{$artist->name}'");
+                    Log::info("Creating anilist resource '$anilistId' for artist '$artist->name'");
 
                     $anilistResource = ExternalResource::factory()->createOne([
                         ExternalResource::ATTRIBUTE_EXTERNAL_ID => $anilistId,
-                        ExternalResource::ATTRIBUTE_LINK => "https://anilist.co/staff/{$anilistId}/",
+                        ExternalResource::ATTRIBUTE_LINK => "https://anilist.co/staff/$anilistId/",
                         ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANILIST,
                     ]);
                 }
@@ -93,7 +93,7 @@ class AnilistArtistResourceSeeder extends Seeder
                         ->where($anilistResource->getKeyName(), $anilistResource->getKey())
                         ->doesntExist()
                 ) {
-                    Log::info("Attaching resource '{$anilistResource->link}' to artist '{$artist->name}'");
+                    Log::info("Attaching resource '$anilistResource->link' to artist '$artist->name'");
                     $anilistResource->artists()->attach($artist);
                 }
             } catch (RequestException $e) {

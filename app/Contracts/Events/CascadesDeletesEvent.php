@@ -14,5 +14,5 @@ interface CascadesDeletesEvent
      *
      * @return void
      */
-    public function cascadeDeletes();
+    public function cascadeDeletes(): void;
 }

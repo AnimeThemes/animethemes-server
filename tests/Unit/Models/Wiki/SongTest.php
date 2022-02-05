@@ -27,7 +27,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testSearchableAs()
+    public function testSearchableAs(): void
     {
         $song = Song::factory()->createOne();
 
@@ -39,7 +39,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testToSearchableArray()
+    public function testToSearchableArray(): void
     {
         $song = Song::factory()->createOne();
 
@@ -51,7 +51,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -65,7 +65,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $song = Song::factory()->createOne();
 
@@ -77,7 +77,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testThemes()
+    public function testThemes(): void
     {
         $themeCount = $this->faker->randomDigitNotNull();
 
@@ -95,7 +95,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testArtists()
+    public function testArtists(): void
     {
         $artistCount = $this->faker->randomDigitNotNull();
 

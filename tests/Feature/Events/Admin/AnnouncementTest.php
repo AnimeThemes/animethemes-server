@@ -22,7 +22,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testAnnouncementCreatedEventDispatched()
+    public function testAnnouncementCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -36,7 +36,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testAnnouncementDeletedEventDispatched()
+    public function testAnnouncementDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -52,7 +52,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testAnnouncementRestoredEventDispatched()
+    public function testAnnouncementRestoredEventDispatched(): void
     {
         Event::fake();
 
@@ -70,7 +70,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testAnnouncementRestoresQuietly()
+    public function testAnnouncementRestoresQuietly(): void
     {
         Event::fake();
 
@@ -86,7 +86,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testAnnouncementUpdatedEventDispatched()
+    public function testAnnouncementUpdatedEventDispatched(): void
     {
         Event::fake();
 

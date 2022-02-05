@@ -22,7 +22,7 @@ class SortTest extends TestCase
      *
      * @return void
      */
-    public function testDefaultColumn()
+    public function testDefaultColumn(): void
     {
         $sort = new Sort($this->faker->word());
 
@@ -34,7 +34,7 @@ class SortTest extends TestCase
      *
      * @return void
      */
-    public function testFormatAsc()
+    public function testFormatAsc(): void
     {
         $sortField = $this->faker->word();
 
@@ -48,7 +48,7 @@ class SortTest extends TestCase
      *
      * @return void
      */
-    public function testFormatDesc()
+    public function testFormatDesc(): void
     {
         $sortField = $this->faker->word();
 

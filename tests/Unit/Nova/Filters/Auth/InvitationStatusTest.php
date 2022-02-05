@@ -28,7 +28,7 @@ class InvitationStatusTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testSelectFilter()
+    public function testSelectFilter(): void
     {
         static::novaFilter(InvitationStatusFilter::class)
             ->assertSelectFilter();
@@ -41,7 +41,7 @@ class InvitationStatusTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testOptions()
+    public function testOptions(): void
     {
         $filter = static::novaFilter(InvitationStatusFilter::class);
 
@@ -58,7 +58,7 @@ class InvitationStatusTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
-    public function testFilter()
+    public function testFilter(): void
     {
         $status = InvitationStatus::getRandomInstance();
 

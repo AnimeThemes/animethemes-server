@@ -34,7 +34,7 @@ class ImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $image = Image::factory()->create();
 
@@ -53,11 +53,11 @@ class ImageShowTest extends TestCase
     }
 
     /**
-     * The Image Show Endpoint shall return an Image Image for soft deleted images.
+     * The Image Show Endpoint shall return an Image Resource for soft deleted images.
      *
      * @return void
      */
-    public function testSoftDelete()
+    public function testSoftDelete(): void
     {
         $image = Image::factory()->createOne();
 
@@ -84,7 +84,7 @@ class ImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths()
+    public function testAllowedIncludePaths(): void
     {
         $schema = new ImageSchema();
 
@@ -124,7 +124,7 @@ class ImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $schema = new ImageSchema();
 
@@ -159,7 +159,7 @@ class ImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason()
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = AnimeSeason::getRandomInstance();
 
@@ -200,7 +200,7 @@ class ImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear()
+    public function testAnimeByYear(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;

@@ -23,7 +23,7 @@ class DatabaseDumpTest extends TestCase
      *
      * @return void
      */
-    public function testDataBaseDumpOutput()
+    public function testDataBaseDumpOutput(): void
     {
         Storage::fake('db-dumps');
 
@@ -38,7 +38,7 @@ class DatabaseDumpTest extends TestCase
 
         $dumpFile = DatabaseDumpCommand::getDumpFile($create);
 
-        $this->artisan($command->__toString())->expectsOutput("Database dump '{$dumpFile}' has been created");
+        $this->artisan($command->__toString())->expectsOutput("Database dump '$dumpFile' has been created");
     }
 
     /**
@@ -46,7 +46,7 @@ class DatabaseDumpTest extends TestCase
      *
      * @return void
      */
-    public function testDataBaseDumpFile()
+    public function testDataBaseDumpFile(): void
     {
         Storage::fake('db-dumps');
 

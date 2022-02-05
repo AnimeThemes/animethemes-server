@@ -18,7 +18,7 @@ class VideoPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testViewAny()
+    public function testViewAny(): void
     {
         $policy = new VideoPolicy();
 
@@ -30,7 +30,7 @@ class VideoPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testView()
+    public function testView(): void
     {
         $policy = new VideoPolicy();
 
@@ -42,7 +42,7 @@ class VideoPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -68,7 +68,7 @@ class VideoPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -94,7 +94,7 @@ class VideoPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -120,7 +120,7 @@ class VideoPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testRestore()
+    public function testRestore(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -146,7 +146,7 @@ class VideoPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testForceDelete()
+    public function testForceDelete(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -172,7 +172,7 @@ class VideoPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachAnyEntry()
+    public function testAttachAnyEntry(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -198,7 +198,7 @@ class VideoPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testAttachEntry()
+    public function testAttachEntry(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')
@@ -224,7 +224,7 @@ class VideoPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testDetachEntry()
+    public function testDetachEntry(): void
     {
         $viewer = User::factory()
             ->withCurrentTeam('viewer')

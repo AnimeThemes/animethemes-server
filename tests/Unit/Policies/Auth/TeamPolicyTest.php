@@ -28,7 +28,7 @@ class TeamPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testViewAny()
+    public function testViewAny(): void
     {
         $policy = new TeamPolicy();
 
@@ -40,7 +40,7 @@ class TeamPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testView()
+    public function testView(): void
     {
         $team = Team::factory()->createOne();
 
@@ -61,7 +61,7 @@ class TeamPolicyTest extends TestCase
      *
      * @return void
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $user = User::factory()->createOne();
 
@@ -83,7 +83,7 @@ class TeamPolicyTest extends TestCase
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $user = User::factory()->createOne();
 
@@ -109,7 +109,7 @@ class TeamPolicyTest extends TestCase
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    public function testAddTeamMember()
+    public function testAddTeamMember(): void
     {
         $user = User::factory()->createOne();
 
@@ -135,7 +135,7 @@ class TeamPolicyTest extends TestCase
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    public function testUpdateTeamMember()
+    public function testUpdateTeamMember(): void
     {
         $user = User::factory()->createOne();
 
@@ -161,7 +161,7 @@ class TeamPolicyTest extends TestCase
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    public function testRemoveTeamMember()
+    public function testRemoveTeamMember(): void
     {
         $user = User::factory()->createOne();
 
@@ -187,7 +187,7 @@ class TeamPolicyTest extends TestCase
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $user = User::factory()->createOne();
 

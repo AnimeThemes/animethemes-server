@@ -32,7 +32,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $this->withoutEvents();
 
@@ -53,11 +53,11 @@ class StudioShowTest extends TestCase
     }
 
     /**
-     * The Studio Show Endpoint shall return an Studio Studio for soft deleted studios.
+     * The Studio Show Endpoint shall return a Studio Resource for soft deleted studios.
      *
      * @return void
      */
-    public function testSoftDelete()
+    public function testSoftDelete(): void
     {
         $this->withoutEvents();
 
@@ -86,7 +86,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths()
+    public function testAllowedIncludePaths(): void
     {
         $schema = new StudioSchema();
 
@@ -125,7 +125,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $this->withoutEvents();
 
@@ -162,7 +162,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason()
+    public function testAnimeBySeason(): void
     {
         $this->withoutEvents();
 
@@ -205,7 +205,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear()
+    public function testAnimeByYear(): void
     {
         $this->withoutEvents();
 

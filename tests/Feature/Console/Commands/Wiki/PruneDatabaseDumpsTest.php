@@ -23,7 +23,7 @@ class PruneDatabaseDumpsTest extends TestCase
      *
      * @return void
      */
-    public function testNoResults()
+    public function testNoResults(): void
     {
         Storage::fake('db-dumps');
 
@@ -35,7 +35,7 @@ class PruneDatabaseDumpsTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted()
+    public function testDeleted(): void
     {
         Storage::fake('db-dumps');
 
@@ -49,6 +49,6 @@ class PruneDatabaseDumpsTest extends TestCase
 
         Date::setTestNow();
 
-        $this->artisan('db:prune-dumps --hours=-1')->expectsOutput("{$deletedCount} database dumps deleted");
+        $this->artisan('db:prune-dumps --hours=-1')->expectsOutput("$deletedCount database dumps deleted");
     }
 }

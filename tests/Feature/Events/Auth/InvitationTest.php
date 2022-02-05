@@ -22,7 +22,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testInvitationCreatedEventDispatched()
+    public function testInvitationCreatedEventDispatched(): void
     {
         Event::fake(InvitationCreated::class);
 
@@ -36,7 +36,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testInvitationDeletedEventDispatched()
+    public function testInvitationDeletedEventDispatched(): void
     {
         Event::fake(InvitationDeleted::class);
 
@@ -52,7 +52,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testInvitationRestoredEventDispatched()
+    public function testInvitationRestoredEventDispatched(): void
     {
         Event::fake(InvitationRestored::class);
 
@@ -70,7 +70,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testInvitationRestoresQuietly()
+    public function testInvitationRestoresQuietly(): void
     {
         Event::fake();
 
@@ -86,7 +86,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testInvitationUpdatedEventDispatched()
+    public function testInvitationUpdatedEventDispatched(): void
     {
         Event::fake(InvitationUpdated::class);
 

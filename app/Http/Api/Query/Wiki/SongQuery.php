@@ -24,7 +24,7 @@ class SongQuery extends EloquentQuery
      *
      * @return Schema
      */
-    public static function schema(): Schema
+    public function schema(): Schema
     {
         return new SongSchema();
     }

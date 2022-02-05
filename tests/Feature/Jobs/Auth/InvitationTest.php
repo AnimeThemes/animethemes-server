@@ -21,7 +21,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testInvitationCreatedSendsDiscordNotification()
+    public function testInvitationCreatedSendsDiscordNotification(): void
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -36,7 +36,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testInvitationDeletedSendsDiscordNotification()
+    public function testInvitationDeletedSendsDiscordNotification(): void
     {
         $invitation = Invitation::factory()->createOne();
 
@@ -53,7 +53,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testInvitationRestoredSendsDiscordNotification()
+    public function testInvitationRestoredSendsDiscordNotification(): void
     {
         $invitation = Invitation::factory()->createOne();
 
@@ -70,7 +70,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testInvitationUpdatedSendsDiscordNotification()
+    public function testInvitationUpdatedSendsDiscordNotification(): void
     {
         $invitation = Invitation::factory()->createOne();
 

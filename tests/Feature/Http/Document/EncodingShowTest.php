@@ -16,7 +16,7 @@ class EncodingShowTest extends TestCase
      *
      * @return void
      */
-    public function testAudioFiltering()
+    public function testAudioFiltering(): void
     {
         $response = $this->get(route('encoding.show', ['docName' => 'audio_filtering']));
 
@@ -28,7 +28,7 @@ class EncodingShowTest extends TestCase
      *
      * @return void
      */
-    public function testAudioNormalization()
+    public function testAudioNormalization(): void
     {
         $response = $this->get(route('encoding.show', ['docName' => 'audio_normalization']));
 
@@ -40,7 +40,7 @@ class EncodingShowTest extends TestCase
      *
      * @return void
      */
-    public function testColorspace()
+    public function testColorspace(): void
     {
         $response = $this->get(route('encoding.show', ['docName' => 'colorspace']));
 
@@ -52,7 +52,7 @@ class EncodingShowTest extends TestCase
      *
      * @return void
      */
-    public function testCommonPositions()
+    public function testCommonPositions(): void
     {
         $response = $this->get(route('encoding.show', ['docName' => 'common_positions']));
 
@@ -64,7 +64,7 @@ class EncodingShowTest extends TestCase
      *
      * @return void
      */
-    public function testFFmpeg()
+    public function testFFmpeg(): void
     {
         $response = $this->get(route('encoding.show', ['docName' => 'ffmpeg']));
 
@@ -76,7 +76,7 @@ class EncodingShowTest extends TestCase
      *
      * @return void
      */
-    public function testPrereqs()
+    public function testPrereqs(): void
     {
         $response = $this->get(route('encoding.show', ['docName' => 'prereqs']));
 
@@ -88,7 +88,7 @@ class EncodingShowTest extends TestCase
      *
      * @return void
      */
-    public function testSetup()
+    public function testSetup(): void
     {
         $response = $this->get(route('encoding.show', ['docName' => 'setup']));
 
@@ -100,7 +100,7 @@ class EncodingShowTest extends TestCase
      *
      * @return void
      */
-    public function testTroubleshooting()
+    public function testTroubleshooting(): void
     {
         $response = $this->get(route('encoding.show', ['docName' => 'troubleshooting']));
 
@@ -112,7 +112,7 @@ class EncodingShowTest extends TestCase
      *
      * @return void
      */
-    public function testUtilities()
+    public function testUtilities(): void
     {
         $response = $this->get(route('encoding.show', ['docName' => 'utilities']));
 
@@ -124,7 +124,7 @@ class EncodingShowTest extends TestCase
      *
      * @return void
      */
-    public function testVerification()
+    public function testVerification(): void
     {
         $response = $this->get(route('encoding.show', ['docName' => 'verification']));
 
@@ -136,7 +136,7 @@ class EncodingShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideoFiltering()
+    public function testVideoFiltering(): void
     {
         $response = $this->get(route('encoding.show', ['docName' => 'video_filtering']));
 
@@ -148,7 +148,7 @@ class EncodingShowTest extends TestCase
      *
      * @return void
      */
-    public function testWorkflow()
+    public function testWorkflow(): void
     {
         $response = $this->get(route('encoding.show', ['docName' => 'workflow']));
 

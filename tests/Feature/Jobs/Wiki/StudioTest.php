@@ -21,7 +21,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioCreatedSendsDiscordNotification()
+    public function testStudioCreatedSendsDiscordNotification(): void
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -36,7 +36,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioDeletedSendsDiscordNotification()
+    public function testStudioDeletedSendsDiscordNotification(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -53,7 +53,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioRestoredSendsDiscordNotification()
+    public function testStudioRestoredSendsDiscordNotification(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -70,7 +70,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioUpdatedSendsDiscordNotification()
+    public function testStudioUpdatedSendsDiscordNotification(): void
     {
         $studio = Studio::factory()->createOne();
 

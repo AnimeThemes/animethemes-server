@@ -55,7 +55,7 @@ class AnimeRestored extends AnimeEvent implements CascadesRestoresEvent, Discord
      *
      * @return void
      */
-    public function cascadeRestores()
+    public function cascadeRestores(): void
     {
         $anime = $this->getAnime();
 

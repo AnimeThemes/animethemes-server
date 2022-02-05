@@ -21,7 +21,7 @@ class VideoTagsSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $videoPages = array_keys(WikiPages::YEAR_MAP);
         $videoPages[] = WikiPages::MISC_INDEX;
@@ -46,7 +46,7 @@ class VideoTagsSeeder extends Seeder
             );
 
             foreach ($videoWikiEntries as $videoWikiEntry) {
-                // Video tags are potentially inconsistent so we make an effort for uniformity
+                // Video tags are potentially inconsistent, so we make an effort for uniformity
                 $videoTags = explode(',', preg_replace('/\s+/', '', Str::upper($videoWikiEntry[1])));
                 $videoBasename = count($videoWikiEntry) === 3 ? $videoWikiEntry[2] : $videoWikiEntry[3];
 
@@ -91,7 +91,7 @@ class VideoTagsSeeder extends Seeder
 
                 // Save changes if any to Video
                 if ($video->isDirty()) {
-                    Log::info("Saving tags for video '{$video->basename}'");
+                    Log::info("Saving tags for video '$video->basename'");
                     Log::info(json_encode($video->getDirty()));
                     $video->save();
                 }

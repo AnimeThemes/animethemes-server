@@ -116,7 +116,7 @@ class Studio extends Resource
                 ->rules(['required', 'max:192', 'alpha_dash'])
                 ->updateRules(
                     Rule::unique(StudioModel::TABLE)
-                        ->ignore($request->resourceId, StudioModel::ATTRIBUTE_ID)
+                        ->ignore($request->route('resourceId'), StudioModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
                 ->help(__('nova.studio_slug_help')),

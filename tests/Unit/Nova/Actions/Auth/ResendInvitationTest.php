@@ -30,7 +30,7 @@ class ResendInvitationTest extends TestCase
      *
      * @throws InvalidNovaActionException
      */
-    public function testHasNoFields()
+    public function testHasNoFields(): void
     {
         static::novaAction(ResendInvitationAction::class)
             ->assertHasNoFields();
@@ -43,7 +43,7 @@ class ResendInvitationTest extends TestCase
      *
      * @throws InvalidNovaActionException
      */
-    public function testNoInvitationsResent()
+    public function testNoInvitationsResent(): void
     {
         $action = static::novaAction(ResendInvitationAction::class);
 
@@ -58,7 +58,7 @@ class ResendInvitationTest extends TestCase
      *
      * @throws InvalidNovaActionException
      */
-    public function testNoClosedInvitationsResent()
+    public function testNoClosedInvitationsResent(): void
     {
         $invitations = Invitation::factory()
             ->count($this->faker->randomDigitNotNull())
@@ -79,7 +79,7 @@ class ResendInvitationTest extends TestCase
      *
      * @throws InvalidNovaActionException
      */
-    public function testOpenInvitationsResent()
+    public function testOpenInvitationsResent(): void
     {
         $invitations = Invitation::factory()
             ->count($this->faker->randomDigitNotNull())
@@ -100,7 +100,7 @@ class ResendInvitationTest extends TestCase
      *
      * @return void
      */
-    public function testNoMailSentForClosedInvitations()
+    public function testNoMailSentForClosedInvitations(): void
     {
         $invitations = Invitation::factory()
             ->count($this->faker->randomDigitNotNull())
@@ -122,7 +122,7 @@ class ResendInvitationTest extends TestCase
      *
      * @return void
      */
-    public function testMailSentForOpenInvitations()
+    public function testMailSentForOpenInvitations(): void
     {
         $invitationCount = $this->faker->randomDigitNotNull();
 

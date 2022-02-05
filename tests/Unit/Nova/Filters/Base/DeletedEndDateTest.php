@@ -33,7 +33,7 @@ class DeletedEndDateTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testDateFilter()
+    public function testDateFilter(): void
     {
         static::novaFilter(DeletedEndDateFilter::class)
             ->assertDateFilter();
@@ -44,7 +44,7 @@ class DeletedEndDateTest extends TestCase
      *
      * @return void
      */
-    public function testFilter()
+    public function testFilter(): void
     {
         $dateFilter = Carbon::now()->subDays($this->faker->randomDigitNotNull());
 

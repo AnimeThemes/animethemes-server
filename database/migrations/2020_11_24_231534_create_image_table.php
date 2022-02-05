@@ -18,7 +18,7 @@ class CreateImageTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(Image::TABLE, function (Blueprint $table) {
             $table->id(Image::ATTRIBUTE_ID);
@@ -36,7 +36,7 @@ class CreateImageTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(Image::TABLE);
     }

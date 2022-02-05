@@ -19,7 +19,7 @@ class CreateAnimeSynonymsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(AnimeSynonym::TABLE, function (Blueprint $table) {
             $table->id(AnimeSynonym::ATTRIBUTE_ID);
@@ -37,7 +37,7 @@ class CreateAnimeSynonymsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(AnimeSynonym::TABLE);
     }

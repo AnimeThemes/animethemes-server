@@ -29,7 +29,7 @@ class VideoUncenTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testSelectFilter()
+    public function testSelectFilter(): void
     {
         static::novaFilter(VideoUncenFilter::class)
             ->assertSelectFilter();
@@ -42,7 +42,7 @@ class VideoUncenTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testOptions()
+    public function testOptions(): void
     {
         $filter = static::novaFilter(VideoUncenFilter::class);
 
@@ -58,7 +58,7 @@ class VideoUncenTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
-    public function testFilter()
+    public function testFilter(): void
     {
         $uncenFilter = $this->faker->boolean();
 

@@ -38,7 +38,7 @@ class BalanceIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $balances = Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -61,7 +61,7 @@ class BalanceIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPaginated()
+    public function testPaginated(): void
     {
         Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -79,7 +79,7 @@ class BalanceIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $schema = new BalanceSchema();
 
@@ -114,7 +114,7 @@ class BalanceIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSorts()
+    public function testSorts(): void
     {
         $schema = new BalanceSchema();
 
@@ -149,7 +149,7 @@ class BalanceIndexTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedAtFilter()
+    public function testCreatedAtFilter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -192,7 +192,7 @@ class BalanceIndexTest extends TestCase
      *
      * @return void
      */
-    public function testUpdatedAtFilter()
+    public function testUpdatedAtFilter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -235,7 +235,7 @@ class BalanceIndexTest extends TestCase
      *
      * @return void
      */
-    public function testWithoutTrashedFilter()
+    public function testWithoutTrashedFilter(): void
     {
         $parameters = [
             FilterParser::$param => [
@@ -274,7 +274,7 @@ class BalanceIndexTest extends TestCase
      *
      * @return void
      */
-    public function testWithTrashedFilter()
+    public function testWithTrashedFilter(): void
     {
         $parameters = [
             FilterParser::$param => [
@@ -313,7 +313,7 @@ class BalanceIndexTest extends TestCase
      *
      * @return void
      */
-    public function testOnlyTrashedFilter()
+    public function testOnlyTrashedFilter(): void
     {
         $parameters = [
             FilterParser::$param => [
@@ -352,7 +352,7 @@ class BalanceIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDeletedAtFilter()
+    public function testDeletedAtFilter(): void
     {
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();

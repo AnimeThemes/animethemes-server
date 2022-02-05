@@ -41,7 +41,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -64,11 +64,11 @@ class ThemeShowTest extends TestCase
     }
 
     /**
-     * The Theme Show Endpoint shall return an Theme Theme for soft deleted themes.
+     * The Theme Show Endpoint shall return a Theme Resource for soft deleted themes.
      *
      * @return void
      */
-    public function testSoftDelete()
+    public function testSoftDelete(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -97,7 +97,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths()
+    public function testAllowedIncludePaths(): void
     {
         $schema = new ThemeSchema();
 
@@ -142,7 +142,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $schema = new ThemeSchema();
 
@@ -182,7 +182,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason()
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = AnimeSeason::getRandomInstance();
 
@@ -223,7 +223,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear()
+    public function testAnimeByYear(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;
@@ -270,7 +270,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testImagesByFacet()
+    public function testImagesByFacet(): void
     {
         $facetFilter = ImageFacet::getRandomInstance();
 
@@ -314,7 +314,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesByNsfw()
+    public function testEntriesByNsfw(): void
     {
         $nsfwFilter = $this->faker->boolean();
 
@@ -356,7 +356,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesBySpoiler()
+    public function testEntriesBySpoiler(): void
     {
         $spoilerFilter = $this->faker->boolean();
 
@@ -398,7 +398,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesByVersion()
+    public function testEntriesByVersion(): void
     {
         $versionFilter = $this->faker->randomDigitNotNull();
         $excludedVersion = $versionFilter + 1;
@@ -448,7 +448,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByLyrics()
+    public function testVideosByLyrics(): void
     {
         $lyricsFilter = $this->faker->boolean();
 
@@ -494,7 +494,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByNc()
+    public function testVideosByNc(): void
     {
         $ncFilter = $this->faker->boolean();
 
@@ -540,7 +540,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByOverlap()
+    public function testVideosByOverlap(): void
     {
         $overlapFilter = VideoOverlap::getRandomInstance();
 
@@ -586,7 +586,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByResolution()
+    public function testVideosByResolution(): void
     {
         $resolutionFilter = $this->faker->randomNumber();
         $excludedResolution = $resolutionFilter + 1;
@@ -640,7 +640,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosBySource()
+    public function testVideosBySource(): void
     {
         $sourceFilter = VideoSource::getRandomInstance();
 
@@ -686,7 +686,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosBySubbed()
+    public function testVideosBySubbed(): void
     {
         $subbedFilter = $this->faker->boolean();
 
@@ -732,7 +732,7 @@ class ThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByUncen()
+    public function testVideosByUncen(): void
     {
         $uncenFilter = $this->faker->boolean();
 

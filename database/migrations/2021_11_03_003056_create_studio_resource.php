@@ -19,7 +19,7 @@ class CreateStudioResource extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(StudioResource::TABLE, function (Blueprint $table) {
             $table->timestamps(6);
@@ -37,7 +37,7 @@ class CreateStudioResource extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(StudioResource::TABLE);
     }

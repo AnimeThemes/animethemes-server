@@ -34,7 +34,7 @@ class ExternalResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $resource = ExternalResource::factory()->create();
 
@@ -53,11 +53,11 @@ class ExternalResourceShowTest extends TestCase
     }
 
     /**
-     * The Resource Show Endpoint shall return an Resource Resource for soft deleted images.
+     * The Resource Show Endpoint shall return an External Resource for soft deleted images.
      *
      * @return void
      */
-    public function testSoftDelete()
+    public function testSoftDelete(): void
     {
         $resource = ExternalResource::factory()->createOne();
 
@@ -84,7 +84,7 @@ class ExternalResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths()
+    public function testAllowedIncludePaths(): void
     {
         $schema = new ExternalResourceSchema();
 
@@ -124,7 +124,7 @@ class ExternalResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets()
+    public function testSparseFieldsets(): void
     {
         $schema = new ExternalResourceSchema();
 
@@ -159,7 +159,7 @@ class ExternalResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason()
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = AnimeSeason::getRandomInstance();
 
@@ -200,7 +200,7 @@ class ExternalResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear()
+    public function testAnimeByYear(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;

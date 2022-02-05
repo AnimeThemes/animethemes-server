@@ -30,7 +30,7 @@ class StudioSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Do not proceed if we do not have authorization to the MAL API
         $malClientID = Config::get('services.mal.client');
@@ -60,7 +60,7 @@ class StudioSeeder extends Seeder
 
                 try {
                     $response = Http::withHeaders(['X-MAL-CLIENT-ID' => $malClientID])
-                        ->get("https://api.myanimelist.net/v2/anime/{$malResource->external_id}", [
+                        ->get("https://api.myanimelist.net/v2/anime/$malResource->external_id", [
                             'fields' => 'studios',
                         ])
                         ->throw()
@@ -77,7 +77,7 @@ class StudioSeeder extends Seeder
 
                         $studio = Studio::query()->firstWhere(Studio::ATTRIBUTE_NAME, $name);
                         if (! $studio instanceof Studio) {
-                            Log::info("Creating studio '{$name}'");
+                            Log::info("Creating studio '$name'");
 
                             $studio = Studio::factory()->createOne([
                                 Studio::ATTRIBUTE_NAME => $name,
@@ -92,11 +92,11 @@ class StudioSeeder extends Seeder
                             ->first();
 
                         if (! $studioResource instanceof ExternalResource) {
-                            Log::info("Creating studio resource with id '{$id}' and name '{$name}'");
+                            Log::info("Creating studio resource with id '$id' and name '$name'");
 
                             $studioResource = ExternalResource::factory()->createOne([
                                 ExternalResource::ATTRIBUTE_EXTERNAL_ID => $id,
-                                ExternalResource::ATTRIBUTE_LINK => "https://myanimelist.net/anime/producer/{$id}/",
+                                ExternalResource::ATTRIBUTE_LINK => "https://myanimelist.net/anime/producer/$id/",
                                 ExternalResource::ATTRIBUTE_SITE => ResourceSite::MAL,
                             ]);
                         }
@@ -106,7 +106,7 @@ class StudioSeeder extends Seeder
                             ->where($studioResource->getKeyName(), $studioResource->getKey())
                             ->doesntExist()
                         ) {
-                            Log::info("Attaching resource '{$studioResource->link}' to studio '{$studio->getName()}'");
+                            Log::info("Attaching resource '$studioResource->link' to studio '{$studio->getName()}'");
                             $studioResource->studios()->attach($studio);
                         }
 
@@ -115,7 +115,7 @@ class StudioSeeder extends Seeder
                             ->where($studio->getKeyName(), $studio->getKey())
                             ->doesntExist()
                         ) {
-                            Log::info("Attaching studio '{$name}' to anime '{$anime->getName()}'");
+                            Log::info("Attaching studio '$name' to anime '{$anime->getName()}'");
                             $anime->studios()->attach($studio);
                         }
                     }

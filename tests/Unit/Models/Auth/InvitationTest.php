@@ -21,7 +21,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testCastsStatusToEnum()
+    public function testCastsStatusToEnum(): void
     {
         $invitation = Invitation::factory()->createOne();
 
@@ -35,7 +35,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -49,7 +49,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $invitation = Invitation::factory()->createOne();
 
@@ -61,7 +61,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testInvitationIsOpen()
+    public function testInvitationIsOpen(): void
     {
         $invitation = Invitation::factory()->createOne([
             Invitation::ATTRIBUTE_STATUS => InvitationStatus::OPEN,
@@ -75,7 +75,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testInvitationIsClosed()
+    public function testInvitationIsClosed(): void
     {
         $invitation = Invitation::factory()->createOne([
             Invitation::ATTRIBUTE_STATUS => InvitationStatus::CLOSED,
@@ -89,7 +89,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testInvitationMailWasSent()
+    public function testInvitationMailWasSent(): void
     {
         Mail::fake();
 

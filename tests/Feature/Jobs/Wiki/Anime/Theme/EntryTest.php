@@ -23,7 +23,7 @@ class EntryTest extends TestCase
      *
      * @return void
      */
-    public function testEntryCreatedSendsDiscordNotification()
+    public function testEntryCreatedSendsDiscordNotification(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -42,7 +42,7 @@ class EntryTest extends TestCase
      *
      * @return void
      */
-    public function testEntryDeletedSendsDiscordNotification()
+    public function testEntryDeletedSendsDiscordNotification(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -61,7 +61,7 @@ class EntryTest extends TestCase
      *
      * @return void
      */
-    public function testEntryRestoredSendsDiscordNotification()
+    public function testEntryRestoredSendsDiscordNotification(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -80,7 +80,7 @@ class EntryTest extends TestCase
      *
      * @return void
      */
-    public function testEntryUpdatedSendsDiscordNotification()
+    public function testEntryUpdatedSendsDiscordNotification(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))

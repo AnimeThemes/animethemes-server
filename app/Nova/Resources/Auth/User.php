@@ -120,7 +120,7 @@ class User extends Resource
                 ->creationRules(Rule::unique(UserModel::TABLE)->__toString())
                 ->updateRules(
                     Rule::unique(UserModel::TABLE)
-                        ->ignore($request->resourceId, UserModel::ATTRIBUTE_ID)
+                        ->ignore($request->get('resourceId'), UserModel::ATTRIBUTE_ID)
                         ->__toString()
                 ),
         ];

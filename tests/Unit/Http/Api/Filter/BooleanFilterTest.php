@@ -23,7 +23,7 @@ class BooleanFilterTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotApplyIfNoBooleans()
+    public function testShouldNotApplyIfNoBooleans(): void
     {
         $filterField = $this->faker->word();
 
@@ -39,7 +39,7 @@ class BooleanFilterTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotApplyIfAllBooleans()
+    public function testShouldNotApplyIfAllBooleans(): void
     {
         $filterField = $this->faker->word();
 
@@ -55,7 +55,7 @@ class BooleanFilterTest extends TestCase
      *
      * @return void
      */
-    public function testConvertsValidatedBoolean()
+    public function testConvertsValidatedBoolean(): void
     {
         $booleanValue = $this->faker->boolean();
 

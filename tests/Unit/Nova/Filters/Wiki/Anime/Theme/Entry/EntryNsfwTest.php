@@ -29,7 +29,7 @@ class EntryNsfwTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testSelectFilter()
+    public function testSelectFilter(): void
     {
         static::novaFilter(EntryNsfwFilter::class)
             ->assertSelectFilter();
@@ -42,7 +42,7 @@ class EntryNsfwTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testOptions()
+    public function testOptions(): void
     {
         $filter = static::novaFilter(EntryNsfwFilter::class);
 
@@ -58,7 +58,7 @@ class EntryNsfwTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
-    public function testFilter()
+    public function testFilter(): void
     {
         $nsfwFilter = $this->faker->boolean();
 

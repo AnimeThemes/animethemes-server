@@ -17,11 +17,11 @@ use Tests\TestCase;
 class BalanceTest extends TestCase
 {
     /**
-     * When an balance is created, a SendDiscordNotification job shall be dispatched.
+     * When a balance is created, a SendDiscordNotification job shall be dispatched.
      *
      * @return void
      */
-    public function testBalanceCreatedSendsDiscordNotification()
+    public function testBalanceCreatedSendsDiscordNotification(): void
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -32,11 +32,11 @@ class BalanceTest extends TestCase
     }
 
     /**
-     * When an balance is deleted, a SendDiscordNotification job shall be dispatched.
+     * When a balance is deleted, a SendDiscordNotification job shall be dispatched.
      *
      * @return void
      */
-    public function testBalanceDeletedSendsDiscordNotification()
+    public function testBalanceDeletedSendsDiscordNotification(): void
     {
         $balance = Balance::factory()->createOne();
 
@@ -49,11 +49,11 @@ class BalanceTest extends TestCase
     }
 
     /**
-     * When an balance is restored, a SendDiscordNotification job shall be dispatched.
+     * When a balance is restored, a SendDiscordNotification job shall be dispatched.
      *
      * @return void
      */
-    public function testBalanceRestoredSendsDiscordNotification()
+    public function testBalanceRestoredSendsDiscordNotification(): void
     {
         $balance = Balance::factory()->createOne();
 
@@ -66,11 +66,11 @@ class BalanceTest extends TestCase
     }
 
     /**
-     * When an balance is updated, a SendDiscordNotification job shall be dispatched.
+     * When a balance is updated, a SendDiscordNotification job shall be dispatched.
      *
      * @return void
      */
-    public function testBalanceUpdatedSendsDiscordNotification()
+    public function testBalanceUpdatedSendsDiscordNotification(): void
     {
         $balance = Balance::factory()->createOne();
 

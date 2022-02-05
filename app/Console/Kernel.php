@@ -29,16 +29,16 @@ class Kernel extends ConsoleKernel
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
-        $schedule->command(BalanceReconcileCommand::class, [Service::DIGITALOCEAN()->key])->dailyAt('07:00');
+        $schedule->command(BalanceReconcileCommand::class, [Service::DIGITALOCEAN()->key])->hourly();
         $schedule->command(DatabaseDumpCommand::class)->daily();
         $schedule->command(DatabaseDumpCommand::class, ['--create'])->daily();
         $schedule->command(PruneCommand::class)->daily();
         $schedule->command(PruneDatabaseDumpsCommand::class)->dailyAt('00:15');
         $schedule->command(PruneFailedJobsCommand::class)->daily();
         $schedule->command(SnapshotCommand::class)->everyFiveMinutes();
-        $schedule->command(TransactionReconcileCommand::class, [Service::DIGITALOCEAN()->key])->dailyAt('07:00');
+        $schedule->command(TransactionReconcileCommand::class, [Service::DIGITALOCEAN()->key])->hourly();
         $schedule->command(VideoReconcileCommand::class)->hourly();
     }
 
@@ -49,7 +49,7 @@ class Kernel extends ConsoleKernel
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    protected function commands()
+    protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
 

@@ -17,7 +17,7 @@ class CascadesDeletes
      * @param  CascadesDeletesEvent  $event
      * @return void
      */
-    public function handle(CascadesDeletesEvent $event)
+    public function handle(CascadesDeletesEvent $event): void
     {
         $event->cascadeDeletes();
     }

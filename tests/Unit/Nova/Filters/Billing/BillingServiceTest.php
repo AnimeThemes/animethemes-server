@@ -30,7 +30,7 @@ class BillingServiceTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testSelectFilter()
+    public function testSelectFilter(): void
     {
         static::novaFilter(ServiceFilter::class)
             ->assertSelectFilter();
@@ -43,7 +43,7 @@ class BillingServiceTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testOptions()
+    public function testOptions(): void
     {
         $filter = static::novaFilter(ServiceFilter::class);
 
@@ -60,7 +60,7 @@ class BillingServiceTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
-    public function testFilter()
+    public function testFilter(): void
     {
         $service = Service::getRandomInstance();
 

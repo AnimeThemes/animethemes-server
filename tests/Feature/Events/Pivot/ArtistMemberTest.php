@@ -22,7 +22,7 @@ class ArtistMemberTest extends TestCase
      *
      * @return void
      */
-    public function testArtistMemberCreatedEventDispatched()
+    public function testArtistMemberCreatedEventDispatched(): void
     {
         Event::fake();
 
@@ -39,7 +39,7 @@ class ArtistMemberTest extends TestCase
      *
      * @return void
      */
-    public function testArtistMemberDeletedEventDispatched()
+    public function testArtistMemberDeletedEventDispatched(): void
     {
         Event::fake();
 
@@ -57,7 +57,7 @@ class ArtistMemberTest extends TestCase
      *
      * @return void
      */
-    public function testArtistMemberUpdatedEventDispatched()
+    public function testArtistMemberUpdatedEventDispatched(): void
     {
         Event::fake();
 

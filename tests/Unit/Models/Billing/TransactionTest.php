@@ -15,11 +15,11 @@ use Tests\TestCase;
 class TransactionTest extends TestCase
 {
     /**
-     * The service attribute of an transaction shall be cast to a Service enum instance.
+     * The service attribute of a transaction shall be cast to a Service enum instance.
      *
      * @return void
      */
-    public function testCastsServiceToEnum()
+    public function testCastsServiceToEnum(): void
     {
         $transaction = Transaction::factory()->createOne();
 
@@ -33,7 +33,7 @@ class TransactionTest extends TestCase
      *
      * @return void
      */
-    public function testAuditable()
+    public function testAuditable(): void
     {
         Config::set('audit.console', true);
 
@@ -47,7 +47,7 @@ class TransactionTest extends TestCase
      *
      * @return void
      */
-    public function testNameable()
+    public function testNameable(): void
     {
         $transaction = Transaction::factory()->createOne();
 

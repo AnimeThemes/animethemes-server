@@ -25,7 +25,7 @@ class SendDiscordNotificationTest extends TestCase
      *
      * @return void
      */
-    public function testDiscordNotificationsNotAllowed()
+    public function testDiscordNotificationsNotAllowed(): void
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, false);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -68,7 +68,7 @@ class SendDiscordNotificationTest extends TestCase
      *
      * @return void
      */
-    public function testDiscordNotificationsAllowed()
+    public function testDiscordNotificationsAllowed(): void
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);

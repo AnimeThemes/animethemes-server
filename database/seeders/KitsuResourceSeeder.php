@@ -25,7 +25,7 @@ class KitsuResourceSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Get anime that have MAL resource but do not have Kitsu resource
         $animes = Anime::query()
@@ -78,11 +78,11 @@ class KitsuResourceSeeder extends Seeder
 
                         // Create Kitsu resource if it doesn't already exist
                         if ($kitsuResource === null) {
-                            Log::info("Creating kitsu resource '{$kitsuId}' for anime '{$anime->name}'");
+                            Log::info("Creating kitsu resource '$kitsuId' for anime '$anime->name'");
 
                             $kitsuResource = ExternalResource::factory()->createOne([
                                 ExternalResource::ATTRIBUTE_EXTERNAL_ID => $kitsuId,
-                                ExternalResource::ATTRIBUTE_LINK => "https://kitsu.io/anime/{$kitsuSlug}",
+                                ExternalResource::ATTRIBUTE_LINK => "https://kitsu.io/anime/$kitsuSlug",
                                 ExternalResource::ATTRIBUTE_SITE => ResourceSite::KITSU,
                             ]);
                         }
@@ -93,7 +93,7 @@ class KitsuResourceSeeder extends Seeder
                             ->where($kitsuResource->getKeyName(), $kitsuResource->getKey())
                             ->doesntExist()
                         ) {
-                            Log::info("Attaching resource '{$kitsuResource->link}' to anime '{$anime->name}'");
+                            Log::info("Attaching resource '$kitsuResource->link' to anime '$anime->name'");
                             $kitsuResource->anime()->attach($anime);
                         }
                     }

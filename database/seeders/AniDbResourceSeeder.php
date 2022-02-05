@@ -25,7 +25,7 @@ class AniDbResourceSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Get anime that have MAL resource but do not have AniDB resource
         $animes = Anime::query()
@@ -69,11 +69,11 @@ class AniDbResourceSeeder extends Seeder
 
                         // Create AniDB resource if it doesn't already exist
                         if ($anidbResource === null) {
-                            Log::info("Creating anidb resource '{$anidbId}' for anime '{$anime->name}'");
+                            Log::info("Creating anidb resource '$anidbId' for anime '$anime->name'");
 
                             $anidbResource = ExternalResource::factory()->createOne([
                                 ExternalResource::ATTRIBUTE_EXTERNAL_ID => $anidbId,
-                                ExternalResource::ATTRIBUTE_LINK => "https://anidb.net/anime/{$anidbId}",
+                                ExternalResource::ATTRIBUTE_LINK => "https://anidb.net/anime/$anidbId",
                                 ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANIDB,
                             ]);
                         }
@@ -84,7 +84,7 @@ class AniDbResourceSeeder extends Seeder
                             ->where($anidbResource->getKeyName(), $anidbResource->getKey())
                             ->doesntExist()
                         ) {
-                            Log::info("Attaching resource '{$anidbResource->link}' to anime '{$anime->name}'");
+                            Log::info("Attaching resource '$anidbResource->link' to anime '$anime->name'");
                             $anidbResource->anime()->attach($anime);
                         }
                     }

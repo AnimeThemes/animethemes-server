@@ -22,7 +22,7 @@ class AnimeThemeEntryVideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideo()
+    public function testVideo(): void
     {
         $animeThemeEntryVideo = AnimeThemeEntryVideo::factory()
             ->for(Video::factory())
@@ -38,7 +38,7 @@ class AnimeThemeEntryVideoTest extends TestCase
      *
      * @return void
      */
-    public function testEntry()
+    public function testEntry(): void
     {
         $animeThemeEntryVideo = AnimeThemeEntryVideo::factory()
             ->for(Video::factory())

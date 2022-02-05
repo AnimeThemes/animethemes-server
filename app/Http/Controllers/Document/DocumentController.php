@@ -26,7 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 abstract class DocumentController extends Controller
 {
     /**
-     * Display markdown document.
+     * Display Markdown document.
      *
      * @param  string  $docPath
      * @return View|Factory

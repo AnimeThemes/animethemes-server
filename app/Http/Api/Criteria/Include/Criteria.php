@@ -21,7 +21,7 @@ class Criteria
     }
 
     /**
-     * Get the include paths.
+     * Get include paths.
      *
      * @return Collection<string>
      */

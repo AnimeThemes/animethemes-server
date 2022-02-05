@@ -30,7 +30,7 @@ class ExternalResourceSiteTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testSelectFilter()
+    public function testSelectFilter(): void
     {
         static::novaFilter(ExternalResourceSiteFilter::class)
             ->assertSelectFilter();
@@ -43,7 +43,7 @@ class ExternalResourceSiteTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testOptions()
+    public function testOptions(): void
     {
         $filter = static::novaFilter(ExternalResourceSiteFilter::class);
 
@@ -60,7 +60,7 @@ class ExternalResourceSiteTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
-    public function testFilter()
+    public function testFilter(): void
     {
         $site = ResourceSite::getRandomInstance();
 

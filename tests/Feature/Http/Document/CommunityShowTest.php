@@ -16,7 +16,7 @@ class CommunityShowTest extends TestCase
      *
      * @return void
      */
-    public function testBitrate()
+    public function testBitrate(): void
     {
         $response = $this->get(route('community.show', ['docName' => 'bitrate']));
 
@@ -28,7 +28,7 @@ class CommunityShowTest extends TestCase
      *
      * @return void
      */
-    public function testPixFmt()
+    public function testPixFmt(): void
     {
         $response = $this->get(route('community.show', ['docName' => 'pix_fmt']));
 
@@ -40,7 +40,7 @@ class CommunityShowTest extends TestCase
      *
      * @return void
      */
-    public function testRequests()
+    public function testRequests(): void
     {
         $response = $this->get(route('community.show', ['docName' => 'requests']));
 
@@ -52,7 +52,7 @@ class CommunityShowTest extends TestCase
      *
      * @return void
      */
-    public function testVP9()
+    public function testVP9(): void
     {
         $response = $this->get(route('community.show', ['docName' => 'vp9']));
 

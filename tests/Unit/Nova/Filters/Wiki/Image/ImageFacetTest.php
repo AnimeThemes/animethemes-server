@@ -30,7 +30,7 @@ class ImageFacetTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testSelectFilter()
+    public function testSelectFilter(): void
     {
         static::novaFilter(ImageFacetFilter::class)
             ->assertSelectFilter();
@@ -43,7 +43,7 @@ class ImageFacetTest extends TestCase
      *
      * @throws InvalidNovaFilterException
      */
-    public function testOptions()
+    public function testOptions(): void
     {
         $filter = static::novaFilter(ImageFacetFilter::class);
 
@@ -60,7 +60,7 @@ class ImageFacetTest extends TestCase
      * @throws InvalidModelException
      * @throws InvalidNovaFilterException
      */
-    public function testFilter()
+    public function testFilter(): void
     {
         $facet = ImageFacet::getRandomInstance();
 

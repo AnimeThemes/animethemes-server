@@ -65,7 +65,7 @@ class EntryUpdated extends EntryEvent implements DiscordMessageEvent, UpdateRela
      *
      * @return void
      */
-    public function updateRelatedIndices()
+    public function updateRelatedIndices(): void
     {
         $entry = $this->getEntry();
 

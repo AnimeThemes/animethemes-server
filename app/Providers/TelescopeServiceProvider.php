@@ -24,7 +24,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function register()
+    public function register(): void
     {
         Telescope::night();
 
@@ -48,7 +48,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      *
      * @return void
      */
-    protected function hideSensitiveRequestDetails()
+    protected function hideSensitiveRequestDetails(): void
     {
         if ($this->app->environment('local')) {
             return;
@@ -72,7 +72,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    protected function gate()
+    protected function gate(): void
     {
         Gate::define('viewTelescope', function (User $user) {
             $telescopeTeam = Team::query()->find(Config::get('teams.telescope'));

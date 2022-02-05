@@ -19,6 +19,8 @@ class RelationCriteria extends FieldCriteria
      * @param  Builder  $builder
      * @param  Sort  $sort
      * @return Builder
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function sort(Builder $builder, Sort $sort): Builder
     {

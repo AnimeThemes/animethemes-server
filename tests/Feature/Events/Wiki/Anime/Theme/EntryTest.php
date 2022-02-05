@@ -25,7 +25,7 @@ class EntryTest extends TestCase
      *
      * @return void
      */
-    public function testEntryCreatedEventDispatched()
+    public function testEntryCreatedEventDispatched(): void
     {
         Event::fakeExcept(ThemeCreating::class);
 
@@ -41,7 +41,7 @@ class EntryTest extends TestCase
      *
      * @return void
      */
-    public function testEntryDeletedEventDispatched()
+    public function testEntryDeletedEventDispatched(): void
     {
         Event::fakeExcept(ThemeCreating::class);
 
@@ -59,7 +59,7 @@ class EntryTest extends TestCase
      *
      * @return void
      */
-    public function testEntryRestoredEventDispatched()
+    public function testEntryRestoredEventDispatched(): void
     {
         Event::fakeExcept(ThemeCreating::class);
 
@@ -79,7 +79,7 @@ class EntryTest extends TestCase
      *
      * @return void
      */
-    public function testEntryRestoresQuietly()
+    public function testEntryRestoresQuietly(): void
     {
         Event::fakeExcept(ThemeCreating::class);
 
@@ -97,7 +97,7 @@ class EntryTest extends TestCase
      *
      * @return void
      */
-    public function testEntryUpdatedEventDispatched()
+    public function testEntryUpdatedEventDispatched(): void
     {
         Event::fakeExcept(ThemeCreating::class);
 

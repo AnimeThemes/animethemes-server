@@ -27,7 +27,7 @@ class HasFilterTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotApplyIfNoAllowedPaths()
+    public function testShouldNotApplyIfNoAllowedPaths(): void
     {
         $criteria = FakeCriteria::make(HasCriteria::PARAM_VALUE, Str::random());
 
@@ -57,6 +57,8 @@ class HasFilterTest extends TestCase
              * Get the direct fields of the resource.
              *
              * @return Field[]
+             *
+             * @noinspection PhpMissingParentCallCommonInspection
              */
             public function fields(): array
             {
@@ -79,7 +81,7 @@ class HasFilterTest extends TestCase
      *
      * @return void
      */
-    public function testShouldApplyIfAllowedPaths()
+    public function testShouldApplyIfAllowedPaths(): void
     {
         $schema = new class() extends Schema
         {
@@ -107,6 +109,8 @@ class HasFilterTest extends TestCase
              * Get the direct fields of the resource.
              *
              * @return Field[]
+             *
+             * @noinspection PhpMissingParentCallCommonInspection
              */
             public function fields(): array
             {

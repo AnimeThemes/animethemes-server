@@ -19,7 +19,7 @@ class CreateAnimeThemeEntryVideo extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(AnimeThemeEntryVideo::TABLE, function (Blueprint $table) {
             $table->timestamps(6);
@@ -36,7 +36,7 @@ class CreateAnimeThemeEntryVideo extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(AnimeThemeEntryVideo::TABLE);
     }
