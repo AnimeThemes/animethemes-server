@@ -95,7 +95,7 @@ class ExternalResourceShowTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         ExternalResource::factory()
@@ -133,7 +133,7 @@ class ExternalResourceShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 ExternalResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -164,10 +164,10 @@ class ExternalResourceShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => ExternalResource::RELATION_ANIME,
+            IncludeParser::param() => ExternalResource::RELATION_ANIME,
         ];
 
         ExternalResource::factory()
@@ -206,10 +206,10 @@ class ExternalResourceShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => ExternalResource::RELATION_ANIME,
+            IncludeParser::param() => ExternalResource::RELATION_ANIME,
         ];
 
         ExternalResource::factory()

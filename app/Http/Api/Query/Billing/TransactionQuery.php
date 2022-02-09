@@ -32,9 +32,9 @@ class TransactionQuery extends EloquentQuery
     /**
      * Get the query builder of the resource.
      *
-     * @return Builder|null
+     * @return Builder
      */
-    public function builder(): ?Builder
+    public function builder(): Builder
     {
         return Transaction::query();
     }

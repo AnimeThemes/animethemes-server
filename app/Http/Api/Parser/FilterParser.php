@@ -20,9 +20,12 @@ class FilterParser extends Parser
     /**
      * The parameter to parse.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $param = 'filter';
+    public static function param(): string
+    {
+        return 'filter';
+    }
 
     /**
      * Parse filter criteria from parameters.
@@ -34,8 +37,8 @@ class FilterParser extends Parser
     {
         $criteria = [];
 
-        if (Arr::exists($parameters, static::$param)) {
-            $filterParam = $parameters[static::$param];
+        if (Arr::exists($parameters, static::param())) {
+            $filterParam = $parameters[static::param()];
             if (Arr::accessible($filterParam) && Arr::isAssoc($filterParam)) {
                 foreach (Arr::dot($filterParam) as $filterCriteria => $filterValues) {
                     if ($filterValues !== null) {

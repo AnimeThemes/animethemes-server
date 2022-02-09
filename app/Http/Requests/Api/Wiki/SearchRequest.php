@@ -53,7 +53,7 @@ class SearchRequest extends FormRequest
     protected function getFieldRules(): array
     {
         return [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 'nullable',
             ],
         ];
@@ -67,7 +67,7 @@ class SearchRequest extends FormRequest
     protected function getFilterRules(): array
     {
         return [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 'nullable',
             ],
         ];
@@ -81,7 +81,7 @@ class SearchRequest extends FormRequest
     protected function getIncludeRules(): array
     {
         return [
-            IncludeParser::$param => [
+            IncludeParser::param() => [
                 'nullable',
             ],
         ];
@@ -95,7 +95,7 @@ class SearchRequest extends FormRequest
     protected function getPagingRules(): array
     {
         return [
-            PagingParser::$param => [
+            PagingParser::param() => [
                 'nullable',
             ],
         ];
@@ -109,7 +109,7 @@ class SearchRequest extends FormRequest
     protected function getSearchRules(): array
     {
         return [
-            SearchParser::$param => [
+            SearchParser::param() => [
                 'required',
             ],
         ];
@@ -123,7 +123,7 @@ class SearchRequest extends FormRequest
     protected function getSortRules(): array
     {
         return [
-            SortParser::$param => [
+            SortParser::param() => [
                 'nullable',
             ],
         ];

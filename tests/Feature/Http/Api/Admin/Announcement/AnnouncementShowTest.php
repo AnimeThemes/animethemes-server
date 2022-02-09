@@ -86,7 +86,7 @@ class AnnouncementShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 AnnouncementResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];

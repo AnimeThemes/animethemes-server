@@ -38,7 +38,7 @@ class FieldParserTest extends TestCase
         $fields = collect($this->faker()->words($this->faker->randomDigitNotNull()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 $this->faker->word() => $fields->join(','),
             ],
         ];
@@ -60,7 +60,7 @@ class FieldParserTest extends TestCase
         $fields = collect($this->faker()->words($this->faker->randomDigitNotNull()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 $type => $fields->join(','),
             ],
         ];
@@ -80,7 +80,7 @@ class FieldParserTest extends TestCase
         $fields = $this->faker()->words($this->faker->randomDigitNotNull());
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 $this->faker->word() => collect($fields)->join(','),
             ],
         ];

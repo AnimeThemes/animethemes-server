@@ -99,7 +99,7 @@ class EntryShowTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         AnimeThemeEntry::factory()
@@ -137,7 +137,7 @@ class EntryShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 EntryResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -170,10 +170,10 @@ class EntryShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => AnimeThemeEntry::RELATION_ANIME,
+            IncludeParser::param() => AnimeThemeEntry::RELATION_ANIME,
         ];
 
         AnimeThemeEntry::factory()
@@ -212,10 +212,10 @@ class EntryShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => AnimeThemeEntry::RELATION_ANIME,
+            IncludeParser::param() => AnimeThemeEntry::RELATION_ANIME,
         ];
 
         AnimeThemeEntry::factory()
@@ -261,10 +261,10 @@ class EntryShowTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => AnimeThemeEntry::RELATION_THEME,
+            IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
         ];
 
         AnimeThemeEntry::factory()
@@ -309,10 +309,10 @@ class EntryShowTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => AnimeThemeEntry::RELATION_THEME,
+            IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
         ];
 
         AnimeThemeEntry::factory()
@@ -356,10 +356,10 @@ class EntryShowTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => AnimeThemeEntry::RELATION_THEME,
+            IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
         ];
 
         AnimeThemeEntry::factory()

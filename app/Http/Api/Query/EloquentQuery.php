@@ -15,9 +15,9 @@ use App\Services\Scout\Search;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
+use RuntimeException;
 
 /**
  * Class EloquentQuery.
@@ -52,9 +52,6 @@ abstract class EloquentQuery extends Query
 
         // initialize builder, returning early if not resolved
         $builder = $this->builder();
-        if ($builder === null) {
-            return $this->collection(Collection::make());
-        }
 
         // eager load relations with constraints
         $constrainedEagerLoads = $this->constrainEagerLoads(
@@ -137,6 +134,8 @@ abstract class EloquentQuery extends Query
      *
      * @param  PaginationStrategy  $paginationStrategy
      * @return BaseCollection
+     *
+     * @throws RuntimeException
      */
     public function search(PaginationStrategy $paginationStrategy): BaseCollection
     {
@@ -146,7 +145,10 @@ abstract class EloquentQuery extends Query
             return $search->search($this, $paginationStrategy);
         }
 
-        return $this->collection(Collection::make());
+        // Let developer know why search can't be performed
+        $driver = Config::get('scout.driver');
+        $term = $this->getSearchCriteria()?->getTerm();
+        throw new RuntimeException("Can't search for term '$term' with driver '$driver'. Please configure supported driver.");
     }
 
     /**
@@ -165,9 +167,9 @@ abstract class EloquentQuery extends Query
     /**
      * Get the query builder of the resource.
      *
-     * @return Builder|null
+     * @return Builder
      */
-    abstract public function builder(): ?Builder;
+    abstract public function builder(): Builder;
 
     /**
      * Get the json resource.

@@ -45,7 +45,7 @@ class PagingParserTest extends TestCase
         $limit = $this->faker->word();
 
         $parameters = [
-            PagingParser::$param => [
+            PagingParser::param() => [
                 LimitCriteria::PARAM => $limit,
             ],
         ];
@@ -70,7 +70,7 @@ class PagingParserTest extends TestCase
         $limit = $this->faker->numberBetween(1, Criteria::DEFAULT_SIZE);
 
         $parameters = [
-            PagingParser::$param => [
+            PagingParser::param() => [
                 LimitCriteria::PARAM => $limit,
             ],
         ];
@@ -111,7 +111,7 @@ class PagingParserTest extends TestCase
         $size = $this->faker->word();
 
         $parameters = [
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => $size,
             ],
         ];
@@ -136,7 +136,7 @@ class PagingParserTest extends TestCase
         $size = $this->faker->numberBetween(1, Criteria::MAX_RESULTS);
 
         $parameters = [
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => $size,
             ],
         ];

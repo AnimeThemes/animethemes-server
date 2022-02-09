@@ -106,7 +106,7 @@ class AnimeShowTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         Anime::factory()->jsonApiResource()->create();
@@ -142,7 +142,7 @@ class AnimeShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 AnimeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -174,10 +174,10 @@ class AnimeShowTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => Anime::RELATION_THEMES,
+            IncludeParser::param() => Anime::RELATION_THEMES,
         ];
 
         Anime::factory()
@@ -223,10 +223,10 @@ class AnimeShowTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => Anime::RELATION_THEMES,
+            IncludeParser::param() => Anime::RELATION_THEMES,
         ];
 
         Anime::factory()
@@ -271,10 +271,10 @@ class AnimeShowTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => Anime::RELATION_THEMES,
+            IncludeParser::param() => Anime::RELATION_THEMES,
         ];
 
         Anime::factory()
@@ -312,10 +312,10 @@ class AnimeShowTest extends TestCase
         $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
             ],
-            IncludeParser::$param => Anime::RELATION_ENTRIES,
+            IncludeParser::param() => Anime::RELATION_ENTRIES,
         ];
 
         Anime::factory()
@@ -357,10 +357,10 @@ class AnimeShowTest extends TestCase
         $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
             ],
-            IncludeParser::$param => Anime::RELATION_ENTRIES,
+            IncludeParser::param() => Anime::RELATION_ENTRIES,
         ];
 
         Anime::factory()
@@ -403,10 +403,10 @@ class AnimeShowTest extends TestCase
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
             ],
-            IncludeParser::$param => Anime::RELATION_ENTRIES,
+            IncludeParser::param() => Anime::RELATION_ENTRIES,
         ];
 
         Anime::factory()
@@ -457,10 +457,10 @@ class AnimeShowTest extends TestCase
         $siteFilter = ResourceSite::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 ExternalResource::ATTRIBUTE_SITE => $siteFilter->description,
             ],
-            IncludeParser::$param => Anime::RELATION_RESOURCES,
+            IncludeParser::param() => Anime::RELATION_RESOURCES,
         ];
 
         Anime::factory()
@@ -500,10 +500,10 @@ class AnimeShowTest extends TestCase
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Image::ATTRIBUTE_FACET => $facetFilter->description,
             ],
-            IncludeParser::$param => Anime::RELATION_IMAGES,
+            IncludeParser::param() => Anime::RELATION_IMAGES,
         ];
 
         Anime::factory()
@@ -541,10 +541,10 @@ class AnimeShowTest extends TestCase
         $lyricsFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_LYRICS => $lyricsFilter,
             ],
-            IncludeParser::$param => Anime::RELATION_VIDEOS,
+            IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()->jsonApiResource()->create();
@@ -580,10 +580,10 @@ class AnimeShowTest extends TestCase
         $ncFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_NC => $ncFilter,
             ],
-            IncludeParser::$param => Anime::RELATION_VIDEOS,
+            IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()->jsonApiResource()->create();
@@ -619,10 +619,10 @@ class AnimeShowTest extends TestCase
         $overlapFilter = VideoOverlap::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_OVERLAP => $overlapFilter->description,
             ],
-            IncludeParser::$param => Anime::RELATION_VIDEOS,
+            IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()->jsonApiResource()->create();
@@ -659,10 +659,10 @@ class AnimeShowTest extends TestCase
         $excludedResolution = $resolutionFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_RESOLUTION => $resolutionFilter,
             ],
-            IncludeParser::$param => Anime::RELATION_VIDEOS,
+            IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()
@@ -715,10 +715,10 @@ class AnimeShowTest extends TestCase
         $sourceFilter = VideoSource::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_SOURCE => $sourceFilter->description,
             ],
-            IncludeParser::$param => Anime::RELATION_VIDEOS,
+            IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()->jsonApiResource()->create();
@@ -754,10 +754,10 @@ class AnimeShowTest extends TestCase
         $subbedFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_SUBBED => $subbedFilter,
             ],
-            IncludeParser::$param => Anime::RELATION_VIDEOS,
+            IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()->jsonApiResource()->create();
@@ -793,10 +793,10 @@ class AnimeShowTest extends TestCase
         $uncenFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_UNCEN => $uncenFilter,
             ],
-            IncludeParser::$param => Anime::RELATION_VIDEOS,
+            IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
         Anime::factory()->jsonApiResource()->create();

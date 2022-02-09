@@ -27,7 +27,7 @@ use App\Pivots\ArtistSong;
 use App\Pivots\StudioResource;
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Database\Connection;
+use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\PostgresConnection;
 use Illuminate\Database\SQLiteConnection;
@@ -101,12 +101,6 @@ class DatabaseDumpCommand extends Command
 
         try {
             $connection = DB::connection();
-            if (! $connection instanceof Connection) {
-                Log::error('Unexpected connection type');
-                $this->error('Unexpected connection type');
-
-                return 1;
-            }
 
             $dumper = $this->getDumper($connection, $create);
             if ($dumper === null) {
@@ -126,7 +120,7 @@ class DatabaseDumpCommand extends Command
 
             $host = $connection->getConfig('host');
             if ($host !== null) {
-                $dumper->setHost(is_array($host) ? $host[0] : $host);
+                $dumper->setHost(collect($host)->first());
             }
 
             $port = $connection->getConfig('port');
@@ -174,11 +168,11 @@ class DatabaseDumpCommand extends Command
     /**
      * Get the dumper for the database connection.
      *
-     * @param  Connection  $connection
+     * @param  ConnectionInterface  $connection
      * @param  bool  $create
      * @return DbDumper|null
      */
-    protected function getDumper(Connection $connection, bool $create): ?DbDumper
+    protected function getDumper(ConnectionInterface $connection, bool $create): ?DbDumper
     {
         return match (get_class($connection)) {
             SQLiteConnection::class => Sqlite::create(),
@@ -191,13 +185,14 @@ class DatabaseDumpCommand extends Command
     /**
      * Determine if the database connection supports table inclusion.
      *
-     * @param  Connection  $connection
+     * @param  ConnectionInterface  $connection
      * @return bool
      */
-    protected function canIncludeTables(Connection $connection): bool
+    protected function canIncludeTables(ConnectionInterface $connection): bool
     {
         // Sqlite version 3.32.0 is required when using the includeTables option
         if ($connection instanceof SQLiteConnection) {
+            Log::warning('SQLite version does not support includeTables option');
             return version_compare($connection->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '3.32.0', '>=');
         }
 

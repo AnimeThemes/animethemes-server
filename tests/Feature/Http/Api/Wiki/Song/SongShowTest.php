@@ -101,7 +101,7 @@ class SongShowTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         Song::factory()
@@ -141,7 +141,7 @@ class SongShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 SongResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -173,10 +173,10 @@ class SongShowTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => Song::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Song::RELATION_ANIMETHEMES,
         ];
 
         Song::factory()
@@ -223,10 +223,10 @@ class SongShowTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => Song::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Song::RELATION_ANIMETHEMES,
         ];
 
         Song::factory()
@@ -272,10 +272,10 @@ class SongShowTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => Song::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Song::RELATION_ANIMETHEMES,
         ];
 
         Song::factory()
@@ -313,10 +313,10 @@ class SongShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => Song::RELATION_ANIME,
+            IncludeParser::param() => Song::RELATION_ANIME,
         ];
 
         Song::factory()
@@ -355,10 +355,10 @@ class SongShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => Song::RELATION_ANIME,
+            IncludeParser::param() => Song::RELATION_ANIME,
         ];
 
         Song::factory()

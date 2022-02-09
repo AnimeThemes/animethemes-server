@@ -104,7 +104,7 @@ class EntryIndexTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         AnimeThemeEntry::factory()
@@ -143,7 +143,7 @@ class EntryIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 EntryResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -181,7 +181,7 @@ class EntryIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
+            SortParser::param() => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
         $query = EntryQuery::make($parameters);
@@ -216,10 +216,10 @@ class EntryIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -265,10 +265,10 @@ class EntryIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -311,10 +311,10 @@ class EntryIndexTest extends TestCase
     public function testWithoutTrashedFilter(): void
     {
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -357,10 +357,10 @@ class EntryIndexTest extends TestCase
     public function testWithTrashedFilter(): void
     {
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -403,10 +403,10 @@ class EntryIndexTest extends TestCase
     public function testOnlyTrashedFilter(): void
     {
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -452,11 +452,11 @@ class EntryIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -509,7 +509,7 @@ class EntryIndexTest extends TestCase
         $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
             ],
         ];
@@ -545,7 +545,7 @@ class EntryIndexTest extends TestCase
         $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
             ],
         ];
@@ -582,7 +582,7 @@ class EntryIndexTest extends TestCase
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
             ],
         ];
@@ -622,10 +622,10 @@ class EntryIndexTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => AnimeThemeEntry::RELATION_ANIME,
+            IncludeParser::param() => AnimeThemeEntry::RELATION_ANIME,
         ];
 
         AnimeThemeEntry::factory()
@@ -665,10 +665,10 @@ class EntryIndexTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => AnimeThemeEntry::RELATION_ANIME,
+            IncludeParser::param() => AnimeThemeEntry::RELATION_ANIME,
         ];
 
         AnimeThemeEntry::factory()
@@ -715,10 +715,10 @@ class EntryIndexTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => AnimeThemeEntry::RELATION_THEME,
+            IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
         ];
 
         AnimeThemeEntry::factory()
@@ -764,10 +764,10 @@ class EntryIndexTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => AnimeThemeEntry::RELATION_THEME,
+            IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
         ];
 
         AnimeThemeEntry::factory()
@@ -812,10 +812,10 @@ class EntryIndexTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => AnimeThemeEntry::RELATION_THEME,
+            IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
         ];
 
         AnimeThemeEntry::factory()

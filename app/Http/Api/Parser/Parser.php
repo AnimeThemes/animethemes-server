@@ -12,9 +12,9 @@ abstract class Parser
     /**
      * The parameter to parse.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $param = null;
+    abstract public static function param(): string;
 
     /**
      * Parse parameters to collection.

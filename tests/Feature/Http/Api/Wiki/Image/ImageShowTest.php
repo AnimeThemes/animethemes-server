@@ -95,7 +95,7 @@ class ImageShowTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         Image::factory()
@@ -133,7 +133,7 @@ class ImageShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 ImageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -164,10 +164,10 @@ class ImageShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => Image::RELATION_ANIME,
+            IncludeParser::param() => Image::RELATION_ANIME,
         ];
 
         Image::factory()
@@ -206,10 +206,10 @@ class ImageShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => Image::RELATION_ANIME,
+            IncludeParser::param() => Image::RELATION_ANIME,
         ];
 
         Image::factory()

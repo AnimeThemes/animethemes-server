@@ -39,7 +39,7 @@ class FilterParserTest extends TestCase
     public function testParseTrashedCriteria(): void
     {
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => $this->faker->word(),
             ],
         ];
@@ -59,7 +59,7 @@ class FilterParserTest extends TestCase
         $fields = collect($this->faker()->words());
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 $this->faker->word() => $fields->join(','),
             ],
         ];
@@ -77,7 +77,7 @@ class FilterParserTest extends TestCase
     public function testParseHasCriteria(): void
     {
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 HasCriteria::PARAM_VALUE => $this->faker->word(),
             ],
         ];
@@ -95,7 +95,7 @@ class FilterParserTest extends TestCase
     public function testParseWhereCriteria(): void
     {
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 $this->faker->word() => $this->faker->word(),
             ],
         ];

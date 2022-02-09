@@ -19,11 +19,11 @@ class ImageTest extends TestCase
     use WithoutEvents;
 
     /**
-     * If the image is soft-deleted, the user shall be redirected to the Welcome Screen.
+     * If the image is soft-deleted, the user shall receive a forbidden exception.
      *
      * @return void
      */
-    public function testSoftDeleteImageStreamingRedirect(): void
+    public function testSoftDeleteImageStreamingForbidden(): void
     {
         $image = Image::factory()->createOne();
 
@@ -31,7 +31,7 @@ class ImageTest extends TestCase
 
         $response = $this->get(route('image.show', ['image' => $image]));
 
-        $response->assertRedirect(route('welcome'));
+        $response->assertForbidden();
     }
 
     /**

@@ -16,6 +16,7 @@ use App\Http\Resources\Wiki\Collection\VideoCollection;
 use App\Http\Resources\Wiki\Resource\SearchResource;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
@@ -34,7 +35,7 @@ class SearchTest extends TestCase
     {
         $response = $this->get(route('api.search.show'));
 
-        $response->assertJson([]);
+        $response->assertJsonValidationErrors(SearchParser::param());
     }
 
     /**
@@ -44,10 +45,15 @@ class SearchTest extends TestCase
      */
     public function testSearchAttributes(): void
     {
+        $driver = Config::get('scout.driver');
+        if (empty($driver)) {
+            static::markTestSkipped('A driver must be configured for this test');
+        }
+
         $q = $this->faker->word();
 
         $parameters = [
-            SearchParser::$param => $q,
+            SearchParser::param() => $q,
         ];
 
         $response = $this->get(route('api.search.show', $parameters));
@@ -72,6 +78,11 @@ class SearchTest extends TestCase
      */
     public function testSearchSparseFieldsets(): void
     {
+        $driver = Config::get('scout.driver');
+        if (empty($driver)) {
+            static::markTestSkipped('A driver must be configured for this test');
+        }
+
         $fields = [
             AnimeCollection::$wrap,
             ThemeCollection::$wrap,
@@ -87,8 +98,8 @@ class SearchTest extends TestCase
         $q = $this->faker->word();
 
         $parameters = [
-            SearchParser::$param => $q,
-            FieldParser::$param => [
+            SearchParser::param() => $q,
+            FieldParser::param() => [
                 SearchResource::$wrap => implode(',', $includedFields),
             ],
         ];

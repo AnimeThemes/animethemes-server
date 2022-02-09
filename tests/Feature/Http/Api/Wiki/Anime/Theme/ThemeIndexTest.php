@@ -114,7 +114,7 @@ class ThemeIndexTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         AnimeTheme::factory()
@@ -158,7 +158,7 @@ class ThemeIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 ThemeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -198,7 +198,7 @@ class ThemeIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
+            SortParser::param() => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
         $query = ThemeQuery::make($parameters);
@@ -233,10 +233,10 @@ class ThemeIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -282,10 +282,10 @@ class ThemeIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -328,10 +328,10 @@ class ThemeIndexTest extends TestCase
     public function testWithoutTrashedFilter(): void
     {
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -374,10 +374,10 @@ class ThemeIndexTest extends TestCase
     public function testWithTrashedFilter(): void
     {
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -420,10 +420,10 @@ class ThemeIndexTest extends TestCase
     public function testOnlyTrashedFilter(): void
     {
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -469,11 +469,11 @@ class ThemeIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -519,7 +519,7 @@ class ThemeIndexTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
         ];
@@ -560,7 +560,7 @@ class ThemeIndexTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
         ];
@@ -600,7 +600,7 @@ class ThemeIndexTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
         ];
@@ -636,10 +636,10 @@ class ThemeIndexTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_ANIME,
+            IncludeParser::param() => AnimeTheme::RELATION_ANIME,
         ];
 
         AnimeTheme::factory()
@@ -679,10 +679,10 @@ class ThemeIndexTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_ANIME,
+            IncludeParser::param() => AnimeTheme::RELATION_ANIME,
         ];
 
         AnimeTheme::factory()
@@ -726,10 +726,10 @@ class ThemeIndexTest extends TestCase
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Image::ATTRIBUTE_FACET => $facetFilter->description,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_IMAGES,
+            IncludeParser::param() => AnimeTheme::RELATION_IMAGES,
         ];
 
         AnimeTheme::factory()
@@ -771,10 +771,10 @@ class ThemeIndexTest extends TestCase
         $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_ENTRIES,
+            IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
         ];
 
         AnimeTheme::factory()
@@ -814,10 +814,10 @@ class ThemeIndexTest extends TestCase
         $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_ENTRIES,
+            IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
         ];
 
         AnimeTheme::factory()
@@ -858,10 +858,10 @@ class ThemeIndexTest extends TestCase
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_ENTRIES,
+            IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
         ];
 
         AnimeTheme::factory()
@@ -908,10 +908,10 @@ class ThemeIndexTest extends TestCase
         $lyricsFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_LYRICS => $lyricsFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -955,10 +955,10 @@ class ThemeIndexTest extends TestCase
         $ncFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_NC => $ncFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -1002,10 +1002,10 @@ class ThemeIndexTest extends TestCase
         $overlapFilter = VideoOverlap::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_OVERLAP => $overlapFilter->description,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -1050,10 +1050,10 @@ class ThemeIndexTest extends TestCase
         $excludedResolution = $resolutionFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_RESOLUTION => $resolutionFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -1104,10 +1104,10 @@ class ThemeIndexTest extends TestCase
         $sourceFilter = VideoSource::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_SOURCE => $sourceFilter->description,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -1151,10 +1151,10 @@ class ThemeIndexTest extends TestCase
         $subbedFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_SUBBED => $subbedFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -1198,10 +1198,10 @@ class ThemeIndexTest extends TestCase
         $uncenFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_UNCEN => $uncenFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()

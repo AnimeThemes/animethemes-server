@@ -99,7 +99,7 @@ class SeriesIndexTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         Series::factory()
@@ -139,7 +139,7 @@ class SeriesIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 SeriesResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -176,7 +176,7 @@ class SeriesIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
+            SortParser::param() => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
         $query = SeriesQuery::make($parameters);
@@ -210,10 +210,10 @@ class SeriesIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -255,10 +255,10 @@ class SeriesIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -297,10 +297,10 @@ class SeriesIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -338,10 +338,10 @@ class SeriesIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -379,10 +379,10 @@ class SeriesIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -423,11 +423,11 @@ class SeriesIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -474,10 +474,10 @@ class SeriesIndexTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => Series::RELATION_ANIME,
+            IncludeParser::param() => Series::RELATION_ANIME,
         ];
 
         Series::factory()
@@ -518,10 +518,10 @@ class SeriesIndexTest extends TestCase
         $yearFilter = $this->faker->numberBetween(2000, 2002);
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => Series::RELATION_ANIME,
+            IncludeParser::param() => Series::RELATION_ANIME,
         ];
 
         Series::factory()

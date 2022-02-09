@@ -7,6 +7,7 @@ namespace App\Http\Middleware;
 use App\Models\BaseModel;
 use Closure;
 use Illuminate\Http\Request;
+use RuntimeException;
 
 /**
  * Class WithoutTrashed.
@@ -25,8 +26,12 @@ class WithoutTrashed
     {
         $model = $request->route($modelKey);
 
-        if (! $model instanceof BaseModel || $model->trashed()) {
-            return redirect(route('welcome'));
+        if (! $model instanceof BaseModel) {
+            throw new RuntimeException('without_trashed should only be configured for models that can be soft deleted');
+        }
+
+        if ($model->trashed()) {
+            abort(403, 'Deleted Model');
         }
 
         return $next($request);

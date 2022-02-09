@@ -17,9 +17,12 @@ class IncludeParser extends Parser
     /**
      * The parameter to parse.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $param = 'include';
+    public static function param(): string
+    {
+        return 'include';
+    }
 
     /**
      * Parse includes from parameters.
@@ -31,8 +34,8 @@ class IncludeParser extends Parser
     {
         $criteria = [];
 
-        if (Arr::exists($parameters, static::$param)) {
-            $includeParam = $parameters[static::$param];
+        if (Arr::exists($parameters, static::param())) {
+            $includeParam = $parameters[static::param()];
             if ($includeParam !== null && ! Arr::accessible($includeParam)) {
                 $criteria[] = static::parseCriteria($includeParam);
             }

@@ -7,6 +7,9 @@ namespace App\Http\Middleware;
 use App\Models\Auth\Invitation;
 use Closure;
 use Illuminate\Http\Request;
+use RuntimeException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class HasOpenInvitation.
@@ -19,13 +22,21 @@ class HasOpenInvitation
      * @param  Request  $request
      * @param  Closure  $next
      * @return mixed
+     *
+     * @throws HttpException
+     * @throws NotFoundHttpException
+     * @throws RuntimeException
      */
     public function handle(Request $request, Closure $next): mixed
     {
         $invitation = $request->route('invitation');
 
-        if (! $invitation instanceof Invitation || ! $invitation->isOpen()) {
-            return redirect(route('welcome'));
+        if (! $invitation instanceof Invitation) {
+            throw new RuntimeException('has_open_invitation should only be configured for invitations');
+        }
+
+        if (! $invitation->isOpen()) {
+            abort(403, 'Closed Invitation');
         }
 
         return $next($request);

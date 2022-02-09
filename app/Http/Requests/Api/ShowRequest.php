@@ -21,7 +21,7 @@ abstract class ShowRequest extends BaseRequest
     protected function getPagingRules(): array
     {
         return [
-            PagingParser::$param => [
+            PagingParser::param() => [
                 'prohibited',
             ],
         ];
@@ -35,7 +35,7 @@ abstract class ShowRequest extends BaseRequest
     protected function getSearchRules(): array
     {
         return [
-            SearchParser::$param => [
+            SearchParser::param() => [
                 'prohibited',
             ],
         ];
@@ -49,7 +49,7 @@ abstract class ShowRequest extends BaseRequest
     protected function getSortRules(): array
     {
         return [
-            SortParser::$param => [
+            SortParser::param() => [
                 'prohibited',
             ],
         ];

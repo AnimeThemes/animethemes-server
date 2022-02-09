@@ -29,7 +29,7 @@ class YearIndexRequest extends BaseRequest
     protected function getIncludeRules(): array
     {
         return [
-            IncludeParser::$param => [
+            IncludeParser::param() => [
                 'prohibited',
             ],
         ];
@@ -43,7 +43,7 @@ class YearIndexRequest extends BaseRequest
     protected function getPagingRules(): array
     {
         return [
-            PagingParser::$param => [
+            PagingParser::param() => [
                 'prohibited',
             ],
         ];
@@ -57,7 +57,7 @@ class YearIndexRequest extends BaseRequest
     protected function getSearchRules(): array
     {
         return [
-            SearchParser::$param => [
+            SearchParser::param() => [
                 'prohibited',
             ],
         ];
@@ -71,7 +71,7 @@ class YearIndexRequest extends BaseRequest
     protected function getSortRules(): array
     {
         return [
-            SortParser::$param => [
+            SortParser::param() => [
                 'prohibited',
             ],
         ];

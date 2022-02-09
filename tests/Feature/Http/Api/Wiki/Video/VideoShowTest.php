@@ -99,7 +99,7 @@ class VideoShowTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         Video::factory()
@@ -142,7 +142,7 @@ class VideoShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 VideoResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -173,10 +173,10 @@ class VideoShowTest extends TestCase
         $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
             ],
-            IncludeParser::$param => Video::RELATION_ANIMETHEMEENTRIES,
+            IncludeParser::param() => Video::RELATION_ANIMETHEMEENTRIES,
         ];
 
         Video::factory()
@@ -218,10 +218,10 @@ class VideoShowTest extends TestCase
         $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
             ],
-            IncludeParser::$param => Video::RELATION_ANIMETHEMEENTRIES,
+            IncludeParser::param() => Video::RELATION_ANIMETHEMEENTRIES,
         ];
 
         Video::factory()
@@ -264,10 +264,10 @@ class VideoShowTest extends TestCase
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
             ],
-            IncludeParser::$param => Video::RELATION_ANIMETHEMEENTRIES,
+            IncludeParser::param() => Video::RELATION_ANIMETHEMEENTRIES,
         ];
 
         Video::factory()
@@ -314,10 +314,10 @@ class VideoShowTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => Video::RELATION_ANIMETHEME,
+            IncludeParser::param() => Video::RELATION_ANIMETHEME,
         ];
 
         Video::factory()
@@ -366,10 +366,10 @@ class VideoShowTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => Video::RELATION_ANIMETHEME,
+            IncludeParser::param() => Video::RELATION_ANIMETHEME,
         ];
 
         Video::factory()
@@ -417,10 +417,10 @@ class VideoShowTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => Video::RELATION_ANIMETHEME,
+            IncludeParser::param() => Video::RELATION_ANIMETHEME,
         ];
 
         Video::factory()
@@ -462,10 +462,10 @@ class VideoShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => Video::RELATION_ANIME,
+            IncludeParser::param() => Video::RELATION_ANIME,
         ];
 
         Video::factory()
@@ -508,10 +508,10 @@ class VideoShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => Video::RELATION_ANIME,
+            IncludeParser::param() => Video::RELATION_ANIME,
         ];
 
         Video::factory()

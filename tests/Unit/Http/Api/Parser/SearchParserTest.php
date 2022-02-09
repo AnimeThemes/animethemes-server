@@ -36,7 +36,7 @@ class SearchParserTest extends TestCase
     public function testParseSearchCriteria(): void
     {
         $parameters = [
-            SearchParser::$param => $this->faker->word(),
+            SearchParser::param() => $this->faker->word(),
         ];
 
         $criteria = SearchParser::parse($parameters)[0];
@@ -54,7 +54,7 @@ class SearchParserTest extends TestCase
         $term = $this->faker->word();
 
         $parameters = [
-            SearchParser::$param => $term,
+            SearchParser::param() => $term,
         ];
 
         $criteria = SearchParser::parse($parameters)[0];
