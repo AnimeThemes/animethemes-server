@@ -16,9 +16,12 @@ class FieldParser extends Parser
     /**
      * The parameter to parse.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $param = 'fields';
+    public static function param(): string
+    {
+        return 'fields';
+    }
 
     /**
      * Parse sparse fieldsets from parameters.
@@ -30,8 +33,8 @@ class FieldParser extends Parser
     {
         $criteria = [];
 
-        if (Arr::exists($parameters, static::$param)) {
-            $fieldsParam = $parameters[static::$param];
+        if (Arr::exists($parameters, static::param())) {
+            $fieldsParam = $parameters[static::param()];
             if (Arr::accessible($fieldsParam) && Arr::isAssoc($fieldsParam)) {
                 foreach ($fieldsParam as $type => $fieldList) {
                     if ($fieldList !== null && ! Arr::accessible($fieldList)) {

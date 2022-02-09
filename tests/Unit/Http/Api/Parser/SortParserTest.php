@@ -40,7 +40,7 @@ class SortParserTest extends TestCase
     public function testParseRandomCriteria(): void
     {
         $parameters = [
-            SortParser::$param => RandomCriteria::PARAM_VALUE,
+            SortParser::param() => RandomCriteria::PARAM_VALUE,
         ];
 
         $criteria = SortParser::parse($parameters)[0];
@@ -56,7 +56,7 @@ class SortParserTest extends TestCase
     public function testParseRelationCriteria(): void
     {
         $parameters = [
-            SortParser::$param => collect($this->faker->words())->join('.'),
+            SortParser::param() => collect($this->faker->words())->join('.'),
         ];
 
         $criteria = SortParser::parse($parameters)[0];
@@ -72,7 +72,7 @@ class SortParserTest extends TestCase
     public function testParseFieldCriteria(): void
     {
         $parameters = [
-            SortParser::$param => $this->faker->word(),
+            SortParser::param() => $this->faker->word(),
         ];
 
         $criteria = SortParser::parse($parameters)[0];
@@ -90,7 +90,7 @@ class SortParserTest extends TestCase
         $field = $this->faker->word();
 
         $parameters = [
-            SortParser::$param => $field,
+            SortParser::param() => $field,
         ];
 
         $criteria = SortParser::parse($parameters)[0];
@@ -106,7 +106,7 @@ class SortParserTest extends TestCase
     public function testParseDefaultDirection(): void
     {
         $parameters = [
-            SortParser::$param => $this->faker->word(),
+            SortParser::param() => $this->faker->word(),
         ];
 
         $criteria = SortParser::parse($parameters)[0];
@@ -127,7 +127,7 @@ class SortParserTest extends TestCase
         $field = Str::of('-')->append($this->faker->word())->__toString();
 
         $parameters = [
-            SortParser::$param => $field,
+            SortParser::param() => $field,
         ];
 
         $criteria = SortParser::parse($parameters)[0];

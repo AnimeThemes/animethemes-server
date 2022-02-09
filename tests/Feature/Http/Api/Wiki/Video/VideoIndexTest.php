@@ -109,7 +109,7 @@ class VideoIndexTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         Video::factory()
@@ -153,7 +153,7 @@ class VideoIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 VideoResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -192,7 +192,7 @@ class VideoIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
+            SortParser::param() => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
         $query = VideoQuery::make($parameters);
@@ -228,10 +228,10 @@ class VideoIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -273,10 +273,10 @@ class VideoIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -315,10 +315,10 @@ class VideoIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -356,10 +356,10 @@ class VideoIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -397,10 +397,10 @@ class VideoIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -441,11 +441,11 @@ class VideoIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -492,7 +492,7 @@ class VideoIndexTest extends TestCase
         $lyricsFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_LYRICS => $lyricsFilter,
             ],
         ];
@@ -529,7 +529,7 @@ class VideoIndexTest extends TestCase
         $ncFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_NC => $ncFilter,
             ],
         ];
@@ -566,7 +566,7 @@ class VideoIndexTest extends TestCase
         $overlapFilter = VideoOverlap::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_OVERLAP => $overlapFilter->description,
             ],
         ];
@@ -604,7 +604,7 @@ class VideoIndexTest extends TestCase
         $excludedResolution = $resolutionFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_RESOLUTION => $resolutionFilter,
             ],
         ];
@@ -645,7 +645,7 @@ class VideoIndexTest extends TestCase
         $sourceFilter = VideoSource::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_SOURCE => $sourceFilter->description,
             ],
         ];
@@ -682,7 +682,7 @@ class VideoIndexTest extends TestCase
         $subbedFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_SUBBED => $subbedFilter,
             ],
         ];
@@ -719,7 +719,7 @@ class VideoIndexTest extends TestCase
         $uncenFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_UNCEN => $uncenFilter,
             ],
         ];
@@ -754,10 +754,10 @@ class VideoIndexTest extends TestCase
         $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
             ],
-            IncludeParser::$param => Video::RELATION_ANIMETHEMEENTRIES,
+            IncludeParser::param() => Video::RELATION_ANIMETHEMEENTRIES,
         ];
 
         Video::factory()
@@ -800,10 +800,10 @@ class VideoIndexTest extends TestCase
         $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
             ],
-            IncludeParser::$param => Video::RELATION_ANIMETHEMEENTRIES,
+            IncludeParser::param() => Video::RELATION_ANIMETHEMEENTRIES,
         ];
 
         Video::factory()
@@ -847,10 +847,10 @@ class VideoIndexTest extends TestCase
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
             ],
-            IncludeParser::$param => Video::RELATION_ANIMETHEMEENTRIES,
+            IncludeParser::param() => Video::RELATION_ANIMETHEMEENTRIES,
         ];
 
         Video::factory()
@@ -898,10 +898,10 @@ class VideoIndexTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => Video::RELATION_ANIMETHEME,
+            IncludeParser::param() => Video::RELATION_ANIMETHEME,
         ];
 
         Video::factory()
@@ -951,10 +951,10 @@ class VideoIndexTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => Video::RELATION_ANIMETHEME,
+            IncludeParser::param() => Video::RELATION_ANIMETHEME,
         ];
 
         Video::factory()
@@ -1003,10 +1003,10 @@ class VideoIndexTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => Video::RELATION_ANIMETHEME,
+            IncludeParser::param() => Video::RELATION_ANIMETHEME,
         ];
 
         Video::factory()
@@ -1049,10 +1049,10 @@ class VideoIndexTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => Video::RELATION_ANIME,
+            IncludeParser::param() => Video::RELATION_ANIME,
         ];
 
         Video::factory()
@@ -1096,10 +1096,10 @@ class VideoIndexTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => Video::RELATION_ANIME,
+            IncludeParser::param() => Video::RELATION_ANIME,
         ];
 
         Video::factory()

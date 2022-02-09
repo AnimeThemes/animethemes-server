@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use RuntimeException;
 
 /**
  * Class DigitalOceanTransactionRepository.
@@ -34,9 +35,7 @@ class DigitalOceanTransactionRepository implements Repository
         // Do not proceed if we do not have authorization to the DO API
         $doBearerToken = Config::get('services.do.token');
         if ($doBearerToken === null) {
-            Log::error('DO_BEARER_TOKEN must be configured in your env file.');
-
-            return Collection::make();
+            throw new RuntimeException('DO_BEARER_TOKEN must be configured in your env file.');
         }
 
         $sourceTransactions = [];

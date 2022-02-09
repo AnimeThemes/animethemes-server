@@ -103,7 +103,7 @@ class SongIndexTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         Song::factory()
@@ -144,7 +144,7 @@ class SongIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 SongResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -179,7 +179,7 @@ class SongIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
+            SortParser::param() => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
         $query = SongQuery::make($parameters);
@@ -213,10 +213,10 @@ class SongIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -258,10 +258,10 @@ class SongIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -300,10 +300,10 @@ class SongIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -341,10 +341,10 @@ class SongIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -382,10 +382,10 @@ class SongIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -426,11 +426,11 @@ class SongIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -476,10 +476,10 @@ class SongIndexTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => Song::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Song::RELATION_ANIMETHEMES,
         ];
 
         Song::factory()
@@ -527,10 +527,10 @@ class SongIndexTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => Song::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Song::RELATION_ANIMETHEMES,
         ];
 
         Song::factory()
@@ -577,10 +577,10 @@ class SongIndexTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => Song::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Song::RELATION_ANIMETHEMES,
         ];
 
         Song::factory()
@@ -619,10 +619,10 @@ class SongIndexTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => Song::RELATION_ANIME,
+            IncludeParser::param() => Song::RELATION_ANIME,
         ];
 
         Song::factory()
@@ -662,10 +662,10 @@ class SongIndexTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => Song::RELATION_ANIME,
+            IncludeParser::param() => Song::RELATION_ANIME,
         ];
 
         Song::factory()

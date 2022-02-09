@@ -20,9 +20,12 @@ class SortParser extends Parser
     /**
      * The parameter to parse.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $param = 'sort';
+    public static function param(): string
+    {
+        return 'sort';
+    }
 
     /**
      * Parse sorts from parameters.
@@ -34,8 +37,8 @@ class SortParser extends Parser
     {
         $criteria = [];
 
-        if (Arr::exists($parameters, static::$param)) {
-            $sortParam = $parameters[static::$param];
+        if (Arr::exists($parameters, static::param())) {
+            $sortParam = $parameters[static::param()];
             if ($sortParam !== null && ! Arr::accessible($sortParam)) {
                 $sortValues = Str::of($sortParam)->explode(',');
                 foreach ($sortValues as $sortValue) {

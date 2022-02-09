@@ -38,7 +38,7 @@ class QueryTest extends TestCase
         $type = $this->faker->word();
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 $type => $this->faker->word(),
             ],
         ];
@@ -56,7 +56,7 @@ class QueryTest extends TestCase
     public function testGetIncludeCriteria(): void
     {
         $parameters = [
-            IncludeParser::$param => $this->faker->word(),
+            IncludeParser::param() => $this->faker->word(),
         ];
 
         $query = FakeQuery::make($parameters);
@@ -74,7 +74,7 @@ class QueryTest extends TestCase
         $type = $this->faker->word();
 
         $parameters = [
-            IncludeParser::$param => [
+            IncludeParser::param() => [
                 $type => $this->faker->word(),
             ],
         ];
@@ -94,7 +94,7 @@ class QueryTest extends TestCase
         $fields = collect($this->faker()->words($this->faker->randomDigitNotNull()));
 
         $parameters = [
-            SortParser::$param => $fields->join(','),
+            SortParser::param() => $fields->join(','),
         ];
 
         $query = FakeQuery::make($parameters);
@@ -111,7 +111,7 @@ class QueryTest extends TestCase
     {
         $filterCount = $this->faker->randomDigitNotNull();
 
-        $parameters = Collection::times($filterCount, fn () => FilterParser::$param.'.'.Str::random())
+        $parameters = Collection::times($filterCount, fn () => FilterParser::param().'.'.Str::random())
             ->combine(Collection::times($filterCount, fn () => Str::random()))
             ->undot()
             ->all();
@@ -143,7 +143,7 @@ class QueryTest extends TestCase
     public function testHasSearch(): void
     {
         $parameters = [
-            SearchParser::$param => $this->faker->word(),
+            SearchParser::param() => $this->faker->word(),
         ];
 
         $query = FakeQuery::make($parameters);
@@ -173,7 +173,7 @@ class QueryTest extends TestCase
     public function testGetSearch(): void
     {
         $parameters = [
-            SearchParser::$param => $this->faker->word(),
+            SearchParser::param() => $this->faker->word(),
         ];
 
         $query = FakeQuery::make($parameters);

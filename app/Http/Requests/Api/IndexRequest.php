@@ -31,7 +31,7 @@ abstract class IndexRequest extends BaseRequest
     protected function getPagingRules(): array
     {
         return [
-            PagingParser::$param => [
+            PagingParser::param() => [
                 'sometimes',
                 'required',
                 Str::of('array:')
@@ -40,13 +40,13 @@ abstract class IndexRequest extends BaseRequest
                     ->append(OffsetCriteria::SIZE_PARAM)
                     ->__toString(),
             ],
-            Str::of(PagingParser::$param)
+            Str::of(PagingParser::param())
                 ->append('.')
                 ->append(LimitCriteria::PARAM)
                 ->__toString() => [
                     'prohibited',
                 ],
-            Str::of(PagingParser::$param)
+            Str::of(PagingParser::param())
                 ->append('.')
                 ->append(OffsetCriteria::NUMBER_PARAM)
                 ->__toString() => [
@@ -55,7 +55,7 @@ abstract class IndexRequest extends BaseRequest
                     'integer',
                     'min:1',
                 ],
-            Str::of(PagingParser::$param)
+            Str::of(PagingParser::param())
                 ->append('.')
                 ->append(OffsetCriteria::SIZE_PARAM)
                 ->__toString() => [
@@ -77,7 +77,7 @@ abstract class IndexRequest extends BaseRequest
     {
         if ($this instanceof SearchableRequest) {
             return [
-                SearchParser::$param => [
+                SearchParser::param() => [
                     'sometimes',
                     'required',
                     'string',
@@ -86,7 +86,7 @@ abstract class IndexRequest extends BaseRequest
         }
 
         return [
-            SearchParser::$param => [
+            SearchParser::param() => [
                 'prohibited',
             ],
         ];
@@ -112,14 +112,14 @@ abstract class IndexRequest extends BaseRequest
 
         if ($allowedSorts->isEmpty()) {
             return [
-                SortParser::$param => [
+                SortParser::param() => [
                     'prohibited',
                 ],
             ];
         }
 
         return [
-            SortParser::$param => [
+            SortParser::param() => [
                 'sometimes',
                 'required',
                 new Delimited(Rule::in($allowedSorts)),

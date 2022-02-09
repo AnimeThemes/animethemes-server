@@ -11,15 +11,13 @@ use App\Models\BaseModel;
 use App\Repositories\Eloquent\Billing\DigitalOceanTransactionRepository as DigitalOceanDestinationRepository;
 use App\Repositories\Service\DigitalOcean\Billing\DigitalOceanTransactionRepository as DigitalOceanSourceRepository;
 use Exception;
-use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 /**
  * Class TransactionReconcileCommand.
  */
-class TransactionReconcileCommand extends Command
+class TransactionReconcileCommand extends ServiceReconcileCommand
 {
     use ReconcilesTransactionRepositories;
 
@@ -36,44 +34,6 @@ class TransactionReconcileCommand extends Command
      * @var string
      */
     protected $description = 'Perform set reconciliation between vendor billing API and transaction database';
-
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle(): int
-    {
-        $key = $this->argument('service');
-        $service = Service::coerce(Str::upper($key));
-
-        if ($service === null) {
-            Log::error("Invalid Service '$key'");
-            $this->error("Invalid Service '$key'");
-
-            return 1;
-        }
-
-        $sourceRepository = $this->getSourceRepository($service);
-        if ($sourceRepository === null) {
-            Log::error("No source repository implemented for Service '$key'");
-            $this->error("No source repository implemented for Service '$key'");
-
-            return 1;
-        }
-
-        $destinationRepository = $this->getDestinationRepository($service);
-        if ($destinationRepository === null) {
-            Log::error("No destination repository implemented for Service '$key'");
-            $this->error("No destination repository implemented for Service '$key'");
-
-            return 1;
-        }
-
-        $this->reconcileRepositories($sourceRepository, $destinationRepository);
-
-        return 0;
-    }
 
     /**
      * Print the result to console and log the results to the app log.

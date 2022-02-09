@@ -15,9 +15,12 @@ class SearchParser extends Parser
     /**
      * The parameter to parse.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $param = 'q';
+    public static function param(): string
+    {
+        return 'q';
+    }
 
     /**
      * Parse search from parameters.
@@ -29,8 +32,8 @@ class SearchParser extends Parser
     {
         $criteria = [];
 
-        if (Arr::exists($parameters, static::$param)) {
-            $searchParam = $parameters[static::$param];
+        if (Arr::exists($parameters, static::param())) {
+            $searchParam = $parameters[static::param()];
             if ($searchParam !== null && ! Arr::accessible($searchParam)) {
                 $criteria[] = static::parseCriteria($searchParam);
             }

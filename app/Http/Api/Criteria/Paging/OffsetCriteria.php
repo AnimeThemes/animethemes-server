@@ -40,12 +40,12 @@ class OffsetCriteria extends Criteria
      */
     public function paginate(Builder $builder): Collection|Paginator
     {
-        $pageNameQuery = Str::of(PagingParser::$param)
+        $pageNameQuery = Str::of(PagingParser::param())
             ->append('.')
             ->append(self::NUMBER_PARAM)
             ->__toString();
 
-        $pageNameLink = Str::of(PagingParser::$param)
+        $pageNameLink = Str::of(PagingParser::param())
             ->append('[')
             ->append(self::NUMBER_PARAM)
             ->append(']')

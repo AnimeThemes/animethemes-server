@@ -106,7 +106,7 @@ class ArtistShowTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         Artist::factory()->jsonApiResource()->create();
@@ -142,7 +142,7 @@ class ArtistShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 ArtistResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -174,10 +174,10 @@ class ArtistShowTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => Artist::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Artist::RELATION_ANIMETHEMES,
         ];
 
         Artist::factory()
@@ -228,10 +228,10 @@ class ArtistShowTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => Artist::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Artist::RELATION_ANIMETHEMES,
         ];
 
         Artist::factory()
@@ -281,10 +281,10 @@ class ArtistShowTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => Artist::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Artist::RELATION_ANIMETHEMES,
         ];
 
         Artist::factory()
@@ -330,10 +330,10 @@ class ArtistShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => Artist::RELATION_ANIME,
+            IncludeParser::param() => Artist::RELATION_ANIME,
         ];
 
         Artist::factory()
@@ -380,10 +380,10 @@ class ArtistShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => Artist::RELATION_ANIME,
+            IncludeParser::param() => Artist::RELATION_ANIME,
         ];
 
         Artist::factory()
@@ -436,10 +436,10 @@ class ArtistShowTest extends TestCase
         $siteFilter = ResourceSite::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 ExternalResource::ATTRIBUTE_SITE => $siteFilter->description,
             ],
-            IncludeParser::$param => Artist::RELATION_RESOURCES,
+            IncludeParser::param() => Artist::RELATION_RESOURCES,
         ];
 
         Artist::factory()
@@ -479,10 +479,10 @@ class ArtistShowTest extends TestCase
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Image::ATTRIBUTE_FACET => $facetFilter->description,
             ],
-            IncludeParser::$param => Artist::RELATION_IMAGES,
+            IncludeParser::param() => Artist::RELATION_IMAGES,
         ];
 
         Artist::factory()

@@ -97,7 +97,7 @@ class SeriesShowTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         Series::factory()
@@ -136,7 +136,7 @@ class SeriesShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 SeriesResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -169,10 +169,10 @@ class SeriesShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => Series::RELATION_ANIME,
+            IncludeParser::param() => Series::RELATION_ANIME,
         ];
 
         Series::factory()
@@ -212,10 +212,10 @@ class SeriesShowTest extends TestCase
         $yearFilter = $this->faker->numberBetween(2000, 2002);
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => Series::RELATION_ANIME,
+            IncludeParser::param() => Series::RELATION_ANIME,
         ];
 
         Series::factory()

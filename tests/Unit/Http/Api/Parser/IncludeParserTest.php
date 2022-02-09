@@ -39,7 +39,7 @@ class IncludeParserTest extends TestCase
         $fields = collect($this->faker()->words($this->faker->randomDigitNotNull()));
 
         $parameters = [
-            IncludeParser::$param => $fields->join(','),
+            IncludeParser::param() => $fields->join(','),
         ];
 
         $criteria = IncludeParser::parse($parameters)[0];
@@ -57,7 +57,7 @@ class IncludeParserTest extends TestCase
         $fields = $this->faker()->words($this->faker->randomDigitNotNull());
 
         $parameters = [
-            IncludeParser::$param => collect($fields)->join(','),
+            IncludeParser::param() => collect($fields)->join(','),
         ];
 
         $criteria = IncludeParser::parse($parameters)[0];
@@ -75,7 +75,7 @@ class IncludeParserTest extends TestCase
         $fields = collect($this->faker()->words($this->faker->randomDigitNotNull()));
 
         $parameters = [
-            IncludeParser::$param => [
+            IncludeParser::param() => [
                 $this->faker->word() => $fields->join(','),
             ],
         ];
@@ -97,7 +97,7 @@ class IncludeParserTest extends TestCase
         $fields = collect($this->faker()->words($this->faker->randomDigitNotNull()));
 
         $parameters = [
-            IncludeParser::$param => [
+            IncludeParser::param() => [
                 $type => $fields->join(','),
             ],
         ];
@@ -120,7 +120,7 @@ class IncludeParserTest extends TestCase
         $fields = $this->faker()->words($this->faker->randomDigitNotNull());
 
         $parameters = [
-            IncludeParser::$param => [
+            IncludeParser::param() => [
                 $this->faker->word() => collect($fields)->join(','),
             ],
         ];

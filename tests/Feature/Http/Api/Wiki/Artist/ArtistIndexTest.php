@@ -108,8 +108,8 @@ class ArtistIndexTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
-            PagingParser::$param => [
+            IncludeParser::param() => $includedPaths->join(','),
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -147,7 +147,7 @@ class ArtistIndexTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 ArtistResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -184,7 +184,7 @@ class ArtistIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::$param => $field->getSort()->format(Direction::getRandomInstance()),
+            SortParser::param() => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
         $query = ArtistQuery::make($parameters);
@@ -218,10 +218,10 @@ class ArtistIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -263,10 +263,10 @@ class ArtistIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -305,10 +305,10 @@ class ArtistIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -346,10 +346,10 @@ class ArtistIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -387,10 +387,10 @@ class ArtistIndexTest extends TestCase
         $this->withoutEvents();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -431,11 +431,11 @@ class ArtistIndexTest extends TestCase
         $excludedDate = $this->faker->date();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
             ],
-            PagingParser::$param => [
+            PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
             ],
         ];
@@ -481,10 +481,10 @@ class ArtistIndexTest extends TestCase
         $excludedGroup = $this->faker->word();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
             ],
-            IncludeParser::$param => Artist::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Artist::RELATION_ANIMETHEMES,
         ];
 
         Artist::factory()
@@ -536,10 +536,10 @@ class ArtistIndexTest extends TestCase
         $excludedSequence = $sequenceFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::$param => Artist::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Artist::RELATION_ANIMETHEMES,
         ];
 
         Artist::factory()
@@ -590,10 +590,10 @@ class ArtistIndexTest extends TestCase
         $typeFilter = ThemeType::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->description,
             ],
-            IncludeParser::$param => Artist::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Artist::RELATION_ANIMETHEMES,
         ];
 
         Artist::factory()
@@ -640,10 +640,10 @@ class ArtistIndexTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => Artist::RELATION_ANIME,
+            IncludeParser::param() => Artist::RELATION_ANIME,
         ];
 
         Artist::factory()
@@ -691,10 +691,10 @@ class ArtistIndexTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => Artist::RELATION_ANIME,
+            IncludeParser::param() => Artist::RELATION_ANIME,
         ];
 
         Artist::factory()
@@ -748,10 +748,10 @@ class ArtistIndexTest extends TestCase
         $siteFilter = ResourceSite::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 ExternalResource::ATTRIBUTE_SITE => $siteFilter->description,
             ],
-            IncludeParser::$param => Artist::RELATION_RESOURCES,
+            IncludeParser::param() => Artist::RELATION_RESOURCES,
         ];
 
         Artist::factory()
@@ -792,10 +792,10 @@ class ArtistIndexTest extends TestCase
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Image::ATTRIBUTE_FACET => $facetFilter->description,
             ],
-            IncludeParser::$param => Artist::RELATION_IMAGES,
+            IncludeParser::param() => Artist::RELATION_IMAGES,
         ];
 
         Artist::factory()

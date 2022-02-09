@@ -23,11 +23,11 @@ class VideoTest extends TestCase
 
     /**
      * If video streaming is disabled through the 'flags.allow_video_streams' property,
-     * the user shall be redirected to the Welcome Screen.
+     * the user shall receive a forbidden exception.
      *
      * @return void
      */
-    public function testVideoStreamingNotAllowedRedirect(): void
+    public function testVideoStreamingNotAllowedForbidden(): void
     {
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, false);
 
@@ -35,15 +35,15 @@ class VideoTest extends TestCase
 
         $response = $this->get(route('video.show', ['video' => $video]));
 
-        $response->assertRedirect(route('welcome'));
+        $response->assertForbidden();
     }
 
     /**
-     * If the video is soft-deleted, the user shall be redirected to the Welcome Screen.
+     * If the video is soft-deleted, the user shall receive a forbidden exception.
      *
      * @return void
      */
-    public function testSoftDeleteVideoStreamingRedirect(): void
+    public function testSoftDeleteVideoStreamingForbidden(): void
     {
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
 
@@ -53,7 +53,7 @@ class VideoTest extends TestCase
 
         $response = $this->get(route('video.show', ['video' => $video]));
 
-        $response->assertRedirect(route('welcome'));
+        $response->assertForbidden();
     }
 
     /**

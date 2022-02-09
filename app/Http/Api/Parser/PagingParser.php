@@ -17,9 +17,12 @@ class PagingParser extends Parser
     /**
      * The parameter to parse.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $param = 'page';
+    public static function param(): string
+    {
+        return 'page';
+    }
 
     /**
      * Parse paging from parameters.
@@ -31,7 +34,7 @@ class PagingParser extends Parser
     {
         $criteria = [];
 
-        $pagingParam = Arr::get($parameters, static::$param, []);
+        $pagingParam = Arr::get($parameters, static::param(), []);
         $criteria[] = static::parseLimitCriteria($pagingParam);
         $criteria[] = static::parseOffsetCriteria($pagingParam);
 

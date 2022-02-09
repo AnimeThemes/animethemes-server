@@ -20,7 +20,7 @@ class RegistrationTest extends TestCase
 
     /**
      * If the show registration form request uses a closed invitation,
-     * the application shall redirect the user to the welcome screen.
+     * the user shall receive a forbidden exception.
      *
      * @return void
      */
@@ -38,12 +38,12 @@ class RegistrationTest extends TestCase
 
         $response = $this->get($url);
 
-        $response->assertRedirect(route('welcome'));
+        $response->assertForbidden();
     }
 
     /**
      * If the show registration form request uses a soft deleted invitation,
-     * the application shall redirect the user to the welcome screen.
+     * the user shall receive a forbidden exception.
      *
      * @return void
      */
@@ -61,7 +61,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->get($url);
 
-        $response->assertRedirect(route('welcome'));
+        $response->assertForbidden();
     }
 
     /**
@@ -87,7 +87,7 @@ class RegistrationTest extends TestCase
 
     /**
      * If the registration request uses a closed invitation,
-     * the application shall redirect the user to the welcome screen.
+     * the user shall receive a forbidden exception.
      *
      * @return void
      */
@@ -105,7 +105,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->post($url);
 
-        $response->assertRedirect(route('welcome'));
+        $response->assertForbidden();
     }
 
     /**

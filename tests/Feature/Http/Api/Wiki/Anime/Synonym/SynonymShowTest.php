@@ -96,7 +96,7 @@ class SynonymShowTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         AnimeSynonym::factory()->for(Anime::factory())->create();
@@ -131,7 +131,7 @@ class SynonymShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 SynonymResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -164,10 +164,10 @@ class SynonymShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => AnimeSynonym::RELATION_ANIME,
+            IncludeParser::param() => AnimeSynonym::RELATION_ANIME,
         ];
 
         AnimeSynonym::factory()->for(Anime::factory())->create();
@@ -204,10 +204,10 @@ class SynonymShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => AnimeSynonym::RELATION_ANIME,
+            IncludeParser::param() => AnimeSynonym::RELATION_ANIME,
         ];
 
         AnimeSynonym::factory()

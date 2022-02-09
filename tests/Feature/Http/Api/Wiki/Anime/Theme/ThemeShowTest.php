@@ -108,7 +108,7 @@ class ThemeShowTest extends TestCase
         $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
         $parameters = [
-            IncludeParser::$param => $includedPaths->join(','),
+            IncludeParser::param() => $includedPaths->join(','),
         ];
 
         AnimeTheme::factory()
@@ -151,7 +151,7 @@ class ThemeShowTest extends TestCase
         $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
 
         $parameters = [
-            FieldParser::$param => [
+            FieldParser::param() => [
                 ThemeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
@@ -187,10 +187,10 @@ class ThemeShowTest extends TestCase
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_ANIME,
+            IncludeParser::param() => AnimeTheme::RELATION_ANIME,
         ];
 
         AnimeTheme::factory()
@@ -229,10 +229,10 @@ class ThemeShowTest extends TestCase
         $excludedYear = $yearFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_ANIME,
+            IncludeParser::param() => AnimeTheme::RELATION_ANIME,
         ];
 
         AnimeTheme::factory()
@@ -275,10 +275,10 @@ class ThemeShowTest extends TestCase
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Image::ATTRIBUTE_FACET => $facetFilter->description,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_IMAGES,
+            IncludeParser::param() => AnimeTheme::RELATION_IMAGES,
         ];
 
         AnimeTheme::factory()
@@ -319,10 +319,10 @@ class ThemeShowTest extends TestCase
         $nsfwFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_ENTRIES,
+            IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
         ];
 
         AnimeTheme::factory()
@@ -361,10 +361,10 @@ class ThemeShowTest extends TestCase
         $spoilerFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_ENTRIES,
+            IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
         ];
 
         AnimeTheme::factory()
@@ -404,10 +404,10 @@ class ThemeShowTest extends TestCase
         $excludedVersion = $versionFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_ENTRIES,
+            IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
         ];
 
         AnimeTheme::factory()
@@ -453,10 +453,10 @@ class ThemeShowTest extends TestCase
         $lyricsFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_LYRICS => $lyricsFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -499,10 +499,10 @@ class ThemeShowTest extends TestCase
         $ncFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_NC => $ncFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -545,10 +545,10 @@ class ThemeShowTest extends TestCase
         $overlapFilter = VideoOverlap::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_OVERLAP => $overlapFilter->description,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -592,10 +592,10 @@ class ThemeShowTest extends TestCase
         $excludedResolution = $resolutionFilter + 1;
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_RESOLUTION => $resolutionFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -645,10 +645,10 @@ class ThemeShowTest extends TestCase
         $sourceFilter = VideoSource::getRandomInstance();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_SOURCE => $sourceFilter->description,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -691,10 +691,10 @@ class ThemeShowTest extends TestCase
         $subbedFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_SUBBED => $subbedFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()
@@ -737,10 +737,10 @@ class ThemeShowTest extends TestCase
         $uncenFilter = $this->faker->boolean();
 
         $parameters = [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 Video::ATTRIBUTE_UNCEN => $uncenFilter,
             ],
-            IncludeParser::$param => AnimeTheme::RELATION_VIDEOS,
+            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
         AnimeTheme::factory()

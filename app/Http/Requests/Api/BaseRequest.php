@@ -72,7 +72,7 @@ abstract class BaseRequest extends FormRequest
         return array_merge(
             $rules,
             [
-                FieldParser::$param => [
+                FieldParser::param() => [
                     'nullable',
                     Str::of('array:')->append($types->join(','))->__toString(),
                 ],
@@ -89,7 +89,7 @@ abstract class BaseRequest extends FormRequest
     protected function getSchemaFieldRules(Schema $schema): array
     {
         return [
-            Str::of(FieldParser::$param)
+            Str::of(FieldParser::param())
                 ->append('.')
                 ->append($schema->type())
                 ->__toString() => [
@@ -109,7 +109,7 @@ abstract class BaseRequest extends FormRequest
     {
         // TODO: placeholder so that filter is passed by form request as validated to DTO
         return [
-            FilterParser::$param => [
+            FilterParser::param() => [
                 'nullable',
             ],
         ];
@@ -128,14 +128,14 @@ abstract class BaseRequest extends FormRequest
 
         if ($allowedIncludes->isEmpty()) {
             return [
-                IncludeParser::$param => [
+                IncludeParser::param() => [
                     'prohibited',
                 ],
             ];
         }
 
         return [
-            IncludeParser::$param => [
+            IncludeParser::param() => [
                 'sometimes',
                 'required',
                 new Delimited(Rule::in($allowedIncludes->map(fn (AllowedInclude $include) => $include->path()))),
