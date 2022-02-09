@@ -193,6 +193,7 @@ class DatabaseDumpCommand extends Command
         // Sqlite version 3.32.0 is required when using the includeTables option
         if ($connection instanceof SQLiteConnection) {
             Log::warning('SQLite version does not support includeTables option');
+
             return version_compare($connection->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '3.32.0', '>=');
         }
 
