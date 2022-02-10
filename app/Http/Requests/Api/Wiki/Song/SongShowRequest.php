@@ -6,7 +6,7 @@ namespace App\Http\Requests\Api\Wiki\Song;
 
 use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Query\Wiki\SongQuery;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Requests\Api\EloquentShowRequest;
 
@@ -18,9 +18,9 @@ class SongShowRequest extends EloquentShowRequest
     /**
      * Get the schema.
      *
-     * @return Schema
+     * @return EloquentSchema
      */
-    protected function getSchema(): Schema
+    protected function getSchema(): EloquentSchema
     {
         return new SongSchema();
     }

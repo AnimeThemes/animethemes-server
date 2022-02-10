@@ -10,7 +10,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\IntField;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Include\AllowedInclude;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
@@ -25,7 +25,7 @@ use App\Models\Wiki\Anime\AnimeTheme;
 /**
  * Class ThemeSchema.
  */
-class ThemeSchema extends Schema
+class ThemeSchema extends EloquentSchema
 {
     public const SORT_SEASON = 'anime.season';
     public const SORT_TITLE = 'song.title';
@@ -34,9 +34,12 @@ class ThemeSchema extends Schema
     /**
      * The model this schema represents.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $model = AnimeTheme::class;
+    public function model(): string
+    {
+        return AnimeTheme::class;
+    }
 
     /**
      * Get the type of the resource.

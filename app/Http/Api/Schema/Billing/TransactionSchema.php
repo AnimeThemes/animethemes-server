@@ -12,7 +12,7 @@ use App\Http\Api\Field\FloatField;
 use App\Http\Api\Field\IntField;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Include\AllowedInclude;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\Billing\Transaction;
@@ -20,14 +20,17 @@ use App\Models\Billing\Transaction;
 /**
  * Class TransactionSchema.
  */
-class TransactionSchema extends Schema
+class TransactionSchema extends EloquentSchema
 {
     /**
      * The model this schema represents.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $model = Transaction::class;
+    public function model(): string
+    {
+        return Transaction::class;
+    }
 
     /**
      * Get the type of the resource.

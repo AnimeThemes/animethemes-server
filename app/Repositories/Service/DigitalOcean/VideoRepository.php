@@ -13,6 +13,7 @@ use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use RuntimeException;
 
 /**
  * Class VideoRepository.
@@ -24,6 +25,8 @@ class VideoRepository implements Repository
      *
      * @param  array  $columns
      * @return Collection
+     *
+     * @throws RuntimeException
      */
     public function all(array $columns = ['*']): Collection
     {
@@ -32,7 +35,7 @@ class VideoRepository implements Repository
 
         // We are assuming a s3 filesystem is used to host video
         if (! $fs instanceof FilesystemAdapter) {
-            return Collection::make();
+            throw new RuntimeException('videos disk must use an s3 driver');
         }
 
         $fsVideos = collect($fs->listContents('', true));

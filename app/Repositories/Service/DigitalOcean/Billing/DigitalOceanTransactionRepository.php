@@ -16,7 +16,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 /**
@@ -29,6 +28,8 @@ class DigitalOceanTransactionRepository implements Repository
      *
      * @param  array  $columns
      * @return Collection
+     *
+     * @throws RequestException
      */
     public function all(array $columns = ['*']): Collection
     {
@@ -40,38 +41,32 @@ class DigitalOceanTransactionRepository implements Repository
 
         $sourceTransactions = [];
 
-        try {
-            $request = Http::withToken($doBearerToken)->contentType('application/json');
+        $request = Http::withToken($doBearerToken)->contentType('application/json');
 
-            $nextBillingHistory = 'https://api.digitalocean.com/v2/customers/my/billing_history?per_page=200';
-            while (! empty($nextBillingHistory)) {
-                // Try not to upset DO
-                sleep(rand(2, 5));
+        $nextBillingHistory = 'https://api.digitalocean.com/v2/customers/my/billing_history?per_page=200';
+        while (! empty($nextBillingHistory)) {
+            // Try not to upset DO
+            sleep(rand(2, 5));
 
-                $response = $request->get($nextBillingHistory)->throw()->json();
+            $response = $request->get($nextBillingHistory)->throw()->json();
 
-                $billingHistory = Arr::get($response, 'billing_history', []);
-                foreach ($billingHistory as $sourceTransaction) {
-                    $date = DateTime::createFromFormat(
-                        '!'.DateTimeInterface::RFC3339,
-                        Arr::get($sourceTransaction, 'date')
-                    );
+            $billingHistory = Arr::get($response, 'billing_history', []);
+            foreach ($billingHistory as $sourceTransaction) {
+                $date = DateTime::createFromFormat(
+                    '!'.DateTimeInterface::RFC3339,
+                    Arr::get($sourceTransaction, 'date')
+                );
 
-                    $sourceTransactions[] = Transaction::factory()->makeOne([
-                        Transaction::ATTRIBUTE_AMOUNT => Arr::get($sourceTransaction, 'amount'),
-                        Transaction::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD),
-                        Transaction::ATTRIBUTE_DESCRIPTION => Arr::get($sourceTransaction, 'description'),
-                        Transaction::ATTRIBUTE_EXTERNAL_ID => Arr::get($sourceTransaction, 'invoice_id'),
-                        Transaction::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
-                    ]);
-                }
-
-                $nextBillingHistory = Arr::get($response, 'links.pages.next');
+                $sourceTransactions[] = Transaction::factory()->makeOne([
+                    Transaction::ATTRIBUTE_AMOUNT => Arr::get($sourceTransaction, 'amount'),
+                    Transaction::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD),
+                    Transaction::ATTRIBUTE_DESCRIPTION => Arr::get($sourceTransaction, 'description'),
+                    Transaction::ATTRIBUTE_EXTERNAL_ID => Arr::get($sourceTransaction, 'invoice_id'),
+                    Transaction::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
+                ]);
             }
-        } catch (RequestException $e) {
-            Log::info($e->getMessage());
 
-            return Collection::make();
+            $nextBillingHistory = Arr::get($response, 'links.pages.next');
         }
 
         return Collection::make($sourceTransactions);

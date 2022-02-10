@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Query\Wiki;
 
 use App\Http\Api\Query\EloquentQuery;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\BaseResource;
@@ -22,9 +22,9 @@ class ImageQuery extends EloquentQuery
     /**
      * Get the resource schema.
      *
-     * @return Schema
+     * @return EloquentSchema
      */
-    public function schema(): Schema
+    public function schema(): EloquentSchema
     {
         return new ImageSchema();
     }

@@ -19,9 +19,12 @@ class AnimeQueryPayload extends ElasticQueryPayload
     /**
      * The model this payload is searching.
      *
-     * @var string
+     * @return string
      */
-    public static string $model = Anime::class;
+    public static function model(): string
+    {
+        return Anime::class;
+    }
 
     /**
      * Build Elasticsearch query.

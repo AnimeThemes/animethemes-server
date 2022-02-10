@@ -17,9 +17,9 @@ use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Exceptions\QueryBuilderException;
 use Elasticsearch\Client;
 use Exception;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use RuntimeException;
 
 /**
  * Class Elasticsearch.
@@ -82,7 +82,8 @@ class Elasticsearch extends Search
     ): BaseCollection {
         $elasticQueryPayload = $this->elasticQueryPayload($query);
         if ($elasticQueryPayload === null) {
-            return $query->collection(Collection::make());
+            $model = $query->schema()->model();
+            throw new RuntimeException("ElasticQueryPayload not configured for model '$model'");
         }
 
         $schema = $query->schema();
@@ -148,7 +149,7 @@ class Elasticsearch extends Search
     {
         $schema = $query->schema();
 
-        $elasticQueryPayload = DiscoverElasticQueryPayload::byModelClass($schema::$model);
+        $elasticQueryPayload = DiscoverElasticQueryPayload::byModelClass($schema->model());
 
         if ($elasticQueryPayload !== null) {
             return new $elasticQueryPayload($query->getSearchCriteria());

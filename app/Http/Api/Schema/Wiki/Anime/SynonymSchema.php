@@ -8,7 +8,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\IntField;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Include\AllowedInclude;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
@@ -17,14 +17,17 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 /**
  * Class SynonymSchema.
  */
-class SynonymSchema extends Schema
+class SynonymSchema extends EloquentSchema
 {
     /**
      * The model this schema represents.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $model = AnimeSynonym::class;
+    public function model(): string
+    {
+        return AnimeSynonym::class;
+    }
 
     /**
      * Get the type of the resource.

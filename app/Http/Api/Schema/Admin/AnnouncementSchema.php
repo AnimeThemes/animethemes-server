@@ -8,7 +8,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\IntField;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Include\AllowedInclude;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Http\Resources\BaseResource;
 use App\Models\Admin\Announcement;
@@ -16,14 +16,17 @@ use App\Models\Admin\Announcement;
 /**
  * Class AnnouncementSchema.
  */
-class AnnouncementSchema extends Schema
+class AnnouncementSchema extends EloquentSchema
 {
     /**
      * The model this schema represents.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $model = Announcement::class;
+    public function model(): string
+    {
+        return Announcement::class;
+    }
 
     /**
      * Get the type of the resource.

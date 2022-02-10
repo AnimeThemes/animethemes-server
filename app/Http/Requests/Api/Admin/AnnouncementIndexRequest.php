@@ -7,7 +7,7 @@ namespace App\Http\Requests\Api\Admin;
 use App\Http\Api\Query\Admin\AnnouncementQuery;
 use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Requests\Api\EloquentIndexRequest;
 
 /**
@@ -18,9 +18,9 @@ class AnnouncementIndexRequest extends EloquentIndexRequest
     /**
      * Get the schema.
      *
-     * @return Schema
+     * @return EloquentSchema
      */
-    protected function getSchema(): Schema
+    protected function getSchema(): EloquentSchema
     {
         return new AnnouncementSchema();
     }

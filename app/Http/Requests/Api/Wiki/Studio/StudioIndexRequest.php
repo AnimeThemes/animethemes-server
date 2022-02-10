@@ -7,7 +7,7 @@ namespace App\Http\Requests\Api\Wiki\Studio;
 use App\Contracts\Http\Requests\Api\SearchableRequest;
 use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Query\Wiki\StudioQuery;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Requests\Api\EloquentIndexRequest;
 
@@ -19,9 +19,9 @@ class StudioIndexRequest extends EloquentIndexRequest implements SearchableReque
     /**
      * Get the schema.
      *
-     * @return Schema
+     * @return EloquentSchema
      */
-    protected function getSchema(): Schema
+    protected function getSchema(): EloquentSchema
     {
         return new StudioSchema();
     }

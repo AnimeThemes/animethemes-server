@@ -9,7 +9,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\IntField;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Include\AllowedInclude;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
@@ -20,14 +20,17 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 /**
  * Class EntrySchema.
  */
-class EntrySchema extends Schema
+class EntrySchema extends EloquentSchema
 {
     /**
      * The model this schema represents.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $model = AnimeThemeEntry::class;
+    public function model(): string
+    {
+        return AnimeThemeEntry::class;
+    }
 
     /**
      * Get the type of the resource.

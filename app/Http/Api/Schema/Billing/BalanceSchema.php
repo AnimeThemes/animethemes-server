@@ -12,7 +12,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\FloatField;
 use App\Http\Api\Field\IntField;
 use App\Http\Api\Include\AllowedInclude;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\Billing\Balance;
@@ -20,14 +20,17 @@ use App\Models\Billing\Balance;
 /**
  * Class BalanceSchema.
  */
-class BalanceSchema extends Schema
+class BalanceSchema extends EloquentSchema
 {
     /**
      * The model this schema represents.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $model = Balance::class;
+    public function model(): string
+    {
+        return Balance::class;
+    }
 
     /**
      * Get the type of the resource.

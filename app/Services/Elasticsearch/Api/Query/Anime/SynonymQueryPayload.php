@@ -19,9 +19,12 @@ class SynonymQueryPayload extends ElasticQueryPayload
     /**
      * The model this payload is searching.
      *
-     * @var string
+     * @return string
      */
-    public static string $model = AnimeSynonym::class;
+    public static function model(): string
+    {
+        return AnimeSynonym::class;
+    }
 
     /**
      * Build Elasticsearch query.

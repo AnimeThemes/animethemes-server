@@ -7,6 +7,7 @@ namespace App\Http\Api\Query;
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Criteria\Include\Criteria as IncludeCriteria;
 use App\Http\Api\Filter\HasFilter;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Scope\ScopeParser;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\BaseResource;
@@ -163,6 +164,13 @@ abstract class EloquentQuery extends Query
             default => null,
         };
     }
+
+    /**
+     * Get the resource schema.
+     *
+     * @return EloquentSchema
+     */
+    abstract public function schema(): EloquentSchema;
 
     /**
      * Get the query builder of the resource.

@@ -13,13 +13,6 @@ use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 abstract class ElasticQueryPayload
 {
     /**
-     * The model this payload is searching.
-     *
-     * @var string
-     */
-    public static string $model;
-
-    /**
      * Create a new query payload instance.
      *
      * @param  Criteria  $criteria
@@ -27,6 +20,13 @@ abstract class ElasticQueryPayload
     final public function __construct(protected Criteria $criteria)
     {
     }
+
+    /**
+     * The model this payload is searching.
+     *
+     * @return string
+     */
+    abstract public static function model(): string;
 
     /**
      * Build Elasticsearch query.

@@ -6,7 +6,7 @@ namespace App\Http\Api\Query\Billing;
 
 use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Schema\Billing\TransactionSchema;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Billing\Collection\TransactionCollection;
@@ -22,9 +22,9 @@ class TransactionQuery extends EloquentQuery
     /**
      * Get the resource schema.
      *
-     * @return Schema
+     * @return EloquentSchema
      */
-    public function schema(): Schema
+    public function schema(): EloquentSchema
     {
         return new TransactionSchema();
     }

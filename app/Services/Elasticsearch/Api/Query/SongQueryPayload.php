@@ -18,9 +18,12 @@ class SongQueryPayload extends ElasticQueryPayload
     /**
      * The model this payload is searching.
      *
-     * @var string
+     * @return string
      */
-    public static string $model = Song::class;
+    public static function model(): string
+    {
+        return Song::class;
+    }
 
     /**
      * Build Elasticsearch query.

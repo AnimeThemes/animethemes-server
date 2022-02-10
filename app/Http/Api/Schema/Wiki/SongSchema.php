@@ -9,7 +9,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\IntField;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Include\AllowedInclude;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\SongResource;
@@ -19,14 +19,17 @@ use App\Pivots\ArtistSong;
 /**
  * Class SongSchema.
  */
-class SongSchema extends Schema
+class SongSchema extends EloquentSchema
 {
     /**
      * The model this schema represents.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $model = Song::class;
+    public function model(): string
+    {
+        return Song::class;
+    }
 
     /**
      * Get the type of the resource.

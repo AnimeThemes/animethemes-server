@@ -20,9 +20,12 @@ class EntryQueryPayload extends ElasticQueryPayload
     /**
      * The model this payload is searching.
      *
-     * @var string
+     * @return string
      */
-    public static string $model = AnimeThemeEntry::class;
+    public static function model(): string
+    {
+        return AnimeThemeEntry::class;
+    }
 
     /**
      * Build Elasticsearch query.
