@@ -20,9 +20,12 @@ class ThemeQueryPayload extends ElasticQueryPayload
     /**
      * The model this payload is searching.
      *
-     * @var string
+     * @return string
      */
-    public static string $model = AnimeTheme::class;
+    public static function model(): string
+    {
+        return AnimeTheme::class;
+    }
 
     /**
      * Build Elasticsearch query.

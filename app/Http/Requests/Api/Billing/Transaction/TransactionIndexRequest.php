@@ -7,7 +7,7 @@ namespace App\Http\Requests\Api\Billing\Transaction;
 use App\Http\Api\Query\Billing\TransactionQuery;
 use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Schema\Billing\TransactionSchema;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Requests\Api\EloquentIndexRequest;
 
 /**
@@ -18,9 +18,9 @@ class TransactionIndexRequest extends EloquentIndexRequest
     /**
      * Get the schema.
      *
-     * @return Schema
+     * @return EloquentSchema
      */
-    protected function getSchema(): Schema
+    protected function getSchema(): EloquentSchema
     {
         return new TransactionSchema();
     }

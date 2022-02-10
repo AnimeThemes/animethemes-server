@@ -6,7 +6,7 @@ namespace App\Http\Api\Query\Admin;
 
 use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Admin\Collection\AnnouncementCollection;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Http\Resources\BaseCollection;
@@ -22,9 +22,9 @@ class AnnouncementQuery extends EloquentQuery
     /**
      * Get the resource schema.
      *
-     * @return Schema
+     * @return EloquentSchema
      */
-    public function schema(): Schema
+    public function schema(): EloquentSchema
     {
         return new AnnouncementSchema();
     }

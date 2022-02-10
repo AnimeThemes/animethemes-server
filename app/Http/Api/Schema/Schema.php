@@ -22,13 +22,6 @@ use App\Models\BaseModel;
 abstract class Schema
 {
     /**
-     * The model this schema represents.
-     *
-     * @var string|null
-     */
-    public static ?string $model;
-
-    /**
      * Get the type of the resource.
      *
      * @return string

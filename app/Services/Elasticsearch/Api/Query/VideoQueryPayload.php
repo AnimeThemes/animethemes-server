@@ -19,9 +19,12 @@ class VideoQueryPayload extends ElasticQueryPayload
     /**
      * The model this payload is searching.
      *
-     * @var string
+     * @return string
      */
-    public static string $model = Video::class;
+    public static function model(): string
+    {
+        return Video::class;
+    }
 
     /**
      * Build Elasticsearch query.

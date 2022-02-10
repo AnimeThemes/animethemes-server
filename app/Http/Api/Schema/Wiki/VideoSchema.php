@@ -13,7 +13,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\IntField;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Include\AllowedInclude;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Resources\BaseResource;
@@ -23,14 +23,17 @@ use App\Models\Wiki\Video;
 /**
  * Class VideoSchema.
  */
-class VideoSchema extends Schema
+class VideoSchema extends EloquentSchema
 {
     /**
      * The model this schema represents.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $model = Video::class;
+    public function model(): string
+    {
+        return Video::class;
+    }
 
     /**
      * Get the type of the resource.

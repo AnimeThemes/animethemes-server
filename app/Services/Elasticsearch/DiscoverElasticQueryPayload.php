@@ -43,10 +43,15 @@ class DiscoverElasticQueryPayload extends DiscoverService
                 continue;
             }
 
-            if ($payload->hasProperty('model')) {
-                $model = $payload->getProperty('model')->getValue();
-                if ($model === $modelClass) {
-                    return $payload->getName();
+            if ($payload->hasMethod('model')) {
+                try {
+                    $method = $payload->getMethod('model');
+                    if ($modelClass === $method->invoke(null)) {
+                        return $payload->getName();
+                    }
+                } catch (ReflectionException $e) {
+                    Log::error($e->getMessage());
+                    continue;
                 }
             }
         }

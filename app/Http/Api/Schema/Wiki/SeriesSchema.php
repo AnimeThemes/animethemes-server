@@ -8,7 +8,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\IntField;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Include\AllowedInclude;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\SeriesResource;
 use App\Models\Wiki\Series;
@@ -16,14 +16,17 @@ use App\Models\Wiki\Series;
 /**
  * Class SeriesSchema.
  */
-class SeriesSchema extends Schema
+class SeriesSchema extends EloquentSchema
 {
     /**
      * The model this schema represents.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $model = Series::class;
+    public function model(): string
+    {
+        return Series::class;
+    }
 
     /**
      * Get the type of the resource.

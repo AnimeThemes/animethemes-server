@@ -9,7 +9,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\IntField;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Include\AllowedInclude;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
@@ -18,14 +18,17 @@ use App\Pivots\StudioResource as StudioResourcePivot;
 /**
  * Class StudioSchema.
  */
-class StudioSchema extends Schema
+class StudioSchema extends EloquentSchema
 {
     /**
      * The model this schema represents.
      *
-     * @var string|null
+     * @return string
      */
-    public static ?string $model = Studio::class;
+    public function model(): string
+    {
+        return Studio::class;
+    }
 
     /**
      * Get the type of the resource.

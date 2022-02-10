@@ -18,9 +18,12 @@ class StudioQueryPayload extends ElasticQueryPayload
     /**
      * The model this payload is searching.
      *
-     * @var string
+     * @return string
      */
-    public static string $model = Studio::class;
+    public static function model(): string
+    {
+        return Studio::class;
+    }
 
     /**
      * Build Elasticsearch query.

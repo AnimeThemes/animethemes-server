@@ -10,7 +10,7 @@ use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Query\Wiki\AnimeQuery;
-use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Requests\Api\BaseRequest;
 
@@ -80,9 +80,9 @@ class YearIndexRequest extends BaseRequest
     /**
      * Get the schema.
      *
-     * @return Schema
+     * @return EloquentSchema
      */
-    protected function getSchema(): Schema
+    protected function getSchema(): EloquentSchema
     {
         return new AnimeSchema();
     }

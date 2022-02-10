@@ -16,7 +16,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 /**
@@ -29,6 +28,8 @@ class DigitalOceanBalanceRepository implements Repository
      *
      * @param  array  $columns
      * @return Collection
+     *
+     * @throws RequestException
      */
     public function all(array $columns = ['*']): Collection
     {
@@ -38,27 +39,21 @@ class DigitalOceanBalanceRepository implements Repository
             throw new RuntimeException('DO_BEARER_TOKEN must be configured in your env file.');
         }
 
-        try {
-            $response = Http::withToken($doBearerToken)
-                ->contentType('application/json')
-                ->get('https://api.digitalocean.com/v2/customers/my/balance')
-                ->throw()
-                ->json();
+        $response = Http::withToken($doBearerToken)
+            ->contentType('application/json')
+            ->get('https://api.digitalocean.com/v2/customers/my/balance')
+            ->throw()
+            ->json();
 
-            $balance = Balance::factory()->makeOne([
-                Balance::ATTRIBUTE_BALANCE => -1.0 * floatval(Arr::get($response, 'month_to_date_balance')),
-                Balance::ATTRIBUTE_DATE => Date::now()->firstOfMonth()->format(AllowedDateFormat::YMD),
-                Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::MONTHLY,
-                Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
-                Balance::ATTRIBUTE_USAGE => Arr::get($response, 'month_to_date_usage'),
-            ]);
+        $balance = Balance::factory()->makeOne([
+            Balance::ATTRIBUTE_BALANCE => -1.0 * floatval(Arr::get($response, 'month_to_date_balance')),
+            Balance::ATTRIBUTE_DATE => Date::now()->firstOfMonth()->format(AllowedDateFormat::YMD),
+            Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::MONTHLY,
+            Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
+            Balance::ATTRIBUTE_USAGE => Arr::get($response, 'month_to_date_usage'),
+        ]);
 
-            return collect([$balance]);
-        } catch (RequestException $e) {
-            Log::info($e->getMessage());
-
-            return Collection::make();
-        }
+        return collect([$balance]);
     }
 
     /**

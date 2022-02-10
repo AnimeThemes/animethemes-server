@@ -19,9 +19,12 @@ class ArtistQueryPayload extends ElasticQueryPayload
     /**
      * The model this payload is searching.
      *
-     * @var string
+     * @return string
      */
-    public static string $model = Artist::class;
+    public static function model(): string
+    {
+        return Artist::class;
+    }
 
     /**
      * Build Elasticsearch query.
