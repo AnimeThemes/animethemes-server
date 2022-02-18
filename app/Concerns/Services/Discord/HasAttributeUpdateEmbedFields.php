@@ -45,6 +45,23 @@ trait HasAttributeUpdateEmbedFields
     }
 
     /**
+     * Get model attribute value.
+     *
+     * @param Model $model
+     * @param mixed $attribute
+     * @return mixed
+     */
+    protected function getAttributeValue(Model $model, mixed $attribute): mixed
+    {
+        // Hide field from embed by obscuring the values
+        if (collect($model->getHidden())->contains($attribute)) {
+            return DiscordEmbedField::DEFAULT_FIELD_VALUE;
+        }
+
+        return $model->getAttribute($attribute);
+    }
+
+    /**
      * Add Embed Fields.
      *
      * @param  Model  $original
@@ -56,8 +73,8 @@ trait HasAttributeUpdateEmbedFields
     {
         foreach ($changedAttributes as $attribute) {
             $this->addEmbedField(DiscordEmbedField::make('Attribute', $attribute, true));
-            $this->addEmbedField(DiscordEmbedField::make('Old', $original->getAttribute($attribute), true));
-            $this->addEmbedField(DiscordEmbedField::make('New', $changed->getAttribute($attribute), true));
+            $this->addEmbedField(DiscordEmbedField::make('Old', $this->getAttributeValue($original, $attribute), true));
+            $this->addEmbedField(DiscordEmbedField::make('New', $this->getAttributeValue($changed, $attribute), true));
         }
     }
 }

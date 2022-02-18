@@ -4,16 +4,8 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Billing\TransparencyController;
-use App\Http\Controllers\Document\CommunityController;
-use App\Http\Controllers\Document\DonateController;
-use App\Http\Controllers\Document\EncodingController;
-use App\Http\Controllers\Document\EventController;
-use App\Http\Controllers\Document\FaqController;
-use App\Http\Controllers\Document\GuidelinesController;
-use App\Http\Controllers\Sitemap\CommunitySitemapController;
-use App\Http\Controllers\Sitemap\EncodingSitemapController;
-use App\Http\Controllers\Sitemap\EventSitemapController;
-use App\Http\Controllers\Sitemap\GuidelinesSitemapController;
+use App\Http\Controllers\Document\PageController;
+use App\Http\Controllers\Sitemap\PagesSitemapController;
 use App\Http\Controllers\Sitemap\SitemapController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Wiki\ImageController;
@@ -43,28 +35,12 @@ Route::resource('image', ImageController::class)->only('show')
 Route::resource('video', VideoController::class)->only('show')
     ->middleware(['is_video_streaming_allowed', 'without_trashed:video', 'record_view:video']);
 
-// Documents
-Route::get('donate', [DonateController::class, 'show'])->name('donate.show');
-Route::get('faq', [FaqController::class, 'show'])->name('faq.show');
-
-Route::get('community', [CommunityController::class, 'index'])->name('community.index');
-Route::get('community/{docName}', [CommunityController::class, 'show'])->name('community.show');
-
-Route::get('encoding', [EncodingController::class, 'index'])->name('encoding.index');
-Route::get('encoding/{docName}', [EncodingController::class, 'show'])->name('encoding.show');
-
-Route::get('event', [EventController::class, 'index'])->name('event.index');
-Route::get('event/{docName}', [EventController::class, 'show'])->name('event.show');
-
-Route::get('guidelines', [GuidelinesController::class, 'index'])->name('guidelines.index');
-Route::get('guidelines/{docName}', [GuidelinesController::class, 'show'])->name('guidelines.show');
+// Static pages
+Route::resource('page', PageController::class)->only('show')->where(['page' => '[\pL\pM\pN\/_-]+']);
 
 // Sitemaps
 Route::get('/sitemap', [SitemapController::class, 'show'])->name('sitemap');
-Route::get('/sitemap/community', [CommunitySitemapController::class, 'show'])->name('sitemap.community');
-Route::get('/sitemap/encoding', [EncodingSitemapController::class, 'show'])->name('sitemap.encoding');
-Route::get('/sitemap/event', [EventSitemapController::class, 'show'])->name('sitemap.event');
-Route::get('/sitemap/guidelines', [GuidelinesSitemapController::class, 'show'])->name('sitemap.guidelines');
+Route::get('/sitemap/pages', [PagesSitemapController::class, 'show'])->name('sitemap.pages');
 
 // Auth
 Route::get('register/{invitation}', [RegisterController::class, 'showRegistrationForm'])

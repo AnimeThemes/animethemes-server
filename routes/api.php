@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Billing\BalanceController;
 use App\Http\Controllers\Api\Billing\TransactionController;
 use App\Http\Controllers\Api\Config\FlagsController;
 use App\Http\Controllers\Api\Config\WikiController;
+use App\Http\Controllers\Api\Document\PageController;
 use App\Http\Controllers\Api\Wiki\Anime\SynonymController;
 use App\Http\Controllers\Api\Wiki\Anime\Theme\EntryController;
 use App\Http\Controllers\Api\Wiki\Anime\ThemeController;
@@ -48,6 +49,9 @@ Route::group(['as' => 'api.'], function () {
     // Billing Resources
     Route::apiResource('balance', BalanceController::class)->only(['index', 'show']);
     Route::apiResource('transaction', TransactionController::class)->only(['index', 'show']);
+
+    // Document Resources
+    Route::apiResource('page', PageController::class)->only(['index', 'show'])->where(['page' => '[\pL\pM\pN\/_-]+']);
 
     // Wiki Resources
     Route::apiResource('anime', AnimeController::class)->only(['index', 'show']);
