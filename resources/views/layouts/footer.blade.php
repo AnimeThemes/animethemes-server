@@ -2,9 +2,9 @@
     <div class="flex-1 text-center">
         <a class="hover:underline" href="{{ route('transparency.show') }}">Transparency</a>
         |
-        <a class="hover:underline" href="{{ route('donate.show') }}">Donate</a>
+        <a class="hover:underline" href="{{ url('page/donate') }}">Donate</a>
         |
-        <a class="hover:underline" href="{{ route('faq.show') }}">FAQ</a>
+        <a class="hover:underline" href="{{ url('page/faq') }}">FAQ</a>
     </div>
     <div class="flex-1 text-center">
         <a href="https://reddit.com/r/AnimeThemes">

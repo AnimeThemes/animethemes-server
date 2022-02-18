@@ -24,30 +24,6 @@ class SitemapTest extends TestCase
     }
 
     /**
-     * The sitemap index shall display donate route.
-     *
-     * @return void
-     */
-    public function testDonate(): void
-    {
-        $response = $this->get(route('sitemap'));
-
-        $response->assertSee(route('donate.show'));
-    }
-
-    /**
-     * The sitemap index shall display the FAQ route.
-     *
-     * @return void
-     */
-    public function testFaq(): void
-    {
-        $response = $this->get(route('sitemap'));
-
-        $response->assertSee(route('faq.show'));
-    }
-
-    /**
      * The sitemap index shall display the policy route.
      *
      * @return void
@@ -108,50 +84,14 @@ class SitemapTest extends TestCase
     }
 
     /**
-     * The sitemap index shall display the community sitemap route.
+     * The sitemap index shall display the pages sitemap route.
      *
      * @return void
      */
-    public function testCommunitySitemap(): void
+    public function testPagesSitemap(): void
     {
         $response = $this->get(route('sitemap'));
 
-        $response->assertSee(route('sitemap.community'));
-    }
-
-    /**
-     * The sitemap index shall display the encoding sitemap route.
-     *
-     * @return void
-     */
-    public function testEncodingSitemap(): void
-    {
-        $response = $this->get(route('sitemap'));
-
-        $response->assertSee(route('sitemap.encoding'));
-    }
-
-    /**
-     * The sitemap index shall display the event sitemap route.
-     *
-     * @return void
-     */
-    public function testEventSitemap(): void
-    {
-        $response = $this->get(route('sitemap'));
-
-        $response->assertSee(route('sitemap.event'));
-    }
-
-    /**
-     * The sitemap index shall display the guidelines sitemap route.
-     *
-     * @return void
-     */
-    public function testGuidelinesSitemap(): void
-    {
-        $response = $this->get(route('sitemap'));
-
-        $response->assertSee(route('sitemap.guidelines'));
+        $response->assertSee(route('sitemap.pages'));
     }
 }

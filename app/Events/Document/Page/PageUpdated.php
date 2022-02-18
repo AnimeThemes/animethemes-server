@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Events\Auth\User;
+namespace App\Events\Document\Page;
 
 use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Enums\Services\Discord\EmbedColor;
-use App\Models\Auth\User;
+use App\Models\Document\Page;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class UserUpdated.
+ * Class PageUpdated.
  */
-class UserUpdated extends UserEvent implements DiscordMessageEvent
+class PageUpdated extends PageEvent implements DiscordMessageEvent
 {
     use Dispatchable;
     use HasAttributeUpdateEmbedFields;
@@ -23,13 +23,13 @@ class UserUpdated extends UserEvent implements DiscordMessageEvent
     /**
      * Create a new event instance.
      *
-     * @param  User  $user
+     * @param  Page  $page
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(Page $page)
     {
-        parent::__construct($user);
-        $this->initializeEmbedFields($user);
+        parent::__construct($page);
+        $this->initializeEmbedFields($page);
     }
 
     /**
@@ -39,10 +39,10 @@ class UserUpdated extends UserEvent implements DiscordMessageEvent
      */
     public function getDiscordMessage(): DiscordMessage
     {
-        $user = $this->getUser();
+        $page = $this->getPage();
 
         return DiscordMessage::create('', [
-            'description' => "User '**{$user->getName()}**' has been updated.",
+            'description' => "Page '**{$page->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
             'color' => EmbedColor::YELLOW,
         ]);
@@ -55,6 +55,6 @@ class UserUpdated extends UserEvent implements DiscordMessageEvent
      */
     public function getDiscordChannel(): string
     {
-        return Config::get('services.discord.admin_discord_channel');
+        return Config::get('services.discord.db_updates_discord_channel');
     }
 }
