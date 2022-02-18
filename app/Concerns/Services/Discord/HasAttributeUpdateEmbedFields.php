@@ -47,8 +47,8 @@ trait HasAttributeUpdateEmbedFields
     /**
      * Get model attribute value.
      *
-     * @param Model $model
-     * @param mixed $attribute
+     * @param  Model  $model
+     * @param  mixed  $attribute
      * @return mixed
      */
     protected function getAttributeValue(Model $model, mixed $attribute): mixed

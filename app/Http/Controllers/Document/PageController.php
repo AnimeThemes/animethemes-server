@@ -26,7 +26,7 @@ class PageController extends Controller
     /**
      * Display Markdown document.
      *
-     * @param Page $page
+     * @param  Page  $page
      * @return View|Factory
      */
     public function show(Page $page): View|Factory
