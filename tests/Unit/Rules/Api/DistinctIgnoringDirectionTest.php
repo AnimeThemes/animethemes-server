@@ -28,7 +28,7 @@ class DistinctIgnoringDirectionTest extends TestCase
 
         $rule = new DistinctIgnoringDirectionRule();
 
-        $sorts = collect()->pad($this->faker->randomDigitNotNull(), $key);
+        $sorts = collect()->pad($this->faker->numberBetween(2, 9), $key);
 
         static::assertFalse($rule->passes($this->faker->word(), $sorts->join(',')));
     }

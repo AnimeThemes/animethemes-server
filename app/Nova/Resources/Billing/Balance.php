@@ -12,6 +12,7 @@ use App\Nova\Filters\Billing\ServiceFilter;
 use App\Nova\Resources\Resource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
+use Devpartners\AuditableLog\AuditableLog;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
@@ -146,6 +147,8 @@ class Balance extends Resource
                 ->sortable()
                 ->rules('required')
                 ->help(__('nova.balance_balance_help')),
+
+            AuditableLog::make(),
         ];
     }
 
