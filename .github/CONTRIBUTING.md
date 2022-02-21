@@ -4,7 +4,7 @@ Unless otherwise specified, any issue that does not have an assignee can be clai
 
 Please leave a comment in the issue indicating interest so that you can be designated as the assignee by a member. This is a requirement in Github to allow asssignment of contributors outside of the organization by members. 
 
-If further discussion is needed before work can be started, please make use of the `#development` channel on the discord.
+If further discussion is needed before work can be started, please make use of the programming channels on the discord.
 
 ## Development Environment
 
@@ -40,7 +40,7 @@ Switch to feature branch.
 
 Make changes in feature branch. Once completed, run tests.
 
-`php artisan config:clear && php artisan test`
+`php artisan config:clear && php artisan test --parallel`
 
 Execute static code analysis.
 
@@ -77,7 +77,7 @@ Create Pull Request from your new feature branch to upstream release branch.
 
 Once the Pull Request is merged, delete the feature branch locally.
 
-`git branch -d new-feature-branch`
+`git branch --delete new-feature-branch`
 
 Delete the remote feature branch.
 
