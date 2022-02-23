@@ -98,10 +98,10 @@ class SearchRequest extends BaseRequest
                             ->append('.')
                             ->append($resourceSchema->type())
                             ->__toString() => [
-                            'sometimes',
-                            'required',
-                            new Delimited(Rule::in($resourceIncludes->map(fn (AllowedInclude $include) => $include->path()))),
-                        ],
+                                'sometimes',
+                                'required',
+                                new Delimited(Rule::in($resourceIncludes->map(fn (AllowedInclude $include) => $include->path()))),
+                            ],
                     ]
                 );
             }
@@ -137,24 +137,24 @@ class SearchRequest extends BaseRequest
                 ->append('.')
                 ->append(OffsetCriteria::SIZE_PARAM)
                 ->__toString() => [
-                'prohibited',
-            ],
+                    'prohibited',
+                ],
             Str::of(PagingParser::param())
                 ->append('.')
                 ->append(OffsetCriteria::NUMBER_PARAM)
                 ->__toString() => [
-                'prohibited',
-            ],
+                    'prohibited',
+                ],
             Str::of(PagingParser::param())
                 ->append('.')
                 ->append(LimitCriteria::PARAM)
                 ->__toString() => [
-                'sometimes',
-                'required',
-                'integer',
-                'min:1',
-                Str::of('max:')->append(PagingCriteria::MAX_RESULTS)->__toString(),
-            ],
+                    'sometimes',
+                    'required',
+                    'integer',
+                    'min:1',
+                    Str::of('max:')->append(PagingCriteria::MAX_RESULTS)->__toString(),
+                ],
         ];
     }
 
