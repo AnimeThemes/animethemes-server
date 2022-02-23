@@ -33,6 +33,6 @@ class ThemeIndexRequest extends EloquentIndexRequest implements SearchableReques
      */
     public function getQuery(): EloquentQuery
     {
-        return ThemeQuery::make($this->validated());
+        return new ThemeQuery($this->validated());
     }
 }

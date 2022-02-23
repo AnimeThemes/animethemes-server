@@ -4,24 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Query\Wiki;
 
-use App\Http\Api\Criteria\Field\Criteria as FieldCriteria;
-use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query\EloquentQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Query\Wiki\Anime\ThemeQuery;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\SearchSchema;
 use Illuminate\Support\Arr;
 
 /**
  * Class SearchQuery.
  */
-class SearchQuery
+class SearchQuery extends Query
 {
-    /**
-     * The list of sparse fieldset criteria to apply to the query.
-     *
-     * @var FieldCriteria[]
-     */
-    protected array $fieldCriteria;
-
     /**
      * @var EloquentQuery[]
      */
@@ -32,39 +26,27 @@ class SearchQuery
      *
      * @param  array  $parameters
      */
-    final public function __construct(array $parameters = [])
+    public function __construct(array $parameters = [])
     {
-        $this->fieldCriteria = FieldParser::parse($parameters);
+        parent::__construct($parameters);
 
-        $this->queries[] = AnimeQuery::make($parameters);
-        $this->queries[] = ThemeQuery::make($parameters);
-        $this->queries[] = ArtistQuery::make($parameters);
-        $this->queries[] = SeriesQuery::make($parameters);
-        $this->queries[] = SongQuery::make($parameters);
-        $this->queries[] = StudioQuery::make($parameters);
-        $this->queries[] = VideoQuery::make($parameters);
+        $this->queries[] = new AnimeQuery($parameters);
+        $this->queries[] = new ThemeQuery($parameters);
+        $this->queries[] = new ArtistQuery($parameters);
+        $this->queries[] = new SeriesQuery($parameters);
+        $this->queries[] = new SongQuery($parameters);
+        $this->queries[] = new StudioQuery($parameters);
+        $this->queries[] = new VideoQuery($parameters);
     }
 
     /**
-     * Create a new query parser instance.
+     * Get the resource schema.
      *
-     * @param  mixed  ...$parameters
-     * @return static
+     * @return Schema
      */
-    public static function make(...$parameters): static
+    public function schema(): Schema
     {
-        return new static(...$parameters);
-    }
-
-    /**
-     * Get the field criteria.
-     *
-     * @param  string  $type
-     * @return FieldCriteria|null
-     */
-    public function getFieldCriteria(string $type): ?FieldCriteria
-    {
-        return Arr::first($this->fieldCriteria, fn (FieldCriteria $criteria) => $criteria->getType() === $type);
+        return new SearchSchema();
     }
 
     /**

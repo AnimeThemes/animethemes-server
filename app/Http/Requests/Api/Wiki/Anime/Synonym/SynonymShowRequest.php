@@ -32,6 +32,6 @@ class SynonymShowRequest extends EloquentShowRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return SynonymQuery::make($this->validated());
+        return new SynonymQuery($this->validated());
     }
 }

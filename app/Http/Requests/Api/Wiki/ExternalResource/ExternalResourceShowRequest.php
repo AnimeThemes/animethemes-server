@@ -32,6 +32,6 @@ class ExternalResourceShowRequest extends EloquentShowRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return ExternalResourceQuery::make($this->validated());
+        return new ExternalResourceQuery($this->validated());
     }
 }

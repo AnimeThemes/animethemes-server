@@ -36,7 +36,7 @@ class BalanceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceResource::make($balance, BalanceQuery::make())
+                    BalanceResource::make($balance, new BalanceQuery())
                         ->response()
                         ->getData()
                 ),
@@ -63,7 +63,7 @@ class BalanceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceResource::make($balance, BalanceQuery::make())
+                    BalanceResource::make($balance, new BalanceQuery())
                         ->response()
                         ->getData()
                 ),
@@ -98,7 +98,7 @@ class BalanceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceResource::make($balance, BalanceQuery::make($parameters))
+                    BalanceResource::make($balance, new BalanceQuery($parameters))
                         ->response()
                         ->getData()
                 ),

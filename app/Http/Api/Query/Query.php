@@ -73,7 +73,7 @@ abstract class Query
      *
      * @param  array  $parameters
      */
-    final public function __construct(array $parameters = [])
+    public function __construct(array $parameters = [])
     {
         $this->fieldCriteria = FieldParser::parse($parameters);
         $this->includeCriteria = IncludeParser::parse($parameters);
@@ -81,17 +81,6 @@ abstract class Query
         $this->filterCriteria = FilterParser::parse($parameters);
         $this->searchCriteria = SearchParser::parse($parameters);
         $this->pagingCriteria = PagingParser::parse($parameters);
-    }
-
-    /**
-     * Create a new query instance.
-     *
-     * @param  mixed  ...$parameters
-     * @return static
-     */
-    public static function make(...$parameters): static
-    {
-        return new static(...$parameters);
     }
 
     /**

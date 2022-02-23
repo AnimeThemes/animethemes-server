@@ -32,6 +32,6 @@ class AnimeShowRequest extends EloquentShowRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return AnimeQuery::make($this->validated());
+        return new AnimeQuery($this->validated());
     }
 }

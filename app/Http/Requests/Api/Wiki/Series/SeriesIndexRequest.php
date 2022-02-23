@@ -33,6 +33,6 @@ class SeriesIndexRequest extends EloquentIndexRequest implements SearchableReque
      */
     public function getQuery(): EloquentQuery
     {
-        return SeriesQuery::make($this->validated());
+        return new SeriesQuery($this->validated());
     }
 }

@@ -32,6 +32,6 @@ class ImageIndexRequest extends EloquentIndexRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return ImageQuery::make($this->validated());
+        return new ImageQuery($this->validated());
     }
 }

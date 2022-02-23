@@ -36,7 +36,7 @@ class TransactionShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionResource::make($transaction, TransactionQuery::make())
+                    TransactionResource::make($transaction, new TransactionQuery())
                         ->response()
                         ->getData()
                 ),
@@ -63,7 +63,7 @@ class TransactionShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionResource::make($transaction, TransactionQuery::make())
+                    TransactionResource::make($transaction, new TransactionQuery())
                         ->response()
                         ->getData()
                 ),
@@ -98,7 +98,7 @@ class TransactionShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionResource::make($transaction, TransactionQuery::make($parameters))
+                    TransactionResource::make($transaction, new TransactionQuery($parameters))
                         ->response()
                         ->getData()
                 ),

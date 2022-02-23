@@ -33,6 +33,6 @@ class EntryIndexRequest extends EloquentIndexRequest implements SearchableReques
      */
     public function getQuery(): EloquentQuery
     {
-        return EntryQuery::make($this->validated());
+        return new EntryQuery($this->validated());
     }
 }

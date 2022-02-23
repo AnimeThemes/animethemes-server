@@ -43,7 +43,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, SeriesQuery::make())
+                    SeriesResource::make($series, new SeriesQuery())
                         ->response()
                         ->getData()
                 ),
@@ -72,7 +72,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, SeriesQuery::make())
+                    SeriesResource::make($series, new SeriesQuery())
                         ->response()
                         ->getData()
                 ),
@@ -111,7 +111,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, SeriesQuery::make($parameters))
+                    SeriesResource::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -148,7 +148,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, SeriesQuery::make($parameters))
+                    SeriesResource::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -191,7 +191,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, SeriesQuery::make($parameters))
+                    SeriesResource::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -242,7 +242,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, SeriesQuery::make($parameters))
+                    SeriesResource::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),

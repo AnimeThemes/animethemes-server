@@ -32,6 +32,6 @@ class YearShowRequest extends ShowRequest
      */
     public function getQuery(): Query
     {
-        return AnimeQuery::make($this->validated());
+        return new AnimeQuery($this->validated());
     }
 }

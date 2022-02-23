@@ -32,6 +32,6 @@ class BalanceIndexRequest extends EloquentIndexRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return BalanceQuery::make($this->validated());
+        return new BalanceQuery($this->validated());
     }
 }

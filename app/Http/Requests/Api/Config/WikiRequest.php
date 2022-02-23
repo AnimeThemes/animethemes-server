@@ -32,6 +32,6 @@ class WikiRequest extends ShowRequest
      */
     public function getQuery(): Query
     {
-        return WikiQuery::make($this->validated());
+        return new WikiQuery($this->validated());
     }
 }

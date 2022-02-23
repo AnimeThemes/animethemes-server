@@ -36,7 +36,7 @@ class PageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageResource::make($page, PageQuery::make())
+                    PageResource::make($page, new PageQuery())
                         ->response()
                         ->getData()
                 ),
@@ -63,7 +63,7 @@ class PageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageResource::make($page, PageQuery::make())
+                    PageResource::make($page, new PageQuery())
                         ->response()
                         ->getData()
                 ),
@@ -98,7 +98,7 @@ class PageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageResource::make($page, PageQuery::make($parameters))
+                    PageResource::make($page, new PageQuery($parameters))
                         ->response()
                         ->getData()
                 ),

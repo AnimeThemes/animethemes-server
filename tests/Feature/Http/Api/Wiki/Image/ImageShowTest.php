@@ -43,7 +43,7 @@ class ImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageResource::make($image, ImageQuery::make())
+                    ImageResource::make($image, new ImageQuery())
                         ->response()
                         ->getData()
                 ),
@@ -70,7 +70,7 @@ class ImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageResource::make($image, ImageQuery::make())
+                    ImageResource::make($image, new ImageQuery())
                         ->response()
                         ->getData()
                 ),
@@ -110,7 +110,7 @@ class ImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageResource::make($image, ImageQuery::make($parameters))
+                    ImageResource::make($image, new ImageQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -145,7 +145,7 @@ class ImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageResource::make($image, ImageQuery::make($parameters))
+                    ImageResource::make($image, new ImageQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -186,7 +186,7 @@ class ImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageResource::make($image, ImageQuery::make($parameters))
+                    ImageResource::make($image, new ImageQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -234,7 +234,7 @@ class ImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageResource::make($image, ImageQuery::make($parameters))
+                    ImageResource::make($image, new ImageQuery($parameters))
                         ->response()
                         ->getData()
                 ),

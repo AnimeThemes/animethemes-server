@@ -32,6 +32,6 @@ class BalanceShowRequest extends EloquentShowRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return BalanceQuery::make($this->validated());
+        return new BalanceQuery($this->validated());
     }
 }
