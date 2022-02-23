@@ -32,6 +32,6 @@ class AnnouncementShowRequest extends EloquentShowRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return AnnouncementQuery::make($this->validated());
+        return new AnnouncementQuery($this->validated());
     }
 }

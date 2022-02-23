@@ -33,6 +33,6 @@ class VideoIndexRequest extends EloquentIndexRequest implements SearchableReques
      */
     public function getQuery(): EloquentQuery
     {
-        return VideoQuery::make($this->validated());
+        return new VideoQuery($this->validated());
     }
 }

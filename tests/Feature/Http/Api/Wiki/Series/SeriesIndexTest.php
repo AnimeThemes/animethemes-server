@@ -54,7 +54,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesCollection::make($series, SeriesQuery::make())
+                    SeriesCollection::make($series, new SeriesQuery())
                         ->response()
                         ->getData()
                 ),
@@ -114,7 +114,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesCollection::make($series, SeriesQuery::make($parameters))
+                    SeriesCollection::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -151,7 +151,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesCollection::make($series, SeriesQuery::make($parameters))
+                    SeriesCollection::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -179,7 +179,7 @@ class SeriesIndexTest extends TestCase
             SortParser::param() => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
-        $query = SeriesQuery::make($parameters);
+        $query = new SeriesQuery($parameters);
 
         Series::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -233,7 +233,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesCollection::make($series, SeriesQuery::make($parameters))
+                    SeriesCollection::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -278,7 +278,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesCollection::make($series, SeriesQuery::make($parameters))
+                    SeriesCollection::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -319,7 +319,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesCollection::make($series, SeriesQuery::make($parameters))
+                    SeriesCollection::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -360,7 +360,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesCollection::make($series, SeriesQuery::make($parameters))
+                    SeriesCollection::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -401,7 +401,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesCollection::make($series, SeriesQuery::make($parameters))
+                    SeriesCollection::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -453,7 +453,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesCollection::make($series, SeriesQuery::make($parameters))
+                    SeriesCollection::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -497,7 +497,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesCollection::make($series, SeriesQuery::make($parameters))
+                    SeriesCollection::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -549,7 +549,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesCollection::make($series, SeriesQuery::make($parameters))
+                    SeriesCollection::make($series, new SeriesQuery($parameters))
                         ->response()
                         ->getData()
                 ),

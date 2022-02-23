@@ -47,7 +47,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balances, BalanceQuery::make())
+                    BalanceCollection::make($balances, new BalanceQuery())
                         ->response()
                         ->getData()
                 ),
@@ -100,7 +100,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balances, BalanceQuery::make($parameters))
+                    BalanceCollection::make($balances, new BalanceQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -126,7 +126,7 @@ class BalanceIndexTest extends TestCase
             SortParser::param() => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
-        $query = BalanceQuery::make($parameters);
+        $query = new BalanceQuery($parameters);
 
         Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -178,7 +178,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balance, BalanceQuery::make($parameters))
+                    BalanceCollection::make($balance, new BalanceQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -221,7 +221,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balance, BalanceQuery::make($parameters))
+                    BalanceCollection::make($balance, new BalanceQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -260,7 +260,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balance, BalanceQuery::make($parameters))
+                    BalanceCollection::make($balance, new BalanceQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -299,7 +299,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balance, BalanceQuery::make($parameters))
+                    BalanceCollection::make($balance, new BalanceQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -338,7 +338,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balance, BalanceQuery::make($parameters))
+                    BalanceCollection::make($balance, new BalanceQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -388,7 +388,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balance, BalanceQuery::make($parameters))
+                    BalanceCollection::make($balance, new BalanceQuery($parameters))
                         ->response()
                         ->getData()
                 ),

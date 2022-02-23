@@ -43,7 +43,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, StudioQuery::make())
+                    StudioResource::make($studio, new StudioQuery())
                         ->response()
                         ->getData()
                 ),
@@ -72,7 +72,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, StudioQuery::make())
+                    StudioResource::make($studio, new StudioQuery())
                         ->response()
                         ->getData()
                 ),
@@ -111,7 +111,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, StudioQuery::make($parameters))
+                    StudioResource::make($studio, new StudioQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -148,7 +148,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, StudioQuery::make($parameters))
+                    StudioResource::make($studio, new StudioQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -191,7 +191,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, StudioQuery::make($parameters))
+                    StudioResource::make($studio, new StudioQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -242,7 +242,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, StudioQuery::make($parameters))
+                    StudioResource::make($studio, new StudioQuery($parameters))
                         ->response()
                         ->getData()
                 ),

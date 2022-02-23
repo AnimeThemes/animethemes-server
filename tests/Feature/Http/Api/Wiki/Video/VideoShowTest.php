@@ -47,7 +47,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, VideoQuery::make())
+                    VideoResource::make($video, new VideoQuery())
                         ->response()
                         ->getData()
                 ),
@@ -74,7 +74,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, VideoQuery::make())
+                    VideoResource::make($video, new VideoQuery())
                         ->response()
                         ->getData()
                 ),
@@ -117,7 +117,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, VideoQuery::make($parameters))
+                    VideoResource::make($video, new VideoQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -154,7 +154,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, VideoQuery::make($parameters))
+                    VideoResource::make($video, new VideoQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -199,7 +199,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, VideoQuery::make($parameters))
+                    VideoResource::make($video, new VideoQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -244,7 +244,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, VideoQuery::make($parameters))
+                    VideoResource::make($video, new VideoQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -294,7 +294,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, VideoQuery::make($parameters))
+                    VideoResource::make($video, new VideoQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -346,7 +346,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, VideoQuery::make($parameters))
+                    VideoResource::make($video, new VideoQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -398,7 +398,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, VideoQuery::make($parameters))
+                    VideoResource::make($video, new VideoQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -443,7 +443,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, VideoQuery::make($parameters))
+                    VideoResource::make($video, new VideoQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -488,7 +488,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, VideoQuery::make($parameters))
+                    VideoResource::make($video, new VideoQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -542,7 +542,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, VideoQuery::make($parameters))
+                    VideoResource::make($video, new VideoQuery($parameters))
                         ->response()
                         ->getData()
                 ),

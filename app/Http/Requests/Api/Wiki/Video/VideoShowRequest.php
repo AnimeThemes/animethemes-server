@@ -32,6 +32,6 @@ class VideoShowRequest extends EloquentShowRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return VideoQuery::make($this->validated());
+        return new VideoQuery($this->validated());
     }
 }

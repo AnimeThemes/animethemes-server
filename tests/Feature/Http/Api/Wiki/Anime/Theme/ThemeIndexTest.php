@@ -68,7 +68,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make())
+                    ThemeCollection::make($themes, new ThemeQuery())
                         ->response()
                         ->getData()
                 ),
@@ -135,7 +135,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -175,7 +175,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -201,7 +201,7 @@ class ThemeIndexTest extends TestCase
             SortParser::param() => $field->getSort()->format(Direction::getRandomInstance()),
         ];
 
-        $query = ThemeQuery::make($parameters);
+        $query = new ThemeQuery($parameters);
 
         AnimeTheme::factory()
             ->for(Anime::factory())
@@ -262,7 +262,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($theme, ThemeQuery::make($parameters))
+                    ThemeCollection::make($theme, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -311,7 +311,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($theme, ThemeQuery::make($parameters))
+                    ThemeCollection::make($theme, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -357,7 +357,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($theme, ThemeQuery::make($parameters))
+                    ThemeCollection::make($theme, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -403,7 +403,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($theme, ThemeQuery::make($parameters))
+                    ThemeCollection::make($theme, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -449,7 +449,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($theme, ThemeQuery::make($parameters))
+                    ThemeCollection::make($theme, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -499,7 +499,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($theme, ThemeQuery::make($parameters))
+                    ThemeCollection::make($theme, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -540,7 +540,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -581,7 +581,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -617,7 +617,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -659,7 +659,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -707,7 +707,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -752,7 +752,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -795,7 +795,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -838,7 +838,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -889,7 +889,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -936,7 +936,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -983,7 +983,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1030,7 +1030,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1085,7 +1085,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1132,7 +1132,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1179,7 +1179,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1226,7 +1226,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeCollection::make($themes, ThemeQuery::make($parameters))
+                    ThemeCollection::make($themes, new ThemeQuery($parameters))
                         ->response()
                         ->getData()
                 ),

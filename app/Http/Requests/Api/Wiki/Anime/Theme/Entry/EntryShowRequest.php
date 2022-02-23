@@ -32,6 +32,6 @@ class EntryShowRequest extends EloquentShowRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return EntryQuery::make($this->validated());
+        return new EntryQuery($this->validated());
     }
 }

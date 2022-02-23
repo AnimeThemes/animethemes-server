@@ -33,6 +33,6 @@ class StudioIndexRequest extends EloquentIndexRequest implements SearchableReque
      */
     public function getQuery(): EloquentQuery
     {
-        return StudioQuery::make($this->validated());
+        return new StudioQuery($this->validated());
     }
 }

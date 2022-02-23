@@ -32,6 +32,6 @@ class TransactionIndexRequest extends EloquentIndexRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return TransactionQuery::make($this->validated());
+        return new TransactionQuery($this->validated());
     }
 }

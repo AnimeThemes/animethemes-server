@@ -33,6 +33,6 @@ class SynonymIndexRequest extends EloquentIndexRequest implements SearchableRequ
      */
     public function getQuery(): EloquentQuery
     {
-        return SynonymQuery::make($this->validated());
+        return new SynonymQuery($this->validated());
     }
 }

@@ -32,6 +32,6 @@ class ThemeShowRequest extends EloquentShowRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return ThemeQuery::make($this->validated());
+        return new ThemeQuery($this->validated());
     }
 }

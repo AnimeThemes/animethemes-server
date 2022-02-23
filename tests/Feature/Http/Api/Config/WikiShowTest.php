@@ -40,7 +40,7 @@ class WikiShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    WikiResource::make(WikiQuery::make())
+                    WikiResource::make(new WikiQuery())
                         ->response()
                         ->getData()
                 ),
@@ -77,7 +77,7 @@ class WikiShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    WikiResource::make(WikiQuery::make($parameters))
+                    WikiResource::make(new WikiQuery($parameters))
                         ->response()
                         ->getData()
                 ),

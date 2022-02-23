@@ -32,6 +32,6 @@ class SongShowRequest extends EloquentShowRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return SongQuery::make($this->validated());
+        return new SongQuery($this->validated());
     }
 }

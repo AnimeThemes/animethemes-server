@@ -94,6 +94,6 @@ class YearIndexRequest extends BaseRequest
      */
     public function getQuery(): Query
     {
-        return AnimeQuery::make($this->validated());
+        return new AnimeQuery($this->validated());
     }
 }

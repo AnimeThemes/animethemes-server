@@ -43,7 +43,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, ExternalResourceQuery::make())
+                    ExternalResourceResource::make($resource, new ExternalResourceQuery())
                         ->response()
                         ->getData()
                 ),
@@ -70,7 +70,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, ExternalResourceQuery::make())
+                    ExternalResourceResource::make($resource, new ExternalResourceQuery())
                         ->response()
                         ->getData()
                 ),
@@ -110,7 +110,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, ExternalResourceQuery::make($parameters))
+                    ExternalResourceResource::make($resource, new ExternalResourceQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -145,7 +145,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, ExternalResourceQuery::make($parameters))
+                    ExternalResourceResource::make($resource, new ExternalResourceQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -186,7 +186,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, ExternalResourceQuery::make($parameters))
+                    ExternalResourceResource::make($resource, new ExternalResourceQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -234,7 +234,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, ExternalResourceQuery::make($parameters))
+                    ExternalResourceResource::make($resource, new ExternalResourceQuery($parameters))
                         ->response()
                         ->getData()
                 ),

@@ -32,6 +32,6 @@ class ExternalResourceIndexRequest extends EloquentIndexRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return ExternalResourceQuery::make($this->validated());
+        return new ExternalResourceQuery($this->validated());
     }
 }

@@ -33,6 +33,6 @@ class ArtistIndexRequest extends EloquentIndexRequest implements SearchableReque
      */
     public function getQuery(): EloquentQuery
     {
-        return ArtistQuery::make($this->validated());
+        return new ArtistQuery($this->validated());
     }
 }

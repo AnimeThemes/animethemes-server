@@ -39,7 +39,7 @@ class FlagsShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    FlagsResource::make(FlagsQuery::make())
+                    FlagsResource::make(new FlagsQuery())
                         ->response()
                         ->getData()
                 ),
@@ -76,7 +76,7 @@ class FlagsShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    FlagsResource::make(FlagsQuery::make($parameters))
+                    FlagsResource::make(new FlagsQuery($parameters))
                         ->response()
                         ->getData()
                 ),

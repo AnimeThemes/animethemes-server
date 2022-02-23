@@ -32,6 +32,6 @@ class FlagsRequest extends ShowRequest
      */
     public function getQuery(): Query
     {
-        return FlagsQuery::make($this->validated());
+        return new FlagsQuery($this->validated());
     }
 }

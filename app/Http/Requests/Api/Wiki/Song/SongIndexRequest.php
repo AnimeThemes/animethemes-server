@@ -33,6 +33,6 @@ class SongIndexRequest extends EloquentIndexRequest implements SearchableRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return SongQuery::make($this->validated());
+        return new SongQuery($this->validated());
     }
 }

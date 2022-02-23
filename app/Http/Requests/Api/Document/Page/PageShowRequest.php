@@ -32,6 +32,6 @@ class PageShowRequest extends EloquentShowRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return PageQuery::make($this->validated());
+        return new PageQuery($this->validated());
     }
 }

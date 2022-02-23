@@ -32,6 +32,6 @@ class ArtistShowRequest extends EloquentShowRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return ArtistQuery::make($this->validated());
+        return new ArtistQuery($this->validated());
     }
 }
