@@ -20,7 +20,7 @@ class WikiRequest extends ShowRequest
      *
      * @return Schema
      */
-    protected function getSchema(): Schema
+    protected function schema(): Schema
     {
         return new WikiSchema();
     }

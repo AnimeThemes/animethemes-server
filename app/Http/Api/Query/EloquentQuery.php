@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Api\Query;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
-use App\Http\Api\Criteria\Include\Criteria as IncludeCriteria;
 use App\Http\Api\Filter\HasFilter;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Scope\ScopeParser;
@@ -33,11 +32,7 @@ abstract class EloquentQuery extends Query
      */
     public function show(Model $model): BaseResource
     {
-        $schema = $this->schema();
-
-        $constrainedEagerLoads = $this->constrainEagerLoads(
-            $this->getIncludeCriteria($schema->type())
-        );
+        $constrainedEagerLoads = $this->constrainEagerLoads();
 
         return $this->resource($model->load($constrainedEagerLoads));
     }
@@ -55,10 +50,7 @@ abstract class EloquentQuery extends Query
         $builder = $this->builder();
 
         // eager load relations with constraints
-        $constrainedEagerLoads = $this->constrainEagerLoads(
-            $this->getIncludeCriteria($schema->type())
-        );
-        $builder = $builder->with($constrainedEagerLoads);
+        $builder = $builder->with($this->constrainEagerLoads());
 
         // apply filters
         $scope = ScopeParser::parse($schema->type());
@@ -83,7 +75,7 @@ abstract class EloquentQuery extends Query
         // apply sorts
         foreach ($this->getSortCriteria() as $sortCriterion) {
             foreach ($schema->sorts() as $sort) {
-                if ($sortCriterion->shouldSort($sort)) {
+                if ($sortCriterion->shouldSort($sort, $scope)) {
                     $builder = $sortCriterion->sort($builder, $sort);
                 }
             }
@@ -102,25 +94,37 @@ abstract class EloquentQuery extends Query
     /**
      * Constrain eager loads by binding callbacks that filter on the relations.
      *
-     * @param  IncludeCriteria|null  $includeCriteria
      * @return array
      */
-    public function constrainEagerLoads(?IncludeCriteria $includeCriteria): array
+    public function constrainEagerLoads(): array
     {
         $constrainedEagerLoads = [];
 
+        $schema = $this->schema();
+
+        $includeCriteria = $this->getIncludeCriteria($schema->type());
+
         $allowedIncludePaths = collect($includeCriteria?->getPaths());
 
-        $schema = $this->schema();
         foreach ($allowedIncludePaths as $allowedIncludePath) {
             $scope = ScopeParser::parse($allowedIncludePath);
             $relationSchema = $schema->relation($allowedIncludePath);
 
             $constrainedEagerLoads[$allowedIncludePath] = function (Relation $relation) use ($scope, $relationSchema) {
+                // apply filters
                 foreach ($this->getFilterCriteria() as $criteria) {
                     foreach (collect($relationSchema?->filters()) as $filter) {
                         if ($criteria->shouldFilter($filter, $scope)) {
                             $criteria->filter($relation->getQuery(), $filter, $this);
+                        }
+                    }
+                }
+
+                // apply sorts
+                foreach ($this->getSortCriteria() as $sortCriterion) {
+                    foreach (collect($relationSchema?->sorts()) as $sort) {
+                        if ($sortCriterion->shouldSort($sort, $scope)) {
+                            $sortCriterion->sort($relation->getQuery(), $sort);
                         }
                     }
                 }

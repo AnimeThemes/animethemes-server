@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Criteria\Sort;
 
 use App\Enums\Http\Api\Sort\Direction;
+use App\Http\Api\Scope\Scope;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -16,12 +17,13 @@ class FieldCriteria extends Criteria
     /**
      * Create a new criteria instance.
      *
+     * @param  Scope  $scope
      * @param  string  $field
      * @param  Direction  $direction
      */
-    public function __construct(string $field, protected Direction $direction)
+    public function __construct(Scope $scope, string $field, protected Direction $direction)
     {
-        parent::__construct($field);
+        parent::__construct($scope, $field);
     }
 
     /**

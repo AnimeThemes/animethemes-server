@@ -7,6 +7,7 @@ namespace App\Http\Requests\Api;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
+use Illuminate\Support\Str;
 
 /**
  * Class ShowRequest.
@@ -20,11 +21,7 @@ abstract class ShowRequest extends BaseRequest
      */
     protected function getPagingRules(): array
     {
-        return [
-            PagingParser::param() => [
-                'prohibited',
-            ],
-        ];
+        return $this->prohibit(PagingParser::param());
     }
 
     /**
@@ -34,11 +31,7 @@ abstract class ShowRequest extends BaseRequest
      */
     protected function getSearchRules(): array
     {
-        return [
-            SearchParser::param() => [
-                'prohibited',
-            ],
-        ];
+        return $this->prohibit(SearchParser::param());
     }
 
     /**
@@ -48,10 +41,28 @@ abstract class ShowRequest extends BaseRequest
      */
     protected function getSortRules(): array
     {
-        return [
-            SortParser::param() => [
-                'prohibited',
-            ],
-        ];
+        $schema = $this->schema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        if ($allowedIncludes->isEmpty()) {
+            return $this->prohibit(SortParser::param());
+        }
+
+        $rules = [];
+
+        $types = collect();
+
+        foreach ($allowedIncludes as $allowedIncludePath) {
+            $relationSchema = $allowedIncludePath->schema();
+
+            $types->push($relationSchema->type());
+
+            $param = Str::of(SortParser::param())->append('.')->append($relationSchema->type())->__toString();
+
+            $rules = $rules + $this->restrictAllowedSortValues($param, $relationSchema);
+        }
+
+        return $rules + $this->restrictAllowedTypes(SortParser::param(), $types);
     }
 }

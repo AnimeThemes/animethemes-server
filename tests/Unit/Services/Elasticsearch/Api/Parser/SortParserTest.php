@@ -8,6 +8,7 @@ use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Sort\FieldCriteria as BaseFieldCriteria;
 use App\Http\Api\Criteria\Sort\RandomCriteria;
 use App\Http\Api\Criteria\Sort\RelationCriteria as BaseRelationCriteria;
+use App\Http\Api\Scope\GlobalScope;
 use App\Services\Elasticsearch\Api\Criteria\Sort\FieldCriteria;
 use App\Services\Elasticsearch\Api\Criteria\Sort\RelationCriteria;
 use App\Services\Elasticsearch\Api\Parser\SortParser;
@@ -28,7 +29,7 @@ class SortParserTest extends TestCase
      */
     public function testRelationCriteria(): void
     {
-        $criteria = new BaseRelationCriteria($this->faker->word(), Direction::getRandomInstance());
+        $criteria = new BaseRelationCriteria(new GlobalScope(), $this->faker->word(), Direction::getRandomInstance());
 
         static::assertInstanceOf(RelationCriteria::class, SortParser::parse($criteria));
     }
@@ -40,7 +41,7 @@ class SortParserTest extends TestCase
      */
     public function testFieldCriteria(): void
     {
-        $criteria = new BaseFieldCriteria($this->faker->word(), Direction::getRandomInstance());
+        $criteria = new BaseFieldCriteria(new GlobalScope(), $this->faker->word(), Direction::getRandomInstance());
 
         static::assertInstanceOf(FieldCriteria::class, SortParser::parse($criteria));
     }
@@ -52,7 +53,7 @@ class SortParserTest extends TestCase
      */
     public function testRandomCriteria(): void
     {
-        $criteria = new RandomCriteria();
+        $criteria = new RandomCriteria(new GlobalScope());
 
         static::assertNull(SortParser::parse($criteria));
     }

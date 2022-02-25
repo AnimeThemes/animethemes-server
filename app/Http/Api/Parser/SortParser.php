@@ -9,6 +9,9 @@ use App\Http\Api\Criteria\Sort\Criteria;
 use App\Http\Api\Criteria\Sort\FieldCriteria;
 use App\Http\Api\Criteria\Sort\RandomCriteria;
 use App\Http\Api\Criteria\Sort\RelationCriteria;
+use App\Http\Api\Scope\GlobalScope;
+use App\Http\Api\Scope\Scope;
+use App\Http\Api\Scope\ScopeParser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -42,7 +45,18 @@ class SortParser extends Parser
             if ($sortParam !== null && ! Arr::accessible($sortParam)) {
                 $sortValues = Str::of($sortParam)->explode(',');
                 foreach ($sortValues as $sortValue) {
-                    $criteria[] = static::parseCriteria($sortValue);
+                    $criteria[] = static::parseCriteria(new GlobalScope(), $sortValue);
+                }
+            }
+            if (Arr::accessible($sortParam) && Arr::isAssoc($sortParam)) {
+                foreach ($sortParam as $type => $sortList) {
+                    if ($sortList !== null && ! Arr::accessible($sortList)) {
+                        $scope = ScopeParser::parse($type);
+                        $sortValues = Str::of($sortList)->explode(',');
+                        foreach ($sortValues as $sortValue) {
+                            $criteria[] = static::parseCriteria($scope, $sortValue);
+                        }
+                    }
                 }
             }
         }
@@ -53,15 +67,16 @@ class SortParser extends Parser
     /**
      * Parse criteria instance from query string.
      *
+     * @param  Scope  $scope
      * @param  string  $sortValue
      * @return Criteria
      */
-    protected static function parseCriteria(string $sortValue): Criteria
+    protected static function parseCriteria(Scope $scope, string $sortValue): Criteria
     {
         $field = Str::lower($sortValue);
 
         if ($field === RandomCriteria::PARAM_VALUE) {
-            return new RandomCriteria();
+            return new RandomCriteria($scope);
         }
 
         $direction = Direction::ASCENDING();
@@ -72,9 +87,9 @@ class SortParser extends Parser
         }
 
         if (Str::contains($field, '.')) {
-            return new RelationCriteria($field, $direction);
+            return new RelationCriteria($scope, $field, $direction);
         }
 
-        return new FieldCriteria($field, $direction);
+        return new FieldCriteria($scope, $field, $direction);
     }
 }
