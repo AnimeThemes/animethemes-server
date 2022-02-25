@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Criteria\Sort;
 
+use App\Http\Api\Scope\Scope;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -15,10 +16,21 @@ abstract class Criteria
     /**
      * Create a new criteria instance.
      *
+     * @param  Scope  $scope
      * @param  string  $field
      */
-    public function __construct(protected string $field)
+    public function __construct(protected Scope $scope, protected string $field)
     {
+    }
+
+    /**
+     * Get the scope of the criteria.
+     *
+     * @return Scope
+     */
+    public function getScope(): Scope
+    {
+        return $this->scope;
     }
 
     /**
@@ -35,12 +47,22 @@ abstract class Criteria
      * Determine if this sort should be applied.
      *
      * @param  Sort  $sort
+     * @param  Scope  $scope
      * @return bool
      */
-    public function shouldSort(Sort $sort): bool
+    public function shouldSort(Sort $sort, Scope $scope): bool
     {
-        // Apply sort if key matches
-        return $this->getField() === $sort->getKey();
+        // Don't apply sort if key does not match
+        if ($this->getField() !== $sort->getKey()) {
+            return false;
+        }
+
+        // Don't apply sort if scope does not match
+        if (! $this->getScope()->isWithinScope($scope)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

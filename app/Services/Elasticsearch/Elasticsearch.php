@@ -18,7 +18,6 @@ use ElasticScoutDriverPlus\Exceptions\QueryBuilderException;
 use Elasticsearch\Client;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use RuntimeException;
 
 /**
@@ -92,9 +91,7 @@ class Elasticsearch extends Search
         $builder = $elasticQueryPayload->buildQuery();
 
         // eager load relations with constraints
-        $constrainedEagerLoads = $query->constrainEagerLoads(
-            $query->getIncludeCriteria(Str::singular($schema->type()))
-        );
+        $constrainedEagerLoads = $query->constrainEagerLoads();
         $builder = $builder->load($constrainedEagerLoads);
 
         // apply filters
@@ -121,7 +118,7 @@ class Elasticsearch extends Search
             $elasticSortCriteria = SortParser::parse($sortCriterion);
             if ($elasticSortCriteria !== null) {
                 foreach ($schema->sorts() as $sort) {
-                    if ($sortCriterion->shouldSort($sort)) {
+                    if ($sortCriterion->shouldSort($sort, $scope)) {
                         $elasticSortCriteria->sort($builder, $sort);
                     }
                 }

@@ -7,7 +7,6 @@ namespace App\Http\Requests\Api\Wiki;
 use App\Http\Api\Criteria\Paging\Criteria as PagingCriteria;
 use App\Http\Api\Criteria\Paging\LimitCriteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
-use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
@@ -18,8 +17,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\SearchSchema;
 use App\Http\Requests\Api\BaseRequest;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
-use Spatie\ValidationRules\Rules\Delimited;
 
 /**
  * Class SearchRequest.
@@ -35,37 +32,29 @@ class SearchRequest extends BaseRequest
      */
     protected function getFieldRules(): array
     {
-        $schema = $this->getSchema();
+        $schema = $this->schema();
 
         $types = collect($schema->type());
 
-        $rules = $this->getSchemaFieldRules($schema);
+        $rules = $this->restrictAllowedFieldValues($schema);
 
         foreach ($schema->allowedIncludes() as $allowedIncludePath) {
             $resourceSchema = $allowedIncludePath->schema();
 
             $types->push($resourceSchema->type());
 
-            $rules = array_merge($rules, array_merge($rules, $this->getSchemaFieldRules($resourceSchema)));
+            $rules = $rules + $this->restrictAllowedFieldValues($resourceSchema);
 
             foreach ($resourceSchema->allowedIncludes() as $resourceAllowedIncludePath) {
                 $resourceRelationSchema = $resourceAllowedIncludePath->schema();
 
                 $types->push($resourceRelationSchema->type());
 
-                $rules = array_merge($rules, array_merge($rules, $this->getSchemaFieldRules($resourceRelationSchema)));
+                $rules = $rules + $this->restrictAllowedFieldValues($resourceRelationSchema);
             }
         }
 
-        return array_merge(
-            $rules,
-            [
-                FieldParser::param() => [
-                    'nullable',
-                    Str::of('array:')->append($types->unique()->join(','))->__toString(),
-                ],
-            ],
-        );
+        return $rules + $this->restrictAllowedTypes(FieldParser::param(), $types);
     }
 
     /**
@@ -77,7 +66,7 @@ class SearchRequest extends BaseRequest
      */
     protected function getIncludeRules(): array
     {
-        $schema = $this->getSchema();
+        $schema = $this->schema();
 
         $types = collect();
 
@@ -91,31 +80,13 @@ class SearchRequest extends BaseRequest
             if ($resourceIncludes->isNotEmpty()) {
                 $types->push($resourceSchema->type());
 
-                $rules = array_merge(
-                    $rules,
-                    [
-                        Str::of(IncludeParser::param())
-                            ->append('.')
-                            ->append($resourceSchema->type())
-                            ->__toString() => [
-                                'sometimes',
-                                'required',
-                                new Delimited(Rule::in($resourceIncludes->map(fn (AllowedInclude $include) => $include->path()))),
-                            ],
-                    ]
-                );
+                $param = Str::of(IncludeParser::param())->append('.')->append($resourceSchema->type())->__toString();
+
+                $rules = $rules + $this->restrictAllowedIncludeValues($param, $resourceSchema);
             }
         }
 
-        return array_merge(
-            $rules,
-            [
-                IncludeParser::param() => [
-                    'nullable',
-                    Str::of('array:')->append($types->join(','))->__toString(),
-                ],
-            ],
-        );
+        return $rules + $this->restrictAllowedTypes(IncludeParser::param(), $types);
     }
 
     /**
@@ -165,12 +136,7 @@ class SearchRequest extends BaseRequest
      */
     protected function getSearchRules(): array
     {
-        return [
-            SearchParser::param() => [
-                'required',
-                'string',
-            ],
-        ];
+        return $this->require(SearchParser::param(), ['string']);
     }
 
     /**
@@ -180,12 +146,33 @@ class SearchRequest extends BaseRequest
      */
     protected function getSortRules(): array
     {
-        // TODO: sorts should be scoped to resource.
-        return [
-            SortParser::param() => [
-                'nullable',
-            ],
-        ];
+        $schema = $this->schema();
+
+        $types = collect();
+
+        $rules = [];
+
+        foreach ($schema->allowedIncludes() as $allowedIncludePath) {
+            $resourceSchema = $allowedIncludePath->schema();
+
+            $types->push($resourceSchema->type());
+
+            $param = Str::of(SortParser::param())->append('.')->append($resourceSchema->type())->__toString();
+
+            $rules = $rules + $this->restrictAllowedSortValues($param, $resourceSchema);
+
+            foreach ($resourceSchema->allowedIncludes() as $resourceAllowedIncludePath) {
+                $resourceRelationSchema = $resourceAllowedIncludePath->schema();
+
+                $types->push($resourceRelationSchema->type());
+
+                $param = Str::of(SortParser::param())->append('.')->append($resourceRelationSchema->type())->__toString();
+
+                $rules = $rules + $this->restrictAllowedSortValues($param, $resourceRelationSchema);
+            }
+        }
+
+        return $rules + $this->restrictAllowedTypes(SortParser::param(), $types);
     }
 
     /**
@@ -203,7 +190,7 @@ class SearchRequest extends BaseRequest
      *
      * @return Schema
      */
-    protected function getSchema(): Schema
+    protected function schema(): Schema
     {
         return new SearchSchema();
     }

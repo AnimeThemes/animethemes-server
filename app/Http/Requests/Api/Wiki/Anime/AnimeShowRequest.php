@@ -20,7 +20,7 @@ class AnimeShowRequest extends EloquentShowRequest
      *
      * @return EloquentSchema
      */
-    protected function getSchema(): EloquentSchema
+    protected function schema(): EloquentSchema
     {
         return new AnimeSchema();
     }

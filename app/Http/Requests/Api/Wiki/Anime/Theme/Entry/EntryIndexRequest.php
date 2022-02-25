@@ -21,7 +21,7 @@ class EntryIndexRequest extends EloquentIndexRequest implements SearchableReques
      *
      * @return EloquentSchema
      */
-    protected function getSchema(): EloquentSchema
+    protected function schema(): EloquentSchema
     {
         return new EntrySchema();
     }

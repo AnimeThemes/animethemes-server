@@ -17,7 +17,7 @@ abstract class EloquentShowRequest extends ShowRequest
      *
      * @return EloquentSchema
      */
-    abstract protected function getSchema(): EloquentSchema;
+    abstract protected function schema(): EloquentSchema;
 
     /**
      * Get the validation API Query.

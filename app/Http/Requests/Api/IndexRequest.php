@@ -5,21 +5,20 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api;
 
 use App\Contracts\Http\Requests\Api\SearchableRequest;
-use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Paging\Criteria as PagingCriteria;
 use App\Http\Api\Criteria\Paging\LimitCriteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
-use App\Rules\Api\DistinctIgnoringDirectionRule;
-use App\Rules\Api\RandomSoleRule;
+use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 use Spatie\ValidationRules\Rules\Delimited;
 
 /**
- * Class BaseRequest.
+ * Class IndexRequest.
  */
 abstract class IndexRequest extends BaseRequest
 {
@@ -76,20 +75,10 @@ abstract class IndexRequest extends BaseRequest
     protected function getSearchRules(): array
     {
         if ($this instanceof SearchableRequest) {
-            return [
-                SearchParser::param() => [
-                    'sometimes',
-                    'required',
-                    'string',
-                ],
-            ];
+            return $this->optional(SearchParser::param());
         }
 
-        return [
-            SearchParser::param() => [
-                'prohibited',
-            ],
-        ];
+        return $this->prohibit(SearchParser::param());
     }
 
     /**
@@ -99,33 +88,55 @@ abstract class IndexRequest extends BaseRequest
      */
     protected function getSortRules(): array
     {
-        $allowedSorts = collect();
+        $schema = $this->schema();
 
-        foreach ($this->getSchema()->sorts() as $sort) {
-            foreach (Direction::getInstances() as $direction) {
-                $formattedSort = $sort->format($direction);
-                if (! $allowedSorts->contains($formattedSort)) {
-                    $allowedSorts->push($formattedSort);
-                }
-            }
+        $types = collect($schema->type());
+
+        $param = Str::of(SortParser::param())->append('.')->append($schema->type())->__toString();
+
+        $rules = $this->restrictAllowedSortValues($param, $schema);
+
+        foreach ($schema->allowedIncludes() as $allowedIncludePath) {
+            $relationSchema = $allowedIncludePath->schema();
+
+            $types->push($relationSchema->type());
+
+            $param = Str::of(SortParser::param())->append('.')->append($relationSchema->type())->__toString();
+
+            $rules = $this->restrictAllowedSortValues($param, $relationSchema);
         }
 
-        if ($allowedSorts->isEmpty()) {
-            return [
-                SortParser::param() => [
-                    'prohibited',
-                ],
-            ];
+        return $rules;
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  Validator  $validator
+     * @return void
+     */
+    public function withValidator(Validator $validator): void
+    {
+        $schema = $this->schema();
+
+        $types = collect($schema->type());
+
+        foreach ($schema->allowedIncludes() as $allowedIncludePath) {
+            $relationSchema = $allowedIncludePath->schema();
+
+            $types->push($relationSchema->type());
         }
 
-        return [
-            SortParser::param() => [
-                'sometimes',
-                'required',
-                new Delimited(Rule::in($allowedSorts)),
-                new DistinctIgnoringDirectionRule(),
-                new RandomSoleRule(),
-            ],
-        ];
+        $validator->sometimes(
+            SortParser::param(),
+            ['sometimes', 'required', new Delimited(Rule::in($this->formatAllowedSortValues($schema)))],
+            fn (Fluent $fluent) => is_string($fluent->get(SortParser::param()))
+        );
+
+        $validator->sometimes(
+            SortParser::param(),
+            ['nullable', Str::of('array:')->append($types->join(','))->__toString()],
+            fn (Fluent $fluent) => is_array($fluent->get(SortParser::param()))
+        );
     }
 }

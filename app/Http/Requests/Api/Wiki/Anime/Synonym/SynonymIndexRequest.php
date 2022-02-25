@@ -21,7 +21,7 @@ class SynonymIndexRequest extends EloquentIndexRequest implements SearchableRequ
      *
      * @return EloquentSchema
      */
-    protected function getSchema(): EloquentSchema
+    protected function schema(): EloquentSchema
     {
         return new SynonymSchema();
     }

@@ -21,7 +21,7 @@ class SongIndexRequest extends EloquentIndexRequest implements SearchableRequest
      *
      * @return EloquentSchema
      */
-    protected function getSchema(): EloquentSchema
+    protected function schema(): EloquentSchema
     {
         return new SongSchema();
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Criteria\Sort;
 
+use App\Http\Api\Scope\Scope;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -16,10 +17,12 @@ class RandomCriteria extends Criteria
 
     /**
      * Create a new criteria instance.
+     *
+     * @param  Scope  $scope
      */
-    public function __construct()
+    public function __construct(Scope $scope)
     {
-        parent::__construct(self::PARAM_VALUE);
+        parent::__construct($scope, self::PARAM_VALUE);
     }
 
     /**

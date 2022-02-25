@@ -20,7 +20,7 @@ class BalanceIndexRequest extends EloquentIndexRequest
      *
      * @return EloquentSchema
      */
-    protected function getSchema(): EloquentSchema
+    protected function schema(): EloquentSchema
     {
         return new BalanceSchema();
     }
