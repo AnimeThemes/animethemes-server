@@ -9,7 +9,6 @@ use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Scope\Scope;
-use App\Http\Api\Scope\ScopeParser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
@@ -38,38 +37,19 @@ class TrashedCriteria extends Criteria
     /**
      * Create a new criteria instance from query string.
      *
+     * @param  Scope  $scope
      * @param  string  $filterParam
      * @param  mixed  $filterValues
      * @return static
      */
-    public static function make(string $filterParam, mixed $filterValues): static
+    public static function make(Scope $scope, string $filterParam, mixed $filterValues): static
     {
-        $scope = collect();
-        $field = '';
-        $logicalOperator = BinaryLogicalOperator::AND();
-
-        $filterParts = Str::of($filterParam)->explode('.');
-        while ($filterParts->isNotEmpty()) {
-            $filterPart = $filterParts->pop();
-
-            // Set field
-            if ($scope->isEmpty() && empty($field) && $filterPart === TrashedCriteria::PARAM_VALUE) {
-                $field = $filterPart;
-                continue;
-            }
-
-            // Set scope
-            if (! empty($field)) {
-                $scope->prepend(Str::lower($filterPart));
-            }
-        }
-
-        $expression = new Expression(Str::of($filterValues)->explode(','));
+        $expression = new Expression(Str::of($filterValues)->explode(Criteria::VALUE_SEPARATOR));
 
         return new static(
-            new Predicate($field, null, $expression),
-            $logicalOperator,
-            ScopeParser::parse($scope->join('.'))
+            new Predicate(TrashedCriteria::PARAM_VALUE, null, $expression),
+            BinaryLogicalOperator::AND(),
+            $scope
         );
     }
 

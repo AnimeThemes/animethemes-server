@@ -11,9 +11,7 @@ use App\Http\Api\Criteria\Filter\Predicate;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Scope\Scope;
-use App\Http\Api\Scope\ScopeParser;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
 
 /**
  * Class FakeCriteria.
@@ -38,18 +36,19 @@ class FakeCriteria extends Criteria
     /**
      * Create a new criteria instance from query string.
      *
+     * @param  Scope  $scope
      * @param  string  $filterParam
      * @param  mixed  $filterValues
      * @return static
      */
-    public static function make(string $filterParam, mixed $filterValues): static
+    public static function make(Scope $scope, string $filterParam, mixed $filterValues): static
     {
         $expression = new Expression($filterValues);
 
         return new static(
             new Predicate($filterParam, null, $expression),
             BinaryLogicalOperator::getRandomInstance(),
-            ScopeParser::parse(Str::random())
+            $scope
         );
     }
 

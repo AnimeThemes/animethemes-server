@@ -6,6 +6,7 @@ namespace Tests\Unit\Http\Api\Filter;
 
 use App\Enums\BaseEnum;
 use App\Http\Api\Filter\EnumFilter;
+use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
@@ -33,7 +34,7 @@ class EnumFilterTest extends TestCase
             public const TWO = 2;
         };
 
-        $criteria = FakeCriteria::make($filterField, $this->faker->words($this->faker->randomDigitNotNull()));
+        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, $this->faker->words($this->faker->randomDigitNotNull()));
 
         $filter = new EnumFilter($filterField, get_class($enum));
 
@@ -56,7 +57,7 @@ class EnumFilterTest extends TestCase
             public const TWO = 2;
         };
 
-        $criteria = FakeCriteria::make($filterField, $enum::getValues());
+        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, $enum::getValues());
 
         $filter = new EnumFilter($filterField, get_class($enum));
 
@@ -79,7 +80,7 @@ class EnumFilterTest extends TestCase
             public const TWO = 2;
         };
 
-        $criteria = FakeCriteria::make($filterField, $enum->description);
+        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, $enum->description);
 
         $filter = new EnumFilter($filterField, get_class($enum));
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
+
 /**
  * Class FloatFilter.
  */
@@ -53,5 +55,34 @@ class FloatFilter extends Filter
     public function isAllFilterValues(array $filterValues): bool
     {
         return false;
+    }
+
+    /**
+     * Get the validation rules for the filter.
+     *
+     * @return array
+     */
+    public function getRules(): array
+    {
+        return [
+            'numeric',
+        ];
+    }
+
+    /**
+     * Get the allowed comparison operators for the filter.
+     *
+     * @return ComparisonOperator[]
+     */
+    public function getAllowedComparisonOperators(): array
+    {
+        return [
+            ComparisonOperator::EQ(),
+            ComparisonOperator::NE(),
+            ComparisonOperator::LT(),
+            ComparisonOperator::GT(),
+            ComparisonOperator::LTE(),
+            ComparisonOperator::GTE(),
+        ];
     }
 }

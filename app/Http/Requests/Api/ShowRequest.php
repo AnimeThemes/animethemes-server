@@ -8,6 +8,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Validator;
 
 /**
  * Class ShowRequest.
@@ -53,8 +54,8 @@ abstract class ShowRequest extends BaseRequest
 
         $types = collect();
 
-        foreach ($allowedIncludes as $allowedIncludePath) {
-            $relationSchema = $allowedIncludePath->schema();
+        foreach ($allowedIncludes as $allowedInclude) {
+            $relationSchema = $allowedInclude->schema();
 
             $types->push($relationSchema->type());
 
@@ -64,5 +65,27 @@ abstract class ShowRequest extends BaseRequest
         }
 
         return $rules + $this->restrictAllowedTypes(SortParser::param(), $types);
+    }
+
+    /**
+     * Filters shall be validated based on values.
+     * If the value contains a separator, this is a multi-value filter that builds a where in clause.
+     * Otherwise, this is a single-value filter that builds a where clause.
+     * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
+     *
+     * @param  Validator  $validator
+     * @return void
+     */
+    protected function conditionallyRestrictAllowedFilterValues(Validator $validator): void
+    {
+        $schema = $this->schema();
+
+        foreach ($schema->allowedIncludes() as $allowedInclude) {
+            $relationSchema = $allowedInclude->schema();
+
+            foreach ($relationSchema->filters() as $relationFilter) {
+                $this->conditionallyRestrictFilter($validator, $relationSchema, $relationFilter);
+            }
+        }
     }
 }

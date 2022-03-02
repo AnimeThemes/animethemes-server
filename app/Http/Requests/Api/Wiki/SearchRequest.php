@@ -17,6 +17,7 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\SearchSchema;
 use App\Http\Requests\Api\BaseRequest;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Validator;
 
 /**
  * Class SearchRequest.
@@ -38,8 +39,8 @@ class SearchRequest extends BaseRequest
 
         $rules = $this->restrictAllowedFieldValues($schema);
 
-        foreach ($schema->allowedIncludes() as $allowedIncludePath) {
-            $resourceSchema = $allowedIncludePath->schema();
+        foreach ($schema->allowedIncludes() as $allowedInclude) {
+            $resourceSchema = $allowedInclude->schema();
 
             $types->push($resourceSchema->type());
 
@@ -72,8 +73,8 @@ class SearchRequest extends BaseRequest
 
         $rules = [];
 
-        foreach ($schema->allowedIncludes() as $allowedIncludePath) {
-            $resourceSchema = $allowedIncludePath->schema();
+        foreach ($schema->allowedIncludes() as $allowedInclude) {
+            $resourceSchema = $allowedInclude->schema();
 
             $resourceIncludes = collect($resourceSchema->allowedIncludes());
 
@@ -152,8 +153,8 @@ class SearchRequest extends BaseRequest
 
         $rules = [];
 
-        foreach ($schema->allowedIncludes() as $allowedIncludePath) {
-            $resourceSchema = $allowedIncludePath->schema();
+        foreach ($schema->allowedIncludes() as $allowedInclude) {
+            $resourceSchema = $allowedInclude->schema();
 
             $types->push($resourceSchema->type());
 
@@ -193,5 +194,35 @@ class SearchRequest extends BaseRequest
     protected function schema(): Schema
     {
         return new SearchSchema();
+    }
+
+    /**
+     * Filters shall be validated based on values.
+     * If the value contains a separator, this is a multi-value filter that builds a where in clause.
+     * Otherwise, this is a single-value filter that builds a where clause.
+     * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
+     *
+     * @param  Validator  $validator
+     * @return void
+     */
+    protected function conditionallyRestrictAllowedFilterValues(Validator $validator): void
+    {
+        $schema = $this->schema();
+
+        foreach ($schema->allowedIncludes() as $allowedInclude) {
+            $resourceSchema = $allowedInclude->schema();
+
+            foreach ($resourceSchema->filters() as $resourceFilter) {
+                $this->conditionallyRestrictFilter($validator, $resourceSchema, $resourceFilter);
+            }
+
+            foreach ($resourceSchema->allowedIncludes() as $resourceAllowedIncludePath) {
+                $resourceRelationSchema = $resourceAllowedIncludePath->schema();
+
+                foreach ($resourceRelationSchema->filters() as $resourceRelationFilter) {
+                    $this->conditionallyRestrictFilter($validator, $resourceRelationSchema, $resourceRelationFilter);
+                }
+            }
+        }
     }
 }

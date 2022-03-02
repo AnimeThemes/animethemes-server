@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Enums\Http\Api\Filter\LogicalOperator;
+use App\Http\Api\Criteria\Filter\Criteria;
+use Illuminate\Support\Str;
+
 /**
  * Class Filter.
  */
@@ -91,4 +96,44 @@ abstract class Filter
      * @return bool
      */
     abstract public function isAllFilterValues(array $filterValues): bool;
+
+    /**
+     * Get the validation rules for the filter.
+     *
+     * @return array
+     */
+    abstract public function getRules(): array;
+
+    /**
+     * Get the allowed comparison operators for the filter.
+     *
+     * @return ComparisonOperator[]
+     */
+    abstract public function getAllowedComparisonOperators(): array;
+
+    /**
+     * Format filter string with conditions.
+     *
+     * @param LogicalOperator|null $logicalOperator
+     * @param ComparisonOperator|null $comparisonOperator
+     * @return string
+     */
+    public function format(
+        ?LogicalOperator $logicalOperator = null,
+        ?ComparisonOperator $comparisonOperator = null
+    ): string {
+        $formattedFilter = Str::of($this->getKey());
+
+        if ($comparisonOperator !== null) {
+            $formattedFilter = $formattedFilter->append(Criteria::PARAM_SEPARATOR)
+                ->append($comparisonOperator->key);
+        }
+
+        if ($logicalOperator !== null) {
+            $formattedFilter = $formattedFilter->append(Criteria::PARAM_SEPARATOR)
+                ->append($logicalOperator->key);
+        }
+
+        return $formattedFilter->lower()->__toString();
+    }
 }

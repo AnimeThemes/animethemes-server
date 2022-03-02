@@ -6,6 +6,7 @@ namespace Tests\Unit\Http\Api\Filter;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Http\Api\Filter\DateFilter;
+use App\Http\Api\Scope\GlobalScope;
 use DateTime;
 use DateTimeInterface;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -29,7 +30,7 @@ class DateFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $criteria = FakeCriteria::make($filterField, $this->faker->words($this->faker->randomDigitNotNull()));
+        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, $this->faker->words($this->faker->randomDigitNotNull()));
 
         $filter = new DateFilter($filterField);
 
@@ -45,7 +46,7 @@ class DateFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $criteria = FakeCriteria::make($filterField, Date::now()->format(DateTimeInterface::RFC1036));
+        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, Date::now()->format(DateTimeInterface::RFC1036));
 
         $filter = new DateFilter($filterField);
 
@@ -61,7 +62,7 @@ class DateFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $criteria = FakeCriteria::make($filterField, Date::now()->format(AllowedDateFormat::getRandomValue()));
+        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, Date::now()->format(AllowedDateFormat::getRandomValue()));
 
         $filter = new DateFilter($filterField);
 
@@ -81,7 +82,7 @@ class DateFilterTest extends TestCase
 
         $dateFilter = Date::now()->format($dateFormat);
 
-        $criteria = FakeCriteria::make($filterField, $dateFilter);
+        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, $dateFilter);
 
         $filter = new DateFilter($filterField);
 

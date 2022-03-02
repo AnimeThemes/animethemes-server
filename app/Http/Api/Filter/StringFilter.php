@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
+
 /**
  * Class StringFilter.
  */
@@ -41,5 +43,32 @@ class StringFilter extends Filter
     public function isAllFilterValues(array $filterValues): bool
     {
         return false;
+    }
+
+    /**
+     * Get the validation rules for the filter.
+     *
+     * @return array
+     */
+    public function getRules(): array
+    {
+        return [
+            'string',
+        ];
+    }
+
+    /**
+     * Get the allowed comparison operators for the filter.
+     *
+     * @return ComparisonOperator[]
+     */
+    public function getAllowedComparisonOperators(): array
+    {
+        return [
+            ComparisonOperator::EQ(),
+            ComparisonOperator::NE(),
+            ComparisonOperator::LIKE(),
+            ComparisonOperator::NOTLIKE(),
+        ];
     }
 }

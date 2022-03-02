@@ -9,7 +9,6 @@ use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Scope\Scope;
-use App\Http\Api\Scope\ScopeParser;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
@@ -50,29 +49,29 @@ class WhereInCriteria extends Criteria
     /**
      * Create a new criteria instance from query string.
      *
+     * @param  Scope  $scope
      * @param  string  $filterParam
      * @param  mixed  $filterValues
      * @return static
      */
-    public static function make(string $filterParam, mixed $filterValues): static
+    public static function make(Scope $scope, string $filterParam, mixed $filterValues): static
     {
-        $scope = collect();
         $field = '';
         $operator = BinaryLogicalOperator::AND();
         $not = false;
 
-        $filterParts = Str::of($filterParam)->explode('.');
+        $filterParts = Str::of($filterParam)->explode(Criteria::PARAM_SEPARATOR);
         while ($filterParts->isNotEmpty()) {
             $filterPart = $filterParts->pop();
 
             // Set Not
-            if ($scope->isEmpty() && empty($field) && UnaryLogicalOperator::hasKey(Str::upper($filterPart))) {
+            if (empty($field) && UnaryLogicalOperator::hasKey(Str::upper($filterPart))) {
                 $not = true;
                 continue;
             }
 
             // Set operator
-            if ($scope->isEmpty() && empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
+            if (empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
                 try {
                     $operator = BinaryLogicalOperator::fromKey(Str::upper($filterPart));
                 } catch (InvalidEnumKeyException $e) {
@@ -82,26 +81,18 @@ class WhereInCriteria extends Criteria
             }
 
             // Set field
-            if ($scope->isEmpty() && empty($field)) {
+            if (empty($field)) {
                 $field = Str::lower($filterPart);
-                continue;
-            }
-
-            // Set scope
-            if (! empty($field)) {
-                $scope->prepend(Str::lower($filterPart));
             }
         }
 
-        $expression = new Expression(Str::of($filterValues)->explode(','));
-
-        $predicate = new Predicate($field, null, $expression);
+        $expression = new Expression(Str::of($filterValues)->explode(Criteria::VALUE_SEPARATOR));
 
         return new static(
-            $predicate,
+            new Predicate($field, null, $expression),
             $operator,
             $not,
-            ScopeParser::parse($scope->join('.'))
+            $scope
         );
     }
 

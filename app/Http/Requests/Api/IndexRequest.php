@@ -96,33 +96,49 @@ abstract class IndexRequest extends BaseRequest
 
         $rules = $this->restrictAllowedSortValues($param, $schema);
 
-        foreach ($schema->allowedIncludes() as $allowedIncludePath) {
-            $relationSchema = $allowedIncludePath->schema();
+        foreach ($schema->allowedIncludes() as $allowedInclude) {
+            $relationSchema = $allowedInclude->schema();
 
             $types->push($relationSchema->type());
 
             $param = Str::of(SortParser::param())->append('.')->append($relationSchema->type())->__toString();
 
-            $rules = $this->restrictAllowedSortValues($param, $relationSchema);
+            $rules = $rules + $this->restrictAllowedSortValues($param, $relationSchema);
         }
 
         return $rules;
     }
 
     /**
-     * Configure the validator instance.
+     * Configure validator with needed conditional validation.
+     *
+     * @param  Validator  $validator
+     * @return void
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    protected function handleConditionalValidation(Validator $validator): void
+    {
+        $this->conditionallyRestrictAllowedSortTypes($validator);
+        $this->conditionallyRestrictAllowedFilterValues($validator);
+    }
+
+    /**
+     * Sort types can be scoped globally or by type for index endpoints.
+     * Ex: /api/anime?sort=year.
+     * Ex: /api/anime?sort[anime]=year.
      *
      * @param  Validator  $validator
      * @return void
      */
-    public function withValidator(Validator $validator): void
+    protected function conditionallyRestrictAllowedSortTypes(Validator $validator): void
     {
         $schema = $this->schema();
 
         $types = collect($schema->type());
 
-        foreach ($schema->allowedIncludes() as $allowedIncludePath) {
-            $relationSchema = $allowedIncludePath->schema();
+        foreach ($schema->allowedIncludes() as $allowedInclude) {
+            $relationSchema = $allowedInclude->schema();
 
             $types->push($relationSchema->type());
         }
@@ -138,5 +154,31 @@ abstract class IndexRequest extends BaseRequest
             ['nullable', Str::of('array:')->append($types->join(','))->__toString()],
             fn (Fluent $fluent) => is_array($fluent->get(SortParser::param()))
         );
+    }
+
+    /**
+     * Filters shall be validated based on values.
+     * If the value contains a separator, this is a multi-value filter that builds a where in clause.
+     * Otherwise, this is a single-value filter that builds a where clause.
+     * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
+     *
+     * @param  Validator  $validator
+     * @return void
+     */
+    protected function conditionallyRestrictAllowedFilterValues(Validator $validator): void
+    {
+        $schema = $this->schema();
+
+        foreach ($schema->filters() as $filter) {
+            $this->conditionallyRestrictFilter($validator, $schema, $filter);
+        }
+
+        foreach ($schema->allowedIncludes() as $allowedInclude) {
+            $relationSchema = $allowedInclude->schema();
+
+            foreach ($relationSchema->filters() as $relationFilter) {
+                $this->conditionallyRestrictFilter($validator, $relationSchema, $relationFilter);
+            }
+        }
     }
 }

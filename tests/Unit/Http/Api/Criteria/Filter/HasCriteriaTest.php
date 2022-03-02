@@ -6,9 +6,9 @@ namespace Tests\Unit\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Http\Api\Criteria\Filter\Criteria;
 use App\Http\Api\Criteria\Filter\HasCriteria;
 use App\Http\Api\Scope\GlobalScope;
-use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -21,43 +21,13 @@ class HasCriteriaTest extends TestCase
     use WithFaker;
 
     /**
-     * By default, the Has Criteria shall be scoped globally.
-     *
-     * @return void
-     */
-    public function testGlobalScope(): void
-    {
-        $criteria = HasCriteria::make($this->faker->word(), $this->faker->word());
-
-        static::assertInstanceOf(GlobalScope::class, $criteria->getScope());
-    }
-
-    /**
-     * The Has Criteria shall parse the scope if provided.
-     *
-     * @return void
-     */
-    public function testScope(): void
-    {
-        $type = Str::singular($this->faker->word());
-
-        $filterParam = Str::of($type)->append('.')->append(HasCriteria::PARAM_VALUE)->__toString();
-
-        $criteria = HasCriteria::make($filterParam, $this->faker->word());
-
-        $scope = $criteria->getScope();
-
-        static::assertTrue($scope instanceof TypeScope && $scope->getType() === $type);
-    }
-
-    /**
      * The Has Criteria shall parse the field.
      *
      * @return void
      */
     public function testField(): void
     {
-        $criteria = HasCriteria::make(HasCriteria::PARAM_VALUE, $this->faker->word());
+        $criteria = HasCriteria::make(new GlobalScope(),HasCriteria::PARAM_VALUE, $this->faker->word());
 
         static::assertEquals(HasCriteria::PARAM_VALUE, $criteria->getField());
     }
@@ -69,7 +39,7 @@ class HasCriteriaTest extends TestCase
      */
     public function testDefaultComparisonOperator(): void
     {
-        $criteria = HasCriteria::make(HasCriteria::PARAM_VALUE, $this->faker->word());
+        $criteria = HasCriteria::make(new GlobalScope(),HasCriteria::PARAM_VALUE, $this->faker->word());
 
         static::assertEquals(ComparisonOperator::GTE(), $criteria->getComparisonOperator());
     }
@@ -83,9 +53,9 @@ class HasCriteriaTest extends TestCase
     {
         $operator = ComparisonOperator::getRandomInstance();
 
-        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append('.')->append($operator->key)->__toString();
+        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append($operator->key)->__toString();
 
-        $criteria = HasCriteria::make($filterParam, $this->faker->word());
+        $criteria = HasCriteria::make(new GlobalScope(), $filterParam, $this->faker->word());
 
         static::assertEquals($operator, $criteria->getComparisonOperator());
     }
@@ -97,7 +67,7 @@ class HasCriteriaTest extends TestCase
      */
     public function testDefaultCount(): void
     {
-        $criteria = HasCriteria::make(HasCriteria::PARAM_VALUE, $this->faker->word());
+        $criteria = HasCriteria::make(new GlobalScope(),HasCriteria::PARAM_VALUE, $this->faker->word());
 
         static::assertEquals(1, $criteria->getCount());
     }
@@ -111,9 +81,9 @@ class HasCriteriaTest extends TestCase
     {
         $count = $this->faker->randomDigitNotNull();
 
-        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append('.')->append($count)->__toString();
+        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append($count)->__toString();
 
-        $criteria = HasCriteria::make($filterParam, $this->faker->word());
+        $criteria = HasCriteria::make(new GlobalScope(), $filterParam, $this->faker->word());
 
         static::assertEquals($count, $criteria->getCount());
     }
@@ -125,7 +95,7 @@ class HasCriteriaTest extends TestCase
      */
     public function testDefaultLogicalOperator(): void
     {
-        $criteria = HasCriteria::make($this->faker->word(), $this->faker->word());
+        $criteria = HasCriteria::make(new GlobalScope(), $this->faker->word(), $this->faker->word());
 
         static::assertEquals(BinaryLogicalOperator::AND(), $criteria->getLogicalOperator());
     }
@@ -139,9 +109,9 @@ class HasCriteriaTest extends TestCase
     {
         $operator = BinaryLogicalOperator::getRandomInstance();
 
-        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append('.')->append($operator->key)->__toString();
+        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append($operator->key)->__toString();
 
-        $criteria = HasCriteria::make($filterParam, $this->faker->word());
+        $criteria = HasCriteria::make(new GlobalScope(), $filterParam, $this->faker->word());
 
         static::assertEquals($operator, $criteria->getLogicalOperator());
     }

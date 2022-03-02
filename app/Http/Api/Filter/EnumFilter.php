@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Api\Filter;
 
 use App\Enums\BaseEnum;
+use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Rules\Api\EnumDescriptionRule;
 
 /**
  * Class EnumFilter.
@@ -66,5 +68,30 @@ class EnumFilter extends Filter
     public function isAllFilterValues(array $filterValues): bool
     {
         return count($filterValues) === count($this->enumClass::getInstances());
+    }
+
+    /**
+     * Get the validation rules for the filter.
+     *
+     * @return array
+     */
+    public function getRules(): array
+    {
+        return [
+            new EnumDescriptionRule($this->enumClass),
+        ];
+    }
+
+    /**
+     * Get the allowed comparison operators for the filter.
+     *
+     * @return ComparisonOperator[]
+     */
+    public function getAllowedComparisonOperators(): array
+    {
+        return [
+            ComparisonOperator::EQ(),
+            ComparisonOperator::NE(),
+        ];
     }
 }

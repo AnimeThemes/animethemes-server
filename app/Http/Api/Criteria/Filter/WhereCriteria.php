@@ -9,7 +9,6 @@ use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Scope\Scope;
-use App\Http\Api\Scope\ScopeParser;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
@@ -38,23 +37,23 @@ class WhereCriteria extends Criteria
     /**
      * Create a new criteria instance from query string.
      *
+     * @param  Scope  $scope
      * @param  string  $filterParam
      * @param  mixed  $filterValues
      * @return static
      */
-    public static function make(string $filterParam, mixed $filterValues): static
+    public static function make(Scope $scope, string $filterParam, mixed $filterValues): static
     {
-        $scope = collect();
         $field = '';
         $comparisonOperator = ComparisonOperator::EQ();
         $logicalOperator = BinaryLogicalOperator::AND();
 
-        $filterParts = Str::of($filterParam)->explode('.');
+        $filterParts = Str::of($filterParam)->explode(Criteria::PARAM_SEPARATOR);
         while ($filterParts->isNotEmpty()) {
             $filterPart = $filterParts->pop();
 
             // Set logical operator
-            if ($scope->isEmpty() && empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
+            if (empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
                 try {
                     $logicalOperator = BinaryLogicalOperator::fromKey(Str::upper($filterPart));
                 } catch (InvalidEnumKeyException $e) {
@@ -64,7 +63,7 @@ class WhereCriteria extends Criteria
             }
 
             // Set comparison operator
-            if ($scope->isEmpty() && empty($field) && ComparisonOperator::hasKey(Str::upper($filterPart))) {
+            if (empty($field) && ComparisonOperator::hasKey(Str::upper($filterPart))) {
                 try {
                     $comparisonOperator = ComparisonOperator::fromKey(Str::upper($filterPart));
                 } catch (InvalidEnumKeyException $e) {
@@ -74,14 +73,8 @@ class WhereCriteria extends Criteria
             }
 
             // Set field
-            if ($scope->isEmpty() && empty($field)) {
+            if (empty($field)) {
                 $field = Str::lower($filterPart);
-                continue;
-            }
-
-            // Set scope
-            if (! empty($field)) {
-                $scope->prepend(Str::lower($filterPart));
             }
         }
 
@@ -90,7 +83,7 @@ class WhereCriteria extends Criteria
         return new static(
             new Predicate($field, $comparisonOperator, $expression),
             $logicalOperator,
-            ScopeParser::parse($scope->join('.'))
+            $scope
         );
     }
 
