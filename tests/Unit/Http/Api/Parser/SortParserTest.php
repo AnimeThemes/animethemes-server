@@ -9,6 +9,8 @@ use App\Http\Api\Criteria\Sort\FieldCriteria;
 use App\Http\Api\Criteria\Sort\RandomCriteria;
 use App\Http\Api\Criteria\Sort\RelationCriteria;
 use App\Http\Api\Parser\SortParser;
+use App\Http\Api\Scope\GlobalScope;
+use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -136,5 +138,43 @@ class SortParserTest extends TestCase
             $criteria instanceof FieldCriteria
             && Direction::DESCENDING()->is($criteria->getDirection())
         );
+    }
+
+    /**
+     * The Sort Parser shall parse a global scope if scope is not provided.
+     *
+     * @return void
+     */
+    public function testParseGlobalScope(): void
+    {
+        $parameters = [
+            SortParser::param() => $this->faker->word(),
+        ];
+
+        $criteria = SortParser::parse($parameters)[0];
+
+        static::assertInstanceOf(GlobalScope::class, $criteria->getScope());
+    }
+
+    /**
+     * The Sort Parser shall parse a scope if provided.
+     *
+     * @return void
+     */
+    public function testParseTypeScope(): void
+    {
+        $type = Str::singular($this->faker->word());
+
+        $parameters = [
+            SortParser::param() => [
+                $type => $this->faker->word(),
+            ],
+        ];
+
+        $criteria = SortParser::parse($parameters)[0];
+
+        $scope = $criteria->getScope();
+
+        static::assertTrue($scope instanceof TypeScope && $scope->getType() === $type);
     }
 }

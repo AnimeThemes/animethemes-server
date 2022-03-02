@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api;
 
+use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
+use App\Enums\Http\Api\Filter\LogicalOperator;
+use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
 use App\Enums\Http\Api\Sort\Direction;
+use App\Http\Api\Criteria\Filter\Criteria;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Filter\Filter;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
@@ -15,9 +20,12 @@ use App\Http\Api\Schema\Schema;
 use App\Rules\Api\DistinctIgnoringDirectionRule;
 use App\Rules\Api\RandomSoleRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 use Spatie\ValidationRules\Rules\Delimited;
 
 /**
@@ -149,8 +157,8 @@ abstract class BaseRequest extends FormRequest
 
         $rules = $this->restrictAllowedFieldValues($schema);
 
-        foreach ($schema->allowedIncludes() as $allowedIncludePath) {
-            $relationSchema = $allowedIncludePath->schema();
+        foreach ($schema->allowedIncludes() as $allowedInclude) {
+            $relationSchema = $allowedInclude->schema();
 
             $types->push($relationSchema->type());
 
@@ -292,4 +300,138 @@ abstract class BaseRequest extends FormRequest
      * @return Query
      */
     abstract public function getQuery(): Query;
+
+    /**
+     * Configure the validator instance.
+     * Note: This function is invoked by name if it exists.
+     * We define a decorator that provides better clarity for what conditional validation needs to be applied.
+     *
+     * @param  Validator  $validator
+     * @return void
+     *
+     * @noinspection PhpUnused
+     */
+    public function withValidator(Validator $validator): void
+    {
+        $this->handleConditionalValidation($validator);
+    }
+
+    /**
+     * Configure conditional validation.
+     *
+     * @param  Validator  $validator
+     * @return void
+     */
+    protected function handleConditionalValidation(Validator $validator): void
+    {
+        $this->conditionallyRestrictAllowedFilterValues($validator);
+    }
+
+    /**
+     * Filters shall be validated based on values.
+     * If the value contains a separator, we assume this is a multi-value filter that builds a where in clause.
+     * Otherwise, we assume this is a single-value filter that builds a where clause.
+     * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
+     *
+     * @param  Validator  $validator
+     * @return void
+     */
+    abstract protected function conditionallyRestrictAllowedFilterValues(Validator $validator): void;
+
+    /**
+     * Restrict filter based on allowed formats and provided values.
+     *
+     * @param  Validator  $validator
+     * @param  Schema  $schema
+     * @param  Filter  $filter
+     * @return void
+     */
+    protected function conditionallyRestrictFilter(Validator $validator, Schema $schema, Filter $filter): void
+    {
+        $singleValueFilterFormats = $this->getFilterFormats($filter, BinaryLogicalOperator::getInstances());
+
+        foreach ($singleValueFilterFormats as $singleValueFilterFormat) {
+            foreach ($this->getFormattedParameters($schema, $singleValueFilterFormat) as $formattedParameter) {
+                if (collect($validator->getRules())->keys()->doesntContain($formattedParameter)) {
+                    $validator->sometimes(
+                        $formattedParameter,
+                        $filter->getRules(),
+                        fn (Fluent $fluent) => is_string(Arr::get($fluent->toArray(), $formattedParameter)) && ! Str::of(Arr::get($fluent->toArray(), $formattedParameter))->contains(Criteria::VALUE_SEPARATOR)
+                    );
+                }
+            }
+        }
+
+        $multiValueFilterFormats = $this->getFilterFormats($filter, UnaryLogicalOperator::getInstances());
+
+        $multiValueRules = [];
+
+        foreach ($filter->getRules() as $rule) {
+            $multiValueRules[] = new Delimited($rule);
+        }
+
+        foreach ($multiValueFilterFormats as $multiValueFilterFormat) {
+            foreach ($this->getFormattedParameters($schema, $multiValueFilterFormat) as $formattedParameter) {
+                if (collect($validator->getRules())->keys()->doesntContain($formattedParameter)) {
+                    $validator->sometimes(
+                        $formattedParameter,
+                        $multiValueRules,
+                        fn (Fluent $fluent) => is_string(Arr::get($fluent->toArray(), $formattedParameter)) && Str::of(Arr::get($fluent->toArray(), $formattedParameter))->contains(Criteria::VALUE_SEPARATOR)
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Get the allowed list of filter keys with possible conditions.
+     *
+     * @param  Filter  $filter
+     * @param  LogicalOperator[]  $logicalOperators
+     * @return array
+     */
+    protected function getFilterFormats(Filter $filter, array $logicalOperators): array
+    {
+        $formattedFilters = [];
+
+        foreach ($logicalOperators as $binaryLogicalOperator) {
+            foreach ($filter->getAllowedComparisonOperators() as $allowedComparisonOperator) {
+                $formattedFilters[] = $filter->format($binaryLogicalOperator, $allowedComparisonOperator);
+            }
+
+            $formattedFilters[] = $filter->format($binaryLogicalOperator);
+        }
+
+        foreach ($filter->getAllowedComparisonOperators() as $allowedComparisonOperator) {
+            $formattedFilters[] = $filter->format(null, $allowedComparisonOperator);
+        }
+
+        $formattedFilters[] = $filter->format();
+
+        return $formattedFilters;
+    }
+
+    /**
+     * Get possible qualified parameter values for formatted filter.
+     *
+     * @param  Schema  $schema
+     * @param  string  $formattedFilter
+     * @return array
+     */
+    protected function getFormattedParameters(Schema $schema, string $formattedFilter): array
+    {
+        return [
+            Str::of(FilterParser::param())
+                ->append('.')
+                ->append($formattedFilter)
+                ->__toString(),
+
+            Str::of(FilterParser::param())
+                ->append('.')
+                ->append($schema->type())
+                ->append('.')
+                ->append($formattedFilter)
+                ->__toString(),
+        ];
+    }
 }

@@ -108,11 +108,11 @@ class CriteriaTest extends TestCase
     }
 
     /**
-     * If the criteria and filter keys match, the filter should be applied.
+     * If the criteria and sort keys match, the sort should be applied.
      *
      * @return void
      */
-    public function testShouldFilterIfWithinScope(): void
+    public function testShouldSortIfWithinScope(): void
     {
         $key = $this->faker->word();
 

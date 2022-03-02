@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Http\Api\Filter;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Filter\Filter;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -56,6 +57,26 @@ class FilterTest extends TestCase
             public function isAllFilterValues(array $filterValues): bool
             {
                 return false;
+            }
+
+            /**
+             * Get the validation rules for the filter.
+             *
+             * @return array
+             */
+            public function getRules(): array
+            {
+                return [];
+            }
+
+            /**
+             * Get the allowed comparison operators for the filter.
+             *
+             * @return ComparisonOperator[]
+             */
+            public function getAllowedComparisonOperators(): array
+            {
+                return [];
             }
         };
 

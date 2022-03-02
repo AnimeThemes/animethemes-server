@@ -52,24 +52,24 @@ class HasCriteria extends Criteria
     /**
      * Create a new criteria instance from query string.
      *
+     * @param  Scope  $scope
      * @param  string  $filterParam
      * @param  mixed  $filterValues
      * @return static
      */
-    public static function make(string $filterParam, mixed $filterValues): static
+    public static function make(Scope $scope, string $filterParam, mixed $filterValues): static
     {
-        $scope = '';
         $field = '';
         $comparisonOperator = ComparisonOperator::GTE();
         $count = 1;
         $logicalOperator = BinaryLogicalOperator::AND();
 
-        $filterParts = Str::of($filterParam)->explode('.');
+        $filterParts = Str::of($filterParam)->explode(Criteria::PARAM_SEPARATOR);
         while ($filterParts->isNotEmpty()) {
             $filterPart = $filterParts->pop();
 
             // Set logical operator
-            if (empty($scope) && empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
+            if (empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
                 try {
                     $logicalOperator = BinaryLogicalOperator::fromKey(Str::upper($filterPart));
                 } catch (InvalidEnumKeyException $e) {
@@ -80,8 +80,7 @@ class HasCriteria extends Criteria
 
             // Set count
             if (
-                empty($scope)
-                && empty($field)
+                empty($field)
                 && filter_var($filterPart, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE) !== null
             ) {
                 $count = filter_var($filterPart, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
@@ -89,7 +88,7 @@ class HasCriteria extends Criteria
             }
 
             // Set comparison operator
-            if (empty($scope) && empty($field) && ComparisonOperator::hasKey(Str::upper($filterPart))) {
+            if (empty($field) && ComparisonOperator::hasKey(Str::upper($filterPart))) {
                 try {
                     $comparisonOperator = ComparisonOperator::fromKey(Str::upper($filterPart));
                 } catch (InvalidEnumKeyException $e) {
@@ -99,23 +98,17 @@ class HasCriteria extends Criteria
             }
 
             // Set found has param
-            if (empty($scope) && empty($field) && $filterPart === HasCriteria::PARAM_VALUE) {
+            if (empty($field) && $filterPart === HasCriteria::PARAM_VALUE) {
                 $field = $filterPart;
-                continue;
-            }
-
-            // Set scope
-            if (empty($scope) && ! empty($field)) {
-                $scope = Str::lower($filterPart);
             }
         }
 
-        $expression = new Expression(Str::of($filterValues)->explode(','));
+        $expression = new Expression(Str::of($filterValues)->explode(Criteria::VALUE_SEPARATOR));
 
         return new static(
             new Predicate(HasCriteria::PARAM_VALUE, $comparisonOperator, $expression),
             $logicalOperator,
-            ScopeParser::parse($scope),
+            $scope,
             $count
         );
     }

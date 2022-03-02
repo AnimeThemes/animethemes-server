@@ -70,6 +70,26 @@ class CriteriaTest extends TestCase
             {
                 return false;
             }
+
+            /**
+             * Get the validation rules for the filter.
+             *
+             * @return array
+             */
+            public function getRules(): array
+            {
+                return [];
+            }
+
+            /**
+             * Get the allowed comparison operators for the filter.
+             *
+             * @return ComparisonOperator[]
+             */
+            public function getAllowedComparisonOperators(): array
+            {
+                return [];
+            }
         };
 
         static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
@@ -124,6 +144,26 @@ class CriteriaTest extends TestCase
             public function isAllFilterValues(array $filterValues): bool
             {
                 return false;
+            }
+
+            /**
+             * Get the validation rules for the filter.
+             *
+             * @return array
+             */
+            public function getRules(): array
+            {
+                return [];
+            }
+
+            /**
+             * Get the allowed comparison operators for the filter.
+             *
+             * @return ComparisonOperator[]
+             */
+            public function getAllowedComparisonOperators(): array
+            {
+                return [];
             }
         };
 
@@ -180,6 +220,26 @@ class CriteriaTest extends TestCase
             {
                 return false;
             }
+
+            /**
+             * Get the validation rules for the filter.
+             *
+             * @return array
+             */
+            public function getRules(): array
+            {
+                return [];
+            }
+
+            /**
+             * Get the allowed comparison operators for the filter.
+             *
+             * @return ComparisonOperator[]
+             */
+            public function getAllowedComparisonOperators(): array
+            {
+                return [];
+            }
         };
 
         static::assertFalse($criteria->shouldFilter($filter, new GlobalScope()));
@@ -234,6 +294,26 @@ class CriteriaTest extends TestCase
             public function isAllFilterValues(array $filterValues): bool
             {
                 return false;
+            }
+
+            /**
+             * Get the validation rules for the filter.
+             *
+             * @return array
+             */
+            public function getRules(): array
+            {
+                return [];
+            }
+
+            /**
+             * Get the allowed comparison operators for the filter.
+             *
+             * @return ComparisonOperator[]
+             */
+            public function getAllowedComparisonOperators(): array
+            {
+                return [];
             }
         };
 

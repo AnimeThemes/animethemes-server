@@ -13,6 +13,7 @@ use App\Http\Api\Query\Wiki\AnimeQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Requests\Api\BaseRequest;
+use Illuminate\Validation\Validator;
 
 /**
  * Class YearIndexRequest.
@@ -28,11 +29,7 @@ class YearIndexRequest extends BaseRequest
      */
     protected function getIncludeRules(): array
     {
-        return [
-            IncludeParser::param() => [
-                'prohibited',
-            ],
-        ];
+        return $this->prohibit(IncludeParser::param());
     }
 
     /**
@@ -42,11 +39,7 @@ class YearIndexRequest extends BaseRequest
      */
     protected function getPagingRules(): array
     {
-        return [
-            PagingParser::param() => [
-                'prohibited',
-            ],
-        ];
+        return $this->prohibit(PagingParser::param());
     }
 
     /**
@@ -56,11 +49,7 @@ class YearIndexRequest extends BaseRequest
      */
     protected function getSearchRules(): array
     {
-        return [
-            SearchParser::param() => [
-                'prohibited',
-            ],
-        ];
+        return $this->prohibit(SearchParser::param());
     }
 
     /**
@@ -70,11 +59,7 @@ class YearIndexRequest extends BaseRequest
      */
     protected function getSortRules(): array
     {
-        return [
-            SortParser::param() => [
-                'prohibited',
-            ],
-        ];
+        return $this->prohibit(SortParser::param());
     }
 
     /**
@@ -95,5 +80,19 @@ class YearIndexRequest extends BaseRequest
     public function getQuery(): Query
     {
         return new AnimeQuery($this->validated());
+    }
+
+    /**
+     * Filters shall be validated based on values.
+     * If the value contains a separator, this is a multi-value filter that builds a where in clause.
+     * Otherwise, this is a single-value filter that builds a where clause.
+     * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
+     *
+     * @param  Validator  $validator
+     * @return void
+     */
+    protected function conditionallyRestrictAllowedFilterValues(Validator $validator): void
+    {
+        //
     }
 }

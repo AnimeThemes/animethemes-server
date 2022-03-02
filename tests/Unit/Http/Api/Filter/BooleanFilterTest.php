@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Http\Api\Filter;
 
 use App\Http\Api\Filter\BooleanFilter;
+use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -27,7 +28,7 @@ class BooleanFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $criteria = FakeCriteria::make($filterField, Str::random());
+        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, Str::random());
 
         $filter = new BooleanFilter($filterField);
 
@@ -43,7 +44,7 @@ class BooleanFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $criteria = FakeCriteria::make($filterField, 'true,false');
+        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, 'true,false');
 
         $filter = new BooleanFilter($filterField);
 

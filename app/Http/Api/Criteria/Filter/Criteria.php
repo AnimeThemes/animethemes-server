@@ -18,6 +18,9 @@ use Illuminate\Support\Collection;
  */
 abstract class Criteria
 {
+    public const PARAM_SEPARATOR = '-';
+    public const VALUE_SEPARATOR = ',';
+
     /**
      * Create a new criteria instance.
      *
@@ -126,9 +129,10 @@ abstract class Criteria
     /**
      * Create a new criteria instance from query string.
      *
+     * @param  Scope  $scope
      * @param  string  $filterParam
      * @param  mixed  $filterValues
      * @return static
      */
-    abstract public static function make(string $filterParam, mixed $filterValues): static;
+    abstract public static function make(Scope $scope, string $filterParam, mixed $filterValues): static;
 }

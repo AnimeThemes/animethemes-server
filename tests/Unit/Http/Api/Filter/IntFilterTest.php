@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Http\Api\Filter;
 
 use App\Http\Api\Filter\IntFilter;
+use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
@@ -25,7 +26,7 @@ class IntFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $criteria = FakeCriteria::make($filterField, $this->faker->words($this->faker->randomDigitNotNull()));
+        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, $this->faker->words($this->faker->randomDigitNotNull()));
 
         $filter = new IntFilter($filterField);
 
@@ -43,7 +44,7 @@ class IntFilterTest extends TestCase
 
         $intValue = $this->faker->year();
 
-        $criteria = FakeCriteria::make($filterField, $intValue);
+        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, $intValue);
 
         $filter = new IntFilter($filterField);
 

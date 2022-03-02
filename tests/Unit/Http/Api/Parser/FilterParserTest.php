@@ -9,7 +9,10 @@ use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Filter\WhereCriteria;
 use App\Http\Api\Criteria\Filter\WhereInCriteria;
 use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Scope\GlobalScope;
+use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -103,5 +106,47 @@ class FilterParserTest extends TestCase
         $criteria = FilterParser::parse($parameters)[0];
 
         static::assertInstanceOf(WhereCriteria::class, $criteria);
+    }
+
+    /**
+     * The Filter Parser shall parse a global scope if scope is not provided.
+     *
+     * @return void
+     */
+    public function testParseGlobalScope(): void
+    {
+        $parameters = [
+            FilterParser::param() => [
+                $this->faker->word() => $this->faker->word(),
+            ],
+        ];
+
+        $criteria = FilterParser::parse($parameters)[0];
+
+        static::assertInstanceOf(GlobalScope::class, $criteria->getScope());
+    }
+
+    /**
+     * The Filter Parser shall parse a scope if provided.
+     *
+     * @return void
+     */
+    public function testParseTypeScope(): void
+    {
+        $type = Str::singular($this->faker->word());
+
+        $parameters = [
+            FilterParser::param() => [
+                $type => [
+                    $this->faker->word() => $this->faker->word(),
+                ],
+            ],
+        ];
+
+        $criteria = FilterParser::parse($parameters)[0];
+
+        $scope = $criteria->getScope();
+
+        static::assertTrue($scope instanceof TypeScope && $scope->getType() === $type);
     }
 }
