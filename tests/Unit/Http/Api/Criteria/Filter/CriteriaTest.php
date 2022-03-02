@@ -145,6 +145,7 @@ class CriteriaTest extends TestCase
             {
                 return false;
             }
+
             /**
              * Get the validation rules for the filter.
              *
@@ -219,6 +220,7 @@ class CriteriaTest extends TestCase
             {
                 return false;
             }
+
             /**
              * Get the validation rules for the filter.
              *

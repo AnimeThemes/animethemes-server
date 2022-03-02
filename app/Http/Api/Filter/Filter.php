@@ -114,8 +114,8 @@ abstract class Filter
     /**
      * Format filter string with conditions.
      *
-     * @param LogicalOperator|null $logicalOperator
-     * @param ComparisonOperator|null $comparisonOperator
+     * @param  LogicalOperator|null  $logicalOperator
+     * @param  ComparisonOperator|null  $comparisonOperator
      * @return string
      */
     public function format(

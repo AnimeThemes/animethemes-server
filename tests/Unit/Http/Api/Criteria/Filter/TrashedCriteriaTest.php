@@ -23,7 +23,7 @@ class TrashedCriteriaTest extends TestCase
      */
     public function testField(): void
     {
-        $criteria = TrashedCriteria::make(new GlobalScope(),TrashedCriteria::PARAM_VALUE, $this->faker->word());
+        $criteria = TrashedCriteria::make(new GlobalScope(), TrashedCriteria::PARAM_VALUE, $this->faker->word());
 
         static::assertEquals(TrashedCriteria::PARAM_VALUE, $criteria->getField());
     }

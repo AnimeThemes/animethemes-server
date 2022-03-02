@@ -30,7 +30,7 @@ class HasFilterTest extends TestCase
      */
     public function testShouldNotApplyIfNoAllowedPaths(): void
     {
-        $criteria = FakeCriteria::make(new GlobalScope(),HasCriteria::PARAM_VALUE, Str::random());
+        $criteria = FakeCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, Str::random());
 
         $schema = new class() extends Schema
         {
@@ -124,7 +124,7 @@ class HasFilterTest extends TestCase
             fn () => new AllowedInclude(get_class($schema), $this->faker->word())
         );
 
-        $criteria = FakeCriteria::make(new GlobalScope(),HasCriteria::PARAM_VALUE, $allowedIncludes->random()->path());
+        $criteria = FakeCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $allowedIncludes->random()->path());
 
         $filter = new HasFilter($allowedIncludes->all());
 

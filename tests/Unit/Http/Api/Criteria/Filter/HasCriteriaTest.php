@@ -27,7 +27,7 @@ class HasCriteriaTest extends TestCase
      */
     public function testField(): void
     {
-        $criteria = HasCriteria::make(new GlobalScope(),HasCriteria::PARAM_VALUE, $this->faker->word());
+        $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $this->faker->word());
 
         static::assertEquals(HasCriteria::PARAM_VALUE, $criteria->getField());
     }
@@ -39,7 +39,7 @@ class HasCriteriaTest extends TestCase
      */
     public function testDefaultComparisonOperator(): void
     {
-        $criteria = HasCriteria::make(new GlobalScope(),HasCriteria::PARAM_VALUE, $this->faker->word());
+        $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $this->faker->word());
 
         static::assertEquals(ComparisonOperator::GTE(), $criteria->getComparisonOperator());
     }
@@ -67,7 +67,7 @@ class HasCriteriaTest extends TestCase
      */
     public function testDefaultCount(): void
     {
-        $criteria = HasCriteria::make(new GlobalScope(),HasCriteria::PARAM_VALUE, $this->faker->word());
+        $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $this->faker->word());
 
         static::assertEquals(1, $criteria->getCount());
     }
