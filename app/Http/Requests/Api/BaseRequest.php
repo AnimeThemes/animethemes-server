@@ -153,19 +153,19 @@ abstract class BaseRequest extends FormRequest
     {
         $schema = $this->schema();
 
-        $types = collect($schema->type());
+        $types = Arr::wrap($schema->type());
 
         $rules = $this->restrictAllowedFieldValues($schema);
 
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $relationSchema = $allowedInclude->schema();
 
-            $types->push($relationSchema->type());
+            $types[] = $relationSchema->type();
 
             $rules = $rules + $this->restrictAllowedFieldValues($relationSchema);
         }
 
-        return $rules + $this->restrictAllowedTypes(FieldParser::param(), $types);
+        return $rules + $this->restrictAllowedTypes(FieldParser::param(), collect($types));
     }
 
     /**

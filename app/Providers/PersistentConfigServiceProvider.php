@@ -55,7 +55,7 @@ class PersistentConfigServiceProvider extends AbstractPersistentConfigServicePro
             ],
             WikiConstants::FEATURED_THEME_SETTING_QUALIFIED => [
                 'label' => __('Featured Theme'),
-                'rules' => ['sometimes', 'required', 'string', Rule::exists(Video::TABLE, Video::ATTRIBUTE_BASENAME)],
+                'rules' => ['nullable', 'string', Rule::exists(Video::TABLE, Video::ATTRIBUTE_BASENAME)],
                 'cast' => 'string',
             ],
         ];

@@ -16,6 +16,7 @@ use App\Http\Api\Query\Wiki\SearchQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\SearchSchema;
 use App\Http\Requests\Api\BaseRequest;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 
@@ -35,27 +36,27 @@ class SearchRequest extends BaseRequest
     {
         $schema = $this->schema();
 
-        $types = collect($schema->type());
+        $types = Arr::wrap($schema->type());
 
         $rules = $this->restrictAllowedFieldValues($schema);
 
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $resourceSchema = $allowedInclude->schema();
 
-            $types->push($resourceSchema->type());
+            $types[] = $resourceSchema->type();
 
             $rules = $rules + $this->restrictAllowedFieldValues($resourceSchema);
 
             foreach ($resourceSchema->allowedIncludes() as $resourceAllowedIncludePath) {
                 $resourceRelationSchema = $resourceAllowedIncludePath->schema();
 
-                $types->push($resourceRelationSchema->type());
+                $types[] = $resourceRelationSchema->type();
 
                 $rules = $rules + $this->restrictAllowedFieldValues($resourceRelationSchema);
             }
         }
 
-        return $rules + $this->restrictAllowedTypes(FieldParser::param(), $types);
+        return $rules + $this->restrictAllowedTypes(FieldParser::param(), collect($types));
     }
 
     /**

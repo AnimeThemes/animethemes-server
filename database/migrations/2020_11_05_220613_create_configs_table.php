@@ -6,10 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Class CreateConfigsTable.
- */
-class CreateConfigsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -33,4 +30,4 @@ class CreateConfigsTable extends Migration
     {
         Schema::dropIfExists('configs');
     }
-}
+};

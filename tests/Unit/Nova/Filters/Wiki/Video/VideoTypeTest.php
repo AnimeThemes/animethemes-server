@@ -73,7 +73,7 @@ class VideoTypeTest extends TestCase
 
         $response = $filter->apply(Video::class, VideoTypeFilter::ANIME);
 
-        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_PATH, ComparisonOperator::NOTLIKE(), 'misc%')->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_PATH, ComparisonOperator::NOTLIKE, 'misc%')->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }
@@ -102,7 +102,7 @@ class VideoTypeTest extends TestCase
 
         $response = $filter->apply(Video::class, VideoTypeFilter::MISC);
 
-        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_PATH, ComparisonOperator::LIKE(), 'misc%')->get();
+        $filteredVideos = Video::query()->where(Video::ATTRIBUTE_PATH, ComparisonOperator::LIKE, 'misc%')->get();
         foreach ($filteredVideos as $filteredVideo) {
             $response->assertContains($filteredVideo);
         }

@@ -179,18 +179,6 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     }
 
     /**
-     * Determine if the user belongs to the given team.
-     *
-     * @param  mixed  $team
-     * @return bool
-     */
-    public function belongsToTeam($team): bool
-    {
-        return $team !== null
-            && ($this->teams->contains(fn (Team $t) => $t->id === $team->id) || $this->ownsTeam($team));
-    }
-
-    /**
      * Determine if the user has the given permission on the current team.
      *
      * @param  string  $permission

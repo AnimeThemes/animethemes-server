@@ -23,6 +23,8 @@ class InvitationTest extends TestCase
      */
     public function testCastsStatusToEnum(): void
     {
+        $this->withoutEvents();
+
         $invitation = Invitation::factory()->createOne();
 
         $status = $invitation->status;
@@ -51,6 +53,8 @@ class InvitationTest extends TestCase
      */
     public function testNameable(): void
     {
+        $this->withoutEvents();
+
         $invitation = Invitation::factory()->createOne();
 
         static::assertIsString($invitation->getName());
@@ -63,6 +67,8 @@ class InvitationTest extends TestCase
      */
     public function testInvitationIsOpen(): void
     {
+        $this->withoutEvents();
+
         $invitation = Invitation::factory()->createOne([
             Invitation::ATTRIBUTE_STATUS => InvitationStatus::OPEN,
         ]);
@@ -77,6 +83,8 @@ class InvitationTest extends TestCase
      */
     public function testInvitationIsClosed(): void
     {
+        $this->withoutEvents();
+
         $invitation = Invitation::factory()->createOne([
             Invitation::ATTRIBUTE_STATUS => InvitationStatus::CLOSED,
         ]);

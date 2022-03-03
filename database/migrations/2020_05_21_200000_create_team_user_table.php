@@ -6,10 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Class CreateTeamUserTable.
- */
-class CreateTeamUserTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -38,4 +35,4 @@ class CreateTeamUserTable extends Migration
     {
         Schema::dropIfExists('team_user');
     }
-}
+};
