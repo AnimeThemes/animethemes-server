@@ -13,13 +13,15 @@ use Illuminate\Support\Str;
  *
  * @method ArtistMember createOne($attributes = [])
  * @method ArtistMember makeOne($attributes = [])
+ *
+ * @extends Factory<ArtistMember>
  */
 class ArtistMemberFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<ArtistMember>
      */
     protected $model = ArtistMember::class;
 

@@ -14,13 +14,15 @@ use Illuminate\Support\Str;
  *
  * @method Team createOne($attributes = [])
  * @method Team makeOne($attributes = [])
+ *
+ * @extends Factory<Team>
  */
 class TeamFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<Team>
      */
     protected $model = Team::class;
 

@@ -9,10 +9,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Class CreateArtistImage.
- */
-class CreateArtistImage extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -40,4 +37,4 @@ class CreateArtistImage extends Migration
     {
         Schema::dropIfExists(ArtistImage::TABLE);
     }
-}
+};

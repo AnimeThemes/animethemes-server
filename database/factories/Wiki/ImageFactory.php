@@ -14,13 +14,15 @@ use Illuminate\Support\Str;
  *
  * @method Image createOne($attributes = [])
  * @method Image makeOne($attributes = [])
+ *
+ * @extends Factory<Image>
  */
 class ImageFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<Image>
      */
     protected $model = Image::class;
 

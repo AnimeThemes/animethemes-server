@@ -13,13 +13,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @method Invitation createOne($attributes = [])
  * @method Invitation makeOne($attributes = [])
+ *
+ * @extends Factory<Invitation>
  */
 class InvitationFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<Invitation>
      */
     protected $model = Invitation::class;
 

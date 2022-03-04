@@ -12,13 +12,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @method Announcement createOne($attributes = [])
  * @method Announcement makeOne($attributes = [])
+ *
+ * @extends Factory<Announcement>
  */
 class AnnouncementFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<Announcement>
      */
     protected $model = Announcement::class;
 

@@ -13,13 +13,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @method Transaction createOne($attributes = [])
  * @method Transaction makeOne($attributes = [])
+ *
+ * @extends Factory<Transaction>
  */
 class TransactionFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<Transaction>
      */
     protected $model = Transaction::class;
 

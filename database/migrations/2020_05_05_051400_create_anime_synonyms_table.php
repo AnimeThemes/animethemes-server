@@ -9,10 +9,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Class CreateSynonymsTable.
- */
-class CreateAnimeSynonymsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -41,4 +38,4 @@ class CreateAnimeSynonymsTable extends Migration
     {
         Schema::dropIfExists(AnimeSynonym::TABLE);
     }
-}
+};

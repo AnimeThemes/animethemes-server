@@ -6,10 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Class CreateAuditsTable.
- */
-class CreateAuditsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -27,7 +24,7 @@ class CreateAuditsTable extends Migration
             $table->mediumText('old_values')->nullable();
             $table->mediumText('new_values')->nullable();
             $table->text('url')->nullable();
-            $table->ipAddress('ip_address')->nullable();
+            $table->ipAddress()->nullable();
             $table->string('user_agent', 1023)->nullable();
             $table->string('tags')->nullable();
             $table->timestamps(6);
@@ -45,4 +42,4 @@ class CreateAuditsTable extends Migration
     {
         Schema::drop('audits');
     }
-}
+};

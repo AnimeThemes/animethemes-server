@@ -9,10 +9,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Class CreateEntriesTable.
- */
-class CreateAnimeThemeEntriesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -45,4 +42,4 @@ class CreateAnimeThemeEntriesTable extends Migration
     {
         Schema::dropIfExists(AnimeThemeEntry::TABLE);
     }
-}
+};

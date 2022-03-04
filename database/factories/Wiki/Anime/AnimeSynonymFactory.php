@@ -12,13 +12,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @method AnimeSynonym createOne($attributes = [])
  * @method AnimeSynonym makeOne($attributes = [])
+ *
+ * @extends Factory<AnimeSynonym>
  */
 class AnimeSynonymFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<AnimeSynonym>
      */
     protected $model = AnimeSynonym::class;
 

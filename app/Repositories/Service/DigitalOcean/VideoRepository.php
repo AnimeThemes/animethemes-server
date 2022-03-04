@@ -10,9 +10,12 @@ use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\Testing\MimeType;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\FilesystemReader;
+use League\Flysystem\StorageAttributes;
 use RuntimeException;
 
 /**
@@ -26,6 +29,7 @@ class VideoRepository implements Repository
      * @param  array  $columns
      * @return Collection
      *
+     * @throws FilesystemException
      * @throws RuntimeException
      */
     public function all(array $columns = ['*']): Collection
@@ -38,26 +42,26 @@ class VideoRepository implements Repository
             throw new RuntimeException('videos disk must use an s3 driver');
         }
 
-        $fsVideos = collect($fs->listContents('', true));
+        $fsVideos = collect($fs->listContents('', FilesystemReader::LIST_DEEP));
 
         // Filter all objects for WebM metadata
         // We don't want to filter on the remote filesystem for performance concerns
         $fsVideos = $fsVideos->filter(
-            fn (array $fsFile) => Arr::get($fsFile, 'type') === 'file' && Arr::get($fsFile, 'extension') === 'webm'
+            fn (StorageAttributes $fsFile) => $fsFile->isFile() && File::extension($fsFile->path()) === 'webm'
         );
 
         // Create videos from metadata that we can later save if needed
         return $fsVideos->map(
-            fn (array $fsFile) => Video::factory()->makeOne([
-                Video::ATTRIBUTE_BASENAME => Arr::get($fsFile, 'basename'),
-                Video::ATTRIBUTE_FILENAME => Arr::get($fsFile, 'filename'),
+            fn (StorageAttributes $fsFile) => Video::factory()->makeOne([
+                Video::ATTRIBUTE_BASENAME => File::basename($fsFile->path()),
+                Video::ATTRIBUTE_FILENAME => File::name($fsFile->path()),
                 Video::ATTRIBUTE_LYRICS => false,
-                Video::ATTRIBUTE_MIMETYPE => MimeType::from(Arr::get($fsFile, 'basename')),
+                Video::ATTRIBUTE_MIMETYPE => MimeType::from($fsFile->path()),
                 Video::ATTRIBUTE_NC => false,
                 Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
-                Video::ATTRIBUTE_PATH => Arr::get($fsFile, 'path'),
+                Video::ATTRIBUTE_PATH => $fsFile->path(),
                 Video::ATTRIBUTE_RESOLUTION => null,
-                Video::ATTRIBUTE_SIZE => Arr::get($fsFile, 'size'),
+                Video::ATTRIBUTE_SIZE => $fsFile->offsetGet(StorageAttributes::ATTRIBUTE_FILE_SIZE),
                 Video::ATTRIBUTE_SOURCE => null,
                 Video::ATTRIBUTE_SUBBED => false,
                 Video::ATTRIBUTE_UNCEN => false,

@@ -13,13 +13,15 @@ use Illuminate\Support\Str;
  *
  * @method Series createOne($attributes = [])
  * @method Series makeOne($attributes = [])
+ *
+ * @extends Factory<Series>
  */
 class SeriesFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<Series>
      */
     protected $model = Series::class;
 

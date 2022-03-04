@@ -13,13 +13,15 @@ use Illuminate\Support\Str;
  *
  * @method Studio createOne($attributes = [])
  * @method Studio makeOne($attributes = [])
+ *
+ * @extends Factory<Studio>
  */
 class StudioFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<Studio>
      */
     protected $model = Studio::class;
 

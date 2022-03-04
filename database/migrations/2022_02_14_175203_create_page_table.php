@@ -8,10 +8,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Class CreatePageTable.
- */
-class CreatePageTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -39,4 +36,4 @@ class CreatePageTable extends Migration
     {
         Schema::dropIfExists(Page::TABLE);
     }
-}
+};

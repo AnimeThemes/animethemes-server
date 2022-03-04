@@ -29,15 +29,6 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/dashboard';
 
     /**
-     * If specified, this namespace is automatically applied to your controller routes.
-     *
-     * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string|null
-     */
-    protected $namespace = null;
-
-    /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @return void

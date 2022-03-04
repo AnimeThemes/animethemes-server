@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Concerns\DetectsRedis;
 use Closure;
-use Enlightn\Enlightn\Analyzers\Concerns\DetectsRedis;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\ThrottleRequests;

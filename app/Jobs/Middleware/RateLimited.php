@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs\Middleware;
 
-use Enlightn\Enlightn\Analyzers\Concerns\DetectsRedis;
+use App\Concerns\DetectsRedis;
 use Illuminate\Contracts\Redis\LimiterTimeoutException;
 use Illuminate\Support\Facades\Redis;
 

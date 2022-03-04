@@ -84,8 +84,10 @@ class HasFilter extends Filter
      */
     public function getRules(): array
     {
+        $paths = $this->allowedIncludePaths->map(fn (AllowedInclude $allowedInclude) => $allowedInclude->path());
+
         return [
-            Rule::in($this->allowedIncludePaths->join(',')),
+            Rule::in($paths),
         ];
     }
 

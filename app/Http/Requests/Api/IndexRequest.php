@@ -8,9 +8,11 @@ use App\Contracts\Http\Requests\Api\SearchableRequest;
 use App\Http\Api\Criteria\Paging\Criteria as PagingCriteria;
 use App\Http\Api\Criteria\Paging\LimitCriteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Filter\HasFilter;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -90,16 +92,12 @@ abstract class IndexRequest extends BaseRequest
     {
         $schema = $this->schema();
 
-        $types = collect($schema->type());
-
         $param = Str::of(SortParser::param())->append('.')->append($schema->type())->__toString();
 
         $rules = $this->restrictAllowedSortValues($param, $schema);
 
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $relationSchema = $allowedInclude->schema();
-
-            $types->push($relationSchema->type());
 
             $param = Str::of(SortParser::param())->append('.')->append($relationSchema->type())->__toString();
 
@@ -135,12 +133,12 @@ abstract class IndexRequest extends BaseRequest
     {
         $schema = $this->schema();
 
-        $types = collect($schema->type());
+        $types = Arr::wrap($schema->type());
 
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $relationSchema = $allowedInclude->schema();
 
-            $types->push($relationSchema->type());
+            $types[] = $relationSchema->type();
         }
 
         $validator->sometimes(
@@ -151,7 +149,7 @@ abstract class IndexRequest extends BaseRequest
 
         $validator->sometimes(
             SortParser::param(),
-            ['nullable', Str::of('array:')->append($types->join(','))->__toString()],
+            ['nullable', Str::of('array:')->append(collect($types)->join(','))->__toString()],
             fn (Fluent $fluent) => is_array($fluent->get(SortParser::param()))
         );
     }
@@ -172,6 +170,7 @@ abstract class IndexRequest extends BaseRequest
         foreach ($schema->filters() as $filter) {
             $this->conditionallyRestrictFilter($validator, $schema, $filter);
         }
+        $this->conditionallyRestrictFilter($validator, $schema, new HasFilter($schema->allowedIncludes()));
 
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $relationSchema = $allowedInclude->schema();

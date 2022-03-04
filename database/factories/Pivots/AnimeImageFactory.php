@@ -12,13 +12,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @method AnimeImage createOne($attributes = [])
  * @method AnimeImage makeOne($attributes = [])
+ *
+ * @extends Factory<AnimeImage>
  */
 class AnimeImageFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<AnimeImage>
      */
     protected $model = AnimeImage::class;
 

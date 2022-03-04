@@ -13,13 +13,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @method AnimeTheme createOne($attributes = [])
  * @method AnimeTheme makeOne($attributes = [])
+ *
+ * @extends Factory<AnimeTheme>
  */
 class AnimeThemeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<AnimeTheme>
      */
     protected $model = AnimeTheme::class;
 

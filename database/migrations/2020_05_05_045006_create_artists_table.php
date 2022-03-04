@@ -8,10 +8,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Class CreateArtistsTable.
- */
-class CreateArtistsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -38,4 +35,4 @@ class CreateArtistsTable extends Migration
     {
         Schema::dropIfExists(Artist::TABLE);
     }
-}
+};
