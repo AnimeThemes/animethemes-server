@@ -12,13 +12,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @method Song createOne($attributes = [])
  * @method Song makeOne($attributes = [])
+ *
+ * @extends Factory<Song>
  */
 class SongFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<Song>
      */
     protected $model = Song::class;
 

@@ -13,13 +13,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @method ExternalResource createOne($attributes = [])
  * @method ExternalResource makeOne($attributes = [])
+ *
+ * @extends Factory<ExternalResource>
  */
 class ExternalResourceFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<ExternalResource>
      */
     protected $model = ExternalResource::class;
 

@@ -22,13 +22,15 @@ use Illuminate\Support\Str;
  *
  * @method Anime createOne($attributes = [])
  * @method Anime makeOne($attributes = [])
+ *
+ * @extends Factory<Anime>
  */
 class AnimeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<Anime>
      */
     protected $model = Anime::class;
 

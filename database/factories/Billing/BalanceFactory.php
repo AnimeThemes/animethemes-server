@@ -14,13 +14,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @method Balance createOne($attributes = [])
  * @method Balance makeOne($attributes = [])
+ *
+ * @extends Factory<Balance>
  */
 class BalanceFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<Balance>
      */
     protected $model = Balance::class;
 

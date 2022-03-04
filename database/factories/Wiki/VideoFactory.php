@@ -15,13 +15,15 @@ use Illuminate\Support\Str;
  *
  * @method Video createOne($attributes = [])
  * @method Video makeOne($attributes = [])
+ *
+ * @extends Factory<Video>
  */
 class VideoFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<Video>
      */
     protected $model = Video::class;
 

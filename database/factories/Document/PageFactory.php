@@ -13,13 +13,15 @@ use Illuminate\Support\Str;
  *
  * @method Page createOne($attributes = [])
  * @method Page makeOne($attributes = [])
+ *
+ * @extends Factory<Page>
  */
 class PageFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<Page>
      */
     protected $model = Page::class;
 

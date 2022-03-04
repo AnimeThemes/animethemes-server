@@ -35,8 +35,6 @@
         "cyrildewit/eloquent-viewable": "^6.1",
         "david-griffiths/nova-dark-theme": "^1.0",
         "devpartners/auditable-log": "^1.0",
-        "enlightn/enlightn": "^1.25",
-        "enlightn/enlightnpro": "^1.16",
         "fakerphp/faker": "^1.17",
         "guzzlehttp/guzzle": "^7.4",
         "illuminatech/nova-config": "^1.0",
@@ -66,7 +64,7 @@
         "joshgaber/novaunit": "^2.3",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
-        "nunomaduro/larastan": "^1.0",
+        "nunomaduro/larastan": "^2.0",
         "phpunit/phpunit": "^9.5.10",
         "predis/predis": "^1.1.9",
         "spatie/laravel-ignition": "^1.0"
@@ -119,10 +117,6 @@
         {
             "type": "composer",
             "url": "https://nova.laravel.com"
-        },
-        {
-            "type": "composer",
-            "url": "https://satis.laravel-enlightn.com"
         }
     ]
 }
