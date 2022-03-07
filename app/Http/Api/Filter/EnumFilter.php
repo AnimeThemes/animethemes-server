@@ -20,7 +20,7 @@ class EnumFilter extends Filter
      * @param  string|null  $column
      * @param  class-string<BaseEnum>  $enumClass
      */
-    public function __construct(string $key, protected string $enumClass, ?string $column = null)
+    public function __construct(string $key, protected readonly string $enumClass, ?string $column = null)
     {
         parent::__construct($key, $column);
     }

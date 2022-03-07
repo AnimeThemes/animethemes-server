@@ -19,7 +19,7 @@ use Illuminate\Http\Resources\MissingValue;
  */
 class VideoResource extends BaseResource
 {
-    public const ATTRIBUTE_LINK = 'link';
+    final public const ATTRIBUTE_LINK = 'link';
 
     /**
      * The "data" wrapper that should be applied.

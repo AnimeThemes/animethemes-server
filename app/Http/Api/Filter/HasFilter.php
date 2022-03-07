@@ -20,7 +20,7 @@ class HasFilter extends Filter
      *
      * @var Collection
      */
-    protected Collection $allowedIncludePaths;
+    protected readonly Collection $allowedIncludePaths;
 
     /**
      * Create a new filter instance.

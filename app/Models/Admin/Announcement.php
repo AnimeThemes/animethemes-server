@@ -21,10 +21,10 @@ use Database\Factories\Admin\AnnouncementFactory;
  */
 class Announcement extends BaseModel
 {
-    public const TABLE = 'announcements';
+    final public const TABLE = 'announcements';
 
-    public const ATTRIBUTE_CONTENT = 'content';
-    public const ATTRIBUTE_ID = 'announcement_id';
+    final public const ATTRIBUTE_CONTENT = 'content';
+    final public const ATTRIBUTE_ID = 'announcement_id';
 
     /**
      * The attributes that are mass assignable.

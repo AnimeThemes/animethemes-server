@@ -20,7 +20,7 @@ use Laravel\Jetstream\TeamInvitation as JetstreamTeamInvitation;
  */
 class TeamInvitation extends JetstreamTeamInvitation
 {
-    public const TABLE = 'team_invitations';
+    final public const TABLE = 'team_invitations';
 
     /**
      * The table associated with the model.

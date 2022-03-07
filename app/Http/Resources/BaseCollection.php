@@ -19,7 +19,7 @@ abstract class BaseCollection extends ResourceCollection
      * @param  Query  $query
      * @return void
      */
-    public function __construct(mixed $resource, protected Query $query)
+    public function __construct(mixed $resource, protected readonly Query $query)
     {
         parent::__construct($resource);
     }

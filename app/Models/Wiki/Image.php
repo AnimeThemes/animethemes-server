@@ -34,16 +34,16 @@ use Illuminate\Support\Collection;
  */
 class Image extends BaseModel implements Streamable
 {
-    public const TABLE = 'images';
+    final public const TABLE = 'images';
 
-    public const ATTRIBUTE_FACET = 'facet';
-    public const ATTRIBUTE_ID = 'image_id';
-    public const ATTRIBUTE_MIMETYPE = 'mimetype';
-    public const ATTRIBUTE_PATH = 'path';
-    public const ATTRIBUTE_SIZE = 'size';
+    final public const ATTRIBUTE_FACET = 'facet';
+    final public const ATTRIBUTE_ID = 'image_id';
+    final public const ATTRIBUTE_MIMETYPE = 'mimetype';
+    final public const ATTRIBUTE_PATH = 'path';
+    final public const ATTRIBUTE_SIZE = 'size';
 
-    public const RELATION_ANIME = 'anime';
-    public const RELATION_ARTISTS = 'artists';
+    final public const RELATION_ANIME = 'anime';
+    final public const RELATION_ARTISTS = 'artists';
 
     /**
      * The attributes that are mass assignable.

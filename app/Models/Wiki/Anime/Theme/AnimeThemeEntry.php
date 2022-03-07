@@ -44,21 +44,21 @@ class AnimeThemeEntry extends BaseModel
     use Searchable;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 
-    public const TABLE = 'anime_theme_entries';
+    final public const TABLE = 'anime_theme_entries';
 
-    public const ATTRIBUTE_EPISODES = 'episodes';
-    public const ATTRIBUTE_ID = 'entry_id';
-    public const ATTRIBUTE_NOTES = 'notes';
-    public const ATTRIBUTE_NSFW = 'nsfw';
-    public const ATTRIBUTE_SPOILER = 'spoiler';
-    public const ATTRIBUTE_THEME = 'theme_id';
-    public const ATTRIBUTE_VERSION = 'version';
+    final public const ATTRIBUTE_EPISODES = 'episodes';
+    final public const ATTRIBUTE_ID = 'entry_id';
+    final public const ATTRIBUTE_NOTES = 'notes';
+    final public const ATTRIBUTE_NSFW = 'nsfw';
+    final public const ATTRIBUTE_SPOILER = 'spoiler';
+    final public const ATTRIBUTE_THEME = 'theme_id';
+    final public const ATTRIBUTE_VERSION = 'version';
 
-    public const RELATION_ANIME = 'animetheme.anime';
-    public const RELATION_SONG = 'animetheme.song';
-    public const RELATION_SYNONYMS = 'animetheme.anime.animesynonyms';
-    public const RELATION_THEME = 'animetheme';
-    public const RELATION_VIDEOS = 'videos';
+    final public const RELATION_ANIME = 'animetheme.anime';
+    final public const RELATION_SONG = 'animetheme.song';
+    final public const RELATION_SYNONYMS = 'animetheme.anime.animesynonyms';
+    final public const RELATION_THEME = 'animetheme';
+    final public const RELATION_VIDEOS = 'videos';
 
     /**
      * The attributes that are mass assignable.

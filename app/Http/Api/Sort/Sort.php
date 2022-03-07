@@ -18,7 +18,7 @@ class Sort
      * @param  string  $key
      * @param  string|null  $column
      */
-    public function __construct(protected string $key, protected ?string $column = null)
+    public function __construct(protected readonly string $key, protected readonly ?string $column = null)
     {
     }
 

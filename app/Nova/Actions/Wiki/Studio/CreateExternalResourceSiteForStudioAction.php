@@ -26,7 +26,7 @@ class CreateExternalResourceSiteForStudioAction extends Action
     /**
      * @param  int  $site
      */
-    public function __construct(protected int $site)
+    public function __construct(protected readonly int $site)
     {
     }
 

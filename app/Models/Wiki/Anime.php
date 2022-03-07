@@ -49,25 +49,25 @@ class Anime extends BaseModel
 {
     use Searchable;
 
-    public const TABLE = 'anime';
+    final public const TABLE = 'anime';
 
-    public const ATTRIBUTE_ID = 'anime_id';
-    public const ATTRIBUTE_NAME = 'name';
-    public const ATTRIBUTE_SEASON = 'season';
-    public const ATTRIBUTE_SLUG = 'slug';
-    public const ATTRIBUTE_SYNOPSIS = 'synopsis';
-    public const ATTRIBUTE_YEAR = 'year';
+    final public const ATTRIBUTE_ID = 'anime_id';
+    final public const ATTRIBUTE_NAME = 'name';
+    final public const ATTRIBUTE_SEASON = 'season';
+    final public const ATTRIBUTE_SLUG = 'slug';
+    final public const ATTRIBUTE_SYNOPSIS = 'synopsis';
+    final public const ATTRIBUTE_YEAR = 'year';
 
-    public const RELATION_ARTISTS = 'animethemes.song.artists';
-    public const RELATION_ENTRIES = 'animethemes.animethemeentries';
-    public const RELATION_IMAGES = 'images';
-    public const RELATION_RESOURCES = 'resources';
-    public const RELATION_SERIES = 'series';
-    public const RELATION_SONG = 'animethemes.song';
-    public const RELATION_STUDIOS = 'studios';
-    public const RELATION_SYNONYMS = 'animesynonyms';
-    public const RELATION_THEMES = 'animethemes';
-    public const RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
+    final public const RELATION_ARTISTS = 'animethemes.song.artists';
+    final public const RELATION_ENTRIES = 'animethemes.animethemeentries';
+    final public const RELATION_IMAGES = 'images';
+    final public const RELATION_RESOURCES = 'resources';
+    final public const RELATION_SERIES = 'series';
+    final public const RELATION_SONG = 'animethemes.song';
+    final public const RELATION_STUDIOS = 'studios';
+    final public const RELATION_SYNONYMS = 'animesynonyms';
+    final public const RELATION_THEMES = 'animethemes';
+    final public const RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
     /**
      * The attributes that are mass assignable.

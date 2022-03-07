@@ -21,10 +21,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class AnimeThemeEntryVideo extends BasePivot
 {
-    public const TABLE = 'anime_theme_entry_video';
+    final public const TABLE = 'anime_theme_entry_video';
 
-    public const ATTRIBUTE_ENTRY = 'entry_id';
-    public const ATTRIBUTE_VIDEO = 'video_id';
+    final public const ATTRIBUTE_ENTRY = 'entry_id';
+    final public const ATTRIBUTE_VIDEO = 'video_id';
 
     /**
      * The table associated with the model.

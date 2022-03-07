@@ -16,7 +16,7 @@ class RelationScope extends Scope
      *
      * @param  string  $relation
      */
-    public function __construct(protected string $relation)
+    public function __construct(protected readonly string $relation)
     {
     }
 

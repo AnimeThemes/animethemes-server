@@ -31,14 +31,14 @@ use Illuminate\Support\Str;
  */
 class Balance extends BaseModel
 {
-    public const TABLE = 'balances';
+    final public const TABLE = 'balances';
 
-    public const ATTRIBUTE_BALANCE = 'balance';
-    public const ATTRIBUTE_DATE = 'date';
-    public const ATTRIBUTE_FREQUENCY = 'frequency';
-    public const ATTRIBUTE_ID = 'balance_id';
-    public const ATTRIBUTE_SERVICE = 'service';
-    public const ATTRIBUTE_USAGE = 'usage';
+    final public const ATTRIBUTE_BALANCE = 'balance';
+    final public const ATTRIBUTE_DATE = 'date';
+    final public const ATTRIBUTE_FREQUENCY = 'frequency';
+    final public const ATTRIBUTE_ID = 'balance_id';
+    final public const ATTRIBUTE_SERVICE = 'service';
+    final public const ATTRIBUTE_USAGE = 'usage';
 
     /**
      * The attributes that are mass assignable.

@@ -23,11 +23,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class StudioResource extends BasePivot
 {
-    public const TABLE = 'studio_resource';
+    final public const TABLE = 'studio_resource';
 
-    public const ATTRIBUTE_AS = 'as';
-    public const ATTRIBUTE_STUDIO = 'studio_id';
-    public const ATTRIBUTE_RESOURCE = 'resource_id';
+    final public const ATTRIBUTE_AS = 'as';
+    final public const ATTRIBUTE_STUDIO = 'studio_id';
+    final public const ATTRIBUTE_RESOURCE = 'resource_id';
 
     /**
      * The attributes that are mass assignable.

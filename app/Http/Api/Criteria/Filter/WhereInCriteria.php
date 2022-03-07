@@ -30,7 +30,7 @@ class WhereInCriteria extends Criteria
     final public function __construct(
         Predicate $predicate,
         BinaryLogicalOperator $operator,
-        protected bool $not,
+        protected readonly bool $not,
         Scope $scope
     ) {
         parent::__construct($predicate, $operator, $scope);

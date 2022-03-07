@@ -15,15 +15,15 @@ use Illuminate\Support\Str;
  */
 class WikiPages
 {
-    public const ANIME_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/anime_index.json';
+    final public const ANIME_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/anime_index.json';
 
-    public const ARTIST_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/artist.json';
+    final public const ARTIST_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/artist.json';
 
-    public const SERIES_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/series.json';
+    final public const SERIES_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/series.json';
 
-    public const MISC_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/misc.json';
+    final public const MISC_INDEX = 'https://www.reddit.com/r/AnimeThemes/wiki/misc.json';
 
-    public const YEAR_MAP = [
+    final public const YEAR_MAP = [
         'https://www.reddit.com/r/AnimeThemes/wiki/60s.json' => [1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969],
         'https://www.reddit.com/r/AnimeThemes/wiki/70s.json' => [1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979],
         'https://www.reddit.com/r/AnimeThemes/wiki/80s.json' => [1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989],

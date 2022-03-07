@@ -14,14 +14,14 @@ use JsonSerializable;
  */
 class DiscordEmbedField implements Arrayable, JsonSerializable
 {
-    public const DEFAULT_FIELD_VALUE = '-';
+    final public const DEFAULT_FIELD_VALUE = '-';
 
     /**
      * The value of the field.
      *
      * @var string
      */
-    protected string $value;
+    protected readonly string $value;
 
     /**
      * Create a new field instance.
@@ -31,9 +31,9 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      * @param  bool  $inline
      */
     final public function __construct(
-        protected string $name,
+        protected readonly string $name,
         mixed $value,
-        protected bool $inline = false
+        protected readonly bool $inline = false
     ) {
         $this->value = $this->formatEmbedFieldValue($value);
     }

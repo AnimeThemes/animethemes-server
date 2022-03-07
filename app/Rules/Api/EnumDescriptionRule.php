@@ -18,7 +18,7 @@ class EnumDescriptionRule implements Rule
      * @param  class-string<BaseEnum>  $enumClass
      * @return void
      */
-    public function __construct(protected string $enumClass)
+    public function __construct(protected readonly string $enumClass)
     {
     }
 

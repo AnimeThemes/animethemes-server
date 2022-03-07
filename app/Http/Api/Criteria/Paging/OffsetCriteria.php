@@ -18,9 +18,9 @@ use Illuminate\Support\Str;
  */
 class OffsetCriteria extends Criteria
 {
-    public const SIZE_PARAM = 'size';
+    final public const SIZE_PARAM = 'size';
 
-    public const NUMBER_PARAM = 'number';
+    final public const NUMBER_PARAM = 'number';
 
     /**
      * Get the intended pagination strategy.

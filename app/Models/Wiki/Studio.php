@@ -32,14 +32,14 @@ class Studio extends BaseModel
 {
     use Searchable;
 
-    public const TABLE = 'studios';
+    final public const TABLE = 'studios';
 
-    public const ATTRIBUTE_ID = 'studio_id';
-    public const ATTRIBUTE_NAME = 'name';
-    public const ATTRIBUTE_SLUG = 'slug';
+    final public const ATTRIBUTE_ID = 'studio_id';
+    final public const ATTRIBUTE_NAME = 'name';
+    final public const ATTRIBUTE_SLUG = 'slug';
 
-    public const RELATION_ANIME = 'anime';
-    public const RELATION_RESOURCES = 'resources';
+    final public const RELATION_ANIME = 'anime';
+    final public const RELATION_RESOURCES = 'resources';
 
     /**
      * The attributes that are mass assignable.

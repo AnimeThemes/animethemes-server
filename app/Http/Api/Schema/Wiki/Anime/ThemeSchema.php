@@ -27,9 +27,11 @@ use App\Models\Wiki\Anime\AnimeTheme;
  */
 class ThemeSchema extends EloquentSchema
 {
-    public const SORT_SEASON = 'anime.season';
-    public const SORT_TITLE = 'song.title';
-    public const SORT_YEAR = 'anime.year';
+    final public const SORT_SEASON = 'anime.season';
+
+    final public const SORT_TITLE = 'song.title';
+
+    final public const SORT_YEAR = 'anime.year';
 
     /**
      * The model this schema represents.

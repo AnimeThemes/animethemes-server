@@ -21,7 +21,7 @@ class FieldCriteria extends Criteria
      * @param  string  $field
      * @param  Direction  $direction
      */
-    public function __construct(Scope $scope, string $field, protected Direction $direction)
+    public function __construct(Scope $scope, string $field, protected readonly Direction $direction)
     {
         parent::__construct($scope, $field);
     }

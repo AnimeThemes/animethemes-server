@@ -26,7 +26,7 @@ class TransparencyRequest extends FormRequest
      *
      * @var Collection
      */
-    protected Collection $validDates;
+    protected readonly Collection $validDates;
 
     /**
      * Create a new rule instance.
