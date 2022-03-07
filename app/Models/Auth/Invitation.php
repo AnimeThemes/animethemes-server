@@ -25,12 +25,12 @@ use Database\Factories\Auth\InvitationFactory;
  */
 class Invitation extends BaseModel
 {
-    public const TABLE = 'invitations';
+    final public const TABLE = 'invitations';
 
-    public const ATTRIBUTE_EMAIL = 'email';
-    public const ATTRIBUTE_ID = 'invitation_id';
-    public const ATTRIBUTE_NAME = 'name';
-    public const ATTRIBUTE_STATUS = 'status';
+    final public const ATTRIBUTE_EMAIL = 'email';
+    final public const ATTRIBUTE_ID = 'invitation_id';
+    final public const ATTRIBUTE_NAME = 'name';
+    final public const ATTRIBUTE_STATUS = 'status';
 
     /**
      * The attributes that are mass assignable.

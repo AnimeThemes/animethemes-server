@@ -14,16 +14,16 @@ use Illuminate\Support\Collection;
  */
 abstract class Criteria
 {
-    public const MAX_RESULTS = 30;
+    final public const MAX_RESULTS = 30;
 
-    public const DEFAULT_SIZE = 15;
+    final public const DEFAULT_SIZE = 15;
 
     /**
      * Create a new criteria instance.
      *
      * @param  int  $resultSize
      */
-    public function __construct(protected int $resultSize)
+    public function __construct(protected readonly int $resultSize)
     {
     }
 

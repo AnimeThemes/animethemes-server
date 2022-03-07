@@ -16,7 +16,7 @@ class AllowedInclude
      *
      * @var Schema
      */
-    protected Schema $schema;
+    protected readonly Schema $schema;
 
     /**
      * Create a new AllowedIncludePath instance.
@@ -24,7 +24,7 @@ class AllowedInclude
      * @param  class-string<Schema>  $schemaClass
      * @param  string  $path
      */
-    final public function __construct(string $schemaClass, protected string $path)
+    final public function __construct(string $schemaClass, protected readonly string $path)
     {
         $this->schema = new $schemaClass();
     }

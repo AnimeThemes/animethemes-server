@@ -17,7 +17,7 @@ class ResourceCriteria extends Criteria
      * @param  string  $type
      * @param  Collection  $paths
      */
-    public function __construct(protected string $type, Collection $paths)
+    public function __construct(protected readonly string $type, Collection $paths)
     {
         parent::__construct($paths);
     }

@@ -14,7 +14,7 @@ class TypeScope extends Scope
      *
      * @param  string  $type
      */
-    public function __construct(protected string $type)
+    public function __construct(protected readonly string $type)
     {
     }
 

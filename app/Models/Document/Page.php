@@ -23,12 +23,12 @@ use Database\Factories\Document\PageFactory;
  */
 class Page extends BaseModel
 {
-    public const TABLE = 'pages';
+    final public const TABLE = 'pages';
 
-    public const ATTRIBUTE_BODY = 'body';
-    public const ATTRIBUTE_ID = 'page_id';
-    public const ATTRIBUTE_NAME = 'name';
-    public const ATTRIBUTE_SLUG = 'slug';
+    final public const ATTRIBUTE_BODY = 'body';
+    final public const ATTRIBUTE_ID = 'page_id';
+    final public const ATTRIBUTE_NAME = 'name';
+    final public const ATTRIBUTE_SLUG = 'slug';
 
     /**
      * The attributes that are mass assignable.

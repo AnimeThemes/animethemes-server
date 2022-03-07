@@ -18,7 +18,7 @@ use Illuminate\Http\Resources\MissingValue;
  */
 class BalanceResource extends BaseResource
 {
-    public const ATTRIBUTE_BALANCE = 'month_to_date_balance';
+    final public const ATTRIBUTE_BALANCE = 'month_to_date_balance';
 
     /**
      * The "data" wrapper that should be applied.

@@ -51,18 +51,18 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     use SoftDeletes;
     use TwoFactorAuthenticatable;
 
-    public const TABLE = 'users';
+    final public const TABLE = 'users';
 
-    public const ATTRIBUTE_EMAIL = 'email';
-    public const ATTRIBUTE_CURRENT_TEAM = 'current_team_id';
-    public const ATTRIBUTE_DELETED_AT = 'deleted_at';
-    public const ATTRIBUTE_EMAIL_VERIFIED_AT = 'email_verified_at';
-    public const ATTRIBUTE_ID = 'id';
-    public const ATTRIBUTE_NAME = 'name';
-    public const ATTRIBUTE_PASSWORD = 'password';
-    public const ATTRIBUTE_REMEMBER_TOKEN = 'remember_token';
-    public const ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES = 'two_factor_recovery_codes';
-    public const ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
+    final public const ATTRIBUTE_EMAIL = 'email';
+    final public const ATTRIBUTE_CURRENT_TEAM = 'current_team_id';
+    final public const ATTRIBUTE_DELETED_AT = 'deleted_at';
+    final public const ATTRIBUTE_EMAIL_VERIFIED_AT = 'email_verified_at';
+    final public const ATTRIBUTE_ID = 'id';
+    final public const ATTRIBUTE_NAME = 'name';
+    final public const ATTRIBUTE_PASSWORD = 'password';
+    final public const ATTRIBUTE_REMEMBER_TOKEN = 'remember_token';
+    final public const ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES = 'two_factor_recovery_codes';
+    final public const ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
 
     /**
      * The attributes that are mass assignable.

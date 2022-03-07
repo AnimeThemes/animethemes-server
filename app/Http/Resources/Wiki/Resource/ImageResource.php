@@ -20,7 +20,7 @@ use Illuminate\Http\Resources\MissingValue;
  */
 class ImageResource extends BaseResource
 {
-    public const ATTRIBUTE_LINK = 'link';
+    final public const ATTRIBUTE_LINK = 'link';
 
     /**
      * The "data" wrapper that should be applied.

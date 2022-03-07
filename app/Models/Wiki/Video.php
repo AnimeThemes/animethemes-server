@@ -50,28 +50,28 @@ class Video extends BaseModel implements Streamable, Viewable
     use Searchable;
     use InteractsWithViews;
 
-    public const TABLE = 'videos';
+    final public const TABLE = 'videos';
 
-    public const ATTRIBUTE_BASENAME = 'basename';
-    public const ATTRIBUTE_FILENAME = 'filename';
-    public const ATTRIBUTE_ID = 'video_id';
-    public const ATTRIBUTE_LYRICS = 'lyrics';
-    public const ATTRIBUTE_MIMETYPE = 'mimetype';
-    public const ATTRIBUTE_NC = 'nc';
-    public const ATTRIBUTE_OVERLAP = 'overlap';
-    public const ATTRIBUTE_PATH = 'path';
-    public const ATTRIBUTE_RESOLUTION = 'resolution';
-    public const ATTRIBUTE_SIZE = 'size';
-    public const ATTRIBUTE_SOURCE = 'source';
-    public const ATTRIBUTE_SUBBED = 'subbed';
-    public const ATTRIBUTE_TAGS = 'tags';
-    public const ATTRIBUTE_UNCEN = 'uncen';
+    final public const ATTRIBUTE_BASENAME = 'basename';
+    final public const ATTRIBUTE_FILENAME = 'filename';
+    final public const ATTRIBUTE_ID = 'video_id';
+    final public const ATTRIBUTE_LYRICS = 'lyrics';
+    final public const ATTRIBUTE_MIMETYPE = 'mimetype';
+    final public const ATTRIBUTE_NC = 'nc';
+    final public const ATTRIBUTE_OVERLAP = 'overlap';
+    final public const ATTRIBUTE_PATH = 'path';
+    final public const ATTRIBUTE_RESOLUTION = 'resolution';
+    final public const ATTRIBUTE_SIZE = 'size';
+    final public const ATTRIBUTE_SOURCE = 'source';
+    final public const ATTRIBUTE_SUBBED = 'subbed';
+    final public const ATTRIBUTE_TAGS = 'tags';
+    final public const ATTRIBUTE_UNCEN = 'uncen';
 
-    public const RELATION_ANIME = 'animethemeentries.animetheme.anime';
-    public const RELATION_ANIMESYNONYMS = 'animethemeentries.animetheme.anime.animesynonyms';
-    public const RELATION_ANIMETHEME = 'animethemeentries.animetheme';
-    public const RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
-    public const RELATION_SONG = 'animethemeentries.animetheme.song';
+    final public const RELATION_ANIME = 'animethemeentries.animetheme.anime';
+    final public const RELATION_ANIMESYNONYMS = 'animethemeentries.animetheme.anime.animesynonyms';
+    final public const RELATION_ANIMETHEME = 'animethemeentries.animetheme';
+    final public const RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
+    final public const RELATION_SONG = 'animethemeentries.animetheme.song';
 
     /**
      * The attributes that are mass assignable.

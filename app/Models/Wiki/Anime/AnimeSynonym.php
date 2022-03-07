@@ -28,14 +28,14 @@ class AnimeSynonym extends BaseModel
 {
     use Searchable;
 
-    public const TABLE = 'anime_synonyms';
+    final public const TABLE = 'anime_synonyms';
 
-    public const ATTRIBUTE_ANIME = 'anime_id';
-    public const ATTRIBUTE_ID = 'synonym_id';
-    public const ATTRIBUTE_TEXT = 'text';
+    final public const ATTRIBUTE_ANIME = 'anime_id';
+    final public const ATTRIBUTE_ID = 'synonym_id';
+    final public const ATTRIBUTE_TEXT = 'text';
 
-    public const RELATION_ANIME = 'anime';
-    public const RELATION_VIDEOS = 'anime.animethemes.animethemeentries.videos';
+    final public const RELATION_ANIME = 'anime';
+    final public const RELATION_VIDEOS = 'anime.animethemes.animethemeentries.videos';
 
     /**
      * The attributes that are mass assignable.

@@ -32,12 +32,12 @@ class Team extends JetstreamTeam
 {
     use HasFactory;
 
-    public const TABLE = 'teams';
+    final public const TABLE = 'teams';
 
-    public const ATTRIBUTE_ID = 'id';
-    public const ATTRIBUTE_NAME = 'name';
-    public const ATTRIBUTE_PERSONAL_TEAM = 'personal_team';
-    public const ATTRIBUTE_USER = 'user_id';
+    final public const ATTRIBUTE_ID = 'id';
+    final public const ATTRIBUTE_NAME = 'name';
+    final public const ATTRIBUTE_PERSONAL_TEAM = 'personal_team';
+    final public const ATTRIBUTE_USER = 'user_id';
 
     /**
      * The attributes that are mass assignable.

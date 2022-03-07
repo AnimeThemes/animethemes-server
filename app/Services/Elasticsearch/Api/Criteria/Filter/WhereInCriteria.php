@@ -16,7 +16,7 @@ use ElasticScoutDriverPlus\Support\Query as ElasticQuery;
  */
 class WhereInCriteria extends Criteria
 {
-    protected bool $not;
+    protected readonly bool $not;
 
     /**
      * Create a new criteria instance.

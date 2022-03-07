@@ -19,8 +19,8 @@ abstract class BasePivot extends Pivot
 {
     use HasFactory;
 
-    public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
-    public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
+    final public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
+    final public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
 
     /**
      * The storage format of the model's date columns.

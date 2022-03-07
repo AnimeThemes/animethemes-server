@@ -15,8 +15,9 @@ use Laravel\Nova\Filters\Filter;
  */
 class VideoTypeFilter extends Filter
 {
-    public const ANIME = 'anime';
-    public const MISC = 'misc';
+    final public const ANIME = 'anime';
+
+    final public const MISC = 'misc';
 
     /**
      * The filter's component.

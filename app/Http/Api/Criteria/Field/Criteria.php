@@ -17,7 +17,7 @@ class Criteria
      * @param  string  $type
      * @param  Collection<string>  $fields
      */
-    public function __construct(protected string $type, protected Collection $fields)
+    public function __construct(protected readonly string $type, protected readonly Collection $fields)
     {
     }
 

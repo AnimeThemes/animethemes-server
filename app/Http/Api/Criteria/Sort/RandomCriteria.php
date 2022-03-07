@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class RandomCriteria extends Criteria
 {
-    public const PARAM_VALUE = 'random';
+    final public const PARAM_VALUE = 'random';
 
     /**
      * Create a new criteria instance.

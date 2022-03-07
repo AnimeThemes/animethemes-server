@@ -34,9 +34,9 @@ abstract class BaseModel extends Model implements Auditable, Nameable
      */
     protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
-    public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
-    public const ATTRIBUTE_DELETED_AT = 'deleted_at';
-    public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
+    final public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
+    final public const ATTRIBUTE_DELETED_AT = 'deleted_at';
+    final public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
 
     /**
      * Retrieve the model for a bound value.

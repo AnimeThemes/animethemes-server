@@ -31,42 +31,42 @@ abstract class Query
      *
      * @var FieldCriteria[]
      */
-    protected array $fieldCriteria;
+    protected readonly array $fieldCriteria;
 
     /**
      * The list of include paths per type.
      *
      * @var IncludeCriteria[]
      */
-    protected array $includeCriteria;
+    protected readonly array $includeCriteria;
 
     /**
      * The list of sort criteria to apply to the query.
      *
      * @var SortCriteria[]
      */
-    protected array $sortCriteria;
+    protected readonly array $sortCriteria;
 
     /**
      * The list of filter criteria to apply to the query.
      *
      * @var FilterCriteria[]
      */
-    protected array $filterCriteria;
+    protected readonly array $filterCriteria;
 
     /**
      * The list of search criteria to apply to the query.
      *
      * @var SearchCriteria[]
      */
-    protected array $searchCriteria;
+    protected readonly array $searchCriteria;
 
     /**
      * The list of paging criteria to apply to the query.
      *
      * @var PagingCriteria[]
      */
-    protected array $pagingCriteria;
+    protected readonly array $pagingCriteria;
 
     /**
      * Create a new query instance.

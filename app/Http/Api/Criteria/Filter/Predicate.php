@@ -19,9 +19,9 @@ class Predicate
      * @param  Expression  $expression
      */
     public function __construct(
-        protected string $column,
-        protected ?ComparisonOperator $operator,
-        protected Expression $expression
+        protected readonly string $column,
+        protected readonly ?ComparisonOperator $operator,
+        protected readonly Expression $expression
     ) {
     }
 

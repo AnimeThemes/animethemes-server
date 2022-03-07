@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
  */
 class TrashedCriteria extends Criteria
 {
-    public const PARAM_VALUE = 'trashed';
+    final public const PARAM_VALUE = 'trashed';
 
     /**
      * Create a new criteria instance.

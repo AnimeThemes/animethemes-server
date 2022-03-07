@@ -14,7 +14,7 @@ class Criteria
      *
      * @param  string  $term
      */
-    public function __construct(protected string $term)
+    public function __construct(protected readonly string $term)
     {
     }
 

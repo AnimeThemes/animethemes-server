@@ -18,8 +18,9 @@ use Illuminate\Support\Collection;
  */
 abstract class Criteria
 {
-    public const PARAM_SEPARATOR = '-';
-    public const VALUE_SEPARATOR = ',';
+    final public const PARAM_SEPARATOR = '-';
+
+    final public const VALUE_SEPARATOR = ',';
 
     /**
      * Create a new criteria instance.
@@ -29,9 +30,9 @@ abstract class Criteria
      * @param  Scope  $scope
      */
     public function __construct(
-        protected Predicate $predicate,
-        protected BinaryLogicalOperator $operator,
-        protected Scope $scope
+        protected readonly Predicate $predicate,
+        protected readonly BinaryLogicalOperator $operator,
+        protected readonly Scope $scope
     ) {
     }
 

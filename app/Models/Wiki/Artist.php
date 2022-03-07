@@ -39,19 +39,19 @@ class Artist extends BaseModel
 {
     use Searchable;
 
-    public const TABLE = 'artists';
+    final public const TABLE = 'artists';
 
-    public const ATTRIBUTE_ID = 'artist_id';
-    public const ATTRIBUTE_NAME = 'name';
-    public const ATTRIBUTE_SLUG = 'slug';
+    final public const ATTRIBUTE_ID = 'artist_id';
+    final public const ATTRIBUTE_NAME = 'name';
+    final public const ATTRIBUTE_SLUG = 'slug';
 
-    public const RELATION_ANIME = 'songs.animethemes.anime';
-    public const RELATION_ANIMETHEMES = 'songs.animethemes';
-    public const RELATION_GROUPS = 'groups';
-    public const RELATION_IMAGES = 'images';
-    public const RELATION_MEMBERS = 'members';
-    public const RELATION_RESOURCES = 'resources';
-    public const RELATION_SONGS = 'songs';
+    final public const RELATION_ANIME = 'songs.animethemes.anime';
+    final public const RELATION_ANIMETHEMES = 'songs.animethemes';
+    final public const RELATION_GROUPS = 'groups';
+    final public const RELATION_IMAGES = 'images';
+    final public const RELATION_MEMBERS = 'members';
+    final public const RELATION_RESOURCES = 'resources';
+    final public const RELATION_SONGS = 'songs';
 
     /**
      * The attributes that are mass assignable.

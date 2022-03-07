@@ -34,16 +34,16 @@ use Illuminate\Support\Collection;
  */
 class ExternalResource extends BaseModel
 {
-    public const TABLE = 'resources';
+    final public const TABLE = 'resources';
 
-    public const ATTRIBUTE_EXTERNAL_ID = 'external_id';
-    public const ATTRIBUTE_ID = 'resource_id';
-    public const ATTRIBUTE_LINK = 'link';
-    public const ATTRIBUTE_SITE = 'site';
+    final public const ATTRIBUTE_EXTERNAL_ID = 'external_id';
+    final public const ATTRIBUTE_ID = 'resource_id';
+    final public const ATTRIBUTE_LINK = 'link';
+    final public const ATTRIBUTE_SITE = 'site';
 
-    public const RELATION_ANIME = 'anime';
-    public const RELATION_ARTISTS = 'artists';
-    public const RELATION_STUDIOS = 'studios';
+    final public const RELATION_ANIME = 'anime';
+    final public const RELATION_ARTISTS = 'artists';
+    final public const RELATION_STUDIOS = 'studios';
 
     /**
      * The attributes that are mass assignable.

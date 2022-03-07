@@ -9,7 +9,7 @@ namespace App\Constants\Config;
  */
 class WikiConstants
 {
-    public const FEATURED_THEME_SETTING = 'featured_theme';
+    final public const FEATURED_THEME_SETTING = 'featured_theme';
 
-    public const FEATURED_THEME_SETTING_QUALIFIED = 'wiki.featured_theme';
+    final public const FEATURED_THEME_SETTING_QUALIFIED = 'wiki.featured_theme';
 }

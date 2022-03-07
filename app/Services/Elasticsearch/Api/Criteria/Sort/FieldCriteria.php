@@ -14,7 +14,7 @@ use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
  */
 class FieldCriteria extends Criteria
 {
-    protected Direction $direction;
+    protected readonly Direction $direction;
 
     /**
      * Create a new criteria instance.

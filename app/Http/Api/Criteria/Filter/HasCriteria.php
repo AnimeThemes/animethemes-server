@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
  */
 class HasCriteria extends Criteria
 {
-    public const PARAM_VALUE = 'has';
+    final public const PARAM_VALUE = 'has';
 
     /**
      * Create a new criteria instance.
@@ -34,7 +34,7 @@ class HasCriteria extends Criteria
         Predicate $predicate,
         BinaryLogicalOperator $operator,
         Scope $scope,
-        protected int $count = 1,
+        protected readonly int $count = 1,
     ) {
         parent::__construct($predicate, $operator, $scope);
     }

@@ -29,13 +29,13 @@ class Series extends BaseModel
 {
     use Searchable;
 
-    public const TABLE = 'series';
+    final public const TABLE = 'series';
 
-    public const ATTRIBUTE_ID = 'series_id';
-    public const ATTRIBUTE_NAME = 'name';
-    public const ATTRIBUTE_SLUG = 'slug';
+    final public const ATTRIBUTE_ID = 'series_id';
+    final public const ATTRIBUTE_NAME = 'name';
+    final public const ATTRIBUTE_SLUG = 'slug';
 
-    public const RELATION_ANIME = 'anime';
+    final public const RELATION_ANIME = 'anime';
 
     /**
      * The attributes that are mass assignable.

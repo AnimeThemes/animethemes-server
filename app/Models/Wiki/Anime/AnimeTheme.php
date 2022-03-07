@@ -43,23 +43,23 @@ class AnimeTheme extends BaseModel
 {
     use Searchable;
 
-    public const TABLE = 'anime_themes';
+    final public const TABLE = 'anime_themes';
 
-    public const ATTRIBUTE_ANIME = 'anime_id';
-    public const ATTRIBUTE_GROUP = 'group';
-    public const ATTRIBUTE_ID = 'theme_id';
-    public const ATTRIBUTE_SEQUENCE = 'sequence';
-    public const ATTRIBUTE_SLUG = 'slug';
-    public const ATTRIBUTE_SONG = 'song_id';
-    public const ATTRIBUTE_TYPE = 'type';
+    final public const ATTRIBUTE_ANIME = 'anime_id';
+    final public const ATTRIBUTE_GROUP = 'group';
+    final public const ATTRIBUTE_ID = 'theme_id';
+    final public const ATTRIBUTE_SEQUENCE = 'sequence';
+    final public const ATTRIBUTE_SLUG = 'slug';
+    final public const ATTRIBUTE_SONG = 'song_id';
+    final public const ATTRIBUTE_TYPE = 'type';
 
-    public const RELATION_ANIME = 'anime';
-    public const RELATION_ARTISTS = 'song.artists';
-    public const RELATION_ENTRIES = 'animethemeentries';
-    public const RELATION_IMAGES = 'anime.images';
-    public const RELATION_SONG = 'song';
-    public const RELATION_SYNONYMS = 'anime.animesynonyms';
-    public const RELATION_VIDEOS = 'animethemeentries.videos';
+    final public const RELATION_ANIME = 'anime';
+    final public const RELATION_ARTISTS = 'song.artists';
+    final public const RELATION_ENTRIES = 'animethemeentries';
+    final public const RELATION_IMAGES = 'anime.images';
+    final public const RELATION_SONG = 'song';
+    final public const RELATION_SYNONYMS = 'anime.animesynonyms';
+    final public const RELATION_VIDEOS = 'animethemeentries.videos';
 
     /**
      * The attributes that are mass assignable.

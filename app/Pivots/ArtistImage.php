@@ -21,10 +21,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ArtistImage extends BasePivot
 {
-    public const TABLE = 'artist_image';
+    final public const TABLE = 'artist_image';
 
-    public const ATTRIBUTE_ARTIST = 'artist_id';
-    public const ATTRIBUTE_IMAGE = 'image_id';
+    final public const ATTRIBUTE_ARTIST = 'artist_id';
+    final public const ATTRIBUTE_IMAGE = 'image_id';
 
     /**
      * The table associated with the model.

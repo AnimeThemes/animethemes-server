@@ -23,11 +23,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class AnimeResource extends BasePivot
 {
-    public const TABLE = 'anime_resource';
+    final public const TABLE = 'anime_resource';
 
-    public const ATTRIBUTE_ANIME = 'anime_id';
-    public const ATTRIBUTE_AS = 'as';
-    public const ATTRIBUTE_RESOURCE = 'resource_id';
+    final public const ATTRIBUTE_ANIME = 'anime_id';
+    final public const ATTRIBUTE_AS = 'as';
+    final public const ATTRIBUTE_RESOURCE = 'resource_id';
 
     /**
      * The attributes that are mass assignable.

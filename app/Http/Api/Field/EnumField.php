@@ -24,7 +24,7 @@ class EnumField extends Field
      */
     public function __construct(
         string $key,
-        protected string $enumClass,
+        protected readonly string $enumClass,
         ?string $column = null,
         ?Category $category = null
     ) {

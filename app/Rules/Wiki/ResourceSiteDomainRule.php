@@ -18,7 +18,7 @@ class ResourceSiteDomainRule implements Rule
      * @param  int|null  $site
      * @return void
      */
-    public function __construct(protected ?int $site)
+    public function __construct(protected readonly ?int $site)
     {
     }
 

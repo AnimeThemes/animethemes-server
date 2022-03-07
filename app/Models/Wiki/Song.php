@@ -34,15 +34,15 @@ class Song extends BaseModel
 {
     use Searchable;
 
-    public const TABLE = 'songs';
+    final public const TABLE = 'songs';
 
-    public const ATTRIBUTE_ID = 'song_id';
-    public const ATTRIBUTE_TITLE = 'title';
+    final public const ATTRIBUTE_ID = 'song_id';
+    final public const ATTRIBUTE_TITLE = 'title';
 
-    public const RELATION_ANIME = 'animethemes.anime';
-    public const RELATION_ANIMETHEMES = 'animethemes';
-    public const RELATION_ARTISTS = 'artists';
-    public const RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
+    final public const RELATION_ANIME = 'animethemes.anime';
+    final public const RELATION_ANIMETHEMES = 'animethemes';
+    final public const RELATION_ARTISTS = 'artists';
+    final public const RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
     /**
      * The attributes that are mass assignable.

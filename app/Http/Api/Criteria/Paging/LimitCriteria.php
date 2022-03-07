@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
  */
 class LimitCriteria extends Criteria
 {
-    public const PARAM = 'limit';
+    final public const PARAM = 'limit';
 
     /**
      * Get the intended pagination strategy.

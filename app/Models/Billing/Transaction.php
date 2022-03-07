@@ -30,14 +30,14 @@ use Illuminate\Support\Str;
  */
 class Transaction extends BaseModel
 {
-    public const TABLE = 'transactions';
+    final public const TABLE = 'transactions';
 
-    public const ATTRIBUTE_AMOUNT = 'amount';
-    public const ATTRIBUTE_DATE = 'date';
-    public const ATTRIBUTE_DESCRIPTION = 'description';
-    public const ATTRIBUTE_EXTERNAL_ID = 'external_id';
-    public const ATTRIBUTE_ID = 'transaction_id';
-    public const ATTRIBUTE_SERVICE = 'service';
+    final public const ATTRIBUTE_AMOUNT = 'amount';
+    final public const ATTRIBUTE_DATE = 'date';
+    final public const ATTRIBUTE_DESCRIPTION = 'description';
+    final public const ATTRIBUTE_EXTERNAL_ID = 'external_id';
+    final public const ATTRIBUTE_ID = 'transaction_id';
+    final public const ATTRIBUTE_SERVICE = 'service';
 
     /**
      * The attributes that are mass assignable.
