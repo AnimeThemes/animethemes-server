@@ -6,6 +6,7 @@ namespace App\Http\Resources\Document\Resource;
 
 use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
+use App\Models\BaseModel;
 use App\Models\Document\Page;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
@@ -46,10 +47,32 @@ class PageResource extends BaseResource
      */
     public function toArray($request): array
     {
-        return [
-            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
-            Page::ATTRIBUTE_NAME => $this->when($this->isAllowedField(Page::ATTRIBUTE_NAME), $this->name),
-            Page::ATTRIBUTE_SLUG => $this->when($this->isAllowedField(Page::ATTRIBUTE_SLUG), $this->slug),
-        ];
+        $result = [];
+
+        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
+            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
+        }
+
+        if ($this->isAllowedField(Page::ATTRIBUTE_NAME)) {
+            $result[Page::ATTRIBUTE_NAME] = $this->name;
+        }
+
+        if ($this->isAllowedField(Page::ATTRIBUTE_SLUG)) {
+            $result[Page::ATTRIBUTE_SLUG] = $this->slug;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
+            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        return $result;
     }
 }

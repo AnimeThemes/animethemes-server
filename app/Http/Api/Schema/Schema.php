@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema;
 
-use App\Enums\Http\Api\Field\Category;
+use App\Contracts\Http\Api\Field\FilterableField;
+use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Http\Api\Criteria\Filter\TrashedCriteria;
-use App\Http\Api\Field\DateField;
+use App\Http\Api\Field\Base\CreatedAtField;
+use App\Http\Api\Field\Base\DeletedAtField;
+use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Sort\RandomSort;
 use App\Http\Api\Sort\Sort;
-use App\Models\BaseModel;
 
 /**
  * Class Schema.
@@ -43,9 +45,9 @@ abstract class Schema
     public function fields(): array
     {
         return [
-            new DateField(BaseModel::ATTRIBUTE_CREATED_AT),
-            new DateField(BaseModel::ATTRIBUTE_UPDATED_AT),
-            new DateField(BaseModel::ATTRIBUTE_DELETED_AT),
+            new CreatedAtField(),
+            new UpdatedAtField(),
+            new DeletedAtField(),
         ];
     }
 
@@ -59,7 +61,7 @@ abstract class Schema
         $filters = [];
 
         foreach ($this->fields() as $field) {
-            if ($field->getCategory()->is(Category::ATTRIBUTE())) {
+            if ($field instanceof FilterableField) {
                 $filters[] = $field->getFilter();
             }
         }
@@ -79,7 +81,7 @@ abstract class Schema
         $sorts = [];
 
         foreach ($this->fields() as $field) {
-            if ($field->getCategory()->is(Category::ATTRIBUTE())) {
+            if ($field instanceof SortableField) {
                 $sorts[] = $field->getSort();
             }
         }

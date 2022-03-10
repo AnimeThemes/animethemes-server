@@ -49,18 +49,47 @@ class EntryResource extends BaseResource
      */
     public function toArray($request): array
     {
-        return [
-            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
-            AnimeThemeEntry::ATTRIBUTE_VERSION => $this->when($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_VERSION), $this->version),
-            AnimeThemeEntry::ATTRIBUTE_EPISODES => $this->when($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_EPISODES), $this->episodes),
-            AnimeThemeEntry::ATTRIBUTE_NSFW => $this->when($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_NSFW), $this->nsfw),
-            AnimeThemeEntry::ATTRIBUTE_SPOILER => $this->when($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_SPOILER), $this->spoiler),
-            AnimeThemeEntry::ATTRIBUTE_NOTES => $this->when($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_NOTES), $this->notes),
-            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
-            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
-            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
-            AnimeThemeEntry::RELATION_THEME => ThemeResource::make($this->whenLoaded(AnimeThemeEntry::RELATION_THEME), $this->query),
-            AnimeThemeEntry::RELATION_VIDEOS => VideoCollection::make($this->whenLoaded(AnimeThemeEntry::RELATION_VIDEOS), $this->query),
-        ];
+        $result = [];
+
+        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
+            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
+        }
+
+        if ($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_VERSION)) {
+            $result[AnimeThemeEntry::ATTRIBUTE_VERSION] = $this->version;
+        }
+
+        if ($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_EPISODES)) {
+            $result[AnimeThemeEntry::ATTRIBUTE_EPISODES] = $this->episodes;
+        }
+
+        if ($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_NSFW)) {
+            $result[AnimeThemeEntry::ATTRIBUTE_NSFW] = $this->nsfw;
+        }
+
+        if ($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_SPOILER)) {
+            $result[AnimeThemeEntry::ATTRIBUTE_SPOILER] = $this->spoiler;
+        }
+
+        if ($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_NOTES)) {
+            $result[AnimeThemeEntry::ATTRIBUTE_NOTES] = $this->notes;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
+            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        $result[AnimeThemeEntry::RELATION_THEME] = ThemeResource::make($this->whenLoaded(AnimeThemeEntry::RELATION_THEME), $this->query);
+        $result[AnimeThemeEntry::RELATION_VIDEOS] = VideoCollection::make($this->whenLoaded(AnimeThemeEntry::RELATION_VIDEOS), $this->query);
+
+        return $result;
     }
 }

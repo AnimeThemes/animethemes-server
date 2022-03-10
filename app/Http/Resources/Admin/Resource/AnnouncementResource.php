@@ -47,12 +47,28 @@ class AnnouncementResource extends BaseResource
      */
     public function toArray($request): array
     {
-        return [
-            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
-            Announcement::ATTRIBUTE_CONTENT => $this->when($this->isAllowedField(Announcement::ATTRIBUTE_CONTENT), $this->content),
-            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
-            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
-            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
-        ];
+        $result = [];
+
+        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
+            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
+        }
+
+        if ($this->isAllowedField(Announcement::ATTRIBUTE_CONTENT)) {
+            $result[Announcement::ATTRIBUTE_CONTENT] = $this->content;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
+            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        return $result;
     }
 }

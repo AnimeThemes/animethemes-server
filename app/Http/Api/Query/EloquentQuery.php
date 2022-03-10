@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Query;
 
+use App\Contracts\Http\Api\Field\SelectableField;
 use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Http\Api\Field\Field;
 use App\Http\Api\Filter\HasFilter;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Scope\ScopeParser;
@@ -50,14 +52,21 @@ abstract class EloquentQuery extends Query
         $builder = $this->builder();
 
         // eager load relations with constraints
-        $builder = $builder->with($this->constrainEagerLoads());
+        $builder->with($this->constrainEagerLoads());
+
+        // select fields
+        $fieldCriteria = $this->getFieldCriteria($schema->type());
+        $selectedFields = collect($schema->fields())
+            ->filter(fn (Field $field) => $field instanceof SelectableField && $field->shouldSelect($fieldCriteria))
+            ->map(fn (Field $field) => $field->getColumn());
+        $builder->select($builder->qualifyColumns($selectedFields->all()));
 
         // apply filters
         $scope = ScopeParser::parse($schema->type());
         foreach ($this->getFilterCriteria() as $criteria) {
             foreach ($schema->filters() as $filter) {
                 if ($criteria->shouldFilter($filter, $scope)) {
-                    $builder = $criteria->filter($builder, $filter, $this);
+                    $criteria->filter($builder, $filter, $this);
                 }
             }
         }
@@ -67,7 +76,7 @@ abstract class EloquentQuery extends Query
             $hasFilter = new HasFilter($schema->allowedIncludes());
             foreach ($this->getFilterCriteria() as $criteria) {
                 if ($criteria->shouldFilter($hasFilter, $scope)) {
-                    $builder = $criteria->filter($builder, $hasFilter, $this);
+                    $criteria->filter($builder, $hasFilter, $this);
                 }
             }
         }
@@ -76,7 +85,7 @@ abstract class EloquentQuery extends Query
         foreach ($this->getSortCriteria() as $sortCriterion) {
             foreach ($schema->sorts() as $sort) {
                 if ($sortCriterion->shouldSort($sort, $scope)) {
-                    $builder = $sortCriterion->sort($builder, $sort);
+                    $sortCriterion->sort($builder, $sort);
                 }
             }
         }
@@ -107,24 +116,36 @@ abstract class EloquentQuery extends Query
         $allowedIncludePaths = collect($includeCriteria?->getPaths());
 
         foreach ($allowedIncludePaths as $allowedIncludePath) {
-            $scope = ScopeParser::parse($allowedIncludePath);
             $relationSchema = $schema->relation($allowedIncludePath);
+            if ($relationSchema === null) {
+                throw new RuntimeException("Unknown relation '$allowedIncludePath' for type '{$schema->type()}'.");
+            }
 
+            $scope = ScopeParser::parse($allowedIncludePath);
             $constrainedEagerLoads[$allowedIncludePath] = function (Relation $relation) use ($scope, $relationSchema) {
+                $relationBuilder = $relation->getQuery();
+
+                // select fields
+                $fieldCriteria = $this->getFieldCriteria($relationSchema->type());
+                $selectedFields = collect($relationSchema->fields())
+                    ->filter(fn (Field $field) => $field instanceof SelectableField && $field->shouldSelect($fieldCriteria))
+                    ->map(fn (Field $field) => $field->getColumn());
+                $relationBuilder->select($relationBuilder->qualifyColumns($selectedFields->all()));
+
                 // apply filters
                 foreach ($this->getFilterCriteria() as $criteria) {
-                    foreach (collect($relationSchema?->filters()) as $filter) {
+                    foreach ($relationSchema->filters() as $filter) {
                         if ($criteria->shouldFilter($filter, $scope)) {
-                            $criteria->filter($relation->getQuery(), $filter, $this);
+                            $criteria->filter($relationBuilder, $filter, $this);
                         }
                     }
                 }
 
                 // apply sorts
                 foreach ($this->getSortCriteria() as $sortCriterion) {
-                    foreach (collect($relationSchema?->sorts()) as $sort) {
+                    foreach ($relationSchema->sorts() as $sort) {
                         if ($sortCriterion->shouldSort($sort, $scope)) {
-                            $sortCriterion->sort($relation->getQuery(), $sort);
+                            $sortCriterion->sort($relationBuilder, $sort);
                         }
                     }
                 }

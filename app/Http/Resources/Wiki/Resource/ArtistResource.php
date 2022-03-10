@@ -54,33 +54,53 @@ class ArtistResource extends BaseResource
      */
     public function toArray($request): array
     {
-        return [
-            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
-            Artist::ATTRIBUTE_NAME => $this->when($this->isAllowedField(Artist::ATTRIBUTE_NAME), $this->name),
-            Artist::ATTRIBUTE_SLUG => $this->when($this->isAllowedField(Artist::ATTRIBUTE_SLUG), $this->slug),
-            ArtistSong::ATTRIBUTE_AS => $this->when(
-                $this->isAllowedField(ArtistSong::ATTRIBUTE_AS),
+        $result = [];
+
+        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
+            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
+        }
+
+        if ($this->isAllowedField(Artist::ATTRIBUTE_NAME)) {
+            $result[Artist::ATTRIBUTE_NAME] = $this->name;
+        }
+
+        if ($this->isAllowedField(Artist::ATTRIBUTE_SLUG)) {
+            $result[Artist::ATTRIBUTE_SLUG] = $this->slug;
+        }
+
+        if ($this->isAllowedField(ArtistSong::ATTRIBUTE_AS)) {
+            $result[ArtistSong::ATTRIBUTE_AS] = $this->whenPivotLoaded(
+                ArtistSong::TABLE,
+                fn () => $this->pivot->getAttribute(ArtistSong::ATTRIBUTE_AS),
                 $this->whenPivotLoaded(
-                    ArtistSong::TABLE,
-                    fn () => $this->pivot->getAttribute(ArtistSong::ATTRIBUTE_AS),
+                    ArtistMember::TABLE,
+                    fn () => $this->pivot->getAttribute(ArtistMember::ATTRIBUTE_AS),
                     $this->whenPivotLoaded(
-                        ArtistMember::TABLE,
-                        fn () => $this->pivot->getAttribute(ArtistMember::ATTRIBUTE_AS),
-                        $this->whenPivotLoaded(
-                            ArtistResourcePivot::TABLE,
-                            fn () => $this->pivot->getAttribute(ArtistResourcePivot::ATTRIBUTE_AS)
-                        )
+                        ArtistResourcePivot::TABLE,
+                        fn () => $this->pivot->getAttribute(ArtistResourcePivot::ATTRIBUTE_AS)
                     )
                 )
-            ),
-            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
-            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
-            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
-            Artist::RELATION_SONGS => SongCollection::make($this->whenLoaded(Artist::RELATION_SONGS), $this->query),
-            Artist::RELATION_MEMBERS => ArtistCollection::make($this->whenLoaded(Artist::RELATION_MEMBERS), $this->query),
-            Artist::RELATION_GROUPS => ArtistCollection::make($this->whenLoaded(Artist::RELATION_GROUPS), $this->query),
-            Artist::RELATION_RESOURCES => ExternalResourceCollection::make($this->whenLoaded(Artist::RELATION_RESOURCES), $this->query),
-            Artist::RELATION_IMAGES => ImageCollection::make($this->whenLoaded(Artist::RELATION_IMAGES), $this->query),
-        ];
+            );
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
+            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        $result[Artist::RELATION_SONGS] = SongCollection::make($this->whenLoaded(Artist::RELATION_SONGS), $this->query);
+        $result[Artist::RELATION_MEMBERS] = ArtistCollection::make($this->whenLoaded(Artist::RELATION_MEMBERS), $this->query);
+        $result[Artist::RELATION_GROUPS] = ArtistCollection::make($this->whenLoaded(Artist::RELATION_GROUPS), $this->query);
+        $result[Artist::RELATION_RESOURCES] = ExternalResourceCollection::make($this->whenLoaded(Artist::RELATION_RESOURCES), $this->query);
+        $result[Artist::RELATION_IMAGES] = ImageCollection::make($this->whenLoaded(Artist::RELATION_IMAGES), $this->query);
+
+        return $result;
     }
 }

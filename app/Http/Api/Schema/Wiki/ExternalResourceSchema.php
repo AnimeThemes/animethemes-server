@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
-use App\Enums\Http\Api\Field\Category;
-use App\Enums\Models\Wiki\ResourceSite;
-use App\Http\Api\Field\EnumField;
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\IntField;
-use App\Http\Api\Field\StringField;
+use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceAsField;
+use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceIdColumn;
+use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceLinkColumn;
+use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceSiteColumn;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
-use App\Pivots\AnimeResource;
 
 /**
  * Class ExternalResourceSchema.
@@ -66,11 +64,11 @@ class ExternalResourceSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IntField(BaseResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_ID),
-                new IntField(ExternalResource::ATTRIBUTE_EXTERNAL_ID),
-                new StringField(ExternalResource::ATTRIBUTE_LINK),
-                new EnumField(ExternalResource::ATTRIBUTE_SITE, ResourceSite::class),
-                new StringField(AnimeResource::ATTRIBUTE_AS, null, Category::COMPUTED()),
+                new IdField(ExternalResource::ATTRIBUTE_ID),
+                new ExternalResourceIdColumn(),
+                new ExternalResourceLinkColumn(),
+                new ExternalResourceSiteColumn(),
+                new ExternalResourceAsField(),
             ],
         );
     }

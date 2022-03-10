@@ -48,14 +48,34 @@ class SeriesResource extends BaseResource
      */
     public function toArray($request): array
     {
-        return [
-            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
-            Series::ATTRIBUTE_NAME => $this->when($this->isAllowedField(Series::ATTRIBUTE_NAME), $this->name),
-            Series::ATTRIBUTE_SLUG => $this->when($this->isAllowedField(Series::ATTRIBUTE_SLUG), $this->slug),
-            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
-            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
-            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
-            Series::RELATION_ANIME => AnimeCollection::make($this->whenLoaded(Series::RELATION_ANIME), $this->query),
-        ];
+        $result = [];
+
+        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
+            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
+        }
+
+        if ($this->isAllowedField(Series::ATTRIBUTE_NAME)) {
+            $result[Series::ATTRIBUTE_NAME] = $this->name;
+        }
+
+        if ($this->isAllowedField(Series::ATTRIBUTE_SLUG)) {
+            $result[Series::ATTRIBUTE_SLUG] = $this->slug;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
+            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        $result[Series::RELATION_ANIME] = AnimeCollection::make($this->whenLoaded(Series::RELATION_ANIME), $this->query);
+
+        return $result;
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme\Entry;
 
-use App\Enums\Http\Api\Field\Category;
+use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\AnimeSeason;
@@ -176,12 +176,13 @@ class EntryIndexTest extends TestCase
     {
         $schema = new EntrySchema();
 
-        $field = collect($schema->fields())
-            ->filter(fn (Field $field) => $field->getCategory()->is(Category::ATTRIBUTE()))
+        $sort = collect($schema->fields())
+            ->filter(fn (Field $field) => $field instanceof SortableField)
+            ->map(fn (SortableField $field) => $field->getSort())
             ->random();
 
         $parameters = [
-            SortParser::param() => $field->getSort()->format(Direction::getRandomInstance()),
+            SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
         $query = new EntryQuery($parameters);

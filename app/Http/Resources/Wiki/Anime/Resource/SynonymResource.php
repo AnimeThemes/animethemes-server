@@ -48,13 +48,30 @@ class SynonymResource extends BaseResource
      */
     public function toArray($request): array
     {
-        return [
-            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
-            AnimeSynonym::ATTRIBUTE_TEXT => $this->when($this->isAllowedField(AnimeSynonym::ATTRIBUTE_TEXT), $this->text),
-            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
-            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
-            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
-            AnimeSynonym::RELATION_ANIME => AnimeResource::make($this->whenLoaded(AnimeSynonym::RELATION_ANIME), $this->query),
-        ];
+        $result = [];
+
+        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
+            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
+        }
+
+        if ($this->isAllowedField(AnimeSynonym::ATTRIBUTE_TEXT)) {
+            $result[AnimeSynonym::ATTRIBUTE_TEXT] = $this->text;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
+            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        $result[AnimeSynonym::RELATION_ANIME] = AnimeResource::make($this->whenLoaded(AnimeSynonym::RELATION_ANIME), $this->query);
+
+        return $result;
     }
 }

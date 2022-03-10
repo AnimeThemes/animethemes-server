@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
-use App\Enums\Http\Api\Field\Category;
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\IntField;
-use App\Http\Api\Field\StringField;
+use App\Http\Api\Field\Wiki\Artist\ArtistAsField;
+use App\Http\Api\Field\Wiki\Artist\ArtistNameField;
+use App\Http\Api\Field\Wiki\Artist\ArtistSlugField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
-use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
-use App\Pivots\ArtistResource as ArtistResourcePivot;
 
 /**
  * Class ArtistSchema.
@@ -69,10 +68,10 @@ class ArtistSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IntField(BaseResource::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID),
-                new StringField(Artist::ATTRIBUTE_NAME),
-                new StringField(Artist::ATTRIBUTE_SLUG),
-                new StringField(ArtistResourcePivot::ATTRIBUTE_AS, null, Category::COMPUTED()),
+                new IdField(Artist::ATTRIBUTE_ID),
+                new ArtistNameField(),
+                new ArtistSlugField(),
+                new ArtistAsField(),
             ],
         );
     }

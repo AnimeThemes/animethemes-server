@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Config;
 
-use App\Constants\Config\FlagConstants;
-use App\Enums\Http\Api\Field\Category;
-use App\Http\Api\Field\BooleanField;
+use App\Http\Api\Field\Config\Flags\FlagsAllowDiscordNotificationsField;
+use App\Http\Api\Field\Config\Flags\FlagsAllowVideoStreamsField;
+use App\Http\Api\Field\Config\Flags\FlagsAllowViewRecordingField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Schema;
@@ -47,9 +47,9 @@ class FlagsSchema extends Schema
     public function fields(): array
     {
         return [
-            new BooleanField(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG, null, Category::COMPUTED()),
-            new BooleanField(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG, null, Category::COMPUTED()),
-            new BooleanField(FlagConstants::ALLOW_VIEW_RECORDING_FLAG, null, Category::COMPUTED()),
+            new FlagsAllowVideoStreamsField(),
+            new FlagsAllowDiscordNotificationsField(),
+            new FlagsAllowViewRecordingField(),
         ];
     }
 }

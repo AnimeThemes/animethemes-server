@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
-use App\Enums\Http\Api\Field\Category;
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\IntField;
-use App\Http\Api\Field\StringField;
+use App\Http\Api\Field\Wiki\Song\SongAsField;
+use App\Http\Api\Field\Wiki\Song\SongTitleField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
-use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Song;
-use App\Pivots\ArtistSong;
 
 /**
  * Class SongSchema.
@@ -65,9 +63,9 @@ class SongSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IntField(BaseResource::ATTRIBUTE_ID, Song::ATTRIBUTE_ID),
-                new StringField(Song::ATTRIBUTE_TITLE),
-                new StringField(ArtistSong::ATTRIBUTE_AS, null, Category::COMPUTED()),
+                new IdField(Song::ATTRIBUTE_ID),
+                new SongTitleField(),
+                new SongAsField(),
             ],
         );
     }

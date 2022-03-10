@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
-use App\Enums\Http\Api\Field\Category;
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\IntField;
-use App\Http\Api\Field\StringField;
+use App\Http\Api\Field\Wiki\Studio\StudioAsField;
+use App\Http\Api\Field\Wiki\Studio\StudioNameField;
+use App\Http\Api\Field\Wiki\Studio\StudioSlugField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
-use App\Pivots\StudioResource as StudioResourcePivot;
 
 /**
  * Class StudioSchema.
@@ -63,10 +62,10 @@ class StudioSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IntField(BaseResource::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID),
-                new StringField(Studio::ATTRIBUTE_NAME),
-                new StringField(Studio::ATTRIBUTE_SLUG),
-                new StringField(StudioResourcePivot::ATTRIBUTE_AS, null, Category::COMPUTED()),
+                new IdField(Studio::ATTRIBUTE_ID),
+                new StudioNameField(),
+                new StudioSlugField(),
+                new StudioAsField(),
             ],
         );
     }

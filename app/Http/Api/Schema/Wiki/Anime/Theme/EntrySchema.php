@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki\Anime\Theme;
 
-use App\Http\Api\Field\BooleanField;
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\IntField;
-use App\Http\Api\Field\StringField;
+use App\Http\Api\Field\Wiki\Anime\Theme\Entry\EntryEpisodesField;
+use App\Http\Api\Field\Wiki\Anime\Theme\Entry\EntryNotesField;
+use App\Http\Api\Field\Wiki\Anime\Theme\Entry\EntryNsfwField;
+use App\Http\Api\Field\Wiki\Anime\Theme\Entry\EntrySpoilerField;
+use App\Http\Api\Field\Wiki\Anime\Theme\Entry\EntryThemeIdField;
+use App\Http\Api\Field\Wiki\Anime\Theme\Entry\EntryVersionField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
-use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
@@ -66,12 +69,13 @@ class EntrySchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IntField(BaseResource::ATTRIBUTE_ID, AnimeThemeEntry::ATTRIBUTE_ID),
-                new StringField(AnimeThemeEntry::ATTRIBUTE_EPISODES),
-                new StringField(AnimeThemeEntry::ATTRIBUTE_NOTES),
-                new BooleanField(AnimeThemeEntry::ATTRIBUTE_NSFW),
-                new BooleanField(AnimeThemeEntry::ATTRIBUTE_SPOILER),
-                new IntField(AnimeThemeEntry::ATTRIBUTE_VERSION),
+                new IdField(AnimeThemeEntry::ATTRIBUTE_ID),
+                new EntryEpisodesField(),
+                new EntryNotesField(),
+                new EntryNsfwField(),
+                new EntrySpoilerField(),
+                new EntryVersionField(),
+                new EntryThemeIdField(),
             ],
         );
     }
