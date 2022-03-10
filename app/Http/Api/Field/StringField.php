@@ -47,6 +47,4 @@ abstract class StringField extends Field implements FilterableField, SelectableF
     {
         return new Sort($this->getKey(), $this->getColumn());
     }
-
-
 }
