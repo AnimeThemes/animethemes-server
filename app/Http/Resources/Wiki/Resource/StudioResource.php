@@ -50,19 +50,39 @@ class StudioResource extends BaseResource
      */
     public function toArray($request): array
     {
-        return [
-            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
-            Studio::ATTRIBUTE_NAME => $this->when($this->isAllowedField(Studio::ATTRIBUTE_NAME), $this->name),
-            Studio::ATTRIBUTE_SLUG => $this->when($this->isAllowedField(Studio::ATTRIBUTE_SLUG), $this->slug),
-            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
-            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
-            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
-            Studio::RELATION_ANIME => AnimeCollection::make($this->whenLoaded(Studio::RELATION_ANIME), $this->query),
-            Studio::RELATION_RESOURCES => ExternalResourceCollection::make($this->whenLoaded(Studio::RELATION_RESOURCES), $this->query),
-            StudioResourcePivot::ATTRIBUTE_AS => $this->when(
-                $this->isAllowedField(StudioResourcePivot::ATTRIBUTE_AS),
-                $this->whenPivotLoaded(StudioResourcePivot::TABLE, fn () => $this->pivot->getAttribute(StudioResourcePivot::ATTRIBUTE_AS))
-            ),
-        ];
+        $result = [];
+
+        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
+            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
+        }
+
+        if ($this->isAllowedField(Studio::ATTRIBUTE_NAME)) {
+            $result[Studio::ATTRIBUTE_NAME] = $this->name;
+        }
+
+        if ($this->isAllowedField(Studio::ATTRIBUTE_SLUG)) {
+            $result[Studio::ATTRIBUTE_SLUG] = $this->slug;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
+            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        $result[Studio::RELATION_ANIME] = AnimeCollection::make($this->whenLoaded(Studio::RELATION_ANIME), $this->query);
+        $result[Studio::RELATION_RESOURCES] = ExternalResourceCollection::make($this->whenLoaded(Studio::RELATION_RESOURCES), $this->query);
+
+        if ($this->isAllowedField(StudioResourcePivot::ATTRIBUTE_AS)) {
+            $result[StudioResourcePivot::ATTRIBUTE_AS] = $this->whenPivotLoaded(StudioResourcePivot::TABLE, fn () => $this->pivot->getAttribute(StudioResourcePivot::ATTRIBUTE_AS));
+        }
+
+        return $result;
     }
 }

@@ -53,32 +53,55 @@ class ExternalResourceResource extends BaseResource
      */
     public function toArray($request): array
     {
-        return [
-            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
-            ExternalResource::ATTRIBUTE_LINK => $this->when($this->isAllowedField(ExternalResource::ATTRIBUTE_LINK), $this->link),
-            ExternalResource::ATTRIBUTE_EXTERNAL_ID => $this->when($this->isAllowedField(ExternalResource::ATTRIBUTE_EXTERNAL_ID), $this->external_id),
-            ExternalResource::ATTRIBUTE_SITE => $this->when($this->isAllowedField(ExternalResource::ATTRIBUTE_SITE), $this->site?->description),
-            AnimeResourcePivot::ATTRIBUTE_AS => $this->when(
-                $this->isAllowedField(AnimeResourcePivot::ATTRIBUTE_AS),
+        $result = [];
+
+        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
+            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
+        }
+
+        if ($this->isAllowedField(ExternalResource::ATTRIBUTE_LINK)) {
+            $result[ExternalResource::ATTRIBUTE_LINK] = $this->link;
+        }
+
+        if ($this->isAllowedField(ExternalResource::ATTRIBUTE_EXTERNAL_ID)) {
+            $result[ExternalResource::ATTRIBUTE_EXTERNAL_ID] = $this->external_id;
+        }
+
+        if ($this->isAllowedField(ExternalResource::ATTRIBUTE_SITE)) {
+            $result[ExternalResource::ATTRIBUTE_SITE] = $this->site?->description;
+        }
+
+        if ($this->isAllowedField(AnimeResourcePivot::ATTRIBUTE_AS)) {
+            $result[AnimeResourcePivot::ATTRIBUTE_AS] = $this->whenPivotLoaded(
+                AnimeResourcePivot::TABLE,
+                fn () => $this->pivot->getAttribute(AnimeResourcePivot::ATTRIBUTE_AS),
                 $this->whenPivotLoaded(
-                    AnimeResourcePivot::TABLE,
-                    fn () => $this->pivot->getAttribute(AnimeResourcePivot::ATTRIBUTE_AS),
+                    ArtistResourcePivot::TABLE,
+                    fn () => $this->pivot->getAttribute(ArtistResourcePivot::ATTRIBUTE_AS),
                     $this->whenPivotLoaded(
-                        ArtistResourcePivot::TABLE,
-                        fn () => $this->pivot->getAttribute(ArtistResourcePivot::ATTRIBUTE_AS),
-                        $this->whenPivotLoaded(
-                            StudioResourcePivot::TABLE,
-                            fn () => $this->pivot->getAttribute(StudioResourcePivot::ATTRIBUTE_AS)
-                        )
+                        StudioResourcePivot::TABLE,
+                        fn () => $this->pivot->getAttribute(StudioResourcePivot::ATTRIBUTE_AS)
                     )
                 )
-            ),
-            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
-            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
-            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
-            ExternalResource::RELATION_ARTISTS => ArtistCollection::make($this->whenLoaded(ExternalResource::RELATION_ARTISTS), $this->query),
-            ExternalResource::RELATION_ANIME => AnimeCollection::make($this->whenLoaded(ExternalResource::RELATION_ANIME), $this->query),
-            ExternalResource::RELATION_STUDIOS => StudioCollection::make($this->whenLoaded(ExternalResource::RELATION_STUDIOS), $this->query),
-        ];
+            );
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
+            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        $result[ExternalResource::RELATION_ARTISTS] = ArtistCollection::make($this->whenLoaded(ExternalResource::RELATION_ARTISTS), $this->query);
+        $result[ExternalResource::RELATION_ANIME] = AnimeCollection::make($this->whenLoaded(ExternalResource::RELATION_ANIME), $this->query);
+        $result[ExternalResource::RELATION_STUDIOS] = StudioCollection::make($this->whenLoaded(ExternalResource::RELATION_STUDIOS), $this->query);
+
+        return $result;
     }
 }

@@ -54,26 +54,56 @@ class AnimeResource extends BaseResource
      */
     public function toArray($request): array
     {
-        return [
-            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
-            Anime::ATTRIBUTE_NAME => $this->when($this->isAllowedField(Anime::ATTRIBUTE_NAME), $this->name),
-            Anime::ATTRIBUTE_SLUG => $this->when($this->isAllowedField(Anime::ATTRIBUTE_SLUG), $this->slug),
-            Anime::ATTRIBUTE_YEAR => $this->when($this->isAllowedField(Anime::ATTRIBUTE_YEAR), $this->year),
-            Anime::ATTRIBUTE_SEASON => $this->when($this->isAllowedField(Anime::ATTRIBUTE_SEASON), $this->season?->description),
-            Anime::ATTRIBUTE_SYNOPSIS => $this->when($this->isAllowedField(Anime::ATTRIBUTE_SYNOPSIS), $this->synopsis),
-            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
-            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
-            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
-            Anime::RELATION_SYNONYMS => SynonymCollection::make($this->whenLoaded(Anime::RELATION_SYNONYMS), $this->query),
-            Anime::RELATION_THEMES => ThemeCollection::make($this->whenLoaded(Anime::RELATION_THEMES), $this->query),
-            Anime::RELATION_SERIES => SeriesCollection::make($this->whenLoaded(Anime::RELATION_SERIES), $this->query),
-            Anime::RELATION_RESOURCES => ExternalResourceCollection::make($this->whenLoaded(Anime::RELATION_RESOURCES), $this->query),
-            AnimeResourcePivot::ATTRIBUTE_AS => $this->when(
-                $this->isAllowedField(AnimeResourcePivot::ATTRIBUTE_AS),
-                $this->whenPivotLoaded(AnimeResourcePivot::TABLE, fn () => $this->pivot->getAttribute(AnimeResourcePivot::ATTRIBUTE_AS))
-            ),
-            Anime::RELATION_IMAGES => ImageCollection::make($this->whenLoaded(Anime::RELATION_IMAGES), $this->query),
-            Anime::RELATION_STUDIOS => StudioCollection::make($this->whenLoaded(Anime::RELATION_STUDIOS), $this->query),
-        ];
+        $result = [];
+
+        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
+            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
+        }
+
+        if ($this->isAllowedField(Anime::ATTRIBUTE_NAME)) {
+            $result[Anime::ATTRIBUTE_NAME] = $this->name;
+        }
+
+        if ($this->isAllowedField(Anime::ATTRIBUTE_SLUG)) {
+            $result[Anime::ATTRIBUTE_SLUG] = $this->slug;
+        }
+
+        if ($this->isAllowedField(Anime::ATTRIBUTE_YEAR)) {
+            $result[Anime::ATTRIBUTE_YEAR] = $this->year;
+        }
+
+        if ($this->isAllowedField(Anime::ATTRIBUTE_SEASON)) {
+            $result[Anime::ATTRIBUTE_SEASON] = $this->season?->description;
+        }
+
+        if ($this->isAllowedField(Anime::ATTRIBUTE_SYNOPSIS)) {
+            $result[Anime::ATTRIBUTE_SYNOPSIS] = $this->synopsis;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
+            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        $result[Anime::RELATION_SYNONYMS] = SynonymCollection::make($this->whenLoaded(Anime::RELATION_SYNONYMS), $this->query);
+        $result[Anime::RELATION_THEMES] = ThemeCollection::make($this->whenLoaded(Anime::RELATION_THEMES), $this->query);
+        $result[Anime::RELATION_SERIES] = SeriesCollection::make($this->whenLoaded(Anime::RELATION_SERIES), $this->query);
+        $result[Anime::RELATION_RESOURCES] = ExternalResourceCollection::make($this->whenLoaded(Anime::RELATION_RESOURCES), $this->query);
+
+        if ($this->isAllowedField(AnimeResourcePivot::ATTRIBUTE_AS)) {
+            $result[AnimeResourcePivot::ATTRIBUTE_AS] = $this->whenPivotLoaded(AnimeResourcePivot::TABLE, fn () => $this->pivot->getAttribute(AnimeResourcePivot::ATTRIBUTE_AS));
+        }
+
+        $result[Anime::RELATION_IMAGES] = ImageCollection::make($this->whenLoaded(Anime::RELATION_IMAGES), $this->query);
+        $result[Anime::RELATION_STUDIOS] = StudioCollection::make($this->whenLoaded(Anime::RELATION_STUDIOS), $this->query);
+
+        return $result;
     }
 }

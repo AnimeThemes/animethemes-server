@@ -50,18 +50,35 @@ class SongResource extends BaseResource
      */
     public function toArray($request): array
     {
-        return [
-            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
-            Song::ATTRIBUTE_TITLE => $this->when($this->isAllowedField(Song::ATTRIBUTE_TITLE), $this->title),
-            ArtistSong::ATTRIBUTE_AS => $this->when(
-                $this->isAllowedField(ArtistSong::ATTRIBUTE_AS),
-                $this->whenPivotLoaded(ArtistSong::TABLE, fn () => $this->pivot->getAttribute(ArtistSong::ATTRIBUTE_AS))
-            ),
-            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
-            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
-            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
-            Song::RELATION_ANIMETHEMES => ThemeCollection::make($this->whenLoaded(Song::RELATION_ANIMETHEMES), $this->query),
-            Song::RELATION_ARTISTS => ArtistCollection::make($this->whenLoaded(Song::RELATION_ARTISTS), $this->query),
-        ];
+        $result = [];
+
+        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
+            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
+        }
+
+        if ($this->isAllowedField(Song::ATTRIBUTE_TITLE)) {
+            $result[Song::ATTRIBUTE_TITLE] = $this->title;
+        }
+
+        if ($this->isAllowedField(ArtistSong::ATTRIBUTE_AS)) {
+            $result[ArtistSong::ATTRIBUTE_AS] = $this->whenPivotLoaded(ArtistSong::TABLE, fn () => $this->pivot->getAttribute(ArtistSong::ATTRIBUTE_AS));
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
+            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        $result[Song::RELATION_ANIMETHEMES] = ThemeCollection::make($this->whenLoaded(Song::RELATION_ANIMETHEMES), $this->query);
+        $result[Song::RELATION_ARTISTS] = ArtistCollection::make($this->whenLoaded(Song::RELATION_ARTISTS), $this->query);
+
+        return $result;
     }
 }

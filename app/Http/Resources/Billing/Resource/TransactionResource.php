@@ -47,16 +47,44 @@ class TransactionResource extends BaseResource
      */
     public function toArray($request): array
     {
-        return [
-            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
-            Transaction::ATTRIBUTE_DATE => $this->when($this->isAllowedField(Transaction::ATTRIBUTE_DATE), $this->date),
-            Transaction::ATTRIBUTE_SERVICE => $this->when($this->isAllowedField(Transaction::ATTRIBUTE_SERVICE), $this->service->description),
-            Transaction::ATTRIBUTE_DESCRIPTION => $this->when($this->isAllowedField(Transaction::ATTRIBUTE_DESCRIPTION), $this->description),
-            Transaction::ATTRIBUTE_AMOUNT => $this->when($this->isAllowedField(Transaction::ATTRIBUTE_AMOUNT), $this->amount),
-            Transaction::ATTRIBUTE_EXTERNAL_ID => $this->when($this->isAllowedField(Transaction::ATTRIBUTE_EXTERNAL_ID), $this->external_id),
-            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
-            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
-            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
-        ];
+        $result = [];
+
+        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
+            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
+        }
+
+        if ($this->isAllowedField(Transaction::ATTRIBUTE_DATE)) {
+            $result[Transaction::ATTRIBUTE_DATE] = $this->date;
+        }
+
+        if ($this->isAllowedField(Transaction::ATTRIBUTE_SERVICE)) {
+            $result[Transaction::ATTRIBUTE_SERVICE] = $this->service->description;
+        }
+
+        if ($this->isAllowedField(Transaction::ATTRIBUTE_DESCRIPTION)) {
+            $result[Transaction::ATTRIBUTE_DESCRIPTION] = $this->description;
+        }
+
+        if ($this->isAllowedField(Transaction::ATTRIBUTE_AMOUNT)) {
+            $result[Transaction::ATTRIBUTE_AMOUNT] = $this->amount;
+        }
+
+        if ($this->isAllowedField(Transaction::ATTRIBUTE_EXTERNAL_ID)) {
+            $result[Transaction::ATTRIBUTE_EXTERNAL_ID] = $this->external_id;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
+            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        return $result;
     }
 }

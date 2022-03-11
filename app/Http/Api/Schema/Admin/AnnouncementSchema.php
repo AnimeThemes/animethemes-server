@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Admin;
 
+use App\Http\Api\Field\Admin\Announcement\AnnouncementContentField;
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\IntField;
-use App\Http\Api\Field\StringField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
-use App\Http\Resources\BaseResource;
 use App\Models\Admin\Announcement;
 
 /**
@@ -58,8 +57,8 @@ class AnnouncementSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IntField(BaseResource::ATTRIBUTE_ID, Announcement::ATTRIBUTE_ID),
-                new StringField(Announcement::ATTRIBUTE_CONTENT),
+                new IdField(Announcement::ATTRIBUTE_ID),
+                new AnnouncementContentField(),
             ],
         );
     }

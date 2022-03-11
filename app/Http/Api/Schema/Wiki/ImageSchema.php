@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
-use App\Enums\Http\Api\Field\Category;
-use App\Enums\Models\Wiki\ImageFacet;
-use App\Http\Api\Field\EnumField;
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\IntField;
-use App\Http\Api\Field\StringField;
+use App\Http\Api\Field\Wiki\Image\ImageFacetField;
+use App\Http\Api\Field\Wiki\Image\ImageLinkField;
+use App\Http\Api\Field\Wiki\Image\ImageMimeTypeField;
+use App\Http\Api\Field\Wiki\Image\ImagePathField;
+use App\Http\Api\Field\Wiki\Image\ImageSizeField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
 
@@ -64,12 +64,12 @@ class ImageSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IntField(BaseResource::ATTRIBUTE_ID, Image::ATTRIBUTE_ID),
-                new EnumField(Image::ATTRIBUTE_FACET, ImageFacet::class),
-                new StringField(Image::ATTRIBUTE_MIMETYPE),
-                new StringField(Image::ATTRIBUTE_PATH),
-                new IntField(Image::ATTRIBUTE_SIZE),
-                new StringField(ImageResource::ATTRIBUTE_LINK, null, Category::COMPUTED()),
+                new IdField(Image::ATTRIBUTE_ID),
+                new ImageFacetField(),
+                new ImageMimeTypeField(),
+                new ImagePathField(),
+                new ImageSizeField(),
+                new ImageLinkField(),
             ],
         );
     }

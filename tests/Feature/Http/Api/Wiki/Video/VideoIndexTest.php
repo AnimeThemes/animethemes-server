@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Video;
 
-use App\Enums\Http\Api\Field\Category;
+use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\AnimeSeason;
@@ -187,12 +187,13 @@ class VideoIndexTest extends TestCase
 
         $schema = new VideoSchema();
 
-        $field = collect($schema->fields())
-            ->filter(fn (Field $field) => $field->getCategory()->is(Category::ATTRIBUTE()))
+        $sort = collect($schema->fields())
+            ->filter(fn (Field $field) => $field instanceof SortableField)
+            ->map(fn (SortableField $field) => $field->getSort())
             ->random();
 
         $parameters = [
-            SortParser::param() => $field->getSort()->format(Direction::getRandomInstance()),
+            SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
         $query = new VideoQuery($parameters);

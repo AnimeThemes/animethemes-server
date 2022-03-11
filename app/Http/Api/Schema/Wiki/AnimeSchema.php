@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
-use App\Enums\Http\Api\Field\Category;
-use App\Enums\Models\Wiki\AnimeSeason;
-use App\Http\Api\Field\EnumField;
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\IntField;
-use App\Http\Api\Field\StringField;
+use App\Http\Api\Field\Wiki\Anime\AnimeAsField;
+use App\Http\Api\Field\Wiki\Anime\AnimeNameField;
+use App\Http\Api\Field\Wiki\Anime\AnimeSeasonField;
+use App\Http\Api\Field\Wiki\Anime\AnimeSlugField;
+use App\Http\Api\Field\Wiki\Anime\AnimeSynopsisField;
+use App\Http\Api\Field\Wiki\Anime\AnimeYearField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
-use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
-use App\Pivots\AnimeResource as AnimeResourcePivot;
 
 /**
  * Class AnimeSchema.
@@ -76,13 +76,13 @@ class AnimeSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IntField(BaseResource::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID),
-                new StringField(Anime::ATTRIBUTE_NAME),
-                new EnumField(Anime::ATTRIBUTE_SEASON, AnimeSeason::class),
-                new StringField(Anime::ATTRIBUTE_SLUG),
-                new StringField(Anime::ATTRIBUTE_SYNOPSIS),
-                new IntField(Anime::ATTRIBUTE_YEAR),
-                new StringField(AnimeResourcePivot::ATTRIBUTE_AS, null, Category::COMPUTED()),
+                new IdField(Anime::ATTRIBUTE_ID),
+                new AnimeNameField(),
+                new AnimeSeasonField(),
+                new AnimeSlugField(),
+                new AnimeSynopsisField(),
+                new AnimeYearField(),
+                new AnimeAsField(),
             ],
         );
     }

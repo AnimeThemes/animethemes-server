@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki\Anime;
 
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\IntField;
-use App\Http\Api\Field\StringField;
+use App\Http\Api\Field\Wiki\Anime\Synonym\SynonymAnimeIdField;
+use App\Http\Api\Field\Wiki\Anime\Synonym\SynonymTextField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
-use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 
@@ -61,8 +61,9 @@ class SynonymSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IntField(BaseResource::ATTRIBUTE_ID, AnimeSynonym::ATTRIBUTE_ID),
-                new StringField(AnimeSynonym::ATTRIBUTE_TEXT),
+                new IdField(AnimeSynonym::ATTRIBUTE_ID),
+                new SynonymTextField(),
+                new SynonymAnimeIdField(),
             ],
         );
     }

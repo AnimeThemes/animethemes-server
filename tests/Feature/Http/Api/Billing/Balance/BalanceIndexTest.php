@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Billing\Balance;
 
+use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Filter\TrashedCriteria;
@@ -118,12 +119,13 @@ class BalanceIndexTest extends TestCase
     {
         $schema = new BalanceSchema();
 
-        $fields = $schema->fields();
-
-        $field = $fields[array_rand($fields)];
+        $sort = collect($schema->fields())
+            ->filter(fn (Field $field) => $field instanceof SortableField)
+            ->map(fn (SortableField $field) => $field->getSort())
+            ->random();
 
         $parameters = [
-            SortParser::param() => $field->getSort()->format(Direction::getRandomInstance()),
+            SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
         $query = new BalanceQuery($parameters);

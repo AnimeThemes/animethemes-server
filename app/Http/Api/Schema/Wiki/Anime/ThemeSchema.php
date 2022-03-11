@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki\Anime;
 
-use App\Enums\Models\Wiki\ThemeType;
-use App\Http\Api\Field\EnumField;
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\IntField;
-use App\Http\Api\Field\StringField;
+use App\Http\Api\Field\Wiki\Anime\Theme\ThemeAnimeIdField;
+use App\Http\Api\Field\Wiki\Anime\Theme\ThemeGroupField;
+use App\Http\Api\Field\Wiki\Anime\Theme\ThemeSequenceField;
+use App\Http\Api\Field\Wiki\Anime\Theme\ThemeSlugField;
+use App\Http\Api\Field\Wiki\Anime\Theme\ThemeSongIdField;
+use App\Http\Api\Field\Wiki\Anime\Theme\ThemeTypeField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
@@ -18,7 +21,6 @@ use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Api\Sort\Sort;
-use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 
@@ -80,11 +82,13 @@ class ThemeSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IntField(BaseResource::ATTRIBUTE_ID, AnimeTheme::ATTRIBUTE_ID),
-                new StringField(AnimeTheme::ATTRIBUTE_GROUP),
-                new IntField(AnimeTheme::ATTRIBUTE_SEQUENCE),
-                new StringField(AnimeTheme::ATTRIBUTE_SLUG),
-                new EnumField(AnimeTheme::ATTRIBUTE_TYPE, ThemeType::class),
+                new IdField(AnimeTheme::ATTRIBUTE_ID),
+                new ThemeGroupField(),
+                new ThemeSequenceField(),
+                new ThemeSlugField(),
+                new ThemeTypeField(),
+                new ThemeAnimeIdField(),
+                new ThemeSongIdField(),
             ],
         );
     }

@@ -9,7 +9,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
-use Illuminate\Support\Arr;
 
 /**
  * Class FlagsResource.
@@ -44,28 +43,18 @@ class FlagsResource extends BaseResource
      */
     public function toArray($request): array
     {
-        // Every attribute may query the database for the flag, so we will proactively check sparse fieldsets.
         $result = [];
 
         if ($this->isAllowedField(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG)) {
-            Arr::set($result,
-                FlagConstants::ALLOW_VIDEO_STREAMS_FLAG,
-                config(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, false)
-            );
+            $result[FlagConstants::ALLOW_VIDEO_STREAMS_FLAG] = config(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, false);
         }
 
         if ($this->isAllowedField(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG)) {
-            Arr::set($result,
-                FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG,
-                config(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, false)
-            );
+            $result[FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG] = config(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, false);
         }
 
         if ($this->isAllowedField(FlagConstants::ALLOW_VIEW_RECORDING_FLAG)) {
-            Arr::set($result,
-                FlagConstants::ALLOW_VIEW_RECORDING_FLAG,
-                config(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, false)
-            );
+            $result[FlagConstants::ALLOW_VIEW_RECORDING_FLAG] = config(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, false);
         }
 
         return $result;

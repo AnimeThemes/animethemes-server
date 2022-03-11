@@ -23,7 +23,6 @@ use App\Http\Resources\Wiki\Collection\VideoCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
-use Illuminate\Support\Arr;
 
 /**
  * Class SearchResource.
@@ -64,70 +63,49 @@ class SearchResource extends JsonResource
         if ($this->isAllowedField(AnimeCollection::$wrap)) {
             $animeQuery = $this->query->getQuery(AnimeQuery::class);
             if ($animeQuery !== null) {
-                Arr::set($result,
-                    AnimeCollection::$wrap,
-                    $animeQuery->search(PaginationStrategy::LIMIT())
-                );
+                $result[AnimeCollection::$wrap] = $animeQuery->search(PaginationStrategy::LIMIT());
             }
         }
 
         if ($this->isAllowedField(ThemeCollection::$wrap)) {
             $themeQuery = $this->query->getQuery(ThemeQuery::class);
             if ($themeQuery !== null) {
-                Arr::set($result,
-                    ThemeCollection::$wrap,
-                    $themeQuery->search(PaginationStrategy::LIMIT())
-                );
+                $result[ThemeCollection::$wrap] = $themeQuery->search(PaginationStrategy::LIMIT());
             }
         }
 
         if ($this->isAllowedField(ArtistCollection::$wrap)) {
             $artistQuery = $this->query->getQuery(ArtistQuery::class);
             if ($artistQuery !== null) {
-                Arr::set($result,
-                    ArtistCollection::$wrap,
-                    $artistQuery->search(PaginationStrategy::LIMIT())
-                );
+                $result[ArtistCollection::$wrap] = $artistQuery->search(PaginationStrategy::LIMIT());
             }
         }
 
         if ($this->isAllowedField(SeriesCollection::$wrap)) {
             $seriesQuery = $this->query->getQuery(SeriesQuery::class);
             if ($seriesQuery !== null) {
-                Arr::set($result,
-                    SeriesCollection::$wrap,
-                    $seriesQuery->search(PaginationStrategy::LIMIT())
-                );
+                $result[SeriesCollection::$wrap] = $seriesQuery->search(PaginationStrategy::LIMIT());
             }
         }
 
         if ($this->isAllowedField(SongCollection::$wrap)) {
             $songQuery = $this->query->getQuery(SongQuery::class);
             if ($songQuery !== null) {
-                Arr::set($result,
-                    SongCollection::$wrap,
-                    $songQuery->search(PaginationStrategy::LIMIT())
-                );
+                $result[SongCollection::$wrap] = $songQuery->search(PaginationStrategy::LIMIT());
             }
         }
 
         if ($this->isAllowedField(StudioCollection::$wrap)) {
             $studioQuery = $this->query->getQuery(StudioQuery::class);
             if ($studioQuery !== null) {
-                Arr::set($result,
-                    StudioCollection::$wrap,
-                    $studioQuery->search(PaginationStrategy::LIMIT())
-                );
+                $result[StudioCollection::$wrap] = $studioQuery->search(PaginationStrategy::LIMIT());
             }
         }
 
         if ($this->isAllowedField(VideoCollection::$wrap)) {
             $videoQuery = $this->query->getQuery(VideoQuery::class);
             if ($videoQuery !== null) {
-                Arr::set($result,
-                    VideoCollection::$wrap,
-                    $videoQuery->search(PaginationStrategy::LIMIT())
-                );
+                $result[VideoCollection::$wrap] = $videoQuery->search(PaginationStrategy::LIMIT());
             }
         }
 

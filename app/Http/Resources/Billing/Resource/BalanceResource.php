@@ -49,16 +49,44 @@ class BalanceResource extends BaseResource
      */
     public function toArray($request): array
     {
-        return [
-            BaseResource::ATTRIBUTE_ID => $this->when($this->isAllowedField(BaseResource::ATTRIBUTE_ID), $this->getKey()),
-            Balance::ATTRIBUTE_DATE => $this->when($this->isAllowedField(Balance::ATTRIBUTE_DATE), $this->date),
-            Balance::ATTRIBUTE_SERVICE => $this->when($this->isAllowedField(Balance::ATTRIBUTE_SERVICE), $this->service->description),
-            Balance::ATTRIBUTE_FREQUENCY => $this->when($this->isAllowedField(Balance::ATTRIBUTE_FREQUENCY), $this->frequency->description),
-            Balance::ATTRIBUTE_USAGE => $this->when($this->isAllowedField(Balance::ATTRIBUTE_USAGE), $this->usage),
-            BalanceResource::ATTRIBUTE_BALANCE => $this->when($this->isAllowedField(BalanceResource::ATTRIBUTE_BALANCE), $this->balance),
-            BaseModel::ATTRIBUTE_CREATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT), $this->created_at),
-            BaseModel::ATTRIBUTE_UPDATED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT), $this->updated_at),
-            BaseModel::ATTRIBUTE_DELETED_AT => $this->when($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT), $this->deleted_at),
-        ];
+        $result = [];
+
+        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
+            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
+        }
+
+        if ($this->isAllowedField(Balance::ATTRIBUTE_DATE)) {
+            $result[Balance::ATTRIBUTE_DATE] = $this->date;
+        }
+
+        if ($this->isAllowedField(Balance::ATTRIBUTE_SERVICE)) {
+            $result[Balance::ATTRIBUTE_SERVICE] = $this->service->description;
+        }
+
+        if ($this->isAllowedField(Balance::ATTRIBUTE_FREQUENCY)) {
+            $result[Balance::ATTRIBUTE_FREQUENCY] = $this->frequency->description;
+        }
+
+        if ($this->isAllowedField(Balance::ATTRIBUTE_USAGE)) {
+            $result[Balance::ATTRIBUTE_USAGE] = $this->usage;
+        }
+
+        if ($this->isAllowedField(BalanceResource::ATTRIBUTE_BALANCE)) {
+            $result[BalanceResource::ATTRIBUTE_BALANCE] = $this->balance;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
+            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
+        }
+
+        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
+            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        return $result;
     }
 }

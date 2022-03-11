@@ -10,7 +10,6 @@ use App\Http\Resources\BaseResource;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
-use Illuminate\Support\Arr;
 
 /**
  * Class WikiResource.
@@ -45,7 +44,6 @@ class WikiResource extends BaseResource
      */
     public function toArray($request): array
     {
-        // Every attribute may query the database for the setting, so we will proactively check sparse fieldsets.
         $result = [];
 
         if ($this->isAllowedField(WikiConstants::FEATURED_THEME_SETTING)) {
@@ -53,10 +51,8 @@ class WikiResource extends BaseResource
                 Video::ATTRIBUTE_BASENAME,
                 config(WikiConstants::FEATURED_THEME_SETTING_QUALIFIED)
             );
-            Arr::set($result,
-                WikiConstants::FEATURED_THEME_SETTING,
-                $video instanceof Video ? route('video.show', ['video' => $video]) : null
-            );
+
+            $result[WikiConstants::FEATURED_THEME_SETTING] = $video instanceof Video ? route('video.show', ['video' => $video]) : null;
         }
 
         return $result;

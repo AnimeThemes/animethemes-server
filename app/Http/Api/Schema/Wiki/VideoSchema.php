@@ -4,19 +4,26 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
-use App\Enums\Http\Api\Field\Category;
-use App\Enums\Models\Wiki\VideoOverlap;
-use App\Enums\Models\Wiki\VideoSource;
-use App\Http\Api\Field\BooleanField;
-use App\Http\Api\Field\EnumField;
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\IntField;
-use App\Http\Api\Field\StringField;
+use App\Http\Api\Field\Wiki\Video\VideoBasenameField;
+use App\Http\Api\Field\Wiki\Video\VideoFilenameField;
+use App\Http\Api\Field\Wiki\Video\VideoLinkField;
+use App\Http\Api\Field\Wiki\Video\VideoLyricsField;
+use App\Http\Api\Field\Wiki\Video\VideoMimeTypeField;
+use App\Http\Api\Field\Wiki\Video\VideoNcField;
+use App\Http\Api\Field\Wiki\Video\VideoOverlapField;
+use App\Http\Api\Field\Wiki\Video\VideoPathField;
+use App\Http\Api\Field\Wiki\Video\VideoResolutionField;
+use App\Http\Api\Field\Wiki\Video\VideoSizeField;
+use App\Http\Api\Field\Wiki\Video\VideoSourceField;
+use App\Http\Api\Field\Wiki\Video\VideoSubbedField;
+use App\Http\Api\Field\Wiki\Video\VideoTagsField;
+use App\Http\Api\Field\Wiki\Video\VideoUncenField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
-use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Video;
 
@@ -69,21 +76,21 @@ class VideoSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IntField(BaseResource::ATTRIBUTE_ID, Video::ATTRIBUTE_ID),
-                new StringField(Video::ATTRIBUTE_BASENAME),
-                new StringField(Video::ATTRIBUTE_FILENAME),
-                new BooleanField(Video::ATTRIBUTE_LYRICS),
-                new StringField(Video::ATTRIBUTE_MIMETYPE),
-                new BooleanField(Video::ATTRIBUTE_NC),
-                new EnumField(Video::ATTRIBUTE_OVERLAP, VideoOverlap::class),
-                new StringField(Video::ATTRIBUTE_PATH),
-                new IntField(Video::ATTRIBUTE_RESOLUTION),
-                new IntField(Video::ATTRIBUTE_SIZE),
-                new EnumField(Video::ATTRIBUTE_SOURCE, VideoSource::class),
-                new BooleanField(Video::ATTRIBUTE_SUBBED),
-                new BooleanField(Video::ATTRIBUTE_UNCEN),
-                new StringField(Video::ATTRIBUTE_TAGS, null, Category::COMPUTED()),
-                new StringField(VideoResource::ATTRIBUTE_LINK, null, Category::COMPUTED()),
+                new IdField(Video::ATTRIBUTE_ID),
+                new VideoBasenameField(),
+                new VideoFilenameField(),
+                new VideoLyricsField(),
+                new VideoMimeTypeField(),
+                new VideoNcField(),
+                new VideoOverlapField(),
+                new VideoPathField(),
+                new VideoResolutionField(),
+                new VideoSizeField(),
+                new VideoSourceField(),
+                new VideoSubbedField(),
+                new VideoUncenField(),
+                new VideoTagsField(),
+                new VideoLinkField(),
             ],
         );
     }

@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
-use App\Enums\Http\Api\Field\Category;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\StringField;
+use App\Http\Api\Field\Wiki\Search\SearchAnimeField;
+use App\Http\Api\Field\Wiki\Search\SearchArtistField;
+use App\Http\Api\Field\Wiki\Search\SearchSeriesField;
+use App\Http\Api\Field\Wiki\Search\SearchSongField;
+use App\Http\Api\Field\Wiki\Search\SearchStudioField;
+use App\Http\Api\Field\Wiki\Search\SearchThemeField;
+use App\Http\Api\Field\Wiki\Search\SearchVideoField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
-use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
-use App\Http\Resources\Wiki\Collection\AnimeCollection;
-use App\Http\Resources\Wiki\Collection\ArtistCollection;
-use App\Http\Resources\Wiki\Collection\SeriesCollection;
-use App\Http\Resources\Wiki\Collection\SongCollection;
-use App\Http\Resources\Wiki\Collection\StudioCollection;
-use App\Http\Resources\Wiki\Collection\VideoCollection;
 use App\Http\Resources\Wiki\Resource\SearchResource;
 
 /**
@@ -62,13 +60,13 @@ class SearchSchema extends Schema
     public function fields(): array
     {
         return [
-            new StringField(AnimeCollection::$wrap, null, Category::COMPUTED()),
-            new StringField(ThemeCollection::$wrap, null, Category::COMPUTED()),
-            new StringField(ArtistCollection::$wrap, null, Category::COMPUTED()),
-            new StringField(SeriesCollection::$wrap, null, Category::COMPUTED()),
-            new StringField(SongCollection::$wrap, null, Category::COMPUTED()),
-            new StringField(StudioCollection::$wrap, null, Category::COMPUTED()),
-            new StringField(VideoCollection::$wrap, null, Category::COMPUTED()),
+            new SearchAnimeField(),
+            new SearchThemeField(),
+            new SearchArtistField(),
+            new SearchSeriesField(),
+            new SearchSongField(),
+            new SearchStudioField(),
+            new SearchVideoField(),
         ];
     }
 }

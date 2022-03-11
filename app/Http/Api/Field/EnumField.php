@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field;
 
+use App\Contracts\Http\Api\Field\FilterableField;
+use App\Contracts\Http\Api\Field\SelectableField;
+use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\BaseEnum;
-use App\Enums\Http\Api\Field\Category;
+use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\Filter\Filter;
+use App\Http\Api\Sort\Sort;
 
 /**
  * Class EnumField.
  */
-class EnumField extends Field
+abstract class EnumField extends Field implements FilterableField, SelectableField, SortableField
 {
     /**
      * Create a new field instance.
@@ -20,15 +24,13 @@ class EnumField extends Field
      * @param  string  $key
      * @param  class-string<BaseEnum>  $enumClass
      * @param  string|null  $column
-     * @param  Category|null  $category
      */
     public function __construct(
         string $key,
         protected readonly string $enumClass,
-        ?string $column = null,
-        ?Category $category = null
+        ?string $column = null
     ) {
-        parent::__construct($key, $column, $category);
+        parent::__construct($key, $column);
     }
 
     /**
@@ -39,5 +41,26 @@ class EnumField extends Field
     public function getFilter(): Filter
     {
         return new EnumFilter($this->getKey(), $this->enumClass, $this->getColumn());
+    }
+
+    /**
+     * Determine if the field should be included in the select clause of our query.
+     *
+     * @param  Criteria|null  $criteria
+     * @return bool
+     */
+    public function shouldSelect(?Criteria $criteria): bool
+    {
+        return $criteria === null || $criteria->isAllowedField($this->getKey());
+    }
+
+    /**
+     * Get the sort that can be applied to the field.
+     *
+     * @return Sort
+     */
+    public function getSort(): Sort
+    {
+        return new Sort($this->getKey(), $this->getColumn());
     }
 }

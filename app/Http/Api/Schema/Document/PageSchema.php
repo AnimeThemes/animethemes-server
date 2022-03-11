@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Document;
 
+use App\Http\Api\Field\Base\IdField;
+use App\Http\Api\Field\Document\Page\PageNameField;
+use App\Http\Api\Field\Document\Page\PageSlugField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\IntField;
-use App\Http\Api\Field\StringField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Resources\BaseResource;
 use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\Document\Page;
 
@@ -58,9 +58,9 @@ class PageSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IntField(BaseResource::ATTRIBUTE_ID, Page::ATTRIBUTE_ID),
-                new StringField(Page::ATTRIBUTE_NAME),
-                new StringField(Page::ATTRIBUTE_SLUG),
+                new IdField(Page::ATTRIBUTE_ID),
+                new PageNameField(),
+                new PageSlugField(),
             ],
         );
     }
