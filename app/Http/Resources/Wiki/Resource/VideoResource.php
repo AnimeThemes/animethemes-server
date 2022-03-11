@@ -96,10 +96,6 @@ class VideoResource extends BaseResource
             $result[Video::ATTRIBUTE_UNCEN] = $this->uncen;
         }
 
-        if ($this->isAllowedField(Video::ATTRIBUTE_UNCEN)) {
-            $result[Video::ATTRIBUTE_UNCEN] = $this->uncen;
-        }
-
         if ($this->isAllowedField(Video::ATTRIBUTE_SOURCE)) {
             $result[Video::ATTRIBUTE_SOURCE] = $this->source?->description;
         }

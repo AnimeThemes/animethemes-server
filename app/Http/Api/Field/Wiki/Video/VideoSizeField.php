@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field\Wiki\Video;
 
-use App\Http\Api\Field\StringField;
+use App\Http\Api\Field\IntField;
 use App\Models\Wiki\Video;
 
 /**
  * Class VideoSizeField.
  */
-class VideoSizeField extends StringField
+class VideoSizeField extends IntField
 {
     /**
      * Create a new field instance.
