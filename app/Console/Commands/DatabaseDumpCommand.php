@@ -2,29 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands\Wiki;
+namespace App\Console\Commands;
 
-use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use App\Models\Wiki\Artist;
-use App\Models\Wiki\ExternalResource;
-use App\Models\Wiki\Image;
-use App\Models\Wiki\Series;
-use App\Models\Wiki\Song;
-use App\Models\Wiki\Studio;
-use App\Models\Wiki\Video;
-use App\Pivots\AnimeImage;
-use App\Pivots\AnimeResource;
-use App\Pivots\AnimeSeries;
-use App\Pivots\AnimeStudio;
-use App\Pivots\AnimeThemeEntryVideo;
-use App\Pivots\ArtistImage;
-use App\Pivots\ArtistMember;
-use App\Pivots\ArtistResource;
-use App\Pivots\ArtistSong;
-use App\Pivots\StudioResource;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Database\ConnectionInterface;
@@ -45,51 +24,8 @@ use Spatie\DbDumper\DbDumper;
 /**
  * Class DatabaseDumpCommand.
  */
-class DatabaseDumpCommand extends Command
+abstract class DatabaseDumpCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'db:dump {--C|create : Whether the dumper should include create table statements}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Produces sanitized database dump, targeting wiki-related tables for seeding purposes';
-
-    /**
-     * The list of tables to include in the dump.
-     *
-     * @var string[]
-     */
-    protected array $allowedTables = [
-        Anime::TABLE,
-        AnimeImage::TABLE,
-        AnimeResource::TABLE,
-        AnimeSeries::TABLE,
-        AnimeStudio::TABLE,
-        AnimeSynonym::TABLE,
-        AnimeTheme::TABLE,
-        AnimeThemeEntry::TABLE,
-        AnimeThemeEntryVideo::TABLE,
-        Artist::TABLE,
-        ArtistImage::TABLE,
-        ArtistMember::TABLE,
-        ArtistResource::TABLE,
-        ArtistSong::TABLE,
-        Image::TABLE,
-        ExternalResource::TABLE,
-        Series::TABLE,
-        Song::TABLE,
-        Studio::TABLE,
-        StudioResource::TABLE,
-        Video::TABLE,
-    ];
-
     /**
      * Execute the console command.
      *
@@ -110,13 +46,17 @@ class DatabaseDumpCommand extends Command
                 return 1;
             }
 
+            if (! static::canIncludeTables($connection)) {
+                Log::error('DB connection does not support includeTables option');
+                $this->error('DB connection does not support includeTables option');
+
+                return 1;
+            }
+            $dumper->includeTables($this->allowedTables());
+
             $dumper->setDbName($connection->getDatabaseName())
                 ->setUserName(strval($connection->getConfig('username')))
                 ->setPassword(strval($connection->getConfig('password')));
-
-            if ($this->canIncludeTables($connection)) {
-                $dumper->includeTables($this->allowedTables);
-            }
 
             $host = $connection->getConfig('host');
             if ($host !== null) {
@@ -128,7 +68,7 @@ class DatabaseDumpCommand extends Command
                 $dumper->setPort($port);
             }
 
-            $dumpFile = static::getDumpFile($create);
+            $dumpFile = $this->getDumpFile($create);
 
             $dumper->dumpToFile($dumpFile);
 
@@ -144,25 +84,6 @@ class DatabaseDumpCommand extends Command
         }
 
         return 0;
-    }
-
-    /**
-     * The target path for the database dump.
-     * Pattern: "/path/to/project/storage/db-dumps/animethemes-db-dump-{create?}-{year}-{month}-{day}.sql".
-     *
-     * @param  bool  $create
-     * @return string
-     */
-    public static function getDumpFile(bool $create = false): string
-    {
-        $filesystem = Storage::disk('db-dumps');
-
-        return Str::of($filesystem->path(''))
-            ->append('animethemes-db-dump-')
-            ->append($create ? 'create-' : '')
-            ->append(Date::now()->toDateString())
-            ->append('.sql')
-            ->__toString();
     }
 
     /**
@@ -188,15 +109,49 @@ class DatabaseDumpCommand extends Command
      * @param  ConnectionInterface  $connection
      * @return bool
      */
-    protected function canIncludeTables(ConnectionInterface $connection): bool
+    public static function canIncludeTables(ConnectionInterface $connection): bool
     {
         // Sqlite version 3.32.0 is required when using the includeTables option
         if ($connection instanceof SQLiteConnection) {
-            Log::warning('SQLite version does not support includeTables option');
-
             return version_compare($connection->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '3.32.0', '>=');
         }
 
         return true;
     }
+
+    /**
+     * The target path for the database dump.
+     * Pattern: "/path/to/project/storage/db-dumps/{path}/animethemes-db-dump-{create?}-{year}-{month}-{day}.sql".
+     *
+     * @param  bool  $create
+     * @return string
+     */
+    public function getDumpFile(bool $create = false): string
+    {
+        $filesystem = Storage::disk('db-dumps');
+
+        $filesystem->makeDirectory($this->getDumpFilePath());
+
+        return Str::of($filesystem->path($this->getDumpFilePath()))
+            ->append(DIRECTORY_SEPARATOR)
+            ->append('animethemes-db-dump-')
+            ->append($create ? 'create-' : '')
+            ->append(Date::now()->toDateString())
+            ->append('.sql')
+            ->__toString();
+    }
+
+    /**
+     * The directory that the file should be dumped to.
+     *
+     * @return string
+     */
+    abstract protected function getDumpFilePath(): string;
+
+    /**
+     * The list of tables to include in the dump.
+     *
+     * @return array
+     */
+    abstract protected function allowedTables(): array;
 }

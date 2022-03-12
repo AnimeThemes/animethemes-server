@@ -6,9 +6,10 @@ namespace App\Console;
 
 use App\Console\Commands\Billing\BalanceReconcileCommand;
 use App\Console\Commands\Billing\TransactionReconcileCommand;
-use App\Console\Commands\Wiki\DatabaseDumpCommand;
-use App\Console\Commands\Wiki\PruneDatabaseDumpsCommand;
+use App\Console\Commands\Document\DocumentDatabaseDumpCommand;
+use App\Console\Commands\PruneDatabaseDumpsCommand;
 use App\Console\Commands\Wiki\VideoReconcileCommand;
+use App\Console\Commands\Wiki\WikiDatabaseDumpCommand;
 use App\Enums\Models\Billing\Service;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -32,8 +33,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command(BalanceReconcileCommand::class, [Service::DIGITALOCEAN()->key])->hourly();
-        $schedule->command(DatabaseDumpCommand::class)->daily();
-        $schedule->command(DatabaseDumpCommand::class, ['--create'])->daily();
+        $schedule->command(DocumentDatabaseDumpCommand::class)->daily();
+        $schedule->command(WikiDatabaseDumpCommand::class)->daily();
+        $schedule->command(WikiDatabaseDumpCommand::class, ['--create'])->daily();
         $schedule->command(PruneCommand::class)->daily();
         $schedule->command(PruneDatabaseDumpsCommand::class)->dailyAt('00:15');
         $schedule->command(PruneFailedJobsCommand::class)->daily();
