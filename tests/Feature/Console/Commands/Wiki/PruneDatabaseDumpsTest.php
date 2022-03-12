@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Console\Commands\Wiki;
 
-use App\Console\Commands\Wiki\DatabaseDumpCommand;
+use App\Console\Commands\DatabaseDumpCommand;
+use App\Console\Commands\PruneDatabaseDumpsCommand;
+use App\Console\Commands\Wiki\WikiDatabaseDumpCommand;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -27,7 +30,7 @@ class PruneDatabaseDumpsTest extends TestCase
     {
         Storage::fake('db-dumps');
 
-        $this->artisan('db:prune-dumps --hours=0')->expectsOutput('No database dumps deleted');
+        $this->artisan(PruneDatabaseDumpsCommand::class, ['--hours' => 0])->expectsOutput('No database dumps deleted');
     }
 
     /**
@@ -37,6 +40,10 @@ class PruneDatabaseDumpsTest extends TestCase
      */
     public function testDeleted(): void
     {
+        if (! DatabaseDumpCommand::canIncludeTables(DB::connection())) {
+            static::markTestSkipped('DB connection does not support includeTables option');
+        }
+
         Storage::fake('db-dumps');
 
         $deletedCount = $this->faker->randomDigitNotNull();
@@ -44,11 +51,11 @@ class PruneDatabaseDumpsTest extends TestCase
         Collection::times($deletedCount, function () {
             Date::setTestNow($this->faker->iso8601());
 
-            $this->artisan(DatabaseDumpCommand::class)->run();
+            $this->artisan(WikiDatabaseDumpCommand::class)->run();
         });
 
         Date::setTestNow();
 
-        $this->artisan('db:prune-dumps --hours=-1')->expectsOutput("$deletedCount database dumps deleted");
+        $this->artisan(PruneDatabaseDumpsCommand::class, ['--hours' => -1])->expectsOutput("$deletedCount database dumps deleted");
     }
 }
