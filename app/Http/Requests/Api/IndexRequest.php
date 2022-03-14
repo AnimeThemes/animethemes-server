@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api;
 
 use App\Contracts\Http\Requests\Api\SearchableRequest;
-use App\Http\Api\Criteria\Paging\Criteria as PagingCriteria;
-use App\Http\Api\Criteria\Paging\LimitCriteria;
-use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Http\Api\Filter\HasFilter;
-use App\Http\Api\Parser\PagingParser;
+use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
 use Illuminate\Support\Arr;
@@ -25,48 +23,45 @@ use Spatie\ValidationRules\Rules\Delimited;
 abstract class IndexRequest extends BaseRequest
 {
     /**
+     * Get the filter validation rules.
+     *
+     * @return array
+     */
+    protected function getFilterRules(): array
+    {
+        $schema = $this->schema();
+        $types = collect(Arr::wrap($schema->type()));
+
+        $schemaFormattedFilters = $this->getSchemaFormattedFilters($schema)
+            ->concat($this->getFilterFormats(new HasFilter($schema->allowedIncludes()), BinaryLogicalOperator::getInstances()));
+
+        $param = Str::of(FilterParser::param())->append('.')->append($schema->type())->__toString();
+        $rules = $this->restrictAllowedTypes($param, $schemaFormattedFilters);
+
+        $types = $types->concat($schemaFormattedFilters);
+
+        foreach ($schema->allowedIncludes() as $allowedInclude) {
+            $relationSchema = $allowedInclude->schema();
+            $types->push($relationSchema->type());
+
+            $relationSchemaFormattedFilters = $this->getSchemaFormattedFilters($relationSchema);
+            $types = $types->concat($relationSchemaFormattedFilters);
+
+            $param = Str::of(FilterParser::param())->append('.')->append($relationSchema->type())->__toString();
+            $rules = $rules + $this->restrictAllowedTypes($param, $relationSchemaFormattedFilters);
+        }
+
+        return $rules + $this->restrictAllowedTypes(FilterParser::param(), $types->unique());
+    }
+
+    /**
      * Get the paging validation rules.
      *
      * @return array
      */
     protected function getPagingRules(): array
     {
-        return [
-            PagingParser::param() => [
-                'sometimes',
-                'required',
-                Str::of('array:')
-                    ->append(OffsetCriteria::NUMBER_PARAM)
-                    ->append(',')
-                    ->append(OffsetCriteria::SIZE_PARAM)
-                    ->__toString(),
-            ],
-            Str::of(PagingParser::param())
-                ->append('.')
-                ->append(LimitCriteria::PARAM)
-                ->__toString() => [
-                    'prohibited',
-                ],
-            Str::of(PagingParser::param())
-                ->append('.')
-                ->append(OffsetCriteria::NUMBER_PARAM)
-                ->__toString() => [
-                    'sometimes',
-                    'required',
-                    'integer',
-                    'min:1',
-                ],
-            Str::of(PagingParser::param())
-                ->append('.')
-                ->append(OffsetCriteria::SIZE_PARAM)
-                ->__toString() => [
-                    'sometimes',
-                    'required',
-                    'integer',
-                    'min:1',
-                    Str::of('max:')->append(PagingCriteria::MAX_RESULTS)->__toString(),
-                ],
-        ];
+        return $this->offset();
     }
 
     /**
@@ -93,14 +88,12 @@ abstract class IndexRequest extends BaseRequest
         $schema = $this->schema();
 
         $param = Str::of(SortParser::param())->append('.')->append($schema->type())->__toString();
-
         $rules = $this->restrictAllowedSortValues($param, $schema);
 
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $relationSchema = $allowedInclude->schema();
 
             $param = Str::of(SortParser::param())->append('.')->append($relationSchema->type())->__toString();
-
             $rules = $rules + $this->restrictAllowedSortValues($param, $relationSchema);
         }
 
@@ -112,13 +105,40 @@ abstract class IndexRequest extends BaseRequest
      *
      * @param  Validator  $validator
      * @return void
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function handleConditionalValidation(Validator $validator): void
     {
+        parent::handleConditionalValidation($validator);
+
         $this->conditionallyRestrictAllowedSortTypes($validator);
-        $this->conditionallyRestrictAllowedFilterValues($validator);
+    }
+
+    /**
+     * Filters shall be validated based on values.
+     * If the value contains a separator, this is a multi-value filter that builds a where in clause.
+     * Otherwise, this is a single-value filter that builds a where clause.
+     * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
+     *
+     * @param  Validator  $validator
+     * @return void
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    protected function conditionallyRestrictAllowedFilterValues(Validator $validator): void
+    {
+        $schema = $this->schema();
+
+        foreach ($schema->filters() as $filter) {
+            $this->conditionallyRestrictFilter($validator, $schema, $filter);
+        }
+        $this->conditionallyRestrictFilter($validator, $schema, new HasFilter($schema->allowedIncludes()));
+
+        foreach ($schema->allowedIncludes() as $allowedInclude) {
+            $relationSchema = $allowedInclude->schema();
+            foreach ($relationSchema->filters() as $relationFilter) {
+                $this->conditionallyRestrictFilter($validator, $relationSchema, $relationFilter);
+            }
+        }
     }
 
     /**
@@ -132,12 +152,10 @@ abstract class IndexRequest extends BaseRequest
     protected function conditionallyRestrictAllowedSortTypes(Validator $validator): void
     {
         $schema = $this->schema();
-
         $types = Arr::wrap($schema->type());
 
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $relationSchema = $allowedInclude->schema();
-
             $types[] = $relationSchema->type();
         }
 
@@ -152,32 +170,5 @@ abstract class IndexRequest extends BaseRequest
             ['nullable', Str::of('array:')->append(collect($types)->join(','))->__toString()],
             fn (Fluent $fluent) => is_array($fluent->get(SortParser::param()))
         );
-    }
-
-    /**
-     * Filters shall be validated based on values.
-     * If the value contains a separator, this is a multi-value filter that builds a where in clause.
-     * Otherwise, this is a single-value filter that builds a where clause.
-     * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
-     *
-     * @param  Validator  $validator
-     * @return void
-     */
-    protected function conditionallyRestrictAllowedFilterValues(Validator $validator): void
-    {
-        $schema = $this->schema();
-
-        foreach ($schema->filters() as $filter) {
-            $this->conditionallyRestrictFilter($validator, $schema, $filter);
-        }
-        $this->conditionallyRestrictFilter($validator, $schema, new HasFilter($schema->allowedIncludes()));
-
-        foreach ($schema->allowedIncludes() as $allowedInclude) {
-            $relationSchema = $allowedInclude->schema();
-
-            foreach ($relationSchema->filters() as $relationFilter) {
-                $this->conditionallyRestrictFilter($validator, $relationSchema, $relationFilter);
-            }
-        }
     }
 }

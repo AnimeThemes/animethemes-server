@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Anime;
 
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
@@ -13,13 +15,34 @@ use App\Http\Api\Query\Wiki\AnimeQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Requests\Api\BaseRequest;
-use Illuminate\Validation\Validator;
 
 /**
  * Class YearIndexRequest.
  */
 class YearIndexRequest extends BaseRequest
 {
+    /**
+     * Get the field validation rules.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    protected function getFieldRules(): array
+    {
+        return $this->prohibit(FieldParser::param());
+    }
+
+    /**
+     * Get the filter validation rules.
+     *
+     * @return array
+     */
+    protected function getFilterRules(): array
+    {
+        return $this->prohibit(FilterParser::param());
+    }
+
     /**
      * Get include validation rules.
      *
@@ -80,19 +103,5 @@ class YearIndexRequest extends BaseRequest
     public function getQuery(): Query
     {
         return new AnimeQuery($this->validated());
-    }
-
-    /**
-     * Filters shall be validated based on values.
-     * If the value contains a separator, this is a multi-value filter that builds a where in clause.
-     * Otherwise, this is a single-value filter that builds a where clause.
-     * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
-     *
-     * @param  Validator  $validator
-     * @return void
-     */
-    protected function conditionallyRestrictAllowedFilterValues(Validator $validator): void
-    {
-        //
     }
 }
