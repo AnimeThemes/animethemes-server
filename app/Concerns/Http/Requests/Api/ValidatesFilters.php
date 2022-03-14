@@ -28,7 +28,7 @@ trait ValidatesFilters
     /**
      * Get the list of formatted filters for the schema.
      *
-     * @param Schema $schema
+     * @param  Schema  $schema
      * @return Collection
      */
     protected function getSchemaFormattedFilters(Schema $schema): Collection
