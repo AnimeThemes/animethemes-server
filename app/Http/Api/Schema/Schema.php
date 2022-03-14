@@ -6,14 +6,12 @@ namespace App\Http\Api\Schema;
 
 use App\Contracts\Http\Api\Field\FilterableField;
 use App\Contracts\Http\Api\Field\SortableField;
-use App\Enums\Http\Api\Filter\TrashedStatus;
-use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\DeletedAtField;
 use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\Filter\Filter;
+use App\Http\Api\Filter\TrashedFilter;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Sort\RandomSort;
 use App\Http\Api\Sort\Sort;
@@ -66,7 +64,7 @@ abstract class Schema
             }
         }
 
-        $filters[] = new EnumFilter(TrashedCriteria::PARAM_VALUE, TrashedStatus::class);
+        $filters[] = new TrashedFilter();
 
         return $filters;
     }

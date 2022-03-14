@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki;
 
-use App\Http\Api\Criteria\Paging\Criteria as PagingCriteria;
-use App\Http\Api\Criteria\Paging\LimitCriteria;
-use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Wiki\SearchQuery;
@@ -35,28 +32,58 @@ class SearchRequest extends BaseRequest
     protected function getFieldRules(): array
     {
         $schema = $this->schema();
-
         $types = Arr::wrap($schema->type());
-
         $rules = $this->restrictAllowedFieldValues($schema);
 
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $resourceSchema = $allowedInclude->schema();
-
             $types[] = $resourceSchema->type();
-
             $rules = $rules + $this->restrictAllowedFieldValues($resourceSchema);
 
             foreach ($resourceSchema->allowedIncludes() as $resourceAllowedIncludePath) {
                 $resourceRelationSchema = $resourceAllowedIncludePath->schema();
-
                 $types[] = $resourceRelationSchema->type();
-
                 $rules = $rules + $this->restrictAllowedFieldValues($resourceRelationSchema);
             }
         }
 
         return $rules + $this->restrictAllowedTypes(FieldParser::param(), collect($types));
+    }
+
+    /**
+     * Get the filter validation rules.
+     *
+     * @return array
+     */
+    protected function getFilterRules(): array
+    {
+        $schema = $this->schema();
+        $rules = [];
+        $types = collect();
+
+        foreach ($schema->allowedIncludes() as $allowedInclude) {
+            $resourceSchema = $allowedInclude->schema();
+            $types->push($resourceSchema->type());
+
+            $resourceSchemaFormattedFilters = $this->getSchemaFormattedFilters($resourceSchema);
+            $types = $types->concat($resourceSchemaFormattedFilters);
+
+            $param = Str::of(FilterParser::param())->append('.')->append($resourceSchema->type())->__toString();
+            $rules = $rules + $this->restrictAllowedTypes($param, $resourceSchemaFormattedFilters);
+
+            foreach ($resourceSchema->allowedIncludes() as $resourceAllowedIncludePath) {
+                $resourceRelationSchema = $resourceAllowedIncludePath->schema();
+                $types->push($resourceRelationSchema->type());
+
+                $relationSchemaFormattedFilters = $this->getSchemaFormattedFilters($resourceRelationSchema);
+                $types = $types->concat($relationSchemaFormattedFilters);
+
+                $param = Str::of(FilterParser::param())->append('.')->append($resourceRelationSchema->type())->__toString();
+                $rules = $rules + $this->restrictAllowedTypes($param, $relationSchemaFormattedFilters);
+            }
+        }
+
+        return $rules + $this->restrictAllowedTypes(FilterParser::param(), $types->unique());
     }
 
     /**
@@ -98,37 +125,7 @@ class SearchRequest extends BaseRequest
      */
     protected function getPagingRules(): array
     {
-        return [
-            PagingParser::param() => [
-                'sometimes',
-                'required',
-                Str::of('array:')
-                    ->append(LimitCriteria::PARAM)
-                    ->__toString(),
-            ],
-            Str::of(PagingParser::param())
-                ->append('.')
-                ->append(OffsetCriteria::SIZE_PARAM)
-                ->__toString() => [
-                    'prohibited',
-                ],
-            Str::of(PagingParser::param())
-                ->append('.')
-                ->append(OffsetCriteria::NUMBER_PARAM)
-                ->__toString() => [
-                    'prohibited',
-                ],
-            Str::of(PagingParser::param())
-                ->append('.')
-                ->append(LimitCriteria::PARAM)
-                ->__toString() => [
-                    'sometimes',
-                    'required',
-                    'integer',
-                    'min:1',
-                    Str::of('max:')->append(PagingCriteria::MAX_RESULTS)->__toString(),
-                ],
-        ];
+        return $this->limit();
     }
 
     /**
@@ -205,6 +202,8 @@ class SearchRequest extends BaseRequest
      *
      * @param  Validator  $validator
      * @return void
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function conditionallyRestrictAllowedFilterValues(Validator $validator): void
     {

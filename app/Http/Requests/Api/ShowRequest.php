@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api;
 
+use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
@@ -15,6 +16,37 @@ use Illuminate\Validation\Validator;
  */
 abstract class ShowRequest extends BaseRequest
 {
+    /**
+     * Get the filter validation rules.
+     *
+     * @return array
+     */
+    protected function getFilterRules(): array
+    {
+        $schema = $this->schema();
+
+        $allowedIncludes = $schema->allowedIncludes();
+        if (empty($allowedIncludes)) {
+            return $this->prohibit(FilterParser::param());
+        }
+
+        $rules = [];
+        $types = collect();
+
+        foreach ($allowedIncludes as $allowedInclude) {
+            $relationSchema = $allowedInclude->schema();
+            $types->push($relationSchema->type());
+
+            $relationSchemaFormattedFilters = $this->getSchemaFormattedFilters($relationSchema);
+            $types = $types->concat($relationSchemaFormattedFilters);
+
+            $param = Str::of(FilterParser::param())->append('.')->append($relationSchema->type())->__toString();
+            $rules = $rules + $this->restrictAllowedTypes($param, $relationSchemaFormattedFilters);
+        }
+
+        return $rules + $this->restrictAllowedTypes(FilterParser::param(), $types->unique());
+    }
+
     /**
      * Get the paging validation rules.
      *
@@ -44,23 +76,19 @@ abstract class ShowRequest extends BaseRequest
     {
         $schema = $this->schema();
 
-        $allowedIncludes = collect($schema->allowedIncludes());
-
-        if ($allowedIncludes->isEmpty()) {
+        $allowedIncludes = $schema->allowedIncludes();
+        if (empty($allowedIncludes)) {
             return $this->prohibit(SortParser::param());
         }
 
         $rules = [];
-
         $types = collect();
 
         foreach ($allowedIncludes as $allowedInclude) {
             $relationSchema = $allowedInclude->schema();
-
             $types->push($relationSchema->type());
 
             $param = Str::of(SortParser::param())->append('.')->append($relationSchema->type())->__toString();
-
             $rules = $rules + $this->restrictAllowedSortValues($param, $relationSchema);
         }
 
@@ -75,14 +103,14 @@ abstract class ShowRequest extends BaseRequest
      *
      * @param  Validator  $validator
      * @return void
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function conditionallyRestrictAllowedFilterValues(Validator $validator): void
     {
         $schema = $this->schema();
-
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $relationSchema = $allowedInclude->schema();
-
             foreach ($relationSchema->filters() as $relationFilter) {
                 $this->conditionallyRestrictFilter($validator, $relationSchema, $relationFilter);
             }
