@@ -6,8 +6,13 @@ namespace App\Http\Controllers\Api\Wiki;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Wiki\Artist\ArtistDestroyRequest;
+use App\Http\Requests\Api\Wiki\Artist\ArtistForceDeleteRequest;
 use App\Http\Requests\Api\Wiki\Artist\ArtistIndexRequest;
+use App\Http\Requests\Api\Wiki\Artist\ArtistRestoreRequest;
 use App\Http\Requests\Api\Wiki\Artist\ArtistShowRequest;
+use App\Http\Requests\Api\Wiki\Artist\ArtistStoreRequest;
+use App\Http\Requests\Api\Wiki\Artist\ArtistUpdateRequest;
 use App\Models\Wiki\Artist;
 use Illuminate\Http\JsonResponse;
 
@@ -34,6 +39,21 @@ class ArtistController extends Controller
     }
 
     /**
+     * Store a newly created resource.
+     *
+     * @param  ArtistStoreRequest  $request
+     * @return JsonResponse
+     */
+    public function store(ArtistStoreRequest $request): JsonResponse
+    {
+        $artist = Artist::query()->create($request->validated());
+
+        $resource = $request->getQuery()->resource($artist);
+
+        return $resource->toResponse($request);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  ArtistShowRequest  $request
@@ -43,6 +63,70 @@ class ArtistController extends Controller
     public function show(ArtistShowRequest $request, Artist $artist): JsonResponse
     {
         $resource = $request->getQuery()->show($artist);
+
+        return $resource->toResponse($request);
+    }
+
+    /**
+     * Update the specified resource.
+     *
+     * @param  ArtistUpdateRequest  $request
+     * @param  Artist  $artist
+     * @return JsonResponse
+     */
+    public function update(ArtistUpdateRequest $request, Artist $artist): JsonResponse
+    {
+        $artist->update($request->validated());
+
+        $resource = $request->getQuery()->resource($artist);
+
+        return $resource->toResponse($request);
+    }
+
+    /**
+     * Remove the specified resource.
+     *
+     * @param  ArtistDestroyRequest  $request
+     * @param  Artist  $artist
+     * @return JsonResponse
+     */
+    public function destroy(ArtistDestroyRequest $request, Artist $artist): JsonResponse
+    {
+        $artist->delete();
+
+        $resource = $request->getQuery()->resource($artist);
+
+        return $resource->toResponse($request);
+    }
+
+    /**
+     * Restore the specified resource.
+     *
+     * @param  ArtistRestoreRequest  $request
+     * @param  Artist  $artist
+     * @return JsonResponse
+     */
+    public function restore(ArtistRestoreRequest $request, Artist $artist): JsonResponse
+    {
+        $artist->restore();
+
+        $resource = $request->getQuery()->resource($artist);
+
+        return $resource->toResponse($request);
+    }
+
+    /**
+     * Hard-delete the specified resource.
+     *
+     * @param  ArtistForceDeleteRequest  $request
+     * @param  Artist  $artist
+     * @return JsonResponse
+     */
+    public function forceDelete(ArtistForceDeleteRequest $request, Artist $artist): JsonResponse
+    {
+        $artist->forceDelete();
+
+        $resource = $request->getQuery()->resource(new Artist());
 
         return $resource->toResponse($request);
     }
