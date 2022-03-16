@@ -34,4 +34,14 @@ class AnimeDestroyRequest extends EloquentDestroyRequest
     {
         return new AnimeQuery();
     }
+
+    /**
+     * The token ability to authorize.
+     *
+     * @return string
+     */
+    protected function tokenAbility(): string
+    {
+        return 'anime:delete';
+    }
 }

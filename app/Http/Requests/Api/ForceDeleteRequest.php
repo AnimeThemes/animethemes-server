@@ -10,11 +10,11 @@ namespace App\Http\Requests\Api;
 abstract class ForceDeleteRequest extends WriteRequest
 {
     /**
-     * The ability to authorize.
+     * The policy ability to authorize.
      *
      * @return string
      */
-    protected function ability(): string
+    protected function policyAbility(): string
     {
         return 'forceDelete';
     }

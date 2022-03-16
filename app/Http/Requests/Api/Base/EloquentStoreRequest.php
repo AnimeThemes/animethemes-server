@@ -28,7 +28,7 @@ abstract class EloquentStoreRequest extends StoreRequest
     abstract public function getQuery(): EloquentQuery;
 
     /**
-     * The arguments for the ability to authorize.
+     * The arguments for the policy ability to authorize.
      *
      * @return string
      */

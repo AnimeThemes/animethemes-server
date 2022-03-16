@@ -12,11 +12,11 @@ use App\Contracts\Http\Api\Field\CreatableField;
 abstract class StoreRequest extends WriteRequest
 {
     /**
-     * The ability to authorize.
+     * The policy ability to authorize.
      *
      * @return string
      */
-    protected function ability(): string
+    protected function policyAbility(): string
     {
         return 'create';
     }

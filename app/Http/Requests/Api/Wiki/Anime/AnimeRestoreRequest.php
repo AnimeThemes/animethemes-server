@@ -34,4 +34,14 @@ class AnimeRestoreRequest extends EloquentRestoreRequest
     {
         return new AnimeQuery();
     }
+
+    /**
+     * The token ability to authorize.
+     *
+     * @return string
+     */
+    protected function tokenAbility(): string
+    {
+        return 'anime:restore';
+    }
 }

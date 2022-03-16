@@ -51,4 +51,14 @@ class AnimeStoreRequest extends EloquentStoreRequest
             Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
         ];
     }
+
+    /**
+     * The token ability to authorize.
+     *
+     * @return string
+     */
+    protected function tokenAbility(): string
+    {
+        return 'anime:create';
+    }
 }

@@ -34,4 +34,14 @@ class AnimeForceDeleteRequest extends EloquentForceDeleteRequest
     {
         return new AnimeQuery();
     }
+
+    /**
+     * The token ability to authorize.
+     *
+     * @return string
+     */
+    protected function tokenAbility(): string
+    {
+        return 'anime:delete';
+    }
 }
