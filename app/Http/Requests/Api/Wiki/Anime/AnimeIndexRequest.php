@@ -9,7 +9,7 @@ use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Query\Wiki\AnimeQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
-use App\Http\Requests\Api\EloquentIndexRequest;
+use App\Http\Requests\Api\Base\EloquentIndexRequest;
 
 /**
  * Class AnimeIndexRequest.

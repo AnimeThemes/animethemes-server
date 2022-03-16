@@ -8,7 +8,7 @@ use App\Http\Api\Query\Billing\BalanceQuery;
 use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Schema\Billing\BalanceSchema;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Requests\Api\EloquentIndexRequest;
+use App\Http\Requests\Api\Base\EloquentIndexRequest;
 
 /**
  * Class BalanceIndexRequest.

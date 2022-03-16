@@ -34,45 +34,50 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['as' => 'api.'], function () {
+// Search Routes
+Route::get('search', [SearchController::class, 'show'])->name('search.show');
 
-    // Search Routes
-    Route::get('search', [SearchController::class, 'show'])->name('search.show');
+// Admin Resources
+Route::apiResource('announcement', AnnouncementController::class)->only(['index', 'show']);
 
-    // Admin Resources
-    Route::apiResource('announcement', AnnouncementController::class)->only(['index', 'show']);
+// Config Resources
+Route::get('config/flags', [FlagsController::class, 'show'])->name('config.flags.show');
+Route::get('config/wiki', [WikiController::class, 'show'])->name('config.wiki.show');
 
-    // Config Resources
-    Route::get('config/flags', [FlagsController::class, 'show'])->name('config.flags.show');
-    Route::get('config/wiki', [WikiController::class, 'show'])->name('config.wiki.show');
+// Billing Resources
+Route::apiResource('balance', BalanceController::class)->only(['index', 'show']);
+Route::apiResource('transaction', TransactionController::class)->only(['index', 'show']);
 
-    // Billing Resources
-    Route::apiResource('balance', BalanceController::class)->only(['index', 'show']);
-    Route::apiResource('transaction', TransactionController::class)->only(['index', 'show']);
+// Document Resources
+Route::apiResource('page', PageController::class)->only(['index', 'show'])->where(['page' => '[\pL\pM\pN\/_-]+']);
 
-    // Document Resources
-    Route::apiResource('page', PageController::class)->only(['index', 'show'])->where(['page' => '[\pL\pM\pN\/_-]+']);
+// Wiki Resources
+Route::apiResource('artist', ArtistController::class)->only(['index', 'show']);
+Route::apiResource('image', ImageController::class)->only(['index', 'show']);
+Route::apiResource('resource', ExternalResourceController::class)->only(['index', 'show']);
+Route::apiResource('series', SeriesController::class)->only(['index', 'show']);
+Route::apiResource('song', SongController::class)->only(['index', 'show']);
+Route::apiResource('studio', StudioController::class)->only(['index', 'show']);
+Route::apiResource('video', VideoController::class)->only(['index', 'show']);
 
-    // Wiki Resources
-    Route::apiResource('anime', AnimeController::class)->only(['index', 'show']);
-    Route::apiResource('artist', ArtistController::class)->only(['index', 'show']);
-    Route::apiResource('image', ImageController::class)->only(['index', 'show']);
-    Route::apiResource('resource', ExternalResourceController::class)->only(['index', 'show']);
-    Route::apiResource('series', SeriesController::class)->only(['index', 'show']);
-    Route::apiResource('song', SongController::class)->only(['index', 'show']);
-    Route::apiResource('studio', StudioController::class)->only(['index', 'show']);
-    Route::apiResource('video', VideoController::class)->only(['index', 'show']);
+// Anime Resources
+Route::apiResource('animesynonym', SynonymController::class)->only(['index', 'show']);
+Route::apiResource('animetheme', ThemeController::class)->only(['index', 'show']);
 
-    // Anime Resources
-    Route::apiResource('animesynonym', SynonymController::class)->only(['index', 'show']);
-    Route::apiResource('animetheme', ThemeController::class)->only(['index', 'show']);
+// Anime Year Routes
+Route::get('animeyear', [YearController::class, 'index'])->name('animeyear.index');
+Route::get('animeyear/{year}', [YearController::class, 'show'])->name('animeyear.show');
 
-    // Anime Year Routes
-    Route::get('animeyear', [YearController::class, 'index'])->name('animeyear.index');
-    Route::get('animeyear/{year}', [YearController::class, 'show'])->name('animeyear.show');
+// Anime Theme Resources
+Route::apiResource('animethemeentry', EntryController::class)->only(['index', 'show']);
 
-    // Anime Theme Resources
-    Route::apiResource('animethemeentry', EntryController::class)->only(['index', 'show']);
+Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']]]]], function () {
+    Route::apiResources([
+        'anime' => AnimeController::class,
+    ]);
+
+    Route::patch('anime/{anime}/restore', [AnimeController::class, 'restore'])->name('anime.restore');
+    Route::delete('anime/{anime}/forceDelete', [AnimeController::class, 'forceDelete'])->name('anime.forceDelete');
 });
 
 Route::fallback(function () {

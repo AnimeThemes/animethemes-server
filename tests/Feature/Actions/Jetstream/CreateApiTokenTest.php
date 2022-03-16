@@ -36,15 +36,15 @@ class CreateApiTokenTest extends TestCase
                     ->set(['createApiTokenForm' => [
                         'name' => 'Test Token',
                         'permissions' => [
-                            'read',
-                            'update',
+                            'anime:read',
+                            'anime:update',
                         ],
                     ]])
                     ->call('createApiToken');
 
         static::assertCount(1, $user->fresh()->tokens);
         static::assertEquals('Test Token', $user->fresh()->tokens->first()->name);
-        static::assertTrue($user->fresh()->tokens->first()->can('read'));
-        static::assertFalse($user->fresh()->tokens->first()->can('delete'));
+        static::assertTrue($user->fresh()->tokens->first()->can('anime:read'));
+        static::assertFalse($user->fresh()->tokens->first()->can('anime:delete'));
     }
 }

@@ -8,7 +8,7 @@ use App\Http\Api\Query\Document\PageQuery;
 use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Schema\Document\PageSchema;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Requests\Api\EloquentShowRequest;
+use App\Http\Requests\Api\Base\EloquentShowRequest;
 
 /**
  * Class PageShowRequest.
