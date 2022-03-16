@@ -12,7 +12,7 @@ use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Wiki\SearchQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\SearchSchema;
-use App\Http\Requests\Api\BaseRequest;
+use App\Http\Requests\Api\ReadRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
@@ -20,7 +20,7 @@ use Illuminate\Validation\Validator;
 /**
  * Class SearchRequest.
  */
-class SearchRequest extends BaseRequest
+class SearchRequest extends ReadRequest
 {
     /**
      * Get the field validation rules.

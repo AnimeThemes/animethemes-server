@@ -51,7 +51,7 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "livewire/livewire": "^2.10",
         "olssonm/l5-zxcvbn": "^4.5",
-        "owen-it/laravel-auditing": "^12.1",
+        "owen-it/laravel-auditing": "^13.0",
         "spatie/commonmark-highlighter": "^3.0",
         "spatie/db-dumper": "^3.1.1",
         "spatie/laravel-validation-rules": "^3.2",

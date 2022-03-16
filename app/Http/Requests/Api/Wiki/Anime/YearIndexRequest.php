@@ -14,12 +14,12 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Query\Wiki\AnimeQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
-use App\Http\Requests\Api\BaseRequest;
+use App\Http\Requests\Api\ReadRequest;
 
 /**
  * Class YearIndexRequest.
  */
-class YearIndexRequest extends BaseRequest
+class YearIndexRequest extends ReadRequest
 {
     /**
      * Get the field validation rules.

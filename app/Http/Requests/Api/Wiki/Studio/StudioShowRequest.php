@@ -8,7 +8,7 @@ use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Query\Wiki\StudioQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
-use App\Http\Requests\Api\EloquentShowRequest;
+use App\Http\Requests\Api\Base\EloquentShowRequest;
 
 /**
  * Class StudioShowRequest.

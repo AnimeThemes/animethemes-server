@@ -8,7 +8,7 @@ use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Query\Wiki\ExternalResourceQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
-use App\Http\Requests\Api\EloquentShowRequest;
+use App\Http\Requests\Api\Base\EloquentShowRequest;
 
 /**
  * Class ExternalResourceShowRequest.

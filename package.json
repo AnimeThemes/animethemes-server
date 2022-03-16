@@ -14,7 +14,7 @@
         "@tailwindcss/typography": "^0.5.2",
         "alpinejs": "^3.9.1",
         "axios": "^0.26.1",
-        "highlight.js": "^11.4.0",
+        "highlight.js": "^11.5.0",
         "laravel-mix": "^6.0.43",
         "lodash": "^4.17.21",
         "postcss-import": "^14.0.2",

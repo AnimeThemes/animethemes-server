@@ -9,7 +9,7 @@ use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Query\Wiki\ArtistQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
-use App\Http\Requests\Api\EloquentIndexRequest;
+use App\Http\Requests\Api\Base\EloquentIndexRequest;
 
 /**
  * Class ArtistIndexRequest.

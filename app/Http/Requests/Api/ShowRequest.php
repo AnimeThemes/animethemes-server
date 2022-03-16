@@ -14,7 +14,7 @@ use Illuminate\Validation\Validator;
 /**
  * Class ShowRequest.
  */
-abstract class ShowRequest extends BaseRequest
+abstract class ShowRequest extends ReadRequest
 {
     /**
      * Get the filter validation rules.

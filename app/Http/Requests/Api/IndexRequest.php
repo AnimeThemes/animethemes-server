@@ -20,7 +20,7 @@ use Spatie\ValidationRules\Rules\Delimited;
 /**
  * Class IndexRequest.
  */
-abstract class IndexRequest extends BaseRequest
+abstract class IndexRequest extends ReadRequest
 {
     /**
      * Get the filter validation rules.

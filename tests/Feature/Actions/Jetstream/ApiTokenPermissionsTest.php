@@ -28,7 +28,7 @@ class ApiTokenPermissionsTest extends TestCase
         }
 
         if (Features::hasTeamFeatures()) {
-            $this->actingAs($user = User::factory()->withPersonalTeam()->createOne());
+            $this->actingAs($user = User::factory()->withCurrentTeam('editor')->createOne());
         } else {
             $this->actingAs($user = User::factory()->createOne());
         }
@@ -36,21 +36,21 @@ class ApiTokenPermissionsTest extends TestCase
         $token = $user->tokens()->create([
             'name' => 'Test Token',
             'token' => Str::random(40),
-            'abilities' => ['create', 'read'],
+            'abilities' => ['anime:create', 'anime:read'],
         ]);
 
         Livewire::test(ApiTokenManager::class)
                     ->set(['managingPermissionsFor' => $token])
                     ->set(['updateApiTokenForm' => [
                         'permissions' => [
-                            'delete',
+                            'anime:delete',
                             'missing-permission',
                         ],
                     ]])
                     ->call('updateApiToken');
 
-        static::assertTrue($user->fresh()->tokens->first()->can('delete'));
-        static::assertFalse($user->fresh()->tokens->first()->can('read'));
+        static::assertTrue($user->fresh()->tokens->first()->can('anime:delete'));
+        static::assertFalse($user->fresh()->tokens->first()->can('anime:read'));
         static::assertFalse($user->fresh()->tokens->first()->can('missing-permission'));
     }
 }
