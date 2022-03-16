@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 /**
  * Class AnimeSynopsisField.
  */
-class AnimeSynopsisField extends StringField  implements CreatableField, UpdatableField
+class AnimeSynopsisField extends StringField implements CreatableField, UpdatableField
 {
     /**
      * Create a new field instance.
