@@ -62,13 +62,14 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
     /**
      * Resolve link field from request.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return string
      */
     protected function resolveLink(Request $request): string
     {
         if ($request->has(ExternalResource::ATTRIBUTE_LINK)) {
             $link = $request->input(ExternalResource::ATTRIBUTE_LINK);
+
             return is_string($link) ? $link : '';
         }
 

@@ -62,13 +62,14 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
     /**
      * Resolve site field from request.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return int|null
      */
     protected function resolveSite(Request $request): ?int
     {
         if ($request->has(ExternalResource::ATTRIBUTE_SITE)) {
             $site = $request->input(ExternalResource::ATTRIBUTE_SITE);
+
             return is_int($site) ? $site : null;
         }
 
