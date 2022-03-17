@@ -8,9 +8,9 @@ use App\Enums\Models\Wiki\ResourceSite;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
- * Class ResourceSiteDomainRule.
+ * Class ResourceLinkMatchesSiteRule.
  */
-class ResourceSiteDomainRule implements Rule
+class ResourceLinkMatchesSiteRule implements Rule
 {
     /**
      * Create a new rule instance.

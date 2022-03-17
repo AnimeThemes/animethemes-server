@@ -6,7 +6,7 @@ namespace App\Nova\Actions\Wiki\Studio;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
-use App\Rules\Wiki\ResourceSiteDomainRule;
+use App\Rules\Wiki\ResourceLinkMatchesSiteRule;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -80,7 +80,7 @@ class CreateExternalResourceSiteForStudioAction extends Action
                         'max:192',
                         'url',
                         Rule::unique(ExternalResource::TABLE),
-                        new ResourceSiteDomainRule($this->site),
+                        new ResourceLinkMatchesSiteRule($this->site),
                     ])
                     ->help(__('nova.resource_link_help')),
             ]

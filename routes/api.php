@@ -53,7 +53,6 @@ Route::apiResource('page', PageController::class)->only(['index', 'show'])->wher
 
 // Wiki Resources
 Route::apiResource('image', ImageController::class)->only(['index', 'show']);
-Route::apiResource('resource', ExternalResourceController::class)->only(['index', 'show']);
 Route::apiResource('series', SeriesController::class)->only(['index', 'show']);
 Route::apiResource('song', SongController::class)->only(['index', 'show']);
 Route::apiResource('studio', StudioController::class)->only(['index', 'show']);
@@ -72,15 +71,20 @@ Route::apiResource('animethemeentry', EntryController::class)->only(['index', 's
 
 Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']]]]], function () {
     Route::apiResources([
+        // Wiki Resources
         'anime' => AnimeController::class,
         'artist' => ArtistController::class,
+        'resource' => ExternalResourceController::class,
     ]);
 
+    //
     Route::patch('anime/{anime}/restore', [AnimeController::class, 'restore'])->name('anime.restore');
     Route::patch('artist/{artist}/restore', [ArtistController::class, 'restore'])->name('artist.restore');
+    Route::patch('resource/{resource}/restore', [ExternalResourceController::class, 'restore'])->name('resource.restore');
 
     Route::delete('anime/{anime}/forceDelete', [AnimeController::class, 'forceDelete'])->name('anime.forceDelete');
     Route::delete('artist/{artist}/forceDelete', [ArtistController::class, 'forceDelete'])->name('artist.forceDelete');
+    Route::delete('resource/{resource}/forceDelete', [ExternalResourceController::class, 'forceDelete'])->name('resource.forceDelete');
 });
 
 Route::fallback(function () {

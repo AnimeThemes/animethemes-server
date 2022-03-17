@@ -5,8 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Wiki;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Wiki\ExternalResource\ExternalResourceDestroyRequest;
+use App\Http\Requests\Api\Wiki\ExternalResource\ExternalResourceForceDeleteRequest;
 use App\Http\Requests\Api\Wiki\ExternalResource\ExternalResourceIndexRequest;
+use App\Http\Requests\Api\Wiki\ExternalResource\ExternalResourceRestoreRequest;
 use App\Http\Requests\Api\Wiki\ExternalResource\ExternalResourceShowRequest;
+use App\Http\Requests\Api\Wiki\ExternalResource\ExternalResourceStoreRequest;
+use App\Http\Requests\Api\Wiki\ExternalResource\ExternalResourceUpdateRequest;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\JsonResponse;
 
@@ -29,6 +34,21 @@ class ExternalResourceController extends Controller
     }
 
     /**
+     * Store a newly created resource.
+     *
+     * @param  ExternalResourceStoreRequest  $request
+     * @return JsonResponse
+     */
+    public function store(ExternalResourceStoreRequest $request): JsonResponse
+    {
+        $externalResource = ExternalResource::query()->create($request->validated());
+
+        $resource = $request->getQuery()->resource($externalResource);
+
+        return $resource->toResponse($request);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  ExternalResourceShowRequest  $request
@@ -37,8 +57,72 @@ class ExternalResourceController extends Controller
      */
     public function show(ExternalResourceShowRequest $request, ExternalResource $resource): JsonResponse
     {
-        $resourceResource = $request->getQuery()->show($resource);
+        $apiResource = $request->getQuery()->show($resource);
 
-        return $resourceResource->toResponse($request);
+        return $apiResource->toResponse($request);
+    }
+
+    /**
+     * Update the specified resource.
+     *
+     * @param  ExternalResourceUpdateRequest  $request
+     * @param  ExternalResource  $resource
+     * @return JsonResponse
+     */
+    public function update(ExternalResourceUpdateRequest $request, ExternalResource $resource): JsonResponse
+    {
+        $resource->update($request->validated());
+
+        $apiResource = $request->getQuery()->resource($resource);
+
+        return $apiResource->toResponse($request);
+    }
+
+    /**
+     * Remove the specified resource.
+     *
+     * @param  ExternalResourceDestroyRequest  $request
+     * @param  ExternalResource  $resource
+     * @return JsonResponse
+     */
+    public function destroy(ExternalResourceDestroyRequest $request, ExternalResource $resource): JsonResponse
+    {
+        $resource->delete();
+
+        $apiResource = $request->getQuery()->resource($resource);
+
+        return $apiResource->toResponse($request);
+    }
+
+    /**
+     * Restore the specified resource.
+     *
+     * @param  ExternalResourceRestoreRequest  $request
+     * @param  ExternalResource  $resource
+     * @return JsonResponse
+     */
+    public function restore(ExternalResourceRestoreRequest $request, ExternalResource $resource): JsonResponse
+    {
+        $resource->restore();
+
+        $apiResource = $request->getQuery()->resource($resource);
+
+        return $apiResource->toResponse($request);
+    }
+
+    /**
+     * Hard-delete the specified resource.
+     *
+     * @param  ExternalResourceForceDeleteRequest  $request
+     * @param  ExternalResource  $resource
+     * @return JsonResponse
+     */
+    public function forceDelete(ExternalResourceForceDeleteRequest $request, ExternalResource $resource): JsonResponse
+    {
+        $resource->forceDelete();
+
+        $apiResource = $request->getQuery()->resource(new ExternalResource());
+
+        return $apiResource->toResponse($request);
     }
 }

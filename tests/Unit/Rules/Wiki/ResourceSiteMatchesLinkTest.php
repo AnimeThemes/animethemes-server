@@ -5,23 +5,23 @@ declare(strict_types=1);
 namespace Tests\Unit\Rules\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Rules\Wiki\ResourceSiteDomainRule;
+use App\Rules\Wiki\ResourceSiteMatchesLinkRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class ResourceSiteDomainRuleTest.
+ * Class ResourceSiteMatchesLinkTest.
  */
-class ResourceSiteDomainRuleTest extends TestCase
+class ResourceSiteMatchesLinkTest extends TestCase
 {
     use WithFaker;
 
     /**
-     * The Resource Site Domain Rule shall return true if the link matches the site.
+     * The Resource Site Matches Link Rule shall return true if the site matches the link.
      *
      * @return void
      */
-    public function testResourceSiteDomainRulePasses(): void
+    public function testPassesIfSiteMatchesLink(): void
     {
         $site = ResourceSite::getRandomInstance();
 
@@ -31,27 +31,25 @@ class ResourceSiteDomainRuleTest extends TestCase
             $url = 'https://'.$domain;
         }
 
-        $rule = new ResourceSiteDomainRule($site->value);
+        $rule = new ResourceSiteMatchesLinkRule($url);
 
-        static::assertTrue($rule->passes($this->faker->word(), $url));
+        static::assertTrue($rule->passes($this->faker->word(), $site->value));
     }
 
     /**
-     * The Resource Site Domain Rule shall return true if the site does not have a domain.
+     * The Resource Site Matches Link Rule shall return true if the site does not have a domain.
      *
      * @return void
      */
     public function testResourceSiteDomainRuleOfficialPasses(): void
     {
-        $site = ResourceSite::OFFICIAL_SITE;
+        $rule = new ResourceSiteMatchesLinkRule($this->faker->url());
 
-        $rule = new ResourceSiteDomainRule($site);
-
-        static::assertTrue($rule->passes($this->faker->word(), $this->faker->url()));
+        static::assertTrue($rule->passes($this->faker->word(), ResourceSite::OFFICIAL_SITE));
     }
 
     /**
-     * The Resource Site Domain Rule shall return false if the link does not match the site.
+     * The Resource Site Matches Link Rule shall return false if the site does not match the link.
      *
      * @return void
      */
@@ -66,8 +64,8 @@ class ResourceSiteDomainRuleTest extends TestCase
             }
         }
 
-        $rule = new ResourceSiteDomainRule($site->value);
+        $rule = new ResourceSiteMatchesLinkRule($this->faker->url());
 
-        static::assertFalse($rule->passes($this->faker->word(), $this->faker->url()));
+        static::assertFalse($rule->passes($this->faker->word(), $site->value));
     }
 }
