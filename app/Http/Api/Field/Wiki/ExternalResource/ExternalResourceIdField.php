@@ -11,9 +11,9 @@ use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\Request;
 
 /**
- * Class ExternalResourceIdColumn.
+ * Class ExternalResourceIdField.
  */
-class ExternalResourceIdColumn extends IntField implements CreatableField, UpdatableField
+class ExternalResourceIdField extends IntField implements CreatableField, UpdatableField
 {
     /**
      * Create a new field instance.

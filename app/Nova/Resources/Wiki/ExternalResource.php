@@ -13,7 +13,7 @@ use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
 use App\Pivots\BasePivot;
 use App\Pivots\StudioResource;
-use App\Rules\Wiki\ResourceSiteDomainRule;
+use App\Rules\Wiki\ResourceLinkMatchesSiteRule;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
@@ -129,7 +129,7 @@ class ExternalResource extends Resource
 
             Url::make(__('nova.link'), 'link')
                 ->sortable()
-                ->rules(['required', 'max:192', 'url', new ResourceSiteDomainRule(intval($request->input('site')))])
+                ->rules(['required', 'max:192', 'url', new ResourceLinkMatchesSiteRule(intval($request->input('site')))])
                 ->creationRules(Rule::unique(ExternalResourceModel::TABLE)->__toString())
                 ->updateRules(
                     Rule::unique(ExternalResourceModel::TABLE)

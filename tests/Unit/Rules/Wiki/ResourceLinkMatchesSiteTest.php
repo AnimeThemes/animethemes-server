@@ -10,18 +10,18 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Class ResourceSiteDomainRuleTest.
+ * Class ResourceLinkMatchesSiteTest.
  */
-class ResourceSiteDomainRuleTest extends TestCase
+class ResourceLinkMatchesSiteTest extends TestCase
 {
     use WithFaker;
 
     /**
-     * The Resource Site Domain Rule shall return true if the link matches the site.
+     * The Resource Link Matches Site Rule shall return true if the link matches the site.
      *
      * @return void
      */
-    public function testResourceSiteDomainRulePasses(): void
+    public function testPassesIfLinkMatchesSite(): void
     {
         $site = ResourceSite::getRandomInstance();
 
@@ -37,11 +37,11 @@ class ResourceSiteDomainRuleTest extends TestCase
     }
 
     /**
-     * The Resource Site Domain Rule shall return true if the site does not have a domain.
+     * The Resource Link Matches Site Rule shall return true if the site does not have a domain.
      *
      * @return void
      */
-    public function testResourceSiteDomainRuleOfficialPasses(): void
+    public function testPassesIfSiteIsOfficial(): void
     {
         $site = ResourceSite::OFFICIAL_SITE;
 
@@ -51,11 +51,11 @@ class ResourceSiteDomainRuleTest extends TestCase
     }
 
     /**
-     * The Resource Site Domain Rule shall return false if the link does not match the site.
+     * The Resource Link Matches Site Rule shall return false if the link does not match the site.
      *
      * @return void
      */
-    public function testResourceSiteDomainRuleFails(): void
+    public function testFailsIfSiteDoesNotMatch(): void
     {
         $site = null;
 

@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Api\Wiki\Anime;
+namespace App\Http\Requests\Api\Wiki\ExternalResource;
 
 use App\Enums\BaseEnum;
-use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Query\EloquentQuery;
-use App\Http\Api\Query\Wiki\AnimeQuery;
+use App\Http\Api\Query\Wiki\ExternalResourceQuery;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Wiki\AnimeSchema;
-use App\Http\Requests\Api\Base\EloquentStoreRequest;
-use App\Models\Wiki\Anime;
+use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
+use App\Http\Requests\Api\Base\EloquentUpdateRequest;
+use App\Models\Wiki\ExternalResource;
 
 /**
- * Class AnimeStoreRequest.
+ * Class ExternalResourceUpdateRequest.
  */
-class AnimeStoreRequest extends EloquentStoreRequest
+class ExternalResourceUpdateRequest extends EloquentUpdateRequest
 {
     /**
      * Get the schema.
@@ -25,7 +25,7 @@ class AnimeStoreRequest extends EloquentStoreRequest
      */
     protected function schema(): EloquentSchema
     {
-        return new AnimeSchema();
+        return new ExternalResourceSchema();
     }
 
     /**
@@ -35,7 +35,7 @@ class AnimeStoreRequest extends EloquentStoreRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return new AnimeQuery();
+        return new ExternalResourceQuery();
     }
 
     /**
@@ -45,7 +45,7 @@ class AnimeStoreRequest extends EloquentStoreRequest
      */
     protected function tokenAbility(): string
     {
-        return 'anime:create';
+        return 'resource:update';
     }
 
     /**
@@ -58,7 +58,7 @@ class AnimeStoreRequest extends EloquentStoreRequest
     protected function enums(): array
     {
         return [
-            Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
+            ExternalResource::ATTRIBUTE_SITE => ResourceSite::class,
         ];
     }
 }

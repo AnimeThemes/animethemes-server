@@ -8,13 +8,13 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\StringField;
 use App\Models\Wiki\ExternalResource;
-use App\Rules\Wiki\ResourceSiteDomainRule;
+use App\Rules\Wiki\ResourceLinkMatchesSiteRule;
 use Illuminate\Http\Request;
 
 /**
- * Class ExternalResourceLinkColumn.
+ * Class ExternalResourceLinkField.
  */
-class ExternalResourceLinkColumn extends StringField implements CreatableField, UpdatableField
+class ExternalResourceLinkField extends StringField implements CreatableField, UpdatableField
 {
     /**
      * Create a new field instance.
@@ -33,10 +33,11 @@ class ExternalResourceLinkColumn extends StringField implements CreatableField, 
     public function getCreationRules(Request $request): array
     {
         return [
+            'bail',
             'required',
             'max:192',
             'url',
-            new ResourceSiteDomainRule($this->resolveSite($request)),
+            new ResourceLinkMatchesSiteRule($this->resolveSite($request)),
         ];
     }
 
@@ -49,11 +50,12 @@ class ExternalResourceLinkColumn extends StringField implements CreatableField, 
     public function getUpdateRules(Request $request): array
     {
         return [
+            'bail',
             'sometimes',
             'required',
             'max:192',
             'url',
-            new ResourceSiteDomainRule($this->resolveSite($request)),
+            new ResourceLinkMatchesSiteRule($this->resolveSite($request)),
         ];
     }
 
@@ -63,7 +65,7 @@ class ExternalResourceLinkColumn extends StringField implements CreatableField, 
      * @param Request $request
      * @return int|null
      */
-    public function resolveSite(Request $request): ?int
+    protected function resolveSite(Request $request): ?int
     {
         if ($request->has(ExternalResource::ATTRIBUTE_SITE)) {
             $site = $request->input(ExternalResource::ATTRIBUTE_SITE);

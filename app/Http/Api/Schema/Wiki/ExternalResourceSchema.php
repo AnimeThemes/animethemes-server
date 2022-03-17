@@ -7,9 +7,9 @@ namespace App\Http\Api\Schema\Wiki;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceAsField;
-use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceIdColumn;
-use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceLinkColumn;
-use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceSiteColumn;
+use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceIdField;
+use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceLinkField;
+use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceSiteField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
@@ -65,9 +65,9 @@ class ExternalResourceSchema extends EloquentSchema
             parent::fields(),
             [
                 new IdField(ExternalResource::ATTRIBUTE_ID),
-                new ExternalResourceIdColumn(),
-                new ExternalResourceLinkColumn(),
-                new ExternalResourceSiteColumn(),
+                new ExternalResourceIdField(),
+                new ExternalResourceLinkField(),
+                new ExternalResourceSiteField(),
                 new ExternalResourceAsField(),
             ],
         );
