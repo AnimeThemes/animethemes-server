@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Rules\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Rules\Wiki\ResourceSiteDomainRule;
+use App\Rules\Wiki\ResourceLinkMatchesSiteRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -31,7 +31,7 @@ class ResourceSiteDomainRuleTest extends TestCase
             $url = 'https://'.$domain;
         }
 
-        $rule = new ResourceSiteDomainRule($site->value);
+        $rule = new ResourceLinkMatchesSiteRule($site->value);
 
         static::assertTrue($rule->passes($this->faker->word(), $url));
     }
@@ -45,7 +45,7 @@ class ResourceSiteDomainRuleTest extends TestCase
     {
         $site = ResourceSite::OFFICIAL_SITE;
 
-        $rule = new ResourceSiteDomainRule($site);
+        $rule = new ResourceLinkMatchesSiteRule($site);
 
         static::assertTrue($rule->passes($this->faker->word(), $this->faker->url()));
     }
@@ -66,7 +66,7 @@ class ResourceSiteDomainRuleTest extends TestCase
             }
         }
 
-        $rule = new ResourceSiteDomainRule($site->value);
+        $rule = new ResourceLinkMatchesSiteRule($site->value);
 
         static::assertFalse($rule->passes($this->faker->word(), $this->faker->url()));
     }
