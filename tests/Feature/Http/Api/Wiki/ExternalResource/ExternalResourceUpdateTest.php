@@ -38,7 +38,7 @@ class ExternalResourceUpdateTest extends TestCase
     }
 
     /**
-     * The ExternalResource Update Endpoint shall create an resource.
+     * The ExternalResource Update Endpoint shall update a resource.
      *
      * @return void
      */

@@ -32,7 +32,7 @@ class StudioStoreTest extends TestCase
     }
 
     /**
-     * The Studio Store Endpoint shall require name, season, slug & year fields.
+     * The Studio Store Endpoint shall require name & slug fields.
      *
      * @return void
      */

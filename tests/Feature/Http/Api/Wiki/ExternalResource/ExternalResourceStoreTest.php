@@ -33,7 +33,7 @@ class ExternalResourceStoreTest extends TestCase
     }
 
     /**
-     * The ExternalResource Store Endpoint shall require name, season, slug & year fields.
+     * The ExternalResource Store Endpoint shall require link & site fields.
      *
      * @return void
      */

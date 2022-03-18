@@ -32,7 +32,7 @@ class SeriesStoreTest extends TestCase
     }
 
     /**
-     * The Series Store Endpoint shall require name, season, slug & year fields.
+     * The Series Store Endpoint shall require name & slug fields.
      *
      * @return void
      */

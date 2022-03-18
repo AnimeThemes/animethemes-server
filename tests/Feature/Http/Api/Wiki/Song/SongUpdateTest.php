@@ -34,7 +34,7 @@ class SongUpdateTest extends TestCase
     }
 
     /**
-     * The Song Update Endpoint shall create a song.
+     * The Song Update Endpoint shall update a song.
      *
      * @return void
      */

@@ -34,7 +34,7 @@ class SeriesFactory extends Factory
     {
         return [
             Series::ATTRIBUTE_NAME => $this->faker->words(3, true),
-            Series::ATTRIBUTE_SLUG => Str::slug($this->faker->text(), '_'),
+            Series::ATTRIBUTE_SLUG => Str::slug($this->faker->text(191), '_'),
         ];
     }
 }

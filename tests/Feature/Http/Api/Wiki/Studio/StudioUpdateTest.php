@@ -34,7 +34,7 @@ class StudioUpdateTest extends TestCase
     }
 
     /**
-     * The Studio Update Endpoint shall create a studio.
+     * The Studio Update Endpoint shall update a studio.
      *
      * @return void
      */

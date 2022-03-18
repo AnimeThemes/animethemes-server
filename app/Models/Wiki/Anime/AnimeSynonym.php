@@ -43,6 +43,7 @@ class AnimeSynonym extends BaseModel
      * @var string[]
      */
     protected $fillable = [
+        AnimeSynonym::ATTRIBUTE_ANIME,
         AnimeSynonym::ATTRIBUTE_TEXT,
     ];
 

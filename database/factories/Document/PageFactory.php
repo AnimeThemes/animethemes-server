@@ -35,7 +35,7 @@ class PageFactory extends Factory
         return [
             Page::ATTRIBUTE_BODY => $this->faker->sentences(3, true),
             Page::ATTRIBUTE_NAME => $this->faker->words(3, true),
-            Page::ATTRIBUTE_SLUG => Str::slug($this->faker->text(), '_'),
+            Page::ATTRIBUTE_SLUG => Str::slug($this->faker->text(191), '_'),
         ];
     }
 }

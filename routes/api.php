@@ -56,7 +56,6 @@ Route::apiResource('image', ImageController::class)->only(['index', 'show']);
 Route::apiResource('video', VideoController::class)->only(['index', 'show']);
 
 // Anime Resources
-Route::apiResource('animesynonym', SynonymController::class)->only(['index', 'show']);
 Route::apiResource('animetheme', ThemeController::class)->only(['index', 'show']);
 
 // Anime Year Routes
@@ -75,9 +74,12 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
         'series' => SeriesController::class,
         'song' => SongController::class,
         'studio' => StudioController::class,
+
+        // Anime Resources
+        'animesynonym' => SynonymController::class,
     ]);
 
-    // Restore
+    // Restore Wiki Resources
     Route::patch('anime/{anime}/restore', [AnimeController::class, 'restore'])->name('anime.restore');
     Route::patch('artist/{artist}/restore', [ArtistController::class, 'restore'])->name('artist.restore');
     Route::patch('resource/{resource}/restore', [ExternalResourceController::class, 'restore'])->name('resource.restore');
@@ -85,13 +87,19 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
     Route::patch('song/{song}/restore', [SongController::class, 'restore'])->name('song.restore');
     Route::patch('studio/{studio}/restore', [StudioController::class, 'restore'])->name('studio.restore');
 
-    // Force Delete
+    // Restore Anime Resources
+    Route::patch('animesynonym/{animesynonym}/restore', [SynonymController::class, 'restore'])->name('animesynonym.restore');
+
+    // Force Delete Wiki Resources
     Route::delete('anime/{anime}/forceDelete', [AnimeController::class, 'forceDelete'])->name('anime.forceDelete');
     Route::delete('artist/{artist}/forceDelete', [ArtistController::class, 'forceDelete'])->name('artist.forceDelete');
     Route::delete('resource/{resource}/forceDelete', [ExternalResourceController::class, 'forceDelete'])->name('resource.forceDelete');
     Route::delete('series/{series}/forceDelete', [SeriesController::class, 'forceDelete'])->name('series.forceDelete');
     Route::delete('song/{song}/forceDelete', [SongController::class, 'forceDelete'])->name('song.forceDelete');
     Route::delete('studio/{studio}/forceDelete', [StudioController::class, 'forceDelete'])->name('studio.forceDelete');
+
+    // Force Delete Anime Resources
+    Route::delete('animesynonym/{animesynonym}/forceDelete', [SynonymController::class, 'forceDelete'])->name('animesynonym.forceDelete');
 });
 
 Route::fallback(function () {

@@ -38,7 +38,7 @@ class ArtistFactory extends Factory
     public function definition(): array
     {
         return [
-            Artist::ATTRIBUTE_SLUG => Str::slug($this->faker->text(), '_'),
+            Artist::ATTRIBUTE_SLUG => Str::slug($this->faker->text(191), '_'),
             Artist::ATTRIBUTE_NAME => $this->faker->words(3, true),
         ];
     }
