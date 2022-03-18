@@ -34,7 +34,7 @@ class ArtistUpdateTest extends TestCase
     }
 
     /**
-     * The Artist Update Endpoint shall create an artist.
+     * The Artist Update Endpoint shall update an artist.
      *
      * @return void
      */

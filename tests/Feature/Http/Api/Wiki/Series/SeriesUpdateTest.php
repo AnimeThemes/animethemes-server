@@ -34,7 +34,7 @@ class SeriesUpdateTest extends TestCase
     }
 
     /**
-     * The Series Update Endpoint shall create a series.
+     * The Series Update Endpoint shall update a series.
      *
      * @return void
      */

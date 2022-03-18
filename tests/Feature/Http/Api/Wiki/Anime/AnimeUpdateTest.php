@@ -38,7 +38,7 @@ class AnimeUpdateTest extends TestCase
     }
 
     /**
-     * The Anime Update Endpoint shall create an anime.
+     * The Anime Update Endpoint shall update an anime.
      *
      * @return void
      */
