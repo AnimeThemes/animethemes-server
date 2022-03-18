@@ -52,7 +52,7 @@ class SeriesStoreTest extends TestCase
     }
 
     /**
-     * The Series Store Endpoint shall create an series.
+     * The Series Store Endpoint shall create a series.
      *
      * @return void
      */

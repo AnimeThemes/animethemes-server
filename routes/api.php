@@ -53,7 +53,6 @@ Route::apiResource('page', PageController::class)->only(['index', 'show'])->wher
 
 // Wiki Resources
 Route::apiResource('image', ImageController::class)->only(['index', 'show']);
-Route::apiResource('song', SongController::class)->only(['index', 'show']);
 Route::apiResource('studio', StudioController::class)->only(['index', 'show']);
 Route::apiResource('video', VideoController::class)->only(['index', 'show']);
 
@@ -75,6 +74,7 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
         'artist' => ArtistController::class,
         'resource' => ExternalResourceController::class,
         'series' => SeriesController::class,
+        'song' => SongController::class,
     ]);
 
     // Restore
@@ -82,12 +82,14 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
     Route::patch('artist/{artist}/restore', [ArtistController::class, 'restore'])->name('artist.restore');
     Route::patch('resource/{resource}/restore', [ExternalResourceController::class, 'restore'])->name('resource.restore');
     Route::patch('series/{series}/restore', [SeriesController::class, 'restore'])->name('series.restore');
+    Route::patch('song/{song}/restore', [SongController::class, 'restore'])->name('song.restore');
 
     // Force Delete
     Route::delete('anime/{anime}/forceDelete', [AnimeController::class, 'forceDelete'])->name('anime.forceDelete');
     Route::delete('artist/{artist}/forceDelete', [ArtistController::class, 'forceDelete'])->name('artist.forceDelete');
     Route::delete('resource/{resource}/forceDelete', [ExternalResourceController::class, 'forceDelete'])->name('resource.forceDelete');
     Route::delete('series/{series}/forceDelete', [SeriesController::class, 'forceDelete'])->name('series.forceDelete');
+    Route::delete('song/{song}/forceDelete', [SongController::class, 'forceDelete'])->name('song.forceDelete');
 });
 
 Route::fallback(function () {
