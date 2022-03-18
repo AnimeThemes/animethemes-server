@@ -34,7 +34,7 @@ class StudioFactory extends Factory
     {
         return [
             Studio::ATTRIBUTE_NAME => $this->faker->words(3, true),
-            Studio::ATTRIBUTE_SLUG => Str::slug($this->faker->text(), '_'),
+            Studio::ATTRIBUTE_SLUG => Str::slug($this->faker->text(191), '_'),
         ];
     }
 }

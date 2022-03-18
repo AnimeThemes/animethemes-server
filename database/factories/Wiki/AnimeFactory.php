@@ -44,7 +44,7 @@ class AnimeFactory extends Factory
         return [
             Anime::ATTRIBUTE_NAME => $this->faker->words(3, true),
             Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomValue(),
-            Anime::ATTRIBUTE_SLUG => Str::slug($this->faker->text(), '_'),
+            Anime::ATTRIBUTE_SLUG => Str::slug($this->faker->text(191), '_'),
             Anime::ATTRIBUTE_SYNOPSIS => $this->faker->text(),
             Anime::ATTRIBUTE_YEAR => $this->faker->numberBetween(1960, intval(date('Y')) + 1),
         ];
