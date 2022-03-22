@@ -46,9 +46,9 @@ class SynonymController extends Controller
      */
     public function store(SynonymStoreRequest $request): JsonResponse
     {
-        $anime = AnimeSynonym::query()->create($request->validated());
+        $synonym = AnimeSynonym::query()->create($request->validated());
 
-        $resource = $request->getQuery()->resource($anime);
+        $resource = $request->getQuery()->resource($synonym);
 
         return $resource->toResponse($request);
     }

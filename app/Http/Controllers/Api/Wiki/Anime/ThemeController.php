@@ -6,8 +6,13 @@ namespace App\Http\Controllers\Api\Wiki\Anime;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeDestroyRequest;
+use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeForceDeleteRequest;
 use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeIndexRequest;
+use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeRestoreRequest;
 use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeShowRequest;
+use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeStoreRequest;
+use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeUpdateRequest;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\JsonResponse;
 
@@ -34,6 +39,21 @@ class ThemeController extends Controller
     }
 
     /**
+     * Store a newly created resource.
+     *
+     * @param  ThemeStoreRequest  $request
+     * @return JsonResponse
+     */
+    public function store(ThemeStoreRequest $request): JsonResponse
+    {
+        $theme = AnimeTheme::query()->create($request->validated());
+
+        $resource = $request->getQuery()->resource($theme);
+
+        return $resource->toResponse($request);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  ThemeShowRequest  $request
@@ -43,6 +63,70 @@ class ThemeController extends Controller
     public function show(ThemeShowRequest $request, AnimeTheme $theme): JsonResponse
     {
         $resource = $request->getQuery()->show($theme);
+
+        return $resource->toResponse($request);
+    }
+
+    /**
+     * Update the specified resource.
+     *
+     * @param  ThemeUpdateRequest  $request
+     * @param  AnimeTheme  $theme
+     * @return JsonResponse
+     */
+    public function update(ThemeUpdateRequest $request, AnimeTheme $theme): JsonResponse
+    {
+        $theme->update($request->validated());
+
+        $resource = $request->getQuery()->resource($theme);
+
+        return $resource->toResponse($request);
+    }
+
+    /**
+     * Remove the specified resource.
+     *
+     * @param  ThemeDestroyRequest  $request
+     * @param  AnimeTheme  $theme
+     * @return JsonResponse
+     */
+    public function destroy(ThemeDestroyRequest $request, AnimeTheme $theme): JsonResponse
+    {
+        $theme->delete();
+
+        $resource = $request->getQuery()->resource($theme);
+
+        return $resource->toResponse($request);
+    }
+
+    /**
+     * Restore the specified resource.
+     *
+     * @param  ThemeRestoreRequest  $request
+     * @param  AnimeTheme  $theme
+     * @return JsonResponse
+     */
+    public function restore(ThemeRestoreRequest $request, AnimeTheme $theme): JsonResponse
+    {
+        $theme->restore();
+
+        $resource = $request->getQuery()->resource($theme);
+
+        return $resource->toResponse($request);
+    }
+
+    /**
+     * Hard-delete the specified resource.
+     *
+     * @param  ThemeForceDeleteRequest  $request
+     * @param  AnimeTheme  $theme
+     * @return JsonResponse
+     */
+    public function forceDelete(ThemeForceDeleteRequest $request, AnimeTheme $theme): JsonResponse
+    {
+        $theme->forceDelete();
+
+        $resource = $request->getQuery()->resource(new AnimeTheme());
 
         return $resource->toResponse($request);
     }

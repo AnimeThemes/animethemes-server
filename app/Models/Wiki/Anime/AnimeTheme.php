@@ -67,8 +67,10 @@ class AnimeTheme extends BaseModel
      * @var string[]
      */
     protected $fillable = [
+        AnimeTheme::ATTRIBUTE_ANIME,
         AnimeTheme::ATTRIBUTE_GROUP,
         AnimeTheme::ATTRIBUTE_SEQUENCE,
+        AnimeTheme::ATTRIBUTE_SONG,
         AnimeTheme::ATTRIBUTE_TYPE,
     ];
 

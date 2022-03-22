@@ -55,9 +55,6 @@ Route::apiResource('page', PageController::class)->only(['index', 'show'])->wher
 Route::apiResource('image', ImageController::class)->only(['index', 'show']);
 Route::apiResource('video', VideoController::class)->only(['index', 'show']);
 
-// Anime Resources
-Route::apiResource('animetheme', ThemeController::class)->only(['index', 'show']);
-
 // Anime Year Routes
 Route::get('animeyear', [YearController::class, 'index'])->name('animeyear.index');
 Route::get('animeyear/{year}', [YearController::class, 'show'])->name('animeyear.show');
@@ -77,6 +74,7 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
 
         // Anime Resources
         'animesynonym' => SynonymController::class,
+        'animetheme' => ThemeController::class,
     ]);
 
     // Restore Wiki Resources
@@ -89,6 +87,7 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
 
     // Restore Anime Resources
     Route::patch('animesynonym/{animesynonym}/restore', [SynonymController::class, 'restore'])->name('animesynonym.restore');
+    Route::patch('animetheme/{animetheme}/restore', [ThemeController::class, 'restore'])->name('animetheme.restore');
 
     // Force Delete Wiki Resources
     Route::delete('anime/{anime}/forceDelete', [AnimeController::class, 'forceDelete'])->name('anime.forceDelete');
@@ -100,6 +99,7 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
 
     // Force Delete Anime Resources
     Route::delete('animesynonym/{animesynonym}/forceDelete', [SynonymController::class, 'forceDelete'])->name('animesynonym.forceDelete');
+    Route::delete('animetheme/{animetheme}/forceDelete', [ThemeController::class, 'forceDelete'])->name('animetheme.forceDelete');
 });
 
 Route::fallback(function () {
