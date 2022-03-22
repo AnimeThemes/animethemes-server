@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Anime\Theme;
 
-use App\Enums\BaseEnum;
-use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\Query\EloquentQuery;
 use App\Http\Api\Query\Wiki\Anime\ThemeQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Requests\Api\Base\EloquentStoreRequest;
-use App\Models\Wiki\Anime\AnimeTheme;
 
 /**
  * Class ThemeStoreRequest.
@@ -46,19 +43,5 @@ class ThemeStoreRequest extends EloquentStoreRequest
     protected function tokenAbility(): string
     {
         return 'theme:create';
-    }
-
-    /**
-     * The list of enum attributes to convert.
-     *
-     * @return array<string, class-string<BaseEnum>>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function enums(): array
-    {
-        return [
-            AnimeTheme::ATTRIBUTE_TYPE => ThemeType::class,
-        ];
     }
 }

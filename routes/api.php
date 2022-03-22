@@ -59,9 +59,6 @@ Route::apiResource('video', VideoController::class)->only(['index', 'show']);
 Route::get('animeyear', [YearController::class, 'index'])->name('animeyear.index');
 Route::get('animeyear/{year}', [YearController::class, 'show'])->name('animeyear.show');
 
-// Anime Theme Resources
-Route::apiResource('animethemeentry', EntryController::class)->only(['index', 'show']);
-
 Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']]]]], function () {
     Route::apiResources([
         // Wiki Resources
@@ -75,6 +72,9 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
         // Anime Resources
         'animesynonym' => SynonymController::class,
         'animetheme' => ThemeController::class,
+
+        // Anime Theme Resources
+        'animethemeentry' => EntryController::class,
     ]);
 
     // Restore Wiki Resources
@@ -89,6 +89,9 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
     Route::patch('animesynonym/{animesynonym}/restore', [SynonymController::class, 'restore'])->name('animesynonym.restore');
     Route::patch('animetheme/{animetheme}/restore', [ThemeController::class, 'restore'])->name('animetheme.restore');
 
+    // Restore Anime Theme Resources
+    Route::patch('animethemeentry/{animethemeentry}/restore', [EntryController::class, 'restore'])->name('animethemeentry.restore');
+
     // Force Delete Wiki Resources
     Route::delete('anime/{anime}/forceDelete', [AnimeController::class, 'forceDelete'])->name('anime.forceDelete');
     Route::delete('artist/{artist}/forceDelete', [ArtistController::class, 'forceDelete'])->name('artist.forceDelete');
@@ -100,6 +103,9 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
     // Force Delete Anime Resources
     Route::delete('animesynonym/{animesynonym}/forceDelete', [SynonymController::class, 'forceDelete'])->name('animesynonym.forceDelete');
     Route::delete('animetheme/{animetheme}/forceDelete', [ThemeController::class, 'forceDelete'])->name('animetheme.forceDelete');
+
+    // Force Delete Anime Theme Resources
+    Route::delete('animethemeentry/{animethemeentry}/forceDelete', [EntryController::class, 'forceDelete'])->name('animethemeentry.forceDelete');
 });
 
 Route::fallback(function () {
