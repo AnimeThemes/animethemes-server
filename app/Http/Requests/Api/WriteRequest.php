@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api;
 
 use App\Enums\BaseEnum;
+use App\Http\Api\Field\BooleanField;
+use App\Http\Api\Field\EnumField;
+use App\Http\Api\Field\Field;
 use App\Models\Auth\User;
 
 /**
@@ -56,17 +59,22 @@ abstract class WriteRequest extends BaseRequest
     {
         parent::prepareForValidation();
 
-        foreach ($this->enums() as $attribute => $enumClass) {
-            $this->convertEnumDescriptionToValue($attribute, $enumClass);
+        foreach ($this->getFieldsForPreparation() as $field) {
+            if ($field instanceof EnumField) {
+                $this->convertEnumDescriptionToValue($field->getColumn(), $field->getEnumClass());
+            }
+            if ($field instanceof BooleanField) {
+                $this->convertBoolean($field->getColumn());
+            }
         }
     }
 
     /**
-     * The list of enum attributes to convert.
+     * Get fields for validation preparation.
      *
-     * @return array<string, class-string<BaseEnum>>
+     * @return Field[]
      */
-    protected function enums(): array
+    protected function getFieldsForPreparation(): array
     {
         return [];
     }
@@ -88,6 +96,22 @@ abstract class WriteRequest extends BaseRequest
                     $attribute => $enumInstance->value,
                 ]);
             }
+        }
+    }
+
+    /**
+     * Convert enum parameter values.
+     *
+     * @param string $attribute
+     * @return void
+     */
+    protected function convertBoolean(string $attribute): void
+    {
+        $booleanValue = $this->input($attribute);
+        if (filter_var($booleanValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null) {
+            $this->merge([
+                $attribute => filter_var($booleanValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)
+            ]);
         }
     }
 }

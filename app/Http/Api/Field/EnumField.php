@@ -34,6 +34,16 @@ abstract class EnumField extends Field implements FilterableField, SelectableFie
     }
 
     /**
+     * Get the enum class.
+     *
+     * @return class-string<BaseEnum>
+     */
+    public function getEnumClass(): string
+    {
+        return $this->enumClass;
+    }
+
+    /**
      * Get the filter that can be applied to the field.
      *
      * @return Filter

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api;
 
 use App\Contracts\Http\Api\Field\UpdatableField;
+use App\Http\Api\Field\Field;
 
 /**
  * Class UpdateRequest.
@@ -38,5 +39,19 @@ abstract class UpdateRequest extends WriteRequest
         }
 
         return $rules;
+    }
+
+    /**
+     * Get fields for validation preparation.
+     *
+     * @return Field[]
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    protected function getFieldsForPreparation(): array
+    {
+        return collect($this->schema()->fields())
+            ->filter(fn (Field $field) => $field instanceof UpdatableField)
+            ->all();
     }
 }

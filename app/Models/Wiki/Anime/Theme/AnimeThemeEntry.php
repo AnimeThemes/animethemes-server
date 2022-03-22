@@ -70,6 +70,7 @@ class AnimeThemeEntry extends BaseModel
         AnimeThemeEntry::ATTRIBUTE_NOTES,
         AnimeThemeEntry::ATTRIBUTE_NSFW,
         AnimeThemeEntry::ATTRIBUTE_SPOILER,
+        AnimeThemeEntry::ATTRIBUTE_THEME,
         AnimeThemeEntry::ATTRIBUTE_VERSION,
     ];
 

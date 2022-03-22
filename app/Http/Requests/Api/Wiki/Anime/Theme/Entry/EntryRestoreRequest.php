@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Api\Wiki\Anime;
+namespace App\Http\Requests\Api\Wiki\Anime\Theme\Entry;
 
 use App\Http\Api\Query\EloquentQuery;
-use App\Http\Api\Query\Wiki\AnimeQuery;
+use App\Http\Api\Query\Wiki\Anime\Theme\EntryQuery;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Wiki\AnimeSchema;
-use App\Http\Requests\Api\Base\EloquentUpdateRequest;
+use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
+use App\Http\Requests\Api\Base\EloquentRestoreRequest;
 
 /**
- * Class AnimeUpdateRequest.
+ * Class EntryRestoreRequest.
  */
-class AnimeUpdateRequest extends EloquentUpdateRequest
+class EntryRestoreRequest extends EloquentRestoreRequest
 {
     /**
      * Get the schema.
@@ -22,7 +22,7 @@ class AnimeUpdateRequest extends EloquentUpdateRequest
      */
     protected function schema(): EloquentSchema
     {
-        return new AnimeSchema();
+        return new EntrySchema();
     }
 
     /**
@@ -32,7 +32,7 @@ class AnimeUpdateRequest extends EloquentUpdateRequest
      */
     public function getQuery(): EloquentQuery
     {
-        return new AnimeQuery();
+        return new EntryQuery();
     }
 
     /**
@@ -42,6 +42,6 @@ class AnimeUpdateRequest extends EloquentUpdateRequest
      */
     protected function tokenAbility(): string
     {
-        return 'anime:update';
+        return 'entry:restore';
     }
 }
