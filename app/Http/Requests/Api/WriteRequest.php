@@ -102,7 +102,7 @@ abstract class WriteRequest extends BaseRequest
     /**
      * Convert enum parameter values.
      *
-     * @param string $attribute
+     * @param  string  $attribute
      * @return void
      */
     protected function convertBoolean(string $attribute): void
@@ -110,7 +110,7 @@ abstract class WriteRequest extends BaseRequest
         $booleanValue = $this->input($attribute);
         if (filter_var($booleanValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null) {
             $this->merge([
-                $attribute => filter_var($booleanValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)
+                $attribute => filter_var($booleanValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
             ]);
         }
     }

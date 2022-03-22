@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 /**
  * Class EntryNotesField.
  */
-class EntryNotesField extends StringField  implements CreatableField, UpdatableField
+class EntryNotesField extends StringField implements CreatableField, UpdatableField
 {
     /**
      * Create a new field instance.
