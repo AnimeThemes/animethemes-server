@@ -37,9 +37,6 @@ use Illuminate\Support\Facades\Route;
 // Search Routes
 Route::get('search', [SearchController::class, 'show'])->name('search.show');
 
-// Admin Resources
-Route::apiResource('announcement', AnnouncementController::class)->only(['index', 'show']);
-
 // Config Resources
 Route::get('config/flags', [FlagsController::class, 'show'])->name('config.flags.show');
 Route::get('config/wiki', [WikiController::class, 'show'])->name('config.wiki.show');
@@ -61,6 +58,9 @@ Route::get('animeyear/{year}', [YearController::class, 'show'])->name('animeyear
 
 Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']]]]], function () {
     Route::apiResources([
+        // Admin Resources
+        'announcement' => AnnouncementController::class,
+
         // Wiki Resources
         'anime' => AnimeController::class,
         'artist' => ArtistController::class,
@@ -77,6 +77,9 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
         'animethemeentry' => EntryController::class,
     ]);
 
+    // Restore Admin Resources
+    Route::patch('announcement/{announcement}/restore', [AnnouncementController::class, 'restore'])->name('announcement.restore');
+
     // Restore Wiki Resources
     Route::patch('anime/{anime}/restore', [AnimeController::class, 'restore'])->name('anime.restore');
     Route::patch('artist/{artist}/restore', [ArtistController::class, 'restore'])->name('artist.restore');
@@ -91,6 +94,9 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
 
     // Restore Anime Theme Resources
     Route::patch('animethemeentry/{animethemeentry}/restore', [EntryController::class, 'restore'])->name('animethemeentry.restore');
+
+    // Force Delete Admin Resources
+    Route::delete('announcement/{announcement}/forceDelete', [AnnouncementController::class, 'forceDelete'])->name('announcement.forceDelete');
 
     // Force Delete Wiki Resources
     Route::delete('anime/{anime}/forceDelete', [AnimeController::class, 'forceDelete'])->name('anime.forceDelete');
