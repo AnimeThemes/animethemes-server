@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Admin\Announcement;
 
-use App\Models\Auth\User;
 use App\Models\Admin\Announcement;
+use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;

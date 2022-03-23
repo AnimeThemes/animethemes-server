@@ -23,7 +23,7 @@ class AnnouncementController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param AnnouncementIndexRequest $request
+     * @param  AnnouncementIndexRequest  $request
      * @return JsonResponse
      */
     public function index(AnnouncementIndexRequest $request): JsonResponse
@@ -36,7 +36,7 @@ class AnnouncementController extends Controller
     /**
      * Store a newly created resource.
      *
-     * @param AnnouncementStoreRequest $request
+     * @param  AnnouncementStoreRequest  $request
      * @return JsonResponse
      */
     public function store(AnnouncementStoreRequest $request): JsonResponse
@@ -51,8 +51,8 @@ class AnnouncementController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param AnnouncementShowRequest $request
-     * @param Announcement $announcement
+     * @param  AnnouncementShowRequest  $request
+     * @param  Announcement  $announcement
      * @return JsonResponse
      */
     public function show(AnnouncementShowRequest $request, Announcement $announcement): JsonResponse
@@ -65,8 +65,8 @@ class AnnouncementController extends Controller
     /**
      * Update the specified resource.
      *
-     * @param AnnouncementUpdateRequest $request
-     * @param Announcement $announcement
+     * @param  AnnouncementUpdateRequest  $request
+     * @param  Announcement  $announcement
      * @return JsonResponse
      */
     public function update(AnnouncementUpdateRequest $request, Announcement $announcement): JsonResponse
@@ -81,8 +81,8 @@ class AnnouncementController extends Controller
     /**
      * Remove the specified resource.
      *
-     * @param AnnouncementDestroyRequest $request
-     * @param Announcement $announcement
+     * @param  AnnouncementDestroyRequest  $request
+     * @param  Announcement  $announcement
      * @return JsonResponse
      */
     public function destroy(AnnouncementDestroyRequest $request, Announcement $announcement): JsonResponse
@@ -97,8 +97,8 @@ class AnnouncementController extends Controller
     /**
      * Restore the specified resource.
      *
-     * @param AnnouncementRestoreRequest $request
-     * @param Announcement $announcement
+     * @param  AnnouncementRestoreRequest  $request
+     * @param  Announcement  $announcement
      * @return JsonResponse
      */
     public function restore(AnnouncementRestoreRequest $request, Announcement $announcement): JsonResponse
@@ -113,8 +113,8 @@ class AnnouncementController extends Controller
     /**
      * Hard-delete the specified resource.
      *
-     * @param AnnouncementForceDeleteRequest $request
-     * @param Announcement $announcement
+     * @param  AnnouncementForceDeleteRequest  $request
+     * @param  Announcement  $announcement
      * @return JsonResponse
      */
     public function forceDelete(AnnouncementForceDeleteRequest $request, Announcement $announcement): JsonResponse
