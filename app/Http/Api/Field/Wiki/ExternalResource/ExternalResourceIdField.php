@@ -35,6 +35,7 @@ class ExternalResourceIdField extends IntField implements CreatableField, Updata
             'sometimes',
             'required',
             'integer',
+            'min:0',
         ];
     }
 
@@ -50,6 +51,7 @@ class ExternalResourceIdField extends IntField implements CreatableField, Updata
             'sometimes',
             'required',
             'integer',
+            'min:0',
         ];
     }
 }

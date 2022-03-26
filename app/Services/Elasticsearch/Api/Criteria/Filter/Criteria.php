@@ -6,7 +6,7 @@ namespace App\Services\Elasticsearch\Api\Criteria\Filter;
 
 use App\Http\Api\Criteria\Filter\Criteria as BaseCriteria;
 use App\Http\Api\Filter\Filter;
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 
 /**
@@ -28,8 +28,8 @@ abstract class Criteria
      *
      * @param  BoolQueryBuilder  $builder
      * @param  Filter  $filter
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return BoolQueryBuilder
      */
-    abstract public function filter(BoolQueryBuilder $builder, Filter $filter, Query $query): BoolQueryBuilder;
+    abstract public function filter(BoolQueryBuilder $builder, Filter $filter, ReadQuery $query): BoolQueryBuilder;
 }

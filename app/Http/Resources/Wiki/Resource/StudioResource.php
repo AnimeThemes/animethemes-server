@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
@@ -32,10 +32,10 @@ class StudioResource extends BaseResource
      * Create a new resource instance.
      *
      * @param  Studio | MissingValue | null  $studio
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return void
      */
-    public function __construct(Studio|MissingValue|null $studio, Query $query)
+    public function __construct(Studio|MissingValue|null $studio, ReadQuery $query)
     {
         parent::__construct($studio, $query);
     }

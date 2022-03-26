@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Config;
 
-use App\Http\Api\Query\Config\FlagsQuery;
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\Config\FlagsReadQuery;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Config\FlagsSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Requests\Api\ShowRequest;
@@ -28,10 +28,10 @@ class FlagsRequest extends ShowRequest
     /**
      * Get the validation API Query.
      *
-     * @return Query
+     * @return ReadQuery
      */
-    public function getQuery(): Query
+    public function getQuery(): ReadQuery
     {
-        return new FlagsQuery($this->validated());
+        return new FlagsReadQuery($this->validated());
     }
 }

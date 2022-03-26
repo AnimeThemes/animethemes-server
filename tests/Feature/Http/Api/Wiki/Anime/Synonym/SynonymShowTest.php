@@ -10,7 +10,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query\Wiki\Anime\SynonymQuery;
+use App\Http\Api\Query\Wiki\Anime\Synonym\SynonymReadQuery;
 use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
 use App\Models\Wiki\Anime;
@@ -44,7 +44,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, new SynonymQuery())
+                    SynonymResource::make($synonym, new SynonymReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -71,7 +71,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, new SynonymQuery())
+                    SynonymResource::make($synonym, new SynonymReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -108,7 +108,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, new SynonymQuery($parameters))
+                    SynonymResource::make($synonym, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -145,7 +145,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, new SynonymQuery($parameters))
+                    SynonymResource::make($synonym, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -184,7 +184,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, new SynonymQuery($parameters))
+                    SynonymResource::make($synonym, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -231,7 +231,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, new SynonymQuery($parameters))
+                    SynonymResource::make($synonym, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),

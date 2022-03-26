@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Admin;
 
-use App\Http\Api\Query\Admin\AnnouncementQuery;
-use App\Http\Api\Query\EloquentQuery;
+use App\Http\Api\Query\Admin\AnnouncementWriteQuery;
+use App\Http\Api\Query\Base\EloquentWriteQuery;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Requests\Api\Base\EloquentRestoreRequest;
@@ -28,11 +28,11 @@ class AnnouncementRestoreRequest extends EloquentRestoreRequest
     /**
      * Get the validation API Query.
      *
-     * @return EloquentQuery
+     * @return EloquentWriteQuery
      */
-    public function getQuery(): EloquentQuery
+    public function getQuery(): EloquentWriteQuery
     {
-        return new AnnouncementQuery();
+        return new AnnouncementWriteQuery($this->validated());
     }
 
     /**

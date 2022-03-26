@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Config\Resource;
 
 use App\Constants\Config\FlagConstants;
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
@@ -25,10 +25,10 @@ class FlagsResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return void
      */
-    public function __construct(Query $query)
+    public function __construct(ReadQuery $query)
     {
         parent::__construct(new MissingValue(), $query);
     }

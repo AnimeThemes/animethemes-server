@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
 use App\Models\BaseModel;
@@ -32,10 +32,10 @@ class VideoResource extends BaseResource
      * Create a new resource instance.
      *
      * @param  Video | MissingValue | null  $video
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return void
      */
-    public function __construct(Video|MissingValue|null $video, Query $query)
+    public function __construct(Video|MissingValue|null $video, ReadQuery $query)
     {
         parent::__construct($video, $query);
     }

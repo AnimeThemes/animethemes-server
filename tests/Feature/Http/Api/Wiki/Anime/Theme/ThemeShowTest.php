@@ -13,7 +13,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query\Wiki\Anime\ThemeQuery;
+use App\Http\Api\Query\Wiki\Anime\Theme\ThemeReadQuery;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Models\Wiki\Anime;
@@ -54,7 +54,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery())
+                    ThemeResource::make($theme, new ThemeReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -83,7 +83,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery())
+                    ThemeResource::make($theme, new ThemeReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -128,7 +128,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -168,7 +168,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -209,7 +209,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -256,7 +256,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -300,7 +300,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -342,7 +342,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -384,7 +384,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -434,7 +434,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -480,7 +480,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -526,7 +526,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -572,7 +572,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -626,7 +626,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -672,7 +672,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -718,7 +718,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -764,7 +764,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeQuery($parameters))
+                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),

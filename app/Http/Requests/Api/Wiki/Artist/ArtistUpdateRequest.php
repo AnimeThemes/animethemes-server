@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Artist;
 
-use App\Http\Api\Query\EloquentQuery;
-use App\Http\Api\Query\Wiki\ArtistQuery;
+use App\Http\Api\Query\Base\EloquentWriteQuery;
+use App\Http\Api\Query\Wiki\Artist\ArtistWriteQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Requests\Api\Base\EloquentUpdateRequest;
@@ -28,11 +28,11 @@ class ArtistUpdateRequest extends EloquentUpdateRequest
     /**
      * Get the validation API Query.
      *
-     * @return EloquentQuery
+     * @return EloquentWriteQuery
      */
-    public function getQuery(): EloquentQuery
+    public function getQuery(): EloquentWriteQuery
     {
-        return new ArtistQuery();
+        return new ArtistWriteQuery($this->validated());
     }
 
     /**

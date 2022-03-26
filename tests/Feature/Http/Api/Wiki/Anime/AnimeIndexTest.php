@@ -23,7 +23,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Wiki\AnimeQuery;
+use App\Http\Api\Query\Wiki\Anime\AnimeReadQuery;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
@@ -64,7 +64,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery())
+                    AnimeCollection::make($anime, new AnimeReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -120,7 +120,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -157,7 +157,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -186,7 +186,7 @@ class AnimeIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new AnimeQuery($parameters);
+        $query = new AnimeReadQuery($parameters);
 
         Anime::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -229,7 +229,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -271,7 +271,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -316,7 +316,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -361,7 +361,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -402,7 +402,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -443,7 +443,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -484,7 +484,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -536,7 +536,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -586,7 +586,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -636,7 +636,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -678,7 +678,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -724,7 +724,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -770,7 +770,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -824,7 +824,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -866,7 +866,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -908,7 +908,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -947,7 +947,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -986,7 +986,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1025,7 +1025,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1083,7 +1083,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1122,7 +1122,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1161,7 +1161,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1200,7 +1200,7 @@ class AnimeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeCollection::make($anime, new AnimeQuery($parameters))
+                    AnimeCollection::make($anime, new AnimeReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),

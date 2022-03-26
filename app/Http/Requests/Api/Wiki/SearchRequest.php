@@ -9,7 +9,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Wiki\SearchQuery;
+use App\Http\Api\Query\Wiki\SearchReadQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\SearchSchema;
 use App\Http\Requests\Api\ReadRequest;
@@ -177,11 +177,11 @@ class SearchRequest extends ReadRequest
     /**
      * Get the validation API Query.
      *
-     * @return SearchQuery
+     * @return SearchReadQuery
      */
-    public function getQuery(): SearchQuery
+    public function getQuery(): SearchReadQuery
     {
-        return new SearchQuery($this->validated());
+        return new SearchReadQuery($this->validated());
     }
 
     /**

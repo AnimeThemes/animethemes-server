@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\ExternalResource;
 
-use App\Http\Api\Query\EloquentQuery;
-use App\Http\Api\Query\Wiki\ExternalResourceQuery;
+use App\Http\Api\Query\Base\EloquentReadQuery;
+use App\Http\Api\Query\Wiki\ExternalResource\ExternalResourceReadQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Requests\Api\Base\EloquentIndexRequest;
@@ -28,10 +28,10 @@ class ExternalResourceIndexRequest extends EloquentIndexRequest
     /**
      * Get the validation API Query.
      *
-     * @return EloquentQuery
+     * @return EloquentReadQuery
      */
-    public function getQuery(): EloquentQuery
+    public function getQuery(): EloquentReadQuery
     {
-        return new ExternalResourceQuery($this->validated());
+        return new ExternalResourceReadQuery($this->validated());
     }
 }

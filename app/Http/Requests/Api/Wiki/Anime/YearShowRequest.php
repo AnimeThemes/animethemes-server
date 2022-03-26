@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Anime;
 
-use App\Http\Api\Query\Query;
-use App\Http\Api\Query\Wiki\AnimeQuery;
+use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Wiki\Anime\AnimeReadQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Requests\Api\ShowRequest;
@@ -28,10 +28,10 @@ class YearShowRequest extends ShowRequest
     /**
      * Get the validation API Query.
      *
-     * @return Query
+     * @return ReadQuery
      */
-    public function getQuery(): Query
+    public function getQuery(): ReadQuery
     {
-        return new AnimeQuery($this->validated());
+        return new AnimeReadQuery($this->validated());
     }
 }

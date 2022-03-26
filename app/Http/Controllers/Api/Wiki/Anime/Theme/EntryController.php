@@ -46,9 +46,7 @@ class EntryController extends Controller
      */
     public function store(EntryStoreRequest $request): JsonResponse
     {
-        $entry = AnimeThemeEntry::query()->create($request->validated());
-
-        $resource = $request->getQuery()->resource($entry);
+        $resource = $request->getQuery()->store();
 
         return $resource->toResponse($request);
     }
@@ -76,9 +74,7 @@ class EntryController extends Controller
      */
     public function update(EntryUpdateRequest $request, AnimeThemeEntry $entry): JsonResponse
     {
-        $entry->update($request->validated());
-
-        $resource = $request->getQuery()->resource($entry);
+        $resource = $request->getQuery()->update($entry);
 
         return $resource->toResponse($request);
     }
@@ -92,9 +88,7 @@ class EntryController extends Controller
      */
     public function destroy(EntryDestroyRequest $request, AnimeThemeEntry $entry): JsonResponse
     {
-        $entry->delete();
-
-        $resource = $request->getQuery()->resource($entry);
+        $resource = $request->getQuery()->destroy($entry);
 
         return $resource->toResponse($request);
     }
@@ -108,9 +102,7 @@ class EntryController extends Controller
      */
     public function restore(EntryRestoreRequest $request, AnimeThemeEntry $entry): JsonResponse
     {
-        $entry->restore();
-
-        $resource = $request->getQuery()->resource($entry);
+        $resource = $request->getQuery()->restore($entry);
 
         return $resource->toResponse($request);
     }
@@ -124,10 +116,6 @@ class EntryController extends Controller
      */
     public function forceDelete(EntryForceDeleteRequest $request, AnimeThemeEntry $entry): JsonResponse
     {
-        $entry->forceDelete();
-
-        $resource = $request->getQuery()->resource(new AnimeThemeEntry());
-
-        return $resource->toResponse($request);
+        return $request->getQuery()->forceDelete($entry);
     }
 }

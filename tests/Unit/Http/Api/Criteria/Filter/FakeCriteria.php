@@ -9,7 +9,7 @@ use App\Http\Api\Criteria\Filter\Criteria;
 use App\Http\Api\Criteria\Filter\Expression;
 use App\Http\Api\Criteria\Filter\Predicate;
 use App\Http\Api\Filter\Filter;
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Scope\Scope;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -57,10 +57,10 @@ class FakeCriteria extends Criteria
      *
      * @param  Builder  $builder
      * @param  Filter  $filter
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return Builder
      */
-    public function filter(Builder $builder, Filter $filter, Query $query): Builder
+    public function filter(Builder $builder, Filter $filter, ReadQuery $query): Builder
     {
         return $builder;
     }

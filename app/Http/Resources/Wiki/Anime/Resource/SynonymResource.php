@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Anime\Resource;
 
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\BaseModel;
@@ -30,10 +30,10 @@ class SynonymResource extends BaseResource
      * Create a new resource instance.
      *
      * @param  AnimeSynonym | MissingValue | null  $synonym
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return void
      */
-    public function __construct(AnimeSynonym|MissingValue|null $synonym, Query $query)
+    public function __construct(AnimeSynonym|MissingValue|null $synonym, ReadQuery $query)
     {
         parent::__construct($synonym, $query);
     }

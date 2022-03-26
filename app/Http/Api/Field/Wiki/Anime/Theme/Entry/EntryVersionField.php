@@ -35,6 +35,7 @@ class EntryVersionField extends IntField implements CreatableField, UpdatableFie
             'sometimes',
             'required',
             'integer',
+            'min:0',
         ];
     }
 
@@ -50,6 +51,7 @@ class EntryVersionField extends IntField implements CreatableField, UpdatableFie
             'sometimes',
             'required',
             'integer',
+            'min:0',
         ];
     }
 }

@@ -46,9 +46,7 @@ class ArtistController extends Controller
      */
     public function store(ArtistStoreRequest $request): JsonResponse
     {
-        $artist = Artist::query()->create($request->validated());
-
-        $resource = $request->getQuery()->resource($artist);
+        $resource = $request->getQuery()->store();
 
         return $resource->toResponse($request);
     }
@@ -76,9 +74,7 @@ class ArtistController extends Controller
      */
     public function update(ArtistUpdateRequest $request, Artist $artist): JsonResponse
     {
-        $artist->update($request->validated());
-
-        $resource = $request->getQuery()->resource($artist);
+        $resource = $request->getQuery()->update($artist);
 
         return $resource->toResponse($request);
     }
@@ -92,9 +88,7 @@ class ArtistController extends Controller
      */
     public function destroy(ArtistDestroyRequest $request, Artist $artist): JsonResponse
     {
-        $artist->delete();
-
-        $resource = $request->getQuery()->resource($artist);
+        $resource = $request->getQuery()->destroy($artist);
 
         return $resource->toResponse($request);
     }
@@ -108,9 +102,7 @@ class ArtistController extends Controller
      */
     public function restore(ArtistRestoreRequest $request, Artist $artist): JsonResponse
     {
-        $artist->restore();
-
-        $resource = $request->getQuery()->resource($artist);
+        $resource = $request->getQuery()->restore($artist);
 
         return $resource->toResponse($request);
     }
@@ -124,10 +116,6 @@ class ArtistController extends Controller
      */
     public function forceDelete(ArtistForceDeleteRequest $request, Artist $artist): JsonResponse
     {
-        $artist->forceDelete();
-
-        $resource = $request->getQuery()->resource(new Artist());
-
-        return $resource->toResponse($request);
+        return $request->getQuery()->forceDelete($artist);
     }
 }

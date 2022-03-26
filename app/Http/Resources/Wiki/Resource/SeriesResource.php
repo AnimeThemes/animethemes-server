@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Models\BaseModel;
@@ -30,10 +30,10 @@ class SeriesResource extends BaseResource
      * Create a new resource instance.
      *
      * @param  Series | MissingValue | null  $series
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return void
      */
-    public function __construct(Series|MissingValue|null $series, Query $query)
+    public function __construct(Series|MissingValue|null $series, ReadQuery $query)
     {
         parent::__construct($series, $query);
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Billing\Resource;
 
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use App\Models\BaseModel;
 use App\Models\Billing\Balance;
@@ -31,10 +31,10 @@ class BalanceResource extends BaseResource
      * Create a new resource instance.
      *
      * @param  Balance | MissingValue | null  $balance
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return void
      */
-    public function __construct(Balance|MissingValue|null $balance, Query $query)
+    public function __construct(Balance|MissingValue|null $balance, ReadQuery $query)
     {
         parent::__construct($balance, $query);
     }

@@ -35,6 +35,7 @@ class ThemeSequenceField extends IntField implements CreatableField, UpdatableFi
             'sometimes',
             'required',
             'integer',
+            'min:0',
         ];
     }
 
@@ -50,6 +51,7 @@ class ThemeSequenceField extends IntField implements CreatableField, UpdatableFi
             'sometimes',
             'required',
             'integer',
+            'min:0',
         ];
     }
 }

@@ -46,9 +46,7 @@ class AnimeController extends Controller
      */
     public function store(AnimeStoreRequest $request): JsonResponse
     {
-        $anime = Anime::query()->create($request->validated());
-
-        $resource = $request->getQuery()->resource($anime);
+        $resource = $request->getQuery()->store();
 
         return $resource->toResponse($request);
     }
@@ -76,9 +74,7 @@ class AnimeController extends Controller
      */
     public function update(AnimeUpdateRequest $request, Anime $anime): JsonResponse
     {
-        $anime->update($request->validated());
-
-        $resource = $request->getQuery()->resource($anime);
+        $resource = $request->getQuery()->update($anime);
 
         return $resource->toResponse($request);
     }
@@ -92,9 +88,7 @@ class AnimeController extends Controller
      */
     public function destroy(AnimeDestroyRequest $request, Anime $anime): JsonResponse
     {
-        $anime->delete();
-
-        $resource = $request->getQuery()->resource($anime);
+        $resource = $request->getQuery()->destroy($anime);
 
         return $resource->toResponse($request);
     }
@@ -108,9 +102,7 @@ class AnimeController extends Controller
      */
     public function restore(AnimeRestoreRequest $request, Anime $anime): JsonResponse
     {
-        $anime->restore();
-
-        $resource = $request->getQuery()->resource($anime);
+        $resource = $request->getQuery()->restore($anime);
 
         return $resource->toResponse($request);
     }
@@ -124,10 +116,6 @@ class AnimeController extends Controller
      */
     public function forceDelete(AnimeForceDeleteRequest $request, Anime $anime): JsonResponse
     {
-        $anime->forceDelete();
-
-        $resource = $request->getQuery()->resource(new Anime());
-
-        return $resource->toResponse($request);
+        return $request->getQuery()->forceDelete($anime);
     }
 }

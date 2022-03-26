@@ -7,7 +7,7 @@ namespace App\Services\Elasticsearch\Api\Criteria\Filter;
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Http\Api\Criteria\Filter\WhereInCriteria as BaseCriteria;
 use App\Http\Api\Filter\Filter;
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Support\Query as ElasticQuery;
 
@@ -34,10 +34,10 @@ class WhereInCriteria extends Criteria
      *
      * @param  BoolQueryBuilder  $builder
      * @param  Filter  $filter
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return BoolQueryBuilder
      */
-    public function filter(BoolQueryBuilder $builder, Filter $filter, Query $query): BoolQueryBuilder
+    public function filter(BoolQueryBuilder $builder, Filter $filter, ReadQuery $query): BoolQueryBuilder
     {
         $filterValues = $filter->getFilterValues($this->criteria->getFilterValues());
 

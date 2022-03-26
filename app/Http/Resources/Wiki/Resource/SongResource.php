@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
@@ -32,10 +32,10 @@ class SongResource extends BaseResource
      * Create a new resource instance.
      *
      * @param  Song | MissingValue | null  $song
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return void
      */
-    public function __construct(Song|MissingValue|null $song, Query $query)
+    public function __construct(Song|MissingValue|null $song, ReadQuery $query)
     {
         parent::__construct($song, $query);
     }

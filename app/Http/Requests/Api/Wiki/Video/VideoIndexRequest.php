@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\Wiki\Video;
 
 use App\Contracts\Http\Requests\Api\SearchableRequest;
-use App\Http\Api\Query\EloquentQuery;
-use App\Http\Api\Query\Wiki\VideoQuery;
+use App\Http\Api\Query\Base\EloquentReadQuery;
+use App\Http\Api\Query\Wiki\Video\VideoReadQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Requests\Api\Base\EloquentIndexRequest;
@@ -29,10 +29,10 @@ class VideoIndexRequest extends EloquentIndexRequest implements SearchableReques
     /**
      * Get the validation API Query.
      *
-     * @return EloquentQuery
+     * @return EloquentReadQuery
      */
-    public function getQuery(): EloquentQuery
+    public function getQuery(): EloquentReadQuery
     {
-        return new VideoQuery($this->validated());
+        return new VideoReadQuery($this->validated());
     }
 }
