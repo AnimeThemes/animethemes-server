@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Admin;
 
-use App\Http\Api\Query\Admin\AnnouncementQuery;
-use App\Http\Api\Query\EloquentQuery;
+use App\Http\Api\Query\Admin\AnnouncementReadQuery;
+use App\Http\Api\Query\Base\EloquentReadQuery;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Requests\Api\Base\EloquentIndexRequest;
@@ -28,10 +28,10 @@ class AnnouncementIndexRequest extends EloquentIndexRequest
     /**
      * Get the validation API Query.
      *
-     * @return EloquentQuery
+     * @return EloquentReadQuery
      */
-    public function getQuery(): EloquentQuery
+    public function getQuery(): EloquentReadQuery
     {
-        return new AnnouncementQuery($this->validated());
+        return new AnnouncementReadQuery($this->validated());
     }
 }

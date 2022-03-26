@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Anime;
 
-use App\Http\Api\Query\EloquentQuery;
-use App\Http\Api\Query\Wiki\AnimeQuery;
+use App\Http\Api\Query\Base\EloquentReadQuery;
+use App\Http\Api\Query\Wiki\Anime\AnimeReadQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Requests\Api\Base\EloquentShowRequest;
@@ -28,10 +28,10 @@ class AnimeShowRequest extends EloquentShowRequest
     /**
      * Get the validation API Query.
      *
-     * @return EloquentQuery
+     * @return EloquentReadQuery
      */
-    public function getQuery(): EloquentQuery
+    public function getQuery(): EloquentReadQuery
     {
-        return new AnimeQuery($this->validated());
+        return new AnimeReadQuery($this->validated());
     }
 }

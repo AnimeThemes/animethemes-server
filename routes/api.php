@@ -50,7 +50,6 @@ Route::apiResource('page', PageController::class)->only(['index', 'show'])->wher
 
 // Wiki Resources
 Route::apiResource('image', ImageController::class)->only(['index', 'show']);
-Route::apiResource('video', VideoController::class)->only(['index', 'show']);
 
 // Anime Year Routes
 Route::get('animeyear', [YearController::class, 'index'])->name('animeyear.index');
@@ -68,6 +67,7 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
         'series' => SeriesController::class,
         'song' => SongController::class,
         'studio' => StudioController::class,
+        'video' => VideoController::class,
 
         // Anime Resources
         'animesynonym' => SynonymController::class,
@@ -87,6 +87,7 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
     Route::patch('series/{series}/restore', [SeriesController::class, 'restore'])->name('series.restore');
     Route::patch('song/{song}/restore', [SongController::class, 'restore'])->name('song.restore');
     Route::patch('studio/{studio}/restore', [StudioController::class, 'restore'])->name('studio.restore');
+    Route::patch('video/{video}/restore', [VideoController::class, 'restore'])->name('video.restore');
 
     // Restore Anime Resources
     Route::patch('animesynonym/{animesynonym}/restore', [SynonymController::class, 'restore'])->name('animesynonym.restore');
@@ -105,6 +106,7 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
     Route::delete('series/{series}/forceDelete', [SeriesController::class, 'forceDelete'])->name('series.forceDelete');
     Route::delete('song/{song}/forceDelete', [SongController::class, 'forceDelete'])->name('song.forceDelete');
     Route::delete('studio/{studio}/forceDelete', [StudioController::class, 'forceDelete'])->name('studio.forceDelete');
+    Route::delete('video/{video}/forceDelete', [VideoController::class, 'forceDelete'])->name('video.forceDelete');
 
     // Force Delete Anime Resources
     Route::delete('animesynonym/{animesynonym}/forceDelete', [SynonymController::class, 'forceDelete'])->name('animesynonym.forceDelete');

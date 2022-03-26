@@ -42,7 +42,7 @@ class VideoFactory extends Factory
             Video::ATTRIBUTE_NC => $this->faker->boolean(),
             Video::ATTRIBUTE_OVERLAP => VideoOverlap::getRandomValue(),
             Video::ATTRIBUTE_PATH => Str::random(),
-            Video::ATTRIBUTE_RESOLUTION => $this->faker->randomDigitNotZero(),
+            Video::ATTRIBUTE_RESOLUTION => $this->faker->numberBetween(360, 1080),
             Video::ATTRIBUTE_SIZE => $this->faker->randomDigitNotZero(),
             Video::ATTRIBUTE_SOURCE => VideoSource::getRandomValue(),
             Video::ATTRIBUTE_SUBBED => $this->faker->boolean(),

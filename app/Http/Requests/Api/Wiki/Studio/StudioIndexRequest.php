@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\Wiki\Studio;
 
 use App\Contracts\Http\Requests\Api\SearchableRequest;
-use App\Http\Api\Query\EloquentQuery;
-use App\Http\Api\Query\Wiki\StudioQuery;
+use App\Http\Api\Query\Base\EloquentReadQuery;
+use App\Http\Api\Query\Wiki\Studio\StudioReadQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Requests\Api\Base\EloquentIndexRequest;
@@ -29,10 +29,10 @@ class StudioIndexRequest extends EloquentIndexRequest implements SearchableReque
     /**
      * Get the validation API Query.
      *
-     * @return EloquentQuery
+     * @return EloquentReadQuery
      */
-    public function getQuery(): EloquentQuery
+    public function getQuery(): EloquentReadQuery
     {
-        return new StudioQuery($this->validated());
+        return new StudioReadQuery($this->validated());
     }
 }

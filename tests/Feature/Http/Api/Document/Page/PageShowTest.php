@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Api\Document\Page;
 
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Query\Document\PageQuery;
+use App\Http\Api\Query\Document\PageReadQuery;
 use App\Http\Api\Schema\Document\PageSchema;
 use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\Document\Page;
@@ -36,7 +36,7 @@ class PageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageResource::make($page, new PageQuery())
+                    PageResource::make($page, new PageReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -63,7 +63,7 @@ class PageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageResource::make($page, new PageQuery())
+                    PageResource::make($page, new PageReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -98,7 +98,7 @@ class PageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageResource::make($page, new PageQuery($parameters))
+                    PageResource::make($page, new PageReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),

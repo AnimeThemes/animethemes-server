@@ -10,8 +10,8 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Query;
-use App\Http\Api\Query\Wiki\AnimeQuery;
+use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Wiki\Anime\AnimeReadQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Requests\Api\ReadRequest;
@@ -98,10 +98,10 @@ class YearIndexRequest extends ReadRequest
     /**
      * Get the validation API Query.
      *
-     * @return Query
+     * @return ReadQuery
      */
-    public function getQuery(): Query
+    public function getQuery(): ReadQuery
     {
-        return new AnimeQuery($this->validated());
+        return new AnimeReadQuery($this->validated());
     }
 }

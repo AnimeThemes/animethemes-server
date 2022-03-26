@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api;
 
-use App\Http\Api\Query\Query;
+use App\Contracts\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use Illuminate\Foundation\Http\FormRequest;
 

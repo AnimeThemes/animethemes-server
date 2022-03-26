@@ -46,9 +46,7 @@ class ThemeController extends Controller
      */
     public function store(ThemeStoreRequest $request): JsonResponse
     {
-        $theme = AnimeTheme::query()->create($request->validated());
-
-        $resource = $request->getQuery()->resource($theme);
+        $resource = $request->getQuery()->store();
 
         return $resource->toResponse($request);
     }
@@ -76,9 +74,7 @@ class ThemeController extends Controller
      */
     public function update(ThemeUpdateRequest $request, AnimeTheme $theme): JsonResponse
     {
-        $theme->update($request->validated());
-
-        $resource = $request->getQuery()->resource($theme);
+        $resource = $request->getQuery()->update($theme);
 
         return $resource->toResponse($request);
     }
@@ -92,9 +88,7 @@ class ThemeController extends Controller
      */
     public function destroy(ThemeDestroyRequest $request, AnimeTheme $theme): JsonResponse
     {
-        $theme->delete();
-
-        $resource = $request->getQuery()->resource($theme);
+        $resource = $request->getQuery()->destroy($theme);
 
         return $resource->toResponse($request);
     }
@@ -108,9 +102,7 @@ class ThemeController extends Controller
      */
     public function restore(ThemeRestoreRequest $request, AnimeTheme $theme): JsonResponse
     {
-        $theme->restore();
-
-        $resource = $request->getQuery()->resource($theme);
+        $resource = $request->getQuery()->restore($theme);
 
         return $resource->toResponse($request);
     }
@@ -124,10 +116,6 @@ class ThemeController extends Controller
      */
     public function forceDelete(ThemeForceDeleteRequest $request, AnimeTheme $theme): JsonResponse
     {
-        $theme->forceDelete();
-
-        $resource = $request->getQuery()->resource(new AnimeTheme());
-
-        return $resource->toResponse($request);
+        return $request->getQuery()->forceDelete($theme);
     }
 }

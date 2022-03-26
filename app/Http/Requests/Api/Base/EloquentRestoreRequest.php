@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Base;
 
-use App\Http\Api\Query\EloquentQuery;
+use App\Http\Api\Query\Base\EloquentWriteQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Requests\Api\RestoreRequest;
 
@@ -23,9 +23,9 @@ abstract class EloquentRestoreRequest extends RestoreRequest
     /**
      * Get the validation API Query.
      *
-     * @return EloquentQuery
+     * @return EloquentWriteQuery
      */
-    abstract public function getQuery(): EloquentQuery;
+    abstract public function getQuery(): EloquentWriteQuery;
 
     /**
      * The arguments for the policy ability to authorize.

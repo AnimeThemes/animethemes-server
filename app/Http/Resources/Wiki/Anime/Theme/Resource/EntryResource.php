@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Anime\Theme\Resource;
 
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
@@ -31,10 +31,10 @@ class EntryResource extends BaseResource
      * Create a new resource instance.
      *
      * @param  AnimeThemeEntry | MissingValue | null  $entry
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return void
      */
-    public function __construct(AnimeThemeEntry|MissingValue|null $entry, Query $query)
+    public function __construct(AnimeThemeEntry|MissingValue|null $entry, ReadQuery $query)
     {
         parent::__construct($entry, $query);
     }

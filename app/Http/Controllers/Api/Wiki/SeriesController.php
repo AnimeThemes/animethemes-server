@@ -46,9 +46,7 @@ class SeriesController extends Controller
      */
     public function store(SeriesStoreRequest $request): JsonResponse
     {
-        $series = Series::query()->create($request->validated());
-
-        $resource = $request->getQuery()->resource($series);
+        $resource = $request->getQuery()->store();
 
         return $resource->toResponse($request);
     }
@@ -76,9 +74,7 @@ class SeriesController extends Controller
      */
     public function update(SeriesUpdateRequest $request, Series $series): JsonResponse
     {
-        $series->update($request->validated());
-
-        $resource = $request->getQuery()->resource($series);
+        $resource = $request->getQuery()->update($series);
 
         return $resource->toResponse($request);
     }
@@ -92,9 +88,7 @@ class SeriesController extends Controller
      */
     public function destroy(SeriesDestroyRequest $request, Series $series): JsonResponse
     {
-        $series->delete();
-
-        $resource = $request->getQuery()->resource($series);
+        $resource = $request->getQuery()->destroy($series);
 
         return $resource->toResponse($request);
     }
@@ -108,9 +102,7 @@ class SeriesController extends Controller
      */
     public function restore(SeriesRestoreRequest $request, Series $series): JsonResponse
     {
-        $series->restore();
-
-        $resource = $request->getQuery()->resource($series);
+        $resource = $request->getQuery()->restore($series);
 
         return $resource->toResponse($request);
     }
@@ -124,10 +116,6 @@ class SeriesController extends Controller
      */
     public function forceDelete(SeriesForceDeleteRequest $request, Series $series): JsonResponse
     {
-        $series->forceDelete();
-
-        $resource = $request->getQuery()->resource(new Series());
-
-        return $resource->toResponse($request);
+        return $request->getQuery()->forceDelete($series);
     }
 }

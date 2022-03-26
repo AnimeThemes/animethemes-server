@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Elasticsearch;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
-use App\Http\Api\Query\EloquentQuery;
+use App\Http\Api\Query\Base\EloquentReadQuery;
 use App\Http\Api\Scope\ScopeParser;
 use App\Http\Resources\BaseCollection;
 use App\Services\Elasticsearch\Api\Parser\FilterParser;
@@ -60,10 +60,10 @@ class Elasticsearch extends Search
     /**
      * Should the search be performed?
      *
-     * @param  EloquentQuery  $query
+     * @param  EloquentReadQuery  $query
      * @return bool
      */
-    public function shouldSearch(EloquentQuery $query): bool
+    public function shouldSearch(EloquentReadQuery $query): bool
     {
         return $query->hasSearchCriteria() && $this->isAlive();
     }
@@ -71,12 +71,12 @@ class Elasticsearch extends Search
     /**
      * Perform the search.
      *
-     * @param  EloquentQuery  $query
+     * @param  EloquentReadQuery  $query
      * @param  PaginationStrategy  $paginationStrategy
      * @return BaseCollection
      */
     public function search(
-        EloquentQuery $query,
+        EloquentReadQuery  $query,
         PaginationStrategy $paginationStrategy
     ): BaseCollection {
         $elasticQueryPayload = $this->elasticQueryPayload($query);
@@ -139,10 +139,10 @@ class Elasticsearch extends Search
     /**
      * Resolve Elasticsearch query builder from schema.
      *
-     * @param  EloquentQuery  $query
+     * @param  EloquentReadQuery  $query
      * @return ElasticQueryPayload|null
      */
-    protected function elasticQueryPayload(EloquentQuery $query): ?ElasticQueryPayload
+    protected function elasticQueryPayload(EloquentReadQuery $query): ?ElasticQueryPayload
     {
         $schema = $query->schema();
 

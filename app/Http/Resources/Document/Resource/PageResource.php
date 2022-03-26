@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Document\Resource;
 
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use App\Models\BaseModel;
 use App\Models\Document\Page;
@@ -29,10 +29,10 @@ class PageResource extends BaseResource
      * Create a new resource instance.
      *
      * @param  Page | MissingValue | null  $page
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return void
      */
-    public function __construct(Page|MissingValue|null $page, Query $query)
+    public function __construct(Page|MissingValue|null $page, ReadQuery $query)
     {
         parent::__construct($page, $query);
     }

@@ -18,7 +18,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Wiki\Anime\SynonymQuery;
+use App\Http\Api\Query\Wiki\Anime\Synonym\SynonymReadQuery;
 use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
 use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
@@ -58,7 +58,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymCollection::make($synonyms, new SynonymQuery())
+                    SynonymCollection::make($synonyms, new SynonymReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -119,7 +119,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymCollection::make($synonyms, new SynonymQuery($parameters))
+                    SynonymCollection::make($synonyms, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -159,7 +159,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymCollection::make($synonyms, new SynonymQuery($parameters))
+                    SynonymCollection::make($synonyms, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -186,7 +186,7 @@ class SynonymIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new SynonymQuery($parameters);
+        $query = new SynonymReadQuery($parameters);
 
         AnimeSynonym::factory()
             ->for(Anime::factory())
@@ -247,7 +247,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymCollection::make($synonym, new SynonymQuery($parameters))
+                    SynonymCollection::make($synonym, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -296,7 +296,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymCollection::make($synonym, new SynonymQuery($parameters))
+                    SynonymCollection::make($synonym, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -342,7 +342,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymCollection::make($synonym, new SynonymQuery($parameters))
+                    SynonymCollection::make($synonym, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -388,7 +388,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymCollection::make($synonym, new SynonymQuery($parameters))
+                    SynonymCollection::make($synonym, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -434,7 +434,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymCollection::make($synonym, new SynonymQuery($parameters))
+                    SynonymCollection::make($synonym, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -484,7 +484,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymCollection::make($synonym, new SynonymQuery($parameters))
+                    SynonymCollection::make($synonym, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -526,7 +526,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymCollection::make($synonyms, new SynonymQuery($parameters))
+                    SynonymCollection::make($synonyms, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -574,7 +574,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymCollection::make($synonyms, new SynonymQuery($parameters))
+                    SynonymCollection::make($synonyms, new SynonymReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),

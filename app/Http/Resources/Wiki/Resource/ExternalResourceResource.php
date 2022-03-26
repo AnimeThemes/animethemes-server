@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
@@ -35,10 +35,10 @@ class ExternalResourceResource extends BaseResource
      * Create a new resource instance.
      *
      * @param  ExternalResource | MissingValue | null  $resource
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return void
      */
-    public function __construct(ExternalResource|MissingValue|null $resource, Query $query)
+    public function __construct(ExternalResource|MissingValue|null $resource, ReadQuery $query)
     {
         parent::__construct($resource, $query);
     }

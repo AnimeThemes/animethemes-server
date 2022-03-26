@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Api\Billing\Balance;
 
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Query\Billing\BalanceQuery;
+use App\Http\Api\Query\Billing\BalanceReadQuery;
 use App\Http\Api\Schema\Billing\BalanceSchema;
 use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\Billing\Balance;
@@ -36,7 +36,7 @@ class BalanceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceResource::make($balance, new BalanceQuery())
+                    BalanceResource::make($balance, new BalanceReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -63,7 +63,7 @@ class BalanceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceResource::make($balance, new BalanceQuery())
+                    BalanceResource::make($balance, new BalanceReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -98,7 +98,7 @@ class BalanceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceResource::make($balance, new BalanceQuery($parameters))
+                    BalanceResource::make($balance, new BalanceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),

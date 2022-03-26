@@ -15,7 +15,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Admin\AnnouncementQuery;
+use App\Http\Api\Query\Admin\AnnouncementReadQuery;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Resources\Admin\Collection\AnnouncementCollection;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
@@ -48,7 +48,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcements, new AnnouncementQuery())
+                    AnnouncementCollection::make($announcements, new AnnouncementReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -101,7 +101,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcements, new AnnouncementQuery($parameters))
+                    AnnouncementCollection::make($announcements, new AnnouncementReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -128,7 +128,7 @@ class AnnouncementIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new AnnouncementQuery($parameters);
+        $query = new AnnouncementReadQuery($parameters);
 
         Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -180,7 +180,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, new AnnouncementQuery($parameters))
+                    AnnouncementCollection::make($announcement, new AnnouncementReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -223,7 +223,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, new AnnouncementQuery($parameters))
+                    AnnouncementCollection::make($announcement, new AnnouncementReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -262,7 +262,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, new AnnouncementQuery($parameters))
+                    AnnouncementCollection::make($announcement, new AnnouncementReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -301,7 +301,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, new AnnouncementQuery($parameters))
+                    AnnouncementCollection::make($announcement, new AnnouncementReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -340,7 +340,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, new AnnouncementQuery($parameters))
+                    AnnouncementCollection::make($announcement, new AnnouncementReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -390,7 +390,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, new AnnouncementQuery($parameters))
+                    AnnouncementCollection::make($announcement, new AnnouncementReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),

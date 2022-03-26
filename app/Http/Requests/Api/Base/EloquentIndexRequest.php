@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Base;
 
-use App\Http\Api\Query\EloquentQuery;
+use App\Http\Api\Query\Base\EloquentReadQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Requests\Api\IndexRequest;
 
@@ -23,7 +23,7 @@ abstract class EloquentIndexRequest extends IndexRequest
     /**
      * Get the validation API Query.
      *
-     * @return EloquentQuery
+     * @return EloquentReadQuery
      */
-    abstract public function getQuery(): EloquentQuery;
+    abstract public function getQuery(): EloquentReadQuery;
 }

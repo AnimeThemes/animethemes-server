@@ -15,7 +15,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Billing\BalanceQuery;
+use App\Http\Api\Query\Billing\BalanceReadQuery;
 use App\Http\Api\Schema\Billing\BalanceSchema;
 use App\Http\Resources\Billing\Collection\BalanceCollection;
 use App\Http\Resources\Billing\Resource\BalanceResource;
@@ -48,7 +48,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balances, new BalanceQuery())
+                    BalanceCollection::make($balances, new BalanceReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -101,7 +101,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balances, new BalanceQuery($parameters))
+                    BalanceCollection::make($balances, new BalanceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -128,7 +128,7 @@ class BalanceIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new BalanceQuery($parameters);
+        $query = new BalanceReadQuery($parameters);
 
         Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -180,7 +180,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balance, new BalanceQuery($parameters))
+                    BalanceCollection::make($balance, new BalanceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -223,7 +223,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balance, new BalanceQuery($parameters))
+                    BalanceCollection::make($balance, new BalanceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -262,7 +262,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balance, new BalanceQuery($parameters))
+                    BalanceCollection::make($balance, new BalanceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -301,7 +301,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balance, new BalanceQuery($parameters))
+                    BalanceCollection::make($balance, new BalanceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -340,7 +340,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balance, new BalanceQuery($parameters))
+                    BalanceCollection::make($balance, new BalanceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -390,7 +390,7 @@ class BalanceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    BalanceCollection::make($balance, new BalanceQuery($parameters))
+                    BalanceCollection::make($balance, new BalanceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),

@@ -46,9 +46,7 @@ class StudioController extends Controller
      */
     public function store(StudioStoreRequest $request): JsonResponse
     {
-        $studio = Studio::query()->create($request->validated());
-
-        $resource = $request->getQuery()->resource($studio);
+        $resource = $request->getQuery()->store();
 
         return $resource->toResponse($request);
     }
@@ -76,9 +74,7 @@ class StudioController extends Controller
      */
     public function update(StudioUpdateRequest $request, Studio $studio): JsonResponse
     {
-        $studio->update($request->validated());
-
-        $resource = $request->getQuery()->resource($studio);
+        $resource = $request->getQuery()->update($studio);
 
         return $resource->toResponse($request);
     }
@@ -92,9 +88,7 @@ class StudioController extends Controller
      */
     public function destroy(StudioDestroyRequest $request, Studio $studio): JsonResponse
     {
-        $studio->delete();
-
-        $resource = $request->getQuery()->resource($studio);
+        $resource = $request->getQuery()->destroy($studio);
 
         return $resource->toResponse($request);
     }
@@ -108,9 +102,7 @@ class StudioController extends Controller
      */
     public function restore(StudioRestoreRequest $request, Studio $studio): JsonResponse
     {
-        $studio->restore();
-
-        $resource = $request->getQuery()->resource($studio);
+        $resource = $request->getQuery()->restore($studio);
 
         return $resource->toResponse($request);
     }
@@ -124,10 +116,6 @@ class StudioController extends Controller
      */
     public function forceDelete(StudioForceDeleteRequest $request, Studio $studio): JsonResponse
     {
-        $studio->forceDelete();
-
-        $resource = $request->getQuery()->resource(new Studio());
-
-        return $resource->toResponse($request);
+        return $request->getQuery()->forceDelete($studio);
     }
 }

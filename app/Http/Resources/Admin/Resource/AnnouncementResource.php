@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Admin\Resource;
 
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use App\Models\Admin\Announcement;
 use App\Models\BaseModel;
@@ -29,10 +29,10 @@ class AnnouncementResource extends BaseResource
      * Create a new resource instance.
      *
      * @param  Announcement | MissingValue | null  $announcement
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return void
      */
-    public function __construct(Announcement|MissingValue|null $announcement, Query $query)
+    public function __construct(Announcement|MissingValue|null $announcement, ReadQuery $query)
     {
         parent::__construct($announcement, $query);
     }

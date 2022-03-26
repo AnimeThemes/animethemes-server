@@ -8,7 +8,6 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\BooleanField;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use App\Rules\Api\IsValidBoolean;
 use Illuminate\Http\Request;
 
 /**
@@ -35,7 +34,7 @@ class EntryNsfwField extends BooleanField implements CreatableField, UpdatableFi
         return [
             'sometimes',
             'required',
-            new IsValidBoolean(),
+            'boolean',
         ];
     }
 
@@ -50,7 +49,7 @@ class EntryNsfwField extends BooleanField implements CreatableField, UpdatableFi
         return [
             'sometimes',
             'required',
-            new IsValidBoolean(),
+            'boolean',
         ];
     }
 }

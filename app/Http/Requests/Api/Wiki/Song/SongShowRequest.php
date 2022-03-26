@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Song;
 
-use App\Http\Api\Query\EloquentQuery;
-use App\Http\Api\Query\Wiki\SongQuery;
+use App\Http\Api\Query\Base\EloquentReadQuery;
+use App\Http\Api\Query\Wiki\Song\SongReadQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Requests\Api\Base\EloquentShowRequest;
@@ -28,10 +28,10 @@ class SongShowRequest extends EloquentShowRequest
     /**
      * Get the validation API Query.
      *
-     * @return EloquentQuery
+     * @return EloquentReadQuery
      */
-    public function getQuery(): EloquentQuery
+    public function getQuery(): EloquentReadQuery
     {
-        return new SongQuery($this->validated());
+        return new SongReadQuery($this->validated());
     }
 }

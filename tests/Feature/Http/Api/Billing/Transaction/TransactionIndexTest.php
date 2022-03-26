@@ -15,7 +15,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Billing\TransactionQuery;
+use App\Http\Api\Query\Billing\TransactionReadQuery;
 use App\Http\Api\Schema\Billing\TransactionSchema;
 use App\Http\Resources\Billing\Collection\TransactionCollection;
 use App\Http\Resources\Billing\Resource\TransactionResource;
@@ -48,7 +48,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transactions, new TransactionQuery())
+                    TransactionCollection::make($transactions, new TransactionReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -101,7 +101,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transactions, new TransactionQuery($parameters))
+                    TransactionCollection::make($transactions, new TransactionReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -128,7 +128,7 @@ class TransactionIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new TransactionQuery($parameters);
+        $query = new TransactionReadQuery($parameters);
 
         Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -180,7 +180,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, new TransactionQuery($parameters))
+                    TransactionCollection::make($transaction, new TransactionReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -223,7 +223,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, new TransactionQuery($parameters))
+                    TransactionCollection::make($transaction, new TransactionReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -262,7 +262,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, new TransactionQuery($parameters))
+                    TransactionCollection::make($transaction, new TransactionReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -301,7 +301,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, new TransactionQuery($parameters))
+                    TransactionCollection::make($transaction, new TransactionReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -340,7 +340,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, new TransactionQuery($parameters))
+                    TransactionCollection::make($transaction, new TransactionReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -390,7 +390,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, new TransactionQuery($parameters))
+                    TransactionCollection::make($transaction, new TransactionReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),

@@ -19,7 +19,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Wiki\ExternalResourceQuery;
+use App\Http\Api\Query\Wiki\ExternalResource\ExternalResourceReadQuery;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
@@ -57,7 +57,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceCollection::make($resources, new ExternalResourceQuery())
+                    ExternalResourceCollection::make($resources, new ExternalResourceReadQuery())
                         ->response()
                         ->getData()
                 ),
@@ -116,7 +116,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceCollection::make($resources, new ExternalResourceQuery($parameters))
+                    ExternalResourceCollection::make($resources, new ExternalResourceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -153,7 +153,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceCollection::make($resources, new ExternalResourceQuery($parameters))
+                    ExternalResourceCollection::make($resources, new ExternalResourceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -180,7 +180,7 @@ class ExternalResourceIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new ExternalResourceQuery($parameters);
+        $query = new ExternalResourceReadQuery($parameters);
 
         ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -232,7 +232,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceCollection::make($resource, new ExternalResourceQuery($parameters))
+                    ExternalResourceCollection::make($resource, new ExternalResourceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -275,7 +275,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceCollection::make($resource, new ExternalResourceQuery($parameters))
+                    ExternalResourceCollection::make($resource, new ExternalResourceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -314,7 +314,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceCollection::make($resource, new ExternalResourceQuery($parameters))
+                    ExternalResourceCollection::make($resource, new ExternalResourceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -353,7 +353,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceCollection::make($resource, new ExternalResourceQuery($parameters))
+                    ExternalResourceCollection::make($resource, new ExternalResourceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -392,7 +392,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceCollection::make($resource, new ExternalResourceQuery($parameters))
+                    ExternalResourceCollection::make($resource, new ExternalResourceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -442,7 +442,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceCollection::make($resource, new ExternalResourceQuery($parameters))
+                    ExternalResourceCollection::make($resource, new ExternalResourceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -477,7 +477,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceCollection::make($resources, new ExternalResourceQuery($parameters))
+                    ExternalResourceCollection::make($resources, new ExternalResourceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -519,7 +519,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceCollection::make($resources, new ExternalResourceQuery($parameters))
+                    ExternalResourceCollection::make($resources, new ExternalResourceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -568,7 +568,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceCollection::make($resources, new ExternalResourceQuery($parameters))
+                    ExternalResourceCollection::make($resources, new ExternalResourceReadQuery($parameters))
                         ->response()
                         ->getData()
                 ),

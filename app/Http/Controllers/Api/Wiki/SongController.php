@@ -46,9 +46,7 @@ class SongController extends Controller
      */
     public function store(SongStoreRequest $request): JsonResponse
     {
-        $song = Song::query()->create($request->validated());
-
-        $resource = $request->getQuery()->resource($song);
+        $resource = $request->getQuery()->store();
 
         return $resource->toResponse($request);
     }
@@ -76,9 +74,7 @@ class SongController extends Controller
      */
     public function update(SongUpdateRequest $request, Song $song): JsonResponse
     {
-        $song->update($request->validated());
-
-        $resource = $request->getQuery()->resource($song);
+        $resource = $request->getQuery()->update($song);
 
         return $resource->toResponse($request);
     }
@@ -92,9 +88,7 @@ class SongController extends Controller
      */
     public function destroy(SongDestroyRequest $request, Song $song): JsonResponse
     {
-        $song->delete();
-
-        $resource = $request->getQuery()->resource($song);
+        $resource = $request->getQuery()->destroy($song);
 
         return $resource->toResponse($request);
     }
@@ -108,9 +102,7 @@ class SongController extends Controller
      */
     public function restore(SongRestoreRequest $request, Song $song): JsonResponse
     {
-        $song->restore();
-
-        $resource = $request->getQuery()->resource($song);
+        $resource = $request->getQuery()->restore($song);
 
         return $resource->toResponse($request);
     }
@@ -124,10 +116,6 @@ class SongController extends Controller
      */
     public function forceDelete(SongForceDeleteRequest $request, Song $song): JsonResponse
     {
-        $song->forceDelete();
-
-        $resource = $request->getQuery()->resource(new Song());
-
-        return $resource->toResponse($request);
+        return $request->getQuery()->forceDelete($song);
     }
 }

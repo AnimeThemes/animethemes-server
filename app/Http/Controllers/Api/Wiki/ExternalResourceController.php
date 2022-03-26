@@ -41,9 +41,7 @@ class ExternalResourceController extends Controller
      */
     public function store(ExternalResourceStoreRequest $request): JsonResponse
     {
-        $externalResource = ExternalResource::query()->create($request->validated());
-
-        $resource = $request->getQuery()->resource($externalResource);
+        $resource = $request->getQuery()->store();
 
         return $resource->toResponse($request);
     }
@@ -71,9 +69,7 @@ class ExternalResourceController extends Controller
      */
     public function update(ExternalResourceUpdateRequest $request, ExternalResource $resource): JsonResponse
     {
-        $resource->update($request->validated());
-
-        $apiResource = $request->getQuery()->resource($resource);
+        $apiResource = $request->getQuery()->update($resource);
 
         return $apiResource->toResponse($request);
     }
@@ -87,9 +83,7 @@ class ExternalResourceController extends Controller
      */
     public function destroy(ExternalResourceDestroyRequest $request, ExternalResource $resource): JsonResponse
     {
-        $resource->delete();
-
-        $apiResource = $request->getQuery()->resource($resource);
+        $apiResource = $request->getQuery()->destroy($resource);
 
         return $apiResource->toResponse($request);
     }
@@ -103,9 +97,7 @@ class ExternalResourceController extends Controller
      */
     public function restore(ExternalResourceRestoreRequest $request, ExternalResource $resource): JsonResponse
     {
-        $resource->restore();
-
-        $apiResource = $request->getQuery()->resource($resource);
+        $apiResource = $request->getQuery()->restore($resource);
 
         return $apiResource->toResponse($request);
     }
@@ -119,10 +111,6 @@ class ExternalResourceController extends Controller
      */
     public function forceDelete(ExternalResourceForceDeleteRequest $request, ExternalResource $resource): JsonResponse
     {
-        $resource->forceDelete();
-
-        $apiResource = $request->getQuery()->resource(new ExternalResource());
-
-        return $apiResource->toResponse($request);
+        return $request->getQuery()->forceDelete($resource);
     }
 }

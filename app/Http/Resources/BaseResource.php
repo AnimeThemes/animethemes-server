@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Http\Api\Query\Query;
+use App\Http\Api\Query\ReadQuery;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -18,10 +18,10 @@ abstract class BaseResource extends JsonResource
      * Create a new resource instance.
      *
      * @param  mixed  $resource
-     * @param  Query  $query
+     * @param  ReadQuery  $query
      * @return void
      */
-    public function __construct(mixed $resource, protected readonly Query $query)
+    public function __construct(mixed $resource, protected readonly ReadQuery $query)
     {
         parent::__construct($resource);
     }

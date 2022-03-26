@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Anime\Synonym;
 
-use App\Http\Api\Query\EloquentQuery;
-use App\Http\Api\Query\Wiki\Anime\SynonymQuery;
+use App\Http\Api\Query\Base\EloquentReadQuery;
+use App\Http\Api\Query\Wiki\Anime\Synonym\SynonymReadQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Requests\Api\Base\EloquentShowRequest;
@@ -28,10 +28,10 @@ class SynonymShowRequest extends EloquentShowRequest
     /**
      * Get the validation API Query.
      *
-     * @return EloquentQuery
+     * @return EloquentReadQuery
      */
-    public function getQuery(): EloquentQuery
+    public function getQuery(): EloquentReadQuery
     {
-        return new SynonymQuery($this->validated());
+        return new SynonymReadQuery($this->validated());
     }
 }

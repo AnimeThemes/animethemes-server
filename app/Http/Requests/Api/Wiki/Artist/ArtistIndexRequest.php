@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\Wiki\Artist;
 
 use App\Contracts\Http\Requests\Api\SearchableRequest;
-use App\Http\Api\Query\EloquentQuery;
-use App\Http\Api\Query\Wiki\ArtistQuery;
+use App\Http\Api\Query\Base\EloquentReadQuery;
+use App\Http\Api\Query\Wiki\Artist\ArtistReadQuery;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Requests\Api\Base\EloquentIndexRequest;
@@ -29,10 +29,10 @@ class ArtistIndexRequest extends EloquentIndexRequest implements SearchableReque
     /**
      * Get the validation API Query.
      *
-     * @return EloquentQuery
+     * @return EloquentReadQuery
      */
-    public function getQuery(): EloquentQuery
+    public function getQuery(): EloquentReadQuery
     {
-        return new ArtistQuery($this->validated());
+        return new ArtistReadQuery($this->validated());
     }
 }

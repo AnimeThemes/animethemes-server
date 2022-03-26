@@ -46,9 +46,7 @@ class SynonymController extends Controller
      */
     public function store(SynonymStoreRequest $request): JsonResponse
     {
-        $synonym = AnimeSynonym::query()->create($request->validated());
-
-        $resource = $request->getQuery()->resource($synonym);
+        $resource = $request->getQuery()->store();
 
         return $resource->toResponse($request);
     }
@@ -76,9 +74,7 @@ class SynonymController extends Controller
      */
     public function update(SynonymUpdateRequest $request, AnimeSynonym $synonym): JsonResponse
     {
-        $synonym->update($request->validated());
-
-        $resource = $request->getQuery()->resource($synonym);
+        $resource = $request->getQuery()->update($synonym);
 
         return $resource->toResponse($request);
     }
@@ -92,9 +88,7 @@ class SynonymController extends Controller
      */
     public function destroy(SynonymDestroyRequest $request, AnimeSynonym $synonym): JsonResponse
     {
-        $synonym->delete();
-
-        $resource = $request->getQuery()->resource($synonym);
+        $resource = $request->getQuery()->destroy($synonym);
 
         return $resource->toResponse($request);
     }
@@ -108,9 +102,7 @@ class SynonymController extends Controller
      */
     public function restore(SynonymRestoreRequest $request, AnimeSynonym $synonym): JsonResponse
     {
-        $synonym->restore();
-
-        $resource = $request->getQuery()->resource($synonym);
+        $resource = $request->getQuery()->restore($synonym);
 
         return $resource->toResponse($request);
     }
@@ -124,10 +116,6 @@ class SynonymController extends Controller
      */
     public function forceDelete(SynonymForceDeleteRequest $request, AnimeSynonym $synonym): JsonResponse
     {
-        $synonym->forceDelete();
-
-        $resource = $request->getQuery()->resource(new AnimeSynonym());
-
-        return $resource->toResponse($request);
+        return $request->getQuery()->forceDelete($synonym);
     }
 }

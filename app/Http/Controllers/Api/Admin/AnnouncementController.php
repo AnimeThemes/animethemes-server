@@ -41,9 +41,7 @@ class AnnouncementController extends Controller
      */
     public function store(AnnouncementStoreRequest $request): JsonResponse
     {
-        $announcement = Announcement::query()->create($request->validated());
-
-        $resource = $request->getQuery()->resource($announcement);
+        $resource = $request->getQuery()->store();
 
         return $resource->toResponse($request);
     }
@@ -71,9 +69,7 @@ class AnnouncementController extends Controller
      */
     public function update(AnnouncementUpdateRequest $request, Announcement $announcement): JsonResponse
     {
-        $announcement->update($request->validated());
-
-        $resource = $request->getQuery()->resource($announcement);
+        $resource = $request->getQuery()->update($announcement);
 
         return $resource->toResponse($request);
     }
@@ -87,9 +83,7 @@ class AnnouncementController extends Controller
      */
     public function destroy(AnnouncementDestroyRequest $request, Announcement $announcement): JsonResponse
     {
-        $announcement->delete();
-
-        $resource = $request->getQuery()->resource($announcement);
+        $resource = $request->getQuery()->destroy($announcement);
 
         return $resource->toResponse($request);
     }
@@ -103,9 +97,7 @@ class AnnouncementController extends Controller
      */
     public function restore(AnnouncementRestoreRequest $request, Announcement $announcement): JsonResponse
     {
-        $announcement->restore();
-
-        $resource = $request->getQuery()->resource($announcement);
+        $resource = $request->getQuery()->restore($announcement);
 
         return $resource->toResponse($request);
     }
@@ -119,10 +111,6 @@ class AnnouncementController extends Controller
      */
     public function forceDelete(AnnouncementForceDeleteRequest $request, Announcement $announcement): JsonResponse
     {
-        $announcement->forceDelete();
-
-        $resource = $request->getQuery()->resource(new Announcement());
-
-        return $resource->toResponse($request);
+        return $request->getQuery()->forceDelete($announcement);
     }
 }

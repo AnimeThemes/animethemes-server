@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Resource;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
-use App\Http\Api\Query\Wiki\Anime\ThemeQuery;
-use App\Http\Api\Query\Wiki\AnimeQuery;
-use App\Http\Api\Query\Wiki\ArtistQuery;
-use App\Http\Api\Query\Wiki\SearchQuery;
-use App\Http\Api\Query\Wiki\SeriesQuery;
-use App\Http\Api\Query\Wiki\SongQuery;
-use App\Http\Api\Query\Wiki\StudioQuery;
-use App\Http\Api\Query\Wiki\VideoQuery;
+use App\Http\Api\Query\Wiki\Anime\AnimeReadQuery;
+use App\Http\Api\Query\Wiki\Anime\Theme\ThemeReadQuery;
+use App\Http\Api\Query\Wiki\Artist\ArtistReadQuery;
+use App\Http\Api\Query\Wiki\SearchReadQuery;
+use App\Http\Api\Query\Wiki\Series\SeriesReadQuery;
+use App\Http\Api\Query\Wiki\Song\SongReadQuery;
+use App\Http\Api\Query\Wiki\Studio\StudioReadQuery;
+use App\Http\Api\Query\Wiki\Video\VideoReadQuery;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
@@ -39,10 +39,10 @@ class SearchResource extends JsonResource
     /**
      * Create a new resource instance.
      *
-     * @param  SearchQuery  $query
+     * @param  SearchReadQuery  $query
      * @return void
      */
-    public function __construct(protected SearchQuery $query)
+    public function __construct(protected SearchReadQuery $query)
     {
         parent::__construct(new MissingValue());
     }
@@ -61,49 +61,49 @@ class SearchResource extends JsonResource
         $result = [];
 
         if ($this->isAllowedField(AnimeCollection::$wrap)) {
-            $animeQuery = $this->query->getQuery(AnimeQuery::class);
+            $animeQuery = $this->query->getQuery(AnimeReadQuery::class);
             if ($animeQuery !== null) {
                 $result[AnimeCollection::$wrap] = $animeQuery->search(PaginationStrategy::LIMIT());
             }
         }
 
         if ($this->isAllowedField(ThemeCollection::$wrap)) {
-            $themeQuery = $this->query->getQuery(ThemeQuery::class);
+            $themeQuery = $this->query->getQuery(ThemeReadQuery::class);
             if ($themeQuery !== null) {
                 $result[ThemeCollection::$wrap] = $themeQuery->search(PaginationStrategy::LIMIT());
             }
         }
 
         if ($this->isAllowedField(ArtistCollection::$wrap)) {
-            $artistQuery = $this->query->getQuery(ArtistQuery::class);
+            $artistQuery = $this->query->getQuery(ArtistReadQuery::class);
             if ($artistQuery !== null) {
                 $result[ArtistCollection::$wrap] = $artistQuery->search(PaginationStrategy::LIMIT());
             }
         }
 
         if ($this->isAllowedField(SeriesCollection::$wrap)) {
-            $seriesQuery = $this->query->getQuery(SeriesQuery::class);
+            $seriesQuery = $this->query->getQuery(SeriesReadQuery::class);
             if ($seriesQuery !== null) {
                 $result[SeriesCollection::$wrap] = $seriesQuery->search(PaginationStrategy::LIMIT());
             }
         }
 
         if ($this->isAllowedField(SongCollection::$wrap)) {
-            $songQuery = $this->query->getQuery(SongQuery::class);
+            $songQuery = $this->query->getQuery(SongReadQuery::class);
             if ($songQuery !== null) {
                 $result[SongCollection::$wrap] = $songQuery->search(PaginationStrategy::LIMIT());
             }
         }
 
         if ($this->isAllowedField(StudioCollection::$wrap)) {
-            $studioQuery = $this->query->getQuery(StudioQuery::class);
+            $studioQuery = $this->query->getQuery(StudioReadQuery::class);
             if ($studioQuery !== null) {
                 $result[StudioCollection::$wrap] = $studioQuery->search(PaginationStrategy::LIMIT());
             }
         }
 
         if ($this->isAllowedField(VideoCollection::$wrap)) {
-            $videoQuery = $this->query->getQuery(VideoQuery::class);
+            $videoQuery = $this->query->getQuery(VideoReadQuery::class);
             if ($videoQuery !== null) {
                 $result[VideoCollection::$wrap] = $videoQuery->search(PaginationStrategy::LIMIT());
             }
