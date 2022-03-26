@@ -76,7 +76,7 @@ class Elasticsearch extends Search
      * @return BaseCollection
      */
     public function search(
-        EloquentReadQuery  $query,
+        EloquentReadQuery $query,
         PaginationStrategy $paginationStrategy
     ): BaseCollection {
         $elasticQueryPayload = $this->elasticQueryPayload($query);

@@ -29,7 +29,7 @@ abstract class Search
      * @return BaseCollection
      */
     abstract public function search(
-        EloquentReadQuery  $query,
+        EloquentReadQuery $query,
         PaginationStrategy $paginationStrategy
     ): BaseCollection;
 }
