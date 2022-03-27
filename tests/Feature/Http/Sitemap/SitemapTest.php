@@ -82,16 +82,4 @@ class SitemapTest extends TestCase
 
         $response->assertSee(url('wiki'));
     }
-
-    /**
-     * The sitemap index shall display the pages sitemap route.
-     *
-     * @return void
-     */
-    public function testPagesSitemap(): void
-    {
-        $response = $this->get(route('sitemap'));
-
-        $response->assertSee(route('sitemap.pages'));
-    }
 }

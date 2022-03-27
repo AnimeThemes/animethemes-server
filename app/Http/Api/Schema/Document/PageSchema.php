@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Schema\Document;
 
 use App\Http\Api\Field\Base\IdField;
+use App\Http\Api\Field\Document\Page\PageBodyField;
 use App\Http\Api\Field\Document\Page\PageNameField;
 use App\Http\Api\Field\Document\Page\PageSlugField;
 use App\Http\Api\Field\Field;
@@ -61,6 +62,7 @@ class PageSchema extends EloquentSchema
                 new IdField(Page::ATTRIBUTE_ID),
                 new PageNameField(),
                 new PageSlugField(),
+                new PageBodyField(),
             ],
         );
     }

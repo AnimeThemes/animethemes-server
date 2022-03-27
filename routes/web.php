@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Billing\TransparencyController;
-use App\Http\Controllers\Document\PageController;
-use App\Http\Controllers\Sitemap\PagesSitemapController;
 use App\Http\Controllers\Sitemap\SitemapController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Wiki\ImageController;
@@ -35,12 +33,8 @@ Route::resource('image', ImageController::class)->only('show')
 Route::resource('video', VideoController::class)->only('show')
     ->middleware(['is_video_streaming_allowed', 'without_trashed:video', 'record_view:video']);
 
-// Static pages
-Route::resource('page', PageController::class)->only('show')->where(['page' => '[\pL\pM\pN\/_-]+']);
-
 // Sitemaps
 Route::get('/sitemap', [SitemapController::class, 'show'])->name('sitemap');
-Route::get('/sitemap/pages', [PagesSitemapController::class, 'show'])->name('sitemap.pages');
 
 // Auth
 Route::get('register/{invitation}', [RegisterController::class, 'showRegistrationForm'])

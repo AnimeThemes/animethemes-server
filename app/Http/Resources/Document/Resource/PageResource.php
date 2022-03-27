@@ -61,6 +61,10 @@ class PageResource extends BaseResource
             $result[Page::ATTRIBUTE_SLUG] = $this->slug;
         }
 
+        if ($this->isAllowedField(Page::ATTRIBUTE_BODY)) {
+            $result[Page::ATTRIBUTE_BODY] = $this->body;
+        }
+
         if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
             $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
         }
