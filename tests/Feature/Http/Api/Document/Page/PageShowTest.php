@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Api\Document\Page;
 
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Query\Document\PageReadQuery;
+use App\Http\Api\Query\Document\Page\PageReadQuery;
 use App\Http\Api\Schema\Document\PageSchema;
 use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\Document\Page;

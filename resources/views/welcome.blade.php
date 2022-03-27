@@ -32,7 +32,7 @@
             </div>
             <div class="w-full sm:max-w-md mx-6 px-6 p-4 space-y-6 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 <div class="font-bold text-lg text-center">{{ __('Want to contribute?') }}</div>
-                <p>Check out our <a class="font-bold hover:underline" href="{{ url('page/encoding#guides') }}">encoding guides</a> on how to make WebMs that meet <a class="font-bold hover:underline" href="{{ url('page/encoding#standards') }}">our standards</a>.</p>
+                <p>Check out our <a class="font-bold hover:underline" href="{{ url('wiki/page/encoding#guides') }}">encoding guides</a> on how to make WebMs that meet <a class="font-bold hover:underline" href="{{ url('wiki/page/encoding#standards') }}">our standards</a>.</p>
                 <p>Contact the moderation team on our <a class="font-bold hover:underline" href="https://discordapp.com/invite/m9zbVyQ">Discord server</a> if you would like to join our wiki contributor team.</p>
             </div>
         </div>

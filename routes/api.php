@@ -45,9 +45,6 @@ Route::get('config/wiki', [WikiController::class, 'show'])->name('config.wiki.sh
 Route::apiResource('balance', BalanceController::class)->only(['index', 'show']);
 Route::apiResource('transaction', TransactionController::class)->only(['index', 'show']);
 
-// Document Resources
-Route::apiResource('page', PageController::class)->only(['index', 'show'])->where(['page' => '[\pL\pM\pN\/_-]+']);
-
 // Wiki Resources
 Route::apiResource('image', ImageController::class)->only(['index', 'show']);
 
@@ -77,43 +74,52 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
         'animethemeentry' => EntryController::class,
     ]);
 
+    // Document Resources
+    Route::apiResource('page', PageController::class)->where(['page' => '[\pL\pM\pN\/_-]+']);
+
     // Restore Admin Resources
-    Route::patch('announcement/{announcement}/restore', [AnnouncementController::class, 'restore'])->name('announcement.restore');
+    Route::patch('restore/announcement/{announcement}', [AnnouncementController::class, 'restore'])->name('announcement.restore');
+
+    // Restore Document Resources
+    Route::patch('restore/page/{page}', [PageController::class, 'restore'])->where(['page' => '[\pL\pM\pN\/_-]+'])->name('page.restore');
 
     // Restore Wiki Resources
-    Route::patch('anime/{anime}/restore', [AnimeController::class, 'restore'])->name('anime.restore');
-    Route::patch('artist/{artist}/restore', [ArtistController::class, 'restore'])->name('artist.restore');
-    Route::patch('resource/{resource}/restore', [ExternalResourceController::class, 'restore'])->name('resource.restore');
-    Route::patch('series/{series}/restore', [SeriesController::class, 'restore'])->name('series.restore');
-    Route::patch('song/{song}/restore', [SongController::class, 'restore'])->name('song.restore');
-    Route::patch('studio/{studio}/restore', [StudioController::class, 'restore'])->name('studio.restore');
-    Route::patch('video/{video}/restore', [VideoController::class, 'restore'])->name('video.restore');
+    Route::patch('restore/anime/{anime}', [AnimeController::class, 'restore'])->name('anime.restore');
+    Route::patch('restore/artist/{artist}', [ArtistController::class, 'restore'])->name('artist.restore');
+    Route::patch('restore/resource/{resource}', [ExternalResourceController::class, 'restore'])->name('resource.restore');
+    Route::patch('restore/series/{series}', [SeriesController::class, 'restore'])->name('series.restore');
+    Route::patch('restore/song/{song}', [SongController::class, 'restore'])->name('song.restore');
+    Route::patch('restore/studio/{studio}', [StudioController::class, 'restore'])->name('studio.restore');
+    Route::patch('restore/video/{video}', [VideoController::class, 'restore'])->name('video.restore');
 
     // Restore Anime Resources
-    Route::patch('animesynonym/{animesynonym}/restore', [SynonymController::class, 'restore'])->name('animesynonym.restore');
-    Route::patch('animetheme/{animetheme}/restore', [ThemeController::class, 'restore'])->name('animetheme.restore');
+    Route::patch('restore/animesynonym/{animesynonym}', [SynonymController::class, 'restore'])->name('animesynonym.restore');
+    Route::patch('restore/animetheme/{animetheme}', [ThemeController::class, 'restore'])->name('animetheme.restore');
 
     // Restore Anime Theme Resources
-    Route::patch('animethemeentry/{animethemeentry}/restore', [EntryController::class, 'restore'])->name('animethemeentry.restore');
+    Route::patch('restore/animethemeentry/{animethemeentry}', [EntryController::class, 'restore'])->name('animethemeentry.restore');
 
     // Force Delete Admin Resources
-    Route::delete('announcement/{announcement}/forceDelete', [AnnouncementController::class, 'forceDelete'])->name('announcement.forceDelete');
+    Route::delete('forceDelete/announcement/{announcement}', [AnnouncementController::class, 'forceDelete'])->name('announcement.forceDelete');
+
+    // Force Delete Document Resources
+    Route::delete('forceDelete/page/{page}', [PageController::class, 'forceDelete'])->where(['page' => '[\pL\pM\pN\/_-]+'])->name('page.forceDelete');
 
     // Force Delete Wiki Resources
-    Route::delete('anime/{anime}/forceDelete', [AnimeController::class, 'forceDelete'])->name('anime.forceDelete');
-    Route::delete('artist/{artist}/forceDelete', [ArtistController::class, 'forceDelete'])->name('artist.forceDelete');
-    Route::delete('resource/{resource}/forceDelete', [ExternalResourceController::class, 'forceDelete'])->name('resource.forceDelete');
-    Route::delete('series/{series}/forceDelete', [SeriesController::class, 'forceDelete'])->name('series.forceDelete');
-    Route::delete('song/{song}/forceDelete', [SongController::class, 'forceDelete'])->name('song.forceDelete');
-    Route::delete('studio/{studio}/forceDelete', [StudioController::class, 'forceDelete'])->name('studio.forceDelete');
-    Route::delete('video/{video}/forceDelete', [VideoController::class, 'forceDelete'])->name('video.forceDelete');
+    Route::delete('forceDelete/anime/{anime}', [AnimeController::class, 'forceDelete'])->name('anime.forceDelete');
+    Route::delete('forceDelete/artist/{artist}', [ArtistController::class, 'forceDelete'])->name('artist.forceDelete');
+    Route::delete('forceDelete/resource/{resource}', [ExternalResourceController::class, 'forceDelete'])->name('resource.forceDelete');
+    Route::delete('forceDelete/series/{series}', [SeriesController::class, 'forceDelete'])->name('series.forceDelete');
+    Route::delete('forceDelete/song/{song}', [SongController::class, 'forceDelete'])->name('song.forceDelete');
+    Route::delete('forceDelete/studio/{studio}', [StudioController::class, 'forceDelete'])->name('studio.forceDelete');
+    Route::delete('forceDelete/video/{video}', [VideoController::class, 'forceDelete'])->name('video.forceDelete');
 
     // Force Delete Anime Resources
-    Route::delete('animesynonym/{animesynonym}/forceDelete', [SynonymController::class, 'forceDelete'])->name('animesynonym.forceDelete');
-    Route::delete('animetheme/{animetheme}/forceDelete', [ThemeController::class, 'forceDelete'])->name('animetheme.forceDelete');
+    Route::delete('forceDelete/animesynonym/{animesynonym}', [SynonymController::class, 'forceDelete'])->name('animesynonym.forceDelete');
+    Route::delete('forceDelete/animetheme/{animetheme}', [ThemeController::class, 'forceDelete'])->name('animetheme.forceDelete');
 
     // Force Delete Anime Theme Resources
-    Route::delete('animethemeentry/{animethemeentry}/forceDelete', [EntryController::class, 'forceDelete'])->name('animethemeentry.forceDelete');
+    Route::delete('forceDelete/animethemeentry/{animethemeentry}', [EntryController::class, 'forceDelete'])->name('animethemeentry.forceDelete');
 });
 
 Route::fallback(function () {

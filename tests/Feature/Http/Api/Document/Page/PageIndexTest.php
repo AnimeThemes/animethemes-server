@@ -15,7 +15,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Document\PageReadQuery;
+use App\Http\Api\Query\Document\Page\PageReadQuery;
 use App\Http\Api\Schema\Document\PageSchema;
 use App\Http\Resources\Document\Collection\PageCollection;
 use App\Http\Resources\Document\Resource\PageResource;

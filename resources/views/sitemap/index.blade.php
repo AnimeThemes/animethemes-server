@@ -16,7 +16,4 @@
     <url>
         <loc>{{ url('wiki') }}</loc>
     </url>
-    <sitemap>
-        <loc>{{ route('sitemap.pages') }}</loc>
-    </sitemap>
 </sitemapindex>

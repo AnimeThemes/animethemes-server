@@ -20,11 +20,5 @@
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}"></script>
-
-        <script type="text/javascript">
-            if (window.hljs) {
-                hljs.highlightAll();
-            }
-        </script>
     </body>
 </html>

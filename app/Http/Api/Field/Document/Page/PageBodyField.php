@@ -5,23 +5,24 @@ declare(strict_types=1);
 namespace App\Http\Api\Field\Document\Page;
 
 use App\Contracts\Http\Api\Field\CreatableField;
+use App\Contracts\Http\Api\Field\SelectableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
-use App\Http\Api\Field\StringField;
+use App\Http\Api\Criteria\Field\Criteria;
+use App\Http\Api\Field\Field;
 use App\Models\Document\Page;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 /**
- * Class PageSlugField.
+ * Class PageBodyField.
  */
-class PageSlugField extends StringField implements CreatableField, UpdatableField
+class PageBodyField extends Field implements CreatableField, SelectableField, UpdatableField
 {
     /**
      * Create a new field instance.
      */
     public function __construct()
     {
-        parent::__construct(Page::ATTRIBUTE_SLUG);
+        parent::__construct(Page::ATTRIBUTE_BODY);
     }
 
     /**
@@ -34,10 +35,21 @@ class PageSlugField extends StringField implements CreatableField, UpdatableFiel
     {
         return [
             'required',
-            'max:192',
-            'regex:/^[\pL\pM\pN\/_-]+$/u',
-            Rule::unique(Page::TABLE),
+            'string',
+            'max:16777215',
         ];
+    }
+
+    /**
+     * Determine if the field should be included in the select clause of our query.
+     *
+     * @param  Criteria|null  $criteria
+     * @return bool
+     */
+    public function shouldSelect(?Criteria $criteria): bool
+    {
+        // TODO: Only return this attribute if specified due to potential size.
+        return $criteria === null || $criteria->isAllowedField($this->getKey());
     }
 
     /**
@@ -51,9 +63,8 @@ class PageSlugField extends StringField implements CreatableField, UpdatableFiel
         return [
             'sometimes',
             'required',
-            'max:192',
-            'regex:/^[\pL\pM\pN\/_-]+$/u',
-            Rule::unique(Page::TABLE)->ignore($request->route('page'), Page::ATTRIBUTE_ID),
+            'string',
+            'max:16777215',
         ];
     }
 }
