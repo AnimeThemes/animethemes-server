@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 /**
  * Class PageNameField.
  */
-class PageNameField extends StringField  implements CreatableField, UpdatableField
+class PageNameField extends StringField implements CreatableField, UpdatableField
 {
     /**
      * Create a new field instance.
