@@ -15,7 +15,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Billing\TransactionReadQuery;
+use App\Http\Api\Query\Billing\Transaction\TransactionReadQuery;
 use App\Http\Api\Schema\Billing\TransactionSchema;
 use App\Http\Resources\Billing\Collection\TransactionCollection;
 use App\Http\Resources\Billing\Resource\TransactionResource;

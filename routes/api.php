@@ -41,9 +41,6 @@ Route::get('search', [SearchController::class, 'show'])->name('search.show');
 Route::get('config/flags', [FlagsController::class, 'show'])->name('config.flags.show');
 Route::get('config/wiki', [WikiController::class, 'show'])->name('config.wiki.show');
 
-// Billing Resources
-Route::apiResource('transaction', TransactionController::class)->only(['index', 'show']);
-
 // Wiki Resources
 Route::apiResource('image', ImageController::class)->only(['index', 'show']);
 
@@ -58,6 +55,7 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
 
         // Billing Resources
         'balance' => BalanceController::class,
+        'transaction' => TransactionController::class,
 
         // Wiki Resources
         'anime' => AnimeController::class,
@@ -84,6 +82,7 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
 
     // Restore Billing Resources
     Route::patch('restore/balance/{balance}', [BalanceController::class, 'restore'])->name('balance.restore');
+    Route::patch('restore/transaction/{transaction}', [TransactionController::class, 'restore'])->name('transaction.restore');
 
     // Restore Document Resources
     Route::patch('restore/page/{page}', [PageController::class, 'restore'])->where(['page' => '[\pL\pM\pN\/_-]+'])->name('page.restore');
@@ -109,6 +108,7 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
 
     // Force Delete Billing Resources
     Route::delete('forceDelete/balance/{balance}', [BalanceController::class, 'forceDelete'])->name('balance.forceDelete');
+    Route::delete('forceDelete/transaction/{transaction}', [TransactionController::class, 'forceDelete'])->name('transaction.forceDelete');
 
     // Force Delete Document Resources
     Route::delete('forceDelete/page/{page}', [PageController::class, 'forceDelete'])->where(['page' => '[\pL\pM\pN\/_-]+'])->name('page.forceDelete');
