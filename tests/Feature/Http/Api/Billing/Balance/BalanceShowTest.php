@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Api\Billing\Balance;
 
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Query\Billing\BalanceReadQuery;
+use App\Http\Api\Query\Billing\Balance\BalanceReadQuery;
 use App\Http\Api\Schema\Billing\BalanceSchema;
 use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\Billing\Balance;

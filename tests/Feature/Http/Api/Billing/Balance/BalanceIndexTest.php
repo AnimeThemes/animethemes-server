@@ -15,7 +15,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Billing\BalanceReadQuery;
+use App\Http\Api\Query\Billing\Balance\BalanceReadQuery;
 use App\Http\Api\Schema\Billing\BalanceSchema;
 use App\Http\Resources\Billing\Collection\BalanceCollection;
 use App\Http\Resources\Billing\Resource\BalanceResource;
