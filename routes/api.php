@@ -41,9 +41,6 @@ Route::get('search', [SearchController::class, 'show'])->name('search.show');
 Route::get('config/flags', [FlagsController::class, 'show'])->name('config.flags.show');
 Route::get('config/wiki', [WikiController::class, 'show'])->name('config.wiki.show');
 
-// Wiki Resources
-Route::apiResource('image', ImageController::class)->only(['index', 'show']);
-
 // Anime Year Routes
 Route::get('animeyear', [YearController::class, 'index'])->name('animeyear.index');
 Route::get('animeyear/{year}', [YearController::class, 'show'])->name('animeyear.show');
@@ -60,6 +57,7 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
         // Wiki Resources
         'anime' => AnimeController::class,
         'artist' => ArtistController::class,
+        'image' => ImageController::class,
         'resource' => ExternalResourceController::class,
         'series' => SeriesController::class,
         'song' => SongController::class,
@@ -90,6 +88,7 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
     // Restore Wiki Resources
     Route::patch('restore/anime/{anime}', [AnimeController::class, 'restore'])->name('anime.restore');
     Route::patch('restore/artist/{artist}', [ArtistController::class, 'restore'])->name('artist.restore');
+    Route::patch('restore/image/{image}', [ImageController::class, 'restore'])->name('image.restore');
     Route::patch('restore/resource/{resource}', [ExternalResourceController::class, 'restore'])->name('resource.restore');
     Route::patch('restore/series/{series}', [SeriesController::class, 'restore'])->name('series.restore');
     Route::patch('restore/song/{song}', [SongController::class, 'restore'])->name('song.restore');
@@ -116,6 +115,7 @@ Route::group([['middleware' => ['auth:sanctum' => ['except' => ['index', 'show']
     // Force Delete Wiki Resources
     Route::delete('forceDelete/anime/{anime}', [AnimeController::class, 'forceDelete'])->name('anime.forceDelete');
     Route::delete('forceDelete/artist/{artist}', [ArtistController::class, 'forceDelete'])->name('artist.forceDelete');
+    Route::delete('forceDelete/image/{image}', [ImageController::class, 'forceDelete'])->name('image.forceDelete');
     Route::delete('forceDelete/resource/{resource}', [ExternalResourceController::class, 'forceDelete'])->name('resource.forceDelete');
     Route::delete('forceDelete/series/{series}', [SeriesController::class, 'forceDelete'])->name('series.forceDelete');
     Route::delete('forceDelete/song/{song}', [SongController::class, 'forceDelete'])->name('song.forceDelete');

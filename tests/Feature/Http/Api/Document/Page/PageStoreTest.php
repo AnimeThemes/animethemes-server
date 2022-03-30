@@ -32,7 +32,7 @@ class PageStoreTest extends TestCase
     }
 
     /**
-     * The Page Store Endpoint shall require name, season, slug & year fields.
+     * The Page Store Endpoint shall require body, name & slug fields.
      *
      * @return void
      */

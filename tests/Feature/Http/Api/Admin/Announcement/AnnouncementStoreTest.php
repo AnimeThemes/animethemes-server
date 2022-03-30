@@ -32,7 +32,7 @@ class AnnouncementStoreTest extends TestCase
     }
 
     /**
-     * The Announcement Store Endpoint shall require name, season, slug & year fields.
+     * The Announcement Store Endpoint shall require the content field.
      *
      * @return void
      */

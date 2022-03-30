@@ -34,7 +34,7 @@ class VideoStoreTest extends TestCase
     }
 
     /**
-     * The Video Store Endpoint shall require name & slug fields.
+     * The Video Store Endpoint shall require basename, filename, mimetype, path & size fields.
      *
      * @return void
      */
