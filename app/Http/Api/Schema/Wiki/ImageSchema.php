@@ -7,6 +7,7 @@ namespace App\Http\Api\Schema\Wiki;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Image\ImageFacetField;
+use App\Http\Api\Field\Wiki\Image\ImageFileField;
 use App\Http\Api\Field\Wiki\Image\ImageLinkField;
 use App\Http\Api\Field\Wiki\Image\ImageMimeTypeField;
 use App\Http\Api\Field\Wiki\Image\ImagePathField;
@@ -70,6 +71,7 @@ class ImageSchema extends EloquentSchema
                 new ImagePathField(),
                 new ImageSizeField(),
                 new ImageLinkField(),
+                new ImageFileField(),
             ],
         );
     }

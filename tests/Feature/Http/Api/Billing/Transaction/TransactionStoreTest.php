@@ -33,7 +33,7 @@ class TransactionStoreTest extends TestCase
     }
 
     /**
-     * The Transaction Store Endpoint shall require name, season, slug & year fields.
+     * The Transaction Store Endpoint shall require amount, date, description & service fields.
      *
      * @return void
      */

@@ -34,7 +34,7 @@ class BalanceStoreTest extends TestCase
     }
 
     /**
-     * The Balance Store Endpoint shall require name, season, slug & year fields.
+     * The Balance Store Endpoint shall require date, service, frequency, usage & balance fields.
      *
      * @return void
      */
