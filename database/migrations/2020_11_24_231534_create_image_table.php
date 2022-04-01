@@ -22,8 +22,6 @@ return new class extends Migration
             $table->timestamps(6);
             $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
             $table->string(Image::ATTRIBUTE_PATH);
-            $table->integer(Image::ATTRIBUTE_SIZE);
-            $table->string(Image::ATTRIBUTE_MIMETYPE);
             $table->integer(Image::ATTRIBUTE_FACET)->nullable();
         });
     }

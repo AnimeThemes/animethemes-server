@@ -12,6 +12,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class ImageResource.
@@ -61,14 +62,6 @@ class ImageResource extends BaseResource
             $result[Image::ATTRIBUTE_PATH] = $this->path;
         }
 
-        if ($this->isAllowedField(Image::ATTRIBUTE_SIZE)) {
-            $result[Image::ATTRIBUTE_SIZE] = $this->size;
-        }
-
-        if ($this->isAllowedField(Image::ATTRIBUTE_MIMETYPE)) {
-            $result[Image::ATTRIBUTE_MIMETYPE] = $this->mimetype;
-        }
-
         if ($this->isAllowedField(Image::ATTRIBUTE_FACET)) {
             $result[Image::ATTRIBUTE_FACET] = $this->facet?->description;
         }
@@ -86,7 +79,7 @@ class ImageResource extends BaseResource
         }
 
         if ($this->isAllowedField(ImageResource::ATTRIBUTE_LINK)) {
-            $result[ImageResource::ATTRIBUTE_LINK] = route('image.show', $this);
+            $result[ImageResource::ATTRIBUTE_LINK] = Storage::disk('images')->url($this->path);
         }
 
         $result[Image::RELATION_ARTISTS] = ArtistCollection::make($this->whenLoaded(Image::RELATION_ARTISTS), $this->query);

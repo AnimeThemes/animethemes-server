@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
  */
 class ImageFileField extends Field implements CreatableField
 {
-    final public const ATTRIBUTE_FILE = 'link';
+    final public const ATTRIBUTE_FILE = 'file';
 
     /**
      * Create a new field instance.

@@ -10,7 +10,6 @@ use App\Nova\Filters\Wiki\Image\ImageFacetFilter;
 use App\Nova\Lenses\Image\ImageUnlinkedLens;
 use App\Nova\Resources\Resource;
 use App\Pivots\BasePivot;
-use App\Services\Nova\Resources\StoreImage;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Devpartners\AuditableLog\AuditableLog;
@@ -19,7 +18,6 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image as NovaImage;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
@@ -125,7 +123,7 @@ class Image extends Resource
                 ->rules(['required', (new EnumValue(ImageFacet::class, false))->__toString()])
                 ->help(__('nova.image_facet_help')),
 
-            NovaImage::make(__('nova.image'), 'path', 'images', new StoreImage())
+            NovaImage::make(__('nova.image'), 'path', 'images')
                 ->creationRules('required'),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
@@ -167,16 +165,6 @@ class Image extends Resource
     {
         return [
             Text::make(__('nova.path'), ImageModel::ATTRIBUTE_PATH)
-                ->hideFromIndex()
-                ->hideWhenCreating()
-                ->readonly(),
-
-            Number::make(__('nova.size'), ImageModel::ATTRIBUTE_SIZE)
-                ->hideFromIndex()
-                ->hideWhenCreating()
-                ->readonly(),
-
-            Text::make(__('nova.mimetype'), ImageModel::ATTRIBUTE_MIMETYPE)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->readonly(),

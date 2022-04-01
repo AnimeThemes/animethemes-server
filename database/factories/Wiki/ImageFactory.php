@@ -35,9 +35,7 @@ class ImageFactory extends Factory
     {
         return [
             Image::ATTRIBUTE_FACET => ImageFacet::getRandomValue(),
-            Image::ATTRIBUTE_MIMETYPE => $this->faker->mimeType(),
             Image::ATTRIBUTE_PATH => Str::random(),
-            Image::ATTRIBUTE_SIZE => $this->faker->randomNumber(),
         ];
     }
 }
