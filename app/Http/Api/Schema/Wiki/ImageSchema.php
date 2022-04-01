@@ -9,9 +9,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Image\ImageFacetField;
 use App\Http\Api\Field\Wiki\Image\ImageFileField;
 use App\Http\Api\Field\Wiki\Image\ImageLinkField;
-use App\Http\Api\Field\Wiki\Image\ImageMimeTypeField;
 use App\Http\Api\Field\Wiki\Image\ImagePathField;
-use App\Http\Api\Field\Wiki\Image\ImageSizeField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Wiki\Resource\ImageResource;
@@ -67,9 +65,7 @@ class ImageSchema extends EloquentSchema
             [
                 new IdField(Image::ATTRIBUTE_ID),
                 new ImageFacetField(),
-                new ImageMimeTypeField(),
                 new ImagePathField(),
-                new ImageSizeField(),
                 new ImageLinkField(),
                 new ImageFileField(),
             ],

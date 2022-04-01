@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
-use App\Contracts\Models\Wiki\Streamable;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Events\Wiki\Video\VideoCreated;
@@ -45,7 +44,7 @@ use Illuminate\Support\Collection;
  *
  * @method static VideoFactory factory(...$parameters)
  */
-class Video extends BaseModel implements Streamable, Viewable
+class Video extends BaseModel implements Viewable
 {
     use Searchable;
     use InteractsWithViews;
@@ -224,46 +223,6 @@ class Video extends BaseModel implements Streamable, Viewable
     public function getName(): string
     {
         return $this->basename;
-    }
-
-    /**
-     * Get path.
-     *
-     * @return string
-     */
-    public function getPath(): string
-    {
-        return $this->path;
-    }
-
-    /**
-     * Get MIME type.
-     *
-     * @return string
-     */
-    public function getMimetype(): string
-    {
-        return $this->mimetype;
-    }
-
-    /**
-     * Get size.
-     *
-     * @return int
-     */
-    public function getSize(): int
-    {
-        return $this->size;
-    }
-
-    /**
-     * Get name of storage disk.
-     *
-     * @return string
-     */
-    public function getDisk(): string
-    {
-        return 'videos';
     }
 
     /**

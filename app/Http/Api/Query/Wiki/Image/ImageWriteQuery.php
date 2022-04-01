@@ -33,8 +33,6 @@ class ImageWriteQuery extends EloquentWriteQuery
 
         $file = Arr::get($this->parameters, ImageFileField::ATTRIBUTE_FILE);
         if ($file instanceof UploadedFile) {
-            Arr::set($imageParameters, Image::ATTRIBUTE_SIZE, $file->getSize());
-            Arr::set($imageParameters, Image::ATTRIBUTE_MIMETYPE, $file->getClientMimeType());
             Arr::set($imageParameters, Image::ATTRIBUTE_PATH, $file->store('', 'images'));
         }
 

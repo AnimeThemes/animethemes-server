@@ -6,7 +6,6 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Billing\TransparencyController;
 use App\Http\Controllers\Sitemap\SitemapController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\Wiki\ImageController;
 use App\Http\Controllers\Wiki\VideoController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,8 +27,6 @@ Route::get('/', [WelcomeController::class, 'show'])->name('welcome');
 Route::get('transparency', [TransparencyController::class, 'show'])->name('transparency.show');
 
 // Content Streaming
-Route::resource('image', ImageController::class)->only('show')
-    ->middleware('without_trashed:image');
 Route::resource('video', VideoController::class)->only('show')
     ->middleware(['is_video_streaming_allowed', 'without_trashed:video', 'record_view:video']);
 

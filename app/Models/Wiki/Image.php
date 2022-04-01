@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
-use App\Contracts\Models\Wiki\Streamable;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Events\Wiki\Image\ImageCreated;
 use App\Events\Wiki\Image\ImageDeleted;
@@ -32,15 +31,13 @@ use Illuminate\Support\Collection;
  *
  * @method static ImageFactory factory(...$parameters)
  */
-class Image extends BaseModel implements Streamable
+class Image extends BaseModel
 {
     final public const TABLE = 'images';
 
     final public const ATTRIBUTE_FACET = 'facet';
     final public const ATTRIBUTE_ID = 'image_id';
-    final public const ATTRIBUTE_MIMETYPE = 'mimetype';
     final public const ATTRIBUTE_PATH = 'path';
-    final public const ATTRIBUTE_SIZE = 'size';
 
     final public const RELATION_ANIME = 'anime';
     final public const RELATION_ARTISTS = 'artists';
@@ -52,9 +49,7 @@ class Image extends BaseModel implements Streamable
      */
     protected $fillable = [
         Image::ATTRIBUTE_FACET,
-        Image::ATTRIBUTE_MIMETYPE,
         Image::ATTRIBUTE_PATH,
-        Image::ATTRIBUTE_SIZE,
     ];
 
     /**
@@ -93,7 +88,6 @@ class Image extends BaseModel implements Streamable
      */
     protected $casts = [
         Image::ATTRIBUTE_FACET => ImageFacet::class,
-        Image::ATTRIBUTE_SIZE => 'int',
     ];
 
     /**
@@ -104,46 +98,6 @@ class Image extends BaseModel implements Streamable
     public function getName(): string
     {
         return $this->path;
-    }
-
-    /**
-     * Get path.
-     *
-     * @return string
-     */
-    public function getPath(): string
-    {
-        return $this->path;
-    }
-
-    /**
-     * Get MIME type.
-     *
-     * @return string
-     */
-    public function getMimetype(): string
-    {
-        return $this->mimetype;
-    }
-
-    /**
-     * Get size.
-     *
-     * @return int
-     */
-    public function getSize(): int
-    {
-        return $this->size;
-    }
-
-    /**
-     * Get name of storage disk.
-     *
-     * @return string
-     */
-    public function getDisk(): string
-    {
-        return 'images';
     }
 
     /**

@@ -13,7 +13,6 @@ use App\Pivots\ArtistImage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
-use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -113,13 +112,10 @@ class ImageTest extends TestCase
         $fs = Storage::fake('images');
         $file = File::fake()->image($this->faker->word().'.jpg');
         $fsFile = $fs->putFile('', $file);
-        $fsPathinfo = pathinfo(strval($fsFile));
 
         $image = Image::factory()->createOne([
             Image::ATTRIBUTE_FACET => ImageFacet::getRandomValue(),
-            Image::ATTRIBUTE_MIMETYPE => MimeType::from($fsPathinfo['basename']),
             Image::ATTRIBUTE_PATH => $fsFile,
-            Image::ATTRIBUTE_SIZE => $this->faker->randomNumber(),
         ]);
 
         $image->delete();
@@ -137,13 +133,10 @@ class ImageTest extends TestCase
         $fs = Storage::fake('images');
         $file = File::fake()->image($this->faker->word().'.jpg');
         $fsFile = $fs->putFile('', $file);
-        $fsPathinfo = pathinfo(strval($fsFile));
 
         $image = Image::factory()->createOne([
             Image::ATTRIBUTE_FACET => ImageFacet::getRandomValue(),
-            Image::ATTRIBUTE_MIMETYPE => MimeType::from($fsPathinfo['basename']),
             Image::ATTRIBUTE_PATH => $fsFile,
-            Image::ATTRIBUTE_SIZE => $this->faker->randomNumber(),
         ]);
 
         $image->forceDelete();

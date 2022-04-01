@@ -56,6 +56,7 @@ return [
             'stream_reads' => env('IMAGE_STREAM_READS'),
             'disable_asserts' => env('IMAGE_DISABLE_ASSERTS'),
             'visibility' => env('IMAGE_VISIBILITY'),
+            'url' => env('IMAGE_URL'),
             'throw' => false,
         ],
 
