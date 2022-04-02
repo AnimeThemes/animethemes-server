@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Carbon\CarbonInterval;
 use Laravel\Sanctum\Sanctum;
 
 return [
@@ -48,7 +49,7 @@ return [
     |
     */
 
-    'expiration' => null,
+    'expiration' => CarbonInterval::month()->totalMinutes,
 
     /*
     |--------------------------------------------------------------------------
