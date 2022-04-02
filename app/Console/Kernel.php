@@ -15,6 +15,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Queue\Console\PruneFailedJobsCommand;
 use Laravel\Horizon\Console\SnapshotCommand;
+use Laravel\Sanctum\Console\Commands\PruneExpired;
 use Laravel\Telescope\Console\PruneCommand;
 
 /**
@@ -38,6 +39,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(WikiDatabaseDumpCommand::class, ['--create'])->daily();
         $schedule->command(PruneCommand::class)->daily();
         $schedule->command(PruneDatabaseDumpsCommand::class)->dailyAt('00:15');
+        $schedule->command(PruneExpired::class)->daily();
         $schedule->command(PruneFailedJobsCommand::class)->daily();
         $schedule->command(SnapshotCommand::class)->everyFiveMinutes();
         $schedule->command(TransactionReconcileCommand::class, [Service::DIGITALOCEAN()->key])->hourly();
