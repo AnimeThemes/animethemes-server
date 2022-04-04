@@ -34,7 +34,7 @@ class AnimeUpdateTest extends TestCase
 
         $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

@@ -28,7 +28,7 @@ class ArtistStoreTest extends TestCase
 
         $response = $this->post(route('api.artist.store', $artist->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

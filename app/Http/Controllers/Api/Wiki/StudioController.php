@@ -15,6 +15,7 @@ use App\Http\Requests\Api\Wiki\Studio\StudioStoreRequest;
 use App\Http\Requests\Api\Wiki\Studio\StudioUpdateRequest;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\JsonResponse;
+use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class StudioController.
@@ -27,6 +28,7 @@ class StudioController extends Controller
      * @param  StudioIndexRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'studio', name: 'studio.index')]
     public function index(StudioIndexRequest $request): JsonResponse
     {
         $query = $request->getQuery();
@@ -44,6 +46,7 @@ class StudioController extends Controller
      * @param  StudioStoreRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'studio', name: 'studio.store', middleware: 'auth:sanctum')]
     public function store(StudioStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -58,6 +61,7 @@ class StudioController extends Controller
      * @param  Studio  $studio
      * @return JsonResponse
      */
+    #[Route(fullUri: 'studio/{studio}', name: 'studio.show')]
     public function show(StudioShowRequest $request, Studio $studio): JsonResponse
     {
         $resource = $request->getQuery()->show($studio);
@@ -72,6 +76,7 @@ class StudioController extends Controller
      * @param  Studio  $studio
      * @return JsonResponse
      */
+    #[Route(fullUri: 'studio/{studio}', name: 'studio.update', middleware: 'auth:sanctum')]
     public function update(StudioUpdateRequest $request, Studio $studio): JsonResponse
     {
         $resource = $request->getQuery()->update($studio);
@@ -86,6 +91,7 @@ class StudioController extends Controller
      * @param  Studio  $studio
      * @return JsonResponse
      */
+    #[Route(fullUri: 'studio/{studio}', name: 'studio.destroy', middleware: 'auth:sanctum')]
     public function destroy(StudioDestroyRequest $request, Studio $studio): JsonResponse
     {
         $resource = $request->getQuery()->destroy($studio);
@@ -100,6 +106,7 @@ class StudioController extends Controller
      * @param  Studio  $studio
      * @return JsonResponse
      */
+    #[Route(method: 'patch', fullUri: 'restore/studio/{studio}', name: 'studio.restore', middleware: 'auth:sanctum')]
     public function restore(StudioRestoreRequest $request, Studio $studio): JsonResponse
     {
         $resource = $request->getQuery()->restore($studio);
@@ -114,6 +121,7 @@ class StudioController extends Controller
      * @param  Studio  $studio
      * @return JsonResponse
      */
+    #[Route(method: 'delete', fullUri: 'forceDelete/studio/{studio}', name: 'studio.forceDelete', middleware: 'auth:sanctum')]
     public function forceDelete(StudioForceDeleteRequest $request, Studio $studio): JsonResponse
     {
         return $request->getQuery()->forceDelete($studio);

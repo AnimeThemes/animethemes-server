@@ -35,7 +35,7 @@ class EntryRestoreTest extends TestCase
 
         $response = $this->patch(route('api.animethemeentry.restore', ['animethemeentry' => $entry]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

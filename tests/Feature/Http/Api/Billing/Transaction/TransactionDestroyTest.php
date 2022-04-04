@@ -28,7 +28,7 @@ class TransactionDestroyTest extends TestCase
 
         $response = $this->delete(route('api.transaction.destroy', ['transaction' => $transaction]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

@@ -30,7 +30,7 @@ class PageRestoreTest extends TestCase
 
         $response = $this->patch(route('api.page.restore', ['page' => $page]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

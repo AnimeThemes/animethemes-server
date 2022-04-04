@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Sitemap;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class SitemapController.
@@ -17,6 +18,7 @@ class SitemapController extends Controller
      *
      * @return Response
      */
+    #[Route(fullUri: 'sitemap', name: 'sitemap')]
     public function show(): Response
     {
         return response()

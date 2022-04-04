@@ -30,7 +30,7 @@ class StudioRestoreTest extends TestCase
 
         $response = $this->patch(route('api.studio.restore', ['studio' => $studio]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

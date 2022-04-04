@@ -31,7 +31,7 @@ class SynonymRestoreTest extends TestCase
 
         $response = $this->patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

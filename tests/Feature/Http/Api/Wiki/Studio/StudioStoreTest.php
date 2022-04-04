@@ -28,7 +28,7 @@ class StudioStoreTest extends TestCase
 
         $response = $this->post(route('api.studio.store', $studio->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

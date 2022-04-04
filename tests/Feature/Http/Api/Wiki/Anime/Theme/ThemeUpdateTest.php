@@ -36,7 +36,7 @@ class ThemeUpdateTest extends TestCase
 
         $response = $this->put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

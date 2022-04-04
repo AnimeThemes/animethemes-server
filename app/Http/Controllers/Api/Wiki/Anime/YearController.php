@@ -14,6 +14,7 @@ use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class YearController.
@@ -28,6 +29,7 @@ class YearController extends Controller
      *
      * @noinspection PhpUnusedParameterInspection
      */
+    #[Route(fullUri: 'animeyear', name: 'animeyear.index')]
     public function index(YearIndexRequest $request): JsonResponse
     {
         return new JsonResponse(
@@ -45,6 +47,7 @@ class YearController extends Controller
      * @param  string  $year
      * @return JsonResponse
      */
+    #[Route(fullUri: 'animeyear/{year}', name: 'animeyear.show')]
     public function show(YearShowRequest $request, string $year): JsonResponse
     {
         $includeCriteria = $request->getQuery()->getIncludeCriteria(AnimeCollection::$wrap);

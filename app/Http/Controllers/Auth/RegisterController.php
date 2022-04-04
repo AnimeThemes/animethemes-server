@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
+use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class RegisterController.
@@ -34,6 +35,15 @@ use Illuminate\Validation\ValidationException;
 class RegisterController extends Controller
 {
     use RegistersUsers;
+
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        // route discovery wants class strings
+        $this->middleware(['guest', 'signed', 'has_open_invitation', 'without_trashed:invitation'], ['only' => ['showRegistrationForm', 'register']]);
+    }
 
     /**
      * Where to redirect users after registration.
@@ -51,6 +61,7 @@ class RegisterController extends Controller
      * @param  Invitation  $invitation
      * @return View|Factory
      */
+    #[Route(method: 'get', fullUri: 'register/{invitation}', name: 'showRegistrationForm')]
     public function showRegistrationForm(Invitation $invitation): View|Factory
     {
         return view('auth.register', [
@@ -67,6 +78,7 @@ class RegisterController extends Controller
      *
      * @throws ValidationException
      */
+    #[Route(method: 'post', fullUri: 'register/{invitation}', name: 'register')]
     public function register(Request $request, Invitation $invitation): JsonResponse|RedirectResponse|Redirector
     {
         $data = array_merge($request->all(), [

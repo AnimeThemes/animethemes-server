@@ -34,7 +34,7 @@ class TransactionUpdateTest extends TestCase
 
         $response = $this->put(route('api.transaction.update', ['transaction' => $transaction] + $parameters));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

@@ -30,7 +30,7 @@ class SeriesRestoreTest extends TestCase
 
         $response = $this->patch(route('api.series.restore', ['series' => $series]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

@@ -14,6 +14,7 @@ use App\Http\Requests\Api\Wiki\ExternalResource\ExternalResourceStoreRequest;
 use App\Http\Requests\Api\Wiki\ExternalResource\ExternalResourceUpdateRequest;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\JsonResponse;
+use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class ExternalResourceController.
@@ -26,6 +27,7 @@ class ExternalResourceController extends Controller
      * @param  ExternalResourceIndexRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'resource', name: 'resource.index')]
     public function index(ExternalResourceIndexRequest $request): JsonResponse
     {
         $resources = $request->getQuery()->index();
@@ -39,6 +41,7 @@ class ExternalResourceController extends Controller
      * @param  ExternalResourceStoreRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'resource', name: 'resource.store', middleware: 'auth:sanctum')]
     public function store(ExternalResourceStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -53,6 +56,7 @@ class ExternalResourceController extends Controller
      * @param  ExternalResource  $resource
      * @return JsonResponse
      */
+    #[Route(fullUri: 'resource/{resource}', name: 'resource.show')]
     public function show(ExternalResourceShowRequest $request, ExternalResource $resource): JsonResponse
     {
         $apiResource = $request->getQuery()->show($resource);
@@ -67,6 +71,7 @@ class ExternalResourceController extends Controller
      * @param  ExternalResource  $resource
      * @return JsonResponse
      */
+    #[Route(fullUri: 'resource/{resource}', name: 'resource.update', middleware: 'auth:sanctum')]
     public function update(ExternalResourceUpdateRequest $request, ExternalResource $resource): JsonResponse
     {
         $apiResource = $request->getQuery()->update($resource);
@@ -81,6 +86,7 @@ class ExternalResourceController extends Controller
      * @param  ExternalResource  $resource
      * @return JsonResponse
      */
+    #[Route(fullUri: 'resource/{resource}', name: 'resource.destroy', middleware: 'auth:sanctum')]
     public function destroy(ExternalResourceDestroyRequest $request, ExternalResource $resource): JsonResponse
     {
         $apiResource = $request->getQuery()->destroy($resource);
@@ -95,6 +101,7 @@ class ExternalResourceController extends Controller
      * @param  ExternalResource  $resource
      * @return JsonResponse
      */
+    #[Route(method: 'patch', fullUri: 'restore/resource/{resource}', name: 'resource.restore', middleware: 'auth:sanctum')]
     public function restore(ExternalResourceRestoreRequest $request, ExternalResource $resource): JsonResponse
     {
         $apiResource = $request->getQuery()->restore($resource);
@@ -109,6 +116,7 @@ class ExternalResourceController extends Controller
      * @param  ExternalResource  $resource
      * @return JsonResponse
      */
+    #[Route(method: 'delete', fullUri: 'forceDelete/resource/{resource}', name: 'resource.forceDelete', middleware: 'auth:sanctum')]
     public function forceDelete(ExternalResourceForceDeleteRequest $request, ExternalResource $resource): JsonResponse
     {
         return $request->getQuery()->forceDelete($resource);

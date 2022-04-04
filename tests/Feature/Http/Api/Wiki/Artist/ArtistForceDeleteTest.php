@@ -28,7 +28,7 @@ class ArtistForceDeleteTest extends TestCase
 
         $response = $this->delete(route('api.artist.forceDelete', ['artist' => $artist]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

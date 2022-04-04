@@ -31,7 +31,7 @@ class SynonymUpdateTest extends TestCase
 
         $response = $this->put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

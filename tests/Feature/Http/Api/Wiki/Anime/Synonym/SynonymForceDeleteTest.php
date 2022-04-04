@@ -29,7 +29,7 @@ class SynonymForceDeleteTest extends TestCase
 
         $response = $this->delete(route('api.animesynonym.forceDelete', ['animesynonym' => $synonym]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

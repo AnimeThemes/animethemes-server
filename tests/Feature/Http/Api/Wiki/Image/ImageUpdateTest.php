@@ -34,7 +34,7 @@ class ImageUpdateTest extends TestCase
 
         $response = $this->put(route('api.image.update', ['image' => $image] + $parameters));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

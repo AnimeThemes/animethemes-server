@@ -28,7 +28,7 @@ class VideoDestroyTest extends TestCase
 
         $response = $this->delete(route('api.video.destroy', ['video' => $video]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

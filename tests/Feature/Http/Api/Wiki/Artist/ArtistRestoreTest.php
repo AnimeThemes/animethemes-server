@@ -30,7 +30,7 @@ class ArtistRestoreTest extends TestCase
 
         $response = $this->patch(route('api.artist.restore', ['artist' => $artist]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

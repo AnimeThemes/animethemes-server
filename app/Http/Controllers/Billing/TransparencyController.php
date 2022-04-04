@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Billing\TransparencyRequest;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class TransparencyController.
@@ -20,6 +21,7 @@ class TransparencyController extends Controller
      * @param  TransparencyRequest  $request
      * @return View | Factory
      */
+    #[Route(fullUri: 'transparency', name: 'transparency.show')]
     public function show(TransparencyRequest $request): View|Factory
     {
         return view('billing.transparency', [

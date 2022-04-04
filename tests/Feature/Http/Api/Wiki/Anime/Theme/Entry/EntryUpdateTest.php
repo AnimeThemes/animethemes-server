@@ -35,7 +35,7 @@ class EntryUpdateTest extends TestCase
 
         $response = $this->put(route('api.animethemeentry.update', ['animethemeentry' => $entry] + $parameters));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

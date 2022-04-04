@@ -38,7 +38,7 @@ class BalanceUpdateTest extends TestCase
 
         $response = $this->put(route('api.balance.update', ['balance' => $balance] + $parameters));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

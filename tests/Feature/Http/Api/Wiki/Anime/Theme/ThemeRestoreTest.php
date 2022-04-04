@@ -32,7 +32,7 @@ class ThemeRestoreTest extends TestCase
 
         $response = $this->patch(route('api.animetheme.restore', ['animetheme' => $theme]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

@@ -28,7 +28,7 @@ class SongStoreTest extends TestCase
 
         $response = $this->post(route('api.song.store', $song->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

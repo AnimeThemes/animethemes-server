@@ -30,7 +30,7 @@ class VideoRestoreTest extends TestCase
 
         $response = $this->patch(route('api.video.restore', ['video' => $video]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

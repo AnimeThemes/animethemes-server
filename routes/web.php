@@ -2,12 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Billing\TransparencyController;
-use App\Http\Controllers\Sitemap\SitemapController;
-use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\Wiki\VideoController;
 use Illuminate\Support\Facades\Route;
+use Spatie\RouteDiscovery\Discovery\Discover;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,26 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Home
-Route::get('/', [WelcomeController::class, 'show'])->name('welcome');
+Discover::controllers()->in(app_path('Http/Controllers/Auth'));
+Discover::controllers()->in(app_path('Http/Controllers/Billing'));
+Discover::controllers()->in(app_path('Http/Controllers/Home'));
+Discover::controllers()->in(app_path('Http/Controllers/Sitemap'));
+Discover::controllers()->in(app_path('Http/Controllers/Wiki'));
 
-// Billing
-Route::get('transparency', [TransparencyController::class, 'show'])->name('transparency.show');
-
-// Content Streaming
-Route::resource('video', VideoController::class)->only('show')
-    ->middleware(['is_video_streaming_allowed', 'without_trashed:video', 'record_view:video']);
-
-// Sitemaps
-Route::get('/sitemap', [SitemapController::class, 'show'])->name('sitemap');
-
-// Auth
-Route::get('register/{invitation}', [RegisterController::class, 'showRegistrationForm'])
-    ->name('register')
-    ->middleware(['guest', 'signed', 'has_open_invitation', 'without_trashed:invitation']);
-Route::post('register/{invitation}', [RegisterController::class, 'register'])
-    ->middleware(['guest', 'signed', 'has_open_invitation', 'without_trashed:invitation']);
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');

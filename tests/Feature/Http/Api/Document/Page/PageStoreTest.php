@@ -28,7 +28,7 @@ class PageStoreTest extends TestCase
 
         $response = $this->post(route('api.page.store', $page->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

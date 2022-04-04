@@ -29,7 +29,7 @@ class SynonymStoreTest extends TestCase
 
         $response = $this->post(route('api.animesynonym.store', $synonym->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

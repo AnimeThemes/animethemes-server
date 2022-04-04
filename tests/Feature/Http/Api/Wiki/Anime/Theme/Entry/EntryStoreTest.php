@@ -33,7 +33,7 @@ class EntryStoreTest extends TestCase
 
         $response = $this->post(route('api.animethemeentry.store', $entry->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

@@ -30,7 +30,7 @@ class ThemeForceDeleteTest extends TestCase
 
         $response = $this->delete(route('api.animetheme.forceDelete', ['animetheme' => $theme]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

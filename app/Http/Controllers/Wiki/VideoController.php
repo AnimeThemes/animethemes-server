@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Wiki;
 use App\Http\Controllers\Controller;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Storage;
+use Spatie\RouteDiscovery\Attributes\Route;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -15,11 +16,21 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class VideoController extends Controller
 {
     /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        // route discovery wants class strings
+        $this->middleware(['is_video_streaming_allowed', 'without_trashed:video', 'record_view:video'], ['only' => 'show']);
+    }
+
+    /**
      * Stream video.
      *
      * @param  Video  $video
      * @return StreamedResponse
      */
+    #[Route(fullUri: 'video/{video}', name: 'video.show')]
     public function show(Video $video): StreamedResponse
     {
         $response = new StreamedResponse();

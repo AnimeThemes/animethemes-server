@@ -28,7 +28,7 @@ class TransactionForceDeleteTest extends TestCase
 
         $response = $this->delete(route('api.transaction.forceDelete', ['transaction' => $transaction]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

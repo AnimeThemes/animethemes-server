@@ -30,7 +30,7 @@ class AnimeRestoreTest extends TestCase
 
         $response = $this->patch(route('api.anime.restore', ['anime' => $anime]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

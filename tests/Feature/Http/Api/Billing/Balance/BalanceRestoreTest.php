@@ -30,7 +30,7 @@ class BalanceRestoreTest extends TestCase
 
         $response = $this->patch(route('api.balance.restore', ['balance' => $balance]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

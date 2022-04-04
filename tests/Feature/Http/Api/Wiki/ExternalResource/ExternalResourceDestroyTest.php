@@ -28,7 +28,7 @@ class ExternalResourceDestroyTest extends TestCase
 
         $response = $this->delete(route('api.resource.destroy', ['resource' => $resource]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**
