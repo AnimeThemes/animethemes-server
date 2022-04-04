@@ -28,7 +28,7 @@ class SeriesDestroyTest extends TestCase
 
         $response = $this->delete(route('api.series.destroy', ['series' => $series]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

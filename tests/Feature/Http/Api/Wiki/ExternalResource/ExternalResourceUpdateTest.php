@@ -34,7 +34,7 @@ class ExternalResourceUpdateTest extends TestCase
 
         $response = $this->put(route('api.resource.update', ['resource' => $resource] + $parameters));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

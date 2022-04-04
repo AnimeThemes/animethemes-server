@@ -30,7 +30,7 @@ class BalanceStoreTest extends TestCase
 
         $response = $this->post(route('api.balance.store', $balance->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

@@ -28,7 +28,7 @@ class StudioForceDeleteTest extends TestCase
 
         $response = $this->delete(route('api.studio.forceDelete', ['studio' => $studio]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

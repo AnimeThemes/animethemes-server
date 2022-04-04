@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
  */
 abstract class Criteria
 {
-    final public const MAX_RESULTS = 30;
+    final public const MAX_RESULTS = 100;
 
     final public const DEFAULT_SIZE = 15;
 

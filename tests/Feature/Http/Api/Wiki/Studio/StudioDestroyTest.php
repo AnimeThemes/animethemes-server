@@ -28,7 +28,7 @@ class StudioDestroyTest extends TestCase
 
         $response = $this->delete(route('api.studio.destroy', ['studio' => $studio]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

@@ -31,7 +31,7 @@ class ThemeStoreTest extends TestCase
 
         $response = $this->post(route('api.animetheme.store', $theme->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

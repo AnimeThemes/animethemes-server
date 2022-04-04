@@ -28,7 +28,7 @@ class PageForceDeleteTest extends TestCase
 
         $response = $this->delete(route('api.page.forceDelete', ['page' => $page]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

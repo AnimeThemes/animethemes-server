@@ -15,6 +15,7 @@ use App\Http\Requests\Api\Wiki\Anime\Synonym\SynonymStoreRequest;
 use App\Http\Requests\Api\Wiki\Anime\Synonym\SynonymUpdateRequest;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\JsonResponse;
+use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class SynonymController.
@@ -27,6 +28,7 @@ class SynonymController extends Controller
      * @param  SynonymIndexRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'animesynonym', name: 'animesynonym.index')]
     public function index(SynonymIndexRequest $request): JsonResponse
     {
         $query = $request->getQuery();
@@ -44,6 +46,7 @@ class SynonymController extends Controller
      * @param  SynonymStoreRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'animesynonym', name: 'animesynonym.store', middleware: 'auth:sanctum')]
     public function store(SynonymStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -58,6 +61,7 @@ class SynonymController extends Controller
      * @param  AnimeSynonym  $synonym
      * @return JsonResponse
      */
+    #[Route(fullUri: 'animesynonym/{animesynonym}', name: 'animesynonym.show')]
     public function show(SynonymShowRequest $request, AnimeSynonym $synonym): JsonResponse
     {
         $resource = $request->getQuery()->show($synonym);
@@ -72,6 +76,7 @@ class SynonymController extends Controller
      * @param  AnimeSynonym  $synonym
      * @return JsonResponse
      */
+    #[Route(fullUri: 'animesynonym/{animesynonym}', name: 'animesynonym.update', middleware: 'auth:sanctum')]
     public function update(SynonymUpdateRequest $request, AnimeSynonym $synonym): JsonResponse
     {
         $resource = $request->getQuery()->update($synonym);
@@ -86,6 +91,7 @@ class SynonymController extends Controller
      * @param  AnimeSynonym  $synonym
      * @return JsonResponse
      */
+    #[Route(fullUri: 'animesynonym/{animesynonym}', name: 'animesynonym.destroy', middleware: 'auth:sanctum')]
     public function destroy(SynonymDestroyRequest $request, AnimeSynonym $synonym): JsonResponse
     {
         $resource = $request->getQuery()->destroy($synonym);
@@ -100,6 +106,7 @@ class SynonymController extends Controller
      * @param  AnimeSynonym  $synonym
      * @return JsonResponse
      */
+    #[Route(method: 'patch', fullUri: 'restore/animesynonym/{animesynonym}', name: 'animesynonym.restore', middleware: 'auth:sanctum')]
     public function restore(SynonymRestoreRequest $request, AnimeSynonym $synonym): JsonResponse
     {
         $resource = $request->getQuery()->restore($synonym);
@@ -114,6 +121,7 @@ class SynonymController extends Controller
      * @param  AnimeSynonym  $synonym
      * @return JsonResponse
      */
+    #[Route(method: 'delete', fullUri: 'forceDelete/animesynonym/{animesynonym}', name: 'animesynonym.forceDelete', middleware: 'auth:sanctum')]
     public function forceDelete(SynonymForceDeleteRequest $request, AnimeSynonym $synonym): JsonResponse
     {
         return $request->getQuery()->forceDelete($synonym);

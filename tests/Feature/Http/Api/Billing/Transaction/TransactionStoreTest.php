@@ -29,7 +29,7 @@ class TransactionStoreTest extends TestCase
 
         $response = $this->post(route('api.transaction.store', $transaction->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

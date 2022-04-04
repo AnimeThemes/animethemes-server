@@ -30,7 +30,7 @@ class TransactionRestoreTest extends TestCase
 
         $response = $this->patch(route('api.transaction.restore', ['transaction' => $transaction]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

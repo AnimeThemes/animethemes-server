@@ -30,7 +30,7 @@ class SongUpdateTest extends TestCase
 
         $response = $this->put(route('api.song.update', ['song' => $song] + $parameters));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

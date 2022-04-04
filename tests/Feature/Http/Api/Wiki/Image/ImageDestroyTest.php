@@ -28,7 +28,7 @@ class ImageDestroyTest extends TestCase
 
         $response = $this->delete(route('api.image.destroy', ['image' => $image]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

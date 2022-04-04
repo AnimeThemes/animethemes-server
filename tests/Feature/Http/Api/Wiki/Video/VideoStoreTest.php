@@ -30,7 +30,7 @@ class VideoStoreTest extends TestCase
 
         $response = $this->post(route('api.video.store', $video->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

@@ -28,7 +28,7 @@ class AnimeForceDeleteTest extends TestCase
 
         $response = $this->delete(route('api.anime.forceDelete', ['anime' => $anime]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

@@ -30,7 +30,7 @@ class SeriesUpdateTest extends TestCase
 
         $response = $this->put(route('api.series.update', ['series' => $series] + $parameters));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

@@ -34,7 +34,7 @@ class ImageStoreTest extends TestCase
 
         $response = $this->post(route('api.image.store', $image->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

@@ -14,6 +14,7 @@ use App\Http\Requests\Api\Admin\AnnouncementStoreRequest;
 use App\Http\Requests\Api\Admin\AnnouncementUpdateRequest;
 use App\Models\Admin\Announcement;
 use Illuminate\Http\JsonResponse;
+use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class AnnouncementController.
@@ -26,6 +27,7 @@ class AnnouncementController extends Controller
      * @param  AnnouncementIndexRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'announcement', name: 'announcement.index')]
     public function index(AnnouncementIndexRequest $request): JsonResponse
     {
         $announcements = $request->getQuery()->index();
@@ -39,6 +41,7 @@ class AnnouncementController extends Controller
      * @param  AnnouncementStoreRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'announcement', name: 'announcement.store', middleware: 'auth:sanctum')]
     public function store(AnnouncementStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -53,6 +56,7 @@ class AnnouncementController extends Controller
      * @param  Announcement  $announcement
      * @return JsonResponse
      */
+    #[Route(fullUri: 'announcement/{announcement}', name: 'announcement.show')]
     public function show(AnnouncementShowRequest $request, Announcement $announcement): JsonResponse
     {
         $resource = $request->getQuery()->show($announcement);
@@ -67,6 +71,7 @@ class AnnouncementController extends Controller
      * @param  Announcement  $announcement
      * @return JsonResponse
      */
+    #[Route(fullUri: 'announcement/{announcement}', name: 'announcement.update', middleware: 'auth:sanctum')]
     public function update(AnnouncementUpdateRequest $request, Announcement $announcement): JsonResponse
     {
         $resource = $request->getQuery()->update($announcement);
@@ -81,6 +86,7 @@ class AnnouncementController extends Controller
      * @param  Announcement  $announcement
      * @return JsonResponse
      */
+    #[Route(fullUri: 'announcement/{announcement}', name: 'announcement.destroy', middleware: 'auth:sanctum')]
     public function destroy(AnnouncementDestroyRequest $request, Announcement $announcement): JsonResponse
     {
         $resource = $request->getQuery()->destroy($announcement);
@@ -95,6 +101,7 @@ class AnnouncementController extends Controller
      * @param  Announcement  $announcement
      * @return JsonResponse
      */
+    #[Route(method: 'patch', fullUri: 'restore/announcement/{announcement}', name: 'announcement.restore', middleware: 'auth:sanctum')]
     public function restore(AnnouncementRestoreRequest $request, Announcement $announcement): JsonResponse
     {
         $resource = $request->getQuery()->restore($announcement);
@@ -109,6 +116,7 @@ class AnnouncementController extends Controller
      * @param  Announcement  $announcement
      * @return JsonResponse
      */
+    #[Route(method: 'delete', fullUri: 'forceDelete/announcement/{announcement}', name: 'announcement.forceDelete', middleware: 'auth:sanctum')]
     public function forceDelete(AnnouncementForceDeleteRequest $request, Announcement $announcement): JsonResponse
     {
         return $request->getQuery()->forceDelete($announcement);

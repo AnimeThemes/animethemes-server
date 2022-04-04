@@ -14,6 +14,7 @@ use App\Http\Requests\Api\Billing\Transaction\TransactionStoreRequest;
 use App\Http\Requests\Api\Billing\Transaction\TransactionUpdateRequest;
 use App\Models\Billing\Transaction;
 use Illuminate\Http\JsonResponse;
+use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class TransactionController.
@@ -26,6 +27,7 @@ class TransactionController extends Controller
      * @param  TransactionIndexRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'transaction', name: 'transaction.index')]
     public function index(TransactionIndexRequest $request): JsonResponse
     {
         $transactions = $request->getQuery()->index();
@@ -39,6 +41,7 @@ class TransactionController extends Controller
      * @param  TransactionStoreRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'transaction', name: 'transaction.store', middleware: 'auth:sanctum')]
     public function store(TransactionStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -53,6 +56,7 @@ class TransactionController extends Controller
      * @param  Transaction  $transaction
      * @return JsonResponse
      */
+    #[Route(fullUri: 'transaction/{transaction}', name: 'transaction.show')]
     public function show(TransactionShowRequest $request, Transaction $transaction): JsonResponse
     {
         $resource = $request->getQuery()->show($transaction);
@@ -67,6 +71,7 @@ class TransactionController extends Controller
      * @param  Transaction  $transaction
      * @return JsonResponse
      */
+    #[Route(fullUri: 'transaction/{transaction}', name: 'transaction.update', middleware: 'auth:sanctum')]
     public function update(TransactionUpdateRequest $request, Transaction $transaction): JsonResponse
     {
         $resource = $request->getQuery()->update($transaction);
@@ -81,6 +86,7 @@ class TransactionController extends Controller
      * @param  Transaction  $transaction
      * @return JsonResponse
      */
+    #[Route(fullUri: 'transaction/{transaction}', name: 'transaction.destroy', middleware: 'auth:sanctum')]
     public function destroy(TransactionDestroyRequest $request, Transaction $transaction): JsonResponse
     {
         $resource = $request->getQuery()->destroy($transaction);
@@ -95,6 +101,7 @@ class TransactionController extends Controller
      * @param  Transaction  $transaction
      * @return JsonResponse
      */
+    #[Route(method: 'patch', fullUri: 'restore/transaction/{transaction}', name: 'transaction.restore', middleware: 'auth:sanctum')]
     public function restore(TransactionRestoreRequest $request, Transaction $transaction): JsonResponse
     {
         $resource = $request->getQuery()->restore($transaction);
@@ -109,6 +116,7 @@ class TransactionController extends Controller
      * @param  Transaction  $transaction
      * @return JsonResponse
      */
+    #[Route(method: 'delete', fullUri: 'forceDelete/transaction/{transaction}', name: 'transaction.forceDelete', middleware: 'auth:sanctum')]
     public function forceDelete(TransactionForceDeleteRequest $request, Transaction $transaction): JsonResponse
     {
         return $request->getQuery()->forceDelete($transaction);

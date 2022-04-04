@@ -30,7 +30,7 @@ class ExternalResourceRestoreTest extends TestCase
 
         $response = $this->patch(route('api.resource.restore', ['resource' => $resource]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

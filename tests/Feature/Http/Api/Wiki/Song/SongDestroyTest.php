@@ -28,7 +28,7 @@ class SongDestroyTest extends TestCase
 
         $response = $this->delete(route('api.song.destroy', ['song' => $song]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

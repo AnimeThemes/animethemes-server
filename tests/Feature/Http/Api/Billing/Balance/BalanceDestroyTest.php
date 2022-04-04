@@ -28,7 +28,7 @@ class BalanceDestroyTest extends TestCase
 
         $response = $this->delete(route('api.balance.destroy', ['balance' => $balance]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

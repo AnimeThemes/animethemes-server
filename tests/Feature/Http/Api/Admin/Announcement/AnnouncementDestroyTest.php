@@ -28,7 +28,7 @@ class AnnouncementDestroyTest extends TestCase
 
         $response = $this->delete(route('api.announcement.destroy', ['announcement' => $announcement]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

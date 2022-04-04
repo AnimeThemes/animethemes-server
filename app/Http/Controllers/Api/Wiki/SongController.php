@@ -15,6 +15,7 @@ use App\Http\Requests\Api\Wiki\Song\SongStoreRequest;
 use App\Http\Requests\Api\Wiki\Song\SongUpdateRequest;
 use App\Models\Wiki\Song;
 use Illuminate\Http\JsonResponse;
+use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class SongController.
@@ -27,6 +28,7 @@ class SongController extends Controller
      * @param  SongIndexRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'song', name: 'song.index')]
     public function index(SongIndexRequest $request): JsonResponse
     {
         $query = $request->getQuery();
@@ -44,6 +46,7 @@ class SongController extends Controller
      * @param  SongStoreRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'song', name: 'song.store', middleware: 'auth:sanctum')]
     public function store(SongStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -58,6 +61,7 @@ class SongController extends Controller
      * @param  Song  $song
      * @return JsonResponse
      */
+    #[Route(fullUri: 'song/{song}', name: 'song.show')]
     public function show(SongShowRequest $request, Song $song): JsonResponse
     {
         $resource = $request->getQuery()->show($song);
@@ -72,6 +76,7 @@ class SongController extends Controller
      * @param  Song  $song
      * @return JsonResponse
      */
+    #[Route(fullUri: 'song/{song}', name: 'song.update', middleware: 'auth:sanctum')]
     public function update(SongUpdateRequest $request, Song $song): JsonResponse
     {
         $resource = $request->getQuery()->update($song);
@@ -86,6 +91,7 @@ class SongController extends Controller
      * @param  Song  $song
      * @return JsonResponse
      */
+    #[Route(fullUri: 'song/{song}', name: 'song.destroy', middleware: 'auth:sanctum')]
     public function destroy(SongDestroyRequest $request, Song $song): JsonResponse
     {
         $resource = $request->getQuery()->destroy($song);
@@ -100,6 +106,7 @@ class SongController extends Controller
      * @param  Song  $song
      * @return JsonResponse
      */
+    #[Route(method: 'patch', fullUri: 'restore/song/{song}', name: 'song.restore', middleware: 'auth:sanctum')]
     public function restore(SongRestoreRequest $request, Song $song): JsonResponse
     {
         $resource = $request->getQuery()->restore($song);
@@ -114,6 +121,7 @@ class SongController extends Controller
      * @param  Song  $song
      * @return JsonResponse
      */
+    #[Route(method: 'delete', fullUri: 'forceDelete/song/{song}', name: 'song.forceDelete', middleware: 'auth:sanctum')]
     public function forceDelete(SongForceDeleteRequest $request, Song $song): JsonResponse
     {
         return $request->getQuery()->forceDelete($song);

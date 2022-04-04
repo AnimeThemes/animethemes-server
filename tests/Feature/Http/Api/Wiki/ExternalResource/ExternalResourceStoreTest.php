@@ -29,7 +29,7 @@ class ExternalResourceStoreTest extends TestCase
 
         $response = $this->post(route('api.resource.store', $resource->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

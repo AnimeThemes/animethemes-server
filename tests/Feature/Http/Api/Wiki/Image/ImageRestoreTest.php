@@ -30,7 +30,7 @@ class ImageRestoreTest extends TestCase
 
         $response = $this->patch(route('api.image.restore', ['image' => $image]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

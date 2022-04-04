@@ -30,7 +30,7 @@ class AnnouncementUpdateTest extends TestCase
 
         $response = $this->put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

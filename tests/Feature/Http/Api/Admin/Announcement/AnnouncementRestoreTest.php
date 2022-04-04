@@ -30,7 +30,7 @@ class AnnouncementRestoreTest extends TestCase
 
         $response = $this->patch(route('api.announcement.restore', ['announcement' => $announcement]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

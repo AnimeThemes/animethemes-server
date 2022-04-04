@@ -38,7 +38,7 @@ class VideoUpdateTest extends TestCase
 
         $response = $this->put(route('api.video.update', ['video' => $video] + $parameters));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

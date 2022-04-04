@@ -28,7 +28,7 @@ class ArtistDestroyTest extends TestCase
 
         $response = $this->delete(route('api.artist.destroy', ['artist' => $artist]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

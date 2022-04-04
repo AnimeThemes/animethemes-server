@@ -30,7 +30,7 @@ class SongRestoreTest extends TestCase
 
         $response = $this->patch(route('api.song.restore', ['song' => $song]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

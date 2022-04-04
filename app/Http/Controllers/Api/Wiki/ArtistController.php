@@ -15,6 +15,7 @@ use App\Http\Requests\Api\Wiki\Artist\ArtistStoreRequest;
 use App\Http\Requests\Api\Wiki\Artist\ArtistUpdateRequest;
 use App\Models\Wiki\Artist;
 use Illuminate\Http\JsonResponse;
+use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class ArtistController.
@@ -27,6 +28,7 @@ class ArtistController extends Controller
      * @param  ArtistIndexRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'artist', name: 'artist.index')]
     public function index(ArtistIndexRequest $request): JsonResponse
     {
         $query = $request->getQuery();
@@ -44,6 +46,7 @@ class ArtistController extends Controller
      * @param  ArtistStoreRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'artist', name: 'artist.store', middleware: 'auth:sanctum')]
     public function store(ArtistStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -58,6 +61,7 @@ class ArtistController extends Controller
      * @param  Artist  $artist
      * @return JsonResponse
      */
+    #[Route(fullUri: 'artist/{artist}', name: 'artist.show')]
     public function show(ArtistShowRequest $request, Artist $artist): JsonResponse
     {
         $resource = $request->getQuery()->show($artist);
@@ -72,6 +76,7 @@ class ArtistController extends Controller
      * @param  Artist  $artist
      * @return JsonResponse
      */
+    #[Route(fullUri: 'artist/{artist}', name: 'artist.update', middleware: 'auth:sanctum')]
     public function update(ArtistUpdateRequest $request, Artist $artist): JsonResponse
     {
         $resource = $request->getQuery()->update($artist);
@@ -86,6 +91,7 @@ class ArtistController extends Controller
      * @param  Artist  $artist
      * @return JsonResponse
      */
+    #[Route(fullUri: 'artist/{artist}', name: 'artist.destroy', middleware: 'auth:sanctum')]
     public function destroy(ArtistDestroyRequest $request, Artist $artist): JsonResponse
     {
         $resource = $request->getQuery()->destroy($artist);
@@ -100,6 +106,7 @@ class ArtistController extends Controller
      * @param  Artist  $artist
      * @return JsonResponse
      */
+    #[Route(method: 'patch', fullUri: 'restore/artist/{artist}', name: 'artist.restore', middleware: 'auth:sanctum')]
     public function restore(ArtistRestoreRequest $request, Artist $artist): JsonResponse
     {
         $resource = $request->getQuery()->restore($artist);
@@ -114,6 +121,7 @@ class ArtistController extends Controller
      * @param  Artist  $artist
      * @return JsonResponse
      */
+    #[Route(method: 'delete', fullUri: 'forceDelete/artist/{artist}', name: 'artist.forceDelete', middleware: 'auth:sanctum')]
     public function forceDelete(ArtistForceDeleteRequest $request, Artist $artist): JsonResponse
     {
         return $request->getQuery()->forceDelete($artist);

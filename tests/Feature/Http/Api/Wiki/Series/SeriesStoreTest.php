@@ -28,7 +28,7 @@ class SeriesStoreTest extends TestCase
 
         $response = $this->post(route('api.series.store', $series->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

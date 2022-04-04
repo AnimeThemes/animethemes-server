@@ -28,7 +28,7 @@ class AnnouncementStoreTest extends TestCase
 
         $response = $this->post(route('api.announcement.store', $announcement->toArray()));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

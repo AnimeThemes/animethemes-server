@@ -33,7 +33,7 @@ class EntryForceDeleteTest extends TestCase
 
         $response = $this->delete(route('api.animethemeentry.forceDelete', ['animethemeentry' => $entry]));
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**

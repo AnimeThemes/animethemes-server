@@ -15,6 +15,7 @@ use App\Http\Requests\Api\Wiki\Anime\Theme\Entry\EntryStoreRequest;
 use App\Http\Requests\Api\Wiki\Anime\Theme\Entry\EntryUpdateRequest;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\JsonResponse;
+use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class EntryController.
@@ -27,6 +28,7 @@ class EntryController extends Controller
      * @param  EntryIndexRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'animethemeentry', name: 'animethemeentry.index')]
     public function index(EntryIndexRequest $request): JsonResponse
     {
         $query = $request->getQuery();
@@ -44,6 +46,7 @@ class EntryController extends Controller
      * @param  EntryStoreRequest  $request
      * @return JsonResponse
      */
+    #[Route(fullUri: 'animethemeentry', name: 'animethemeentry.store', middleware: 'auth:sanctum')]
     public function store(EntryStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -58,6 +61,7 @@ class EntryController extends Controller
      * @param  AnimeThemeEntry  $entry
      * @return JsonResponse
      */
+    #[Route(fullUri: 'animethemeentry/{animethemeentry}', name: 'animethemeentry.show')]
     public function show(EntryShowRequest $request, AnimeThemeEntry $entry): JsonResponse
     {
         $resource = $request->getQuery()->show($entry);
@@ -72,6 +76,7 @@ class EntryController extends Controller
      * @param  AnimeThemeEntry  $entry
      * @return JsonResponse
      */
+    #[Route(fullUri: 'animethemeentry/{animethemeentry}', name: 'animethemeentry.update', middleware: 'auth:sanctum')]
     public function update(EntryUpdateRequest $request, AnimeThemeEntry $entry): JsonResponse
     {
         $resource = $request->getQuery()->update($entry);
@@ -86,6 +91,7 @@ class EntryController extends Controller
      * @param  AnimeThemeEntry  $entry
      * @return JsonResponse
      */
+    #[Route(fullUri: 'animethemeentry/{animethemeentry}', name: 'animethemeentry.destroy', middleware: 'auth:sanctum')]
     public function destroy(EntryDestroyRequest $request, AnimeThemeEntry $entry): JsonResponse
     {
         $resource = $request->getQuery()->destroy($entry);
@@ -100,6 +106,7 @@ class EntryController extends Controller
      * @param  AnimeThemeEntry  $entry
      * @return JsonResponse
      */
+    #[Route(method: 'patch', fullUri: 'restore/animethemeentry/{animethemeentry}', name: 'animethemeentry.restore', middleware: 'auth:sanctum')]
     public function restore(EntryRestoreRequest $request, AnimeThemeEntry $entry): JsonResponse
     {
         $resource = $request->getQuery()->restore($entry);
@@ -114,6 +121,7 @@ class EntryController extends Controller
      * @param  AnimeThemeEntry  $entry
      * @return JsonResponse
      */
+    #[Route(method: 'delete', fullUri: 'forceDelete/animethemeentry/{animethemeentry}', name: 'animethemeentry.forceDelete', middleware: 'auth:sanctum')]
     public function forceDelete(EntryForceDeleteRequest $request, AnimeThemeEntry $entry): JsonResponse
     {
         return $request->getQuery()->forceDelete($entry);
