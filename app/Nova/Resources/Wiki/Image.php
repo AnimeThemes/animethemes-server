@@ -6,20 +6,18 @@ namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image as ImageModel;
-use App\Nova\Filters\Wiki\Image\ImageFacetFilter;
 use App\Nova\Lenses\Image\ImageUnlinkedLens;
 use App\Nova\Resources\Resource;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
-use Devpartners\AuditableLog\AuditableLog;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image as NovaImage;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
@@ -101,30 +99,30 @@ class Image extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), ImageModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                ->sortable(),
-
-            Panel::make(__('nova.file_properties'), $this->fileProperties()),
-
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+                ->sortable()
+                ->showOnPreview(),
 
             Select::make(__('nova.facet'), ImageModel::ATTRIBUTE_FACET)
                 ->options(ImageFacet::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', (new EnumValue(ImageFacet::class, false))->__toString()])
-                ->help(__('nova.image_facet_help')),
+                ->help(__('nova.image_facet_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             NovaImage::make(__('nova.image'), 'path', 'images')
-                ->creationRules('required'),
+                ->creationRules('required')
+                ->showOnPreview(),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
                 ->searchable()
@@ -154,7 +152,9 @@ class Image extends Resource
                     ];
                 }),
 
-            AuditableLog::make(),
+            Panel::make(__('nova.file_properties'), $this->fileProperties()),
+
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
     }
 
@@ -167,33 +167,19 @@ class Image extends Resource
             Text::make(__('nova.path'), ImageModel::ATTRIBUTE_PATH)
                 ->hideFromIndex()
                 ->hideWhenCreating()
-                ->readonly(),
+                ->hideWhenUpdating()
+                ->showOnPreview()
+                ->filterable(),
         ];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function filters(Request $request): array
-    {
-        return array_merge(
-            [
-                new ImageFacetFilter(),
-            ],
-            parent::filters($request)
-        );
     }
 
     /**
      * Get the lenses available for the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function lenses(Request $request): array
+    public function lenses(NovaRequest $request): array
     {
         return array_merge(
             parent::lenses($request),

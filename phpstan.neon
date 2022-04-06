@@ -19,4 +19,3 @@ parameters:
 
     ignoreErrors:
         - '#Call to an undefined method Mockery\\ExpectationInterface|Mockery\\HigherOrderMessage::once\(\).#'
-        - '#Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Factories\\Factory\<.*\>::afterCreating\(\).*#'

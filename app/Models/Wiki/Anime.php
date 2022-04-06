@@ -150,7 +150,7 @@ class Anime extends BaseModel
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         Anime::ATTRIBUTE_SEASON => AnimeSeason::class,

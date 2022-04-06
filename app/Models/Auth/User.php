@@ -19,6 +19,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasTeams;
+use Laravel\Nova\Auth\Impersonatable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -47,6 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     use HasApiTokens;
     use HasFactory;
     use HasTeams;
+    use Impersonatable;
     use Notifiable;
     use SoftDeletes;
     use TwoFactorAuthenticatable;

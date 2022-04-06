@@ -7,11 +7,10 @@ namespace App\Nova\Resources\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Nova\Resources\Resource;
 use App\Nova\Resources\Wiki\Anime;
-use Devpartners\AuditableLog\AuditableLog;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
@@ -95,28 +94,30 @@ class Synonym extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
-                ->readonly(),
+                ->readonly()
+                ->showOnPreview(),
 
             ID::make(__('nova.id'), AnimeSynonym::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                ->sortable(),
-
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+                ->sortable()
+                ->showOnPreview(),
 
             Text::make(__('nova.text'), AnimeSynonym::ATTRIBUTE_TEXT)
                 ->sortable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.synonym_text_help')),
+                ->help(__('nova.synonym_text_help'))
+                ->showOnPreview()
+                ->filterable(),
 
-            AuditableLog::make(),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
     }
 }

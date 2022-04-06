@@ -24,10 +24,6 @@ class CascadesDeletesTest extends TestCase
     {
         $fake = Event::fake();
 
-        $listener = Str::of(CascadesDeletes::class)
-            ->append('@handle')
-            ->__toString();
-
-        $fake->assertListening(CascadesDeletesEvent::class, $listener);
+        $fake->assertListening(CascadesDeletesEvent::class, CascadesDeletes::class);
     }
 }

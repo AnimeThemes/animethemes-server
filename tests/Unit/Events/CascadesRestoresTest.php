@@ -24,10 +24,6 @@ class CascadesRestoresTest extends TestCase
     {
         $fake = Event::fake();
 
-        $listener = Str::of(CascadesRestores::class)
-            ->append('@handle')
-            ->__toString();
-
-        $fake->assertListening(CascadesRestoresEvent::class, $listener);
+        $fake->assertListening(CascadesRestoresEvent::class, CascadesRestores::class);
     }
 }

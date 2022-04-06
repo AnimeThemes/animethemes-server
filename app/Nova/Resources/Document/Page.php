@@ -6,13 +6,12 @@ namespace App\Nova\Resources\Document;
 
 use App\Models\Document\Page as PageModel;
 use App\Nova\Resources\Resource;
-use Devpartners\AuditableLog\AuditableLog;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Markdown;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
@@ -94,23 +93,24 @@ class Page extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), PageModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                ->sortable(),
-
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+                ->sortable()
+                ->showOnPreview(),
 
             Text::make(__('nova.name'), PageModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.page_name_help')),
+                ->help(__('nova.page_name_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Slug::make(__('nova.slug'), PageModel::ATTRIBUTE_SLUG)
                 ->from(PageModel::ATTRIBUTE_NAME)
@@ -122,13 +122,14 @@ class Page extends Resource
                         ->ignore($request->route('resourceId'), PageModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
-                ->help(__('nova.page_slug_help')),
+                ->help(__('nova.page_slug_help'))
+                ->showOnPreview(),
 
             Markdown::make(__('nova.body'), PageModel::ATTRIBUTE_BODY)
                 ->rules(['required', 'max:16777215'])
                 ->help(__('nova.page_body_help')),
 
-            AuditableLog::make(),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
     }
 }

@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Wiki;
 use App\Http\Controllers\Controller;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Storage;
+use Spatie\RouteDiscovery\Attributes\DoNotDiscover;
 use Spatie\RouteDiscovery\Attributes\Route;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -18,6 +19,7 @@ class VideoController extends Controller
     /**
      * Create a new controller instance.
      */
+    #[DoNotDiscover]
     public function __construct()
     {
         // route discovery wants class strings

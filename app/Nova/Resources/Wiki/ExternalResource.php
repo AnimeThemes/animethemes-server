@@ -6,7 +6,6 @@ namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
-use App\Nova\Filters\Wiki\ExternalResource\ExternalResourceSiteFilter;
 use App\Nova\Lenses\ExternalResource\ExternalResourceUnlinkedLens;
 use App\Nova\Resources\Resource;
 use App\Pivots\AnimeResource;
@@ -16,16 +15,15 @@ use App\Pivots\StudioResource;
 use App\Rules\Wiki\ResourceLinkMatchesSiteRule;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
-use Devpartners\AuditableLog\AuditableLog;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Inspheric\Fields\Url;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\URL;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
@@ -107,27 +105,28 @@ class ExternalResource extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), ExternalResourceModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                ->sortable(),
-
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+                ->sortable()
+                ->showOnPreview(),
 
             Select::make(__('nova.site'), ExternalResourceModel::ATTRIBUTE_SITE)
                 ->options(ResourceSite::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', (new EnumValue(ResourceSite::class, false))->__toString()])
-                ->help(__('nova.resource_site_help')),
+                ->help(__('nova.resource_site_help'))
+                ->showOnPreview()
+                ->filterable(),
 
-            Url::make(__('nova.link'), 'link')
+            URL::make(__('nova.link'), 'link')
                 ->sortable()
                 ->rules(['required', 'max:192', 'url', new ResourceLinkMatchesSiteRule(intval($request->input('site')))])
                 ->creationRules(Rule::unique(ExternalResourceModel::TABLE)->__toString())
@@ -137,13 +136,16 @@ class ExternalResource extends Resource
                         ->__toString()
                 )
                 ->help(__('nova.resource_link_help'))
-                ->alwaysClickable(),
+                ->showOnPreview()
+                ->filterable(),
 
             Number::make(__('nova.external_id'), ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
                 ->nullable()
                 ->sortable()
                 ->rules(['nullable', 'integer'])
-                ->help(__('nova.resource_external_id_help')),
+                ->help(__('nova.resource_external_id_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             BelongsToMany::make(__('nova.artists'), 'Artists', Artist::class)
                 ->searchable()
@@ -199,33 +201,17 @@ class ExternalResource extends Resource
                     ];
                 }),
 
-            AuditableLog::make(),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function filters(Request $request): array
-    {
-        return array_merge(
-            [
-                new ExternalResourceSiteFilter(),
-            ],
-            parent::filters($request)
-        );
     }
 
     /**
      * Get the lenses available for the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function lenses(Request $request): array
+    public function lenses(NovaRequest $request): array
     {
         return array_merge(
             parent::lenses($request),

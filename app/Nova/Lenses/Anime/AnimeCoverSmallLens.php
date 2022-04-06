@@ -8,28 +8,20 @@ use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
-use App\Nova\Filters\Base\CreatedEndDateFilter;
-use App\Nova\Filters\Base\CreatedStartDateFilter;
-use App\Nova\Filters\Base\DeletedEndDateFilter;
-use App\Nova\Filters\Base\DeletedStartDateFilter;
-use App\Nova\Filters\Base\UpdatedEndDateFilter;
-use App\Nova\Filters\Base\UpdatedStartDateFilter;
-use App\Nova\Filters\Wiki\Anime\AnimeSeasonFilter;
-use App\Nova\Filters\Wiki\Anime\AnimeYearFilter;
+use App\Nova\Lenses\BaseLens;
 use BenSampo\Enum\Enum;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
-use Laravel\Nova\Lenses\Lens;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Class AnimeCoverSmallLens.
  */
-class AnimeCoverSmallLens extends Lens
+class AnimeCoverSmallLens extends BaseLens
 {
     /**
      * Get the displayable name of the lens.
@@ -62,63 +54,43 @@ class AnimeCoverSmallLens extends Lens
     /**
      * Get the fields available to the lens.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), Anime::ATTRIBUTE_ID)
                 ->sortable(),
 
             Text::make(__('nova.name'), Anime::ATTRIBUTE_NAME)
-                ->sortable(),
+                ->sortable()
+                ->filterable(),
 
             Text::make(__('nova.slug'), Anime::ATTRIBUTE_SLUG)
                 ->sortable(),
 
             Number::make(__('nova.year'), Anime::ATTRIBUTE_YEAR)
-                ->sortable(),
+                ->sortable()
+                ->filterable(),
 
             Select::make(__('nova.season'), Anime::ATTRIBUTE_SEASON)
                 ->options(AnimeSeason::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
-                ->sortable(),
+                ->sortable()
+                ->filterable(),
         ];
-    }
-
-    /**
-     * Get the filters available for the lens.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function filters(Request $request): array
-    {
-        return array_merge(
-            parent::filters($request),
-            [
-                new AnimeSeasonFilter(),
-                new AnimeYearFilter(),
-                new CreatedStartDateFilter(),
-                new CreatedEndDateFilter(),
-                new UpdatedStartDateFilter(),
-                new UpdatedEndDateFilter(),
-                new DeletedStartDateFilter(),
-                new DeletedEndDateFilter(),
-            ]
-        );
     }
 
     /**
      * Get the actions available on the lens.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function actions(Request $request): array
+    public function actions(NovaRequest $request): array
     {
         return [];
     }

@@ -203,7 +203,7 @@ class Video extends BaseModel implements Viewable
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         Video::ATTRIBUTE_LYRICS => 'boolean',

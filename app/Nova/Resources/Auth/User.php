@@ -11,6 +11,7 @@ use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
@@ -95,24 +96,26 @@ class User extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), UserModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                ->sortable(),
+                ->sortable()
+                ->showOnPreview(),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
-
-            Gravatar::make()->maxWidth(50),
+            Gravatar::make()->maxWidth(50)
+                ->showOnPreview(),
 
             Text::make(__('nova.name'), UserModel::ATTRIBUTE_NAME)
                 ->sortable()
-                ->rules(['required', 'max:192', 'alpha_dash']),
+                ->rules(['required', 'max:192', 'alpha_dash'])
+                ->showOnPreview()
+                ->filterable(),
 
             Text::make(__('nova.email'), UserModel::ATTRIBUTE_EMAIL)
                 ->sortable()
@@ -122,7 +125,11 @@ class User extends Resource
                     Rule::unique(UserModel::TABLE)
                         ->ignore($request->get('resourceId'), UserModel::ATTRIBUTE_ID)
                         ->__toString()
-                ),
+                )
+                ->showOnPreview()
+                ->filterable(),
+
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
     }
 }

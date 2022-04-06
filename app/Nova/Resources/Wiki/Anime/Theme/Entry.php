@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki\Anime\Theme;
 
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use App\Nova\Filters\Wiki\Anime\Theme\Entry\EntryNsfwFilter;
-use App\Nova\Filters\Wiki\Anime\Theme\Entry\EntrySpoilerFilter;
 use App\Nova\Resources\Resource;
 use App\Nova\Resources\Wiki\Anime;
 use App\Nova\Resources\Wiki\Anime\Theme;
 use App\Nova\Resources\Wiki\Video;
 use App\Pivots\BasePivot;
-use Devpartners\AuditableLog\AuditableLog;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
@@ -21,7 +17,7 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\ResourceIndexRequest;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
@@ -105,55 +101,66 @@ class Entry extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
-                ->hideFromIndex(fn (ResourceIndexRequest $novaRequest) => Video::class !== $novaRequest->viaResource())
-                ->readonly(),
+                ->hideFromIndex(fn () => Video::class !== $request->viaResource())
+                ->readonly()
+                ->showOnPreview(),
 
             BelongsTo::make(__('nova.theme'), 'AnimeTheme', Theme::class)
-                ->readonly(),
+                ->readonly()
+                ->showOnPreview(),
 
             ID::make(__('nova.id'), 'entry_id')
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                ->sortable(),
-
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+                ->sortable()
+                ->showOnPreview(),
 
             Number::make(__('nova.version'), AnimeThemeEntry::ATTRIBUTE_VERSION)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'integer'])
-                ->help(__('nova.entry_version_help')),
+                ->help(__('nova.entry_version_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Text::make(__('nova.episodes'), AnimeThemeEntry::ATTRIBUTE_EPISODES)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
-                ->help(__('nova.entry_episodes_help')),
+                ->help(__('nova.entry_episodes_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Boolean::make(__('nova.nsfw'), AnimeThemeEntry::ATTRIBUTE_NSFW)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.entry_nsfw_help')),
+                ->help(__('nova.entry_nsfw_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Boolean::make(__('nova.spoiler'), AnimeThemeEntry::ATTRIBUTE_SPOILER)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.entry_spoiler_help')),
+                ->help(__('nova.entry_spoiler_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Text::make(__('nova.notes'), AnimeThemeEntry::ATTRIBUTE_NOTES)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
-                ->help(__('nova.entry_notes_help')),
+                ->help(__('nova.entry_notes_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             BelongsToMany::make(__('nova.videos'), 'Videos', Video::class)
                 ->searchable()
@@ -169,24 +176,7 @@ class Entry extends Resource
                     ];
                 }),
 
-            AuditableLog::make(),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function filters(Request $request): array
-    {
-        return array_merge(
-            [
-                new EntryNsfwFilter(),
-                new EntrySpoilerFilter(),
-            ],
-            parent::filters($request)
-        );
     }
 }

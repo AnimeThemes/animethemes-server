@@ -225,7 +225,6 @@ return [
         App\Providers\HorizonServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
         App\Providers\NovaServiceProvider::class,
-        App\Providers\PersistentConfigServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
     ],

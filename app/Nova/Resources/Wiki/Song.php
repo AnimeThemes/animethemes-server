@@ -10,13 +10,12 @@ use App\Nova\Resources\Resource;
 use App\Nova\Resources\Wiki\Anime\Theme;
 use App\Pivots\ArtistSong;
 use App\Pivots\BasePivot;
-use Devpartners\AuditableLog\AuditableLog;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
@@ -95,24 +94,25 @@ class Song extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), SongModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                ->sortable(),
-
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+                ->sortable()
+                ->showOnPreview(),
 
             Text::make(__('nova.title'), SongModel::ATTRIBUTE_TITLE)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
-                ->help(__('nova.song_title_help')),
+                ->help(__('nova.song_title_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             BelongsToMany::make(__('nova.artists'), 'Artists', Artist::class)
                 ->searchable()
@@ -134,17 +134,17 @@ class Song extends Resource
 
             HasMany::make(__('nova.themes'), 'AnimeThemes', Theme::class),
 
-            AuditableLog::make(),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
     }
 
     /**
      * Get the lenses available for the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function lenses(Request $request): array
+    public function lenses(NovaRequest $request): array
     {
         return array_merge(
             parent::lenses($request),

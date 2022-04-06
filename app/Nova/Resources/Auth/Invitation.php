@@ -7,16 +7,14 @@ namespace App\Nova\Resources\Auth;
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Models\Auth\Invitation as InvitationModel;
 use App\Nova\Actions\Auth\ResendInvitationAction;
-use App\Nova\Filters\Auth\InvitationStatusFilter;
 use App\Nova\Resources\Resource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
-use Devpartners\AuditableLog\AuditableLog;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
@@ -98,22 +96,23 @@ class Invitation extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), InvitationModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                ->sortable(),
-
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+                ->sortable()
+                ->showOnPreview(),
 
             Text::make(__('nova.name'), InvitationModel::ATTRIBUTE_NAME)
                 ->sortable()
-                ->rules(['required', 'max:192', 'alpha_dash']),
+                ->rules(['required', 'max:192', 'alpha_dash'])
+                ->showOnPreview()
+                ->filterable(),
 
             Text::make(__('nova.email'), InvitationModel::ATTRIBUTE_EMAIL)
                 ->sortable()
@@ -123,42 +122,30 @@ class Invitation extends Resource
                     Rule::unique(InvitationModel::TABLE)
                         ->ignore($request->get('resourceId'), InvitationModel::ATTRIBUTE_ID)
                         ->__toString()
-                ),
+                )
+                ->showOnPreview()
+                ->filterable(),
 
             Select::make(__('nova.status'), InvitationModel::ATTRIBUTE_STATUS)
                 ->hideWhenCreating()
                 ->options(InvitationStatus::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
-                ->rules(['required', (new EnumValue(InvitationStatus::class, false))->__toString()]),
+                ->rules(['required', (new EnumValue(InvitationStatus::class, false))->__toString()])
+                ->showOnPreview()
+                ->filterable(),
 
-            AuditableLog::make(),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function filters(Request $request): array
-    {
-        return array_merge(
-            [
-                new InvitationStatusFilter(),
-            ],
-            parent::filters($request)
-        );
     }
 
     /**
      * Get the actions available for the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function actions(Request $request): array
+    public function actions(NovaRequest $request): array
     {
         return array_merge(
             parent::actions($request),

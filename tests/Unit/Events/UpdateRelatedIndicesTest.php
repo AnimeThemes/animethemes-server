@@ -24,10 +24,6 @@ class UpdateRelatedIndicesTest extends TestCase
     {
         $fake = Event::fake();
 
-        $listener = Str::of(UpdateRelatedIndices::class)
-            ->append('@handle')
-            ->__toString();
-
-        $fake->assertListening(UpdateRelatedIndicesEvent::class, $listener);
+        $fake->assertListening(UpdateRelatedIndicesEvent::class, UpdateRelatedIndices::class);
     }
 }

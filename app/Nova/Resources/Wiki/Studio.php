@@ -14,14 +14,13 @@ use App\Nova\Lenses\Studio\StudioUnlinkedLens;
 use App\Nova\Resources\Resource;
 use App\Pivots\BasePivot;
 use App\Pivots\StudioResource;
-use Devpartners\AuditableLog\AuditableLog;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
@@ -91,23 +90,24 @@ class Studio extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), StudioModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                ->sortable(),
-
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+                ->sortable()
+                ->showOnPreview(),
 
             Text::make(__('nova.name'), StudioModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.studio_name_help')),
+                ->help(__('nova.studio_name_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Slug::make(__('nova.slug'), StudioModel::ATTRIBUTE_SLUG)
                 ->from(StudioModel::ATTRIBUTE_NAME)
@@ -119,7 +119,8 @@ class Studio extends Resource
                         ->ignore($request->route('resourceId'), StudioModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
-                ->help(__('nova.studio_slug_help')),
+                ->help(__('nova.studio_slug_help'))
+                ->showOnPreview(),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
                 ->searchable()
@@ -151,17 +152,17 @@ class Studio extends Resource
                     ];
                 }),
 
-            AuditableLog::make(),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
     }
 
     /**
      * Get the lenses available for the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function lenses(Request $request): array
+    public function lenses(NovaRequest $request): array
     {
         return array_merge(
             parent::lenses($request),
