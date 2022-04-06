@@ -84,7 +84,7 @@ class Image extends BaseModel
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         Image::ATTRIBUTE_FACET => ImageFacet::class,

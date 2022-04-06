@@ -9,14 +9,13 @@ use App\Nova\Metrics\Series\NewSeries;
 use App\Nova\Metrics\Series\SeriesPerDay;
 use App\Nova\Resources\Resource;
 use App\Pivots\BasePivot;
-use Devpartners\AuditableLog\AuditableLog;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
@@ -86,23 +85,24 @@ class Series extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), SeriesModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                ->sortable(),
-
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+                ->sortable()
+                ->showOnPreview(),
 
             Text::make(__('nova.name'), SeriesModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.series_name_help')),
+                ->help(__('nova.series_name_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Slug::make(__('nova.slug'), SeriesModel::ATTRIBUTE_SLUG)
                 ->from(SeriesModel::ATTRIBUTE_NAME)
@@ -114,7 +114,8 @@ class Series extends Resource
                         ->ignore($request->route('resourceId'), SeriesModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
-                ->help(__('nova.series_slug_help')),
+                ->help(__('nova.series_slug_help'))
+                ->showOnPreview(),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
                 ->searchable()
@@ -130,17 +131,17 @@ class Series extends Resource
                     ];
                 }),
 
-            AuditableLog::make(),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function cards(Request $request): array
+    public function cards(NovaRequest $request): array
     {
         return array_merge(
             parent::cards($request),

@@ -7,7 +7,6 @@ namespace Tests\Unit\Events;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Listeners\UpdateRelatedIndices;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -24,10 +23,6 @@ class UpdateRelatedIndicesTest extends TestCase
     {
         $fake = Event::fake();
 
-        $listener = Str::of(UpdateRelatedIndices::class)
-            ->append('@handle')
-            ->__toString();
-
-        $fake->assertListening(UpdateRelatedIndicesEvent::class, $listener);
+        $fake->assertListening(UpdateRelatedIndicesEvent::class, UpdateRelatedIndices::class);
     }
 }

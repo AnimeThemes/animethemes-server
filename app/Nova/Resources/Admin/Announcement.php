@@ -6,10 +6,9 @@ namespace App\Nova\Resources\Admin;
 
 use App\Models\Admin\Announcement as AnnouncementModel;
 use App\Nova\Resources\Resource;
-use Devpartners\AuditableLog\AuditableLog;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
@@ -98,26 +97,26 @@ class Announcement extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), AnnouncementModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                ->sortable(),
-
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+                ->sortable()
+                ->showOnPreview(),
 
             Code::make(__('nova.content'), AnnouncementModel::ATTRIBUTE_CONTENT)
                 ->showOnIndex()
                 ->sortable()
                 ->rules(['required', 'max:65535'])
-                ->options(['theme' => 'base16-light']),
+                ->language('htmlmixed')
+                ->showOnPreview(),
 
-            AuditableLog::make(),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
     }
 }

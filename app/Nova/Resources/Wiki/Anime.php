@@ -6,8 +6,6 @@ namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime as AnimeModel;
-use App\Nova\Filters\Wiki\Anime\AnimeSeasonFilter;
-use App\Nova\Filters\Wiki\Anime\AnimeYearFilter;
 use App\Nova\Lenses\Anime\AnimeAniDbResourceLens;
 use App\Nova\Lenses\Anime\AnimeAnilistResourceLens;
 use App\Nova\Lenses\Anime\AnimeAnnResourceLens;
@@ -26,8 +24,6 @@ use App\Pivots\AnimeResource;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
-use Devpartners\AuditableLog\AuditableLog;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
@@ -38,6 +34,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
@@ -119,23 +116,24 @@ class Anime extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), AnimeModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                ->sortable(),
-
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+                ->sortable()
+                ->showOnPreview(),
 
             Text::make(__('nova.name'), AnimeModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.anime_name_help')),
+                ->help(__('nova.anime_name_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Slug::make(__('nova.slug'), AnimeModel::ATTRIBUTE_SLUG)
                 ->from(AnimeModel::ATTRIBUTE_NAME)
@@ -147,26 +145,32 @@ class Anime extends Resource
                         ->ignore($request->route('resourceId'), AnimeModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
-                ->help(__('nova.anime_slug_help')),
+                ->help(__('nova.anime_slug_help'))
+                ->showOnPreview(),
 
             Number::make(__('nova.year'), AnimeModel::ATTRIBUTE_YEAR)
                 ->sortable()
                 ->min(1960)
                 ->max(intval(date('Y')) + 1)
                 ->rules(['required', 'digits:4', 'integer'])
-                ->help(__('nova.anime_year_help')),
+                ->help(__('nova.anime_year_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Select::make(__('nova.season'), AnimeModel::ATTRIBUTE_SEASON)
                 ->options(AnimeSeason::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', (new EnumValue(AnimeSeason::class, false))->__toString()])
-                ->help(__('nova.anime_season_help')),
+                ->help(__('nova.anime_season_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Textarea::make(__('nova.synopsis'), AnimeModel::ATTRIBUTE_SYNOPSIS)
                 ->rules('max:65535')
                 ->nullable()
-                ->help(__('nova.anime_synopsis_help')),
+                ->help(__('nova.anime_synopsis_help'))
+                ->showOnPreview(),
 
             HasMany::make(__('nova.synonyms'), 'AnimeSynonyms', Synonym::class),
 
@@ -184,7 +188,8 @@ class Anime extends Resource
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
-                }),
+                })
+                ->showCreateRelationButton(),
 
             BelongsToMany::make(__('nova.external_resources'), 'Resources', ExternalResource::class)
                 ->searchable()
@@ -202,7 +207,8 @@ class Anime extends Resource
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
-                }),
+                })
+                ->showCreateRelationButton(),
 
             BelongsToMany::make(__('nova.images'), 'Images', Image::class)
                 ->searchable()
@@ -216,7 +222,8 @@ class Anime extends Resource
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
-                }),
+                })
+                ->showCreateRelationButton(),
 
             BelongsToMany::make(__('nova.studios'), 'Studios', Studio::class)
                 ->searchable()
@@ -230,19 +237,20 @@ class Anime extends Resource
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
-                }),
+                })
+                ->showCreateRelationButton(),
 
-            AuditableLog::make(),
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function cards(Request $request): array
+    public function cards(NovaRequest $request): array
     {
         return array_merge(
             parent::cards($request),
@@ -254,29 +262,12 @@ class Anime extends Resource
     }
 
     /**
-     * Get the filters available for the resource.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function filters(Request $request): array
-    {
-        return array_merge(
-            [
-                new AnimeSeasonFilter(),
-                new AnimeYearFilter(),
-            ],
-            parent::filters($request)
-        );
-    }
-
-    /**
      * Get the lenses available for the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function lenses(Request $request): array
+    public function lenses(NovaRequest $request): array
     {
         return array_merge(
             parent::lenses($request),

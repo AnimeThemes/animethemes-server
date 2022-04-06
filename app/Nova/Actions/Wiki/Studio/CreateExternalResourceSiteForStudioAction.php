@@ -14,6 +14,7 @@ use Illuminate\Validation\Rule;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Class CreateExternalResourceSiteForStudioAction.
@@ -67,12 +68,13 @@ class CreateExternalResourceSiteForStudioAction extends Action
     /**
      * Get the fields available on the action.
      *
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(): array
+    public function fields(NovaRequest $request): array
     {
         return array_merge(
-            parent::fields(),
+            parent::fields($request),
             [
                 Text::make(__('nova.link'), 'link')
                     ->rules([

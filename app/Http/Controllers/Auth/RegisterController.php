@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
+use Spatie\RouteDiscovery\Attributes\DoNotDiscover;
 use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
@@ -39,6 +40,7 @@ class RegisterController extends Controller
     /**
      * Create a new controller instance.
      */
+    #[DoNotDiscover]
     public function __construct()
     {
         // route discovery wants class strings
@@ -50,6 +52,7 @@ class RegisterController extends Controller
      *
      * @return string
      */
+    #[DoNotDiscover]
     public function redirectPath(): string
     {
         return route('dashboard');
@@ -110,6 +113,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+    #[DoNotDiscover]
     protected function validator(array $data): \Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($data, [
@@ -126,6 +130,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return User
      */
+    #[DoNotDiscover]
     protected function create(array $data): User
     {
         return User::factory()->createOne([

@@ -7,7 +7,6 @@ namespace Tests\Unit\Events;
 use App\Contracts\Events\CascadesRestoresEvent;
 use App\Listeners\CascadesRestores;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -24,10 +23,6 @@ class CascadesRestoresTest extends TestCase
     {
         $fake = Event::fake();
 
-        $listener = Str::of(CascadesRestores::class)
-            ->append('@handle')
-            ->__toString();
-
-        $fake->assertListening(CascadesRestoresEvent::class, $listener);
+        $fake->assertListening(CascadesRestoresEvent::class, CascadesRestores::class);
     }
 }

@@ -7,13 +7,6 @@ namespace App\Nova\Resources\Wiki;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Video as VideoModel;
-use App\Nova\Filters\Wiki\Video\VideoLyricsFilter;
-use App\Nova\Filters\Wiki\Video\VideoNcFilter;
-use App\Nova\Filters\Wiki\Video\VideoOverlapFilter;
-use App\Nova\Filters\Wiki\Video\VideoSourceFilter;
-use App\Nova\Filters\Wiki\Video\VideoSubbedFilter;
-use App\Nova\Filters\Wiki\Video\VideoTypeFilter;
-use App\Nova\Filters\Wiki\Video\VideoUncenFilter;
 use App\Nova\Lenses\Video\VideoSourceLens;
 use App\Nova\Lenses\Video\VideoUnlinkedLens;
 use App\Nova\Metrics\Video\NewVideos;
@@ -23,8 +16,6 @@ use App\Nova\Resources\Wiki\Anime\Theme\Entry;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
-use Devpartners\AuditableLog\AuditableLog;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
@@ -32,6 +23,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
@@ -101,20 +93,17 @@ class Video extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), VideoModel::ATTRIBUTE_ID)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                ->sortable(),
-
-            Panel::make(__('nova.file_properties'), $this->fileProperties()),
-
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+                ->sortable()
+                ->showOnPreview(),
 
             Number::make(__('nova.resolution'), VideoModel::ATTRIBUTE_RESOLUTION)
                 ->sortable()
@@ -122,31 +111,41 @@ class Video extends Resource
                 ->max(1080)
                 ->nullable()
                 ->rules(['nullable', 'integer'])
-                ->help(__('nova.video_resolution_help')),
+                ->help(__('nova.video_resolution_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Boolean::make(__('nova.nc'), VideoModel::ATTRIBUTE_NC)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.video_nc_help')),
+                ->help(__('nova.video_nc_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Boolean::make(__('nova.subbed'), VideoModel::ATTRIBUTE_SUBBED)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.video_subbed_help')),
+                ->help(__('nova.video_subbed_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Boolean::make(__('nova.lyrics'), VideoModel::ATTRIBUTE_LYRICS)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.video_lyrics_help')),
+                ->help(__('nova.video_lyrics_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Boolean::make(__('nova.uncen'), VideoModel::ATTRIBUTE_UNCEN)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.video_uncen_help')),
+                ->help(__('nova.video_uncen_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Select::make(__('nova.overlap'), VideoModel::ATTRIBUTE_OVERLAP)
                 ->options(VideoOverlap::asSelectArray())
@@ -154,7 +153,9 @@ class Video extends Resource
                 ->nullable()
                 ->sortable()
                 ->rules(['nullable', (new EnumValue(VideoOverlap::class, false))->__toString()])
-                ->help(__('nova.video_overlap_help')),
+                ->help(__('nova.video_overlap_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             Select::make(__('nova.source'), VideoModel::ATTRIBUTE_SOURCE)
                 ->options(VideoSource::asSelectArray())
@@ -162,7 +163,9 @@ class Video extends Resource
                 ->nullable()
                 ->sortable()
                 ->rules(['nullable', (new EnumValue(VideoSource::class, false))->__toString()])
-                ->help(__('nova.video_source_help')),
+                ->help(__('nova.video_source_help'))
+                ->showOnPreview()
+                ->filterable(),
 
             BelongsToMany::make(__('nova.entries'), 'AnimeThemeEntries', Entry::class)
                 ->searchable()
@@ -178,7 +181,9 @@ class Video extends Resource
                     ];
                 }),
 
-            AuditableLog::make(),
+            Panel::make(__('nova.file_properties'), $this->fileProperties()),
+
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
     }
 
@@ -191,37 +196,47 @@ class Video extends Resource
             Text::make(__('nova.basename'), VideoModel::ATTRIBUTE_BASENAME)
                 ->hideFromIndex()
                 ->hideWhenCreating()
-                ->readonly(),
+                ->hideWhenUpdating()
+                ->showOnPreview()
+                ->filterable(),
 
             Text::make(__('nova.filename'), VideoModel::ATTRIBUTE_FILENAME)
                 ->sortable()
                 ->hideWhenCreating()
-                ->readonly(),
+                ->hideWhenUpdating()
+                ->showOnPreview()
+                ->filterable(),
 
             Text::make(__('nova.path'), VideoModel::ATTRIBUTE_PATH)
                 ->hideFromIndex()
                 ->hideWhenCreating()
-                ->readonly(),
+                ->hideWhenUpdating()
+                ->showOnPreview()
+                ->filterable(),
 
             Number::make(__('nova.size'), VideoModel::ATTRIBUTE_SIZE)
                 ->hideFromIndex()
                 ->hideWhenCreating()
-                ->readonly(),
+                ->hideWhenUpdating()
+                ->showOnPreview()
+                ->filterable(),
 
             Text::make(__('nova.mimetype'), VideoModel::ATTRIBUTE_MIMETYPE)
                 ->hideFromIndex()
                 ->hideWhenCreating()
-                ->readonly(),
+                ->hideWhenUpdating()
+                ->showOnPreview()
+                ->filterable(),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function cards(Request $request): array
+    public function cards(NovaRequest $request): array
     {
         return array_merge(
             parent::cards($request),
@@ -233,34 +248,12 @@ class Video extends Resource
     }
 
     /**
-     * Get the filters available for the resource.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function filters(Request $request): array
-    {
-        return array_merge(
-            [
-                new VideoNcFilter(),
-                new VideoSubbedFilter(),
-                new VideoLyricsFilter(),
-                new VideoUncenFilter(),
-                new VideoOverlapFilter(),
-                new VideoSourceFilter(),
-                new VideoTypeFilter(),
-            ],
-            parent::filters($request)
-        );
-    }
-
-    /**
      * Get the lenses available for the resource.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function lenses(Request $request): array
+    public function lenses(NovaRequest $request): array
     {
         return array_merge(
             parent::lenses($request),

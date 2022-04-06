@@ -8,23 +8,18 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use App\Nova\Actions\Wiki\Studio\CreateExternalResourceSiteForStudioAction;
-use App\Nova\Filters\Base\CreatedEndDateFilter;
-use App\Nova\Filters\Base\CreatedStartDateFilter;
-use App\Nova\Filters\Base\DeletedEndDateFilter;
-use App\Nova\Filters\Base\DeletedStartDateFilter;
-use App\Nova\Filters\Base\UpdatedEndDateFilter;
-use App\Nova\Filters\Base\UpdatedStartDateFilter;
+use App\Nova\Lenses\BaseLens;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
-use Laravel\Nova\Lenses\Lens;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Class StudioAnilistResourceLens.
  */
-class StudioAnilistResourceLens extends Lens
+class StudioAnilistResourceLens extends BaseLens
 {
     /**
      * Get the displayable name of the lens.
@@ -57,42 +52,23 @@ class StudioAnilistResourceLens extends Lens
     /**
      * Get the fields available to the lens.
      *
-     * @param  Request  $request
+     * @param  NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), Studio::ATTRIBUTE_ID)
                 ->sortable(),
 
             Text::make(__('nova.name'), Studio::ATTRIBUTE_NAME)
-                ->sortable(),
+                ->sortable()
+                ->filterable(),
 
             Text::make(__('nova.slug'), Studio::ATTRIBUTE_SLUG)
-                ->sortable(),
+                ->sortable()
+                ->filterable(),
         ];
-    }
-
-    /**
-     * Get the filters available for the lens.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function filters(Request $request): array
-    {
-        return array_merge(
-            parent::filters($request),
-            [
-                new CreatedStartDateFilter(),
-                new CreatedEndDateFilter(),
-                new UpdatedStartDateFilter(),
-                new UpdatedEndDateFilter(),
-                new DeletedStartDateFilter(),
-                new DeletedEndDateFilter(),
-            ]
-        );
     }
 
     /**
