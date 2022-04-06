@@ -12,6 +12,7 @@ use App\Nova\Metrics\Series\NewSeries;
 use App\Nova\Metrics\Series\SeriesPerDay;
 use App\Nova\Metrics\Video\NewVideos;
 use App\Nova\Metrics\Video\VideosPerDay;
+use Laravel\Nova\Card;
 use Laravel\Nova\Dashboards\Main as Dashboard;
 
 /**
@@ -29,17 +30,17 @@ class Main extends Dashboard
     public function cards(): array
     {
         return [
-            (new NewAnime())->width('1/2'),
-            (new AnimePerDay())->width('1/2'),
+            (new NewAnime())->width(Card::ONE_HALF_WIDTH),
+            (new AnimePerDay())->width(Card::ONE_HALF_WIDTH),
 
-            (new NewArtists())->width('1/2'),
-            (new ArtistsPerDay())->width('1/2'),
+            (new NewArtists())->width(Card::ONE_HALF_WIDTH),
+            (new ArtistsPerDay())->width(Card::ONE_HALF_WIDTH),
 
-            (new NewSeries())->width('1/2'),
-            (new SeriesPerDay())->width('1/2'),
+            (new NewSeries())->width(Card::ONE_HALF_WIDTH),
+            (new SeriesPerDay())->width(Card::ONE_HALF_WIDTH),
 
-            (new NewVideos())->width('1/2'),
-            (new VideosPerDay())->width('1/2'),
+            (new NewVideos())->width(Card::ONE_HALF_WIDTH),
+            (new VideosPerDay())->width(Card::ONE_HALF_WIDTH),
         ];
     }
 }

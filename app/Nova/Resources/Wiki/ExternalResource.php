@@ -135,6 +135,7 @@ class ExternalResource extends Resource
                         ->ignore($request->route('resourceId'), ExternalResourceModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
+                ->displayUsing(fn (mixed $value, mixed $resource, string $attribute) => $value)
                 ->help(__('nova.resource_link_help'))
                 ->showOnPreview()
                 ->filterable(),

@@ -109,7 +109,7 @@
                             <x-slot name="content">
                                 <div class="w-60">
                                     @can('viewNova')
-                                        <x-jet-dropdown-link href="{{ route('nova.index') }}">
+                                        <x-jet-dropdown-link href="{{ route('nova.pages.home') }}">
                                             {{ __('Admin') }}
                                         </x-jet-dropdown-link>
                                     @endcan
@@ -239,7 +239,7 @@
                 @endif
 
                 @can('viewNova')
-                    <x-jet-responsive-nav-link href="{{ route('nova.index') }}">
+                    <x-jet-responsive-nav-link href="{{ route('nova.pages.home') }}">
                         {{ __('Admin') }}
                     </x-jet-responsive-nav-link>
                 @endcan

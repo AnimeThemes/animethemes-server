@@ -16,6 +16,7 @@ use App\Nova\Resources\Wiki\Anime\Theme\Entry;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
+use Laravel\Nova\Card;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
@@ -241,8 +242,8 @@ class Video extends Resource
         return array_merge(
             parent::cards($request),
             [
-                (new NewVideos())->width('1/2'),
-                (new VideosPerDay())->width('1/2'),
+                (new NewVideos())->width(Card::ONE_HALF_WIDTH),
+                (new VideosPerDay())->width(Card::ONE_HALF_WIDTH),
             ]
         );
     }

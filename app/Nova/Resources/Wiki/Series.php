@@ -10,6 +10,7 @@ use App\Nova\Metrics\Series\SeriesPerDay;
 use App\Nova\Resources\Resource;
 use App\Pivots\BasePivot;
 use Illuminate\Validation\Rule;
+use Laravel\Nova\Card;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -146,8 +147,8 @@ class Series extends Resource
         return array_merge(
             parent::cards($request),
             [
-                (new NewSeries())->width('1/2'),
-                (new SeriesPerDay())->width('1/2'),
+                (new NewSeries())->width(Card::ONE_HALF_WIDTH),
+                (new SeriesPerDay())->width(Card::ONE_HALF_WIDTH),
             ]
         );
     }
