@@ -25,6 +25,7 @@ use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Validation\Rule;
+use Laravel\Nova\Card;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
@@ -255,8 +256,8 @@ class Anime extends Resource
         return array_merge(
             parent::cards($request),
             [
-                (new NewAnime())->width('1/2'),
-                (new AnimePerDay())->width('1/2'),
+                (new NewAnime())->width(Card::ONE_HALF_WIDTH),
+                (new AnimePerDay())->width(Card::ONE_HALF_WIDTH),
             ]
         );
     }

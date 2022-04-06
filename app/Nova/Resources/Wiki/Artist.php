@@ -20,6 +20,7 @@ use App\Pivots\ArtistResource;
 use App\Pivots\ArtistSong;
 use App\Pivots\BasePivot;
 use Illuminate\Validation\Rule;
+use Laravel\Nova\Card;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -224,8 +225,8 @@ class Artist extends Resource
         return array_merge(
             parent::cards($request),
             [
-                (new NewArtists())->width('1/2'),
-                (new ArtistsPerDay())->width('1/2'),
+                (new NewArtists())->width(Card::ONE_HALF_WIDTH),
+                (new ArtistsPerDay())->width(Card::ONE_HALF_WIDTH),
             ]
         );
     }
