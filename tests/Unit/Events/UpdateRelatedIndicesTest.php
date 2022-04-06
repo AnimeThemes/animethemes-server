@@ -7,7 +7,6 @@ namespace Tests\Unit\Events;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Listeners\UpdateRelatedIndices;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**

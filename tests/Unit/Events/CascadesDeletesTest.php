@@ -7,7 +7,6 @@ namespace Tests\Unit\Events;
 use App\Contracts\Events\CascadesDeletesEvent;
 use App\Listeners\CascadesDeletes;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**

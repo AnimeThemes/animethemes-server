@@ -7,7 +7,6 @@ namespace Tests\Unit\Events;
 use App\Contracts\Events\CascadesRestoresEvent;
 use App\Listeners\CascadesRestores;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
