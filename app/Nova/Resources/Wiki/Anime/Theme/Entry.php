@@ -19,6 +19,7 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\Column;
 
 /**
  * Class Entry.
@@ -83,13 +84,18 @@ class Entry extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $search = [
-        AnimeThemeEntry::ATTRIBUTE_ID,
-    ];
+    public static function searchableColumns(): array
+    {
+        return [
+            new Column(AnimeThemeEntry::ATTRIBUTE_ID),
+        ];
+    }
 
     /**
      * Indicates if the resource should be globally searchable.

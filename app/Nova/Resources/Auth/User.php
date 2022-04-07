@@ -13,6 +13,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\Column;
 
 /**
  * Class User.
@@ -85,13 +86,30 @@ class User extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $search = [
-        UserModel::ATTRIBUTE_NAME,
-    ];
+    public static function searchableColumns(): array
+    {
+        return [
+            new Column(UserModel::ATTRIBUTE_NAME),
+        ];
+    }
+
+    /**
+     * Determine if this resource uses Laravel Scout.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function usesScout(): bool
+    {
+        return false;
+    }
 
     /**
      * Get the fields displayed by the resource.

@@ -37,6 +37,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\Column;
 
 /**
  * Class Anime.
@@ -106,13 +107,18 @@ class Anime extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $search = [
-        AnimeModel::ATTRIBUTE_NAME,
-    ];
+    public static function searchableColumns(): array
+    {
+        return [
+            new Column(AnimeModel::ATTRIBUTE_NAME),
+        ];
+    }
 
     /**
      * Get the fields displayed by the resource.

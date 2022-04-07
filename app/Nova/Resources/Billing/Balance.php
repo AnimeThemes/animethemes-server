@@ -16,6 +16,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\Column;
 
 /**
  * Class Balance.
@@ -73,13 +74,18 @@ class Balance extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $search = [
-        BalanceModel::ATTRIBUTE_ID,
-    ];
+    public static function searchableColumns(): array
+    {
+        return [
+            new Column(BalanceModel::ATTRIBUTE_ID),
+        ];
+    }
 
     /**
      * Indicates if the resource should be globally searchable.
