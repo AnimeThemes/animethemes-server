@@ -13,6 +13,7 @@ use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\Column;
 
 /**
  * Class Page.
@@ -70,13 +71,18 @@ class Page extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $search = [
-        PageModel::ATTRIBUTE_NAME,
-    ];
+    public static function searchableColumns(): array
+    {
+        return [
+            new Column(PageModel::ATTRIBUTE_NAME),
+        ];
+    }
 
     /**
      * Determine if this resource uses Laravel Scout.

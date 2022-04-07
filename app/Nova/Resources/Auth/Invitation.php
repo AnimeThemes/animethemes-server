@@ -16,6 +16,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\Column;
 
 /**
  * Class Invitation.
@@ -34,7 +35,7 @@ class Invitation extends Resource
      *
      * @var string
      */
-    public static $title = InvitationModel::ATTRIBUTE_EMAIL;
+    public static $title = InvitationModel::ATTRIBUTE_NAME;
 
     /**
      * The logical group associated with the resource.
@@ -73,13 +74,18 @@ class Invitation extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $search = [
-        InvitationModel::ATTRIBUTE_EMAIL,
-    ];
+    public static function searchableColumns(): array
+    {
+        return [
+            new Column(InvitationModel::ATTRIBUTE_NAME),
+        ];
+    }
 
     /**
      * Determine if this resource uses Laravel Scout.

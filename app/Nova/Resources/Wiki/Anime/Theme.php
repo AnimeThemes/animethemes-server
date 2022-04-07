@@ -20,6 +20,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\Column;
 
 /**
  * Class Theme.
@@ -77,13 +78,18 @@ class Theme extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $search = [
-        AnimeTheme::ATTRIBUTE_SLUG,
-    ];
+    public static function searchableColumns(): array
+    {
+        return [
+            new Column(AnimeTheme::ATTRIBUTE_SLUG),
+        ];
+    }
 
     /**
      * Indicates if the resource should be globally searchable.

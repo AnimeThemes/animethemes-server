@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\Column;
 
 /**
  * Class Synonym.
@@ -76,13 +77,18 @@ class Synonym extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $search = [
-        AnimeSynonym::ATTRIBUTE_TEXT,
-    ];
+    public static function searchableColumns(): array
+    {
+        return [
+            new Column(AnimeSynonym::ATTRIBUTE_TEXT),
+        ];
+    }
 
     /**
      * Indicates if the resource should be globally searchable.

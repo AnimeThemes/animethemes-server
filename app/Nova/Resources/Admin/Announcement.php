@@ -8,8 +8,10 @@ use App\Models\Admin\Announcement as AnnouncementModel;
 use App\Nova\Resources\Resource;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\Column;
 
 /**
  * Class Announcement.
@@ -67,13 +69,18 @@ class Announcement extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $search = [
-        AnnouncementModel::ATTRIBUTE_ID,
-    ];
+    public static function searchableColumns(): array
+    {
+        return [
+            new Column(AnnouncementModel::ATTRIBUTE_ID),
+        ];
+    }
 
     /**
      * Indicates if the resource should be globally searchable.
@@ -114,6 +121,29 @@ class Announcement extends Resource
                 ->sortable()
                 ->rules(['required', 'max:65535'])
                 ->language('htmlmixed')
+                ->showOnPreview(),
+
+            Panel::make(__('nova.timestamps'), $this->timestamps()),
+        ];
+    }
+
+    /**
+     * Get the fields displayed by the resource on index page.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     *
+     * @noinspection PhpUnusedParameterInspection
+     */
+    public function fieldsForIndex(NovaRequest $request): array
+    {
+        return [
+            ID::make(__('nova.id'), AnnouncementModel::ATTRIBUTE_ID)
+                ->sortable()
+                ->showOnPreview(),
+
+            Text::make(__('nova.content'), AnnouncementModel::ATTRIBUTE_CONTENT)
+                ->sortable()
                 ->showOnPreview(),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),

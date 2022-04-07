@@ -22,6 +22,7 @@ use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\Column;
 
 /**
  * Class Studio.
@@ -79,13 +80,18 @@ class Studio extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $search = [
-        StudioModel::ATTRIBUTE_NAME,
-    ];
+    public static function searchableColumns(): array
+    {
+        return [
+            new Column(StudioModel::ATTRIBUTE_NAME),
+        ];
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -134,7 +140,8 @@ class Studio extends Resource
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
-                }),
+                })
+                ->showCreateRelationButton(),
 
             BelongsToMany::make(__('nova.external_resources'), 'Resources', ExternalResource::class)
                 ->searchable()
@@ -150,7 +157,8 @@ class Studio extends Resource
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
-                }),
+                })
+                ->showCreateRelationButton(),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];

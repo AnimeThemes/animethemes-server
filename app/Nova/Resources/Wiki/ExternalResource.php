@@ -25,6 +25,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\Column;
 
 /**
  * Class ExternalResource.
@@ -58,13 +59,18 @@ class ExternalResource extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $search = [
-        ExternalResourceModel::ATTRIBUTE_LINK,
-    ];
+    public static function searchableColumns(): array
+    {
+        return [
+            new Column(ExternalResourceModel::ATTRIBUTE_LINK),
+        ];
+    }
 
     /**
      * Determine if this resource uses Laravel Scout.
@@ -164,7 +170,8 @@ class ExternalResource extends Resource
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
-                }),
+                })
+                ->showCreateRelationButton(),
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
                 ->searchable()
@@ -182,7 +189,8 @@ class ExternalResource extends Resource
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
-                }),
+                })
+                ->showCreateRelationButton(),
 
             BelongsToMany::make(__('nova.studios'), 'Studios', Studio::class)
                 ->searchable()
@@ -200,7 +208,8 @@ class ExternalResource extends Resource
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
-                }),
+                })
+                ->showCreateRelationButton(),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];

@@ -26,6 +26,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\Column;
 
 /**
  * Class Video.
@@ -83,13 +84,18 @@ class Video extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $search = [
-        VideoModel::ATTRIBUTE_FILENAME,
-    ];
+    public static function searchableColumns(): array
+    {
+        return [
+            new Column(VideoModel::ATTRIBUTE_FILENAME),
+        ];
+    }
 
     /**
      * Get the fields displayed by the resource.

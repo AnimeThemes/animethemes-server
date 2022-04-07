@@ -19,6 +19,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Query\Search\Column;
 
 /**
  * Class Image.
@@ -52,13 +53,18 @@ class Image extends Resource
     }
 
     /**
-     * The columns that should be searched.
+     * Get the searchable columns for the resource.
      *
-     * @var array
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $search = [
-        ImageModel::ATTRIBUTE_ID,
-    ];
+    public static function searchableColumns(): array
+    {
+        return [
+            new Column(ImageModel::ATTRIBUTE_ID),
+        ];
+    }
 
     /**
      * Determine if this resource uses Laravel Scout.
@@ -136,7 +142,8 @@ class Image extends Resource
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
-                }),
+                })
+                ->showCreateRelationButton(),
 
             BelongsToMany::make(__('nova.artists'), 'Artists', Artist::class)
                 ->searchable()
@@ -150,7 +157,8 @@ class Image extends Resource
                             ->readonly()
                             ->hideWhenCreating(),
                     ];
-                }),
+                })
+                ->showCreateRelationButton(),
 
             Panel::make(__('nova.file_properties'), $this->fileProperties()),
 
