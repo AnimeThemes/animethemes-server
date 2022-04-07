@@ -91,15 +91,6 @@ class Synonym extends Resource
     }
 
     /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        AnimeSynonym::ATTRIBUTE_TEXT,
-    ];
-
-    /**
      * Indicates if the resource should be globally searchable.
      *
      * @var bool
