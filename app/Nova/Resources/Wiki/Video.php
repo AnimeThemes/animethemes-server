@@ -7,6 +7,7 @@ namespace App\Nova\Resources\Wiki;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Video as VideoModel;
+use App\Nova\Lenses\Video\VideoResolutionLens;
 use App\Nova\Lenses\Video\VideoSourceLens;
 use App\Nova\Lenses\Video\VideoUnlinkedLens;
 use App\Nova\Metrics\Video\NewVideos;
@@ -107,8 +108,6 @@ class Video extends Resource
     {
         return [
             ID::make(__('nova.id'), VideoModel::ATTRIBUTE_ID)
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->sortable()
                 ->showOnPreview(),
 
@@ -176,17 +175,13 @@ class Video extends Resource
 
             BelongsToMany::make(__('nova.entries'), 'AnimeThemeEntries', Entry::class)
                 ->searchable()
-                ->fields(function () {
-                    return [
-                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
-                            ->readonly()
-                            ->hideWhenCreating(),
+                ->fields(fn () => [
+                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                        ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
-                            ->readonly()
-                            ->hideWhenCreating(),
-                    ];
-                }),
+                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                        ->hideWhenCreating(),
+                ]),
 
             Panel::make(__('nova.file_properties'), $this->fileProperties()),
 
@@ -265,6 +260,7 @@ class Video extends Resource
         return array_merge(
             parent::lenses($request),
             [
+                new VideoResolutionLens(),
                 new VideoSourceLens(),
                 new VideoUnlinkedLens(),
             ]

@@ -115,13 +115,11 @@ class Theme extends Resource
     {
         return [
             ID::make(__('nova.id'), AnimeTheme::ATTRIBUTE_ID)
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->sortable()
                 ->showOnPreview(),
 
             BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
-               ->readonly()
+                ->readonly()
                 ->showOnPreview(),
 
             Select::make(__('nova.type'), AnimeTheme::ATTRIBUTE_TYPE)
@@ -160,6 +158,7 @@ class Theme extends Resource
             BelongsTo::make(__('nova.song'), 'Song', Song::class)
                 ->sortable()
                 ->searchable()
+                ->withSubtitles()
                 ->nullable()
                 ->showCreateRelationButton()
                 ->showOnPreview(),

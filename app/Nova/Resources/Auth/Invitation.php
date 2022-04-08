@@ -38,6 +38,18 @@ class Invitation extends Resource
     public static $title = InvitationModel::ATTRIBUTE_NAME;
 
     /**
+     * Get the search result subtitle for the resource.
+     *
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function subtitle(): ?string
+    {
+        return (string) data_get($this, InvitationModel::ATTRIBUTE_EMAIL);
+    }
+
+    /**
      * The logical group associated with the resource.
      *
      * @return string
@@ -84,6 +96,7 @@ class Invitation extends Resource
     {
         return [
             new Column(InvitationModel::ATTRIBUTE_NAME),
+            new Column(InvitationModel::ATTRIBUTE_EMAIL),
         ];
     }
 
@@ -109,8 +122,6 @@ class Invitation extends Resource
     {
         return [
             ID::make(__('nova.id'), InvitationModel::ATTRIBUTE_ID)
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->sortable()
                 ->showOnPreview(),
 

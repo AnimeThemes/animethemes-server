@@ -184,6 +184,7 @@ return [
     'video_nc_help' => 'Set if this video is creditless.',
     'video_overlap_help' => 'The degree to which the sequence and episode content overlap. None: No overlap. Transition: partial overlap. Over: full overlap.',
     'video_resolution_help' => 'Frame height of the video',
+    'video_resolution_lens' => 'Video with Unset Resolution',
     'video_source_help' => 'Where did this video come from?',
     'video_subbed_help' => 'Set if this video has subtitles of dialogue.',
     'video_uncen_help' => 'Set if this video is an uncensored version of a censored sequence.',
