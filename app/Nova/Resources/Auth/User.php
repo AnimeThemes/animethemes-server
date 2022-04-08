@@ -35,6 +35,18 @@ class User extends Resource
     public static $title = UserModel::ATTRIBUTE_NAME;
 
     /**
+     * Get the search result subtitle for the resource.
+     *
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function subtitle(): ?string
+    {
+        return (string) data_get($this, UserModel::ATTRIBUTE_EMAIL);
+    }
+
+    /**
      * Determine if this resource is available for navigation.
      *
      * @param  Request  $request
@@ -96,6 +108,7 @@ class User extends Resource
     {
         return [
             new Column(UserModel::ATTRIBUTE_NAME),
+            new Column(UserModel::ATTRIBUTE_EMAIL),
         ];
     }
 
@@ -121,8 +134,6 @@ class User extends Resource
     {
         return [
             ID::make(__('nova.id'), UserModel::ATTRIBUTE_ID)
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->sortable()
                 ->showOnPreview(),
 

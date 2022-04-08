@@ -123,8 +123,6 @@ class Entry extends Resource
                 ->showOnPreview(),
 
             ID::make(__('nova.id'), 'entry_id')
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->sortable()
                 ->showOnPreview(),
 
@@ -170,17 +168,13 @@ class Entry extends Resource
 
             BelongsToMany::make(__('nova.videos'), 'Videos', Video::class)
                 ->searchable()
-                ->fields(function () {
-                    return [
-                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
-                            ->readonly()
-                            ->hideWhenCreating(),
+                ->fields(fn () => [
+                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                        ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
-                            ->readonly()
-                            ->hideWhenCreating(),
-                    ];
-                }),
+                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                        ->hideWhenCreating(),
+                ]),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];

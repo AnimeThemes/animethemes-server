@@ -116,8 +116,6 @@ class Transaction extends Resource
     {
         return [
             ID::make(__('nova.id'), TransactionModel::ATTRIBUTE_ID)
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->sortable()
                 ->showOnPreview(),
 

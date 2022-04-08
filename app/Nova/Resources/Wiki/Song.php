@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Song as SongModel;
 use App\Nova\Lenses\Song\SongArtistLens;
 use App\Nova\Resources\Resource;
 use App\Nova\Resources\Wiki\Anime\Theme;
 use App\Pivots\ArtistSong;
 use App\Pivots\BasePivot;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
@@ -39,13 +41,40 @@ class Song extends Resource
     public static $title = SongModel::ATTRIBUTE_TITLE;
 
     /**
-     * The relationships that should be eager loaded on index queries.
+     * Get the search result subtitle for the resource.
      *
-     * @var array
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $with = [
-        SongModel::RELATION_ARTISTS,
-    ];
+    public function subtitle(): ?string
+    {
+        $song = $this->model();
+        if ($song instanceof SongModel) {
+            $theme = $song->animethemes->first();
+            if ($theme instanceof AnimeTheme) {
+                return $theme->anime->getName();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Build a "relatable" query for the given resource.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  NovaRequest  $request
+     * @param  Builder  $query
+     * @return Builder
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function relatableQuery(NovaRequest $request, $query): Builder
+    {
+        return $query->with(SongModel::RELATION_ANIME);
+    }
 
     /**
      * The logical group associated with the resource.
@@ -107,8 +136,6 @@ class Song extends Resource
     {
         return [
             ID::make(__('nova.id'), SongModel::ATTRIBUTE_ID)
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->sortable()
                 ->showOnPreview(),
 
@@ -122,22 +149,22 @@ class Song extends Resource
 
             BelongsToMany::make(__('nova.artists'), 'Artists', Artist::class)
                 ->searchable()
-                ->fields(function () {
-                    return [
-                        Text::make(__('nova.as'), ArtistSong::ATTRIBUTE_AS)
-                            ->rules(['nullable', 'max:192'])
-                            ->help(__('nova.resource_as_help')),
+                ->withSubtitles()
+                ->showCreateRelationButton()
+                ->fields(fn () => [
+                    Text::make(__('nova.as'), ArtistSong::ATTRIBUTE_AS)
+                        ->nullable()
+                        ->rules(['nullable', 'max:192'])
+                        ->help(__('nova.resource_as_help')),
 
-                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
-                            ->readonly()
-                            ->hideWhenCreating(),
+                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                        ->hideWhenCreating()
+                        ->hideWhenUpdating(),
 
-                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
-                            ->readonly()
-                            ->hideWhenCreating(),
-                    ];
-                })
-                ->showCreateRelationButton(),
+                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                        ->hideWhenCreating()
+                        ->hideWhenUpdating(),
+                ]),
 
             HasMany::make(__('nova.themes'), 'AnimeThemes', Theme::class),
 

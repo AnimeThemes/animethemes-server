@@ -111,14 +111,10 @@ class Announcement extends Resource
     {
         return [
             ID::make(__('nova.id'), AnnouncementModel::ATTRIBUTE_ID)
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->sortable()
                 ->showOnPreview(),
 
             Code::make(__('nova.content'), AnnouncementModel::ATTRIBUTE_CONTENT)
-                ->showOnIndex()
-                ->sortable()
                 ->rules(['required', 'max:65535'])
                 ->language('htmlmixed')
                 ->showOnPreview(),

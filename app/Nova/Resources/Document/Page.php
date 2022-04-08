@@ -35,6 +35,18 @@ class Page extends Resource
     public static $title = PageModel::ATTRIBUTE_NAME;
 
     /**
+     * Get the search result subtitle for the resource.
+     *
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function subtitle(): ?string
+    {
+        return (string) data_get($this, PageModel::ATTRIBUTE_SLUG);
+    }
+
+    /**
      * The logical group associated with the resource.
      *
      * @return string
@@ -81,6 +93,7 @@ class Page extends Resource
     {
         return [
             new Column(PageModel::ATTRIBUTE_NAME),
+            new Column(PageModel::ATTRIBUTE_SLUG),
         ];
     }
 
@@ -106,8 +119,6 @@ class Page extends Resource
     {
         return [
             ID::make(__('nova.id'), PageModel::ATTRIBUTE_ID)
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->sortable()
                 ->showOnPreview(),
 

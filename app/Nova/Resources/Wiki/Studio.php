@@ -44,6 +44,18 @@ class Studio extends Resource
     public static $title = StudioModel::ATTRIBUTE_NAME;
 
     /**
+     * Get the search result subtitle for the resource.
+     *
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function subtitle(): ?string
+    {
+        return (string) data_get($this, StudioModel::ATTRIBUTE_SLUG);
+    }
+
+    /**
      * The logical group associated with the resource.
      *
      * @return string
@@ -90,6 +102,7 @@ class Studio extends Resource
     {
         return [
             new Column(StudioModel::ATTRIBUTE_NAME),
+            new Column(StudioModel::ATTRIBUTE_SLUG),
         ];
     }
 
@@ -103,8 +116,6 @@ class Studio extends Resource
     {
         return [
             ID::make(__('nova.id'), StudioModel::ATTRIBUTE_ID)
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->sortable()
                 ->showOnPreview(),
 
@@ -130,35 +141,33 @@ class Studio extends Resource
 
             BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
                 ->searchable()
-                ->fields(function () {
-                    return [
-                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
-                            ->readonly()
-                            ->hideWhenCreating(),
+                ->withSubtitles()
+                ->showCreateRelationButton()
+                ->fields(fn () => [
+                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                        ->hideWhenCreating(),
 
-                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
-                            ->readonly()
-                            ->hideWhenCreating(),
-                    ];
-                })
-                ->showCreateRelationButton(),
+                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                        ->hideWhenCreating(),
+                ]),
 
             BelongsToMany::make(__('nova.external_resources'), 'Resources', ExternalResource::class)
                 ->searchable()
-                ->fields(function () {
-                    return [
-                        Text::make(__('nova.as'), StudioResource::ATTRIBUTE_AS)
-                            ->rules(['nullable', 'max:192'])
-                            ->help(__('nova.resource_as_help')),
-                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
-                            ->readonly()
-                            ->hideWhenCreating(),
-                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
-                            ->readonly()
-                            ->hideWhenCreating(),
-                    ];
-                })
-                ->showCreateRelationButton(),
+                ->showCreateRelationButton()
+                ->fields(fn () => [
+                    Text::make(__('nova.as'), StudioResource::ATTRIBUTE_AS)
+                        ->nullable()
+                        ->rules(['nullable', 'max:192'])
+                        ->help(__('nova.resource_as_help')),
+
+                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                        ->hideWhenCreating()
+                        ->hideWhenUpdating(),
+
+                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                        ->hideWhenCreating()
+                        ->hideWhenUpdating(),
+                ]),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];

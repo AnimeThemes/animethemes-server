@@ -111,8 +111,6 @@ class Synonym extends Resource
                 ->showOnPreview(),
 
             ID::make(__('nova.id'), AnimeSynonym::ATTRIBUTE_ID)
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->sortable()
                 ->showOnPreview(),
 

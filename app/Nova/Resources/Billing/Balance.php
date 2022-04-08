@@ -116,8 +116,6 @@ class Balance extends Resource
     {
         return [
             ID::make(__('nova.id'), BalanceModel::ATTRIBUTE_ID)
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->sortable()
                 ->showOnPreview(),
 
