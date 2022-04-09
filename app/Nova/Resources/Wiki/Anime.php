@@ -274,7 +274,7 @@ class Anime extends Resource
                         $user = $request->user();
 
                         return $user instanceof User && $user->hasCurrentTeamPermission('anime:update');
-                    })
+                    }),
             ]
         );
     }

@@ -26,7 +26,7 @@ use Laravel\Nova\Nova;
 use RuntimeException;
 
 /**
- * Class MyAnimeListAnimeStudios
+ * Class MyAnimeListAnimeStudios.
  */
 class MyAnimeListAnimeStudios implements Pipe
 {
@@ -46,6 +46,7 @@ class MyAnimeListAnimeStudios implements Pipe
      * @param  User  $user
      * @param  Closure  $next
      * @return mixed
+     *
      * @throws RequestException
      */
     public function handle(User $user, Closure $next): mixed
@@ -80,6 +81,7 @@ class MyAnimeListAnimeStudios implements Pipe
      * @param  ExternalResource  $resource
      * @param  string  $malClientID
      * @return void
+     *
      * @throws RequestException
      */
     protected function backfillMalAnimeStudios(Anime $anime, ExternalResource $resource, string $malClientID): void
@@ -174,7 +176,7 @@ class MyAnimeListAnimeStudios implements Pipe
     protected function attachAnimeToStudio(Studio $studio, Anime $anime): void
     {
         if (AnimeStudio::query()
-            ->where($anime->getKeyName(),$anime->getKey())
+            ->where($anime->getKeyName(), $anime->getKey())
             ->where($studio->getKeyName(), $studio->getKey())
             ->doesntExist()
         ) {

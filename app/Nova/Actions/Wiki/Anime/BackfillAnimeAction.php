@@ -30,7 +30,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
     /**
      * Create a new action instance.
      *
-     * @param User $user
+     * @param  User  $user
      */
     public function __construct(protected User $user)
     {
