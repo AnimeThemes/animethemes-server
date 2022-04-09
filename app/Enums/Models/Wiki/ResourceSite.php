@@ -9,6 +9,16 @@ use Illuminate\Support\Arr;
 
 /**
  * Class ResourceSite.
+ *
+ * @method static static OFFICIAL_SITE()
+ * @method static static TWITTER()
+ * @method static static ANIDB()
+ * @method static static ANILIST()
+ * @method static static ANIME_PLANET()
+ * @method static static ANN()
+ * @method static static KITSU()
+ * @method static static MAL()
+ * @method static static WIKI()
  */
 final class ResourceSite extends BaseEnum
 {

@@ -19,6 +19,7 @@ use ElasticScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Artist.
@@ -37,6 +38,7 @@ use Illuminate\Support\Collection;
  */
 class Artist extends BaseModel
 {
+    use Actionable;
     use Searchable;
 
     final public const TABLE = 'artists';

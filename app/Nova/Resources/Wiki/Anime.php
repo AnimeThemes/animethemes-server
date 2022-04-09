@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Models\Auth\User;
 use App\Models\Wiki\Anime as AnimeModel;
+use App\Nova\Actions\Wiki\Anime\BackfillAnimeAction;
 use App\Nova\Lenses\Anime\AnimeAniDbResourceLens;
 use App\Nova\Lenses\Anime\AnimeAnilistResourceLens;
 use App\Nova\Lenses\Anime\AnimeAnnResourceLens;
@@ -24,6 +26,7 @@ use App\Pivots\AnimeResource;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Card;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -249,6 +252,31 @@ class Anime extends Resource
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request): array
+    {
+        return array_merge(
+            parent::actions($request),
+            [
+                (new BackfillAnimeAction($request->user()))
+                    ->confirmText(__('nova.backfill_anime_confirm_message'))
+                    ->confirmButtonText(__('nova.backfill'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->onlyOnDetail()
+                    ->canSee(function (Request $request) {
+                        $user = $request->user();
+
+                        return $user instanceof User && $user->hasCurrentTeamPermission('anime:update');
+                    }),
+            ]
+        );
     }
 
     /**

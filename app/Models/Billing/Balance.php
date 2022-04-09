@@ -16,6 +16,7 @@ use BenSampo\Enum\Enum;
 use Carbon\Carbon;
 use Database\Factories\Billing\BalanceFactory;
 use Illuminate\Support\Str;
+use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Balance.
@@ -31,6 +32,8 @@ use Illuminate\Support\Str;
  */
 class Balance extends BaseModel
 {
+    use Actionable;
+
     final public const TABLE = 'balances';
 
     final public const ATTRIBUTE_BALANCE = 'balance';
