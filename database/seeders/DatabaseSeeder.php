@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(VideoSeeder::class);
-        $this->call(MalSeasonYearSeeder::class);
         $this->call(AnilistAnimeResourceSeeder::class);
         $this->call(SynopsisCoverSeeder::class);
         $this->call(AniDbResourceSeeder::class);

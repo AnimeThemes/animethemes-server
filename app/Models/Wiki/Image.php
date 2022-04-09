@@ -17,6 +17,7 @@ use BenSampo\Enum\Enum;
 use Database\Factories\Wiki\ImageFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Image.
@@ -33,6 +34,8 @@ use Illuminate\Support\Collection;
  */
 class Image extends BaseModel
 {
+    use Actionable;
+
     final public const TABLE = 'images';
 
     final public const ATTRIBUTE_FACET = 'facet';

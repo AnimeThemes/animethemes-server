@@ -15,6 +15,7 @@ use BenSampo\Enum\Enum;
 use Carbon\Carbon;
 use Database\Factories\Billing\TransactionFactory;
 use Illuminate\Support\Str;
+use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Transaction.
@@ -30,6 +31,8 @@ use Illuminate\Support\Str;
  */
 class Transaction extends BaseModel
 {
+    use Actionable;
+
     final public const TABLE = 'transactions';
 
     final public const ATTRIBUTE_AMOUNT = 'amount';

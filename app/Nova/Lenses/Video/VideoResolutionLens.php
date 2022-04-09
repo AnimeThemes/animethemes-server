@@ -100,6 +100,6 @@ class VideoResolutionLens extends BaseLens
      */
     public function uriKey(): string
     {
-        return 'video-source-lens';
+        return 'video-resolution-lens';
     }
 }

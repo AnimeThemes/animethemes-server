@@ -12,6 +12,7 @@ use App\Events\Auth\Invitation\InvitationUpdated;
 use App\Models\BaseModel;
 use BenSampo\Enum\Enum;
 use Database\Factories\Auth\InvitationFactory;
+use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Invitation.
@@ -25,6 +26,8 @@ use Database\Factories\Auth\InvitationFactory;
  */
 class Invitation extends BaseModel
 {
+    use Actionable;
+
     final public const TABLE = 'invitations';
 
     final public const ATTRIBUTE_EMAIL = 'email';

@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Laravel\Nova\Actions\Actionable;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
 /**
@@ -41,6 +42,7 @@ use Znck\Eloquent\Relations\BelongsToThrough;
  */
 class AnimeThemeEntry extends BaseModel
 {
+    use Actionable;
     use Searchable;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 

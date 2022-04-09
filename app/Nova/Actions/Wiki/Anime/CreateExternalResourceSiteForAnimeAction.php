@@ -7,8 +7,6 @@ namespace App\Nova\Actions\Wiki\Anime;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Rules\Wiki\ResourceLinkMatchesSiteRule;
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Actions\Action;
@@ -21,9 +19,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
  */
 class CreateExternalResourceSiteForAnimeAction extends Action
 {
-    use InteractsWithQueue;
-    use Queueable;
-
     /**
      * @param  int  $site
      */

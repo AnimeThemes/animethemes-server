@@ -18,6 +18,7 @@ use BenSampo\Enum\Enum;
 use Database\Factories\Wiki\ExternalResourceFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Resource.
@@ -34,6 +35,8 @@ use Illuminate\Support\Collection;
  */
 class ExternalResource extends BaseModel
 {
+    use Actionable;
+
     final public const TABLE = 'resources';
 
     final public const ATTRIBUTE_EXTERNAL_ID = 'external_id';
