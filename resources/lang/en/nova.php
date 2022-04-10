@@ -33,7 +33,7 @@ return [
     'auth' => 'Auth',
     'backfill' => 'Backfill',
     'backfill_anime' => 'Backfill Anime',
-    'backfill_anime_confirm_message' => 'Attempt to backfill Studios through third-party APIs using the attached MAL resource?',
+    'backfill_anime_confirm_message' => 'Attempt to backfill Kitsu Resources & Studios through third-party APIs using the attached MAL resource?',
     'balance_balance_help' => 'Current balance of the account with current usage',
     'balance_date_help' => 'The month and year for the balance that we are tracking',
     'balance_frequency_help' => 'The frequency that we are billed by the provider',
