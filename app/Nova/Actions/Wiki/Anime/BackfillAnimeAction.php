@@ -9,6 +9,7 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Pipes\Wiki\Anime\MyAnimeListAnimeStudios;
+use App\Pipes\Wiki\Anime\MyAnimeListKitsuMapping;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Container\Container;
@@ -71,6 +72,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
 
         $pipes = [
             new MyAnimeListAnimeStudios($anime, $malResource),
+            new MyAnimeListKitsuMapping($anime, $malResource),
         ];
 
         $pipeline = new Pipeline(Container::getInstance());

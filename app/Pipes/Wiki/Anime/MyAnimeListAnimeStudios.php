@@ -205,7 +205,7 @@ class MyAnimeListAnimeStudios implements Pipe
         $user->notify(
             NovaNotification::make()
                 ->icon('flag')
-                ->message("Anime '{$anime->getName()}' has no studios after backfilling. Please review.")
+                ->message("Anime '{$anime->getName()}' has no Studios after backfilling. Please review.")
                 ->type(NovaNotification::WARNING_TYPE)
                 ->url($url)
         );
