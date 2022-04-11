@@ -119,7 +119,12 @@ class Theme extends Resource
                 ->showOnPreview(),
 
             BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
-                ->readonly()
+                ->sortable()
+                ->searchable(fn () => Song::class === $request->viaResource())
+                ->readonly(fn () => Song::class !== $request->viaResource())
+                ->required(fn () => Song::class === $request->viaResource())
+                ->withSubtitles()
+                ->showCreateRelationButton(fn () => Song::class === $request->viaResource())
                 ->showOnPreview(),
 
             Select::make(__('nova.type'), AnimeTheme::ATTRIBUTE_TYPE)
