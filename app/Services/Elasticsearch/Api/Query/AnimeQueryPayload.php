@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Elasticsearch\Api\Query;
 
 use App\Models\Wiki\Anime;
-use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
-use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
-use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 use ElasticScoutDriverPlus\Support\Query;
 
@@ -34,58 +31,115 @@ class AnimeQueryPayload extends ElasticQueryPayload
     public function buildQuery(): SearchRequestBuilder
     {
         $query = Query::bool()
-            ->should(
-                (new MatchPhraseQueryBuilder())
-                ->field('name')
-                ->query($this->criteria->getTerm())
-            )
-            ->should(
-                (new MatchQueryBuilder())
-                ->field('name')
-                ->query($this->criteria->getTerm())
-                ->operator('AND')
-            )
-            ->should(
-                (new MatchQueryBuilder())
-                ->field('name')
-                ->query($this->criteria->getTerm())
-                ->operator('AND')
-                ->lenient(true)
-                ->fuzziness('AUTO')
-            )
-            ->should(
-                (new NestedQueryBuilder())
-                ->path('synonyms')
-                ->query(
-                    (new MatchPhraseQueryBuilder())
-                    ->field('synonyms.text')
-                    ->query($this->criteria->getTerm())
-                )
-            )
-            ->should(
-                (new NestedQueryBuilder())
-                ->path('synonyms')
-                ->query(
-                    (new MatchQueryBuilder())
-                    ->field('synonyms.text')
-                    ->query($this->criteria->getTerm())
-                    ->operator('AND')
-                )
-            )
-            ->should(
-                (new NestedQueryBuilder())
-                ->path('synonyms')
-                ->query(
-                    (new MatchQueryBuilder())
-                    ->field('synonyms.text')
-                    ->query($this->criteria->getTerm())
-                    ->operator('AND')
-                    ->lenient(true)
-                    ->fuzziness('AUTO')
-                )
-            )
-            ->minimumShouldMatch(1);
+            ->mustRaw([
+                // Pick the score of the best performing sub-query.
+                'dis_max' => [
+                    'queries' => [
+                        [
+                            // The more sub-queries match the better the score will be.
+                            'bool' => [
+                                'should' => [
+                                    [
+                                        'match_phrase' => [
+                                            'name' => [
+                                                'query' => $this->criteria->getTerm(),
+                                            ],
+                                        ],
+                                    ],
+                                    [
+                                        'match' => [
+                                            'name' => [
+                                                'query' => $this->criteria->getTerm(),
+                                                'operator' => 'AND',
+                                            ],
+                                        ],
+                                    ],
+                                    [
+                                        'match' => [
+                                            'name' => [
+                                                'query' => $this->criteria->getTerm(),
+                                                'boost' => 0.6,
+                                            ],
+                                        ],
+                                    ],
+                                    [
+                                        'fuzzy' => [
+                                            'name' => [
+                                                'value' => $this->criteria->getTerm(),
+                                                'boost' => 0.4,
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                        [
+                            'bool' => [
+                                'boost' => 0.85,
+                                'should' => [
+                                    [
+                                        'nested' => [
+                                            'path' => 'synonyms',
+                                            'query' => [
+                                                'match_phrase' => [
+                                                    'synonyms.text' => [
+                                                        'query' => $this->criteria->getTerm(),
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                    [
+                                        'nested' => [
+                                            'path' => 'synonyms',
+                                            'query' => [
+                                                'match' => [
+                                                    'synonyms.text' => [
+                                                        'query' => $this->criteria->getTerm(),
+                                                        'operator' => 'AND',
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                    [
+                                        'nested' => [
+                                            'path' => 'synonyms',
+                                            'query' => [
+                                                'match' => [
+                                                    'synonyms.text' => [
+                                                        'query' => $this->criteria->getTerm(),
+                                                        'boost' => 0.6,
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                    [
+                                        'nested' => [
+                                            'path' => 'synonyms',
+                                            'query' => [
+                                                'fuzzy' => [
+                                                    'synonyms.text' => [
+                                                        'value' => $this->criteria->getTerm(),
+                                                        'boost' => 0.4,
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ]);
 
-        return Anime::searchQuery($query);
+        return Anime::searchQuery($query)
+            ->sortRaw([
+                '_score',
+                'year',
+                'season',
+            ]);
     }
 }
