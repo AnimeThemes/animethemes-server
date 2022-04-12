@@ -22,9 +22,9 @@ use Laravel\Nova\Nova;
 use RuntimeException;
 
 /**
- * Class MyAnimeListKitsuMapping.
+ * Class MyAnimeListAnidbMapping.
  */
-class MyAnimeListKitsuMapping implements Pipe
+class MyAnimeListAnidbMapping implements Pipe
 {
     /**
      * Create new pipe instance.
@@ -55,9 +55,9 @@ class MyAnimeListKitsuMapping implements Pipe
             throw new RuntimeException("Cannot backfill anime '{$anime->getName()}' with resource '{$resource->getName()}'");
         }
 
-        $this->backfillMalKitsuMapping($anime, $resource);
+        $this->backfillMalAnidbMapping($anime, $resource);
 
-        if ($anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU)->doesntExist()) {
+        if ($anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB)->doesntExist()) {
             $this->sendNotification($user, $anime);
         }
 
@@ -65,7 +65,7 @@ class MyAnimeListKitsuMapping implements Pipe
     }
 
     /**
-     * Query Kitsu API for MAL mapping.
+     * Query Yuna API for MAL-AniDB mapping.
      *
      * @param  Anime  $anime
      * @param  ExternalResource  $malResource
@@ -73,78 +73,69 @@ class MyAnimeListKitsuMapping implements Pipe
      *
      * @throws RequestException
      */
-    protected function backfillMalKitsuMapping(Anime $anime, ExternalResource $malResource): void
+    protected function backfillMalAnidbMapping(Anime $anime, ExternalResource $malResource): void
     {
-        $response = Http::contentType('application/vnd.api+json')
-            ->accept('application/vnd.api+json')
-            ->get('https://kitsu.io/api/edge/mappings', [
-                'include' => 'item',
-                'filter' => [
-                    'externalSite' => 'myanimelist/anime',
-                    'externalId' => $malResource->external_id,
-                ],
-            ])
+        $response = Http::get('https://relations.yuna.moe/api/ids', [
+            'source' => 'myanimelist',
+            'id' => $malResource->external_id,
+        ])
             ->throw()
             ->json();
 
-        $kitsuResourceData = Arr::get($response, 'data', []);
-        $kitsuResourceIncluded = Arr::get($response, 'included', []);
+        $anidbId = Arr::get($response, 'anidb');
 
-        // Only proceed if we have a single match
-        if (count($kitsuResourceData) === 1 && count($kitsuResourceIncluded) === 1) {
-            $kitsuId = $kitsuResourceIncluded[0]['id'];
-            $kitsuSlug = $kitsuResourceIncluded[0]['attributes']['slug'];
+        // Only proceed if we have a match
+        if ($anidbId !== null) {
+            $anidbResource = $this->getAnidbResource($anidbId);
 
-            $kitsuResource = $this->getKitsuResource($kitsuId, $kitsuSlug);
-
-            $this->attachKitsuResourceToAnime($kitsuResource, $anime);
+            $this->attachAnidbResourceToAnime($anidbResource, $anime);
         }
     }
 
     /**
-     * Get or create Kitsu Resource from response.
+     * Get or create AniDB Resource from response.
      *
-     * @param  string  $kitsuId
-     * @param  string  $kitsuSlug
+     * @param  int  $anidbId
      * @return ExternalResource
      */
-    protected function getKitsuResource(string $kitsuId, string $kitsuSlug): ExternalResource
+    protected function getAnidbResource(int $anidbId): ExternalResource
     {
-        $kitsuResource = ExternalResource::query()
+        $anidbResource = ExternalResource::query()
             ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_LINK])
-            ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU)
-            ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $kitsuId)
+            ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB)
+            ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $anidbId)
             ->first();
 
-        if ($kitsuResource === null) {
-            Log::info("Creating kitsu resource '$kitsuId'");
+        // Create AniDB resource if it doesn't already exist
+        if ($anidbResource === null) {
+            Log::info("Creating anidb resource '$anidbId'");
 
-            $kitsuResource = ExternalResource::factory()->createOne([
-                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $kitsuId,
-                ExternalResource::ATTRIBUTE_LINK => "https://kitsu.io/anime/$kitsuSlug",
-                ExternalResource::ATTRIBUTE_SITE => ResourceSite::KITSU,
+            $anidbResource = ExternalResource::factory()->createOne([
+                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $anidbId,
+                ExternalResource::ATTRIBUTE_LINK => "https://anidb.net/anime/$anidbId",
+                ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANIDB,
             ]);
         }
 
-        return $kitsuResource;
+        return $anidbResource;
     }
 
     /**
-     * Attach Kitsu Resource to Anime.
+     * Attach AniDB Resource to Anime.
      *
-     * @param  ExternalResource  $kitsuResource
+     * @param  ExternalResource  $anidbResource
      * @param  Anime  $anime
      * @return void
      */
-    protected function attachKitsuResourceToAnime(ExternalResource $kitsuResource, Anime $anime): void
+    protected function attachAnidbResourceToAnime(ExternalResource $anidbResource, Anime $anime): void
     {
         if (AnimeResource::query()
             ->where($anime->getKeyName(), $anime->getKey())
-            ->where($kitsuResource->getKeyName(), $kitsuResource->getKey())
+            ->where($anidbResource->getKeyName(), $anidbResource->getKey())
             ->doesntExist()
         ) {
-            Log::info("Attaching resource '$kitsuResource->link' to anime '$anime->name'");
-            $kitsuResource->anime()->attach($anime);
+            Log::info("Attaching resource '$anidbResource->link' to anime '$anime->name'");
+            $anidbResource->anime()->attach($anime);
         }
     }
 
@@ -168,7 +159,7 @@ class MyAnimeListKitsuMapping implements Pipe
         $user->notify(
             NovaNotification::make()
                 ->icon('flag')
-                ->message("Anime '{$anime->getName()}' has no Kitsu Resource after backfilling. Please review.")
+                ->message("Anime '{$anime->getName()}' has no AniDB Resource after backfilling. Please review.")
                 ->type(NovaNotification::WARNING_TYPE)
                 ->url($url)
         );

@@ -8,6 +8,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
+use App\Pipes\Wiki\Anime\MyAnimeListAnidbMapping;
 use App\Pipes\Wiki\Anime\MyAnimeListAnimeStudios;
 use App\Pipes\Wiki\Anime\MyAnimeListKitsuMapping;
 use Exception;
@@ -73,6 +74,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
         $pipes = [
             new MyAnimeListAnimeStudios($anime, $malResource),
             new MyAnimeListKitsuMapping($anime, $malResource),
+            new MyAnimeListAnidbMapping($anime, $malResource),
         ];
 
         $pipeline = new Pipeline(Container::getInstance());
