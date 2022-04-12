@@ -145,7 +145,7 @@ class Artist extends Resource
                 ->help(__('nova.artist_slug_help'))
                 ->showOnPreview(),
 
-            BelongsToMany::make(__('nova.songs'), 'Songs', Song::class)
+            BelongsToMany::make(__('nova.songs'), ArtistModel::RELATION_SONGS, Song::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
@@ -164,7 +164,7 @@ class Artist extends Resource
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.external_resources'), 'Resources', ExternalResource::class)
+            BelongsToMany::make(__('nova.external_resources'), ArtistModel::RELATION_RESOURCES, ExternalResource::class)
                 ->searchable()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
@@ -182,7 +182,7 @@ class Artist extends Resource
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.members'), 'Members', Artist::class)
+            BelongsToMany::make(__('nova.members'), ArtistModel::RELATION_MEMBERS, Artist::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
@@ -201,7 +201,7 @@ class Artist extends Resource
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.groups'), 'Groups', Artist::class)
+            BelongsToMany::make(__('nova.groups'), ArtistModel::RELATION_GROUPS, Artist::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
@@ -220,7 +220,7 @@ class Artist extends Resource
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.images'), 'Images', Image::class)
+            BelongsToMany::make(__('nova.images'), ArtistModel::RELATION_IMAGES, Image::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()

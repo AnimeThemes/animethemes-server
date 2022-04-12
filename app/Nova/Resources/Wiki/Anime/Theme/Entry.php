@@ -10,6 +10,7 @@ use App\Nova\Resources\Wiki\Anime;
 use App\Nova\Resources\Wiki\Anime\Theme;
 use App\Nova\Resources\Wiki\Video;
 use App\Pivots\BasePivot;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
@@ -105,6 +106,22 @@ class Entry extends Resource
     public static $globallySearchable = false;
 
     /**
+     * Build a "relatable" query for the given resource.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  NovaRequest  $request
+     * @param  Builder  $query
+     * @return Builder
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function indexQuery(NovaRequest $request, $query): Builder
+    {
+        return $query->with(AnimeThemeEntry::RELATION_ANIME);
+    }
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  NovaRequest  $request
@@ -118,11 +135,11 @@ class Entry extends Resource
                 ->readonly()
                 ->showOnPreview(),
 
-            BelongsTo::make(__('nova.theme'), 'AnimeTheme', Theme::class)
+            BelongsTo::make(__('nova.theme'), AnimeThemeEntry::RELATION_THEME, Theme::class)
                 ->readonly()
                 ->showOnPreview(),
 
-            ID::make(__('nova.id'), 'entry_id')
+            ID::make(__('nova.id'), AnimeThemeEntry::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
@@ -166,7 +183,7 @@ class Entry extends Resource
                 ->showOnPreview()
                 ->filterable(),
 
-            BelongsToMany::make(__('nova.videos'), 'Videos', Video::class)
+            BelongsToMany::make(__('nova.videos'), AnimeThemeEntry::RELATION_VIDEOS, Video::class)
                 ->searchable()
                 ->fields(fn () => [
                     DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)

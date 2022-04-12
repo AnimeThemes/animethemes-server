@@ -192,11 +192,11 @@ class Anime extends Resource
                 ->help(__('nova.anime_synopsis_help'))
                 ->showOnPreview(),
 
-            HasMany::make(__('nova.synonyms'), 'AnimeSynonyms', Synonym::class),
+            HasMany::make(__('nova.synonyms'), AnimeModel::RELATION_SYNONYMS, Synonym::class),
 
-            HasMany::make(__('nova.themes'), 'animethemes', Theme::class),
+            HasMany::make(__('nova.themes'), AnimeModel::RELATION_THEMES, Theme::class),
 
-            BelongsToMany::make(__('nova.series'), 'Series', Series::class)
+            BelongsToMany::make(__('nova.series'), AnimeModel::RELATION_SERIES, Series::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
@@ -208,7 +208,7 @@ class Anime extends Resource
                         ->hideWhenCreating(),
                 ]),
 
-            BelongsToMany::make(__('nova.external_resources'), 'Resources', ExternalResource::class)
+            BelongsToMany::make(__('nova.external_resources'), AnimeModel::RELATION_RESOURCES, ExternalResource::class)
                 ->searchable()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
@@ -226,7 +226,7 @@ class Anime extends Resource
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.images'), 'Images', Image::class)
+            BelongsToMany::make(__('nova.images'), AnimeModel::RELATION_IMAGES, Image::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
@@ -238,7 +238,7 @@ class Anime extends Resource
                         ->hideWhenCreating(),
                 ]),
 
-            BelongsToMany::make(__('nova.studios'), 'Studios', Studio::class)
+            BelongsToMany::make(__('nova.studios'), AnimeModel::RELATION_STUDIOS, Studio::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()

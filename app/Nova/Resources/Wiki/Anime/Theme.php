@@ -12,6 +12,7 @@ use App\Nova\Resources\Wiki\Anime\Theme\Entry;
 use App\Nova\Resources\Wiki\Song;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -106,6 +107,22 @@ class Theme extends Resource
     public static $displayInNavigation = false;
 
     /**
+     * Build a "relatable" query for the given resource.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  NovaRequest  $request
+     * @param  Builder  $query
+     * @return Builder
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function indexQuery(NovaRequest $request, $query): Builder
+    {
+        return $query->with([AnimeTheme::RELATION_ANIME, AnimeTheme::RELATION_SONG]);
+    }
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  NovaRequest  $request
@@ -118,7 +135,7 @@ class Theme extends Resource
                 ->sortable()
                 ->showOnPreview(),
 
-            BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
+            BelongsTo::make(__('nova.anime'), AnimeTheme::RELATION_ANIME, Anime::class)
                 ->sortable()
                 ->searchable(fn () => Song::class === $request->viaResource())
                 ->readonly(fn () => Song::class !== $request->viaResource())
@@ -160,7 +177,7 @@ class Theme extends Resource
                 ->showOnPreview()
                 ->filterable(),
 
-            BelongsTo::make(__('nova.song'), 'Song', Song::class)
+            BelongsTo::make(__('nova.song'), AnimeTheme::RELATION_SONG, Song::class)
                 ->sortable()
                 ->searchable()
                 ->withSubtitles()
@@ -168,7 +185,7 @@ class Theme extends Resource
                 ->showCreateRelationButton()
                 ->showOnPreview(),
 
-            HasMany::make(__('nova.entries'), 'AnimeThemeEntries', Entry::class),
+            HasMany::make(__('nova.entries'), AnimeTheme::RELATION_ENTRIES, Entry::class),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];

@@ -137,11 +137,11 @@ class Image extends Resource
                 ->showOnPreview()
                 ->filterable(),
 
-            NovaImage::make(__('nova.image'), 'path', 'images')
+            NovaImage::make(__('nova.image'), ImageModel::ATTRIBUTE_PATH, 'images')
                 ->creationRules('required')
                 ->showOnPreview(),
 
-            BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
+            BelongsToMany::make(__('nova.anime'), ImageModel::RELATION_ANIME, Anime::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
@@ -153,7 +153,7 @@ class Image extends Resource
                         ->hideWhenCreating(),
                 ]),
 
-            BelongsToMany::make(__('nova.artists'), 'Artists', Artist::class)
+            BelongsToMany::make(__('nova.artists'), ImageModel::RELATION_ARTISTS, Artist::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()

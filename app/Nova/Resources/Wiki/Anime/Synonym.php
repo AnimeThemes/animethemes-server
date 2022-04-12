@@ -7,6 +7,7 @@ namespace App\Nova\Resources\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Nova\Resources\Resource;
 use App\Nova\Resources\Wiki\Anime;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -98,6 +99,22 @@ class Synonym extends Resource
     public static $globallySearchable = false;
 
     /**
+     * Build a "relatable" query for the given resource.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  NovaRequest  $request
+     * @param  Builder  $query
+     * @return Builder
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function indexQuery(NovaRequest $request, $query): Builder
+    {
+        return $query->with(AnimeSynonym::RELATION_ANIME);
+    }
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  NovaRequest  $request
@@ -106,7 +123,7 @@ class Synonym extends Resource
     public function fields(NovaRequest $request): array
     {
         return [
-            BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
+            BelongsTo::make(__('nova.anime'), AnimeSynonym::RELATION_ANIME, Anime::class)
                 ->readonly()
                 ->showOnPreview(),
 
