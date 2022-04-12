@@ -11,8 +11,8 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Resources\Wiki\Anime as AnimeNovaResource;
 use App\Pivots\AnimeResource;
-use Illuminate\Http\Client\RequestException;
 use Closure;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -29,8 +29,8 @@ class MyAnimeListAnidbMapping implements Pipe
     /**
      * Create new pipe instance.
      *
-     * @param Anime $anime
-     * @param ExternalResource $resource
+     * @param  Anime  $anime
+     * @param  ExternalResource  $resource
      */
     public function __construct(protected Anime $anime, protected ExternalResource $resource)
     {
@@ -39,8 +39,8 @@ class MyAnimeListAnidbMapping implements Pipe
     /**
      * Handle an incoming request.
      *
-     * @param User $user
-     * @param Closure $next
+     * @param  User  $user
+     * @param  Closure  $next
      * @return mixed
      *
      * @throws RequestException
@@ -51,7 +51,7 @@ class MyAnimeListAnidbMapping implements Pipe
         $resource = $this->resource;
 
         // A MAL resource is required
-        if (!ResourceSite::MAL()->is($resource->site)) {
+        if (! ResourceSite::MAL()->is($resource->site)) {
             throw new RuntimeException("Cannot backfill anime '{$anime->getName()}' with resource '{$resource->getName()}'");
         }
 
@@ -67,8 +67,8 @@ class MyAnimeListAnidbMapping implements Pipe
     /**
      * Query Yuna API for MAL-AniDB mapping.
      *
-     * @param Anime $anime
-     * @param ExternalResource $malResource
+     * @param  Anime  $anime
+     * @param  ExternalResource  $malResource
      * @return void
      *
      * @throws RequestException
