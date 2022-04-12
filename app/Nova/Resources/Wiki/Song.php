@@ -147,7 +147,7 @@ class Song extends Resource
                 ->showOnPreview()
                 ->filterable(),
 
-            BelongsToMany::make(__('nova.artists'), 'Artists', Artist::class)
+            BelongsToMany::make(__('nova.artists'), SongModel::RELATION_ARTISTS, Artist::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
@@ -166,7 +166,7 @@ class Song extends Resource
                         ->hideWhenUpdating(),
                 ]),
 
-            HasMany::make(__('nova.themes'), 'AnimeThemes', Theme::class),
+            HasMany::make(__('nova.themes'), SongModel::RELATION_ANIMETHEMES, Theme::class),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];

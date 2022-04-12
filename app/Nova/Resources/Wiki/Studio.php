@@ -139,7 +139,7 @@ class Studio extends Resource
                 ->help(__('nova.studio_slug_help'))
                 ->showOnPreview(),
 
-            BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
+            BelongsToMany::make(__('nova.anime'), StudioModel::RELATION_ANIME, Anime::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
@@ -151,7 +151,7 @@ class Studio extends Resource
                         ->hideWhenCreating(),
                 ]),
 
-            BelongsToMany::make(__('nova.external_resources'), 'Resources', ExternalResource::class)
+            BelongsToMany::make(__('nova.external_resources'), StudioModel::RELATION_RESOURCES, ExternalResource::class)
                 ->searchable()
                 ->showCreateRelationButton()
                 ->fields(fn () => [

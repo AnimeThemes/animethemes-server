@@ -135,7 +135,7 @@ class Series extends Resource
                 ->help(__('nova.series_slug_help'))
                 ->showOnPreview(),
 
-            BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
+            BelongsToMany::make(__('nova.anime'), SeriesModel::RELATION_ANIME, Anime::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()

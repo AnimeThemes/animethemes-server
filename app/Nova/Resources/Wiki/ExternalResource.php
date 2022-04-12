@@ -130,7 +130,7 @@ class ExternalResource extends Resource
                 ->showOnPreview()
                 ->filterable(),
 
-            URL::make(__('nova.link'), 'link')
+            URL::make(__('nova.link'), ExternalResourceModel::ATTRIBUTE_LINK)
                 ->sortable()
                 ->rules(['required', 'max:192', 'url', new ResourceLinkMatchesSiteRule(intval($request->input('site')))])
                 ->creationRules(Rule::unique(ExternalResourceModel::TABLE)->__toString())
@@ -152,7 +152,7 @@ class ExternalResource extends Resource
                 ->showOnPreview()
                 ->filterable(),
 
-            BelongsToMany::make(__('nova.artists'), 'Artists', Artist::class)
+            BelongsToMany::make(__('nova.artists'), ExternalResourceModel::RELATION_ARTISTS, Artist::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
@@ -171,7 +171,7 @@ class ExternalResource extends Resource
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.anime'), 'Anime', Anime::class)
+            BelongsToMany::make(__('nova.anime'), ExternalResourceModel::RELATION_ANIME, Anime::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
@@ -190,7 +190,7 @@ class ExternalResource extends Resource
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.studios'), 'Studios', Studio::class)
+            BelongsToMany::make(__('nova.studios'), ExternalResourceModel::RELATION_STUDIOS, Studio::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()

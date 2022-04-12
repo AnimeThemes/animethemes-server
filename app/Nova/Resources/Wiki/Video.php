@@ -173,7 +173,7 @@ class Video extends Resource
                 ->showOnPreview()
                 ->filterable(),
 
-            BelongsToMany::make(__('nova.entries'), 'AnimeThemeEntries', Entry::class)
+            BelongsToMany::make(__('nova.entries'), VideoModel::RELATION_ANIMETHEMEENTRIES, Entry::class)
                 ->searchable()
                 ->fields(fn () => [
                     DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
