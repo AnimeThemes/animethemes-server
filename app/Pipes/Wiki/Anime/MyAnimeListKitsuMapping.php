@@ -104,11 +104,11 @@ class MyAnimeListKitsuMapping implements Pipe
     /**
      * Get or create Kitsu Resource from response.
      *
-     * @param  int  $kitsuId
+     * @param  string  $kitsuId
      * @param  string  $kitsuSlug
      * @return ExternalResource
      */
-    protected function getKitsuResource(int $kitsuId, string $kitsuSlug): ExternalResource
+    protected function getKitsuResource(string $kitsuId, string $kitsuSlug): ExternalResource
     {
         $kitsuResource = ExternalResource::query()
             ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_LINK])
