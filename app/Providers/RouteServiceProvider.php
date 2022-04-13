@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Constants\Config\WikiConstants;
+use App\Models\Auth\User;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -11,6 +13,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
@@ -50,8 +53,8 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
 
-            Route::prefix('api')
-                ->middleware('api')
+            Route::middleware('api')
+                ->prefix('api')
                 ->as('api.')
                 ->group(base_path('routes/api.php'));
         });
@@ -64,9 +67,14 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function configureRateLimiting(): void
     {
-        RateLimiter::for(
-            'api',
-            fn (Request $request) => Limit::perMinute(90)->by(Auth::check() ? Auth::id() : $request->ip())
-        );
+        RateLimiter::for('api', function (Request $request) {
+            // Allow the client to bypass API rate limiting
+            $user = $request->user('sanctum');
+            if ($user instanceof User && $user->getKey() === Config::get(WikiConstants::CLIENT_ACCOUNT_SETTING_QUALIFIED)) {
+                return Limit::none();
+            }
+
+            return Limit::perMinute(90)->by(Auth::check() ? Auth::id() : $request->ip());
+        });
     }
 }
