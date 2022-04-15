@@ -63,6 +63,13 @@ class AnimeSchema extends EloquentSchema
             AllowedInclude::make(SynonymSchema::class, Anime::RELATION_SYNONYMS),
             AllowedInclude::make(ThemeSchema::class, Anime::RELATION_THEMES),
             AllowedInclude::make(VideoSchema::class, Anime::RELATION_VIDEOS),
+
+            // Undocumented paths needed for client builds
+            AllowedInclude::make(AnimeSchema::class, 'animethemes.animethemeentries.videos.animethemeentries.animetheme.anime'),
+            AllowedInclude::make(ImageSchema::class, 'animethemes.animethemeentries.videos.animethemeentries.animetheme.anime.images'),
+            AllowedInclude::make(VideoSchema::class, 'animethemes.animethemeentries.videos.animethemeentries.animetheme.animethemeentries.videos'),
+            AllowedInclude::make(ArtistSchema::class, 'animethemes.animethemeentries.videos.animethemeentries.animetheme.song.artists'),
+            AllowedInclude::make(ImageSchema::class, 'animethemes.song.artists.images'),
         ];
     }
 

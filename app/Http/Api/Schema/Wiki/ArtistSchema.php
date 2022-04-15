@@ -11,6 +11,7 @@ use App\Http\Api\Field\Wiki\Artist\ArtistNameField;
 use App\Http\Api\Field\Wiki\Artist\ArtistSlugField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
@@ -55,6 +56,14 @@ class ArtistSchema extends EloquentSchema
             AllowedInclude::make(ImageSchema::class, Artist::RELATION_IMAGES),
             AllowedInclude::make(SongSchema::class, Artist::RELATION_SONGS),
             AllowedInclude::make(ThemeSchema::class, Artist::RELATION_ANIMETHEMES),
+
+            // Undocumented paths needed for client builds
+            AllowedInclude::make(ArtistSchema::class, 'songs.artists'),
+            AllowedInclude::make(SongSchema::class, 'songs.animethemes.song'),
+            AllowedInclude::make(ArtistSchema::class, 'songs.animethemes.song.artists'),
+            AllowedInclude::make(ImageSchema::class, 'songs.animethemes.anime.images'),
+            AllowedInclude::make(EntrySchema::class, 'songs.animethemes.animethemeentries'),
+            AllowedInclude::make(VideoSchema::class, 'songs.animethemes.animethemeentries.videos'),
         ];
     }
 

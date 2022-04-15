@@ -47,6 +47,11 @@ class SeriesSchema extends EloquentSchema
     {
         return [
             AllowedInclude::make(AnimeSchema::class, Series::RELATION_ANIME),
+
+            // Undocumented paths needed for client builds
+            AllowedInclude::make(ImageSchema::class, 'anime.images'),
+            AllowedInclude::make(VideoSchema::class, 'anime.animethemes.animethemeentries.videos'),
+            AllowedInclude::make(SongSchema::class, 'anime.animethemes.song'),
         ];
     }
 
