@@ -59,12 +59,24 @@ class BackfillAnimeStudios extends BackfillAnimePipe
     {
         $malResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
         if ($malResource instanceof ExternalResource) {
-            return $this->getMalAnimeStudios($malResource);
+            $studios = $this->getMalAnimeStudios($malResource);
+            if ($studios->isNotEmpty()) {
+                return $studios;
+            }
+
+            // failed mapping, sleep before re-attempting
+            sleep(rand(1, 3));
         }
 
         $anilistResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
         if ($anilistResource instanceof ExternalResource) {
-            return $this->getAnilistAnimeStudios($anilistResource);
+            $studios = $this->getAnilistAnimeStudios($anilistResource);
+            if ($studios->isNotEmpty()) {
+                return $studios;
+            }
+
+            // failed mapping, sleep before re-attempting
+            sleep(rand(1, 3));
         }
 
         $kitsuResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU);
