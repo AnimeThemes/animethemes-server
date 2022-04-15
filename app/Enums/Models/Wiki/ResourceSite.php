@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Enums\Models\Wiki;
 
 use App\Enums\BaseEnum;
-use Illuminate\Support\Arr;
 
 /**
  * Class ResourceSite.
@@ -59,18 +58,43 @@ final class ResourceSite extends BaseEnum
     }
 
     /**
-     * Get resource site by link, matching expected domain.
+     * Get the URL of the site for anime resources.
      *
-     * @param  string  $link  the link to test
-     * @return ResourceSite|null
+     * @param  ResourceSite  $site
+     * @param  int  $id
+     * @param  string|null  $slug
+     * @return string|null
      */
-    public static function valueOf(string $link): ?ResourceSite
+    public static function formatAnimeResourceLink(ResourceSite $site, int $id, ?string $slug = null): ?string
     {
-        $parsedHost = parse_url($link, PHP_URL_HOST);
+        return match ($site->value) {
+            ResourceSite::ANIDB => "https://anidb.net/anime/$id/",
+            ResourceSite::ANILIST => "https://anilist.co/anime/$id/",
+            ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/$slug",
+            ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=$id",
+            ResourceSite::KITSU => "https://kitsu.io/anime/$slug",
+            ResourceSite::MAL => "https://myanimelist.net/anime/$id/",
+            default => null,
+        };
+    }
 
-        return Arr::first(
-            ResourceSite::getInstances(),
-            fn (ResourceSite $site) => $parsedHost === ResourceSite::getDomain($site->value)
-        );
+    /**
+     * Get the URL of the site for studio resources.
+     *
+     * @param  ResourceSite  $site
+     * @param  int  $id
+     * @param  string|null  $slug
+     * @return string|null
+     */
+    public static function formatStudioResourceLink(ResourceSite $site, int $id, ?string $slug = null): ?string
+    {
+        return match ($site->value) {
+            ResourceSite::ANIDB => "https://anidb.net/creator/$id/",
+            ResourceSite::ANILIST => "https://anilist.co/studio/$id/",
+            ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/studios/$slug",
+            ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/company.php?id=$id",
+            ResourceSite::MAL => "https://myanimelist.net/anime/producer/$id/",
+            default => null,
+        };
     }
 }

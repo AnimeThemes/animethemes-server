@@ -270,6 +270,7 @@ class Anime extends Resource
                     ->confirmButtonText(__('nova.backfill'))
                     ->cancelButtonText(__('nova.cancel'))
                     ->onlyOnDetail()
+                    ->showInline()
                     ->canSee(function (Request $request) {
                         $user = $request->user();
 
