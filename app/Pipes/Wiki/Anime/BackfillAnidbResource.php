@@ -47,6 +47,7 @@ class BackfillAnidbResource extends BackfillAnimePipe
      * Query third-party API for AniDB Resource mapping.
      *
      * @return ExternalResource|null
+     *
      * @throws RequestException
      */
     protected function getAnidbResource(): ?ExternalResource

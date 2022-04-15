@@ -47,6 +47,7 @@ class BackfillKitsuResource extends BackfillAnimePipe
      * Query third-party API for Kitsu Resource mapping.
      *
      * @return ExternalResource|null
+     *
      * @throws RequestException
      */
     protected function getKitsuResource(): ?ExternalResource

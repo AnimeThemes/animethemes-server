@@ -52,6 +52,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
      * Query third-party API for Anime Studios.
      *
      * @return Collection<int, Studio>
+     *
      * @throws RequestException
      */
     protected function getStudios(): Collection

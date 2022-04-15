@@ -30,7 +30,7 @@ abstract class BackfillAnimePipe implements Pipe
      * Send notification for user to review anime without studios.
      *
      * @param  User  $user
-     * @param  String  $message
+     * @param  string  $message
      * @return void
      */
     protected function sendNotification(User $user, string $message): void
