@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "438a3d438da33ad05c78538fbf0dab40",
+    "content-hash": "aa9637d953b8d197872f3d12388ba165",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -58,16 +58,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.219.4",
+            "version": "3.219.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "2bbbf5f1ff0764441372fc9e312e6b463da0043e"
+                "reference": "7e8da5b45d545ca3129a14e972001698212b1a00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2bbbf5f1ff0764441372fc9e312e6b463da0043e",
-                "reference": "2bbbf5f1ff0764441372fc9e312e6b463da0043e",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/7e8da5b45d545ca3129a14e972001698212b1a00",
+                "reference": "7e8da5b45d545ca3129a14e972001698212b1a00",
                 "shasum": ""
             },
             "require": {
@@ -143,9 +143,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.219.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.219.5"
             },
-            "time": "2022-04-14T18:14:31+00:00"
+            "time": "2022-04-15T18:16:29+00:00"
         },
         {
             "name": "babenkoivan/elastic-adapter",
@@ -3863,17 +3863,17 @@
         },
         {
             "name": "laravel/nova",
-            "version": "4.2.1",
+            "version": "4.2.2",
             "source": {
                 "type": "git",
                 "url": "git@github.com:laravel/nova.git",
-                "reference": "f33003b1991491165e8822680e9a827f33c279c5"
+                "reference": "fe1c2924da19be1cccf19e73a6834a725263a15e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-f33003b1991491165e8822680e9a827f33c279c5-zip-383f38.zip",
-                "reference": "f33003b1991491165e8822680e9a827f33c279c5",
-                "shasum": "b6ec018f2dc660ef2f1a4b50b92bbab1d4aeb0af"
+                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-fe1c2924da19be1cccf19e73a6834a725263a15e-zip-b3f7af.zip",
+                "reference": "fe1c2924da19be1cccf19e73a6834a725263a15e",
+                "shasum": "d1fb7a7b7d65f3c22bb37cae7e82b9cfbf9c45ed"
             },
             "require": {
                 "brick/money": "^0.5.0",
@@ -3963,9 +3963,9 @@
                 "laravel"
             ],
             "support": {
-                "source": "https://github.com/laravel/nova/tree/v4.2.1"
+                "source": "https://github.com/laravel/nova/tree/v4.2.2"
             },
-            "time": "2022-04-13T23:28:29+00:00"
+            "time": "2022-04-15T17:26:31+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -4359,6 +4359,74 @@
                 "source": "https://github.com/laravel/ui/tree/v3.4.5"
             },
             "time": "2022-02-21T14:59:16+00:00"
+        },
+        {
+            "name": "laravie/parser",
+            "version": "v2.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravie/parser.git",
+                "reference": "c11aa5a3feeea54115a4eebce475535e5ee2d16a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravie/parser/zipball/c11aa5a3feeea54115a4eebce475535e5ee2d16a",
+                "reference": "c11aa5a3feeea54115a4eebce475535e5ee2d16a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "php": ">=7.1",
+                "tightenco/collect": "^5.6.16 || ^6.0 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3.1",
+                "phpunit/phpunit": "^7.5 || ^8.4 || ^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Laravie\\Parser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mior Muhammad Zaki",
+                    "email": "crynobone@gmail.com",
+                    "homepage": "https://github.com/crynobone"
+                }
+            ],
+            "description": "XML Document Parser for PHP",
+            "keywords": [
+                "parser",
+                "xml"
+            ],
+            "support": {
+                "source": "https://github.com/laravie/parser/tree/v2.1.3"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/crynobone",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://liberapay.com/crynobone",
+                    "type": "liberapay"
+                }
+            ],
+            "time": "2021-12-07T14:02:00+00:00"
         },
         {
             "name": "league/commonmark",
@@ -5404,6 +5472,78 @@
                 "source": "https://github.com/olssonm/laravel-zxcvbn/tree/v4.5"
             },
             "time": "2022-02-08T16:33:29+00:00"
+        },
+        {
+            "name": "orchestra/parser",
+            "version": "v7.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orchestral/parser.git",
+                "reference": "7963a827c853a7d1a79a3b03226a3191fa445dba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orchestral/parser/zipball/7963a827c853a7d1a79a3b03226a3191fa445dba",
+                "reference": "7963a827c853a7d1a79a3b03226a3191fa445dba",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "^9.0",
+                "laravie/parser": "^2.1.3",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "8.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Orchestra\\Parser\\XmlServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Orchestra\\Parser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mior Muhammad Zaki",
+                    "email": "crynobone@gmail.com",
+                    "homepage": "https://github.com/crynobone"
+                }
+            ],
+            "description": "XML Document Parser for Laravel and PHP",
+            "keywords": [
+                "laravel",
+                "orchestra-platform",
+                "orchestral",
+                "parser",
+                "xml"
+            ],
+            "support": {
+                "source": "https://github.com/orchestral/parser/tree/v7.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/crynobone",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://liberapay.com/crynobone",
+                    "type": "liberapay"
+                }
+            ],
+            "time": "2022-02-26T22:04:11+00:00"
         },
         {
             "name": "owen-it/laravel-auditing",
@@ -9619,6 +9759,60 @@
             "time": "2022-03-29T09:46:59+00:00"
         },
         {
+            "name": "tightenco/collect",
+            "version": "v8.83.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tighten/collect.git",
+                "reference": "7275c1b5f6bfc539d72bb5984d3b9a89e47e27c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tighten/collect/zipball/7275c1b5f6bfc539d72bb5984d3b9a89e47e27c9",
+                "reference": "7275c1b5f6bfc539d72bb5984d3b9a89e47e27c9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0",
+                "symfony/var-dumper": "^3.4 || ^4.0 || ^5.0 || ^6.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "nesbot/carbon": "^2.23.0",
+                "phpunit/phpunit": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Collect/Support/helpers.php",
+                    "src/Collect/Support/alias.php"
+                ],
+                "psr-4": {
+                    "Tightenco\\Collect\\": "src/Collect"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "Collect - Illuminate Collections as a separate package.",
+            "keywords": [
+                "collection",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/tighten/collect/issues",
+                "source": "https://github.com/tighten/collect/tree/v8.83.8"
+            },
+            "time": "2022-04-15T20:31:14+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.4",
             "source": {
@@ -10947,16 +11141,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.5.5",
+            "version": "1.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "d77a607667f29ae099c0686f99664bd451fd23df"
+                "reference": "799dd8c2d2c9c704bb55d2078078cb970cf0f6d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d77a607667f29ae099c0686f99664bd451fd23df",
-                "reference": "d77a607667f29ae099c0686f99664bd451fd23df",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/799dd8c2d2c9c704bb55d2078078cb970cf0f6d1",
+                "reference": "799dd8c2d2c9c704bb55d2078078cb970cf0f6d1",
                 "shasum": ""
             },
             "require": {
@@ -10982,7 +11176,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.5.5"
+                "source": "https://github.com/phpstan/phpstan/tree/1.5.6"
             },
             "funding": [
                 {
@@ -11002,7 +11196,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-14T12:20:26+00:00"
+            "time": "2022-04-15T11:13:37+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

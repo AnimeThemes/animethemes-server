@@ -95,16 +95,21 @@ class BackfillAnimeAction extends Action implements ShouldQueue
      */
     public function fields(NovaRequest $request): array
     {
-        $anime = $request->isResourceDetailRequest() ? $request->findModel() : null;
+        $anime = $request->resourceId !== null
+            ? $request->findModel()
+            : null;
 
         return [
             Boolean::make(__('nova.backfill_kitsu_resource'), self::BACKFILL_KITSU_RESOURCE)
+                ->help(__('nova.backfill_kitsu_resource_help'))
                 ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU)->doesntExist()),
 
             Boolean::make(__('nova.backfill_anidb_resource'), self::BACKFILL_ANIDB_RESOURCE)
+                ->help(__('nova.backfill_anidb_resource_help'))
                 ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB)->doesntExist()),
 
             Boolean::make(__('nova.backfill_anime_studios'), self::BACKFILL_ANIME_STUDIOS)
+                ->help(__('nova.backfill_anime_studios_help'))
                 ->default(fn () => $anime instanceof Anime && $anime->studios()->doesntExist()),
         ];
     }

@@ -47,6 +47,18 @@ class ExternalResource extends Resource
     public static $title = ExternalResourceModel::ATTRIBUTE_LINK;
 
     /**
+     * Get the search result subtitle for the resource.
+     *
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function subtitle(): ?string
+    {
+        return (string) data_get($this, ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID);
+    }
+
+    /**
      * The logical group associated with the resource.
      *
      * @return string
@@ -69,6 +81,7 @@ class ExternalResource extends Resource
     {
         return [
             new Column(ExternalResourceModel::ATTRIBUTE_LINK),
+            new Column(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID),
         ];
     }
 
