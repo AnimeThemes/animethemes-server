@@ -14,9 +14,11 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Orchestra\Parser\Xml\Facade as XmlParser;
 use RuntimeException;
 
 /**
@@ -63,9 +65,6 @@ class BackfillAnimeStudios extends BackfillAnimePipe
             if ($studios->isNotEmpty()) {
                 return $studios;
             }
-
-            // failed mapping, sleep before re-attempting
-            sleep(rand(1, 3));
         }
 
         $anilistResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
@@ -74,17 +73,20 @@ class BackfillAnimeStudios extends BackfillAnimePipe
             if ($studios->isNotEmpty()) {
                 return $studios;
             }
-
-            // failed mapping, sleep before re-attempting
-            sleep(rand(1, 3));
         }
 
         $kitsuResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU);
         if ($kitsuResource instanceof ExternalResource) {
-            return $this->getKitsuAnimeStudios($kitsuResource);
+            $studios = $this->getKitsuAnimeStudios($kitsuResource);
+            if ($studios->isNotEmpty()) {
+                return $studios;
+            }
         }
 
-        //TODO: getAnnStudios()
+        $annResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN);
+        if ($annResource instanceof ExternalResource) {
+            return $this->getAnnAnimeStudios($annResource);
+        }
 
         return collect();
     }
@@ -246,14 +248,62 @@ class BackfillAnimeStudios extends BackfillAnimePipe
     }
 
     /**
-     * Get or create Studio from name.
+     * Query ANN API for Anime Studios.
+     *
+     * @param  ExternalResource  $annResource
+     * @return Collection<int, Studio>
+     *
+     * @throws RequestException
+     */
+    protected function getAnnAnimeStudios(ExternalResource $annResource): Collection
+    {
+        $studios = collect();
+
+        $response = Http::get("https://cdn.animenewsnetwork.com/encyclopedia/api.xml?anime=$annResource->external_id")
+            ->throw()
+            ->body();
+
+        $xml = XmlParser::extract($response);
+
+        $annCredits = $xml->parse([
+            'credits' => [
+                'uses' => 'anime.credit[task,company>name,company::id>id]',
+            ],
+        ]);
+
+        $annStudios = Arr::get($annCredits, 'credits', []);
+        foreach ($annStudios as $annStudio) {
+            $task = Arr::get($annStudio, 'task');
+            $name = Arr::get($annStudio, 'name');
+            $id = Arr::get($annStudio, 'id');
+            if ($task !== 'Animation Production' || empty($name) || empty($id)) {
+                Log::info("Skipping production company of task '$task' and name '$name' and id '$id'");
+                continue;
+            }
+
+            $studio = $this->getOrCreateStudio($name);
+
+            $studios->push($studio);
+
+            $this->ensureStudioHasResource($studio, ResourceSite::ANN(), intval($id));
+        }
+
+        return $studios;
+    }
+
+    /**
+     * Get or create Studio from name (case-insensitive).
      *
      * @param  string  $name
      * @return Studio
      */
     protected function getOrCreateStudio(string $name): Studio
     {
-        $studio = Studio::query()->firstWhere(Studio::ATTRIBUTE_NAME, $name);
+        $column = Studio::ATTRIBUTE_NAME;
+        $studio = Studio::query()
+            ->where(DB::raw("lower($column)"), Str::lower($name))
+            ->first();
+
         if (! $studio instanceof Studio) {
             Log::info("Creating studio '$name'");
 
