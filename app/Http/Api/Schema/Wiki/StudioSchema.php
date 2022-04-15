@@ -49,6 +49,11 @@ class StudioSchema extends EloquentSchema
         return [
             AllowedInclude::make(AnimeSchema::class, Studio::RELATION_ANIME),
             AllowedInclude::make(ExternalResourceSchema::class, Studio::RELATION_RESOURCES),
+
+            // Undocumented paths needed for client builds
+            AllowedInclude::make(ImageSchema::class, 'anime.images'),
+            AllowedInclude::make(VideoSchema::class, 'anime.animethemes.animethemeentries.videos'),
+            AllowedInclude::make(SongSchema::class, 'anime.animethemes.song'),
         ];
     }
 
