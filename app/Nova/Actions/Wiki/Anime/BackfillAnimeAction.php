@@ -9,6 +9,7 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Pipes\Wiki\Anime\BackfillAnidbResource;
+use App\Pipes\Wiki\Anime\BackfillAnilistResource;
 use App\Pipes\Wiki\Anime\BackfillAnimeStudios;
 use App\Pipes\Wiki\Anime\BackfillKitsuResource;
 use Exception;
@@ -33,6 +34,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
     use Queueable;
 
     final public const BACKFILL_ANIDB_RESOURCE = 'backfill_anidb_resource';
+    final public const BACKFILL_ANILIST_RESOURCE = 'backfill_anilist_resource';
     final public const BACKFILL_ANIME_STUDIOS = 'backfill_anime_studios';
     final public const BACKFILL_KITSU_RESOURCE = 'backfill_kitsu_resource';
 
@@ -104,6 +106,10 @@ class BackfillAnimeAction extends Action implements ShouldQueue
                 ->help(__('nova.backfill_kitsu_resource_help'))
                 ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU)->doesntExist()),
 
+            Boolean::make(__('nova.backfill_anilist_resource'), self::BACKFILL_ANILIST_RESOURCE)
+                ->help(__('nova.backfill_anilist_resource_help'))
+                ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST)->doesntExist()),
+
             Boolean::make(__('nova.backfill_anidb_resource'), self::BACKFILL_ANIDB_RESOURCE)
                 ->help(__('nova.backfill_anidb_resource_help'))
                 ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB)->doesntExist()),
@@ -127,6 +133,10 @@ class BackfillAnimeAction extends Action implements ShouldQueue
 
         if (Arr::get($fields, self::BACKFILL_KITSU_RESOURCE) === true) {
             $pipes[] = new BackfillKitsuResource($anime);
+        }
+
+        if (Arr::get($fields, self::BACKFILL_ANILIST_RESOURCE) === true) {
+            $pipes[] = new BackfillAnilistResource($anime);
         }
 
         if (Arr::get($fields, self::BACKFILL_ANIDB_RESOURCE) === true) {

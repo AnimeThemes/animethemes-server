@@ -28,5 +28,5 @@ return [
     |
     */
 
-    'client_account' => env('WIKI_CLIENT_ACCOUNT'),
+    'client_account' => (int) env('WIKI_CLIENT_ACCOUNT'),
 ];

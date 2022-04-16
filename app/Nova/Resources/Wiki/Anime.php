@@ -266,10 +266,9 @@ class Anime extends Resource
             parent::actions($request),
             [
                 (new BackfillAnimeAction($request->user()))
-                    ->confirmText(__('nova.backfill_anime_confirm_message'))
                     ->confirmButtonText(__('nova.backfill'))
                     ->cancelButtonText(__('nova.cancel'))
-                    ->onlyOnDetail()
+                    ->showOnDetail()
                     ->showInline()
                     ->canSee(function (Request $request) {
                         $user = $request->user();
