@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Pipes\Wiki\Anime;
+namespace App\Pipes\Wiki\Anime\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
-use App\Pivots\AnimeResource;
-use Closure;
+use App\Pipes\Wiki\Anime\BackfillAnimeResource;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -17,40 +15,26 @@ use Illuminate\Support\Facades\Log;
 /**
  * Class BackfillKitsuResource.
  */
-class BackfillKitsuResource extends BackfillAnimePipe
+class BackfillKitsuResource extends BackfillAnimeResource
 {
     /**
-     * Handle an incoming request.
+     * Get the site to backfill.
      *
-     * @param  User  $user
-     * @param  Closure  $next
-     * @return mixed
-     *
-     * @throws RequestException
+     * @return ResourceSite
      */
-    public function handle(User $user, Closure $next): mixed
+    protected function getSite(): ResourceSite
     {
-        $kitsuResource = $this->getKitsuResource();
-
-        if ($kitsuResource !== null) {
-            $this->attachKitsuResourceToAnime($kitsuResource);
-        }
-
-        if ($this->anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU)->doesntExist()) {
-            $this->sendNotification($user, "Anime '{$this->anime->getName()}' has no Kitsu Resource after backfilling. Please review.");
-        }
-
-        return $next($user);
+        return ResourceSite::KITSU();
     }
 
     /**
-     * Query third-party API for Kitsu Resource mapping.
+     * Query third-party APIs to find Resource mapping.
      *
      * @return ExternalResource|null
      *
      * @throws RequestException
      */
-    protected function getKitsuResource(): ?ExternalResource
+    protected function getResource(): ?ExternalResource
     {
         // Allow fall-throughs in case Kitsu Resource is not mapped to every external site.
 
@@ -139,55 +123,9 @@ class BackfillKitsuResource extends BackfillAnimePipe
                 return null;
             }
 
-            return $this->getOrCreateKitsuResource($id, $slug);
+            return $this->getOrCreateResource($id, $slug);
         }
 
         return null;
-    }
-
-    /**
-     * Get or create Kitsu Resource from response.
-     *
-     * @param  string  $kitsuId
-     * @param  string  $kitsuSlug
-     * @return ExternalResource
-     */
-    protected function getOrCreateKitsuResource(string $kitsuId, string $kitsuSlug): ExternalResource
-    {
-        $kitsuResource = ExternalResource::query()
-            ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_LINK])
-            ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU)
-            ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $kitsuId)
-            ->first();
-
-        if ($kitsuResource === null) {
-            Log::info("Creating kitsu resource '$kitsuId'");
-
-            $kitsuResource = ExternalResource::factory()->createOne([
-                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $kitsuId,
-                ExternalResource::ATTRIBUTE_LINK => ResourceSite::formatAnimeResourceLink(ResourceSite::KITSU(), intval($kitsuId), $kitsuSlug),
-                ExternalResource::ATTRIBUTE_SITE => ResourceSite::KITSU,
-            ]);
-        }
-
-        return $kitsuResource;
-    }
-
-    /**
-     * Attach Kitsu Resource to Anime.
-     *
-     * @param  ExternalResource  $kitsuResource
-     * @return void
-     */
-    protected function attachKitsuResourceToAnime(ExternalResource $kitsuResource): void
-    {
-        if (AnimeResource::query()
-            ->where($this->anime->getKeyName(), $this->anime->getKey())
-            ->where($kitsuResource->getKeyName(), $kitsuResource->getKey())
-            ->doesntExist()
-        ) {
-            Log::info("Attaching resource '$kitsuResource->link' to anime '{$this->anime->getName()}'");
-            $kitsuResource->anime()->attach($this->anime);
-        }
     }
 }

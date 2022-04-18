@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Pipes\Wiki\Anime;
+namespace App\Pipes\Wiki\Anime\Studio;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
+use App\Pipes\Wiki\Anime\BackfillAnimePipe;
 use App\Pivots\StudioResource;
 use Closure;
 use Illuminate\Http\Client\RequestException;

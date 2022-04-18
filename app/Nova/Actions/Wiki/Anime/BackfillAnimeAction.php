@@ -8,10 +8,12 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
-use App\Pipes\Wiki\Anime\BackfillAnidbResource;
-use App\Pipes\Wiki\Anime\BackfillAnilistResource;
-use App\Pipes\Wiki\Anime\BackfillAnimeStudios;
-use App\Pipes\Wiki\Anime\BackfillKitsuResource;
+use App\Pipes\Wiki\Anime\BackfillAnimePipe;
+use App\Pipes\Wiki\Anime\Resource\BackfillAnidbResource;
+use App\Pipes\Wiki\Anime\Resource\BackfillAnilistResource;
+use App\Pipes\Wiki\Anime\Resource\BackfillKitsuResource;
+use App\Pipes\Wiki\Anime\Resource\BackfillMalResource;
+use App\Pipes\Wiki\Anime\Studio\BackfillAnimeStudios;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Container\Container;
@@ -23,6 +25,7 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
@@ -37,6 +40,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
     final public const BACKFILL_ANILIST_RESOURCE = 'backfill_anilist_resource';
     final public const BACKFILL_ANIME_STUDIOS = 'backfill_anime_studios';
     final public const BACKFILL_KITSU_RESOURCE = 'backfill_kitsu_resource';
+    final public const BACKFILL_MAL_RESOURCE = 'backfill_mal_resource';
 
     /**
      * Create a new action instance.
@@ -102,6 +106,8 @@ class BackfillAnimeAction extends Action implements ShouldQueue
             : null;
 
         return [
+            Heading::make(__('nova.backfill_resources')),
+
             Boolean::make(__('nova.backfill_kitsu_resource'), self::BACKFILL_KITSU_RESOURCE)
                 ->help(__('nova.backfill_kitsu_resource_help'))
                 ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU)->doesntExist()),
@@ -110,9 +116,15 @@ class BackfillAnimeAction extends Action implements ShouldQueue
                 ->help(__('nova.backfill_anilist_resource_help'))
                 ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST)->doesntExist()),
 
+            Boolean::make(__('nova.backfill_mal_resource'), self::BACKFILL_MAL_RESOURCE)
+                ->help(__('nova.backfill_mal_resource_help'))
+                ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL)->doesntExist()),
+
             Boolean::make(__('nova.backfill_anidb_resource'), self::BACKFILL_ANIDB_RESOURCE)
                 ->help(__('nova.backfill_anidb_resource_help'))
                 ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB)->doesntExist()),
+
+            Heading::make(__('nova.backfill_studios')),
 
             Boolean::make(__('nova.backfill_anime_studios'), self::BACKFILL_ANIME_STUDIOS)
                 ->help(__('nova.backfill_anime_studios_help'))
@@ -125,28 +137,35 @@ class BackfillAnimeAction extends Action implements ShouldQueue
      *
      * @param  ActionFields  $fields
      * @param  Anime  $anime
-     * @return array
+     * @return BackfillAnimePipe[]
      */
     protected function getPipes(ActionFields $fields, Anime $anime): array
     {
         $pipes = [];
 
-        if (Arr::get($fields, self::BACKFILL_KITSU_RESOURCE) === true) {
-            $pipes[] = new BackfillKitsuResource($anime);
-        }
-
-        if (Arr::get($fields, self::BACKFILL_ANILIST_RESOURCE) === true) {
-            $pipes[] = new BackfillAnilistResource($anime);
-        }
-
-        if (Arr::get($fields, self::BACKFILL_ANIDB_RESOURCE) === true) {
-            $pipes[] = new BackfillAnidbResource($anime);
-        }
-
-        if (Arr::get($fields, self::BACKFILL_ANIME_STUDIOS) === true) {
-            $pipes[] = new BackfillAnimeStudios($anime);
+        foreach ($this->getPipeMapping($anime) as $field => $pipe) {
+            if (Arr::get($fields, $field) === true) {
+                $pipes[] = $pipe;
+            }
         }
 
         return $pipes;
+    }
+
+    /**
+     * Get the mapping of anime pipes to their form fields.
+     *
+     * @param  Anime  $anime
+     * @return array<string, BackfillAnimePipe>
+     */
+    protected function getPipeMapping(Anime $anime): array
+    {
+        return [
+            self::BACKFILL_KITSU_RESOURCE => new BackfillKitsuResource($anime),
+            self::BACKFILL_ANILIST_RESOURCE => new BackfillAnilistResource($anime),
+            self::BACKFILL_MAL_RESOURCE => new BackfillMalResource($anime),
+            self::BACKFILL_ANIDB_RESOURCE => new BackfillAnidbResource($anime),
+            self::BACKFILL_ANIME_STUDIOS => new BackfillAnimeStudios($anime),
+        ];
     }
 }
