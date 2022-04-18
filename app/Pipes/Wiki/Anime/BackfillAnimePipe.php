@@ -13,7 +13,7 @@ use Laravel\Nova\Notifications\NovaNotification;
 use Laravel\Nova\Nova;
 
 /**
- * BackfillAnimePipe.
+ * Class BackfillAnimePipe.
  */
 abstract class BackfillAnimePipe implements Pipe
 {

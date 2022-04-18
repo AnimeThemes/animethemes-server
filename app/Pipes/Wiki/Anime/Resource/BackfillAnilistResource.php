@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Pipes\Wiki\Anime;
+namespace App\Pipes\Wiki\Anime\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
-use App\Pivots\AnimeResource;
-use Closure;
+use App\Pipes\Wiki\Anime\BackfillAnimeResource;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -17,40 +15,26 @@ use Illuminate\Support\Facades\Log;
 /**
  * Class BackfillAnilistResource.
  */
-class BackfillAnilistResource extends BackfillAnimePipe
+class BackfillAnilistResource extends BackfillAnimeResource
 {
     /**
-     * Handle an incoming request.
+     * Get the site to backfill.
      *
-     * @param  User  $user
-     * @param  Closure  $next
-     * @return mixed
-     *
-     * @throws RequestException
+     * @return ResourceSite
      */
-    public function handle(User $user, Closure $next): mixed
+    protected function getSite(): ResourceSite
     {
-        $anilistResource = $this->getAnilistResource();
-
-        if ($anilistResource !== null) {
-            $this->attachAnilistResourceToAnime($anilistResource);
-        }
-
-        if ($this->anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST)->doesntExist()) {
-            $this->sendNotification($user, "Anime '{$this->anime->getName()}' has no Anilist Resource after backfilling. Please review.");
-        }
-
-        return $next($user);
+        return ResourceSite::ANILIST();
     }
 
     /**
-     * Query third-party API for Anilist Resource mapping.
+     * Query third-party APIs to find Resource mapping.
      *
      * @return ExternalResource|null
      *
      * @throws RequestException
      */
-    protected function getAnilistResource(): ?ExternalResource
+    protected function getResource(): ?ExternalResource
     {
         // Allow fall-throughs in case Anilist Resource is not mapped to every external site.
 
@@ -108,13 +92,13 @@ class BackfillAnilistResource extends BackfillAnimePipe
             ->json();
 
         $anilistId = Arr::get($response, 'data.Media.id');
-        if ($anilistId == null) {
+        if ($anilistId === null) {
             Log::info("Skipping null Anilist mapping for MAL id '$malResource->external_id'");
 
             return null;
         }
 
-        return $this->getOrCreateAnilistResource($anilistId);
+        return $this->getOrCreateResource($anilistId);
     }
 
     /**
@@ -160,7 +144,7 @@ class BackfillAnilistResource extends BackfillAnimePipe
                 continue;
             }
 
-            return $this->getOrCreateAnilistResource(intval($externalId));
+            return $this->getOrCreateResource(intval($externalId));
         }
 
         return null;
@@ -186,54 +170,9 @@ class BackfillAnilistResource extends BackfillAnimePipe
         $anilistId = Arr::get($response, 'anilist');
 
         if ($anilistId !== null) {
-            return $this->getOrCreateAnilistResource($anilistId);
+            return $this->getOrCreateResource($anilistId);
         }
 
         return null;
-    }
-
-    /**
-     * Get or create Anilist Resource from response.
-     *
-     * @param  int  $anilistId
-     * @return ExternalResource
-     */
-    protected function getOrCreateAnilistResource(int $anilistId): ExternalResource
-    {
-        $anilistResource = ExternalResource::query()
-            ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_LINK])
-            ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST)
-            ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $anilistId)
-            ->first();
-
-        if ($anilistResource === null) {
-            Log::info("Creating anilist resource '$anilistId'");
-
-            $anilistResource = ExternalResource::factory()->createOne([
-                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $anilistId,
-                ExternalResource::ATTRIBUTE_LINK => ResourceSite::formatAnimeResourceLink(ResourceSite::ANILIST(), $anilistId),
-                ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANILIST,
-            ]);
-        }
-
-        return $anilistResource;
-    }
-
-    /**
-     * Attach Anilist Resource to Anime.
-     *
-     * @param  ExternalResource  $anilistResource
-     * @return void
-     */
-    protected function attachAnilistResourceToAnime(ExternalResource $anilistResource): void
-    {
-        if (AnimeResource::query()
-            ->where($this->anime->getKeyName(), $this->anime->getKey())
-            ->where($anilistResource->getKeyName(), $anilistResource->getKey())
-            ->doesntExist()
-        ) {
-            Log::info("Attaching resource '$anilistResource->link' to anime '{$this->anime->getName()}'");
-            $anilistResource->anime()->attach($this->anime);
-        }
     }
 }
