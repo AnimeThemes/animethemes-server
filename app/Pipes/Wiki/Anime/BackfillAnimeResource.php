@@ -47,8 +47,8 @@ abstract class BackfillAnimeResource extends BackfillAnimePipe
     /**
      * Get or Create Resource from response.
      *
-     * @param int $id
-     * @param string|null $slug
+     * @param  int  $id
+     * @param  string|null  $slug
      * @return ExternalResource
      */
     protected function getOrCreateResource(int $id, string $slug = null): ExternalResource
