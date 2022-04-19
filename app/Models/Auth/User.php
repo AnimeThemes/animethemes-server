@@ -27,7 +27,7 @@ use Laravel\Sanctum\HasApiTokens;
  * Class User.
  *
  * @property Carbon $created_at
- * @property string|null $current_team_id
+ * @property int|null $current_team_id
  * @property Team|null $currentTeam
  * @property string $email
  * @property Carbon|null $email_verified_at
@@ -125,6 +125,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
      * @var array<string, string>
      */
     protected $casts = [
+        User::ATTRIBUTE_CURRENT_TEAM => 'int',
         User::ATTRIBUTE_EMAIL_VERIFIED_AT => 'datetime',
     ];
 
