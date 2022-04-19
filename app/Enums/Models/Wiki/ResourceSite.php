@@ -70,8 +70,8 @@ final class ResourceSite extends BaseEnum
         return match ($site->value) {
             ResourceSite::ANIDB => "https://anidb.net/anime/$id/",
             ResourceSite::ANILIST => "https://anilist.co/anime/$id/",
-            ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/$slug",
-            ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=$id",
+            ResourceSite::ANIME_PLANET => "https://anime-planet.com/anime/$slug",
+            ResourceSite::ANN => "https://animenewsnetwork.com/encyclopedia/anime.php?id=$id",
             ResourceSite::KITSU => "https://kitsu.io/anime/$slug",
             ResourceSite::MAL => "https://myanimelist.net/anime/$id/",
             default => null,
@@ -91,8 +91,8 @@ final class ResourceSite extends BaseEnum
         return match ($site->value) {
             ResourceSite::ANIDB => "https://anidb.net/creator/$id/",
             ResourceSite::ANILIST => "https://anilist.co/studio/$id/",
-            ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/studios/$slug",
-            ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/company.php?id=$id",
+            ResourceSite::ANIME_PLANET => "https://anime-planet.com/anime/studios/$slug",
+            ResourceSite::ANN => "https://animenewsnetwork.com/encyclopedia/company.php?id=$id",
             ResourceSite::MAL => "https://myanimelist.net/anime/producer/$id/",
             default => null,
         };

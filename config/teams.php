@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'horizon' => env('HORIZON_TEAM_ID'),
+    'horizon' => (int) env('HORIZON_TEAM_ID', -1),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'nova' => env('NOVA_TEAM_ID'),
+    'nova' => (int) env('NOVA_TEAM_ID', -1),
 
     /*
     |--------------------------------------------------------------------------
@@ -38,5 +38,5 @@ return [
     |
     */
 
-    'telescope' => env('TELESCOPE_TEAM_ID'),
+    'telescope' => (int) env('TELESCOPE_TEAM_ID', -1),
 ];

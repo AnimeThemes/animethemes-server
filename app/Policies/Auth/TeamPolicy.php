@@ -46,9 +46,7 @@ class TeamPolicy
      */
     public function create(User $user): bool
     {
-        $teamCreator = User::query()->find(Config::get('jetstream.creator'));
-
-        return $teamCreator instanceof User && $user->is($teamCreator);
+        return $user->getKey() === Config::get('jetstream.creator');
     }
 
     /**

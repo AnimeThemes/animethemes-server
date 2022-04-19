@@ -39,6 +39,8 @@ return [
     'backfill_anime_studios_help' => 'Use the MAL, Anilist or Kitsu Resource to map Anime Studios',
     'backfill_anime_studios' => 'Backfill Anime Studios',
     'backfill_anime' => 'Backfill Anime',
+    'backfill_ann_resource_help' => 'Use the Kitsu resource to find an ANN mapping',
+    'backfill_ann_resource' => 'Backfill ANN Resource',
     'backfill_kitsu_resource_help' => 'Use the Kitsu API to find a mapping from a MAL, Anilist, AniDB or ANN Resource',
     'backfill_kitsu_resource' => 'Backfill Kitsu Resource',
     'backfill_mal_resource_help' => 'Use the Kitsu, Anilist or AniDB Resource to find a MAL mapping',

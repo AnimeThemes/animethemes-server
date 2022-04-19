@@ -11,6 +11,7 @@ use App\Models\Wiki\ExternalResource;
 use App\Pipes\Wiki\Anime\BackfillAnimePipe;
 use App\Pipes\Wiki\Anime\Resource\BackfillAnidbResource;
 use App\Pipes\Wiki\Anime\Resource\BackfillAnilistResource;
+use App\Pipes\Wiki\Anime\Resource\BackfillAnnResource;
 use App\Pipes\Wiki\Anime\Resource\BackfillKitsuResource;
 use App\Pipes\Wiki\Anime\Resource\BackfillMalResource;
 use App\Pipes\Wiki\Anime\Studio\BackfillAnimeStudios;
@@ -39,6 +40,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
     final public const BACKFILL_ANIDB_RESOURCE = 'backfill_anidb_resource';
     final public const BACKFILL_ANILIST_RESOURCE = 'backfill_anilist_resource';
     final public const BACKFILL_ANIME_STUDIOS = 'backfill_anime_studios';
+    final public const BACKFILL_ANN_RESOURCE = 'backfill_ann_resource';
     final public const BACKFILL_KITSU_RESOURCE = 'backfill_kitsu_resource';
     final public const BACKFILL_MAL_RESOURCE = 'backfill_mal_resource';
 
@@ -124,6 +126,10 @@ class BackfillAnimeAction extends Action implements ShouldQueue
                 ->help(__('nova.backfill_anidb_resource_help'))
                 ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB)->doesntExist()),
 
+            Boolean::make(__('nova.backfill_ann_resource'), self::BACKFILL_ANN_RESOURCE)
+                ->help(__('nova.backfill_ann_resource_help'))
+                ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN)->doesntExist()),
+
             Heading::make(__('nova.backfill_studios')),
 
             Boolean::make(__('nova.backfill_anime_studios'), self::BACKFILL_ANIME_STUDIOS)
@@ -165,6 +171,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
             self::BACKFILL_ANILIST_RESOURCE => new BackfillAnilistResource($anime),
             self::BACKFILL_MAL_RESOURCE => new BackfillMalResource($anime),
             self::BACKFILL_ANIDB_RESOURCE => new BackfillAnidbResource($anime),
+            self::BACKFILL_ANN_RESOURCE => new BackfillAnnResource($anime),
             self::BACKFILL_ANIME_STUDIOS => new BackfillAnimeStudios($anime),
         ];
     }

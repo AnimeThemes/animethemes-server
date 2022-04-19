@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Models\Auth\Team;
 use App\Models\Auth\User;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
@@ -41,10 +40,6 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewHorizon', function (User $user) {
-            $horizonTeam = Team::query()->find(Config::get('teams.horizon'));
-
-            return $user->isCurrentTeam($horizonTeam);
-        });
+        Gate::define('viewHorizon', fn (User $user) => $user->current_team_id === Config::get('teams.horizon'));
     }
 }
