@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Models\Auth\Team;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Config;
@@ -43,10 +42,6 @@ class AuthServiceProvider extends ServiceProvider
                 ->__toString()
         );
 
-        Gate::define('viewNova', function (User $user) {
-            $novaTeam = Team::query()->find(Config::get('teams.nova'));
-
-            return $user->isCurrentTeam($novaTeam);
-        });
+        Gate::define('viewNova', fn (User $user) => $user->current_team_id === Config::get('teams.nova'));
     }
 }

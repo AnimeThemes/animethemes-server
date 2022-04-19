@@ -76,5 +76,5 @@ return [
     |
     */
 
-    'creator' => env('TEAM_CREATOR_ID'),
+    'creator' => (int) env('TEAM_CREATOR_ID', -1),
 ];

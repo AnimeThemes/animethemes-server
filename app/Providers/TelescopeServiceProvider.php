@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Models\Auth\Team;
 use App\Models\Auth\User;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
@@ -74,10 +73,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewTelescope', function (User $user) {
-            $telescopeTeam = Team::query()->find(Config::get('teams.telescope'));
-
-            return $user->isCurrentTeam($telescopeTeam);
-        });
+        Gate::define('viewTelescope', fn (User $user) => $user->current_team_id === Config::get('teams.telescope'));
     }
 }

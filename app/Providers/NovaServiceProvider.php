@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Models\Auth\Team;
 use App\Models\Auth\User;
 use App\Nova\Dashboards\Main;
 use App\Nova\Resources\Wiki\Anime\Synonym;
@@ -80,11 +79,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewNova', function (User $user) {
-            $novaTeam = Team::query()->find(Config::get('teams.nova'));
-
-            return $user->isCurrentTeam($novaTeam);
-        });
+        Gate::define('viewNova', fn (User $user) => $user->current_team_id === Config::get('teams.nova'));
     }
 
     /**
