@@ -51,7 +51,7 @@ class BackfillSmallCoverImage extends BackfillAnimeImage
     /**
      * Query Anilist API for large cover image.
      *
-     * @param ExternalResource $anilistResource
+     * @param  ExternalResource  $anilistResource
      * @return Image|null
      *
      * @throws RequestException
