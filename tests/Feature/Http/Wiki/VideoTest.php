@@ -10,7 +10,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
 /**
