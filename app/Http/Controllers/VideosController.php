@@ -34,11 +34,19 @@ class VideosController extends Controller
 
         $fs = Storage::disk('spaces');
 
-        $response->setCallback(function () use ($fs, $video) {
-            $stream = $fs->readStream($video->path);
-            fpassthru($stream);
-            fclose($stream);
-        });
+        // Generate temporary link for the object
+        $temporaryURL = $fs->temporaryUrl($video->path, now()->addMinutes(5));
+
+        // Get the url information
+        $url_scheme = parse_url($temporaryURL, PHP_URL_SCHEME);
+        $url_host = parse_url($temporaryURL, PHP_URL_HOST);
+        $url_path_query = parse_url($temporaryURL, PHP_URL_PATH) . "?" . parse_url($temporaryURL, PHP_URL_QUERY);
+
+        // Construct the new link for the redirect
+        $link = "/video_redirect/" . $url_scheme . "/" . $url_host . "/" . $url_path_query;
+
+        // Set the X-ACCEL-REDIRECT header
+        $response->headers->set('X-Accel-Redirect', $link);
 
         return $response;
     }
