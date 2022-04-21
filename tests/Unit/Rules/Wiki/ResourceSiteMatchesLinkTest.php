@@ -23,7 +23,14 @@ class ResourceSiteMatchesLinkTest extends TestCase
      */
     public function testPassesIfSiteMatchesLink(): void
     {
-        $site = ResourceSite::getRandomInstance();
+        $site = null;
+
+        while ($site === null) {
+            $siteCandidate = ResourceSite::getRandomInstance();
+            if (! $siteCandidate->is(ResourceSite::OFFICIAL_SITE)) {
+                $site = $siteCandidate;
+            }
+        }
 
         $url = null;
         $domain = ResourceSite::getDomain($site->value);

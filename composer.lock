@@ -58,16 +58,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.219.5",
+            "version": "3.220.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "7e8da5b45d545ca3129a14e972001698212b1a00"
+                "reference": "6687dd0f1f4d121b2de36a202099e702240235c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/7e8da5b45d545ca3129a14e972001698212b1a00",
-                "reference": "7e8da5b45d545ca3129a14e972001698212b1a00",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6687dd0f1f4d121b2de36a202099e702240235c3",
+                "reference": "6687dd0f1f4d121b2de36a202099e702240235c3",
                 "shasum": ""
             },
             "require": {
@@ -143,9 +143,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.219.5"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.220.2"
             },
-            "time": "2022-04-15T18:16:29+00:00"
+            "time": "2022-04-21T18:18:21+00:00"
         },
         {
             "name": "babenkoivan/elastic-adapter",
@@ -3541,16 +3541,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v9.8.1",
+            "version": "v9.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "9f468689964ac80b674a2fe71a56baa7e9e20493"
+                "reference": "4d5a07640891b772188d7737348886a0222737d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/9f468689964ac80b674a2fe71a56baa7e9e20493",
-                "reference": "9f468689964ac80b674a2fe71a56baa7e9e20493",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4d5a07640891b772188d7737348886a0222737d8",
+                "reference": "4d5a07640891b772188d7737348886a0222737d8",
                 "shasum": ""
             },
             "require": {
@@ -3716,7 +3716,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-04-12T15:43:03+00:00"
+            "time": "2022-04-19T15:01:23+00:00"
         },
         {
             "name": "laravel/horizon",
@@ -3797,16 +3797,16 @@
         },
         {
             "name": "laravel/jetstream",
-            "version": "v2.7.3",
+            "version": "v2.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/jetstream.git",
-                "reference": "1e7975056a5c86de779e2744e18ecfb49081ab4f"
+                "reference": "8e31ac5f92ffdf5408cad4b82d58a02f2e278ebb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/jetstream/zipball/1e7975056a5c86de779e2744e18ecfb49081ab4f",
-                "reference": "1e7975056a5c86de779e2744e18ecfb49081ab4f",
+                "url": "https://api.github.com/repos/laravel/jetstream/zipball/8e31ac5f92ffdf5408cad4b82d58a02f2e278ebb",
+                "reference": "8e31ac5f92ffdf5408cad4b82d58a02f2e278ebb",
                 "shasum": ""
             },
             "require": {
@@ -3859,21 +3859,21 @@
                 "issues": "https://github.com/laravel/jetstream/issues",
                 "source": "https://github.com/laravel/jetstream"
             },
-            "time": "2022-04-08T09:04:45+00:00"
+            "time": "2022-04-19T15:35:17+00:00"
         },
         {
             "name": "laravel/nova",
-            "version": "4.2.2",
+            "version": "4.2.4",
             "source": {
                 "type": "git",
                 "url": "git@github.com:laravel/nova.git",
-                "reference": "fe1c2924da19be1cccf19e73a6834a725263a15e"
+                "reference": "94fe6a2fbfc0514e41e858eef756c2ebe5a282d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-fe1c2924da19be1cccf19e73a6834a725263a15e-zip-b3f7af.zip",
-                "reference": "fe1c2924da19be1cccf19e73a6834a725263a15e",
-                "shasum": "d1fb7a7b7d65f3c22bb37cae7e82b9cfbf9c45ed"
+                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-94fe6a2fbfc0514e41e858eef756c2ebe5a282d6-zip-e9741a.zip",
+                "reference": "94fe6a2fbfc0514e41e858eef756c2ebe5a282d6",
+                "shasum": "77522890af42796c59d5a0b12b386e5bb90e3474"
             },
             "require": {
                 "brick/money": "^0.5.0",
@@ -3963,9 +3963,9 @@
                 "laravel"
             ],
             "support": {
-                "source": "https://github.com/laravel/nova/tree/v4.2.2"
+                "source": "https://github.com/laravel/nova/tree/v4.2.4"
             },
-            "time": "2022-04-15T17:26:31+00:00"
+            "time": "2022-04-21T01:11:36+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -4764,16 +4764,16 @@
         },
         {
             "name": "league/mime-type-detection",
-            "version": "1.10.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/mime-type-detection.git",
-                "reference": "3e4a35d756eedc67096f30240a68a3149120dae7"
+                "reference": "ff6248ea87a9f116e78edd6002e39e5128a0d4dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/3e4a35d756eedc67096f30240a68a3149120dae7",
-                "reference": "3e4a35d756eedc67096f30240a68a3149120dae7",
+                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/ff6248ea87a9f116e78edd6002e39e5128a0d4dd",
+                "reference": "ff6248ea87a9f116e78edd6002e39e5128a0d4dd",
                 "shasum": ""
             },
             "require": {
@@ -4804,7 +4804,7 @@
             "description": "Mime-type detection for Flysystem",
             "support": {
                 "issues": "https://github.com/thephpleague/mime-type-detection/issues",
-                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.10.0"
+                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.11.0"
             },
             "funding": [
                 {
@@ -4816,7 +4816,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-11T12:49:04+00:00"
+            "time": "2022-04-17T13:12:02+00:00"
         },
         {
             "name": "livewire/livewire",
@@ -5547,16 +5547,16 @@
         },
         {
             "name": "owen-it/laravel-auditing",
-            "version": "v13.0.2",
+            "version": "v13.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/owen-it/laravel-auditing.git",
-                "reference": "f7cff2efd616541969655bcb674c460ab0018cc6"
+                "reference": "332d136a7d67a2c06ee85aa17efeafb3ba25c972"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/f7cff2efd616541969655bcb674c460ab0018cc6",
-                "reference": "f7cff2efd616541969655bcb674c460ab0018cc6",
+                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/332d136a7d67a2c06ee85aa17efeafb3ba25c972",
+                "reference": "332d136a7d67a2c06ee85aa17efeafb3ba25c972",
                 "shasum": ""
             },
             "require": {
@@ -5631,7 +5631,7 @@
                 "issues": "https://github.com/owen-it/laravel-auditing/issues",
                 "source": "https://github.com/owen-it/laravel-auditing"
             },
-            "time": "2022-03-14T22:26:32+00:00"
+            "time": "2022-04-20T14:28:57+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -7057,23 +7057,23 @@
         },
         {
             "name": "spatie/once",
-            "version": "3.0.2",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/once.git",
-                "reference": "90d5b02f1fdf31edd5a5919ff94aab456a1143e0"
+                "reference": "aab3fc8694e7caec98b2d330c4a8420391c7559d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/once/zipball/90d5b02f1fdf31edd5a5919ff94aab456a1143e0",
-                "reference": "90d5b02f1fdf31edd5a5919ff94aab456a1143e0",
+                "url": "https://api.github.com/repos/spatie/once/zipball/aab3fc8694e7caec98b2d330c4a8420391c7559d",
+                "reference": "aab3fc8694e7caec98b2d330c4a8420391c7559d",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.3",
+                "pestphp/pest": "^1.21",
                 "symfony/var-dumper": "^5.1"
             },
             "type": "library",
@@ -7107,7 +7107,7 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/spatie/once/tree/3.0.2"
+                "source": "https://github.com/spatie/once/tree/3.1.0"
             },
             "funding": [
                 {
@@ -7115,7 +7115,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-02-04T09:04:33+00:00"
+            "time": "2022-04-21T12:23:20+00:00"
         },
         {
             "name": "staudenmeir/belongs-to-through",
@@ -11141,16 +11141,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.5.6",
+            "version": "1.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "799dd8c2d2c9c704bb55d2078078cb970cf0f6d1"
+                "reference": "7fb7e2e1e9f3d59a26a413b2d3d5e47f0edb75ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/799dd8c2d2c9c704bb55d2078078cb970cf0f6d1",
-                "reference": "799dd8c2d2c9c704bb55d2078078cb970cf0f6d1",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/7fb7e2e1e9f3d59a26a413b2d3d5e47f0edb75ac",
+                "reference": "7fb7e2e1e9f3d59a26a413b2d3d5e47f0edb75ac",
                 "shasum": ""
             },
             "require": {
@@ -11176,7 +11176,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.5.6"
+                "source": "https://github.com/phpstan/phpstan/tree/1.5.7"
             },
             "funding": [
                 {
@@ -11196,7 +11196,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-15T11:13:37+00:00"
+            "time": "2022-04-20T12:20:27+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

@@ -8,6 +8,9 @@ use App\Enums\BaseEnum;
 
 /**
  * Class ImageFacet.
+ *
+ * @method static static COVER_SMALL()
+ * @method static static COVER_LARGE()
  */
 final class ImageFacet extends BaseEnum
 {
