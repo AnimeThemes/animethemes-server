@@ -6,10 +6,10 @@ namespace App\Http\Controllers\Wiki;
 
 use App\Http\Controllers\Controller;
 use App\Models\Wiki\Video;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Spatie\RouteDiscovery\Attributes\DoNotDiscover;
 use Spatie\RouteDiscovery\Attributes\Route;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class VideoController.
@@ -27,25 +27,14 @@ class VideoController extends Controller
     }
 
     /**
-     * Stream video.
+     * Stream video through nginx internal redirect.
      *
      * @param  Video  $video
-     * @return StreamedResponse
+     * @return Response
      */
     #[Route(fullUri: 'video/{video}', name: 'video.show')]
-    public function show(Video $video): StreamedResponse
+    public function show(Video $video): Response
     {
-        $response = new StreamedResponse();
-
-        $disposition = $response->headers->makeDisposition('inline', basename($video->path));
-
-        $response->headers->replace([
-            'Accept-Ranges' => 'bytes',
-            'Content-Type' => $video->mimetype,
-            'Content-Length' => $video->size,
-            'Content-Disposition' => $disposition,
-        ]);
-
         $fs = Storage::disk('videos');
 
         // Generate temporary link for the object
@@ -57,11 +46,18 @@ class VideoController extends Controller
         $url_path_query = parse_url($temporaryURL, PHP_URL_PATH).'?'.parse_url($temporaryURL, PHP_URL_QUERY);
 
         // Construct the new link for the redirect
-        $link = '/video_redirect/'.$url_scheme.'/'.$url_host.'/'.$url_path_query;
+        $link = "/video_redirect/$url_scheme/$url_host/$url_path_query";
 
-        // Set the X-ACCEL-REDIRECT header
-        $response->headers->set('X-Accel-Redirect', $link);
+        $response = new Response();
 
-        return $response;
+        $disposition = $response->headers->makeDisposition('inline', $video->basename);
+
+        return $response->withHeaders([
+            'Accept-Ranges' => 'bytes',
+            'Content-Type' => $video->mimetype,
+            'Content-Length' => $video->size,
+            'Content-Disposition' => $disposition,
+            'X-Accel-Redirect' => $link,
+        ]);
     }
 }

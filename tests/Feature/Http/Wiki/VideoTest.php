@@ -57,7 +57,7 @@ class VideoTest extends TestCase
     }
 
     /**
-     * If video streaming is enabled, the video show route shall stream the video.
+     * If video streaming is enabled, the video show route shall stream the video through nginx.
      *
      * @return void
      */
@@ -69,7 +69,8 @@ class VideoTest extends TestCase
 
         $response = $this->get(route('video.show', ['video' => $video]));
 
-        static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
+        $response->assertOk();
+        $response->assertHeader('X-Accel-Redirect');
     }
 
     /**
