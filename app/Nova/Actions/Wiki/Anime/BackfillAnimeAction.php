@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Nova\Actions\Wiki\Anime;
 
+use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Image;
 use App\Pipes\Wiki\Anime\BackfillAnimePipe;
+use App\Pipes\Wiki\Anime\Image\BackfillLargeCoverImage;
+use App\Pipes\Wiki\Anime\Image\BackfillSmallCoverImage;
 use App\Pipes\Wiki\Anime\Resource\BackfillAnidbResource;
 use App\Pipes\Wiki\Anime\Resource\BackfillAnilistResource;
 use App\Pipes\Wiki\Anime\Resource\BackfillAnnResource;
@@ -39,10 +43,12 @@ class BackfillAnimeAction extends Action implements ShouldQueue
 
     final public const BACKFILL_ANIDB_RESOURCE = 'backfill_anidb_resource';
     final public const BACKFILL_ANILIST_RESOURCE = 'backfill_anilist_resource';
-    final public const BACKFILL_ANIME_STUDIOS = 'backfill_anime_studios';
     final public const BACKFILL_ANN_RESOURCE = 'backfill_ann_resource';
     final public const BACKFILL_KITSU_RESOURCE = 'backfill_kitsu_resource';
+    final public const BACKFILL_LARGE_COVER = 'backfill_large_cover';
     final public const BACKFILL_MAL_RESOURCE = 'backfill_mal_resource';
+    final public const BACKFILL_SMALL_COVER = 'backfill_small_cover';
+    final public const BACKFILL_STUDIOS = 'backfill_studios';
 
     /**
      * Create a new action instance.
@@ -130,9 +136,19 @@ class BackfillAnimeAction extends Action implements ShouldQueue
                 ->help(__('nova.backfill_ann_resource_help'))
                 ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN)->doesntExist()),
 
+            Heading::make(__('nova.backfill_images')),
+
+            Boolean::make(__('nova.backfill_large_cover'), self::BACKFILL_LARGE_COVER)
+                ->help(__('nova.backfill_large_cover_help'))
+                ->default(fn () => $anime instanceof Anime && $anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE)->doesntExist()),
+
+            Boolean::make(__('nova.backfill_small_cover'), self::BACKFILL_SMALL_COVER)
+                ->help(__('nova.backfill_small_cover_help'))
+                ->default(fn () => $anime instanceof Anime && $anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_SMALL)->doesntExist()),
+
             Heading::make(__('nova.backfill_studios')),
 
-            Boolean::make(__('nova.backfill_anime_studios'), self::BACKFILL_ANIME_STUDIOS)
+            Boolean::make(__('nova.backfill_anime_studios'), self::BACKFILL_STUDIOS)
                 ->help(__('nova.backfill_anime_studios_help'))
                 ->default(fn () => $anime instanceof Anime && $anime->studios()->doesntExist()),
         ];
@@ -172,7 +188,9 @@ class BackfillAnimeAction extends Action implements ShouldQueue
             self::BACKFILL_MAL_RESOURCE => new BackfillMalResource($anime),
             self::BACKFILL_ANIDB_RESOURCE => new BackfillAnidbResource($anime),
             self::BACKFILL_ANN_RESOURCE => new BackfillAnnResource($anime),
-            self::BACKFILL_ANIME_STUDIOS => new BackfillAnimeStudios($anime),
+            self::BACKFILL_LARGE_COVER => new BackfillLargeCoverImage($anime),
+            self::BACKFILL_SMALL_COVER => new BackfillSmallCoverImage($anime),
+            self::BACKFILL_STUDIOS => new BackfillAnimeStudios($anime),
         ];
     }
 }
