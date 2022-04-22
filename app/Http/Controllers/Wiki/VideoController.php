@@ -46,7 +46,7 @@ class VideoController extends Controller
         $url_path_query = parse_url($temporaryURL, PHP_URL_PATH).'?'.parse_url($temporaryURL, PHP_URL_QUERY);
 
         // Construct the new link for the redirect
-        $link = "/video_redirect/$url_scheme/$url_host/$url_path_query";
+        $link = "/video_redirect/$url_scheme/$url_host$url_path_query";
 
         $response = new Response();
 

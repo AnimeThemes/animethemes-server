@@ -8,7 +8,6 @@ use App\Console\Commands\Billing\BalanceReconcileCommand;
 use App\Console\Commands\Billing\TransactionReconcileCommand;
 use App\Console\Commands\Document\DocumentDatabaseDumpCommand;
 use App\Console\Commands\PruneDatabaseDumpsCommand;
-use App\Console\Commands\Wiki\VideoReconcileCommand;
 use App\Console\Commands\Wiki\WikiDatabaseDumpCommand;
 use App\Enums\Models\Billing\Service;
 use Illuminate\Console\Scheduling\Schedule;
@@ -43,7 +42,6 @@ class Kernel extends ConsoleKernel
         $schedule->command(PruneFailedJobsCommand::class)->daily();
         $schedule->command(SnapshotCommand::class)->everyFiveMinutes();
         $schedule->command(TransactionReconcileCommand::class, [Service::DIGITALOCEAN()->key])->hourly();
-        $schedule->command(VideoReconcileCommand::class)->hourly();
     }
 
     /**
