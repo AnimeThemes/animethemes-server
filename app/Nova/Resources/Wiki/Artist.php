@@ -147,6 +147,7 @@ class Artist extends Resource
 
             BelongsToMany::make(__('nova.songs'), ArtistModel::RELATION_SONGS, Song::class)
                 ->searchable()
+                ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
@@ -166,6 +167,8 @@ class Artist extends Resource
 
             BelongsToMany::make(__('nova.external_resources'), ArtistModel::RELATION_RESOURCES, ExternalResource::class)
                 ->searchable()
+                ->filterable()
+                ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
                     Text::make(__('nova.as'), ArtistResource::ATTRIBUTE_AS)
@@ -222,6 +225,7 @@ class Artist extends Resource
 
             BelongsToMany::make(__('nova.images'), ArtistModel::RELATION_IMAGES, Image::class)
                 ->searchable()
+                ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [

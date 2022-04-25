@@ -35,11 +35,16 @@ class Synonym extends Resource
     public static $title = AnimeSynonym::ATTRIBUTE_TEXT;
 
     /**
-     * Indicates if the resource should be displayed in the sidebar.
+     * The logical group associated with the resource.
      *
-     * @var bool
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $displayInNavigation = false;
+    public static function group(): string
+    {
+        return __('nova.wiki');
+    }
 
     /**
      * Get the displayable label of the resource.
@@ -50,7 +55,7 @@ class Synonym extends Resource
      */
     public static function label(): string
     {
-        return __('nova.synonyms');
+        return __('nova.anime_synonyms');
     }
 
     /**
@@ -62,7 +67,7 @@ class Synonym extends Resource
      */
     public static function singularLabel(): string
     {
-        return __('nova.synonym');
+        return __('nova.anime_synonym');
     }
 
     /**
@@ -92,13 +97,6 @@ class Synonym extends Resource
     }
 
     /**
-     * Indicates if the resource should be globally searchable.
-     *
-     * @var bool
-     */
-    public static $globallySearchable = false;
-
-    /**
      * Build a "relatable" query for the given resource.
      *
      * This query determines which instances of the model may be attached to other resources.
@@ -124,7 +122,13 @@ class Synonym extends Resource
     {
         return [
             BelongsTo::make(__('nova.anime'), AnimeSynonym::RELATION_ANIME, Anime::class)
-                ->readonly()
+                ->sortable()
+                ->filterable()
+                ->searchable(fn () => $request->viaResource === null)
+                ->readonly(fn () => $request->viaResource !== null)
+                ->required(fn () => $request->viaResource === null)
+                ->withSubtitles()
+                ->showCreateRelationButton(fn () => $request->viaResource === null)
                 ->showOnPreview(),
 
             ID::make(__('nova.id'), AnimeSynonym::ATTRIBUTE_ID)
@@ -134,7 +138,7 @@ class Synonym extends Resource
             Text::make(__('nova.text'), AnimeSynonym::ATTRIBUTE_TEXT)
                 ->sortable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.synonym_text_help'))
+                ->help(__('nova.anime_synonym_text_help'))
                 ->showOnPreview()
                 ->filterable(),
 

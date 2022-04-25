@@ -57,6 +57,7 @@ class AnimeThemeEntry extends BaseModel
     final public const ATTRIBUTE_VERSION = 'version';
 
     final public const RELATION_ANIME = 'animetheme.anime';
+    final public const RELATION_ANIME_SHALLOW = 'anime';
     final public const RELATION_SONG = 'animetheme.song';
     final public const RELATION_SYNONYMS = 'animetheme.anime.animesynonyms';
     final public const RELATION_THEME = 'animetheme';

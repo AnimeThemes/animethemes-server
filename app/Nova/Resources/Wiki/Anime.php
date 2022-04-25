@@ -192,12 +192,13 @@ class Anime extends Resource
                 ->help(__('nova.anime_synopsis_help'))
                 ->showOnPreview(),
 
-            HasMany::make(__('nova.synonyms'), AnimeModel::RELATION_SYNONYMS, Synonym::class),
+            HasMany::make(__('nova.anime_synonyms'), AnimeModel::RELATION_SYNONYMS, Synonym::class),
 
-            HasMany::make(__('nova.themes'), AnimeModel::RELATION_THEMES, Theme::class),
+            HasMany::make(__('nova.anime_themes'), AnimeModel::RELATION_THEMES, Theme::class),
 
             BelongsToMany::make(__('nova.series'), AnimeModel::RELATION_SERIES, Series::class)
                 ->searchable()
+                ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
@@ -210,6 +211,8 @@ class Anime extends Resource
 
             BelongsToMany::make(__('nova.external_resources'), AnimeModel::RELATION_RESOURCES, ExternalResource::class)
                 ->searchable()
+                ->filterable()
+                ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
                     Text::make(__('nova.as'), AnimeResource::ATTRIBUTE_AS)
@@ -228,6 +231,7 @@ class Anime extends Resource
 
             BelongsToMany::make(__('nova.images'), AnimeModel::RELATION_IMAGES, Image::class)
                 ->searchable()
+                ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
@@ -240,6 +244,7 @@ class Anime extends Resource
 
             BelongsToMany::make(__('nova.studios'), AnimeModel::RELATION_STUDIOS, Studio::class)
                 ->searchable()
+                ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [

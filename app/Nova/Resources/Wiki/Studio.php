@@ -141,6 +141,7 @@ class Studio extends Resource
 
             BelongsToMany::make(__('nova.anime'), StudioModel::RELATION_ANIME, Anime::class)
                 ->searchable()
+                ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
@@ -153,6 +154,7 @@ class Studio extends Resource
 
             BelongsToMany::make(__('nova.external_resources'), StudioModel::RELATION_RESOURCES, ExternalResource::class)
                 ->searchable()
+                ->filterable()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
                     Text::make(__('nova.as'), StudioResource::ATTRIBUTE_AS)

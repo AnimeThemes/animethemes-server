@@ -95,9 +95,9 @@ class SongPolicy
      * @param  User  $user
      * @return bool
      */
-    public function addTheme(User $user): bool
+    public function addAnimeTheme(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('song:create');
+        return $user->hasCurrentTeamPermission('song:update');
     }
 
     /**

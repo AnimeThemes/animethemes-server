@@ -43,6 +43,23 @@ class Theme extends Resource
     public static $title = AnimeTheme::ATTRIBUTE_SLUG;
 
     /**
+     * Get the search result subtitle for the resource.
+     *
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function subtitle(): ?string
+    {
+        $theme = $this->model();
+        if ($theme instanceof AnimeTheme) {
+            return $theme->anime->getName();
+        }
+
+        return null;
+    }
+
+    /**
      * Get the displayable label of the resource.
      *
      * @return string
@@ -51,7 +68,7 @@ class Theme extends Resource
      */
     public static function label(): string
     {
-        return __('nova.themes');
+        return __('nova.anime_themes');
     }
 
     /**
@@ -63,7 +80,7 @@ class Theme extends Resource
      */
     public static function singularLabel(): string
     {
-        return __('nova.theme');
+        return __('nova.anime_theme');
     }
 
     /**
@@ -93,18 +110,16 @@ class Theme extends Resource
     }
 
     /**
-     * Indicates if the resource should be globally searchable.
+     * The logical group associated with the resource.
      *
-     * @var bool
-     */
-    public static $globallySearchable = false;
-
-    /**
-     * Indicates if the resource should be displayed in the sidebar.
+     * @return string
      *
-     * @var bool
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $displayInNavigation = false;
+    public static function group(): string
+    {
+        return __('nova.wiki');
+    }
 
     /**
      * Build a "relatable" query for the given resource.
@@ -123,6 +138,22 @@ class Theme extends Resource
     }
 
     /**
+     * Build a "relatable" query for the given resource.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  NovaRequest  $request
+     * @param  Builder  $query
+     * @return Builder
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function relatableQuery(NovaRequest $request, $query): Builder
+    {
+        return $query->with(AnimeTheme::RELATION_ANIME);
+    }
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  NovaRequest  $request
@@ -137,11 +168,12 @@ class Theme extends Resource
 
             BelongsTo::make(__('nova.anime'), AnimeTheme::RELATION_ANIME, Anime::class)
                 ->sortable()
-                ->searchable(fn () => Song::class === $request->viaResource())
-                ->readonly(fn () => Song::class !== $request->viaResource())
-                ->required(fn () => Song::class === $request->viaResource())
+                ->filterable()
+                ->searchable(fn () => $request->viaResource === null || Song::class === $request->viaResource)
+                ->readonly(fn () => $request->viaResource !== null && Song::class !== $request->viaResource)
+                ->required(fn () => $request->viaResource === null || Song::class === $request->viaResource)
                 ->withSubtitles()
-                ->showCreateRelationButton(fn () => Song::class === $request->viaResource())
+                ->showCreateRelationButton(fn () => $request->viaResource === null || Song::class === $request->viaResource)
                 ->showOnPreview(),
 
             Select::make(__('nova.type'), AnimeTheme::ATTRIBUTE_TYPE)
@@ -149,7 +181,7 @@ class Theme extends Resource
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', (new EnumValue(ThemeType::class, false))->__toString()])
-                ->help(__('nova.theme_type_help'))
+                ->help(__('nova.anime_theme_type_help'))
                 ->showOnPreview()
                 ->filterable(),
 
@@ -157,7 +189,7 @@ class Theme extends Resource
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'integer'])
-                ->help(__('nova.theme_sequence_help'))
+                ->help(__('nova.anime_theme_sequence_help'))
                 ->showOnPreview()
                 ->filterable(),
 
@@ -165,7 +197,7 @@ class Theme extends Resource
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
-                ->help(__('nova.theme_group_help'))
+                ->help(__('nova.anime_theme_group_help'))
                 ->showOnPreview()
                 ->filterable(),
 
@@ -173,19 +205,20 @@ class Theme extends Resource
                 ->hideWhenCreating()
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
-                ->help(__('nova.theme_slug_help'))
+                ->help(__('nova.anime_theme_slug_help'))
                 ->showOnPreview()
                 ->filterable(),
 
             BelongsTo::make(__('nova.song'), AnimeTheme::RELATION_SONG, Song::class)
                 ->sortable()
+                ->filterable()
                 ->searchable()
                 ->withSubtitles()
                 ->nullable()
                 ->showCreateRelationButton()
                 ->showOnPreview(),
 
-            HasMany::make(__('nova.entries'), AnimeTheme::RELATION_ENTRIES, Entry::class),
+            HasMany::make(__('nova.anime_theme_entries'), AnimeTheme::RELATION_ENTRIES, Entry::class),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];
