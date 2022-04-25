@@ -77,6 +77,20 @@ class Song extends Resource
     }
 
     /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  NovaRequest  $request
+     * @param  Builder  $query
+     * @return Builder
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function indexQuery(NovaRequest $request, $query): Builder
+    {
+        return $query->with(SongModel::RELATION_ANIME);
+    }
+
+    /**
      * The logical group associated with the resource.
      *
      * @return string
@@ -149,6 +163,7 @@ class Song extends Resource
 
             BelongsToMany::make(__('nova.artists'), SongModel::RELATION_ARTISTS, Artist::class)
                 ->searchable()
+                ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
@@ -166,7 +181,7 @@ class Song extends Resource
                         ->hideWhenUpdating(),
                 ]),
 
-            HasMany::make(__('nova.themes'), SongModel::RELATION_ANIMETHEMES, Theme::class),
+            HasMany::make(__('nova.anime_themes'), SongModel::RELATION_ANIMETHEMES, Theme::class),
 
             Panel::make(__('nova.timestamps'), $this->timestamps()),
         ];

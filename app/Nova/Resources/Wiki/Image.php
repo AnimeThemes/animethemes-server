@@ -143,6 +143,7 @@ class Image extends Resource
 
             BelongsToMany::make(__('nova.anime'), ImageModel::RELATION_ANIME, Anime::class)
                 ->searchable()
+                ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
@@ -155,6 +156,7 @@ class Image extends Resource
 
             BelongsToMany::make(__('nova.artists'), ImageModel::RELATION_ARTISTS, Artist::class)
                 ->searchable()
+                ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [

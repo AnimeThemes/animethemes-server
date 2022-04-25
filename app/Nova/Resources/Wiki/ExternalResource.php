@@ -167,6 +167,7 @@ class ExternalResource extends Resource
 
             BelongsToMany::make(__('nova.artists'), ExternalResourceModel::RELATION_ARTISTS, Artist::class)
                 ->searchable()
+                ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
@@ -186,6 +187,7 @@ class ExternalResource extends Resource
 
             BelongsToMany::make(__('nova.anime'), ExternalResourceModel::RELATION_ANIME, Anime::class)
                 ->searchable()
+                ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
@@ -205,6 +207,7 @@ class ExternalResource extends Resource
 
             BelongsToMany::make(__('nova.studios'), ExternalResourceModel::RELATION_STUDIOS, Studio::class)
                 ->searchable()
+                ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(function () {

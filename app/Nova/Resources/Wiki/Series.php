@@ -137,6 +137,7 @@ class Series extends Resource
 
             BelongsToMany::make(__('nova.anime'), SeriesModel::RELATION_ANIME, Anime::class)
                 ->searchable()
+                ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [

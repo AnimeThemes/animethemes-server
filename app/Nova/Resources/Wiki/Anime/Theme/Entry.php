@@ -35,18 +35,54 @@ class Entry extends Resource
     public static string $model = AnimeThemeEntry::class;
 
     /**
-     * The single value that should be used to represent the resource when being displayed.
+     * Get the value that should be displayed to represent the resource.
      *
-     * @var string
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $title = AnimeThemeEntry::ATTRIBUTE_ID;
+    public function title(): string
+    {
+        $entry = $this->model();
+        if ($entry instanceof AnimeThemeEntry) {
+            if (is_int($entry->version)) {
+                return "V$entry->version";
+            }
+
+            return "{$entry->getKey()}";
+        }
+
+        return '';
+    }
 
     /**
-     * Indicates if the resource should be displayed in the sidebar.
+     * Get the search result subtitle for the resource.
      *
-     * @var bool
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static $displayInNavigation = false;
+    public function subtitle(): ?string
+    {
+        $entry = $this->model();
+        if ($entry instanceof AnimeThemeEntry) {
+            return "{$entry->anime->getName()} {$entry->animetheme->getName()}";
+        }
+
+        return null;
+    }
+
+    /**
+     * The logical group associated with the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function group(): string
+    {
+        return __('nova.wiki');
+    }
 
     /**
      * Get the displayable label of the resource.
@@ -57,7 +93,7 @@ class Entry extends Resource
      */
     public static function label(): string
     {
-        return __('nova.entries');
+        return __('nova.anime_theme_entries');
     }
 
     /**
@@ -69,7 +105,7 @@ class Entry extends Resource
      */
     public static function singularLabel(): string
     {
-        return __('nova.entry');
+        return __('nova.anime_theme_entry');
     }
 
     /**
@@ -99,13 +135,6 @@ class Entry extends Resource
     }
 
     /**
-     * Indicates if the resource should be globally searchable.
-     *
-     * @var bool
-     */
-    public static $globallySearchable = false;
-
-    /**
      * Build a "relatable" query for the given resource.
      *
      * This query determines which instances of the model may be attached to other resources.
@@ -118,7 +147,23 @@ class Entry extends Resource
      */
     public static function indexQuery(NovaRequest $request, $query): Builder
     {
-        return $query->with(AnimeThemeEntry::RELATION_ANIME);
+        return $query->with([AnimeThemeEntry::RELATION_THEME, AnimeThemeEntry::RELATION_ANIME_SHALLOW]);
+    }
+
+    /**
+     * Build a "relatable" query for the given resource.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  NovaRequest  $request
+     * @param  Builder  $query
+     * @return Builder
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function relatableQuery(NovaRequest $request, $query): Builder
+    {
+        return $query->with([AnimeThemeEntry::RELATION_THEME, AnimeThemeEntry::RELATION_ANIME_SHALLOW]);
     }
 
     /**
@@ -130,13 +175,20 @@ class Entry extends Resource
     public function fields(NovaRequest $request): array
     {
         return [
-            BelongsTo::make(__('nova.anime'), 'Anime', Anime::class)
-                ->hideFromIndex(fn () => Video::class !== $request->viaResource())
+            BelongsTo::make(__('nova.anime'), AnimeThemeEntry::RELATION_ANIME_SHALLOW, Anime::class)
+                ->sortable()
+                ->hideFromIndex(fn () => $request->viaResource !== null && Video::class !== $request->viaResource)
+                ->hideWhenCreating()
                 ->readonly()
                 ->showOnPreview(),
 
-            BelongsTo::make(__('nova.theme'), AnimeThemeEntry::RELATION_THEME, Theme::class)
-                ->readonly()
+            BelongsTo::make(__('nova.anime_theme'), AnimeThemeEntry::RELATION_THEME, Theme::class)
+                ->sortable()
+                ->filterable()
+                ->searchable(fn () => $request->viaResource === null)
+                ->readonly(fn () => $request->viaResource !== null)
+                ->required(fn () => $request->viaResource === null)
+                ->withSubtitles()
                 ->showOnPreview(),
 
             ID::make(__('nova.id'), AnimeThemeEntry::ATTRIBUTE_ID)
@@ -147,7 +199,7 @@ class Entry extends Resource
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'integer'])
-                ->help(__('nova.entry_version_help'))
+                ->help(__('nova.anime_theme_entry_version_help'))
                 ->showOnPreview()
                 ->filterable(),
 
@@ -155,7 +207,7 @@ class Entry extends Resource
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
-                ->help(__('nova.entry_episodes_help'))
+                ->help(__('nova.anime_theme_entry_episodes_help'))
                 ->showOnPreview()
                 ->filterable(),
 
@@ -163,7 +215,7 @@ class Entry extends Resource
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.entry_nsfw_help'))
+                ->help(__('nova.anime_theme_entry_nsfw_help'))
                 ->showOnPreview()
                 ->filterable(),
 
@@ -171,7 +223,7 @@ class Entry extends Resource
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.entry_spoiler_help'))
+                ->help(__('nova.anime_theme_entry_spoiler_help'))
                 ->showOnPreview()
                 ->filterable(),
 
@@ -179,12 +231,13 @@ class Entry extends Resource
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
-                ->help(__('nova.entry_notes_help'))
+                ->help(__('nova.anime_theme_entry_notes_help'))
                 ->showOnPreview()
                 ->filterable(),
 
             BelongsToMany::make(__('nova.videos'), AnimeThemeEntry::RELATION_VIDEOS, Video::class)
                 ->searchable()
+                ->filterable()
                 ->fields(fn () => [
                     DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating(),
