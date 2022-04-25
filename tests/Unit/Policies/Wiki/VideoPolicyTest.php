@@ -188,9 +188,9 @@ class VideoPolicyTest extends TestCase
 
         $policy = new VideoPolicy();
 
-        static::assertFalse($policy->attachAnyEntry($viewer));
-        static::assertFalse($policy->attachAnyEntry($editor));
-        static::assertTrue($policy->attachAnyEntry($admin));
+        static::assertFalse($policy->attachAnyAnimeThemeEntry($viewer));
+        static::assertTrue($policy->attachAnyAnimeThemeEntry($editor));
+        static::assertTrue($policy->attachAnyAnimeThemeEntry($admin));
     }
 
     /**
@@ -214,9 +214,9 @@ class VideoPolicyTest extends TestCase
 
         $policy = new VideoPolicy();
 
-        static::assertFalse($policy->attachEntry($viewer));
-        static::assertFalse($policy->attachEntry($editor));
-        static::assertTrue($policy->attachEntry($admin));
+        static::assertFalse($policy->attachAnimeThemeEntry($viewer));
+        static::assertTrue($policy->attachAnimeThemeEntry($editor));
+        static::assertTrue($policy->attachAnimeThemeEntry($admin));
     }
 
     /**
@@ -240,8 +240,8 @@ class VideoPolicyTest extends TestCase
 
         $policy = new VideoPolicy();
 
-        static::assertFalse($policy->detachEntry($viewer));
-        static::assertFalse($policy->detachEntry($editor));
-        static::assertTrue($policy->detachEntry($admin));
+        static::assertFalse($policy->detachAnimeThemeEntry($viewer));
+        static::assertTrue($policy->detachAnimeThemeEntry($editor));
+        static::assertTrue($policy->detachAnimeThemeEntry($admin));
     }
 }
