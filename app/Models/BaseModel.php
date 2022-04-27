@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Contracts\Models\Nameable;
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -24,6 +26,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 abstract class BaseModel extends Model implements Auditable, Nameable
 {
     use HasFactory;
+    use Prunable;
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
@@ -81,5 +84,15 @@ abstract class BaseModel extends Model implements Auditable, Nameable
         $this->fireModelEvent('restored', false);
 
         return $result;
+    }
+
+    /**
+     * Get the prunable model query.
+     *
+     * @return Builder
+     */
+    public function prunable(): Builder
+    {
+        return static::onlyTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, ComparisonOperator::LTE, now()->subWeek());
     }
 }
