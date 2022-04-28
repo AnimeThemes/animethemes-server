@@ -11,9 +11,11 @@ use App\Enums\BaseEnum;
  *
  * @method static static COVER_SMALL()
  * @method static static COVER_LARGE()
+ * @method static static GRILL()
  */
 final class ImageFacet extends BaseEnum
 {
     public const COVER_SMALL = 0;
     public const COVER_LARGE = 1;
+    public const GRILL = 2;
 }

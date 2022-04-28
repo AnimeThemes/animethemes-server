@@ -169,11 +169,11 @@ class Theme extends Resource
             BelongsTo::make(__('nova.anime'), AnimeTheme::RELATION_ANIME, Anime::class)
                 ->sortable()
                 ->filterable()
-                ->searchable(fn () => $request->viaResource === null || Song::class === $request->viaResource)
-                ->readonly(fn () => $request->viaResource !== null && Song::class !== $request->viaResource)
-                ->required(fn () => $request->viaResource === null || Song::class === $request->viaResource)
+                ->searchable(fn () => $request->viaResource() === null || Song::class === $request->viaResource())
+                ->readonly(fn () => $request->viaResource() !== null && Song::class !== $request->viaResource())
+                ->required(fn () => $request->viaResource() === null || Song::class === $request->viaResource())
                 ->withSubtitles()
-                ->showCreateRelationButton(fn () => $request->viaResource === null || Song::class === $request->viaResource)
+                ->showCreateRelationButton(fn () => $request->viaResource() === null || Song::class === $request->viaResource())
                 ->showOnPreview(),
 
             Select::make(__('nova.type'), AnimeTheme::ATTRIBUTE_TYPE)

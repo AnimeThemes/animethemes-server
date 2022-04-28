@@ -123,7 +123,7 @@ class BackfillKitsuResource extends BackfillAnimeResource
                 return null;
             }
 
-            return $this->getOrCreateResource($id, $slug);
+            return $this->getOrCreateResource(intval($id), $slug);
         }
 
         return null;
