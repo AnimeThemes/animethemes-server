@@ -80,23 +80,29 @@ class BackfillAnimeAction extends Action implements ShouldQueue
      */
     public function handle(ActionFields $fields, Collection $models): mixed
     {
-        $anime = $models->first();
+        foreach ($models as $anime) {
+            if ($anime->resources()->doesntExist()) {
+                $this->markAsFailed($anime, 'At least one Resource is required to backfill Anime');
+                continue;
+            }
 
-        if ($anime->resources()->doesntExist()) {
-            return $this->markAsFailed($anime, 'At least one Resource is required to backfill Anime');
+            $pipes = $this->getPipes($fields, $anime);
+
+            $pipeline = new Pipeline(Container::getInstance());
+
+            try {
+                $pipeline->send($this->user)
+                    ->through($pipes)
+                    ->then(fn () => $this->markAsFinished($anime));
+            } catch (Exception $e) {
+                $this->markAsFailed($anime, $e);
+            } finally {
+                // Try not to upset third-party APIs
+                sleep(rand(3, 5));
+            }
         }
 
-        $pipes = $this->getPipes($fields, $anime);
-
-        $pipeline = new Pipeline(Container::getInstance());
-
-        try {
-            return $pipeline->send($this->user)
-                ->through($pipes)
-                ->then(fn () => $this->markAsFinished($anime));
-        } catch (Exception $e) {
-            return $this->markAsFailed($anime, $e);
-        }
+        return $models;
     }
 
     /**

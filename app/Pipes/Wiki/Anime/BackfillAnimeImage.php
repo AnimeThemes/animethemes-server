@@ -31,6 +31,12 @@ abstract class BackfillAnimeImage extends BackfillAnimePipe
      */
     public function handle(User $user, Closure $next): mixed
     {
+        if ($this->anime->images()->where(Image::ATTRIBUTE_FACET, $this->getFacet()->value)->exists()) {
+            Log::info("Anime '{$this->anime->getName()}' already has Image of Facet '{$this->getFacet()->value}'.");
+
+            return $next($user);
+        }
+
         $image = $this->getImage();
 
         if ($image !== null) {

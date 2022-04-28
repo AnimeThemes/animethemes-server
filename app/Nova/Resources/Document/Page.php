@@ -146,7 +146,8 @@ class Page extends Resource
                 ->rules(['required', 'max:16777215'])
                 ->help(__('nova.page_body_help')),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps())
+                ->collapsable(),
         ];
     }
 }

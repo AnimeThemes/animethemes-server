@@ -142,7 +142,8 @@ class Announcement extends Resource
                 ->sortable()
                 ->showOnPreview(),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps())
+                ->collapsable(),
         ];
     }
 }
