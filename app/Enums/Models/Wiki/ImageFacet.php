@@ -11,7 +11,7 @@ use App\Enums\BaseEnum;
  *
  * @method static static COVER_SMALL()
  * @method static static COVER_LARGE()
-e * @method static static GRILL()
+ * @method static static GRILL()
  */
 final class ImageFacet extends BaseEnum
 {
