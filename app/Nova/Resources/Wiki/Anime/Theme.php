@@ -220,7 +220,8 @@ class Theme extends Resource
 
             HasMany::make(__('nova.anime_theme_entries'), AnimeTheme::RELATION_ENTRIES, Entry::class),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps())
+                ->collapsable(),
         ];
     }
 }

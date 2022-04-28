@@ -255,7 +255,8 @@ class Anime extends Resource
                         ->hideWhenCreating(),
                 ]),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps())
+                ->collapsable(),
         ];
     }
 
@@ -273,7 +274,9 @@ class Anime extends Resource
                 (new BackfillAnimeAction($request->user()))
                     ->confirmButtonText(__('nova.backfill'))
                     ->cancelButtonText(__('nova.cancel'))
-                    ->exceptOnIndex()
+                    ->showOnIndex()
+                    ->showOnDetail()
+                    ->showInline()
                     ->canSee(function (Request $request) {
                         $user = $request->user();
 

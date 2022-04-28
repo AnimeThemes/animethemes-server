@@ -227,7 +227,8 @@ class ExternalResource extends Resource
                     ];
                 }),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps())
+                ->collapsable(),
         ];
     }
 

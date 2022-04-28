@@ -28,6 +28,12 @@ abstract class BackfillAnimeResource extends BackfillAnimePipe
      */
     public function handle(User $user, Closure $next): mixed
     {
+        if ($this->anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)->exists()) {
+            Log::info("Anime '{$this->anime->getName()}' already has Resource of Site '{$this->getSite()->value}'.");
+
+            return $next($user);
+        }
+
         $resource = $this->getResource();
 
         if ($resource !== null) {
@@ -55,7 +61,7 @@ abstract class BackfillAnimeResource extends BackfillAnimePipe
     {
         $resource = ExternalResource::query()
             ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_LINK])
-            ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST)
+            ->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)
             ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $id)
             ->first();
 

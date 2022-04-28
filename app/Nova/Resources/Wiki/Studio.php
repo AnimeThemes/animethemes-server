@@ -171,7 +171,8 @@ class Studio extends Resource
                         ->hideWhenUpdating(),
                 ]),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps())
+                ->collapsable(),
         ];
     }
 

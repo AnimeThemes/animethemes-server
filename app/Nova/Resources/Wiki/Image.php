@@ -167,9 +167,11 @@ class Image extends Resource
                         ->hideWhenCreating(),
                 ]),
 
-            Panel::make(__('nova.file_properties'), $this->fileProperties()),
+            Panel::make(__('nova.file_properties'), $this->fileProperties())
+                ->collapsable(),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.timestamps'), $this->timestamps())
+                ->collapsable(),
         ];
     }
 
