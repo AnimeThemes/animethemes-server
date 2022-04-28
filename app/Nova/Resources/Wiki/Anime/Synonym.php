@@ -124,11 +124,11 @@ class Synonym extends Resource
             BelongsTo::make(__('nova.anime'), AnimeSynonym::RELATION_ANIME, Anime::class)
                 ->sortable()
                 ->filterable()
-                ->searchable(fn () => $request->viaResource === null)
-                ->readonly(fn () => $request->viaResource !== null)
-                ->required(fn () => $request->viaResource === null)
+                ->searchable(fn () => $request->viaResource() === null)
+                ->readonly(fn () => $request->viaResource() !== null)
+                ->required(fn () => $request->viaResource() === null)
                 ->withSubtitles()
-                ->showCreateRelationButton(fn () => $request->viaResource === null)
+                ->showCreateRelationButton(fn () => $request->viaResource() === null)
                 ->showOnPreview(),
 
             ID::make(__('nova.id'), AnimeSynonym::ATTRIBUTE_ID)

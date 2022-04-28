@@ -177,7 +177,7 @@ class Entry extends Resource
         return [
             BelongsTo::make(__('nova.anime'), AnimeThemeEntry::RELATION_ANIME_SHALLOW, Anime::class)
                 ->sortable()
-                ->hideFromIndex(fn () => $request->viaResource !== null && Video::class !== $request->viaResource)
+                ->hideFromIndex(fn () => $request->viaResource() !== null && Video::class !== $request->viaResource())
                 ->hideWhenCreating()
                 ->readonly()
                 ->showOnPreview(),
@@ -185,9 +185,9 @@ class Entry extends Resource
             BelongsTo::make(__('nova.anime_theme'), AnimeThemeEntry::RELATION_THEME, Theme::class)
                 ->sortable()
                 ->filterable()
-                ->searchable(fn () => $request->viaResource === null)
-                ->readonly(fn () => $request->viaResource !== null)
-                ->required(fn () => $request->viaResource === null)
+                ->searchable(fn () => $request->viaResource() === null)
+                ->readonly(fn () => $request->viaResource() !== null)
+                ->required(fn () => $request->viaResource() === null)
                 ->withSubtitles()
                 ->showOnPreview(),
 

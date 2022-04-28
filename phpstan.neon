@@ -19,3 +19,4 @@ parameters:
 
     ignoreErrors:
         - '#Call to an undefined method Mockery\\ExpectationInterface|Mockery\\HigherOrderMessage::once\(\).#'
+        - '#Strict comparison using === between class-string<Laravel\\Nova\\Resource> and null will always evaluate to false.#'
