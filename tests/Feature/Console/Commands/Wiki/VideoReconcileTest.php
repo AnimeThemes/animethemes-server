@@ -29,7 +29,7 @@ class VideoReconcileTest extends TestCase
     public function testNoResults(): void
     {
         $this->mock(VideoRepository::class, function (MockInterface $mock) {
-            $mock->shouldReceive('all')->once()->andReturn(Collection::make());
+            $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
 
         $this->artisan(VideoReconcileCommand::class)->expectsOutput('No Videos created or deleted or updated');
@@ -49,7 +49,7 @@ class VideoReconcileTest extends TestCase
         $videos = Video::factory()->count($createdVideoCount)->make();
 
         $this->mock(VideoRepository::class, function (MockInterface $mock) use ($videos) {
-            $mock->shouldReceive('all')->once()->andReturn($videos);
+            $mock->shouldReceive('get')->once()->andReturn($videos);
         });
 
         $this->artisan(VideoReconcileCommand::class)->expectsOutput("$createdVideoCount Videos created, 0 Videos deleted, 0 Videos updated");
@@ -67,7 +67,7 @@ class VideoReconcileTest extends TestCase
         Video::factory()->count($deletedVideoCount)->create();
 
         $this->mock(VideoRepository::class, function (MockInterface $mock) {
-            $mock->shouldReceive('all')->once()->andReturn(Collection::make());
+            $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
 
         $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, $deletedVideoCount Videos deleted, 0 Videos updated");
@@ -95,7 +95,7 @@ class VideoReconcileTest extends TestCase
             ->create();
 
         $this->mock(VideoRepository::class, function (MockInterface $mock) use ($sourceVideos) {
-            $mock->shouldReceive('all')->once()->andReturn($sourceVideos);
+            $mock->shouldReceive('get')->once()->andReturn($sourceVideos);
         });
 
         $this->artisan(VideoReconcileCommand::class)->expectsOutput("0 Videos created, 0 Videos deleted, $updatedVideoCount Videos updated");

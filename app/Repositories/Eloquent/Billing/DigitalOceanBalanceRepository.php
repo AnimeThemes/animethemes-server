@@ -8,7 +8,7 @@ use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
 use App\Repositories\Eloquent\EloquentRepository;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Date;
 
 /**
@@ -17,20 +17,42 @@ use Illuminate\Support\Facades\Date;
 class DigitalOceanBalanceRepository extends EloquentRepository
 {
     /**
-     * Get all models from the repository.
+     * Get the underlying query builder.
      *
-     * @param  array  $columns
-     * @return Collection
+     * @return Builder
      */
-    public function all(array $columns = ['*']): Collection
+    protected function builder(): Builder
     {
         $now = Date::now();
 
         return Balance::query()
-            ->select($columns)
             ->where(Balance::ATTRIBUTE_SERVICE, Service::DIGITALOCEAN)
             ->whereMonth(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ, $now)
-            ->whereYear(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ, $now)
-            ->get();
+            ->whereYear(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ, $now);
+    }
+
+    /**
+     * Validate repository filter.
+     *
+     * @param  string  $filter
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function validateFilter(string $filter, mixed $value = null): bool
+    {
+        // not supported
+        return false;
+    }
+
+    /**
+     * Filter repository models.
+     *
+     * @param  string  $filter
+     * @param  mixed  $value
+     * @return void
+     */
+    public function handleFilter(string $filter, mixed $value = null): void
+    {
+        // not supported
     }
 }

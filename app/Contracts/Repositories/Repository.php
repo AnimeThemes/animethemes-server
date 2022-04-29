@@ -13,12 +13,12 @@ use Illuminate\Support\Collection;
 interface Repository
 {
     /**
-     * Get all models from the repository.
+     * Get models from the repository.
      *
      * @param  array  $columns
      * @return Collection
      */
-    public function all(array $columns = ['*']): Collection;
+    public function get(array $columns = ['*']): Collection;
 
     /**
      * Save model to the repository.
@@ -44,4 +44,22 @@ interface Repository
      * @return bool
      */
     public function update(Model $model, array $attributes): bool;
+
+    /**
+     * Validate repository filter.
+     *
+     * @param  string  $filter
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function validateFilter(string $filter, mixed $value = null): bool;
+
+    /**
+     * Filter repository models.
+     *
+     * @param  string  $filter
+     * @param  mixed  $value
+     * @return void
+     */
+    public function handleFilter(string $filter, mixed $value = null): void;
 }

@@ -56,7 +56,7 @@ class TransactionReconcileTest extends TestCase
     public function testNoResults(): void
     {
         $this->mock(DigitalOceanTransactionRepository::class, function (MockInterface $mock) {
-            $mock->shouldReceive('all')->once()->andReturn(Collection::make());
+            $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
 
         $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput('No Transactions created or deleted or updated');
@@ -80,7 +80,7 @@ class TransactionReconcileTest extends TestCase
             ]);
 
         $this->mock(DigitalOceanTransactionRepository::class, function (MockInterface $mock) use ($transactions) {
-            $mock->shouldReceive('all')->once()->andReturn($transactions);
+            $mock->shouldReceive('get')->once()->andReturn($transactions);
         });
 
         $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("$createdTransactionCount Transactions created, 0 Transactions deleted, 0 Transactions updated");
@@ -102,7 +102,7 @@ class TransactionReconcileTest extends TestCase
             ]);
 
         $this->mock(DigitalOceanTransactionRepository::class, function (MockInterface $mock) {
-            $mock->shouldReceive('all')->once()->andReturn(Collection::make());
+            $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
 
         $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Transactions created, $deletedTransactionCount Transactions deleted, 0 Transactions updated");
