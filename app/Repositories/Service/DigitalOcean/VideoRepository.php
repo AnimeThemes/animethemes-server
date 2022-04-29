@@ -13,6 +13,7 @@ use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemReader;
 use League\Flysystem\StorageAttributes;
@@ -24,7 +25,14 @@ use RuntimeException;
 class VideoRepository implements Repository
 {
     /**
-     * Get all models from the repository.
+     * The base path of the filesystem to retrieve files from.
+     *
+     * @var string
+     */
+    protected string $location = '';
+
+    /**
+     * Get models from the repository.
      *
      * @param  array  $columns
      * @return Collection
@@ -32,7 +40,7 @@ class VideoRepository implements Repository
      * @throws FilesystemException
      * @throws RuntimeException
      */
-    public function all(array $columns = ['*']): Collection
+    public function get(array $columns = ['*']): Collection
     {
         // Get metadata for all objects in storage
         $fs = Storage::disk('videos');
@@ -42,7 +50,7 @@ class VideoRepository implements Repository
             throw new RuntimeException('videos disk must use an s3 driver');
         }
 
-        $fsVideos = collect($fs->listContents('', FilesystemReader::LIST_DEEP));
+        $fsVideos = collect($fs->listContents($this->location, FilesystemReader::LIST_DEEP));
 
         // Filter all objects for WebM metadata
         // We don't want to filter on the remote filesystem for performance concerns
@@ -104,5 +112,38 @@ class VideoRepository implements Repository
     {
         // Do not write serialized models to object storage
         return false;
+    }
+
+    /**
+     * Validate repository filter.
+     *
+     * @param  string  $filter
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function validateFilter(string $filter, mixed $value = null): bool
+    {
+        if ($filter === 'path') {
+            $fs = Storage::disk('videos');
+            if ($fs instanceof FilesystemAdapter) {
+                return ! Str::startsWith($value, '/') && $fs->directoryExists($value);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Filter repository models.
+     *
+     * @param  string  $filter
+     * @param  mixed  $value
+     * @return void
+     */
+    public function handleFilter(string $filter, mixed $value = null): void
+    {
+        if ($filter === 'path') {
+            $this->location = $value;
+        }
     }
 }

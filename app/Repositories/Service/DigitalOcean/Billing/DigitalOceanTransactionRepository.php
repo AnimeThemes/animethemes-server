@@ -24,14 +24,14 @@ use RuntimeException;
 class DigitalOceanTransactionRepository implements Repository
 {
     /**
-     * Get all models from the repository.
+     * Get models from the repository.
      *
      * @param  array  $columns
      * @return Collection
      *
      * @throws RequestException
      */
-    public function all(array $columns = ['*']): Collection
+    public function get(array $columns = ['*']): Collection
     {
         // Do not proceed if we do not have authorization to the DO API
         $doBearerToken = Config::get('services.do.token');
@@ -107,5 +107,30 @@ class DigitalOceanTransactionRepository implements Repository
     {
         // Billing API is not writable
         return false;
+    }
+
+    /**
+     * Validate repository filter.
+     *
+     * @param  string  $filter
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function validateFilter(string $filter, mixed $value = null): bool
+    {
+        // not supported
+        return false;
+    }
+
+    /**
+     * Filter repository models.
+     *
+     * @param  string  $filter
+     * @param  mixed  $value
+     * @return void
+     */
+    public function handleFilter(string $filter, mixed $value = null): void
+    {
+        // not supported
     }
 }

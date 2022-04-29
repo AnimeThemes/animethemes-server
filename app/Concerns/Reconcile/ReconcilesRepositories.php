@@ -185,15 +185,15 @@ trait ReconcilesRepositories
     public function reconcileRepositories(Repository $source, Repository $destination): void
     {
         try {
-            $sourceModels = $source->all();
+            $sourceModels = $source->get();
 
-            $destinationModels = $destination->all($this->columnsForCreateDelete());
+            $destinationModels = $destination->get($this->columnsForCreateDelete());
 
             $this->createModelsFromSource($destination, $sourceModels, $destinationModels);
 
             $this->deleteModelsFromDestination($destination, $sourceModels, $destinationModels);
 
-            $destinationModels = $destination->all($this->columnsForUpdate());
+            $destinationModels = $destination->get($this->columnsForUpdate());
 
             $this->updateDestinationModels($destination, $sourceModels, $destinationModels);
         } catch (Exception $exception) {

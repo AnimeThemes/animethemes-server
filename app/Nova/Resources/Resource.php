@@ -18,14 +18,14 @@ abstract class Resource extends NovaResource
      *
      * @var int|null
      */
-    public static $relatableSearchResults = 5;
+    public static $relatableSearchResults = 10;
 
     /**
      * The number of results to display when searching the resource using Scout.
      *
      * @var int
      */
-    public static $scoutSearchResults = 5;
+    public static $scoutSearchResults = 10;
 
     /**
      * Indicates whether the resource should automatically poll for new resources.

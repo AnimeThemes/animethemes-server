@@ -25,7 +25,8 @@ class VideoReconcileCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'reconcile:video';
+    protected $signature = 'reconcile:video
+                                {--path= : The directory of videos to reconcile. Ex: 2022/Spring/. If unspecified, all directories will be listed.}';
 
     /**
      * The console command description.
@@ -44,6 +45,18 @@ class VideoReconcileCommand extends Command
         $sourceRepository = App::make(VideoSourceRepository::class);
 
         $destinationRepository = App::make(VideoDestinationRepository::class);
+
+        $path = $this->option('path');
+        if ($path !== null) {
+            if (! $sourceRepository->validateFilter('path', $path) || ! $destinationRepository->validateFilter('path', $path)) {
+                $this->error("Invalid path '$path'");
+
+                return 1;
+            }
+
+            $sourceRepository->handleFilter('path', $path);
+            $destinationRepository->handleFilter('path', $path);
+        }
 
         $this->reconcileRepositories($sourceRepository, $destinationRepository);
 

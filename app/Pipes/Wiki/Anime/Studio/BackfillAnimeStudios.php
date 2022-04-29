@@ -38,6 +38,12 @@ class BackfillAnimeStudios extends BackfillAnimePipe
      */
     public function handle(User $user, Closure $next): mixed
     {
+        if ($this->anime->studios()->exists()) {
+            Log::info("Anime '{$this->anime->getName()}' already has Studios.");
+
+            return $next($user);
+        }
+
         $studios = $this->getStudios();
 
         if ($studios->isNotEmpty()) {

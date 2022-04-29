@@ -7,7 +7,7 @@ namespace App\Repositories\Eloquent\Billing;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction;
 use App\Repositories\Eloquent\EloquentRepository;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class DigitalOceanTransactionRepository.
@@ -15,16 +15,37 @@ use Illuminate\Support\Collection;
 class DigitalOceanTransactionRepository extends EloquentRepository
 {
     /**
-     * Get all models from the repository.
+     * Get the underlying query builder.
      *
-     * @param  array  $columns
-     * @return Collection
+     * @return Builder
      */
-    public function all(array $columns = ['*']): Collection
+    protected function builder(): Builder
     {
-        return Transaction::query()
-            ->select($columns)
-            ->where(Transaction::ATTRIBUTE_SERVICE, Service::DIGITALOCEAN)
-            ->get();
+        return Transaction::query()->where(Transaction::ATTRIBUTE_SERVICE, Service::DIGITALOCEAN);
+    }
+
+    /**
+     * Validate repository filter.
+     *
+     * @param  string  $filter
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function validateFilter(string $filter, mixed $value = null): bool
+    {
+        // not supported
+        return false;
+    }
+
+    /**
+     * Filter repository models.
+     *
+     * @param  string  $filter
+     * @param  mixed  $value
+     * @return void
+     */
+    public function handleFilter(string $filter, mixed $value = null): void
+    {
+        // not supported
     }
 }

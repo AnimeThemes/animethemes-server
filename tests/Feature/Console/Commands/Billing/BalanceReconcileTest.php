@@ -58,7 +58,7 @@ class BalanceReconcileTest extends TestCase
     public function testNoResults(): void
     {
         $this->mock(DigitalOceanBalanceRepository::class, function (MockInterface $mock) {
-            $mock->shouldReceive('all')->once()->andReturn(Collection::make());
+            $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
 
         $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput('No Balances created or deleted or updated');
@@ -83,7 +83,7 @@ class BalanceReconcileTest extends TestCase
             ]);
 
         $this->mock(DigitalOceanBalanceRepository::class, function (MockInterface $mock) use ($balances) {
-            $mock->shouldReceive('all')->once()->andReturn($balances);
+            $mock->shouldReceive('get')->once()->andReturn($balances);
         });
 
         $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("$createdBalanceCount Balances created, 0 Balances deleted, 0 Balances updated");
@@ -106,7 +106,7 @@ class BalanceReconcileTest extends TestCase
             ]);
 
         $this->mock(DigitalOceanBalanceRepository::class, function (MockInterface $mock) {
-            $mock->shouldReceive('all')->once()->andReturn(Collection::make());
+            $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
 
         $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput("0 Balances created, $deletedBalanceCount Balances deleted, 0 Balances updated");
@@ -132,7 +132,7 @@ class BalanceReconcileTest extends TestCase
             ]);
 
         $this->mock(DigitalOceanBalanceRepository::class, function (MockInterface $mock) use ($sourceBalances) {
-            $mock->shouldReceive('all')->once()->andReturn(collect([$sourceBalances]));
+            $mock->shouldReceive('get')->once()->andReturn(collect([$sourceBalances]));
         });
 
         $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput('0 Balances created, 0 Balances deleted, 1 Balances updated');
