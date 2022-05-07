@@ -4,27 +4,20 @@ declare(strict_types=1);
 
 namespace App\Events\Billing\Balance;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Admin\AdminUpdatedEvent;
 use App\Models\Billing\Balance;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class BalanceUpdated.
+ *
+ * @extends AdminUpdatedEvent<Balance>
  */
-class BalanceUpdated extends BalanceEvent implements DiscordMessageEvent
+class BalanceUpdated extends AdminUpdatedEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  Balance  $balance
-     * @return void
      */
     public function __construct(Balance $balance)
     {
@@ -33,28 +26,22 @@ class BalanceUpdated extends BalanceEvent implements DiscordMessageEvent
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return Balance
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): Balance
     {
-        $balance = $this->getBalance();
-
-        return DiscordMessage::create('', [
-            'description' => "Balance '**{$balance->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
+        return $this->model;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Balance '**{$this->getModel()->getName()}**' has been updated.";
     }
 }

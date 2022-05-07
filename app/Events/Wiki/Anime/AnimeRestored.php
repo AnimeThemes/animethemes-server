@@ -5,49 +5,49 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Anime;
 
 use App\Contracts\Events\CascadesRestoresEvent;
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiRestoredEvent;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class AnimeRestored.
+ *
+ * @extends WikiRestoredEvent<Anime>
  */
-class AnimeRestored extends AnimeEvent implements CascadesRestoresEvent, DiscordMessageEvent
+class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Anime  $anime
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Anime $anime)
     {
-        $anime = $this->getAnime();
-
-        return DiscordMessage::create('', [
-            'description' => "Anime '**{$anime->getName()}**' has been restored.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($anime);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Anime
+     */
+    public function getModel(): Anime
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Anime '**{$this->getModel()->getName()}**' has been restored.";
     }
 
     /**
@@ -57,7 +57,7 @@ class AnimeRestored extends AnimeEvent implements CascadesRestoresEvent, Discord
      */
     public function cascadeRestores(): void
     {
-        $anime = $this->getAnime();
+        $anime = $this->getModel();
 
         $anime->animesynonyms()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeSynonym $synonym) {
             AnimeSynonym::withoutEvents(function () use ($synonym) {

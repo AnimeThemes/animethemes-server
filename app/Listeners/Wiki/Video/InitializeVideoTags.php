@@ -23,7 +23,7 @@ class InitializeVideoTags
      */
     public function handle(VideoCreating $event): void
     {
-        $video = $event->getVideo();
+        $video = $event->getModel();
 
         try {
             // Match Tags of filename

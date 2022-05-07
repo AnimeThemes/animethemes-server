@@ -4,43 +4,43 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Video;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Wiki\WikiCreatedEvent;
+use App\Models\Wiki\Video;
 
 /**
  * Class VideoCreated.
+ *
+ * @extends WikiCreatedEvent<Video>
  */
-class VideoCreated extends VideoEvent implements DiscordMessageEvent
+class VideoCreated extends WikiCreatedEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Video  $video
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Video $video)
     {
-        $video = $this->getVideo();
-
-        return DiscordMessage::create('', [
-            'description' => "Video '**{$video->getName()}**' has been created.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($video);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Video
+     */
+    public function getModel(): Video
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Video '**{$this->getModel()->getName()}**' has been created.";
     }
 }

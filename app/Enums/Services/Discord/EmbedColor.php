@@ -8,6 +8,10 @@ use App\Enums\BaseEnum;
 
 /**
  * Class EmbedColor.
+ *
+ * @method static static GREEN()
+ * @method static static YELLOW()
+ * @method static static RED()
  */
 final class EmbedColor extends BaseEnum
 {

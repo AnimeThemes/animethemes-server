@@ -4,49 +4,48 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Anime;
 
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class AnimeCreated.
+ *
+ * @extends WikiCreatedEvent<Anime>
  */
-class AnimeCreated extends AnimeEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
+class AnimeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Anime  $anime
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Anime $anime)
     {
-        $anime = $this->getAnime();
-
-        return DiscordMessage::create('', [
-            'description' => "Anime '**{$anime->getName()}**' has been created.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($anime);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Anime
+     */
+    public function getModel(): Anime
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Anime '**{$this->getModel()->getName()}**' has been created.";
     }
 
     /**
@@ -56,7 +55,7 @@ class AnimeCreated extends AnimeEvent implements DiscordMessageEvent, UpdateRela
      */
     public function updateRelatedIndices(): void
     {
-        $anime = $this->getAnime()->load(Anime::RELATION_VIDEOS);
+        $anime = $this->getModel()->load(Anime::RELATION_VIDEOS);
 
         $anime->animethemes->each(function (AnimeTheme $theme) {
             $theme->searchable();

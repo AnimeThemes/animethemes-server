@@ -4,54 +4,80 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Anime\Synonym;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Contracts\Events\NovaNotificationEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use App\Models\Auth\User;
+use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Nova\Resources\Wiki\Anime\Synonym as SynonymResource;
-use App\Services\Nova\NovaQueries;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
-use Laravel\Nova\Notifications\NovaNotification;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class SynonymDeleted.
+ *
+ * @extends WikiDeletedEvent<AnimeSynonym>
  */
-class SynonymDeleted extends SynonymEvent implements DiscordMessageEvent, NovaNotificationEvent, UpdateRelatedIndicesEvent
+class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 {
-    use Dispatchable;
+    /**
+     * The anime that the synonym belongs to.
+     *
+     * @var Anime
+     */
+    protected Anime $anime;
 
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  AnimeSynonym  $synonym
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(AnimeSynonym $synonym)
     {
-        $synonym = $this->getSynonym();
-        $anime = $this->getAnime();
-
-        return DiscordMessage::create('', [
-            'description' => "Synonym '**{$synonym->getName()}**' has been deleted for Anime '**{$anime->getName()}**'.",
-            'color' => EmbedColor::RED,
-        ]);
+        parent::__construct($synonym);
+        $this->anime = $synonym->anime;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return AnimeSynonym
+     */
+    public function getModel(): AnimeSynonym
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Synonym '**{$this->getModel()->getName()}**' has been deleted for Anime '**{$this->anime->getName()}**'.";
+    }
+
+    /**
+     * Get the message for the nova notification.
+     *
+     * @return string
+     */
+    protected function getNotificationMessage(): string
+    {
+        return "Synonym '{$this->getModel()->getName()}' has been deleted for Anime '{$this->anime->getName()}'. It will be automatically pruned in one week. Please review.";
+    }
+
+    /**
+     * Get the URL for the nova notification.
+     *
+     * @return string
+     */
+    protected function getNotificationUrl(): string
+    {
+        $uriKey = SynonymResource::uriKey();
+
+        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 
     /**
@@ -61,7 +87,7 @@ class SynonymDeleted extends SynonymEvent implements DiscordMessageEvent, NovaNo
      */
     public function updateRelatedIndices(): void
     {
-        $anime = $this->getAnime()->load(Anime::RELATION_VIDEOS);
+        $anime = $this->anime->load(Anime::RELATION_VIDEOS);
 
         $anime->searchable();
         $anime->animethemes->each(function (AnimeTheme $theme) {
@@ -71,46 +97,5 @@ class SynonymDeleted extends SynonymEvent implements DiscordMessageEvent, NovaNo
                 $entry->videos->each(fn (Video $video) => $video->searchable());
             });
         });
-    }
-
-    /**
-     * Determine if the notifications should be sent.
-     *
-     * @return bool
-     */
-    public function shouldSend(): bool
-    {
-        $synonym = $this->getSynonym();
-
-        return ! $synonym->isForceDeleting();
-    }
-
-    /**
-     * Get the nova notification.
-     *
-     * @return NovaNotification
-     */
-    public function getNotification(): NovaNotification
-    {
-        $synonym = $this->getSynonym();
-        $anime = $this->getAnime();
-
-        $uriKey = SynonymResource::uriKey();
-
-        return NovaNotification::make()
-            ->icon('flag')
-            ->message("Synonym '{$synonym->getName()}' has been deleted for Anime '{$anime->getName()}'. It will be automatically pruned in one week. Please review.")
-            ->type(NovaNotification::INFO_TYPE)
-            ->url("/resources/$uriKey/{$synonym->getKey()}");
-    }
-
-    /**
-     * Get the users to notify.
-     *
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return NovaQueries::admins();
     }
 }

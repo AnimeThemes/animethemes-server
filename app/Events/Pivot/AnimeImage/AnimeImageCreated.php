@@ -4,44 +4,38 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\AnimeImage;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Pivot\PivotCreatedEvent;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Image;
+use App\Pivots\AnimeImage;
 
 /**
  * Class AnimeImageCreated.
+ *
+ * @extends PivotCreatedEvent<Anime, Image>
  */
-class AnimeImageCreated extends AnimeImageEvent implements DiscordMessageEvent
+class AnimeImageCreated extends PivotCreatedEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  AnimeImage  $animeImage
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(AnimeImage $animeImage)
     {
-        $anime = $this->getAnime();
-        $image = $this->getImage();
-
-        return DiscordMessage::create('', [
-            'description' => "Image '**{$image->getName()}**' has been attached to Anime '**{$anime->getName()}**'.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($animeImage->anime, $animeImage->image);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        $foreign = $this->getForeign();
+        $related = $this->getRelated();
+
+        return "Image '**{$foreign->getName()}**' has been attached to Anime '**{$related->getName()}**'.";
     }
 }

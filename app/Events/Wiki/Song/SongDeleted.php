@@ -4,54 +4,72 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Song;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Contracts\Events\NovaNotificationEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use App\Models\Auth\User;
+use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 use App\Nova\Resources\Wiki\Song as SongResource;
-use App\Services\Nova\NovaQueries;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
-use Laravel\Nova\Notifications\NovaNotification;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class SongDeleted.
+ *
+ * @extends WikiDeletedEvent<Song>
  */
-class SongDeleted extends SongEvent implements DiscordMessageEvent, NovaNotificationEvent, UpdateRelatedIndicesEvent
+class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 {
-    use Dispatchable;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Song  $song
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Song $song)
     {
-        $song = $this->getSong();
-
-        return DiscordMessage::create('', [
-            'description' => "Song '**{$song->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED,
-        ]);
+        parent::__construct($song);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Song
+     */
+    public function getModel(): Song
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Song '**{$this->getModel()->getName()}**' has been deleted.";
+    }
+
+    /**
+     * Get the message for the nova notification.
+     *
+     * @return string
+     */
+    protected function getNotificationMessage(): string
+    {
+        return "Song '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
+    }
+
+    /**
+     * Get the URL for the nova notification.
+     *
+     * @return string
+     */
+    protected function getNotificationUrl(): string
+    {
+        $uriKey = SongResource::uriKey();
+
+        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 
     /**
@@ -61,7 +79,7 @@ class SongDeleted extends SongEvent implements DiscordMessageEvent, NovaNotifica
      */
     public function updateRelatedIndices(): void
     {
-        $song = $this->getSong()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
+        $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
 
         $artists = $song->artists;
         $artists->each(fn (Artist $artist) => $artist->searchable());
@@ -73,45 +91,5 @@ class SongDeleted extends SongEvent implements DiscordMessageEvent, NovaNotifica
                 $entry->videos->each(fn (Video $video) => $video->searchable());
             });
         });
-    }
-
-    /**
-     * Determine if the notifications should be sent.
-     *
-     * @return bool
-     */
-    public function shouldSend(): bool
-    {
-        $song = $this->getSong();
-
-        return ! $song->isForceDeleting();
-    }
-
-    /**
-     * Get the nova notification.
-     *
-     * @return NovaNotification
-     */
-    public function getNotification(): NovaNotification
-    {
-        $song = $this->getSong();
-
-        $uriKey = SongResource::uriKey();
-
-        return NovaNotification::make()
-            ->icon('flag')
-            ->message("Song '{$song->getName()}' has been deleted. It will be automatically pruned in one week. Please review.")
-            ->type(NovaNotification::INFO_TYPE)
-            ->url("/resources/$uriKey/{$song->getKey()}");
-    }
-
-    /**
-     * Get the users to notify.
-     *
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return NovaQueries::admins();
     }
 }

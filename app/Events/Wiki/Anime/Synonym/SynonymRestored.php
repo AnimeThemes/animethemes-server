@@ -4,50 +4,57 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Anime\Synonym;
 
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiRestoredEvent;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class SynonymRestored.
+ *
+ * @extends WikiRestoredEvent<AnimeSynonym>
  */
-class SynonymRestored extends SynonymEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
+class SynonymRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent
 {
-    use Dispatchable;
-    use SerializesModels;
+    /**
+     * The anime that the synonym belongs to.
+     *
+     * @var Anime
+     */
+    protected Anime $anime;
 
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  AnimeSynonym  $synonym
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(AnimeSynonym $synonym)
     {
-        $synonym = $this->getSynonym();
-        $anime = $this->getAnime();
-
-        return DiscordMessage::create('', [
-            'description' => "Synonym '**{$synonym->getName()}**' has been restored for Anime '**{$anime->getName()}**'.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($synonym);
+        $this->anime = $synonym->anime;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return AnimeSynonym
+     */
+    public function getModel(): AnimeSynonym
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Synonym '**{$this->getModel()->getName()}**' has been restored for Anime '**{$this->anime->getName()}**'.";
     }
 
     /**
@@ -57,7 +64,7 @@ class SynonymRestored extends SynonymEvent implements DiscordMessageEvent, Updat
      */
     public function updateRelatedIndices(): void
     {
-        $synonym = $this->getSynonym()->load(AnimeSynonym::RELATION_VIDEOS);
+        $synonym = $this->getModel()->load(AnimeSynonym::RELATION_VIDEOS);
 
         $synonym->anime->searchable();
         $synonym->anime->animethemes->each(function (AnimeTheme $theme) {

@@ -4,27 +4,20 @@ declare(strict_types=1);
 
 namespace App\Events\Admin\Announcement;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Admin\AdminUpdatedEvent;
 use App\Models\Admin\Announcement;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class AnnouncementUpdated.
+ *
+ * @extends AdminUpdatedEvent<Announcement>
  */
-class AnnouncementUpdated extends AnnouncementEvent implements DiscordMessageEvent
+class AnnouncementUpdated extends AdminUpdatedEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  Announcement  $announcement
-     * @return void
      */
     public function __construct(Announcement $announcement)
     {
@@ -33,28 +26,22 @@ class AnnouncementUpdated extends AnnouncementEvent implements DiscordMessageEve
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return Announcement
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): Announcement
     {
-        $announcement = $this->getAnnouncement();
-
-        return DiscordMessage::create('', [
-            'description' => "Announcement '**{$announcement->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
+        return $this->model;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.admin_discord_channel');
+        return "Announcement '**{$this->getModel()->getName()}**' has been updated.";
     }
 }

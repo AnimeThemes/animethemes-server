@@ -4,60 +4,41 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\ArtistSong;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Pivot\PivotUpdatedEvent;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Song;
 use App\Pivots\ArtistSong;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class ArtistSongUpdated.
+ *
+ * @extends PivotUpdatedEvent<Artist, Song>
  */
-class ArtistSongUpdated extends ArtistSongEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
+class ArtistSongUpdated extends PivotUpdatedEvent implements UpdateRelatedIndicesEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  ArtistSong  $artistSong
-     * @return void
      */
     public function __construct(ArtistSong $artistSong)
     {
-        parent::__construct($artistSong);
+        parent::__construct($artistSong->artist, $artistSong->song);
         $this->initializeEmbedFields($artistSong);
     }
 
     /**
-     * Get Discord message payload.
-     *
-     * @return DiscordMessage
-     */
-    public function getDiscordMessage(): DiscordMessage
-    {
-        $artist = $this->getArtist();
-        $song = $this->getSong();
-
-        return DiscordMessage::create('', [
-            'description' => "Song '**{$song->getName()}**' for Artist '**{$artist->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
-    }
-
-    /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        $foreign = $this->getForeign();
+        $related = $this->getRelated();
+
+        return "Song '**{$foreign->getName()}**' for Artist '**{$related->getName()}**' has been updated.";
     }
 
     /**
@@ -68,7 +49,7 @@ class ArtistSongUpdated extends ArtistSongEvent implements DiscordMessageEvent, 
     public function updateRelatedIndices(): void
     {
         // refresh artist document
-        $artist = $this->getArtist();
+        $artist = $this->getRelated();
         $artist->searchable();
     }
 }

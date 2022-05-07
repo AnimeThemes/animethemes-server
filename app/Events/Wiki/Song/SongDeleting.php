@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Song;
 
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
+use App\Events\BaseEvent;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
@@ -13,9 +14,31 @@ use App\Models\Wiki\Video;
 
 /**
  * Class SongDeleting.
+ *
+ * @extends BaseEvent<Song>
  */
-class SongDeleting extends SongEvent implements UpdateRelatedIndicesEvent
+class SongDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 {
+    /**
+     * Create a new event instance.
+     *
+     * @param  Song  $song
+     */
+    public function __construct(Song $song)
+    {
+        parent::__construct($song);
+    }
+
+    /**
+     * Get the model that has fired this event.
+     *
+     * @return Song
+     */
+    public function getModel(): Song
+    {
+        return $this->model;
+    }
+
     /**
      * Perform cascading deletes.
      *
@@ -23,7 +46,7 @@ class SongDeleting extends SongEvent implements UpdateRelatedIndicesEvent
      */
     public function updateRelatedIndices(): void
     {
-        $song = $this->getSong()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
+        $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
 
         if ($song->isForceDeleting()) {
             // refresh artist documents by detaching song

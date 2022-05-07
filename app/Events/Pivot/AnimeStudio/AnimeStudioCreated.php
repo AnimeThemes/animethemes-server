@@ -4,44 +4,38 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\AnimeStudio;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Pivot\PivotCreatedEvent;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Studio;
+use App\Pivots\AnimeStudio;
 
 /**
  * Class AnimeStudioCreated.
+ *
+ * @extends PivotCreatedEvent<Studio, Anime>
  */
-class AnimeStudioCreated extends AnimeStudioEvent implements DiscordMessageEvent
+class AnimeStudioCreated extends PivotCreatedEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  AnimeStudio  $animeStudio
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(AnimeStudio $animeStudio)
     {
-        $anime = $this->getAnime();
-        $studio = $this->getStudio();
-
-        return DiscordMessage::create('', [
-            'description' => "Anime '**{$anime->getName()}**' has been attached to Studio '**{$studio->getName()}**'.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($animeStudio->studio, $animeStudio->anime);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        $foreign = $this->getForeign();
+        $related = $this->getRelated();
+
+        return "Anime '**{$foreign->getName()}**' has been attached to Studio '**{$related->getName()}**'.";
     }
 }

@@ -4,27 +4,20 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Artist;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Artist;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class ArtistUpdated.
+ *
+ * @extends WikiUpdatedEvent<Artist>
  */
-class ArtistUpdated extends ArtistEvent implements DiscordMessageEvent
+class ArtistUpdated extends WikiUpdatedEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  Artist  $artist
-     * @return void
      */
     public function __construct(Artist $artist)
     {
@@ -33,28 +26,22 @@ class ArtistUpdated extends ArtistEvent implements DiscordMessageEvent
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return Artist
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): Artist
     {
-        $artist = $this->getArtist();
-
-        return DiscordMessage::create('', [
-            'description' => "Artist '**{$artist->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
+        return $this->model;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Artist '**{$this->getModel()->getName()}**' has been updated.";
     }
 }

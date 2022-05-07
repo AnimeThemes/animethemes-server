@@ -4,57 +4,43 @@ declare(strict_types=1);
 
 namespace App\Events\Billing\Transaction;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Admin\AdminUpdatedEvent;
 use App\Models\Billing\Transaction;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class TransactionUpdated.
+ *
+ * @extends AdminUpdatedEvent<Transaction>
  */
-class TransactionUpdated extends TransactionEvent implements DiscordMessageEvent
+class TransactionUpdated extends AdminUpdatedEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  Transaction  $transaction
-     * @return void
      */
     public function __construct(Transaction $transaction)
     {
         parent::__construct($transaction);
-        $this->initializeEmbedFields($transaction);
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return Transaction
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): Transaction
     {
-        $transaction = $this->getTransaction();
-
-        return DiscordMessage::create('', [
-            'description' => "Transaction '**{$transaction->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
+        return $this->model;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Transaction '**{$this->getModel()->getName()}**' has been updated.";
     }
 }

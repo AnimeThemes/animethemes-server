@@ -25,7 +25,7 @@ class SendInvitationMail implements ShouldQueue
      */
     public function handle(InvitationCreated $event): void
     {
-        $invitation = $event->getInvitation();
+        $invitation = $event->getModel();
 
         Mail::to($invitation->email)->queue(new InvitationMail($invitation));
     }

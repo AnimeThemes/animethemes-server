@@ -4,43 +4,43 @@ declare(strict_types=1);
 
 namespace App\Events\Document\Page;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Wiki\WikiRestoredEvent;
+use App\Models\Document\Page;
 
 /**
  * Class PageRestored.
+ *
+ * @extends WikiRestoredEvent<Page>
  */
-class PageRestored extends PageEvent implements DiscordMessageEvent
+class PageRestored extends WikiRestoredEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Page  $page
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Page $page)
     {
-        $page = $this->getPage();
-
-        return DiscordMessage::create('', [
-            'description' => "Page '**{$page->getName()}**' has been restored.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($page);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Page
+     */
+    public function getModel(): Page
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Page '**{$this->getModel()->getName()}**' has been restored.";
     }
 }

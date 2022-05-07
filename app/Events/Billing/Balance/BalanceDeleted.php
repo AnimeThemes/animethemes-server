@@ -4,41 +4,43 @@ declare(strict_types=1);
 
 namespace App\Events\Billing\Balance;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Admin\AdminDeletedEvent;
+use App\Models\Billing\Balance;
 
 /**
  * Class BalanceDeleted.
+ *
+ * @extends AdminDeletedEvent<Balance>
  */
-class BalanceDeleted extends BalanceEvent implements DiscordMessageEvent
+class BalanceDeleted extends AdminDeletedEvent
 {
-    use Dispatchable;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Balance  $balance
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Balance $balance)
     {
-        $balance = $this->getBalance();
-
-        return DiscordMessage::create('', [
-            'description' => "Balance '**{$balance->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED,
-        ]);
+        parent::__construct($balance);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Balance
+     */
+    public function getModel(): Balance
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Balance '**{$this->getModel()->getName()}**' has been deleted.";
     }
 }

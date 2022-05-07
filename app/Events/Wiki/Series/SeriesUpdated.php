@@ -4,27 +4,20 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Series;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Series;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class SeriesUpdated.
+ *
+ * @extends WikiUpdatedEvent<Series>
  */
-class SeriesUpdated extends SeriesEvent implements DiscordMessageEvent
+class SeriesUpdated extends WikiUpdatedEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  Series  $series
-     * @return void
      */
     public function __construct(Series $series)
     {
@@ -33,28 +26,22 @@ class SeriesUpdated extends SeriesEvent implements DiscordMessageEvent
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return Series
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): Series
     {
-        $series = $this->getSeries();
-
-        return DiscordMessage::create('', [
-            'description' => "Series '**{$series->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
+        return $this->model;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Series '**{$this->getModel()->getName()}**' has been updated.";
     }
 }

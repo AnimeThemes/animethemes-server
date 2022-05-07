@@ -4,87 +4,66 @@ declare(strict_types=1);
 
 namespace App\Events\Document\Page;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Contracts\Events\NovaNotificationEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use App\Models\Auth\User;
+use App\Events\Base\Wiki\WikiDeletedEvent;
+use App\Models\Document\Page;
 use App\Nova\Resources\Document\Page as PageResource;
-use App\Services\Nova\NovaQueries;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
-use Laravel\Nova\Notifications\NovaNotification;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class PageDeleted.
+ *
+ * @extends WikiDeletedEvent<Page>
  */
-class PageDeleted extends PageEvent implements DiscordMessageEvent, NovaNotificationEvent
+class PageDeleted extends WikiDeletedEvent
 {
-    use Dispatchable;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Page  $page
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Page $page)
     {
-        $page = $this->getPage();
-
-        return DiscordMessage::create('', [
-            'description' => "Page '**{$page->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED,
-        ]);
+        parent::__construct($page);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Page
+     */
+    public function getModel(): Page
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Page '**{$this->getModel()->getName()}**' has been deleted.";
     }
 
     /**
-     * Determine if the notifications should be sent.
+     * Get the message for the nova notification.
      *
-     * @return bool
+     * @return string
      */
-    public function shouldSend(): bool
+    protected function getNotificationMessage(): string
     {
-        $page = $this->getPage();
-
-        return ! $page->isForceDeleting();
+        return "Page '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
     }
 
     /**
-     * Get the nova notification.
+     * Get the URL for the nova notification.
      *
-     * @return NovaNotification
+     * @return string
      */
-    public function getNotification(): NovaNotification
+    protected function getNotificationUrl(): string
     {
-        $page = $this->getPage();
-
         $uriKey = PageResource::uriKey();
 
-        return NovaNotification::make()
-            ->icon('flag')
-            ->message("Page '{$page->getName()}' has been deleted. It will be automatically pruned in one week. Please review.")
-            ->type(NovaNotification::INFO_TYPE)
-            ->url("/resources/$uriKey/{$page->getKey()}");
-    }
-
-    /**
-     * Get the users to notify.
-     *
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return NovaQueries::admins();
+        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 }

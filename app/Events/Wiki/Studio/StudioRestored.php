@@ -4,43 +4,43 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Studio;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Wiki\WikiRestoredEvent;
+use App\Models\Wiki\Studio;
 
 /**
  * Class StudioRestored.
+ *
+ * @extends WikiRestoredEvent<Studio>
  */
-class StudioRestored extends StudioEvent implements DiscordMessageEvent
+class StudioRestored extends WikiRestoredEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Studio  $studio
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Studio $studio)
     {
-        $studio = $this->getStudio();
-
-        return DiscordMessage::create('', [
-            'description' => "Studio '**{$studio->getName()}**' has been restored.",
-            'color' => EmbedColor::RED,
-        ]);
+        parent::__construct($studio);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Studio
+     */
+    public function getModel(): Studio
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Studio '**{$this->getModel()->getName()}**' has been restored.";
     }
 }

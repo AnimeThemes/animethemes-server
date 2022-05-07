@@ -4,41 +4,43 @@ declare(strict_types=1);
 
 namespace App\Events\Billing\Transaction;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Admin\AdminDeletedEvent;
+use App\Models\Billing\Transaction;
 
 /**
  * Class TransactionDeleted.
+ *
+ * @extends AdminDeletedEvent<Transaction>
  */
-class TransactionDeleted extends TransactionEvent implements DiscordMessageEvent
+class TransactionDeleted extends AdminDeletedEvent
 {
-    use Dispatchable;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Transaction  $transaction
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Transaction $transaction)
     {
-        $transaction = $this->getTransaction();
-
-        return DiscordMessage::create('', [
-            'description' => "Transaction '**{$transaction->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED,
-        ]);
+        parent::__construct($transaction);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Transaction
+     */
+    public function getModel(): Transaction
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Transaction '**{$this->getModel()->getName()}**' has been deleted.";
     }
 }

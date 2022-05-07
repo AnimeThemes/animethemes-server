@@ -4,48 +4,40 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\AnimeThemeEntryVideo;
 
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Pivot\PivotCreatedEvent;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Video;
+use App\Pivots\AnimeThemeEntryVideo;
 
 /**
  * Class AnimeThemeEntryAnimeThemeCreatedVideo.
+ *
+ * @extends PivotCreatedEvent<AnimeThemeEntry, Video>
  */
-class AnimeThemeEntryAnimeThemeCreatedVideo extends AnimeThemeEntryVideoEvent implements
-    DiscordMessageEvent,
-    UpdateRelatedIndicesEvent
+class AnimeThemeEntryAnimeThemeCreatedVideo extends PivotCreatedEvent implements UpdateRelatedIndicesEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  AnimeThemeEntryVideo  $entryVideo
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(AnimeThemeEntryVideo $entryVideo)
     {
-        $video = $this->getVideo();
-        $entry = $this->getEntry();
-
-        return DiscordMessage::create('', [
-            'description' => "Video '**{$video->getName()}**' has been attached to Entry '**{$entry->getName()}**'.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($entryVideo->animethemeentry, $entryVideo->video);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        $foreign = $this->getForeign();
+        $related = $this->getRelated();
+
+        return "Video '**{$foreign->getName()}**' has been attached to Entry '**{$related->getName()}**'.";
     }
 
     /**
@@ -56,7 +48,7 @@ class AnimeThemeEntryAnimeThemeCreatedVideo extends AnimeThemeEntryVideoEvent im
     public function updateRelatedIndices(): void
     {
         // refresh video document
-        $video = $this->getVideo();
+        $video = $this->getForeign();
         $video->searchable();
     }
 }

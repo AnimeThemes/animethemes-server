@@ -4,46 +4,40 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\ArtistSong;
 
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Pivot\PivotCreatedEvent;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Song;
+use App\Pivots\ArtistSong;
 
 /**
  * Class ArtistSongCreated.
+ *
+ * @extends PivotCreatedEvent<Artist, Song>
  */
-class ArtistSongCreated extends ArtistSongEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
+class ArtistSongCreated extends PivotCreatedEvent implements UpdateRelatedIndicesEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  ArtistSong  $artistSong
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(ArtistSong $artistSong)
     {
-        $artist = $this->getArtist();
-        $song = $this->getSong();
-
-        return DiscordMessage::create('', [
-            'description' => "Song '**{$song->getName()}**' has been attached to Artist '**{$artist->getName()}**'.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($artistSong->artist, $artistSong->song);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        $foreign = $this->getForeign();
+        $related = $this->getRelated();
+
+        return "Song '**{$foreign->getName()}**' has been attached to Artist '**{$related->getName()}**'.";
     }
 
     /**
@@ -54,7 +48,7 @@ class ArtistSongCreated extends ArtistSongEvent implements DiscordMessageEvent, 
     public function updateRelatedIndices(): void
     {
         // refresh artist document
-        $artist = $this->getArtist();
+        $artist = $this->getRelated();
         $artist->searchable();
     }
 }
