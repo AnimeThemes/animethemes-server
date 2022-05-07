@@ -6,9 +6,9 @@ namespace App\Nova\Resources\Auth;
 
 use App\Models\Auth\User as UserModel;
 use App\Nova\Resources\Resource;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Exception;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
