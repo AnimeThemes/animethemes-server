@@ -173,6 +173,7 @@ class ExternalResource extends Resource
                 ->fields(fn () => [
                     Text::make(__('nova.as'), ArtistResource::ATTRIBUTE_AS)
                         ->nullable()
+                        ->copyable()
                         ->rules(['nullable', 'max:192'])
                         ->help(__('nova.resource_as_help')),
 
@@ -193,6 +194,7 @@ class ExternalResource extends Resource
                 ->fields(fn () => [
                     Text::make(__('nova.as'), AnimeResource::ATTRIBUTE_AS)
                         ->nullable()
+                        ->copyable()
                         ->rules(['nullable', 'max:192'])
                         ->help(__('nova.resource_as_help')),
 
@@ -214,6 +216,7 @@ class ExternalResource extends Resource
                     return [
                         Text::make(__('nova.as'), StudioResource::ATTRIBUTE_AS)
                             ->nullable()
+                            ->copyable()
                             ->rules(['nullable', 'max:192'])
                             ->help(__('nova.resource_as_help')),
 

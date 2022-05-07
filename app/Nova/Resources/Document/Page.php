@@ -6,6 +6,7 @@ namespace App\Nova\Resources\Document;
 
 use App\Models\Document\Page as PageModel;
 use App\Nova\Resources\Resource;
+use Exception;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Markdown;
@@ -114,6 +115,8 @@ class Page extends Resource
      *
      * @param  NovaRequest  $request
      * @return array
+     *
+     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
@@ -124,6 +127,7 @@ class Page extends Resource
 
             Text::make(__('nova.name'), PageModel::ATTRIBUTE_NAME)
                 ->sortable()
+                ->copyable()
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.page_name_help'))
                 ->showOnPreview()

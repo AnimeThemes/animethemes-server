@@ -8,6 +8,7 @@ use App\Models\Auth\User as UserModel;
 use App\Nova\Resources\Resource;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Exception;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -129,6 +130,8 @@ class User extends Resource
      *
      * @param  NovaRequest  $request
      * @return array
+     *
+     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
@@ -142,12 +145,14 @@ class User extends Resource
 
             Text::make(__('nova.name'), UserModel::ATTRIBUTE_NAME)
                 ->sortable()
+                ->copyable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
                 ->showOnPreview()
                 ->filterable(),
 
             Text::make(__('nova.email'), UserModel::ATTRIBUTE_EMAIL)
                 ->sortable()
+                ->copyable()
                 ->rules(['required', 'email', 'max:192'])
                 ->creationRules(Rule::unique(UserModel::TABLE)->__toString())
                 ->updateRules(

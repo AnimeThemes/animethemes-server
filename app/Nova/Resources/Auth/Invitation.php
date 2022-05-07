@@ -10,6 +10,7 @@ use App\Nova\Actions\Auth\ResendInvitationAction;
 use App\Nova\Resources\Resource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
+use Exception;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
@@ -117,6 +118,8 @@ class Invitation extends Resource
      *
      * @param  NovaRequest  $request
      * @return array
+     *
+     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
@@ -127,12 +130,14 @@ class Invitation extends Resource
 
             Text::make(__('nova.name'), InvitationModel::ATTRIBUTE_NAME)
                 ->sortable()
+                ->copyable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
                 ->showOnPreview()
                 ->filterable(),
 
             Text::make(__('nova.email'), InvitationModel::ATTRIBUTE_EMAIL)
                 ->sortable()
+                ->copyable()
                 ->rules(['required', 'email', 'max:192'])
                 ->creationRules(Rule::unique(InvitationModel::TABLE)->__toString())
                 ->updateRules(

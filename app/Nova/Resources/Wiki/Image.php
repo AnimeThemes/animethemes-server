@@ -11,6 +11,7 @@ use App\Nova\Resources\Resource;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
+use Exception;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -120,6 +121,8 @@ class Image extends Resource
      *
      * @param  NovaRequest  $request
      * @return array
+     *
+     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
@@ -177,11 +180,14 @@ class Image extends Resource
 
     /**
      * @return array
+     *
+     * @throws Exception
      */
     protected function fileProperties(): array
     {
         return [
             Text::make(__('nova.path'), ImageModel::ATTRIBUTE_PATH)
+                ->copyable()
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
