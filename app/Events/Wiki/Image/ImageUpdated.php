@@ -4,27 +4,20 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Image;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Image;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class ImageUpdated.
+ *
+ * @extends WikiUpdatedEvent<Image>
  */
-class ImageUpdated extends ImageEvent implements DiscordMessageEvent
+class ImageUpdated extends WikiUpdatedEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  Image  $image
-     * @return void
      */
     public function __construct(Image $image)
     {
@@ -33,28 +26,22 @@ class ImageUpdated extends ImageEvent implements DiscordMessageEvent
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return Image
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): Image
     {
-        $image = $this->getImage();
-
-        return DiscordMessage::create('', [
-            'description' => "Image '**{$image->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
+        return $this->model;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Image '**{$this->getModel()->getName()}**' has been updated.";
     }
 }

@@ -4,44 +4,38 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\ArtistImage;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Pivot\PivotDeletedEvent;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Image;
+use App\Pivots\ArtistImage;
 
 /**
  * Class ArtistImageDeleted.
+ *
+ * @extends PivotDeletedEvent<Artist, Image>
  */
-class ArtistImageDeleted extends ArtistImageEvent implements DiscordMessageEvent
+class ArtistImageDeleted extends PivotDeletedEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  ArtistImage  $artistImage
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(ArtistImage $artistImage)
     {
-        $artist = $this->getArtist();
-        $image = $this->getImage();
-
-        return DiscordMessage::create('', [
-            'description' => "Image '**{$image->getName()}**' has been detached from Artist '**{$artist->getName()}**'.",
-            'color' => EmbedColor::RED,
-        ]);
+        parent::__construct($artistImage->artist, $artistImage->image);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        $foreign = $this->getForeign();
+        $related = $this->getRelated();
+
+        return "Image '**{$foreign->getName()}**' has been detached from Artist '**{$related->getName()}**'.";
     }
 }

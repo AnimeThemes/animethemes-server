@@ -4,87 +4,66 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\ExternalResource;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Contracts\Events\NovaNotificationEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use App\Models\Auth\User;
+use App\Events\Base\Wiki\WikiDeletedEvent;
+use App\Models\Wiki\ExternalResource;
 use App\Nova\Resources\Wiki\ExternalResource as ExternalResourceResource;
-use App\Services\Nova\NovaQueries;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
-use Laravel\Nova\Notifications\NovaNotification;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class ExternalResourceDeleted.
+ *
+ * @extends WikiDeletedEvent<ExternalResource>
  */
-class ExternalResourceDeleted extends ExternalResourceEvent implements DiscordMessageEvent, NovaNotificationEvent
+class ExternalResourceDeleted extends WikiDeletedEvent
 {
-    use Dispatchable;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  ExternalResource  $resource
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(ExternalResource $resource)
     {
-        $resource = $this->getResource();
-
-        return DiscordMessage::create('', [
-            'description' => "Resource '**{$resource->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED,
-        ]);
+        parent::__construct($resource);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return ExternalResource
+     */
+    public function getModel(): ExternalResource
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Resource '**{$this->getModel()->getName()}**' has been deleted.";
     }
 
     /**
-     * Determine if the notifications should be sent.
+     * Get the message for the nova notification.
      *
-     * @return bool
+     * @return string
      */
-    public function shouldSend(): bool
+    protected function getNotificationMessage(): string
     {
-        $resource = $this->getResource();
-
-        return ! $resource->isForceDeleting();
+        return "Resource '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
     }
 
     /**
-     * Get the nova notification.
+     * Get the URL for the nova notification.
      *
-     * @return NovaNotification
+     * @return string
      */
-    public function getNotification(): NovaNotification
+    protected function getNotificationUrl(): string
     {
-        $resource = $this->getResource();
-
         $uriKey = ExternalResourceResource::uriKey();
 
-        return NovaNotification::make()
-            ->icon('flag')
-            ->message("Resource '{$resource->getName()}' has been deleted. It will be automatically pruned in one week. Please review.")
-            ->type(NovaNotification::INFO_TYPE)
-            ->url("/resources/$uriKey/{$resource->getKey()}");
-    }
-
-    /**
-     * Get the users to notify.
-     *
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return NovaQueries::admins();
+        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 }

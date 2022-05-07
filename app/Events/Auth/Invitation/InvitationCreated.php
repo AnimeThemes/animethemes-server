@@ -4,43 +4,43 @@ declare(strict_types=1);
 
 namespace App\Events\Auth\Invitation;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Admin\AdminCreatedEvent;
+use App\Models\Auth\Invitation;
 
 /**
  * Class InvitationCreated.
+ *
+ * @extends AdminCreatedEvent<Invitation>
  */
-class InvitationCreated extends InvitationEvent implements DiscordMessageEvent
+class InvitationCreated extends AdminCreatedEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Invitation  $invitation
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Invitation $invitation)
     {
-        $invitation = $this->getInvitation();
-
-        return DiscordMessage::create('', [
-            'description' => "Invitation '**{$invitation->getName()}**' has been created.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($invitation);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Invitation
+     */
+    public function getModel(): Invitation
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.admin_discord_channel');
+        return "Invitation '**{$this->getModel()->getName()}**' has been created.";
     }
 }

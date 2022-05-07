@@ -4,46 +4,46 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Anime\Theme\Entry;
 
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiRestoredEvent;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class EntryRestored.
+ *
+ * @extends WikiRestoredEvent<AnimeThemeEntry>
  */
-class EntryRestored extends EntryEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
+class EntryRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  AnimeThemeEntry  $entry
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(AnimeThemeEntry $entry)
     {
-        $entry = $this->getEntry();
-
-        return DiscordMessage::create('', [
-            'description' => "Entry '**{$entry->getName()}**' has been restored.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($entry);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return AnimeThemeEntry
+     */
+    public function getModel(): AnimeThemeEntry
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Entry '**{$this->getModel()->getName()}**' has been restored.";
     }
 
     /**
@@ -53,7 +53,7 @@ class EntryRestored extends EntryEvent implements DiscordMessageEvent, UpdateRel
      */
     public function updateRelatedIndices(): void
     {
-        $entry = $this->getEntry();
+        $entry = $this->getModel();
 
         $entry->videos->each(fn (Video $video) => $video->searchable());
     }

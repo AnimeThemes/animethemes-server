@@ -4,43 +4,43 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\ExternalResource;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Wiki\WikiRestoredEvent;
+use App\Models\Wiki\ExternalResource;
 
 /**
  * Class ExternalResourceRestored.
+ *
+ * @extends WikiRestoredEvent<ExternalResource>
  */
-class ExternalResourceRestored extends ExternalResourceEvent implements DiscordMessageEvent
+class ExternalResourceRestored extends WikiRestoredEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  ExternalResource  $resource
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(ExternalResource $resource)
     {
-        $resource = $this->getResource();
-
-        return DiscordMessage::create('', [
-            'description' => "Resource '**{$resource->getName()}**' has been restored.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($resource);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return ExternalResource
+     */
+    public function getModel(): ExternalResource
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Resource '**{$this->getModel()->getName()}**' has been restored.";
     }
 }

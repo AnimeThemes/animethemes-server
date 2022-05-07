@@ -4,48 +4,49 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Song;
 
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class SongRestored.
+ *
+ * @extends WikiRestoredEvent<Song>
  */
-class SongRestored extends SongEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
+class SongRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent
 {
-    use Dispatchable;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Song  $song
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Song $song)
     {
-        $song = $this->getSong();
-
-        return DiscordMessage::create('', [
-            'description' => "Song '**{$song->getName()}**' has been restored.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($song);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Song
+     */
+    public function getModel(): Song
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Song '**{$this->getModel()->getName()}**' has been restored.";
     }
 
     /**
@@ -55,7 +56,7 @@ class SongRestored extends SongEvent implements DiscordMessageEvent, UpdateRelat
      */
     public function updateRelatedIndices(): void
     {
-        $song = $this->getSong()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
+        $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
 
         // refresh artist documents by detaching song
         $artists = $song->artists;

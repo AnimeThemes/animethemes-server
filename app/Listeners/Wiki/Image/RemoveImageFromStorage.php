@@ -24,7 +24,7 @@ class RemoveImageFromStorage implements ShouldQueue
      */
     public function handle(ImageDeleting $event): void
     {
-        $image = $event->getImage();
+        $image = $event->getModel();
 
         if ($image->isForceDeleting()) {
             Storage::disk('images')->delete($image->path);

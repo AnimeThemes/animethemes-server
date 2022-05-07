@@ -4,43 +4,43 @@ declare(strict_types=1);
 
 namespace App\Events\Billing\Transaction;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Admin\AdminRestoredEvent;
+use App\Models\Billing\Transaction;
 
 /**
  * Class TransactionRestored.
+ *
+ * @extends AdminRestoredEvent<Transaction>
  */
-class TransactionRestored extends TransactionEvent implements DiscordMessageEvent
+class TransactionRestored extends AdminRestoredEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Transaction  $transaction
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Transaction $transaction)
     {
-        $transaction = $this->getTransaction();
-
-        return DiscordMessage::create('', [
-            'description' => "Transaction '**{$transaction->getName()}**' has been restored.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($transaction);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Transaction
+     */
+    public function getModel(): Transaction
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Transaction '**{$this->getModel()->getName()}**' has been restored.";
     }
 }

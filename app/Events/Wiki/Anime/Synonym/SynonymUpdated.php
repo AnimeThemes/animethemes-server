@@ -4,63 +4,58 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Anime\Synonym;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiUpdatedEvent;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class SynonymUpdated.
+ *
+ * @extends WikiUpdatedEvent<AnimeSynonym>
  */
-class SynonymUpdated extends SynonymEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
+class SynonymUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
+    /**
+     * The anime that the synonym belongs to.
+     *
+     * @var Anime
+     */
+    protected Anime $anime;
 
     /**
      * Create a new event instance.
      *
      * @param  AnimeSynonym  $synonym
-     * @return void
      */
     public function __construct(AnimeSynonym $synonym)
     {
         parent::__construct($synonym);
+        $this->anime = $synonym->anime;
         $this->initializeEmbedFields($synonym);
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return AnimeSynonym
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): AnimeSynonym
     {
-        $synonym = $this->getSynonym();
-        $anime = $this->getAnime();
-
-        return DiscordMessage::create('', [
-            'description' => "Synonym '**{$synonym->getName()}**' has been updated for Anime '**{$anime->getName()}**'.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
+        return $this->model;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Synonym '**{$this->getModel()->getName()}**' has been updated for Anime '**{$this->anime->getName()}**'.";
     }
 
     /**
@@ -70,7 +65,7 @@ class SynonymUpdated extends SynonymEvent implements DiscordMessageEvent, Update
      */
     public function updateRelatedIndices(): void
     {
-        $synonym = $this->getSynonym()->load(AnimeSynonym::RELATION_VIDEOS);
+        $synonym = $this->getModel()->load(AnimeSynonym::RELATION_VIDEOS);
 
         $synonym->anime->searchable();
         $synonym->anime->animethemes->each(function (AnimeTheme $theme) {

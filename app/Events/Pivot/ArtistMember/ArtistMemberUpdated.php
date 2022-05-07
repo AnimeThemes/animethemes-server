@@ -4,58 +4,38 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\ArtistMember;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Pivot\PivotUpdatedEvent;
+use App\Models\Wiki\Artist;
 use App\Pivots\ArtistMember;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class ArtistMemberUpdated.
+ *
+ * @extends PivotUpdatedEvent<Artist, Artist>
  */
-class ArtistMemberUpdated extends ArtistMemberEvent implements DiscordMessageEvent
+class ArtistMemberUpdated extends PivotUpdatedEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  ArtistMember  $artistMember
-     * @return void
      */
     public function __construct(ArtistMember $artistMember)
     {
-        parent::__construct($artistMember);
+        parent::__construct($artistMember->artist, $artistMember->member);
         $this->initializeEmbedFields($artistMember);
     }
 
     /**
-     * Get Discord message payload.
-     *
-     * @return DiscordMessage
-     */
-    public function getDiscordMessage(): DiscordMessage
-    {
-        $artist = $this->getArtist();
-        $member = $this->getMember();
-
-        return DiscordMessage::create('', [
-            'description' => "Member '**{$member->getName()}**' for Artist '**{$artist->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
-    }
-
-    /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        $foreign = $this->getForeign();
+        $related = $this->getRelated();
+
+        return "Member '**{$foreign->getName()}**' for Artist '**{$related->getName()}**' has been updated.";
     }
 }

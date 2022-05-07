@@ -4,62 +4,57 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Anime\Theme;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiUpdatedEvent;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class ThemeUpdated.
+ *
+ * @extends WikiUpdatedEvent<AnimeTheme>
  */
-class ThemeUpdated extends ThemeEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
+class ThemeUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
+    /**
+     * The anime that the theme belongs to.
+     *
+     * @var Anime
+     */
+    protected Anime $anime;
 
     /**
      * Create a new event instance.
      *
      * @param  AnimeTheme  $theme
-     * @return void
      */
     public function __construct(AnimeTheme $theme)
     {
         parent::__construct($theme);
+        $this->anime = $theme->anime;
         $this->initializeEmbedFields($theme);
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return AnimeTheme
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): AnimeTheme
     {
-        $theme = $this->getTheme();
-        $anime = $this->getAnime();
-
-        return DiscordMessage::create('', [
-            'description' => "Theme '**{$theme->getName()}**' has been updated for Anime '**{$anime->getName()}**'.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
+        return $this->model;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Theme '**{$this->getModel()->getName()}**' has been updated for Anime '**{$this->anime->getName()}**'.";
     }
 
     /**
@@ -69,7 +64,7 @@ class ThemeUpdated extends ThemeEvent implements DiscordMessageEvent, UpdateRela
      */
     public function updateRelatedIndices(): void
     {
-        $theme = $this->getTheme()->load(AnimeTheme::RELATION_VIDEOS);
+        $theme = $this->getModel()->load(AnimeTheme::RELATION_VIDEOS);
 
         $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
             $entry->searchable();

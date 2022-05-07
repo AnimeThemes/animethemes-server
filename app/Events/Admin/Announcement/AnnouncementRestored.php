@@ -4,43 +4,43 @@ declare(strict_types=1);
 
 namespace App\Events\Admin\Announcement;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Admin\AdminRestoredEvent;
+use App\Models\Admin\Announcement;
 
 /**
  * Class AnnouncementRestored.
+ *
+ * @extends AdminRestoredEvent<Announcement>
  */
-class AnnouncementRestored extends AnnouncementEvent implements DiscordMessageEvent
+class AnnouncementRestored extends AdminRestoredEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Announcement  $announcement
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Announcement $announcement)
     {
-        $announcement = $this->getAnnouncement();
-
-        return DiscordMessage::create('', [
-            'description' => "Announcement '**{$announcement->getName()}**' has been restored.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($announcement);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Announcement
+     */
+    public function getModel(): Announcement
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.admin_discord_channel');
+        return "Announcement '**{$this->getModel()->getName()}**' has been restored.";
     }
 }

@@ -4,87 +4,66 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Artist;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Contracts\Events\NovaNotificationEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use App\Models\Auth\User;
+use App\Events\Base\Wiki\WikiDeletedEvent;
+use App\Models\Wiki\Artist;
 use App\Nova\Resources\Wiki\Artist as ArtistResource;
-use App\Services\Nova\NovaQueries;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
-use Laravel\Nova\Notifications\NovaNotification;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class ArtistDeleted.
+ *
+ * @extends WikiDeletedEvent<Artist>
  */
-class ArtistDeleted extends ArtistEvent implements DiscordMessageEvent, NovaNotificationEvent
+class ArtistDeleted extends WikiDeletedEvent
 {
-    use Dispatchable;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Artist  $artist
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Artist $artist)
     {
-        $artist = $this->getArtist();
-
-        return DiscordMessage::create('', [
-            'description' => "Artist '**{$artist->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED,
-        ]);
+        parent::__construct($artist);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Artist
+     */
+    public function getModel(): Artist
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Artist '**{$this->getModel()->getName()}**' has been deleted.";
     }
 
     /**
-     * Determine if the notifications should be sent.
+     * Get the message for the nova notification.
      *
-     * @return bool
+     * @return string
      */
-    public function shouldSend(): bool
+    protected function getNotificationMessage(): string
     {
-        $artist = $this->getArtist();
-
-        return ! $artist->isForceDeleting();
+        return "Artist '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
     }
 
     /**
-     * Get the nova notification.
+     * Get the URL for the nova notification.
      *
-     * @return NovaNotification
+     * @return string
      */
-    public function getNotification(): NovaNotification
+    protected function getNotificationUrl(): string
     {
-        $artist = $this->getArtist();
-
         $uriKey = ArtistResource::uriKey();
 
-        return NovaNotification::make()
-            ->icon('flag')
-            ->message("Artist '{$artist->getName()}' has been deleted. It will be automatically pruned in one week. Please review.")
-            ->type(NovaNotification::INFO_TYPE)
-            ->url("/resources/$uriKey/{$artist->getKey()}");
-    }
-
-    /**
-     * Get the users to notify.
-     *
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return NovaQueries::admins();
+        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 }

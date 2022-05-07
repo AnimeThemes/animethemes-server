@@ -4,44 +4,38 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\AnimeResource;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Pivot\PivotDeletedEvent;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
+use App\Pivots\AnimeResource;
 
 /**
  * Class AnimeResourceDeleted.
+ *
+ * @extends PivotDeletedEvent<Anime, ExternalResource>
  */
-class AnimeResourceDeleted extends AnimeResourceEvent implements DiscordMessageEvent
+class AnimeResourceDeleted extends PivotDeletedEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  AnimeResource  $animeResource
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(AnimeResource $animeResource)
     {
-        $anime = $this->getAnime();
-        $resource = $this->getResource();
-
-        return DiscordMessage::create('', [
-            'description' => "Resource '**{$resource->getName()}**' has been detached from Anime '**{$anime->getName()}**'.",
-            'color' => EmbedColor::RED,
-        ]);
+        parent::__construct($animeResource->anime, $animeResource->resource);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        $foreign = $this->getForeign();
+        $related = $this->getRelated();
+
+        return "Resource '**{$foreign->getName()}**' has been detached from Anime '**{$related->getName()}**'.";
     }
 }

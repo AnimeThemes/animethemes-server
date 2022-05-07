@@ -4,27 +4,20 @@ declare(strict_types=1);
 
 namespace App\Events\Auth\Invitation;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Admin\AdminUpdatedEvent;
 use App\Models\Auth\Invitation;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class InvitationUpdated.
+ *
+ * @extends AdminUpdatedEvent<Invitation>
  */
-class InvitationUpdated extends InvitationEvent implements DiscordMessageEvent
+class InvitationUpdated extends AdminUpdatedEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  Invitation  $invitation
-     * @return void
      */
     public function __construct(Invitation $invitation)
     {
@@ -33,28 +26,22 @@ class InvitationUpdated extends InvitationEvent implements DiscordMessageEvent
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return Invitation
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): Invitation
     {
-        $invitation = $this->getInvitation();
-
-        return DiscordMessage::create('', [
-            'description' => "Invitation '**{$invitation->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
+        return $this->model;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.admin_discord_channel');
+        return "Invitation '**{$this->getModel()->getName()}**' has been updated.";
     }
 }

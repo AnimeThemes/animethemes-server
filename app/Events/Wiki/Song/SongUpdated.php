@@ -4,32 +4,25 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Song;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class SongUpdated.
+ *
+ * @extends WikiUpdatedEvent<Song>
  */
-class SongUpdated extends SongEvent implements DiscordMessageEvent, UpdateRelatedIndicesEvent
+class SongUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  Song  $song
-     * @return void
      */
     public function __construct(Song $song)
     {
@@ -38,29 +31,23 @@ class SongUpdated extends SongEvent implements DiscordMessageEvent, UpdateRelate
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return Song
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): Song
     {
-        $song = $this->getSong();
-
-        return DiscordMessage::create('', [
-            'description' => "Song '**{$song->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
+        return $this->model;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Song '**{$this->getModel()->getName()}**' has been updated.";
     }
 
     /**
@@ -70,7 +57,7 @@ class SongUpdated extends SongEvent implements DiscordMessageEvent, UpdateRelate
      */
     public function updateRelatedIndices(): void
     {
-        $song = $this->getSong()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
+        $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
 
         $song->artists->each(fn (Artist $artist) => $artist->searchable());
 

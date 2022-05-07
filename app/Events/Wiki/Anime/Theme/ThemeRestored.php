@@ -5,48 +5,56 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Anime\Theme;
 
 use App\Contracts\Events\CascadesRestoresEvent;
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiRestoredEvent;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class ThemeRestored.
+ *
+ * @extends WikiRestoredEvent<AnimeTheme>
  */
-class ThemeRestored extends ThemeEvent implements CascadesRestoresEvent, DiscordMessageEvent
+class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 {
-    use Dispatchable;
-    use SerializesModels;
+    /**
+     * The anime that the theme belongs to.
+     *
+     * @var Anime
+     */
+    protected Anime $anime;
 
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  AnimeTheme  $theme
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(AnimeTheme $theme)
     {
-        $theme = $this->getTheme();
-        $anime = $this->getAnime();
-
-        return DiscordMessage::create('', [
-            'description' => "Theme '**{$theme->getName()}**' has been restored for Anime '**{$anime->getName()}**'.",
-            'color' => EmbedColor::GREEN,
-        ]);
+        parent::__construct($theme);
+        $this->anime = $theme->anime;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return AnimeTheme
+     */
+    public function getModel(): AnimeTheme
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Theme '**{$this->getModel()->getName()}**' has been restored for Anime '**{$this->anime->getName()}**'.";
     }
 
     /**
@@ -56,7 +64,7 @@ class ThemeRestored extends ThemeEvent implements CascadesRestoresEvent, Discord
      */
     public function cascadeRestores(): void
     {
-        $theme = $this->getTheme();
+        $theme = $this->getModel();
 
         $theme->animethemeentries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeThemeEntry $entry) {
             AnimeThemeEntry::withoutEvents(function () use ($entry) {

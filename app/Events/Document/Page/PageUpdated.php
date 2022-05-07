@@ -4,27 +4,20 @@ declare(strict_types=1);
 
 namespace App\Events\Document\Page;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Document\Page;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class PageUpdated.
+ *
+ * @extends WikiUpdatedEvent<Page>
  */
-class PageUpdated extends PageEvent implements DiscordMessageEvent
+class PageUpdated extends WikiUpdatedEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  Page  $page
-     * @return void
      */
     public function __construct(Page $page)
     {
@@ -33,28 +26,22 @@ class PageUpdated extends PageEvent implements DiscordMessageEvent
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return Page
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): Page
     {
-        $page = $this->getPage();
-
-        return DiscordMessage::create('', [
-            'description' => "Page '**{$page->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
+        return $this->model;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Page '**{$this->getModel()->getName()}**' has been updated.";
     }
 }

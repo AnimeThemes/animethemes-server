@@ -19,7 +19,7 @@ class CreateThemeSlug
      */
     public function handle(ThemeCreating $event): void
     {
-        $theme = $event->getTheme();
+        $theme = $event->getModel();
 
         $slug = $theme->type?->key;
         if (! empty($theme->sequence)) {

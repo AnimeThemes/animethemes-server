@@ -4,27 +4,20 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\ExternalResource;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\ExternalResource;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class ExternalResourceUpdated.
+ *
+ * @extends WikiUpdatedEvent<ExternalResource>
  */
-class ExternalResourceUpdated extends ExternalResourceEvent implements DiscordMessageEvent
+class ExternalResourceUpdated extends WikiUpdatedEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  ExternalResource  $resource
-     * @return void
      */
     public function __construct(ExternalResource $resource)
     {
@@ -33,28 +26,22 @@ class ExternalResourceUpdated extends ExternalResourceEvent implements DiscordMe
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return ExternalResource
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): ExternalResource
     {
-        $resource = $this->getResource();
-
-        return DiscordMessage::create('', [
-            'description' => "Resource '**{$resource->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
+        return $this->model;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Resource '**{$this->getModel()->getName()}**' has been updated.";
     }
 }

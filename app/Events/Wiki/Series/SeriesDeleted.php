@@ -4,87 +4,66 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Series;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Contracts\Events\NovaNotificationEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use App\Models\Auth\User;
+use App\Events\Base\Wiki\WikiDeletedEvent;
+use App\Models\Wiki\Series;
 use App\Nova\Resources\Wiki\Series as SeriesResource;
-use App\Services\Nova\NovaQueries;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
-use Laravel\Nova\Notifications\NovaNotification;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class SeriesDeleted.
+ *
+ * @extends WikiDeletedEvent<Series>
  */
-class SeriesDeleted extends SeriesEvent implements DiscordMessageEvent, NovaNotificationEvent
+class SeriesDeleted extends WikiDeletedEvent
 {
-    use Dispatchable;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Series  $series
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Series $series)
     {
-        $series = $this->getSeries();
-
-        return DiscordMessage::create('', [
-            'description' => "Series '**{$series->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED,
-        ]);
+        parent::__construct($series);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Series
+     */
+    public function getModel(): Series
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Series '**{$this->getModel()->getName()}**' has been deleted.";
     }
 
     /**
-     * Determine if the notifications should be sent.
+     * Get the message for the nova notification.
      *
-     * @return bool
+     * @return string
      */
-    public function shouldSend(): bool
+    protected function getNotificationMessage(): string
     {
-        $series = $this->getSeries();
-
-        return ! $series->isForceDeleting();
+        return "Series '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
     }
 
     /**
-     * Get the nova notification.
+     * Get the URL for the nova notification.
      *
-     * @return NovaNotification
+     * @return string
      */
-    public function getNotification(): NovaNotification
+    protected function getNotificationUrl(): string
     {
-        $series = $this->getSeries();
-
         $uriKey = SeriesResource::uriKey();
 
-        return NovaNotification::make()
-            ->icon('flag')
-            ->message("Series '{$series->getName()}' has been deleted. It will be automatically pruned in one week. Please review.")
-            ->type(NovaNotification::INFO_TYPE)
-            ->url("/resources/$uriKey/{$series->getKey()}");
-    }
-
-    /**
-     * Get the users to notify.
-     *
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return NovaQueries::admins();
+        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 }

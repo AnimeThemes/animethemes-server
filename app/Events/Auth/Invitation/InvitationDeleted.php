@@ -4,41 +4,43 @@ declare(strict_types=1);
 
 namespace App\Events\Auth\Invitation;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Admin\AdminDeletedEvent;
+use App\Models\Auth\Invitation;
 
 /**
  * Class InvitationDeleted.
+ *
+ * @extends AdminDeletedEvent<Invitation>
  */
-class InvitationDeleted extends InvitationEvent implements DiscordMessageEvent
+class InvitationDeleted extends AdminDeletedEvent
 {
-    use Dispatchable;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  Invitation  $invitation
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(Invitation $invitation)
     {
-        $invitation = $this->getInvitation();
-
-        return DiscordMessage::create('', [
-            'description' => "Invitation '**{$invitation->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED,
-        ]);
+        parent::__construct($invitation);
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the model that has fired this event.
+     *
+     * @return Invitation
+     */
+    public function getModel(): Invitation
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.admin_discord_channel');
+        return "Invitation '**{$this->getModel()->getName()}**' has been deleted.";
     }
 }

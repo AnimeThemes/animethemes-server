@@ -4,27 +4,20 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Video;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class VideoUpdated.
+ *
+ * @extends WikiUpdatedEvent<Video>
  */
-class VideoUpdated extends VideoEvent implements DiscordMessageEvent
+class VideoUpdated extends WikiUpdatedEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  Video  $video
-     * @return void
      */
     public function __construct(Video $video)
     {
@@ -33,28 +26,22 @@ class VideoUpdated extends VideoEvent implements DiscordMessageEvent
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return Video
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): Video
     {
-        $video = $this->getVideo();
-
-        return DiscordMessage::create('', [
-            'description' => "Video '**{$video->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
-        ]);
+        return $this->model;
     }
 
     /**
-     * Get Discord channel the message will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return "Video '**{$this->getModel()->getName()}**' has been updated.";
     }
 }

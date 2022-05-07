@@ -4,44 +4,38 @@ declare(strict_types=1);
 
 namespace App\Events\Pivot\StudioResource;
 
-use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Pivot\PivotDeletedEvent;
+use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Studio;
+use App\Pivots\StudioResource;
 
 /**
  * Class StudioResourceDeleted.
+ *
+ * @extends PivotDeletedEvent<Studio, ExternalResource>
  */
-class StudioResourceDeleted extends StudioResourceEvent implements DiscordMessageEvent
+class StudioResourceDeleted extends PivotDeletedEvent
 {
-    use Dispatchable;
-    use SerializesModels;
-
     /**
-     * Get Discord message payload.
+     * Create a new event instance.
      *
-     * @return DiscordMessage
+     * @param  StudioResource  $studioResource
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function __construct(StudioResource $studioResource)
     {
-        $studio = $this->getStudio();
-        $resource = $this->getResource();
-
-        return DiscordMessage::create('', [
-            'description' => "Resource '**{$resource->getName()}**' has been detached from Studio '**{$studio->getName()}**'.",
-            'color' => EmbedColor::RED,
-        ]);
+        parent::__construct($studioResource->studio, $studioResource->resource);
     }
 
     /**
-     * Get Discord channel the mesasge will be sent to.
+     * Get the description for the Discord message payload.
      *
      * @return string
      */
-    public function getDiscordChannel(): string
+    protected function getDiscordMessageDescription(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        $foreign = $this->getForeign();
+        $related = $this->getRelated();
+
+        return "Resource '**{$foreign->getName()}**' has been detached from Studio '**{$related->getName()}**'.";
     }
 }
