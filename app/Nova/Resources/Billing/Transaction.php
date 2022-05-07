@@ -9,6 +9,7 @@ use App\Models\Billing\Transaction as TransactionModel;
 use App\Nova\Resources\Resource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
+use Exception;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
@@ -111,6 +112,8 @@ class Transaction extends Resource
      *
      * @param  NovaRequest  $request
      * @return array
+     *
+     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
@@ -137,6 +140,7 @@ class Transaction extends Resource
 
             Text::make(__('nova.description'), TransactionModel::ATTRIBUTE_DESCRIPTION)
                 ->sortable()
+                ->copyable()
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.transaction_description_help'))
                 ->showOnPreview()
@@ -152,6 +156,7 @@ class Transaction extends Resource
             Text::make(__('nova.external_id'), TransactionModel::ATTRIBUTE_EXTERNAL_ID)
                 ->nullable()
                 ->sortable()
+                ->copyable()
                 ->rules(['nullable', 'max:192'])
                 ->help(__('nova.transaction_external_id_help'))
                 ->showOnPreview()

@@ -9,6 +9,7 @@ use App\Nova\Metrics\Series\NewSeries;
 use App\Nova\Metrics\Series\SeriesPerDay;
 use App\Nova\Resources\Resource;
 use App\Pivots\BasePivot;
+use Exception;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Card;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -107,6 +108,8 @@ class Series extends Resource
      *
      * @param  NovaRequest  $request
      * @return array
+     *
+     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
@@ -117,6 +120,7 @@ class Series extends Resource
 
             Text::make(__('nova.name'), SeriesModel::ATTRIBUTE_NAME)
                 ->sortable()
+                ->copyable()
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.series_name_help'))
                 ->showOnPreview()

@@ -41,6 +41,7 @@ class NewAnime extends Value
             60 => '60 Days',
             365 => '365 Days',
             'TODAY' => 'Today',
+            'YESTERDAY' => 'Yesterday',
             'MTD' => 'Month To Date',
             'QTD' => 'Quarter To Date',
             'YTD' => 'Year To Date',

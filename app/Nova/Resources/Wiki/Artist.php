@@ -19,6 +19,7 @@ use App\Pivots\ArtistMember;
 use App\Pivots\ArtistResource;
 use App\Pivots\ArtistSong;
 use App\Pivots\BasePivot;
+use Exception;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Card;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -117,6 +118,8 @@ class Artist extends Resource
      *
      * @param  NovaRequest  $request
      * @return array
+     *
+     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
@@ -127,6 +130,7 @@ class Artist extends Resource
 
             Text::make(__('nova.name'), ArtistModel::ATTRIBUTE_NAME)
                 ->sortable()
+                ->copyable()
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.artist_name_help'))
                 ->showOnPreview()
@@ -153,6 +157,7 @@ class Artist extends Resource
                 ->fields(fn () => [
                     Text::make(__('nova.as'), ArtistSong::ATTRIBUTE_AS)
                         ->nullable()
+                        ->copyable()
                         ->rules(['nullable', 'max:192'])
                         ->help(__('nova.resource_as_help')),
 
@@ -173,6 +178,7 @@ class Artist extends Resource
                 ->fields(fn () => [
                     Text::make(__('nova.as'), ArtistResource::ATTRIBUTE_AS)
                         ->nullable()
+                        ->copyable()
                         ->rules(['nullable', 'max:192'])
                         ->help(__('nova.resource_as_help')),
 
@@ -192,6 +198,7 @@ class Artist extends Resource
                 ->fields(fn () => [
                     Text::make(__('nova.as'), ArtistMember::ATTRIBUTE_AS)
                         ->nullable()
+                        ->copyable()
                         ->rules(['nullable', 'max:192'])
                         ->help(__('nova.resource_as_help')),
 
@@ -211,6 +218,7 @@ class Artist extends Resource
                 ->fields(fn () => [
                     Text::make(__('nova.as'), ArtistMember::ATTRIBUTE_AS)
                         ->nullable()
+                        ->copyable()
                         ->rules(['nullable', 'max:192'])
                         ->help(__('nova.resource_as_help')),
 

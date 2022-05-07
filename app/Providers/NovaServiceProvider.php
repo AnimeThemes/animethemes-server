@@ -9,6 +9,7 @@ use App\Nova\Dashboards\Main;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\LogViewer\LogViewer;
 use Laravel\Nova\Menu\Menu;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Nova;
@@ -34,6 +35,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             return $menu;
         });
+
+        Nova::footer(fn () => '');
     }
 
     /**
@@ -73,6 +76,21 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             new Main(),
+        ];
+    }
+
+    /**
+     * Get the tools that should be listed in the Nova sidebar.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function tools(): array
+    {
+        return [
+            (new LogViewer())
+                ->canSee(fn (Request $request) => $request->user()->hasCurrentTeamPermission('log:read')),
         ];
     }
 }

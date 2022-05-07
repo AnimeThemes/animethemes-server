@@ -17,6 +17,7 @@ use App\Nova\Resources\Wiki\Anime\Theme\Entry;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
+use Exception;
 use Laravel\Nova\Card;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
@@ -103,6 +104,8 @@ class Video extends Resource
      *
      * @param  NovaRequest  $request
      * @return array
+     *
+     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
@@ -195,11 +198,14 @@ class Video extends Resource
 
     /**
      * @return array
+     *
+     * @throws Exception
      */
     protected function fileProperties(): array
     {
         return [
             Text::make(__('nova.basename'), VideoModel::ATTRIBUTE_BASENAME)
+                ->copyable()
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
@@ -208,12 +214,14 @@ class Video extends Resource
 
             Text::make(__('nova.filename'), VideoModel::ATTRIBUTE_FILENAME)
                 ->sortable()
+                ->copyable()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->showOnPreview()
                 ->filterable(),
 
             Text::make(__('nova.path'), VideoModel::ATTRIBUTE_PATH)
+                ->copyable()
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
@@ -228,6 +236,7 @@ class Video extends Resource
                 ->filterable(),
 
             Text::make(__('nova.mimetype'), VideoModel::ATTRIBUTE_MIMETYPE)
+                ->copyable()
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()

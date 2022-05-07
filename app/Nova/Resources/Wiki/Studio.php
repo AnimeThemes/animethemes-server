@@ -14,6 +14,7 @@ use App\Nova\Lenses\Studio\StudioUnlinkedLens;
 use App\Nova\Resources\Resource;
 use App\Pivots\BasePivot;
 use App\Pivots\StudioResource;
+use Exception;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
@@ -111,6 +112,8 @@ class Studio extends Resource
      *
      * @param  NovaRequest  $request
      * @return array
+     *
+     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
@@ -121,6 +124,7 @@ class Studio extends Resource
 
             Text::make(__('nova.name'), StudioModel::ATTRIBUTE_NAME)
                 ->sortable()
+                ->copyable()
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.studio_name_help'))
                 ->showOnPreview()
@@ -159,6 +163,7 @@ class Studio extends Resource
                 ->fields(fn () => [
                     Text::make(__('nova.as'), StudioResource::ATTRIBUTE_AS)
                         ->nullable()
+                        ->copyable()
                         ->rules(['nullable', 'max:192'])
                         ->help(__('nova.resource_as_help')),
 

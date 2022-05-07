@@ -11,6 +11,7 @@ use App\Nova\Resources\Resource;
 use App\Nova\Resources\Wiki\Anime\Theme;
 use App\Pivots\ArtistSong;
 use App\Pivots\BasePivot;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
@@ -145,6 +146,8 @@ class Song extends Resource
      *
      * @param  NovaRequest  $request
      * @return array
+     *
+     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
@@ -155,6 +158,7 @@ class Song extends Resource
 
             Text::make(__('nova.title'), SongModel::ATTRIBUTE_TITLE)
                 ->sortable()
+                ->copyable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
                 ->help(__('nova.song_title_help'))
@@ -169,6 +173,7 @@ class Song extends Resource
                 ->fields(fn () => [
                     Text::make(__('nova.as'), ArtistSong::ATTRIBUTE_AS)
                         ->nullable()
+                        ->copyable()
                         ->rules(['nullable', 'max:192'])
                         ->help(__('nova.resource_as_help')),
 

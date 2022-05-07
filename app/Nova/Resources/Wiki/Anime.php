@@ -26,6 +26,7 @@ use App\Pivots\AnimeResource;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Card;
@@ -140,6 +141,8 @@ class Anime extends Resource
      *
      * @param  NovaRequest  $request
      * @return array
+     *
+     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
@@ -150,6 +153,7 @@ class Anime extends Resource
 
             Text::make(__('nova.name'), AnimeModel::ATTRIBUTE_NAME)
                 ->sortable()
+                ->copyable()
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.anime_name_help'))
                 ->showOnPreview()
@@ -217,6 +221,7 @@ class Anime extends Resource
                 ->fields(fn () => [
                     Text::make(__('nova.as'), AnimeResource::ATTRIBUTE_AS)
                         ->nullable()
+                        ->copyable()
                         ->rules(['nullable', 'max:192'])
                         ->help(__('nova.resource_as_help')),
 
