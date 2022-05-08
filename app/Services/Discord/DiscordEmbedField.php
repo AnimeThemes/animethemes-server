@@ -39,17 +39,6 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     }
 
     /**
-     * Create a new field instance.
-     *
-     * @param  mixed  ...$parameters
-     * @return static
-     */
-    public static function make(...$parameters): static
-    {
-        return new static(...$parameters);
-    }
-
-    /**
      * Get the instance as an array.
      *
      * @return array<string, mixed>

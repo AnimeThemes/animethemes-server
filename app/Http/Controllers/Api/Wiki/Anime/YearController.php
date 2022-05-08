@@ -54,7 +54,7 @@ class YearController extends Controller
 
         $allowedIncludePaths = collect($includeCriteria?->getPaths());
 
-        $anime = AnimeCollection::make(
+        $anime = new AnimeCollection(
             Anime::query()
                 ->where(Anime::ATTRIBUTE_YEAR, $year)
                 ->with($allowedIncludePaths->all())

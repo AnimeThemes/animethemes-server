@@ -43,7 +43,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, new StudioReadQuery())
+                    (new StudioResource($studio, new StudioReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -72,7 +72,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, new StudioReadQuery())
+                    (new StudioResource($studio, new StudioReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -100,18 +100,16 @@ class StudioShowTest extends TestCase
             IncludeParser::param() => $includedPaths->join(','),
         ];
 
-        Studio::factory()
+        $studio = Studio::factory()
             ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
-
-        $studio = Studio::with($includedPaths->all())->first();
+            ->createOne();
 
         $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, new StudioReadQuery($parameters))
+                    (new StudioResource($studio, new StudioReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -148,7 +146,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, new StudioReadQuery($parameters))
+                    (new StudioResource($studio, new StudioReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -175,23 +173,22 @@ class StudioShowTest extends TestCase
             IncludeParser::param() => Studio::RELATION_ANIME,
         ];
 
-        Studio::factory()
+        $studio = Studio::factory()
             ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
             ->create();
 
-        $studio = Studio::with([
+        $studio->unsetRelations()->load([
             Studio::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
                 $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, new StudioReadQuery($parameters))
+                    (new StudioResource($studio, new StudioReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -218,7 +215,7 @@ class StudioShowTest extends TestCase
             IncludeParser::param() => Studio::RELATION_ANIME,
         ];
 
-        Studio::factory()
+        $studio = Studio::factory()
             ->has(
                 Anime::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -228,21 +225,20 @@ class StudioShowTest extends TestCase
                         [Anime::ATTRIBUTE_YEAR => 2002],
                     ))
             )
-            ->create();
+            ->createOne();
 
-        $studio = Studio::with([
+        $studio->unsetRelations()->load([
             Studio::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    StudioResource::make($studio, new StudioReadQuery($parameters))
+                    (new StudioResource($studio, new StudioReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

@@ -31,6 +31,6 @@ class ThemeCollection extends BaseCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(fn (AnimeTheme $theme) => ThemeResource::make($theme, $this->query))->all();
+        return $this->collection->map(fn (AnimeTheme $theme) => new ThemeResource($theme, $this->query))->all();
     }
 }

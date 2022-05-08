@@ -49,7 +49,7 @@ return [
     |
     */
 
-    'expiration' => CarbonInterval::month()->totalMinutes,
+    'expiration' => CarbonInterval::year()->totalMinutes,
 
     /*
     |--------------------------------------------------------------------------

@@ -43,7 +43,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, new ExternalResourceReadQuery())
+                    (new ExternalResourceResource($resource, new ExternalResourceReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -70,7 +70,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, new ExternalResourceReadQuery())
+                    (new ExternalResourceResource($resource, new ExternalResourceReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -98,19 +98,17 @@ class ExternalResourceShowTest extends TestCase
             IncludeParser::param() => $includedPaths->join(','),
         ];
 
-        ExternalResource::factory()
+        $resource = ExternalResource::factory()
             ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
             ->has(Artist::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
-
-        $resource = ExternalResource::with($includedPaths->all())->first();
+            ->createOne();
 
         $response = $this->get(route('api.resource.show', ['resource' => $resource] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, new ExternalResourceReadQuery($parameters))
+                    (new ExternalResourceResource($resource, new ExternalResourceReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -145,7 +143,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, new ExternalResourceReadQuery($parameters))
+                    (new ExternalResourceResource($resource, new ExternalResourceReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -170,23 +168,22 @@ class ExternalResourceShowTest extends TestCase
             IncludeParser::param() => ExternalResource::RELATION_ANIME,
         ];
 
-        ExternalResource::factory()
+        $resource = ExternalResource::factory()
             ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
+            ->createOne();
 
-        $resource = ExternalResource::with([
+        $resource->unsetRelations()->load([
             ExternalResource::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
                 $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.resource.show', ['resource' => $resource] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, new ExternalResourceReadQuery($parameters))
+                    (new ExternalResourceResource($resource, new ExternalResourceReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -212,7 +209,7 @@ class ExternalResourceShowTest extends TestCase
             IncludeParser::param() => ExternalResource::RELATION_ANIME,
         ];
 
-        ExternalResource::factory()
+        $resource = ExternalResource::factory()
             ->has(
                 Anime::factory()
                 ->count($this->faker->randomDigitNotNull())
@@ -220,21 +217,20 @@ class ExternalResourceShowTest extends TestCase
                     Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
                 ])
             )
-            ->create();
+            ->createOne();
 
-        $resource = ExternalResource::with([
+        $resource->unsetRelations()->load([
             ExternalResource::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.resource.show', ['resource' => $resource] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ExternalResourceResource::make($resource, new ExternalResourceReadQuery($parameters))
+                    (new ExternalResourceResource($resource, new ExternalResourceReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

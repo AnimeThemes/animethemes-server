@@ -48,7 +48,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageCollection::make($pages, new PageReadQuery())
+                    (new PageCollection($pages, new PageReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -101,7 +101,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageCollection::make($pages, new PageReadQuery($parameters))
+                    (new PageCollection($pages, new PageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -180,7 +180,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageCollection::make($page, new PageReadQuery($parameters))
+                    (new PageCollection($page, new PageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -223,7 +223,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageCollection::make($page, new PageReadQuery($parameters))
+                    (new PageCollection($page, new PageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -262,7 +262,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageCollection::make($page, new PageReadQuery($parameters))
+                    (new PageCollection($page, new PageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -301,7 +301,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageCollection::make($page, new PageReadQuery($parameters))
+                    (new PageCollection($page, new PageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -340,7 +340,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageCollection::make($page, new PageReadQuery($parameters))
+                    (new PageCollection($page, new PageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -390,7 +390,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    PageCollection::make($page, new PageReadQuery($parameters))
+                    (new PageCollection($page, new PageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

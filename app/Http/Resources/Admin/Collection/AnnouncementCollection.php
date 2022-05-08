@@ -32,7 +32,7 @@ class AnnouncementCollection extends BaseCollection
     public function toArray($request): array
     {
         return $this->collection->map(
-            fn (Announcement $announcement) => AnnouncementResource::make($announcement, $this->query)
+            fn (Announcement $announcement) => new AnnouncementResource($announcement, $this->query)
         )->all();
     }
 }

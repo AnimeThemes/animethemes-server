@@ -95,11 +95,11 @@ class ArtistResource extends BaseResource
             $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
         }
 
-        $result[Artist::RELATION_SONGS] = SongCollection::make($this->whenLoaded(Artist::RELATION_SONGS), $this->query);
-        $result[Artist::RELATION_MEMBERS] = ArtistCollection::make($this->whenLoaded(Artist::RELATION_MEMBERS), $this->query);
-        $result[Artist::RELATION_GROUPS] = ArtistCollection::make($this->whenLoaded(Artist::RELATION_GROUPS), $this->query);
-        $result[Artist::RELATION_RESOURCES] = ExternalResourceCollection::make($this->whenLoaded(Artist::RELATION_RESOURCES), $this->query);
-        $result[Artist::RELATION_IMAGES] = ImageCollection::make($this->whenLoaded(Artist::RELATION_IMAGES), $this->query);
+        $result[Artist::RELATION_SONGS] = new SongCollection($this->whenLoaded(Artist::RELATION_SONGS), $this->query);
+        $result[Artist::RELATION_MEMBERS] = new ArtistCollection($this->whenLoaded(Artist::RELATION_MEMBERS), $this->query);
+        $result[Artist::RELATION_GROUPS] = new ArtistCollection($this->whenLoaded(Artist::RELATION_GROUPS), $this->query);
+        $result[Artist::RELATION_RESOURCES] = new ExternalResourceCollection($this->whenLoaded(Artist::RELATION_RESOURCES), $this->query);
+        $result[Artist::RELATION_IMAGES] = new ImageCollection($this->whenLoaded(Artist::RELATION_IMAGES), $this->query);
 
         return $result;
     }

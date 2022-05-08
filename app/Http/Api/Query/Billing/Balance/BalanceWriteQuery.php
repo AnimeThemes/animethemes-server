@@ -45,6 +45,6 @@ class BalanceWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return BalanceResource::make($resource, new BalanceReadQuery());
+        return new BalanceResource($resource, new BalanceReadQuery());
     }
 }

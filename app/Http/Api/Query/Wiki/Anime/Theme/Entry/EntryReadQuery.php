@@ -47,7 +47,7 @@ class EntryReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return EntryResource::make($resource, $this);
+        return new EntryResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class EntryReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return EntryCollection::make($resource, $this);
+        return new EntryCollection($resource, $this);
     }
 }

@@ -45,6 +45,6 @@ class PageWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return PageResource::make($resource, new PageReadQuery());
+        return new PageResource($resource, new PageReadQuery());
     }
 }

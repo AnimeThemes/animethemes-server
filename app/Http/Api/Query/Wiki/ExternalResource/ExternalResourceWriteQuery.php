@@ -45,6 +45,6 @@ class ExternalResourceWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return ExternalResourceResource::make($resource, new ExternalResourceReadQuery());
+        return new ExternalResourceResource($resource, new ExternalResourceReadQuery());
     }
 }

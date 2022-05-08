@@ -24,7 +24,7 @@ class FlagsController extends Controller
     #[Route(fullUri: 'config/flags', name: 'config.flags.show')]
     public function show(FlagsRequest $request): JsonResponse
     {
-        $resource = FlagsResource::make($request->getQuery());
+        $resource = new FlagsResource($request->getQuery());
 
         return $resource->toResponse($request);
     }

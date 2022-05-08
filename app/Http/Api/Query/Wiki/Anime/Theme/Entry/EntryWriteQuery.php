@@ -45,6 +45,6 @@ class EntryWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return EntryResource::make($resource, new EntryReadQuery());
+        return new EntryResource($resource, new EntryReadQuery());
     }
 }

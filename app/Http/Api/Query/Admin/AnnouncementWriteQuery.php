@@ -45,6 +45,6 @@ class AnnouncementWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return AnnouncementResource::make($resource, new AnnouncementReadQuery());
+        return new AnnouncementResource($resource, new AnnouncementReadQuery());
     }
 }

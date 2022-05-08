@@ -32,7 +32,7 @@ class SynonymCollection extends BaseCollection
     public function toArray($request): array
     {
         return $this->collection->map(
-            fn (AnimeSynonym $synonym) => SynonymResource::make($synonym, $this->query)
+            fn (AnimeSynonym $synonym) => new SynonymResource($synonym, $this->query)
         )->all();
     }
 }

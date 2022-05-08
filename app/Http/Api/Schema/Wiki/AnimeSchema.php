@@ -53,23 +53,23 @@ class AnimeSchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
-            AllowedInclude::make(ArtistSchema::class, Anime::RELATION_ARTISTS),
-            AllowedInclude::make(EntrySchema::class, Anime::RELATION_ENTRIES),
-            AllowedInclude::make(ExternalResourceSchema::class, Anime::RELATION_RESOURCES),
-            AllowedInclude::make(ImageSchema::class, Anime::RELATION_IMAGES),
-            AllowedInclude::make(SeriesSchema::class, Anime::RELATION_SERIES),
-            AllowedInclude::make(SongSchema::class, Anime::RELATION_SONG),
-            AllowedInclude::make(StudioSchema::class, Anime::RELATION_STUDIOS),
-            AllowedInclude::make(SynonymSchema::class, Anime::RELATION_SYNONYMS),
-            AllowedInclude::make(ThemeSchema::class, Anime::RELATION_THEMES),
-            AllowedInclude::make(VideoSchema::class, Anime::RELATION_VIDEOS),
+            new AllowedInclude(ArtistSchema::class, Anime::RELATION_ARTISTS),
+            new AllowedInclude(EntrySchema::class, Anime::RELATION_ENTRIES),
+            new AllowedInclude(ExternalResourceSchema::class, Anime::RELATION_RESOURCES),
+            new AllowedInclude(ImageSchema::class, Anime::RELATION_IMAGES),
+            new AllowedInclude(SeriesSchema::class, Anime::RELATION_SERIES),
+            new AllowedInclude(SongSchema::class, Anime::RELATION_SONG),
+            new AllowedInclude(StudioSchema::class, Anime::RELATION_STUDIOS),
+            new AllowedInclude(SynonymSchema::class, Anime::RELATION_SYNONYMS),
+            new AllowedInclude(ThemeSchema::class, Anime::RELATION_THEMES),
+            new AllowedInclude(VideoSchema::class, Anime::RELATION_VIDEOS),
 
             // Undocumented paths needed for client builds
-            AllowedInclude::make(AnimeSchema::class, 'animethemes.animethemeentries.videos.animethemeentries.animetheme.anime'),
-            AllowedInclude::make(ImageSchema::class, 'animethemes.animethemeentries.videos.animethemeentries.animetheme.anime.images'),
-            AllowedInclude::make(VideoSchema::class, 'animethemes.animethemeentries.videos.animethemeentries.animetheme.animethemeentries.videos'),
-            AllowedInclude::make(ArtistSchema::class, 'animethemes.animethemeentries.videos.animethemeentries.animetheme.song.artists'),
-            AllowedInclude::make(ImageSchema::class, 'animethemes.song.artists.images'),
+            new AllowedInclude(AnimeSchema::class, 'animethemes.animethemeentries.videos.animethemeentries.animetheme.anime'),
+            new AllowedInclude(ImageSchema::class, 'animethemes.animethemeentries.videos.animethemeentries.animetheme.anime.images'),
+            new AllowedInclude(VideoSchema::class, 'animethemes.animethemeentries.videos.animethemeentries.animetheme.animethemeentries.videos'),
+            new AllowedInclude(ArtistSchema::class, 'animethemes.animethemeentries.videos.animethemeentries.animetheme.song.artists'),
+            new AllowedInclude(ImageSchema::class, 'animethemes.song.artists.images'),
         ];
     }
 

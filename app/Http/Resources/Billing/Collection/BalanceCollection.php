@@ -31,6 +31,6 @@ class BalanceCollection extends BaseCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(fn (Balance $balance) => BalanceResource::make($balance, $this->query))->all();
+        return $this->collection->map(fn (Balance $balance) => new BalanceResource($balance, $this->query))->all();
     }
 }

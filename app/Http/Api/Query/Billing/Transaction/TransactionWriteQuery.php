@@ -45,6 +45,6 @@ class TransactionWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return TransactionResource::make($resource, new TransactionReadQuery());
+        return new TransactionResource($resource, new TransactionReadQuery());
     }
 }

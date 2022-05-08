@@ -76,8 +76,8 @@ class StudioResource extends BaseResource
             $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
         }
 
-        $result[Studio::RELATION_ANIME] = AnimeCollection::make($this->whenLoaded(Studio::RELATION_ANIME), $this->query);
-        $result[Studio::RELATION_RESOURCES] = ExternalResourceCollection::make($this->whenLoaded(Studio::RELATION_RESOURCES), $this->query);
+        $result[Studio::RELATION_ANIME] = new AnimeCollection($this->whenLoaded(Studio::RELATION_ANIME), $this->query);
+        $result[Studio::RELATION_RESOURCES] = new ExternalResourceCollection($this->whenLoaded(Studio::RELATION_RESOURCES), $this->query);
 
         if ($this->isAllowedField(StudioResourcePivot::ATTRIBUTE_AS)) {
             $result[StudioResourcePivot::ATTRIBUTE_AS] = $this->whenPivotLoaded(StudioResourcePivot::TABLE, fn () => $this->pivot->getAttribute(StudioResourcePivot::ATTRIBUTE_AS));

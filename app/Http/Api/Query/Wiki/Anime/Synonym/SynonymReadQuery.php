@@ -47,7 +47,7 @@ class SynonymReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return SynonymResource::make($resource, $this);
+        return new SynonymResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class SynonymReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return SynonymCollection::make($resource, $this);
+        return new SynonymCollection($resource, $this);
     }
 }

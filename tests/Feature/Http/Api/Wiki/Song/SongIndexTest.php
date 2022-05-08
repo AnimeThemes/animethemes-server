@@ -58,7 +58,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, new SongReadQuery())
+                    (new SongCollection($songs, new SongReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -119,7 +119,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, new SongReadQuery($parameters))
+                    (new SongCollection($songs, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -156,7 +156,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, new SongReadQuery($parameters))
+                    (new SongCollection($songs, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -237,7 +237,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($song, new SongReadQuery($parameters))
+                    (new SongCollection($song, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -282,7 +282,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($song, new SongReadQuery($parameters))
+                    (new SongCollection($song, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -323,7 +323,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($song, new SongReadQuery($parameters))
+                    (new SongCollection($song, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -364,7 +364,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($song, new SongReadQuery($parameters))
+                    (new SongCollection($song, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -405,7 +405,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($song, new SongReadQuery($parameters))
+                    (new SongCollection($song, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -457,7 +457,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, new SongReadQuery($parameters))
+                    (new SongCollection($songs, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -508,7 +508,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, new SongReadQuery($parameters))
+                    (new SongCollection($songs, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -559,7 +559,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, new SongReadQuery($parameters))
+                    (new SongCollection($songs, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -601,7 +601,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, new SongReadQuery($parameters))
+                    (new SongCollection($songs, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -643,7 +643,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, new SongReadQuery($parameters))
+                    (new SongCollection($songs, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -695,7 +695,7 @@ class SongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongCollection::make($songs, new SongReadQuery($parameters))
+                    (new SongCollection($songs, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

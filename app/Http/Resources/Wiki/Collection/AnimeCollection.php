@@ -31,6 +31,6 @@ class AnimeCollection extends BaseCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(fn (Anime $anime) => AnimeResource::make($anime, $this->query))->all();
+        return $this->collection->map(fn (Anime $anime) => new AnimeResource($anime, $this->query))->all();
     }
 }

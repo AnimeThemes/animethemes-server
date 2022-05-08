@@ -45,6 +45,6 @@ class ThemeWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return ThemeResource::make($resource, new ThemeReadQuery());
+        return new ThemeResource($resource, new ThemeReadQuery());
     }
 }

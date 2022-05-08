@@ -45,6 +45,6 @@ class SeriesWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return SeriesResource::make($resource, new SeriesReadQuery());
+        return new SeriesResource($resource, new SeriesReadQuery());
     }
 }

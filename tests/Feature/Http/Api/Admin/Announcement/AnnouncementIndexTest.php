@@ -48,7 +48,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcements, new AnnouncementReadQuery())
+                    (new AnnouncementCollection($announcements, new AnnouncementReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -101,7 +101,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcements, new AnnouncementReadQuery($parameters))
+                    (new AnnouncementCollection($announcements, new AnnouncementReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -180,7 +180,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, new AnnouncementReadQuery($parameters))
+                    (new AnnouncementCollection($announcement, new AnnouncementReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -223,7 +223,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, new AnnouncementReadQuery($parameters))
+                    (new AnnouncementCollection($announcement, new AnnouncementReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -262,7 +262,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, new AnnouncementReadQuery($parameters))
+                    (new AnnouncementCollection($announcement, new AnnouncementReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -301,7 +301,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, new AnnouncementReadQuery($parameters))
+                    (new AnnouncementCollection($announcement, new AnnouncementReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -340,7 +340,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, new AnnouncementReadQuery($parameters))
+                    (new AnnouncementCollection($announcement, new AnnouncementReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -390,7 +390,7 @@ class AnnouncementIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnnouncementCollection::make($announcement, new AnnouncementReadQuery($parameters))
+                    (new AnnouncementCollection($announcement, new AnnouncementReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

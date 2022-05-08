@@ -84,9 +84,9 @@ class ThemeResource extends BaseResource
             $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
         }
 
-        $result[AnimeTheme::RELATION_ANIME] = AnimeResource::make($this->whenLoaded(AnimeTheme::RELATION_ANIME), $this->query);
-        $result[AnimeTheme::RELATION_SONG] = SongResource::make($this->whenLoaded(AnimeTheme::RELATION_SONG), $this->query);
-        $result[AnimeTheme::RELATION_ENTRIES] = EntryCollection::make($this->whenLoaded(AnimeTheme::RELATION_ENTRIES), $this->query);
+        $result[AnimeTheme::RELATION_ANIME] = new AnimeResource($this->whenLoaded(AnimeTheme::RELATION_ANIME), $this->query);
+        $result[AnimeTheme::RELATION_SONG] = new SongResource($this->whenLoaded(AnimeTheme::RELATION_SONG), $this->query);
+        $result[AnimeTheme::RELATION_ENTRIES] = new EntryCollection($this->whenLoaded(AnimeTheme::RELATION_ENTRIES), $this->query);
 
         return $result;
     }

@@ -31,6 +31,6 @@ class StudioCollection extends BaseCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(fn (Studio $studio) => StudioResource::make($studio, $this->query))->all();
+        return $this->collection->map(fn (Studio $studio) => new StudioResource($studio, $this->query))->all();
     }
 }

@@ -47,7 +47,7 @@ class SongReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return SongResource::make($resource, $this);
+        return new SongResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class SongReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return SongCollection::make($resource, $this);
+        return new SongCollection($resource, $this);
     }
 }

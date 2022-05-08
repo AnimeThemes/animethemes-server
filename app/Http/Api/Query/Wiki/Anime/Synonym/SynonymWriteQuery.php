@@ -45,6 +45,6 @@ class SynonymWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return SynonymResource::make($resource, new SynonymReadQuery());
+        return new SynonymResource($resource, new SynonymReadQuery());
     }
 }

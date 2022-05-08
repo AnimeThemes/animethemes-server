@@ -47,7 +47,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, new SongReadQuery())
+                    (new SongResource($song, new SongReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -76,7 +76,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, new SongReadQuery())
+                    (new SongResource($song, new SongReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -104,19 +104,17 @@ class SongShowTest extends TestCase
             IncludeParser::param() => $includedPaths->join(','),
         ];
 
-        Song::factory()
+        $song = Song::factory()
             ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
             ->has(Artist::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
-
-        $song = Song::with($includedPaths->all())->first();
+            ->createOne();
 
         $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, new SongReadQuery($parameters))
+                    (new SongResource($song, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -153,7 +151,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, new SongReadQuery($parameters))
+                    (new SongResource($song, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -179,7 +177,7 @@ class SongShowTest extends TestCase
             IncludeParser::param() => Song::RELATION_ANIMETHEMES,
         ];
 
-        Song::factory()
+        $song = Song::factory()
             ->has(
                 AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -189,21 +187,20 @@ class SongShowTest extends TestCase
                         [AnimeTheme::ATTRIBUTE_GROUP => $excludedGroup],
                     ))
             )
-            ->create();
+            ->createOne();
 
-        $song = Song::with([
+        $song->unsetRelations()->load([
             Song::RELATION_ANIMETHEMES => function (HasMany $query) use ($groupFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, new SongReadQuery($parameters))
+                    (new SongResource($song, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -229,7 +226,7 @@ class SongShowTest extends TestCase
             IncludeParser::param() => Song::RELATION_ANIMETHEMES,
         ];
 
-        Song::factory()
+        $song = Song::factory()
             ->has(
                 AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -239,21 +236,20 @@ class SongShowTest extends TestCase
                         [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
                     ))
             )
-            ->create();
+            ->createOne();
 
-        $song = Song::with([
+        $song->unsetRelations()->load([
             Song::RELATION_ANIMETHEMES => function (HasMany $query) use ($sequenceFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, new SongReadQuery($parameters))
+                    (new SongResource($song, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -278,23 +274,22 @@ class SongShowTest extends TestCase
             IncludeParser::param() => Song::RELATION_ANIMETHEMES,
         ];
 
-        Song::factory()
+        $song = Song::factory()
             ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
-        $song = Song::with([
+        $song->unsetRelations()->load([
             Song::RELATION_ANIMETHEMES => function (HasMany $query) use ($typeFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, new SongReadQuery($parameters))
+                    (new SongResource($song, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -319,23 +314,22 @@ class SongShowTest extends TestCase
             IncludeParser::param() => Song::RELATION_ANIME,
         ];
 
-        Song::factory()
+        $song = Song::factory()
             ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
-        $song = Song::with([
+        $song->unsetRelations()->load([
             Song::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, new SongReadQuery($parameters))
+                    (new SongResource($song, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -361,7 +355,7 @@ class SongShowTest extends TestCase
             IncludeParser::param() => Song::RELATION_ANIME,
         ];
 
-        Song::factory()
+        $song = Song::factory()
             ->has(
                 AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -372,21 +366,20 @@ class SongShowTest extends TestCase
                             ])
                     )
             )
-            ->create();
+            ->createOne();
 
-        $song = Song::with([
+        $song->unsetRelations()->load([
             Song::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SongResource::make($song, new SongReadQuery($parameters))
+                    (new SongResource($song, new SongReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

@@ -52,7 +52,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery())
+                    (new AnimeResource($anime, new AnimeReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -81,7 +81,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery())
+                    (new AnimeResource($anime, new AnimeReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -109,15 +109,14 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => $includedPaths->join(','),
         ];
 
-        Anime::factory()->jsonApiResource()->create();
-        $anime = Anime::with($includedPaths->all())->first();
+        $anime = Anime::factory()->jsonApiResource()->createOne();
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -154,7 +153,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -180,7 +179,7 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_THEMES,
         ];
 
-        Anime::factory()
+        $anime = Anime::factory()
             ->has(
                 AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -189,21 +188,20 @@ class AnimeShowTest extends TestCase
                         [AnimeTheme::ATTRIBUTE_GROUP => $excludedGroup],
                     ))
             )
-            ->create();
+            ->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_THEMES => function (HasMany $query) use ($groupFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -229,7 +227,7 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_THEMES,
         ];
 
-        Anime::factory()
+        $anime = Anime::factory()
             ->has(
                 AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -238,21 +236,20 @@ class AnimeShowTest extends TestCase
                         [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
                     ))
             )
-            ->create();
+            ->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_THEMES => function (HasMany $query) use ($sequenceFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -277,23 +274,22 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_THEMES,
         ];
 
-        Anime::factory()
+        $anime = Anime::factory()
             ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
+            ->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_THEMES => function (HasMany $query) use ($typeFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -318,27 +314,26 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_ENTRIES,
         ];
 
-        Anime::factory()
+        $anime = Anime::factory()
             ->has(
                 AnimeTheme::factory()
                     ->has(AnimeThemeEntry::factory()->count($this->faker->numberBetween(1, 3)))
                     ->count($this->faker->numberBetween(1, 3))
             )
-            ->create();
+            ->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_ENTRIES => function (HasMany $query) use ($nsfwFilter) {
                 $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -363,27 +358,26 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_ENTRIES,
         ];
 
-        Anime::factory()
+        $anime = Anime::factory()
             ->has(
                 AnimeTheme::factory()
                     ->has(AnimeThemeEntry::factory()->count($this->faker->numberBetween(1, 3)))
                     ->count($this->faker->numberBetween(1, 3))
             )
-            ->create();
+            ->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_ENTRIES => function (HasMany $query) use ($spoilerFilter) {
                 $query->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -409,7 +403,7 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_ENTRIES,
         ];
 
-        Anime::factory()
+        $anime = Anime::factory()
             ->has(
                 AnimeTheme::factory()
                     ->count($this->faker->numberBetween(1, 3))
@@ -422,21 +416,20 @@ class AnimeShowTest extends TestCase
                             ))
                     )
             )
-            ->create();
+            ->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_ENTRIES => function (HasMany $query) use ($versionFilter) {
                 $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -463,23 +456,22 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_RESOURCES,
         ];
 
-        Anime::factory()
+        $anime = Anime::factory()
             ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), Anime::RELATION_RESOURCES)
-            ->create();
+            ->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter) {
                 $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -506,23 +498,22 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_IMAGES,
         ];
 
-        Anime::factory()
+        $anime = Anime::factory()
             ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
+            ->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
                 $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -547,21 +538,20 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
-        Anime::factory()->jsonApiResource()->create();
+        $anime = Anime::factory()->jsonApiResource()->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($lyricsFilter) {
                 $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -586,21 +576,20 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
-        Anime::factory()->jsonApiResource()->create();
+        $anime = Anime::factory()->jsonApiResource()->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($ncFilter) {
                 $query->where(Video::ATTRIBUTE_NC, $ncFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -625,21 +614,20 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
-        Anime::factory()->jsonApiResource()->create();
+        $anime = Anime::factory()->jsonApiResource()->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($overlapFilter) {
                 $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -665,7 +653,7 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
-        Anime::factory()
+        $anime = Anime::factory()
             ->has(
                 AnimeTheme::factory()
                     ->count($this->faker->numberBetween(1, 3))
@@ -684,19 +672,18 @@ class AnimeShowTest extends TestCase
             )
             ->create();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($resolutionFilter) {
                 $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -721,21 +708,20 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
-        Anime::factory()->jsonApiResource()->create();
+        $anime = Anime::factory()->jsonApiResource()->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($sourceFilter) {
                 $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -760,21 +746,20 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
-        Anime::factory()->jsonApiResource()->create();
+        $anime = Anime::factory()->jsonApiResource()->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($subbedFilter) {
                 $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -799,21 +784,20 @@ class AnimeShowTest extends TestCase
             IncludeParser::param() => Anime::RELATION_VIDEOS,
         ];
 
-        Anime::factory()->jsonApiResource()->create();
+        $anime = Anime::factory()->jsonApiResource()->createOne();
 
-        $anime = Anime::with([
+        $anime->unsetRelations()->load([
             Anime::RELATION_VIDEOS => function (BelongsToMany $query) use ($uncenFilter) {
                 $query->where(Video::ATTRIBUTE_UNCEN, $uncenFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    AnimeResource::make($anime, new AnimeReadQuery($parameters))
+                    (new AnimeResource($anime, new AnimeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

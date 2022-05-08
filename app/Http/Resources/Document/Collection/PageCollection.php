@@ -32,7 +32,7 @@ class PageCollection extends BaseCollection
     public function toArray($request): array
     {
         return $this->collection->map(
-            fn (Page $page) => PageResource::make($page, $this->query)
+            fn (Page $page) => new PageResource($page, $this->query)
         )->all();
     }
 }

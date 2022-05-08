@@ -32,7 +32,7 @@ class DiscordEmbedFieldTest extends TestCase
             public const TWO = 2;
         };
 
-        $field = DiscordEmbedField::make($this->faker->word(), $enum);
+        $field = new DiscordEmbedField($this->faker->word(), $enum);
 
         static::assertEquals($enum->description, Arr::get($field->toArray(), 'value'));
     }
@@ -46,7 +46,7 @@ class DiscordEmbedFieldTest extends TestCase
     {
         $boolean = $this->faker->boolean();
 
-        $field = DiscordEmbedField::make($this->faker->word(), $boolean);
+        $field = new DiscordEmbedField($this->faker->word(), $boolean);
 
         static::assertEquals($boolean ? 'true' : 'false', Arr::get($field->toArray(), 'value'));
     }
@@ -60,7 +60,7 @@ class DiscordEmbedFieldTest extends TestCase
     {
         $number = $this->faker->randomNumber();
 
-        $field = DiscordEmbedField::make($this->faker->word(), $number);
+        $field = new DiscordEmbedField($this->faker->word(), $number);
 
         static::assertEquals(strval($number), Arr::get($field->toArray(), 'value'));
     }
@@ -74,7 +74,7 @@ class DiscordEmbedFieldTest extends TestCase
     {
         $float = $this->faker->randomFloat();
 
-        $field = DiscordEmbedField::make($this->faker->word(), $float);
+        $field = new DiscordEmbedField($this->faker->word(), $float);
 
         static::assertEquals(strval($float), Arr::get($field->toArray(), 'value'));
     }
@@ -88,7 +88,7 @@ class DiscordEmbedFieldTest extends TestCase
     {
         $string = $this->faker->word();
 
-        $field = DiscordEmbedField::make($this->faker->word(), $string);
+        $field = new DiscordEmbedField($this->faker->word(), $string);
 
         static::assertEquals($string, Arr::get($field->toArray(), 'value'));
     }
@@ -100,7 +100,7 @@ class DiscordEmbedFieldTest extends TestCase
      */
     public function testDiscordEmbedFormatEmptyString(): void
     {
-        $field = DiscordEmbedField::make($this->faker->word(), '');
+        $field = new DiscordEmbedField($this->faker->word(), '');
 
         static::assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
     }
@@ -112,7 +112,7 @@ class DiscordEmbedFieldTest extends TestCase
      */
     public function testDiscordEmbedFormatNull(): void
     {
-        $field = DiscordEmbedField::make($this->faker->word(), null);
+        $field = new DiscordEmbedField($this->faker->word(), null);
 
         static::assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
     }
@@ -124,7 +124,7 @@ class DiscordEmbedFieldTest extends TestCase
      */
     public function testDiscordEmbedFormatArray(): void
     {
-        $field = DiscordEmbedField::make($this->faker->word(), []);
+        $field = new DiscordEmbedField($this->faker->word(), []);
 
         static::assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
     }
@@ -136,7 +136,7 @@ class DiscordEmbedFieldTest extends TestCase
      */
     public function testDiscordEmbedFormatObject(): void
     {
-        $field = DiscordEmbedField::make($this->faker->word(), new stdClass());
+        $field = new DiscordEmbedField($this->faker->word(), new stdClass());
 
         static::assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
     }

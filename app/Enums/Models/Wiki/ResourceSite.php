@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Enums\Models\Wiki;
 
 use App\Enums\BaseEnum;
+use Illuminate\Support\Arr;
 
 /**
  * Class ResourceSite.
@@ -55,6 +56,22 @@ final class ResourceSite extends BaseEnum
             self::WIKI => 'wikipedia.org',
             default => null,
         };
+    }
+
+    /**
+     * Get resource site by link, matching expected domain.
+     *
+     * @param  string  $link  the link to test
+     * @return ResourceSite|null
+     */
+    public static function valueOf(string $link): ?ResourceSite
+    {
+        $parsedHost = parse_url($link, PHP_URL_HOST);
+
+        return Arr::first(
+            ResourceSite::getInstances(),
+            fn (ResourceSite $site) => $parsedHost === ResourceSite::getDomain($site->value)
+        );
     }
 
     /**

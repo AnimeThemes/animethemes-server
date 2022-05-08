@@ -47,7 +47,7 @@ class PageReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return PageResource::make($resource, $this);
+        return new PageResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class PageReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return PageCollection::make($resource, $this);
+        return new PageCollection($resource, $this);
     }
 }

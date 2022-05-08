@@ -82,8 +82,8 @@ class ImageResource extends BaseResource
             $result[ImageResource::ATTRIBUTE_LINK] = Storage::disk('images')->url($this->path);
         }
 
-        $result[Image::RELATION_ARTISTS] = ArtistCollection::make($this->whenLoaded(Image::RELATION_ARTISTS), $this->query);
-        $result[Image::RELATION_ANIME] = AnimeCollection::make($this->whenLoaded(Image::RELATION_ANIME), $this->query);
+        $result[Image::RELATION_ARTISTS] = new ArtistCollection($this->whenLoaded(Image::RELATION_ARTISTS), $this->query);
+        $result[Image::RELATION_ANIME] = new AnimeCollection($this->whenLoaded(Image::RELATION_ANIME), $this->query);
 
         return $result;
     }

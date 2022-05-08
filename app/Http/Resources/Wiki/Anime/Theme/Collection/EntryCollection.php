@@ -31,6 +31,6 @@ class EntryCollection extends BaseCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(fn (AnimeThemeEntry $entry) => EntryResource::make($entry, $this->query))->all();
+        return $this->collection->map(fn (AnimeThemeEntry $entry) => new EntryResource($entry, $this->query))->all();
     }
 }

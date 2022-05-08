@@ -54,7 +54,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery())
+                    (new ThemeResource($theme, new ThemeReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -83,7 +83,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery())
+                    (new ThemeResource($theme, new ThemeReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -111,7 +111,7 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => $includedPaths->join(','),
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->for(Song::factory())
             ->has(
@@ -119,16 +119,14 @@ class ThemeShowTest extends TestCase
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->create();
-
-        $theme = AnimeTheme::with($includedPaths->all())->first();
+            ->createOne();
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -168,7 +166,7 @@ class ThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -193,23 +191,22 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => AnimeTheme::RELATION_ANIME,
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
-            ->create();
+            ->createOne();
 
-        $theme = AnimeTheme::with([
+        $theme->unsetRelations()->load([
             AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -235,28 +232,27 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => AnimeTheme::RELATION_ANIME,
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(
                 Anime::factory()
                     ->state([
                         Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
                     ])
             )
-            ->create();
+            ->createOne();
 
-        $theme = AnimeTheme::with([
+        $theme->unsetRelations()->load([
             AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -281,26 +277,25 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => AnimeTheme::RELATION_IMAGES,
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(
                 Anime::factory()
                     ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->create();
+            ->createOne();
 
-        $theme = AnimeTheme::with([
+        $theme->unsetRelations()->load([
             AnimeTheme::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
                 $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -325,24 +320,23 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(AnimeThemeEntry::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
+            ->createOne();
 
-        $theme = AnimeTheme::with([
+        $theme->unsetRelations()->load([
             AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($nsfwFilter) {
                 $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -367,24 +361,23 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(AnimeThemeEntry::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
+            ->createOne();
 
-        $theme = AnimeTheme::with([
+        $theme->unsetRelations()->load([
             AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($spoilerFilter) {
                 $query->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -410,7 +403,7 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
                 AnimeThemeEntry::factory()
@@ -420,21 +413,20 @@ class ThemeShowTest extends TestCase
                         [AnimeThemeEntry::ATTRIBUTE_VERSION => $excludedVersion],
                     ))
             )
-            ->create();
+            ->createOne();
 
-        $theme = AnimeTheme::with([
+        $theme->unsetRelations()->load([
             AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($versionFilter) {
                 $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -459,28 +451,27 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->create();
+            ->createOne();
 
-        $theme = AnimeTheme::with([
+        $theme->unsetRelations()->load([
             AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($lyricsFilter) {
                 $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -505,28 +496,27 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->create();
+            ->createOne();
 
-        $theme = AnimeTheme::with([
+        $theme->unsetRelations()->load([
             AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($ncFilter) {
                 $query->where(Video::ATTRIBUTE_NC, $ncFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -551,28 +541,27 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->create();
+            ->createOne();
 
-        $theme = AnimeTheme::with([
+        $theme->unsetRelations()->load([
             AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($overlapFilter) {
                 $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -598,7 +587,7 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
                 AnimeThemeEntry::factory()
@@ -612,21 +601,20 @@ class ThemeShowTest extends TestCase
                             ))
                     )
             )
-            ->create();
+            ->createOne();
 
-        $theme = AnimeTheme::with([
+        $theme->unsetRelations()->load([
             AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($resolutionFilter) {
                 $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -651,28 +639,27 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->create();
+            ->createOne();
 
-        $theme = AnimeTheme::with([
+        $theme->unsetRelations()->load([
             AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($sourceFilter) {
                 $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -697,28 +684,27 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->create();
+            ->createOne();
 
-        $theme = AnimeTheme::with([
+        $theme->unsetRelations()->load([
             AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($subbedFilter) {
                 $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -743,28 +729,27 @@ class ThemeShowTest extends TestCase
             IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
 
-        AnimeTheme::factory()
+        $theme = AnimeTheme::factory()
             ->for(Anime::factory())
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
             )
-            ->create();
+            ->createOne();
 
-        $theme = AnimeTheme::with([
+        $theme->unsetRelations()->load([
             AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($uncenFilter) {
                 $query->where(Video::ATTRIBUTE_UNCEN, $uncenFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ThemeResource::make($theme, new ThemeReadQuery($parameters))
+                    (new ThemeResource($theme, new ThemeReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

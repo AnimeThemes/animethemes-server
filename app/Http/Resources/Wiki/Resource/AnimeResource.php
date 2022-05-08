@@ -92,17 +92,17 @@ class AnimeResource extends BaseResource
             $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
         }
 
-        $result[Anime::RELATION_SYNONYMS] = SynonymCollection::make($this->whenLoaded(Anime::RELATION_SYNONYMS), $this->query);
-        $result[Anime::RELATION_THEMES] = ThemeCollection::make($this->whenLoaded(Anime::RELATION_THEMES), $this->query);
-        $result[Anime::RELATION_SERIES] = SeriesCollection::make($this->whenLoaded(Anime::RELATION_SERIES), $this->query);
-        $result[Anime::RELATION_RESOURCES] = ExternalResourceCollection::make($this->whenLoaded(Anime::RELATION_RESOURCES), $this->query);
+        $result[Anime::RELATION_SYNONYMS] = new SynonymCollection($this->whenLoaded(Anime::RELATION_SYNONYMS), $this->query);
+        $result[Anime::RELATION_THEMES] = new ThemeCollection($this->whenLoaded(Anime::RELATION_THEMES), $this->query);
+        $result[Anime::RELATION_SERIES] = new SeriesCollection($this->whenLoaded(Anime::RELATION_SERIES), $this->query);
+        $result[Anime::RELATION_RESOURCES] = new ExternalResourceCollection($this->whenLoaded(Anime::RELATION_RESOURCES), $this->query);
 
         if ($this->isAllowedField(AnimeResourcePivot::ATTRIBUTE_AS)) {
             $result[AnimeResourcePivot::ATTRIBUTE_AS] = $this->whenPivotLoaded(AnimeResourcePivot::TABLE, fn () => $this->pivot->getAttribute(AnimeResourcePivot::ATTRIBUTE_AS));
         }
 
-        $result[Anime::RELATION_IMAGES] = ImageCollection::make($this->whenLoaded(Anime::RELATION_IMAGES), $this->query);
-        $result[Anime::RELATION_STUDIOS] = StudioCollection::make($this->whenLoaded(Anime::RELATION_STUDIOS), $this->query);
+        $result[Anime::RELATION_IMAGES] = new ImageCollection($this->whenLoaded(Anime::RELATION_IMAGES), $this->query);
+        $result[Anime::RELATION_STUDIOS] = new StudioCollection($this->whenLoaded(Anime::RELATION_STUDIOS), $this->query);
 
         return $result;
     }

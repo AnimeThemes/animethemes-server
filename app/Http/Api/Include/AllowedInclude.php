@@ -30,17 +30,6 @@ class AllowedInclude
     }
 
     /**
-     * Create a new allowed include instance.
-     *
-     * @param  mixed  ...$parameters
-     * @return static
-     */
-    public static function make(...$parameters): static
-    {
-        return new static(...$parameters);
-    }
-
-    /**
      * Get the schema.
      *
      * @return Schema

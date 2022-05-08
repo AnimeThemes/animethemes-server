@@ -45,6 +45,6 @@ class ArtistWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return ArtistResource::make($resource, new ArtistReadQuery());
+        return new ArtistResource($resource, new ArtistReadQuery());
     }
 }

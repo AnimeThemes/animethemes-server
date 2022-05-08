@@ -47,7 +47,7 @@ class ImageReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return ImageResource::make($resource, $this);
+        return new ImageResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class ImageReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return ImageCollection::make($resource, $this);
+        return new ImageCollection($resource, $this);
     }
 }
