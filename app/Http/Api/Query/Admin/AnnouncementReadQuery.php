@@ -47,7 +47,7 @@ class AnnouncementReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return AnnouncementResource::make($resource, $this);
+        return new AnnouncementResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class AnnouncementReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return AnnouncementCollection::make($resource, $this);
+        return new AnnouncementCollection($resource, $this);
     }
 }

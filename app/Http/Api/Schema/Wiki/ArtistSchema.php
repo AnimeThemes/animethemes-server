@@ -49,21 +49,21 @@ class ArtistSchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
-            AllowedInclude::make(AnimeSchema::class, Artist::RELATION_ANIME),
-            AllowedInclude::make(ArtistSchema::class, Artist::RELATION_GROUPS),
-            AllowedInclude::make(ArtistSchema::class, Artist::RELATION_MEMBERS),
-            AllowedInclude::make(ExternalResourceSchema::class, Artist::RELATION_RESOURCES),
-            AllowedInclude::make(ImageSchema::class, Artist::RELATION_IMAGES),
-            AllowedInclude::make(SongSchema::class, Artist::RELATION_SONGS),
-            AllowedInclude::make(ThemeSchema::class, Artist::RELATION_ANIMETHEMES),
+            new AllowedInclude(AnimeSchema::class, Artist::RELATION_ANIME),
+            new AllowedInclude(ArtistSchema::class, Artist::RELATION_GROUPS),
+            new AllowedInclude(ArtistSchema::class, Artist::RELATION_MEMBERS),
+            new AllowedInclude(ExternalResourceSchema::class, Artist::RELATION_RESOURCES),
+            new AllowedInclude(ImageSchema::class, Artist::RELATION_IMAGES),
+            new AllowedInclude(SongSchema::class, Artist::RELATION_SONGS),
+            new AllowedInclude(ThemeSchema::class, Artist::RELATION_ANIMETHEMES),
 
             // Undocumented paths needed for client builds
-            AllowedInclude::make(ArtistSchema::class, 'songs.artists'),
-            AllowedInclude::make(SongSchema::class, 'songs.animethemes.song'),
-            AllowedInclude::make(ArtistSchema::class, 'songs.animethemes.song.artists'),
-            AllowedInclude::make(ImageSchema::class, 'songs.animethemes.anime.images'),
-            AllowedInclude::make(EntrySchema::class, 'songs.animethemes.animethemeentries'),
-            AllowedInclude::make(VideoSchema::class, 'songs.animethemes.animethemeentries.videos'),
+            new AllowedInclude(ArtistSchema::class, 'songs.artists'),
+            new AllowedInclude(SongSchema::class, 'songs.animethemes.song'),
+            new AllowedInclude(ArtistSchema::class, 'songs.animethemes.song.artists'),
+            new AllowedInclude(ImageSchema::class, 'songs.animethemes.anime.images'),
+            new AllowedInclude(EntrySchema::class, 'songs.animethemes.animethemeentries'),
+            new AllowedInclude(VideoSchema::class, 'songs.animethemes.animethemeentries.videos'),
         ];
     }
 

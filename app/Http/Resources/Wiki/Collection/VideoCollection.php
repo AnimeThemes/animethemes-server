@@ -31,6 +31,6 @@ class VideoCollection extends BaseCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(fn (Video $video) => VideoResource::make($video, $this->query))->all();
+        return $this->collection->map(fn (Video $video) => new VideoResource($video, $this->query))->all();
     }
 }

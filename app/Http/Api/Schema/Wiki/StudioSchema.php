@@ -47,13 +47,13 @@ class StudioSchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
-            AllowedInclude::make(AnimeSchema::class, Studio::RELATION_ANIME),
-            AllowedInclude::make(ExternalResourceSchema::class, Studio::RELATION_RESOURCES),
+            new AllowedInclude(AnimeSchema::class, Studio::RELATION_ANIME),
+            new AllowedInclude(ExternalResourceSchema::class, Studio::RELATION_RESOURCES),
 
             // Undocumented paths needed for client builds
-            AllowedInclude::make(ImageSchema::class, 'anime.images'),
-            AllowedInclude::make(VideoSchema::class, 'anime.animethemes.animethemeentries.videos'),
-            AllowedInclude::make(SongSchema::class, 'anime.animethemes.song'),
+            new AllowedInclude(ImageSchema::class, 'anime.images'),
+            new AllowedInclude(VideoSchema::class, 'anime.animethemes.animethemeentries.videos'),
+            new AllowedInclude(SongSchema::class, 'anime.animethemes.song'),
         ];
     }
 

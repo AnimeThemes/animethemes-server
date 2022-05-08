@@ -74,7 +74,7 @@ class SeriesResource extends BaseResource
             $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
         }
 
-        $result[Series::RELATION_ANIME] = AnimeCollection::make($this->whenLoaded(Series::RELATION_ANIME), $this->query);
+        $result[Series::RELATION_ANIME] = new AnimeCollection($this->whenLoaded(Series::RELATION_ANIME), $this->query);
 
         return $result;
     }

@@ -31,6 +31,6 @@ class SongCollection extends BaseCollection
      */
     public function toArray($request): array
     {
-        return $this->collection->map(fn (Song $song) => SongResource::make($song, $this->query))->all();
+        return $this->collection->map(fn (Song $song) => new SongResource($song, $this->query))->all();
     }
 }

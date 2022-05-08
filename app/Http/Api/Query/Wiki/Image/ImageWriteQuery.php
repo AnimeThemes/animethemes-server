@@ -75,6 +75,6 @@ class ImageWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return ImageResource::make($resource, new ImageReadQuery());
+        return new ImageResource($resource, new ImageReadQuery());
     }
 }

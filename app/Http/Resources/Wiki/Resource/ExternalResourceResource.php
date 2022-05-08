@@ -98,9 +98,9 @@ class ExternalResourceResource extends BaseResource
             $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
         }
 
-        $result[ExternalResource::RELATION_ARTISTS] = ArtistCollection::make($this->whenLoaded(ExternalResource::RELATION_ARTISTS), $this->query);
-        $result[ExternalResource::RELATION_ANIME] = AnimeCollection::make($this->whenLoaded(ExternalResource::RELATION_ANIME), $this->query);
-        $result[ExternalResource::RELATION_STUDIOS] = StudioCollection::make($this->whenLoaded(ExternalResource::RELATION_STUDIOS), $this->query);
+        $result[ExternalResource::RELATION_ARTISTS] = new ArtistCollection($this->whenLoaded(ExternalResource::RELATION_ARTISTS), $this->query);
+        $result[ExternalResource::RELATION_ANIME] = new AnimeCollection($this->whenLoaded(ExternalResource::RELATION_ANIME), $this->query);
+        $result[ExternalResource::RELATION_STUDIOS] = new StudioCollection($this->whenLoaded(ExternalResource::RELATION_STUDIOS), $this->query);
 
         return $result;
     }

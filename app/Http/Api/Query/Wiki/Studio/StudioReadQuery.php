@@ -47,7 +47,7 @@ class StudioReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return StudioResource::make($resource, $this);
+        return new StudioResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class StudioReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return StudioCollection::make($resource, $this);
+        return new StudioCollection($resource, $this);
     }
 }

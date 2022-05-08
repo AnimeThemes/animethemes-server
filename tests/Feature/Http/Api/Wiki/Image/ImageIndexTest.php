@@ -57,7 +57,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, new ImageReadQuery())
+                    (new ImageCollection($images, new ImageReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -116,7 +116,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, new ImageReadQuery($parameters))
+                    (new ImageCollection($images, new ImageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -153,7 +153,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, new ImageReadQuery($parameters))
+                    (new ImageCollection($images, new ImageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -232,7 +232,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, new ImageReadQuery($parameters))
+                    (new ImageCollection($image, new ImageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -275,7 +275,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, new ImageReadQuery($parameters))
+                    (new ImageCollection($image, new ImageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -314,7 +314,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, new ImageReadQuery($parameters))
+                    (new ImageCollection($image, new ImageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -353,7 +353,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, new ImageReadQuery($parameters))
+                    (new ImageCollection($image, new ImageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -392,7 +392,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, new ImageReadQuery($parameters))
+                    (new ImageCollection($image, new ImageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -442,7 +442,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($image, new ImageReadQuery($parameters))
+                    (new ImageCollection($image, new ImageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -477,7 +477,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, new ImageReadQuery($parameters))
+                    (new ImageCollection($images, new ImageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -519,7 +519,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, new ImageReadQuery($parameters))
+                    (new ImageCollection($images, new ImageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -568,7 +568,7 @@ class ImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ImageCollection::make($images, new ImageReadQuery($parameters))
+                    (new ImageCollection($images, new ImageReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

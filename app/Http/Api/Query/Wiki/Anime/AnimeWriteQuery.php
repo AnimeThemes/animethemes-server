@@ -45,6 +45,6 @@ class AnimeWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return AnimeResource::make($resource, new AnimeReadQuery());
+        return new AnimeResource($resource, new AnimeReadQuery());
     }
 }

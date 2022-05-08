@@ -124,7 +124,7 @@ class VideoResource extends BaseResource
             $result[VideoResource::ATTRIBUTE_LINK] = route('video.show', $this);
         }
 
-        $result[Video::RELATION_ANIMETHEMEENTRIES] = EntryCollection::make($this->whenLoaded(Video::RELATION_ANIMETHEMEENTRIES), $this->query);
+        $result[Video::RELATION_ANIMETHEMEENTRIES] = new EntryCollection($this->whenLoaded(Video::RELATION_ANIMETHEMEENTRIES), $this->query);
 
         return $result;
     }

@@ -47,7 +47,7 @@ class AnimeReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return AnimeResource::make($resource, $this);
+        return new AnimeResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class AnimeReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return AnimeCollection::make($resource, $this);
+        return new AnimeCollection($resource, $this);
     }
 }

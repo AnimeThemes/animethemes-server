@@ -72,9 +72,9 @@ trait HasAttributeUpdateEmbedFields
     protected function addEmbedFields(Model $original, Model $changed, Collection $changedAttributes): void
     {
         foreach ($changedAttributes as $attribute) {
-            $this->addEmbedField(DiscordEmbedField::make('Attribute', $attribute, true));
-            $this->addEmbedField(DiscordEmbedField::make('Old', $this->getAttributeValue($original, $attribute), true));
-            $this->addEmbedField(DiscordEmbedField::make('New', $this->getAttributeValue($changed, $attribute), true));
+            $this->addEmbedField(new DiscordEmbedField('Attribute', $attribute, true));
+            $this->addEmbedField(new DiscordEmbedField('Old', $this->getAttributeValue($original, $attribute), true));
+            $this->addEmbedField(new DiscordEmbedField('New', $this->getAttributeValue($changed, $attribute), true));
         }
     }
 }

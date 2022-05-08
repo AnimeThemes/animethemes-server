@@ -47,7 +47,7 @@ class ArtistReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return ArtistResource::make($resource, $this);
+        return new ArtistResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class ArtistReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return ArtistCollection::make($resource, $this);
+        return new ArtistCollection($resource, $this);
     }
 }

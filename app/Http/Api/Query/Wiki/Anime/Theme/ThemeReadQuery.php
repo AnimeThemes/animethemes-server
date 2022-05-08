@@ -47,7 +47,7 @@ class ThemeReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return ThemeResource::make($resource, $this);
+        return new ThemeResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class ThemeReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return ThemeCollection::make($resource, $this);
+        return new ThemeCollection($resource, $this);
     }
 }

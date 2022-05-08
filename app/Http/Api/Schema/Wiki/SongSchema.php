@@ -47,9 +47,9 @@ class SongSchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
-            AllowedInclude::make(AnimeSchema::class, Song::RELATION_ANIME),
-            AllowedInclude::make(ArtistSchema::class, Song::RELATION_ARTISTS),
-            AllowedInclude::make(ThemeSchema::class, Song::RELATION_ANIMETHEMES),
+            new AllowedInclude(AnimeSchema::class, Song::RELATION_ANIME),
+            new AllowedInclude(ArtistSchema::class, Song::RELATION_ARTISTS),
+            new AllowedInclude(ThemeSchema::class, Song::RELATION_ANIMETHEMES),
         ];
     }
 

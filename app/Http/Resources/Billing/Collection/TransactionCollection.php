@@ -32,7 +32,7 @@ class TransactionCollection extends BaseCollection
     public function toArray($request): array
     {
         return $this->collection->map(
-            fn (Transaction $transaction) => TransactionResource::make($transaction, $this->query)
+            fn (Transaction $transaction) => new TransactionResource($transaction, $this->query)
         )->all();
     }
 }

@@ -43,7 +43,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, new SeriesReadQuery())
+                    (new SeriesResource($series, new SeriesReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -72,7 +72,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, new SeriesReadQuery())
+                    (new SeriesResource($series, new SeriesReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -100,18 +100,16 @@ class SeriesShowTest extends TestCase
             IncludeParser::param() => $includedPaths->join(','),
         ];
 
-        Series::factory()
+        $series = Series::factory()
             ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
-
-        $series = Series::with($includedPaths->all())->first();
+            ->createOne();
 
         $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, new SeriesReadQuery($parameters))
+                    (new SeriesResource($series, new SeriesReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -148,7 +146,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, new SeriesReadQuery($parameters))
+                    (new SeriesResource($series, new SeriesReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -175,23 +173,22 @@ class SeriesShowTest extends TestCase
             IncludeParser::param() => Series::RELATION_ANIME,
         ];
 
-        Series::factory()
+        $series = Series::factory()
             ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
+            ->createOne();
 
-        $series = Series::with([
+        $series->unsetRelations()->load([
             Series::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
                 $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, new SeriesReadQuery($parameters))
+                    (new SeriesResource($series, new SeriesReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -218,7 +215,7 @@ class SeriesShowTest extends TestCase
             IncludeParser::param() => Series::RELATION_ANIME,
         ];
 
-        Series::factory()
+        $series = Series::factory()
             ->has(
                 Anime::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -228,21 +225,20 @@ class SeriesShowTest extends TestCase
                         [Anime::ATTRIBUTE_YEAR => 2002],
                     ))
             )
-            ->create();
+            ->createOne();
 
-        $series = Series::with([
+        $series->unsetRelations()->load([
             Series::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SeriesResource::make($series, new SeriesReadQuery($parameters))
+                    (new SeriesResource($series, new SeriesReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

@@ -24,7 +24,7 @@ class WikiController extends Controller
     #[Route(fullUri: 'config/wiki', name: 'config.wiki.show')]
     public function show(WikiRequest $request): JsonResponse
     {
-        $resource = WikiResource::make($request->getQuery());
+        $resource = new WikiResource($request->getQuery());
 
         return $resource->toResponse($request);
     }

@@ -76,8 +76,8 @@ class SongResource extends BaseResource
             $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
         }
 
-        $result[Song::RELATION_ANIMETHEMES] = ThemeCollection::make($this->whenLoaded(Song::RELATION_ANIMETHEMES), $this->query);
-        $result[Song::RELATION_ARTISTS] = ArtistCollection::make($this->whenLoaded(Song::RELATION_ARTISTS), $this->query);
+        $result[Song::RELATION_ANIMETHEMES] = new ThemeCollection($this->whenLoaded(Song::RELATION_ANIMETHEMES), $this->query);
+        $result[Song::RELATION_ARTISTS] = new ArtistCollection($this->whenLoaded(Song::RELATION_ARTISTS), $this->query);
 
         return $result;
     }

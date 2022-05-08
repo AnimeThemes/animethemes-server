@@ -48,8 +48,8 @@ class ImageSchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
-            AllowedInclude::make(AnimeSchema::class, Image::RELATION_ANIME),
-            AllowedInclude::make(ArtistSchema::class, Image::RELATION_ARTISTS),
+            new AllowedInclude(AnimeSchema::class, Image::RELATION_ANIME),
+            new AllowedInclude(ArtistSchema::class, Image::RELATION_ARTISTS),
         ];
     }
 

@@ -45,6 +45,6 @@ class VideoWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return VideoResource::make($resource, new VideoReadQuery());
+        return new VideoResource($resource, new VideoReadQuery());
     }
 }

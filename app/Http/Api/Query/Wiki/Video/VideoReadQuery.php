@@ -47,7 +47,7 @@ class VideoReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return VideoResource::make($resource, $this);
+        return new VideoResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class VideoReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return VideoCollection::make($resource, $this);
+        return new VideoCollection($resource, $this);
     }
 }

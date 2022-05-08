@@ -47,7 +47,7 @@ class SeriesReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return SeriesResource::make($resource, $this);
+        return new SeriesResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class SeriesReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return SeriesCollection::make($resource, $this);
+        return new SeriesCollection($resource, $this);
     }
 }

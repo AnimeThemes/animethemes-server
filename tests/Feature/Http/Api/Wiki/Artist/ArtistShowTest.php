@@ -52,7 +52,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, new ArtistReadQuery())
+                    (new ArtistResource($artist, new ArtistReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -81,7 +81,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, new ArtistReadQuery())
+                    (new ArtistResource($artist, new ArtistReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -109,15 +109,14 @@ class ArtistShowTest extends TestCase
             IncludeParser::param() => $includedPaths->join(','),
         ];
 
-        Artist::factory()->jsonApiResource()->create();
-        $artist = Artist::with($includedPaths->all())->first();
+        $artist = Artist::factory()->jsonApiResource()->createOne();
 
         $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, new ArtistReadQuery($parameters))
+                    (new ArtistResource($artist, new ArtistReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -154,7 +153,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, new ArtistReadQuery($parameters))
+                    (new ArtistResource($artist, new ArtistReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -180,7 +179,7 @@ class ArtistShowTest extends TestCase
             IncludeParser::param() => Artist::RELATION_ANIMETHEMES,
         ];
 
-        Artist::factory()
+        $artist = Artist::factory()
             ->has(
                 Song::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -194,21 +193,20 @@ class ArtistShowTest extends TestCase
                             ))
                     )
             )
-            ->create();
+            ->createOne();
 
-        $artist = Artist::with([
+        $artist->unsetRelations()->load([
             Artist::RELATION_ANIMETHEMES => function (HasMany $query) use ($groupFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, new ArtistReadQuery($parameters))
+                    (new ArtistResource($artist, new ArtistReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -234,7 +232,7 @@ class ArtistShowTest extends TestCase
             IncludeParser::param() => Artist::RELATION_ANIMETHEMES,
         ];
 
-        Artist::factory()
+        $artist = Artist::factory()
             ->has(
                 Song::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -248,21 +246,20 @@ class ArtistShowTest extends TestCase
                             ))
                     )
             )
-            ->create();
+            ->createOne();
 
-        $artist = Artist::with([
+        $artist->unsetRelations()->load([
             Artist::RELATION_ANIMETHEMES => function (HasMany $query) use ($sequenceFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, new ArtistReadQuery($parameters))
+                    (new ArtistResource($artist, new ArtistReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -287,7 +284,7 @@ class ArtistShowTest extends TestCase
             IncludeParser::param() => Artist::RELATION_ANIMETHEMES,
         ];
 
-        Artist::factory()
+        $artist = Artist::factory()
             ->has(
                 Song::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -297,21 +294,20 @@ class ArtistShowTest extends TestCase
                             ->count($this->faker->randomDigitNotNull())
                     )
             )
-            ->create();
+            ->createOne();
 
-        $artist = Artist::with([
+        $artist->unsetRelations()->load([
             Artist::RELATION_ANIMETHEMES => function (HasMany $query) use ($typeFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, new ArtistReadQuery($parameters))
+                    (new ArtistResource($artist, new ArtistReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -336,7 +332,7 @@ class ArtistShowTest extends TestCase
             IncludeParser::param() => Artist::RELATION_ANIME,
         ];
 
-        Artist::factory()
+        $artist = Artist::factory()
             ->has(
                 Song::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -346,21 +342,20 @@ class ArtistShowTest extends TestCase
                             ->count($this->faker->randomDigitNotNull())
                     )
             )
-            ->create();
+            ->createOne();
 
-        $artist = Artist::with([
+        $artist->unsetRelations()->load([
             Artist::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, new ArtistReadQuery($parameters))
+                    (new ArtistResource($artist, new ArtistReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -386,7 +381,7 @@ class ArtistShowTest extends TestCase
             IncludeParser::param() => Artist::RELATION_ANIME,
         ];
 
-        Artist::factory()
+        $artist = Artist::factory()
             ->has(
                 Song::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -401,21 +396,20 @@ class ArtistShowTest extends TestCase
                             ->count($this->faker->randomDigitNotNull())
                     )
             )
-            ->create();
+            ->createOne();
 
-        $artist = Artist::with([
+        $artist->unsetRelations()->load([
             Artist::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, new ArtistReadQuery($parameters))
+                    (new ArtistResource($artist, new ArtistReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -442,23 +436,22 @@ class ArtistShowTest extends TestCase
             IncludeParser::param() => Artist::RELATION_RESOURCES,
         ];
 
-        Artist::factory()
+        $artist = Artist::factory()
             ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), Artist::RELATION_RESOURCES)
-            ->create();
+            ->createOne();
 
-        $artist = Artist::with([
+        $artist->unsetRelations()->load([
             Artist::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter) {
                 $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, new ArtistReadQuery($parameters))
+                    (new ArtistResource($artist, new ArtistReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -485,23 +478,22 @@ class ArtistShowTest extends TestCase
             IncludeParser::param() => Artist::RELATION_IMAGES,
         ];
 
-        Artist::factory()
+        $artist = Artist::factory()
             ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
+            ->createOne();
 
-        $artist = Artist::with([
+        $artist->unsetRelations()->load([
             Artist::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
                 $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    ArtistResource::make($artist, new ArtistReadQuery($parameters))
+                    (new ArtistResource($artist, new ArtistReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

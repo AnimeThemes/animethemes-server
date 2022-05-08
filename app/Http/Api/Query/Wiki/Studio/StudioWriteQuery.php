@@ -45,6 +45,6 @@ class StudioWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return StudioResource::make($resource, new StudioReadQuery());
+        return new StudioResource($resource, new StudioReadQuery());
     }
 }

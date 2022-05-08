@@ -70,7 +70,7 @@ class SynonymResource extends BaseResource
             $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
         }
 
-        $result[AnimeSynonym::RELATION_ANIME] = AnimeResource::make($this->whenLoaded(AnimeSynonym::RELATION_ANIME), $this->query);
+        $result[AnimeSynonym::RELATION_ANIME] = new AnimeResource($this->whenLoaded(AnimeSynonym::RELATION_ANIME), $this->query);
 
         return $result;
     }

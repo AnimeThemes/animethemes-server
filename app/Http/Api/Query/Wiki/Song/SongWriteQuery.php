@@ -45,6 +45,6 @@ class SongWriteQuery extends EloquentWriteQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return SongResource::make($resource, new SongReadQuery());
+        return new SongResource($resource, new SongReadQuery());
     }
 }

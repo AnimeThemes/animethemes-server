@@ -24,7 +24,7 @@ class SearchController extends Controller
     #[Route(fullUri: 'search', name: 'search.show')]
     public function show(SearchRequest $request): JsonResponse
     {
-        $resource = SearchResource::make($request->getQuery());
+        $resource = new SearchResource($request->getQuery());
 
         return $resource->toResponse($request);
     }

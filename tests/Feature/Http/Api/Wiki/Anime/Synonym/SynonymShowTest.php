@@ -44,7 +44,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, new SynonymReadQuery())
+                    (new SynonymResource($synonym, new SynonymReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -71,7 +71,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, new SynonymReadQuery())
+                    (new SynonymResource($synonym, new SynonymReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -99,16 +99,14 @@ class SynonymShowTest extends TestCase
             IncludeParser::param() => $includedPaths->join(','),
         ];
 
-        AnimeSynonym::factory()->for(Anime::factory())->create();
-
-        $synonym = AnimeSynonym::with($includedPaths->all())->first();
+        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
         $response = $this->get(route('api.animesynonym.show', ['animesynonym' => $synonym] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, new SynonymReadQuery($parameters))
+                    (new SynonymResource($synonym, new SynonymReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -145,7 +143,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, new SynonymReadQuery($parameters))
+                    (new SynonymResource($synonym, new SynonymReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -170,21 +168,20 @@ class SynonymShowTest extends TestCase
             IncludeParser::param() => AnimeSynonym::RELATION_ANIME,
         ];
 
-        AnimeSynonym::factory()->for(Anime::factory())->create();
+        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        $synonym = AnimeSynonym::with([
+        $synonym->unsetRelations()->load([
             AnimeSynonym::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animesynonym.show', ['animesynonym' => $synonym] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, new SynonymReadQuery($parameters))
+                    (new SynonymResource($synonym, new SynonymReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -210,16 +207,16 @@ class SynonymShowTest extends TestCase
             IncludeParser::param() => AnimeSynonym::RELATION_ANIME,
         ];
 
-        AnimeSynonym::factory()
+        $synonym = AnimeSynonym::factory()
             ->for(
                 Anime::factory()
                     ->state([
                         Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
                     ])
             )
-            ->create();
+            ->createOne();
 
-        $synonym = AnimeSynonym::with([
+        $synonym->unsetRelations()->load([
             AnimeSynonym::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
@@ -231,7 +228,7 @@ class SynonymShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    SynonymResource::make($synonym, new SynonymReadQuery($parameters))
+                    (new SynonymResource($synonym, new SynonymReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

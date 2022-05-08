@@ -48,9 +48,9 @@ class ExternalResourceSchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
-            AllowedInclude::make(AnimeSchema::class, ExternalResource::RELATION_ANIME),
-            AllowedInclude::make(ArtistSchema::class, ExternalResource::RELATION_ARTISTS),
-            AllowedInclude::make(StudioSchema::class, ExternalResource::RELATION_STUDIOS),
+            new AllowedInclude(AnimeSchema::class, ExternalResource::RELATION_ANIME),
+            new AllowedInclude(ArtistSchema::class, ExternalResource::RELATION_ARTISTS),
+            new AllowedInclude(StudioSchema::class, ExternalResource::RELATION_STUDIOS),
         ];
     }
 

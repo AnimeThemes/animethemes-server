@@ -47,7 +47,7 @@ class TransactionReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return TransactionResource::make($resource, $this);
+        return new TransactionResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class TransactionReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return TransactionCollection::make($resource, $this);
+        return new TransactionCollection($resource, $this);
     }
 }

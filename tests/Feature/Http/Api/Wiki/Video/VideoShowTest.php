@@ -47,7 +47,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, new VideoReadQuery())
+                    (new VideoResource($video, new VideoReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -74,7 +74,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, new VideoReadQuery())
+                    (new VideoResource($video, new VideoReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -102,22 +102,20 @@ class VideoShowTest extends TestCase
             IncludeParser::param() => $includedPaths->join(','),
         ];
 
-        Video::factory()
+        $video = Video::factory()
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->for(AnimeTheme::factory()->for(Anime::factory()))
             )
-            ->create();
-
-        $video = Video::with($includedPaths->all())->first();
+            ->createOne();
 
         $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, new VideoReadQuery($parameters))
+                    (new VideoResource($video, new VideoReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -154,7 +152,7 @@ class VideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, new VideoReadQuery($parameters))
+                    (new VideoResource($video, new VideoReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -179,27 +177,26 @@ class VideoShowTest extends TestCase
             IncludeParser::param() => Video::RELATION_ANIMETHEMEENTRIES,
         ];
 
-        Video::factory()
+        $video = Video::factory()
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->for(AnimeTheme::factory()->for(Anime::factory()))
             )
-            ->create();
+            ->createOne();
 
-        $video = Video::with([
+        $video->unsetRelations()->load([
             Video::RELATION_ANIMETHEMEENTRIES => function (BelongsToMany $query) use ($nsfwFilter) {
                 $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, new VideoReadQuery($parameters))
+                    (new VideoResource($video, new VideoReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -224,27 +221,26 @@ class VideoShowTest extends TestCase
             IncludeParser::param() => Video::RELATION_ANIMETHEMEENTRIES,
         ];
 
-        Video::factory()
+        $video = Video::factory()
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->for(AnimeTheme::factory()->for(Anime::factory()))
             )
-            ->create();
+            ->createOne();
 
-        $video = Video::with([
+        $video->unsetRelations()->load([
             Video::RELATION_ANIMETHEMEENTRIES => function (BelongsToMany $query) use ($spoilerFilter) {
                 $query->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, new VideoReadQuery($parameters))
+                    (new VideoResource($video, new VideoReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -270,7 +266,7 @@ class VideoShowTest extends TestCase
             IncludeParser::param() => Video::RELATION_ANIMETHEMEENTRIES,
         ];
 
-        Video::factory()
+        $video = Video::factory()
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -280,21 +276,20 @@ class VideoShowTest extends TestCase
                         [AnimeThemeEntry::ATTRIBUTE_VERSION => $excludedVersion],
                     ))
             )
-            ->create();
+            ->createOne();
 
-        $video = Video::with([
+        $video->unsetRelations()->load([
             Video::RELATION_ANIMETHEMEENTRIES => function (BelongsToMany $query) use ($versionFilter) {
                 $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, new VideoReadQuery($parameters))
+                    (new VideoResource($video, new VideoReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -320,7 +315,7 @@ class VideoShowTest extends TestCase
             IncludeParser::param() => Video::RELATION_ANIMETHEME,
         ];
 
-        Video::factory()
+        $video = Video::factory()
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -332,21 +327,20 @@ class VideoShowTest extends TestCase
                             ])
                     )
             )
-            ->create();
+            ->createOne();
 
-        $video = Video::with([
+        $video->unsetRelations()->load([
             Video::RELATION_ANIMETHEME => function (BelongsTo $query) use ($groupFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, new VideoReadQuery($parameters))
+                    (new VideoResource($video, new VideoReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -372,7 +366,7 @@ class VideoShowTest extends TestCase
             IncludeParser::param() => Video::RELATION_ANIMETHEME,
         ];
 
-        Video::factory()
+        $video = Video::factory()
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -384,21 +378,20 @@ class VideoShowTest extends TestCase
                             ])
                     )
             )
-            ->create();
+            ->createOne();
 
-        $video = Video::with([
+        $video->unsetRelations()->load([
             Video::RELATION_ANIMETHEME => function (BelongsTo $query) use ($sequenceFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, new VideoReadQuery($parameters))
+                    (new VideoResource($video, new VideoReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -423,27 +416,26 @@ class VideoShowTest extends TestCase
             IncludeParser::param() => Video::RELATION_ANIMETHEME,
         ];
 
-        Video::factory()
+        $video = Video::factory()
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->for(AnimeTheme::factory()->for(Anime::factory()))
             )
-            ->create();
+            ->createOne();
 
-        $video = Video::with([
+        $video->unsetRelations()->load([
             Video::RELATION_ANIMETHEME => function (BelongsTo $query) use ($typeFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, new VideoReadQuery($parameters))
+                    (new VideoResource($video, new VideoReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -468,27 +460,26 @@ class VideoShowTest extends TestCase
             IncludeParser::param() => Video::RELATION_ANIME,
         ];
 
-        Video::factory()
+        $video = Video::factory()
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
                     ->for(AnimeTheme::factory()->for(Anime::factory()))
             )
-            ->create();
+            ->createOne();
 
-        $video = Video::with([
+        $video->unsetRelations()->load([
             Video::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, new VideoReadQuery($parameters))
+                    (new VideoResource($video, new VideoReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -514,7 +505,7 @@ class VideoShowTest extends TestCase
             IncludeParser::param() => Video::RELATION_ANIME,
         ];
 
-        Video::factory()
+        $video = Video::factory()
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -528,21 +519,20 @@ class VideoShowTest extends TestCase
                             )
                     )
             )
-            ->create();
+            ->createOne();
 
-        $video = Video::with([
+        $video->unsetRelations()->load([
             Video::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    VideoResource::make($video, new VideoReadQuery($parameters))
+                    (new VideoResource($video, new VideoReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

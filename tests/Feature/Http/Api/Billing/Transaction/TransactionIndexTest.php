@@ -48,7 +48,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transactions, new TransactionReadQuery())
+                    (new TransactionCollection($transactions, new TransactionReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -101,7 +101,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transactions, new TransactionReadQuery($parameters))
+                    (new TransactionCollection($transactions, new TransactionReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -180,7 +180,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, new TransactionReadQuery($parameters))
+                    (new TransactionCollection($transaction, new TransactionReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -223,7 +223,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, new TransactionReadQuery($parameters))
+                    (new TransactionCollection($transaction, new TransactionReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -262,7 +262,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, new TransactionReadQuery($parameters))
+                    (new TransactionCollection($transaction, new TransactionReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -301,7 +301,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, new TransactionReadQuery($parameters))
+                    (new TransactionCollection($transaction, new TransactionReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -340,7 +340,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, new TransactionReadQuery($parameters))
+                    (new TransactionCollection($transaction, new TransactionReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -390,7 +390,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    TransactionCollection::make($transaction, new TransactionReadQuery($parameters))
+                    (new TransactionCollection($transaction, new TransactionReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

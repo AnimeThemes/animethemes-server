@@ -45,7 +45,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, new EntryReadQuery())
+                    (new EntryResource($entry, new EntryReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -74,7 +74,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, new EntryReadQuery())
+                    (new EntryResource($entry, new EntryReadQuery()))
                         ->response()
                         ->getData()
                 ),
@@ -102,19 +102,17 @@ class EntryShowTest extends TestCase
             IncludeParser::param() => $includedPaths->join(','),
         ];
 
-        AnimeThemeEntry::factory()
+        $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
-
-        $entry = AnimeThemeEntry::with($includedPaths->all())->first();
+            ->createOne();
 
         $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, new EntryReadQuery($parameters))
+                    (new EntryResource($entry, new EntryReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -151,7 +149,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, new EntryReadQuery($parameters))
+                    (new EntryResource($entry, new EntryReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -176,23 +174,22 @@ class EntryShowTest extends TestCase
             IncludeParser::param() => AnimeThemeEntry::RELATION_ANIME,
         ];
 
-        AnimeThemeEntry::factory()
+        $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
-        $entry = AnimeThemeEntry::with([
+        $entry->unsetRelations()->load([
             AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, new EntryReadQuery($parameters))
+                    (new EntryResource($entry, new EntryReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -218,7 +215,7 @@ class EntryShowTest extends TestCase
             IncludeParser::param() => AnimeThemeEntry::RELATION_ANIME,
         ];
 
-        AnimeThemeEntry::factory()
+        $entry = AnimeThemeEntry::factory()
             ->for(
                 AnimeTheme::factory()->for(
                     Anime::factory()
@@ -227,21 +224,20 @@ class EntryShowTest extends TestCase
                         ])
                 )
             )
-            ->create();
+            ->createOne();
 
-        $entry = AnimeThemeEntry::with([
+        $entry->unsetRelations()->load([
             AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, new EntryReadQuery($parameters))
+                    (new EntryResource($entry, new EntryReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -267,7 +263,7 @@ class EntryShowTest extends TestCase
             IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
         ];
 
-        AnimeThemeEntry::factory()
+        $entry = AnimeThemeEntry::factory()
             ->for(
                 AnimeTheme::factory()
                     ->for(Anime::factory())
@@ -275,21 +271,20 @@ class EntryShowTest extends TestCase
                         AnimeTheme::ATTRIBUTE_GROUP => $this->faker->boolean() ? $groupFilter : $excludedGroup,
                     ])
             )
-            ->create();
+            ->createOne();
 
-        $entry = AnimeThemeEntry::with([
+        $entry->unsetRelations()->load([
             AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($groupFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, new EntryReadQuery($parameters))
+                    (new EntryResource($entry, new EntryReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -315,7 +310,7 @@ class EntryShowTest extends TestCase
             IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
         ];
 
-        AnimeThemeEntry::factory()
+        $entry = AnimeThemeEntry::factory()
             ->for(
                 AnimeTheme::factory()
                     ->for(Anime::factory())
@@ -323,21 +318,20 @@ class EntryShowTest extends TestCase
                         AnimeTheme::ATTRIBUTE_SEQUENCE => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
                     ])
             )
-            ->create();
+            ->createOne();
 
-        $entry = AnimeThemeEntry::with([
+        $entry->unsetRelations()->load([
             AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($sequenceFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, new EntryReadQuery($parameters))
+                    (new EntryResource($entry, new EntryReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -362,23 +356,22 @@ class EntryShowTest extends TestCase
             IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
         ];
 
-        AnimeThemeEntry::factory()
+        $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->create();
+            ->createOne();
 
-        $entry = AnimeThemeEntry::with([
+        $entry->unsetRelations()->load([
             AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($typeFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    EntryResource::make($entry, new EntryReadQuery($parameters))
+                    (new EntryResource($entry, new EntryReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

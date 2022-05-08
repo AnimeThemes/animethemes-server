@@ -47,7 +47,7 @@ class ExternalResourceReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return ExternalResourceResource::make($resource, $this);
+        return new ExternalResourceResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class ExternalResourceReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return ExternalResourceCollection::make($resource, $this);
+        return new ExternalResourceCollection($resource, $this);
     }
 }

@@ -47,7 +47,7 @@ class BalanceReadQuery extends EloquentReadQuery
      */
     public function resource(mixed $resource): BaseResource
     {
-        return BalanceResource::make($resource, $this);
+        return new BalanceResource($resource, $this);
     }
 
     /**
@@ -58,6 +58,6 @@ class BalanceReadQuery extends EloquentReadQuery
      */
     public function collection(mixed $resource): BaseCollection
     {
-        return BalanceCollection::make($resource, $this);
+        return new BalanceCollection($resource, $this);
     }
 }
