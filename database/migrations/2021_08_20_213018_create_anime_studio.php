@@ -18,14 +18,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(AnimeStudio::TABLE, function (Blueprint $table) {
-            $table->timestamps(6);
-            $table->unsignedBigInteger(AnimeStudio::ATTRIBUTE_ANIME);
-            $table->foreign(AnimeStudio::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
-            $table->unsignedBigInteger(AnimeStudio::ATTRIBUTE_STUDIO);
-            $table->foreign(AnimeStudio::ATTRIBUTE_STUDIO)->references(Studio::ATTRIBUTE_ID)->on(Studio::TABLE)->cascadeOnDelete();
-            $table->primary([AnimeStudio::ATTRIBUTE_ANIME, AnimeStudio::ATTRIBUTE_STUDIO]);
-        });
+        if (! Schema::hasTable(AnimeStudio::TABLE)) {
+            Schema::create(AnimeStudio::TABLE, function (Blueprint $table) {
+                $table->timestamps(6);
+                $table->unsignedBigInteger(AnimeStudio::ATTRIBUTE_ANIME);
+                $table->foreign(AnimeStudio::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger(AnimeStudio::ATTRIBUTE_STUDIO);
+                $table->foreign(AnimeStudio::ATTRIBUTE_STUDIO)->references(Studio::ATTRIBUTE_ID)->on(Studio::TABLE)->cascadeOnDelete();
+                $table->primary([AnimeStudio::ATTRIBUTE_ANIME, AnimeStudio::ATTRIBUTE_STUDIO]);
+            });
+        }
     }
 
     /**

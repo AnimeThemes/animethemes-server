@@ -17,15 +17,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(ArtistMember::TABLE, function (Blueprint $table) {
-            $table->timestamps(6);
-            $table->unsignedBigInteger(ArtistMember::ATTRIBUTE_ARTIST);
-            $table->foreign(ArtistMember::ATTRIBUTE_ARTIST)->references(Artist::ATTRIBUTE_ID)->on(Artist::TABLE)->cascadeOnDelete();
-            $table->unsignedBigInteger(ArtistMember::ATTRIBUTE_MEMBER);
-            $table->foreign(ArtistMember::ATTRIBUTE_MEMBER)->references(Artist::ATTRIBUTE_ID)->on(Artist::TABLE)->cascadeOnDelete();
-            $table->primary([ArtistMember::ATTRIBUTE_ARTIST, ArtistMember::ATTRIBUTE_MEMBER]);
-            $table->string(ArtistMember::ATTRIBUTE_AS)->nullable();
-        });
+        if (! Schema::hasTable(ArtistMember::TABLE)) {
+            Schema::create(ArtistMember::TABLE, function (Blueprint $table) {
+                $table->timestamps(6);
+                $table->unsignedBigInteger(ArtistMember::ATTRIBUTE_ARTIST);
+                $table->foreign(ArtistMember::ATTRIBUTE_ARTIST)->references(Artist::ATTRIBUTE_ID)->on(Artist::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger(ArtistMember::ATTRIBUTE_MEMBER);
+                $table->foreign(ArtistMember::ATTRIBUTE_MEMBER)->references(Artist::ATTRIBUTE_ID)->on(Artist::TABLE)->cascadeOnDelete();
+                $table->primary([ArtistMember::ATTRIBUTE_ARTIST, ArtistMember::ATTRIBUTE_MEMBER]);
+                $table->string(ArtistMember::ATTRIBUTE_AS)->nullable();
+            });
+        }
     }
 
     /**

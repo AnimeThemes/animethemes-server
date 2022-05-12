@@ -16,16 +16,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(User::TABLE, function (Blueprint $table) {
-            $table->id();
-            $table->string(User::ATTRIBUTE_NAME);
-            $table->string(User::ATTRIBUTE_EMAIL)->unique();
-            $table->timestamp(User::ATTRIBUTE_EMAIL_VERIFIED_AT)->nullable();
-            $table->string(User::ATTRIBUTE_PASSWORD);
-            $table->rememberToken();
-            $table->timestamps(6);
-            $table->softDeletes(User::ATTRIBUTE_DELETED_AT, 6);
-        });
+        if (! Schema::hasTable(User::TABLE)) {
+            Schema::create(User::TABLE, function (Blueprint $table) {
+                $table->id();
+                $table->string(User::ATTRIBUTE_NAME);
+                $table->string(User::ATTRIBUTE_EMAIL)->unique();
+                $table->timestamp(User::ATTRIBUTE_EMAIL_VERIFIED_AT)->nullable();
+                $table->string(User::ATTRIBUTE_PASSWORD);
+                $table->rememberToken();
+                $table->timestamps(6);
+                $table->softDeletes(User::ATTRIBUTE_DELETED_AT, 6);
+            });
+        }
     }
 
     /**

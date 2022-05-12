@@ -18,15 +18,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(StudioResource::TABLE, function (Blueprint $table) {
-            $table->timestamps(6);
-            $table->unsignedBigInteger(StudioResource::ATTRIBUTE_STUDIO);
-            $table->foreign(StudioResource::ATTRIBUTE_STUDIO)->references(Studio::ATTRIBUTE_ID)->on(Studio::TABLE)->cascadeOnDelete();
-            $table->unsignedBigInteger(StudioResource::ATTRIBUTE_RESOURCE);
-            $table->foreign(StudioResource::ATTRIBUTE_RESOURCE)->references(ExternalResource::ATTRIBUTE_ID)->on(ExternalResource::TABLE)->cascadeOnDelete();
-            $table->primary([StudioResource::ATTRIBUTE_STUDIO, StudioResource::ATTRIBUTE_RESOURCE]);
-            $table->string(StudioResource::ATTRIBUTE_AS)->nullable();
-        });
+        if (! Schema::hasTable(StudioResource::TABLE)) {
+            Schema::create(StudioResource::TABLE, function (Blueprint $table) {
+                $table->timestamps(6);
+                $table->unsignedBigInteger(StudioResource::ATTRIBUTE_STUDIO);
+                $table->foreign(StudioResource::ATTRIBUTE_STUDIO)->references(Studio::ATTRIBUTE_ID)->on(Studio::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger(StudioResource::ATTRIBUTE_RESOURCE);
+                $table->foreign(StudioResource::ATTRIBUTE_RESOURCE)->references(ExternalResource::ATTRIBUTE_ID)->on(ExternalResource::TABLE)->cascadeOnDelete();
+                $table->primary([StudioResource::ATTRIBUTE_STUDIO, StudioResource::ATTRIBUTE_RESOURCE]);
+                $table->string(StudioResource::ATTRIBUTE_AS)->nullable();
+            });
+        }
     }
 
     /**

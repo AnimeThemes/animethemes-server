@@ -17,16 +17,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(Anime::TABLE, function (Blueprint $table) {
-            $table->id(Anime::ATTRIBUTE_ID);
-            $table->timestamps(6);
-            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-            $table->string(Anime::ATTRIBUTE_SLUG);
-            $table->string(Anime::ATTRIBUTE_NAME);
-            $table->integer(Anime::ATTRIBUTE_YEAR)->nullable();
-            $table->integer(Anime::ATTRIBUTE_SEASON)->nullable();
-            $table->text(Anime::ATTRIBUTE_SYNOPSIS)->nullable();
-        });
+        if (! Schema::hasTable(Anime::TABLE)) {
+            Schema::create(Anime::TABLE, function (Blueprint $table) {
+                $table->id(Anime::ATTRIBUTE_ID);
+                $table->timestamps(6);
+                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->string(Anime::ATTRIBUTE_SLUG);
+                $table->string(Anime::ATTRIBUTE_NAME);
+                $table->integer(Anime::ATTRIBUTE_YEAR)->nullable();
+                $table->integer(Anime::ATTRIBUTE_SEASON)->nullable();
+                $table->text(Anime::ATTRIBUTE_SYNOPSIS)->nullable();
+            });
+        }
     }
 
     /**

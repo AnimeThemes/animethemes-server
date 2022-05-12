@@ -17,16 +17,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(Balance::TABLE, function (Blueprint $table) {
-            $table->id(Balance::ATTRIBUTE_ID);
-            $table->timestamps(6);
-            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-            $table->date(Balance::ATTRIBUTE_DATE);
-            $table->integer(Balance::ATTRIBUTE_SERVICE);
-            $table->integer(Balance::ATTRIBUTE_FREQUENCY);
-            $table->decimal(Balance::ATTRIBUTE_USAGE);
-            $table->decimal(Balance::ATTRIBUTE_BALANCE);
-        });
+        if (! Schema::hasTable(Balance::TABLE)) {
+            Schema::create(Balance::TABLE, function (Blueprint $table) {
+                $table->id(Balance::ATTRIBUTE_ID);
+                $table->timestamps(6);
+                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->date(Balance::ATTRIBUTE_DATE);
+                $table->integer(Balance::ATTRIBUTE_SERVICE);
+                $table->integer(Balance::ATTRIBUTE_FREQUENCY);
+                $table->decimal(Balance::ATTRIBUTE_USAGE);
+                $table->decimal(Balance::ATTRIBUTE_BALANCE);
+            });
+        }
     }
 
     /**

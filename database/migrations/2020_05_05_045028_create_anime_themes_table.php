@@ -19,21 +19,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(AnimeTheme::TABLE, function (Blueprint $table) {
-            $table->id(AnimeTheme::ATTRIBUTE_ID);
-            $table->timestamps(6);
-            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-            $table->string(AnimeTheme::ATTRIBUTE_GROUP)->nullable();
-            $table->integer(AnimeTheme::ATTRIBUTE_TYPE)->nullable();
-            $table->integer(AnimeTheme::ATTRIBUTE_SEQUENCE)->nullable();
-            $table->string(AnimeTheme::ATTRIBUTE_SLUG);
+        if (! Schema::hasTable(AnimeTheme::TABLE)) {
+            Schema::create(AnimeTheme::TABLE, function (Blueprint $table) {
+                $table->id(AnimeTheme::ATTRIBUTE_ID);
+                $table->timestamps(6);
+                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->string(AnimeTheme::ATTRIBUTE_GROUP)->nullable();
+                $table->integer(AnimeTheme::ATTRIBUTE_TYPE)->nullable();
+                $table->integer(AnimeTheme::ATTRIBUTE_SEQUENCE)->nullable();
+                $table->string(AnimeTheme::ATTRIBUTE_SLUG);
 
-            $table->unsignedBigInteger(AnimeTheme::ATTRIBUTE_ANIME);
-            $table->foreign(AnimeTheme::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger(AnimeTheme::ATTRIBUTE_ANIME);
+                $table->foreign(AnimeTheme::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
 
-            $table->unsignedBigInteger(AnimeTheme::ATTRIBUTE_SONG)->nullable();
-            $table->foreign(AnimeTheme::ATTRIBUTE_SONG)->references(Song::ATTRIBUTE_ID)->on(Song::TABLE)->nullOnDelete();
-        });
+                $table->unsignedBigInteger(AnimeTheme::ATTRIBUTE_SONG)->nullable();
+                $table->foreign(AnimeTheme::ATTRIBUTE_SONG)->references(Song::ATTRIBUTE_ID)->on(Song::TABLE)->nullOnDelete();
+            });
+        }
     }
 
     /**

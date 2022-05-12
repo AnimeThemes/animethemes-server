@@ -120,11 +120,13 @@
                                         </x-jet-dropdown-link>
                                     @endcan
 
-                                    @can('view telescope')
-                                        <x-jet-dropdown-link href="{{ route('telescope') }}">
-                                            {{ __('Telescope') }}
-                                        </x-jet-dropdown-link>
-                                    @endcan
+                                    @if (config('telescope.enabled'))
+                                        @can('view telescope')
+                                            <x-jet-dropdown-link href="{{ route('telescope') }}">
+                                                {{ __('Telescope') }}
+                                            </x-jet-dropdown-link>
+                                        @endcan
+                                    @endif
                                 </div>
                             </x-slot>
                         </x-jet-dropdown>
@@ -250,11 +252,13 @@
                     </x-jet-responsive-nav-link>
                 @endcan
 
-                @can('view telescope')
-                    <x-jet-responsive-nav-link href="{{ route('telescope') }}">
-                        {{ __('Telescope') }}
-                    </x-jet-responsive-nav-link>
-                @endcan
+                @if (config('telescope.enabled'))
+                    @can('view telescope')
+                        <x-jet-responsive-nav-link href="{{ route('telescope') }}">
+                            {{ __('Telescope') }}
+                        </x-jet-responsive-nav-link>
+                    @endcan
+                @endif
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}" x-data>

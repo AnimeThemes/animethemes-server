@@ -18,14 +18,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(AnimeSeries::TABLE, function (Blueprint $table) {
-            $table->timestamps(6);
-            $table->unsignedBigInteger(AnimeSeries::ATTRIBUTE_ANIME);
-            $table->foreign(AnimeSeries::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
-            $table->unsignedBigInteger(AnimeSeries::ATTRIBUTE_SERIES);
-            $table->foreign(AnimeSeries::ATTRIBUTE_SERIES)->references(Series::ATTRIBUTE_ID)->on(Series::TABLE)->cascadeOnDelete();
-            $table->primary([AnimeSeries::ATTRIBUTE_ANIME, AnimeSeries::ATTRIBUTE_SERIES]);
-        });
+        if (! Schema::hasTable(AnimeSeries::TABLE)) {
+            Schema::create(AnimeSeries::TABLE, function (Blueprint $table) {
+                $table->timestamps(6);
+                $table->unsignedBigInteger(AnimeSeries::ATTRIBUTE_ANIME);
+                $table->foreign(AnimeSeries::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger(AnimeSeries::ATTRIBUTE_SERIES);
+                $table->foreign(AnimeSeries::ATTRIBUTE_SERIES)->references(Series::ATTRIBUTE_ID)->on(Series::TABLE)->cascadeOnDelete();
+                $table->primary([AnimeSeries::ATTRIBUTE_ANIME, AnimeSeries::ATTRIBUTE_SERIES]);
+            });
+        }
     }
 
     /**

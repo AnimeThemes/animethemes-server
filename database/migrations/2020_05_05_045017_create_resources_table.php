@@ -17,14 +17,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(ExternalResource::TABLE, function (Blueprint $table) {
-            $table->id(ExternalResource::ATTRIBUTE_ID);
-            $table->timestamps(6);
-            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-            $table->integer(ExternalResource::ATTRIBUTE_SITE)->nullable();
-            $table->string(ExternalResource::ATTRIBUTE_LINK)->nullable();
-            $table->integer(ExternalResource::ATTRIBUTE_EXTERNAL_ID)->nullable();
-        });
+        if (! Schema::hasTable(ExternalResource::TABLE)) {
+            Schema::create(ExternalResource::TABLE, function (Blueprint $table) {
+                $table->id(ExternalResource::ATTRIBUTE_ID);
+                $table->timestamps(6);
+                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->integer(ExternalResource::ATTRIBUTE_SITE)->nullable();
+                $table->string(ExternalResource::ATTRIBUTE_LINK)->nullable();
+                $table->integer(ExternalResource::ATTRIBUTE_EXTERNAL_ID)->nullable();
+            });
+        }
     }
 
     /**
