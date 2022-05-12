@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Admin\Announcement;
 
 use App\Models\Admin\Announcement;
-use App\Models\Auth\Permission;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithoutEvents;
-use Illuminate\Support\Facades\App;
 use Laravel\Sanctum\Sanctum;
-use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
 /**
