@@ -38,10 +38,11 @@ class PageStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['page:create']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('create page');
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.page.store'));
 
@@ -61,10 +62,11 @@ class PageStoreTest extends TestCase
     {
         $parameters = Page::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['page:create']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('create page');
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.page.store', $parameters));
 

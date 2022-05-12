@@ -38,10 +38,11 @@ class StudioStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['studio:create']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('create studio');
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.studio.store'));
 
@@ -60,10 +61,11 @@ class StudioStoreTest extends TestCase
     {
         $parameters = Studio::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['studio:create']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('create studio');
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.studio.store', $parameters));
 

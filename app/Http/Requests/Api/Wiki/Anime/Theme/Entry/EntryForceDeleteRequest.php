@@ -34,14 +34,4 @@ class EntryForceDeleteRequest extends EloquentForceDeleteRequest
     {
         return new EntryWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'entry:delete';
-    }
 }

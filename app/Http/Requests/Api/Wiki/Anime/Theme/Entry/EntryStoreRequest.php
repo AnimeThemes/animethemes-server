@@ -34,14 +34,4 @@ class EntryStoreRequest extends EloquentStoreRequest
     {
         return new EntryWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'entry:create';
-    }
 }

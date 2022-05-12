@@ -44,10 +44,11 @@ class StudioRestoreTest extends TestCase
 
         $studio->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['studio:restore']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('restore studio');
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.studio.restore', ['studio' => $studio]));
 

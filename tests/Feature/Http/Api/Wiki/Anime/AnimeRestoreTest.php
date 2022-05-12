@@ -44,10 +44,11 @@ class AnimeRestoreTest extends TestCase
 
         $anime->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['anime:restore']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('restore anime');
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.anime.restore', ['anime' => $anime]));
 

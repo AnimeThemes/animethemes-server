@@ -34,14 +34,4 @@ class SynonymStoreRequest extends EloquentStoreRequest
     {
         return new SynonymWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'synonym:create';
-    }
 }

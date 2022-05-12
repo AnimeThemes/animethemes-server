@@ -14,7 +14,7 @@ abstract class DestroyRequest extends WriteRequest
      *
      * @return string
      */
-    protected function policyAbility(): string
+    protected function ability(): string
     {
         return 'delete';
     }

@@ -34,14 +34,4 @@ class ImageRestoreRequest extends EloquentRestoreRequest
     {
         return new ImageWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'image:restore';
-    }
 }

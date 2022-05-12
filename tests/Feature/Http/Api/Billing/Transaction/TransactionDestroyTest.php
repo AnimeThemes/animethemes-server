@@ -40,10 +40,11 @@ class TransactionDestroyTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['transaction:delete']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('delete transaction');
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.transaction.destroy', ['transaction' => $transaction]));
 

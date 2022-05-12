@@ -44,10 +44,11 @@ class VideoRestoreTest extends TestCase
 
         $video->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['video:restore']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('restore video');
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.video.restore', ['video' => $video]));
 

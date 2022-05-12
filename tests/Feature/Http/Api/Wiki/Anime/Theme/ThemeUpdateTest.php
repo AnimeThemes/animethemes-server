@@ -55,10 +55,11 @@ class ThemeUpdateTest extends TestCase
             [AnimeTheme::ATTRIBUTE_TYPE => ThemeType::getRandomInstance()->description],
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['theme:update']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('update anime theme');
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
 

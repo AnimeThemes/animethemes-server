@@ -34,14 +34,4 @@ class PageDestroyRequest extends EloquentDestroyRequest
     {
         return new PageWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'page:delete';
-    }
 }

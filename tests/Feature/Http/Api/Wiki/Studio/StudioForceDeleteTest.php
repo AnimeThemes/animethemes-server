@@ -40,10 +40,11 @@ class StudioForceDeleteTest extends TestCase
     {
         $studio = Studio::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['*']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('force delete studio');
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.studio.forceDelete', ['studio' => $studio]));
 

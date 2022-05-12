@@ -23,7 +23,6 @@ return new class extends Migration
             $table->timestamp(User::ATTRIBUTE_EMAIL_VERIFIED_AT)->nullable();
             $table->string(User::ATTRIBUTE_PASSWORD);
             $table->rememberToken();
-            $table->integer(User::ATTRIBUTE_CURRENT_TEAM)->nullable();
             $table->timestamps(6);
             $table->softDeletes(User::ATTRIBUTE_DELETED_AT, 6);
         });

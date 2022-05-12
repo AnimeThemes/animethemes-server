@@ -41,10 +41,11 @@ class SynonymDestroyTest extends TestCase
     {
         $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['synonym:delete']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('delete anime synonym');
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.animesynonym.destroy', ['animesynonym' => $synonym]));
 

@@ -39,10 +39,11 @@ class ExternalResourceStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['resource:create']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('create external resource');
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.resource.store'));
 
@@ -64,10 +65,11 @@ class ExternalResourceStoreTest extends TestCase
             [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)],
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['resource:create']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('create external resource');
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.resource.store', $parameters));
 

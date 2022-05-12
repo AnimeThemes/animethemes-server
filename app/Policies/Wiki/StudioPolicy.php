@@ -20,21 +20,23 @@ class StudioPolicy
     /**
      * Determine whether the user can view any models.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function viewAny(): bool
+    public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('view studio');
     }
 
     /**
      * Determine whether the user can view the model.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function view(): bool
+    public function view(User $user): bool
     {
-        return true;
+        return $user->can('view studio');
     }
 
     /**
@@ -45,7 +47,7 @@ class StudioPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('studio:create');
+        return $user->can('create studio');
     }
 
     /**
@@ -56,7 +58,7 @@ class StudioPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('studio:update');
+        return $user->can('update studio');
     }
 
     /**
@@ -67,7 +69,7 @@ class StudioPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('studio:delete');
+        return $user->can('delete studio');
     }
 
     /**
@@ -78,7 +80,7 @@ class StudioPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('studio:restore');
+        return $user->can('restore studio');
     }
 
     /**
@@ -89,7 +91,7 @@ class StudioPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('studio:forceDelete');
+        return $user->can('force delete studio');
     }
 
     /**
@@ -100,7 +102,7 @@ class StudioPolicy
      */
     public function attachAnyAnime(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('studio:update');
+        return $user->can('update studio');
     }
 
     /**
@@ -118,7 +120,7 @@ class StudioPolicy
             ->where($studio->getKeyName(), $studio->getKey())
             ->exists();
 
-        return ! $attached && $user->hasCurrentTeamPermission('studio:update');
+        return ! $attached && $user->can('update studio');
     }
 
     /**
@@ -129,7 +131,7 @@ class StudioPolicy
      */
     public function detachAnime(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('studio:update');
+        return $user->can('update studio');
     }
 
     /**
@@ -140,7 +142,7 @@ class StudioPolicy
      */
     public function attachAnyExternalResource(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('studio:update');
+        return $user->can('update studio');
     }
 
     /**
@@ -151,7 +153,7 @@ class StudioPolicy
      */
     public function attachExternalResource(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('studio:update');
+        return $user->can('update studio');
     }
 
     /**
@@ -162,6 +164,6 @@ class StudioPolicy
      */
     public function detachExternalResource(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('studio:update');
+        return $user->can('update studio');
     }
 }

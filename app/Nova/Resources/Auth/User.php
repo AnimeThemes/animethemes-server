@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Auth;
 
 use App\Models\Auth\User as UserModel;
+use App\Nova\Actions\Auth\User\GivePermissionAction;
+use App\Nova\Actions\Auth\User\GiveRoleAction;
+use App\Nova\Actions\Auth\User\RevokePermissionAction;
+use App\Nova\Actions\Auth\User\RevokeRoleAction;
 use App\Nova\Resources\Resource;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -45,21 +49,6 @@ class User extends Resource
     public function subtitle(): ?string
     {
         return (string) data_get($this, UserModel::ATTRIBUTE_EMAIL);
-    }
-
-    /**
-     * Determine if this resource is available for navigation.
-     *
-     * @param  Request  $request
-     * @return bool
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function availableForNavigation(Request $request): bool
-    {
-        $user = $request->user();
-
-        return $user->hasCurrentTeamPermission('user:read');
     }
 
     /**
@@ -163,8 +152,56 @@ class User extends Resource
                 ->showOnPreview()
                 ->filterable(),
 
+            BelongsToMany::make(__('nova.roles'), UserModel::RELATION_ROLES, Role::class)
+                ->filterable(),
+
+            BelongsToMany::make(__('nova.permissions'), UserModel::RELATION_PERMISSIONS, Permission::class)
+                ->filterable(),
+
             Panel::make(__('nova.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request): array
+    {
+        return array_merge(
+            parent::actions($request),
+            [
+                (new GivePermissionAction())
+                    ->confirmButtonText(__('nova.confirm'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->showOnIndex()
+                    ->showOnDetail()
+                    ->showInline(),
+
+                (new GiveRoleAction())
+                    ->confirmButtonText(__('nova.confirm'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->showOnIndex()
+                    ->showOnDetail()
+                    ->showInline(),
+
+                (new RevokePermissionAction())
+                    ->confirmButtonText(__('nova.confirm'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->showOnIndex()
+                    ->showOnDetail()
+                    ->showInline(),
+
+                (new RevokeRoleAction())
+                    ->confirmButtonText(__('nova.confirm'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->showOnIndex()
+                    ->showOnDetail()
+                    ->showInline(),
+            ]
+        );
     }
 }

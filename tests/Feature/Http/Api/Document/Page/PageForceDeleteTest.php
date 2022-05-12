@@ -40,10 +40,11 @@ class PageForceDeleteTest extends TestCase
     {
         $page = Page::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['*']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('force delete page');
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.page.forceDelete', ['page' => $page]));
 

@@ -45,10 +45,11 @@ class SynonymUpdateTest extends TestCase
 
         $parameters = AnimeSynonym::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['synonym:update']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('update anime synonym');
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
 

@@ -22,7 +22,7 @@ class PagePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('page:read');
+        return $user->can('view page');
     }
 
     /**
@@ -33,7 +33,7 @@ class PagePolicy
      */
     public function view(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('page:read');
+        return $user->can('view page');
     }
 
     /**
@@ -44,7 +44,7 @@ class PagePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('page:create');
+        return $user->can('create page');
     }
 
     /**
@@ -55,7 +55,7 @@ class PagePolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('page:update');
+        return $user->can('update page');
     }
 
     /**
@@ -66,7 +66,7 @@ class PagePolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('page:delete');
+        return $user->can('delete page');
     }
 
     /**
@@ -77,7 +77,7 @@ class PagePolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('page:restore');
+        return $user->can('restore page');
     }
 
     /**
@@ -88,6 +88,6 @@ class PagePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('page:forceDelete');
+        return $user->can('force delete page');
     }
 }

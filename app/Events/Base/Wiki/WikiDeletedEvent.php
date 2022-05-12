@@ -6,8 +6,8 @@ namespace App\Events\Base\Wiki;
 
 use App\Contracts\Events\NovaNotificationEvent;
 use App\Events\Base\BaseDeletedEvent;
+use App\Models\Auth\Role;
 use App\Models\Auth\User;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Laravel\Nova\Notifications\NovaNotification;
@@ -59,23 +59,12 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements NovaNotifica
     /**
      * Get the users to notify.
      *
-     * @return Collection<int, User>
+     * @return Collection
      */
     public function getUsers(): Collection
     {
-        return User::query()->whereIn('id', function (Builder $query) {
-            $query->select('user_id')
-                ->from('team_user')
-                ->whereColumn('team_user.user_id', 'users.id')
-                ->where('team_user.team_id', Config::get('teams.nova'))
-                ->where('team_user.role', 'Wiki');
-        })
-            ->orWhere('id', function (Builder $query) {
-                $query->select('user_id')
-                    ->from('teams')
-                    ->whereColumn('teams.user_id', 'users.id')
-                    ->where('teams.id', Config::get('teams.nova'));
-            })
+        return User::query()
+            ->whereRelation(User::RELATION_ROLES, Role::ATTRIBUTE_NAME, 'Admin')
             ->get();
     }
 

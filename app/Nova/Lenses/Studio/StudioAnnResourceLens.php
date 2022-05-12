@@ -85,7 +85,7 @@ class StudioAnnResourceLens extends BaseLens
             (new CreateExternalResourceSiteForStudioAction(ResourceSite::ANN))->canSee(function (Request $request) {
                 $user = $request->user();
 
-                return $user->hasCurrentTeamPermission('resource:create');
+                return $user->can('create external resource');
             }),
         ];
     }

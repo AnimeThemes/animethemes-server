@@ -39,10 +39,11 @@ class AnimeStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['anime:create']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('create anime');
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.anime.store'));
 
@@ -66,10 +67,11 @@ class AnimeStoreTest extends TestCase
             [Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomInstance()->description],
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['anime:create']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('create anime');
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.anime.store', $parameters));
 

@@ -44,10 +44,11 @@ class PageUpdateTest extends TestCase
 
         $parameters = Page::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['page:update']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('update page');
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.page.update', ['page' => $page] + $parameters));
 

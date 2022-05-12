@@ -43,10 +43,11 @@ class ThemeStoreTest extends TestCase
     {
         Event::fakeExcept(ThemeCreating::class);
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['theme:create']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('create anime theme');
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.animetheme.store'));
 
@@ -73,10 +74,11 @@ class ThemeStoreTest extends TestCase
             [AnimeTheme::ATTRIBUTE_ANIME => $anime->getKey()],
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['theme:create']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('create anime theme');
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.animetheme.store', $parameters));
 

@@ -40,10 +40,11 @@ class ExternalResourceForceDeleteTest extends TestCase
     {
         $resource = ExternalResource::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['*']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('force delete external resource');
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.resource.forceDelete', ['resource' => $resource]));
 

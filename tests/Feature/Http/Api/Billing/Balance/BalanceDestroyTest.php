@@ -40,10 +40,11 @@ class BalanceDestroyTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['balance:delete']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('delete balance');
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.balance.destroy', ['balance' => $balance]));
 

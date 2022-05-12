@@ -26,25 +26,16 @@ class CreateApiTokenTest extends TestCase
             static::markTestSkipped('API support is not enabled.');
         }
 
-        if (Features::hasTeamFeatures()) {
-            $this->actingAs($user = User::factory()->withPersonalTeam()->createOne());
-        } else {
-            $this->actingAs($user = User::factory()->createOne());
-        }
+        $this->actingAs($user = User::factory()->createOne());
 
         Livewire::test(ApiTokenManager::class)
                     ->set(['createApiTokenForm' => [
                         'name' => 'Test Token',
-                        'permissions' => [
-                            'anime:read',
-                            'anime:update',
-                        ],
+                        'permissions' => [],
                     ]])
                     ->call('createApiToken');
 
         static::assertCount(1, $user->fresh()->tokens);
         static::assertEquals('Test Token', $user->fresh()->tokens->first()->name);
-        static::assertTrue($user->fresh()->tokens->first()->can('anime:read'));
-        static::assertFalse($user->fresh()->tokens->first()->can('anime:delete'));
     }
 }

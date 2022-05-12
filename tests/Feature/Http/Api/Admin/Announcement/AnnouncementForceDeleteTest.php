@@ -40,10 +40,11 @@ class AnnouncementForceDeleteTest extends TestCase
     {
         $announcement = Announcement::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['*']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('force delete announcement');
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.announcement.forceDelete', ['announcement' => $announcement]));
 

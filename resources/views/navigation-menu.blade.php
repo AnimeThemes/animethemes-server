@@ -35,7 +35,7 @@
             @auth
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
-                @if (Laravel\Jetstream\Jetstream::hasTeamFeatures() && Auth::user()->allTeams()->isNotEmpty())
+                @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ml-3 relative">
                         <x-jet-dropdown align="right" width="60">
                             <x-slot name="trigger">
@@ -91,7 +91,7 @@
                 @endif
 
                 <!-- Site Administration Dropdown -->
-                @canany(['viewNova', 'viewHorizon', 'viewTelescope'])
+                @canany(['view nova', 'view horizon', 'view telescope'])
                     <div class="ml-3 relative">
                         <x-jet-dropdown align="right" width="60">
                             <x-slot name="trigger">
@@ -108,19 +108,19 @@
 
                             <x-slot name="content">
                                 <div class="w-60">
-                                    @can('viewNova')
+                                    @can('view nova')
                                         <x-jet-dropdown-link href="{{ route('nova.pages.home') }}">
                                             {{ __('Admin') }}
                                         </x-jet-dropdown-link>
                                     @endcan
 
-                                    @can('viewHorizon')
+                                    @can('view horizon')
                                         <x-jet-dropdown-link href="{{ route('horizon.index') }}">
                                             {{ __('Horizon') }}
                                         </x-jet-dropdown-link>
                                     @endcan
 
-                                    @can('viewTelescope')
+                                    @can('view telescope')
                                         <x-jet-dropdown-link href="{{ route('telescope') }}">
                                             {{ __('Telescope') }}
                                         </x-jet-dropdown-link>
@@ -238,19 +238,19 @@
                     </x-jet-responsive-nav-link>
                 @endif
 
-                @can('viewNova')
+                @can('view nova')
                     <x-jet-responsive-nav-link href="{{ route('nova.pages.home') }}">
                         {{ __('Admin') }}
                     </x-jet-responsive-nav-link>
                 @endcan
 
-                @can('viewHorizon')
+                @can('view horizon')
                     <x-jet-responsive-nav-link href="{{ route('horizon.index') }}">
                         {{ __('Horizon') }}
                     </x-jet-responsive-nav-link>
                 @endcan
 
-                @can('viewTelescope')
+                @can('view telescope')
                     <x-jet-responsive-nav-link href="{{ route('telescope') }}">
                         {{ __('Telescope') }}
                     </x-jet-responsive-nav-link>
@@ -267,7 +267,7 @@
                 </form>
 
                 <!-- Team Management -->
-                @if (Laravel\Jetstream\Jetstream::hasTeamFeatures() && Auth::user()->allTeams()->isNotEmpty())
+                @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="border-t border-gray-200"></div>
 
                     @if(Auth::user()->currentTeam !== null)

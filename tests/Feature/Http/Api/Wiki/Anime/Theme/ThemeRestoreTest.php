@@ -48,10 +48,11 @@ class ThemeRestoreTest extends TestCase
 
         $theme->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['theme:restore']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('restore anime theme');
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.animetheme.restore', ['animetheme' => $theme]));
 

@@ -40,10 +40,11 @@ class ImageDestroyTest extends TestCase
     {
         $image = Image::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['image:delete']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('delete image');
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.image.destroy', ['image' => $image]));
 

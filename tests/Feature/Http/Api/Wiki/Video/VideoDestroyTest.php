@@ -40,10 +40,11 @@ class VideoDestroyTest extends TestCase
     {
         $video = Video::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['video:delete']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('delete video');
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.video.destroy', ['video' => $video]));
 

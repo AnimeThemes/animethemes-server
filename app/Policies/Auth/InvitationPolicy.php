@@ -22,7 +22,7 @@ class InvitationPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('invitation:read');
+        return $user->can('view invitation');
     }
 
     /**
@@ -33,7 +33,7 @@ class InvitationPolicy
      */
     public function view(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('invitation:read');
+        return $user->can('view invitation');
     }
 
     /**
@@ -44,7 +44,7 @@ class InvitationPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('invitation:create');
+        return $user->can('create invitation');
     }
 
     /**
@@ -55,7 +55,7 @@ class InvitationPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('invitation:update');
+        return $user->can('update invitation');
     }
 
     /**
@@ -66,7 +66,7 @@ class InvitationPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('invitation:delete');
+        return $user->can('delete invitation');
     }
 
     /**
@@ -77,7 +77,7 @@ class InvitationPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('invitation:restore');
+        return $user->can('restore invitation');
     }
 
     /**
@@ -88,6 +88,6 @@ class InvitationPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('invitation:forceDelete');
+        return $user->can('force delete invitation');
     }
 }

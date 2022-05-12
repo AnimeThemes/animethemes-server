@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Contracts\Events;
 
-use App\Models\Auth\User;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Notifications\NovaNotification;
 
@@ -30,7 +29,7 @@ interface NovaNotificationEvent
     /**
      * Get the users to notify.
      *
-     * @return Collection<int, User>
+     * @return Collection
      */
     public function getUsers(): Collection;
 }

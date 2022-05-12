@@ -51,10 +51,11 @@ class ImageUpdateTest extends TestCase
             [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description],
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['image:update']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('update image');
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.image.update', ['image' => $image] + $parameters));
 

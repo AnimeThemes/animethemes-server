@@ -40,10 +40,11 @@ class ArtistForceDeleteTest extends TestCase
     {
         $artist = Artist::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['*']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('force delete artist');
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.artist.forceDelete', ['artist' => $artist]));
 

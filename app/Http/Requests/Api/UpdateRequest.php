@@ -17,7 +17,7 @@ abstract class UpdateRequest extends WriteRequest
      *
      * @return string
      */
-    protected function policyAbility(): string
+    protected function ability(): string
     {
         return 'update';
     }

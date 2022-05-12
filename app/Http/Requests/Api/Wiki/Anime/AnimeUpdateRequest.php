@@ -34,14 +34,4 @@ class AnimeUpdateRequest extends EloquentUpdateRequest
     {
         return new AnimeWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'anime:update';
-    }
 }

@@ -17,21 +17,23 @@ class ExternalResourcePolicy
     /**
      * Determine whether the user can view any models.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function viewAny(): bool
+    public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('view external resource');
     }
 
     /**
      * Determine whether the user can view the model.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function view(): bool
+    public function view(User $user): bool
     {
-        return true;
+        return $user->can('view external resource');
     }
 
     /**
@@ -42,7 +44,7 @@ class ExternalResourcePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:create');
+        return $user->can('create external resource');
     }
 
     /**
@@ -53,7 +55,7 @@ class ExternalResourcePolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:update');
+        return $user->can('update external resource');
     }
 
     /**
@@ -64,7 +66,7 @@ class ExternalResourcePolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:delete');
+        return $user->can('delete external resource');
     }
 
     /**
@@ -75,7 +77,7 @@ class ExternalResourcePolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:restore');
+        return $user->can('restore external resource');
     }
 
     /**
@@ -86,7 +88,7 @@ class ExternalResourcePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:forceDelete');
+        return $user->can('force delete external resource');
     }
 
     /**
@@ -97,7 +99,7 @@ class ExternalResourcePolicy
      */
     public function attachAnyArtist(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:update');
+        return $user->can('update external resource');
     }
 
     /**
@@ -108,7 +110,7 @@ class ExternalResourcePolicy
      */
     public function attachArtist(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:update');
+        return $user->can('update external resource');
     }
 
     /**
@@ -119,7 +121,7 @@ class ExternalResourcePolicy
      */
     public function detachArtist(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:update');
+        return $user->can('update external resource');
     }
 
     /**
@@ -130,7 +132,7 @@ class ExternalResourcePolicy
      */
     public function attachAnyAnime(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:update');
+        return $user->can('update external resource');
     }
 
     /**
@@ -141,7 +143,7 @@ class ExternalResourcePolicy
      */
     public function attachAnime(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:update');
+        return $user->can('update external resource');
     }
 
     /**
@@ -152,7 +154,7 @@ class ExternalResourcePolicy
      */
     public function detachAnime(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:update');
+        return $user->can('update external resource');
     }
 
     /**
@@ -163,7 +165,7 @@ class ExternalResourcePolicy
      */
     public function attachAnyStudio(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:update');
+        return $user->can('update external resource');
     }
 
     /**
@@ -174,7 +176,7 @@ class ExternalResourcePolicy
      */
     public function attachStudio(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:update');
+        return $user->can('update external resource');
     }
 
     /**
@@ -185,6 +187,6 @@ class ExternalResourcePolicy
      */
     public function detachStudio(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('resource:update');
+        return $user->can('update external resource');
     }
 }

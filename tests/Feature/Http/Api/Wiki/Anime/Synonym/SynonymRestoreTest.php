@@ -45,10 +45,11 @@ class SynonymRestoreTest extends TestCase
 
         $synonym->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['synonym:restore']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('restore anime synonym');
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
 

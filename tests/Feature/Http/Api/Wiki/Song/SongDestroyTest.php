@@ -40,10 +40,11 @@ class SongDestroyTest extends TestCase
     {
         $song = Song::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['song:delete']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('delete song');
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.song.destroy', ['song' => $song]));
 

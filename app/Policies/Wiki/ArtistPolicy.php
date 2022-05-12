@@ -20,21 +20,23 @@ class ArtistPolicy
     /**
      * Determine whether the user can view any models.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function viewAny(): bool
+    public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('view artist');
     }
 
     /**
      * Determine whether the user can view the model.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function view(): bool
+    public function view(User $user): bool
     {
-        return true;
+        return $user->can('view artist');
     }
 
     /**
@@ -45,7 +47,7 @@ class ArtistPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:create');
+        return $user->can('create artist');
     }
 
     /**
@@ -56,7 +58,7 @@ class ArtistPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:update');
+        return $user->can('update artist');
     }
 
     /**
@@ -67,7 +69,7 @@ class ArtistPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:delete');
+        return $user->can('delete artist');
     }
 
     /**
@@ -78,7 +80,7 @@ class ArtistPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:restore');
+        return $user->can('restore artist');
     }
 
     /**
@@ -89,7 +91,7 @@ class ArtistPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:forceDelete');
+        return $user->can('force delete artist');
     }
 
     /**
@@ -100,7 +102,7 @@ class ArtistPolicy
      */
     public function attachAnyExternalResource(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:update');
+        return $user->can('update artist');
     }
 
     /**
@@ -111,7 +113,7 @@ class ArtistPolicy
      */
     public function attachExternalResource(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:update');
+        return $user->can('update artist');
     }
 
     /**
@@ -122,7 +124,7 @@ class ArtistPolicy
      */
     public function detachExternalResource(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:update');
+        return $user->can('update artist');
     }
 
     /**
@@ -133,7 +135,7 @@ class ArtistPolicy
      */
     public function attachAnySong(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:update');
+        return $user->can('update artist');
     }
 
     /**
@@ -144,7 +146,7 @@ class ArtistPolicy
      */
     public function attachSong(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:update');
+        return $user->can('update artist');
     }
 
     /**
@@ -155,7 +157,7 @@ class ArtistPolicy
      */
     public function detachSong(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:update');
+        return $user->can('update artist');
     }
 
     /**
@@ -166,7 +168,7 @@ class ArtistPolicy
      */
     public function attachAnyArtist(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:update');
+        return $user->can('update artist');
     }
 
     /**
@@ -177,7 +179,7 @@ class ArtistPolicy
      */
     public function attachArtist(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:update');
+        return $user->can('update artist');
     }
 
     /**
@@ -188,7 +190,7 @@ class ArtistPolicy
      */
     public function detachArtist(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:update');
+        return $user->can('update artist');
     }
 
     /**
@@ -199,7 +201,7 @@ class ArtistPolicy
      */
     public function attachAnyImage(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:update');
+        return $user->can('update artist');
     }
 
     /**
@@ -217,7 +219,7 @@ class ArtistPolicy
             ->where($image->getKeyName(), $image->getKey())
             ->exists();
 
-        return ! $attached && $user->hasCurrentTeamPermission('artist:update');
+        return ! $attached && $user->can('update artist');
     }
 
     /**
@@ -228,6 +230,6 @@ class ArtistPolicy
      */
     public function detachImage(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('artist:update');
+        return $user->can('update artist');
     }
 }

@@ -51,10 +51,11 @@ class AnimeUpdateTest extends TestCase
             [Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomInstance()->description],
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['anime:update']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('update anime');
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
 

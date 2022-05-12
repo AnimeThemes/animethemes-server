@@ -285,7 +285,7 @@ class Anime extends Resource
                     ->canSee(function (Request $request) {
                         $user = $request->user();
 
-                        return $user instanceof User && $user->hasCurrentTeamPermission('anime:update');
+                        return $user instanceof User && $user->can('update anime');
                     }),
             ]
         );

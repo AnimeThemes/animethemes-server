@@ -40,6 +40,6 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewHorizon', fn (User $user) => $user->current_team_id === Config::get('teams.horizon'));
+        Gate::define('viewHorizon', fn (User $user) => $user->can('view horizon'));
     }
 }

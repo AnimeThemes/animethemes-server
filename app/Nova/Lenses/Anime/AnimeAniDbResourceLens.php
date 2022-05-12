@@ -98,7 +98,7 @@ class AnimeAniDbResourceLens extends BaseLens
             (new CreateExternalResourceSiteForAnimeAction(ResourceSite::ANIDB))->canSee(function (Request $request) {
                 $user = $request->user();
 
-                return $user->hasCurrentTeamPermission('resource:create');
+                return $user->can('create external resource');
             }),
         ];
     }

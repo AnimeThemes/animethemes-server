@@ -44,10 +44,11 @@ class AnnouncementRestoreTest extends TestCase
 
         $announcement->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['announcement:restore']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('restore announcement');
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.announcement.restore', ['announcement' => $announcement]));
 

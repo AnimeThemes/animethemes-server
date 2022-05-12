@@ -22,7 +22,7 @@ class AnnouncementPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('announcement:read');
+        return $user->can('view announcement');
     }
 
     /**
@@ -33,7 +33,7 @@ class AnnouncementPolicy
      */
     public function view(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('announcement:read');
+        return $user->can('view announcement');
     }
 
     /**
@@ -44,7 +44,7 @@ class AnnouncementPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('announcement:create');
+        return $user->can('create announcement');
     }
 
     /**
@@ -55,7 +55,7 @@ class AnnouncementPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('announcement:update');
+        return $user->can('update announcement');
     }
 
     /**
@@ -66,7 +66,7 @@ class AnnouncementPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('announcement:delete');
+        return $user->can('delete announcement');
     }
 
     /**
@@ -77,7 +77,7 @@ class AnnouncementPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('announcement:restore');
+        return $user->can('restore announcement');
     }
 
     /**
@@ -88,6 +88,6 @@ class AnnouncementPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('announcement:forceDelete');
+        return $user->can('force delete announcement');
     }
 }

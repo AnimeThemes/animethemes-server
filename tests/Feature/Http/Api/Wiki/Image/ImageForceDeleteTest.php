@@ -40,11 +40,11 @@ class ImageForceDeleteTest extends TestCase
     {
         $image = Image::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['*']
-        );
+        $user = User::factory()->createOne();
 
+        $user->givePermissionTo('force delete image');
+
+        Sanctum::actingAs($user);
         $response = $this->delete(route('api.image.forceDelete', ['image' => $image]));
 
         $response->assertOk();

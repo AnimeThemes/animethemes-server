@@ -34,14 +34,4 @@ class BalanceRestoreRequest extends EloquentRestoreRequest
     {
         return new BalanceWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'balance:restore';
-    }
 }

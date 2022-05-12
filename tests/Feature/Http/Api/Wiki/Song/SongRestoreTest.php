@@ -44,10 +44,11 @@ class SongRestoreTest extends TestCase
 
         $song->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['song:restore']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('restore song');
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.song.restore', ['song' => $song]));
 

@@ -34,14 +34,4 @@ class ExternalResourceUpdateRequest extends EloquentUpdateRequest
     {
         return new ExternalResourceWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'resource:update';
-    }
 }

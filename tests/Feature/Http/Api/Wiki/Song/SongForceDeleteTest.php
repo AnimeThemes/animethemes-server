@@ -40,10 +40,11 @@ class SongForceDeleteTest extends TestCase
     {
         $song = Song::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['*']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('force delete song');
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.song.forceDelete', ['song' => $song]));
 

@@ -34,14 +34,4 @@ class TransactionRestoreRequest extends EloquentRestoreRequest
     {
         return new TransactionWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'transaction:restore';
-    }
 }

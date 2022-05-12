@@ -22,7 +22,7 @@ class TransactionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('transaction:read');
+        return $user->can('view transaction');
     }
 
     /**
@@ -33,7 +33,7 @@ class TransactionPolicy
      */
     public function view(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('transaction:read');
+        return $user->can('view transaction');
     }
 
     /**
@@ -44,7 +44,7 @@ class TransactionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('transaction:create');
+        return $user->can('create transaction');
     }
 
     /**
@@ -55,7 +55,7 @@ class TransactionPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('transaction:update');
+        return $user->can('update transaction');
     }
 
     /**
@@ -66,7 +66,7 @@ class TransactionPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('transaction:delete');
+        return $user->can('delete transaction');
     }
 
     /**
@@ -77,7 +77,7 @@ class TransactionPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('transaction:restore');
+        return $user->can('restore transaction');
     }
 
     /**
@@ -88,6 +88,6 @@ class TransactionPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('transaction:forceDelete');
+        return $user->can('force delete transaction');
     }
 }

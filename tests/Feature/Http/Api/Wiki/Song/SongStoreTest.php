@@ -40,10 +40,11 @@ class SongStoreTest extends TestCase
     {
         $parameters = Song::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['song:create']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('create song');
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.song.store', $parameters));
 

@@ -58,10 +58,11 @@ class BalanceUpdateTest extends TestCase
             ]
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['balance:update']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('update balance');
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.balance.update', ['balance' => $balance] + $parameters));
 

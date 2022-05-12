@@ -40,10 +40,11 @@ class VideoStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['video:create']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('create video');
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.video.store'));
 
@@ -71,10 +72,11 @@ class VideoStoreTest extends TestCase
             ]
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['video:create']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('create video');
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.video.store', $parameters));
 

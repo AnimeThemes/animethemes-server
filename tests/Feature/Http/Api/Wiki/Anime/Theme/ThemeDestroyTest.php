@@ -44,10 +44,11 @@ class ThemeDestroyTest extends TestCase
 
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['theme:delete']
-        );
+        $user = User::factory()->createOne();
+
+        $user->givePermissionTo('delete anime theme');
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.animetheme.destroy', ['animetheme' => $theme]));
 
