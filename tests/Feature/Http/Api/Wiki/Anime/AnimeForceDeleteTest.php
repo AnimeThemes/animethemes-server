@@ -40,9 +40,7 @@ class AnimeForceDeleteTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('force delete anime');
+        $user = User::factory()->withPermission('force delete anime')->createOne();
 
         Sanctum::actingAs($user);
 

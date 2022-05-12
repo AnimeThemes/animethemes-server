@@ -49,9 +49,7 @@ class EntryDestroyTest extends TestCase
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('delete anime theme entry');
+        $user = User::factory()->withPermission('delete anime theme entry')->createOne();
 
         Sanctum::actingAs($user);
 

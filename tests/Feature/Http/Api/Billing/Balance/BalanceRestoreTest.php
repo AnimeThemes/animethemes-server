@@ -44,9 +44,7 @@ class BalanceRestoreTest extends TestCase
 
         $balance->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore balance');
+        $user = User::factory()->withPermission('restore balance')->createOne();
 
         Sanctum::actingAs($user);
 

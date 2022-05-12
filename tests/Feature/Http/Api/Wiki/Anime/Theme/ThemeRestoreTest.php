@@ -48,9 +48,7 @@ class ThemeRestoreTest extends TestCase
 
         $theme->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore anime theme');
+        $user = User::factory()->withPermission('restore anime theme')->createOne();
 
         Sanctum::actingAs($user);
 

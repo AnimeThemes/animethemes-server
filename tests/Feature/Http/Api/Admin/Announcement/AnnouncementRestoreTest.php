@@ -44,9 +44,7 @@ class AnnouncementRestoreTest extends TestCase
 
         $announcement->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore announcement');
+        $user = User::factory()->withPermission('restore announcement')->createOne();
 
         Sanctum::actingAs($user);
 

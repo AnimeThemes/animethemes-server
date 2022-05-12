@@ -51,9 +51,7 @@ class AnimeUpdateTest extends TestCase
             [Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomInstance()->description],
         );
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('update anime');
+        $user = User::factory()->withPermission('update anime')->createOne();
 
         Sanctum::actingAs($user);
 

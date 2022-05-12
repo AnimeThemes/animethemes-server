@@ -39,9 +39,7 @@ class SynonymStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create anime synonym');
+        $user = User::factory()->withPermission('create anime synonym')->createOne();
 
         Sanctum::actingAs($user);
 
@@ -66,9 +64,7 @@ class SynonymStoreTest extends TestCase
             [AnimeSynonym::ATTRIBUTE_ANIME => $anime->getKey()],
         );
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create anime synonym');
+        $user = User::factory()->withPermission('create anime synonym')->createOne();
 
         Sanctum::actingAs($user);
 

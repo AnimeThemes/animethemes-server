@@ -51,9 +51,7 @@ class TransactionUpdateTest extends TestCase
             [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
         );
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('update transaction');
+        $user = User::factory()->withPermission('update transaction')->createOne();
 
         Sanctum::actingAs($user);
 

@@ -51,9 +51,7 @@ class ImageUpdateTest extends TestCase
             [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description],
         );
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('update image');
+        $user = User::factory()->withPermission('update image')->createOne();
 
         Sanctum::actingAs($user);
 

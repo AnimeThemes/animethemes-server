@@ -38,9 +38,7 @@ class StudioStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create studio');
+        $user = User::factory()->withPermission('create studio')->createOne();
 
         Sanctum::actingAs($user);
 
@@ -61,9 +59,7 @@ class StudioStoreTest extends TestCase
     {
         $parameters = Studio::factory()->raw();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create studio');
+        $user = User::factory()->withPermission('create studio')->createOne();
 
         Sanctum::actingAs($user);
 

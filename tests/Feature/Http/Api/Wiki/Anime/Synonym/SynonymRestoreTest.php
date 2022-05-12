@@ -45,9 +45,7 @@ class SynonymRestoreTest extends TestCase
 
         $synonym->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore anime synonym');
+        $user = User::factory()->withPermission('restore anime synonym')->createOne();
 
         Sanctum::actingAs($user);
 

@@ -44,9 +44,7 @@ class PageUpdateTest extends TestCase
 
         $parameters = Page::factory()->raw();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('update page');
+        $user = User::factory()->withPermission('update page')->createOne();
 
         Sanctum::actingAs($user);
 

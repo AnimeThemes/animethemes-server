@@ -44,9 +44,7 @@ class AnimeRestoreTest extends TestCase
 
         $anime->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore anime');
+        $user = User::factory()->withPermission('restore anime')->createOne();
 
         Sanctum::actingAs($user);
 

@@ -40,9 +40,7 @@ class VideoStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create video');
+        $user = User::factory()->withPermission('create video')->createOne();
 
         Sanctum::actingAs($user);
 
@@ -72,9 +70,7 @@ class VideoStoreTest extends TestCase
             ]
         );
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create video');
+        $user = User::factory()->withPermission('create video')->createOne();
 
         Sanctum::actingAs($user);
 

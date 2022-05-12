@@ -58,9 +58,7 @@ class VideoUpdateTest extends TestCase
             ]
         );
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('update video');
+        $user = User::factory()->withPermission('update video')->createOne();
 
         Sanctum::actingAs($user);
 

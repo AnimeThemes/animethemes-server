@@ -41,9 +41,7 @@ class SynonymDestroyTest extends TestCase
     {
         $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('delete anime synonym');
+        $user = User::factory()->withPermission('delete anime synonym')->createOne();
 
         Sanctum::actingAs($user);
 

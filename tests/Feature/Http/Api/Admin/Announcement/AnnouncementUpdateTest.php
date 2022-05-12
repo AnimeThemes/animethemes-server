@@ -44,9 +44,7 @@ class AnnouncementUpdateTest extends TestCase
 
         $parameters = Announcement::factory()->raw();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('update announcement');
+        $user = User::factory()->withPermission('update announcement')->createOne();
 
         Sanctum::actingAs($user);
 

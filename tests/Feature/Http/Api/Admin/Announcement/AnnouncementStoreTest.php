@@ -38,9 +38,7 @@ class AnnouncementStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create announcement');
+        $user = User::factory()->withPermission('create announcement')->createOne();
 
         Sanctum::actingAs($user);
 
@@ -60,9 +58,7 @@ class AnnouncementStoreTest extends TestCase
     {
         $parameters = Announcement::factory()->raw();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create announcement');
+        $user = User::factory()->withPermission('create announcement')->createOne();
 
         Sanctum::actingAs($user);
 

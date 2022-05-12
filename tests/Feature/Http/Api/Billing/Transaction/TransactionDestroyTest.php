@@ -40,9 +40,7 @@ class TransactionDestroyTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('delete transaction');
+        $user = User::factory()->withPermission('delete transaction')->createOne();
 
         Sanctum::actingAs($user);
 

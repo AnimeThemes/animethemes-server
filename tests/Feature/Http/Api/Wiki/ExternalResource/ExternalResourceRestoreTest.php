@@ -44,9 +44,7 @@ class ExternalResourceRestoreTest extends TestCase
 
         $resource->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore external resource');
+        $user = User::factory()->withPermission('restore external resource')->createOne();
 
         Sanctum::actingAs($user);
 

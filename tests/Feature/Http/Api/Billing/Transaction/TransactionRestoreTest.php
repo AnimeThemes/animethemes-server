@@ -44,9 +44,7 @@ class TransactionRestoreTest extends TestCase
 
         $transaction->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore transaction');
+        $user = User::factory()->withPermission('restore transaction')->createOne();
 
         Sanctum::actingAs($user);
 

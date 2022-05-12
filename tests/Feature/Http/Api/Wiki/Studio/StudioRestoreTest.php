@@ -44,9 +44,7 @@ class StudioRestoreTest extends TestCase
 
         $studio->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore studio');
+        $user = User::factory()->withPermission('restore studio')->createOne();
 
         Sanctum::actingAs($user);
 

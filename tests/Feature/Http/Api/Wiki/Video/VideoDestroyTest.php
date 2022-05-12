@@ -40,9 +40,7 @@ class VideoDestroyTest extends TestCase
     {
         $video = Video::factory()->createOne();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('delete video');
+        $user = User::factory()->withPermission('delete video')->createOne();
 
         Sanctum::actingAs($user);
 

@@ -38,9 +38,7 @@ class ArtistStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create artist');
+        $user = User::factory()->withPermission('create artist')->createOne();
 
         Sanctum::actingAs($user);
 
@@ -61,9 +59,7 @@ class ArtistStoreTest extends TestCase
     {
         $parameters = Artist::factory()->raw();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create artist');
+        $user = User::factory()->withPermission('create artist')->createOne();
 
         Sanctum::actingAs($user);
 

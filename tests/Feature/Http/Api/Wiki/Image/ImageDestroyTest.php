@@ -40,9 +40,7 @@ class ImageDestroyTest extends TestCase
     {
         $image = Image::factory()->createOne();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('delete image');
+        $user = User::factory()->withPermission('delete image')->createOne();
 
         Sanctum::actingAs($user);
 

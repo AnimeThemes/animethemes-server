@@ -39,9 +39,7 @@ class AnimeStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create anime');
+        $user = User::factory()->withPermission('create anime')->createOne();
 
         Sanctum::actingAs($user);
 
@@ -67,9 +65,7 @@ class AnimeStoreTest extends TestCase
             [Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomInstance()->description],
         );
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create anime');
+        $user = User::factory()->withPermission('create anime')->createOne();
 
         Sanctum::actingAs($user);
 

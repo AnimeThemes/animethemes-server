@@ -40,9 +40,7 @@ class BalanceStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create balance');
+        $user = User::factory()->withPermission('create balance')->createOne();
 
         Sanctum::actingAs($user);
 
@@ -72,9 +70,7 @@ class BalanceStoreTest extends TestCase
             ]
         );
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create balance');
+        $user = User::factory()->withPermission('create balance')->createOne();
 
         Sanctum::actingAs($user);
 

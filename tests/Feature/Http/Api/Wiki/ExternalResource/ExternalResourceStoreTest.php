@@ -39,9 +39,7 @@ class ExternalResourceStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create external resource');
+        $user = User::factory()->withPermission('create external resource')->createOne();
 
         Sanctum::actingAs($user);
 
@@ -65,9 +63,7 @@ class ExternalResourceStoreTest extends TestCase
             [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)],
         );
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create external resource');
+        $user = User::factory()->withPermission('create external resource')->createOne();
 
         Sanctum::actingAs($user);
 

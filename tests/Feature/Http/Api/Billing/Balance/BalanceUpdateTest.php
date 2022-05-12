@@ -58,9 +58,7 @@ class BalanceUpdateTest extends TestCase
             ]
         );
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('update balance');
+        $user = User::factory()->withPermission('update balance')->createOne();
 
         Sanctum::actingAs($user);
 

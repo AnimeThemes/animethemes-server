@@ -40,9 +40,7 @@ class SeriesForceDeleteTest extends TestCase
     {
         $series = Series::factory()->createOne();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('force delete series');
+        $user = User::factory()->withPermission('force delete series')->createOne();
 
         Sanctum::actingAs($user);
 

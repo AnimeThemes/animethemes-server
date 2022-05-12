@@ -40,9 +40,7 @@ class StudioDestroyTest extends TestCase
     {
         $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('delete studio');
+        $user = User::factory()->withPermission('delete studio')->createOne();
 
         Sanctum::actingAs($user);
 

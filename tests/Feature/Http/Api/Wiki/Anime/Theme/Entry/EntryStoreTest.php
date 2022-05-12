@@ -45,9 +45,7 @@ class EntryStoreTest extends TestCase
     {
         $this->withoutEvents();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create anime theme entry');
+        $user = User::factory()->withPermission('create anime theme entry')->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,9 +72,7 @@ class EntryStoreTest extends TestCase
             [AnimeThemeEntry::ATTRIBUTE_THEME => $theme->getKey()],
         );
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create anime theme entry');
+        $user = User::factory()->withPermission('create anime theme entry')->createOne();
 
         Sanctum::actingAs($user);
 

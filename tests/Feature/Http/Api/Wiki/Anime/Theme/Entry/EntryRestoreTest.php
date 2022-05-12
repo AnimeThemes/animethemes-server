@@ -53,9 +53,7 @@ class EntryRestoreTest extends TestCase
 
         $entry->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore anime theme entry');
+        $user = User::factory()->withPermission('restore anime theme entry')->createOne();
 
         Sanctum::actingAs($user);
 

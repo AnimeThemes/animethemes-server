@@ -44,9 +44,7 @@ class SongRestoreTest extends TestCase
 
         $song->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore song');
+        $user = User::factory()->withPermission('restore song')->createOne();
 
         Sanctum::actingAs($user);
 

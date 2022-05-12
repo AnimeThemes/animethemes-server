@@ -53,9 +53,7 @@ class EntryUpdateTest extends TestCase
 
         $parameters = AnimeThemeEntry::factory()->raw();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('update anime theme entry');
+        $user = User::factory()->withPermission('update anime theme entry')->createOne();
 
         Sanctum::actingAs($user);
 

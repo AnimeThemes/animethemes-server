@@ -38,9 +38,7 @@ class SeriesStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create series');
+        $user = User::factory()->withPermission('create series')->createOne();
 
         Sanctum::actingAs($user);
 
@@ -61,9 +59,7 @@ class SeriesStoreTest extends TestCase
     {
         $parameters = Series::factory()->raw();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create series');
+        $user = User::factory()->withPermission('create series')->createOne();
 
         Sanctum::actingAs($user);
 

@@ -40,9 +40,7 @@ class SongDestroyTest extends TestCase
     {
         $song = Song::factory()->createOne();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('delete song');
+        $user = User::factory()->withPermission('delete song')->createOne();
 
         Sanctum::actingAs($user);
 

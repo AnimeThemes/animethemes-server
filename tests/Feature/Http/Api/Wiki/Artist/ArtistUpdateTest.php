@@ -44,9 +44,7 @@ class ArtistUpdateTest extends TestCase
 
         $parameters = Artist::factory()->raw();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('update artist');
+        $user = User::factory()->withPermission('update artist')->createOne();
 
         Sanctum::actingAs($user);
 

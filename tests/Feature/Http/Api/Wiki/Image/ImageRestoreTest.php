@@ -44,9 +44,7 @@ class ImageRestoreTest extends TestCase
 
         $image->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore image');
+        $user = User::factory()->withPermission('restore image')->createOne();
 
         Sanctum::actingAs($user);
 

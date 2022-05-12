@@ -40,9 +40,7 @@ class BalanceDestroyTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('delete balance');
+        $user = User::factory()->withPermission('delete balance')->createOne();
 
         Sanctum::actingAs($user);
 

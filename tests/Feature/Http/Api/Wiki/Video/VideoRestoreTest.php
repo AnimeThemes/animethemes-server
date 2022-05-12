@@ -44,9 +44,7 @@ class VideoRestoreTest extends TestCase
 
         $video->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore video');
+        $user = User::factory()->withPermission('restore video')->createOne();
 
         Sanctum::actingAs($user);
 

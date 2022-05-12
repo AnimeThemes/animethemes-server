@@ -44,9 +44,7 @@ class ArtistRestoreTest extends TestCase
 
         $artist->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore artist');
+        $user = User::factory()->withPermission('restore artist')->createOne();
 
         Sanctum::actingAs($user);
 

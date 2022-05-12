@@ -40,9 +40,7 @@ class SongStoreTest extends TestCase
     {
         $parameters = Song::factory()->raw();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create song');
+        $user = User::factory()->withPermission('create song')->createOne();
 
         Sanctum::actingAs($user);
 

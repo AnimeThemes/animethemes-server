@@ -55,9 +55,7 @@ class ThemeUpdateTest extends TestCase
             [AnimeTheme::ATTRIBUTE_TYPE => ThemeType::getRandomInstance()->description],
         );
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('update anime theme');
+        $user = User::factory()->withPermission('update anime theme')->createOne();
 
         Sanctum::actingAs($user);
 

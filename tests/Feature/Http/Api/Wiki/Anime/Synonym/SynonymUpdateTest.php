@@ -45,9 +45,7 @@ class SynonymUpdateTest extends TestCase
 
         $parameters = AnimeSynonym::factory()->raw();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('update anime synonym');
+        $user = User::factory()->withPermission('update anime synonym')->createOne();
 
         Sanctum::actingAs($user);
 

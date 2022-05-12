@@ -44,9 +44,7 @@ class PageRestoreTest extends TestCase
 
         $page->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore page');
+        $user = User::factory()->withPermission('restore page')->createOne();
 
         Sanctum::actingAs($user);
 

@@ -44,9 +44,7 @@ class SeriesUpdateTest extends TestCase
 
         $parameters = Series::factory()->raw();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('update series');
+        $user = User::factory()->withPermission('update series')->createOne();
 
         Sanctum::actingAs($user);
 

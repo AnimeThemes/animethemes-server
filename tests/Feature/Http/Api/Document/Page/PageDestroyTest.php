@@ -40,9 +40,7 @@ class PageDestroyTest extends TestCase
     {
         $page = Page::factory()->createOne();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('delete page');
+        $user = User::factory()->withPermission('delete page')->createOne();
 
         Sanctum::actingAs($user);
 

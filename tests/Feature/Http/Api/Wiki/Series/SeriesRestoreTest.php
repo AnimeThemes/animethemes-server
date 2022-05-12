@@ -44,9 +44,7 @@ class SeriesRestoreTest extends TestCase
 
         $series->delete();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('restore series');
+        $user = User::factory()->withPermission('restore series')->createOne();
 
         Sanctum::actingAs($user);
 

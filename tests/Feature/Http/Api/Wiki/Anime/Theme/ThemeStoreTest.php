@@ -43,9 +43,7 @@ class ThemeStoreTest extends TestCase
     {
         Event::fakeExcept(ThemeCreating::class);
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create anime theme');
+        $user = User::factory()->withPermission('create anime theme')->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,9 +72,7 @@ class ThemeStoreTest extends TestCase
             [AnimeTheme::ATTRIBUTE_ANIME => $anime->getKey()],
         );
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('create anime theme');
+        $user = User::factory()->withPermission('create anime theme')->createOne();
 
         Sanctum::actingAs($user);
 

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Database\Factories\Auth;
 
+use App\Models\Auth\Permission;
 use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
+use Spatie\Permission\PermissionRegistrar;
 
 /**
  * Class UserFactory.
@@ -39,5 +42,24 @@ class UserFactory extends Factory
             User::ATTRIBUTE_PASSWORD => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             User::ATTRIBUTE_REMEMBER_TOKEN => Str::random(10),
         ];
+    }
+
+    /**
+     * Create and assign permission to user.
+     *
+     * @param  string  $permission
+     * @return static
+     */
+    public function withPermission(string $permission): static
+    {
+        return $this->afterCreating(
+            function (User $user) use ($permission) {
+                $permission = Permission::findOrCreate($permission);
+
+                $user->givePermissionTo($permission);
+
+                App::make(PermissionRegistrar::class)->registerPermissions();
+            }
+        );
     }
 }

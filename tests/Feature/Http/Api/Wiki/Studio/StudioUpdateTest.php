@@ -44,9 +44,7 @@ class StudioUpdateTest extends TestCase
 
         $parameters = Studio::factory()->raw();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('update studio');
+        $user = User::factory()->withPermission('update studio')->createOne();
 
         Sanctum::actingAs($user);
 

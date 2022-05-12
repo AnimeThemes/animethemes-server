@@ -40,9 +40,7 @@ class SongForceDeleteTest extends TestCase
     {
         $song = Song::factory()->createOne();
 
-        $user = User::factory()->createOne();
-
-        $user->givePermissionTo('force delete song');
+        $user = User::factory()->withPermission('force delete song')->createOne();
 
         Sanctum::actingAs($user);
 
