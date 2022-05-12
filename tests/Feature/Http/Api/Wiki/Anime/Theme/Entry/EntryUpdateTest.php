@@ -53,10 +53,9 @@ class EntryUpdateTest extends TestCase
 
         $parameters = AnimeThemeEntry::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['entry:update']
-        );
+        $user = User::factory()->withPermission('update anime theme entry')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.animethemeentry.update', ['animethemeentry' => $entry] + $parameters));
 

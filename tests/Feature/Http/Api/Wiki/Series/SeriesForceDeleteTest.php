@@ -40,10 +40,9 @@ class SeriesForceDeleteTest extends TestCase
     {
         $series = Series::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['*']
-        );
+        $user = User::factory()->withPermission('force delete series')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.series.forceDelete', ['series' => $series]));
 

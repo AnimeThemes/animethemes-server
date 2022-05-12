@@ -34,14 +34,4 @@ class SongDestroyRequest extends EloquentDestroyRequest
     {
         return new SongWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'song:delete';
-    }
 }

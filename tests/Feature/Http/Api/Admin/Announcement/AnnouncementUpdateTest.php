@@ -44,10 +44,9 @@ class AnnouncementUpdateTest extends TestCase
 
         $parameters = Announcement::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['announcement:update']
-        );
+        $user = User::factory()->withPermission('update announcement')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
 

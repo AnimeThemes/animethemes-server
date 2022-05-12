@@ -34,14 +34,4 @@ class EntryUpdateRequest extends EloquentUpdateRequest
     {
         return new EntryWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'entry:update';
-    }
 }

@@ -44,10 +44,9 @@ class ImageRestoreTest extends TestCase
 
         $image->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['image:restore']
-        );
+        $user = User::factory()->withPermission('restore image')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.image.restore', ['image' => $image]));
 

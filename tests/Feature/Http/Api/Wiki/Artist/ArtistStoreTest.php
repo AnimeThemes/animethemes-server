@@ -38,10 +38,9 @@ class ArtistStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['artist:create']
-        );
+        $user = User::factory()->withPermission('create artist')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.artist.store'));
 
@@ -60,10 +59,9 @@ class ArtistStoreTest extends TestCase
     {
         $parameters = Artist::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['artist:create']
-        );
+        $user = User::factory()->withPermission('create artist')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.artist.store', $parameters));
 

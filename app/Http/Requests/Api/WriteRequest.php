@@ -24,9 +24,7 @@ abstract class WriteRequest extends BaseRequest
     {
         $user = $this->user('sanctum');
 
-        return $user instanceof User
-            && $user->can($this->policyAbility(), $this->arguments())
-            && $user->tokenCan($this->tokenAbility());
+        return $user instanceof User && $user->can($this->ability(), $this->arguments());
     }
 
     /**
@@ -34,7 +32,7 @@ abstract class WriteRequest extends BaseRequest
      *
      * @return string
      */
-    abstract protected function policyAbility(): string;
+    abstract protected function ability(): string;
 
     /**
      * The arguments for the policy ability to authorize.
@@ -42,13 +40,6 @@ abstract class WriteRequest extends BaseRequest
      * @return mixed
      */
     abstract protected function arguments(): mixed;
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    abstract protected function tokenAbility(): string;
 
     /**
      * Prepare the data for validation.

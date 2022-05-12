@@ -17,21 +17,23 @@ class AnimeSynonymPolicy
     /**
      * Determine whether the user can view any models.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function viewAny(): bool
+    public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('view anime synonym');
     }
 
     /**
      * Determine whether the user can view the model.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function view(): bool
+    public function view(User $user): bool
     {
-        return true;
+        return $user->can('view anime synonym');
     }
 
     /**
@@ -42,7 +44,7 @@ class AnimeSynonymPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('synonym:create');
+        return $user->can('create anime synonym');
     }
 
     /**
@@ -53,7 +55,7 @@ class AnimeSynonymPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('synonym:update');
+        return $user->can('update anime synonym');
     }
 
     /**
@@ -64,7 +66,7 @@ class AnimeSynonymPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('synonym:delete');
+        return $user->can('delete anime synonym');
     }
 
     /**
@@ -75,7 +77,7 @@ class AnimeSynonymPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('synonym:restore');
+        return $user->can('restore anime synonym');
     }
 
     /**
@@ -86,6 +88,6 @@ class AnimeSynonymPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('synonym:forceDelete');
+        return $user->can('force delete anime synonym');
     }
 }

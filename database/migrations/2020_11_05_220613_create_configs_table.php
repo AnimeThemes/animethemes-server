@@ -15,10 +15,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('configs', function (Blueprint $table) {
-            $table->string('key')->primary();
-            $table->string('value')->nullable();
-        });
+        if (! Schema::hasTable('configs')) {
+            Schema::create('configs', function (Blueprint $table) {
+                $table->string('key')->primary();
+                $table->string('value')->nullable();
+            });
+        }
     }
 
     /**

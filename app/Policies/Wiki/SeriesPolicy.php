@@ -20,21 +20,23 @@ class SeriesPolicy
     /**
      * Determine whether the user can view any models.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function viewAny(): bool
+    public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('view series');
     }
 
     /**
      * Determine whether the user can view the model.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function view(): bool
+    public function view(User $user): bool
     {
-        return true;
+        return $user->can('view series');
     }
 
     /**
@@ -45,7 +47,7 @@ class SeriesPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('series:create');
+        return $user->can('create series');
     }
 
     /**
@@ -56,7 +58,7 @@ class SeriesPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('series:update');
+        return $user->can('update series');
     }
 
     /**
@@ -67,7 +69,7 @@ class SeriesPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('series:delete');
+        return $user->can('delete series');
     }
 
     /**
@@ -78,7 +80,7 @@ class SeriesPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('series:restore');
+        return $user->can('restore series');
     }
 
     /**
@@ -89,7 +91,7 @@ class SeriesPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('series:forceDelete');
+        return $user->can('force delete series');
     }
 
     /**
@@ -100,7 +102,7 @@ class SeriesPolicy
      */
     public function attachAnyAnime(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('series:update');
+        return $user->can('update series');
     }
 
     /**
@@ -118,7 +120,7 @@ class SeriesPolicy
             ->where($series->getKeyName(), $series->getKey())
             ->exists();
 
-        return ! $attached && $user->hasCurrentTeamPermission('series:update');
+        return ! $attached && $user->can('update series');
     }
 
     /**
@@ -129,6 +131,6 @@ class SeriesPolicy
      */
     public function detachAnime(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('series:update');
+        return $user->can('update series');
     }
 }

@@ -44,10 +44,9 @@ class ArtistRestoreTest extends TestCase
 
         $artist->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['artist:restore']
-        );
+        $user = User::factory()->withPermission('restore artist')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.artist.restore', ['artist' => $artist]));
 

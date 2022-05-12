@@ -44,10 +44,9 @@ class StudioUpdateTest extends TestCase
 
         $parameters = Studio::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['studio:update']
-        );
+        $user = User::factory()->withPermission('update studio')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.studio.update', ['studio' => $studio] + $parameters));
 

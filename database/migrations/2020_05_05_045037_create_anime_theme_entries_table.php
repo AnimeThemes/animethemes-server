@@ -18,19 +18,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(AnimeThemeEntry::TABLE, function (Blueprint $table) {
-            $table->id(AnimeThemeEntry::ATTRIBUTE_ID);
-            $table->timestamps(6);
-            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-            $table->integer(AnimeThemeEntry::ATTRIBUTE_VERSION)->nullable();
-            $table->string(AnimeThemeEntry::ATTRIBUTE_EPISODES)->nullable();
-            $table->boolean(AnimeThemeEntry::ATTRIBUTE_NSFW)->default(false);
-            $table->boolean(AnimeThemeEntry::ATTRIBUTE_SPOILER)->default(false);
-            $table->text(AnimeThemeEntry::ATTRIBUTE_NOTES)->nullable();
+        if (! Schema::hasTable(AnimeThemeEntry::TABLE)) {
+            Schema::create(AnimeThemeEntry::TABLE, function (Blueprint $table) {
+                $table->id(AnimeThemeEntry::ATTRIBUTE_ID);
+                $table->timestamps(6);
+                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->integer(AnimeThemeEntry::ATTRIBUTE_VERSION)->nullable();
+                $table->string(AnimeThemeEntry::ATTRIBUTE_EPISODES)->nullable();
+                $table->boolean(AnimeThemeEntry::ATTRIBUTE_NSFW)->default(false);
+                $table->boolean(AnimeThemeEntry::ATTRIBUTE_SPOILER)->default(false);
+                $table->text(AnimeThemeEntry::ATTRIBUTE_NOTES)->nullable();
 
-            $table->unsignedBigInteger(AnimeThemeEntry::ATTRIBUTE_THEME);
-            $table->foreign(AnimeThemeEntry::ATTRIBUTE_THEME)->references(AnimeTheme::ATTRIBUTE_ID)->on(AnimeTheme::TABLE)->cascadeOnDelete();
-        });
+                $table->unsignedBigInteger(AnimeThemeEntry::ATTRIBUTE_THEME);
+                $table->foreign(AnimeThemeEntry::ATTRIBUTE_THEME)->references(AnimeTheme::ATTRIBUTE_ID)->on(AnimeTheme::TABLE)->cascadeOnDelete();
+            });
+        }
     }
 
     /**

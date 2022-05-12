@@ -20,21 +20,23 @@ class AnimeThemeEntryPolicy
     /**
      * Determine whether the user can view any models.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function viewAny(): bool
+    public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('view anime theme entry');
     }
 
     /**
      * Determine whether the user can view the model.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function view(): bool
+    public function view(User $user): bool
     {
-        return true;
+        return $user->can('view anime theme entry');
     }
 
     /**
@@ -45,7 +47,7 @@ class AnimeThemeEntryPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('entry:create');
+        return $user->can('create anime theme entry');
     }
 
     /**
@@ -56,7 +58,7 @@ class AnimeThemeEntryPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('entry:update');
+        return $user->can('update anime theme entry');
     }
 
     /**
@@ -67,7 +69,7 @@ class AnimeThemeEntryPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('entry:delete');
+        return $user->can('delete anime theme entry');
     }
 
     /**
@@ -78,7 +80,7 @@ class AnimeThemeEntryPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('entry:restore');
+        return $user->can('restore anime theme entry');
     }
 
     /**
@@ -89,7 +91,7 @@ class AnimeThemeEntryPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('entry:forceDelete');
+        return $user->can('force delete anime theme entry');
     }
 
     /**
@@ -100,7 +102,7 @@ class AnimeThemeEntryPolicy
      */
     public function attachAnyVideo(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('entry:update');
+        return $user->can('update anime theme entry');
     }
 
     /**
@@ -118,7 +120,7 @@ class AnimeThemeEntryPolicy
             ->where($video->getKeyName(), $video->getKey())
             ->exists();
 
-        return ! $attached && $user->hasCurrentTeamPermission('entry:update');
+        return ! $attached && $user->can('update anime theme entry');
     }
 
     /**
@@ -129,6 +131,6 @@ class AnimeThemeEntryPolicy
      */
     public function detachVideo(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('entry:update');
+        return $user->can('update anime theme entry');
     }
 }

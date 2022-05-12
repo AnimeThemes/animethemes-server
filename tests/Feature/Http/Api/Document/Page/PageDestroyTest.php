@@ -40,10 +40,9 @@ class PageDestroyTest extends TestCase
     {
         $page = Page::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['page:delete']
-        );
+        $user = User::factory()->withPermission('delete page')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.page.destroy', ['page' => $page]));
 

@@ -49,10 +49,9 @@ class EntryForceDeleteTest extends TestCase
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['*']
-        );
+        $user = User::factory()->withPermission('force delete anime theme entry')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.animethemeentry.forceDelete', ['animethemeentry' => $entry]));
 

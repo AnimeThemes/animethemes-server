@@ -24,21 +24,23 @@ class AnimePolicy
     /**
      * Determine whether the user can view any models.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function viewAny(): bool
+    public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('view anime');
     }
 
     /**
      * Determine whether the user can view the model.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function view(): bool
+    public function view(User $user): bool
     {
-        return true;
+        return $user->can('view anime');
     }
 
     /**
@@ -49,7 +51,7 @@ class AnimePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:create');
+        return $user->can('create anime');
     }
 
     /**
@@ -60,7 +62,7 @@ class AnimePolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:update');
+        return $user->can('update anime');
     }
 
     /**
@@ -71,7 +73,7 @@ class AnimePolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:delete');
+        return $user->can('delete anime');
     }
 
     /**
@@ -82,7 +84,7 @@ class AnimePolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:restore');
+        return $user->can('restore anime');
     }
 
     /**
@@ -93,7 +95,7 @@ class AnimePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:forceDelete');
+        return $user->can('force delete anime');
     }
 
     /**
@@ -104,7 +106,7 @@ class AnimePolicy
      */
     public function attachAnySeries(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:update');
+        return $user->can('update anime');
     }
 
     /**
@@ -122,7 +124,7 @@ class AnimePolicy
             ->where($series->getKeyName(), $series->getKey())
             ->exists();
 
-        return ! $attached && $user->hasCurrentTeamPermission('anime:update');
+        return ! $attached && $user->can('update anime');
     }
 
     /**
@@ -133,7 +135,7 @@ class AnimePolicy
      */
     public function detachSeries(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:update');
+        return $user->can('update anime');
     }
 
     /**
@@ -144,7 +146,7 @@ class AnimePolicy
      */
     public function attachAnyExternalResource(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:update');
+        return $user->can('update anime');
     }
 
     /**
@@ -155,7 +157,7 @@ class AnimePolicy
      */
     public function attachExternalResource(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:update');
+        return $user->can('update anime');
     }
 
     /**
@@ -166,7 +168,7 @@ class AnimePolicy
      */
     public function detachExternalResource(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:update');
+        return $user->can('update anime');
     }
 
     /**
@@ -177,7 +179,7 @@ class AnimePolicy
      */
     public function attachAnyImage(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:update');
+        return $user->can('update anime');
     }
 
     /**
@@ -195,7 +197,7 @@ class AnimePolicy
             ->where($image->getKeyName(), $image->getKey())
             ->exists();
 
-        return ! $attached && $user->hasCurrentTeamPermission('anime:update');
+        return ! $attached && $user->can('update anime');
     }
 
     /**
@@ -206,7 +208,7 @@ class AnimePolicy
      */
     public function detachImage(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:update');
+        return $user->can('update anime');
     }
 
     /**
@@ -217,7 +219,7 @@ class AnimePolicy
      */
     public function attachAnyStudio(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:update');
+        return $user->can('update anime');
     }
 
     /**
@@ -235,7 +237,7 @@ class AnimePolicy
             ->where($studio->getKeyName(), $studio->getKey())
             ->exists();
 
-        return ! $attached && $user->hasCurrentTeamPermission('anime:update');
+        return ! $attached && $user->can('update anime');
     }
 
     /**
@@ -246,6 +248,6 @@ class AnimePolicy
      */
     public function detachStudio(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('anime:update');
+        return $user->can('update anime');
     }
 }

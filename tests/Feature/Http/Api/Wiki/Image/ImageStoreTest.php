@@ -44,10 +44,9 @@ class ImageStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['image:create']
-        );
+        $user = User::factory()->withPermission('create image')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.image.store'));
 
@@ -67,10 +66,9 @@ class ImageStoreTest extends TestCase
 
         $parameters = [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description];
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['image:create']
-        );
+        $user = User::factory()->withPermission('create image')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.image.store', $parameters), [
             ImageFileField::ATTRIBUTE_FILE => UploadedFile::fake()->image($this->faker->word().'.jpg'),

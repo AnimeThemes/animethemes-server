@@ -34,14 +34,4 @@ class SeriesStoreRequest extends EloquentStoreRequest
     {
         return new SeriesWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'series:create';
-    }
 }

@@ -58,10 +58,9 @@ class VideoUpdateTest extends TestCase
             ]
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['video:update']
-        );
+        $user = User::factory()->withPermission('update video')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.video.update', ['video' => $video] + $parameters));
 

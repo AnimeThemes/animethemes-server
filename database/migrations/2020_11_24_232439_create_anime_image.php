@@ -18,14 +18,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(AnimeImage::TABLE, function (Blueprint $table) {
-            $table->timestamps(6);
-            $table->unsignedBigInteger(AnimeImage::ATTRIBUTE_ANIME);
-            $table->foreign(AnimeImage::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
-            $table->unsignedBigInteger(AnimeImage::ATTRIBUTE_IMAGE);
-            $table->foreign(AnimeImage::ATTRIBUTE_IMAGE)->references(Image::ATTRIBUTE_ID)->on(Image::TABLE)->cascadeOnDelete();
-            $table->primary([AnimeImage::ATTRIBUTE_ANIME, AnimeImage::ATTRIBUTE_IMAGE]);
-        });
+        if (! Schema::hasTable(AnimeImage::TABLE)) {
+            Schema::create(AnimeImage::TABLE, function (Blueprint $table) {
+                $table->timestamps(6);
+                $table->unsignedBigInteger(AnimeImage::ATTRIBUTE_ANIME);
+                $table->foreign(AnimeImage::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger(AnimeImage::ATTRIBUTE_IMAGE);
+                $table->foreign(AnimeImage::ATTRIBUTE_IMAGE)->references(Image::ATTRIBUTE_ID)->on(Image::TABLE)->cascadeOnDelete();
+                $table->primary([AnimeImage::ATTRIBUTE_ANIME, AnimeImage::ATTRIBUTE_IMAGE]);
+            });
+        }
     }
 
     /**

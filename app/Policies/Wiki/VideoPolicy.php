@@ -17,21 +17,23 @@ class VideoPolicy
     /**
      * Determine whether the user can view any models.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function viewAny(): bool
+    public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('view video');
     }
 
     /**
      * Determine whether the user can view the model.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function view(): bool
+    public function view(User $user): bool
     {
-        return true;
+        return $user->can('view video');
     }
 
     /**
@@ -42,7 +44,7 @@ class VideoPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('video:create');
+        return $user->can('create video');
     }
 
     /**
@@ -53,7 +55,7 @@ class VideoPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('video:update');
+        return $user->can('update video');
     }
 
     /**
@@ -64,7 +66,7 @@ class VideoPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('video:delete');
+        return $user->can('delete video');
     }
 
     /**
@@ -75,7 +77,7 @@ class VideoPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('video:restore');
+        return $user->can('restore video');
     }
 
     /**
@@ -86,7 +88,7 @@ class VideoPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('video:forceDelete');
+        return $user->can('force delete video');
     }
 
     /**
@@ -97,7 +99,7 @@ class VideoPolicy
      */
     public function attachAnyAnimeThemeEntry(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('video:update');
+        return $user->can('update video');
     }
 
     /**
@@ -108,7 +110,7 @@ class VideoPolicy
      */
     public function attachAnimeThemeEntry(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('video:update');
+        return $user->can('update video');
     }
 
     /**
@@ -119,6 +121,6 @@ class VideoPolicy
      */
     public function detachAnimeThemeEntry(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('video:update');
+        return $user->can('update video');
     }
 }

@@ -28,7 +28,7 @@ class EmailVerificationTest extends TestCase
             static::markTestSkipped('Email verification not enabled.');
         }
 
-        $user = User::factory()->withPersonalTeam()->createOne([
+        $user = User::factory()->createOne([
             'email_verified_at' => null,
         ]);
 

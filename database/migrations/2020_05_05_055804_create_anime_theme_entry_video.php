@@ -18,14 +18,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(AnimeThemeEntryVideo::TABLE, function (Blueprint $table) {
-            $table->timestamps(6);
-            $table->unsignedBigInteger(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY);
-            $table->foreign(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)->references(AnimeThemeEntry::ATTRIBUTE_ID)->on(AnimeThemeEntry::TABLE)->cascadeOnDelete();
-            $table->unsignedBigInteger(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO);
-            $table->foreign(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)->references(Video::ATTRIBUTE_ID)->on('videos')->cascadeOnDelete();
-            $table->primary([AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO]);
-        });
+        if (! Schema::hasTable(AnimeThemeEntryVideo::TABLE)) {
+            Schema::create(AnimeThemeEntryVideo::TABLE, function (Blueprint $table) {
+                $table->timestamps(6);
+                $table->unsignedBigInteger(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY);
+                $table->foreign(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)->references(AnimeThemeEntry::ATTRIBUTE_ID)->on(AnimeThemeEntry::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO);
+                $table->foreign(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)->references(Video::ATTRIBUTE_ID)->on('videos')->cascadeOnDelete();
+                $table->primary([AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO]);
+            });
+        }
     }
 
     /**

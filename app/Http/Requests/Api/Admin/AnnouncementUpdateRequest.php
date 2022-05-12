@@ -34,14 +34,4 @@ class AnnouncementUpdateRequest extends EloquentUpdateRequest
     {
         return new AnnouncementWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'announcement:update';
-    }
 }

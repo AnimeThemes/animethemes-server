@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Actions\Fortify;
 
 use App\Models\Auth\User;
-use Laravel\Jetstream\Features;
 use Tests\TestCase;
 
 /**
@@ -20,9 +19,7 @@ class PasswordConfirmationTest extends TestCase
      */
     public function testConfirmPasswordScreenCanBeRendered(): void
     {
-        $user = Features::hasTeamFeatures()
-                        ? User::factory()->withPersonalTeam()->createOne()
-                        : User::factory()->createOne();
+        $user = User::factory()->createOne();
 
         $response = $this->actingAs($user)->get('/user/confirm-password');
 

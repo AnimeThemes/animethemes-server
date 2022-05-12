@@ -34,14 +34,4 @@ class ArtistStoreRequest extends EloquentStoreRequest
     {
         return new ArtistWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'artist:create';
-    }
 }

@@ -44,10 +44,9 @@ class BalanceRestoreTest extends TestCase
 
         $balance->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['balance:restore']
-        );
+        $user = User::factory()->withPermission('restore balance')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.balance.restore', ['balance' => $balance]));
 

@@ -40,10 +40,9 @@ class StudioDestroyTest extends TestCase
     {
         $studio = Studio::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['studio:delete']
-        );
+        $user = User::factory()->withPermission('delete studio')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.studio.destroy', ['studio' => $studio]));
 

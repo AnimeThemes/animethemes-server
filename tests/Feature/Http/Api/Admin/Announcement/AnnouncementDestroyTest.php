@@ -40,10 +40,9 @@ class AnnouncementDestroyTest extends TestCase
     {
         $announcement = Announcement::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['announcement:delete']
-        );
+        $user = User::factory()->withPermission('delete announcement')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.announcement.destroy', ['announcement' => $announcement]));
 

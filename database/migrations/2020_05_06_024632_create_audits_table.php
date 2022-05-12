@@ -15,22 +15,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('audits', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('user_type')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('event');
-            $table->morphs('auditable');
-            $table->mediumText('old_values')->nullable();
-            $table->mediumText('new_values')->nullable();
-            $table->text('url')->nullable();
-            $table->ipAddress()->nullable();
-            $table->string('user_agent', 1023)->nullable();
-            $table->string('tags')->nullable();
-            $table->timestamps(6);
+        if (! Schema::hasTable('audits')) {
+            Schema::create('audits', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->string('user_type')->nullable();
+                $table->unsignedBigInteger('user_id')->nullable();
+                $table->string('event');
+                $table->morphs('auditable');
+                $table->mediumText('old_values')->nullable();
+                $table->mediumText('new_values')->nullable();
+                $table->text('url')->nullable();
+                $table->ipAddress()->nullable();
+                $table->string('user_agent', 1023)->nullable();
+                $table->string('tags')->nullable();
+                $table->timestamps(6);
 
-            $table->index(['user_id', 'user_type']);
-        });
+                $table->index(['user_id', 'user_type']);
+            });
+        }
     }
 
     /**
@@ -40,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::drop('audits');
+        Schema::dropIfExists('audits');
     }
 };

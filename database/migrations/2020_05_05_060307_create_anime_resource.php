@@ -18,15 +18,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(AnimeResource::TABLE, function (Blueprint $table) {
-            $table->timestamps(6);
-            $table->unsignedBigInteger(AnimeResource::ATTRIBUTE_ANIME);
-            $table->foreign(AnimeResource::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
-            $table->unsignedBigInteger(AnimeResource::ATTRIBUTE_RESOURCE);
-            $table->foreign(AnimeResource::ATTRIBUTE_RESOURCE)->references(ExternalResource::ATTRIBUTE_ID)->on(ExternalResource::TABLE)->cascadeOnDelete();
-            $table->primary([AnimeResource::ATTRIBUTE_ANIME, AnimeResource::ATTRIBUTE_RESOURCE]);
-            $table->string(AnimeResource::ATTRIBUTE_AS)->nullable();
-        });
+        if (! Schema::hasTable(AnimeResource::TABLE)) {
+            Schema::create(AnimeResource::TABLE, function (Blueprint $table) {
+                $table->timestamps(6);
+                $table->unsignedBigInteger(AnimeResource::ATTRIBUTE_ANIME);
+                $table->foreign(AnimeResource::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger(AnimeResource::ATTRIBUTE_RESOURCE);
+                $table->foreign(AnimeResource::ATTRIBUTE_RESOURCE)->references(ExternalResource::ATTRIBUTE_ID)->on(ExternalResource::TABLE)->cascadeOnDelete();
+                $table->primary([AnimeResource::ATTRIBUTE_ANIME, AnimeResource::ATTRIBUTE_RESOURCE]);
+                $table->string(AnimeResource::ATTRIBUTE_AS)->nullable();
+            });
+        }
     }
 
     /**

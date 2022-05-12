@@ -44,10 +44,9 @@ class ArtistUpdateTest extends TestCase
 
         $parameters = Artist::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['artist:update']
-        );
+        $user = User::factory()->withPermission('update artist')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.artist.update', ['artist' => $artist] + $parameters));
 

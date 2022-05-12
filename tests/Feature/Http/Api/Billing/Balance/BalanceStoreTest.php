@@ -40,10 +40,9 @@ class BalanceStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['balance:create']
-        );
+        $user = User::factory()->withPermission('create balance')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.balance.store'));
 
@@ -71,10 +70,9 @@ class BalanceStoreTest extends TestCase
             ]
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['balance:create']
-        );
+        $user = User::factory()->withPermission('create balance')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.balance.store', $parameters));
 

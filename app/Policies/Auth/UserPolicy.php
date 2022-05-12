@@ -22,19 +22,18 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('user:read');
+        return $user->can('view user');
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  User  $user
-     * @param  User  $model
      * @return bool
      */
-    public function view(User $user, User $model): bool
+    public function view(User $user): bool
     {
-        return $user->is($model) || ($user->hasCurrentTeamPermission('user:read'));
+        return $user->can('view user');
     }
 
     /**
@@ -45,19 +44,18 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('user:create');
+        return $user->can('create user');
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  User  $user
-     * @param  User  $model
      * @return bool
      */
-    public function update(User $user, User $model): bool
+    public function update(User $user): bool
     {
-        return $user->is($model) || ($user->hasCurrentTeamPermission('user:update'));
+        return $user->can('update user');
     }
 
     /**
@@ -68,7 +66,7 @@ class UserPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('user:delete');
+        return $user->can('delete user');
     }
 
     /**
@@ -79,7 +77,7 @@ class UserPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('user:restore');
+        return $user->can('restore user');
     }
 
     /**
@@ -90,6 +88,66 @@ class UserPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('user:forceDelete');
+        return $user->can('force delete user');
+    }
+
+    /**
+     * Determine whether the user can attach any role to the user.
+     *
+     * @return bool
+     */
+    public function attachAnyRole(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can attach a role to the user.
+     *
+     * @return bool
+     */
+    public function attachRole(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can detach a role from the user.
+     *
+     * @return bool
+     */
+    public function detachRole(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can attach any permission to the user.
+     *
+     * @return bool
+     */
+    public function attachAnyPermission(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can attach a permission to the user.
+     *
+     * @return bool
+     */
+    public function attachPermission(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can detach a permission from the user.
+     *
+     * @return bool
+     */
+    public function detachPermission(): bool
+    {
+        return false;
     }
 }

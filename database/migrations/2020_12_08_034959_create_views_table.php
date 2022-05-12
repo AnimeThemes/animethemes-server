@@ -44,13 +44,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $this->schema->create($this->table, function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->morphs('viewable');
-            $table->text('visitor')->nullable();
-            $table->string('collection')->nullable();
-            $table->timestamp('viewed_at')->useCurrent();
-        });
+        if (! $this->schema->hasTable($this->table)) {
+            $this->schema->create($this->table, function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->morphs('viewable');
+                $table->text('visitor')->nullable();
+                $table->string('collection')->nullable();
+                $table->timestamp('viewed_at')->useCurrent();
+            });
+        }
     }
 
     /**

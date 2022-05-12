@@ -6,7 +6,6 @@ namespace App\Providers;
 
 use App\Models\Auth\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
@@ -42,6 +41,6 @@ class AuthServiceProvider extends ServiceProvider
                 ->__toString()
         );
 
-        Gate::define('viewNova', fn (User $user) => $user->current_team_id === Config::get('teams.nova'));
+        Gate::define('viewNova', fn (User $user) => $user->can('view nova'));
     }
 }

@@ -44,10 +44,9 @@ class TransactionRestoreTest extends TestCase
 
         $transaction->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['transaction:restore']
-        );
+        $user = User::factory()->withPermission('restore transaction')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.transaction.restore', ['transaction' => $transaction]));
 

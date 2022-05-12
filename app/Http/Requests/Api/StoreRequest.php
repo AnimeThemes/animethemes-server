@@ -17,7 +17,7 @@ abstract class StoreRequest extends WriteRequest
      *
      * @return string
      */
-    protected function policyAbility(): string
+    protected function ability(): string
     {
         return 'create';
     }

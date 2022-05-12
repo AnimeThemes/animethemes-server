@@ -34,14 +34,4 @@ class SeriesDestroyRequest extends EloquentDestroyRequest
     {
         return new SeriesWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'series:delete';
-    }
 }

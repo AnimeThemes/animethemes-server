@@ -53,10 +53,9 @@ class ExternalResourceUpdateTest extends TestCase
             [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)]
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['resource:update']
-        );
+        $user = User::factory()->withPermission('update external resource')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.resource.update', ['resource' => $resource] + $parameters));
 

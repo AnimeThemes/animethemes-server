@@ -18,14 +18,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(Invitation::TABLE, function (Blueprint $table) {
-            $table->id(Invitation::ATTRIBUTE_ID);
-            $table->timestamps(6);
-            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-            $table->string(Invitation::ATTRIBUTE_NAME);
-            $table->string(Invitation::ATTRIBUTE_EMAIL);
-            $table->integer(Invitation::ATTRIBUTE_STATUS)->default(InvitationStatus::OPEN);
-        });
+        if (! Schema::hasTable(Invitation::TABLE)) {
+            Schema::create(Invitation::TABLE, function (Blueprint $table) {
+                $table->id(Invitation::ATTRIBUTE_ID);
+                $table->timestamps(6);
+                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->string(Invitation::ATTRIBUTE_NAME);
+                $table->string(Invitation::ATTRIBUTE_EMAIL);
+                $table->integer(Invitation::ATTRIBUTE_STATUS)->default(InvitationStatus::OPEN);
+            });
+        }
     }
 
     /**

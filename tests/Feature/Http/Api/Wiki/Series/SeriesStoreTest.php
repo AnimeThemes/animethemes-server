@@ -38,10 +38,9 @@ class SeriesStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['series:create']
-        );
+        $user = User::factory()->withPermission('create series')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.series.store'));
 
@@ -60,10 +59,9 @@ class SeriesStoreTest extends TestCase
     {
         $parameters = Series::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['series:create']
-        );
+        $user = User::factory()->withPermission('create series')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.series.store', $parameters));
 

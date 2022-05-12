@@ -6,7 +6,7 @@ namespace App\Nova\Resources\Auth;
 
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Models\Auth\Invitation as InvitationModel;
-use App\Nova\Actions\Auth\ResendInvitationAction;
+use App\Nova\Actions\Auth\Invitation\ResendInvitationAction;
 use App\Nova\Resources\Resource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;

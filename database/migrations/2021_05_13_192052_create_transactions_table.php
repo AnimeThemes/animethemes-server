@@ -17,16 +17,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(Transaction::TABLE, function (Blueprint $table) {
-            $table->id(Transaction::ATTRIBUTE_ID);
-            $table->timestamps(6);
-            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-            $table->date(Transaction::ATTRIBUTE_DATE);
-            $table->integer(Transaction::ATTRIBUTE_SERVICE);
-            $table->string(Transaction::ATTRIBUTE_DESCRIPTION);
-            $table->decimal(Transaction::ATTRIBUTE_AMOUNT);
-            $table->string(Transaction::ATTRIBUTE_EXTERNAL_ID)->nullable();
-        });
+        if (! Schema::hasTable(Transaction::TABLE)) {
+            Schema::create(Transaction::TABLE, function (Blueprint $table) {
+                $table->id(Transaction::ATTRIBUTE_ID);
+                $table->timestamps(6);
+                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->date(Transaction::ATTRIBUTE_DATE);
+                $table->integer(Transaction::ATTRIBUTE_SERVICE);
+                $table->string(Transaction::ATTRIBUTE_DESCRIPTION);
+                $table->decimal(Transaction::ATTRIBUTE_AMOUNT);
+                $table->string(Transaction::ATTRIBUTE_EXTERNAL_ID)->nullable();
+            });
+        }
     }
 
     /**

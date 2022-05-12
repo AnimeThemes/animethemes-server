@@ -44,10 +44,9 @@ class SongUpdateTest extends TestCase
 
         $parameters = Song::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['song:update']
-        );
+        $user = User::factory()->withPermission('update song')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.song.update', ['song' => $song] + $parameters));
 

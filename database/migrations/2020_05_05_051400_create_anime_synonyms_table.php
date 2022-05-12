@@ -18,15 +18,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(AnimeSynonym::TABLE, function (Blueprint $table) {
-            $table->id(AnimeSynonym::ATTRIBUTE_ID);
-            $table->timestamps(6);
-            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-            $table->string(AnimeSynonym::ATTRIBUTE_TEXT)->nullable();
+        if (! Schema::hasTable(AnimeSynonym::TABLE)) {
+            Schema::create(AnimeSynonym::TABLE, function (Blueprint $table) {
+                $table->id(AnimeSynonym::ATTRIBUTE_ID);
+                $table->timestamps(6);
+                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->string(AnimeSynonym::ATTRIBUTE_TEXT)->nullable();
 
-            $table->unsignedBigInteger(AnimeSynonym::ATTRIBUTE_ANIME);
-            $table->foreign(AnimeSynonym::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
-        });
+                $table->unsignedBigInteger(AnimeSynonym::ATTRIBUTE_ANIME);
+                $table->foreign(AnimeSynonym::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
+            });
+        }
     }
 
     /**

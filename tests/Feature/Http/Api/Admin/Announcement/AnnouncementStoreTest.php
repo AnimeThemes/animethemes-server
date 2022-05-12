@@ -38,10 +38,9 @@ class AnnouncementStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['announcement:create']
-        );
+        $user = User::factory()->withPermission('create announcement')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.announcement.store'));
 
@@ -59,10 +58,9 @@ class AnnouncementStoreTest extends TestCase
     {
         $parameters = Announcement::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['announcement:create']
-        );
+        $user = User::factory()->withPermission('create announcement')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.announcement.store', $parameters));
 

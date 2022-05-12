@@ -39,7 +39,7 @@ class ClientAccountTest extends TestCase
 
         Config::set(WikiConstants::CLIENT_ACCOUNT_SETTING_QUALIFIED, $client->getKey());
 
-        Sanctum::actingAs($client, ['anime:read']);
+        Sanctum::actingAs($client, ['read anime']);
 
         $response = $this->get(route('api.anime.index'));
 

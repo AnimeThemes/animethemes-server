@@ -40,10 +40,9 @@ class BalanceForceDeleteTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['*']
-        );
+        $user = User::factory()->withPermission('force delete balance')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->delete(route('api.balance.forceDelete', ['balance' => $balance]));
 

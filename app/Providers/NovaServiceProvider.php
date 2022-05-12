@@ -7,7 +7,6 @@ namespace App\Providers;
 use App\Models\Auth\User;
 use App\Nova\Dashboards\Main;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\LogViewer\LogViewer;
 use Laravel\Nova\Menu\Menu;
@@ -62,7 +61,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewNova', fn (User $user) => $user->current_team_id === Config::get('teams.nova'));
+        Gate::define('viewNova', fn (User $user) => $user->can('view nova'));
     }
 
     /**
@@ -90,7 +89,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             (new LogViewer())
-                ->canSee(fn (Request $request) => $request->user()->hasCurrentTeamPermission('log:read')),
+                ->canSee(fn (Request $request) => $request->user()->can('view logs')),
         ];
     }
 }

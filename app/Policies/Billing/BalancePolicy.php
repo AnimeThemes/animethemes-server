@@ -22,7 +22,7 @@ class BalancePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('balance:read');
+        return $user->can('view balance');
     }
 
     /**
@@ -33,7 +33,7 @@ class BalancePolicy
      */
     public function view(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('balance:read');
+        return $user->can('view balance');
     }
 
     /**
@@ -44,7 +44,7 @@ class BalancePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('balance:create');
+        return $user->can('create balance');
     }
 
     /**
@@ -55,7 +55,7 @@ class BalancePolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('balance:update');
+        return $user->can('update balance');
     }
 
     /**
@@ -66,7 +66,7 @@ class BalancePolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('balance:delete');
+        return $user->can('delete balance');
     }
 
     /**
@@ -77,7 +77,7 @@ class BalancePolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('balance:restore');
+        return $user->can('restore balance');
     }
 
     /**
@@ -88,6 +88,6 @@ class BalancePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('balance:forceDelete');
+        return $user->can('force delete balance');
     }
 }

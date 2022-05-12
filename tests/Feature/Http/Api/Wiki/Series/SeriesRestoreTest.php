@@ -44,10 +44,9 @@ class SeriesRestoreTest extends TestCase
 
         $series->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['series:restore']
-        );
+        $user = User::factory()->withPermission('restore series')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.series.restore', ['series' => $series]));
 

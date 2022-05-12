@@ -18,25 +18,21 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasTeams;
 use Laravel\Nova\Actions\Actionable;
 use Laravel\Nova\Auth\Impersonatable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * Class User.
  *
  * @property Carbon $created_at
- * @property int|null $current_team_id
- * @property Team|null $currentTeam
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property int $id
  * @property string $name
- * @property Collection $ownedTeams
  * @property string $password
  * @property string $remember_token
- * @property Collection $teams
  * @property Collection $tokens
  * @property string|null $two_factor_recovery_codes
  * @property string|null $two_factor_secret
@@ -49,7 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     use Actionable;
     use HasApiTokens;
     use HasFactory;
-    use HasTeams;
+    use HasRoles;
     use Impersonatable;
     use Notifiable;
     use SoftDeletes;
@@ -58,7 +54,6 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     final public const TABLE = 'users';
 
     final public const ATTRIBUTE_EMAIL = 'email';
-    final public const ATTRIBUTE_CURRENT_TEAM = 'current_team_id';
     final public const ATTRIBUTE_DELETED_AT = 'deleted_at';
     final public const ATTRIBUTE_EMAIL_VERIFIED_AT = 'email_verified_at';
     final public const ATTRIBUTE_ID = 'id';
@@ -67,6 +62,9 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     final public const ATTRIBUTE_REMEMBER_TOKEN = 'remember_token';
     final public const ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES = 'two_factor_recovery_codes';
     final public const ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
+
+    final public const RELATION_PERMISSIONS = 'permissions';
+    final public const RELATION_ROLES = 'roles';
 
     /**
      * The attributes that are mass assignable.
@@ -125,7 +123,6 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
      * @var array<string, string>
      */
     protected $casts = [
-        User::ATTRIBUTE_CURRENT_TEAM => 'int',
         User::ATTRIBUTE_EMAIL_VERIFIED_AT => 'datetime',
     ];
 
@@ -166,31 +163,5 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
         $this->fireModelEvent('restored', false);
 
         return $result;
-    }
-
-    // Make HasTeams more null safe
-
-    /**
-     * Determine if the given team is the current team.
-     *
-     * @param  mixed  $team
-     * @return bool
-     */
-    public function isCurrentTeam($team): bool
-    {
-        $currentTeam = $this->currentTeam;
-
-        return $currentTeam !== null && $currentTeam->is($team);
-    }
-
-    /**
-     * Determine if the user has the given permission on the current team.
-     *
-     * @param  string  $permission
-     * @return bool
-     */
-    public function hasCurrentTeamPermission(string $permission): bool
-    {
-        return $this->currentTeam !== null && $this->hasTeamPermission($this->currentTeam, $permission);
     }
 }

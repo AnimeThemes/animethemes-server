@@ -17,13 +17,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(Series::TABLE, function (Blueprint $table) {
-            $table->id(Series::ATTRIBUTE_ID);
-            $table->timestamps(6);
-            $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-            $table->string(Series::ATTRIBUTE_SLUG);
-            $table->string(Series::ATTRIBUTE_NAME);
-        });
+        if (! Schema::hasTable(Series::TABLE)) {
+            Schema::create(Series::TABLE, function (Blueprint $table) {
+                $table->id(Series::ATTRIBUTE_ID);
+                $table->timestamps(6);
+                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->string(Series::ATTRIBUTE_SLUG);
+                $table->string(Series::ATTRIBUTE_NAME);
+            });
+        }
     }
 
     /**

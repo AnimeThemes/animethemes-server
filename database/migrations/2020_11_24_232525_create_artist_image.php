@@ -18,14 +18,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(ArtistImage::TABLE, function (Blueprint $table) {
-            $table->timestamps(6);
-            $table->unsignedBigInteger(ArtistImage::ATTRIBUTE_ARTIST);
-            $table->foreign(ArtistImage::ATTRIBUTE_ARTIST)->references(Artist::ATTRIBUTE_ID)->on(Artist::TABLE)->cascadeOnDelete();
-            $table->unsignedBigInteger(ArtistImage::ATTRIBUTE_IMAGE);
-            $table->foreign(ArtistImage::ATTRIBUTE_IMAGE)->references(Image::ATTRIBUTE_ID)->on(Image::TABLE)->cascadeOnDelete();
-            $table->primary([ArtistImage::ATTRIBUTE_ARTIST, ArtistImage::ATTRIBUTE_IMAGE]);
-        });
+        if (! Schema::hasTable(ArtistImage::TABLE)) {
+            Schema::create(ArtistImage::TABLE, function (Blueprint $table) {
+                $table->timestamps(6);
+                $table->unsignedBigInteger(ArtistImage::ATTRIBUTE_ARTIST);
+                $table->foreign(ArtistImage::ATTRIBUTE_ARTIST)->references(Artist::ATTRIBUTE_ID)->on(Artist::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger(ArtistImage::ATTRIBUTE_IMAGE);
+                $table->foreign(ArtistImage::ATTRIBUTE_IMAGE)->references(Image::ATTRIBUTE_ID)->on(Image::TABLE)->cascadeOnDelete();
+                $table->primary([ArtistImage::ATTRIBUTE_ARTIST, ArtistImage::ATTRIBUTE_IMAGE]);
+            });
+        }
     }
 
     /**

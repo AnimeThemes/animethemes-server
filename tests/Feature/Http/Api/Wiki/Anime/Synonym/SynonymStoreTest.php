@@ -39,10 +39,9 @@ class SynonymStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['synonym:create']
-        );
+        $user = User::factory()->withPermission('create anime synonym')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.animesynonym.store'));
 
@@ -65,10 +64,9 @@ class SynonymStoreTest extends TestCase
             [AnimeSynonym::ATTRIBUTE_ANIME => $anime->getKey()],
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['synonym:create']
-        );
+        $user = User::factory()->withPermission('create anime synonym')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.animesynonym.store', $parameters));
 

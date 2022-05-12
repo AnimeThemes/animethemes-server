@@ -53,10 +53,9 @@ class EntryRestoreTest extends TestCase
 
         $entry->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['entry:restore']
-        );
+        $user = User::factory()->withPermission('restore anime theme entry')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.animethemeentry.restore', ['animethemeentry' => $entry]));
 

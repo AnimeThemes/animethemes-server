@@ -17,21 +17,23 @@ class AnimeThemePolicy
     /**
      * Determine whether the user can view any models.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function viewAny(): bool
+    public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('view anime theme');
     }
 
     /**
      * Determine whether the user can view the model.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function view(): bool
+    public function view(User $user): bool
     {
-        return true;
+        return $user->can('view anime theme');
     }
 
     /**
@@ -42,7 +44,7 @@ class AnimeThemePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('theme:create');
+        return $user->can('create anime theme');
     }
 
     /**
@@ -53,7 +55,7 @@ class AnimeThemePolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('theme:update');
+        return $user->can('update anime theme');
     }
 
     /**
@@ -64,7 +66,7 @@ class AnimeThemePolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('theme:delete');
+        return $user->can('delete anime theme');
     }
 
     /**
@@ -75,7 +77,7 @@ class AnimeThemePolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('theme:restore');
+        return $user->can('restore anime theme');
     }
 
     /**
@@ -86,6 +88,6 @@ class AnimeThemePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('theme:forceDelete');
+        return $user->can('force delete anime theme');
     }
 }

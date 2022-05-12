@@ -85,7 +85,7 @@ class ArtistMalResourceLens extends BaseLens
             (new CreateExternalResourceSiteForArtistAction(ResourceSite::MAL))->canSee(function (Request $request) {
                 $user = $request->user();
 
-                return $user->hasCurrentTeamPermission('resource:create');
+                return $user->can('create external resource');
             }),
         ];
     }

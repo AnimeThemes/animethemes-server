@@ -44,10 +44,9 @@ class SeriesUpdateTest extends TestCase
 
         $parameters = Series::factory()->raw();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['series:update']
-        );
+        $user = User::factory()->withPermission('update series')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.series.update', ['series' => $series] + $parameters));
 

@@ -44,10 +44,9 @@ class PageRestoreTest extends TestCase
 
         $page->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['page:restore']
-        );
+        $user = User::factory()->withPermission('restore page')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.page.restore', ['page' => $page]));
 

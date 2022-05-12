@@ -34,14 +34,4 @@ class ThemeStoreRequest extends EloquentStoreRequest
     {
         return new ThemeWriteQuery($this->validated());
     }
-
-    /**
-     * The token ability to authorize.
-     *
-     * @return string
-     */
-    protected function tokenAbility(): string
-    {
-        return 'theme:create';
-    }
 }

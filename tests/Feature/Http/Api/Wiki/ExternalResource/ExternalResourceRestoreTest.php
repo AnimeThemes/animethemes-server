@@ -44,10 +44,9 @@ class ExternalResourceRestoreTest extends TestCase
 
         $resource->delete();
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('editor')->createOne(),
-            ['resource:restore']
-        );
+        $user = User::factory()->withPermission('restore external resource')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->patch(route('api.resource.restore', ['resource' => $resource]));
 

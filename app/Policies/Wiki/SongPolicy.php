@@ -17,21 +17,23 @@ class SongPolicy
     /**
      * Determine whether the user can view any models.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function viewAny(): bool
+    public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('view song');
     }
 
     /**
      * Determine whether the user can view the model.
      *
+     * @param  User  $user
      * @return bool
      */
-    public function view(): bool
+    public function view(User $user): bool
     {
-        return true;
+        return $user->can('view song');
     }
 
     /**
@@ -42,7 +44,7 @@ class SongPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('song:create');
+        return $user->can('create song');
     }
 
     /**
@@ -53,7 +55,7 @@ class SongPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('song:update');
+        return $user->can('update song');
     }
 
     /**
@@ -64,7 +66,7 @@ class SongPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('song:delete');
+        return $user->can('delete song');
     }
 
     /**
@@ -75,7 +77,7 @@ class SongPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('song:restore');
+        return $user->can('restore song');
     }
 
     /**
@@ -86,7 +88,7 @@ class SongPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('song:forceDelete');
+        return $user->can('force delete song');
     }
 
     /**
@@ -97,7 +99,7 @@ class SongPolicy
      */
     public function addAnimeTheme(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('song:update');
+        return $user->can('update song');
     }
 
     /**
@@ -108,7 +110,7 @@ class SongPolicy
      */
     public function attachAnyArtist(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('song:update');
+        return $user->can('update song');
     }
 
     /**
@@ -119,7 +121,7 @@ class SongPolicy
      */
     public function attachArtist(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('song:update');
+        return $user->can('update song');
     }
 
     /**
@@ -130,6 +132,6 @@ class SongPolicy
      */
     public function detachArtist(User $user): bool
     {
-        return $user->hasCurrentTeamPermission('song:update');
+        return $user->can('update song');
     }
 }

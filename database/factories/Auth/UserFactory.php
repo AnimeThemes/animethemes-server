@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Database\Factories\Auth;
 
-use App\Models\Auth\Team;
+use App\Models\Auth\Permission;
 use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
-use Laravel\Jetstream\Features;
+use Spatie\Permission\PermissionRegistrar;
 
 /**
  * Class UserFactory.
@@ -44,58 +45,20 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Create and assign permission to user.
      *
+     * @param  string  $ability
      * @return static
      */
-    public function unverified(): static
-    {
-        return $this->state(
-            fn () => [
-                User::ATTRIBUTE_EMAIL_VERIFIED_AT => null,
-            ]
-        );
-    }
-
-    /**
-     * Indicate that the user should have a personal team.
-     *
-     * @return static
-     */
-    public function withPersonalTeam(): static
-    {
-        if (! Features::hasTeamFeatures()) {
-            return $this->state([]);
-        }
-
-        return $this->has(
-            Team::factory()
-                ->state(
-                    fn (array $attributes, User $user) => [
-                        'name' => $user->name.'\'s Team',
-                        'user_id' => $user->id,
-                        'personal_team' => true,
-                    ]
-                ),
-            'ownedTeams'
-        );
-    }
-
-    /**
-     * Create and set current team for user with specified role.
-     *
-     * @param  string  $role
-     * @return static
-     */
-    public function withCurrentTeam(string $role): static
+    public function withPermission(string $ability): static
     {
         return $this->afterCreating(
-            function (User $user) use ($role) {
-                $team = Team::factory()
-                    ->hasAttached($user, ['role' => $role])
-                    ->create();
+            function (User $user) use ($ability) {
+                $permission = Permission::findOrCreate($ability);
 
-                $user->switchTeam($team);
+                App::make(PermissionRegistrar::class)->forgetCachedPermissions();
+
+                $user->givePermissionTo($permission);
             }
         );
     }

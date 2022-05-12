@@ -39,10 +39,9 @@ class TransactionStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['transaction:create']
-        );
+        $user = User::factory()->withPermission('create transaction')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.transaction.store'));
 
@@ -66,10 +65,9 @@ class TransactionStoreTest extends TestCase
             [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['transaction:create']
-        );
+        $user = User::factory()->withPermission('create transaction')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->post(route('api.transaction.store', $parameters));
 

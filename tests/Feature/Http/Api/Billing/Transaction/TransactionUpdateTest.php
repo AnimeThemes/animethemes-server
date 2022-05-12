@@ -51,10 +51,9 @@ class TransactionUpdateTest extends TestCase
             [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
         );
 
-        Sanctum::actingAs(
-            User::factory()->withCurrentTeam('admin')->createOne(),
-            ['transaction:update']
-        );
+        $user = User::factory()->withPermission('update transaction')->createOne();
+
+        Sanctum::actingAs($user);
 
         $response = $this->put(route('api.transaction.update', ['transaction' => $transaction] + $parameters));
 
