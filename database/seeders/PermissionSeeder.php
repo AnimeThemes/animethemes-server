@@ -71,9 +71,11 @@ class PermissionSeeder extends Seeder
         $permissions = [];
 
         $permissions[] = Permission::findOrCreate("view $adminResource");
-        $permissions[] = Permission::findOrCreate("create $adminResource");
-        $permissions[] = Permission::findOrCreate("update $adminResource");
-        $permissions[] = Permission::findOrCreate("delete $adminResource");
+        if ($adminResource !== 'permission') {
+            $permissions[] = Permission::findOrCreate("create $adminResource");
+            $permissions[] = Permission::findOrCreate("update $adminResource");
+            $permissions[] = Permission::findOrCreate("delete $adminResource");
+        }
 
         if ($includeSoftDeletion) {
             $permissions[] = Permission::findOrCreate("restore $adminResource");

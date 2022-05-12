@@ -146,14 +146,16 @@ class Permission extends Resource
                     ->cancelButtonText(__('nova.cancel'))
                     ->showOnIndex()
                     ->showOnDetail()
-                    ->showInline(),
+                    ->showInline()
+                    ->canRun(fn (NovaRequest $novaRequest) => $novaRequest->user()->can('view permission')),
 
                 (new RevokeRoleAction())
                     ->confirmButtonText(__('nova.confirm'))
                     ->cancelButtonText(__('nova.cancel'))
                     ->showOnIndex()
                     ->showOnDetail()
-                    ->showInline(),
+                    ->showInline()
+                    ->canRun(fn (NovaRequest $novaRequest) => $novaRequest->user()->can('view permission')),
             ]
         );
     }
