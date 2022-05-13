@@ -85,7 +85,7 @@ final class ResourceSite extends BaseEnum
     {
         $site = ResourceSite::valueOf($link);
 
-        return match ($site->value) {
+        return match ($site?->value) {
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
             ResourceSite::ANN,
