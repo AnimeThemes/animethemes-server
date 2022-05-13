@@ -13,6 +13,7 @@ use App\Nova\Resources\Resource;
 use Exception;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -139,9 +140,8 @@ class User extends Resource
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.email'), UserModel::ATTRIBUTE_EMAIL)
+            Email::make(__('nova.email'), UserModel::ATTRIBUTE_EMAIL)
                 ->sortable()
-                ->copyable()
                 ->rules(['required', 'email', 'max:192'])
                 ->creationRules(Rule::unique(UserModel::TABLE)->__toString())
                 ->updateRules(

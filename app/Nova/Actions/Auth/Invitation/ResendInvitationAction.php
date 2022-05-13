@@ -37,7 +37,7 @@ class ResendInvitationAction extends Action
      * Perform the action on the given models.
      *
      * @param  ActionFields  $fields
-     * @param  Collection  $models
+     * @param  Collection<int, Invitation>  $models
      * @return array
      *
      * @noinspection PhpUnusedParameterInspection
@@ -46,21 +46,21 @@ class ResendInvitationAction extends Action
     {
         $resentInvitations = [];
 
-        $models->each(function (Invitation $invitation) use (&$resentInvitations) {
+        foreach ($models as $invitation) {
             // Don't send mail for invitation that have been claimed
             if ($invitation->isOpen()) {
                 // Send replacement email
                 Mail::to($invitation->email)->queue(new InvitationMail($invitation));
                 $resentInvitations[] = $invitation->name;
             }
-        });
+        }
 
         if (! empty($resentInvitations)) {
             return Action::message(
                 __('nova.resent_invitations_for_users', ['users' => implode(', ', $resentInvitations)])
             );
-        } else {
-            return Action::danger(__('nova.resent_invitations_for_none'));
         }
+
+        return Action::danger(__('nova.resent_invitations_for_none'));
     }
 }

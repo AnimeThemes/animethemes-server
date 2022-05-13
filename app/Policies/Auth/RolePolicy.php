@@ -120,4 +120,34 @@ class RolePolicy
     {
         return false;
     }
+
+    /**
+     * Determine whether the user can attach any user to the role.
+     *
+     * @return bool
+     */
+    public function attachAnyUser(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can attach a user to the role.
+     *
+     * @return bool
+     */
+    public function attachUser(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can detach a user from the role.
+     *
+     * @return bool
+     */
+    public function detachUser(): bool
+    {
+        return false;
+    }
 }

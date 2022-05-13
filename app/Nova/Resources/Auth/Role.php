@@ -127,6 +127,9 @@ class Role extends Resource
 
             BelongsToMany::make(__('nova.permissions'), RoleModel::RELATION_PERMISSIONS, Permission::class)
                 ->filterable(),
+
+            BelongsToMany::make(__('nova.users'), RoleModel::RELATION_USERS, User::class)
+                ->filterable(),
         ];
     }
 

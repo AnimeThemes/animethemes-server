@@ -42,7 +42,8 @@ class ImageUnlinkedLens extends BaseLens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave(Image::RELATION_ANIME)->whereDoesntHave(Image::RELATION_ARTISTS)
+            $query->whereNot(Image::ATTRIBUTE_FACET, ImageFacet::GRILL)
+                ->whereDoesntHave(Image::RELATION_ANIME)->whereDoesntHave(Image::RELATION_ARTISTS)
         ));
     }
 

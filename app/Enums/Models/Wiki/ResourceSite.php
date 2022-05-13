@@ -6,6 +6,7 @@ namespace App\Enums\Models\Wiki;
 
 use App\Enums\BaseEnum;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * Class ResourceSite.
@@ -72,6 +73,25 @@ final class ResourceSite extends BaseEnum
             ResourceSite::getInstances(),
             fn (ResourceSite $site) => $parsedHost === ResourceSite::getDomain($site->value)
         );
+    }
+
+    /**
+     * Attempt to parse External ID from Site Link.
+     *
+     * @param  string  $link
+     * @return string|null
+     */
+    public static function parseIdFromLink(string $link): ?string
+    {
+        $site = ResourceSite::valueOf($link);
+
+        return match ($site->value) {
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANN,
+            ResourceSite::MAL => Str::match('/\d+/', $link),
+            default => null,
+        };
     }
 
     /**

@@ -18,6 +18,7 @@ use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
@@ -141,7 +142,17 @@ class ExternalResource extends Resource
                 ->rules(['required', (new EnumValue(ResourceSite::class, false))->__toString()])
                 ->help(__('nova.resource_site_help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->dependsOn(
+                    [ExternalResourceModel::ATTRIBUTE_LINK],
+                    function (Select $field, NovaRequest $novaRequest, FormData $formData) {
+                        if ($formData->offsetExists(ExternalResourceModel::ATTRIBUTE_LINK)) {
+                            $link = $formData->offsetGet(ExternalResourceModel::ATTRIBUTE_LINK);
+                            $site = ResourceSite::valueOf($link);
+                            $field->value = $site?->value;
+                        }
+                    }
+                ),
 
             URL::make(__('nova.link'), ExternalResourceModel::ATTRIBUTE_LINK)
                 ->sortable()
@@ -163,7 +174,16 @@ class ExternalResource extends Resource
                 ->rules(['nullable', 'integer'])
                 ->help(__('nova.resource_external_id_help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->dependsOn(
+                    [ExternalResourceModel::ATTRIBUTE_LINK],
+                    function (Text $field, NovaRequest $novaRequest, FormData $formData) {
+                        if ($formData->offsetExists(ExternalResourceModel::ATTRIBUTE_LINK)) {
+                            $link = $formData->offsetGet(ExternalResourceModel::ATTRIBUTE_LINK);
+                            $field->value = ResourceSite::parseIdFromLink($link);
+                        }
+                    }
+                ),
 
             BelongsToMany::make(__('nova.artists'), ExternalResourceModel::RELATION_ARTISTS, Artist::class)
                 ->searchable()

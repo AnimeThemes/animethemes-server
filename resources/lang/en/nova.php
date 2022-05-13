@@ -155,7 +155,7 @@ return [
     'resource_external_id_help' => 'The identifier used by the external site.',
     'resource_link_help' => 'The URL of the resource. Ex: https://myanimelist.net/people/8/, https://anidb.net/creator/3/, https://kaguya.love/',
     'resource_site_help' => 'The site that we are linking to.',
-    'resource_unlinked_lens' => 'Resource Without Anime or Artist',
+    'resource_unlinked_lens' => 'Resource Without Anime or Artist or Studio',
     'revoke_permission' => 'Revoke Permission',
     'revoke_role' => 'Revoke Role',
     'role' => 'Role',
