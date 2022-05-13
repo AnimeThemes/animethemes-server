@@ -12,6 +12,7 @@ use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Exception;
 use Illuminate\Validation\Rule;
+use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -135,9 +136,8 @@ class Invitation extends Resource
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.email'), InvitationModel::ATTRIBUTE_EMAIL)
+            Email::make(__('nova.email'), InvitationModel::ATTRIBUTE_EMAIL)
                 ->sortable()
-                ->copyable()
                 ->rules(['required', 'email', 'max:192'])
                 ->creationRules(Rule::unique(InvitationModel::TABLE)->__toString())
                 ->updateRules(

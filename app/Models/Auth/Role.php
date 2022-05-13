@@ -30,4 +30,5 @@ class Role extends BaseRole
     final public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
 
     final public const RELATION_PERMISSIONS = 'permissions';
+    final public const RELATION_USERS = 'users';
 }
