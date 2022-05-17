@@ -29,7 +29,7 @@ use Laravel\Nova\Actions\Actionable;
  *
  * @property Anime $anime
  * @property int $anime_id
- * @property Collection $animethemeentries
+ * @property Collection<int, AnimeThemeEntry> $animethemeentries
  * @property string|null $group
  * @property int|null $sequence
  * @property string $slug

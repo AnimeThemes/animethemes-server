@@ -27,7 +27,7 @@ use Laravel\Nova\Actions\Actionable;
 /**
  * Class Video.
  *
- * @property Collection $animethemeentries
+ * @property Collection<int, AnimeThemeEntry> $animethemeentries
  * @property string $basename
  * @property string $filename
  * @property bool $lyrics

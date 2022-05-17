@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Fortify;
 
 use App\Models\Auth\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
@@ -32,7 +33,7 @@ class ResetUserPassword implements ResetsUserPasswords
         ])->validate();
 
         $user->forceFill([
-            User::ATTRIBUTE_PASSWORD => Hash::make($input['password']),
+            User::ATTRIBUTE_PASSWORD => Hash::make(Arr::get($input, 'password')),
         ])->save();
     }
 }

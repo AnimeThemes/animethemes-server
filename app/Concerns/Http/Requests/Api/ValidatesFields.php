@@ -20,7 +20,7 @@ trait ValidatesFields
      * Restrict the allowed values for the schema fields.
      *
      * @param  Schema  $schema
-     * @return array[]
+     * @return array<string, array>
      */
     protected function restrictAllowedFieldValues(Schema $schema): array
     {

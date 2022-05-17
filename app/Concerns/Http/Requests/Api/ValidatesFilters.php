@@ -12,7 +12,6 @@ use App\Http\Api\Filter\Filter;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Schema\Schema;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
@@ -29,18 +28,21 @@ trait ValidatesFilters
      * Get the list of formatted filters for the schema.
      *
      * @param  Schema  $schema
-     * @return Collection
+     * @return string[]
      */
-    protected function getSchemaFormattedFilters(Schema $schema): Collection
+    protected function getSchemaFormattedFilters(Schema $schema): array
     {
-        $schemaFilters = collect();
+        $schemaFilters = [];
 
         foreach ($schema->filters() as $filter) {
-            $schemaFilters = $schemaFilters->concat($this->getFilterFormats($filter, BinaryLogicalOperator::getInstances()));
-            $schemaFilters = $schemaFilters->concat($this->getFilterFormats($filter, UnaryLogicalOperator::getInstances()));
+            $schemaFilters = array_merge(
+                $schemaFilters,
+                $this->getFilterFormats($filter, BinaryLogicalOperator::getInstances()),
+                $this->getFilterFormats($filter, UnaryLogicalOperator::getInstances())
+            );
         }
 
-        return $schemaFilters->filter()->unique();
+        return array_unique(array_filter($schemaFilters));
     }
 
     /**
@@ -48,7 +50,7 @@ trait ValidatesFilters
      *
      * @param  Filter  $filter
      * @param  LogicalOperator[]  $logicalOperators
-     * @return array
+     * @return string[]
      */
     protected function getFilterFormats(Filter $filter, array $logicalOperators): array
     {
@@ -75,7 +77,7 @@ trait ValidatesFilters
      *
      * @param  Schema  $schema
      * @param  string  $formattedFilter
-     * @return array
+     * @return string[]
      */
     protected function getFormattedParameters(Schema $schema, string $formattedFilter): array
     {

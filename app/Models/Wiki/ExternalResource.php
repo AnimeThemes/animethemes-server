@@ -23,8 +23,8 @@ use Laravel\Nova\Actions\Actionable;
 /**
  * Class Resource.
  *
- * @property Collection $anime
- * @property Collection $artists
+ * @property Collection<int, Anime> $anime
+ * @property Collection<int, Artist> $artists
  * @property int|null $external_id
  * @property string|null $link
  * @property BasePivot $pivot

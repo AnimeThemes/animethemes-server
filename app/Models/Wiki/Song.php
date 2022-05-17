@@ -23,8 +23,8 @@ use Laravel\Nova\Actions\Actionable;
 /**
  * Class Song.
  *
- * @property Collection $animethemes
- * @property Collection $artists
+ * @property Collection<int, AnimeTheme> $animethemes
+ * @property Collection<int, Artist> $artists
  * @property BasePivot $pivot
  * @property int $song_id
  * @property string|null $title

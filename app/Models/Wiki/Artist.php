@@ -25,14 +25,14 @@ use Laravel\Nova\Actions\Actionable;
  * Class Artist.
  *
  * @property int $artist_id
- * @property Collection $groups
- * @property Collection $images
- * @property Collection $members
+ * @property Collection<int, Artist> $groups
+ * @property Collection<int, Image> $images
+ * @property Collection<int, Artist> $members
  * @property string $name
  * @property BasePivot $pivot
- * @property Collection $resources
+ * @property Collection<int, ExternalResource> $resources
  * @property string $slug
- * @property Collection $songs
+ * @property Collection<int, Song> $songs
  *
  * @method static ArtistFactory factory(...$parameters)
  */

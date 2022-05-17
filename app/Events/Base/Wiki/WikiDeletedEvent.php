@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events\Base\Wiki;
 
+use App\Constants\Config\ServiceConstants;
 use App\Contracts\Events\NovaNotificationEvent;
 use App\Events\Base\BaseDeletedEvent;
 use App\Models\Auth\Role;
@@ -27,7 +28,7 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements NovaNotifica
      */
     public function getDiscordChannel(): string
     {
-        return Config::get('services.discord.db_updates_discord_channel');
+        return Config::get(ServiceConstants::DB_UPDATES_DISCORD_CHANNEL_QUALIFIED);
     }
 
     /**

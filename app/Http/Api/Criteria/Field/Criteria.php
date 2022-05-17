@@ -15,7 +15,7 @@ class Criteria
      * Create a new criteria instance.
      *
      * @param  string  $type
-     * @param  Collection<string>  $fields
+     * @param  Collection<int, string>  $fields
      */
     public function __construct(protected readonly string $type, protected readonly Collection $fields)
     {
@@ -34,7 +34,7 @@ class Criteria
     /**
      * Get the fields to include for the type.
      *
-     * @return Collection<string>
+     * @return Collection<int, string>
      */
     public function getFields(): Collection
     {

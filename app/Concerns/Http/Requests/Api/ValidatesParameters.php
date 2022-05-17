@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Concerns\Http\Requests\Api;
 
-use Illuminate\Support\Collection;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Spatie\ValidationRules\Rules\Delimited;
@@ -18,15 +18,19 @@ trait ValidatesParameters
      * Restrict the allowed types for the parameter.
      *
      * @param  string  $param
-     * @param  Collection  $types
-     * @return array
+     * @param  Arrayable<int, string>|string[]  $types
+     * @return array<string, array>
      */
-    protected function restrictAllowedTypes(string $param, Collection $types): array
+    protected function restrictAllowedTypes(string $param, Arrayable|array $types): array
     {
+        if ($types instanceof Arrayable) {
+            $types = $types->toArray();
+        }
+
         return [
             $param => [
                 'nullable',
-                Str::of('array:')->append($types->join(','))->__toString(),
+                Str::of('array:')->append(implode(',', $types))->__toString(),
             ],
         ];
     }
@@ -35,11 +39,11 @@ trait ValidatesParameters
      * Restrict the allowed values for the parameter.
      *
      * @param  string  $param
-     * @param  Collection  $values
+     * @param  Arrayable<int, string>|string[]|string  $values
      * @param  array  $customRules
-     * @return array
+     * @return array<string, array>
      */
-    protected function restrictAllowedValues(string $param, Collection $values, array $customRules = []): array
+    protected function restrictAllowedValues(string $param, Arrayable|array|string $values, array $customRules = []): array
     {
         return [
             $param => array_merge(
@@ -53,7 +57,7 @@ trait ValidatesParameters
      * Prohibit the parameter.
      *
      * @param  string  $param
-     * @return array
+     * @return array<string, array>
      */
     protected function prohibit(string $param): array
     {
@@ -69,7 +73,7 @@ trait ValidatesParameters
      *
      * @param  string  $param
      * @param  array  $customRules
-     * @return array
+     * @return array<string, array>
      */
     protected function optional(string $param, array $customRules = []): array
     {
@@ -86,7 +90,7 @@ trait ValidatesParameters
      *
      * @param  string  $param
      * @param  array  $customRules
-     * @return array
+     * @return array<string, array>
      */
     protected function require(string $param, array $customRules = []): array
     {

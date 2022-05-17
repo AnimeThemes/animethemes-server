@@ -49,6 +49,7 @@ return [
     'features' => [
         Features::termsAndPrivacyPolicy(),
         Features::api(),
+        Features::accountDeletion(),
     ],
 
     /*

@@ -22,8 +22,8 @@ use Laravel\Nova\Actions\Actionable;
 /**
  * Class Image.
  *
- * @property Collection $anime
- * @property Collection $artists
+ * @property Collection<int, Anime> $anime
+ * @property Collection<int, Artist> $artists
  * @property Enum|null $facet
  * @property int $image_id
  * @property string $mimetype

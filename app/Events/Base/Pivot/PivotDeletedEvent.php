@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events\Base\Pivot;
 
-use App\Enums\Services\Discord\EmbedColor;
+use App\Enums\Discord\EmbedColor;
 use App\Events\BasePivotEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;

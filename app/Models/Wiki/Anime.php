@@ -31,16 +31,16 @@ use Laravel\Nova\Actions\Actionable;
  * Class Anime.
  *
  * @property int $anime_id
- * @property Collection $animesynonyms
- * @property Collection $animethemes
- * @property Collection $images
+ * @property Collection<int, AnimeSynonym> $animesynonyms
+ * @property Collection<int, AnimeTheme> $animethemes
+ * @property Collection<int, Image> $images
  * @property string $name
  * @property BasePivot $pivot
- * @property Collection $resources
+ * @property Collection<int, ExternalResource> $resources
  * @property Enum|null $season
- * @property Collection $series
+ * @property Collection<int, Series> $series
  * @property string $slug
- * @property Collection $studios
+ * @property Collection<int, Studio> $studios
  * @property string|null $synopsis
  * @property int|null $year
  *

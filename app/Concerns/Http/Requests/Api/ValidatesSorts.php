@@ -8,7 +8,6 @@ use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Schema\Schema;
 use App\Rules\Api\DistinctIgnoringDirectionRule;
 use App\Rules\Api\RandomSoleRule;
-use Illuminate\Support\Collection;
 
 /**
  * Trait ValidatesSorts.
@@ -21,22 +20,19 @@ trait ValidatesSorts
      * Get allowed sorts for schema.
      *
      * @param  Schema  $schema
-     * @return Collection
+     * @return string[]
      */
-    protected function formatAllowedSortValues(Schema $schema): Collection
+    protected function formatAllowedSortValues(Schema $schema): array
     {
-        $allowedSorts = collect();
+        $allowedSorts = [];
 
         foreach ($schema->sorts() as $sort) {
             foreach (Direction::getInstances() as $direction) {
-                $formattedSort = $sort->format($direction);
-                if (! $allowedSorts->contains($formattedSort)) {
-                    $allowedSorts->push($formattedSort);
-                }
+                $allowedSorts[] = $sort->format($direction);
             }
         }
 
-        return $allowedSorts;
+        return array_unique($allowedSorts);
     }
 
     /**
@@ -44,7 +40,7 @@ trait ValidatesSorts
      *
      * @param  string  $param
      * @param  Schema  $schema
-     * @return array[]
+     * @return array<string, array>
      */
     protected function restrictAllowedSortValues(string $param, Schema $schema): array
     {

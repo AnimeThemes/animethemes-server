@@ -220,8 +220,7 @@ class SynonymShowTest extends TestCase
             AnimeSynonym::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
-        ])
-        ->first();
+        ]);
 
         $response = $this->get(route('api.animesynonym.show', ['animesynonym' => $synonym] + $parameters));
 

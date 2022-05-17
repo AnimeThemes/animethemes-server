@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Concerns\Reconcile\Billing\ReconcilesTransactionRepositories;
+use App\Concerns\Repositories\Billing\ReconcilesTransactionRepositories;
 use App\Models\BaseModel;
 use App\Repositories\Eloquent\Billing\DigitalOceanTransactionRepository as DigitalOceanDestinationRepository;
 use App\Repositories\Service\DigitalOcean\Billing\DigitalOceanTransactionRepository as DigitalOceanSourceRepository;

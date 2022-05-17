@@ -15,6 +15,7 @@ use App\Http\Api\Filter\TrashedFilter;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Sort\RandomSort;
 use App\Http\Api\Sort\Sort;
+use Illuminate\Support\Arr;
 
 /**
  * Class Schema.
@@ -97,7 +98,7 @@ abstract class Schema
      */
     public function relation(string $path): ?Schema
     {
-        $relationInclude = collect($this->allowedIncludes())->first(fn (AllowedInclude $include) => $include->path() === $path);
+        $relationInclude = Arr::first($this->allowedIncludes(), fn (AllowedInclude $include) => $include->path() === $path);
 
         return $relationInclude?->schema();
     }

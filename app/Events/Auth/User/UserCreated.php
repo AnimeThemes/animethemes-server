@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Events\Auth\User;
 
+use App\Constants\Config\ServiceConstants;
 use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
@@ -41,6 +42,6 @@ class UserCreated extends UserEvent implements DiscordMessageEvent
      */
     public function getDiscordChannel(): string
     {
-        return Config::get('services.discord.admin_discord_channel');
+        return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
     }
 }

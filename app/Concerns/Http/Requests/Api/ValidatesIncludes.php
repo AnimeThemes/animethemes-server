@@ -19,7 +19,7 @@ trait ValidatesIncludes
      *
      * @param  string  $param
      * @param  Schema  $schema
-     * @return array[]
+     * @return array<string, array>
      */
     protected function restrictAllowedIncludeValues(string $param, Schema $schema): array
     {

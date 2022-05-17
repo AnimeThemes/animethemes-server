@@ -21,7 +21,6 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property Carbon $created_at
  * @property Carbon $deleted_at
  * @property Carbon $updated_at
- * @mixin Builder
  */
 abstract class BaseModel extends Model implements Auditable, Nameable
 {
@@ -52,7 +51,7 @@ abstract class BaseModel extends Model implements Auditable, Nameable
      */
     public function resolveRouteBinding($value, $field = null): ?Model
     {
-        return $this->where($field ?? $this->getRouteKeyName(), $value)
+        return $this->newQuery()->where($field ?? $this->getRouteKeyName(), $value)
             ->withoutGlobalScope(SoftDeletingScope::class)
             ->first();
     }

@@ -13,9 +13,9 @@ use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Filter\WhereCriteria as BaseWhereCriteria;
 use App\Http\Api\Criteria\Filter\WhereInCriteria as BaseWhereInCriteria;
 use App\Http\Api\Scope\GlobalScope;
-use App\Services\Elasticsearch\Api\Criteria\Filter\WhereCriteria;
-use App\Services\Elasticsearch\Api\Criteria\Filter\WhereInCriteria;
-use App\Services\Elasticsearch\Api\Parser\FilterParser;
+use App\Scout\Elasticsearch\Api\Criteria\Filter\WhereCriteria;
+use App\Scout\Elasticsearch\Api\Criteria\Filter\WhereInCriteria;
+use App\Scout\Elasticsearch\Api\Parser\FilterParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 

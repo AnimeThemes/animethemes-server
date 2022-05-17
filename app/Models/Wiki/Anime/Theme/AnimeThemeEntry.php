@@ -36,7 +36,7 @@ use Znck\Eloquent\Relations\BelongsToThrough;
  * @property bool $spoiler
  * @property int $theme_id
  * @property int|null $version
- * @property Collection $videos
+ * @property Collection<int, Video> $videos
  *
  * @method static AnimeThemeEntryFactory factory(...$parameters)
  */

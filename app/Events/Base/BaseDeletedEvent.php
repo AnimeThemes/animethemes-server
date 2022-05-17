@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Base;
 
 use App\Contracts\Events\DiscordMessageEvent;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Enums\Discord\EmbedColor;
 use App\Events\BaseEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use NotificationChannels\Discord\DiscordMessage;

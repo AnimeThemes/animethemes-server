@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Console\Commands\Wiki;
 
-use App\Console\Commands\Wiki\VideoReconcileCommand;
+use App\Console\Commands\Wiki\Video\VideoReconcileCommand;
 use App\Models\Wiki\Video;
 use App\Repositories\Service\DigitalOcean\VideoRepository;
 use Illuminate\Foundation\Testing\WithFaker;
