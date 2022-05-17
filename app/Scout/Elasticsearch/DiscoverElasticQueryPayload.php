@@ -83,7 +83,7 @@ class DiscoverElasticQueryPayload
      */
     protected static function getPath(): string
     {
-        return app()->path(Str::of('Services')
+        return app()->path(Str::of('Scout')
             ->append(DIRECTORY_SEPARATOR)
             ->append('Elasticsearch')
             ->append(DIRECTORY_SEPARATOR)
