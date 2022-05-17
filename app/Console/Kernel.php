@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console;
 
-use App\Console\Commands\Billing\BalanceReconcileCommand;
-use App\Console\Commands\Billing\TransactionReconcileCommand;
+use App\Console\Commands\Billing\Balance\BalanceReconcileCommand;
+use App\Console\Commands\Billing\Transaction\TransactionReconcileCommand;
 use App\Console\Commands\Document\DocumentDatabaseDumpCommand;
 use App\Console\Commands\PruneDatabaseDumpsCommand;
 use App\Console\Commands\Wiki\WikiDatabaseDumpCommand;

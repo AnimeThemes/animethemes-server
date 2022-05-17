@@ -6,6 +6,7 @@ namespace App\Actions\Fortify;
 
 use App\Models\Auth\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -41,8 +42,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
-                User::ATTRIBUTE_NAME => $input['name'],
-                User::ATTRIBUTE_EMAIL => $input['email'],
+                User::ATTRIBUTE_NAME => Arr::get($input, 'name'),
+                User::ATTRIBUTE_EMAIL => Arr::get($input, 'email'),
             ])->save();
         }
     }
@@ -57,8 +58,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     protected function updateVerifiedUser(mixed $user, array $input): void
     {
         $user->forceFill([
-            User::ATTRIBUTE_NAME => $input['name'],
-            User::ATTRIBUTE_EMAIL => $input['email'],
+            User::ATTRIBUTE_NAME => Arr::get($input, 'name'),
+            User::ATTRIBUTE_EMAIL => Arr::get($input, 'email'),
             User::ATTRIBUTE_EMAIL_VERIFIED_AT => null,
         ])->save();
 

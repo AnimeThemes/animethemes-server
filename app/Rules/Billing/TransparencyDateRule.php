@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Rules\Billing;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
-use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
@@ -17,7 +17,7 @@ class TransparencyDateRule implements Rule
     /**
      * Create a new rule instance.
      *
-     * @param  Collection  $validDates
+     * @param  Collection<int, Carbon>  $validDates
      * @return void
      */
     public function __construct(protected readonly Collection $validDates)

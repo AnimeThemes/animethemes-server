@@ -20,9 +20,7 @@ class IntFilter extends Filter
     protected function convertFilterValues(array $filterValues): array
     {
         return array_map(
-            function (string $filterValue) {
-                return filter_var($filterValue, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
-            },
+            fn (string $filterValue) => filter_var($filterValue, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE),
             $filterValues
         );
     }
@@ -38,9 +36,7 @@ class IntFilter extends Filter
         return array_values(
             array_filter(
                 $filterValues,
-                function (string $filterValue) {
-                    return filter_var($filterValue, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE) !== null;
-                }
+                fn (string $filterValue) => filter_var($filterValue, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE) !== null
             )
         );
     }

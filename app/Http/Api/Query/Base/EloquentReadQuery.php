@@ -13,8 +13,8 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Scope\ScopeParser;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\BaseResource;
-use App\Services\Elasticsearch\Elasticsearch;
-use App\Services\Scout\Search;
+use App\Scout\Elasticsearch\Elasticsearch;
+use App\Scout\Search;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -113,10 +113,11 @@ abstract class EloquentReadQuery extends ReadQuery
         $schema = $this->schema();
 
         $includeCriteria = $this->getIncludeCriteria($schema->type());
+        if ($includeCriteria === null) {
+            return $constrainedEagerLoads;
+        }
 
-        $allowedIncludePaths = collect($includeCriteria?->getPaths());
-
-        foreach ($allowedIncludePaths as $allowedIncludePath) {
+        foreach ($includeCriteria->getPaths() as $allowedIncludePath) {
             $relationSchema = $schema->relation($allowedIncludePath);
             if ($relationSchema === null) {
                 throw new RuntimeException("Unknown relation '$allowedIncludePath' for type '{$schema->type()}'.");

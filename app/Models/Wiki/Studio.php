@@ -21,7 +21,7 @@ use Laravel\Nova\Actions\Actionable;
 /**
  * Class Studio.
  *
- * @property Collection $anime
+ * @property Collection<int, Anime> $anime
  * @property string $name
  * @property string $slug
  * @property int $studio_id

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Events\Base\Pivot;
 
-use App\Concerns\Services\Discord\HasAttributeUpdateEmbedFields;
-use App\Enums\Services\Discord\EmbedColor;
+use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
+use App\Enums\Discord\EmbedColor;
 use App\Events\BasePivotEvent;
 use Illuminate\Foundation\Events\Dispatchable;
 use NotificationChannels\Discord\DiscordMessage;

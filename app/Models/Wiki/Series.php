@@ -19,7 +19,7 @@ use Laravel\Nova\Actions\Actionable;
 /**
  * Class Series.
  *
- * @property Collection $anime
+ * @property Collection<int, Anime> $anime
  * @property string $name
  * @property int $series_id
  * @property string $slug

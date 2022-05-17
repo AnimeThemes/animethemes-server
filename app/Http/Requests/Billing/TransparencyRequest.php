@@ -10,10 +10,10 @@ use App\Enums\Http\Api\Sort\Direction;
 use App\Models\Billing\Balance;
 use App\Models\Billing\Transaction;
 use App\Rules\Billing\TransparencyDateRule;
-use Carbon\Carbon;
 use DateTime;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
@@ -24,7 +24,7 @@ class TransparencyRequest extends FormRequest
     /**
      * The list of valid transparency dates.
      *
-     * @var Collection
+     * @var Collection<int, Carbon>
      */
     protected readonly Collection $validDates;
 
@@ -52,7 +52,7 @@ class TransparencyRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, array>
      */
     public function rules(): array
     {
@@ -68,7 +68,7 @@ class TransparencyRequest extends FormRequest
     /**
      * Initialize list of year/month combinations for transparency filtering.
      *
-     * @return Collection
+     * @return Collection<int, Carbon>
      */
     protected function initializeValidDates(): Collection
     {
@@ -90,7 +90,7 @@ class TransparencyRequest extends FormRequest
     /**
      * Get the list of valid year/month combinations for transparency filtering.
      *
-     * @return Collection
+     * @return Collection<int, Carbon>
      */
     public function getValidDates(): Collection
     {
@@ -116,7 +116,7 @@ class TransparencyRequest extends FormRequest
     /**
      * Get Balances for selected month.
      *
-     * @return Collection
+     * @return Collection<int, Balance>
      */
     public function getBalances(): Collection
     {
@@ -142,7 +142,7 @@ class TransparencyRequest extends FormRequest
     /**
      * Get Transactions for selected month.
      *
-     * @return Collection
+     * @return Collection<int, Transaction>
      */
     public function getTransactions(): Collection
     {

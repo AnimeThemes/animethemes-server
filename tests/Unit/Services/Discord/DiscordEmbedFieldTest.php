@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\Discord;
 
+use App\Discord\DiscordEmbedField;
 use App\Enums\BaseEnum;
-use App\Services\Discord\DiscordEmbedField;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use stdClass;

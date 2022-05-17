@@ -34,9 +34,7 @@ class EnumFilter extends Filter
     protected function convertFilterValues(array $filterValues): array
     {
         return array_map(
-            function (string $filterValue) {
-                return $this->enumClass::fromDescription($filterValue)?->value;
-            },
+            fn (string $filterValue) => $this->enumClass::fromDescription($filterValue)?->value,
             $filterValues
         );
     }
@@ -52,9 +50,7 @@ class EnumFilter extends Filter
         return array_values(
             array_filter(
                 $filterValues,
-                function (string $filterValue) {
-                    return $this->enumClass::fromDescription($filterValue) !== null;
-                }
+                fn (string $filterValue) => $this->enumClass::fromDescription($filterValue) !== null
             )
         );
     }

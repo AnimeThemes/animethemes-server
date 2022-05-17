@@ -35,6 +35,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return $menu;
         });
 
+        // Disable the footer
         Nova::footer(fn () => '');
     }
 

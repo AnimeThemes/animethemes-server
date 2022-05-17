@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Console\Commands\Billing;
 
-use App\Console\Commands\Billing\BalanceReconcileCommand;
+use App\Console\Commands\Billing\Balance\BalanceReconcileCommand;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;

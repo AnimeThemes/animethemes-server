@@ -14,7 +14,7 @@ class Criteria
     /**
      * Create a new criteria instance.
      *
-     * @param  Collection<string>  $paths
+     * @param  Collection<int, string>  $paths
      */
     public function __construct(protected readonly Collection $paths)
     {
@@ -23,7 +23,7 @@ class Criteria
     /**
      * Get include paths.
      *
-     * @return Collection<string>
+     * @return Collection<int, string>
      */
     public function getPaths(): Collection
     {

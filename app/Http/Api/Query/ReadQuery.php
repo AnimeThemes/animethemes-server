@@ -124,7 +124,7 @@ abstract class ReadQuery implements Query
     /**
      * Get sort criteria.
      *
-     * @return Collection
+     * @return Collection<int, SortCriteria>
      */
     public function getSortCriteria(): Collection
     {
@@ -134,7 +134,7 @@ abstract class ReadQuery implements Query
     /**
      * Get filter criteria for the field.
      *
-     * @return Collection
+     * @return Collection<int, FilterCriteria>
      */
     public function getFilterCriteria(): Collection
     {

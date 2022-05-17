@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Concerns\Reconcile\Wiki\ReconcilesVideoRepositories;
+use App\Concerns\Repositories\Wiki\ReconcilesVideoRepositories;
 use App\Models\BaseModel;
 use App\Repositories\Eloquent\Wiki\VideoRepository as VideoDestinationRepository;
 use App\Repositories\Service\DigitalOcean\VideoRepository as VideoSourceRepository;

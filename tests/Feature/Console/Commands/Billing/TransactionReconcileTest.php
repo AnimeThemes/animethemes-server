@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Console\Commands\Billing;
 
-use App\Console\Commands\Billing\TransactionReconcileCommand;
+use App\Console\Commands\Billing\Transaction\TransactionReconcileCommand;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction;
 use App\Repositories\Service\DigitalOcean\Billing\DigitalOceanTransactionRepository;

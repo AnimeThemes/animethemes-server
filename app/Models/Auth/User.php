@@ -21,6 +21,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Nova\Actions\Actionable;
 use Laravel\Nova\Auth\Impersonatable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -33,7 +34,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $name
  * @property string $password
  * @property string $remember_token
- * @property Collection $tokens
+ * @property Collection<int, PersonalAccessToken> $tokens
  * @property string|null $two_factor_recovery_codes
  * @property string|null $two_factor_secret
  * @property Carbon $updated_at

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events\Base\Admin;
 
+use App\Constants\Config\ServiceConstants;
 use App\Events\Base\BaseCreatedEvent;
 use Illuminate\Support\Facades\Config;
 
@@ -22,6 +23,6 @@ abstract class AdminCreatedEvent extends BaseCreatedEvent
      */
     public function getDiscordChannel(): string
     {
-        return Config::get('services.discord.admin_discord_channel');
+        return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
     }
 }

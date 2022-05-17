@@ -20,7 +20,7 @@ trait ValidatesPaging
     /**
      * Validate offset pagination.
      *
-     * @return array
+     * @return array<string, array>
      */
     protected function offset(): array
     {
@@ -34,7 +34,7 @@ trait ValidatesPaging
     /**
      * Validate limit pagination.
      *
-     * @return array
+     * @return array<string, array>
      */
     protected function limit(): array
     {
@@ -49,7 +49,7 @@ trait ValidatesPaging
      *
      * @param  string  $param
      * @param  int  $min
-     * @return array
+     * @return array<string, array>
      */
     protected function min(string $param, int $min = 1): array
     {
@@ -64,7 +64,7 @@ trait ValidatesPaging
      * @param  string  $param
      * @param  int  $min
      * @param  int  $max
-     * @return array
+     * @return array<string, array>
      */
     protected function range(string $param, int $min = 1, int $max = Criteria::MAX_RESULTS): array
     {

@@ -18,7 +18,7 @@ class HasFilter extends Filter
     /**
      * The list of allowed include paths that the filter can be applied to.
      *
-     * @var Collection
+     * @var Collection<int, AllowedInclude>
      */
     protected readonly Collection $allowedIncludePaths;
 

@@ -9,9 +9,9 @@ use App\Http\Api\Criteria\Sort\FieldCriteria as BaseFieldCriteria;
 use App\Http\Api\Criteria\Sort\RandomCriteria;
 use App\Http\Api\Criteria\Sort\RelationCriteria as BaseRelationCriteria;
 use App\Http\Api\Scope\GlobalScope;
-use App\Services\Elasticsearch\Api\Criteria\Sort\FieldCriteria;
-use App\Services\Elasticsearch\Api\Criteria\Sort\RelationCriteria;
-use App\Services\Elasticsearch\Api\Parser\SortParser;
+use App\Scout\Elasticsearch\Api\Criteria\Sort\FieldCriteria;
+use App\Scout\Elasticsearch\Api\Criteria\Sort\RelationCriteria;
+use App\Scout\Elasticsearch\Api\Parser\SortParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 

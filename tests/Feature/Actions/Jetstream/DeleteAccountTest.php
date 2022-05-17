@@ -32,7 +32,7 @@ class DeleteAccountTest extends TestCase
             ->set('password', 'password')
             ->call('deleteUser');
 
-        static::assertNull($user->fresh());
+        static::assertSoftDeleted($user->fresh());
     }
 
     /**
@@ -53,6 +53,6 @@ class DeleteAccountTest extends TestCase
                         ->call('deleteUser')
                         ->assertHasErrors(['password']);
 
-        static::assertNotNull($user->fresh());
+        static::assertNotSoftDeleted($user->fresh());
     }
 }
