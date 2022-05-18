@@ -32,8 +32,10 @@ abstract class IndexRequest extends ReadRequest
         $schema = $this->schema();
         $types = collect(Arr::wrap($schema->type()));
 
-        $schemaFormattedFilters = $this->getSchemaFormattedFilters($schema)
-            + $this->getFilterFormats(new HasFilter($schema->allowedIncludes()), BinaryLogicalOperator::getInstances());
+        $schemaFormattedFilters = array_merge(
+            $this->getSchemaFormattedFilters($schema),
+            $this->getFilterFormats(new HasFilter($schema->allowedIncludes()), BinaryLogicalOperator::getInstances())
+        );
 
         $param = Str::of(FilterParser::param())->append('.')->append($schema->type())->__toString();
         $rules = $this->restrictAllowedTypes($param, $schemaFormattedFilters);
