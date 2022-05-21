@@ -12,6 +12,7 @@ use App\Http\Api\Query\ReadQuery;
 use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
 use ElasticScoutDriverPlus\Builders\QueryBuilderInterface;
 use ElasticScoutDriverPlus\Support\Query as ElasticQuery;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -89,7 +90,7 @@ class WhereCriteria extends Criteria
      */
     protected function coerceFilterValue(Filter $filter): string
     {
-        $filterValue = collect($filter->getFilterValues($this->criteria->getFilterValues()))->first();
+        $filterValue = Arr::first($filter->getFilterValues($this->criteria->getFilterValues()));
 
         // Elasticsearch wants 'true' or 'false' for boolean fields
         if (is_bool($filterValue)) {

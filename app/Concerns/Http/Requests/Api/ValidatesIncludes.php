@@ -6,6 +6,7 @@ namespace App\Concerns\Http\Requests\Api;
 
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Schema;
+use Illuminate\Support\Arr;
 
 /**
  * Trait ValidatesIncludes.
@@ -25,7 +26,7 @@ trait ValidatesIncludes
     {
         return $this->restrictAllowedValues(
             $param,
-            collect($schema->allowedIncludes())->map(fn (AllowedInclude $include) => $include->path())
+            Arr::map($schema->allowedIncludes(), fn (AllowedInclude $include) => $include->path())
         );
     }
 }

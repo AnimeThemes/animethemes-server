@@ -70,7 +70,7 @@ abstract class ReadRequest extends BaseRequest
             $rules = $rules + $this->restrictAllowedFieldValues($relationSchema);
         }
 
-        return $rules + $this->restrictAllowedTypes(FieldParser::param(), collect($types));
+        return $rules + $this->restrictAllowedTypes(FieldParser::param(), $types);
     }
 
     /**

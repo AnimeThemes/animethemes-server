@@ -161,7 +161,7 @@ class Video extends Resource
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->nullable()
                 ->sortable()
-                ->rules(['nullable', (new EnumValue(VideoOverlap::class, false))->__toString()])
+                ->rules(['nullable', new EnumValue(VideoOverlap::class, false)])
                 ->help(__('nova.video_overlap_help'))
                 ->showOnPreview()
                 ->filterable(),
@@ -171,7 +171,7 @@ class Video extends Resource
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->nullable()
                 ->sortable()
-                ->rules(['nullable', (new EnumValue(VideoSource::class, false))->__toString()])
+                ->rules(['nullable', new EnumValue(VideoSource::class, false)])
                 ->help(__('nova.video_source_help'))
                 ->showOnPreview()
                 ->filterable(),

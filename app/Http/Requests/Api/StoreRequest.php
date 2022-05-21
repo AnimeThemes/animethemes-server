@@ -6,6 +6,7 @@ namespace App\Http\Requests\Api;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Http\Api\Field\Field;
+use Illuminate\Support\Arr;
 
 /**
  * Class StoreRequest.
@@ -50,8 +51,9 @@ abstract class StoreRequest extends WriteRequest
      */
     protected function getFieldsForPreparation(): array
     {
-        return collect($this->schema()->fields())
-            ->filter(fn (Field $field) => $field instanceof CreatableField)
-            ->all();
+        return Arr::where(
+            $this->schema()->fields(),
+            fn (Field $field) => $field instanceof CreatableField
+        );
     }
 }

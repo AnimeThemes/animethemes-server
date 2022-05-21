@@ -7,6 +7,7 @@ namespace App\Concerns\Http\Requests\Api;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Schema\Schema;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -26,7 +27,7 @@ trait ValidatesFields
     {
         return $this->restrictAllowedValues(
             Str::of(FieldParser::param())->append('.')->append($schema->type())->__toString(),
-            collect($schema->fields())->map(fn (Field $field) => $field->getKey())
+            Arr::map($schema->fields(), fn (Field $field) => $field->getKey())
         );
     }
 }

@@ -19,7 +19,7 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Arr;
 
 /**
  * Class ReadQuery.
@@ -91,7 +91,7 @@ abstract class ReadQuery implements Query
      */
     public function getFieldCriteria(string $type): ?FieldCriteria
     {
-        return collect($this->fieldCriteria)->first(fn (FieldCriteria $criteria) => $criteria->getType() === $type);
+        return Arr::first($this->fieldCriteria, fn (FieldCriteria $criteria) => $criteria->getType() === $type);
     }
 
     /**
@@ -103,7 +103,8 @@ abstract class ReadQuery implements Query
     public function getIncludeCriteria(string $type): ?IncludeCriteria
     {
         return $this->getResourceIncludeCriteria($type) ??
-            collect($this->includeCriteria)->first(
+            Arr::first(
+                $this->includeCriteria,
                 fn (IncludeCriteria $criteria) => get_class($criteria) === IncludeCriteria::class
             );
     }
@@ -116,7 +117,8 @@ abstract class ReadQuery implements Query
      */
     public function getResourceIncludeCriteria(string $type): ?IncludeCriteria
     {
-        return collect($this->includeCriteria)->first(
+        return Arr::first(
+            $this->includeCriteria,
             fn (IncludeCriteria $criteria) => $criteria instanceof ResourceCriteria && $criteria->getType() === $type
         );
     }
@@ -124,21 +126,21 @@ abstract class ReadQuery implements Query
     /**
      * Get sort criteria.
      *
-     * @return Collection<int, SortCriteria>
+     * @return SortCriteria[]
      */
-    public function getSortCriteria(): Collection
+    public function getSortCriteria(): array
     {
-        return collect($this->sortCriteria);
+        return $this->sortCriteria;
     }
 
     /**
      * Get filter criteria for the field.
      *
-     * @return Collection<int, FilterCriteria>
+     * @return FilterCriteria[]
      */
-    public function getFilterCriteria(): Collection
+    public function getFilterCriteria(): array
     {
-        return collect($this->filterCriteria);
+        return $this->filterCriteria;
     }
 
     /**
@@ -148,7 +150,7 @@ abstract class ReadQuery implements Query
      */
     public function hasSearchCriteria(): bool
     {
-        return collect($this->searchCriteria)->isNotEmpty();
+        return ! empty($this->searchCriteria);
     }
 
     /**
@@ -159,7 +161,7 @@ abstract class ReadQuery implements Query
      */
     public function getSearchCriteria(): ?SearchCriteria
     {
-        return collect($this->searchCriteria)->first();
+        return Arr::first($this->searchCriteria);
     }
 
     /**
@@ -170,7 +172,8 @@ abstract class ReadQuery implements Query
      */
     public function getPagingCriteria(PaginationStrategy $strategy): ?PagingCriteria
     {
-        return collect($this->pagingCriteria)->first(
+        return Arr::first(
+            $this->pagingCriteria,
             fn (PagingCriteria $criteria) => $strategy->is($criteria->getStrategy())
         );
     }

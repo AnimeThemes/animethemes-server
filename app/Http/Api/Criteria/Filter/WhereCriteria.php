@@ -100,7 +100,7 @@ class WhereCriteria extends Criteria
         return $builder->where(
             $builder->qualifyColumn($filter->getColumn()),
             $this->getComparisonOperator()?->value,
-            collect($filter->getFilterValues($this->getFilterValues())),
+            $filter->getFilterValues($this->getFilterValues()),
             $this->getLogicalOperator()->value
         );
     }

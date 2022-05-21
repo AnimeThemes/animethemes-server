@@ -24,7 +24,7 @@ abstract class BackfillAnimeImage extends BackfillAnimePipe
      * Handle an incoming request.
      *
      * @param  User  $user
-     * @param  Closure  $next
+     * @param  Closure(User): mixed  $next
      * @return mixed
      *
      * @throws RequestException

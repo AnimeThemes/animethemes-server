@@ -9,7 +9,6 @@ use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\IntField;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 /**
  * Class AnimeYearField.
@@ -32,12 +31,14 @@ class AnimeYearField extends IntField implements CreatableField, UpdatableField
      */
     public function getCreationRules(Request $request): array
     {
+        $nextYear = intval(date('Y')) + 1;
+
         return [
             'required',
             'integer',
             'digits:4',
             'min:1960',
-            Str::of('max:')->append(intval(date('Y')) + 1)->__toString(),
+            "max:$nextYear",
         ];
     }
 
@@ -49,13 +50,15 @@ class AnimeYearField extends IntField implements CreatableField, UpdatableField
      */
     public function getUpdateRules(Request $request): array
     {
+        $nextYear = intval(date('Y')) + 1;
+
         return [
             'sometimes',
             'required',
             'integer',
             'digits:4',
             'min:1960',
-            Str::of('max:')->append(intval(date('Y')) + 1)->__toString(),
+            "max:$nextYear",
         ];
     }
 }

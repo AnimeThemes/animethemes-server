@@ -99,7 +99,7 @@ class QueryTest extends TestCase
 
         $query = new FakeReadQuery($parameters);
 
-        static::assertEquals($fields->count(), $query->getSortCriteria()->count());
+        static::assertCount($fields->count(), $query->getSortCriteria());
     }
 
     /**
@@ -118,7 +118,7 @@ class QueryTest extends TestCase
 
         $query = new FakeReadQuery($parameters);
 
-        static::assertEquals($filterCount, $query->getFilterCriteria()->count());
+        static::assertCount($filterCount, $query->getFilterCriteria());
     }
 
     /**

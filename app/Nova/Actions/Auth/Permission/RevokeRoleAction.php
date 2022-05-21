@@ -36,9 +36,9 @@ class RevokeRoleAction extends Action
      *
      * @param  ActionFields  $fields
      * @param  Collection<int, Permission>  $models
-     * @return mixed
+     * @return Collection<int, Permission>
      */
-    public function handle(ActionFields $fields, Collection $models): mixed
+    public function handle(ActionFields $fields, Collection $models): Collection
     {
         $role = Role::findById(intval($fields->get(self::FIELD_ROLE)));
 

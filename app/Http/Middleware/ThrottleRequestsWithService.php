@@ -23,7 +23,7 @@ class ThrottleRequestsWithService
      * Handle an incoming request.
      *
      * @param  Request  $request
-     * @param  Closure  $next
+     * @param  Closure(Request): mixed  $next
      * @param  int|string  $maxAttempts
      * @param  float|int  $decayMinutes
      * @param  string  $prefix

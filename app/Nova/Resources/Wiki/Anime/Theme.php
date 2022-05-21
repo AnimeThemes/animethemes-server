@@ -180,7 +180,7 @@ class Theme extends Resource
                 ->options(ThemeType::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
-                ->rules(['required', (new EnumValue(ThemeType::class, false))->__toString()])
+                ->rules(['required', new EnumValue(ThemeType::class, false)])
                 ->help(__('nova.anime_theme_type_help'))
                 ->showOnPreview()
                 ->filterable(),

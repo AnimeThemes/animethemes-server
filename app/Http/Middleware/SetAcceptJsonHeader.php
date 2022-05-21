@@ -16,7 +16,7 @@ class SetAcceptJsonHeader
      * Handle an incoming request.
      *
      * @param  Request  $request
-     * @param  Closure  $next
+     * @param  Closure(Request): mixed  $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next): mixed

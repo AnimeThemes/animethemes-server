@@ -185,7 +185,7 @@ class Anime extends Resource
                 ->options(AnimeSeason::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
-                ->rules(['required', (new EnumValue(AnimeSeason::class, false))->__toString()])
+                ->rules(['required', new EnumValue(AnimeSeason::class, false)])
                 ->help(__('nova.anime_season_help'))
                 ->showOnPreview()
                 ->filterable(),

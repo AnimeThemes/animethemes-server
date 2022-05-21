@@ -68,7 +68,7 @@ class VideoTest extends TestCase
 
         $response = $this->get(route('video.show', ['video' => $video]));
 
-        $response->assertOk();
+        $response->assertSuccessful();
         $response->assertHeader('X-Accel-Redirect');
     }
 

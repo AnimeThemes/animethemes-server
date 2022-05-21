@@ -7,7 +7,6 @@ namespace App\Http\Api\Filter;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use DateTime;
-use Illuminate\Support\Str;
 
 /**
  * Class DateFilter.
@@ -81,10 +80,10 @@ class DateFilter extends Filter
      */
     public function getRules(): array
     {
-        $dateFormats = collect(AllowedDateFormat::getValues())->join(',');
+        $dateFormats = implode(',', AllowedDateFormat::getValues());
 
         return [
-            Str::of('date_format:')->append($dateFormats)->__toString(),
+            "date_format:$dateFormats",
         ];
     }
 

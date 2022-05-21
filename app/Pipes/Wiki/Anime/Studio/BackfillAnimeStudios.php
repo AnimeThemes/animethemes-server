@@ -13,7 +13,6 @@ use App\Pivots\StudioResource;
 use Closure;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -31,7 +30,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
      * Handle an incoming request.
      *
      * @param  User  $user
-     * @param  Closure  $next
+     * @param  Closure(User): mixed  $next
      * @return mixed
      *
      * @throws RequestException
@@ -46,7 +45,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
 
         $studios = $this->getStudios();
 
-        if ($studios->isNotEmpty()) {
+        if (! empty($studios)) {
             $this->attachStudiosToAnime($studios);
         }
 
@@ -60,16 +59,16 @@ class BackfillAnimeStudios extends BackfillAnimePipe
     /**
      * Query third-party API for Anime Studios.
      *
-     * @return Collection<int, Studio>
+     * @return Studio[]
      *
      * @throws RequestException
      */
-    protected function getStudios(): Collection
+    protected function getStudios(): array
     {
         $malResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
         if ($malResource instanceof ExternalResource) {
             $studios = $this->getMalAnimeStudios($malResource);
-            if ($studios->isNotEmpty()) {
+            if (! empty($studios)) {
                 return $studios;
             }
         }
@@ -77,7 +76,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
         $anilistResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
         if ($anilistResource instanceof ExternalResource) {
             $studios = $this->getAnilistAnimeStudios($anilistResource);
-            if ($studios->isNotEmpty()) {
+            if (! empty($studios)) {
                 return $studios;
             }
         }
@@ -85,7 +84,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
         $kitsuResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU);
         if ($kitsuResource instanceof ExternalResource) {
             $studios = $this->getKitsuAnimeStudios($kitsuResource);
-            if ($studios->isNotEmpty()) {
+            if (! empty($studios)) {
                 return $studios;
             }
         }
@@ -95,20 +94,20 @@ class BackfillAnimeStudios extends BackfillAnimePipe
             return $this->getAnnAnimeStudios($annResource);
         }
 
-        return collect();
+        return [];
     }
 
     /**
      * Query MAL API for Anime Studios.
      *
      * @param  ExternalResource  $malResource
-     * @return Collection<int, Studio>
+     * @return Studio[]
      *
      * @throws RequestException
      */
-    protected function getMalAnimeStudios(ExternalResource $malResource): Collection
+    protected function getMalAnimeStudios(ExternalResource $malResource): array
     {
-        $studios = collect();
+        $studios = [];
 
         $malClientID = Config::get('services.mal.client');
         if ($malClientID === null) {
@@ -134,7 +133,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
 
             $studio = $this->getOrCreateStudio($name);
 
-            $studios->push($studio);
+            $studios[] = $studio;
 
             $this->ensureStudioHasResource($studio, ResourceSite::MAL(), $id);
         }
@@ -146,13 +145,13 @@ class BackfillAnimeStudios extends BackfillAnimePipe
      * Query Anilist API for Anime Studios.
      *
      * @param  ExternalResource  $anilistResource
-     * @return Collection<int, Studio>
+     * @return Studio[]
      *
      * @throws RequestException
      */
-    protected function getAnilistAnimeStudios(ExternalResource $anilistResource): Collection
+    protected function getAnilistAnimeStudios(ExternalResource $anilistResource): array
     {
-        $studios = collect();
+        $studios = [];
 
         $query = '
         query ($id: Int) {
@@ -190,7 +189,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
 
             $studio = $this->getOrCreateStudio($name);
 
-            $studios->push($studio);
+            $studios[] = $studio;
 
             $this->ensureStudioHasResource($studio, ResourceSite::ANILIST(), $id);
         }
@@ -202,13 +201,13 @@ class BackfillAnimeStudios extends BackfillAnimePipe
      * Query Kitsu API for Anime Studios.
      *
      * @param  ExternalResource  $kitsuResource
-     * @return Collection<int, Studio>
+     * @return Studio[]
      *
      * @throws RequestException
      */
-    protected function getKitsuAnimeStudios(ExternalResource $kitsuResource): Collection
+    protected function getKitsuAnimeStudios(ExternalResource $kitsuResource): array
     {
-        $studios = collect();
+        $studios = [];
 
         $query = '
         query ($id: ID!) {
@@ -248,7 +247,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
 
             $studio = $this->getOrCreateStudio($name);
 
-            $studios->push($studio);
+            $studios[] = $studio;
         }
 
         return $studios;
@@ -258,13 +257,13 @@ class BackfillAnimeStudios extends BackfillAnimePipe
      * Query ANN API for Anime Studios.
      *
      * @param  ExternalResource  $annResource
-     * @return Collection<int, Studio>
+     * @return Studio[]
      *
      * @throws RequestException
      */
-    protected function getAnnAnimeStudios(ExternalResource $annResource): Collection
+    protected function getAnnAnimeStudios(ExternalResource $annResource): array
     {
-        $studios = collect();
+        $studios = [];
 
         $response = Http::get("https://cdn.animenewsnetwork.com/encyclopedia/api.xml?anime=$annResource->external_id")
             ->throw()
@@ -290,7 +289,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
 
             $studio = $this->getOrCreateStudio($name);
 
-            $studios->push($studio);
+            $studios[] = $studio;
 
             $this->ensureStudioHasResource($studio, ResourceSite::ANN(), intval($id));
         }
@@ -361,12 +360,12 @@ class BackfillAnimeStudios extends BackfillAnimePipe
     /**
      * Attach Studios to Anime.
      *
-     * @param  Collection<int, Studio>  $studios
+     * @param  Studio[]  $studios
      * @return void
      */
-    protected function attachStudiosToAnime(Collection $studios): void
+    protected function attachStudiosToAnime(array $studios): void
     {
-        $results = $this->anime->studios()->sync($studios->pluck(Studio::ATTRIBUTE_ID));
+        $results = $this->anime->studios()->sync(Arr::pluck($studios, Studio::ATTRIBUTE_ID));
 
         if (count($results['attached'])) {
             Log::info("Attached Studios to anime '{$this->anime->getName()}'", $results['attached']);

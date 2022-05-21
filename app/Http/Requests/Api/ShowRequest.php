@@ -31,20 +31,20 @@ abstract class ShowRequest extends ReadRequest
         }
 
         $rules = [];
-        $types = collect();
+        $types = [];
 
         foreach ($allowedIncludes as $allowedInclude) {
             $relationSchema = $allowedInclude->schema();
-            $types->push($relationSchema->type());
+            $types[] = $relationSchema->type();
 
             $relationSchemaFormattedFilters = $this->getSchemaFormattedFilters($relationSchema);
-            $types = $types->concat($relationSchemaFormattedFilters);
+            $types = array_merge($types, $relationSchemaFormattedFilters);
 
             $param = Str::of(FilterParser::param())->append('.')->append($relationSchema->type())->__toString();
             $rules = $rules + $this->restrictAllowedTypes($param, $relationSchemaFormattedFilters);
         }
 
-        return $rules + $this->restrictAllowedTypes(FilterParser::param(), $types->unique());
+        return $rules + $this->restrictAllowedTypes(FilterParser::param(), array_unique($types));
     }
 
     /**
@@ -82,11 +82,11 @@ abstract class ShowRequest extends ReadRequest
         }
 
         $rules = [];
-        $types = collect();
+        $types = [];
 
         foreach ($allowedIncludes as $allowedInclude) {
             $relationSchema = $allowedInclude->schema();
-            $types->push($relationSchema->type());
+            $types[] = $relationSchema->type();
 
             $param = Str::of(SortParser::param())->append('.')->append($relationSchema->type())->__toString();
             $rules = $rules + $this->restrictAllowedSortValues($param, $relationSchema);
