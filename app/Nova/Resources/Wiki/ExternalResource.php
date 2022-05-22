@@ -139,7 +139,7 @@ class ExternalResource extends Resource
                 ->options(ResourceSite::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
-                ->rules(['required', (new EnumValue(ResourceSite::class, false))->__toString()])
+                ->rules(['required', new EnumValue(ResourceSite::class, false)])
                 ->help(__('nova.resource_site_help'))
                 ->showOnPreview()
                 ->filterable()

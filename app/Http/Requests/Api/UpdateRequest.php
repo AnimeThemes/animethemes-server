@@ -6,6 +6,7 @@ namespace App\Http\Requests\Api;
 
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\Field;
+use Illuminate\Support\Arr;
 
 /**
  * Class UpdateRequest.
@@ -50,8 +51,9 @@ abstract class UpdateRequest extends WriteRequest
      */
     protected function getFieldsForPreparation(): array
     {
-        return collect($this->schema()->fields())
-            ->filter(fn (Field $field) => $field instanceof UpdatableField)
-            ->all();
+        return Arr::where(
+            $this->schema()->fields(),
+            fn (Field $field) => $field instanceof UpdatableField
+        );
     }
 }

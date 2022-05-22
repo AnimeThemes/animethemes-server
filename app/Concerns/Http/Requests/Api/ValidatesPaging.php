@@ -25,7 +25,7 @@ trait ValidatesPaging
     protected function offset(): array
     {
         return array_merge(
-            $this->restrictAllowedTypes(PagingParser::param(), collect([OffsetCriteria::NUMBER_PARAM, OffsetCriteria::SIZE_PARAM])),
+            $this->restrictAllowedTypes(PagingParser::param(), [OffsetCriteria::NUMBER_PARAM, OffsetCriteria::SIZE_PARAM]),
             $this->min(Str::of(PagingParser::param())->append('.')->append(OffsetCriteria::NUMBER_PARAM)->__toString()),
             $this->range(Str::of(PagingParser::param())->append('.')->append(OffsetCriteria::SIZE_PARAM)->__toString()),
         );
@@ -39,7 +39,7 @@ trait ValidatesPaging
     protected function limit(): array
     {
         return array_merge(
-            $this->restrictAllowedTypes(PagingParser::param(), collect([LimitCriteria::PARAM])),
+            $this->restrictAllowedTypes(PagingParser::param(), [LimitCriteria::PARAM]),
             $this->range(Str::of(PagingParser::param())->append('.')->append(LimitCriteria::PARAM)->__toString()),
         );
     }
@@ -53,9 +53,7 @@ trait ValidatesPaging
      */
     protected function min(string $param, int $min = 1): array
     {
-        $minRule = Str::of('min:')->append($min)->__toString();
-
-        return $this->optional($param, ['integer', $minRule]);
+        return $this->optional($param, ['integer', "min:$min"]);
     }
 
     /**
@@ -68,9 +66,6 @@ trait ValidatesPaging
      */
     protected function range(string $param, int $min = 1, int $max = Criteria::MAX_RESULTS): array
     {
-        $minRule = Str::of('min:')->append($min)->__toString();
-        $maxRule = Str::of('max:')->append($max)->__toString();
-
-        return $this->optional($param, ['integer', $minRule, $maxRule]);
+        return $this->optional($param, ['integer', "min:$min", "max:$max"]);
     }
 }

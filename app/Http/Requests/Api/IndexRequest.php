@@ -30,7 +30,7 @@ abstract class IndexRequest extends ReadRequest
     protected function getFilterRules(): array
     {
         $schema = $this->schema();
-        $types = collect(Arr::wrap($schema->type()));
+        $types = Arr::wrap($schema->type());
 
         $schemaFormattedFilters = array_merge(
             $this->getSchemaFormattedFilters($schema),
@@ -40,20 +40,20 @@ abstract class IndexRequest extends ReadRequest
         $param = Str::of(FilterParser::param())->append('.')->append($schema->type())->__toString();
         $rules = $this->restrictAllowedTypes($param, $schemaFormattedFilters);
 
-        $types = $types->concat($schemaFormattedFilters);
+        $types = array_merge($types, $schemaFormattedFilters);
 
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $relationSchema = $allowedInclude->schema();
-            $types->push($relationSchema->type());
+            $types[] = $relationSchema->type();
 
             $relationSchemaFormattedFilters = $this->getSchemaFormattedFilters($relationSchema);
-            $types = $types->concat($relationSchemaFormattedFilters);
+            $types = array_merge($types, $relationSchemaFormattedFilters);
 
             $param = Str::of(FilterParser::param())->append('.')->append($relationSchema->type())->__toString();
             $rules = $rules + $this->restrictAllowedTypes($param, $relationSchemaFormattedFilters);
         }
 
-        return $rules + $this->restrictAllowedTypes(FilterParser::param(), $types->unique());
+        return $rules + $this->restrictAllowedTypes(FilterParser::param(), array_unique($types));
     }
 
     /**
@@ -169,7 +169,7 @@ abstract class IndexRequest extends ReadRequest
 
         $validator->sometimes(
             SortParser::param(),
-            ['nullable', Str::of('array:')->append(collect($types)->join(','))->__toString()],
+            ['nullable', Str::of('array:')->append(implode(',', $types))->__toString()],
             fn (Fluent $fluent) => is_array($fluent->get(SortParser::param()))
         );
     }

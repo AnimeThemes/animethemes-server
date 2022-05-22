@@ -19,7 +19,7 @@ class IsVideoStreamingAllowed
      * Handle an incoming request.
      *
      * @param  Request  $request
-     * @param  Closure  $next
+     * @param  Closure(Request): mixed  $next
      * @return mixed
      *
      * @throws HttpException

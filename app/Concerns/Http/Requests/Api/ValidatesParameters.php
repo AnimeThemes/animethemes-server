@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Concerns\Http\Requests\Api;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Spatie\ValidationRules\Rules\Delimited;
 
@@ -27,10 +26,12 @@ trait ValidatesParameters
             $types = $types->toArray();
         }
 
+        $types = implode(',', $types);
+
         return [
             $param => [
                 'nullable',
-                Str::of('array:')->append(implode(',', $types))->__toString(),
+                "array:$types",
             ],
         ];
     }

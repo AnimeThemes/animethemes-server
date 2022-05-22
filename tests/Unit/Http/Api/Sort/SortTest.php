@@ -7,7 +7,6 @@ namespace Tests\Unit\Http\Api\Sort;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -54,8 +53,6 @@ class SortTest extends TestCase
 
         $sort = new Sort($sortField);
 
-        $descendingSortField = Str::of('-')->append($sortField)->__toString();
-
-        static::assertEquals($descendingSortField, $sort->format(Direction::DESCENDING()));
+        static::assertEquals("-$sortField", $sort->format(Direction::DESCENDING()));
     }
 }

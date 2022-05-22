@@ -133,7 +133,7 @@ class Transaction extends Resource
                 ->options(Service::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
-                ->rules(['required', (new EnumValue(Service::class, false))->__toString()])
+                ->rules(['required', new EnumValue(Service::class, false)])
                 ->help(__('nova.billing_service_help'))
                 ->showOnPreview()
                 ->filterable(),

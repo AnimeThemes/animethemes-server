@@ -56,23 +56,6 @@ class VideoTest extends TestCase
     }
 
     /**
-     * If video streaming is enabled, the video show route shall stream the video through nginx.
-     *
-     * @return void
-     */
-    public function testVideoStreaming(): void
-    {
-        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
-
-        $video = Video::factory()->createOne();
-
-        $response = $this->get(route('video.show', ['video' => $video]));
-
-        $response->assertOk();
-        $response->assertHeader('X-Accel-Redirect');
-    }
-
-    /**
      * If view recording is disabled, the video show route shall not record a view for the video.
      *
      * @return void

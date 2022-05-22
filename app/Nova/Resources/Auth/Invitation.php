@@ -153,7 +153,7 @@ class Invitation extends Resource
                 ->options(InvitationStatus::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
-                ->rules(['required', (new EnumValue(InvitationStatus::class, false))->__toString()])
+                ->rules(['required', new EnumValue(InvitationStatus::class, false)])
                 ->showOnPreview()
                 ->filterable(),
 

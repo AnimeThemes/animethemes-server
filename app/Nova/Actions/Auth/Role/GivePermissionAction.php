@@ -36,9 +36,9 @@ class GivePermissionAction extends Action
      *
      * @param  ActionFields  $fields
      * @param  Collection<int, Role>  $models
-     * @return mixed
+     * @return Collection<int, Role>
      */
-    public function handle(ActionFields $fields, Collection $models): mixed
+    public function handle(ActionFields $fields, Collection $models): Collection
     {
         $permission = Permission::findById(intval($fields->get(self::FIELD_PERMISSION)));
 

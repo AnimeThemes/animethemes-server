@@ -135,7 +135,7 @@ class Image extends Resource
                 ->options(ImageFacet::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
-                ->rules(['required', (new EnumValue(ImageFacet::class, false))->__toString()])
+                ->rules(['required', new EnumValue(ImageFacet::class, false)])
                 ->help(__('nova.image_facet_help'))
                 ->showOnPreview()
                 ->filterable(),

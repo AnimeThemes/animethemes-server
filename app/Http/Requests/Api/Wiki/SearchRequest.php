@@ -47,7 +47,7 @@ class SearchRequest extends ReadRequest
             }
         }
 
-        return $rules + $this->restrictAllowedTypes(FieldParser::param(), collect($types));
+        return $rules + $this->restrictAllowedTypes(FieldParser::param(), $types);
     }
 
     /**
@@ -59,31 +59,31 @@ class SearchRequest extends ReadRequest
     {
         $schema = $this->schema();
         $rules = [];
-        $types = collect();
+        $types = [];
 
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $resourceSchema = $allowedInclude->schema();
-            $types->push($resourceSchema->type());
+            $types[] = $resourceSchema->type();
 
             $resourceSchemaFormattedFilters = $this->getSchemaFormattedFilters($resourceSchema);
-            $types = $types->concat($resourceSchemaFormattedFilters);
+            $types = array_merge($types, $resourceSchemaFormattedFilters);
 
             $param = Str::of(FilterParser::param())->append('.')->append($resourceSchema->type())->__toString();
             $rules = $rules + $this->restrictAllowedTypes($param, $resourceSchemaFormattedFilters);
 
             foreach ($resourceSchema->allowedIncludes() as $resourceAllowedIncludePath) {
                 $resourceRelationSchema = $resourceAllowedIncludePath->schema();
-                $types->push($resourceRelationSchema->type());
+                $types[] = $resourceRelationSchema->type();
 
                 $relationSchemaFormattedFilters = $this->getSchemaFormattedFilters($resourceRelationSchema);
-                $types = $types->concat($relationSchemaFormattedFilters);
+                $types = array_merge($types, $relationSchemaFormattedFilters);
 
                 $param = Str::of(FilterParser::param())->append('.')->append($resourceRelationSchema->type())->__toString();
                 $rules = $rules + $this->restrictAllowedTypes($param, $relationSchemaFormattedFilters);
             }
         }
 
-        return $rules + $this->restrictAllowedTypes(FilterParser::param(), $types->unique());
+        return $rules + $this->restrictAllowedTypes(FilterParser::param(), array_unique($types));
     }
 
     /**
@@ -97,17 +97,16 @@ class SearchRequest extends ReadRequest
     {
         $schema = $this->schema();
 
-        $types = collect();
-
         $rules = [];
+        $types = [];
 
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $resourceSchema = $allowedInclude->schema();
 
-            $resourceIncludes = collect($resourceSchema->allowedIncludes());
+            $resourceIncludes = $resourceSchema->allowedIncludes();
 
-            if ($resourceIncludes->isNotEmpty()) {
-                $types->push($resourceSchema->type());
+            if (! empty($resourceIncludes)) {
+                $types[] = $resourceSchema->type();
 
                 $param = Str::of(IncludeParser::param())->append('.')->append($resourceSchema->type())->__toString();
 
@@ -147,14 +146,13 @@ class SearchRequest extends ReadRequest
     {
         $schema = $this->schema();
 
-        $types = collect();
-
         $rules = [];
+        $types = [];
 
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $resourceSchema = $allowedInclude->schema();
 
-            $types->push($resourceSchema->type());
+            $types[] = $resourceSchema->type();
 
             $param = Str::of(SortParser::param())->append('.')->append($resourceSchema->type())->__toString();
 
@@ -163,7 +161,7 @@ class SearchRequest extends ReadRequest
             foreach ($resourceSchema->allowedIncludes() as $resourceAllowedIncludePath) {
                 $resourceRelationSchema = $resourceAllowedIncludePath->schema();
 
-                $types->push($resourceRelationSchema->type());
+                $types[] = $resourceRelationSchema->type();
 
                 $param = Str::of(SortParser::param())->append('.')->append($resourceRelationSchema->type())->__toString();
 

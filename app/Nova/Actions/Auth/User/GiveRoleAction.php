@@ -36,9 +36,9 @@ class GiveRoleAction extends Action
      *
      * @param  ActionFields  $fields
      * @param  Collection<int, User>  $models
-     * @return mixed
+     * @return Collection<int, User>
      */
-    public function handle(ActionFields $fields, Collection $models): mixed
+    public function handle(ActionFields $fields, Collection $models): Collection
     {
         $role = Role::findById(intval($fields->get(self::FIELD_ROLE)));
 

@@ -16,7 +16,7 @@ interface Pipe
      * Handle an incoming request.
      *
      * @param  User  $user
-     * @param  Closure  $next
+     * @param  Closure(User): mixed  $next
      * @return mixed
      */
     public function handle(User $user, Closure $next): mixed;

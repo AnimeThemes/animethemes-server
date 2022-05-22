@@ -7,7 +7,7 @@ namespace App\Http\Api\Filter;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Criteria\Filter\HasCriteria;
 use App\Http\Api\Include\AllowedInclude;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
 /**
@@ -16,22 +16,13 @@ use Illuminate\Validation\Rule;
 class HasFilter extends Filter
 {
     /**
-     * The list of allowed include paths that the filter can be applied to.
-     *
-     * @var Collection<int, AllowedInclude>
-     */
-    protected readonly Collection $allowedIncludePaths;
-
-    /**
      * Create a new filter instance.
      *
      * @param  AllowedInclude[]  $allowedIncludePaths
      */
-    public function __construct(array $allowedIncludePaths)
+    public function __construct(protected readonly array $allowedIncludePaths)
     {
         parent::__construct(HasCriteria::PARAM_VALUE, HasCriteria::PARAM_VALUE);
-
-        $this->allowedIncludePaths = collect($allowedIncludePaths);
     }
 
     /**
@@ -53,16 +44,9 @@ class HasFilter extends Filter
      */
     protected function getValidFilterValues(array $filterValues): array
     {
-        return array_values(
-            array_filter(
-                $filterValues,
-                function (string $filterValue) {
-                    return $this->allowedIncludePaths->contains(
-                        fn (AllowedInclude $allowedInclude) => $allowedInclude->path() === $filterValue
-                    );
-                }
-            )
-        );
+        $paths = Arr::map($this->allowedIncludePaths, fn (AllowedInclude $allowedInclude) => $allowedInclude->path());
+
+        return array_intersect($filterValues, $paths);
     }
 
     /**
@@ -84,7 +68,7 @@ class HasFilter extends Filter
      */
     public function getRules(): array
     {
-        $paths = $this->allowedIncludePaths->map(fn (AllowedInclude $allowedInclude) => $allowedInclude->path());
+        $paths = Arr::map($this->allowedIncludePaths, fn (AllowedInclude $allowedInclude) => $allowedInclude->path());
 
         return [
             Rule::in($paths),

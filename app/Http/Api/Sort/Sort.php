@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Api\Sort;
 
 use App\Enums\Http\Api\Sort\Direction;
-use Illuminate\Support\Str;
 
 /**
  * Class Sort.
@@ -51,7 +50,7 @@ class Sort
     public function format(Direction $direction): string
     {
         return match ($direction->value) {
-            Direction::DESCENDING => Str::of('-')->append($this->getKey())->__toString(),
+            Direction::DESCENDING => "-{$this->getKey()}",
             default => $this->getKey(),
         };
     }
