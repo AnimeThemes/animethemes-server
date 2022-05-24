@@ -63,12 +63,12 @@ class ThemeSchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
-            new AllowedInclude(AnimeSchema::class, AnimeTheme::RELATION_ANIME),
-            new AllowedInclude(ArtistSchema::class, AnimeTheme::RELATION_ARTISTS),
-            new AllowedInclude(EntrySchema::class, AnimeTheme::RELATION_ENTRIES),
-            new AllowedInclude(ImageSchema::class, AnimeTheme::RELATION_IMAGES),
-            new AllowedInclude(SongSchema::class, AnimeTheme::RELATION_SONG),
-            new AllowedInclude(VideoSchema::class, AnimeTheme::RELATION_VIDEOS),
+            new AllowedInclude(new AnimeSchema(), AnimeTheme::RELATION_ANIME),
+            new AllowedInclude(new ArtistSchema(), AnimeTheme::RELATION_ARTISTS),
+            new AllowedInclude(new EntrySchema(), AnimeTheme::RELATION_ENTRIES),
+            new AllowedInclude(new ImageSchema(), AnimeTheme::RELATION_IMAGES),
+            new AllowedInclude(new SongSchema(), AnimeTheme::RELATION_SONG),
+            new AllowedInclude(new VideoSchema(), AnimeTheme::RELATION_VIDEOS),
         ];
     }
 

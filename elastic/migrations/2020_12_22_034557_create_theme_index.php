@@ -16,7 +16,7 @@ final class CreateThemeIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('anime_themes', function (Mapping $mapping) {
+        Index::createIfNotExists('anime_themes', function (Mapping $mapping) {
             $mapping->nested('anime', [
                 'properties' => [
                     'anime_id' => [
@@ -70,12 +70,23 @@ final class CreateThemeIndex implements MigrationInterface
             $mapping->long('anime_id');
             $mapping->text('anime_slug');
             $mapping->date('created_at');
-            $mapping->text('group');
+            $mapping->text('group', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->long('sequence');
             $mapping->text('slug', [
                 'copy_to' => [
                     'anime_slug',
                     'synonym_slug',
+                ],
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
                 ],
             ]);
             $mapping->nested('song', [

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Concerns\Http\Requests\Api;
 
+use App\Contracts\Http\Api\Schema\SchemaInterface;
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\LogicalOperator;
 use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
 use App\Http\Api\Criteria\Filter\Criteria;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Parser\FilterParser;
-use App\Http\Api\Schema\Schema;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
@@ -27,10 +27,10 @@ trait ValidatesFilters
     /**
      * Get the list of formatted filters for the schema.
      *
-     * @param  Schema  $schema
+     * @param  SchemaInterface  $schema
      * @return string[]
      */
-    protected function getSchemaFormattedFilters(Schema $schema): array
+    protected function getSchemaFormattedFilters(SchemaInterface $schema): array
     {
         $schemaFilters = [];
 
@@ -75,11 +75,11 @@ trait ValidatesFilters
     /**
      * Get possible qualified parameter values for formatted filter.
      *
-     * @param  Schema  $schema
+     * @param  SchemaInterface  $schema
      * @param  string  $formattedFilter
      * @return string[]
      */
-    protected function getFormattedParameters(Schema $schema, string $formattedFilter): array
+    protected function getFormattedParameters(SchemaInterface $schema, string $formattedFilter): array
     {
         return [
             Str::of(FilterParser::param())
@@ -100,11 +100,11 @@ trait ValidatesFilters
      * Restrict filter based on allowed formats and provided values.
      *
      * @param  Validator  $validator
-     * @param  Schema  $schema
+     * @param  SchemaInterface  $schema
      * @param  Filter  $filter
      * @return void
      */
-    protected function conditionallyRestrictFilter(Validator $validator, Schema $schema, Filter $filter): void
+    protected function conditionallyRestrictFilter(Validator $validator, SchemaInterface $schema, Filter $filter): void
     {
         $singleValueFilterFormats = $this->getFilterFormats($filter, BinaryLogicalOperator::getInstances());
         foreach ($singleValueFilterFormats as $singleValueFilterFormat) {

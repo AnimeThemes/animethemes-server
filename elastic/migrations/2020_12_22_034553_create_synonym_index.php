@@ -16,7 +16,7 @@ final class CreateSynonymIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('anime_synonyms', function (Mapping $mapping) {
+        Index::createIfNotExists('anime_synonyms', function (Mapping $mapping) {
             $mapping->nested('anime', [
                 'properties' => [
                     'anime_id' => [
@@ -48,7 +48,13 @@ final class CreateSynonymIndex implements MigrationInterface
             $mapping->long('anime_id');
             $mapping->date('created_at');
             $mapping->long('synonym_id');
-            $mapping->text('text');
+            $mapping->text('text', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->date('updated_at');
         });
     }

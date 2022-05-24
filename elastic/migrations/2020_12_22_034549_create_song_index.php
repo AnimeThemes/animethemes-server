@@ -16,10 +16,16 @@ final class CreateSongIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('songs', function (Mapping $mapping) {
+        Index::createIfNotExists('songs', function (Mapping $mapping) {
             $mapping->date('created_at');
             $mapping->long('song_id');
-            $mapping->text('title');
+            $mapping->text('title', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->date('updated_at');
         });
     }

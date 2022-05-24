@@ -40,13 +40,13 @@ class SearchSchema extends Schema
     public function allowedIncludes(): array
     {
         return [
-            new AllowedInclude(AnimeSchema::class, ''),
-            new AllowedInclude(ThemeSchema::class, ''),
-            new AllowedInclude(ArtistSchema::class, ''),
-            new AllowedInclude(SeriesSchema::class, ''),
-            new AllowedInclude(SongSchema::class, ''),
-            new AllowedInclude(StudioSchema::class, ''),
-            new AllowedInclude(VideoSchema::class, ''),
+            new AllowedInclude(new AnimeSchema(), ''),
+            new AllowedInclude(new ThemeSchema(), ''),
+            new AllowedInclude(new ArtistSchema(), ''),
+            new AllowedInclude(new SeriesSchema(), ''),
+            new AllowedInclude(new SongSchema(), ''),
+            new AllowedInclude(new StudioSchema(), ''),
+            new AllowedInclude(new VideoSchema(), ''),
         ];
     }
 

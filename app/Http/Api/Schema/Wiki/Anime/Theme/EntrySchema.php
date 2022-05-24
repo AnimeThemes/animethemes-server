@@ -53,9 +53,9 @@ class EntrySchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
-            new AllowedInclude(AnimeSchema::class, AnimeThemeEntry::RELATION_ANIME),
-            new AllowedInclude(ThemeSchema::class, AnimeThemeEntry::RELATION_THEME),
-            new AllowedInclude(VideoSchema::class, AnimeThemeEntry::RELATION_VIDEOS),
+            new AllowedInclude(new AnimeSchema(), AnimeThemeEntry::RELATION_ANIME),
+            new AllowedInclude(new ThemeSchema(), AnimeThemeEntry::RELATION_THEME),
+            new AllowedInclude(new VideoSchema(), AnimeThemeEntry::RELATION_VIDEOS),
         ];
     }
 

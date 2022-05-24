@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Api\Query;
 
 use App\Models\Wiki\Video;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
+use App\Scout\Elasticsearch\Api\Schema\Wiki\VideoSchema;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
@@ -24,6 +26,16 @@ class VideoQueryPayload extends ElasticQueryPayload
     public static function model(): string
     {
         return Video::class;
+    }
+
+    /**
+     * The schema this payload is searching.
+     *
+     * @return Schema
+     */
+    public function schema(): Schema
+    {
+        return new VideoSchema();
     }
 
     /**

@@ -85,7 +85,7 @@ class Elasticsearch extends Search
             throw new RuntimeException("ElasticQueryPayload not configured for model '$model'");
         }
 
-        $schema = $query->schema();
+        $schema = $elasticQueryPayload->schema();
 
         // initialize builder with payload for matches
         $builder = $elasticQueryPayload->buildQuery();

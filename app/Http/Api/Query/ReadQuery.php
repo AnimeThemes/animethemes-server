@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Query;
 
-use App\Contracts\Http\Api\Query\Query;
+use App\Contracts\Http\Api\Query\QueryInterface;
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Criteria\Field\Criteria as FieldCriteria;
 use App\Http\Api\Criteria\Filter\Criteria as FilterCriteria;
@@ -24,7 +24,7 @@ use Illuminate\Support\Arr;
 /**
  * Class ReadQuery.
  */
-abstract class ReadQuery implements Query
+abstract class ReadQuery implements QueryInterface
 {
     /**
      * The list of sparse fieldset criteria to apply to the query.

@@ -47,7 +47,7 @@ class SynonymSchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
-            new AllowedInclude(AnimeSchema::class, AnimeSynonym::RELATION_ANIME),
+            new AllowedInclude(new AnimeSchema(), AnimeSynonym::RELATION_ANIME),
         ];
     }
 

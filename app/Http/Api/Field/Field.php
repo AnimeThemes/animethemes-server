@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field;
 
+use App\Contracts\Http\Api\Field\FieldInterface;
+
 /**
  * Class Field.
  */
-abstract class Field
+abstract class Field implements FieldInterface
 {
     /**
      * Create a new field instance.

@@ -16,9 +16,15 @@ final class CreateVideoIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('videos', function (Mapping $mapping) {
+        Index::createIfNotExists('videos', function (Mapping $mapping) {
             $mapping->text('anime_slug');
-            $mapping->text('basename');
+            $mapping->text('basename', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->date('created_at');
             $mapping->nested('entries', [
                 'properties' => [
@@ -163,14 +169,32 @@ final class CreateVideoIndex implements MigrationInterface
                     ],
                 ],
             ]);
-            $mapping->text('filename');
+            $mapping->text('filename', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->boolean('lyrics');
             $mapping->boolean('nc');
             $mapping->long('overlap');
-            $mapping->text('path');
+            $mapping->text('path', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->long('resolution');
             $mapping->long('size');
-            $mapping->text('mimetype');
+            $mapping->text('mimetype', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->long('source');
             $mapping->boolean('subbed');
             $mapping->text('synonym_slug');

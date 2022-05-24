@@ -16,11 +16,23 @@ final class CreateArtistIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('artists', function (Mapping $mapping) {
+        Index::createIfNotExists('artists', function (Mapping $mapping) {
             $mapping->long('artist_id');
             $mapping->date('created_at');
-            $mapping->text('name');
-            $mapping->text('slug');
+            $mapping->text('name', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
+            $mapping->text('slug', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->nested('songs', [
                 'properties' => [
                     'created_at' => [
