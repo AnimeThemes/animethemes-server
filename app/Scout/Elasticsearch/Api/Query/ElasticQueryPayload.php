@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Api\Query;
 
 use App\Http\Api\Criteria\Search\Criteria;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
 /**
@@ -27,6 +28,13 @@ abstract class ElasticQueryPayload
      * @return string
      */
     abstract public static function model(): string;
+
+    /**
+     * The schema this payload is searching.
+     *
+     * @return Schema
+     */
+    abstract public function schema(): Schema;
 
     /**
      * Build Elasticsearch query.

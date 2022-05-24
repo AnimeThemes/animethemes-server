@@ -46,12 +46,12 @@ class SeriesSchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
-            new AllowedInclude(AnimeSchema::class, Series::RELATION_ANIME),
+            new AllowedInclude(new AnimeSchema(), Series::RELATION_ANIME),
 
             // Undocumented paths needed for client builds
-            new AllowedInclude(ImageSchema::class, 'anime.images'),
-            new AllowedInclude(VideoSchema::class, 'anime.animethemes.animethemeentries.videos'),
-            new AllowedInclude(SongSchema::class, 'anime.animethemes.song'),
+            new AllowedInclude(new ImageSchema(), 'anime.images'),
+            new AllowedInclude(new VideoSchema(), 'anime.animethemes.animethemeentries.videos'),
+            new AllowedInclude(new SongSchema(), 'anime.animethemes.song'),
         ];
     }
 

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Api\Query;
 
 use App\Models\Wiki\Artist;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
+use App\Scout\Elasticsearch\Api\Schema\Wiki\ArtistSchema;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
@@ -24,6 +26,16 @@ class ArtistQueryPayload extends ElasticQueryPayload
     public static function model(): string
     {
         return Artist::class;
+    }
+
+    /**
+     * The schema this payload is searching.
+     *
+     * @return Schema
+     */
+    public function schema(): Schema
+    {
+        return new ArtistSchema();
     }
 
     /**

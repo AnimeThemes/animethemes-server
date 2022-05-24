@@ -69,7 +69,7 @@ class HasFilterTest extends TestCase
 
         $allowedIncludes = Collection::times(
             $this->faker->randomDigitNotNull(),
-            fn () => new AllowedInclude(get_class($schema), $this->faker->word())
+            fn () => new AllowedInclude($schema, $this->faker->word())
         );
 
         $filter = new HasFilter($allowedIncludes->all());
@@ -121,7 +121,7 @@ class HasFilterTest extends TestCase
 
         $allowedIncludes = Collection::times(
             $this->faker->randomDigitNotNull(),
-            fn () => new AllowedInclude(get_class($schema), $this->faker->word())
+            fn () => new AllowedInclude($schema, $this->faker->word())
         );
 
         $criteria = FakeCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $allowedIncludes->random()->path());

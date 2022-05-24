@@ -16,12 +16,24 @@ final class CreateAnimeIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('anime', function (Mapping $mapping) {
+        Index::createIfNotExists('anime', function (Mapping $mapping) {
             $mapping->long('anime_id');
             $mapping->date('created_at');
-            $mapping->text('name');
+            $mapping->text('name', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->long('season');
-            $mapping->text('slug');
+            $mapping->text('slug', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->nested('synonyms', [
                 'properties' => [
                     'anime_id' => [
@@ -41,7 +53,13 @@ final class CreateAnimeIndex implements MigrationInterface
                     ],
                 ],
             ]);
-            $mapping->text('synopsis');
+            $mapping->text('synopsis', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->date('updated_at');
             $mapping->long('year');
         });

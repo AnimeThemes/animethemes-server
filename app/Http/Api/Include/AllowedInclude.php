@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Include;
 
-use App\Http\Api\Schema\Schema;
+use App\Contracts\Http\Api\Schema\SchemaInterface;
 
 /**
  * Class AllowedInclude.
@@ -12,29 +12,21 @@ use App\Http\Api\Schema\Schema;
 class AllowedInclude
 {
     /**
-     * The schema of the relation.
-     *
-     * @var Schema
-     */
-    protected readonly Schema $schema;
-
-    /**
      * Create a new AllowedIncludePath instance.
      *
-     * @param  class-string<Schema>  $schemaClass
+     * @param  SchemaInterface  $schema
      * @param  string  $path
      */
-    final public function __construct(string $schemaClass, protected readonly string $path)
+    final public function __construct(protected readonly SchemaInterface $schema, protected readonly string $path)
     {
-        $this->schema = new $schemaClass();
     }
 
     /**
      * Get the schema.
      *
-     * @return Schema
+     * @return SchemaInterface
      */
-    public function schema(): Schema
+    public function schema(): SchemaInterface
     {
         return $this->schema;
     }

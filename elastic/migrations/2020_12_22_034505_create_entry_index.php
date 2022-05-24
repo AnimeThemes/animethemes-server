@@ -16,12 +16,24 @@ final class CreateEntryIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('anime_theme_entries', function (Mapping $mapping) {
+        Index::createIfNotExists('anime_theme_entries', function (Mapping $mapping) {
             $mapping->text('anime_slug');
             $mapping->date('created_at');
             $mapping->long('entry_id');
-            $mapping->text('episodes');
-            $mapping->text('notes');
+            $mapping->text('episodes', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
+            $mapping->text('notes', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->boolean('nsfw');
             $mapping->boolean('spoiler');
             $mapping->text('synonym_slug');
@@ -136,6 +148,11 @@ final class CreateEntryIndex implements MigrationInterface
                     'version_slug',
                     'anime_slug',
                     'synonym_slug',
+                ],
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
                 ],
             ]);
             $mapping->text('version_slug');

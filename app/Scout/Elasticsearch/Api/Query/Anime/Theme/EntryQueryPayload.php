@@ -6,6 +6,8 @@ namespace App\Scout\Elasticsearch\Api\Query\Anime\Theme;
 
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
+use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
@@ -25,6 +27,16 @@ class EntryQueryPayload extends ElasticQueryPayload
     public static function model(): string
     {
         return AnimeThemeEntry::class;
+    }
+
+    /**
+     * The schema this payload is searching.
+     *
+     * @return Schema
+     */
+    public function schema(): Schema
+    {
+        return new EntrySchema();
     }
 
     /**

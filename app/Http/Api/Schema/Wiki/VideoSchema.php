@@ -60,9 +60,9 @@ class VideoSchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
-            new AllowedInclude(AnimeSchema::class, Video::RELATION_ANIME),
-            new AllowedInclude(EntrySchema::class, Video::RELATION_ANIMETHEMEENTRIES),
-            new AllowedInclude(ThemeSchema::class, Video::RELATION_ANIMETHEME),
+            new AllowedInclude(new AnimeSchema(), Video::RELATION_ANIME),
+            new AllowedInclude(new EntrySchema(), Video::RELATION_ANIMETHEMEENTRIES),
+            new AllowedInclude(new ThemeSchema(), Video::RELATION_ANIMETHEME),
         ];
     }
 

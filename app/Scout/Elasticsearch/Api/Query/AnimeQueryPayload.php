@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Api\Query;
 
 use App\Models\Wiki\Anime;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
+use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 use ElasticScoutDriverPlus\Support\Query;
 
@@ -21,6 +23,16 @@ class AnimeQueryPayload extends ElasticQueryPayload
     public static function model(): string
     {
         return Anime::class;
+    }
+
+    /**
+     * The schema this payload is searching.
+     *
+     * @return Schema
+     */
+    public function schema(): Schema
+    {
+        return new AnimeSchema();
     }
 
     /**
@@ -135,11 +147,6 @@ class AnimeQueryPayload extends ElasticQueryPayload
                 ],
             ]);
 
-        return Anime::searchQuery($query)
-            ->sortRaw([
-                '_score',
-                'year',
-                'season',
-            ]);
+        return Anime::searchQuery($query);
     }
 }

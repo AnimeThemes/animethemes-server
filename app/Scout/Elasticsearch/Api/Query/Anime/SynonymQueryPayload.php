@@ -6,6 +6,8 @@ namespace App\Scout\Elasticsearch\Api\Query\Anime;
 
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
+use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\SynonymSchema;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
@@ -24,6 +26,16 @@ class SynonymQueryPayload extends ElasticQueryPayload
     public static function model(): string
     {
         return AnimeSynonym::class;
+    }
+
+    /**
+     * The schema this payload is searching.
+     *
+     * @return Schema
+     */
+    public function schema(): Schema
+    {
+        return new SynonymSchema();
     }
 
     /**

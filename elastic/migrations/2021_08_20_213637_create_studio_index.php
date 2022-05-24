@@ -16,10 +16,22 @@ final class CreateStudioIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::create('studios', function (Mapping $mapping) {
+        Index::createIfNotExists('studios', function (Mapping $mapping) {
             $mapping->date('created_at');
-            $mapping->text('name');
-            $mapping->text('slug');
+            $mapping->text('name', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
+            $mapping->text('slug', [
+                'fields' => [
+                    'sort' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->long('studio_id');
             $mapping->date('updated_at');
         });

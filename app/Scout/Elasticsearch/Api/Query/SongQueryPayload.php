@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Api\Query;
 
 use App\Models\Wiki\Song;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
+use App\Scout\Elasticsearch\Api\Schema\Wiki\SongSchema;
 use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
@@ -23,6 +25,16 @@ class SongQueryPayload extends ElasticQueryPayload
     public static function model(): string
     {
         return Song::class;
+    }
+
+    /**
+     * The schema this payload is searching.
+     *
+     * @return Schema
+     */
+    public function schema(): Schema
+    {
+        return new SongSchema();
     }
 
     /**

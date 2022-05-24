@@ -6,6 +6,7 @@ namespace App\Http\Api\Schema;
 
 use App\Contracts\Http\Api\Field\FilterableField;
 use App\Contracts\Http\Api\Field\SortableField;
+use App\Contracts\Http\Api\Schema\SchemaInterface;
 use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\DeletedAtField;
 use App\Http\Api\Field\Base\UpdatedAtField;
@@ -20,22 +21,8 @@ use Illuminate\Support\Arr;
 /**
  * Class Schema.
  */
-abstract class Schema
+abstract class Schema implements SchemaInterface
 {
-    /**
-     * Get the type of the resource.
-     *
-     * @return string
-     */
-    abstract public function type(): string;
-
-    /**
-     * Get the allowed includes.
-     *
-     * @return AllowedInclude[]
-     */
-    abstract public function allowedIncludes(): array;
-
     /**
      * Get the direct fields of the resource.
      *
@@ -57,17 +44,11 @@ abstract class Schema
      */
     public function filters(): array
     {
-        $filters = [];
-
-        foreach ($this->fields() as $field) {
-            if ($field instanceof FilterableField) {
-                $filters[] = $field->getFilter();
-            }
-        }
-
-        $filters[] = new TrashedFilter();
-
-        return $filters;
+        return collect($this->fields())
+            ->filter(fn (Field $field) => $field instanceof FilterableField)
+            ->map(fn (FilterableField $field) => $field->getFilter())
+            ->push(new TrashedFilter())
+            ->all();
     }
 
     /**
@@ -77,17 +58,11 @@ abstract class Schema
      */
     public function sorts(): array
     {
-        $sorts = [];
-
-        foreach ($this->fields() as $field) {
-            if ($field instanceof SortableField) {
-                $sorts[] = $field->getSort();
-            }
-        }
-
-        $sorts[] = new RandomSort();
-
-        return $sorts;
+        return collect($this->fields())
+            ->filter(fn (Field $field) => $field instanceof SortableField)
+            ->map(fn (SortableField $field) => $field->getSort())
+            ->push(new RandomSort())
+            ->all();
     }
 
     /**

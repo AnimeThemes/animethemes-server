@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api;
 
-use App\Contracts\Http\Api\Query\Query;
+use App\Contracts\Http\Api\Query\QueryInterface;
 use App\Http\Api\Schema\Schema;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -37,7 +37,7 @@ abstract class BaseRequest extends FormRequest
     /**
      * Get the validation API Query.
      *
-     * @return Query
+     * @return QueryInterface
      */
-    abstract public function getQuery(): Query;
+    abstract public function getQuery(): QueryInterface;
 }
