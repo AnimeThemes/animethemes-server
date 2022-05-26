@@ -7,9 +7,11 @@ namespace App\Http\Resources\Config\Resource;
 use App\Constants\Config\WikiConstants;
 use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
-use App\Models\Wiki\Video;
+use App\Http\Resources\Pivot\Resource\AnimeThemeEntryVideoResource;
+use App\Pivots\AnimeThemeEntryVideo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class WikiResource.
@@ -47,12 +49,14 @@ class WikiResource extends BaseResource
         $result = [];
 
         if ($this->isAllowedField(WikiConstants::FEATURED_THEME_SETTING)) {
-            $video = Video::query()->firstWhere(
-                Video::ATTRIBUTE_BASENAME,
-                config(WikiConstants::FEATURED_THEME_SETTING_QUALIFIED)
-            );
+            /** @var AnimeThemeEntryVideo|null */
+            $pivot = AnimeThemeEntryVideo::query()
+                ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, Config::get('wiki.featured_entry'))
+                ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, Config::get('wiki.featured_video'))
+                ->with([AnimeThemeEntryVideo::RELATION_ANIME, AnimeThemeEntryVideo::RELATION_VIDEO])
+                ->first();
 
-            $result[WikiConstants::FEATURED_THEME_SETTING] = $video instanceof Video ? route('video.show', ['video' => $video]) : null;
+            $result[WikiConstants::FEATURED_THEME_SETTING] = new AnimeThemeEntryVideoResource($pivot, $this->query);
         }
 
         return $result;

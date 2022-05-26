@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Config;
 
 use App\Constants\Config\WikiConstants;
+use App\Events\Wiki\Anime\Theme\ThemeCreating;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query\Config\WikiReadQuery;
 use App\Http\Api\Schema\Config\WikiSchema;
 use App\Http\Resources\Config\Resource\WikiResource;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
+use App\Pivots\AnimeThemeEntryVideo;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -22,7 +27,6 @@ use Tests\TestCase;
 class WikiShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Wiki Show Endpoint shall return a Flags Resource.
@@ -31,9 +35,15 @@ class WikiShowTest extends TestCase
      */
     public function testDefault(): void
     {
-        $video = Video::factory()->createOne();
+        Event::fakeExcept(ThemeCreating::class);
 
-        Config::set(WikiConstants::FEATURED_THEME_SETTING_QUALIFIED, $video->basename);
+        $pivot = AnimeThemeEntryVideo::factory()
+            ->for(Video::factory())
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->createOne();
+
+        Config::set(WikiConstants::FEATURED_ENTRY_SETTING_QUALIFIED, $pivot->entry_id);
+        Config::set(WikiConstants::FEATURED_VIDEO_SETTING_QUALIFIED, $pivot->video_id);
 
         $response = $this->get(route('api.config.wiki.show'));
 
@@ -56,9 +66,15 @@ class WikiShowTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        $video = Video::factory()->createOne();
+        Event::fakeExcept(ThemeCreating::class);
 
-        Config::set(WikiConstants::FEATURED_THEME_SETTING_QUALIFIED, $video->basename);
+        $pivot = AnimeThemeEntryVideo::factory()
+            ->for(Video::factory())
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->createOne();
+
+        Config::set(WikiConstants::FEATURED_ENTRY_SETTING_QUALIFIED, $pivot->entry_id);
+        Config::set(WikiConstants::FEATURED_VIDEO_SETTING_QUALIFIED, $pivot->video_id);
 
         $schema = new WikiSchema();
 
