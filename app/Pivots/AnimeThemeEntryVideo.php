@@ -15,7 +15,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Class AnimeThemeEntryVideo.
  *
  * @property AnimeThemeEntry $animethemeentry
+ * @property int $entry_id
  * @property Video $video
+ * @property int $video_id
  *
  * @method static AnimeThemeEntryVideoFactory factory(...$parameters)
  */
@@ -25,6 +27,10 @@ class AnimeThemeEntryVideo extends BasePivot
 
     final public const ATTRIBUTE_ENTRY = 'entry_id';
     final public const ATTRIBUTE_VIDEO = 'video_id';
+
+    final public const RELATION_ANIME = 'animethemeentry.animetheme.anime';
+    final public const RELATION_ENTRY = 'animethemeentry';
+    final public const RELATION_VIDEO = 'video';
 
     /**
      * The table associated with the model.
