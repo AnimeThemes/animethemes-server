@@ -6,11 +6,11 @@ namespace App\Http\Middleware;
 
 use App\Concerns\DetectsRedis;
 use Closure;
-use Illuminate\Cache\RateLimiter;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\RateLimiter;
 
 /**
  * Class ThrottleRequestsWithService.
@@ -43,7 +43,7 @@ class ThrottleRequestsWithService
 
         // Use named limiter if configured, else use default handling
         // Note: framework requires that we pass exactly 3 arguments to use named limiter
-        if (App::make(RateLimiter::class)->limiter($maxAttempts) !== null) {
+        if (RateLimiter::limiter($maxAttempts) !== null) {
             return $middleware->handle($request, $next, $maxAttempts);
         }
 
