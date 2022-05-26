@@ -163,6 +163,9 @@ class PermissionSeeder extends Seeder
         $viewLogs = Permission::findOrCreate('view logs');
         $adminPermissions[] = $viewLogs;
 
+        $bypassApiRateLimiter = Permission::findOrCreate('bypass api rate limiter');
+        $adminPermissions[] = $bypassApiRateLimiter;
+
         $admin->givePermissionTo($adminPermissions);
         $editor->givePermissionTo($editorPermissions);
         $viewer->givePermissionTo($viewerPermissions);

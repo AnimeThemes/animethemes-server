@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Constants\Config\WikiConstants;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -13,7 +12,6 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
@@ -70,7 +68,7 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             // Allow the client to bypass API rate limiting
             $user = $request->user('sanctum');
-            if ($user instanceof User && $user->getKey() === Config::get(WikiConstants::CLIENT_ACCOUNT_SETTING_QUALIFIED)) {
+            if ($user instanceof User && $user->can('bypass api rate limiter')) {
                 return Limit::none();
             }
 
