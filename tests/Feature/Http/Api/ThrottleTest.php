@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api;
 
-use App\Constants\Config\WikiConstants;
 use App\Models\Auth\User;
-use Illuminate\Support\Facades\Config;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 /**
- * Class ClientAccountTest.
+ * Class ThrottleTest.
  */
-class ClientAccountTest extends TestCase
+class ThrottleTest extends TestCase
 {
     /**
      * By default, the user shall be rate limited when using the API.
@@ -29,17 +27,15 @@ class ClientAccountTest extends TestCase
     }
 
     /**
-     * The configured wiki client account shall not be rate limited.
+     * Users with the 'bypass api rate limiter' permission  shall not be rate limited.
      *
      * @return void
      */
     public function testClientNotRateLimited(): void
     {
-        $client = User::factory()->createOne();
+        $user = User::factory()->withPermission('bypass api rate limiter')->createOne();
 
-        Config::set(WikiConstants::CLIENT_ACCOUNT_SETTING_QUALIFIED, $client->getKey());
-
-        Sanctum::actingAs($client, ['read anime']);
+        Sanctum::actingAs($user);
 
         $response = $this->get(route('api.anime.index'));
 

@@ -17,16 +17,4 @@ return [
     */
 
     'featured_theme' => env('WIKI_FEATURED_THEME'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Client Account
-    |--------------------------------------------------------------------------
-    |
-    | This is the user that is created to authenticate the client to the app.
-    | This user will bypass our API rate limiter to support reasonable build times.
-    |
-    */
-
-    'client_account' => (int) env('WIKI_CLIENT_ACCOUNT'),
 ];
