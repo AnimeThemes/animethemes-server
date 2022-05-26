@@ -20,14 +20,14 @@ final class CreateStudioIndex implements MigrationInterface
             $mapping->date('created_at');
             $mapping->text('name', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],
             ]);
             $mapping->text('slug', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],

@@ -21,7 +21,7 @@ final class CreateSongIndex implements MigrationInterface
             $mapping->long('song_id');
             $mapping->text('title', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],

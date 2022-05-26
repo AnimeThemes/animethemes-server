@@ -20,7 +20,7 @@ final class CreateVideoIndex implements MigrationInterface
             $mapping->text('anime_slug');
             $mapping->text('basename', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],
@@ -171,7 +171,7 @@ final class CreateVideoIndex implements MigrationInterface
             ]);
             $mapping->text('filename', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],
@@ -181,7 +181,7 @@ final class CreateVideoIndex implements MigrationInterface
             $mapping->long('overlap');
             $mapping->text('path', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],
@@ -190,7 +190,7 @@ final class CreateVideoIndex implements MigrationInterface
             $mapping->long('size');
             $mapping->text('mimetype', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],
