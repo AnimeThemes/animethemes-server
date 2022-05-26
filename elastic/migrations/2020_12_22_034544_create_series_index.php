@@ -20,7 +20,7 @@ final class CreateSeriesIndex implements MigrationInterface
             $mapping->date('created_at');
             $mapping->text('name', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],
@@ -28,7 +28,7 @@ final class CreateSeriesIndex implements MigrationInterface
             $mapping->long('series_id');
             $mapping->text('slug', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],

@@ -72,7 +72,7 @@ final class CreateThemeIndex implements MigrationInterface
             $mapping->date('created_at');
             $mapping->text('group', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],
@@ -84,7 +84,7 @@ final class CreateThemeIndex implements MigrationInterface
                     'synonym_slug',
                 ],
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],

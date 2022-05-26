@@ -50,7 +50,7 @@ final class CreateSynonymIndex implements MigrationInterface
             $mapping->long('synonym_id');
             $mapping->text('text', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],

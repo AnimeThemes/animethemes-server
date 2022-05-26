@@ -20,14 +20,22 @@ abstract class StringField extends Field implements FilterableField, SortableFie
      *
      * @param  string  $key
      * @param  string|null  $searchField
+     * @param  string|null  $sortField
      */
     public function __construct(
         string $key,
-        ?string $searchField = null
+        ?string $searchField = null,
+        ?string $sortField = null,
     ) {
-        // String fields are not optimized for sorting so a multi-field mapping is required.
-        // By default, we expect an unanalyzed keyword field 'sort' for sorting.
-        parent::__construct($key, $searchField, "$key.sort");
+        parent::__construct(
+            $key,
+            // Strings fields are parsed into tokens which may produce unexpected results when filtering.
+            // By default, we expect an unanalyzed keyword field 'keyword' for filtering.
+            $searchField ?? "$key.keyword",
+            // String fields are not optimized for sorting so a multi-field mapping is required.
+            // By default, we expect an unanalyzed keyword field 'keyword' for sorting.
+            $sortField ?? $searchField ?? "$key.keyword"
+        );
     }
 
     /**

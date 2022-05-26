@@ -21,7 +21,7 @@ final class CreateAnimeIndex implements MigrationInterface
             $mapping->date('created_at');
             $mapping->text('name', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],
@@ -29,7 +29,7 @@ final class CreateAnimeIndex implements MigrationInterface
             $mapping->long('season');
             $mapping->text('slug', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],
@@ -55,7 +55,7 @@ final class CreateAnimeIndex implements MigrationInterface
             ]);
             $mapping->text('synopsis', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],

@@ -22,14 +22,14 @@ final class CreateEntryIndex implements MigrationInterface
             $mapping->long('entry_id');
             $mapping->text('episodes', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],
             ]);
             $mapping->text('notes', [
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],
@@ -150,7 +150,7 @@ final class CreateEntryIndex implements MigrationInterface
                     'synonym_slug',
                 ],
                 'fields' => [
-                    'sort' => [
+                    'keyword' => [
                         'type' => 'keyword',
                     ],
                 ],
