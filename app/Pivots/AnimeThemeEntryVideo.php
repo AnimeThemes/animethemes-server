@@ -30,6 +30,8 @@ class AnimeThemeEntryVideo extends BasePivot
 
     final public const RELATION_ANIME = 'animethemeentry.animetheme.anime';
     final public const RELATION_ENTRY = 'animethemeentry';
+    final public const RELATION_IMAGES = 'animethemeentry.animetheme.anime.images';
+    final public const RELATION_SONG = 'animethemeentry.animetheme.song';
     final public const RELATION_VIDEO = 'video';
 
     /**

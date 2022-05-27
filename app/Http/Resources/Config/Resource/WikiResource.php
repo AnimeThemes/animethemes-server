@@ -53,7 +53,12 @@ class WikiResource extends BaseResource
             $pivot = AnimeThemeEntryVideo::query()
                 ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, Config::get('wiki.featured_entry'))
                 ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, Config::get('wiki.featured_video'))
-                ->with([AnimeThemeEntryVideo::RELATION_ANIME, AnimeThemeEntryVideo::RELATION_VIDEO])
+                ->with([
+                    AnimeThemeEntryVideo::RELATION_ANIME,
+                    AnimeThemeEntryVideo::RELATION_IMAGES,
+                    AnimeThemeEntryVideo::RELATION_SONG,
+                    AnimeThemeEntryVideo::RELATION_VIDEO,
+                ])
                 ->first();
 
             $result[WikiConstants::FEATURED_THEME_SETTING] = new AnimeThemeEntryVideoResource($pivot, $this->query);
