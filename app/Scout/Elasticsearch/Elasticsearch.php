@@ -114,15 +114,19 @@ class Elasticsearch extends Search
         }
 
         // apply sorts
+        $sorts = [];
         foreach ($query->getSortCriteria() as $sortCriterion) {
             $elasticSortCriteria = SortParser::parse($sortCriterion);
             if ($elasticSortCriteria !== null) {
                 foreach ($schema->sorts() as $sort) {
                     if ($sortCriterion->shouldSort($sort, $scope)) {
-                        $elasticSortCriteria->sort($builder, $sort);
+                        $sorts[] = $elasticSortCriteria->sort($sort);
                     }
                 }
             }
+        }
+        if (! empty($sorts)) {
+            $builder->sortRaw($sorts);
         }
 
         // paginate
