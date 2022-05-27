@@ -31,6 +31,8 @@ class ThemeSchema extends Schema
 
     final public const SORT_TITLE = 'song.title';
 
+    final public const SORT_TITLE_FIELD = 'song.title_keyword';
+
     final public const SORT_YEAR = 'anime.year';
 
     /**
@@ -100,7 +102,7 @@ class ThemeSchema extends Schema
             parent::sorts(),
             [
                 new Sort(ThemeSchema::SORT_SEASON),
-                new Sort(ThemeSchema::SORT_TITLE),
+                new Sort(ThemeSchema::SORT_TITLE, ThemeSchema::SORT_TITLE_FIELD),
                 new Sort(ThemeSchema::SORT_YEAR),
             ]
         );
