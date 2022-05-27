@@ -100,6 +100,9 @@ final class CreateThemeIndex implements MigrationInterface
                     'title' => [
                         'type' => 'text',
                     ],
+                    'title_keyword' => [
+                        'type' => 'keyword',
+                    ],
                     'updated_at' => [
                         'type' => 'date',
                     ],

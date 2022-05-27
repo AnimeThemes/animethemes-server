@@ -129,7 +129,9 @@ class AnimeTheme extends BaseModel
     {
         $array = $this->toArray();
         $array['anime'] = $this->anime->toSearchableArray();
-        $array['song'] = $this->song?->toSearchableArray();
+        if ($this->song !== null) {
+            $array['song'] = $this->song->toSearchableArray() + ['title_keyword' => $this->song->title];
+        }
 
         return $array;
     }
