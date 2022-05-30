@@ -32,7 +32,7 @@ class VideoController extends Controller
      * @param  Video  $video
      * @return Response
      */
-    #[Route(fullUri: 'video/{video}', name: 'video.show')]
+    #[Route(fullUri: '/{video}', name: 'video.show')]
     public function show(Video $video): Response
     {
         $fs = Storage::disk('videos');

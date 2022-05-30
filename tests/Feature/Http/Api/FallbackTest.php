@@ -20,7 +20,7 @@ class FallbackTest extends TestCase
      */
     public function testAbortJson(): void
     {
-        $response = $this->get(url('api/'.Str::random()));
+        $response = $this->get(route('api.anime.index').Str::random());
 
         $response->assertJsonStructure([
             'message',

@@ -55,6 +55,7 @@ class WikiResource extends BaseResource
                 ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, Config::get('wiki.featured_video'))
                 ->with([
                     AnimeThemeEntryVideo::RELATION_ANIME,
+                    AnimeThemeEntryVideo::RELATION_ARTISTS,
                     AnimeThemeEntryVideo::RELATION_IMAGES,
                     AnimeThemeEntryVideo::RELATION_SONG,
                     AnimeThemeEntryVideo::RELATION_VIDEO,

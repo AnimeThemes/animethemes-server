@@ -12,6 +12,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
@@ -51,8 +52,14 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
 
+            Route::middleware('web')
+                ->domain(Config::get('video.url'))
+                ->prefix(Config::get('video.path'))
+                ->group(base_path('routes/video.php'));
+
             Route::middleware('api')
-                ->prefix('api')
+                ->domain(Config::get('api.url'))
+                ->prefix(Config::get('api.path'))
                 ->as('api.')
                 ->group(base_path('routes/api.php'));
         });
