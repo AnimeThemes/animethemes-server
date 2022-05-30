@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'url' => env('VIDEO_URL', env('APP_URL').'/video'),
+    'url' => env('VIDEO_URL'),
 
     'path' => env('VIDEO_PATH'),
 ];
