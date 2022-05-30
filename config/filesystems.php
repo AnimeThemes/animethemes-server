@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -13,20 +15,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Default Cloud Filesystem Disk
-    |--------------------------------------------------------------------------
-    |
-    | Many applications store files both locally and in the cloud. For this
-    | reason, you may specify a default "cloud" driver here. This driver
-    | will be bound as the Cloud disk implementation in the container.
-    |
-    */
-
-    'cloud' => env('FILESYSTEM_CLOUD', 's3'),
+    'default' => env('FILESYSTEM_DISK', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -35,7 +24,7 @@ return [
     |
     | Here you may configure as many filesystem "disks" as you wish, and you
     | may even configure multiple disks of the same driver. Defaults have
-    | been setup for each driver as an example of the required options.
+    | been set up for each driver as an example of the required values.
     |
     | Supported Drivers: "local", "ftp", "sftp", "s3"
     |
@@ -46,6 +35,7 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
+            'throw' => false,
         ],
 
         'public' => [
@@ -53,26 +43,41 @@ return [
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
+            'throw' => false,
         ],
 
-        'grill' => [
-            'driver' => 'local',
-            'root' => public_path('img/grill'),
-            'url' => env('APP_URL').'/img/grill',
-            'visibility' => 'public',
-        ],
-
-        'spaces' => [
+        'images' => [
             'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'endpoint' => env('AWS_ENDPOINT'),
-            'stream_reads' => env('AWS_STREAM_READS'),
-            'disable_asserts' => true,
+            'key' => env('IMAGE_ACCESS_KEY_ID'),
+            'secret' => env('IMAGE_SECRET_ACCESS_KEY'),
+            'region' => env('IMAGE_DEFAULT_REGION'),
+            'bucket' => env('IMAGE_BUCKET'),
+            'endpoint' => env('IMAGE_ENDPOINT'),
+            'stream_reads' => env('IMAGE_STREAM_READS'),
+            'disable_asserts' => env('IMAGE_DISABLE_ASSERTS'),
+            'visibility' => env('IMAGE_VISIBILITY'),
+            'url' => env('IMAGE_URL'),
+            'throw' => false,
         ],
 
+        'videos' => [
+            'driver' => 's3',
+            'key' => env('VIDEO_ACCESS_KEY_ID'),
+            'secret' => env('VIDEO_SECRET_ACCESS_KEY'),
+            'region' => env('VIDEO_DEFAULT_REGION'),
+            'bucket' => env('VIDEO_BUCKET'),
+            'endpoint' => env('VIDEO_ENDPOINT'),
+            'stream_reads' => env('VIDEO_STREAM_READS'),
+            'disable_asserts' => env('VIDEO_DISABLE_ASSERTS'),
+            'visibility' => env('VIDEO_VISIBILITY'),
+            'throw' => false,
+        ],
+
+        'db-dumps' => [
+            'driver' => 'local',
+            'root' => storage_path('db-dumps'),
+            'throw' => false,
+        ],
     ],
 
     /*

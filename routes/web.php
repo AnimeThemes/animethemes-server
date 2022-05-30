@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Route;
+use Spatie\RouteDiscovery\Discovery\Discover;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'WelcomeController@do')->name('welcome');
-Route::resource('video', 'VideosController', ['only' => ['show']]);
-Route::get('/sitemap', 'SitemapController@index');
-Route::get('/sitemap/videos', 'SitemapController@videos')->name('video_sitemap');
+Discover::controllers()->in(app_path('Http/Controllers/Auth'));
+Discover::controllers()->in(app_path('Http/Controllers/Billing'));
+
+Route::redirect('/', url('/login'));
+
+Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');

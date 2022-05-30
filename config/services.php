@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -18,6 +20,7 @@ return [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
+        'scheme' => 'https',
     ],
 
     'postmark' => [
@@ -30,4 +33,17 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'discord' => [
+        'token' => env('DISCORD_BOT_API_TOKEN'),
+        'db_updates_discord_channel' => env('DB_UPDATES_DISCORD_CHANNEL'),
+        'admin_discord_channel' => env('ADMIN_DISCORD_CHANNEL'),
+    ],
+
+    'mal' => [
+        'client' => env('MAL_CLIENT_ID'),
+    ],
+
+    'do' => [
+        'token' => env('DO_BEARER_TOKEN'),
+    ],
 ];

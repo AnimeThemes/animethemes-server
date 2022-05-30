@@ -1,0 +1,46 @@
+name: Static Analysis
+
+on: push
+
+jobs:
+  static-analysis:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, phpunit
+      - uses: actions/checkout@v2
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Install Dependencies
+        env:
+          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+          ENLIGHTN_USERNAME: ${{ secrets.ENLIGHTN_USERNAME }}
+          ENLIGHTN_PASSWORD: ${{ secrets.ENLIGHTN_PASSWORD }}
+        run: |
+          composer config "http-basic.nova.laravel.com" "$NOVA_USERNAME" "$NOVA_PASSWORD"
+          composer config "http-basic.satis.laravel-enlightn.com" "$ENLIGHTN_USERNAME" "$ENLIGHTN_PASSWORD"
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Generate key
+        run: php artisan key:generate
+      - name: Install NPM dependencies
+        run: npm install
+      - name: Compile assets
+        run: npm run production
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+      - name: Create Database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: |
+          php artisan optimize:clear
+          ./vendor/bin/phpstan analyse --memory-limit=-1

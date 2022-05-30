@@ -1,0 +1,25 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    checkModelProperties: true
+    checkOctaneCompatibility: true
+    checkMissingIterableValueType: false
+
+    paths:
+        - app
+        - config
+        - database
+        - elastic
+        - routes
+        - tests
+
+    # The level 8 is the highest level
+    level: 5
+
+    ignoreErrors:
+        - '#Call to an undefined method Mockery\\ExpectationInterface|Mockery\\HigherOrderMessage::once\(\).#'
+        - '#Strict comparison using === between class-string<Laravel\\Nova\\Resource> and null will always evaluate to false.#'
+        -
+            message: '#Unreachable statement - code above always terminates.#'
+            path: app/Http/Middleware/ThrottleRequestsWithService.php
