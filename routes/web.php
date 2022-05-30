@@ -18,9 +18,8 @@ use Spatie\RouteDiscovery\Discovery\Discover;
 
 Discover::controllers()->in(app_path('Http/Controllers/Auth'));
 Discover::controllers()->in(app_path('Http/Controllers/Billing'));
-Discover::controllers()->in(app_path('Http/Controllers/Home'));
-Discover::controllers()->in(app_path('Http/Controllers/Sitemap'));
-Discover::controllers()->in(app_path('Http/Controllers/Wiki'));
+
+Route::redirect('/', url('/login'));
 
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

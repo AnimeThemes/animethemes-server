@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -20,7 +21,12 @@ class FallbackTest extends TestCase
      */
     public function testAbortJson(): void
     {
-        $response = $this->get(url('api/'.Str::random()));
+        $url = Str::of(Config::get('api.url'))
+            ->append('/')
+            ->append(Str::random())
+            ->__toString();
+
+        $response = $this->get($url);
 
         $response->assertJsonStructure([
             'message',
