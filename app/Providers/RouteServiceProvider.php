@@ -1,80 +1,85 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
+use App\Models\Auth\User;
+use App\Models\Wiki\Anime\AnimeSynonym;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * Class RouteServiceProvider.
+ */
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * This namespace is applied to your controller routes.
-     *
-     * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
-     */
-    protected $namespace = 'App\Http\Controllers';
-
-    /**
      * The path to the "home" route for your application.
      *
+     * Typically, users are redirected here after authentication.
+     *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/dashboard';
 
     /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @return void
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function boot()
+    public function boot(): void
     {
-        //
+        $this->configureRateLimiting();
 
-        parent::boot();
+        // Anime Resources
+        Route::model('animesynonym', AnimeSynonym::class);
+        Route::model('animetheme', AnimeTheme::class);
+
+        // Anime Theme Resources
+        Route::model('animethemeentry', AnimeThemeEntry::class);
+
+        $this->routes(function () {
+            Route::middleware('web')
+                ->group(base_path('routes/web.php'));
+
+            Route::middleware('web')
+                ->domain(Config::get('video.url'))
+                ->prefix(Config::get('video.path'))
+                ->group(base_path('routes/video.php'));
+
+            Route::middleware('api')
+                ->domain(Config::get('api.url'))
+                ->prefix(Config::get('api.path'))
+                ->as('api.')
+                ->group(base_path('routes/api.php'));
+        });
     }
 
     /**
-     * Define the routes for the application.
+     * Configure the rate limiters for the application.
      *
      * @return void
      */
-    public function map()
+    protected function configureRateLimiting(): void
     {
-        $this->mapApiRoutes();
+        RateLimiter::for('api', function (Request $request) {
+            // Allow the client to bypass API rate limiting
+            $user = $request->user('sanctum');
+            if ($user instanceof User && $user->can('bypass api rate limiter')) {
+                return Limit::none();
+            }
 
-        $this->mapWebRoutes();
-
-        //
-    }
-
-    /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
-    protected function mapWebRoutes()
-    {
-        Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
-    }
-
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
-    protected function mapApiRoutes()
-    {
-        Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+            return Limit::perMinute(90)->by(Auth::check() ? Auth::id() : $request->ip());
+        });
     }
 }

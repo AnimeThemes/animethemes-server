@@ -1,7 +1,5 @@
+version: 8.1
 preset: laravel
-disabled:
-  - unused_use
 finder:
   not-name:
     - index.php
-    - server.php
