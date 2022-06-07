@@ -54,6 +54,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Jetstream Routes Prefix / Subdomain
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify which prefix Jetstream will assign to all the routes
+    | that it registers with the application. If necessary, you may change
+    | subdomain under which all of the Jetstream routes will be available.
+    |
+    */
+
+    'prefix' => env('JETSTREAM_PATH'),
+
+    'domain' => env('JETSTREAM_URL'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Profile Photo Disk
     |--------------------------------------------------------------------------
     |

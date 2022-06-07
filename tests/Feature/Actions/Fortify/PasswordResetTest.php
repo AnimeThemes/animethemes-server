@@ -29,7 +29,7 @@ class PasswordResetTest extends TestCase
             static::markTestSkipped('Password resets are not enabled.');
         }
 
-        $response = $this->get('/forgot-password');
+        $response = $this->get(route('password.request'));
 
         $response->assertStatus(200);
     }
@@ -49,7 +49,7 @@ class PasswordResetTest extends TestCase
 
         $user = User::factory()->createOne();
 
-        $this->post('/forgot-password', [
+        $this->post(route('password.email'), [
             'email' => $user->email,
         ]);
 
@@ -71,12 +71,12 @@ class PasswordResetTest extends TestCase
 
         $user = User::factory()->createOne();
 
-        $this->post('/forgot-password', [
+        $this->post(route('password.email'), [
             'email' => $user->email,
         ]);
 
         Notification::assertSentTo($user, ResetPassword::class, function (ResetPassword $notification) {
-            $response = $this->get('/reset-password/'.$notification->token);
+            $response = $this->get(route('password.reset', ['token' => $notification->token]));
 
             $response->assertStatus(200);
 
@@ -99,15 +99,14 @@ class PasswordResetTest extends TestCase
 
         $user = User::factory()->createOne();
 
-        $this->post('/forgot-password', [
+        $this->post(route('password.email'), [
             'email' => $user->email,
         ]);
 
         $strongPassword = $this->faker->password(64, 128);
 
         Notification::assertSentTo($user, ResetPassword::class, function (ResetPassword $notification) use ($user, $strongPassword) {
-            $response = $this->post('/reset-password', [
-                'token' => $notification->token,
+            $response = $this->post(route('password.reset', ['token' => $notification->token]), [
                 'email' => $user->email,
                 'password' => $strongPassword,
                 'password_confirmation' => $strongPassword,

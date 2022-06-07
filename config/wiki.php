@@ -20,4 +20,18 @@ return [
     'featured_entry' => (int) env('WIKI_FEATURED_ENTRY'),
 
     'featured_video' => (int) env('WIKI_FEATURED_VIDEO'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Footer Links
+    |--------------------------------------------------------------------------
+    |
+    | We have footer links that direct the user to pages that are handled by animethemes-web.
+    | Because we want to decouple dependencies between projects, we should just register the URLs here.
+    |
+    */
+
+    'donate' => env('WIKI_DONATE_URL'),
+
+    'faq' => env('WIKI_FAQ_URL'),
 ];
