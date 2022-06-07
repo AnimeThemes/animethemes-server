@@ -50,7 +50,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routes(function () {
             Route::middleware('web')
-		        ->domain(Config::get('web.url'))
+                ->domain(Config::get('web.url'))
                 ->prefix(Config::get('web.path'))
                 ->group(base_path('routes/web.php'));
 
