@@ -51,10 +51,10 @@ return [
     'domain' => env('NOVA_DOMAIN_NAME'),
 
     'routes' => [
-        'login' => env('APP_URL').'/login',
-        'logout' => env('APP_URL').'/logout',
-        'forgot_password' => env('APP_URL').'/forgot-password',
-        'reset_password' => env('APP_URL').'/reset-password',
+        'login' => env('FORTIFY_URL').env('FORTIFY_PATH').'/login',
+        'logout' => false,
+        'forgot_password' => env('FORTIFY_URL').env('FORTIFY_PATH').'/forgot-password',
+        'reset_password' => env('FORTIFY_URL').env('FORTIFY_PATH').'/reset-password',
     ],
 
     /*

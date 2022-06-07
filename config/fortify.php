@@ -76,9 +76,9 @@ return [
     |
     */
 
-    'prefix' => '',
+    'prefix' => env('FORTIFY_PATH'),
 
-    'domain' => null,
+    'domain' => env('FORTIFY_URL'),
 
     /*
     |--------------------------------------------------------------------------
@@ -123,6 +123,15 @@ return [
     */
 
     'views' => true,
+
+    'redirects' => [
+        'login' => null,
+        'logout' => env('FORTIFY_URL').env('FORTIFY_PATH').'/login',
+        'password-confirmation' => null,
+        'register' => null,
+        'email-verification' => null,
+        'password-reset' => null,
+    ],
 
     /*
     |--------------------------------------------------------------------------

@@ -19,8 +19,6 @@ use Spatie\RouteDiscovery\Discovery\Discover;
 Discover::controllers()->in(app_path('Http/Controllers/Auth'));
 Discover::controllers()->in(app_path('Http/Controllers/Billing'));
 
-Route::redirect('/', url('/login'));
-
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
