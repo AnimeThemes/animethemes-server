@@ -11,6 +11,7 @@ use App\Models\Wiki\Studio;
 use App\Pipes\Wiki\Anime\BackfillAnimePipe;
 use App\Pivots\StudioResource;
 use Closure;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -335,6 +336,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
         $studioResource = ExternalResource::query()
             ->where(ExternalResource::ATTRIBUTE_SITE, $site->value)
             ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $id)
+            ->whereHas(ExternalResource::RELATION_STUDIOS, fn (Builder $studioQuery) => $studioQuery->whereKey($studio))
             ->first();
 
         if (! $studioResource instanceof ExternalResource) {

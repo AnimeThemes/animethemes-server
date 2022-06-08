@@ -18,13 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(DigitalOceanTransactionSeeder::class);
+        $this->call(PermissionSeeder::class);
         $this->call(VideoSeeder::class);
-        $this->call(AnilistAnimeResourceSeeder::class);
-        $this->call(SynopsisCoverSeeder::class);
-        $this->call(AniDbResourceSeeder::class);
-        $this->call(AnilistArtistResourceSeeder::class);
-        $this->call(ArtistCoverSeeder::class);
-        $this->call(KitsuResourceSeeder::class);
-        $this->call(StudioSeeder::class);
     }
 }

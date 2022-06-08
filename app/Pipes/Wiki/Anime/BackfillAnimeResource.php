@@ -9,6 +9,7 @@ use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
 use Closure;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Log;
 
@@ -60,9 +61,9 @@ abstract class BackfillAnimeResource extends BackfillAnimePipe
     protected function getOrCreateResource(int $id, string $slug = null): ExternalResource
     {
         $resource = ExternalResource::query()
-            ->select([ExternalResource::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_LINK])
             ->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)
             ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $id)
+            ->whereHas(ExternalResource::RELATION_ANIME, fn (Builder $animeQuery) => $animeQuery->whereKey($this->anime->getKey()))
             ->first();
 
         if ($resource === null) {
