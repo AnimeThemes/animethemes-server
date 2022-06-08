@@ -7,7 +7,6 @@ namespace Database\Seeders;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use Illuminate\Database\Seeder;
-use RuntimeException;
 
 /**
  * Class PermissionSeeder.
@@ -21,15 +20,14 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        // Roles
+        /** @var Role */
         $admin = Role::findOrCreate('Admin');
-        $wikiEditor = Role::findOrCreate('Wiki Editor');
-        $wikiViewer = Role::findOrCreate('Wiki Viewer');
 
-        // Spatie pls.
-        if (! $admin instanceof Role || ! $wikiEditor instanceof Role || ! $wikiViewer instanceof Role) {
-            throw new RuntimeException('Could not create roles');
-        }
+        /** @var Role */
+        $wikiEditor = Role::findOrCreate('Wiki Editor');
+
+        /** @var Role */
+        $wikiViewer = Role::findOrCreate('Wiki Viewer');
 
         // Admin Resources
         $this->configureAdminResourcePermissions($admin, 'announcement', true);
