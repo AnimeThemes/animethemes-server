@@ -45,15 +45,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             $lenses = [];
 
-            /** @var class-string<Resource> $resourceClass */
             foreach (Nova::resourcesForNavigation($request) as $resourceClass) {
-                /** @var Model */
                 $model = $resourceClass::newModel();
 
-                /** @var Resource */
                 $resource = new $resourceClass($model);
 
-                /** @var BaseLens */
                 foreach ($resource->availableLenses($novaRequest) as $lens) {
                     $count = $lens::criteria($model->newQuery())->count();
 
