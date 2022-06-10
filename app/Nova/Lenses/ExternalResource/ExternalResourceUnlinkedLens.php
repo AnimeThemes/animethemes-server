@@ -40,10 +40,21 @@ class ExternalResourceUnlinkedLens extends BaseLens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave(ExternalResource::RELATION_ANIME)
-                ->whereDoesntHave(ExternalResource::RELATION_ARTISTS)
-                ->whereDoesntHave(ExternalResource::RELATION_STUDIOS)
+            static::criteria($query)
         ));
+    }
+
+    /**
+     * The criteria used to refine the models for the lens.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public static function criteria(Builder $query): Builder
+    {
+        return $query->whereDoesntHave(ExternalResource::RELATION_ANIME)
+            ->whereDoesntHave(ExternalResource::RELATION_ARTISTS)
+            ->whereDoesntHave(ExternalResource::RELATION_STUDIOS);
     }
 
     /**

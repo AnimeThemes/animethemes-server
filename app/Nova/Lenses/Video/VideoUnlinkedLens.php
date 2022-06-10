@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Lenses\Video;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Models\Wiki\Video;
 use App\Nova\Lenses\BaseLens;
 use Illuminate\Database\Eloquent\Builder;
@@ -41,8 +42,20 @@ class VideoUnlinkedLens extends BaseLens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave(Video::RELATION_ANIMETHEMEENTRIES)
+            static::criteria($query)
         ));
+    }
+
+    /**
+     * The criteria used to refine the models for the lens.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public static function criteria(Builder $query): Builder
+    {
+        return $query->whereDoesntHave(Video::RELATION_ANIMETHEMEENTRIES)
+            ->where(Video::ATTRIBUTE_PATH, ComparisonOperator::NOTLIKE, 'misc%');
     }
 
     /**

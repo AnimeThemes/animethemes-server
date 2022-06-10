@@ -42,10 +42,21 @@ class ArtistCoverLargeLens extends BaseLens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave(Anime::RELATION_IMAGES, function (Builder $imageQuery) {
-                $imageQuery->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE);
-            })
+            static::criteria($query)
         ));
+    }
+
+    /**
+     * The criteria used to refine the models for the lens.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public static function criteria(Builder $query): Builder
+    {
+        return $query->whereDoesntHave(Anime::RELATION_IMAGES, function (Builder $imageQuery) {
+            $imageQuery->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE);
+        });
     }
 
     /**

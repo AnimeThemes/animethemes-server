@@ -63,7 +63,7 @@ abstract class BackfillAnimeResource extends BackfillAnimePipe
         $resource = ExternalResource::query()
             ->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)
             ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $id)
-            ->whereHas(ExternalResource::RELATION_ANIME, fn (Builder $animeQuery) => $animeQuery->whereKey($this->anime->getKey()))
+            ->whereHas(ExternalResource::RELATION_ANIME, fn (Builder $animeQuery) => $animeQuery->whereKey($this->anime))
             ->first();
 
         if ($resource === null) {

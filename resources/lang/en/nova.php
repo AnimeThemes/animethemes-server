@@ -122,6 +122,7 @@ return [
     'invitation_subject' => 'AnimeThemes Invitation',
     'invitations' => 'Invitations',
     'invitation' => 'Invitation',
+    'lenses' => 'Lenses',
     'link' => 'Link',
     'lyrics' => 'Lyrics',
     'members' => 'Members',

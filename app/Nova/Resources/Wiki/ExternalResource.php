@@ -149,7 +149,7 @@ class ExternalResource extends Resource
                         if ($formData->offsetExists(ExternalResourceModel::ATTRIBUTE_LINK)) {
                             $link = $formData->offsetGet(ExternalResourceModel::ATTRIBUTE_LINK);
                             $site = ResourceSite::valueOf($link);
-                            $field->value = $site?->value;
+                            $field->value = $site?->value ?? ResourceSite::OFFICIAL_SITE;
                         }
                     }
                 ),

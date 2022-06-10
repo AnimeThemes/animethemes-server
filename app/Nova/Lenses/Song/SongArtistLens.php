@@ -39,8 +39,19 @@ class SongArtistLens extends BaseLens
     public static function query(LensRequest $request, $query): Builder
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereDoesntHave(Song::RELATION_ARTISTS)
+            static::criteria($query)
         ));
+    }
+
+    /**
+     * The criteria used to refine the models for the lens.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public static function criteria(Builder $query): Builder
+    {
+        return $query->whereDoesntHave(Song::RELATION_ARTISTS);
     }
 
     /**

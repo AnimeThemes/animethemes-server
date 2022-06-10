@@ -158,9 +158,6 @@ class PermissionSeeder extends Seeder
         $viewHorizon = Permission::findOrCreate('view horizon');
         $adminPermissions[] = $viewHorizon;
 
-        $viewLogs = Permission::findOrCreate('view logs');
-        $adminPermissions[] = $viewLogs;
-
         $bypassApiRateLimiter = Permission::findOrCreate('bypass api rate limiter');
         $adminPermissions[] = $bypassApiRateLimiter;
 
