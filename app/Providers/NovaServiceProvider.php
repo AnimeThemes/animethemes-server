@@ -6,9 +6,6 @@ namespace App\Providers;
 
 use App\Models\Auth\User;
 use App\Nova\Dashboards\Main;
-use App\Nova\Lenses\BaseLens;
-use App\Nova\Resources\Resource;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Badge;
