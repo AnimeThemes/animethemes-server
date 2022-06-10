@@ -8,9 +8,11 @@ use App\Models\Auth\User;
 use App\Nova\Dashboards\Main;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Laravel\Nova\LogViewer\LogViewer;
+use Laravel\Nova\Badge;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Menu\Menu;
 use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
@@ -31,6 +33,36 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::userMenu(function (Request $request, Menu $menu) {
             $profile = MenuItem::externalLink(__('Profile'), route('profile.show'));
             $menu->append($profile);
+
+            return $menu;
+        });
+
+        Nova::mainMenu(function (Request $request, Menu $menu) {
+            $novaRequest = NovaRequest::createFrom($request);
+
+            $lenses = [];
+
+            foreach (Nova::resourcesForNavigation($request) as $resourceClass) {
+                $model = $resourceClass::newModel();
+
+                $resource = new $resourceClass($model);
+
+                foreach ($resource->availableLenses($novaRequest) as $lens) {
+                    $count = $lens::criteria($model->newQuery())->count();
+
+                    if ($count > 0) {
+                        // We are not using the helper function to avoid redundant authorization
+                        $lenses[] = MenuItem::make($lens->name())
+                            ->path('/resources/'.$resourceClass::uriKey().'/lens/'.$lens->uriKey())
+                            ->withBadge(Badge::make($count));
+                    }
+                }
+            }
+
+            $lensSection = MenuSection::make(__('nova.lenses'), $lenses, 'video-camera')
+                ->collapsable();
+
+            $menu->items[] = $lensSection;
 
             return $menu;
         });
@@ -76,21 +108,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             new Main(),
-        ];
-    }
-
-    /**
-     * Get the tools that should be listed in the Nova sidebar.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function tools(): array
-    {
-        return [
-            (new LogViewer())
-                ->canSee(fn (Request $request) => $request->user()->can('view logs')),
         ];
     }
 }
