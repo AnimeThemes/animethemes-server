@@ -18,6 +18,7 @@ use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -26,6 +27,7 @@ use Tests\TestCase;
 class StudioShowTest extends TestCase
 {
     use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Studio Show Endpoint shall return a Studio Resource.
@@ -34,8 +36,6 @@ class StudioShowTest extends TestCase
      */
     public function testDefault(): void
     {
-        $this->withoutEvents();
-
         $studio = Studio::factory()->create();
 
         $response = $this->get(route('api.studio.show', ['studio' => $studio]));
@@ -59,8 +59,6 @@ class StudioShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $this->withoutEvents();
-
         $studio = Studio::factory()->createOne();
 
         $studio->delete();
@@ -125,8 +123,6 @@ class StudioShowTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        $this->withoutEvents();
-
         $schema = new StudioSchema();
 
         $fields = collect($schema->fields());
@@ -162,8 +158,6 @@ class StudioShowTest extends TestCase
      */
     public function testAnimeBySeason(): void
     {
-        $this->withoutEvents();
-
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
@@ -204,8 +198,6 @@ class StudioShowTest extends TestCase
      */
     public function testAnimeByYear(): void
     {
-        $this->withoutEvents();
-
         $yearFilter = $this->faker->numberBetween(2000, 2002);
 
         $parameters = [

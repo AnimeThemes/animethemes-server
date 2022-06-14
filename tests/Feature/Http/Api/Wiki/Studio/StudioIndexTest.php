@@ -29,6 +29,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -37,6 +38,7 @@ use Tests\TestCase;
 class StudioIndexTest extends TestCase
 {
     use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Studio Index Endpoint shall return a collection of Studio Resources.
@@ -45,8 +47,6 @@ class StudioIndexTest extends TestCase
      */
     public function testDefault(): void
     {
-        $this->withoutEvents();
-
         $studio = Studio::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.studio.index'));
@@ -70,8 +70,6 @@ class StudioIndexTest extends TestCase
      */
     public function testPaginated(): void
     {
-        $this->withoutEvents();
-
         Studio::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.studio.index'));
@@ -130,8 +128,6 @@ class StudioIndexTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        $this->withoutEvents();
-
         $schema = new StudioSchema();
 
         $fields = collect($schema->fields());
@@ -167,8 +163,6 @@ class StudioIndexTest extends TestCase
      */
     public function testSorts(): void
     {
-        $this->withoutEvents();
-
         $schema = new StudioSchema();
 
         $sort = collect($schema->fields())
@@ -205,8 +199,6 @@ class StudioIndexTest extends TestCase
      */
     public function testCreatedAtFilter(): void
     {
-        $this->withoutEvents();
-
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -250,8 +242,6 @@ class StudioIndexTest extends TestCase
      */
     public function testUpdatedAtFilter(): void
     {
-        $this->withoutEvents();
-
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -295,8 +285,6 @@ class StudioIndexTest extends TestCase
      */
     public function testWithoutTrashedFilter(): void
     {
-        $this->withoutEvents();
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
@@ -336,8 +324,6 @@ class StudioIndexTest extends TestCase
      */
     public function testWithTrashedFilter(): void
     {
-        $this->withoutEvents();
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
@@ -377,8 +363,6 @@ class StudioIndexTest extends TestCase
      */
     public function testOnlyTrashedFilter(): void
     {
-        $this->withoutEvents();
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
@@ -418,8 +402,6 @@ class StudioIndexTest extends TestCase
      */
     public function testDeletedAtFilter(): void
     {
-        $this->withoutEvents();
-
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -470,8 +452,6 @@ class StudioIndexTest extends TestCase
      */
     public function testAnimeBySeason(): void
     {
-        $this->withoutEvents();
-
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
@@ -514,8 +494,6 @@ class StudioIndexTest extends TestCase
      */
     public function testAnimeByYear(): void
     {
-        $this->withoutEvents();
-
         $yearFilter = $this->faker->numberBetween(2000, 2002);
 
         $parameters = [

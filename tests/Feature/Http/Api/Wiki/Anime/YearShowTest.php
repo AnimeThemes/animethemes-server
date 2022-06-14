@@ -15,6 +15,7 @@ use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -24,6 +25,7 @@ use Tests\TestCase;
 class YearShowTest extends TestCase
 {
     use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Year Show Endpoint shall return a grouping of Anime Resources of year by season.
@@ -32,8 +34,6 @@ class YearShowTest extends TestCase
      */
     public function testDefault(): void
     {
-        $this->withoutEvents();
-
         $year = intval($this->faker->year());
 
         $winterAnime = Anime::factory()
@@ -160,8 +160,6 @@ class YearShowTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        $this->withoutEvents();
-
         $year = intval($this->faker->year());
 
         $schema = new AnimeSchema();

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Events\Wiki\Anime;
 
 use App\Events\Wiki\Anime\Theme\ThemeCreated;
-use App\Events\Wiki\Anime\Theme\ThemeCreating;
 use App\Events\Wiki\Anime\Theme\ThemeDeleted;
 use App\Events\Wiki\Anime\Theme\ThemeRestored;
 use App\Events\Wiki\Anime\Theme\ThemeUpdated;
@@ -26,7 +25,7 @@ class ThemeTest extends TestCase
      */
     public function testThemeCreatedEventDispatched(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
+        Event::fake();
 
         AnimeTheme::factory()
             ->for(Anime::factory())
@@ -42,7 +41,7 @@ class ThemeTest extends TestCase
      */
     public function testThemeDeletedEventDispatched(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
+        Event::fake();
 
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -60,7 +59,7 @@ class ThemeTest extends TestCase
      */
     public function testThemeRestoredEventDispatched(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
+        Event::fake();
 
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -80,7 +79,7 @@ class ThemeTest extends TestCase
      */
     public function testThemeRestoresQuietly(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
+        Event::fake();
 
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -98,7 +97,7 @@ class ThemeTest extends TestCase
      */
     public function testThemeUpdatedEventDispatched(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
+        Event::fake();
 
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())

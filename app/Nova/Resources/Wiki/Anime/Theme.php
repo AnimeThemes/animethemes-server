@@ -13,7 +13,9 @@ use App\Nova\Resources\Wiki\Song;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -202,12 +204,25 @@ class Theme extends Resource
                 ->filterable(),
 
             Text::make(__('nova.slug'), AnimeTheme::ATTRIBUTE_SLUG)
-                ->hideWhenCreating()
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
                 ->help(__('nova.anime_theme_slug_help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->dependsOn(
+                    [AnimeTheme::ATTRIBUTE_TYPE, AnimeTheme::ATTRIBUTE_SEQUENCE],
+                    function (Text $field, NovaRequest $novaRequest, FormData $formData) {
+                        $slug = Str::of('');
+                        if ($formData->offsetExists(AnimeTheme::ATTRIBUTE_TYPE)) {
+                            $type = ThemeType::getKey($formData->offsetGet(AnimeTheme::ATTRIBUTE_TYPE));
+                            $slug = $slug->append($type);
+                        }
+                        if ($slug->isNotEmpty() && $formData->offsetExists(AnimeTheme::ATTRIBUTE_SEQUENCE)) {
+                            $slug = $slug->append($formData->offsetGet(AnimeTheme::ATTRIBUTE_SEQUENCE));
+                        }
+                        $field->value = $slug->__toString();
+                    }
+                ),
 
             BelongsTo::make(__('nova.song'), AnimeTheme::RELATION_SONG, Song::class)
                 ->sortable()

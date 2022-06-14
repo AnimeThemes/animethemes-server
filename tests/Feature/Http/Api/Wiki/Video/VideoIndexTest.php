@@ -35,6 +35,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -43,6 +44,7 @@ use Tests\TestCase;
 class VideoIndexTest extends TestCase
 {
     use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Video Index Endpoint shall return a collection of Video Resources.
@@ -51,8 +53,6 @@ class VideoIndexTest extends TestCase
      */
     public function testDefault(): void
     {
-        $this->withoutEvents();
-
         $videos = Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->create();
@@ -78,8 +78,6 @@ class VideoIndexTest extends TestCase
      */
     public function testPaginated(): void
     {
-        $this->withoutEvents();
-
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->create();
@@ -144,8 +142,6 @@ class VideoIndexTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        $this->withoutEvents();
-
         $schema = new VideoSchema();
 
         $fields = collect($schema->fields());
@@ -183,8 +179,6 @@ class VideoIndexTest extends TestCase
      */
     public function testSorts(): void
     {
-        $this->withoutEvents();
-
         $schema = new VideoSchema();
 
         $sort = collect($schema->fields())
@@ -223,8 +217,6 @@ class VideoIndexTest extends TestCase
      */
     public function testCreatedAtFilter(): void
     {
-        $this->withoutEvents();
-
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -268,8 +260,6 @@ class VideoIndexTest extends TestCase
      */
     public function testUpdatedAtFilter(): void
     {
-        $this->withoutEvents();
-
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -313,8 +303,6 @@ class VideoIndexTest extends TestCase
      */
     public function testWithoutTrashedFilter(): void
     {
-        $this->withoutEvents();
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
@@ -354,8 +342,6 @@ class VideoIndexTest extends TestCase
      */
     public function testWithTrashedFilter(): void
     {
-        $this->withoutEvents();
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
@@ -395,8 +381,6 @@ class VideoIndexTest extends TestCase
      */
     public function testOnlyTrashedFilter(): void
     {
-        $this->withoutEvents();
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
@@ -436,8 +420,6 @@ class VideoIndexTest extends TestCase
      */
     public function testDeletedAtFilter(): void
     {
-        $this->withoutEvents();
-
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -488,8 +470,6 @@ class VideoIndexTest extends TestCase
      */
     public function testLyricsFilter(): void
     {
-        $this->withoutEvents();
-
         $lyricsFilter = $this->faker->boolean();
 
         $parameters = [
@@ -525,8 +505,6 @@ class VideoIndexTest extends TestCase
      */
     public function testNcFilter(): void
     {
-        $this->withoutEvents();
-
         $ncFilter = $this->faker->boolean();
 
         $parameters = [
@@ -562,8 +540,6 @@ class VideoIndexTest extends TestCase
      */
     public function testOverlapFilter(): void
     {
-        $this->withoutEvents();
-
         $overlapFilter = VideoOverlap::getRandomInstance();
 
         $parameters = [
@@ -599,8 +575,6 @@ class VideoIndexTest extends TestCase
      */
     public function testResolutionFilter(): void
     {
-        $this->withoutEvents();
-
         $resolutionFilter = $this->faker->randomNumber();
         $excludedResolution = $resolutionFilter + 1;
 
@@ -641,8 +615,6 @@ class VideoIndexTest extends TestCase
      */
     public function testSourceFilter(): void
     {
-        $this->withoutEvents();
-
         $sourceFilter = VideoSource::getRandomInstance();
 
         $parameters = [
@@ -678,8 +650,6 @@ class VideoIndexTest extends TestCase
      */
     public function testSubbedFilter(): void
     {
-        $this->withoutEvents();
-
         $subbedFilter = $this->faker->boolean();
 
         $parameters = [
@@ -715,8 +685,6 @@ class VideoIndexTest extends TestCase
      */
     public function testUncenFilter(): void
     {
-        $this->withoutEvents();
-
         $uncenFilter = $this->faker->boolean();
 
         $parameters = [

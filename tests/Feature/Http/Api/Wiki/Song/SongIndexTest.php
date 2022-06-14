@@ -33,6 +33,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -41,6 +42,7 @@ use Tests\TestCase;
 class SongIndexTest extends TestCase
 {
     use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Song Index Endpoint shall return a collection of Song Resources.
@@ -49,8 +51,6 @@ class SongIndexTest extends TestCase
      */
     public function testDefault(): void
     {
-        $this->withoutEvents();
-
         $songs = Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.song.index'));
@@ -74,8 +74,6 @@ class SongIndexTest extends TestCase
      */
     public function testPaginated(): void
     {
-        $this->withoutEvents();
-
         Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.song.index'));
@@ -135,8 +133,6 @@ class SongIndexTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        $this->withoutEvents();
-
         $schema = new SongSchema();
 
         $fields = collect($schema->fields());
@@ -208,8 +204,6 @@ class SongIndexTest extends TestCase
      */
     public function testCreatedAtFilter(): void
     {
-        $this->withoutEvents();
-
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -253,8 +247,6 @@ class SongIndexTest extends TestCase
      */
     public function testUpdatedAtFilter(): void
     {
-        $this->withoutEvents();
-
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -298,8 +290,6 @@ class SongIndexTest extends TestCase
      */
     public function testWithoutTrashedFilter(): void
     {
-        $this->withoutEvents();
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
@@ -339,8 +329,6 @@ class SongIndexTest extends TestCase
      */
     public function testWithTrashedFilter(): void
     {
-        $this->withoutEvents();
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
@@ -380,8 +368,6 @@ class SongIndexTest extends TestCase
      */
     public function testOnlyTrashedFilter(): void
     {
-        $this->withoutEvents();
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
@@ -421,8 +407,6 @@ class SongIndexTest extends TestCase
      */
     public function testDeletedAtFilter(): void
     {
-        $this->withoutEvents();
-
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 

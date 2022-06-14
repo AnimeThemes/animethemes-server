@@ -18,6 +18,7 @@ use App\Models\Wiki\Series;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -26,6 +27,7 @@ use Tests\TestCase;
 class SeriesShowTest extends TestCase
 {
     use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Series Show Endpoint shall return a Series Resource.
@@ -34,8 +36,6 @@ class SeriesShowTest extends TestCase
      */
     public function testDefault(): void
     {
-        $this->withoutEvents();
-
         $series = Series::factory()->create();
 
         $response = $this->get(route('api.series.show', ['series' => $series]));
@@ -59,8 +59,6 @@ class SeriesShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $this->withoutEvents();
-
         $series = Series::factory()->createOne();
 
         $series->delete();
@@ -125,8 +123,6 @@ class SeriesShowTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        $this->withoutEvents();
-
         $schema = new SeriesSchema();
 
         $fields = collect($schema->fields());
@@ -162,8 +158,6 @@ class SeriesShowTest extends TestCase
      */
     public function testAnimeBySeason(): void
     {
-        $this->withoutEvents();
-
         $seasonFilter = AnimeSeason::getRandomInstance();
 
         $parameters = [
@@ -204,8 +198,6 @@ class SeriesShowTest extends TestCase
      */
     public function testAnimeByYear(): void
     {
-        $this->withoutEvents();
-
         $yearFilter = $this->faker->numberBetween(2000, 2002);
 
         $parameters = [

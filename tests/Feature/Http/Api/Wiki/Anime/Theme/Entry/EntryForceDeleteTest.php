@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme\Entry;
 
-use App\Events\Wiki\Anime\Theme\ThemeCreating;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use Illuminate\Support\Facades\Event;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -18,6 +17,8 @@ use Tests\TestCase;
  */
 class EntryForceDeleteTest extends TestCase
 {
+    use WithoutEvents;
+
     /**
      * The Entry Force Destroy Endpoint shall be protected by sanctum.
      *
@@ -25,8 +26,6 @@ class EntryForceDeleteTest extends TestCase
      */
     public function testProtected(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
-
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
@@ -43,8 +42,6 @@ class EntryForceDeleteTest extends TestCase
      */
     public function testDeleted(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
-
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();

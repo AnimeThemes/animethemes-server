@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -35,6 +36,7 @@ use Tests\TestCase;
 class ArtistShowTest extends TestCase
 {
     use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Artist Show Endpoint shall return an Artist Resource.
@@ -43,8 +45,6 @@ class ArtistShowTest extends TestCase
      */
     public function testDefault(): void
     {
-        $this->withoutEvents();
-
         $artist = Artist::factory()->create();
 
         $response = $this->get(route('api.artist.show', ['artist' => $artist]));
@@ -68,8 +68,6 @@ class ArtistShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $this->withoutEvents();
-
         $artist = Artist::factory()->createOne();
 
         $artist->delete();
@@ -132,8 +130,6 @@ class ArtistShowTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        $this->withoutEvents();
-
         $schema = new ArtistSchema();
 
         $fields = collect($schema->fields());
@@ -425,8 +421,6 @@ class ArtistShowTest extends TestCase
      */
     public function testResourcesBySite(): void
     {
-        $this->withoutEvents();
-
         $siteFilter = ResourceSite::getRandomInstance();
 
         $parameters = [
@@ -467,8 +461,6 @@ class ArtistShowTest extends TestCase
      */
     public function testImagesByFacet(): void
     {
-        $this->withoutEvents();
-
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [

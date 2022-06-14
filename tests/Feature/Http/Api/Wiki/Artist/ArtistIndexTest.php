@@ -38,6 +38,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -46,6 +47,7 @@ use Tests\TestCase;
 class ArtistIndexTest extends TestCase
 {
     use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Artist Index Endpoint shall return a collection of Artist Resources.
@@ -54,8 +56,6 @@ class ArtistIndexTest extends TestCase
      */
     public function testDefault(): void
     {
-        $this->withoutEvents();
-
         $artists = Artist::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.artist.index'));
@@ -79,8 +79,6 @@ class ArtistIndexTest extends TestCase
      */
     public function testPaginated(): void
     {
-        $this->withoutEvents();
-
         Artist::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.artist.index'));
@@ -138,8 +136,6 @@ class ArtistIndexTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        $this->withoutEvents();
-
         $schema = new ArtistSchema();
 
         $fields = collect($schema->fields());
@@ -175,8 +171,6 @@ class ArtistIndexTest extends TestCase
      */
     public function testSorts(): void
     {
-        $this->withoutEvents();
-
         $schema = new ArtistSchema();
 
         $sort = collect($schema->fields())
@@ -213,8 +207,6 @@ class ArtistIndexTest extends TestCase
      */
     public function testCreatedAtFilter(): void
     {
-        $this->withoutEvents();
-
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -258,8 +250,6 @@ class ArtistIndexTest extends TestCase
      */
     public function testUpdatedAtFilter(): void
     {
-        $this->withoutEvents();
-
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -303,8 +293,6 @@ class ArtistIndexTest extends TestCase
      */
     public function testWithoutTrashedFilter(): void
     {
-        $this->withoutEvents();
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
@@ -344,8 +332,6 @@ class ArtistIndexTest extends TestCase
      */
     public function testWithTrashedFilter(): void
     {
-        $this->withoutEvents();
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
@@ -385,8 +371,6 @@ class ArtistIndexTest extends TestCase
      */
     public function testOnlyTrashedFilter(): void
     {
-        $this->withoutEvents();
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
@@ -426,8 +410,6 @@ class ArtistIndexTest extends TestCase
      */
     public function testDeletedAtFilter(): void
     {
-        $this->withoutEvents();
-
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -744,8 +726,6 @@ class ArtistIndexTest extends TestCase
      */
     public function testResourcesBySite(): void
     {
-        $this->withoutEvents();
-
         $siteFilter = ResourceSite::getRandomInstance();
 
         $parameters = [
@@ -788,8 +768,6 @@ class ArtistIndexTest extends TestCase
      */
     public function testImagesByFacet(): void
     {
-        $this->withoutEvents();
-
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [
