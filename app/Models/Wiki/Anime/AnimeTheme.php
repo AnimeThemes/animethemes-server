@@ -6,7 +6,6 @@ namespace App\Models\Wiki\Anime;
 
 use App\Enums\Models\Wiki\ThemeType;
 use App\Events\Wiki\Anime\Theme\ThemeCreated;
-use App\Events\Wiki\Anime\Theme\ThemeCreating;
 use App\Events\Wiki\Anime\Theme\ThemeDeleted;
 use App\Events\Wiki\Anime\Theme\ThemeDeleting;
 use App\Events\Wiki\Anime\Theme\ThemeRestored;
@@ -72,6 +71,7 @@ class AnimeTheme extends BaseModel
         AnimeTheme::ATTRIBUTE_ANIME,
         AnimeTheme::ATTRIBUTE_GROUP,
         AnimeTheme::ATTRIBUTE_SEQUENCE,
+        AnimeTheme::ATTRIBUTE_SLUG,
         AnimeTheme::ATTRIBUTE_SONG,
         AnimeTheme::ATTRIBUTE_TYPE,
     ];
@@ -85,7 +85,6 @@ class AnimeTheme extends BaseModel
      */
     protected $dispatchesEvents = [
         'created' => ThemeCreated::class,
-        'creating' => ThemeCreating::class,
         'deleted' => ThemeDeleted::class,
         'deleting' => ThemeDeleting::class,
         'restored' => ThemeRestored::class,

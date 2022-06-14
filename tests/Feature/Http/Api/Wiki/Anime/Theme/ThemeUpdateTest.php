@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
 
 use App\Enums\Models\Wiki\ThemeType;
-use App\Events\Wiki\Anime\Theme\ThemeCreating;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
-use Illuminate\Support\Facades\Event;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -18,6 +17,8 @@ use Tests\TestCase;
  */
 class ThemeUpdateTest extends TestCase
 {
+    use WithoutEvents;
+
     /**
      * The Theme Update Endpoint shall be protected by sanctum.
      *
@@ -25,8 +26,6 @@ class ThemeUpdateTest extends TestCase
      */
     public function testProtected(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
-
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
         $parameters = array_merge(
@@ -46,8 +45,6 @@ class ThemeUpdateTest extends TestCase
      */
     public function testUpdate(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
-
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
         $parameters = array_merge(

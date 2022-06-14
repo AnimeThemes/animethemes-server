@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -35,6 +36,7 @@ use Tests\TestCase;
 class AnimeShowTest extends TestCase
 {
     use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Anime Show Endpoint shall return an Anime Resource.
@@ -43,8 +45,6 @@ class AnimeShowTest extends TestCase
      */
     public function testDefault(): void
     {
-        $this->withoutEvents();
-
         $anime = Anime::factory()->create();
 
         $response = $this->get(route('api.anime.show', ['anime' => $anime]));
@@ -68,8 +68,6 @@ class AnimeShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $this->withoutEvents();
-
         $anime = Anime::factory()->createOne();
 
         $anime->delete();
@@ -132,8 +130,6 @@ class AnimeShowTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        $this->withoutEvents();
-
         $schema = new AnimeSchema();
 
         $fields = collect($schema->fields());
@@ -445,8 +441,6 @@ class AnimeShowTest extends TestCase
      */
     public function testResourcesBySite(): void
     {
-        $this->withoutEvents();
-
         $siteFilter = ResourceSite::getRandomInstance();
 
         $parameters = [
@@ -487,8 +481,6 @@ class AnimeShowTest extends TestCase
      */
     public function testImagesByFacet(): void
     {
-        $this->withoutEvents();
-
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [

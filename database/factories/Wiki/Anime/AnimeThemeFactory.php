@@ -35,6 +35,7 @@ class AnimeThemeFactory extends Factory
         return [
             AnimeTheme::ATTRIBUTE_GROUP => $this->faker->words(3, true),
             AnimeTheme::ATTRIBUTE_SEQUENCE => $this->faker->randomDigitNotNull(),
+            AnimeTheme::ATTRIBUTE_SLUG => $this->faker->word(),
             AnimeTheme::ATTRIBUTE_TYPE => ThemeType::getRandomValue(),
         ];
     }

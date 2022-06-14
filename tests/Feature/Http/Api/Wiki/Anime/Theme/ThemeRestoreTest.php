@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
 
-use App\Events\Wiki\Anime\Theme\ThemeCreating;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
-use Illuminate\Support\Facades\Event;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -17,6 +16,8 @@ use Tests\TestCase;
  */
 class ThemeRestoreTest extends TestCase
 {
+    use WithoutEvents;
+
     /**
      * The Theme Restore Endpoint shall be protected by sanctum.
      *
@@ -24,8 +25,6 @@ class ThemeRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
-
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
         $theme->delete();
@@ -42,8 +41,6 @@ class ThemeRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
-
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
         $theme->delete();

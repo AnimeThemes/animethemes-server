@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
 
 use App\Enums\Models\Wiki\ThemeType;
-use App\Events\Wiki\Anime\Theme\ThemeCreating;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
-use Illuminate\Support\Facades\Event;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -18,6 +17,8 @@ use Tests\TestCase;
  */
 class ThemeStoreTest extends TestCase
 {
+    use WithoutEvents;
+
     /**
      * The Theme Store Endpoint shall be protected by sanctum.
      *
@@ -25,8 +26,6 @@ class ThemeStoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
-
         $theme = AnimeTheme::factory()->for(Anime::factory())->makeOne();
 
         $response = $this->post(route('api.animetheme.store', $theme->toArray()));
@@ -41,8 +40,6 @@ class ThemeStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
-
         $user = User::factory()->withPermission('create anime theme')->createOne();
 
         Sanctum::actingAs($user);
@@ -51,6 +48,7 @@ class ThemeStoreTest extends TestCase
 
         $response->assertJsonValidationErrors([
             AnimeTheme::ATTRIBUTE_ANIME,
+            AnimeTheme::ATTRIBUTE_SLUG,
             AnimeTheme::ATTRIBUTE_TYPE,
         ]);
     }
@@ -62,8 +60,6 @@ class ThemeStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
-
         $anime = Anime::factory()->createOne();
 
         $parameters = array_merge(

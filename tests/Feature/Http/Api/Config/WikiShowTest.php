@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Config;
 
 use App\Constants\Config\WikiConstants;
-use App\Events\Wiki\Anime\Theme\ThemeCreating;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query\Config\WikiReadQuery;
@@ -17,8 +16,8 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\AnimeThemeEntryVideo;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -27,6 +26,7 @@ use Tests\TestCase;
 class WikiShowTest extends TestCase
 {
     use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Wiki Show Endpoint shall return a Flags Resource.
@@ -35,8 +35,6 @@ class WikiShowTest extends TestCase
      */
     public function testDefault(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
-
         $pivot = AnimeThemeEntryVideo::factory()
             ->for(Video::factory())
             ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
@@ -66,8 +64,6 @@ class WikiShowTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
-
         $pivot = AnimeThemeEntryVideo::factory()
             ->for(Video::factory())
             ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))

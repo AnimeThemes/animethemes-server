@@ -8,7 +8,6 @@ use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
 use App\Events\Wiki\Anime\Theme\Entry\EntryRestored;
 use App\Events\Wiki\Anime\Theme\Entry\EntryUpdated;
-use App\Events\Wiki\Anime\Theme\ThemeCreating;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -27,7 +26,7 @@ class EntryTest extends TestCase
      */
     public function testEntryCreatedEventDispatched(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
+        Event::fake();
 
         AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -43,7 +42,7 @@ class EntryTest extends TestCase
      */
     public function testEntryDeletedEventDispatched(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
+        Event::fake();
 
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -61,7 +60,7 @@ class EntryTest extends TestCase
      */
     public function testEntryRestoredEventDispatched(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
+        Event::fake();
 
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -81,7 +80,7 @@ class EntryTest extends TestCase
      */
     public function testEntryRestoresQuietly(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
+        Event::fake();
 
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -99,7 +98,7 @@ class EntryTest extends TestCase
      */
     public function testEntryUpdatedEventDispatched(): void
     {
-        Event::fakeExcept(ThemeCreating::class);
+        Event::fake();
 
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))

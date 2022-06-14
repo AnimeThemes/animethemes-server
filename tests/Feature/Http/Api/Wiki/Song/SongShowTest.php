@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -30,6 +31,7 @@ use Tests\TestCase;
 class SongShowTest extends TestCase
 {
     use WithFaker;
+    use WithoutEvents;
 
     /**
      * By default, the Song Show Endpoint shall return a Song Resource.
@@ -38,8 +40,6 @@ class SongShowTest extends TestCase
      */
     public function testDefault(): void
     {
-        $this->withoutEvents();
-
         $song = Song::factory()->create();
 
         $response = $this->get(route('api.song.show', ['song' => $song]));
@@ -63,8 +63,6 @@ class SongShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $this->withoutEvents();
-
         $song = Song::factory()->createOne();
 
         $song->delete();
@@ -130,8 +128,6 @@ class SongShowTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        $this->withoutEvents();
-
         $schema = new SongSchema();
 
         $fields = collect($schema->fields());
