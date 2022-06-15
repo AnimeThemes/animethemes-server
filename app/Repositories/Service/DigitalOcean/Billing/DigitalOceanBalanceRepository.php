@@ -45,7 +45,7 @@ class DigitalOceanBalanceRepository implements Repository
             ->throw()
             ->json();
 
-        $balance = Balance::factory()->makeOne([
+        $balance = new Balance([
             Balance::ATTRIBUTE_BALANCE => -1.0 * floatval(Arr::get($response, 'month_to_date_balance')),
             Balance::ATTRIBUTE_DATE => Date::now()->firstOfMonth()->format(AllowedDateFormat::YMD),
             Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::MONTHLY,

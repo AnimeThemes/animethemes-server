@@ -47,10 +47,13 @@ class CreateExternalResourceSiteForAnimeAction extends Action
      */
     public function handle(ActionFields $fields, Collection $models): array
     {
+        $link = $fields->get('link');
+
         // Create Resource Model with link and provided site
-        $resource = ExternalResource::factory()->createOne([
-            ExternalResource::ATTRIBUTE_EXTERNAL_ID => null,
-            ExternalResource::ATTRIBUTE_LINK => $fields->get('link'),
+        /** @var ExternalResource $resource */
+        $resource = ExternalResource::query()->create([
+            ExternalResource::ATTRIBUTE_EXTERNAL_ID => ResourceSite::parseIdFromLink($link),
+            ExternalResource::ATTRIBUTE_LINK => $link,
             ExternalResource::ATTRIBUTE_SITE => $this->site,
         ]);
 
