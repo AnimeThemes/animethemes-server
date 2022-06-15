@@ -71,10 +71,13 @@ abstract class BackfillAnimeImage extends BackfillAnimePipe
 
         $fsFile = $fs->putFile('', $file);
 
-        return Image::factory()->createOne([
+        /** @var Image $image */
+        $image = Image::query()->create([
             Image::ATTRIBUTE_FACET => $this->getFacet()->value,
             Image::ATTRIBUTE_PATH => $fsFile,
         ]);
+
+        return $image;
     }
 
     /**

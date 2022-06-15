@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repositories\Service\DigitalOcean;
 
 use App\Contracts\Repositories\Repository;
-use App\Enums\Models\Wiki\VideoOverlap;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -60,19 +59,12 @@ class VideoRepository implements Repository
 
         // Create videos from metadata that we can later save if needed
         return $fsVideos->map(
-            fn (StorageAttributes $fsFile) => Video::factory()->makeOne([
+            fn (StorageAttributes $fsFile) => new Video([
                 Video::ATTRIBUTE_BASENAME => File::basename($fsFile->path()),
                 Video::ATTRIBUTE_FILENAME => File::name($fsFile->path()),
-                Video::ATTRIBUTE_LYRICS => false,
                 Video::ATTRIBUTE_MIMETYPE => MimeType::from($fsFile->path()),
-                Video::ATTRIBUTE_NC => false,
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
                 Video::ATTRIBUTE_PATH => $fsFile->path(),
-                Video::ATTRIBUTE_RESOLUTION => null,
                 Video::ATTRIBUTE_SIZE => $fsFile->offsetGet(StorageAttributes::ATTRIBUTE_FILE_SIZE),
-                Video::ATTRIBUTE_SOURCE => null,
-                Video::ATTRIBUTE_SUBBED => false,
-                Video::ATTRIBUTE_UNCEN => false,
             ])
         );
     }

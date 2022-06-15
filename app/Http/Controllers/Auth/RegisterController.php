@@ -133,12 +133,14 @@ class RegisterController extends Controller
     #[DoNotDiscover]
     protected function create(array $data): User
     {
-        return User::factory()->createOne([
+        /** @var User $user */
+        $user = User::query()->create([
             User::ATTRIBUTE_EMAIL => Arr::get($data, 'email'),
             User::ATTRIBUTE_EMAIL_VERIFIED_AT => Date::now(),
             User::ATTRIBUTE_NAME => Arr::get($data, 'name'),
             User::ATTRIBUTE_PASSWORD => Hash::make(Arr::get($data, 'password')),
-            User::ATTRIBUTE_REMEMBER_TOKEN => null,
         ]);
+
+        return $user;
     }
 }

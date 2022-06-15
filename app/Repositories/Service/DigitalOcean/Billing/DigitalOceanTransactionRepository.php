@@ -57,7 +57,7 @@ class DigitalOceanTransactionRepository implements Repository
                     Arr::get($sourceTransaction, 'date')
                 );
 
-                $sourceTransactions[] = Transaction::factory()->makeOne([
+                $sourceTransactions[] = new Transaction([
                     Transaction::ATTRIBUTE_AMOUNT => Arr::get($sourceTransaction, 'amount'),
                     Transaction::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD),
                     Transaction::ATTRIBUTE_DESCRIPTION => Arr::get($sourceTransaction, 'description'),
