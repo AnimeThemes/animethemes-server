@@ -101,9 +101,10 @@ abstract class DatabaseDumpCommand extends Command
     /**
      * Configure Sqlite database dumper.
      *
-     * @param Connection $connection
+     * @param  Connection  $connection
      * @return Sqlite
      * @throws RuntimeException
+     *
      * @throws CannotSetParameter
      */
     protected function prepareSqliteDumper(Connection $connection): Sqlite
@@ -123,8 +124,9 @@ abstract class DatabaseDumpCommand extends Command
     /**
      * Configure MySQL database dumper.
      *
-     * @param Connection $connection
+     * @param  Connection  $connection
      * @return MySql
+     *
      * @throws CannotSetParameter
      */
     protected function prepareMySqlDumper(Connection $connection): MySql
@@ -210,8 +212,9 @@ abstract class DatabaseDumpCommand extends Command
     /**
      * Configure PostgreSql database dumper.
      *
-     * @param Connection $connection
+     * @param  Connection  $connection
      * @return PostgreSql
+     *
      * @throws CannotSetParameter
      */
     protected function preparePostgreSqlDumper(Connection $connection): PostgreSql
