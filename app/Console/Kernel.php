@@ -40,19 +40,22 @@ class Kernel extends ConsoleKernel
             ->storeOutput()
             ->hourly();
 
-        $schedule->command(DocumentDatabaseDumpCommand::class)
+        // Managed database requires --single-transaction and --set-gtid-purged=OFF
+        $schedule->command(DocumentDatabaseDumpCommand::class, ['--single-transaction' => true, '--set-gtid-purged' => 'OFF'])
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
             ->daily();
 
-        $schedule->command(WikiDatabaseDumpCommand::class)
+        // Managed database requires --single-transaction and --set-gtid-purged=OFF
+        $schedule->command(WikiDatabaseDumpCommand::class, ['--single-transaction' => true, '--set-gtid-purged' => 'OFF'])
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
             ->daily();
 
-        $schedule->command(WikiDatabaseDumpCommand::class, ['--create'])
+        // Managed database requires --single-transaction and --set-gtid-purged=OFF
+        $schedule->command(WikiDatabaseDumpCommand::class, ['--single-transaction' => true, '--set-gtid-purged' => 'OFF', '--no-create-info' => true])
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
