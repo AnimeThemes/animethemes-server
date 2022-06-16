@@ -147,9 +147,9 @@ abstract class DatabaseDumpCommand extends Command
 
         // Managed database requires the port to be set as an input option
         $port = $connection->getConfig('port');
-        if (is_int($port)) {
+        if (is_numeric($port)) {
             $dumper->addExtraOption("-P $port");
-            $dumper->setPort($port);
+            $dumper->setPort(intval($port));
         }
 
         $dumper->includeTables($this->allowedTables());
