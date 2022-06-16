@@ -103,8 +103,8 @@ abstract class DatabaseDumpCommand extends Command
      *
      * @param  Connection  $connection
      * @return Sqlite
-     * @throws RuntimeException
      *
+     * @throws RuntimeException
      * @throws CannotSetParameter
      */
     protected function prepareSqliteDumper(Connection $connection): Sqlite
