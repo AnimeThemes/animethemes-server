@@ -263,7 +263,7 @@ abstract class DatabaseDumpCommand extends Command
         return Str::of($filesystem->path($this->getDumpFilePath()))
             ->append(DIRECTORY_SEPARATOR)
             ->append('animethemes-db-dump-')
-            ->append(Date::now()->toDateString())
+            ->append(intval(Date::now()->valueOf()))
             ->append('.sql')
             ->__toString();
     }
