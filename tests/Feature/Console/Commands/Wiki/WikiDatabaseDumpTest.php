@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Console\Commands\Wiki;
 
-use App\Console\Commands\DatabaseDumpCommand;
 use App\Console\Commands\Wiki\WikiDatabaseDumpCommand;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -26,15 +24,11 @@ class WikiDatabaseDumpTest extends TestCase
      */
     public function testDataBaseDumpOutput(): void
     {
-        if (! DatabaseDumpCommand::canIncludeTables(DB::connection())) {
-            static::markTestSkipped('DB connection does not support includeTables option');
-        }
-
         Storage::fake('db-dumps');
 
         Date::setTestNow($this->faker->iso8601());
 
-        $this->artisan(WikiDatabaseDumpCommand::class, ['--create' => $this->faker->boolean()])
+        $this->artisan(WikiDatabaseDumpCommand::class)
             ->assertSuccessful()
             ->expectsOutputToContain('has been created');
     }
@@ -46,15 +40,11 @@ class WikiDatabaseDumpTest extends TestCase
      */
     public function testDataBaseDumpFile(): void
     {
-        if (! DatabaseDumpCommand::canIncludeTables(DB::connection())) {
-            static::markTestSkipped('DB connection does not support includeTables option');
-        }
-
         Storage::fake('db-dumps');
 
         Date::setTestNow($this->faker->iso8601());
 
-        $this->artisan(WikiDatabaseDumpCommand::class, ['--create' => $this->faker->boolean()])->run();
+        $this->artisan(WikiDatabaseDumpCommand::class)->run();
 
         static::assertCount(1, Storage::disk('db-dumps')->allFiles());
     }

@@ -6,7 +6,7 @@ namespace App\Console\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Database\ConnectionInterface;
+use Illuminate\Database\Connection;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\PostgresConnection;
 use Illuminate\Database\SQLiteConnection;
@@ -14,12 +14,16 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use PDO;
+use RuntimeException;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
 use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\DbDumper\DbDumper;
+use Spatie\DbDumper\Exceptions\CannotSetParameter;
 
 /**
  * Class DatabaseDumpCommand.
@@ -33,12 +37,24 @@ abstract class DatabaseDumpCommand extends Command
      */
     public function handle(): int
     {
-        $create = $this->option('create');
+        $validator = Validator::make($this->options(), [
+            'default-character-set' => ['string'],
+            'set-gtid-purged' => [Rule::in(['OFF', 'ON', 'AUTO'])->__toString()],
+        ]);
+
+        if ($validator->fails()) {
+            foreach ($validator->errors()->all() as $error) {
+                $this->error($error);
+            }
+
+            return 1;
+        }
 
         try {
+            /** @var Connection $connection */
             $connection = DB::connection();
 
-            $dumper = $this->getDumper($connection, $create);
+            $dumper = $this->getDumper($connection);
             if ($dumper === null) {
                 Log::error("Unrecognized connection '{$connection->getName()}'");
                 $this->error("Unrecognized connection '{$connection->getName()}'");
@@ -46,29 +62,7 @@ abstract class DatabaseDumpCommand extends Command
                 return 1;
             }
 
-            if (! static::canIncludeTables($connection)) {
-                Log::error('DB connection does not support includeTables option');
-                $this->error('DB connection does not support includeTables option');
-
-                return 1;
-            }
-            $dumper->includeTables($this->allowedTables());
-
-            $dumper->setDbName($connection->getDatabaseName())
-                ->setUserName(strval($connection->getConfig('username')))
-                ->setPassword(strval($connection->getConfig('password')));
-
-            $host = $connection->getConfig('host');
-            if ($host !== null) {
-                $dumper->setHost(collect($host)->first());
-            }
-
-            $port = $connection->getConfig('port');
-            if (is_int($port)) {
-                $dumper->setPort($port);
-            }
-
-            $dumpFile = $this->getDumpFile($create);
+            $dumpFile = $this->getDumpFile();
 
             $dumper->dumpToFile($dumpFile);
 
@@ -89,44 +83,175 @@ abstract class DatabaseDumpCommand extends Command
     /**
      * Get the dumper for the database connection.
      *
-     * @param  ConnectionInterface  $connection
-     * @param  bool  $create
+     * @param  Connection  $connection
      * @return DbDumper|null
+     *
+     * @throws CannotSetParameter
      */
-    protected function getDumper(ConnectionInterface $connection, bool $create): ?DbDumper
+    protected function getDumper(Connection $connection): ?DbDumper
     {
         return match (get_class($connection)) {
-            SQLiteConnection::class => Sqlite::create(),
-            MySqlConnection::class => $create ? MySql::create() : MySql::create()->doNotCreateTables(),
-            PostgresConnection::class => $create ? PostgreSql::create() : PostgreSql::create()->doNotCreateTables(),
+            SQLiteConnection::class => $this->prepareSqliteDumper($connection),
+            MySqlConnection::class => $this->prepareMySqlDumper($connection),
+            PostgresConnection::class => $this->preparePostgreSqlDumper($connection),
             default => null,
         };
     }
 
     /**
-     * Determine if the database connection supports table inclusion.
+     * Configure Sqlite database dumper.
      *
-     * @param  ConnectionInterface  $connection
-     * @return bool
+     * @param Connection $connection
+     * @return Sqlite
+     * @throws RuntimeException
+     * @throws CannotSetParameter
      */
-    public static function canIncludeTables(ConnectionInterface $connection): bool
+    protected function prepareSqliteDumper(Connection $connection): Sqlite
     {
-        // Sqlite version 3.32.0 is required when using the includeTables option
-        if ($connection instanceof SQLiteConnection) {
-            return version_compare($connection->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '3.32.0', '>=');
+        if (version_compare($connection->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '3.32.0', '<')) {
+            throw new RuntimeException('DB connection does not support includeTables option');
         }
 
-        return true;
+        $dumper = Sqlite::create();
+
+        $dumper->setDbName($connection->getDatabaseName());
+        $dumper->includeTables($this->allowedTables());
+
+        return $dumper;
+    }
+
+    /**
+     * Configure MySQL database dumper.
+     *
+     * @param Connection $connection
+     * @return MySql
+     * @throws CannotSetParameter
+     */
+    protected function prepareMySqlDumper(Connection $connection): MySql
+    {
+        $dumper = MySql::create();
+
+        $dumper->setDbName($connection->getDatabaseName());
+        $dumper->setUserName(strval($connection->getConfig('username')));
+        $dumper->setPassword(strval($connection->getConfig('password')));
+
+        // Managed database requires the host to be set as an input option
+        $hostConfig = $connection->getConfig('host');
+        if ($hostConfig !== null) {
+            $host = collect($hostConfig)->first();
+            $dumper->addExtraOption("-h $host");
+            $dumper->setHost($host);
+        }
+
+        // Managed database requires the port to be set as an input option
+        $port = $connection->getConfig('port');
+        if (is_int($port)) {
+            $dumper->addExtraOption("-P $port");
+            $dumper->setPort($port);
+        }
+
+        $dumper->includeTables($this->allowedTables());
+
+        if ($this->option('comments')) {
+            $dumper->dontSkipComments();
+        }
+
+        if ($this->option('skip-comments')) {
+            $dumper->skipComments();
+        }
+
+        if ($this->option('extended-insert')) {
+            $dumper->useExtendedInserts();
+        }
+
+        if ($this->option('skip-extended-insert')) {
+            $dumper->dontUseExtendedInserts();
+        }
+
+        $this->option('single-transaction')
+            ? $dumper->useSingleTransaction()
+            : $dumper->dontUseSingleTransaction();
+
+        if ($this->option('lock-tables')) {
+            $dumper->dontSkipLockTables();
+        }
+
+        if ($this->option('skip-lock-tables')) {
+            $dumper->skipLockTables();
+        }
+
+        if ($this->option('skip-column-statistics')) {
+            $dumper->doNotUseColumnStatistics();
+        }
+
+        if ($this->option('quick')) {
+            $dumper->useQuick();
+        }
+
+        if ($this->option('skip-quick')) {
+            $dumper->dontUseQuick();
+        }
+
+        if ($this->hasOption('default-character-set')) {
+            $dumper->setDefaultCharacterSet($this->option('default-character-set'));
+        }
+
+        if ($this->hasOption('set-gtid-purged')) {
+            $dumper->setGtidPurged($this->option('set-gtid-purged'));
+        }
+
+        if ($this->option('no-create-info')) {
+            $dumper->doNotCreateTables();
+        }
+
+        return $dumper;
+    }
+
+    /**
+     * Configure PostgreSql database dumper.
+     *
+     * @param Connection $connection
+     * @return PostgreSql
+     * @throws CannotSetParameter
+     */
+    protected function preparePostgreSqlDumper(Connection $connection): PostgreSql
+    {
+        $dumper = PostgreSql::create();
+
+        $dumper->setDbName($connection->getDatabaseName());
+        $dumper->setUserName(strval($connection->getConfig('username')));
+        $dumper->setPassword(strval($connection->getConfig('password')));
+
+        $host = $connection->getConfig('host');
+        if ($host !== null) {
+            $dumper->setHost(collect($host)->first());
+        }
+
+        $port = $connection->getConfig('port');
+        if (is_int($port)) {
+            $dumper->setPort($port);
+        }
+
+        $dumper->includeTables($this->allowedTables());
+
+        if ($this->option('inserts')) {
+            $dumper->useInserts();
+        }
+
+        if ($this->option('data-only')) {
+            $dumper->doNotCreateTables();
+        }
+
+        return $dumper;
     }
 
     /**
      * The target path for the database dump.
-     * Pattern: "/path/to/project/storage/db-dumps/{path}/animethemes-db-dump-{create?}-{year}-{month}-{day}.sql".
+     * Pattern: "/path/to/project/storage/db-dumps/{path}/animethemes-db-dump-{year}-{month}-{day}.sql".
      *
-     * @param  bool  $create
      * @return string
      */
-    public function getDumpFile(bool $create = false): string
+    public function getDumpFile(): string
     {
         $filesystem = Storage::disk('db-dumps');
 
@@ -135,7 +260,6 @@ abstract class DatabaseDumpCommand extends Command
         return Str::of($filesystem->path($this->getDumpFilePath()))
             ->append(DIRECTORY_SEPARATOR)
             ->append('animethemes-db-dump-')
-            ->append($create ? 'create-' : '')
             ->append(Date::now()->toDateString())
             ->append('.sql')
             ->__toString();

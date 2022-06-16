@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Console\Commands\Wiki;
 
-use App\Console\Commands\DatabaseDumpCommand;
 use App\Console\Commands\PruneDatabaseDumpsCommand;
 use App\Console\Commands\Wiki\WikiDatabaseDumpCommand;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -40,10 +38,6 @@ class PruneDatabaseDumpsTest extends TestCase
      */
     public function testDeleted(): void
     {
-        if (! DatabaseDumpCommand::canIncludeTables(DB::connection())) {
-            static::markTestSkipped('DB connection does not support includeTables option');
-        }
-
         Storage::fake('db-dumps');
 
         $deletedCount = $this->faker->randomDigitNotNull();
