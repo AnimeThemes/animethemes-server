@@ -137,18 +137,13 @@ abstract class DatabaseDumpCommand extends Command
         $dumper->setUserName(strval($connection->getConfig('username')));
         $dumper->setPassword(strval($connection->getConfig('password')));
 
-        // Managed database requires the host to be set as an input option
         $hostConfig = $connection->getConfig('host');
         if ($hostConfig !== null) {
-            $host = collect($hostConfig)->first();
-            $dumper->addExtraOption("-h $host");
-            $dumper->setHost($host);
+            $dumper->setHost(collect($hostConfig)->first());
         }
 
-        // Managed database requires the port to be set as an input option
         $port = $connection->getConfig('port');
         if (is_numeric($port)) {
-            $dumper->addExtraOption("-P $port");
             $dumper->setPort(intval($port));
         }
 
@@ -250,7 +245,7 @@ abstract class DatabaseDumpCommand extends Command
 
     /**
      * The target path for the database dump.
-     * Pattern: "/path/to/project/storage/db-dumps/{path}/animethemes-db-dump-{year}-{month}-{day}.sql".
+     * Pattern: "/path/to/project/storage/db-dumps/{path}/animethemes-db-dump-{milliseconds from epoch}.sql".
      *
      * @return string
      */
