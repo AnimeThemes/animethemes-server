@@ -9,6 +9,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Pipes\Wiki\Studio\BackfillStudioImage;
+use Illuminate\Http\Client\RequestException;
 
 /**
  * Class BackfillLargeCoverImage.
@@ -29,6 +30,8 @@ class BackfillLargeCoverImage extends BackfillStudioImage
      * Query third-party APIs to find Image.
      *
      * @return Image|null
+     *
+     * @throws RequestException
      */
     protected function getImage(): ?Image
     {
@@ -43,8 +46,10 @@ class BackfillLargeCoverImage extends BackfillStudioImage
     /**
      * Query MAL API for large cover image.
      *
-     * @param  ExternalResource  $malResource
+     * @param ExternalResource $malResource
      * @return Image|null
+     *
+     * @throws RequestException
      */
     protected function getMalImage(ExternalResource $malResource): ?Image
     {

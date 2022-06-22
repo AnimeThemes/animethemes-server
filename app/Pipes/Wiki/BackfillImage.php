@@ -62,10 +62,12 @@ abstract class BackfillImage extends BasePipe
      *
      * @param  string  $url
      * @return Image
+     *
+     * @throws RequestException
      */
     protected function createImage(string $url): Image
     {
-        $imageResponse = Http::get($url);
+        $imageResponse = Http::get($url)->throw();
 
         $image = $imageResponse->body();
 
