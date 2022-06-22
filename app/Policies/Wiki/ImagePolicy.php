@@ -8,8 +8,10 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Studio;
 use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
+use App\Pivots\StudioImage;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
@@ -172,6 +174,46 @@ class ImagePolicy
      * @return bool
      */
     public function detachAnime(User $user): bool
+    {
+        return $user->can('update image');
+    }
+
+    /**
+     * Determine whether the user can attach any studio to the image.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function attachAnyStudio(User $user): bool
+    {
+        return $user->can('update image');
+    }
+
+    /**
+     * Determine whether the user can attach a studio to the image.
+     *
+     * @param  User  $user
+     * @param  Image  $image
+     * @param  Studio  $studio
+     * @return bool
+     */
+    public function attachStudio(User $user, Image $image, Studio $studio): bool
+    {
+        $attached = StudioImage::query()
+            ->where($image->getKeyName(), $image->getKey())
+            ->where($studio->getKeyName(), $studio->getKey())
+            ->exists();
+
+        return ! $attached && $user->can('update image');
+    }
+
+    /**
+     * Determine whether the user can detach a studio from the image.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function detachStudio(User $user): bool
     {
         return $user->can('update image');
     }

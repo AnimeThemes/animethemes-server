@@ -6,8 +6,10 @@ namespace Tests\Unit\Models\Wiki;
 
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use App\Pivots\AnimeStudio;
+use App\Pivots\StudioImage;
 use App\Pivots\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -107,5 +109,24 @@ class StudioTest extends TestCase
         static::assertEquals($resourceCount, $studio->resources()->count());
         static::assertInstanceOf(ExternalResource::class, $studio->resources()->first());
         static::assertEquals(StudioResource::class, $studio->resources()->getPivotClass());
+    }
+
+    /**
+     * Studio shall have a many-to-many relationship with the type Image.
+     *
+     * @return void
+     */
+    public function testImages(): void
+    {
+        $imageCount = $this->faker->randomDigitNotNull();
+
+        $studio = Studio::factory()
+            ->has(Image::factory()->count($imageCount))
+            ->createOne();
+
+        static::assertInstanceOf(BelongsToMany::class, $studio->images());
+        static::assertEquals($imageCount, $studio->images()->count());
+        static::assertInstanceOf(Image::class, $studio->images()->first());
+        static::assertEquals(StudioImage::class, $studio->images()->getPivotClass());
     }
 }

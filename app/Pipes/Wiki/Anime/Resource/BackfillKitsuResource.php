@@ -38,7 +38,7 @@ class BackfillKitsuResource extends BackfillAnimeResource
     {
         // Allow fall-throughs in case Kitsu Resource is not mapped to every external site.
 
-        $malResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
+        $malResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
         if ($malResource instanceof ExternalResource) {
             $kitsuResource = $this->getKitsuMapping($malResource, 'MYANIMELIST_ANIME');
             if ($kitsuResource !== null) {
@@ -49,7 +49,7 @@ class BackfillKitsuResource extends BackfillAnimeResource
             sleep(rand(1, 3));
         }
 
-        $anilistResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
+        $anilistResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
         if ($anilistResource instanceof ExternalResource) {
             $kitsuResource = $this->getKitsuMapping($anilistResource, 'ANILIST_ANIME');
             if ($kitsuResource !== null) {
@@ -60,7 +60,7 @@ class BackfillKitsuResource extends BackfillAnimeResource
             sleep(rand(1, 3));
         }
 
-        $anidbResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB);
+        $anidbResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB);
         if ($anidbResource instanceof ExternalResource) {
             $kitsuResource = $this->getKitsuMapping($anidbResource, 'ANIDB');
             if ($kitsuResource !== null) {
@@ -71,7 +71,7 @@ class BackfillKitsuResource extends BackfillAnimeResource
             sleep(rand(1, 3));
         }
 
-        $annResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN);
+        $annResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN);
         if ($annResource instanceof ExternalResource) {
             return $this->getKitsuMapping($annResource, 'ANIMENEWSNETWORK');
         }

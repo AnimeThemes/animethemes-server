@@ -5,56 +5,54 @@ declare(strict_types=1);
 namespace App\Pipes\Wiki\Anime\Studio;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Auth\User;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
-use App\Pipes\Wiki\Anime\BackfillAnimePipe;
-use App\Pivots\StudioResource;
-use Closure;
-use Illuminate\Database\Eloquent\Builder;
+use App\Pipes\Wiki\BackfillStudios;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 use RuntimeException;
 
 /**
  * Class BackfillAnimeStudios.
+ *
+ * @extends BackfillStudios<Anime>
  */
-class BackfillAnimeStudios extends BackfillAnimePipe
+class BackfillAnimeStudios extends BackfillStudios
 {
     /**
-     * Handle an incoming request.
+     * Create a new pipe instance.
      *
-     * @param  User  $user
-     * @param  Closure(User): mixed  $next
-     * @return mixed
-     *
-     * @throws RequestException
+     * @param  Anime  $anime
      */
-    public function handle(User $user, Closure $next): mixed
+    public function __construct(Anime $anime)
     {
-        if ($this->anime->studios()->exists()) {
-            Log::info("Anime '{$this->anime->getName()}' already has Studios.");
+        parent::__construct($anime);
+    }
 
-            return $next($user);
-        }
+    /**
+     * Get the model passed into the pipeline.
+     *
+     * @return Anime
+     */
+    public function getModel(): Anime
+    {
+        return $this->model;
+    }
 
-        $studios = $this->getStudios();
-
-        if (! empty($studios)) {
-            $this->attachStudiosToAnime($studios);
-        }
-
-        if ($this->anime->studios()->doesntExist()) {
-            $this->sendNotification($user, "Anime '{$this->anime->getName()}' has no Studios after backfilling. Please review.");
-        }
-
-        return $next($user);
+    /**
+     * Get the relation to studios.
+     *
+     * @return BelongsToMany
+     */
+    protected function relation(): BelongsToMany
+    {
+        return $this->getModel()->studios();
     }
 
     /**
@@ -66,7 +64,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
      */
     protected function getStudios(): array
     {
-        $malResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
+        $malResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
         if ($malResource instanceof ExternalResource) {
             $studios = $this->getMalAnimeStudios($malResource);
             if (! empty($studios)) {
@@ -74,7 +72,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
             }
         }
 
-        $anilistResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
+        $anilistResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
         if ($anilistResource instanceof ExternalResource) {
             $studios = $this->getAnilistAnimeStudios($anilistResource);
             if (! empty($studios)) {
@@ -82,7 +80,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
             }
         }
 
-        $kitsuResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU);
+        $kitsuResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU);
         if ($kitsuResource instanceof ExternalResource) {
             $studios = $this->getKitsuAnimeStudios($kitsuResource);
             if (! empty($studios)) {
@@ -90,7 +88,7 @@ class BackfillAnimeStudios extends BackfillAnimePipe
             }
         }
 
-        $annResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN);
+        $annResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN);
         if ($annResource instanceof ExternalResource) {
             return $this->getAnnAnimeStudios($annResource);
         }
@@ -299,84 +297,14 @@ class BackfillAnimeStudios extends BackfillAnimePipe
     }
 
     /**
-     * Get or create Studio from name (case-insensitive).
-     *
-     * @param  string  $name
-     * @return Studio
-     */
-    protected function getOrCreateStudio(string $name): Studio
-    {
-        $column = Studio::ATTRIBUTE_NAME;
-        $studio = Studio::query()
-            ->where(DB::raw("lower($column)"), Str::lower($name))
-            ->first();
-
-        if (! $studio instanceof Studio) {
-            Log::info("Creating studio '$name'");
-
-            $studio = Studio::query()->create([
-                Studio::ATTRIBUTE_NAME => $name,
-                Studio::ATTRIBUTE_SLUG => Str::slug($name, '_'),
-            ]);
-        }
-
-        return $studio;
-    }
-
-    /**
-     * Ensure Studio has Resource.
-     *
-     * @param  Studio  $studio
-     * @param  ResourceSite  $site
-     * @param  int  $id
-     * @return void
-     */
-    protected function ensureStudioHasResource(Studio $studio, ResourceSite $site, int $id): void
-    {
-        $studioResource = ExternalResource::query()
-            ->where(ExternalResource::ATTRIBUTE_SITE, $site->value)
-            ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $id)
-            ->whereHas(ExternalResource::RELATION_STUDIOS, fn (Builder $studioQuery) => $studioQuery->whereKey($studio))
-            ->first();
-
-        if (! $studioResource instanceof ExternalResource) {
-            Log::info("Creating studio resource with site '$site->value' and id '$id'");
-
-            $studioResource = ExternalResource::query()->create([
-                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $id,
-                ExternalResource::ATTRIBUTE_LINK => ResourceSite::formatStudioResourceLink($site, $id),
-                ExternalResource::ATTRIBUTE_SITE => $site->value,
-            ]);
-        }
-
-        if (StudioResource::query()
-            ->where($studio->getKeyName(), $studio->getKey())
-            ->where($studioResource->getKeyName(), $studioResource->getKey())
-            ->doesntExist()
-        ) {
-            Log::info("Attaching resource '$studioResource->link' to studio '{$studio->getName()}'");
-            $studioResource->studios()->attach($studio);
-        }
-    }
-
-    /**
-     * Attach Studios to Anime.
+     * Attach Studios.
      *
      * @param  Studio[]  $studios
      * @return void
      */
-    protected function attachStudiosToAnime(array $studios): void
+    protected function attachStudios(array $studios): void
     {
-        $results = $this->anime->studios()->sync(Arr::pluck($studios, Studio::ATTRIBUTE_ID));
-
-        if (count($results['attached'])) {
-            Log::info("Attached Studios to anime '{$this->anime->getName()}'", $results['attached']);
-        }
-        if (count($results['updated'])) {
-            Log::info("Updated Studios for anime '{$this->anime->getName()}'", $results['updated']);
-        }
-        if (count($results['detached'])) {
-            Log::info("Detached Studios from anime '{$this->anime->getName()}'", $results['detached']);
-        }
+        Log::info("Attaching studios to {$this->label()} '{$this->getModel()->getName()}'");
+        $this->relation()->attach(Arr::pluck($studios, Studio::ATTRIBUTE_ID));
     }
 }

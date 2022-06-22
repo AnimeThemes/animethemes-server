@@ -11,6 +11,7 @@ use App\Events\Wiki\Studio\StudioUpdated;
 use App\Models\BaseModel;
 use App\Pivots\AnimeStudio;
 use App\Pivots\BasePivot;
+use App\Pivots\StudioImage;
 use App\Pivots\StudioResource;
 use Database\Factories\Wiki\StudioFactory;
 use ElasticScoutDriverPlus\Searchable;
@@ -22,6 +23,7 @@ use Laravel\Nova\Actions\Actionable;
  * Class Studio.
  *
  * @property Collection<int, Anime> $anime
+ * @property Collection<int, Image> $images
  * @property string $name
  * @property string $slug
  * @property int $studio_id
@@ -41,6 +43,7 @@ class Studio extends BaseModel
     final public const ATTRIBUTE_SLUG = 'slug';
 
     final public const RELATION_ANIME = 'anime';
+    final public const RELATION_IMAGES = 'images';
     final public const RELATION_RESOURCES = 'resources';
 
     /**
@@ -126,5 +129,17 @@ class Studio extends BaseModel
         ->using(StudioResource::class)
         ->withPivot(StudioResource::ATTRIBUTE_AS)
         ->withTimestamps();
+    }
+
+    /**
+     * Get the images for the studio.
+     *
+     * @return BelongsToMany
+     */
+    public function images(): BelongsToMany
+    {
+        return $this->belongsToMany(Image::class, StudioImage::TABLE, Studio::ATTRIBUTE_ID, Image::ATTRIBUTE_ID)
+            ->using(StudioImage::class)
+            ->withTimestamps();
     }
 }

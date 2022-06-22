@@ -170,6 +170,19 @@ class Image extends Resource
                         ->hideWhenCreating(),
                 ]),
 
+            BelongsToMany::make(__('nova.studios'), ImageModel::RELATION_STUDIOS, Studio::class)
+                ->searchable()
+                ->filterable()
+                ->withSubtitles()
+                ->showCreateRelationButton()
+                ->fields(fn () => [
+                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                        ->hideWhenCreating(),
+
+                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                        ->hideWhenCreating(),
+                ]),
+
             Panel::make(__('nova.file_properties'), $this->fileProperties())
                 ->collapsable(),
 

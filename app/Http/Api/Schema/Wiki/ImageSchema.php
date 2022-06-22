@@ -50,6 +50,7 @@ class ImageSchema extends EloquentSchema
         return [
             new AllowedInclude(new AnimeSchema(), Image::RELATION_ANIME),
             new AllowedInclude(new ArtistSchema(), Image::RELATION_ARTISTS),
+            new AllowedInclude(new StudioSchema(), Image::RELATION_STUDIOS),
         ];
     }
 

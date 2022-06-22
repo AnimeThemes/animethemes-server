@@ -6,8 +6,10 @@ namespace App\Policies\Wiki;
 
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use App\Pivots\AnimeStudio;
+use App\Pivots\StudioImage;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
@@ -163,6 +165,46 @@ class StudioPolicy
      * @return bool
      */
     public function detachExternalResource(User $user): bool
+    {
+        return $user->can('update studio');
+    }
+
+    /**
+     * Determine whether the user can attach any image to the studio.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function attachAnyImage(User $user): bool
+    {
+        return $user->can('update studio');
+    }
+
+    /**
+     * Determine whether the user can attach an image to the studio.
+     *
+     * @param  User  $user
+     * @param  Studio  $studio
+     * @param  Image  $image
+     * @return bool
+     */
+    public function attachImage(User $user, Studio $studio, Image $image): bool
+    {
+        $attached = StudioImage::query()
+            ->where($studio->getKeyName(), $studio->getKey())
+            ->where($image->getKeyName(), $image->getKey())
+            ->exists();
+
+        return ! $attached && $user->can('update studio');
+    }
+
+    /**
+     * Determine whether the user can detach an image from the studio.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function detachImage(User $user): bool
     {
         return $user->can('update studio');
     }

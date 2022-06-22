@@ -37,12 +37,9 @@ class BackfillLargeCoverImage extends BackfillAnimeImage
      */
     protected function getImage(): ?Image
     {
-        $anilistResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
+        $anilistResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
         if ($anilistResource instanceof ExternalResource) {
-            $anidbResource = $this->getAnidbImage($anilistResource);
-            if ($anidbResource !== null) {
-                return $anidbResource;
-            }
+            return $this->getAnilistImage($anilistResource);
         }
 
         return null;
@@ -56,7 +53,7 @@ class BackfillLargeCoverImage extends BackfillAnimeImage
      *
      * @throws RequestException
      */
-    protected function getAnidbImage(ExternalResource $anilistResource): ?Image
+    protected function getAnilistImage(ExternalResource $anilistResource): ?Image
     {
         $query = '
         query ($id: Int) {

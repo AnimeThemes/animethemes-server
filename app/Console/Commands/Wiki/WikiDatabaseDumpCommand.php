@@ -25,6 +25,7 @@ use App\Pivots\ArtistImage;
 use App\Pivots\ArtistMember;
 use App\Pivots\ArtistResource;
 use App\Pivots\ArtistSong;
+use App\Pivots\StudioImage;
 use App\Pivots\StudioResource;
 
 /**
@@ -89,6 +90,7 @@ class WikiDatabaseDumpCommand extends DatabaseDumpCommand
             Series::TABLE,
             Song::TABLE,
             Studio::TABLE,
+            StudioImage::TABLE,
             StudioResource::TABLE,
             Video::TABLE,
         ];

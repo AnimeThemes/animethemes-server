@@ -2,23 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Nova\Lenses\Image;
+namespace App\Nova\Lenses\Studio;
 
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Studio;
 use App\Nova\Lenses\BaseLens;
-use BenSampo\Enum\Enum;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Image as NovaImage;
-use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
- * Class ImageUnlinkedLens.
+ * Class StudioCoverLargeLens.
  */
-class ImageUnlinkedLens extends BaseLens
+class StudioCoverLargeLens extends BaseLens
 {
     /**
      * Get the displayable name of the lens.
@@ -29,7 +28,7 @@ class ImageUnlinkedLens extends BaseLens
      */
     public function name(): string
     {
-        return __('nova.image_unlinked_lens');
+        return __('nova.studio_image_lens', ['facet' => ImageFacet::getDescription(ImageFacet::COVER_LARGE)]);
     }
 
     /**
@@ -54,10 +53,9 @@ class ImageUnlinkedLens extends BaseLens
      */
     public static function criteria(Builder $query): Builder
     {
-        return $query->whereNot(Image::ATTRIBUTE_FACET, ImageFacet::GRILL)
-            ->whereDoesntHave(Image::RELATION_ANIME)
-            ->whereDoesntHave(Image::RELATION_ARTISTS)
-            ->whereDoesntHave(Image::RELATION_STUDIOS);
+        return $query->whereDoesntHave(Studio::RELATION_IMAGES, function (Builder $imageQuery) {
+            $imageQuery->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE);
+        });
     }
 
     /**
@@ -69,17 +67,16 @@ class ImageUnlinkedLens extends BaseLens
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), Image::ATTRIBUTE_ID)
+            ID::make(__('nova.id'), Studio::ATTRIBUTE_ID)
                 ->sortable(),
 
-            Select::make(__('nova.facet'), Image::ATTRIBUTE_FACET)
-                ->options(ImageFacet::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+            Text::make(__('nova.name'), Studio::ATTRIBUTE_NAME)
                 ->sortable()
                 ->filterable(),
 
-            NovaImage::make(__('nova.image'), Image::ATTRIBUTE_PATH)
-                ->disk('images'),
+            Text::make(__('nova.slug'), Studio::ATTRIBUTE_SLUG)
+                ->sortable()
+                ->filterable(),
         ];
     }
 
@@ -105,6 +102,6 @@ class ImageUnlinkedLens extends BaseLens
      */
     public function uriKey(): string
     {
-        return 'image-unlinked-lens';
+        return 'studio-cover-large-lens';
     }
 }
