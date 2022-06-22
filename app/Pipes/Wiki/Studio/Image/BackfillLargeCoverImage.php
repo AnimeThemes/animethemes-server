@@ -46,7 +46,7 @@ class BackfillLargeCoverImage extends BackfillStudioImage
     /**
      * Query MAL API for large cover image.
      *
-     * @param ExternalResource $malResource
+     * @param  ExternalResource  $malResource
      * @return Image|null
      *
      * @throws RequestException
