@@ -6,8 +6,8 @@ namespace Tests\Feature\Jobs\Pivot;
 
 use App\Constants\Config\FlagConstants;
 use App\Jobs\SendDiscordNotificationJob;
-use App\Models\Wiki\Studio;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Studio;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;

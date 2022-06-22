@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Pivots;
 
-use App\Models\Wiki\Studio;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Studio;
 use App\Pivots\StudioImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithoutEvents;
