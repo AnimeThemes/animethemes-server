@@ -29,7 +29,7 @@
         "ext-intl": "*",
         "ext-pdo": "*",
         "babenkoivan/elastic-migrations": "^2.0",
-        "babenkoivan/elastic-scout-driver-plus": "^3.0",
+        "babenkoivan/elastic-scout-driver-plus": "^3.5",
         "bensampo/laravel-enum": "^5.0",
         "bepsvpt/secure-headers": "^7.2",
         "cyrildewit/eloquent-viewable": "^6.1",
@@ -63,7 +63,7 @@
         "nunomaduro/collision": "^6.1",
         "nunomaduro/larastan": "^2.0",
         "phpunit/phpunit": "^9.5.10",
-        "predis/predis": "^1.1.9",
+        "predis/predis": "^2.0",
         "spatie/laravel-ignition": "^1.0"
     },
     "config": {

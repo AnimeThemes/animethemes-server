@@ -17,7 +17,6 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
@@ -35,20 +34,6 @@ class AnimeKitsuResourceLens extends BaseLens
     public function name(): string
     {
         return __('nova.anime_resource_lens', ['site' => ResourceSite::getDescription(ResourceSite::KITSU)]);
-    }
-
-    /**
-     * Get the query builder / paginator for the lens.
-     *
-     * @param  LensRequest  $request
-     * @param  Builder  $query
-     * @return Builder
-     */
-    public static function query(LensRequest $request, $query): Builder
-    {
-        return $request->withOrdering($request->withFilters(
-            static::criteria($query)
-        ));
     }
 
     /**

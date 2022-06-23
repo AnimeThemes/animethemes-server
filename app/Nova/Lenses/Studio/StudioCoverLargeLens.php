@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Nova\Lenses\Studio;
 
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
+use App\Nova\Actions\Wiki\Studio\BackfillStudioAction;
 use App\Nova\Lenses\BaseLens;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
@@ -29,20 +31,6 @@ class StudioCoverLargeLens extends BaseLens
     public function name(): string
     {
         return __('nova.studio_image_lens', ['facet' => ImageFacet::getDescription(ImageFacet::COVER_LARGE)]);
-    }
-
-    /**
-     * Get the query builder / paginator for the lens.
-     *
-     * @param  LensRequest  $request
-     * @param  Builder  $query
-     * @return Builder
-     */
-    public static function query(LensRequest $request, $query): Builder
-    {
-        return $request->withOrdering($request->withFilters(
-            static::criteria($query)
-        ));
     }
 
     /**
@@ -90,7 +78,19 @@ class StudioCoverLargeLens extends BaseLens
      */
     public function actions(NovaRequest $request): array
     {
-        return [];
+        return [
+            (new BackfillStudioAction($request->user()))
+                ->confirmButtonText(__('nova.backfill'))
+                ->cancelButtonText(__('nova.cancel'))
+                ->showOnIndex()
+                ->showOnDetail()
+                ->showInline()
+                ->canSee(function (Request $request) {
+                    $user = $request->user();
+
+                    return $user instanceof User && $user->can('update studio');
+                }),
+        ];
     }
 
     /**
