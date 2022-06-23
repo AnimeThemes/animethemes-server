@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image as NovaImage;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
@@ -30,20 +29,6 @@ class ImageUnlinkedLens extends BaseLens
     public function name(): string
     {
         return __('nova.image_unlinked_lens');
-    }
-
-    /**
-     * Get the query builder / paginator for the lens.
-     *
-     * @param  LensRequest  $request
-     * @param  Builder  $query
-     * @return Builder
-     */
-    public static function query(LensRequest $request, $query): Builder
-    {
-        return $request->withOrdering($request->withFilters(
-            static::criteria($query)
-        ));
     }
 
     /**

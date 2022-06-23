@@ -12,7 +12,6 @@ use App\Nova\Lenses\BaseLens;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
@@ -30,20 +29,6 @@ class ArtistCoverLargeLens extends BaseLens
     public function name(): string
     {
         return __('nova.artist_image_lens', ['facet' => ImageFacet::getDescription(ImageFacet::COVER_LARGE)]);
-    }
-
-    /**
-     * Get the query builder / paginator for the lens.
-     *
-     * @param  LensRequest  $request
-     * @param  Builder  $query
-     * @return Builder
-     */
-    public static function query(LensRequest $request, $query): Builder
-    {
-        return $request->withOrdering($request->withFilters(
-            static::criteria($query)
-        ));
     }
 
     /**

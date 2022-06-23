@@ -15,6 +15,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Console\PruneCommand as PruneModelsCommand;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Queue\Console\PruneFailedJobsCommand;
+use Illuminate\Support\Facades\Config;
 use Laravel\Horizon\Console\SnapshotCommand;
 use Laravel\Sanctum\Console\Commands\PruneExpired;
 use Laravel\Telescope\Console\PruneCommand as PruneTelescopeEntriesCommand;
@@ -41,21 +42,21 @@ class Kernel extends ConsoleKernel
             ->hourly();
 
         // Managed database requires --single-transaction and --set-gtid-purged=OFF
-        $schedule->command(DocumentDatabaseDumpCommand::class, ['--single-transaction' => true, '--set-gtid-purged' => 'OFF'])
+        $schedule->command(DocumentDatabaseDumpCommand::class, ['--single-transaction', '--set-gtid-purged' => 'OFF'])
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
             ->daily();
 
         // Managed database requires --single-transaction and --set-gtid-purged=OFF
-        $schedule->command(WikiDatabaseDumpCommand::class, ['--single-transaction' => true, '--set-gtid-purged' => 'OFF'])
+        $schedule->command(WikiDatabaseDumpCommand::class, ['--single-transaction', '--set-gtid-purged' => 'OFF'])
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
             ->daily();
 
         // Managed database requires --single-transaction and --set-gtid-purged=OFF
-        $schedule->command(WikiDatabaseDumpCommand::class, ['--single-transaction' => true, '--set-gtid-purged' => 'OFF', '--no-create-info' => true])
+        $schedule->command(WikiDatabaseDumpCommand::class, ['--single-transaction', '--set-gtid-purged' => 'OFF', '--no-create-info'])
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
@@ -85,11 +86,13 @@ class Kernel extends ConsoleKernel
             ->storeOutput()
             ->daily();
 
-        $schedule->command(PruneTelescopeEntriesCommand::class)
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->daily();
+        if (Config::get('telescope.enabled', false)) {
+            $schedule->command(PruneTelescopeEntriesCommand::class)
+                ->withoutOverlapping()
+                ->runInBackground()
+                ->storeOutput()
+                ->daily();
+        }
 
         $schedule->command(SnapshotCommand::class)
             ->withoutOverlapping()

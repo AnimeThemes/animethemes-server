@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
@@ -31,20 +30,6 @@ class StudioAniDbResourceLens extends BaseLens
     public function name(): string
     {
         return __('nova.studio_resource_lens', ['site' => ResourceSite::getDescription(ResourceSite::ANIDB)]);
-    }
-
-    /**
-     * Get the query builder / paginator for the lens.
-     *
-     * @param  LensRequest  $request
-     * @param  Builder  $query
-     * @return Builder
-     */
-    public static function query(LensRequest $request, $query): Builder
-    {
-        return $request->withOrdering($request->withFilters(
-            static::criteria($query)
-        ));
     }
 
     /**

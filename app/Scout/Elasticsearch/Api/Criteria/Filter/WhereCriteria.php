@@ -74,9 +74,13 @@ class WhereCriteria extends Criteria
             ComparisonOperator::GTE => ElasticQuery::range()->field($filter->getColumn())->gte($filterValue),
             ComparisonOperator::LIKE => ElasticQuery::wildcard()
                 ->field($filter->getColumn())
-                ->value(Str::replace(['%', '_'], ['*', '?'], $filterValue)),
+                ->value(Str::replace(['%', '_'], ['*', '?'], $filterValue))
+                ->caseInsensitive(true),
             ComparisonOperator::NOTLIKE => ElasticQuery::bool()->mustNot(
-                ElasticQuery::wildcard()->field($filter->getColumn())->value(Str::replace(['%', '_'], ['*', '?'], $filterValue))
+                ElasticQuery::wildcard()
+                    ->field($filter->getColumn())
+                    ->value(Str::replace(['%', '_'], ['*', '?'], $filterValue))
+                    ->caseInsensitive(true)
             ),
             default => ElasticQuery::term()->field($filter->getColumn())->value($filterValue),
         };
