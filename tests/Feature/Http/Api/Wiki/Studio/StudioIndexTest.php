@@ -8,6 +8,8 @@ use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ImageFacet;
+use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
@@ -24,6 +26,8 @@ use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -529,6 +533,90 @@ class StudioIndexTest extends TestCase
             json_decode(
                 json_encode(
                     (new StudioCollection($studio, new StudioReadQuery($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Studio Index Endpoint shall support constrained eager loading of resources by site.
+     *
+     * @return void
+     */
+    public function testResourcesBySite(): void
+    {
+        $siteFilter = ResourceSite::getRandomInstance();
+
+        $parameters = [
+            FilterParser::param() => [
+                ExternalResource::ATTRIBUTE_SITE => $siteFilter->description,
+            ],
+            IncludeParser::param() => Studio::RELATION_RESOURCES,
+        ];
+
+        Studio::factory()
+            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), Studio::RELATION_RESOURCES)
+            ->count($this->faker->randomDigitNotNull())
+            ->create();
+
+        $studios = Studio::with([
+            Studio::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter) {
+                $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
+            },
+        ])
+            ->get();
+
+        $response = $this->get(route('api.studio.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new StudioCollection($studios, new StudioReadQuery($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Studio Index Endpoint shall support constrained eager loading of images by facet.
+     *
+     * @return void
+     */
+    public function testImagesByFacet(): void
+    {
+        $facetFilter = ImageFacet::getRandomInstance();
+
+        $parameters = [
+            FilterParser::param() => [
+                Image::ATTRIBUTE_FACET => $facetFilter->description,
+            ],
+            IncludeParser::param() => Studio::RELATION_IMAGES,
+        ];
+
+        Studio::factory()
+            ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
+            ->count($this->faker->randomDigitNotNull())
+            ->create();
+
+        $anime = Studio::with([
+            Studio::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
+                $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
+            },
+        ])
+            ->get();
+
+        $response = $this->get(route('api.studio.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new StudioCollection($anime, new StudioReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

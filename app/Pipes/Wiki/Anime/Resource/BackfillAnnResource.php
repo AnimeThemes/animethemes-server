@@ -36,7 +36,7 @@ class BackfillAnnResource extends BackfillAnimeResource
      */
     protected function getResource(): ?ExternalResource
     {
-        $kitsuResource = $this->anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU);
+        $kitsuResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU);
         if ($kitsuResource instanceof ExternalResource) {
             return $this->getKitsuAnnMapping($kitsuResource);
         }

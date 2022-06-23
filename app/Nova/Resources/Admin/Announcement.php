@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Admin;
 
 use App\Models\Admin\Announcement as AnnouncementModel;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -16,7 +16,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Announcement.
  */
-class Announcement extends Resource
+class Announcement extends BaseResource
 {
     /**
      * The model the resource corresponds to.

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki\Anime;
 
 use App\Models\Wiki\Anime\AnimeSynonym;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\BelongsTo;
@@ -18,7 +18,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Synonym.
  */
-class Synonym extends Resource
+class Synonym extends BaseResource
 {
     /**
      * The model the resource corresponds to.

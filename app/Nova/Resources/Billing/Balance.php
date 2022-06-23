@@ -7,7 +7,7 @@ namespace App\Nova\Resources\Billing;
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance as BalanceModel;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Laravel\Nova\Fields\Currency;
@@ -21,7 +21,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Balance.
  */
-class Balance extends Resource
+class Balance extends BaseResource
 {
     /**
      * The model the resource corresponds to.

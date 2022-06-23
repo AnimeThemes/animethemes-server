@@ -8,6 +8,7 @@ use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
+use App\Http\Resources\Wiki\Collection\ImageCollection;
 use App\Models\BaseModel;
 use App\Models\Wiki\Studio;
 use App\Pivots\StudioResource as StudioResourcePivot;
@@ -78,6 +79,7 @@ class StudioResource extends BaseResource
 
         $result[Studio::RELATION_ANIME] = new AnimeCollection($this->whenLoaded(Studio::RELATION_ANIME), $this->query);
         $result[Studio::RELATION_RESOURCES] = new ExternalResourceCollection($this->whenLoaded(Studio::RELATION_RESOURCES), $this->query);
+        $result[Studio::RELATION_IMAGES] = new ImageCollection($this->whenLoaded(Studio::RELATION_IMAGES), $this->query);
 
         if ($this->isAllowedField(StudioResourcePivot::ATTRIBUTE_AS)) {
             $result[StudioResourcePivot::ATTRIBUTE_AS] = $this->whenPivotLoaded(StudioResourcePivot::TABLE, fn () => $this->pivot->getAttribute(StudioResourcePivot::ATTRIBUTE_AS));

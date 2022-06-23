@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Document;
 
 use App\Models\Document\Page as PageModel;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use Exception;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\ID;
@@ -19,7 +19,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Page.
  */
-class Page extends Resource
+class Page extends BaseResource
 {
     /**
      * The model the resource corresponds to.

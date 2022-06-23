@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Pipes\Wiki\Anime;
+namespace App\Pipes\Wiki\Studio;
 
-use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Studio;
 use App\Nova\Resources\BaseResource;
-use App\Nova\Resources\Wiki\Anime as AnimeResource;
+use App\Nova\Resources\Wiki\Studio as StudioResource;
 use App\Pipes\Wiki\BackfillImage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Log;
@@ -15,26 +15,26 @@ use Illuminate\Support\Facades\Log;
 /**
  * Class BackfillAnimeImage.
  *
- * @extends BackfillImage<Anime>
+ * @extends BackfillImage<Studio>
  */
-abstract class BackfillAnimeImage extends BackfillImage
+abstract class BackfillStudioImage extends BackfillImage
 {
     /**
      * Create a new pipe instance.
      *
-     * @param  Anime  $anime
+     * @param  Studio  $studio
      */
-    public function __construct(Anime $anime)
+    public function __construct(Studio $studio)
     {
-        parent::__construct($anime);
+        parent::__construct($studio);
     }
 
     /**
      * Get the model passed into the pipeline.
      *
-     * @return Anime
+     * @return Studio
      */
-    public function getModel(): Anime
+    public function getModel(): Studio
     {
         return $this->model;
     }
@@ -56,11 +56,11 @@ abstract class BackfillAnimeImage extends BackfillImage
      */
     protected function resource(): string
     {
-        return AnimeResource::class;
+        return StudioResource::class;
     }
 
     /**
-     * Attach Image to Anime.
+     * Attach Image to Studio.
      *
      * @param  Image  $image
      * @return void

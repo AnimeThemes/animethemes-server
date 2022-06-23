@@ -19,7 +19,7 @@ use App\Nova\Lenses\Anime\AnimePlanetResourceLens;
 use App\Nova\Lenses\Anime\AnimeStudioLens;
 use App\Nova\Metrics\Anime\AnimePerDay;
 use App\Nova\Metrics\Anime\NewAnime;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime\Synonym;
 use App\Nova\Resources\Wiki\Anime\Theme;
 use App\Pivots\AnimeResource;
@@ -46,7 +46,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Anime.
  */
-class Anime extends Resource
+class Anime extends BaseResource
 {
     /**
      * The model the resource corresponds to.

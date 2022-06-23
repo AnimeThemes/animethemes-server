@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki\Anime\Theme;
 
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime;
 use App\Nova\Resources\Wiki\Anime\Theme;
 use App\Nova\Resources\Wiki\Video;
@@ -25,7 +25,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Entry.
  */
-class Entry extends Resource
+class Entry extends BaseResource
 {
     /**
      * The model the resource corresponds to.

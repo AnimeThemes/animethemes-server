@@ -49,6 +49,7 @@ class StudioSchema extends EloquentSchema
         return [
             new AllowedInclude(new AnimeSchema(), Studio::RELATION_ANIME),
             new AllowedInclude(new ExternalResourceSchema(), Studio::RELATION_RESOURCES),
+            new AllowedInclude(new ImageSchema(), Studio::RELATION_IMAGES),
 
             // Undocumented paths needed for client builds
             new AllowedInclude(new ImageSchema(), 'anime.images'),

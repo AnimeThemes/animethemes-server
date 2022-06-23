@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Studio;
 
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ImageFacet;
+use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
@@ -14,6 +16,8 @@ use App\Http\Api\Query\Wiki\Studio\StudioReadQuery;
 use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -222,6 +226,86 @@ class StudioShowTest extends TestCase
         $studio->unsetRelations()->load([
             Studio::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
+            },
+        ]);
+
+        $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new StudioResource($studio, new StudioReadQuery($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Studio Show Endpoint shall support constrained eager loading of resources by site.
+     *
+     * @return void
+     */
+    public function testResourcesBySite(): void
+    {
+        $siteFilter = ResourceSite::getRandomInstance();
+
+        $parameters = [
+            FilterParser::param() => [
+                ExternalResource::ATTRIBUTE_SITE => $siteFilter->description,
+            ],
+            IncludeParser::param() => Studio::RELATION_RESOURCES,
+        ];
+
+        $studio = Studio::factory()
+            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), Studio::RELATION_RESOURCES)
+            ->createOne();
+
+        $studio->unsetRelations()->load([
+            Studio::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter) {
+                $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
+            },
+        ]);
+
+        $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new StudioResource($studio, new StudioReadQuery($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Studio Show Endpoint shall support constrained eager loading of images by facet.
+     *
+     * @return void
+     */
+    public function testImagesByFacet(): void
+    {
+        $facetFilter = ImageFacet::getRandomInstance();
+
+        $parameters = [
+            FilterParser::param() => [
+                Image::ATTRIBUTE_FACET => $facetFilter->description,
+            ],
+            IncludeParser::param() => Studio::RELATION_IMAGES,
+        ];
+
+        $studio = Studio::factory()
+            ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
+            ->createOne();
+
+        $studio->unsetRelations()->load([
+            Studio::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
+                $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
             },
         ]);
 

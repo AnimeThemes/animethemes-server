@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
+use App\Models\Auth\User;
 use App\Models\Wiki\Studio as StudioModel;
+use App\Nova\Actions\Wiki\Studio\BackfillStudioAction;
 use App\Nova\Lenses\Studio\StudioAniDbResourceLens;
 use App\Nova\Lenses\Studio\StudioAnilistResourceLens;
 use App\Nova\Lenses\Studio\StudioAnimePlanetResourceLens;
 use App\Nova\Lenses\Studio\StudioAnnResourceLens;
+use App\Nova\Lenses\Studio\StudioCoverLargeLens;
 use App\Nova\Lenses\Studio\StudioMalResourceLens;
 use App\Nova\Lenses\Studio\StudioUnlinkedLens;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Pivots\BasePivot;
 use App\Pivots\StudioResource;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
@@ -28,7 +32,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Studio.
  */
-class Studio extends Resource
+class Studio extends BaseResource
 {
     /**
      * The model the resource corresponds to.
@@ -176,9 +180,48 @@ class Studio extends Resource
                         ->hideWhenUpdating(),
                 ]),
 
+            BelongsToMany::make(__('nova.images'), StudioModel::RELATION_IMAGES, Image::class)
+                ->searchable()
+                ->filterable()
+                ->withSubtitles()
+                ->showCreateRelationButton()
+                ->fields(fn () => [
+                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                        ->hideWhenCreating(),
+
+                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                        ->hideWhenCreating(),
+                ]),
+
             Panel::make(__('nova.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request): array
+    {
+        return array_merge(
+            parent::actions($request),
+            [
+                (new BackfillStudioAction($request->user()))
+                    ->confirmButtonText(__('nova.backfill'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->showOnIndex()
+                    ->showOnDetail()
+                    ->showInline()
+                    ->canSee(function (Request $request) {
+                        $user = $request->user();
+
+                        return $user instanceof User && $user->can('update studio');
+                    }),
+            ]
+        );
     }
 
     /**
@@ -194,6 +237,7 @@ class Studio extends Resource
             [
                 new StudioAniDbResourceLens(),
                 new StudioAnilistResourceLens(),
+                new StudioCoverLargeLens(),
                 new StudioAnimePlanetResourceLens(),
                 new StudioAnnResourceLens(),
                 new StudioMalResourceLens(),

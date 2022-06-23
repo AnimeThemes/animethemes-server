@@ -5,50 +5,61 @@ declare(strict_types=1);
 namespace App\Pipes\Wiki\Anime;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Auth\User;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
+use App\Nova\Resources\BaseResource;
+use App\Nova\Resources\Wiki\Anime as AnimeNovaResource;
+use App\Pipes\Wiki\BackfillResource;
 use App\Pivots\AnimeResource;
-use Closure;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Client\RequestException;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Log;
 
 /**
  * Class BackfillAnimeResource.
+ *
+ * @extends BackfillResource<Anime>
  */
-abstract class BackfillAnimeResource extends BackfillAnimePipe
+abstract class BackfillAnimeResource extends BackfillResource
 {
     /**
-     * Handle an incoming request.
+     * Create a new pipe instance.
      *
-     * @param  User  $user
-     * @param  Closure(User): mixed  $next
-     * @return mixed
-     *
-     * @throws RequestException
+     * @param  Anime  $anime
      */
-    public function handle(User $user, Closure $next): mixed
+    public function __construct(Anime $anime)
     {
-        if ($this->anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)->exists()) {
-            Log::info("Anime '{$this->anime->getName()}' already has Resource of Site '{$this->getSite()->value}'.");
+        parent::__construct($anime);
+    }
 
-            return $next($user);
-        }
+    /**
+     * Get the model passed into the pipeline.
+     *
+     * @return Anime
+     */
+    public function getModel(): Anime
+    {
+        return $this->model;
+    }
 
-        $resource = $this->getResource();
+    /**
+     * Get the relation to images.
+     *
+     * @return BelongsToMany
+     */
+    protected function relation(): BelongsToMany
+    {
+        return $this->getModel()->resources();
+    }
 
-        if ($resource !== null) {
-            $this->attachResourceToAnime($resource);
-        }
-
-        if ($this->anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)->doesntExist()) {
-            $this->sendNotification(
-                $user,
-                "Anime '{$this->anime->getName()}' has no {$this->getSite()->description} Resource after backfilling. Please review."
-            );
-        }
-
-        return $next($user);
+    /**
+     * Get the nova resource.
+     *
+     * @return class-string<BaseResource>
+     */
+    protected function resource(): string
+    {
+        return AnimeNovaResource::class;
     }
 
     /**
@@ -63,11 +74,11 @@ abstract class BackfillAnimeResource extends BackfillAnimePipe
         $resource = ExternalResource::query()
             ->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)
             ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $id)
-            ->whereHas(ExternalResource::RELATION_ANIME, fn (Builder $animeQuery) => $animeQuery->whereKey($this->anime))
+            ->whereHas(ExternalResource::RELATION_ANIME, fn (Builder $animeQuery) => $animeQuery->whereKey($this->getModel()))
             ->first();
 
         if ($resource === null) {
-            Log::info("Creating {$this->getSite()->description} resource '$id'");
+            Log::info("Creating {$this->getSite()->description} Resource '$id'");
 
             $resource = ExternalResource::query()->create([
                 ExternalResource::ATTRIBUTE_EXTERNAL_ID => $id,
@@ -85,31 +96,15 @@ abstract class BackfillAnimeResource extends BackfillAnimePipe
      * @param  ExternalResource  $resource
      * @return void
      */
-    protected function attachResourceToAnime(ExternalResource $resource): void
+    protected function attachResource(ExternalResource $resource): void
     {
         if (AnimeResource::query()
-            ->where($this->anime->getKeyName(), $this->anime->getKey())
+            ->where($this->getModel()->getKeyName(), $this->getModel()->getKey())
             ->where($resource->getKeyName(), $resource->getKey())
             ->doesntExist()
         ) {
-            Log::info("Attaching resource '{$resource->getName()}' to anime '{$this->anime->getName()}'");
-            $resource->anime()->attach($this->anime);
+            Log::info("Attaching Resource '{$resource->getName()}' to {$this->label()} '{$this->getModel()->getName()}'");
+            $this->relation()->attach($resource);
         }
     }
-
-    /**
-     * Get the site to backfill.
-     *
-     * @return ResourceSite
-     */
-    abstract protected function getSite(): ResourceSite;
-
-    /**
-     * Query third-party APIs to find Resource mapping.
-     *
-     * @return ExternalResource|null
-     *
-     * @throws RequestException
-     */
-    abstract protected function getResource(): ?ExternalResource;
 }

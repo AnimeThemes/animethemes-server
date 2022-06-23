@@ -12,7 +12,7 @@ use App\Nova\Lenses\Video\VideoSourceLens;
 use App\Nova\Lenses\Video\VideoUnlinkedLens;
 use App\Nova\Metrics\Video\NewVideos;
 use App\Nova\Metrics\Video\VideosPerDay;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime\Theme\Entry;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
@@ -33,7 +33,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Video.
  */
-class Video extends Resource
+class Video extends BaseResource
 {
     /**
      * The model the resource corresponds to.

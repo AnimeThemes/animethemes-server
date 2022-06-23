@@ -11,7 +11,7 @@ use Laravel\Nova\Resource as NovaResource;
 /**
  * Class Resource.
  */
-abstract class Resource extends NovaResource
+abstract class BaseResource extends NovaResource
 {
     /**
      * The number of results to display when searching relatable resource without Scout.

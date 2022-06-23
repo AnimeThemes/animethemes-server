@@ -14,7 +14,7 @@ use App\Nova\Lenses\Artist\ArtistMalResourceLens;
 use App\Nova\Lenses\Artist\ArtistSongLens;
 use App\Nova\Metrics\Artist\ArtistsPerDay;
 use App\Nova\Metrics\Artist\NewArtists;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Pivots\ArtistMember;
 use App\Pivots\ArtistResource;
 use App\Pivots\ArtistSong;
@@ -34,7 +34,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Artist.
  */
-class Artist extends Resource
+class Artist extends BaseResource
 {
     /**
      * The model the resource corresponds to.

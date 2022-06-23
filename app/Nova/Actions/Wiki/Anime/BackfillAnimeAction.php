@@ -10,7 +10,7 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
-use App\Pipes\Wiki\Anime\BackfillAnimePipe;
+use App\Pipes\BasePipe;
 use App\Pipes\Wiki\Anime\Image\BackfillLargeCoverImage;
 use App\Pipes\Wiki\Anime\Image\BackfillSmallCoverImage;
 use App\Pipes\Wiki\Anime\Resource\BackfillAnidbResource;
@@ -165,7 +165,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
      *
      * @param  ActionFields  $fields
      * @param  Anime  $anime
-     * @return BackfillAnimePipe[]
+     * @return BasePipe[]
      */
     protected function getPipes(ActionFields $fields, Anime $anime): array
     {
@@ -184,7 +184,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
      * Get the mapping of anime pipes to their form fields.
      *
      * @param  Anime  $anime
-     * @return array<string, BackfillAnimePipe>
+     * @return array<string, BasePipe>
      */
     protected function getPipeMapping(Anime $anime): array
     {

@@ -8,8 +8,10 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Studio;
 use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
+use App\Pivots\StudioImage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
@@ -100,6 +102,25 @@ class ImageTest extends TestCase
         static::assertEquals($artistCount, $image->artists()->count());
         static::assertInstanceOf(Artist::class, $image->artists()->first());
         static::assertEquals(ArtistImage::class, $image->artists()->getPivotClass());
+    }
+
+    /**
+     * Image shall have a many-to-many relationship with the type Studio.
+     *
+     * @return void
+     */
+    public function testStudios(): void
+    {
+        $studioCount = $this->faker->randomDigitNotNull();
+
+        $image = Image::factory()
+            ->has(Studio::factory()->count($studioCount))
+            ->createOne();
+
+        static::assertInstanceOf(BelongsToMany::class, $image->studios());
+        static::assertEquals($studioCount, $image->studios()->count());
+        static::assertInstanceOf(Studio::class, $image->studios()->first());
+        static::assertEquals(StudioImage::class, $image->studios()->getPivotClass());
     }
 
     /**

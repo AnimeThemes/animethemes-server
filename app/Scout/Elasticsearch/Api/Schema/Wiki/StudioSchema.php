@@ -6,6 +6,7 @@ namespace App\Scout\Elasticsearch\Api\Schema\Wiki;
 
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
+use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
@@ -49,6 +50,7 @@ class StudioSchema extends Schema
         return [
             new AllowedInclude(new AnimeSchema(), Studio::RELATION_ANIME),
             new AllowedInclude(new ExternalResourceSchema(), Studio::RELATION_RESOURCES),
+            new AllowedInclude(new ImageSchema(), Studio::RELATION_IMAGES),
         ];
     }
 

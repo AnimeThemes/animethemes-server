@@ -7,7 +7,7 @@ namespace App\Nova\Resources\Auth;
 use App\Models\Auth\Role as RoleModel;
 use App\Nova\Actions\Auth\Role\GivePermissionAction;
 use App\Nova\Actions\Auth\Role\RevokePermissionAction;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use Exception;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
@@ -18,7 +18,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Role.
  */
-class Role extends Resource
+class Role extends BaseResource
 {
     /**
      * The model the resource corresponds to.

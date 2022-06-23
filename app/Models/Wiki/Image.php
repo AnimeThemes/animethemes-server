@@ -13,6 +13,7 @@ use App\Events\Wiki\Image\ImageUpdated;
 use App\Models\BaseModel;
 use App\Pivots\AnimeImage;
 use App\Pivots\ArtistImage;
+use App\Pivots\StudioImage;
 use BenSampo\Enum\Enum;
 use Database\Factories\Wiki\ImageFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -29,6 +30,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property string $mimetype
  * @property string $path
  * @property int $size
+ * @property Collection<int, Studio> $studios
  *
  * @method static ImageFactory factory(...$parameters)
  */
@@ -44,6 +46,7 @@ class Image extends BaseModel
 
     final public const RELATION_ANIME = 'anime';
     final public const RELATION_ARTISTS = 'artists';
+    final public const RELATION_STUDIOS = 'studios';
 
     /**
      * The attributes that are mass assignable.
@@ -124,6 +127,18 @@ class Image extends BaseModel
     {
         return $this->belongsToMany(Artist::class, ArtistImage::TABLE, Image::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID)
             ->using(ArtistImage::class)
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the studios that use this image.
+     *
+     * @return BelongsToMany
+     */
+    public function studios(): BelongsToMany
+    {
+        return $this->belongsToMany(Studio::class, StudioImage::TABLE, Image::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID)
+            ->using(StudioImage::class)
             ->withTimestamps();
     }
 }
