@@ -6,6 +6,8 @@ namespace App\Pipes\Wiki\Studio;
 
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
+use App\Nova\Resources\Resource;
+use App\Nova\Resources\Wiki\Studio as StudioResource;
 use App\Pipes\Wiki\BackfillImage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Log;
@@ -45,6 +47,16 @@ abstract class BackfillStudioImage extends BackfillImage
     protected function relation(): BelongsToMany
     {
         return $this->getModel()->images();
+    }
+
+    /**
+     * Get the nova resource.
+     *
+     * @return class-string<Resource>
+     */
+    protected function resource(): string
+    {
+        return StudioResource::class;
     }
 
     /**

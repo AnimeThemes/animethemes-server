@@ -8,6 +8,8 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
+use App\Nova\Resources\Resource;
+use App\Nova\Resources\Wiki\Anime as AnimeResource;
 use App\Pipes\Wiki\BackfillStudios;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Client\RequestException;
@@ -53,6 +55,16 @@ class BackfillAnimeStudios extends BackfillStudios
     protected function relation(): BelongsToMany
     {
         return $this->getModel()->studios();
+    }
+
+    /**
+     * Get the nova resource.
+     *
+     * @return class-string<Resource>
+     */
+    protected function resource(): string
+    {
+        return AnimeResource::class;
     }
 
     /**

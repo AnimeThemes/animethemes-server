@@ -7,10 +7,10 @@ namespace App\Pipes;
 use App\Contracts\Pipes\Pipe;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
+use App\Nova\Resources\Resource;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 use Laravel\Nova\Notifications\NovaNotification;
-use Laravel\Nova\Nova;
 
 /**
  * Class BasePipe.
@@ -54,7 +54,7 @@ abstract class BasePipe implements Pipe
      */
     protected function sendNotification(User $user, string $message): void
     {
-        $resource = Nova::resourceForModel($this->getModel());
+        $resource = $this->resource();
 
         $uriKey = $resource::uriKey();
 
@@ -73,4 +73,11 @@ abstract class BasePipe implements Pipe
      * @return Relation
      */
     abstract protected function relation(): Relation;
+
+    /**
+     * Get the nova resource.
+     *
+     * @return class-string<Resource>
+     */
+    abstract protected function resource(): string;
 }

@@ -7,6 +7,8 @@ namespace App\Pipes\Wiki\Anime;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
+use App\Nova\Resources\Resource;
+use App\Nova\Resources\Wiki\Anime as AnimeNovaResource;
 use App\Pipes\Wiki\BackfillResource;
 use App\Pivots\AnimeResource;
 use Illuminate\Database\Eloquent\Builder;
@@ -48,6 +50,16 @@ abstract class BackfillAnimeResource extends BackfillResource
     protected function relation(): BelongsToMany
     {
         return $this->getModel()->resources();
+    }
+
+    /**
+     * Get the nova resource.
+     *
+     * @return class-string<Resource>
+     */
+    protected function resource(): string
+    {
+        return AnimeNovaResource::class;
     }
 
     /**
