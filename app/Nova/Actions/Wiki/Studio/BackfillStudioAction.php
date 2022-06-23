@@ -33,7 +33,6 @@ class BackfillStudioAction extends Action implements ShouldQueue
     use Queueable;
 
     final public const BACKFILL_LARGE_COVER = 'backfill_large_cover';
-    final public const BACKFILL_SMALL_COVER = 'backfill_small_cover';
 
     /**
      * Create a new action instance.
