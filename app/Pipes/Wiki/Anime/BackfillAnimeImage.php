@@ -6,7 +6,7 @@ namespace App\Pipes\Wiki\Anime;
 
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime as AnimeResource;
 use App\Pipes\Wiki\BackfillImage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -52,7 +52,7 @@ abstract class BackfillAnimeImage extends BackfillImage
     /**
      * Get the nova resource.
      *
-     * @return class-string<Resource>
+     * @return class-string<BaseResource>
      */
     protected function resource(): string
     {

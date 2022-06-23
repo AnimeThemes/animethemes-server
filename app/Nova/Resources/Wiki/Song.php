@@ -7,7 +7,7 @@ namespace App\Nova\Resources\Wiki;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Song as SongModel;
 use App\Nova\Lenses\Song\SongArtistLens;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime\Theme;
 use App\Pivots\ArtistSong;
 use App\Pivots\BasePivot;
@@ -25,7 +25,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Song.
  */
-class Song extends Resource
+class Song extends BaseResource
 {
     /**
      * The model the resource corresponds to.

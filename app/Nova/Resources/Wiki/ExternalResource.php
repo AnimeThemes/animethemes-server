@@ -7,7 +7,7 @@ namespace App\Nova\Resources\Wiki;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use App\Nova\Lenses\ExternalResource\ExternalResourceUnlinkedLens;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
 use App\Pivots\BasePivot;
@@ -31,7 +31,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class ExternalResource.
  */
-class ExternalResource extends Resource
+class ExternalResource extends BaseResource
 {
     /**
      * The model the resource corresponds to.

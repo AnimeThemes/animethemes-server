@@ -14,7 +14,7 @@ use App\Nova\Lenses\Studio\StudioAnnResourceLens;
 use App\Nova\Lenses\Studio\StudioCoverLargeLens;
 use App\Nova\Lenses\Studio\StudioMalResourceLens;
 use App\Nova\Lenses\Studio\StudioUnlinkedLens;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Pivots\BasePivot;
 use App\Pivots\StudioResource;
 use Exception;
@@ -32,7 +32,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Studio.
  */
-class Studio extends Resource
+class Studio extends BaseResource
 {
     /**
      * The model the resource corresponds to.

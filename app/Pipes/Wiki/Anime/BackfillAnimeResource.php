@@ -7,7 +7,7 @@ namespace App\Pipes\Wiki\Anime;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime as AnimeNovaResource;
 use App\Pipes\Wiki\BackfillResource;
 use App\Pivots\AnimeResource;
@@ -55,7 +55,7 @@ abstract class BackfillAnimeResource extends BackfillResource
     /**
      * Get the nova resource.
      *
-     * @return class-string<Resource>
+     * @return class-string<BaseResource>
      */
     protected function resource(): string
     {

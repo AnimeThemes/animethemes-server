@@ -7,7 +7,7 @@ namespace App\Nova\Resources\Wiki;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image as ImageModel;
 use App\Nova\Lenses\Image\ImageUnlinkedLens;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
@@ -25,7 +25,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Image.
  */
-class Image extends Resource
+class Image extends BaseResource
 {
     /**
      * The model the resource corresponds to.

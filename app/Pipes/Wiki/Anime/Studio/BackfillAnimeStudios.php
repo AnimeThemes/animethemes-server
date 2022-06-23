@@ -8,7 +8,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime as AnimeResource;
 use App\Pipes\Wiki\BackfillStudios;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -60,7 +60,7 @@ class BackfillAnimeStudios extends BackfillStudios
     /**
      * Get the nova resource.
      *
-     * @return class-string<Resource>
+     * @return class-string<BaseResource>
      */
     protected function resource(): string
     {

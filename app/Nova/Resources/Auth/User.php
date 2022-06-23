@@ -9,7 +9,7 @@ use App\Nova\Actions\Auth\User\GivePermissionAction;
 use App\Nova\Actions\Auth\User\GiveRoleAction;
 use App\Nova\Actions\Auth\User\RevokePermissionAction;
 use App\Nova\Actions\Auth\User\RevokeRoleAction;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use Exception;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -24,7 +24,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class User.
  */
-class User extends Resource
+class User extends BaseResource
 {
     /**
      * The model the resource corresponds to.

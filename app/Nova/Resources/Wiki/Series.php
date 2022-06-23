@@ -7,7 +7,7 @@ namespace App\Nova\Resources\Wiki;
 use App\Models\Wiki\Series as SeriesModel;
 use App\Nova\Metrics\Series\NewSeries;
 use App\Nova\Metrics\Series\SeriesPerDay;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Pivots\BasePivot;
 use Exception;
 use Illuminate\Validation\Rule;
@@ -24,7 +24,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Series.
  */
-class Series extends Resource
+class Series extends BaseResource
 {
     /**
      * The model the resource corresponds to.

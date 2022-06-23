@@ -6,7 +6,7 @@ namespace App\Pipes\Wiki\Studio;
 
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Studio as StudioResource;
 use App\Pipes\Wiki\BackfillImage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -52,7 +52,7 @@ abstract class BackfillStudioImage extends BackfillImage
     /**
      * Get the nova resource.
      *
-     * @return class-string<Resource>
+     * @return class-string<BaseResource>
      */
     protected function resource(): string
     {

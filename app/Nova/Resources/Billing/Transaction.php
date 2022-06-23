@@ -6,7 +6,7 @@ namespace App\Nova\Resources\Billing;
 
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction as TransactionModel;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Exception;
@@ -22,7 +22,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Transaction.
  */
-class Transaction extends Resource
+class Transaction extends BaseResource
 {
     /**
      * The model the resource corresponds to.

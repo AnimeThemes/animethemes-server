@@ -6,7 +6,7 @@ namespace App\Nova\Resources\Wiki\Anime;
 
 use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Wiki\Anime\AnimeTheme;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime;
 use App\Nova\Resources\Wiki\Anime\Theme\Entry;
 use App\Nova\Resources\Wiki\Song;
@@ -28,7 +28,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Theme.
  */
-class Theme extends Resource
+class Theme extends BaseResource
 {
     /**
      * The model the resource corresponds to.

@@ -7,7 +7,7 @@ namespace App\Nova\Resources\Auth;
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Models\Auth\Invitation as InvitationModel;
 use App\Nova\Actions\Auth\Invitation\ResendInvitationAction;
-use App\Nova\Resources\Resource;
+use App\Nova\Resources\BaseResource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Exception;
@@ -23,7 +23,7 @@ use Laravel\Nova\Query\Search\Column;
 /**
  * Class Invitation.
  */
-class Invitation extends Resource
+class Invitation extends BaseResource
 {
     /**
      * The model the resource corresponds to.
