@@ -46,6 +46,19 @@ class StudioResource extends BasePivot
     protected $table = StudioResource::TABLE;
 
     /**
+     * Get the composite primary key for the pivot.
+     *
+     * @return string[]
+     */
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            StudioResource::ATTRIBUTE_STUDIO,
+            StudioResource::ATTRIBUTE_RESOURCE,
+        ];
+    }
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for the native Eloquent events.

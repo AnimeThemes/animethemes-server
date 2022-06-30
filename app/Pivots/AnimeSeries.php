@@ -34,6 +34,19 @@ class AnimeSeries extends BasePivot
     protected $table = AnimeSeries::TABLE;
 
     /**
+     * Get the composite primary key for the pivot.
+     *
+     * @return string[]
+     */
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            AnimeSeries::ATTRIBUTE_ANIME,
+            AnimeSeries::ATTRIBUTE_SERIES,
+        ];
+    }
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.

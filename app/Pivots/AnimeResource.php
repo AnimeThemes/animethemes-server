@@ -46,6 +46,19 @@ class AnimeResource extends BasePivot
     protected $table = AnimeResource::TABLE;
 
     /**
+     * Get the composite primary key for the pivot.
+     *
+     * @return string[]
+     */
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            AnimeResource::ATTRIBUTE_ANIME,
+            AnimeResource::ATTRIBUTE_RESOURCE,
+        ];
+    }
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.

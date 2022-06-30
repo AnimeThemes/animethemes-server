@@ -46,6 +46,19 @@ class ArtistResource extends BasePivot
     protected $table = ArtistResource::TABLE;
 
     /**
+     * Get the composite primary key for the pivot.
+     *
+     * @return string[]
+     */
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            ArtistResource::ATTRIBUTE_ARTIST,
+            ArtistResource::ATTRIBUTE_RESOURCE,
+        ];
+    }
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.

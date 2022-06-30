@@ -34,6 +34,19 @@ class ArtistImage extends BasePivot
     protected $table = ArtistImage::TABLE;
 
     /**
+     * Get the composite primary key for the pivot.
+     *
+     * @return string[]
+     */
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            ArtistImage::ATTRIBUTE_ARTIST,
+            ArtistImage::ATTRIBUTE_IMAGE,
+        ];
+    }
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.
