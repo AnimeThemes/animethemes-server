@@ -34,6 +34,19 @@ class StudioImage extends BasePivot
     protected $table = StudioImage::TABLE;
 
     /**
+     * Get the composite primary key for the pivot.
+     *
+     * @return string[]
+     */
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            StudioImage::ATTRIBUTE_STUDIO,
+            StudioImage::ATTRIBUTE_IMAGE,
+        ];
+    }
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.

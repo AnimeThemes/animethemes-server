@@ -46,6 +46,19 @@ class ArtistSong extends BasePivot
     protected $table = ArtistSong::TABLE;
 
     /**
+     * Get the composite primary key for the pivot.
+     *
+     * @return string[]
+     */
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            ArtistSong::ATTRIBUTE_ARTIST,
+            ArtistSong::ATTRIBUTE_SONG,
+        ];
+    }
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.

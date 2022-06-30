@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Pivots;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
@@ -28,4 +29,28 @@ abstract class BasePivot extends Pivot
      * @var string
      */
     protected $dateFormat = 'Y-m-d\TH:i:s.u';
+
+    /**
+     * Set the keys for a select query.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    protected function setKeysForSelectQuery($query): Builder
+    {
+        foreach ($this->getPrimaryKeys() as $primaryKey) {
+            $query->where($primaryKey, $this->getAttribute($primaryKey));
+        }
+
+        return $query;
+    }
+
+    /**
+     * Get the composite primary key for the pivot.
+     *
+     * @return string[]
+     */
+    abstract protected function getPrimaryKeys(): array;
 }

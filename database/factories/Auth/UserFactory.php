@@ -7,6 +7,7 @@ namespace Database\Factories\Auth;
 use App\Models\Auth\Permission;
 use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use Spatie\Permission\PermissionRegistrar;
@@ -59,6 +60,25 @@ class UserFactory extends Factory
                 App::make(PermissionRegistrar::class)->forgetCachedPermissions();
 
                 $user->givePermissionTo($permission);
+            }
+        );
+    }
+
+    /**
+     * Create and assign permission to user.
+     *
+     * @param  string[]  $abilities
+     * @return static
+     */
+    public function withPermissions(array $abilities): static
+    {
+        return $this->afterCreating(
+            function (User $user) use ($abilities) {
+                $permissions = Arr::map($abilities, fn (string $ability) => Permission::findOrCreate($ability));
+
+                App::make(PermissionRegistrar::class)->forgetCachedPermissions();
+
+                $user->givePermissionTo($permissions);
             }
         );
     }

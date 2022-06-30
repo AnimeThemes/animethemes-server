@@ -34,6 +34,19 @@ class AnimeStudio extends BasePivot
     protected $table = AnimeStudio::TABLE;
 
     /**
+     * Get the composite primary key for the pivot.
+     *
+     * @return string[]
+     */
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            AnimeStudio::ATTRIBUTE_ANIME,
+            AnimeStudio::ATTRIBUTE_STUDIO,
+        ];
+    }
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.

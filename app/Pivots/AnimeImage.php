@@ -15,7 +15,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Class AnimeImage.
  *
  * @property Anime $anime
+ * @property int $anime_id
  * @property Image $image
+ * @property int $image_id
  *
  * @method static AnimeImageFactory factory(...$parameters)
  */
@@ -26,12 +28,38 @@ class AnimeImage extends BasePivot
     final public const ATTRIBUTE_ANIME = 'anime_id';
     final public const ATTRIBUTE_IMAGE = 'image_id';
 
+    final public const RELATION_ANIME = 'anime';
+    final public const RELATION_IMAGE = 'image';
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = AnimeImage::TABLE;
+
+    /**
+     * Get the composite primary key for the pivot.
+     *
+     * @return string[]
+     */
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            AnimeImage::ATTRIBUTE_ANIME,
+            AnimeImage::ATTRIBUTE_IMAGE,
+        ];
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        AnimeImage::ATTRIBUTE_ANIME,
+        AnimeImage::ATTRIBUTE_IMAGE,
+    ];
 
     /**
      * The event map for the model.
