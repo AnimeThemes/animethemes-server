@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Service\DigitalOcean;
 
-use App\Contracts\Repositories\Repository;
+use App\Contracts\Repositories\RepositoryInterface;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -21,7 +21,7 @@ use RuntimeException;
 /**
  * Class VideoRepository.
  */
-class VideoRepository implements Repository
+class VideoRepository implements RepositoryInterface
 {
     /**
      * The base path of the filesystem to retrieve files from.

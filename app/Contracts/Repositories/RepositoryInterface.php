@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Interface Repository.
+ * Interface RepositoryInterface.
  */
-interface Repository
+interface RepositoryInterface
 {
     /**
      * Get models from the repository.

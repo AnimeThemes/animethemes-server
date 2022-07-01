@@ -38,8 +38,8 @@ class ArtistFactory extends Factory
     public function definition(): array
     {
         return [
-            Artist::ATTRIBUTE_SLUG => Str::slug($this->faker->text(191), '_'),
-            Artist::ATTRIBUTE_NAME => $this->faker->words(3, true),
+            Artist::ATTRIBUTE_SLUG => Str::slug(fake()->text(191), '_'),
+            Artist::ATTRIBUTE_NAME => fake()->words(3, true),
         ];
     }
 
@@ -55,27 +55,27 @@ class ArtistFactory extends Factory
                 Song::factory()
                     ->hasAttached($artist)
                     ->has(AnimeTheme::factory()->for(Anime::factory()))
-                    ->count($this->faker->randomDigitNotNull())
+                    ->count(fake()->randomDigitNotNull())
                     ->create();
 
                 Artist::factory()
                     ->hasAttached($artist, [], 'members')
-                    ->count($this->faker->randomDigitNotNull())
+                    ->count(fake()->randomDigitNotNull())
                     ->create();
 
                 Artist::factory()
                     ->hasAttached($artist, [], 'groups')
-                    ->count($this->faker->randomDigitNotNull())
+                    ->count(fake()->randomDigitNotNull())
                     ->create();
 
                 ExternalResource::factory()
                     ->hasAttached($artist)
-                    ->count($this->faker->randomDigitNotNull())
+                    ->count(fake()->randomDigitNotNull())
                     ->create();
 
                 Image::factory()
                     ->hasAttached($artist)
-                    ->count($this->faker->randomDigitNotNull())
+                    ->count(fake()->randomDigitNotNull())
                     ->create();
             }
         );

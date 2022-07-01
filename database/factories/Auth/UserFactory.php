@@ -37,8 +37,8 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            User::ATTRIBUTE_NAME => $this->faker->name(),
-            User::ATTRIBUTE_EMAIL => $this->faker->safeEmail(),
+            User::ATTRIBUTE_NAME => fake()->name(),
+            User::ATTRIBUTE_EMAIL => fake()->safeEmail(),
             User::ATTRIBUTE_EMAIL_VERIFIED_AT => now(),
             User::ATTRIBUTE_PASSWORD => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             User::ATTRIBUTE_REMEMBER_TOKEN => Str::random(10),

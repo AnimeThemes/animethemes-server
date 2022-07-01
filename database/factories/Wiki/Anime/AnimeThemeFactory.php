@@ -33,9 +33,9 @@ class AnimeThemeFactory extends Factory
     public function definition(): array
     {
         return [
-            AnimeTheme::ATTRIBUTE_GROUP => $this->faker->words(3, true),
-            AnimeTheme::ATTRIBUTE_SEQUENCE => $this->faker->randomDigitNotNull(),
-            AnimeTheme::ATTRIBUTE_SLUG => $this->faker->word(),
+            AnimeTheme::ATTRIBUTE_GROUP => fake()->words(3, true),
+            AnimeTheme::ATTRIBUTE_SEQUENCE => fake()->randomDigitNotNull(),
+            AnimeTheme::ATTRIBUTE_SLUG => fake()->word(),
             AnimeTheme::ATTRIBUTE_TYPE => ThemeType::getRandomValue(),
         ];
     }

@@ -32,7 +32,7 @@ class SongFactory extends Factory
     public function definition(): array
     {
         return [
-            Song::ATTRIBUTE_TITLE => $this->faker->words(3, true),
+            Song::ATTRIBUTE_TITLE => fake()->words(3, true),
         ];
     }
 }

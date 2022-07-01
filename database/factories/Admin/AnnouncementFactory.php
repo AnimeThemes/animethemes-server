@@ -32,7 +32,7 @@ class AnnouncementFactory extends Factory
     public function definition(): array
     {
         return [
-            Announcement::ATTRIBUTE_CONTENT => $this->faker->sentence(),
+            Announcement::ATTRIBUTE_CONTENT => fake()->sentence(),
         ];
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Billing;
 
-use App\Contracts\Repositories\Repository;
+use App\Contracts\Repositories\RepositoryInterface;
 use App\Enums\Models\Billing\Service;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -56,25 +56,25 @@ abstract class ServiceReconcileCommand extends Command
     /**
      * Perform set reconciliation between source and destination repositories.
      *
-     * @param  Repository  $source
-     * @param  Repository  $destination
+     * @param  RepositoryInterface  $source
+     * @param  RepositoryInterface  $destination
      * @return void
      */
-    abstract public function reconcileRepositories(Repository $source, Repository $destination): void;
+    abstract public function reconcileRepositories(RepositoryInterface $source, RepositoryInterface $destination): void;
 
     /**
      * Get source repository for service.
      *
      * @param  Service  $service
-     * @return Repository|null
+     * @return RepositoryInterface|null
      */
-    abstract protected function getSourceRepository(Service $service): ?Repository;
+    abstract protected function getSourceRepository(Service $service): ?RepositoryInterface;
 
     /**
      * Get destination repository for service.
      *
      * @param  Service  $service
-     * @return Repository|null
+     * @return RepositoryInterface|null
      */
-    abstract protected function getDestinationRepository(Service $service): ?Repository;
+    abstract protected function getDestinationRepository(Service $service): ?RepositoryInterface;
 }

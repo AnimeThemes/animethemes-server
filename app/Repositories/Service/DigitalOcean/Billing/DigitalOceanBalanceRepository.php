@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Service\DigitalOcean\Billing;
 
-use App\Contracts\Repositories\Repository;
+use App\Contracts\Repositories\RepositoryInterface;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
@@ -21,7 +21,7 @@ use RuntimeException;
 /**
  * Class DigitalOceanBalanceRepository.
  */
-class DigitalOceanBalanceRepository implements Repository
+class DigitalOceanBalanceRepository implements RepositoryInterface
 {
     /**
      * Get models from the repository.
