@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Concerns\Repositories;
 
-use App\Contracts\Repositories\Repository;
+use App\Contracts\Repositories\RepositoryInterface;
 use App\Models\BaseModel;
 use Closure;
 use Exception;
@@ -178,11 +178,11 @@ trait ReconcilesRepositories
     /**
      * Perform set reconciliation between source and destination repositories.
      *
-     * @param  Repository  $source
-     * @param  Repository  $destination
+     * @param  RepositoryInterface  $source
+     * @param  RepositoryInterface  $destination
      * @return void
      */
-    public function reconcileRepositories(Repository $source, Repository $destination): void
+    public function reconcileRepositories(RepositoryInterface $source, RepositoryInterface $destination): void
     {
         try {
             $sourceModels = $source->get();
@@ -226,13 +226,13 @@ trait ReconcilesRepositories
     /**
      * Create models that exist in source but not in destination.
      *
-     * @param  Repository  $destination
+     * @param  RepositoryInterface  $destination
      * @param  Collection  $sourceModels
      * @param  Collection  $destinationModels
      * @return void
      */
     protected function createModelsFromSource(
-        Repository $destination,
+        RepositoryInterface $destination,
         Collection $sourceModels,
         Collection $destinationModels
     ): void {
@@ -253,13 +253,13 @@ trait ReconcilesRepositories
     /**
      * Delete models that exist in destination but not in source.
      *
-     * @param  Repository  $destination
+     * @param  RepositoryInterface  $destination
      * @param  Collection  $sourceModels
      * @param  Collection  $destinationModels
      * @return void
      */
     protected function deleteModelsFromDestination(
-        Repository $destination,
+        RepositoryInterface $destination,
         Collection $sourceModels,
         Collection $destinationModels
     ): void {
@@ -312,13 +312,13 @@ trait ReconcilesRepositories
     /**
      * Update destination models that have changed in source.
      *
-     * @param  Repository  $destination
+     * @param  RepositoryInterface  $destination
      * @param  Collection  $sourceModels
      * @param  Collection  $destinationModels
      * @return void
      */
     protected function updateDestinationModels(
-        Repository $destination,
+        RepositoryInterface $destination,
         Collection $sourceModels,
         Collection $destinationModels
     ): void {

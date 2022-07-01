@@ -37,16 +37,16 @@ class VideoFactory extends Factory
         return [
             Video::ATTRIBUTE_BASENAME => Str::random(),
             Video::ATTRIBUTE_FILENAME => Str::random(),
-            Video::ATTRIBUTE_LYRICS => $this->faker->boolean(),
-            Video::ATTRIBUTE_MIMETYPE => $this->faker->mimeType(),
-            Video::ATTRIBUTE_NC => $this->faker->boolean(),
+            Video::ATTRIBUTE_LYRICS => fake()->boolean(),
+            Video::ATTRIBUTE_MIMETYPE => fake()->mimeType(),
+            Video::ATTRIBUTE_NC => fake()->boolean(),
             Video::ATTRIBUTE_OVERLAP => VideoOverlap::getRandomValue(),
             Video::ATTRIBUTE_PATH => Str::random(),
-            Video::ATTRIBUTE_RESOLUTION => $this->faker->numberBetween(360, 1080),
-            Video::ATTRIBUTE_SIZE => $this->faker->randomDigitNotZero(),
+            Video::ATTRIBUTE_RESOLUTION => fake()->numberBetween(360, 1080),
+            Video::ATTRIBUTE_SIZE => fake()->randomDigitNotZero(),
             Video::ATTRIBUTE_SOURCE => VideoSource::getRandomValue(),
-            Video::ATTRIBUTE_SUBBED => $this->faker->boolean(),
-            Video::ATTRIBUTE_UNCEN => $this->faker->boolean(),
+            Video::ATTRIBUTE_SUBBED => fake()->boolean(),
+            Video::ATTRIBUTE_UNCEN => fake()->boolean(),
         ];
     }
 }

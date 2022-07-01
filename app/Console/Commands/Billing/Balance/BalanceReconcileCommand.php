@@ -6,7 +6,7 @@ namespace App\Console\Commands\Billing\Balance;
 
 use App\Concerns\Repositories\Billing\ReconcilesBalanceRepositories;
 use App\Console\Commands\Billing\ServiceReconcileCommand;
-use App\Contracts\Repositories\Repository;
+use App\Contracts\Repositories\RepositoryInterface;
 use App\Enums\Models\Billing\Service;
 use App\Models\BaseModel;
 use App\Repositories\Eloquent\Billing\DigitalOceanBalanceRepository as DigitalOceanDestinationRepository;
@@ -146,9 +146,9 @@ class BalanceReconcileCommand extends ServiceReconcileCommand
      * Get source repository for service.
      *
      * @param  Service  $service
-     * @return Repository|null
+     * @return RepositoryInterface|null
      */
-    protected function getSourceRepository(Service $service): ?Repository
+    protected function getSourceRepository(Service $service): ?RepositoryInterface
     {
         return match ($service->value) {
             Service::DIGITALOCEAN => App::make(DigitalOceanSourceRepository::class),
@@ -160,9 +160,9 @@ class BalanceReconcileCommand extends ServiceReconcileCommand
      * Get destination repository for service.
      *
      * @param  Service  $service
-     * @return Repository|null
+     * @return RepositoryInterface|null
      */
-    protected function getDestinationRepository(Service $service): ?Repository
+    protected function getDestinationRepository(Service $service): ?RepositoryInterface
     {
         return match ($service->value) {
             Service::DIGITALOCEAN => App::make(DigitalOceanDestinationRepository::class),

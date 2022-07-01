@@ -33,8 +33,8 @@ class StudioFactory extends Factory
     public function definition(): array
     {
         return [
-            Studio::ATTRIBUTE_NAME => $this->faker->words(3, true),
-            Studio::ATTRIBUTE_SLUG => Str::slug($this->faker->text(191), '_'),
+            Studio::ATTRIBUTE_NAME => fake()->words(3, true),
+            Studio::ATTRIBUTE_SLUG => Str::slug(fake()->text(191), '_'),
         ];
     }
 }

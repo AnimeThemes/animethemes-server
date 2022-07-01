@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Pipes;
 
-use App\Contracts\Pipes\Pipe;
+use App\Contracts\Pipes\PipeInterface;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Nova\Resources\BaseResource;
@@ -17,7 +17,7 @@ use Laravel\Nova\Notifications\NovaNotification;
  *
  * @template TModel of \App\Models\BaseModel
  */
-abstract class BasePipe implements Pipe
+abstract class BasePipe implements PipeInterface
 {
     /**
      * Create a new pipe instance.

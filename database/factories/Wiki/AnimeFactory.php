@@ -42,11 +42,11 @@ class AnimeFactory extends Factory
     public function definition(): array
     {
         return [
-            Anime::ATTRIBUTE_NAME => $this->faker->words(3, true),
+            Anime::ATTRIBUTE_NAME => fake()->words(3, true),
             Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomValue(),
-            Anime::ATTRIBUTE_SLUG => Str::slug($this->faker->text(191), '_'),
-            Anime::ATTRIBUTE_SYNOPSIS => $this->faker->text(),
-            Anime::ATTRIBUTE_YEAR => $this->faker->numberBetween(1960, intval(date('Y')) + 1),
+            Anime::ATTRIBUTE_SLUG => Str::slug(fake()->text(191), '_'),
+            Anime::ATTRIBUTE_SYNOPSIS => fake()->text(),
+            Anime::ATTRIBUTE_YEAR => fake()->numberBetween(1960, intval(date('Y')) + 1),
         ];
     }
 
@@ -61,7 +61,7 @@ class AnimeFactory extends Factory
             function (Anime $anime) {
                 AnimeSynonym::factory()
                     ->for($anime)
-                    ->count($this->faker->numberBetween(1, 3))
+                    ->count(fake()->numberBetween(1, 3))
                     ->create();
 
                 AnimeTheme::factory()
@@ -69,25 +69,25 @@ class AnimeFactory extends Factory
                     ->for(Song::factory())
                     ->has(
                         AnimeThemeEntry::factory()
-                            ->count($this->faker->numberBetween(1, 3))
-                            ->has(Video::factory()->count($this->faker->numberBetween(1, 3)))
+                            ->count(fake()->numberBetween(1, 3))
+                            ->has(Video::factory()->count(fake()->numberBetween(1, 3)))
                     )
-                    ->count($this->faker->numberBetween(1, 3))
+                    ->count(fake()->numberBetween(1, 3))
                     ->create();
 
                 Series::factory()
                     ->hasAttached($anime, [], 'anime')
-                    ->count($this->faker->numberBetween(1, 3))
+                    ->count(fake()->numberBetween(1, 3))
                     ->create();
 
                 ExternalResource::factory()
                     ->hasAttached($anime, [], 'anime')
-                    ->count($this->faker->numberBetween(1, 3))
+                    ->count(fake()->numberBetween(1, 3))
                     ->create();
 
                 Image::factory()
                     ->hasAttached($anime, [], 'anime')
-                    ->count($this->faker->numberBetween(1, 3))
+                    ->count(fake()->numberBetween(1, 3))
                     ->create();
             }
         );

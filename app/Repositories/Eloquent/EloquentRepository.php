@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Eloquent;
 
-use App\Contracts\Repositories\Repository;
+use App\Contracts\Repositories\RepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
 /**
  * Class EloquentRepository.
  */
-abstract class EloquentRepository implements Repository
+abstract class EloquentRepository implements RepositoryInterface
 {
     /**
      * The underlying query builder.

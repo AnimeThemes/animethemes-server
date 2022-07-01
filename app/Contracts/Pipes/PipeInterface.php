@@ -8,9 +8,9 @@ use App\Models\Auth\User;
 use Closure;
 
 /**
- * Interface Pipe.
+ * Interface PipeInterface.
  */
-interface Pipe
+interface PipeInterface
 {
     /**
      * Handle an incoming request.
