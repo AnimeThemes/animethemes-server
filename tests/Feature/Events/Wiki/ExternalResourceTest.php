@@ -109,11 +109,11 @@ class ExternalResourceTest extends TestCase
     {
         Event::fake();
 
-        $anime = ExternalResource::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
         $changes = ExternalResource::factory()->makeOne();
 
-        $anime->fill($changes->getAttributes());
-        $anime->save();
+        $resource->fill($changes->getAttributes());
+        $resource->save();
 
         Event::assertDispatched(ExternalResourceUpdated::class, function (ExternalResourceUpdated $event) {
             $message = $event->getDiscordMessage();

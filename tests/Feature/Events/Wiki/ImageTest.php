@@ -109,11 +109,11 @@ class ImageTest extends TestCase
     {
         Event::fake();
 
-        $anime = Image::factory()->createOne();
+        $image = Image::factory()->createOne();
         $changes = Image::factory()->makeOne();
 
-        $anime->fill($changes->getAttributes());
-        $anime->save();
+        $image->fill($changes->getAttributes());
+        $image->save();
 
         Event::assertDispatched(ImageUpdated::class, function (ImageUpdated $event) {
             $message = $event->getDiscordMessage();

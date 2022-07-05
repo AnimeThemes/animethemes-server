@@ -109,11 +109,11 @@ class ArtistTest extends TestCase
     {
         Event::fake();
 
-        $anime = Artist::factory()->createOne();
+        $artist = Artist::factory()->createOne();
         $changes = Artist::factory()->makeOne();
 
-        $anime->fill($changes->getAttributes());
-        $anime->save();
+        $artist->fill($changes->getAttributes());
+        $artist->save();
 
         Event::assertDispatched(ArtistUpdated::class, function (ArtistUpdated $event) {
             $message = $event->getDiscordMessage();

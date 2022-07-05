@@ -109,11 +109,11 @@ class StudioTest extends TestCase
     {
         Event::fake();
 
-        $anime = Studio::factory()->createOne();
+        $studio = Studio::factory()->createOne();
         $changes = Studio::factory()->makeOne();
 
-        $anime->fill($changes->getAttributes());
-        $anime->save();
+        $studio->fill($changes->getAttributes());
+        $studio->save();
 
         Event::assertDispatched(StudioUpdated::class, function (StudioUpdated $event) {
             $message = $event->getDiscordMessage();

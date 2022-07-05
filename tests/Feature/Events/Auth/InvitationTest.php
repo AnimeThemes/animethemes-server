@@ -107,13 +107,13 @@ class InvitationTest extends TestCase
      */
     public function testInvitationUpdatedEventEmbedFields(): void
     {
-        Event::fake();
+        Event::fake(InvitationUpdated::class);
 
-        $transaction = Invitation::factory()->createOne();
+        $invitation = Invitation::factory()->createOne();
         $changes = Invitation::factory()->makeOne();
 
-        $transaction->fill($changes->getAttributes());
-        $transaction->save();
+        $invitation->fill($changes->getAttributes());
+        $invitation->save();
 
         Event::assertDispatched(InvitationUpdated::class, function (InvitationUpdated $event) {
             $message = $event->getDiscordMessage();

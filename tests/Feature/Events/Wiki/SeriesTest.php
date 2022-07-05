@@ -109,11 +109,11 @@ class SeriesTest extends TestCase
     {
         Event::fake();
 
-        $anime = Series::factory()->createOne();
+        $series = Series::factory()->createOne();
         $changes = Series::factory()->makeOne();
 
-        $anime->fill($changes->getAttributes());
-        $anime->save();
+        $series->fill($changes->getAttributes());
+        $series->save();
 
         Event::assertDispatched(SeriesUpdated::class, function (SeriesUpdated $event) {
             $message = $event->getDiscordMessage();

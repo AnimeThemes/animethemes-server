@@ -109,11 +109,11 @@ class AnnouncementTest extends TestCase
     {
         Event::fake();
 
-        $transaction = Announcement::factory()->createOne();
+        $announcement = Announcement::factory()->createOne();
         $changes = Announcement::factory()->makeOne();
 
-        $transaction->fill($changes->getAttributes());
-        $transaction->save();
+        $announcement->fill($changes->getAttributes());
+        $announcement->save();
 
         Event::assertDispatched(AnnouncementUpdated::class, function (AnnouncementUpdated $event) {
             $message = $event->getDiscordMessage();

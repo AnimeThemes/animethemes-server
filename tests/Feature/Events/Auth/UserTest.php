@@ -109,11 +109,11 @@ class UserTest extends TestCase
     {
         Event::fake();
 
-        $transaction = User::factory()->createOne();
+        $user = User::factory()->createOne();
         $changes = User::factory()->makeOne();
 
-        $transaction->fill($changes->getAttributes());
-        $transaction->save();
+        $user->fill($changes->getAttributes());
+        $user->save();
 
         Event::assertDispatched(UserUpdated::class, function (UserUpdated $event) {
             $message = $event->getDiscordMessage();

@@ -109,11 +109,11 @@ class BalanceTest extends TestCase
     {
         Event::fake();
 
-        $transaction = Balance::factory()->createOne();
+        $balance = Balance::factory()->createOne();
         $changes = Balance::factory()->makeOne();
 
-        $transaction->fill($changes->getAttributes());
-        $transaction->save();
+        $balance->fill($changes->getAttributes());
+        $balance->save();
 
         Event::assertDispatched(BalanceUpdated::class, function (BalanceUpdated $event) {
             $message = $event->getDiscordMessage();

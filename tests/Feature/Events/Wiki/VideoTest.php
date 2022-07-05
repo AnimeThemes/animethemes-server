@@ -109,11 +109,11 @@ class VideoTest extends TestCase
     {
         Event::fake();
 
-        $anime = Video::factory()->createOne();
+        $video = Video::factory()->createOne();
         $changes = Video::factory()->makeOne();
 
-        $anime->fill($changes->getAttributes());
-        $anime->save();
+        $video->fill($changes->getAttributes());
+        $video->save();
 
         Event::assertDispatched(VideoUpdated::class, function (VideoUpdated $event) {
             $message = $event->getDiscordMessage();

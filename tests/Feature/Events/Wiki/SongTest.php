@@ -109,11 +109,11 @@ class SongTest extends TestCase
     {
         Event::fake();
 
-        $anime = Song::factory()->createOne();
+        $song = Song::factory()->createOne();
         $changes = Song::factory()->makeOne();
 
-        $anime->fill($changes->getAttributes());
-        $anime->save();
+        $song->fill($changes->getAttributes());
+        $song->save();
 
         Event::assertDispatched(SongUpdated::class, function (SongUpdated $event) {
             $message = $event->getDiscordMessage();

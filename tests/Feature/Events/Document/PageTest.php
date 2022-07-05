@@ -109,11 +109,11 @@ class PageTest extends TestCase
     {
         Event::fake();
 
-        $transaction = Page::factory()->createOne();
+        $page = Page::factory()->createOne();
         $changes = Page::factory()->makeOne();
 
-        $transaction->fill($changes->getAttributes());
-        $transaction->save();
+        $page->fill($changes->getAttributes());
+        $page->save();
 
         Event::assertDispatched(PageUpdated::class, function (PageUpdated $event) {
             $message = $event->getDiscordMessage();
